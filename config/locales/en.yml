@@ -1,23 +1,47 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  loans: Loans
+  country: Country
+  show: Show
+  show_active: Active
+  show_completed: Completed
+  show_all: All
+  loan_active: Active
+  loan_completed: Completed
+  no_loans_found: No loans found.
+  more_details: More details
+  project_with: "Project with %{name}"
+  project_id: "Project %{id}"
+  back_to_loans: Back to Loan List
+  about_this_project: About This Project
+  status: Status
+  amount: Amount
+  location: Location
+  signing_date: Signing date
+  summary: Summary
+  timeline: Timeline
+  payments: Payments
+  past_loans: Past Loans
+  no_description_found: No description found.
+  payment_schedule: Payment Schedule
+  status: Status
+  due_date: Due Date
+  first_loan: This is the first loan to this cooperative.
+  all_loans: All Loans to this Co-op
+  gallery: Gallery
+  back_to: "Back to %{name}"
+  media_gallery: Media Gallery
+  no_media_found: No media found.
+  images_of: "Images of %{name}"
+  images_from_this_project: Images from this project
+  cooperative: Cooperative
+  cooperative_name: "%{name} Cooperative"
+  not_yet_translated: This text has not yet been translated. <a href="http://www.theworkingworld.org/us/contact-us">Contact us</a> if you'd like to help with translation.
+  log_completed: Completed
+  log_not_yet_completed: Not yet completed
+  show_logs: Show Logs
+  hide_logs: Hide Logs
+  show_more: More
+  show_less: Less
+  paid: Paid
+  due: Due
+  overdue: Overdue

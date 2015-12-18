@@ -1,0 +1,60 @@
+es-AR:
+  loans: Préstamos
+  country: País
+  show: Mostrar
+  show_active: Activos
+  show_completed: Completos
+  show_all: Todos
+  loan_active: Activo
+  loan_completed: Completo
+  no_loans_found: No hay préstamos con ese criterio.
+  more_details: Más detalles
+  project_with: "Proyecto con %{name}"
+  project_id: "Proyecto %{id}"
+  back_to_loans: Regresar a la lista de préstamos
+  about_this_project: Sobre este proyecto
+  status: Situación
+  amount: Cantidad
+  location: Ubicación
+  signing_date: Fecha de inicío
+  summary: Resumen
+  timeline: Cronología
+  payments: Cuotas
+  past_loans: Préstamos anteriores
+  no_description_found: No encontramos esa descripción.
+  payment_schedule: Calendario de cuotas
+  status: Situación
+  due_date: Fecha de vencimiento
+  first_loan: Préstamo inicial
+  all_loans: Todos los préstamos
+  gallery: Galería
+  back_to: "Volver a %{name}"
+  media_gallery: Galería de fotos 
+  no_media_found: No hay fotos con ese criterio.
+  images_of: "Imagenes de %{name}"
+  images_from_this_project: Imagenes del proyecto
+  cooperative: Cooperativa
+  cooperative_name: "Cooperativa %{name}"
+  not_yet_translated: Traducción pendiente. <a href="http://labase.org/contacto">Comunicáte con nosotros</a> si quisieras ayudarnos con la traducción.
+  log_completed: Completo
+  log_not_yet_completed: Incompleto
+  show_logs: Mostrar registros
+  hide_logs: Ocultar registros
+  show_more: Ver más
+  show_less: Ver menos
+  paid: Pagado
+  due: Vence
+  overdue: Atrasado
+
+  date:
+    formats:
+      long: ! '%d de %B de %Y'
+
+  will_paginate:
+    previous_label: "&#8592; Anterior"
+    next_label: "Próximo &#8594;"
+    page_gap: "&hellip;"
+  
+  routes:
+    loans: prestamos
+    gallery: galeria
