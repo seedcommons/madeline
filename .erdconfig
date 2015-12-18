@@ -1,0 +1,18 @@
+attributes:
+  - content
+  - foreign_key
+  - inheritance
+  - primary_keys
+  - timestamps
+disconnected: true
+filename: doc/erd
+filetype: pdf
+indirect: true
+inheritance: true
+markup: true
+notation: simple
+orientation: vertical
+polymorphism: true
+sort: true
+warn: true
+prepend_primary: false
