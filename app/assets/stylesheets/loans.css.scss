@@ -1,0 +1,344 @@
+// Place all the styles related to the loans controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/** LOAN LIST STYLES **/
+
+.loan_list {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 34px;
+}
+a:hover.loan_list {
+  background: rgba(0,0,0,.15);
+}
+.loan_list_wrap {
+  height: auto;
+}
+.loan_list_item_wrap {
+  background: #fdfdfd;
+}
+li.loan {
+  margin: 25px 0;
+}
+
+.coop_pic_sm {
+  background-position: center center;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 5px solid #e0e0e0;
+  border-radius: 4px;
+}
+.coop_name {
+  font-size: 14pt;
+  font-weight: bold;
+  color: #832828;
+  margin-top: 10px;
+}
+.about_coop {
+  font-size: 11pt;
+  /*letter-spacing: 0.1em;*/
+  font-weight: 400;
+  color: #111;
+  line-height: 13pt;
+}
+.detail_link {
+  font-size: 10pt;
+  margin-left: 8px;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  margin-right: 20px;
+}
+.sign_date {
+  font-weight: inherit;
+  font-variant: normal;
+  /*color: #832828;*/
+}
+.facts {
+  width: 200px;
+  margin: 5px;
+}
+.loan_item_facts {
+  color: #072D44;
+}
+.money_sym {
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 500;
+  color: #5F2B26;
+}
+.loan_amount {
+  /*color: #612C28;*/
+  font-weight: bold
+}
+.loan_info {
+  color: #333;
+  font-size: 11.6px;
+  text-transform: none;
+  margin-bottom: -15px;
+}
+.loan_status {
+  color: #333;
+  font-size: 11.6px;
+  text-transform: none;
+}
+.payment_status {
+  color: orange;
+}
+.lend_btn {
+  float: right;
+  margin-right: 10px;
+  margin-top: -3px;
+}
+.loan_list_container {
+  clear: both;
+  background: #efefef;
+  border: 1px solid #444;
+}
+.section-title {
+  margin-left: 10px;
+  font-size: 23px;
+  /*font-weight: 400;*/
+  color: #444;
+}
+.loan_filters {
+  background: transparent;
+  .show {
+    float: left;
+    margin-bottom: 15px;
+  }
+  .country {
+    float: right;
+    label {
+      line-height: 40px;
+      margin: 0 10px;
+    }
+    select {
+      background-color: white;
+      margin: 0;
+      padding: 8px;
+    }
+  }
+}
+
+
+/* Collapse table into stacked block elements on narrow screens */
+@media (max-width: 700px) {
+  .no-more-tables {
+    background: none;
+    &, thead, tbody, th, td, tr {
+      display: block;
+      border: none;
+      padding: 0;
+    }
+    tbody {
+      tr td {
+        padding: 15px 15px 0 15px;
+        border: none;
+      }
+      td.loan_item_facts {
+        padding: 15px;
+        width: auto;
+        clear: both;
+      }
+      .coop_pic_sm {
+        margin: 0;
+      }
+      .detail_link {
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+}
+
+
+/** LOAN DETAIL PAGE STYLES **/
+
+.detail_page, .gallery {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+}
+.language {
+  font-style: normal;
+  font-weight: bold;
+  color: #999;
+  margin-right: 40px;
+
+}
+.detail_wrap {
+  background: transparent;
+}
+.short_description {
+  color: #202020;
+  margin-top: 15px;
+}
+.carousel-control {
+  top: 50%;
+  &, &:link, &:visited, &:active, &:hover {
+    color: white;
+  }
+}
+.carousel-inner {
+  background-color: black;
+}
+.carousel-inner .item {
+  height: 411px;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+/* Landscape phones and down, shrink height of carousel */
+@media (max-width: 480px) {
+  .carousel-inner .item { height: 250px; }
+}
+
+.loan_description {
+  color: #022121;
+  font-weight: inherit;
+  font-size: 115%;
+  margin-bottom: 0;
+  word-wrap: break-word;
+}
+.lend_button {
+  background: url('/images/lend_btn.png') no-repeat;
+  width: 109px;
+  height: 40px;
+  margin-top: -40px;
+  margin-right: 20px;
+}
+
+.status-box {
+  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  background: rgba(88, 134, 27, 0.20);
+
+  th, td {
+    padding: 0 10px 10px 0;
+  }
+}
+
+.paso {
+  color: #666;
+  display: block;
+  line-height: 1.3em;
+}
+.active {
+  list-style: none;
+  color: #666;
+  display: table-caption;
+}
+.completed {
+  color: #555;
+  display: table-caption;
+}
+.timeline li {
+  list-style: none;
+  display: block;
+  overflow: auto;
+}
+.loan-feed {
+  box-shadow: 0px 1px 0px rgb(255, 255, 255) inset;
+  background-color: #f8f8f8;
+  border: 1px solid rgb(236, 240, 244);
+  padding: 20px 20px 0;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+.loan-title {
+  font-size: 13px;
+  margin: 0px 0px 0.2em;
+}
+.paso_completed {
+  display: none;
+}
+.not-completed {
+  background: #f9f9f9;
+  color: #333333;
+  font-weight: 800;
+  border-radius: 4px;
+  box-shadow: -1px -1px #999 0.5;
+  border: 1px solid #dbd5db;
+  padding: 5px;
+}
+.paso-summary {
+  font-weight: bold;
+  float: left;
+}
+.paso-details {
+  font-weight: normal;
+}
+.paso-status {
+  float: right;
+  color: #333333;
+  font-weight: bold;
+  text-align: right;
+  margin-left: 10px;
+}
+.paso-date {
+  font-weight: bold;
+}
+
+.show-logs {
+  clear: left;
+}
+
+.logs-items {
+  margin: 0;
+  padding: 0;
+}
+.log {
+  border-radius: 4px;
+  background: rgba(190, 223, 196, 0.20);
+  box-shadow: 0px 1px 0px rgba(190, 223, 196, 0.30) inset;
+  color: #545454;
+  padding: 9px;
+  margin: 20px 0 0;
+}
+.log-date {
+  float: left;
+  font-weight: bold;
+}
+.log-progress {
+  float: right;
+  font-weight: bold;
+}
+.log .thumbnail {
+  float: right;
+  margin-left: 5px;
+  max-width: 230px;
+}
+
+.loan_detail_tabs {
+  ul.nav-tabs {
+    margin: 20px 0;
+  }
+}
+.tab-content {
+}
+
+.other_loans {
+  tr.selected, tr:hover {
+    background-color: rgba(190, 190, 190, 0.25);
+  }
+}
+
+.repayments {
+  .overdue td {
+    background-color: #f2dede;
+  }
+  .paid td {
+    background-color: #dff0d8;
+  }
+  .due td {
+    background-color: #f3f3f3;
+  }
+}

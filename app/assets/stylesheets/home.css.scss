@@ -1,0 +1,113 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* HOME STYLES */
+.feature_container {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.short_description {
+  color: #000;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 0.9;
+}
+.home_img {}
+.home_board {
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  height: 440px;
+  background: url("/images/coop_intro2.jpg") no-repeat top transparent;
+}
+.main_blurb_wrap {
+  margin-top: 15px;
+  text-align: left;
+  padding-left: 30px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+.main_vdio_wrap {
+  margin-top: 40px;
+  float: left;
+}
+.home_lead_block_left {}
+.home_lead_block_right {}
+.landing_pic {
+  max-width: 350px;
+}
+.block_section {
+  margin-top: 40px;
+}
+
+.landing_pic {
+  float: left;
+  margin-top: 20px;
+  width: 400px;
+  height: 250px;
+}
+.panel_static {
+  height: 480px;
+  color: white;
+  margin-top: 30px;
+  font-size: 13.60px;
+  font-weight: 500;
+}
+.panel_content_top {
+  margin-top: 30px;
+}
+.copy_front_big {
+  font-size: 18px;
+  color: #020404;
+  line-height: 22px;
+  font-weight: bolder;
+}
+.copy_front_low {
+  font-size: 14px;
+  color: #020404;
+  line-height: 23px;
+  font-weight: 300;
+}
+
+.button_home a {
+  background-color: #b0261e;
+  width: 110px;
+  padding: 10px;
+  position: relative;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  color: #f6f6f6;
+  border: solid 1px #7b2828;
+  border-radius: 5px;
+  margin-right: 20px;
+  margin-top: -6px;
+  z-index: 100;
+}
+.button_home a:active {
+  padding-bottom: 9px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 11px;
+  top: 1px;
+  background-image: linear-gradient(bottom, rgb(171,27,27) 100%, rgb(212,51,51) 0%);
+}
+.button_home a:before {
+  background-color: #ccd0d5;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  left: -8px;
+  top: -8px;
+  z-index: -1;
+  border-radius: 5px;
+  box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px #fff;
+}
+

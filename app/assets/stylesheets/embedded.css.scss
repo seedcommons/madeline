@@ -1,0 +1,82 @@
+/* Additional styles for pages embedded in wordpress - mainly correcting conflicts with wp styles */
+
+select#country {
+  height: 40px;
+  border-color: #C3C3C3;
+  color: #666;
+}
+
+div.pagination {
+  display: block;
+}
+
+//body {
+//  color: black;
+//  background: #F5F5F5;
+//  padding: 0;
+//}
+//h1, h2, h3, h4, h5, h6 {
+//  margin: 10px 0;
+//}
+//.container {
+//  padding: {
+//    left: 0;
+//    right: 0;
+//  }
+//}
+//.loan_filters {
+//  margin-top: 0;
+//}
+//img {
+//  vertical-align: baseline;
+//}
+//p, form, ul {
+//  margin: 0;
+//}
+//footer {
+//  font-family: DINLightRegular,'Droid Sans',Arial,Verdana,sans-serif;
+//}
+//
+//.loans .nav {
+//  list-style: none;
+//  margin-left: 0;
+//  padding: 0;
+//}
+//.loans .loan_filters select {
+//  margin-top: 0;
+//}
+//.section-title {
+//  margin-left: 10px;
+//}
+//.coop_name {
+//  /*letter-spacing: -1px !important;*/
+//  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+//}
+//.loan_amount {
+//  //letter-spacing: -1px;
+//}
+//
+//#search-form #searchinput {
+//  box-shadow: none;
+//  -webkit-box-shadow: none;
+//  -moz-box-shadow: none;
+//  height: inherit;
+//  line-height: normal;
+//}
+//
+//#top-menu a:hover {
+//  background: none;
+//}
+//
+//.loan-feed {
+//  padding: 20px !important;
+//}
+//
+//.logs-items {
+//  margin: 0;
+//  padding: 0 !important;
+//}
+//
+//.pagination ul {
+//  padding: 0;
+//}
