@@ -24,7 +24,5 @@ config/database.yml
 .ruby-version
 config/secrets.yml
 
-app/views/layouts/wordpress*.html.erb
-
 config/initializers/local_config.rb
 coverage/
