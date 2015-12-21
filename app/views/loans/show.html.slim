@@ -1,0 +1,124 @@
+- content_for :title, @loan.name
+
+.loans.detail_page
+  .row
+    .col-xs-12
+      .back_link.pull-left
+        a.no_line href=back_to_loans
+          i.fa.fa-chevron-left>
+          span.hover_line = t :back_to_loans
+
+  .row
+    .col-md-7.main_content
+      .detail_wrap
+        h2.section_title = @loan.name
+
+        / Carousel
+        - if @pictures
+          #myCarousel.carousel.slide
+            - if @pictures.count > 1
+              ol.carousel-indicators
+                - for i in (0..(@pictures.count-1)) do
+                  li data-slide-to=i data-target="#myCarousel"
+            / Carousel items
+            a href="#{url_for gallery_path(@loan)}"
+              .carousel-inner
+                - @pictures.each do |picture|
+                  .item.picture style=("background-image: url(#{picture.paths[:large]});")
+            / Carousel nav
+            - if @pictures.count > 1
+              a.carousel-control.left data-slide="prev" href="#myCarousel"  &lsaquo;
+              a.carousel-control.right data-slide="next" href="#myCarousel"  &rsaquo;
+
+        / .lend
+        /   a.button.lend_button.pull-right href="#"
+        / h5.coop_name Current Report
+
+    .col-md-5.sidebar.pull-right
+      h2.section_title = t :about_this_project
+      .status-box
+        table.info
+          tr
+            th #{t(:status)}:
+            td = @loan.status
+          tr
+            th #{t(:amount)}:
+            td
+              / i.icon-coinstack>
+              = @loan.amount_formatted
+          tr
+            th #{t(:location)}:
+            td
+              i.fa.fa-fw.fa-map-marker>
+              = @loan.location
+          tr
+            th #{t(:signing_date)}:
+            td
+              i.fa.fa-fw.fa-calendar>
+              = @loan.signing_date_long
+        .short_description = render_translation @loan.short_description
+
+    .clearfix
+
+  .row.loan_detail_tabs
+    .col-xs-12
+      ul.nav.nav-tabs
+        li
+          a data-toggle="tab" href="#summary" = t :summary
+        // Disable timeline and repayments for now
+        / li
+        /   a data-toggle="tab" href="#timeline" = t :timeline
+        / - unless @repayments.empty?
+        /   li
+        /     a data-toggle="tab" href="#payments" = t :payments
+        li
+          a data-toggle="tab" href="#other_loans" = t :past_loans
+
+      #about_loan.tab-content
+        #summary.tab-pane
+          p.loan_description
+            = render_translation(@loan.description) || %Q{<span class="notfound">#{t :no_description_found}</span>}
+
+        // Disable timeline and repayments for now
+        / #timeline.tab-pane
+        /   = render 'project_events/timeline'
+        /
+        / - unless @repayments.empty?
+        /   #payments.tab-pane
+        /     .row
+        /       .col-md-7
+        /         h4 = t :payment_schedule
+        /         table.table.repayments
+        /           tr
+        /             th = t :status
+        /             th = t :due_date
+        /             th = t :amount
+        /           - @repayments.each do |pmt|
+        /             tr class=pmt.status
+        /               td
+        /                 b = t pmt.status
+        /               - if pmt.paid
+        /                 td = l pmt.date_paid, format: :long
+        /               - else
+        /                 td = l pmt.date_due, format: :long
+        /               td = pmt.amount_formatted
+
+        #other_loans.tab-pane
+          - if !@other_loans || @other_loans.count <= 1
+            p.empty = t :first_loan
+          - else
+            h4 = t :all_loans
+            table.table.other_loans.rowlink data-link="row"
+              - @other_loans.each do |loan|
+                tr class="#{'selected' if loan.id == @loan.id}"
+                  td
+                    - if loan.id == @loan.id
+                      = loan.signing_date_long
+                    - else
+                      a href=(url_for loan) = loan.signing_date_long
+                  td = loan.amount_formatted
+                  td = loan.status
+                  td.hidden-xs style="width: 50%" = render_translation loan.short_description
+
+
+/ = render 'media/blueimp-gallery'

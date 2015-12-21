@@ -1,0 +1,25 @@
+- content_for :title, "#{t :gallery}: " + @loan.name
+
+.loans.gallery
+  .back_link
+    a.no_line href=url_for(@loan)
+      i.fa.fa-chevron-left>
+      span.hover_line = t :back_to, name: @loan.name
+
+  h1.page_title = t :media_gallery
+
+  - if (@coop_media + @loan_media).empty?
+    .empty = t :no_media_found
+  - else
+    #gallery-links
+      - unless @coop_media.empty?
+        h2.section_title = t :images_of, name: @loan.cooperative.verbose_name
+        / = render @coop_media, locals: {alt: @loan.cooperative.name}
+        = render partial: "media/gallery", locals: {media: @coop_media}
+
+      - unless @loan_media.empty?
+        h2.section_title = t :images_from_this_project
+        = render partial: "media/gallery", locals: {media: @loan_media}
+
+/ FancyBox already enabled by WP theme
+/ = render 'media/blueimp-gallery'

@@ -1,0 +1,53 @@
+- content_for :title, t(:loans)
+
+.row.loan_filters
+  .col-xs-12
+    = form_tag({}, {:method => "get"}) do
+      .show
+        ul.nav.nav-pills
+          li.disabled #{t :show}:
+          li class=('active' if params[:status] == 'active')
+            = link_to t(:show_active), params.merge(status: nil, pg: nil)
+          li class=('active' if params[:status] == 'completed')
+            = link_to t(:show_completed), params.merge(status: 'completed', pg: nil)
+          li class=('active' if params[:status] == 'all')
+            = link_to t(:show_all), params.merge(status: 'all', pg: nil)
+      .country
+        = label_tag(:country, "#{t :country}: ")
+        = select_tag(:country, options_for_select([[t(:show_all), 'all']] + @countries, params[:country]),
+            onchange: "this.form.submit()")
+
+.row
+  - if @loans.empty?
+    .col-xs-12.empty = t :no_loans_found
+  - else
+    .col-xs-12.loans
+      table.table.loan_list_wrap.table-bordered.no-more-tables
+        - @loans.each do |loan|
+          tr.loans_items.well.loan_list_item_wrap style=("opacity: 0.9;")
+            td.loan_item_thumb
+              a href=(url_for loan)
+                .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
+            td.loan_item_desc
+              h5.coop_name
+                a href=(url_for loan) = loan.name
+              p.about_coop = render_translation(loan.short_description)
+              p.detail_link.pull-right
+                a.no_line href=(url_for loan)
+                  span.hover_line> = t :more_details
+                  i.fa.fa-chevron-right
+            td.facts.loan_item_facts
+              .location
+                i.fa.fa-fw.fa-map-marker>
+                = loan.location
+              .sign_date
+                i.fa.fa-fw.fa-calendar>
+                = loan.SigningDate ? l(loan.SigningDate, format: :long) : ''
+              .loan_amount
+                / i.icon-coinstack>
+                = loan.amount_formatted
+              / p.progress.progress-danger style="background:#444;"
+              /   span.progress-bar data-percentage="75" style=("width: 75%;")
+              / p: button.lend_btn.btn type="button"  Add Loan
+
+      .pagination = will_paginate @loans, param_name: 'pg', renderer: BootstrapPagination::Rails
