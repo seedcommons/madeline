@@ -1,5 +1,5 @@
 class Media < ActiveRecord::Base
-  include Legacy, TranslationModule
+  include TranslationModule
 
   IMAGE_REGEX = /(jpe?g|gif|png|\]|\))$/i
   VIDEO_REGEX = /(mov|avi|wmv|mp4)$/i

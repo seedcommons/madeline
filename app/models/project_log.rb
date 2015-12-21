@@ -1,7 +1,5 @@
 class ProjectLog < ActiveRecord::Base
-  include Legacy, TranslationModule, MediaModule
-
-  remove_method :progress, :progress_metric
+  include TranslationModule, MediaModule
 
   belongs_to :paso, :foreign_key => 'PasoID', class_name: 'ProjectEvent'
   belongs_to :progress_metric, :foreign_key => 'ProgressMetric'

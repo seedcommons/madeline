@@ -1,6 +1,4 @@
 class Cooperative < ActiveRecord::Base
-  include Legacy
-
   has_many :loans, :foreign_key => 'CooperativeID'
 
   def verbose_name

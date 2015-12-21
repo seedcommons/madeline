@@ -1,5 +1,5 @@
 class Loan < ActiveRecord::Base
-  include Legacy, TranslationModule, MediaModule
+  include TranslationModule, MediaModule
 
   belongs_to :cooperative, :foreign_key => 'CooperativeID'
   belongs_to :division, :foreign_key => 'SourceDivision'

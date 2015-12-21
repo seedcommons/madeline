@@ -1,5 +1,5 @@
 class ProjectEvent < ActiveRecord::Base
-  include Legacy, TranslationModule
+  include TranslationModule
 
   has_many :project_logs, :foreign_key => 'PasoID'
   alias_attribute :logs, :project_logs

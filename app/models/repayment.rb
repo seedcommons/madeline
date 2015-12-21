@@ -1,5 +1,5 @@
 class Repayment < ActiveRecord::Base
-  include Legacy, TranslationModule
+  include TranslationModule
 
   belongs_to :loan, :foreign_key => 'LoanID'
 
