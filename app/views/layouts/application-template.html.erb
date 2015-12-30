@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <title><%= yield :template %> |  The Working World</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= yield :head %>
   </head>
 
   <body>
-    <h1><%= yield :title %>
-    <%= yield :content %>
+    <section>
+      <h1><%= yield :title %></h1>
+      <%= yield :content %>
+    </section>
   </body>
 
 </html>
