@@ -6,10 +6,14 @@ Rails.application.routes.draw do
     put 'users' => 'devise/registrations#update', as: :user_registration
   end
 
+  namespace :admin do
+    resources :dashboard, only: [:index]
+  end
+
   localized do
     resources :loans, only: [:index, :show]
     get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
   end
 
-  root to: 'loans#index'
+  root to: 'admin/dashboard#index'
 end
