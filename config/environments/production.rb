@@ -76,4 +76,16 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  # For wordpress template
+  config.x.wordpress_template = {
+    division_urls: { # get division from request url
+      %r{http://.*\.?theworkingworld\.org} => :us,
+      'http://labase.org/inversion' => :argentina,
+    },
+    template_urls: { # url of blank wordpress page for rails to retrieve
+      us: 'http://www.theworkingworld.org/us/rails',
+      argentina: 'http://labase.org/rails',
+    },
+  }
+
 end

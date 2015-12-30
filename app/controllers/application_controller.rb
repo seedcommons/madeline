@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def get_division_from_url
-    @get_division_from_url ||= Rails.configuration.wordpress_template[:division_urls].select { |key, val|
+    @get_division_from_url ||= Rails.configuration.x.wordpress_template[:division_urls].select { |key, val|
       request.url.match key
     }.values.first || default_division
   end
