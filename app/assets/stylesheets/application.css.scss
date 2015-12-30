@@ -8,20 +8,27 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require scaffolds
- *= require_self
- *= require home
- *= require loans
- *= require users
- *= require media
- *= require embedded
- *= require font-awesome
- *= require jasny-bootstrap
  */
 
 // Bootstrap v3.1.1 is already loaded in the WP theme
 //@import "bootstrap-sprockets";
 //@import "bootstrap";
+
+// Bootstrap Sass
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "jasny-bootstrap";
+
+// Vendor Styles
+@import "font-awesome";
+
+// Application Styles
+@import "scaffolds";
+@import "home";
+@import "loans";
+@import "users";
+@import "media";
+@import "embedded";
 
 $tww_red: #882222;
 $tww_gold: #C0B18F;
