@@ -7,7 +7,8 @@ feature 'visit loan index page' do
     before { visit loans_path }
 
     it 'shows active loans' do
-      active_loans = @loans.select{ |loan| loan.status == I18n.t(:loan_active) }
+      active_loans = @loans.select{ |loan| loan.status == 'active' }
+      expect(active_loans).to be_present
       active_loans.each do |loan|
         check_loan_content(loan)
       end
@@ -18,7 +19,7 @@ feature 'visit loan index page' do
 
       it 'shows completed loans on their tab' do
         click_link 'Completed'
-        completed_loans = @loans.select{ |loan| loan.status == I18n.t(:loan_completed) }
+        completed_loans = @loans.select{ |loan| loan.status == 'completed' }
         completed_loans.each do |loan|
           check_loan_content(loan)
         end
