@@ -12,6 +12,7 @@ class Loan < ActiveRecord::Base
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
   }
   scope :status, ->(status) { where(status: status) }
+  scope :visible, -> { where.not(publicity_status: 'hidden') }
 
   def self.default_filter
     {
