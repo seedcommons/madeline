@@ -1,0 +1,45 @@
+.mainmenu {
+  color: #9D9D9D;
+  font-size: 1.2em;
+
+  span {
+    &:hover {
+      color: white;
+    }
+  }
+  @media (min-width: 768px) {
+    .division {
+      text-align: center;
+    }
+
+    .user {
+      text-align: right;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .user {
+      height: 0;
+    }
+
+    .division {
+      span {
+        padding: 0 15px;
+      }
+    }
+  }
+
+  .user-menu-collapsed {
+
+  }
+
+  .centered-box {
+    height: 50px;
+    line-height: 50px;
+  }
+
+  select, .form-control {
+    display: inline-block;
+    width: auto;
+  }
+}

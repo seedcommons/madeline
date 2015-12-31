@@ -1,8 +1,9 @@
-    <div class="menubars">
-      <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div>
+      <nav class="mainmenu navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -10,20 +11,99 @@
             </button>
             <a class="navbar-brand" href="#">Madeline System</a>
           </div>
-        </div>
-      </nav>
 
-      <div class="container-fluid">
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav visible-xs-block">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  Site Menu
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <%= render "layouts/site_menu" %>
+                </ul>
+              </li>
+            </ul>
+
+            <div class="division centered-box nav navbar-nav">
+              <span>Division:</span>
+              <select class="form-control">
+                <option>Costa Rica</option>
+                <option selected>United States</option>
+              </select>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <span>User</span>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Logout</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Preferences</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <!--
+      <nav class="mainmenu navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="row">
+          <div class="navbar-header col-md-3 col-sm-12">
+            <div class="row">
+            <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+              aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <button type="button" class="btn-link col-sm-3"
+              data-toggle="collapse" data-target="#user-menu" aria-expanded="false"
+              aria-controls="navbar">
+              <span class="sr-only">Toggle user</span>
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            </button>
+            <a class="navbar-brand" href="#">Madeline System</a>
+            </div>
+          </div>
+          <div class="division centered-box col-md-6 col-sm-6">
+            <span>Division:</span>
+            <select>
+              <option>United States</option>
+            </select>
+          </div>
+
+          <div class="user centered-box col-md-3 col-sm-6 navbar-right hidden-xs">
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle btn-link" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span>User</span>
+                <span class="caret"></span>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="userMenu">
+                <ul class="user-menu">
+                  <%#= render "layouts/user_menu" %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav> -->
+      <div class="sidemenu container-fluid">
         <div class="row">
           <div id="navbar" class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-              <li><%= link_to 'Dashboard', root_path %></li>
-              <li><a href="#">Co-ops</a></li>
-              <li><a href="#">Loans</a></li>
-              <li><a href="#">Calendar</a></li>
-              <li><a href="#">Members</a></li>
-              <li><a href="#">Reports</a></li>
+              <%= render "layouts/site_menu" %>
             </ul>
+          </div>
+          <div class="user-menu-collapsed user-menu" id="user-menu">
+            <%= render "layouts/user_menu" %>
           </div>
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <%= render "layouts/main_content" %>
