@@ -3,16 +3,14 @@
 
   <head>
     <meta charset="UTF-8">
-    <title><%= yield :template %> |  The Working World</title>
+    <title><%= yield :template %> | Madeline System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= yield :head %>
+    <%= stylesheet_link_tag "dashboard", media: "all" %>
   </head>
 
   <body>
-    <section>
-      <h1><%= yield :title %></h1>
-      <%= yield :content %>
-    </section>
+    <%= render "layouts/main_content" %>
   </body>
 
 </html>
