@@ -1,4 +1,6 @@
 $ ->
+  $('#calendar').fullCalendar()
+
   $('.currency_symbol').tooltip
     placement: 'left'
     delay: 500
