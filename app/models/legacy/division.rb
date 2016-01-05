@@ -11,7 +11,7 @@ module Legacy
 
     def migration_data
       if id == super_division
-        parent_id = ::Division::ROOT_ID
+        parent_id = ::Division.root_id
       else
         parent_id = super_division
       end
@@ -41,7 +41,7 @@ module Legacy
 
     def self.purge_migrated
       puts "::Division.where('id <> 99').delete_all"
-      ::Division.where.not(id: ::Division::ROOT_ID).destroy_all
+      ::Division.where.not(id: ::Division.root_id).destroy_all
 
     end
 
