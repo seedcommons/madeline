@@ -108,6 +108,7 @@ GEM
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
+    mysql2 (0.4.2)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
@@ -242,6 +243,7 @@ DEPENDENCIES
   faker
   font-awesome-rails
   jquery-rails
+  mysql2
   pg (~> 0.15)
   rails (= 4.2.5)
   rails-erd
