@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 describe Loan, :type => :model do
-  before { pending 're-implement in new project' }
-  it_should_behave_like 'translatable', ['Description', 'ShortDescription']
-  it_should_behave_like 'mediable'
+  pending 're-implement in new project' do
+    it_should_behave_like 'translatable', ['Description', 'ShortDescription']
+    it_should_behave_like 'mediable'
+  end
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -13,6 +14,7 @@ describe Loan, :type => :model do
     let(:loan) { create(:loan) }
 
     describe '.name' do
+      before { pending 're-implement in new project' }
       context 'with cooperative' do
         it 'uses cooperative name' do
           expect(loan.name).to eq I18n.t :project_with, name: loan.cooperative.name
@@ -29,6 +31,7 @@ describe Loan, :type => :model do
     end
 
     describe '.country' do
+      before { pending 're-implement in new project' }
       context 'with country' do
         before do
           @country = create(:country, name: 'Argentina')
@@ -55,6 +58,7 @@ describe Loan, :type => :model do
     end
 
     describe '.location' do
+      before { pending 're-implement in new project' }
       let(:loan) do
         create(
           :loan,
@@ -83,6 +87,7 @@ describe Loan, :type => :model do
     end
 
     describe '.status' do
+      before { pending 're-implement in new project' }
       context 'with active loan' do
         let(:loan) { create(:loan, :active) }
         it 'returns active' do
@@ -99,6 +104,7 @@ describe Loan, :type => :model do
     end
 
     describe '.project_events' do
+      before { pending 're-implement in new project' }
       let!(:loan) { create(:loan) }
       let!(:project_events) do
         project_events = []
@@ -123,6 +129,7 @@ describe Loan, :type => :model do
     end
 
     describe '.featured_pictures' do
+      before { pending 're-implement in new project' }
       let(:loan) { create(:loan, :with_loan_media, :with_coop_media) }
 
       it 'has a default limit of 1' do
