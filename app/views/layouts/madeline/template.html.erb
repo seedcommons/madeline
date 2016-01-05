@@ -1,15 +1,18 @@
+<%# Defines content template variables based on page displayed %>
+<%= render "layouts/madeline/page_variables" %>
+
 <!doctype html>
 <html lang="en-US">
 
   <head>
     <meta charset="UTF-8">
-    <title><%= yield :template %> | Madeline System</title>
+    <title><%= yield :title %> | Madeline System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= yield :head %>
   </head>
 
   <body>
-    <%= render "page/page" %>
+    <%= render @content_template %>
   </body>
 
 </html>

@@ -1,0 +1,70 @@
+<div>
+  <nav class="mainmenu navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+
+      <div class="row">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header col-sm-3">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Madeline System</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-menu">
+          <ul class="nav navbar-nav visible-xs-block">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                Site Menu
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <%= render "layouts/madeline/site_menu" %>
+              </ul>
+            </li>
+          </ul>
+
+          <div class="division centered-box nav navbar-nav col-sm-6">
+            <span>Division:</span>
+            <select class="form-control">
+              <option>Argentina</option>
+              <option selected>United States</option>
+            </select>
+          </div>
+
+          <ul class="user centered-box nav navbar-nav navbar-right col-sm-3">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span>User</span>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <%= render "layouts/madeline/user_menu" %>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="sidemenu container-fluid">
+    <div class="row">
+      <div id="navbar" class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <%= render "layouts/madeline/site_menu" %>
+        </ul>
+      </div>
+      <div class="user-menu-collapsed user-menu" id="user-menu">
+        <%= render "layouts/madeline/user_menu" %>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <%= render "layouts/madeline/main_content" %>
+      </div>
+    </div>
+  </div>
+</div>
