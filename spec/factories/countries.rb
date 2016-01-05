@@ -1,10 +1,6 @@
 FactoryGirl.define do
   factory :country do
-    with_language_association
-    name { Faker::Address.country }
-
-    after(:create) do |country|
-      create(:currency, country: country.name)
-    end
+    iso_code { Faker::Address.country_code }
+    currency
   end
 end

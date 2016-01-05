@@ -41,7 +41,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # For wordpress template
-  config.wordpress_template = {
+  config.x.wordpress_template = {
     division_urls: { # get division from request url
       'http://localhost:3000' => :us,
     },

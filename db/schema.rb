@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231162855) do
+ActiveRecord::Schema.define(version: 20151231192233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "countries", force: :cascade do |t|
+    t.string   "iso_code",            limit: 2
+    t.integer  "default_currency_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
 
   create_table "currencies", force: :cascade do |t|
     t.string   "code"
@@ -46,6 +53,32 @@ ActiveRecord::Schema.define(version: 20151231162855) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
+  create_table "loans", force: :cascade do |t|
+    t.integer  "division_id"
+    t.integer  "organization_id"
+    t.string   "name"
+    t.integer  "primary_agent_id"
+    t.integer  "secondary_agent_id"
+    t.string   "status"
+    t.decimal  "amount"
+    t.integer  "currency_id"
+    t.decimal  "rate"
+    t.integer  "length_months"
+    t.integer  "representative_id"
+    t.date     "signing_date"
+    t.date     "first_interest_payment_date"
+    t.date     "first_payment_date"
+    t.date     "target_end_date"
+    t.decimal  "projected_return"
+    t.string   "publicity_status"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
+  add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
+  add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
+
   create_table "organizations", force: :cascade do |t|
     t.string   "display_name"
     t.string   "sector"
@@ -53,6 +86,14 @@ ActiveRecord::Schema.define(version: 20151231162855) do
     t.string   "referral_source"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "primary_organization_id"
+    t.date     "birth_date"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -73,6 +114,14 @@ ActiveRecord::Schema.define(version: 20151231162855) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "loans", "currencies"
+  add_foreign_key "loans", "divisions"
+  add_foreign_key "loans", "organizations"
+  add_foreign_key "loans", "people", column: "primary_agent_id"
+  add_foreign_key "loans", "people", column: "representative_id"
+  add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "people", "organizations", column: "primary_organization_id"
 end
