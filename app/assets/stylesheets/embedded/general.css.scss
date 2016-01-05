@@ -13,21 +13,6 @@ $tww_black: #011C26;
 body {
   background: #e5e5e5 url('/images/bg.png') repeat;
   -webkit-font-smoothing: antialiased;
-  color: #333435;
-}
-a, a:link, a:visited, a:active {
-  /*color: #f3f3f3;*/
-  color: $tww_red;
-}
-a:hover {
-  color: rgb(73, 18, 13);
-  text-decoration: underline;
-}
-a.no_line:hover {
-  text-decoration: none;
-}
-.hover_line:hover {
-  text-decoration: underline;
 }
 a.currency_symbol {
   color: inherit;
