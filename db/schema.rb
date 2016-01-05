@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20151231192233) do
 
   create_table "loans", force: :cascade do |t|
     t.integer  "division_id"
+    t.integer  "organization_id"
     t.string   "name"
     t.integer  "primary_agent_id"
     t.integer  "secondary_agent_id"
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20151231192233) do
 
   add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
+  add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "display_name"
@@ -117,6 +119,7 @@ ActiveRecord::Schema.define(version: 20151231192233) do
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
   add_foreign_key "loans", "divisions"
+  add_foreign_key "loans", "organizations"
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"

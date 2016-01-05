@@ -2,6 +2,7 @@ class CreateLoans < ActiveRecord::Migration
   def change
     create_table :loans do |t|
       t.references :division, index: true, foreign_key: true
+      t.references :organization, index:true, foreign_key: true
       t.string :name
       t.references :primary_agent, references: :people
       t.references :secondary_agent, references: :people

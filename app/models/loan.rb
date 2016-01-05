@@ -2,6 +2,7 @@ class Loan < ActiveRecord::Base
   include TranslationModule, MediaModule
 
   belongs_to :division
+  belongs_to :organization
   belongs_to :primary_agent, class_name: 'Person'
   belongs_to :secondary_agent, class_name: 'Person'
   belongs_to :currency
