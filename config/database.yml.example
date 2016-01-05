@@ -21,6 +21,21 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
 
+
+# used for migration of legacy data from mysql
+legacy:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: tww_rails
+  pool: 5
+  username: root
+  password:
+  host: localhost
+
+
+
+
 development:
   <<: *default
   database: madeline_system_development
