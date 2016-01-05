@@ -18,12 +18,10 @@ ActiveRecord::Schema.define(version: 20151231162855) do
 
   create_table "currencies", force: :cascade do |t|
     t.string   "code"
-    t.decimal  "current_exchange_rate"
-    t.datetime "exchange_rate_date"
     t.string   "symbol"
     t.string   "short_symbol"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
@@ -53,11 +51,8 @@ ActiveRecord::Schema.define(version: 20151231162855) do
     t.string   "sector"
     t.string   "industry"
     t.string   "referral_source"
-    t.float    "woman_ownership_percent"
-    t.float    "poc_ownership_percent"
-    t.integer  "environmental_impact_score"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "users", force: :cascade do |t|
