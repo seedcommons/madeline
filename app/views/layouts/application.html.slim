@@ -4,6 +4,7 @@
   = stylesheet_link_tag "application", :media => "all"
 
 - content_for :content
+  = render "application/alerts"
   = yield
 
 = render template: "layouts/madeline/template"

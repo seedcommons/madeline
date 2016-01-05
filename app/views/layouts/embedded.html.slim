@@ -9,7 +9,7 @@
   = csrf_meta_tags
 
 - content_for :content
-  //= render 'alerts'
+  = render "application/alerts"
   = yield
 
 = render template: "layouts/embedded/wordpress-#{get_division_from_url}"
