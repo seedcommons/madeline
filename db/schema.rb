@@ -52,6 +52,13 @@ ActiveRecord::Schema.define(version: 20160103040147) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
+  create_table "languages", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at"
+    t.string "name"
+    t.datetime "updated_at"
+  end
+
   create_table "loans", force: :cascade do |t|
     t.decimal "amount"
     t.datetime "created_at", null: false
@@ -94,6 +101,19 @@ ActiveRecord::Schema.define(version: 20160103040147) do
     t.integer "primary_organization_id"
     t.datetime "updated_at", null: false
   end
+
+  create_table "translations", force: :cascade do |t|
+    t.datetime "created_at"
+    t.integer "language_id"
+    t.text "text"
+    t.string "translatable_attribute"
+    t.integer "translatable_id"
+    t.string "translatable_type"
+    t.datetime "updated_at"
+  end
+
+  add_index "translations", ["language_id"], name: "index_translations_on_language_id", using: :btree
+  add_index "translations", ["translatable_type", "translatable_id"], name: "index_translations_on_translatable_type_and_translatable_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
