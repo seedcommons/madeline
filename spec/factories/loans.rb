@@ -45,7 +45,7 @@ FactoryGirl.define do
 
     trait :with_loan_media do
       after(:create) do |loan|
-        create_list(:media, 5, context_table: 'Loans', context_id: loan.id)
+        create_list(:media, 5, media_attachable: loan)
       end
     end
 
