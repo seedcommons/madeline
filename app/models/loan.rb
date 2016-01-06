@@ -1,5 +1,6 @@
 class Loan < ActiveRecord::Base
-  include TranslationModule, MediaModule
+  # include TranslationModule, MediaModule
+  include ::Translatable
 
   belongs_to :division
   belongs_to :organization
@@ -7,7 +8,12 @@ class Loan < ActiveRecord::Base
   belongs_to :secondary_agent, class_name: 'Person'
   belongs_to :currency
   belongs_to :representative, class_name: 'Person'
-  has_many :repayments, :foreign_key => 'LoanID'
+  # has_many :repayments, :foreign_key => 'LoanID'
+
+
+  # define accessor like convenience methods for the fields stored in the Translations table
+  attr_translatable :summary, :details
+
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
