@@ -18,24 +18,6 @@
 // Vendor Styles
 @import "font-awesome";
 
-// General Styles
-$tww_red: #882222;
-$tww_gold: #C0B18F;
-$tww_black: #011C26;
-
 body {
   color: #333435;
-}
-a, a:link, a:visited, a:active {
-  color: $tww_red;
-}
-a:hover {
-  color: rgb(73, 18, 13);
-  text-decoration: underline;
-}
-a.no_line:hover {
-  text-decoration: none;
-}
-.hover_line:hover {
-  text-decoration: underline;
 }
