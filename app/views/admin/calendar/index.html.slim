@@ -2,6 +2,9 @@
   = javascript_include_tag "admin/calendar/dependencies"
   = javascript_include_tag "admin/calendar/calendar"
 
+- content_for :styles
+  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
+
 -content_for :title
   = 'Calendar'
 
