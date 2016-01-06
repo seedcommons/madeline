@@ -20,8 +20,8 @@ module Translatable
     #   set_translation('foo', text, I18n.language_code)
     # end
     #
-    # def get_foo(text, language_code)
-    #   get_translation('foo', text, language_code)
+    # def get_foo(language_code)
+    #   get_translation('foo', language_code)
     # end
     #
     # def set_foo(text, language_code)
@@ -89,7 +89,7 @@ module Translatable
 
   # returns all translations as an ordered list of [code,text]
   def translations_list(attribute_name)
-    #todo: propertly sort
+    #todo: propertly sort, once sort order is well defined
     translations.where({translatable_attribute: attribute_name}).map{ |t| {code: t.language.code, text: t.text} }
   end
 

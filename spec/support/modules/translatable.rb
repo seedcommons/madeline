@@ -1,3 +1,7 @@
+##
+## JE todo: update this to work with the new Translatable module
+##
+
 shared_examples_for 'translatable' do |column_names|
   let(:translatable_model) { create(described_class.to_s.underscore) }
   context 'with translations' do
