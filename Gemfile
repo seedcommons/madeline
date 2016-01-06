@@ -12,6 +12,8 @@ gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
+gem 'momentjs-rails'
+gem 'fullcalendar-rails'
 
 # Authentication / Authorization
 gem 'devise'
