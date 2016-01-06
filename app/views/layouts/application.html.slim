@@ -1,6 +1,10 @@
 - content_for :styles
   = stylesheet_link_tag "admin/admin", :media => "all"
 
-- @content_template = "layouts/admin/page"
+- content_for :page_content
+  = yield :content
+
+- content_for :content, flush: true
+  = render "layouts/admin/page"
 
 = render template: "layouts/base"

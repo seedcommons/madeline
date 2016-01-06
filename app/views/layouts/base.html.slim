@@ -21,7 +21,4 @@ html lang="en-US"
     = yield :scripts
 
   body
-    - if @content_template
-      = render @content_template
-    - else
-      = yield :content
+    = yield :content
