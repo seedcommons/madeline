@@ -1,0 +1,27 @@
+- content_for :head
+  = csrf_meta_tags
+  = javascript_include_tag "application"
+  = stylesheet_link_tag "application", :media => "all"
+
+- content_for :content
+  = render "application/alerts"
+  = yield
+
+doctype html
+html lang="en-US"
+
+  head
+    meta charset="UTF-8"
+    title
+      = yield :title
+      | Madeline System
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = yield :head
+    = yield :styles
+    = yield :scripts
+
+  body
+    - if @content_template
+      = render @content_template
+    - else
+      = yield :content
