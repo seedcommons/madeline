@@ -1,13 +1,14 @@
 require 'rails_helper'
 
-feature 'visit home page' do
+feature 'visit loan index page' do
   before { pending 're-implement in new project' }
   before { @loans = create_list(:loan, 3, :active) }
-  context 'on the home page' do
-    before { visit root_path }
+  context 'on the loan index page' do
+    before { visit loans_path }
 
     it 'shows active loans' do
-      active_loans = @loans.select{ |loan| loan.status == I18n.t(:loan_active) }
+      active_loans = @loans.select{ |loan| loan.status == 'active' }
+      expect(active_loans).to be_present
       active_loans.each do |loan|
         check_loan_content(loan)
       end
@@ -18,7 +19,7 @@ feature 'visit home page' do
 
       it 'shows completed loans on their tab' do
         click_link 'Completed'
-        completed_loans = @loans.select{ |loan| loan.status == I18n.t(:loan_completed) }
+        completed_loans = @loans.select{ |loan| loan.status == 'completed' }
         completed_loans.each do |loan|
           check_loan_content(loan)
         end
@@ -35,7 +36,7 @@ feature 'visit home page' do
     context 'with many loans' do
       before { @loans = create_list(:loan, 25, :active) }
       it 'paginates loan list' do
-        visit root_path
+        visit loans_path
         expect(page).to have_selector('div.pagination ul.pagination li.next a')
         loan_items = page.all('tr.loans_items')
         expect(loan_items.size).to be < 25
@@ -45,7 +46,7 @@ feature 'visit home page' do
     context 'with translations' do
       before { @loans = create_list(:loan, 3, :with_translations) }
       it 'renders translated loan description' do
-        visit root_path
+        visit loans_path
         click_link 'All'
         @loans.each do |loan|
           expect(page).to have_content loan.short_description.content
@@ -56,7 +57,7 @@ feature 'visit home page' do
     context 'with no local translations' do
       before { @loans = create_list(:loan, 3, :with_foreign_translations) }
       it 'renders loan description with translation hint' do
-        visit root_path
+        visit loans_path
         click_link 'All'
         @loans.each do |loan|
           expect(page).to have_content loan.short_description.content

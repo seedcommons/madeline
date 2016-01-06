@@ -1,27 +1,27 @@
 FactoryGirl.define do
   factory :loan do
-    amount { rand(5000..50000)}
-    cooperative
-    cooperative_members { rand(1..200) }
-    description { Faker::Lorem.sentences(3) }
-    description_english { Faker::Lorem.sentences(3) }
-    fecha_de_finalizacion { Faker::Date.between(first_payment_date, Date.today) }
-    first_interest_payment { Faker::Date.between(signing_date, Date.today) }
-    first_payment_date { Faker::Date.between(signing_date, Date.today) }
-    length {rand(1..36) }
-    # Other statuses: "Prestamo Congelado", "Prestamo Liquidado", "Prestamo Prospectivo", "Prestamo Refinanciado", "Relacion", "Relacion Activo"
-    nivel { ["Prestamo Activo", "Prestamo Completo"].sample }
-    short_description { description.split('.').first }
-    short_description_english { description_english.split('.').first }
+    division
+    name { "Loan for " + Faker::Company.name }
+    association :primary_agent_id, factory: :person
+    association :secondary_agent_id, factory: :person
+    status { ['active', 'completed'].sample } # Other statuses: "Prestamo Congelado", "Prestamo Liquidado", "Prestamo Prospectivo", "Prestamo Refinanciado", "Relacion", "Relacion Activo"
+    amount { rand(5000..50000) }
+    currency
+    rate 0.15
+    length_months {rand(1..36) }
+    association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    source_division { create(:division_with_country).id }
+    first_interest_payment_date { Faker::Date.between(signing_date, Date.today) }
+    first_payment_date { Faker::Date.between(signing_date, Date.today) }
+    target_end_date { Faker::Date.between(first_payment_date, Date.today) }
+    projected_return { amount + (amount * rate * length_months/12) }
 
     trait :active do
-      nivel 'Prestamo Activo'
+      status 'active'
     end
 
     trait :completed do
-      nivel 'Prestamo Completo'
+      status 'completed'
     end
 
     trait :with_translations do

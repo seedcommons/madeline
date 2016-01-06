@@ -1,20 +1,19 @@
 class Loan < ActiveRecord::Base
   include TranslationModule, MediaModule
 
-  belongs_to :cooperative, :foreign_key => 'CooperativeID'
-  belongs_to :division, :foreign_key => 'SourceDivision'
+  belongs_to :division
+  belongs_to :organization
+  belongs_to :primary_agent, class_name: 'Person'
+  belongs_to :secondary_agent, class_name: 'Person'
+  belongs_to :currency
+  belongs_to :representative, class_name: 'Person'
   has_many :repayments, :foreign_key => 'LoanID'
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
   }
-  scope :status, ->(status) {
-    where(:Nivel => case status
-      when 'active' then 'Prestamo Activo'
-      when 'completed' then 'Prestamo Completo'
-      when 'all' then ['Prestamo Activo','Prestamo Completo']
-    end)
-  }
+  scope :status, ->(status) { where(status: status) }
+  scope :visible, -> { where.not(publicity_status: 'hidden') }
 
   def self.default_filter
     {
@@ -30,11 +29,6 @@ class Loan < ActiveRecord::Base
     scoped = scoped.country(params[:country]) if params[:country]
     scoped = scoped.status(params[:status]) if params[:status]
     scoped
-  end
-
-  def name
-    if self.cooperative then I18n.t :project_with, name: self.cooperative.Name
-    else I18n.t :project_id, id: self.ID.to_s end
   end
 
   def country
@@ -54,13 +48,6 @@ class Loan < ActiveRecord::Base
 
   def signing_date_long
     I18n.l self.signing_date, format: :long if self.signing_date
-  end
-
-  def status
-    case self.nivel
-      when 'Prestamo Activo' then I18n.t :loan_active
-      when 'Prestamo Completo' then I18n.t :loan_completed
-    end
   end
 
   def short_description

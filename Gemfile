@@ -65,6 +65,9 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 
+  # Fix db schema conflicts
+  gem 'fix-db-schema-conflicts'
+
   # Deployment
   # gem 'capistrano',  '~> 3.1'
   # gem 'capistrano-rails', '~> 1.1'
