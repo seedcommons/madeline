@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106182112) do
+ActiveRecord::Schema.define(version: 20160106183814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(version: 20160106182112) do
 
   add_index "media", ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id", using: :btree
 
+  create_table "notes", force: :cascade do |t|
+    t.datetime "created_at"
+    t.integer "notable_id"
+    t.string "notable_type"
+    t.integer "person_id"
+    t.datetime "updated_at"
+  end
+
+  add_index "notes", ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id", using: :btree
+  add_index "notes", ["person_id"], name: "index_notes_on_person_id", using: :btree
+
   create_table "organization_snapshots", force: :cascade do |t|
     t.datetime "created_at"
     t.date "date"
@@ -178,6 +189,33 @@ ActiveRecord::Schema.define(version: 20160106182112) do
   end
 
   add_index "people", ["division_id"], name: "index_people_on_division_id", using: :btree
+
+  create_table "project_logs", force: :cascade do |t|
+    t.datetime "created_at"
+    t.date "date"
+    t.integer "person_id"
+    t.integer "progress_metric_option_id"
+    t.integer "project_step_id"
+    t.datetime "updated_at"
+  end
+
+  add_index "project_logs", ["person_id"], name: "index_project_logs_on_person_id", using: :btree
+  add_index "project_logs", ["project_step_id"], name: "index_project_logs_on_project_step_id", using: :btree
+
+  create_table "project_steps", force: :cascade do |t|
+    t.date "completed_date"
+    t.datetime "created_at"
+    t.boolean "is_finalized"
+    t.integer "person_id"
+    t.integer "project_id"
+    t.string "project_type"
+    t.date "scheduled_date"
+    t.integer "type_option_id"
+    t.datetime "updated_at"
+  end
+
+  add_index "project_steps", ["person_id"], name: "index_project_steps_on_person_id", using: :btree
+  add_index "project_steps", ["project_type", "project_id"], name: "index_project_steps_on_project_type_and_project_id", using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
