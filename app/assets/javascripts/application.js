@@ -14,6 +14,3 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
-
-//= require moment
-//= require fullcalendar
