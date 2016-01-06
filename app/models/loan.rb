@@ -158,7 +158,8 @@ class Loan < ActiveRecord::Base
 
   def country
     # TODO: Temporary fix sets country to US when not found
-    @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
+    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
+    @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
   def currency
@@ -166,8 +167,8 @@ class Loan < ActiveRecord::Base
   end
 
   def location
-    if self.cooperative.try(:city).present?
-      self.cooperative.city + ', ' + self.country.name
+    if self.organization.try(:city).present?
+      self.organization.city + ', ' + self.country.name
     else self.country.name end
   end
 

@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :loan do
     division
+    organization
     name { "Loan for " + Faker::Company.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
@@ -17,15 +18,15 @@ FactoryGirl.define do
     projected_return { amount + (amount * rate * length_months/12) }
 
 
-    #JE todo: fix these
-
     trait :active do
-      status 'active'
+      status_option_id Loan::STATUS_OPTIONS.value_for('Active')
     end
 
     trait :completed do
-      status 'completed'
+      status_option_id Loan::STATUS_OPTIONS.value_for('Completed')
     end
+
+    #JE todo: fix these
 
     trait :with_translations do
       after(:create) do |loan|
