@@ -1,6 +1,5 @@
 class AlterLoans < ActiveRecord::Migration
   def change
-    add_column :loans, :name, :string
     remove_column :loans, :status
     add_column :loans, :status_option_id, :integer, index: true
     add_column :loans, :project_type_option_id, :integer
