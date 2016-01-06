@@ -26,3 +26,5 @@ config/secrets.yml
 
 config/initializers/local_config.rb
 coverage/
+
+/app/views/layouts/embedded/*
