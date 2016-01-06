@@ -1,0 +1,10 @@
+- content_for :head
+  = csrf_meta_tags
+
+  = javascript_include_tag "application"
+
+  = stylesheet_link_tag "application", :media => "all"
+
+- content_for :content
+  = render "application/alerts"
+  = yield

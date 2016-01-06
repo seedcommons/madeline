@@ -1,10 +1,3 @@
-- content_for :head
-  = csrf_meta_tags
-  = javascript_include_tag "application"
-  = stylesheet_link_tag "application", :media => "all"
+= render "layouts/app_variables"
 
-- content_for :content
-  = render "application/alerts"
-  = yield
-
-= render template: "layouts/madeline/template"
+= render template: "layouts/admin/template"
