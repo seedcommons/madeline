@@ -1,35 +1,6 @@
 class Loan < ActiveRecord::Base
   include Translatable, MediaAttachable
 
-  # create_table :loans do |t|
-  #   ## base Project fields
-  #   t.references :division, index: true, foreign_key: true
-  #   t.references :organization, index:true, foreign_key: true
-  #   t.string :name
-  #   # translatable: summary
-  #   # translatable: details
-  #   t.references :primary_agent, references: :people
-  #   t.references :secondary_agent, references: :people
-  #   t.integer :status_option_id, index: true
-  #   t.integer :project_type_option_id
-  #   ## distinct Loan fields
-  #   t.integer :loan_type_option_id, index: true
-  #   t.integer :public_level_option_id, index: true
-  #   t.decimal :amount   #note, the default precision is (30,6).  (16,6) is probably sufficient.  worth changing?
-  #   t.references :currency, index: true, foreign_key: true
-  #   t.decimal :rate
-  #   t.integer :length_months
-  #   t.references :representative, references: :people
-  #   t.date :signing_date
-  #   t.date :first_interest_payment_date
-  #   t.date :first_payment_date
-  #   t.date :target_end_date
-  #   t.decimal :projected_return
-  #   ## handle to historical demographic data
-  #   t.references :organization_snapshot
-  #   t.timestamps null: false
-
-
   belongs_to :division
   belongs_to :organization
   belongs_to :primary_agent, class_name: 'Person'
