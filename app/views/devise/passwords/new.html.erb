@@ -1,16 +1,27 @@
-<h2>Forgot your password?</h2>
+<% content_for :styles  do
+    stylesheet_link_tag "admin/signin", :media => "all"
+  end
+%>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<% content_for :title do "Forgot Password" end %>
+
+<h1>Madeline System</h1>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin centered-text" }) do |f| %>
+  <h2 class="form-signin-heading">Forgot your password?</h2>
+  <p>Send me reset password instructions</p>
+
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.label :email, class: "sr-only" %>
+    <%= f.email_field :email, autofocus: true, placeholder: "Email" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+    <%= f.submit "Send instructions",
+      class: "btn btn-lg btn-primary btn-block" %>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+<% end %>

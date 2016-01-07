@@ -266,4 +266,5 @@ end
 
 Rails.application.config.to_prepare do
   Devise::SessionsController.layout "base"
+  Devise::PasswordsController.layout "base"
 end
