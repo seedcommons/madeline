@@ -13,12 +13,13 @@ Division.connection.execute("select setval('divisions_id_seq', greatest((select 
 
 Language.find_or_create_by({id:1,name:'English',code:'EN'})
 Language.find_or_create_by({id:2,name:'Español',code:'ES'})
+Language.find_or_create_by({id:3,name:'Français',code:'FR'})
 Language.connection.execute("select setval('languages_id_seq', (select max(id) from languages))")
 
 
 Currency.find_or_create_by({id:1,name:'Argentinean Peso',code:'ARS',symbol:'AR$'})
 Currency.find_or_create_by({id:2,name:'U.S. Dollar',code:'USD',symbol:'US$'})
-Currency.find_or_create_by({id:3,name:'British Pound',code:'GBP',symbol:'£'})
+Currency.find_or_create_by({id:3,name:'British Pound',code:'GBP',symbol:'GB£'})
 Currency.find_or_create_by({id:4,name:'Nicaraguan Cordoba',code:'NIO',symbol:'NI$'})
 Currency.connection.execute("select setval('currencies_id_seq', (select max(id) from currencies))")
 

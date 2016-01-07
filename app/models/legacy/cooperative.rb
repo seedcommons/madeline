@@ -43,6 +43,7 @@ class Cooperative < ActiveRecord::Base
   def self.migrate_all
     puts "cooperatives: #{ self.count }"
     self.all.each &:migrate
+    # add 1000 to create space between legacy data and new data
     ::Organization.connection.execute("SELECT setval('organizations_id_seq', (SELECT MAX(id) FROM organizations)+1000)")
   end
 

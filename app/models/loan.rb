@@ -66,10 +66,14 @@ class Loan < ActiveRecord::Base
   DEFAULT_STEP_NAME = '[default]'
 
   # creates / reuses a default step when migrating ProjectLogs without a proper owning step
-  # beware, not at all optimized, but sufficient for migration
+  # beware, not at all optimized, but sufficient for migration.
+  # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
+  # if not, can remove once we're past the production migration process
   def default_step
     step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
     unless step
+      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
+      # and it's nice to be able to log the operation.
       logger.info {"default step not found for loan[#{id}] - creating"}
       step = project_steps.create
       step.update({summary: DEFAULT_STEP_NAME})
