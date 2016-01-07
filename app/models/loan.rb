@@ -1,6 +1,34 @@
 class Loan < ActiveRecord::Base
-  # include TranslationModule, MediaModule
   include ::Translatable
+
+  # create_table :loans do |t|
+  #   ## base Project fields
+  #   t.references :division, index: true, foreign_key: true
+  #   t.references :organization, index:true, foreign_key: true
+  #   t.string :name
+  #   # translatable: summary
+  #   # translatable: details
+  #   t.references :primary_agent, references: :people
+  #   t.references :secondary_agent, references: :people
+  #   t.integer :status_option_id, index: true
+  #   t.integer :project_type_option_id
+  #   ## distinct Loan fields
+  #   t.integer :loan_type_option_id, index: true
+  #   t.integer :public_level_option_id, index: true
+  #   t.decimal :amount   #note, the default precision is (30,6).  (16,6) is probably sufficient.  worth changing?
+  #   t.references :currency, index: true, foreign_key: true
+  #   t.decimal :rate
+  #   t.integer :length_months
+  #   t.references :representative, references: :people
+  #   t.date :signing_date
+  #   t.date :first_interest_payment_date
+  #   t.date :first_payment_date
+  #   t.date :target_end_date
+  #   t.decimal :projected_return
+  #   ## handle to historical demographic data
+  #   t.references :organization_snapshot
+  #   t.timestamps null: false
+
 
   belongs_to :division
   belongs_to :organization
@@ -8,12 +36,107 @@ class Loan < ActiveRecord::Base
   belongs_to :secondary_agent, class_name: 'Person'
   belongs_to :currency
   belongs_to :representative, class_name: 'Person'
-  # has_many :repayments, :foreign_key => 'LoanID'
+  belongs_to :organization_snapshot
+
+  ##JE todo: for next integration pass
+  # has_many :project_steps, as: :project
 
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
+
+  validates :division_id, presence: true
+
+
+  # todo: proper handling needs to be defined, probably a pre-populated and editable display name
+  def name
+    "Project with #{organization.try(:name)}"
+  end
+
+  def status
+    STATUS_OPTIONS.label_for(status_option_id)
+  end
+
+  def loan_type
+    LOAN_TYPE_OPTIONS.label_for(loan_type_option_id)
+  end
+
+  # the special name of a default step to use/create when migrating a log without a step
+  DEFAULT_STEP_NAME = '[default]'
+
+  # creates / reuses a default step when migrating ProjectLogs without a proper owning step
+  # beware, not at all optimized, but sufficient for migration.
+  # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
+  # if not, can remove once we're past the production migration process
+  def default_step
+    step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
+    unless step
+      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
+      # and it's nice to be able to log the operation.
+      logger.info {"default step not found for loan[#{id}] - creating"}
+      step = project_steps.create
+      step.update({summary: DEFAULT_STEP_NAME})
+    end
+    step
+  end
+
+
+  def self.status_active_id
+    STATUS_ACTIVE_ID
+  end
+
+  STATUS_ACTIVE_ID = 1
+
+  # place holder display name mappings until final solution decided upon
+  STATUS_OPTIONS = OptionSet.new(
+      [ [STATUS_ACTIVE_ID, 'Active'],
+        [2, 'Completed'],
+        [3, 'Frozen'],
+        [4, 'Liquidated'],
+        [5, 'Prospective'],
+        [6, 'Refinanced'],
+        [7, 'Relationship'],
+        [8, 'Relationship Active']
+      ])
+
+  # used for resolving id from legacy data
+  MIGRATION_STATUS_OPTIONS = OptionSet.new(
+      [ [STATUS_ACTIVE_ID, 'Prestamo Activo'],
+        [2, 'Prestamo Completo'],
+        [3, 'Prestamo Congelado'],
+        [4, 'Prestamo Liquidado'],
+        [5, 'Prestamo Prospectivo'],
+        [6, 'Prestamo Refinanciado'],
+        [7, 'Relacion'],
+        [8, 'Relacion Activo']
+      ])
+
+  LOAN_TYPE_OPTIONS = OptionSet.new(
+      [ [1, "Liquidity line of credit"],
+        [2, "Investment line of credit"],
+        [3, "Investment Loans"],
+        [4, "Evolving loan"],
+        [5, "Single Liquidity line of credit"],
+        [6, "Working Capital Investment Loan"],
+        [7, "Secured Asset Investment Loan"]
+      ])
+
+  PROJECT_TYPE_OPTIONS = OptionSet.new(
+      [ [1, 'Conversion'],
+        [2, 'Expansion'],
+        [3, 'Start-up'],
+      ])
+
+  PUBLIC_LEVEL_OPTIONS = OptionSet.new(
+      [ [1, 'Featured'],
+        [2, 'Hidden'],
+      ])
+
+
+  ##
+  ## todo: further review and cleanup of legacy code
+  ##
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
@@ -39,7 +162,8 @@ class Loan < ActiveRecord::Base
 
   def country
     # TODO: Temporary fix sets country to US when not found
-    @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
+    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
+    @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
   def currency
@@ -47,8 +171,8 @@ class Loan < ActiveRecord::Base
   end
 
   def location
-    if self.cooperative.try(:city).present?
-      self.cooperative.city + ', ' + self.country.name
+    if self.organization.try(:city).present?
+      self.organization.city + ', ' + self.country.name
     else self.country.name end
   end
 
@@ -56,12 +180,12 @@ class Loan < ActiveRecord::Base
     I18n.l self.signing_date, format: :long if self.signing_date
   end
 
-  def short_description
-    self.translation('ShortDescription')
-  end
-  def description
-    self.translation('Description')
-  end
+  # def short_description
+  #   self.translation('ShortDescription')
+  # end
+  # def description
+  #   self.translation('Description')
+  # end
 
   def coop_media(limit=100, images_only=false)
     get_media('Cooperatives', self.cooperative.try(:id), limit, images_only)

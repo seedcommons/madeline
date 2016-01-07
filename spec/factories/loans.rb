@@ -1,10 +1,11 @@
 FactoryGirl.define do
   factory :loan do
     division
+    organization
     name { "Loan for " + Faker::Company.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
-    status { ['active', 'completed'].sample } # Other statuses: "Prestamo Congelado", "Prestamo Liquidado", "Prestamo Prospectivo", "Prestamo Refinanciado", "Relacion", "Relacion Activo"
+    status_option_id { [1,2].sample }
     amount { rand(5000..50000) }
     currency
     rate 0.15
@@ -16,13 +17,16 @@ FactoryGirl.define do
     target_end_date { Faker::Date.between(first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
+
     trait :active do
-      status 'active'
+      status_option_id Loan::STATUS_OPTIONS.value_for('Active')
     end
 
     trait :completed do
-      status 'completed'
+      status_option_id Loan::STATUS_OPTIONS.value_for('Completed')
     end
+
+    #JE todo: fix these
 
     trait :with_translations do
       after(:create) do |loan|
