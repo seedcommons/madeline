@@ -49,8 +49,8 @@ describe Loan, :type => :model do
       context 'without country' do
         before do
           @division = create(:division)
-          @loan = create(:loan, division: @division.id)
-          @us = create(:country, name: "United States")
+          @loan = create(:loan, division: @division)
+          @us = create(:country, iso_code: 'US')
         end
         xit 'gets united states' do
           expect(@loan.country).to eq @us

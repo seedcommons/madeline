@@ -1,12 +1,11 @@
 module Translatable
-  extend ActiveSupport::Concern     ## consider using SuperModule
+  extend ActiveSupport::Concern
 
   included do
     has_many :translations, as: :translatable
   end
 
   module ClassMethods
-
     #
     # define convenience methods for assigning and fetching the named attribute
     #
@@ -35,17 +34,21 @@ module Translatable
     # def foo_map
     #  translations_map('foo')
     # end
-
-  #
     def attr_translatable(*attr_names)
-      logger.info "attr_names: #{attr_names.inspect}"
+      # logger.info "attr_names: #{attr_names.inspect}"
       attr_names.each do |attr_name|
         define_method("get_#{attr_name}") { |language_code = nil| get_translation(attr_name, language_code) }
         define_method("set_#{attr_name}") { |text, language_code = nil| set_translation(attr_name, text, language_code) }
         define_method("set_#{attr_name}_list") { |list| set_translation_list(attr_name, list) }
+        define_method("get_#{attr_name}") do |language: nil|
+          get_translation(attr_name, language: language)
+        end
+        define_method("set_#{attr_name}") do |text, language: nil|
+          set_translation(attr_name, text, language: language)
+        end
 
-        define_method(attr_name) { resolve_translation(attr_name, nil) }
-        define_method("#{attr_name}=") { |text| set_translation(attr_name, text, nil) }
+        define_method(attr_name) { resolve_translation(attr_name, language: nil) }
+        define_method("#{attr_name}=") { |text| set_translation(attr_name, text, language: nil) }
 
         define_method("#{attr_name}_list") { translations_list(attr_name) }
         define_method("#{attr_name}_map") { translations_map(attr_name) }
@@ -53,30 +56,42 @@ module Translatable
     end
   end
 
-  def get_translation(attribute_name, language_code = nil)
+  def get_translation(attribute_name, language: nil)
+    language ||= Language.for_locale
     t = get_translation_obj(attribute_name, language_code)
     t.try(:text)
   end
 
-  def resolve_translation(attribute_name, language_code = nil)
-    translation = get_translation_obj(attribute_name, language_code) ||
-        translations.where({translatable_attribute: attribute_name}).first  # fallback to any avail translation, todo: better prioritization
-    translation.try(:text)
+  def resolve_translation(attribute_name, language: nil)
+    language ||= Language.for_locale
+
+    # Get translation for current locale
+    translation = get_translation_obj(attribute_name, language: language)
+    return translation.try(:text) if translation.present?
+
+    # Get translation for default locale
+    if I18n.locale != I18n.default_locale
+      translation = get_translation_obj(attribute_name, language: Language.for_locale(I18n.default_locale))
+      return translation.try(:text) if translation.present?
+    end
+
+    # Get first available translation
+    translation = translations.where(translatable_attribute: attribute_name).first
   end
 
-  def get_translation_obj(attribute_name, language_code = nil)
-    language_id = Language.resolve_id(language_code)
-    result = translations.where({translatable_attribute: attribute_name, language_id: language_id}).first
-  end
+  def set_translation(attribute_name, text, language: nil)
+    language ||= Language.for_locale
 
-  def set_translation(attribute_name, text, language_code = nil)
-    t = get_translation_obj(attribute_name, language_code)
-    if t
-      t.text = text
-      t.save
+    translation = get_translation_obj(attribute_name, language: language)
+    if translation
+      translation.text = text
+      translation.save
     else
-      language_id = Language.resolve_id(language_code)
-      translations.create(translatable_attribute: attribute_name, language_id: language_id, text: text)
+      translations << Translation.create(
+        translatable_attribute: attribute_name,
+        language: language,
+        text: text
+      )
     end
     text
   end
@@ -95,22 +110,25 @@ module Translatable
     list.each do |language_code, text|
       set_translation(attribute_name, text, language_code)
     end
+
+  end
+
+  private
+
+  def get_translation_obj(attribute_name, language: nil)
+    language ||= Language.for_locale
+    result = translations.find_by(translatable_attribute: attribute_name, language: language)
   end
 
   # returns all translations as a map keyed by language_code
   def translations_map(attribute_name)
     hash = {}
-    translations.where({translatable_attribute: attribute_name}).each{|t| hash[t.language.code] = t.text}
+    translations.where({translatable_attribute: attribute_name}).each{ |t| hash[t.language.code] = t.text }
     hash
   end
 
   # returns all translations as an ordered list of [code,text]
   def translations_list(attribute_name)
-    #todo: propertly sort, once sort order is well defined
-    translations.where({translatable_attribute: attribute_name}).map{ |t| {code: t.language.code, text: t.text} }
+    translations_map(attribute_name).sort_by{ |code, text| code }
   end
-
-
 end
-
-
