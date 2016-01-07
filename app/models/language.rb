@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: languages
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  code       :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Language < ActiveRecord::Base
   # returns language_id for given code
   def self.resolve_id(code = nil)
