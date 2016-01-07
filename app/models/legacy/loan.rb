@@ -1,3 +1,4 @@
+# -*- SkipSchemaAnnotations
 module Legacy
 
 class Loan < ActiveRecord::Base

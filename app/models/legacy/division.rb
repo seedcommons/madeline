@@ -1,7 +1,8 @@
+# -*- SkipSchemaAnnotations
+
 # note, it's not ideal to muddy our app/models directory with the migration code,
 # but the rail class loading behavior seemed happiest with this location.
 # can perhaps sort that out later and force to work from a different source directory
-
 module Legacy
 
   class Division < ActiveRecord::Base

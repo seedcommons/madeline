@@ -1,3 +1,4 @@
+# -*- SkipSchemaAnnotations
 module Legacy
 
 class Translation < ActiveRecord::Base
