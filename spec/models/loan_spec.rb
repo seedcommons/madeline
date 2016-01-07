@@ -5,8 +5,6 @@ describe Loan do
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'project_type', 'public_level']
 
-  before { seed_data }
-
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
   end
@@ -51,7 +49,7 @@ describe Loan do
         before do
           @division = create(:division)
           @loan = create(:loan, division: @division)
-          @us = Country.find_or_create_by(iso_code: 'US') #TODO: refactor -> create(:country, iso_code: 'US')
+          @us = create(:country, iso_code: 'US')
         end
 
         it 'gets united states' do
