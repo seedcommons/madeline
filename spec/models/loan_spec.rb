@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe Loan, :type => :model do
-  before { pending 're-implement in new project' }
-  it_should_behave_like 'translatable', ['Description', 'ShortDescription']
-  it_should_behave_like 'mediable'
+
+  before { seed_data }
+
+  it_should_behave_like 'translatable', ['summary', 'details']
+  it_should_behave_like 'media_attachable'
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -15,13 +17,14 @@ describe Loan, :type => :model do
     describe '.name' do
       context 'with cooperative' do
         it 'uses cooperative name' do
-          expect(loan.name).to eq I18n.t :project_with, name: loan.cooperative.name
+          expect(loan.name).to eq I18n.t :project_with, name: loan.organization.name
         end
       end
 
+      #JE todo: confirm if we still want to allow loans record creation w/o an org.
       context 'without cooperative' do
         let(:loan) { create(:loan, cooperative: nil) }
-        it 'uses project id' do
+        xit 'uses project id' do
           pending('is not currently possible given DB constraints')
           expect(loan.name).to eq I18n.t :project_id, id: loan.id.to_s
         end
@@ -32,8 +35,9 @@ describe Loan, :type => :model do
       context 'with country' do
         before do
           @country = create(:country, name: 'Argentina')
-          @division = create(:division, country: @country.name)
-          @loan = create(:loan, source_division: @division.id)
+          @division = create(:division)
+          @organization = create(:organization, country: @country)
+          @loan = create(:loan, division: @division, organization: @organization)
         end
 
         it 'gets country' do
@@ -42,13 +46,14 @@ describe Loan, :type => :model do
         end
       end
 
+      #JE todo: confirm if this logic is  still relevant
       context 'without country' do
         before do
           @division = create(:division)
-          @loan = create(:loan, source_division: @division.id)
+          @loan = create(:loan, division: @division.id)
           @us = create(:country, name: "United States")
         end
-        it 'gets united states' do
+        xit 'gets united states' do
           expect(@loan.country).to eq @us
         end
       end
@@ -56,10 +61,11 @@ describe Loan, :type => :model do
 
     describe '.location' do
       let(:loan) do
+        @country_us = create(:country, name: 'United States')
         create(
           :loan,
-          cooperative_id: create(:cooperative, city: 'Ann Arbor').id,
-          source_division: create(:division, country: create(:country, name: 'United States').name).id
+          organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
+          division: create(:division, organization: create(:organization, country: @country_us))
         )
       end
       it 'returns city and country' do
@@ -67,12 +73,14 @@ describe Loan, :type => :model do
       end
 
       context 'without city' do
-        let(:loan) { create(:loan, cooperative: create(:cooperative, city: "")) }
+        let(:loan) { create(:loan, organization: create(:organization, country: @country_us, city: "")) }
 
         it 'returns country' do
           expect(loan.location).to eq loan.country.name
         end
       end
+
+      ## JE todo: confirm if a need to implement and test logic to inherit country from divisions associated org
     end
 
     describe '.signing_date_long' do
@@ -110,7 +118,7 @@ describe Loan, :type => :model do
         project_events.flatten
       end
 
-      it 'it should return all future events and past events if they are complete or have logs' do
+      xit 'it should return all future events and past events if they are complete or have logs' do
         # puts project_events.awesome_inspect
         events = loan.project_events
         expect(events.size).to eq 8
@@ -122,7 +130,7 @@ describe Loan, :type => :model do
       end
     end
 
-    describe '.featured_pictures' do
+    xdescribe '.featured_pictures' do
       let(:loan) { create(:loan, :with_loan_media, :with_coop_media) }
 
       it 'has a default limit of 1' do

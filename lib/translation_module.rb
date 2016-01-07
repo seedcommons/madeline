@@ -1,3 +1,6 @@
+## beware, this is replaced now by app/models/concerns/translatable.rb
+## will remove this file once the currency_format logic is reviewed and integrated
+
 module TranslationModule
   # add translation method to all models that include this module
   extend ActiveSupport::Concern

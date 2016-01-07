@@ -35,6 +35,17 @@ gem 'rails-i18n'
 # Translate urls
 gem 'route_translator'
 
+# Model hierarchical data
+gem 'closure_tree'
+
+# File attachments
+gem 'carrierwave'
+gem 'mini_magick'
+
+# needed for migration of legacy data
+gem 'mysql2'
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -44,6 +55,9 @@ group :development, :test do
 
   # Report number of queries in server log
   gem 'sql_queries_count'
+
+  # Better console printing
+  gem 'awesome_print'
 
   # Specs and Test Coverage
   gem 'rspec-rails'
@@ -58,6 +72,9 @@ group :development do
   # Improve error screens
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  # Fix db schema conflicts
+  gem 'fix-db-schema-conflicts'
 
   # Deployment
   # gem 'capistrano',  '~> 3.1'
