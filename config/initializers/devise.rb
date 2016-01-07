@@ -265,5 +265,5 @@ Devise.setup do |config|
 end
 
 Rails.application.config.to_prepare do
-  Devise::SessionsController.layout "session"
+  Devise::SessionsController.layout "base"
 end
