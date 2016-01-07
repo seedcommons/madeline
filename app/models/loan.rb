@@ -89,11 +89,12 @@ class Loan < ActiveRecord::Base
   # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
   # if not, can remove once we're past the production migration process
   def default_step
-    step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
+    step = project_steps.select{ |s| s.summary == DEFAULT_STEP_NAME }.first
     unless step
-      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
+      # Could perhaps optimize this with a 'find_or_create_by',
+      # but would be tricky with the translatable 'summary' field,
       # and it's nice to be able to log the operation.
-      logger.info {"default step not found for loan[#{id}] - creating"}
+      logger.info { "default step not found for loan[#{id}] - creating" }
       step = project_steps.create
       step.update({summary: DEFAULT_STEP_NAME})
     end
@@ -138,8 +139,6 @@ class Loan < ActiveRecord::Base
 
   def country
     # TODO: Temporary fix sets country to US when not found
-    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
-    #todo: beware code that expected a country to always exist can break if US country not included in seed.data
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
@@ -150,19 +149,14 @@ class Loan < ActiveRecord::Base
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name
-    else self.country.name end
+    else
+      self.country.name
+    end
   end
 
   def signing_date_long
     I18n.l self.signing_date, format: :long if self.signing_date
   end
-
-  # def short_description
-  #   self.translation('ShortDescription')
-  # end
-  # def description
-  #   self.translation('Description')
-  # end
 
   def coop_media(limit=100, images_only=false)
     get_media('Cooperatives', self.cooperative.try(:id), limit, images_only)
@@ -175,13 +169,13 @@ class Loan < ActiveRecord::Base
   def log_media(limit=100, images_only=false)
     media = []
     begin
-      self.logs("Date").each do |log|
+      self.logs('Date').each do |log|
         media += log.media(limit - media.count, images_only)
         return media unless limit > media.count
       end
     rescue Mysql2::Error # some logs have invalid dates
     end
-    return media
+    media
   end
 
   def featured_pictures(limit=1)
@@ -198,13 +192,15 @@ class Loan < ActiveRecord::Base
     return pics unless limit > pics.count
     # then remaining coop pics
     pics += coop_pics[0, limit - pics.count]
-    return pics
+    pics
   end
 
   def thumb_path
     if !self.featured_pictures.empty?
       self.featured_pictures.first.paths[:thumb]
-    else "/assets/ww-avatar-watermark.png" end
+    else
+      '/assets/ww-avatar-watermark.png'
+    end
   end
 
   def amount_formatted
@@ -216,11 +212,11 @@ class Loan < ActiveRecord::Base
       where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
     @project_events.reject do |p|
       # Hide past uncompleted project events without logs (for now)
-      !p.completed && p.project_logs.empty? && p.date <= Date.today
+      !p.completed && p.project_logs.empty? && p.date <= Time.zone.now
     end
   end
 
-  def logs(order_by="Date DESC")
+  def logs(order_by='Date DESC')
     @logs ||= ProjectLog.where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
   end
 end
