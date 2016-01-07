@@ -17,6 +17,7 @@ pickle-email-*.html
 config/database.yml
 /public/dev
 /public/assets/*
+/public/uploads/*
 .DS_Store
 .idea
 *.swp

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106062807) do
+ActiveRecord::Schema.define(version: 20160106182112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,22 @@ ActiveRecord::Schema.define(version: 20160106062807) do
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
   add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
   add_index "loans", ["organization_snapshot_id"], name: "index_loans_on_organization_snapshot_id", using: :btree
+
+  create_table "media", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "item"
+    t.string "item_content_type"
+    t.integer "item_file_size"
+    t.integer "item_height"
+    t.integer "item_width"
+    t.string "kind"
+    t.integer "media_attachable_id"
+    t.string "media_attachable_type"
+    t.integer "sort_order"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "media", ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id", using: :btree
 
   create_table "organization_snapshots", force: :cascade do |t|
     t.datetime "created_at"

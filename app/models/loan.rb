@@ -1,5 +1,5 @@
 class Loan < ActiveRecord::Base
-  include ::Translatable
+  include Translatable, MediaAttachable
 
   # create_table :loans do |t|
   #   ## base Project fields

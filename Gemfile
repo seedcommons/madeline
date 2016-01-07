@@ -40,6 +40,10 @@ gem 'route_translator'
 # Model hierarchical data
 gem 'closure_tree'
 
+# File attachments
+gem 'carrierwave'
+gem 'mini_magick'
+
 # needed for migration of legacy data
 gem 'mysql2'
 
@@ -53,6 +57,9 @@ group :development, :test do
 
   # Report number of queries in server log
   gem 'sql_queries_count'
+
+  # Better console printing
+  gem 'awesome_print'
 
   # Specs and Test Coverage
   gem 'rspec-rails'

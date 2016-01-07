@@ -43,6 +43,7 @@ GEM
     autoprefixer-rails (6.1.0.1)
       execjs
       json
+    awesome_print (1.6.1)
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -65,6 +66,11 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     choice (0.2.0)
     chronic (0.10.2)
     closure_tree (6.0.0)
@@ -123,6 +129,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
+    mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
     momentjs-rails (2.10.6)
@@ -260,12 +267,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   better_errors
   binding_of_caller
   bootstrap-sass
   bullet
   byebug
   capybara
+  carrierwave
   closure_tree
   coffee-rails (~> 4.1.0)
   database_cleaner
@@ -276,6 +285,7 @@ DEPENDENCIES
   font-awesome-rails
   fullcalendar-rails
   jquery-rails
+  mini_magick
   momentjs-rails
   mysql2
   pg (~> 0.15)

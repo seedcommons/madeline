@@ -32,7 +32,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 RSpec.configure do |config|
   # Use FeatureHelpers for feature specs
   config.include FeatureHelpers, type: :feature
-  
+
   # Use devise heleprs in controller specs
   config.include Devise::TestHelpers, type: :controller
 
@@ -62,6 +62,15 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  config.after(:suite) do
+    if Rails.env.test?
+      tmp_uploads_path = Rails.root.join('public', 'uploads', 'tmp')
+      test_uploads_path = Rails.root.join('public', 'uploads', 'test')
+      FileUtils.rm_rf(Dir[tmp_uploads_path])
+      FileUtils.rm_rf(Dir[test_uploads_path])
+    end
   end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
