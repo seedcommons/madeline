@@ -1,11 +1,4 @@
-<% content_for :styles  do
-    stylesheet_link_tag "admin/signin", :media => "all"
-  end
-%>
-
 <% content_for :title do "Login" end %>
-
-<h1>Madeline System</h1>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name),
   html: { class: "form-signin" }) do |f| %>

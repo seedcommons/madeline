@@ -1,11 +1,4 @@
-<% content_for :styles  do
-    stylesheet_link_tag "admin/signin", :media => "all"
-  end
-%>
-
 <% content_for :title do "Forgot Password" end %>
-
-<h1>Madeline System</h1>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin centered-text" }) do |f| %>
   <h2 class="form-signin-heading">Forgot your password?</h2>
