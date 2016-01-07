@@ -1,0 +1,62 @@
+@import "bootstrap_signin";
+
+/* Custom Styles */
+
+body {
+  background: white;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+h1 {
+  margin: 15px 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.form-signin {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 15px;
+
+  .form-signin-heading {
+    margin: 0 0 15px;
+  }
+}
+
+.field {
+  margin: 0 auto;
+  width: 80%;
+
+  .text-input, input[type=email], input[type=password] {
+    width: 100%;
+    margin: 0 0 15px;
+  }
+
+  input[type=checkbox] {
+    margin: .2em;
+  }
+
+  &.checkbox-field {
+    input[type=checkbox] {
+      margin: .2em;
+      line-height: 1;
+    }
+
+    label {
+      margin: 0;
+      line-height: 1;
+      font-weight: normal;
+    }
+  }
+
+  &.remember {
+    margin-bottom: 15px;
+  }
+}
+
