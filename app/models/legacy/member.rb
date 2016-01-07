@@ -23,7 +23,7 @@ class Member < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:display_name]}"
+    puts "#{data[:id]}: #{data[:name]}"
     ::Person.create(data)
   end
 

@@ -1,0 +1,8 @@
+#section_title
+  = @item.name
+br
+br
+
+= resolved_render @item, "form"
+
+= link_to 'Cancel', item_path(@item)

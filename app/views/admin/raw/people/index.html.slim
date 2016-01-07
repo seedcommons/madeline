@@ -1,0 +1,27 @@
+= render_index_header
+
+table border=1
+  tr
+    th ID
+    th First Name
+    th Last Name
+    th Organization
+    th Phone
+    th Mobile
+    th Email
+    th Created
+    th Updated
+
+  - for item in @items
+    tr
+      td = link_to item.id, item_path(item)
+      td = item.first_name
+      td = item.last_name
+      td = item.primary_organization.try(:name)
+      td = item.primary_phone
+      td = item.secondary_phone
+      td = item.email
+      td = item.created_at
+      td = item.updated_at
+
+= will_paginate @items

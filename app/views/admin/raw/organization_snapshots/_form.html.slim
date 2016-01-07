@@ -1,0 +1,34 @@
+= resolved_render 'common', 'errors', {errors: @item.errors}
+
+= form_for @item, :url => form_url(@item) do |f|
+
+  = f.hidden_field :organization_id
+
+  table
+    tr
+      td Organization
+      td
+        - if @item.organization
+          = link_to @item.organization.name, item_path(@item.organization)
+    tr
+      td Date
+      td = f.text_field :date
+    tr
+      td Organization Size
+      td = f.text_field :organization_size
+    tr
+      td Women Ownership Percent
+      td = f.text_field :women_ownership_percent
+    tr
+      td Person of Color Ownership Percent
+      td = f.text_field :poc_ownership_percent
+    tr
+      td Environmental Impact Score (0-100)
+      td = f.text_field :environmental_impact_score
+    tr
+      td
+      td
+        br
+        = f.submit
+
+

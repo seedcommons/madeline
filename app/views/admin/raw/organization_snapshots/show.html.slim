@@ -1,0 +1,16 @@
+= render_show_header
+
+table
+  tr
+    td Organization
+    td
+      - if @item.organization
+        = link_to @item.organization.name, item_path(@item.organization)
+  tr
+    td Date
+    td = @item.date
+  = resolved_render 'organization_snapshots', 'show', {item: @item}
+
+/hr
+/= debug @item
+

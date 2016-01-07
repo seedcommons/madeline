@@ -1,0 +1,60 @@
+= render_show_header
+
+table
+  tr
+    td Division
+    td = @item.division.try(:name)
+  tr
+    td First Name
+    td = @item.first_name
+  tr
+    td Last Name
+    td = @item.last_name
+  tr
+    td Organization
+    td
+      - if @item.primary_organization
+        = link_to @item.primary_organization.name, item_path(@item.primary_organization)
+  tr
+    td Phone
+    td = @item.primary_phone
+  tr
+    td Mobile
+    td = @item.secondary_phone
+  tr
+    td Email
+    td = @item.email
+  tr
+    td National ID
+    td = @item.tax_no
+  tr
+    td Street Address
+    td = @item.street_address
+  tr
+    td City
+    td = @item.city
+  tr
+    td State
+    td = @item.state
+  tr
+    td Country
+    td = @item.country.try(:name)
+  tr
+    td Created At
+    td = @item.created_at
+  tr
+    td Updated At
+    td = @item.updated_at
+
+
+/br
+/br
+/b Notes -
+/=< link_to "New Note", new_note_path({notable_type: 'Person', notable_id: @item.id})
+/br
+/br
+/
+/= render 'notes/list', items: @item.notes
+
+/hr
+/= debug @item
