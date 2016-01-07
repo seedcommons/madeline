@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-describe Loan, :type => :model do
-
-  before { seed_data }
-
+describe Loan do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
+
+  before { seed_data }
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -24,7 +23,7 @@ describe Loan, :type => :model do
       #JE todo: confirm if we still want to allow loans record creation w/o an org.
       context 'without cooperative' do
         let(:loan) { create(:loan, cooperative: nil) }
-        xit 'uses project id' do
+        it 'uses project id' do
           pending('is not currently possible given DB constraints')
           expect(loan.name).to eq I18n.t :project_id, id: loan.id.to_s
         end
@@ -50,10 +49,11 @@ describe Loan, :type => :model do
       context 'without country' do
         before do
           @division = create(:division)
-          @loan = create(:loan, division: @division.id)
-          @us = create(:country, name: "United States")
+          @loan = create(:loan, division: @division)
+          @us = Country.find_or_create_by(iso_code: 'US') #TODO: refactor -> create(:country, iso_code: 'US')
         end
-        xit 'gets united states' do
+
+        it 'gets united states' do
           expect(@loan.country).to eq @us
         end
       end
@@ -64,16 +64,18 @@ describe Loan, :type => :model do
         @country_us = create(:country, name: 'United States')
         create(
           :loan,
-          organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
-          division: create(:division, organization: create(:organization, country: @country_us))
+          organization: create(:organization, country: @country_us, city: 'Ann Arbor')
         )
       end
       it 'returns city and country' do
-        expect(loan.location).to eq "Ann Arbor, United States"
+        expect(loan.location).to eq 'Ann Arbor, United States'
       end
 
       context 'without city' do
-        let(:loan) { create(:loan, organization: create(:organization, country: @country_us, city: "")) }
+        let(:loan) do
+          @country_us = create(:country, name: 'United States')
+          create(:loan, organization: create(:organization, country: @country_us, city: ''))
+        end
 
         it 'returns country' do
           expect(loan.location).to eq loan.country.name
@@ -84,9 +86,9 @@ describe Loan, :type => :model do
     end
 
     describe '.signing_date_long' do
-      let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11))}
+      let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11)) }
       it 'returns long formatted date' do
-        expect(loan.signing_date_long).to eq "November 11, 2011"
+        expect(loan.signing_date_long).to eq 'November 11, 2011'
       end
     end
 
@@ -107,6 +109,7 @@ describe Loan, :type => :model do
     end
 
     describe '.project_events' do
+      before { pending 'depends on project code' }
       let!(:loan) { create(:loan) }
       let!(:project_events) do
         project_events = []
@@ -118,19 +121,19 @@ describe Loan, :type => :model do
         project_events.flatten
       end
 
-      xit 'it should return all future events and past events if they are complete or have logs' do
-        # puts project_events.awesome_inspect
+      it 'it should return all future events and past events if they are complete or have logs' do
         events = loan.project_events
         expect(events.size).to eq 8
         events.each do |event|
           if event.logs.empty? && !event.completed
-            expect(event.date).to be > Date.today
+            expect(event.date).to be > Time.zone.today
           end
         end
       end
     end
 
-    xdescribe '.featured_pictures' do
+    describe '.featured_pictures' do
+      before { pending 'depends on project code' }
       let(:loan) { create(:loan, :with_loan_media, :with_coop_media) }
 
       it 'has a default limit of 1' do
