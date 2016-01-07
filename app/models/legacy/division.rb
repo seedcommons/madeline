@@ -1,26 +1,8 @@
-# == Schema Information
-#
-# Table name: divisions
-#
-#  id              :integer          not null, primary key
-#  organization_id :integer
-#  name            :string
-#  description     :text
-#  parent_id       :integer
-#  currency_id     :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#
-# Indexes
-#
-#  index_divisions_on_currency_id      (currency_id)
-#  index_divisions_on_organization_id  (organization_id)
-#
+# -*- SkipSchemaAnnotations
 
 # note, it's not ideal to muddy our app/models directory with the migration code,
 # but the rail class loading behavior seemed happiest with this location.
 # can perhaps sort that out later and force to work from a different source directory
-
 module Legacy
 
   class Division < ActiveRecord::Base
