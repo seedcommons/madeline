@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 describe Loan, :type => :model do
-  pending 're-implement in new project' do
-    it_should_behave_like 'translatable', ['Description', 'ShortDescription']
+
+  before { seed_data }
+
+  it_should_behave_like 'translatable', ['summary', 'details']
+
+  xit 'should behave like mediable' do
     it_should_behave_like 'mediable'
+
   end
 
   it 'has a valid factory' do
@@ -14,16 +19,16 @@ describe Loan, :type => :model do
     let(:loan) { create(:loan) }
 
     describe '.name' do
-      before { pending 're-implement in new project' }
       context 'with cooperative' do
         it 'uses cooperative name' do
-          expect(loan.name).to eq I18n.t :project_with, name: loan.cooperative.name
+          expect(loan.name).to eq I18n.t :project_with, name: loan.organization.name
         end
       end
 
+      #JE todo: confirm if we still want to allow loans record creation w/o an org.
       context 'without cooperative' do
         let(:loan) { create(:loan, cooperative: nil) }
-        it 'uses project id' do
+        xit 'uses project id' do
           pending('is not currently possible given DB constraints')
           expect(loan.name).to eq I18n.t :project_id, id: loan.id.to_s
         end
@@ -31,12 +36,12 @@ describe Loan, :type => :model do
     end
 
     describe '.country' do
-      before { pending 're-implement in new project' }
       context 'with country' do
         before do
           @country = create(:country, name: 'Argentina')
-          @division = create(:division, country: @country.name)
-          @loan = create(:loan, source_division: @division.id)
+          @division = create(:division)
+          @organization = create(:organization, country: @country)
+          @loan = create(:loan, division: @division, organization: @organization)
         end
 
         it 'gets country' do
@@ -45,25 +50,26 @@ describe Loan, :type => :model do
         end
       end
 
+      #JE todo: confirm if this logic is  still relevant
       context 'without country' do
         before do
           @division = create(:division)
-          @loan = create(:loan, source_division: @division.id)
+          @loan = create(:loan, division: @division.id)
           @us = create(:country, name: "United States")
         end
-        it 'gets united states' do
+        xit 'gets united states' do
           expect(@loan.country).to eq @us
         end
       end
     end
 
     describe '.location' do
-      before { pending 're-implement in new project' }
       let(:loan) do
+        @country_us = create(:country, name: 'United States')
         create(
           :loan,
-          cooperative_id: create(:cooperative, city: 'Ann Arbor').id,
-          source_division: create(:division, country: create(:country, name: 'United States').name).id
+          organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
+          division: create(:division, organization: create(:organization, country: @country_us))
         )
       end
       it 'returns city and country' do
@@ -71,12 +77,14 @@ describe Loan, :type => :model do
       end
 
       context 'without city' do
-        let(:loan) { create(:loan, cooperative: create(:cooperative, city: "")) }
+        let(:loan) { create(:loan, organization: create(:organization, country: @country_us, city: "")) }
 
         it 'returns country' do
           expect(loan.location).to eq loan.country.name
         end
       end
+
+      ## JE todo: confirm if a need to implement and test logic to inherit country from divisions associated org
     end
 
     describe '.signing_date_long' do
@@ -87,7 +95,6 @@ describe Loan, :type => :model do
     end
 
     describe '.status' do
-      before { pending 're-implement in new project' }
       context 'with active loan' do
         let(:loan) { create(:loan, :active) }
         it 'returns active' do
@@ -104,7 +111,6 @@ describe Loan, :type => :model do
     end
 
     describe '.project_events' do
-      before { pending 're-implement in new project' }
       let!(:loan) { create(:loan) }
       let!(:project_events) do
         project_events = []
@@ -116,7 +122,7 @@ describe Loan, :type => :model do
         project_events.flatten
       end
 
-      it 'it should return all future events and past events if they are complete or have logs' do
+      xit 'it should return all future events and past events if they are complete or have logs' do
         # puts project_events.awesome_inspect
         events = loan.project_events
         expect(events.size).to eq 8
@@ -128,8 +134,7 @@ describe Loan, :type => :model do
       end
     end
 
-    describe '.featured_pictures' do
-      before { pending 're-implement in new project' }
+    xdescribe '.featured_pictures' do
       let(:loan) { create(:loan, :with_loan_media, :with_coop_media) }
 
       it 'has a default limit of 1' do

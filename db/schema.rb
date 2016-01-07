@@ -11,20 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160103040147) do
+ActiveRecord::Schema.define(version: 20160106062807) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "countries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "default_currency_id"
+    t.integer "default_language_id"
     t.string "iso_code", limit: 2
+    t.integer "language_id"
+    t.string "name"
     t.datetime "updated_at", null: false
   end
+
+  add_index "countries", ["language_id"], name: "index_countries_on_language_id", using: :btree
 
   create_table "currencies", force: :cascade do |t|
     t.string "code"
     t.datetime "created_at", null: false
+    t.string "name"
     t.string "short_symbol"
     t.string "symbol"
     t.datetime "updated_at", null: false
@@ -67,16 +73,19 @@ ActiveRecord::Schema.define(version: 20160103040147) do
     t.date "first_interest_payment_date"
     t.date "first_payment_date"
     t.integer "length_months"
+    t.integer "loan_type_option_id"
     t.string "name"
     t.integer "organization_id"
+    t.integer "organization_snapshot_id"
     t.integer "primary_agent_id"
+    t.integer "project_type_option_id"
     t.decimal "projected_return"
-    t.string "publicity_status"
+    t.integer "public_level_option_id"
     t.decimal "rate"
     t.integer "representative_id"
     t.integer "secondary_agent_id"
     t.date "signing_date"
-    t.string "status"
+    t.integer "status_option_id"
     t.date "target_end_date"
     t.datetime "updated_at", null: false
   end
@@ -84,23 +93,75 @@ ActiveRecord::Schema.define(version: 20160103040147) do
   add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
   add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
+  add_index "loans", ["organization_snapshot_id"], name: "index_loans_on_organization_snapshot_id", using: :btree
+
+  create_table "organization_snapshots", force: :cascade do |t|
+    t.datetime "created_at"
+    t.date "date"
+    t.integer "environmental_impact_score"
+    t.integer "organization_id"
+    t.integer "organization_size"
+    t.integer "poc_ownership_percent"
+    t.datetime "updated_at"
+    t.integer "women_ownership_percent"
+  end
+
+  add_index "organization_snapshots", ["organization_id"], name: "index_organization_snapshots_on_organization_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
+    t.string "alias"
+    t.string "city"
+    t.integer "country_id"
     t.datetime "created_at", null: false
-    t.string "display_name"
+    t.integer "division_id"
+    t.string "email"
+    t.string "fax"
     t.string "industry"
+    t.string "last_name"
+    t.string "legal_name"
+    t.string "name"
+    t.string "neighborhood"
+    t.text "notes"
+    t.integer "organization_snapshot_id"
+    t.integer "primary_contact_id"
+    t.string "primary_phone"
     t.string "referral_source"
+    t.string "secondary_phone"
     t.string "sector"
+    t.string "state"
+    t.text "street_address"
+    t.string "tax_no"
     t.datetime "updated_at", null: false
+    t.string "website"
   end
+
+  add_index "organizations", ["division_id"], name: "index_organizations_on_division_id", using: :btree
 
   create_table "people", force: :cascade do |t|
     t.date "birth_date"
+    t.string "city"
+    t.integer "country_id"
     t.datetime "created_at", null: false
+    t.integer "division_id"
+    t.string "email"
+    t.string "fax"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "legal_name"
     t.string "name"
+    t.string "neighborhood"
+    t.text "notes"
     t.integer "primary_organization_id"
+    t.string "primary_phone"
+    t.string "secondary_phone"
+    t.string "state"
+    t.text "street_address"
+    t.string "tax_no"
     t.datetime "updated_at", null: false
+    t.string "website"
   end
+
+  add_index "people", ["division_id"], name: "index_people_on_division_id", using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
@@ -134,6 +195,8 @@ ActiveRecord::Schema.define(version: 20160103040147) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "countries", "currencies", column: "default_currency_id"
+  add_foreign_key "countries", "languages"
+  add_foreign_key "countries", "languages", column: "default_language_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
@@ -142,5 +205,10 @@ ActiveRecord::Schema.define(version: 20160103040147) do
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "organizations", "countries"
+  add_foreign_key "organizations", "divisions"
+  add_foreign_key "organizations", "people", column: "primary_contact_id"
+  add_foreign_key "people", "countries"
+  add_foreign_key "people", "divisions"
   add_foreign_key "people", "organizations", column: "primary_organization_id"
 end
