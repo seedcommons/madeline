@@ -15,4 +15,4 @@ html lang="en-US"
 
   body
     = render "application/alerts"
-    = yield
+    = content_for?(:content) ? yield(:content) : yield
