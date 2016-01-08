@@ -3,10 +3,10 @@ class LoansController < ApplicationController
   # GET /loans.json
   def index
     params[:division] = get_division_from_url
-    @loans = Loan.filter_by_params(params).visible.
-      includes(:cooperative, division: :super_division).
-      paginate(:page => params[:pg], :per_page => 20).
-      order('signing_date DESC')
+    @loans = Loan.with_organization.filter_by(params).paginate(
+      page: params[:pg],
+      per_page: 20
+    ).order('signing_date DESC')
     @countries = Country.order(:iso_code).pluck(:iso_code)
 
     # Set last loan list URL for 'Back to Loan List' link
@@ -14,8 +14,11 @@ class LoansController < ApplicationController
 
     respond_to do |format|
       # Call update_template to pull layout from wordpress if it hasn't been loaded
-      format.html { redirect_to update_template_path if !template_exists?("layouts/wordpress-#{get_division_from_url}") }
-      format.json { render :json => @loans }
+      format.html do
+        template_path = "layouts/embedded/wordpress-#{get_division_from_url}"
+        redirect_to update_template_path unless template_exists?(template_path)
+      end
+      format.json { render json: @loans }
     end
   end
 
@@ -24,12 +27,12 @@ class LoansController < ApplicationController
   def show
     @loan = Loan.status('all').find(params[:id])
     @pictures = @loan.featured_pictures(5) # for slideshow
-    @other_loans = @loan.cooperative.loans.status('all').order("SigningDate DESC") if @loan.cooperative
+    @other_loans = @loan.cooperative.loans.status('all').order('SigningDate DESC') if @loan.cooperative
     @repayments = @loan.repayments.order('DateDue')
 
     respond_to do |format|
       format.html
-      format.json { render :json => @loan }
+      format.json { render json: @loan }
     end
   end
 

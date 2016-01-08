@@ -31,7 +31,7 @@
             td.loan_item_desc
               h5.coop_name
                 a href=(url_for loan) = loan.name
-              p.about_coop = render_translation(loan.short_description)
+              p.about_coop = render_translation(loan.summary)
               p.detail_link.pull-right
                 a.no_line href=(url_for loan)
                   span.hover_line> = t :more_details
@@ -42,7 +42,7 @@
                 = loan.location
               .sign_date
                 i.fa.fa-fw.fa-calendar>
-                = loan.SigningDate ? l(loan.SigningDate, format: :long) : ''
+                = loan.try(:signing_date_long)
               .loan_amount
                 / i.icon-coinstack>
                 = loan.amount_formatted

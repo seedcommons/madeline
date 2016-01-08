@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 feature 'visit loan index page' do
-  before { pending 're-implement in new project' }
+  # before { pending 're-implement in new project' }
   before { @loans = create_list(:loan, 3, :active) }
   context 'on the loan index page' do
     before { visit loans_path }
 
     it 'shows active loans' do
-      active_loans = @loans.select{ |loan| loan.status == 'active' }
-      expect(active_loans).to be_present
+      active_loans = @loans.select{ |loan| loan.status == 'Active' }
       active_loans.each do |loan|
         check_loan_content(loan)
       end
@@ -19,7 +18,7 @@ feature 'visit loan index page' do
 
       it 'shows completed loans on their tab' do
         click_link 'Completed'
-        completed_loans = @loans.select{ |loan| loan.status == 'completed' }
+        completed_loans = @loans.select{ |loan| loan.status == 'Completed' }
         completed_loans.each do |loan|
           check_loan_content(loan)
         end
@@ -49,7 +48,7 @@ feature 'visit loan index page' do
         visit loans_path
         click_link 'All'
         @loans.each do |loan|
-          expect(page).to have_content loan.short_description.content
+          expect(page).to have_content loan.summary.text
         end
       end
     end
@@ -60,7 +59,7 @@ feature 'visit loan index page' do
         visit loans_path
         click_link 'All'
         @loans.each do |loan|
-          expect(page).to have_content loan.short_description.content
+          expect(page).to have_content loan.summary.text
         end
         expect(page).to have_selector '.loans_items span.translation.foreign_language', count: 3
       end
@@ -71,7 +70,7 @@ end
 def check_loan_content(loan)
   expect(page).to have_link loan.name, loan_path(loan)
   expect(page).to have_content loan.signing_date_long
-  expect(page).to have_content loan.short_description
+  expect(page).to have_content loan.summary
   expect(page).to have_content loan.location
   expect(page.body).to include loan.amount_formatted
 end

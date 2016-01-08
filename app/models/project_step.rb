@@ -22,18 +22,6 @@
 class ProjectStep < ActiveRecord::Base
   include ::Translatable
 
-  #keeping these for now since i find it provides a useful reference
-  #but expect to switch to the annotate_models gem at some point in the future
-  #
-  # create_table :project_steps do |t|
-  #   t.references :project, polymorphic: true, index: true
-  #   t.references :agent, references: :people, index: true
-  #   t.date :scheduled_date
-  #   t.date :completed_date
-  #   t.boolean :is_finalized
-  #   t.integer :type_option_id
-  #   t.timestamps
-
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
 
@@ -74,6 +62,10 @@ class ProjectStep < ActiveRecord::Base
 
   def completed_or_not
     self.completed_date ? 'completed' : 'not_completed'
+  end
+
+  def completed?
+    self.completed_date?
   end
 
   def status

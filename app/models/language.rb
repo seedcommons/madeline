@@ -15,4 +15,8 @@ class Language < ActiveRecord::Base
     language_code = locale.to_s[0..1].upcase
     language = Language.find_by(code: language_code)
   end
+
+  def locale
+    code.downcase.to_sym
+  end
 end
