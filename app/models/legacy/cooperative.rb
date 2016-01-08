@@ -1,3 +1,4 @@
+# -*- SkipSchemaAnnotations
 module Legacy
 
 class Cooperative < ActiveRecord::Base

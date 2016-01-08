@@ -5,11 +5,7 @@ describe Loan, :type => :model do
   before { seed_data }
 
   it_should_behave_like 'translatable', ['summary', 'details']
-
-  xit 'should behave like mediable' do
-    it_should_behave_like 'mediable'
-
-  end
+  it_should_behave_like 'media_attachable'
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid

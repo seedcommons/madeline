@@ -1,0 +1,42 @@
+.mainmenu {
+  color: #9D9D9D;
+  font-size: 1.2em;
+
+  span {
+    &:hover {
+      color: white;
+    }
+  }
+
+  select, .form-control {
+    display: inline-block;
+    width: auto;
+  }
+
+  @media (min-width: 768px) {
+    .division {
+      text-align: center;
+    }
+
+    .user {
+      text-align: right;
+
+      > li {
+        float: right;
+      }
+    }
+
+    .centered-box {
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .division {
+      span, select, .form-control {
+        padding: 0 15px;
+      }
+    }
+  }
+}

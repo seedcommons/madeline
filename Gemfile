@@ -11,6 +11,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'font-awesome-rails'
+gem 'bootstrap-sass'
 
 # Authentication / Authorization
 gem 'devise'
@@ -37,6 +38,10 @@ gem 'route_translator'
 # Model hierarchical data
 gem 'closure_tree'
 
+# File attachments
+gem 'carrierwave'
+gem 'mini_magick'
+
 # needed for migration of legacy data
 gem 'mysql2'
 
@@ -50,6 +55,12 @@ group :development, :test do
 
   # Report number of queries in server log
   gem 'sql_queries_count'
+
+  # Annotate models & factories
+  gem 'annotate'
+
+  # Better console printing
+  gem 'awesome_print'
 
   # Specs and Test Coverage
   gem 'rspec-rails'

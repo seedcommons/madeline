@@ -1,17 +1,27 @@
+# == Schema Information
+#
+# Table name: media
+#
+#  id                    :integer          not null, primary key
+#  media_attachable_id   :integer
+#  media_attachable_type :string
+#  sort_order            :integer
+#  kind                  :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  item                  :string
+#  item_file_size        :integer
+#  item_content_type     :string
+#  item_height           :integer
+#  item_width            :integer
+#
+# Indexes
+#
+#  index_media_on_media_attachable_type_and_media_attachable_id  (media_attachable_type,media_attachable_id)
+#
+
 FactoryGirl.define do
   factory :media do
-    context_id { create(:cooperative).id }
-    context_table 'Cooperative'
-    date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    description { Faker::Lorem.sentence }
-    media_path { Faker::Avatar.image("#{context_table} #{context_id} #{priority}".parameterize) }
-    member_id 1
-    old_caption { Faker::Lorem.sentence }
-    priority { [nil, 0, rand(1..30)] }
-
-    after(:build) do |media|
-      # strip query string from generated URLs because they aren't recognized by type matcher regex
-      media.media_path = media.media_path.split('?').first
-    end
+    item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the swing.jpg')) }
   end
 end

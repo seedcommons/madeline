@@ -1,12 +1,16 @@
-class Currency < ActiveRecord::Base
+# == Schema Information
+#
+# Table name: currencies
+#
+#  id           :integer          not null, primary key
+#  code         :string
+#  symbol       :string
+#  short_symbol :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  name         :string
+#
 
-  # create_table :currencies do |t|
-  #   t.string :name
-  #   t.string :code
-  #   t.string :symbol
-  #   t.string :short_symbol # do we really need this?  not sure when we'd want to display an unqualified currency symbol
-  #   #todo once dependent functionality flushed out
-  #   #t.decimal :current_exchange_rate, precision: 12, scale: 4
-  #   t.timestamps null: false
+class Currency < ActiveRecord::Base
 
 end
