@@ -1,31 +1,77 @@
-class ProjectLog < ActiveRecord::Base
-  include TranslationModule, MediaModule
+# == Schema Information
+#
+# Table name: project_logs
+#
+#  id                        :integer          not null, primary key
+#  project_step_id           :integer
+#  agent_id                  :integer
+#  progress_metric_option_id :integer
+#  date                      :date
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#
+# Indexes
+#
+#  index_project_logs_on_agent_id         (agent_id)
+#  index_project_logs_on_project_step_id  (project_step_id)
+#
 
-  belongs_to :paso, :foreign_key => 'PasoID', class_name: 'ProjectEvent'
-  belongs_to :progress_metric, :foreign_key => 'ProgressMetric'
+class ProjectLog < ActiveRecord::Base
+  include Translatable, MediaAttachable
+
+  # create_table :project_logs do |t|
+  #   t.references :project_step, index: true
+  #   t.references :agent, references: :people, index: true
+  #   t.integer :progress_metric_option_id
+  #   t.date :date
+  #   t.timestamps
+
+  belongs_to :project_step
+  belongs_to :agent, class_name: 'Person'
+
+
+  # define accessor like convenience methods for the fields stored in the Translations table
+  attr_translatable :summary, :details, :additional_notes, :private_notes
+
+
+  validates :project_step_id, presence: true
+
+
+  def name
+    # logger.debug "this: #{self.inspect}"
+    "#{project_step.try(:name)} log"
+  end
+
+
+  def progress_metric
+    PROGRESS_METRIC_OPTIONS.label_for(progress_metric_option_id)
+  end
+
+
+
+  PROGRESS_METRIC_OPTIONS = OptionSet.new(
+      [ [2,'ahead'],
+        [1,'on time'],
+        [-1,'behind'],
+        [-2,'in need of changing some events'],
+        [-3,'in need of changing its whole plan'],
+      ])
+
 
   def project
-    project_table_model = Object.const_get(self.project_table.classify)
-    project_table_model.find(self.project_id)
+    project_step.try(:project)
   end
 
-  def explanation
-    self.translation('Explanation')
-  end
-  def detailed_explanation
-    self.translation('DetailedExplanation')
-  end
 
   def progress(continuous=false)
+    ##JE todo: figure out how this is used and exactly what it needs to show
+    raise "todo: project_log.progress"
     language = (I18n.locale == :es ? 'Spanish' : 'English')
     field_name = (continuous ? 'Continuous' : 'WithEvents')
     self.progress_metric.send(language + 'Display' + field_name).capitalize # e.g. EnglishDisplayWithEvents
   end
+
   def progress_continuous
     self.progress(true)
-  end
-
-  def media(limit=100, images_only=false)
-    get_media('ProjectLogs', self.id, limit, images_only)
   end
 end

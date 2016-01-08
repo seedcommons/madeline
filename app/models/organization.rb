@@ -35,8 +35,7 @@
 
 class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
-  #  include ::Notable  ##JE todo: for next integration pass
-
+  include Notable
 
   belongs_to :division
   belongs_to :country
