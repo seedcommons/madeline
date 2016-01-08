@@ -6,7 +6,7 @@ class CreateProjectLogs < ActiveRecord::Migration
       t.integer :progress_metric_option_id
       t.date :date
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

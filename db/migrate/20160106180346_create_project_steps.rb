@@ -8,7 +8,7 @@ class CreateProjectSteps < ActiveRecord::Migration
       t.boolean :is_finalized
       t.integer :type_option_id
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

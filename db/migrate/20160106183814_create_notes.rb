@@ -4,7 +4,7 @@ class CreateNotes < ActiveRecord::Migration
       t.references :notable, polymorphic: true, index: true
       t.references :person, index: true
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
