@@ -38,4 +38,12 @@ FactoryGirl.define do
     association :primary_organization, factory: :organization
     birth_date { Faker::Date.between(100.years.ago, 18.years.ago) }
   end
+
+  trait :with_note do
+    after(:create) do |person|
+      create(:note, author: person)
+    end
+  end
+
+
 end

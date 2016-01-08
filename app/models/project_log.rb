@@ -1,15 +1,33 @@
+# == Schema Information
+#
+# Table name: project_logs
+#
+#  id                        :integer          not null, primary key
+#  project_step_id           :integer
+#  agent_id                  :integer
+#  progress_metric_option_id :integer
+#  date                      :date
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#
+# Indexes
+#
+#  index_project_logs_on_agent_id         (agent_id)
+#  index_project_logs_on_project_step_id  (project_step_id)
+#
+
 class ProjectLog < ActiveRecord::Base
   include ::Translatable
 
   # create_table :project_logs do |t|
   #   t.references :project_step, index: true
-  #   t.references :person, index: true
+  #   t.references :agent, references: :people, index: true
   #   t.integer :progress_metric_option_id
   #   t.date :date
   #   t.timestamps
 
   belongs_to :project_step
-  belongs_to :person
+  belongs_to :agent, class_name: 'Person'
 
 
   # define accessor like convenience methods for the fields stored in the Translations table
