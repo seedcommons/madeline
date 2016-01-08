@@ -39,8 +39,8 @@
 FactoryGirl.define do
   factory :loan do
     division
-    organization
-    name { "Loan for " + Faker::Company.name }
+    association :organization, :with_country
+    name { 'Loan for ' + Faker::Company.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
     status_value { ['active', 'frozen', 'liquidated'].sample }
@@ -68,16 +68,16 @@ FactoryGirl.define do
 
     trait :with_translations do
       after(:create) do |loan|
-        create(:translation, remote_table: 'Loans', remote_column_name: 'Description', remote_id: loan.id)
-        create(:translation, remote_table: 'Loans', remote_column_name: 'ShortDescription', remote_id: loan.id)
+        create(:translation, translatable: loan, translatable_attribute: 'details')
+        create(:translation, translatable: loan, translatable_attribute: 'summary')
       end
     end
 
     trait :with_foreign_translations do
       after(:create) do |loan|
-        language_id = create(:language, code: 'ES', name: 'Spanish').id
-        create(:translation, remote_table: 'Loans', remote_column_name: 'Description', remote_id: loan.id, language: language_id)
-        create(:translation, remote_table: 'Loans', remote_column_name: 'ShortDescription', remote_id: loan.id, language: language_id)
+        language = create(:language, code: 'ES', name: 'Spanish')
+        create(:translation, translatable: loan, translatable_attribute: 'details', language: language)
+        create(:translation, translatable: loan, translatable_attribute: 'summary', language: language)
       end
     end
 
@@ -94,30 +94,29 @@ FactoryGirl.define do
     end
 
     trait :with_log_media do
-      with_project_events
+      with_project_steps
       after(:create) do |loan|
         loan.logs.each do |log|
-          create_list(:media, 2, context_table: 'ProjectLogs', context_id: log.id)
+          create_list(:media, 2, media_attachable: log)
         end
       end
     end
 
-    trait :with_one_project_event do
+    trait :with_one_project_step do
       after(:create) do |loan|
-        create(:project_event, :with_logs, project_table: 'Loans', project_id: loan.id)
+        create(:project_step, :with_logs, project: loan)
       end
     end
 
-    trait :with_project_events do
+    trait :with_project_steps do
       after(:create) do |loan|
         create_list(
-          :project_event,
-          num_events = 3,
+          :project_step,
+          num_steps = 3,
           :with_logs,
-          :for_loan,
-          loan_id: loan.id
+          project: loan
         )
-        create(:project_event, :with_logs, :completed, :for_loan, loan_id: loan.id)
+        create(:project_step, :with_logs, :completed, project: loan)
       end
     end
 

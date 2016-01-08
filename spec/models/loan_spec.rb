@@ -49,9 +49,9 @@ describe Loan do
       #JE todo: confirm if this logic is  still relevant
       context 'without country' do
         before do
-          @division = create(:division)
-          @loan = create(:loan, division: @division)
-          @us = Country.find_or_create_by(iso_code: 'US') #TODO: refactor -> create(:country, iso_code: 'US')
+          @organization = create(:organization)
+          @loan = create(:loan, organization: @organization)
+          @us = create(:country, iso_code: 'US')
         end
 
         it 'gets united states' do
@@ -115,15 +115,15 @@ describe Loan do
     end
 
     describe '.project_events' do
-      before { pending 'depends on project code' }
+      # before { pending 'depends on project code' }
       let!(:loan) { create(:loan) }
       let!(:project_events) do
         project_events = []
-        project_events << create_list(:project_event, 2, :past, :completed, :with_logs, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 8, :past, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :future, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :past, :completed, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :past, :with_logs, :for_loan, loan_id: loan.id)
+        project_events << create_list(:project_step, 2, :past, :completed, :with_logs, project: loan)
+        project_events << create_list(:project_step, 8, :past, project: loan)
+        project_events << create_list(:project_step, 2, :future, project: loan)
+        project_events << create_list(:project_step, 2, :past, :completed, project: loan)
+        project_events << create_list(:project_step, 2, :past, :with_logs, project: loan)
         project_events.flatten
       end
 
@@ -131,15 +131,14 @@ describe Loan do
         events = loan.project_events
         expect(events.size).to eq 8
         events.each do |event|
-          if event.logs.empty? && !event.completed
-            expect(event.date).to be > Time.zone.today
+          if event.project_logs.empty? && !event.completed?
+            expect(event.scheduled_date).to be > Time.zone.today
           end
         end
       end
     end
 
     describe '.featured_pictures' do
-      before { pending 'depends on project code' }
       let(:loan) { create(:loan, :with_loan_media, :with_coop_media) }
 
       it 'has a default limit of 1' do
@@ -151,13 +150,17 @@ describe Loan do
       end
 
       describe 'sorting' do
-        let!(:loan) { create(:loan, :with_one_project_event) }
-        let!(:loan_pics) { create_list(:media, 2, context_table: 'Loans', context_id: loan.id).sort_by(&:media_path) }
-        let!(:coop_pics) { create_list(:media, 2, context_table: 'Cooperatives', context_id: loan.cooperative.id).sort_by(&:media_path) }
+        let!(:loan) { create(:loan, :with_one_project_step) }
+        let!(:loan_pics) do
+          create_list(:media, 2, :with_sort_order, media_attachable: loan).sort_by(&:sort_order)
+        end
+        let!(:coop_pics) do
+          create_list(:media, 2,  :with_sort_order, media_attachable: loan.organization).sort_by(&:sort_order)
+        end
         let!(:log_pics) do
           log_pics = []
           loan.logs.each do |log|
-            log_pics << create_list(:media, 2, context_table: 'ProjectLogs', context_id: log.id).sort_by(&:media_path)
+            log_pics << create_list(:media, 2, :with_sort_order, media_attachable: log).sort_by(&:sort_order)
           end
           log_pics.flatten
         end

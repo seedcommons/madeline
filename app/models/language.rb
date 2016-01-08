@@ -42,4 +42,8 @@ module I18n
     result = locale.to_s[0,2].upcase
     result
   end
+
+  def locale
+    code.downcase.to_sym
+  end
 end

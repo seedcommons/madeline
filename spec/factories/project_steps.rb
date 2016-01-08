@@ -27,7 +27,6 @@ FactoryGirl.define do
     # summary { Faker::Lorem.sentence }
     # details { Faker::Lorem.paragraph }
     scheduled_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    completed_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     is_finalized [true, false].sample
     step_type_value { ['step', 'milestone']  }
 
@@ -39,7 +38,7 @@ FactoryGirl.define do
 
 
     trait :completed do
-      completed_date { Faker::Date.between(date, Date.today) }
+      completed_date { Faker::Date.between(scheduled_date, Date.today) }
     end
 
     trait :past do

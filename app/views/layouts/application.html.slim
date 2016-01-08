@@ -6,6 +6,7 @@
   = render "application/alerts"
 
 - content_for :content
-  = render "layouts/admin/page"
+  = render "application/alerts"
+  = yield
 
-= render template: "layouts/base"
+= render template: "layouts/embedded/wordpress-#{get_division_from_url}"
