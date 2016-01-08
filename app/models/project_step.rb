@@ -61,6 +61,10 @@ class ProjectStep < ActiveRecord::Base
     is_completed ? 'completed' : 'not_completed'
   end
 
+  def completed?
+    self.completed_date?
+  end
+
   def status
     if is_completed
       I18n.t :log_completed

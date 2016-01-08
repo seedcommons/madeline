@@ -23,5 +23,9 @@
 FactoryGirl.define do
   factory :media do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the swing.jpg')) }
+
+    trait :with_sort_order do
+      sort_order { rand(1..100) }
+    end
   end
 end

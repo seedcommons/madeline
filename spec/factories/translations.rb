@@ -19,9 +19,9 @@
 
 FactoryGirl.define do
   factory :translation do
-    with_language
+    language
     text { Faker::Lorem.sentence }
-    translatable { create(:note) }
-    translatable_attribute 'text'
+    translatable_attribute 'summary'
+    association :translatable, factory: :loan
   end
 end
