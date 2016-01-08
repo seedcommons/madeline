@@ -31,6 +31,10 @@ class OptionSet
     result
   end
 
+  # list all values. useful for test specs
+  def values
+    @all.map(&:value)
+  end
 
 
 end

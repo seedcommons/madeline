@@ -23,4 +23,13 @@ module LegacyModel
       end
     end
   end
+
+  module ClassMethods
+
+    def malformed_date_clause(field)
+      " not (#{field} is not null and dayofmonth(#{field}) = 0 and month(#{field}) > 0)"
+    end
+
+  end
+
 end

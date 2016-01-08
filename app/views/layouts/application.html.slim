@@ -1,6 +1,7 @@
 - content_for :styles
   = stylesheet_link_tag "admin/admin", :media => "all"
 
-= render template: "layouts/base"
+- content_for :content
+  = render "layouts/admin/page"
 
-= render "layouts/admin/page"
+= render template: "layouts/base"
