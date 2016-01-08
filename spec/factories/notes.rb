@@ -17,16 +17,12 @@
 
 FactoryGirl.define do
   factory :note do
-    notable { create(:organization) }
-    # for now, assume author is populated from the outside
-    # but is this really preferable, since we lose the convenience of a default factory
-    # author { create(:person) }
-    # text { Faker::Lorem.sentence }
+    association :notable, factory: :organization
+    association :author, factory: :person
 
     # for now parent must be saved before assigning the text
     after(:create) do |note|
       note.set_text(Faker::Lorem.sentence)
     end
-
   end
 end
