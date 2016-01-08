@@ -17,7 +17,7 @@
 #
 
 class ProjectLog < ActiveRecord::Base
-  include ::Translatable
+  include Translatable, MediaAttachable
 
   # create_table :project_logs do |t|
   #   t.references :project_step, index: true
@@ -73,10 +73,5 @@ class ProjectLog < ActiveRecord::Base
 
   def progress_continuous
     self.progress(true)
-  end
-
-  def media(limit=100, images_only=false)
-    raise "todo: project_log.media"
-    # get_media('ProjectLogs', self.id, limit, images_only)
   end
 end
