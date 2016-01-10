@@ -29,18 +29,18 @@ html
         - if left_nav_selection == 'organizations'
             b Co-ops
         - else
-            = link_to 'Co-ops', organizations_path
+            = link_to 'Co-ops', index_path(:organizations)
       p Calendar
       p
         - if left_nav_selection == 'loans'
           b Loans
         - else
-          = link_to 'Loans', loans_path
+          = link_to 'Loans', index_path(:loans)
       p
         - if left_nav_selection == 'people'
           b Members
         - else
-          = link_to 'Members', people_path
+          = link_to 'Members', index_path(:people)
       p Reports
 
       hr
@@ -49,7 +49,7 @@ html
       - if left_nav_selection == 'divisions'
         b Divisions
       - else
-        = link_to 'Divisions', divisions_path
+        = link_to 'Divisions', index_path(:divisions)
 
     #section
       == yield

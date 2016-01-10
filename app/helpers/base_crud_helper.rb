@@ -1,97 +1,6 @@
 module BaseCrudHelper
 
 
-  #
-  # note, this class could still use some further refactoring and cleanup
-  #
-
-
-  def base_namespace
-    # 'admin/raw/'
-    # strip off the last path element to get the base controller path
-    controller_path.rpartition('/').first + '/'
-  end
-
-
-  def base_namespace_path
-    # 'admin_raw_'
-    base_namespace.gsub(/\//, '_')
-  end
-
-  # controls which base folder of views to use.
-  # could have adapting logic for cases where view folder not aligned with controller namespace
-  def base_view_path
-    # 'admin/raw/'
-    base_namespace
-  end
-
-
-  def resolved_render(parent, path, param=nil)
-    parent_folder = parent.is_a?(String) ? parent : parent.class.name.underscore.pluralize
-    resolved_path = "#{base_view_path}/#{parent_folder}/#{path}"
-    if param
-      render resolved_path, param
-    else
-      render resolved_path
-    end
-
-  end
-
-
-
-  ## todo: used named params & allow model instead of name
-  def resolved_path(name, action=nil, param=nil)
-    method_name = "#{base_namespace_path}#{name}_path"
-    method_name = "#{action}_#{method_name}"  if action
-    self.send(method_name.to_sym, param)
-  end
-
-
-  def item_path(item)
-    resolved_path(item.class.name.underscore, nil, item)
-  end
-
-
-
-  def edit_item_path(item)
-    resolved_path(item.class.name.underscore, "edit", item)
-  end
-
-
-
-  def render_index_header
-    resolved_render 'common', 'index_header'
-  end
-
-  def render_show_header
-    # render view_path_prefix + 'common/show_header'
-    resolved_render 'common', 'show_header'
-  end
-
-  def resolve_controller(item)
-    base_namespace + item.class.name.underscore.pluralize
-  end
-
-  def form_url(item)
-    action = item.new_record? ? 'create' : 'update'
-    url_for(:controller => resolve_controller(item), :action => action)
-  end
-
-  def organizations_path
-    resolved_path("organizations")
-  end
-
-  def loans_path
-    resolved_path("loans")
-  end
-
-  def people_path
-    resolved_path("people")
-  end
-
-  def divisions_path
-    resolved_path("divisions")
-  end
 
   DEFAULT_LEFT_NAV_SELECTION = 'loans'
 
@@ -104,11 +13,9 @@ module BaseCrudHelper
     selection
   end
 
-  def selected_nav_path
-    # self.send("#{left_nav_selection}_path".to_sym)
-    resolved_path(left_nav_selection)
+  def selected_nav_path(params=nil)
+    resolved_path(name: left_nav_selection, params: params)
   end
-
 
 
   def current_division
@@ -139,7 +46,7 @@ module BaseCrudHelper
 
   def default_division_id
     # todo: better default logic based on logged in user context
-    division_id = Division.first.id
+    Division.first.id
   end
 
   def set_current_division_id(id)

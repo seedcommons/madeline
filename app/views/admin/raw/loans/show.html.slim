@@ -1,4 +1,4 @@
-= render_show_header
+= render view_path('common/show_header')
 
 b Details
 |  - Criteria - Timeline - Calendar - Print - More
@@ -25,7 +25,7 @@ table
     td = @item.amount
   tr
     td Summary
-    td = resolved_render 'common', 'translations', {items: @item.summary_list}
+    td = render view_path('common/translations'), { items: @item.summary_list }
   tr
     td Point Person
     td
@@ -64,7 +64,7 @@ table
         = link_to @item.representative.name, item_path(@item.representative)
   tr
     td Details
-    td = resolved_render 'common', 'translations', {items: @item.details_list}
+    td = render view_path('common/translations'), { items: @item.details_list }
   tr
     td Created At
     td = @item.created_at
@@ -79,14 +79,16 @@ table
   br
   br
   table
-    = resolved_render 'organization_snapshots', 'show', {item: @item.organization_snapshot}
+    = render view_path('organization_snapshots/show'), { item: @item.organization_snapshot }
 
-/br
-/br
-/b Steps -
-/=< link_to "New Step", resolved_path('project_step', 'new', {project_id: @item.id, project_type: 'Loan'})
-/br
-/br
-/
-/= resolved_render 'project_steps', 'list', {items: @item.project_steps}
-/
+br
+br
+b Steps -
+=< link_to "New Step", new_item_path(:project_step, { project_id: @item.id, project_type: 'Loan' })
+br
+br
+= render view_path('project_steps/list'), { items: @item.project_steps }
+
+- if params[:debug]
+  hr
+  = debug @item

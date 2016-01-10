@@ -1,4 +1,4 @@
-= render_show_header
+= render view_path('common/show_header')
 
 table
   tr
@@ -9,8 +9,8 @@ table
   tr
     td Date
     td = @item.date
-  = resolved_render 'organization_snapshots', 'show', {item: @item}
+  = render view_path('organization_snapshots/show'), { item: @item }
 
-/hr
-/= debug @item
-
+- if params[:debug]
+  hr
+  = debug @item

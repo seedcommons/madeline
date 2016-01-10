@@ -2,6 +2,6 @@
 
 = render view_path('common/index_header')
 
-= render view_path('organization_snapshots/list'), { items: @items }
+= render view_path('project_logs/list'), {items: @items}
 
 = will_paginate @items

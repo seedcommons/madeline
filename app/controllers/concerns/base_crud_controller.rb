@@ -12,12 +12,6 @@ class BaseCrudController < ApplicationController
   layout 'raw_crud'
 
 
-  #
-  # note, this class could still use some further refactoring and cleanup
-  #
-
-
-
   def clazz
     raise "not implemented - clazz"
   end
@@ -28,13 +22,6 @@ class BaseCrudController < ApplicationController
     false
   end
 
-  def index_path
-    resolved_path("#{models_underscore}")
-  end
-
-  def new_item_path
-    resolved_path(model_underscore, "new")
-  end
 
   def model_name
     clazz.name
@@ -53,14 +40,17 @@ class BaseCrudController < ApplicationController
   end
 
   def model_sym
-    clazz.name.underscore.to_sym
+    model_underscore.to_sym
   end
+
+  def models_sym
+    models_underscore.to_sym
+  end
+
 
   def set_left_nav_selection
     session[:left_nav_selection] = models_underscore
   end
-
-  helper_method :index_path, :new_item_path, :item_path, :edit_item_path, :model_name, :models_name, :current_division
 
   # filter and convert submitted edit form params
   def update_attrs
@@ -74,11 +64,14 @@ class BaseCrudController < ApplicationController
     []
   end
 
+
+  DEFAULT_PER_PAGE = 15
+
   def index
     set_left_nav_selection
     @division_scoped = division_scoped?
     @items = index_items.paginate(page: params[:page], per_page: DEFAULT_PER_PAGE)
-    resolved_render models_underscore, "index"
+    render view_path(models_underscore, "index")
   end
 
   # by default show all items, but can be overridden for division owned, or otherwise scoped index views
@@ -106,14 +99,14 @@ class BaseCrudController < ApplicationController
   def show
     set_left_nav_selection
     @item = clazz.find(params[:id])
-    resolved_render models_underscore, "show"
+    render view_path(models_underscore, 'show')
   end
 
   def new
     data = new_query_params
     extra_new_item_params(data)
     @item = clazz.new(data)
-    resolved_render "common", "new"
+    render view_path('common/new')
   end
 
   # hook to allow automatic division ownership assignment or other contextual data when creating a new record
@@ -137,11 +130,11 @@ class BaseCrudController < ApplicationController
           redirect_to item_path(@item)
         else
           # was partially created, display 'edit' form with errors
-          resolved_render 'common', 'edit'
+          render view_path('common/edit')
         end
       else
         # initial save failed, redisplay 'new' form with errors
-        resolved_render 'common', 'new'
+        render view_path('common/new')
       end
     else
       # the single step create flow
@@ -150,7 +143,7 @@ class BaseCrudController < ApplicationController
       if @item.valid?
         redirect_to item_path(@item)
       else
-        resolved_render 'common', 'new'
+        render view_path('common/new')
       end
     end
   end
@@ -158,7 +151,7 @@ class BaseCrudController < ApplicationController
 
   def edit
     @item = clazz.find(params[:id])
-    resolved_render 'common', 'edit'
+    render view_path('common/edit')
   end
 
   def update
@@ -167,7 +160,7 @@ class BaseCrudController < ApplicationController
     if @item.update(update_params)
       redirect_to item_path(@item)
     else
-      resolved_render 'common', 'edit'
+      render view_path('common/edit')
     end
   end
 
@@ -196,6 +189,87 @@ class BaseCrudController < ApplicationController
   end
 
 
-  DEFAULT_PER_PAGE = 15
+  ##
+  ## methods shared as helpers
+  ##
+
+  helper_method :model_name, :models_name, :view_path, :resolved_path, :index_path, :item_path, :edit_item_path, :new_item_path, :form_url, :base_view_path
+
+  def base_namespace
+    # 'admin/raw/'
+    # strip off the last path element to get the base controller path
+    controller_path.rpartition('/').first + '/'
+  end
+
+
+  def base_namespace_path
+    # 'admin_raw_'
+    base_namespace.gsub(/\//, '_')
+  end
+
+  # controls which base folder of views to use.
+  # could have adapting logic for cases where view folder not aligned with controller namespace
+  def base_view_path
+    # 'admin/raw/'
+    base_namespace
+  end
+
+
+  def resolve_controller(item)
+    base_namespace + item.class.name.underscore.pluralize
+  end
+
+
+  # resolves the full path of a view to render
+  # head may be parent folder name, model instance, or already combined with tail
+  def view_path(head, tail=nil)
+    sub_path = head.is_a?(String) ? head : head.class.name.underscore.pluralize
+    result = "#{base_view_path}#{sub_path}"
+    result = [result, tail].join('/')  if tail
+    result
+  end
+
+
+  # resolves the appropriate path helper for the given context
+  # name: model name,
+  # item: model instance, if provided, then 'name' param unneeded and ignored
+  # action: controller action
+  # params: hash of query params to include
+  def resolved_path(name: nil, item: nil, action: nil, params: nil)
+    name = item.class.name.underscore  if item
+    name =  name.to_s  if name.is_a? Symbol
+    action = action.to_s  if action.is_a? Symbol
+    method_name = "#{base_namespace_path}#{name}_path"
+    method_name = "#{action}_#{method_name}"  if action
+    # if we have both a target item and query params, merge into a single hash
+    params[:id] = item.id  if params && item
+    params ||= item
+    self.send(method_name.to_sym, params)
+  end
+
+  def index_path(name=nil, params=nil)
+    name ||= models_underscore
+    resolved_path(name: name, params: params)
+  end
+
+  def item_path(item, params=nil)
+    resolved_path(item: item, params: params)
+  end
+
+  def edit_item_path(item, params=nil)
+    resolved_path(item: item, action: 'edit', params: params)
+  end
+
+  def new_item_path(model_name=nil, params = nil)
+    model_name ||= model_underscore
+    resolved_path(name: model_name, action: :new, params: params)
+  end
+
+
+  def form_url(item)
+    action = item.new_record? ? 'create' : 'update'
+    url_for(:controller => resolve_controller(item), :action => action)
+  end
+
 
 end

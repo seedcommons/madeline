@@ -1,4 +1,4 @@
-= render_show_header
+= render view_path('common/show_header')
 
 table
   tr
@@ -8,7 +8,7 @@ table
     td Text
     td = @item.description
 
-
-/hr
-/= debug @item
+- if params[:debug]
+  hr
+  = debug @item
 

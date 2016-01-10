@@ -1,4 +1,4 @@
-= render_show_header
+= render view_path('common/show_header')
 
 table
   tr
@@ -50,14 +50,15 @@ table
     td = @item.updated_at
 
 
-/br
-/br
-/b Notes -
-/=< link_to "New Note", new_note_path({notable_type: 'Person', notable_id: @item.id})
-/br
-/br
-/
-/= render 'notes/list', items: @item.notes
+br
+br
+b Notes -
+=< link_to "New Note", new_item_path(:note, {notable_type: 'Person', notable_id: @item.id})
+br
+br
+= render view_path('notes/list'), items: @item.notes
 
-/hr
-/= debug @item
+
+- if params[:debug]
+  hr
+  = debug @item

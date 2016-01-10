@@ -15,6 +15,9 @@ Rails.application.routes.draw do
       resources :organizations
       resources :people
       resources :organization_snapshots
+      resources :project_steps
+      resources :project_logs
+      resources :notes
       post 'select_division', to: 'divisions#select'
     end
   end

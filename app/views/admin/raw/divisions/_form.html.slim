@@ -1,5 +1,5 @@
 / could probably factor up the error display
-= resolved_render 'common', 'errors', {errors: @item.errors}
+= render view_path('common/errors'), {errors: @item.errors}
 
 = form_for @item, :url => form_url(@item) do |f|
 

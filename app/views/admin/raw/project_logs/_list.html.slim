@@ -1,18 +1,17 @@
-table border=1
+table
   tr
+    td Person
     td Date
-    td Org Size
-    td Women Ownership
-    td POC Ownership
-    td Env Impact Score
-    td Actions
+    td Progress Metric
+    td Summary
   - for item in items
     tr
+      td
+        - if item.agent
+          = link_to item.agent.name, item_path(item.agent)
       td = item.date
-      td = item.organization_size
-      td = item.women_ownership_percent
-      td = item.poc_ownership_percent
-      td = item.environmental_impact_score
+      td = item.progress_metric
+      td = item.summary
       td
         => link_to 'View', item_path(item)
         | -

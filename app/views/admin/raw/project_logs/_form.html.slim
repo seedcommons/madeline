@@ -1,0 +1,33 @@
+= render view_path('common/errors'), { errors: @item.errors }
+
+= form_for @item, :url => form_url(@item) do |f|
+  = f.hidden_field :project_step_id
+
+  table
+    tr
+      td Person
+      td = f.select(:agent_id, person_select_options(@item.agent_id), {include_blank: '---'})
+    tr
+      td Progress Metric
+      td = f.select(:progress_metric_option_id, options_from_collection_for_select(ProjectLog::PROGRESS_METRIC_OPTIONS.all, :value, :label, @item.progress_metric_option_id), {include_blank: '---'})
+    tr
+      td Date
+      td = f.text_field :date
+    tr
+      td Summary
+      td = f.text_area :summary
+    tr
+      td Details
+      td = f.text_area :details
+    tr
+      td Additional Notes
+      td = f.text_area :additional_notes
+    tr
+      td Private Notes
+      td = f.text_area :private_notes
+    tr
+      td
+      td
+        br
+        = f.submit
+
