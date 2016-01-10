@@ -45,7 +45,7 @@ module Legacy
           id: self.id,
           project_type: project_table.singularize.capitalize,
           project_id: project_id,
-          person_id: member_id,
+          agent_id: member_id,
           scheduled_date: date,
           completed_date: completed,
           is_finalized: finalized,

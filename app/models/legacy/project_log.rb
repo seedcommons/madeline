@@ -73,7 +73,7 @@ module Legacy
       data = {
           id: self.id,
           project_step_id: project_step_id,
-          person_id: member_id,
+          agent_id: member_id,
           # progress_metric_option_id: ::ProjectLog::MIGRATION_PROGRESS_METRIC_OPTION_ID.value_for(progress_metric)
           # this will use the raw int values -3 -> 3, should perhaps renormalize to positive integers
           progress_metric_option_id: progress_metric,

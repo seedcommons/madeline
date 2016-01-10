@@ -1,10 +1,10 @@
-class Admin::PeopleController < BaseRawCrudController
+class Admin::Raw::OrganizationsController < BaseCrudController
 
 
   protected
 
   def clazz
-    Person
+    Organization
   end
 
   # enabled special base class handling
@@ -16,18 +16,21 @@ class Admin::PeopleController < BaseRawCrudController
 
   # fields needed for initial model creation
   def create_attrs
-    [:division_id, :first_name]
+    [:division_id, :name]
   end
 
   # full list of attributes which may be assigned from the form
   def update_attrs
-    [:division_id, :first_name, :last_name,
-     :dispay_name, :legal_name, :primary_phone, :secondary_phone, :fax, :email,
+    [:division_id, :name,
+     :primary_contact, :primary_contact_id,
+     :legal_name, :primary_phone, :secondary_phone, :fax, :email,
      :street_address, :neighborhood, :city, :state, :country, :country_id,
-     :tax_no, :website, :notes,
-     :primary_organization, :primary_organization_id
+     :tax_no, :website, :contact_notes,
+     :alias, :sector, :industry, :referral_source,
+     :organization_snapshot_id,
     ]
   end
+
 
 
 end

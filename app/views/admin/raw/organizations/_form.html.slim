@@ -25,8 +25,8 @@
       td = f.label :primary_contact
       td = f.select(:primary_contact_id, person_select_options(@item.primary_contact_id), {include_blank: '---'})
     tr
-      td = f.label :notes
-      td = f.text_area :notes
+      td = f.label :contact_notes
+      td = f.text_area :contact_notes
     tr
       td = f.label :street_address
       td = f.text_area :street_address

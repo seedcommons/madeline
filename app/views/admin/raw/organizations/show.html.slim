@@ -22,8 +22,8 @@ table
       - if @item.primary_contact
         = link_to @item.primary_contact.name, item_path(@item.primary_contact)
   tr
-    td Notes
-    td = @item.notes
+    td Contact Notes
+    td = @item.contact_notes
   tr
     td Street Address
     td = @item.street_address

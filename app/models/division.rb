@@ -3,13 +3,14 @@
 # Table name: divisions
 #
 #  id              :integer          not null, primary key
-#  organization_id :integer
-#  name            :string
-#  description     :text
-#  parent_id       :integer
-#  currency_id     :integer
 #  created_at      :datetime         not null
+#  currency_id     :integer
+#  description     :text
+#  name            :string
+#  organization_id :integer
+#  parent_id       :integer
 #  updated_at      :datetime         not null
+#  internal_name   :string
 #
 # Indexes
 #
@@ -48,14 +49,27 @@ class Division < ActiveRecord::Base
   # For now the id of a special system root node.
   # Currently convient as an owning divison of migrated orgs and people, but may not be needed in the long run.
   # Will revisit once full requirements are more clear.
-  def self.root_id
-    99
+  def self.root_internal_name
+    'root'
   end
 
+  def self.root
+    @@root ||= Division.find_by(internal_name: root_internal_name)
+  end
+
+  def self.root_id
+    result = root.id
+    logger.info("division root.id: #{result}")
+    result
+  end
 
   def root?
-    id == Division.root_id
+    internal_name == Division.root_internal_name
   end
+
+  # note, current 'accessible' logic is a placeholder until migrate updated to
+  # deduce most appropriate division owner of people and orgs, and loan specific visibility
+  # access control model implemented
 
   def accessible_organizations
     # for now hack access to current or root division owned entities

@@ -17,7 +17,7 @@ html
         | User Name
       #center
         | Division:
-        = form_tag('/admin/select_division', method: 'post') do
+        = form_tag('/admin/raw/select_division', method: 'post') do
           = select_tag(:division_id, options_for_select(division_select_data, current_division_id))
           = submit_tag('select')
 

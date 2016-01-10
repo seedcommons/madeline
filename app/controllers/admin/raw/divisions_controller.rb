@@ -1,4 +1,4 @@
-class Admin::DivisionsController < BaseRawCrudController
+class Admin::Raw::DivisionsController < BaseCrudController
 
 
   def select

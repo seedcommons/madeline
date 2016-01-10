@@ -22,7 +22,7 @@
 #  country_id               :integer
 #  tax_no                   :string
 #  website                  :string
-#  notes                    :text
+#  contact_notes            :text
 #  alias                    :string
 #  last_name                :string
 #  organization_snapshot_id :integer

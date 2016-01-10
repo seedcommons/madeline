@@ -9,13 +9,14 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: [:index]
 
-    resources :divisions
-    resources :loans
-    resources :organizations
-    resources :people
-    resources :organization_snapshots
-    post 'select_division', to: 'divisions#select'
-
+    namespace :raw do
+      resources :divisions
+      resources :loans
+      resources :organizations
+      resources :people
+      resources :organization_snapshots
+      post 'select_division', to: 'divisions#select'
+    end
   end
 
   localized do

@@ -1,4 +1,4 @@
-class Admin::LoansController < BaseRawCrudController
+class Admin::Raw::LoansController < BaseCrudController
 
 
 

@@ -6,14 +6,14 @@
 
 
 #todo: consider base class vs mixin
-class BaseRawCrudController < ApplicationController
-  include RawCrudHelper
+class BaseCrudController < ApplicationController
+  include BaseCrudHelper
 
   layout 'raw_crud'
 
 
   #
-  # note, this class could still use some better refactoring and cleanup
+  # note, this class could still use some further refactoring and cleanup
   #
 
 

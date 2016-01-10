@@ -1,23 +1,34 @@
-module RawCrudHelper
+module BaseCrudHelper
 
 
   #
-  # note, this class could still use some better refactoring and cleanup
+  # note, this class could still use some further refactoring and cleanup
   #
 
 
-  def namespace_path_prefix
-    'admin_'
+  def base_namespace
+    # 'admin/raw/'
+    # strip off the last path element to get the base controller path
+    controller_path.rpartition('/').first + '/'
   end
 
-  def view_path_prefix
-    'admin/raw/'
+
+  def base_namespace_path
+    # 'admin_raw_'
+    base_namespace.gsub(/\//, '_')
+  end
+
+  # controls which base folder of views to use.
+  # could have adapting logic for cases where view folder not aligned with controller namespace
+  def base_view_path
+    # 'admin/raw/'
+    base_namespace
   end
 
 
   def resolved_render(parent, path, param=nil)
     parent_folder = parent.is_a?(String) ? parent : parent.class.name.underscore.pluralize
-    resolved_path = "#{view_path_prefix}/#{parent_folder}/#{path}"
+    resolved_path = "#{base_view_path}/#{parent_folder}/#{path}"
     if param
       render resolved_path, param
     else
@@ -30,7 +41,7 @@ module RawCrudHelper
 
   ## todo: used named params & allow model instead of name
   def resolved_path(name, action=nil, param=nil)
-    method_name = "#{namespace_path_prefix}#{name}_path"
+    method_name = "#{base_namespace_path}#{name}_path"
     method_name = "#{action}_#{method_name}"  if action
     self.send(method_name.to_sym, param)
   end
@@ -49,7 +60,6 @@ module RawCrudHelper
 
 
   def render_index_header
-    # render view_path_prefix + 'common/index_header'
     resolved_render 'common', 'index_header'
   end
 
@@ -59,7 +69,7 @@ module RawCrudHelper
   end
 
   def resolve_controller(item)
-    'admin/'+item.class.name.underscore.pluralize
+    base_namespace + item.class.name.underscore.pluralize
   end
 
   def form_url(item)
@@ -128,7 +138,7 @@ module RawCrudHelper
   end
 
   def default_division_id
-    # todo: better default logic
+    # todo: better default logic based on logged in user context
     division_id = Division.first.id
   end
 

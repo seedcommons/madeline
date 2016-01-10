@@ -1,4 +1,4 @@
-class Admin::OrganizationSnapshotsController < BaseRawCrudController
+class Admin::Raw::OrganizationSnapshotsController < BaseCrudController
 
 
   protected
