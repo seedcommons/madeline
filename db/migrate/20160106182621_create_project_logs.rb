@@ -1,7 +1,7 @@
 class CreateProjectLogs < ActiveRecord::Migration
   def change
     create_table :project_logs do |t|
-      t.references :project_step, index: true
+      t.references :project_step, index: true  # foreign key added as migration
       t.references :agent, index: true
       t.integer :progress_metric_option_id
       t.date :date

@@ -4,40 +4,17 @@ module Legacy
   class ProjectEvent < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
-    # include Legacy, TranslationModule
 
-    # belongs_to :member, :foreign_key => 'MemberID'
-    # # has_many :project_logs, :foreign_key => 'PasoID'
-    # alias_attribute :logs, :project_logs
-    # # attr_accessible :Completed, :Date, :Details, :Finalized, :ProjectID, :ProjectTable, :Summary, :Type
-    #
-    # def project
-    #   project_table_model = Object.const_get(self.project_table.classify)
-    #   project_table_model.find(self.project_id)
-    # end
-    #
-    # def completed_or_not
-    #   self.completed ? 'completed' : 'not_completed'
-    # end
-    #
-    # def status
-    #   if self.completed
-    #     I18n.t :log_completed
-    #   else
-    #     project_logs.order("Date").last.try(:progress)
-    #   end
-    # end
-    #
-    # def summary
-    #   self.translation('Summary')
-    # end
-    # def details
-    #   self.translation('Details')
-    # end
-    #
-    # def display_date
-    #   I18n.l (self.completed || self.date), format: :long
-    # end
+
+    # note, legacy data includes 11 references to a '0' member_id
+    def agent_id
+      if member_id == 0
+        puts "ProjectEvent[#{id}] - mapping 0 MemberId ref to null"
+        nil
+      else
+        member_id
+      end
+    end
 
 
     def migration_data
@@ -45,7 +22,7 @@ module Legacy
           id: self.id,
           project_type: project_table.singularize.capitalize,
           project_id: project_id,
-          agent_id: member_id,
+          agent_id: agent_id,
           scheduled_date: date,
           completed_date: completed,
           is_finalized: finalized,

@@ -32,4 +32,5 @@ Country.find_or_create_by({id:2,name:'Nicaragua',iso_code:'NI',default_language_
 Country.find_or_create_by({id:3,name:'United States',iso_code:'US',default_language_id:1,default_currency_id:2})
 Country.connection.execute("select setval('countries_id_seq', (select max(id) from countries))")
 
-Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
+# for now mapping the '0' Person refs to 'null' and allowing null refs in the schema
+# Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
