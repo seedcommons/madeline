@@ -16,4 +16,3 @@
 //= require jasny-bootstrap
 
 //= require wice_grid
-//= require jquery.ui.datepicker
