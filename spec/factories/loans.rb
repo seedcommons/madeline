@@ -55,11 +55,12 @@ FactoryGirl.define do
 
 
     trait :active do
-      status_option_id Loan.status_option_set.value_for_label('Active')
+      # note: can't seem to count on the seed.db data having been loaded when these are executed
+      status_option_id 1 #Loan.status_option_set.value_for_label('Active')
     end
 
     trait :completed do
-      status_option_id Loan.status_option_set.value_for_label('Completed')
+      status_option_id 2 #Loan.status_option_set.value_for_label('Completed')
     end
 
     #JE todo: fix these
