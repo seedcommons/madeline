@@ -45,8 +45,7 @@ class Loan < ActiveRecord::Base
   belongs_to :representative, class_name: 'Person'
   belongs_to :organization_snapshot
 
-  ##JE todo: for next integration pass
-  # has_many :project_steps, as: :project
+  has_many :project_steps, as: :project
 
 
   # define accessor like convenience methods for the fields stored in the Translations table

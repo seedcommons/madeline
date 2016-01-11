@@ -14,3 +14,5 @@ html lang="en-US"
     = yield :styles
 
   body
+    = render "application/alerts"
+    = content_for?(:content) ? yield(:content) : yield

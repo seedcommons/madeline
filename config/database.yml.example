@@ -23,6 +23,7 @@ default: &default
 
 
 # used for migration of legacy data from mysql
+# ideally this would use credentials with read-only access
 legacy:
   adapter: mysql2
   encoding: utf8
