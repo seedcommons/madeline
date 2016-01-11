@@ -1,8 +1,9 @@
 - content_for :styles
   = stylesheet_link_tag "admin/devise", :media => "all"
 
-= render template: "layouts/base"
+- content_for :content
+  div.container
+    h1 Madeline System
+    = yield
 
-div.container
-  h1 Madeline System
-  = yield
+= render template: "layouts/base"
