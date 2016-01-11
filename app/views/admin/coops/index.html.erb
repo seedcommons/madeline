@@ -1,32 +1,28 @@
 <% content_for :title do 'Co-ops' end %>
 
-<%= grid(@organizations_grid) do |g| %>
+<%= grid(@organizations_grid, show_filters: :always) do |g| %>
 
-  <% g.column name: "ID" do |organization| %>
+  <% g.column name: "ID", attribute: 'id' do |organization| %>
     <% organization.id %>
   <% end %>
 
-  <% g.column  do |organization| %>
+  <% g.column name: "Name", attribute: 'name'  do |organization| %>
     <% organization.name %>
   <% end %>
 
-  <% g.column name: 'City' do |organization| %>
+  <% g.column name: 'City', attribute: 'city' do |organization| %>
     <% organization.city %>
   <% end %>
 
   <% g.column name: 'Country' do |organization| %>
-    <% organization.country %>
+    <% organization.country.name %>
   <% end %>
 
-  <% g.column name: 'Loans' do |organization| %>
-    <% organization.loans %>
-  <% end %>
-
-  <% g.column name: 'Created' do |organization| %>
+  <% g.column name: 'Created', attribute: 'created_at' do |organization| %>
     <% organization.created_at %>
   <% end %>
 
-  <% g.column name: 'Updated' do |organization| %>
+  <% g.column name: 'Updated', attribute: 'updated_at' do |organization| %>
     <% organization.updated_at %>
   <% end %>
 <% end %>
