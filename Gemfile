@@ -45,6 +45,8 @@ gem 'mini_magick'
 # needed for migration of legacy data
 gem 'mysql2'
 
+# Tables
+gem 'wice_grid'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -14,3 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
+
+//= require wice_grid
+//= require jquery.ui.datepicker
