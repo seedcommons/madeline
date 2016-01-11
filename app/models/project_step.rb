@@ -58,14 +58,14 @@ class ProjectStep < ActiveRecord::Base
   end
 
 
-  TYPE_OPTIONS = OptionSet.new(
+  TYPE_OPTIONS = TransientOptionSet.new(
       [ [1, 'Step'],
         [2, 'Milestone'],
         [9, 'Agenda']  # legacy data exists of type 'agenda', but not expecting to carry this forward into the new system
       ]
   )
 
-  MIGRATION_TYPE_OPTIONS = OptionSet.new(
+  MIGRATION_TYPE_OPTIONS = TransientOptionSet.new(
       [ [1, 'Paso'],
         [9, 'Agenda'],
       ]

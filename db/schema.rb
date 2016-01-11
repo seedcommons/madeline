@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106183814) do
+ActiveRecord::Schema.define(version: 20160111014333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -121,6 +121,26 @@ ActiveRecord::Schema.define(version: 20160106183814) do
 
   add_index "notes", ["author_id"], name: "index_notes_on_author_id", using: :btree
   add_index "notes", ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id", using: :btree
+
+  create_table "option_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "division_id", null: false
+    t.string "model_attribute"
+    t.string "model_type"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "option_sets", ["division_id"], name: "index_option_sets_on_division_id", using: :btree
+
+  create_table "options", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "option_set_id"
+    t.integer "position"
+    t.datetime "updated_at", null: false
+    t.integer "value"
+  end
+
+  add_index "options", ["option_set_id"], name: "index_options_on_option_set_id", using: :btree
 
   create_table "organization_snapshots", force: :cascade do |t|
     t.datetime "created_at"
@@ -259,6 +279,8 @@ ActiveRecord::Schema.define(version: 20160106183814) do
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "option_sets", "divisions"
+  add_foreign_key "options", "option_sets"
   add_foreign_key "organizations", "countries"
   add_foreign_key "organizations", "divisions"
   add_foreign_key "organizations", "people", column: "primary_contact_id"

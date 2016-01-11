@@ -35,7 +35,7 @@
 #
 
 class Loan < ActiveRecord::Base
-  include Translatable, MediaAttachable
+  include Translatable, MediaAttachable, OptionSettable
 
   belongs_to :division
   belongs_to :organization
@@ -51,6 +51,8 @@ class Loan < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
+  attr_option_settable :loan_type, :status #, :project_type, :public_level
+
 
   validates :division_id, presence: true
 
@@ -60,12 +62,13 @@ class Loan < ActiveRecord::Base
     "Project with #{organization.try(:name)}"
   end
 
+  # todo: shall we migrate the display usage to the more verbose version?
   def status
-    STATUS_OPTIONS.label_for(status_option_id)
+    status_option_label
   end
 
   def loan_type
-    LOAN_TYPE_OPTIONS.label_for(loan_type_option_id)
+    loan_type_option_label
   end
 
   # the special name of a default step to use/create when migrating a log without a step
@@ -95,19 +98,19 @@ class Loan < ActiveRecord::Base
   STATUS_ACTIVE_ID = 1
 
   # place holder display name mappings until final solution decided upon
-  STATUS_OPTIONS = OptionSet.new(
-      [ [STATUS_ACTIVE_ID, 'Active'],
-        [2, 'Completed'],
-        [3, 'Frozen'],
-        [4, 'Liquidated'],
-        [5, 'Prospective'],
-        [6, 'Refinanced'],
-        [7, 'Relationship'],
-        [8, 'Relationship Active']
-      ])
+  # STATUS_OPTIONS = TransientOptionSet.new(
+  #     [ [STATUS_ACTIVE_ID, 'Active'],
+  #       [2, 'Completed'],
+  #       [3, 'Frozen'],
+  #       [4, 'Liquidated'],
+  #       [5, 'Prospective'],
+  #       [6, 'Refinanced'],
+  #       [7, 'Relationship'],
+  #       [8, 'Relationship Active']
+  #     ])
 
   # used for resolving id from legacy data
-  MIGRATION_STATUS_OPTIONS = OptionSet.new(
+  MIGRATION_STATUS_OPTIONS = TransientOptionSet.new(
       [ [STATUS_ACTIVE_ID, 'Prestamo Activo'],
         [2, 'Prestamo Completo'],
         [3, 'Prestamo Congelado'],
@@ -118,23 +121,23 @@ class Loan < ActiveRecord::Base
         [8, 'Relacion Activo']
       ])
 
-  LOAN_TYPE_OPTIONS = OptionSet.new(
-      [ [1, "Liquidity line of credit"],
-        [2, "Investment line of credit"],
-        [3, "Investment Loans"],
-        [4, "Evolving loan"],
-        [5, "Single Liquidity line of credit"],
-        [6, "Working Capital Investment Loan"],
-        [7, "Secured Asset Investment Loan"]
-      ])
+  # LOAN_TYPE_OPTIONS = TransientOptionSet.new(
+  #     [ [1, "Liquidity line of credit"],
+  #       [2, "Investment line of credit"],
+  #       [3, "Investment Loans"],
+  #       [4, "Evolving loan"],
+  #       [5, "Single Liquidity line of credit"],
+  #       [6, "Working Capital Investment Loan"],
+  #       [7, "Secured Asset Investment Loan"]
+  #     ])
 
-  PROJECT_TYPE_OPTIONS = OptionSet.new(
+  PROJECT_TYPE_OPTIONS = TransientOptionSet.new(
       [ [1, 'Conversion'],
         [2, 'Expansion'],
         [3, 'Start-up'],
       ])
 
-  PUBLIC_LEVEL_OPTIONS = OptionSet.new(
+  PUBLIC_LEVEL_OPTIONS = TransientOptionSet.new(
       [ [1, 'Featured'],
         [2, 'Hidden'],
       ])

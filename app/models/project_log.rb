@@ -49,7 +49,7 @@ class ProjectLog < ActiveRecord::Base
 
 
 
-  PROGRESS_METRIC_OPTIONS = OptionSet.new(
+  PROGRESS_METRIC_OPTIONS = TransientOptionSet.new(
       [ [2,'ahead'],
         [1,'on time'],
         [-1,'behind'],

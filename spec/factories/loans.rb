@@ -55,11 +55,11 @@ FactoryGirl.define do
 
 
     trait :active do
-      status_option_id Loan::STATUS_OPTIONS.value_for('Active')
+      status_option_id Loan.status_option_set.value_for_label('Active')
     end
 
     trait :completed do
-      status_option_id Loan::STATUS_OPTIONS.value_for('Completed')
+      status_option_id Loan.status_option_set.value_for_label('Completed')
     end
 
     #JE todo: fix these
