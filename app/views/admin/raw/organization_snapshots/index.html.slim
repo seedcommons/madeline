@@ -1,0 +1,7 @@
+/ note, this top-level list view isn't really useful, except for migration debugging
+
+= render view_path('common/index_header')
+
+= render view_path('organization_snapshots/list'), { items: @items }
+
+= will_paginate @items

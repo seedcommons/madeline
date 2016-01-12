@@ -37,7 +37,7 @@ class Cooperative < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:display_name]}"
+    puts "#{data[:id]}: #{data[:name]}"
     ::Organization.create(data)
   end
 

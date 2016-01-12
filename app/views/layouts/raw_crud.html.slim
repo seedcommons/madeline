@@ -1,0 +1,59 @@
+doctype html
+html
+  head
+    title Madeline
+    /= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'raw_crud', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+
+  body
+
+    #header
+      #left
+        b The Madeline System
+      #right
+        | User Name
+      #center
+        | Division:
+        = form_tag('/admin/raw/select_division', method: 'post') do
+          = select_tag(:division_id, options_for_select(division_select_data, current_division_id))
+          = submit_tag('select')
+
+    #nav
+      /p = link_to 'Dashboard', root_path
+      p Dashboard
+      // todo: better factoring of nav selection
+      p
+        - if left_nav_selection == 'organizations'
+            b Co-ops
+        - else
+            = link_to 'Co-ops', index_path(:organizations)
+      p Calendar
+      p
+        - if left_nav_selection == 'loans'
+          b Loans
+        - else
+          = link_to 'Loans', index_path(:loans)
+      p
+        - if left_nav_selection == 'people'
+          b Members
+        - else
+          = link_to 'Members', index_path(:people)
+      p Reports
+
+      hr
+      i Admin
+      br
+      - if left_nav_selection == 'divisions'
+        b Divisions
+      - else
+        = link_to 'Divisions', index_path(:divisions)
+
+    #section
+      == yield
+
+    /#footer
+    /  | [footer]
+
