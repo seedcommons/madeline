@@ -1,6 +1,9 @@
 - content_for :styles
   = stylesheet_link_tag "admin/admin", :media => "all"
 
+- content_for :alerts
+  = render "application/alerts"
+
 - content_for :content
   = render "layouts/admin/page"
 
