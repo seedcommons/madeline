@@ -1,11 +1,15 @@
 <% content_for :title do "Login" end %>
 
+<% content_for :alerts do %>
+    <%= render "application/alerts" %>
+<% end %>
+
 <%= form_for(resource, as: resource_name, url: session_path(resource_name),
   html: { class: "form-signin" }) do |f| %>
 
   <h2 class="form-signin-heading">Log In</h2>
 
-  <%= render "application/alerts" %>
+  <%= yield :alerts %>
 
   <div class="field">
     <%= f.label :email, class: "sr-only" %>

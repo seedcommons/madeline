@@ -1,11 +1,12 @@
 <% content_for :title do "Forgot Password" end %>
 
+<% content_for :alerts do render "application/alerts" end %>
+
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin centered-text" }) do |f| %>
   <h2 class="form-signin-heading">Forgot your password?</h2>
   <p>Send me reset password instructions</p>
 
-  <%= render "application/alerts" %>
-  <%= devise_error_messages! %>
+  <%= yield :alerts %>
 
   <div class="field">
     <%= f.label :email, class: "sr-only" %>
