@@ -1,0 +1,24 @@
+
+/table
+/  tr
+/    td Organization
+/    td
+/      - if @item.organization
+/        = link_to @item.organization.display_name, @item.organization
+/  tr
+/    td date
+/    td = @item.date
+tr
+  td Organization Size
+  td = item.organization_size
+tr
+  td Women Ownership Percent
+  td = item.women_ownership_percent
+tr
+  td Person of Color Ownership Percent
+  td = item.poc_ownership_percent
+tr
+  td Environmental Impact Score (0-100)
+  td = item.environmental_impact_score
+
+

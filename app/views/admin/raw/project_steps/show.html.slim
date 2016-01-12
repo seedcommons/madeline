@@ -1,0 +1,35 @@
+= render view_path('common/show_header')
+
+table
+  tr
+    td Summary
+    td = render view_path('common/translations'), { items: @item.summary_list }
+  tr
+    td Details
+    td = render view_path('common/translations'), { items: @item.details_list }
+  tr
+    td Scheduled
+    td = @item.scheduled_date
+  tr
+    td Completed
+    td = @item.completed_date
+  tr
+    td Finalized
+    td = @item.is_finalized
+
+- if @item.project
+  = link_to 'Back to Loan', item_path(@item.project)
+
+
+br
+br
+b Logs -
+=< link_to "New Log", new_item_path(:project_log, { project_step_id: @item.id })
+br
+br
+= render view_path('project_logs/list'), { items: @item.project_logs }
+
+
+- if params[:debug]
+  hr
+  = debug @item

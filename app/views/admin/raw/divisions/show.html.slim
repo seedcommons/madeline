@@ -1,0 +1,14 @@
+= render view_path('common/show_header')
+
+table
+  tr
+    td Name
+    td = @item.name
+  tr
+    td Text
+    td = @item.description
+
+- if params[:debug]
+  hr
+  = debug @item
+

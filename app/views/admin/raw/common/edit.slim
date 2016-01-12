@@ -1,0 +1,8 @@
+#section_title
+  = @item.name
+br
+br
+
+= render view_path(@item, "form")
+
+= link_to 'Cancel', item_path(@item)

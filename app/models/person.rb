@@ -21,7 +21,7 @@
 #  country_id              :integer
 #  tax_no                  :string
 #  website                 :string
-#  notes                   :text
+#  contact_notes           :text
 #  first_name              :string
 #  last_name               :string
 #

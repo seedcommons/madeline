@@ -6,9 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Division.find_or_create_by(id: Division.root_id, name: 'Root Division')
-# note, the +1 is technically unnecessary, but i wanted new divisions to start at 101 instead of 100
-Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id)+1 from divisions), #{Division.root_id+1}))")
+
+# the '99' is to make sure we leave space for the migrated divisions
+Division.find_or_create_by(id: 99, internal_name: Division.root_internal_name, name:'Root Division')
+# note, divisions created within the new system will start at 101
+Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
 
 
 Language.find_or_create_by(id: 1, name: 'English', code: 'EN')
@@ -28,6 +30,10 @@ Country.find_or_create_by(id: 1, name: 'Argentina', iso_code: 'AR', default_lang
 Country.find_or_create_by(id: 2, name: 'Nicaragua', iso_code: 'NI', default_language_id: 2, default_currency_id: 4)
 Country.find_or_create_by(id: 3, name: 'United States', iso_code: 'US', default_language_id: 1, default_currency_id: 2)
 Country.connection.execute("select setval('countries_id_seq', (select max(id) from countries))")
+
+
+# for now mapping the '0' Person refs to 'null' and allowing null refs in the schema
+# Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
 
 
 loan_status = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name, model_attribute: 'status')
@@ -59,4 +65,5 @@ loan_type.options.find_or_create_by(value: 6, position: 6).
     set_label_list(en: 'Working Capital Investment Loan', es: 'Préstamo de Inversión de Capital de Trabajo')
 loan_type.options.find_or_create_by(value: 7, position: 7).
     set_label_list(en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados')
+
 
