@@ -3,11 +3,6 @@ class Admin::Raw::OrganizationSnapshotsController < BaseCrudController
 
   protected
 
-  def clazz
-    OrganizationSnapshot
-  end
-
-
   # fields needed for initial model creation
   def create_attrs
     [:organization_id]

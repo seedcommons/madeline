@@ -2,11 +2,6 @@ class Admin::Raw::ProjectLogsController < BaseCrudController
 
   protected
 
-  def clazz
-    ProjectLog
-  end
-
-
   # fields needed for initial model creation
   def create_attrs
     [:project_step_id, :agent_id]

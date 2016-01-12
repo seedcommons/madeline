@@ -7,9 +7,9 @@ namespace :tww do
     Legacy::Cooperative.migrate_all
     Legacy::Member.migrate_all
     Legacy::Loan.migrate_all
-    Legacy::ProjectEvent.migrate_all
-    Legacy::ProjectLog.migrate_all
-    Legacy::Note.migrate_all
+    # Legacy::ProjectEvent.migrate_all
+    # Legacy::ProjectLog.migrate_all
+    # Legacy::Note.migrate_all
 
   end
 

@@ -3,10 +3,6 @@ class Admin::Raw::OrganizationsController < BaseCrudController
 
   protected
 
-  def clazz
-    Organization
-  end
-
   # enabled special base class handling
   # should probably be factored out to a concern
   def division_scoped?

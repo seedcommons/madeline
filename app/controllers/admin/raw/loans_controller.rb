@@ -4,16 +4,11 @@ class Admin::Raw::LoansController < BaseCrudController
 
   protected
 
-  def clazz
-    Loan
-  end
-
   # enabled special base class handling
   # should probably be factored out to a concern
   def division_scoped?
     true
   end
-
 
   # fields needed for initial model creation
   def create_attrs

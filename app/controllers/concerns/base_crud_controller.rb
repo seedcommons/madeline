@@ -13,7 +13,7 @@ class BaseCrudController < ApplicationController
 
 
   def clazz
-    raise "not implemented - clazz"
+    controller_name.classify.constantize
   end
 
   # handy switch for the division owned models.

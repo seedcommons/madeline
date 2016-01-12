@@ -3,16 +3,11 @@ class Admin::Raw::PeopleController < BaseCrudController
 
   protected
 
-  def clazz
-    Person
-  end
-
   # enabled special base class handling
   # should probably be factored out to a concern
   def division_scoped?
     true
   end
-
 
   # fields needed for initial model creation
   def create_attrs

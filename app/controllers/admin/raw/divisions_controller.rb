@@ -10,11 +10,6 @@ class Admin::Raw::DivisionsController < BaseCrudController
 
   protected
 
-  def clazz
-    Division
-  end
-
-
   def update_attrs
     [:name, :description]
   end
