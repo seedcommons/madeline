@@ -6,6 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# puts "seeds.rb"
 
 # the '99' is to make sure we leave space for the migrated divisions
 Division.find_or_create_by(id: 99, internal_name: Division.root_internal_name, name:'Root Division')
@@ -35,6 +36,9 @@ Country.connection.execute("select setval('countries_id_seq', (select max(id) fr
 # for now mapping the '0' Person refs to 'null' and allowing null refs in the schema
 # Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
 
+# handy temporary change for debugging
+# Option.destroy_all
+# OptionSet.destroy_all
 
 loan_status = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name, model_attribute: 'status')
 # beware rerunning these different position values, will result in duplicated data

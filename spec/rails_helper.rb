@@ -50,6 +50,8 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    # note, it's useful to temporarily switch this to 'truncation' when attempting to debug database oddities during testing
+    # DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each, :js => true) do
@@ -95,5 +97,6 @@ RSpec.configure do |config|
 end
 
 def seed_data
+  # puts "calling seeds.rb"
   load "#{Rails.root}/db/seeds.rb"
 end

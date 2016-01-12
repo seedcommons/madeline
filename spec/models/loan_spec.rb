@@ -6,6 +6,7 @@ describe Loan, :type => :model do
 
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
+  it_should_behave_like 'option_settable', ['status', 'loan_type']
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid

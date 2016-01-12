@@ -16,8 +16,9 @@
 
 FactoryGirl.define do
   factory :option_set do
-    model_type "MyString"
-model_attribute "MyString"
+    division
+    model_type "Loan"
+    model_attribute "status"
   end
 
 end

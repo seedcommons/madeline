@@ -17,8 +17,8 @@
 FactoryGirl.define do
   factory :option do
     option_set nil
-position 1
-value 1
+    position 1
+    value 1
   end
 
 end

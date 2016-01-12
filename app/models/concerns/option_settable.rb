@@ -21,20 +21,17 @@
 module OptionSettable
   extend ActiveSupport::Concern
 
-  # included do
-  # end
+  included do
+    # logger.debug("OptionSettable - included - #{self.name}")
+  end
 
   module ClassMethods
 
-    def option_set_for(attribute, division = nil)
-      option_sets[attribute.to_sym]
+    # future: support division specific versions of the option sets
+    def option_set_for(attribute)
+      fetch_option_set(attribute)
     end
 
-    def option_sets
-      @@option_sets ||= Hash.new do |h, attribute|
-        h[attribute.to_sym] = fetch_option_set(attribute)
-      end
-    end
 
     def fetch_option_set(attribute)
       OptionSet.fetch(self, attribute)
@@ -48,7 +45,6 @@ module OptionSettable
 
 
     def attr_option_settable(*attr_names)
-      # logger.info "attr_option_settable: #{attr_names.inspect}"
       attr_names.each do |attr_name|
 
         singleton_class.instance_eval do
@@ -73,9 +69,15 @@ module OptionSettable
 
         define_method("#{attr_name}_option_label") do |language_code = nil|
           value = self.send("#{attr_name}_option_id")
-          logger.info("option value: #{value}")
+          # logger.info("option value: #{value}")
           self.class.option_set_for(attr_name).translated_label(value, language_code)
         end
+
+        #UNUSED
+        # ::AdHocCacheManager.add_hook("option_settable-#{self.name}") do
+        #   Rails.logger.info("inside option_settable hook - #{self.name}")
+        #   self.clear_cached_option_sets
+        # end
 
       end
     end
@@ -89,4 +91,27 @@ module OptionSettable
 
 end
 
+
+#UNUSED
+# future: make this cacheabale
+#
+# Note, conceptually this data is static configuration data persisted to the database,
+# so fairly agressive caching is appropriate.
+#
+# def option_set_for(attribute)
+#   option_sets[attribute.to_sym]
+#   fetch_option_set(attribute)
+# end
+#
+# def clear_cached_option_sets
+#   logger.info("inside clear_cached_option_sets - class: #{self.name}")
+#   @@option_sets = nil
+# end
+#
+# def option_sets
+#   @@option_sets ||= Hash.new do |h, attribute|
+#     logger.info("options_sets - generating value for: #{attribute}")
+#     h[attribute.to_sym] = fetch_option_set(attribute)
+#   end
+# end
 
