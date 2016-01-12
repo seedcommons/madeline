@@ -58,6 +58,9 @@ group :development, :test do
   # Report number of queries in server log
   gem 'sql_queries_count'
 
+  # Annotate models & factories
+  gem 'annotate'
+
   # Better console printing
   gem 'awesome_print'
 

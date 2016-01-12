@@ -1,34 +1,41 @@
+# == Schema Information
+#
+# Table name: loans
+#
+#  id                          :integer          not null, primary key
+#  division_id                 :integer
+#  organization_id             :integer
+#  name                        :string
+#  primary_agent_id            :integer
+#  secondary_agent_id          :integer
+#  amount                      :decimal(, )
+#  currency_id                 :integer
+#  rate                        :decimal(, )
+#  length_months               :integer
+#  representative_id           :integer
+#  signing_date                :date
+#  first_interest_payment_date :date
+#  first_payment_date          :date
+#  target_end_date             :date
+#  projected_return            :decimal(, )
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  status_option_id            :integer
+#  project_type_option_id      :integer
+#  loan_type_option_id         :integer
+#  public_level_option_id      :integer
+#  organization_snapshot_id    :integer
+#
+# Indexes
+#
+#  index_loans_on_currency_id               (currency_id)
+#  index_loans_on_division_id               (division_id)
+#  index_loans_on_organization_id           (organization_id)
+#  index_loans_on_organization_snapshot_id  (organization_snapshot_id)
+#
+
 class Loan < ActiveRecord::Base
   include Translatable, MediaAttachable
-
-  # create_table :loans do |t|
-  #   ## base Project fields
-  #   t.references :division, index: true, foreign_key: true
-  #   t.references :organization, index:true, foreign_key: true
-  #   t.string :name
-  #   # translatable: summary
-  #   # translatable: details
-  #   t.references :primary_agent, references: :people
-  #   t.references :secondary_agent, references: :people
-  #   t.integer :status_option_id, index: true
-  #   t.integer :project_type_option_id
-  #   ## distinct Loan fields
-  #   t.integer :loan_type_option_id, index: true
-  #   t.integer :public_level_option_id, index: true
-  #   t.decimal :amount   #note, the default precision is (30,6).  (16,6) is probably sufficient.  worth changing?
-  #   t.references :currency, index: true, foreign_key: true
-  #   t.decimal :rate
-  #   t.integer :length_months
-  #   t.references :representative, references: :people
-  #   t.date :signing_date
-  #   t.date :first_interest_payment_date
-  #   t.date :first_payment_date
-  #   t.date :target_end_date
-  #   t.decimal :projected_return
-  #   ## handle to historical demographic data
-  #   t.references :organization_snapshot
-  #   t.timestamps null: false
-
 
   belongs_to :division
   belongs_to :organization
@@ -38,8 +45,7 @@ class Loan < ActiveRecord::Base
   belongs_to :representative, class_name: 'Person'
   belongs_to :organization_snapshot
 
-  ##JE todo: for next integration pass
-  # has_many :project_steps, as: :project
+  has_many :project_steps, as: :project
 
 
   # define accessor like convenience methods for the fields stored in the Translations table
