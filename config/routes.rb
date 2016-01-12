@@ -8,6 +8,19 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :dashboard, only: [:index]
+
+    namespace :raw do
+      resources :divisions
+      resources :loans
+      resources :organizations
+      resources :people
+      resources :organization_snapshots
+      resources :project_steps
+      resources :project_logs
+      resources :notes
+      post 'select_division', to: 'divisions#select'
+    end
+
     resources :coops, only: [:index]
   end
 
@@ -17,4 +30,5 @@ Rails.application.routes.draw do
   end
 
   root to: 'admin/dashboard#index'
+  # root to: redirect('/admin/divisions')
 end

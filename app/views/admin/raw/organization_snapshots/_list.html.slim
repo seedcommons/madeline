@@ -1,0 +1,22 @@
+table border=1
+  tr
+    td Date
+    td Org Size
+    td Women Ownership
+    td POC Ownership
+    td Env Impact Score
+    td Actions
+  - for item in items
+    tr
+      td = item.date
+      td = item.organization_size
+      td = item.women_ownership_percent
+      td = item.poc_ownership_percent
+      td = item.environmental_impact_score
+      td
+        => link_to 'View', item_path(item)
+        | -
+        =<> link_to 'Edit', edit_item_path(item)
+        | -
+        =<> link_to 'Delete', item_path(item), method: :delete, data: {confirm: 'Are you sure?'}
+

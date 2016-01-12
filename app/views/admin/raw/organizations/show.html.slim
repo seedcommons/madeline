@@ -1,0 +1,129 @@
+= render view_path('common/show_header')
+
+table
+  tr
+    td Division
+    td = @item.division.try(:name)
+  tr
+    td Name
+    td = @item.name
+  tr
+    td Legal Name
+    td = @item.legal_name
+  tr
+    td Telephone
+    td = @item.primary_phone
+  tr
+    td Email
+    td = @item.email
+  tr
+    td Primary Contact
+    td
+      - if @item.primary_contact
+        = link_to @item.primary_contact.name, item_path(@item.primary_contact)
+  tr
+    td Contact Notes
+    td = @item.contact_notes
+  tr
+    td Street Address
+    td = @item.street_address
+  tr
+    td Neighborhood
+    td = @item.neighborhood
+  tr
+    td City
+    td = @item.city
+  tr
+    td State
+    td = @item.state
+  tr
+    td Country
+    td = @item.country.try(:name)
+  tr
+    td Website
+    td = @item.website
+  tr
+    td Sector
+    td = @item.sector
+  tr
+    td Industry
+    td = @item.industry
+  tr
+    td Source
+    td = @item.referral_source
+  tr
+    td Tax ID
+    td = @item.tax_no
+  tr
+    td Created At
+    td = @item.created_at
+  tr
+    td Updated At
+    td = @item.updated_at
+  tr
+    td Members
+    td
+      - for person in @item.people
+        = link_to person.name, item_path(person)
+        br
+hr
+br
+
+
+br
+
+- if params[:all_loans]
+  - loans = @item.loans
+  b All Loans
+  |  -
+  =< link_to 'View Active loans', item_path(@item)
+
+- else
+  - loans = @item.active_loans
+  =<> link_to 'View All loans', item_path(@item, { all_loans: 1 })
+  |  -
+  b  Active Loans
+
+|  -
+=< link_to 'New Loan', new_item_path(:loan, { organization_id: @item.id })
+br
+br
+
+table border=1
+  tr
+    td ID
+    td Signing date
+    td Status
+    td Loan Type
+    td Amount
+    td Summary
+  - for loan in loans
+    tr
+      td = link_to loan.id, item_path(loan)
+      td = loan.signing_date
+      td = loan.status
+      td = loan.loan_type
+      td = loan.amount
+      td = loan.summary
+
+
+br
+br
+b Notes -
+=< link_to "New Note", new_item_path(:note, { notable_type: 'Organization', notable_id: @item.id })
+br
+br
+= render view_path('notes/list'), { items: @item.notes }
+
+br
+br
+b Snapshot Data -
+=< link_to "New Data", new_item_path(:organization_snapshot, { organization_id: @item.id })
+br
+br
+= render view_path('organization_snapshots/list'), { items: @item.organization_snapshots }
+
+
+- if params[:debug]
+  hr
+  = debug @item
