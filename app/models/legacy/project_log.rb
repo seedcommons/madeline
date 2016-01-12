@@ -5,25 +5,6 @@ module Legacy
     establish_connection :legacy
     include LegacyModel
 
-# ##~~~~~  remove_method :progress, :progress_metric
-#
-#   belongs_to :member, :foreign_key => 'MemberID'
-#   belongs_to :paso, :foreign_key => 'PasoID'
-#   belongs_to :progress_metric, :foreign_key => 'ProgressMetric'
-#   # attr_accessible :AdditionalNotes, :Date, :ProjectID, :ProjectTable
-#
-#   def project_class
-#     # return Legacy::Loan  if project_table == 'loans'
-#     # return Legacy::BasicProject  if project_table == 'BasicProjects'
-#     case project_table.downcase
-#       when 'loans'
-#         Legacy::Loan
-#       when 'basicprojects'
-#         Legacy::BasicProject
-#       else
-#         raise "unexpected project_table: #{project_table}"
-#     end
-#   end
 
     def project
       project_class.find(self.project_id)
@@ -33,7 +14,11 @@ module Legacy
     def migrated_loan
       # beware the legacy db has inconsistent casing of the project table name
       if project_table.downcase == 'loans'
-        ::Loan.find(project_id)
+        result = ::Loan.find_safe(project_id)
+        unless result
+          #JE todo: send warnings also to separate log
+          puts "WARNING: ignoring ProjectLog[#{id}] pointing to invalid Loan ID: #{project_id}"
+        end
       else
         puts "ignoring non-loan project reference"
         nil
@@ -41,31 +26,28 @@ module Legacy
     end
 
 
-# def explanation
-#   self.translation('Explanation')
-# end
-# def detailed_explanation
-#   self.translation('DetailedExplanation')
-# end
-#
-# def progress(continuous=false)
-#   language = (I18n.locale == :es ? 'Spanish' : 'English')
-#   field_name = (continuous ? 'Continuous' : 'WithEvents')
-#   self.progress_metric.send(language + 'Display' + field_name).capitalize # e.g. EnglishDisplayWithEvents
-# end
-# def progress_continuous
-#   self.progress(true)
-# end
-#
-# def media(limit=100, images_only=false)
-#   get_media('ProjectLogs', self.id, limit, images_only)
-# end
+    # note, legacy data includes 44 invalid references to a '0' member_id
+    def agent_id
+      if member_id == 0
+        puts "ProjectLog[#{id}] - mapping 0 MemberId ref to null"
+        nil
+      else
+        member_id
+      end
+    end
 
     def migration_data
-      if paso_id
+      # note the legacy db has 814 invalid references to either a 0 or 1 PasoID
+      if paso_id && paso_id > 1
         project_step_id = paso_id
+        if ::ProjectStep.where(id: project_step_id).count == 0
+          #JE todo: send warnings also to separate log
+          puts "WARNING: ignoring ProjectLog[#{id}] pointing to invalid PasoID: #{paso_id}"
+          return nil
+        end
       else
         loan = migrated_loan
+        return nil  unless loan  # skip invalid record
         project_step_id = loan.default_step.id
         puts "orphan steplog[#{id}] - using default loan step: #{paso_id}"
       end
@@ -73,7 +55,7 @@ module Legacy
       data = {
           id: self.id,
           project_step_id: project_step_id,
-          person_id: member_id,
+          agent_id: agent_id,
           # progress_metric_option_id: ::ProjectLog::MIGRATION_PROGRESS_METRIC_OPTION_ID.value_for(progress_metric)
           # this will use the raw int values -3 -> 3, should perhaps renormalize to positive integers
           progress_metric_option_id: progress_metric,
@@ -84,8 +66,10 @@ module Legacy
 
     def migrate
       data = migration_data
-      puts "#{data[:id]}: #{data[:project_step_id]}"
-      ::ProjectLog.create(data)
+      if data
+        puts "#{data[:id]}: step id: #{data[:project_step_id]}"
+        ::ProjectLog.create(data)
+      end
     end
 
 

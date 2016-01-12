@@ -1,0 +1,19 @@
+= render view_path('common/errors'), { errors: @item.errors }
+
+= form_for @item, :url => form_url(@item) do |f|
+  = f.hidden_field :notable_type
+  = f.hidden_field :notable_id
+
+  table
+    tr
+      td = f.label :author
+      td = f.select(:author_id, person_select_options(@item.author_id), {include_blank: '---'})
+    tr
+      td Text
+      td = f.text_area :text
+    tr
+      td
+      td
+        br
+        = f.submit
+

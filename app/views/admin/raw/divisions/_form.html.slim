@@ -1,0 +1,17 @@
+/ could probably factor up the error display
+= render view_path('common/errors'), {errors: @item.errors}
+
+= form_for @item, :url => form_url(@item) do |f|
+
+  table
+    tr
+      td = f.label :name
+      td = f.text_field :name
+    tr
+      td = f.label :description
+      td = f.text_area :description
+    tr
+      td
+      td
+        br
+        = f.submit

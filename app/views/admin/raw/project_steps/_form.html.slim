@@ -1,0 +1,28 @@
+= render view_path('common/errors'), { errors: @item.errors }
+
+= form_for @item, :url => form_url(@item) do |f|
+  = f.hidden_field :project_type
+  = f.hidden_field :project_id
+
+  table
+    tr
+      td Summary
+      td = f.text_area :summary
+    tr
+      td Details
+      td = f.text_area :details
+    tr
+      td Scheduled
+      td = f.text_field :scheduled_date
+    tr
+      td Completed
+      td = f.text_field :scheduled_date
+    tr
+      td Finalized
+      td = f.check_box :is_finalized
+    tr
+      td
+      td
+        br
+        = f.submit
+

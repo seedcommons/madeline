@@ -11,18 +11,23 @@ module Legacy
           id: self.id,
           notable_type: notable_type,
           notable_id: noted_id,
-          person_id: member_id,
+          author_id: member_id,
           created_at: date,
       }
       data
     end
 
     def migrate
-      data = migration_data
-      puts "#{data[:id]}: #{data[:notable_id]}"
-      obj = ::Note.create(data)
-      # need to save this as a second pass because it's translatable
-      obj.update({text: note})
+      begin
+        data = migration_data
+        puts "#{data[:id]}: #{data[:notable_id]}"
+        obj = ::Note.create(data)
+        # need to save this as a second pass because it's translatable
+        obj.update({text: note})
+      rescue StandardError => e
+        puts "Note[#{id}] w/ noted: #{noted_table}:#{noted_id} - migrate error: #{e} - skipping"
+        #JE todo: log to a special migration_errors.log
+      end
     end
 
 
@@ -33,7 +38,7 @@ module Legacy
 
 
     def self.migrate_all
-      puts "notes logs: #{self.where('NotedTable' => 'Cooperatives').count}"
+      puts "notes coops: #{self.where('NotedTable' => 'Cooperatives').count}"
       self.where('NotedTable' => 'Cooperatives').each &:migrate
       ::Note.connection.execute("SELECT setval('notes_id_seq', (SELECT MAX(id) FROM notes)+1000)")
     end

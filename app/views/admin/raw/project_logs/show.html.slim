@@ -1,0 +1,39 @@
+= render view_path('common/show_header')
+
+table
+  tr
+    td Step
+    td
+      - if @item.project_step
+        = link_to @item.project_step.name, item_path(@item.project_step)
+  tr
+    td Person
+    td
+      - if @item.agent
+        = link_to @item.agent.name, item_path(@item.agent)
+  tr
+    td Progress Metric
+    td = @item.progress_metric
+  tr
+    td Date
+    td = @item.date
+  tr
+    td Summary
+    td = render view_path('common/translations'), {items: @item.summary_list}
+  tr
+    td Details
+    td = resolved view_path('common/translations'), {items: @item.details_list}
+  tr
+    td Additional Notes
+    td = resolved view_path('common/translations'), {items: @item.additional_notes_list}
+  tr
+    td Private Notes
+    td = resolved view_path('common/translations'), {items: @item.private_notes_list}
+
+- if @item.project_step
+  = link_to 'Back to Step', item_path(@item.project_step)
+
+
+- if params[:debug]
+  hr
+  = debug @item
