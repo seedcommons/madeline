@@ -1,4 +1,4 @@
-class Admin::CoopsController < Admin::AdminController
+class Admin::OrganizationsController < Admin::AdminController
   def index
     @organizations_grid = initialize_grid(
       Organization,

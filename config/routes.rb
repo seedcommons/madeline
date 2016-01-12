@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :dashboard, only: [:index]
+    resources :organizations, only: [:index]
 
     namespace :raw do
       resources :divisions
@@ -20,8 +21,6 @@ Rails.application.routes.draw do
       resources :notes
       post 'select_division', to: 'divisions#select'
     end
-
-    resources :coops, only: [:index]
   end
 
   localized do
