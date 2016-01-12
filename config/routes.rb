@@ -27,9 +27,5 @@ Rails.application.routes.draw do
     get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
   end
 
-  namespace :wordpress do
-    get 'rails_template' if Rails.env.development? || Rails.env.test?
-  end
-
   root to: 'loans#index'
 end
