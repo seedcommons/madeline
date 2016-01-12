@@ -2,9 +2,9 @@
 
 <% content_for :alerts do render "application/alerts" end %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin centered-text" }) do |f| %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin" }) do |f| %>
   <h2 class="form-signin-heading">Forgot your password?</h2>
-  <p>Send me reset password instructions</p>
+  <p class="centered-text">Send me reset password instructions</p>
 
   <%= yield :alerts %>
 
@@ -18,6 +18,6 @@
       class: "btn btn-lg btn-primary btn-block" %>
   </div>
 
-  <br><br>
+  <br>
   <%= render "devise/shared/links" %>
 <% end %>
