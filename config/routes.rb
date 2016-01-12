@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :calendar, only: [:index]
     resources :dashboard, only: [:index]
     resources :organizations, only: [:index]
 
