@@ -1,5 +1,7 @@
 <% content_for :title do 'Co-ops' end %>
 
+<%= render 'layouts/admin/tables' %>
+
 <%= grid(@organizations_grid, show_filters: :when_filtered) do |g| %>
 
   <% g.column name: "ID", attribute: 'id' do |organization| %>
