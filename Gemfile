@@ -87,6 +87,6 @@ group :development do
   # gem 'capistrano-passenger'
 end
 
-group :doc do
+group :development, :doc do
   gem 'rails-erd'
 end

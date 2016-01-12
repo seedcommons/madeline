@@ -29,5 +29,4 @@ Rails.application.routes.draw do
   end
 
   root to: 'admin/dashboard#index'
-  # root to: redirect('/admin/divisions')
 end

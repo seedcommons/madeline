@@ -3,17 +3,22 @@
 # Table name: project_logs
 #
 #  id                        :integer          not null, primary key
-#  project_step_id           :integer
 #  agent_id                  :integer
-#  progress_metric_option_id :integer
-#  date                      :date
 #  created_at                :datetime         not null
+#  date                      :date
+#  progress_metric_option_id :integer
+#  project_step_id           :integer
 #  updated_at                :datetime         not null
 #
 # Indexes
 #
 #  index_project_logs_on_agent_id         (agent_id)
 #  index_project_logs_on_project_step_id  (project_step_id)
+#
+# Foreign Keys
+#
+#  fk_rails_54dbbbb1d4  (agent_id => people.id)
+#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
 #
 
 class ProjectLog < ActiveRecord::Base
