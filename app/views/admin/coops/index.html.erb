@@ -1,6 +1,6 @@
 <% content_for :title do 'Co-ops' end %>
 
-<%= grid(@organizations_grid, show_filters: :always) do |g| %>
+<%= grid(@organizations_grid, show_filters: :when_filtered) do |g| %>
 
   <% g.column name: "ID", attribute: 'id' do |organization| %>
     <% organization.id %>
