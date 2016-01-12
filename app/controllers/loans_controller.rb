@@ -1,4 +1,5 @@
 class LoansController < ApplicationController
+  include WordpressEmbeddable
   # GET /loans
   # GET /loans.json
   def index
@@ -13,11 +14,7 @@ class LoansController < ApplicationController
     session[:loans_path] = request.fullpath
 
     respond_to do |format|
-      # Call update_template to pull layout from wordpress if it hasn't been loaded
-      format.html do
-        template_path = "layouts/embedded/wordpress-#{get_division_from_url}"
-        redirect_to update_template_path unless template_exists?(template_path)
-      end
+      format.html
       format.json { render json: @loans }
     end
   end
@@ -46,5 +43,4 @@ class LoansController < ApplicationController
       format.html
     end
   end
-
 end
