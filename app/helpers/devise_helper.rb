@@ -22,4 +22,10 @@ module DeviseHelper
       html.html_safe
     end
   end
+
+  def devise_error_messages_content?
+    if devise_error_messages! && !devise_error_messages!.empty?
+      return true
+    end
+  end
 end
