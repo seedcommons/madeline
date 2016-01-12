@@ -1,0 +1,18 @@
+/ could probably do some nested layout cleverness, instead of the header include
+= render view_path('common/index_header')
+
+table border=1
+  tr
+    th ID
+    th Name
+    th Description
+    th # Loans
+
+  - for item in @items
+    tr
+      td = link_to item.id, item_path(item)
+      td = item.name
+      td = item.description
+      td = item.loans_count
+
+= will_paginate @items

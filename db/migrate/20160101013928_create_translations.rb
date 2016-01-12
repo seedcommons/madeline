@@ -3,7 +3,7 @@ class CreateTranslations < ActiveRecord::Migration
     create_table :translations do |t|
       t.references :translatable, polymorphic: true, index: true
       t.string :translatable_attribute
-      t.references :language, index: true
+      t.references :language, index: true   #JE todo: discuss adding foreign key contstraint here
       t.text :text
       # defer these fields until need is more clear
       # t.boolean :is_primary

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106183814) do
+ActiveRecord::Schema.define(version: 20160110190559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160106183814) do
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.text "description"
+    t.string "internal_name"
     t.string "name"
     t.integer "organization_id"
     t.integer "parent_id"
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 20160106183814) do
   create_table "organizations", force: :cascade do |t|
     t.string "alias"
     t.string "city"
+    t.text "contact_notes"
     t.integer "country_id"
     t.datetime "created_at", null: false
     t.integer "division_id"
@@ -148,7 +150,6 @@ ActiveRecord::Schema.define(version: 20160106183814) do
     t.string "legal_name"
     t.string "name"
     t.string "neighborhood"
-    t.text "notes"
     t.integer "organization_snapshot_id"
     t.integer "primary_contact_id"
     t.string "primary_phone"
@@ -167,6 +168,7 @@ ActiveRecord::Schema.define(version: 20160106183814) do
   create_table "people", force: :cascade do |t|
     t.date "birth_date"
     t.string "city"
+    t.text "contact_notes"
     t.integer "country_id"
     t.datetime "created_at", null: false
     t.integer "division_id"
@@ -177,7 +179,6 @@ ActiveRecord::Schema.define(version: 20160106183814) do
     t.string "legal_name"
     t.string "name"
     t.string "neighborhood"
-    t.text "notes"
     t.integer "primary_organization_id"
     t.string "primary_phone"
     t.string "secondary_phone"
@@ -266,5 +267,6 @@ ActiveRecord::Schema.define(version: 20160106183814) do
   add_foreign_key "people", "divisions"
   add_foreign_key "people", "organizations", column: "primary_organization_id"
   add_foreign_key "project_logs", "people", column: "agent_id"
+  add_foreign_key "project_logs", "project_steps"
   add_foreign_key "project_steps", "people", column: "agent_id"
 end
