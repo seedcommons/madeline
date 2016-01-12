@@ -5,14 +5,11 @@
 
 = grid(@organizations_grid, show_filters: :when_filtered) do |g|
 
-  - g.column name: "ID", attribute: 'id' do |organization|
-    - organization.id
+  - g.column name: 'ID', attribute: 'id'
 
-  - g.column name: "Name", attribute: 'name'  do |organization|
-    - organization.name
+  - g.column name: 'Name', attribute: 'name'
 
-  - g.column name: 'City', attribute: 'city' do |organization|
-    - organization.city
+  - g.column name: 'City', attribute: 'city'
 
   - g.column name: 'Country' do |organization|
     - organization.country.name
