@@ -1,81 +1,50 @@
 - content_for :title do
   - @coop.name
 
-table
+section.block
 
-  tr
-    th Name
-    td
-      = @coop.name
+  form.form-horizontal
+    div.form-group.row
+      label.col-lg-3 Name
+      span.col-lg-6.form-span
+        = @coop.name
+      = hidden_field(:coop, :name, class: 'form-field col-lg-6')
 
-  tr
-    th Address
-    td
-      = @coop.street_address
+    div.form-group.row
+      label.col-lg-3 Address
+      span.col-lg-6.form-span
+        = @coop.street_address
+      = hidden_field(:coop, :street_address, class: 'form-field col-lg-6')
 
-  tr
-    th City
-    td
-      = @coop.city
+    div.form-group.row
+      label.col-lg-3 City
+      span.col-lg-6.form-span
+        = @coop.city
+      = hidden_field(:coop, :city, class: 'form-field col-lg-6')
 
-  tr
-   th State
-   td
-    = @coop.state
+    div.form-group.row
+      label.col-lg-3 State
+      span.col-lg-6.form-span
+        = @coop.state
+      = hidden_field(:coop, :website, class: 'form-field col-lg-6')
 
-  tr
-    th Country
-    td
-      = @coop.country.name
+    div.form-group.row
+      label.col-lg-3 Country
+      span.col-lg-6.form-span
+        = @coop.country.name
+      = hidden_field(:coop, :country, class: 'form-field col-lg-6')
 
-  tr
-    th Website
-    td
-      = link_to(@coop.website, @coop.website)
+    div.form-group.row
+      label.col-lg-3 Website
+      span.col-lg-6.form-span
+        = link_to(@coop.website, @coop.website)
+      = hidden_field(:coop, :website, class: 'form-field col-lg-6')
 
-  - if @coop.people.exists
-    tr
-      th Members
-      td
+    div.form-group.row
+      label.col-lg-3 Members
+      span.col-lg-6
         - if @coop.people.exists && @coop.people.empty?
-          span None found
-        - else
-          - @coop.people.each do |person|
-            = person
-            = "<br>".html_safe
-
-form.form-horizontal
-  div.form-group
-    label Name
-    = text_field(:coop, :name)
-
-  div.form-group
-    label Address
-    = text_field(:coop, :street_address)
-
-  div.form-group
-    label City
-    = text_field(:coop, :city)
-
-  div.form-group
-    label State
-    = text_field(:coop, :state)
-
-  div.form-group
-    label Country
-    = @coop.country.name
-
-  tr
-    th Website
-    td
-      = link_to(@coop.website, @coop.website)
-
-  - if @coop.people.exists
-    tr
-      th Members
-      td
-        - if @coop.people.exists && @coop.people.empty?
-          span None found
+          = 'None found'
         - else
           - @coop.people.each do |person|
             = person
