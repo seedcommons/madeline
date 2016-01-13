@@ -85,9 +85,9 @@ group :development do
   gem 'fix-db-schema-conflicts'
 
   # Deployment
-  # gem 'capistrano',  '~> 3.1'
-  # gem 'capistrano-rails', '~> 1.1'
-  # gem 'capistrano-passenger'
+  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-passenger'
 end
 
 group :doc do
