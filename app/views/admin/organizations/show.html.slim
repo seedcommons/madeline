@@ -1,8 +1,10 @@
+- content_for :styles do
+  = stylesheet_link_tag "admin/coops/coops", :media => "all"
+
 - content_for :title do
   - @coop.name
 
 section.block
-
   form.form-horizontal
     div.form-group.row
       label.col-lg-3 Name
