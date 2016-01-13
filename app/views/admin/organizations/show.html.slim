@@ -39,15 +39,15 @@ section.block
     div.form-group.row
       label.col-lg-3 Website
       span.col-lg-6.form-span
-        = link_to(@coop.website, @coop.website)
+        - unless @coop.website.nil?
+          = link_to(@coop.website, @coop.website)
       = hidden_field(:coop, :website, class: 'form-field col-lg-6')
 
     div.form-group.row
       label.col-lg-3 Members
       span.col-lg-6
-        - if @coop.people.exists && @coop.people.empty?
-          = 'None found'
-        - else
-          - @coop.people.each do |person|
-            = person
-            = "<br>".html_safe
+        - if @coop.people.exists
+          - unless @coop.people.empty?
+            - @coop.people.each do |person|
+              = person
+              = "<br>".html_safe
