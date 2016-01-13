@@ -2,7 +2,8 @@
 lock '3.4.0'
 
 # for now deploy into the old application
-set :application, 'cofunder'
+#set :application, 'cofunder'
+set :application, 'madeline_system'
 set :repo_url, 'git@github.com:sassafrastech/madeline_system.git'
 
 set :tmp_dir, '/home/deploy/tmp'
@@ -14,7 +15,7 @@ set :branch, -> { fetch(:stage) }
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
-set :deploy_to, -> { "/var/rails/cofunder/#{fetch(:stage)}" }
+set :deploy_to, -> { "/var/rails/madeline_system/#{fetch(:stage)}" }
 
 
 # Default value for :scm is :git
@@ -31,12 +32,13 @@ set :deploy_to, -> { "/var/rails/cofunder/#{fetch(:stage)}" }
 
 # Default value for :linked_files is []
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-set :linked_files, %w{config/database.yml config/initializers/local_config.rb}
+set :linked_files, %w{config/database.yml config/secrets.yml}
 
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/images public/assets}
+#set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/images public/assets}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets}
 
 
 # Default value for default_env is {}
