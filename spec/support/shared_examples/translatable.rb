@@ -1,9 +1,9 @@
-##
-## JE todo: update this to work with the new Translatable module
-##
-
 shared_examples_for 'translatable' do |column_names|
   let(:translatable_model) { create(described_class.to_s.underscore) }
+  before do
+    @default_language = create(:language, code: 'EN')
+  end
+
   context 'with translations' do
     before do
       column_names.each do |column_name|
@@ -11,15 +11,16 @@ shared_examples_for 'translatable' do |column_names|
       end
     end
 
-
     it 'should give translation' do
       column_names.each do |column_name|
         getter_translation = translatable_model.send(column_name.to_sym)
-        raw_translation = Translation.find_by({translatable_type: translatable_model.class.name, translatable_id: translatable_model.id,
-                          translatable_attribute: column_name, language_id: Language.resolve_id(I18n.language_code)})
+        raw_translation = Translation.find_by({
+          translatable: translatable_model,
+          translatable_attribute: column_name,
+          language: @default_language
+        })
         expect(getter_translation).to eq raw_translation.text
       end
-
     end
 
     it 'should have method for column name that fetches translation' do

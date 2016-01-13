@@ -33,4 +33,8 @@ class Media < ActiveRecord::Base
   def alt
     self.try(:caption) || self.media_attachable.try(:name)
   end
+
+  def filename
+    item.file.filename
+  end
 end

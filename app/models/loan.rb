@@ -46,6 +46,7 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :project_steps, as: :project
+  has_many :project_logs, through: :project_steps
 
 
   # define accessor like convenience methods for the fields stored in the Translations table
@@ -54,6 +55,17 @@ class Loan < ActiveRecord::Base
 
   validates :division_id, presence: true
 
+  scope :with_division, -> { includes(:division) }
+  scope :with_organization, -> { includes(:organization) }
+  scope :status, ->(status) {
+    case status
+    when 'all'
+      all
+    else
+      where(status_option_id: STATUS_OPTIONS.value_for(status))
+    end
+  }
+  scope :visible, -> { where.not(publicity_status: 'hidden') }
 
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name
@@ -61,7 +73,8 @@ class Loan < ActiveRecord::Base
   end
 
   def status
-    STATUS_OPTIONS.label_for(status_option_id)
+    status = STATUS_OPTIONS.label_for(status_option_id)
+    I18n.t "loan_#{status}".to_sym
   end
 
   def loan_type
@@ -76,15 +89,20 @@ class Loan < ActiveRecord::Base
   # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
   # if not, can remove once we're past the production migration process
   def default_step
-    step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
+    step = project_steps.select{ |s| s.summary == DEFAULT_STEP_NAME }.first
     unless step
-      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
+      # Could perhaps optimize this with a 'find_or_create_by',
+      # but would be tricky with the translatable 'summary' field,
       # and it's nice to be able to log the operation.
-      logger.info {"default step not found for loan[#{id}] - creating"}
+      logger.info { "default step not found for loan[#{id}] - creating" }
       step = project_steps.create
       step.update({summary: DEFAULT_STEP_NAME})
     end
     step
+  end
+
+  def amount_formatted
+    amount.to_s
   end
 
 
@@ -96,14 +114,14 @@ class Loan < ActiveRecord::Base
 
   # place holder display name mappings until final solution decided upon
   STATUS_OPTIONS = OptionSet.new(
-      [ [STATUS_ACTIVE_ID, 'Active'],
-        [2, 'Completed'],
-        [3, 'Frozen'],
-        [4, 'Liquidated'],
-        [5, 'Prospective'],
-        [6, 'Refinanced'],
-        [7, 'Relationship'],
-        [8, 'Relationship Active']
+      [ [STATUS_ACTIVE_ID, 'active'],
+        [2, 'completed'],
+        [3, 'frozen'],
+        [4, 'liquidated'],
+        [5, 'prospective'],
+        [6, 'refinanced'],
+        [7, 'relationship'],
+        [8, 'relationship_active']
       ])
 
   # used for resolving id from legacy data
@@ -119,13 +137,13 @@ class Loan < ActiveRecord::Base
       ])
 
   LOAN_TYPE_OPTIONS = OptionSet.new(
-      [ [1, "Liquidity line of credit"],
-        [2, "Investment line of credit"],
-        [3, "Investment Loans"],
-        [4, "Evolving loan"],
-        [5, "Single Liquidity line of credit"],
-        [6, "Working Capital Investment Loan"],
-        [7, "Secured Asset Investment Loan"]
+      [ [1, 'Liquidity line of credit'],
+        [2, 'Investment line of credit'],
+        [3, 'Investment Loans'],
+        [4, 'Evolving loan'],
+        [5, 'Single Liquidity line of credit'],
+        [6, 'Working Capital Investment Loan'],
+        [7, 'Secured Asset Investment Loan']
       ])
 
   PROJECT_TYPE_OPTIONS = OptionSet.new(
@@ -147,8 +165,6 @@ class Loan < ActiveRecord::Base
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
   }
-  scope :status, ->(status) { where(status: status) }
-  scope :visible, -> { where.not(publicity_status: 'hidden') }
 
   def self.default_filter
     {
@@ -157,7 +173,7 @@ class Loan < ActiveRecord::Base
     }
   end
 
-  def self.filter_by_params(params)
+  def self.filter_by(params)
     params.reverse_merge! self.default_filter
     params[:country] = 'Argentina' if params[:division] == :argentina
     scoped = self.all
@@ -168,30 +184,20 @@ class Loan < ActiveRecord::Base
 
   def country
     # TODO: Temporary fix sets country to US when not found
-    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
-    @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
-  end
-
-  def currency
-    @currency ||= self.country.default_currency
+    @country ||= organization.try(:country) || Country.find_by(iso_code: 'US')
   end
 
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name
-    else self.country.name end
+    else
+      self.country.name
+    end
   end
 
   def signing_date_long
     I18n.l self.signing_date, format: :long if self.signing_date
   end
-
-  # def short_description
-  #   self.translation('ShortDescription')
-  # end
-  # def description
-  #   self.translation('Description')
-  # end
 
   def coop_media(limit=100, images_only=false)
     get_media('Cooperatives', self.cooperative.try(:id), limit, images_only)
@@ -201,55 +207,53 @@ class Loan < ActiveRecord::Base
     get_media('Loans', self.id, limit, images_only)
   end
 
-  def log_media(limit=100, images_only=false)
+  def log_media(limit: 100, images_only: false)
     media = []
-    begin
-      self.logs("Date").each do |log|
-        media += log.media(limit - media.count, images_only)
-        return media unless limit > media.count
-      end
-    rescue Mysql2::Error # some logs have invalid dates
+    self.logs('date').each do |log|
+      media += log.get_media(limit: limit - media.count, images_only: images_only)
+      return media unless limit > media.count
     end
-    return media
+    media
   end
 
   def featured_pictures(limit=1)
     pics = []
-    coop_pics = get_media('Cooperatives', self.cooperative.try(:id), limit, images_only=true).to_a
+    coop_pics = organization.get_media(limit: limit, images_only: true).to_a
     # use first coop picture first
     pics << coop_pics.shift if coop_pics.count > 0
     return pics unless limit > pics.count
     # then loan pics
-    pics += get_media('Loans', self.id, limit - pics.count, images_only=true)
+    pics += get_media(limit: limit - pics.count, images_only: true).to_a
     return pics unless limit > pics.count
     # then log pics
-    pics += self.log_media(limit - pics.count, images_only=true)
+    pics += self.log_media(limit: limit - pics.count, images_only: true)
     return pics unless limit > pics.count
     # then remaining coop pics
     pics += coop_pics[0, limit - pics.count]
-    return pics
+    pics
   end
 
   def thumb_path
     if !self.featured_pictures.empty?
-      self.featured_pictures.first.paths[:thumb]
-    else "/assets/ww-avatar-watermark.png" end
-  end
-
-  def amount_formatted
-    currency_format(self.amount, self.currency)
-  end
-
-  def project_events(order_by="Completed IS NULL OR Completed = '0000-00-00', Completed, Date")
-    @project_events ||= ProjectEvent.includes(project_logs: :progress_metric).
-      where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
-    @project_events.reject do |p|
-      # Hide past uncompleted project events without logs (for now)
-      !p.completed && p.project_logs.empty? && p.date <= Date.today
+      self.featured_pictures.first.item.thumb
+    else
+      '/assets/ww-avatar-watermark.png'
     end
   end
 
-  def logs(order_by="Date DESC")
-    @logs ||= ProjectLog.where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
+  # def amount_formatted
+  #   currency_format(self.amount, self.currency)
+  # end
+
+  def project_events(order_by="completed_date IS NULL, completed_date, scheduled_date")
+    @project_events ||= project_steps.includes(:project_logs).order(order_by)
+    @project_events.reject do |p|
+      # Hide past uncompleted project events without logs (for now)
+      !p.completed? && p.project_logs.empty? && p.scheduled_date <= Time.zone.now
+    end
+  end
+
+  def logs(order_by='date DESC')
+    @logs ||= project_logs.order(order_by)
   end
 end

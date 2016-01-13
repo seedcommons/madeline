@@ -29,6 +29,5 @@ Rails.application.routes.draw do
     get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
   end
 
-  root to: 'admin/dashboard#index'
-  # root to: redirect('/admin/divisions')
+  root to: 'loans#index'
 end
