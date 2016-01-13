@@ -6,16 +6,16 @@
 #   i.e.: attr_option_settable :status, :loan_type, :project_type, :public_level
 #
 # this assumes integer columns exist in the form of loan_type_option_id, etc.
-# and that the corresponding OptionSet/Option db records exists.  (see seed.db for examples)
+# and that the corresponding OptionSet/Option db records exist.  (see seeds.db for examples)
 #
 # will define the attribute name prefixed methods in the following format:
 #   class level:
 #     loan_type_option_set - the raw option set
-#     loan_type_option_list(language_code=nil) - list of hashes(value:xx, label:xx) for use form select options
+#     loan_type_option_list(language_code=nil) - list of hashes(value:xx, label:xx) for use as form select options
 #     loan_type_option_label(value, language_code=nil) - resolve a given value
 #     loan_type_option_values - list of valid values - may be used by test model factory defs
 #   instance level:
-#     loan_type_option_label(language_code:nil) - instance's resolved option label
+#     loan_type_option_label(language_code=nil) - instance's resolved option label
 #
 
 module OptionSettable
@@ -114,4 +114,3 @@ end
 #     h[attribute.to_sym] = fetch_option_set(attribute)
 #   end
 # end
-
