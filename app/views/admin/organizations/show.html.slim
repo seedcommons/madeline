@@ -1,9 +1,16 @@
-- content_for :styles do
+- content_for :styles
   = stylesheet_link_tag "admin/coops/coops", :media => "all"
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
 
-- content_for :title do
-  - @coop.name
+- content_for :scripts
+  = javascript_include_tag "admin/forms/forms"
+
+- content_for :title
+  = @coop.name
+
+div.icons.row
+  i.fa.fa-pencil.fa-large.col-lg-1.col-lg-offset-10.edit-action  Edit
+  i.fa.fa-trash.fa-large.col-lg-1.delete-action  Delete
 
 section.block.show-view
   form.form-horizontal
