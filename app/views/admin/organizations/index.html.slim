@@ -1,0 +1,21 @@
+- content_for :title do
+  - 'Co-ops'
+
+= render 'layouts/admin/tables'
+
+= grid(@organizations_grid, show_filters: :when_filtered) do |g|
+
+  - g.blank_slate content_tag(:div, "No records found", class: 'alert alert-info')
+
+  - g.column name: 'ID', attribute: 'id'
+
+  - g.column name: 'Name', attribute: 'name'
+
+  - g.column name: 'City', attribute: 'city'
+
+  - g.column name: 'Country' do |organization|
+    - organization.country.name
+
+  - g.column name: 'Created', attribute: 'created_at'
+
+  - g.column name: 'Updated', attribute: 'updated_at'

@@ -47,6 +47,9 @@ gem 'mini_magick'
 # needed for migration of legacy data
 gem 'mysql2'
 
+# Tables
+gem 'wice_grid'
+gem 'jquery-ui-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -82,9 +85,9 @@ group :development do
   gem 'fix-db-schema-conflicts'
 
   # Deployment
-  # gem 'capistrano',  '~> 3.1'
-  # gem 'capistrano-rails', '~> 1.1'
-  # gem 'capistrano-passenger'
+  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-passenger'
 end
 
 group :doc do
