@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Loan, :type => :model do
 
-  before { seed_data }
+  # before { seed_data }
 
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'

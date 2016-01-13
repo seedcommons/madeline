@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Person, type: :model do
 
-  before { seed_data }
+  # before { seed_data }
 
   it 'has a valid factory' do
     expect(create(:person)).to be_valid

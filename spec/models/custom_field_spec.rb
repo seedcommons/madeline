@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CustomField, :type => :model do
 
-  before { seed_data }
+  # before { seed_data }
 
   it_should_behave_like 'translatable', ['label']
 
