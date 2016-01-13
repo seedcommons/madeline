@@ -24,8 +24,10 @@ module DeviseHelper
   end
 
   def devise_error_messages_content?
-    if devise_error_messages! && !devise_error_messages!.empty?
-      return true
+    if devise_error_messages!
+      unless devise_error_messages!.empty?
+        return true
+      end
     end
   end
 end
