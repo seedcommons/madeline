@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :dashboard, only: [:index]
     resources :calendar, only: [:index]
+    resources :dashboard, only: [:index]
+    resources :organizations, only: [:index]
 
     namespace :raw do
       resources :divisions
