@@ -1,47 +1,48 @@
 - content_for :styles do
   = stylesheet_link_tag "admin/coops/coops", :media => "all"
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
 
 - content_for :title do
   - @coop.name
 
-section.block
+section.block.show-view
   form.form-horizontal
     div.form-group.row
       label.col-lg-3 Name
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         = @coop.name
-      = hidden_field(:coop, :name, class: 'form-field col-lg-6')
+      = text_field(:coop, :name, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 Address
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         = @coop.street_address
-      = hidden_field(:coop, :street_address, class: 'form-field col-lg-6')
+      = text_field(:coop, :street_address, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 City
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         = @coop.city
-      = hidden_field(:coop, :city, class: 'form-field col-lg-6')
+      = text_field(:coop, :city, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 State
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         = @coop.state
-      = hidden_field(:coop, :website, class: 'form-field col-lg-6')
+      = text_field(:coop, :website, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 Country
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         = @coop.country.name
-      = hidden_field(:coop, :country, class: 'form-field col-lg-6')
+      = text_field(:coop, :country, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 Website
-      span.col-lg-6.form-span
+      span.col-lg-6.view-element
         - unless @coop.website.nil?
           = link_to(@coop.website, @coop.website)
-      = hidden_field(:coop, :website, class: 'form-field col-lg-6')
+      = text_field(:coop, :website, class: 'form-element col-lg-6')
 
     div.form-group.row
       label.col-lg-3 Members
@@ -50,4 +51,4 @@ section.block
           - unless @coop.people.empty?
             - @coop.people.each do |person|
               = person
-              = "<br>".html_safe
+              br
