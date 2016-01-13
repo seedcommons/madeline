@@ -43,3 +43,40 @@ table
           - @coop.people.each do |person|
             = person
             = "<br>".html_safe
+
+form.form-horizontal
+  div.form-group
+    label Name
+    = text_field(:coop, :name)
+
+  div.form-group
+    label Address
+    = text_field(:coop, :street_address)
+
+  div.form-group
+    label City
+    = text_field(:coop, :city)
+
+  div.form-group
+    label State
+    = text_field(:coop, :state)
+
+  div.form-group
+    label Country
+    = @coop.country.name
+
+  tr
+    th Website
+    td
+      = link_to(@coop.website, @coop.website)
+
+  - if @coop.people.exists
+    tr
+      th Members
+      td
+        - if @coop.people.exists && @coop.people.empty?
+          span None found
+        - else
+          - @coop.people.each do |person|
+            = person
+            = "<br>".html_safe
