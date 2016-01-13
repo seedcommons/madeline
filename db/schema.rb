@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110190559) do
+ActiveRecord::Schema.define(version: 20160112184537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,29 @@ ActiveRecord::Schema.define(version: 20160110190559) do
     t.string "symbol"
     t.datetime "updated_at", null: false
   end
+
+  create_table "custom_field_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "division_id"
+    t.string "internal_name"
+    t.string "label"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "custom_field_sets", ["division_id"], name: "index_custom_field_sets_on_division_id", using: :btree
+
+  create_table "custom_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "custom_field_set_id"
+    t.string "data_type"
+    t.string "internal_name"
+    t.string "label"
+    t.integer "parent_id"
+    t.integer "position"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -252,6 +275,8 @@ ActiveRecord::Schema.define(version: 20160110190559) do
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "countries", "languages"
   add_foreign_key "countries", "languages", column: "default_language_id"
+  add_foreign_key "custom_field_sets", "divisions"
+  add_foreign_key "custom_fields", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"

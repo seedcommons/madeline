@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       resources :project_steps
       resources :project_logs
       resources :notes
+      resources :custom_field_sets
+      resources :custom_fields
       post 'select_division', to: 'divisions#select'
     end
   end

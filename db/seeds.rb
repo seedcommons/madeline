@@ -34,3 +34,16 @@ Country.connection.execute("select setval('countries_id_seq', (select max(id) fr
 
 # for now mapping the '0' Person refs to 'null' and allowing null refs in the schema
 # Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
+
+
+
+# note, the assigned id values correspond to the 'active' column in the legacy LoanQuestions table
+#todo: restore this version once optionset branch merged
+# CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'loan_criteria').set_label_list(en: 'Loan Criteria Questionnaire')
+# CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label_list(en: 'Loan Post Analysis')
+# CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'bogus').set_label('?Bogus Loan Criteria Questionnaire')
+CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria-2').set_label('Loan Criteria Questionnaire')
+CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+#todo: find somplace to factor this out to
+CustomFieldSet.connection.execute("select setval('custom_field_sets_id_seq', (select max(id) from custom_field_sets))")
+
