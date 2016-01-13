@@ -5,6 +5,8 @@
 
 = grid(@organizations_grid, show_filters: :when_filtered) do |g|
 
+  - g.blank_slate content_tag(:div, "No records found", class: 'alert alert-info')
+
   - g.column name: 'ID', attribute: 'id'
 
   - g.column name: 'Name', attribute: 'name'
