@@ -1,0 +1,45 @@
+- content_for :title do
+  - @coop.name
+
+table
+
+  tr
+    th Name
+    td
+      = @coop.name
+
+  tr
+    th Address
+    td
+      = @coop.street_address
+
+  tr
+    th City
+    td
+      = @coop.city
+
+  tr
+   th State
+   td
+    = @coop.state
+
+  tr
+    th Country
+    td
+      = @coop.country.name
+
+  tr
+    th Website
+    td
+      = link_to(@coop.website, @coop.website)
+
+  - if @coop.people.exists
+    tr
+      th Members
+      td
+        - if @coop.people.exists && @coop.people.empty?
+          span None found
+        - else
+          - @coop.people.each do |person|
+            = person
+            = "<br>".html_safe
