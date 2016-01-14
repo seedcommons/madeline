@@ -9,5 +9,6 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def show
     @coop = Organization.find(params[:id])
+    @countries = Country.all
   end
 end
