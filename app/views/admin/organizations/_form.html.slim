@@ -56,7 +56,7 @@
 
   div.actions.row.form-block
     - if @coop.new_record?
-      button.btn.btn-success.new-action.col-lg-2.col-lg-offset-5 Create
+      = f.button :button, class: 'btn btn-success col-lg-2 col-lg-offset-5'
     - else
-      button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-      button.btn.btn-success.col-lg-2 Submit
+      span.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
+      = f.button :button, class: 'btn btn-success col-lg-2'
