@@ -42,10 +42,11 @@ shared_examples_for 'option_settable' do |attribute_names|
 
   it 'model instance should give label' do
     attribute_names.each do |attribute_name|
+      option_set = OptionSet.fetch(described_class, attribute_name)
       value = described_class.send("#{attribute_name}_option_values".to_sym).sample
+      id = option_set.id_for_value(value)
       if value
-        model_instance.send("#{attribute_name}_option_id=", value)
-        option_set = OptionSet.fetch(described_class, attribute_name)
+        model_instance.send("#{attribute_name}_option_id=", id)
         option = Option.find_by(option_set_id: option_set.id, value: value)
         label_data = option.label_list.sample
         language_code = label_data[:code]

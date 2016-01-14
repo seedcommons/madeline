@@ -46,6 +46,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    seed_data
   end
 
   config.before(:each) do
@@ -56,6 +57,7 @@ RSpec.configure do |config|
 
   config.before(:each, :js => true) do
     DatabaseCleaner.strategy = :truncation
+    seed_data
   end
 
   config.before(:each) do

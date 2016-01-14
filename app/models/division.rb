@@ -3,12 +3,12 @@
 # Table name: divisions
 #
 #  id              :integer          not null, primary key
-#  created_at      :datetime         not null
-#  currency_id     :integer
-#  description     :text
-#  name            :string
 #  organization_id :integer
+#  name            :string
+#  description     :text
 #  parent_id       :integer
+#  currency_id     :integer
+#  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  internal_name   :string
 #
