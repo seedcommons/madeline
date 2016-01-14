@@ -1,54 +1,60 @@
-    form.form-horizontal
-      div.form-group.row
-        label.col-lg-3 Name
-        span.col-lg-6.view-element
-          = @coop.name
-        = text_field(:coop, :name, class: 'form-element col-lg-6')
+= simple_form_for(@coop,
+  url: admin_organizations_path,
+  html: { class: 'form-horizontal' },
+  defaults: { \
+    input_html: { class: 'form-element col-lg-6' }, \
+    label_html: { class: 'form-element col-lg-6' } \
+  }) do |f|
+  div.form-group.row
+    label.col-lg-3 Name
+    span.col-lg-6.view-element
+      = @coop.name
+    = text_field(:coop, :name, class: 'form-element col-lg-6')
 
-      div.form-group.row
-        label.col-lg-3 Address
-        span.col-lg-6.view-element
-          = @coop.street_address
-        = text_field(:coop, :street_address, class: 'form-element col-lg-6')
+  div.form-group.row
+    label.col-lg-3 Address
+    span.col-lg-6.view-element
+      = @coop.street_address
+    = text_field(:coop, :street_address, class: 'form-element col-lg-6')
 
-      div.form-group.row
-        label.col-lg-3 City
-        span.col-lg-6.view-element
-          = @coop.city
-        = text_field(:coop, :city, class: 'form-element col-lg-6')
+  div.form-group.row
+    label.col-lg-3 City
+    span.col-lg-6.view-element
+      = @coop.city
+    = text_field(:coop, :city, class: 'form-element col-lg-6')
 
-      div.form-group.row
-        label.col-lg-3 State
-        span.col-lg-6.view-element
-          = @coop.state
-        = text_field(:coop, :website, class: 'form-element col-lg-6')
+  div.form-group.row
+    label.col-lg-3 State
+    span.col-lg-6.view-element
+      = @coop.state
+    = text_field(:coop, :website, class: 'form-element col-lg-6')
 
-      div.form-group.row
-        label.col-lg-3 Country
-        - unless @coop.new_record?
-          span.col-lg-6.view-element
-            = @coop.country.name
-        /= text_field(:coop, :country_id, class: 'form-element col-lg-6')
-        = select(:coop, :country_id) do
-          - @countries.each do |country|
-            = content_tag(:option, country.name, value: country.id)
+  div.form-group.row
+    label.col-lg-3 Country
+    - unless @coop.new_record?
+      span.col-lg-6.view-element
+        = @coop.country.name
+    /= text_field(:coop, :country_id, class: 'form-element col-lg-6')
+    = select(:coop, :country_id) do
+      - @countries.each do |country|
+        = content_tag(:option, country.name, value: country.id)
 
-      div.form-group.row
-        label.col-lg-3 Website
-        span.col-lg-6.view-element
-          - unless @coop.website.nil?
-            = link_to(@coop.website, @coop.website)
-        = text_field(:coop, :website, class: 'form-element col-lg-6')
+  div.form-group.row
+    label.col-lg-3 Website
+    span.col-lg-6.view-element
+      - unless @coop.website.nil?
+        = link_to(@coop.website, @coop.website)
+    = text_field(:coop, :website, class: 'form-element col-lg-6')
 
-      div.form-group.row
-        label.col-lg-3 Members
-        span.col-lg-6
-          - if @coop.people.exists
-            - unless @coop.people.empty?
-              - @coop.people.each do |person|
-                = person
-                br
+  div.form-group.row
+    label.col-lg-3 Members
+    span.col-lg-6
+      - if @coop.people.exists
+        - unless @coop.people.empty?
+          - @coop.people.each do |person|
+            = person
+            br
 
-      div.row.form-block
-        button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-        button.btn.btn-success.col-lg-2 Submit
+  div.row.form-block
+    button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
+    button.btn.btn-success.col-lg-2 Submit
