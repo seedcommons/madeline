@@ -41,7 +41,7 @@ FactoryGirl.define do
     name { "Loan for " + Faker::Company.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
-    status_option_id { [1,2].sample }
+    status_option_id { Loan.status_option_set.values.sample }
     amount { rand(5000..50000) }
     currency
     rate 0.15
@@ -55,12 +55,12 @@ FactoryGirl.define do
 
 
     trait :active do
-      # note: can't seem to count on the seed.db data having been loaded when these are executed
-      status_option_id 1 #Loan.status_option_set.value_for_label('Active')
+      #todo: fix this once we switch to option_status_value
+      # status_option_id Loan.status_option_set.id_for_value(:active)
     end
 
     trait :completed do
-      status_option_id 2 #Loan.status_option_set.value_for_label('Completed')
+      # status_option_id Loan.status_option_set.id_for_value(:completed)
     end
 
     #JE todo: fix these

@@ -19,7 +19,7 @@ class OptionSet < ActiveRecord::Base
   # beware, for now it is expected that all OptionSets are owned by the root division
   belongs_to :division
 
-  has_many :options, -> { order(:position) }
+  has_many :options, -> { order(:position) }, dependent: :destroy
 
 
   validates :division_id, presence: true
@@ -36,10 +36,19 @@ class OptionSet < ActiveRecord::Base
   end
 
 
-  def translated_label(value, language_code=nil)
+  def translated_label_by_value(value, language_code=nil)
+    return nil  unless value
     option = options.find_by(value: value)
     #todo: confirm if RuntimeException is appropriate or other convention to follow
     raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value}"  unless option
+    option.get_label(language_code)
+  end
+
+  def translated_label_by_id(id, language_code=nil)
+    return nil  unless id
+    option = options.find_by(id: id) # use 'find_by' to avoid generic not found error
+    #todo: confirm if RuntimeException is appropriate or other convention to follow
+    raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{id}"  unless option
     option.get_label(language_code)
   end
 
@@ -50,9 +59,28 @@ class OptionSet < ActiveRecord::Base
   end
 
 
-  # returns value associated with given value - useful for test specs
-  def value_for_label(label)
-    translated_list.select{ |_| _[:label] == label }.first[:value]
+  def value_for_migration_id(migration_id)
+    options.find_by(migration_id: migration_id).try(:value)
+  end
+
+  #todo remove if we migrate foreign key refs to values
+  def id_for_value(value)
+    options.find_by(value: value).try(:id)
+  end
+
+  def create_option(data)
+    # assign default 'position' value of not explictly provided
+    unless data[:position]
+      max = options.maximum(:position)
+      data[:position] = (max || 0) + 1
+    end
+    # todo, confirm which style is prefered, the clever one-liner below, or multi-line with debuggable intermediary state above
+    # data[:position] = (options.maximum(:position) || 0) + 1  unless data[:position]
+
+    option = options.create(data)
+    # if 'value' not explicitly provided, then default to primary key
+    option.update(value: option.id)  unless data[:value]
+    option
   end
 
 

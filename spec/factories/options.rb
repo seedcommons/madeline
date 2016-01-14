@@ -4,8 +4,9 @@
 #
 #  id            :integer          not null, primary key
 #  option_set_id :integer
+#  value         :string
 #  position      :integer
-#  value         :integer
+#  migration_id  :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
