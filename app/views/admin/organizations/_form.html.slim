@@ -34,7 +34,6 @@
     - unless @coop.new_record?
       span.col-lg-6.view-element
         = @coop.country.name
-    /= text_field(:coop, :country_id, class: 'form-element col-lg-6')
     = select(:coop, :country_id) do
       - @countries.each do |country|
         = content_tag(:option, country.name, value: country.id)
@@ -55,6 +54,9 @@
             = person
             br
 
-  div.row.form-block
-    button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-    button.btn.btn-success.col-lg-2 Submit
+  div.actions.row.form-block
+    - if @coop.new_record?
+      button.btn.btn-success.new-action.col-lg-2.col-lg-offset-5 Create
+    - else
+      button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
+      button.btn.btn-success.col-lg-2 Submit
