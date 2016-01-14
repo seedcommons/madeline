@@ -1,0 +1,19 @@
+.edit-view {
+  .view-element {
+    display: none;
+  }
+
+  .form-element {
+    display: inline-block;
+  }
+}
+
+.show-view {
+  .view-element {
+    display: inline-block;
+  }
+
+  .form-element {
+    display: none;
+  }
+}

@@ -6,4 +6,8 @@ class Admin::OrganizationsController < Admin::AdminController
       order: 'name'
     )
   end
+
+  def show
+    @coop = Organization.find(params[:id])
+  end
 end
