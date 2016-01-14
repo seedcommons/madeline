@@ -12,6 +12,21 @@
   }
 }
 
+.new-view {
+  .form-block {
+    display: block;
+  }
+
+  .form-element {
+    display: inline-block;
+  }
+
+  .view-block, .view-element {
+    display: none;
+  }
+}
+
+
 .show-view {
   .view-block {
     display: block;

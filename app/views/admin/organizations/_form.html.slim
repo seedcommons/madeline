@@ -25,9 +25,10 @@
 
       div.form-group.row
         label.col-lg-3 Country
-        span.col-lg-6.view-element
-          = @coop.country.name
-        = text_field(:coop, :country_id, class: 'form-element col-lg-6')
+        - unless @coop.new_record?
+          span.col-lg-6.view-element
+            = @coop.country.name
+        /= text_field(:coop, :country_id, class: 'form-element col-lg-6')
         = select(:coop, :country_id) do
           - @countries.each do |country|
             = content_tag(:option, country.name, value: country.id)

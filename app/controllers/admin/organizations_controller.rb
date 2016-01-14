@@ -11,4 +11,9 @@ class Admin::OrganizationsController < Admin::AdminController
     @coop = Organization.find(params[:id])
     @countries = Country.all
   end
+
+  def new
+    @coop = Organization.new
+    @countries = Country.all
+  end
 end
