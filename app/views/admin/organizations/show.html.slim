@@ -9,8 +9,10 @@
   = @coop.name
 
 div.icons.row
-  i.fa.fa-pencil.fa-large.col-lg-1.col-lg-offset-10.edit-action  Edit
-  i.fa.fa-trash.fa-large.col-lg-1.delete-action  Delete
+  a
+    i.fa.fa-pencil.fa-large.col-lg-1.col-lg-offset-10.edit-action  Edit
+  a
+    i.fa.fa-trash.fa-large.col-lg-1.delete-action  Delete
 
 section.block.show-view
   form.form-horizontal
@@ -59,3 +61,7 @@ section.block.show-view
             - @coop.people.each do |person|
               = person
               br
+
+    div.row.form-element
+      button.btn.btn-default.show-action Cancel
+      button.btn.btn-success Submit
