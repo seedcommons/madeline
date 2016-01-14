@@ -1,4 +1,11 @@
 .block {
   background: #eee;
+  margin: 1em 0;
   padding: 1em;
+}
+
+.coop {
+  section.block > h1 {
+    font-size: 1.5em;
+  }
 }

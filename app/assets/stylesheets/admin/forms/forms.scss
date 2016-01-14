@@ -1,19 +1,27 @@
 .edit-view {
-  .view-element {
-    display: none;
+  .form-block {
+    display: block;
   }
 
   .form-element {
     display: inline-block;
+  }
+
+  .view-block, .view-element {
+    display: none;
   }
 }
 
 .show-view {
+  .view-block {
+    display: block;
+  }
+
   .view-element {
     display: inline-block;
   }
 
-  .form-element {
+  .form-block, .form-element {
     display: none;
   }
 }
