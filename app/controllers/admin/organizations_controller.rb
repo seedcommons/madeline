@@ -16,4 +16,10 @@ class Admin::OrganizationsController < Admin::AdminController
     @coop = Organization.new
     @countries = Country.all
   end
+
+  def update
+    @coop = FamilyMember.find(params[:id])
+    @coop.update_attributes(organization)
+    @coop.save
+  end
 end

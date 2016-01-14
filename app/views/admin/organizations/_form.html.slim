@@ -13,25 +13,25 @@
     label.col-lg-3 Name
     span.col-lg-6.view-element
       = @coop.name
-    = text_field(:coop, :name, class: 'form-element col-lg-6')
+    = f.input :name
 
   div.form-group.row
     label.col-lg-3 Address
     span.col-lg-6.view-element
       = @coop.street_address
-    = text_field(:coop, :street_address, class: 'form-element col-lg-6')
+    = f.input :street_address
 
   div.form-group.row
     label.col-lg-3 City
     span.col-lg-6.view-element
       = @coop.city
-    = text_field(:coop, :city, class: 'form-element col-lg-6')
+    = f.input :city
 
   div.form-group.row
     label.col-lg-3 State
     span.col-lg-6.view-element
       = @coop.state
-    = text_field(:coop, :website, class: 'form-element col-lg-6')
+    = f.input :state
 
   div.form-group.row
     label.col-lg-3 Country
@@ -48,6 +48,7 @@
       - unless @coop.website.nil?
         = link_to(@coop.website, @coop.website)
     = text_field(:coop, :website, class: 'form-element col-lg-6')
+    = f.input :website
 
   div.form-group.row
     label.col-lg-3 Members
