@@ -15,7 +15,7 @@
 
   - g.column name: 'City', attribute: 'city'
 
-  - g.column name: 'Country' do |organization|
+  - g.column name: 'Country', attribute: 'name', model: Country do |organization|
     - organization.country.name
 
   - g.column name: 'Created', attribute: 'created_at'
