@@ -1,10 +1,14 @@
 = simple_form_for(@coop,
   url: admin_organizations_path,
-  html: { class: 'form-horizontal' },
+  html:{ \
+    class: 'form-horizontal organization-record',
+    data: {'id': @coop.id},
+  },
   defaults: { \
-    input_html: { class: 'form-element col-lg-6' }, \
-    label_html: { class: 'form-element col-lg-6' } \
+    input_html: { class: 'form-element col-lg-6' },
+    label_html: { class: 'form-element col-lg-6' },
   }) do |f|
+
   div.form-group.row
     label.col-lg-3 Name
     span.col-lg-6.view-element
@@ -59,4 +63,4 @@
       = f.button :button, class: 'btn btn-success col-lg-2 col-lg-offset-5'
     - else
       span.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-      = f.button :button, class: 'btn btn-success col-lg-2'
+      = f.button :button, class: 'update-action btn btn-success col-lg-2'
