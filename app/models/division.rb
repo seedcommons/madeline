@@ -23,16 +23,6 @@ class Division < ActiveRecord::Base
   alias_attribute :super_division, :parent
 
 
-  #JE: I like to keep a reference for the implicit db attributes here in the model class
-  # create_table :divisions do |t|
-  #   t.references :organization, index: true, foreign_key: true
-  #   t.string :name
-  #   t.text :description
-  #   t.integer :parent_id
-  #   t.references :currency, index: true, foreign_key: true
-  #   t.timestamps null: false
-  # end
-
   has_many :loans   #, dependent: :destroy  - should probably require owned models to be explicitly deleted
   has_many :people
   has_many :organizations
