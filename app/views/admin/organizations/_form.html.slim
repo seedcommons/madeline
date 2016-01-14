@@ -1,0 +1,50 @@
+    form.form-horizontal
+      div.form-group.row
+        label.col-lg-3 Name
+        span.col-lg-6.view-element
+          = @coop.name
+        = text_field(:coop, :name, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 Address
+        span.col-lg-6.view-element
+          = @coop.street_address
+        = text_field(:coop, :street_address, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 City
+        span.col-lg-6.view-element
+          = @coop.city
+        = text_field(:coop, :city, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 State
+        span.col-lg-6.view-element
+          = @coop.state
+        = text_field(:coop, :website, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 Country
+        span.col-lg-6.view-element
+          = @coop.country.name
+        = text_field(:coop, :country, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 Website
+        span.col-lg-6.view-element
+          - unless @coop.website.nil?
+            = link_to(@coop.website, @coop.website)
+        = text_field(:coop, :website, class: 'form-element col-lg-6')
+
+      div.form-group.row
+        label.col-lg-3 Members
+        span.col-lg-6
+          - if @coop.people.exists
+            - unless @coop.people.empty?
+              - @coop.people.each do |person|
+                = person
+                br
+
+      div.row.form-block
+        button.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
+        button.btn.btn-success.col-lg-2 Submit
