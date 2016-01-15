@@ -18,8 +18,8 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def update
-    @coop = FamilyMember.find(params[:id])
-    @coop.update_attributes(organization)
-    @coop.save
+    @coop = Organization.find(params[:id])
+    @coop.update!(params[:organization])
+    redirect_to action: 'show', id: params[:id]
   end
 end

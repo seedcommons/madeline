@@ -11,10 +11,12 @@
 section.coop.show-view
 
   header.row
-    a
-      i.fa.fa-pencil.fa-large.col-lg-2.col-lg-offset-8.edit-action  Edit
-    a
-      i.fa.fa-trash.fa-large.col-lg-2.delete-action  Delete
+    div.actions
+      span.col-lg-8
+      a.edit-action.col-lg-2
+        i.fa.fa-pencil.fa-large  Edit
+      a.delete-action.col-lg-2
+        i.fa.fa-trash.fa-large  Delete
 
   section.block
     = render 'form'

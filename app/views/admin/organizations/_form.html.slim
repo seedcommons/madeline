@@ -1,37 +1,37 @@
 = simple_form_for(@coop,
-  url: admin_organizations_path,
+  url: admin_organization_path,
   html:{ \
     class: 'form-horizontal organization-record',
-    data: {'id': @coop.id},
+    data: {'id': @coop.id, 'method': 'PUT'},
   },
   defaults: { \
     input_html: { class: 'form-element col-lg-6' },
-    label_html: { class: 'form-element col-lg-6' },
-  }) do |f|
+  },
+  method: :put) do |f|
 
   div.form-group.row
     label.col-lg-3 Name
     span.col-lg-6.view-element
       = @coop.name
-    = f.input :name
+    = f.input_field :name
 
   div.form-group.row
     label.col-lg-3 Address
     span.col-lg-6.view-element
       = @coop.street_address
-    = f.input :street_address
+    = f.input_field :street_address, as: :text
 
   div.form-group.row
     label.col-lg-3 City
     span.col-lg-6.view-element
       = @coop.city
-    = f.input :city
+    = f.input_field :city
 
   div.form-group.row
     label.col-lg-3 State
     span.col-lg-6.view-element
       = @coop.state
-    = f.input :state
+    = f.input_field :state
 
   div.form-group.row
     label.col-lg-3 Country
@@ -47,8 +47,7 @@
     span.col-lg-6.view-element
       - unless @coop.website.nil?
         = link_to(@coop.website, @coop.website)
-    = text_field(:coop, :website, class: 'form-element col-lg-6')
-    = f.input :website
+    = f.input_field :website
 
   div.form-group.row
     label.col-lg-3 Members

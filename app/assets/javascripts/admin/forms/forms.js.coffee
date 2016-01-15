@@ -8,7 +8,20 @@ $ ->
   $('.update-action').click (e) ->
     e.preventDefault()
 
-    $.ajax '/',
-      data: $(".organization-record").serialize(),
+    form = $(this).closest('form')
+    id = $(form).attr('data-id')
+    $(form).attr('method', 'put')
+    data = $(".organization-record").serialize()
+    dataarray = $(".organization-record").serializeArray()
+    location = window.location.href
+
+    $.ajax
+      method: 'PUT',
+      url: location,
+      data: data,
       success: (data) ->
         console.log("Updated")
+        console.log(data)
+      error: (data) ->
+        console.log("Error")
+        console.log(data)
