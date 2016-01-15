@@ -28,5 +28,5 @@ end
 private
 
   def organization_params
-    params.require(:organization).permit(:name, :street_address, :city, :state, :country, :url)
+    params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
   end
