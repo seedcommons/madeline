@@ -12,7 +12,6 @@ $ ->
     id = $(form).attr('data-id')
     $(form).attr('method', 'put')
     data = $(".organization-record").serialize()
-    dataarray = $(".organization-record").serializeArray()
     location = window.location.href
 
     $.ajax
@@ -21,7 +20,6 @@ $ ->
       data: data,
       success: (data) ->
         console.log("Updated")
-        console.log(data)
+        window.location.href = data
       error: (data) ->
-        console.log("Error")
         console.log(data)
