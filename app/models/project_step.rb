@@ -3,20 +3,24 @@
 # Table name: project_steps
 #
 #  id             :integer          not null, primary key
+#  agent_id       :integer
+#  completed_date :date
+#  created_at     :datetime         not null
+#  is_finalized   :boolean
 #  project_id     :integer
 #  project_type   :string
-#  agent_id       :integer
 #  scheduled_date :date
-#  completed_date :date
-#  is_finalized   :boolean
 #  type_option_id :integer
-#  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
 # Indexes
 #
 #  index_project_steps_on_agent_id                     (agent_id)
 #  index_project_steps_on_project_type_and_project_id  (project_type,project_id)
+#
+# Foreign Keys
+#
+#  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #
 
 class ProjectStep < ActiveRecord::Base
