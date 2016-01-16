@@ -6,16 +6,21 @@
 #  created_at      :datetime         not null
 #  currency_id     :integer
 #  description     :text
+#  internal_name   :string
 #  name            :string
 #  organization_id :integer
 #  parent_id       :integer
 #  updated_at      :datetime         not null
-#  internal_name   :string
 #
 # Indexes
 #
 #  index_divisions_on_currency_id      (currency_id)
 #  index_divisions_on_organization_id  (organization_id)
+#
+# Foreign Keys
+#
+#  fk_rails_648c512956  (organization_id => organizations.id)
+#  fk_rails_99cb2ea4ed  (currency_id => currencies.id)
 #
 
 class Division < ActiveRecord::Base
