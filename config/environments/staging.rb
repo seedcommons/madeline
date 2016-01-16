@@ -89,4 +89,9 @@ Rails.application.configure do
     },
   }
 
+  #todo: remove once the cause of this is sorted out.
+  ## beware, for now this seems to be required for proper rendering of co-op view.  (without, view contents is all html escaped)
+  Slim::Engine.set_options pretty: true, sort_attrs: false
+
+
 end
