@@ -2,8 +2,8 @@
 lock '3.4.0'
 
 # for now deploy into the old application
-#set :application, 'cofunder'
-set :application, 'madeline_system'
+#set :application, 'madeline_system'
+
 set :repo_url, 'git@github.com:sassafrastech/madeline_system.git'
 
 set :tmp_dir, '/home/deploy/tmp'
@@ -15,7 +15,7 @@ set :branch, -> { fetch(:stage) }
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
-set :deploy_to, -> { "/var/rails/madeline_system/#{fetch(:stage)}" }
+set :deploy_to, -> { "/var/rails/madeline/#{fetch(:stage)}" }
 
 
 # Default value for :scm is :git
