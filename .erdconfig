@@ -4,8 +4,8 @@ attributes:
   - inheritance
   - primary_keys
   - timestamps
-disconnected: true
-filename: doc/erd
+disconnected: false
+filename: docs/erd
 filetype: pdf
 indirect: true
 inheritance: true
