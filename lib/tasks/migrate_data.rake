@@ -5,7 +5,6 @@ namespace :tww do
     Legacy::StaticData.populate
   end
 
-
   # useful when updating and rerunning the populate_static_data task
   desc "remove populated static data"
   task :purge_static_data => :environment do
