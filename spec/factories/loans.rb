@@ -20,11 +20,11 @@
 #  projected_return            :decimal(, )
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  status_option_id            :integer
-#  project_type_option_id      :integer
-#  loan_type_option_id         :integer
-#  public_level_option_id      :integer
 #  organization_snapshot_id    :integer
+#  status_value                :string
+#  project_type_value          :string
+#  loan_type_value             :string
+#  public_level_value          :string
 #
 # Indexes
 #
@@ -34,6 +34,8 @@
 #  index_loans_on_organization_snapshot_id  (organization_snapshot_id)
 #
 
+
+
 FactoryGirl.define do
   factory :loan do
     division
@@ -41,7 +43,7 @@ FactoryGirl.define do
     name { "Loan for " + Faker::Company.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
-    status_option_id { [1,2].sample }
+    status_value { ['active', 'frozen', 'liquidated'].sample }
     amount { rand(5000..50000) }
     currency
     rate 0.15
@@ -55,11 +57,11 @@ FactoryGirl.define do
 
 
     trait :active do
-      status_option_id Loan::STATUS_OPTIONS.value_for('Active')
+      status_value :active
     end
 
     trait :completed do
-      status_option_id Loan::STATUS_OPTIONS.value_for('Completed')
+      status_value :completed
     end
 
     #JE todo: fix these

@@ -2,13 +2,13 @@
 #
 # Table name: project_logs
 #
-#  id                        :integer          not null, primary key
-#  agent_id                  :integer
-#  created_at                :datetime         not null
-#  date                      :date
-#  progress_metric_option_id :integer
-#  project_step_id           :integer
-#  updated_at                :datetime         not null
+#  id                    :integer          not null, primary key
+#  project_step_id       :integer
+#  agent_id              :integer
+#  date                  :date
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  progress_metric_value :string
 #
 # Indexes
 #
@@ -22,14 +22,7 @@
 #
 
 class ProjectLog < ActiveRecord::Base
-  include Translatable, MediaAttachable
-
-  # create_table :project_logs do |t|
-  #   t.references :project_step, index: true
-  #   t.references :agent, references: :people, index: true
-  #   t.integer :progress_metric_option_id
-  #   t.date :date
-  #   t.timestamps
+  include Translatable, MediaAttachable, OptionSettable
 
   belongs_to :project_step
   belongs_to :agent, class_name: 'Person'
@@ -37,6 +30,8 @@ class ProjectLog < ActiveRecord::Base
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details, :additional_notes, :private_notes
+
+  attr_option_settable :progress_metric
 
 
   validates :project_step_id, presence: true
@@ -47,20 +42,12 @@ class ProjectLog < ActiveRecord::Base
     "#{project_step.try(:name)} log"
   end
 
-
+  #todo: confirm if we want the shorter alias accessor for the default translation.
+  #if so, then generically implement through module
   def progress_metric
-    PROGRESS_METRIC_OPTIONS.label_for(progress_metric_option_id)
+    progress_metric_label
   end
 
-
-
-  PROGRESS_METRIC_OPTIONS = OptionSet.new(
-      [ [2,'ahead'],
-        [1,'on time'],
-        [-1,'behind'],
-        [-2,'in need of changing some events'],
-        [-3,'in need of changing its whole plan'],
-      ])
 
 
   def project

@@ -24,10 +24,10 @@ class Loan < ActiveRecord::Base
         # details: description.translated_content,
         primary_agent_id: nil_if_zero(point_person),
         secondary_agent_id: nil_if_zero(second),
-        status_option_id: ::Loan::MIGRATION_STATUS_OPTIONS.value_for(nivel),
-        loan_type_option_id: loan_type,
-        project_type_option_id: ::Loan::PROJECT_TYPE_OPTIONS.value_for(project_type),
-        public_level_option_id: ::Loan::PUBLIC_LEVEL_OPTIONS.value_for(nivel_publico),
+        status_value: status_option_value,
+        loan_type_value: loan_type_option_value,
+        project_type_value: project_type_option_value,
+        public_level_value: public_level_option_value,
         amount: amount,
         rate: rate,
         length_months: length,
@@ -80,7 +80,7 @@ class Loan < ActiveRecord::Base
   def self.migrate_all
     puts "loans: #{self.count}"
     self.all.each &:migrate
-    ::Loan.connection.execute("SELECT setval('loans_id_seq', (SELECT MAX(id) FROM loans)+1000)")
+    ::Loan.recalibrate_sequence(gap: 1000)
 
     puts "loan translations: #{ Legacy::Translation.where('RemoteTable' => 'Loans').count }"
     Legacy::Translation.where('RemoteTable' => 'Loans').each &:migrate
@@ -92,6 +92,47 @@ class Loan < ActiveRecord::Base
     puts "::OrganizationSnapshot.delete_all"
     ::OrganizationSnapshot.delete_all
   end
+
+
+  def status_option_value
+    MIGRATION_STATUS_OPTIONS.value_for(nivel)
+  end
+
+  def loan_type_option_value
+    ::Loan.loan_type_option_set.value_for_migration_id(loan_type)
+  end
+
+  def project_type_option_value
+    PROJECT_TYPE_OPTIONS.value_for(project_type)
+  end
+
+  def public_level_option_value
+    PUBLIC_LEVEL_OPTIONS.value_for(nivel_publico)
+  end
+
+
+
+  MIGRATION_STATUS_OPTIONS = TransientOptionSet.new(
+      [ ['active', 'Prestamo Activo'],
+        ['completed', 'Prestamo Completo'],
+        ['frozen', 'Prestamo Congelado'],
+        ['liquidated', 'Prestamo Liquidado'],
+        ['prospective', 'Prestamo Prospectivo'],
+        ['refinanced', 'Prestamo Refinanciado'],
+        ['relationship', 'Relacion'],
+        ['relationship_active', 'Relacion Activo']
+      ])
+
+  PROJECT_TYPE_OPTIONS = TransientOptionSet.new(
+      [ ['conversion', 'Conversion'],
+        ['expansion', 'Expansion'],
+        ['startup', 'Start-up'],
+      ])
+
+  PUBLIC_LEVEL_OPTIONS = TransientOptionSet.new(
+      [ ['featured', 'Featured'],
+        ['hidden', 'Hidden'],
+      ])
 
 
 

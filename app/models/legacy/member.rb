@@ -32,7 +32,7 @@ class Member < ActiveRecord::Base
   def self.migrate_all
     puts "members: #{ self.count }"
     self.all.each &:migrate
-    ::Person.connection.execute("SELECT setval('people_id_seq', (SELECT MAX(id) FROM people)+1000)")
+    ::Person.recalibrate_sequence(gap: 1000)
   end
 
   def self.purge_migrated

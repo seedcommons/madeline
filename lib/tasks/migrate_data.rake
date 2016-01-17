@@ -1,37 +1,33 @@
 namespace :tww do
 
-  desc "migrate TWW data from legacy mysql to new postgres db"
-  task :migrate_legacy => :environment do
-
-    # Legacy::Division.migrate_all
-    # Legacy::Cooperative.migrate_all
-    # Legacy::Member.migrate_all
-    # Legacy::Loan.migrate_all
-    # Legacy::ProjectEvent.migrate_all
-    # Legacy::ProjectLog.migrate_all
-    # Legacy::Note.migrate_all
-    Legacy::LoanQuestion.migrate_all
-
+  desc "populate db with static migrated data like Currency's and Country's"
+  task :populate_static_data => :environment do
+    Legacy::StaticData.populate
   end
 
+
+  # useful when updating and rerunning the populate_static_data task
+  desc "remove populated static data"
+  task :purge_static_data => :environment do
+    Legacy::StaticData.purge
+  end
+
+  desc "migrate TWW data from legacy mysql to new postgres db"
+  task :migrate_all => :environment do
+    Legacy::Migration.migrate_all
+  end
+
+  desc "migrate the core TWW data (divisions, coops, members, loans) from legacy mysql to new postgres db (much quicker than the full migration)"
+  task :migrate_core => :environment do
+    Legacy::Migration.migrate_core
+  end
 
   # note, this task isn't really needed.  generally better to just drop the db,
   # but has been useful when retesting partial migrations during development
   desc "purge target (postgres) data"
   task :purge_migrated => :environment do
-    Legacy::LoanQuestion.purge_migrated
-    # Legacy::Note.purge_migrated
-    # Legacy::ProjectLog.purge_migrated
-    # Legacy::ProjectEvent.purge_migrated
-    # Legacy::Loan.purge_migrated
-    # Legacy::Member.purge_migrated
-    # Legacy::Cooperative.purge_migrated
-    # Legacy::Division.purge_migrated
+    Legacy::Migration.purge_migrated
   end
-
-  # def malformed_date_clause(field)
-  #   " not (#{field} is not null and dayofmonth(#{field}) = 0 and month(#{field}) > 0)"
-  # end
 
 
 end

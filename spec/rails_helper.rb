@@ -46,9 +46,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    # Seems cleaner to just put this here than track exactly which tests need the seed data.
-    # The Languages dependency at least is pretty fundamental
-    seed_data
   end
 
   config.before(:each) do
@@ -57,7 +54,6 @@ RSpec.configure do |config|
 
   config.before(:each, :js => true) do
     DatabaseCleaner.strategy = :truncation
-    seed_data
   end
 
   config.before(:each) do
@@ -98,6 +94,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 end
 
-def seed_data
-  load "#{Rails.root}/db/seeds.rb"
-end
+# def seed_data
+#   # puts "calling seeds.rb"
+#   load "#{Rails.root}/db/seeds.rb"
+# end
