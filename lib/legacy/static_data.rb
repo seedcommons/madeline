@@ -3,6 +3,9 @@ module Legacy
   class StaticData
 
     def self.populate
+      ::Division.find_or_create_by(id: 99, internal_name: ::Division.root_internal_name, name:'Root Division')
+      ::Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
+
 
       # The EN and ES Languages are expected to be already populated by seeds.rb
       Language.find_or_create_by(id: 1, name: 'English', code: 'EN')
@@ -27,34 +30,20 @@ module Legacy
 
       # The option set and the first two options are expected to be already populated by seeds.rb
       loan_status = OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'status')
-      option = loan_status.options.find_or_create_by(value: 'active')
-      option.update(position: 1, migration_id: 1)
-      option.set_label_list(en: 'Active', es: 'Prestamo Activo')
-      option = loan_status.options.find_or_create_by(value: 'completed')
-      option.update(position: 2, migration_id: 2)
-      option.set_label_list(en: 'Completed', es: 'Prestamo Completo')
-
-      loan_status.create_option(value: 'frozen', position: 3, migration_id: 3).
-          set_label_list(en: 'Frozen', es: 'Prestamo Congelado')
-
-      loan_status.create_option(value: 'liquidated', position: 4, migration_id: 4).
-          set_label_list(en: 'Liquidated', es: 'Prestamo Liquidado')
-
-      loan_status.create_option(value: 'prospective', position: 5, migration_id: 5).
-          set_label_list(en: 'Prospective', es: 'Prestamo Prospectivo')
-
-      loan_status.create_option(value: 'refinanced', position: 6, migration_id: 6).
-          set_label_list(en: 'Refinanced', es: 'Prestamo Refinanciado')
-
-      loan_status.create_option(value: 'relationship', position: 7, migration_id: 7).
-          set_label_list(en: 'Relationship', es: 'Relacion')
-
-      loan_status.create_option(value: 'relationship_active', position: 8, migration_id: 8).
+      loan_status.options.destroy_all
+      loan_status.create_option(value: 'active').set_label_list(en: 'Active', es: 'Prestamo Activo')
+      loan_status.create_option(value: 'completed').set_label_list(en: 'Completed', es: 'Prestamo Completo')
+      loan_status.create_option(value: 'frozen').set_label_list(en: 'Frozen', es: 'Prestamo Congelado')
+      loan_status.create_option(value: 'liquidated').set_label_list(en: 'Liquidated', es: 'Prestamo Liquidado')
+      loan_status.create_option(value: 'prospective').set_label_list(en: 'Prospective', es: 'Prestamo Prospectivo')
+      loan_status.create_option(value: 'refinanced').set_label_list(en: 'Refinanced', es: 'Prestamo Refinanciado')
+      loan_status.create_option(value: 'relationship').set_label_list(en: 'Relationship', es: 'Relacion')
+      loan_status.create_option(value: 'relationship_active').
           set_label_list(en: 'Relationship Active', es: 'Relacion Activo')
-
 
       # Note, the option sets are expected to be included in seeds.rb
       loan_type = OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'loan_type')
+      loan_type.options.destroy_all
 
       # Note, there is currently no business logic dependency on these options, # so no need for a 'slug' style value.
       # Instead the primary key will be used by default, and the legacy data will be matched up by migration_id.
@@ -81,29 +70,45 @@ module Legacy
           set_label_list(en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados')
 
 
-      project_type = OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
+      project_type = OptionSet.find_or_create_by(
+          division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
+      project_type.options.destroy_all
 
-      project_type.create_option(value: 'conversion', migration_id: 1).
-          set_label_list(en: 'Conversion', es: 'TODO')
-
-      project_type.create_option(value: 'expansion', migration_id: 2).
-          set_label_list(en: 'Expansion', es: 'TODO')
-
-      project_type.create_option(value: 'startup', migration_id: 3).
-          set_label_list(en: 'Start-up', es: 'TODO')
+      project_type.create_option(value: 'conversion').set_label_list(en: 'Conversion', es: 'TODO')
+      project_type.create_option(value: 'expansion').set_label_list(en: 'Expansion', es: 'TODO')
+      project_type.create_option(value: 'startup').set_label_list(en: 'Start-up', es: 'TODO')
 
 
-      public_level = OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'public_level')
+      public_level = OptionSet.find_or_create_by(
+          division: ::Division.root, model_type: ::Loan.name, model_attribute: 'public_level')
+      public_level.options.destroy_all
+      public_level.create_option(value: 'featured').set_label_list(en: 'Featured', es: 'TODO')
+      public_level.create_option(value: 'hidden').set_label_list(en: 'Hidden', es: 'TODO')
 
-      public_level.create_option(value: 'featured', migration_id: 1).
-          set_label_list(en: 'Featured', es: 'TODO')
 
-      public_level.create_option(value: 'hidden', migration_id: 2).
-          set_label_list(en: 'Hidden', es: 'TODO')
+      step_type = OptionSet.find_or_create_by(
+          division: ::Division.root, model_type: ::ProjectStep.name, model_attribute: 'step_type')
+      step_type.options.destroy_all
+      step_type.create_option(value: 'step').set_label_list(en: 'Step', es: 'Paso')
+      step_type.create_option(value: 'milestone').set_label_list(en: 'Milestone', es: 'TODO')
+      # legacy data exists of type 'Agenda', but not expecting to carry this forward into the new system
+      # step_type.create_option(value: 'agenda').set_label_list(en: 'Agenda', es: 'TODO')
 
+
+      progress_metric = OptionSet.find_or_create_by(
+          division: ::Division.root, model_type: ::ProjectLog.name, model_attribute: 'progress_metric')
+      progress_metric.options.destroy_all
+      progress_metric.create_option(migration_id: -3).
+          set_label_list(en: 'in need of changing its whole plan', es: 'con necesidad de cambiar su plan completamente')
+      progress_metric.create_option(migration_id: -2).
+          set_label_list(en: 'in need of changing some events', es: 'con necesidad de cambiar algunos eventos')
+      progress_metric.create_option(migration_id: -1).set_label_list(en: 'behind', es: 'atrasado')
+      progress_metric.create_option(migration_id: 1).set_label_list(en: 'on time', es: 'a tiempo')
+      progress_metric.create_option(migration_id: 2).set_label_list(en: 'ahead', es: 'adelantado')
 
 
     end
+
 
     # useful to remove the above data so that it can be re-run in isolation
     def self.purge

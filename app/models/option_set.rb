@@ -27,8 +27,15 @@ class OptionSet < ActiveRecord::Base
 
   # future: support division specific versions of the option sets
   def self.fetch(clazz, attribute)
-    self.find_by(model_type: clazz.name, model_attribute: attribute)
+    result = self.find_by(model_type: clazz.name, model_attribute: attribute)
+    # create root division owned instance on demand if not present
+    unless result
+      result = OptionSet.create(division: Division.root, model_type: clazz.name, model_attribute: attribute)
+      Rails.logger.info "note, OptionSet not found for #{clazz.name}.#{attribute} - default instance auto created: #{result.id}"
+    end
+    result
   end
+
 
 
   def translated_list(language_code=nil)
@@ -39,16 +46,15 @@ class OptionSet < ActiveRecord::Base
   def translated_label_by_value(value, language_code=nil)
     return nil  unless value
     option = options.find_by(value: value)
-    #todo: confirm if RuntimeException is appropriate or other convention to follow
-    raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value}"  unless option
-    option.get_label(language_code)
-  end
+    unless option
+      #todo: confirm if RuntimeException is appropriate or other convention to follow
+      raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value}"  unless option
+      # fallback to use value as label if option record not found
+      #todo: confirm if reasonable to allow value as default label
+      # Rais.logger.info "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value} - using value as default label"
+      # return value
+    end
 
-  def translated_label_by_id(id, language_code=nil)
-    return nil  unless id
-    option = options.find_by(id: id) # use 'find_by' to avoid generic not found error
-    #todo: confirm if RuntimeException is appropriate or other convention to follow
-    raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{id}"  unless option
     option.get_label(language_code)
   end
 
@@ -63,10 +69,6 @@ class OptionSet < ActiveRecord::Base
     options.find_by(migration_id: migration_id).try(:value)
   end
 
-  #todo remove if we migrate foreign key refs to values
-  def id_for_value(value)
-    options.find_by(value: value).try(:id)
-  end
 
   def create_option(data)
     # assign default 'position' value of not explictly provided

@@ -32,7 +32,7 @@ shared_examples_for 'option_settable' do |attribute_names|
     attribute_names.each do |attribute_name|
       value = described_class.send("#{attribute_name}_option_values".to_sym).sample
       if value
-        method = "#{attribute_name}_option_label".to_sym
+        method = "#{attribute_name}_label".to_sym
         result = described_class.send(method, value, :en)
         # puts("#{described_class.name}.#{attribute_name} - value: #{value} - class resolved label: #{result}")
         expect(result).to be_a String
@@ -40,23 +40,23 @@ shared_examples_for 'option_settable' do |attribute_names|
     end
   end
 
+
   it 'model instance should give label' do
     attribute_names.each do |attribute_name|
       option_set = OptionSet.fetch(described_class, attribute_name)
-      value = described_class.send("#{attribute_name}_option_values".to_sym).sample
-      id = option_set.id_for_value(value)
-      if value
-        model_instance.send("#{attribute_name}_option_id=", id)
-        option = Option.find_by(option_set_id: option_set.id, value: value)
-        label_data = option.label_list.sample
-        language_code = label_data[:code]
-        expected_result = label_data[:text]
-        result = model_instance.send("#{attribute_name}_option_label", language_code)
-        # puts("#{described_class.name}.#{attribute_name} - value: #{value}, lang: #{language_code} - label: #{result}")
-        expect(result).to eq expected_result
-      end
+      value = 'active'
+
+      lang = create(:language)
+      # lang = Language.system_default
+      label = 'Active'
+      option_set.create_option(value: value, migration_id: 1).set_label_list(lang.code => label)
+      model_instance.send("#{attribute_name}_value=", value)
+      result = model_instance.send("#{attribute_name}_label", lang.code)
+      # puts("#{described_class.name}.#{attribute_name} - value: #{value}, lang: #{lang.code} - label: #{result}")
+      expect(result).to eq label
     end
   end
+
 
 end
 

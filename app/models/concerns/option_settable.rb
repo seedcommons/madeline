@@ -15,7 +15,7 @@
 #     loan_type_option_label(value, language_code=nil) - resolve a given value
 #     loan_type_option_values - list of valid values - may be used by test model factory defs
 #   instance level:
-#     loan_type_option_label(language_code:nil) - instance's resolved option label
+#     loan_type_label(language_code:nil) - instance's resolved option label
 #
 
 module OptionSettable
@@ -38,14 +38,9 @@ module OptionSettable
     end
 
     def resolve_option_label(model, attribute_name, language_code = nil)
-      option_id = model.send("#{attribute_name}_option_id".to_sym)
+      value = model.send("#{attribute_name}_value".to_sym)
       option_set = option_set_for(attribute_name)
-      option_set.translated_label_by_id(option_id, language_code)
-
-      #todo: switch to this logic if foreign key is changed over to use the 'value' instead of 'id'
-      # value = model.send("#{attribute_name}_option_value".to_sym)
-      # option_set = option_set_for(attribute_name)
-      # option_set.translated_label_by_value(value, language_code)
+      option_set.translated_label_by_value(value, language_code)
     end
 
 
@@ -73,15 +68,10 @@ module OptionSettable
 
         end
 
-        define_method("#{attr_name}_option_label") do |language_code = nil|
-          id = self.send("#{attr_name}_option_id")
-          # logger.info("option id: #{id}")
-          self.class.option_set_for(attr_name).translated_label_by_id(id, language_code)
-
-          #todo: switch to this logic if foreign key is changed over to use the 'value' instead of 'id'
-          # value = self.send("#{attr_name}_option_value")
-          # # logger.info("option value: #{value}")
-          # self.class.option_set_for(attr_name).translated_label_by_value(value, language_code)
+        define_method("#{attr_name}_label") do |language_code = nil|
+          value = self.send("#{attr_name}_value")
+          logger.info("option value: #{value}")
+          self.class.option_set_for(attr_name).translated_label_by_value(value, language_code)
 
         end
 

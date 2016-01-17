@@ -56,9 +56,7 @@ module Legacy
           id: self.id,
           project_step_id: project_step_id,
           agent_id: agent_id,
-          # progress_metric_option_id: ::ProjectLog::MIGRATION_PROGRESS_METRIC_OPTION_ID.value_for(progress_metric)
-          # this will use the raw int values -3 -> 3, should perhaps renormalize to positive integers
-          progress_metric_option_id: progress_metric,
+          progress_metric_value: ::ProjectLog.progress_metric_option_set.value_for_migration_id(progress_metric),
           date: date,
       }
       data
@@ -77,7 +75,7 @@ module Legacy
       puts "project logs: #{self.where('ProjectTable' => 'loans').count}"
       # note, there is one more record with a wacked out date (2005-01-00)
       self.where("ProjectTable = 'loans' and ProjectId > 0 and #{malformed_date_clause('Date')}").each &:migrate
-      ::ProjectLog.connection.execute("SELECT setval('project_logs_id_seq', (SELECT MAX(id) FROM project_logs)+1000)")
+      ::ProjectLog.recalibrate_sequence(gap: 1000)
 
       # note, there will be a notable number of unneeded translations from basic project logs, consider pruning somehow
       puts "projectlog translations: #{ Legacy::Translation.where('RemoteTable' => 'ProjectLogs').count }"

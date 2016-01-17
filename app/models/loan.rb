@@ -20,13 +20,11 @@
 #  projected_return            :decimal(, )
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  status_option_id            :integer
-#todo: confirm if we should rename these fields to 'status_option_value' and store the value instead of primary key
-#would be slightly less optimized, but a bit more convenient when browsing the database for the option types which are slug based
-#  project_type_option_id      :integer
-#  loan_type_option_id         :integer
-#  public_level_option_id      :integer
 #  organization_snapshot_id    :integer
+#  status_value                :string
+#  project_type_value          :string
+#  loan_type_value             :string
+#  public_level_value          :string
 #
 # Indexes
 #
@@ -67,11 +65,11 @@ class Loan < ActiveRecord::Base
 
   # todo: shall we migrate the display usage to the more verbose version?
   def status
-    status_option_label
+    status_label
   end
 
   def loan_type
-    loan_type_option_label
+    loan_type_label
   end
 
   # the special name of a default step to use/create when migrating a log without a step

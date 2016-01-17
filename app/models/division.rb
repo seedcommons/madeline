@@ -54,8 +54,12 @@ class Division < ActiveRecord::Base
   end
 
   def self.root
-    @@root ||= Division.find_by(internal_name: root_internal_name)
+    # create on demand if not present for convenience of blank db's and test cases
+    # @@root ||=
+    Division.find_or_create_by(id: 99, internal_name: root_internal_name, name:'Root Division')
   end
+
+
 
   def self.root_id
     result = root.id

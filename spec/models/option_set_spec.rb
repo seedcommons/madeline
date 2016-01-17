@@ -2,11 +2,6 @@ require 'rails_helper'
 
 describe OptionSet, type: :model do
 
-  before do
-    seed_data
-    #UNUSED AdHocCacheManager.clear_all
-  end
-
   it 'has a valid factory' do
     expect(create(:option_set)).to be_valid
   end
@@ -15,29 +10,17 @@ describe OptionSet, type: :model do
     expect(OptionSet.fetch(Loan, :status)).to be
   end
 
-  #todo: confirm if we want to verify existence of any system required seed data or not
-  xcontext 'seed data' do
-    it 'has expected Loan data' do
-      expect(Loan.status_option_set).to be
-      expect(Loan.status_option_values.size).to eq(8)
-      expect(Loan.loan_type_option_set).to be
-      expect(Loan.loan_type_option_values.size).to eq(7)
-    end
+  it 'has expected behaviors' do
+    option_set = Loan.status_option_set
+
+    expect(option_set).to be_valid
+    lang = create(:language)
+    option_set.create_option(value: 'active', migration_id: 1).set_label_list(lang.code => 'Active')
+    expect(option_set.value_for_migration_id(1)).to eq('active')
+    expect(option_set.translated_list(lang.code).first[:label]).to eq('Active')
+    expect(option_set.translated_label_by_value('active')).to eq('Active')
   end
 
-
-  xcontext 'Loan.status_option_set' do
-
-    it 'has expected behavior and data' do
-      option_set = Loan.status_option_set
-      expect(option_set.translated_list.first[:label]).to eq('Active')
-      expect(option_set.translated_list(:es).last[:label]).to eq('Relacion Activo')
-      expect(option_set.translated_label(3)).to eq('Frozen')
-      expect(option_set.translated_label(2, :es)).to eq('Prestamo Completo')
-      expect(option_set.value_for_label('Refinanced')).to eq(6)
-    end
-
-  end
 
 end
 

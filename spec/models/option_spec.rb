@@ -1,5 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Option, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Option, type: :model do
+
+  it 'has a valid factory' do
+    expect(create(:option)).to be_valid
+  end
+
 end

@@ -2,13 +2,13 @@
 #
 # Table name: project_logs
 #
-#  id                        :integer          not null, primary key
-#  project_step_id           :integer
-#  agent_id                  :integer
-#  progress_metric_option_id :integer
-#  date                      :date
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id                    :integer          not null, primary key
+#  project_step_id       :integer
+#  agent_id              :integer
+#  date                  :date
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  progress_metric_value :string
 #
 # Indexes
 #
@@ -21,7 +21,7 @@ FactoryGirl.define do
     project_step
     agent { create(:person) }
     date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today)}
-    progress_metric_option_id { ProjectLog::PROGRESS_METRIC_OPTIONS.values.sample }
+    progress_metric_value { ['behind', 'ontime', 'ahead'].sample }
 
     # for now parent must be saved before assigning the translatable fields
     after(:create) do |log|
