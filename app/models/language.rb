@@ -31,9 +31,8 @@ class Language < ActiveRecord::Base
 
   # todo: confirm if this is acceptable to define here.
   def self.system_default
-    self.first || self.create(name: 'English', code: 'EN')
+    self.find_or_create_by(code: I18n.language_code)
   end
-
 
 end
 

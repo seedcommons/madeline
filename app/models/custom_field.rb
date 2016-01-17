@@ -2,19 +2,23 @@
 #
 # Table name: custom_fields
 #
-#  id                  :integer          not null, primary key
+#  created_at          :datetime         not null
 #  custom_field_set_id :integer
+#  data_type           :string
+#  id                  :integer          not null, primary key
 #  internal_name       :string
 #  label               :string
-#  data_type           :string
-#  position            :integer
 #  parent_id           :integer
-#  created_at          :datetime         not null
+#  position            :integer
 #  updated_at          :datetime         not null
 #
 # Indexes
 #
 #  index_custom_fields_on_custom_field_set_id  (custom_field_set_id)
+#
+# Foreign Keys
+#
+#  fk_rails_b30226ad05  (custom_field_set_id => custom_field_sets.id)
 #
 
 class CustomField < ActiveRecord::Base

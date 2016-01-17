@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20160114213018) do
     t.datetime "created_at", null: false
     t.integer "division_id"
     t.string "internal_name"
-    t.string "label"
     t.datetime "updated_at", null: false
   end
 

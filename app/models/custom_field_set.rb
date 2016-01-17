@@ -2,16 +2,19 @@
 #
 # Table name: custom_field_sets
 #
-#  id            :integer          not null, primary key
-#  division_id   :integer
-#  internal_name :string
-#  label         :string
 #  created_at    :datetime         not null
+#  division_id   :integer
+#  id            :integer          not null, primary key
+#  internal_name :string
 #  updated_at    :datetime         not null
 #
 # Indexes
 #
 #  index_custom_field_sets_on_division_id  (division_id)
+#
+# Foreign Keys
+#
+#  fk_rails_a3c049608b  (division_id => divisions.id)
 #
 
 class CustomFieldSet < ActiveRecord::Base

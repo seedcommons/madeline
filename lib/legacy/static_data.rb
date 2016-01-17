@@ -3,29 +3,27 @@ module Legacy
   class StaticData
 
     def self.populate
-      ::Division.find_or_create_by(id: 99, internal_name: ::Division.root_internal_name, name:'Root Division')
+      ::Division.root
       ::Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
 
 
-      # The EN and ES Languages are expected to be already populated by seeds.rb
       Language.find_or_create_by(id: 1, name: 'English', code: 'EN')
       Language.find_or_create_by(id: 2, name: 'Español', code: 'ES')
-
       Language.find_or_create_by(id: 3, name: 'Français', code: 'FR')
-      Language.connection.execute("select setval('languages_id_seq', (select max(id) from languages))")
+      Language.recalibrate_sequence
 
 
       Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$')
       Currency.find_or_create_by(id: 2, name: 'U.S. Dollar', code: 'USD', symbol: 'US$')
       Currency.find_or_create_by(id: 3, name: 'British Pound', code: 'GBP', symbol: 'GB£')
       Currency.find_or_create_by(id: 4, name: 'Nicaraguan Cordoba', code: 'NIO', symbol: 'NI$')
-      Currency.connection.execute("select setval('currencies_id_seq', (select max(id) from currencies))")
+      Currency.recalibrate_sequence
 
 
       Country.find_or_create_by(id: 1, name: 'Argentina', iso_code: 'AR', default_language_id: 2, default_currency_id: 1)
       Country.find_or_create_by(id: 2, name: 'Nicaragua', iso_code: 'NI', default_language_id: 2, default_currency_id: 4)
       Country.find_or_create_by(id: 3, name: 'United States', iso_code: 'US', default_language_id: 1, default_currency_id: 2)
-      Country.connection.execute("select setval('countries_id_seq', (select max(id) from countries))")
+      Country.recalibrate_sequence
 
 
       # The option set and the first two options are expected to be already populated by seeds.rb
@@ -105,6 +103,11 @@ module Legacy
       progress_metric.create_option(migration_id: -1).set_label_list(en: 'behind', es: 'atrasado')
       progress_metric.create_option(migration_id: 1).set_label_list(en: 'on time', es: 'a tiempo')
       progress_metric.create_option(migration_id: 2).set_label_list(en: 'ahead', es: 'adelantado')
+
+      CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
+      CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+      #todo: find somplace to factor this out to
+      CustomFieldSet.recalibrate_sequence(gap: 10)
 
 
     end

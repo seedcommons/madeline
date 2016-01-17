@@ -34,8 +34,7 @@ module Legacy
       puts "loan questions: #{ self.count }"
       self.where.not(active: 1).each &:migrate
       # self.all.each &:migrate
-      # ::CustomField.connection.execute("SELECT setval('custom_fields_id_seq', (SELECT MAX(id) FROM custom_fields)+100)")
-      ::CustomField.recalibrate_sequence(100)
+      ::CustomField.recalibrate_sequence(gap: 100)
     end
 
     def self.purge_migrated

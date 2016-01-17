@@ -3,7 +3,6 @@ class CreateCustomFieldSets < ActiveRecord::Migration
     create_table :custom_field_sets do |t|
       t.references :division, index: true, foreign_key: true
       t.string :internal_name
-      t.string :label
 
       t.timestamps null: false
     end
