@@ -15,6 +15,11 @@
 #  index_project_logs_on_agent_id         (agent_id)
 #  index_project_logs_on_project_step_id  (project_step_id)
 #
+# Foreign Keys
+#
+#  fk_rails_54dbbbb1d4  (agent_id => people.id)
+#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
+#
 
 class ProjectLog < ActiveRecord::Base
   include Translatable, MediaAttachable, OptionSettable

@@ -18,6 +18,10 @@
 #  index_project_steps_on_agent_id                     (agent_id)
 #  index_project_steps_on_project_type_and_project_id  (project_type,project_id)
 #
+# Foreign Keys
+#
+#  fk_rails_a9dc5eceeb  (agent_id => people.id)
+#
 
 class ProjectStep < ActiveRecord::Base
   include ::Translatable, OptionSettable

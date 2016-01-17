@@ -3,22 +3,27 @@
 # Table name: loans
 #
 #  id                          :integer          not null, primary key
-#  division_id                 :integer
-#  organization_id             :integer
-#  name                        :string
-#  primary_agent_id            :integer
-#  secondary_agent_id          :integer
 #  amount                      :decimal(, )
+#  created_at                  :datetime         not null
 #  currency_id                 :integer
-#  rate                        :decimal(, )
-#  length_months               :integer
-#  representative_id           :integer
-#  signing_date                :date
+#  division_id                 :integer
 #  first_interest_payment_date :date
 #  first_payment_date          :date
-#  target_end_date             :date
+#  length_months               :integer
+#  loan_type_option_id         :integer
+#  name                        :string
+#  organization_id             :integer
+#  organization_snapshot_id    :integer
+#  primary_agent_id            :integer
+#  project_type_option_id      :integer
 #  projected_return            :decimal(, )
-#  created_at                  :datetime         not null
+#  public_level_option_id      :integer
+#  rate                        :decimal(, )
+#  representative_id           :integer
+#  secondary_agent_id          :integer
+#  signing_date                :date
+#  status_option_id            :integer
+#  target_end_date             :date
 #  updated_at                  :datetime         not null
 #  organization_snapshot_id    :integer
 #  status_value                :string
@@ -32,6 +37,15 @@
 #  index_loans_on_division_id               (division_id)
 #  index_loans_on_organization_id           (organization_id)
 #  index_loans_on_organization_snapshot_id  (organization_snapshot_id)
+#
+# Foreign Keys
+#
+#  fk_rails_5a4bc9458a  (division_id => divisions.id)
+#  fk_rails_7a8d917bd9  (secondary_agent_id => people.id)
+#  fk_rails_ade0930898  (currency_id => currencies.id)
+#  fk_rails_dc1094f4ed  (organization_id => organizations.id)
+#  fk_rails_ded298065b  (representative_id => people.id)
+#  fk_rails_e90f6505d8  (primary_agent_id => people.id)
 #
 
 class Loan < ActiveRecord::Base

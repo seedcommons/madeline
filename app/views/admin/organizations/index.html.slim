@@ -14,7 +14,7 @@
   - g.column name: 'City', attribute: 'city'
 
   - g.column name: 'Country' do |organization|
-    - organization.country.name
+    - organization.country.try(:name)
 
   - g.column name: 'Created', attribute: 'created_at'
 
