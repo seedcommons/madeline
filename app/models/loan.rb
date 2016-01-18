@@ -25,6 +25,11 @@
 #  status_value                :string
 #  target_end_date             :date
 #  updated_at                  :datetime         not null
+#  organization_snapshot_id    :integer
+#  status_value                :string
+#  project_type_value          :string
+#  loan_type_value             :string
+#  public_level_value          :string
 #
 # Indexes
 #

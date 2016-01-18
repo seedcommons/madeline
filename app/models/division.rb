@@ -2,6 +2,7 @@
 #
 # Table name: divisions
 #
+#  id              :integer          not null, primary key
 #  created_at      :datetime         not null
 #  currency_id     :integer
 #  description     :text
