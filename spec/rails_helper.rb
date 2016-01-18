@@ -46,10 +46,13 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    # seed_data
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    # note, it's useful to temporarily switch this to 'truncation' when attempting to debug database oddities during testing
+    # DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each, :js => true) do
@@ -94,6 +97,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 end
 
-def seed_data
-  load "#{Rails.root}/db/seeds.rb"
-end
+# def seed_data
+#   # puts "calling seeds.rb"
+#   load "#{Rails.root}/db/seeds.rb"
+# end

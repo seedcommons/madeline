@@ -38,7 +38,5 @@ module MadelineSystem
   end
 end
 
-
 puts "Rails.env: #{Rails.env}"
 puts "database: #{MadelineSystem::Application.config.database_configuration[::Rails.env]['database']}"
-

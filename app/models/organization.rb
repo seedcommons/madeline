@@ -62,7 +62,7 @@ class Organization < ActiveRecord::Base
   end
 
   def active_loans
-    loans.where({status_option_id: Loan.status_active_id})
+    loans.where(status_value: Loan::STATUS_ACTIVE_VALUE)
   end
 
   def recent_snapshots

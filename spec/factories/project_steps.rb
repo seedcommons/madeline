@@ -2,16 +2,16 @@
 #
 # Table name: project_steps
 #
-#  id             :integer          not null, primary key
-#  project_id     :integer
-#  project_type   :string
-#  agent_id       :integer
-#  scheduled_date :date
-#  completed_date :date
-#  is_finalized   :boolean
-#  type_option_id :integer
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id              :integer          not null, primary key
+#  project_id      :integer
+#  project_type    :string
+#  agent_id        :integer
+#  scheduled_date  :date
+#  completed_date  :date
+#  is_finalized    :boolean
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  step_type_value :string
 #
 # Indexes
 #
@@ -29,7 +29,7 @@ FactoryGirl.define do
     scheduled_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     completed_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     is_finalized [true, false].sample
-    type_option_id { ProjectStep::TYPE_OPTIONS.values.sample }
+    step_type_value { ['step', 'milestone']  }
 
     # for now parent must be saved before assigning the translatable fields
     after(:create) do |log|
