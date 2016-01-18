@@ -37,7 +37,7 @@ module Legacy
     def self.migrate_all
       puts {"divisions: #{self.count}"}
       self.all.each &:migrate
-      ::Division.connection.execute("SELECT setval('divisions_id_seq', (SELECT MAX(id) FROM divisions)+1)")
+      ::Division.recalibrate_sequence(gap: 1)
     end
 
     def self.purge_migrated

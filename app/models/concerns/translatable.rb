@@ -42,6 +42,7 @@ module Translatable
       attr_names.each do |attr_name|
         define_method("get_#{attr_name}") { |language_code = nil| get_translation(attr_name, language_code) }
         define_method("set_#{attr_name}") { |text, language_code = nil| set_translation(attr_name, text, language_code) }
+        define_method("set_#{attr_name}_list") { |list| set_translation_list(attr_name, list) }
 
         define_method(attr_name) { resolve_translation(attr_name, nil) }
         define_method("#{attr_name}=") { |text| set_translation(attr_name, text, nil) }
@@ -78,6 +79,22 @@ module Translatable
       translations.create(translatable_attribute: attribute_name, language_id: language_id, text: text)
     end
     text
+  end
+
+  # batch assignemnt of a set of translations
+  # list: list of |language_code, text|  (note a map can also be passed as it behaves the same when iterated over with each)
+  def set_translation_list(attribute_name, list)
+    list.each do |language_code, text|
+      set_translation(attribute_name, text, language_code)
+    end
+  end
+
+  # batch assignemnt of a set of translations
+  # map of language_code => text
+  def set_translation_map(attribute_name, list)
+    list.each do |language_code, text|
+      set_translation(attribute_name, text, language_code)
+    end
   end
 
   # returns all translations as a map keyed by language_code

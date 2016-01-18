@@ -6,32 +6,31 @@
 #  created_at      :datetime         not null
 #  currency_id     :integer
 #  description     :text
+#  internal_name   :string
 #  name            :string
 #  organization_id :integer
+#  name            :string
+#  description     :text
 #  parent_id       :integer
+#  currency_id     :integer
+#  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  internal_name   :string
 #
 # Indexes
 #
 #  index_divisions_on_currency_id      (currency_id)
 #  index_divisions_on_organization_id  (organization_id)
 #
+# Foreign Keys
+#
+#  fk_rails_648c512956  (organization_id => organizations.id)
+#  fk_rails_99cb2ea4ed  (currency_id => currencies.id)
+#
 
 class Division < ActiveRecord::Base
   has_closure_tree
   alias_attribute :super_division, :parent
 
-
-  #JE: I like to keep a reference for the implicit db attributes here in the model class
-  # create_table :divisions do |t|
-  #   t.references :organization, index: true, foreign_key: true
-  #   t.string :name
-  #   t.text :description
-  #   t.integer :parent_id
-  #   t.references :currency, index: true, foreign_key: true
-  #   t.timestamps null: false
-  # end
 
   has_many :loans   #, dependent: :destroy  - should probably require owned models to be explicitly deleted
   has_many :people
@@ -54,8 +53,12 @@ class Division < ActiveRecord::Base
   end
 
   def self.root
-    @@root ||= Division.find_by(internal_name: root_internal_name)
+    # create on demand if not present for convenience of blank db's and test cases
+    # @@root ||=
+    Division.find_or_create_by(id: 99, internal_name: root_internal_name, name:'Root Division')
   end
+
+
 
   def self.root_id
     result = root.id
