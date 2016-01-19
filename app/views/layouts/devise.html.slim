@@ -1,0 +1,10 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/devise/bootstrap_signin", :media => "all"
+  = stylesheet_link_tag "admin/devise/devise", :media => "all"
+
+- content_for :content
+  div.container
+    h1 Madeline System
+    = yield
+
+= render template: "layouts/base"

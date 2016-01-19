@@ -40,7 +40,7 @@ module Legacy
     def self.migrate_all
       puts "notes coops: #{self.where('NotedTable' => 'Cooperatives').count}"
       self.where('NotedTable' => 'Cooperatives').each &:migrate
-      ::Note.connection.execute("SELECT setval('notes_id_seq', (SELECT MAX(id) FROM notes)+1000)")
+      ::Note.recalibrate_sequence(gap: 1000)
     end
 
     def self.purge_migrated
