@@ -32,5 +32,7 @@ class User < ActiveRecord::Base
 
   belongs_to :profile, class_name: Person
 
-  delegate :name, to: :profile
+  def name
+    profile.try(:name)
+  end
 end
