@@ -10,23 +10,18 @@ div
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand href="#"  Madeline System
+          a.navbar-brand href="/"  Madeline System
 
         / Collect the nav links, forms, and other content for toggling
         #navbar-menu.collapse.navbar-collapse
           ul.nav.navbar-nav.visible-xs-block
-            li.dropdown
-              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-                ' Site Menu
-                span.caret
-              ul.dropdown-menu
-                = render "layouts/admin/site_menu"
+            = render "layouts/admin/site_menu"
+            hr
 
           .division.centered-box.nav.navbar-nav.col-sm-6
             span> Division:
             select.form-control
-              option Argentina
-              option selected=""  United States
+              option All
 
           ul.user.centered-box.nav.navbar-nav.navbar-right.col-sm-3
             li.dropdown
