@@ -1,4 +1,7 @@
-/* Adapted from Bootstrap Dashboard Example */
+/*
+  Adapted from Bootstrap Dashboard Template
+  Site: http://getbootstrap.com/examples/dashboard/
+*/
 
 
 /*
@@ -22,10 +25,16 @@ body {
 
 /*
  * Top navigation
- * Hide default border to remove 1px line.
  */
+
+/* Hide default border to remove 1px line. */
 .navbar-fixed-top {
   border: 0;
+}
+
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
+  max-height: none;
 }
 
 /*

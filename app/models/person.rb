@@ -39,7 +39,7 @@
 class Person < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
- 
+
   belongs_to :division
   belongs_to :country
   belongs_to :primary_organization, class_name: 'Organization'
@@ -48,6 +48,7 @@ class Person < ActiveRecord::Base
   has_many :secondary_agent_loans, class_name: 'Loan', foreign_key: :secondary_agent_id
   has_many :representative_loans,  class_name: 'Loan', foreign_key: :representative_id
 
+  has_one :user, foreign_key: :profile_id
 
   validates :division_id, presence: true
   validates :first_name, presence: true

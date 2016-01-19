@@ -1,0 +1,45 @@
+div
+  nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
+    .container-fluid
+
+      .row
+        / Brand and toggle get grouped for better mobile display
+        .navbar-header.col-sm-3
+          button.navbar-toggle.collapsed aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand href="/"  Madeline System
+
+        / Collect the nav links, forms, and other content for toggling
+        #navbar-menu.collapse.navbar-collapse
+          ul.nav.navbar-nav.visible-xs-block
+            = render "layouts/admin/site_menu"
+            hr
+
+          .division.centered-box.nav.navbar-nav.col-sm-6
+            span> Division:
+            select.form-control
+              option All
+
+          ul.user.centered-box.nav.navbar-nav.navbar-right.col-sm-3
+            li.dropdown
+              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+                => current_user.try(:name) || 'User'
+                span.caret
+              ul.dropdown-menu
+                = render "layouts/admin/user_menu"
+
+  .sidemenu.container-fluid
+    .row
+      #navbar.col-sm-3.col-md-2.sidebar
+        ul.nav.nav-sidebar
+          = render "layouts/admin/site_menu"
+      #user-menu.user-menu-collapsed.user-menu
+        = render "layouts/admin/user_menu"
+      .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+        = yield :alerts
+        section
+          h1.page-header = yield :title
+          = yield

@@ -1,7 +1,7 @@
 li
-  a Logout
+  a Preferences
 
 li.divider role="separator"
 
 li
-  a Preferences
+  = link_to 'Log out', destroy_user_session_path, :method => :delete
