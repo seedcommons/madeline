@@ -2,34 +2,29 @@
 #
 # Table name: loans
 #
-#  id                          :integer          not null, primary key
 #  amount                      :decimal(, )
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  division_id                 :integer
 #  first_interest_payment_date :date
 #  first_payment_date          :date
+#  id                          :integer          not null, primary key
 #  length_months               :integer
-#  loan_type_option_id         :integer
+#  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
 #  organization_snapshot_id    :integer
 #  primary_agent_id            :integer
-#  project_type_option_id      :integer
+#  project_type_value          :string
 #  projected_return            :decimal(, )
-#  public_level_option_id      :integer
+#  public_level_value          :string
 #  rate                        :decimal(, )
 #  representative_id           :integer
 #  secondary_agent_id          :integer
 #  signing_date                :date
-#  status_option_id            :integer
+#  status_value                :string
 #  target_end_date             :date
 #  updated_at                  :datetime         not null
-#  organization_snapshot_id    :integer
-#  status_value                :string
-#  project_type_value          :string
-#  loan_type_value             :string
-#  public_level_value          :string
 #
 # Indexes
 #

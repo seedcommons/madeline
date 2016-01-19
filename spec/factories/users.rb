@@ -15,10 +15,12 @@
 #  last_sign_in_ip        :inet
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  profile_id             :integer
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_profile_id            (profile_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
@@ -37,5 +39,6 @@ FactoryGirl.define do
     reset_password_token { Faker::Internet.password }
     sign_in_count { rand(1..25) }
     updated_at { Faker::Date.between(created_at, current_sign_in_at) }
+    profile { create(:person) }
   end
 end
