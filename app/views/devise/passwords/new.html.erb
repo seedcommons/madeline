@@ -1,0 +1,22 @@
+<% content_for :title do "Forgot Password" end %>
+
+<% content_for :alerts do render "application/alerts" end %>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin" }) do |f| %>
+  <h2 class="form-signin-heading">Forgot your password?</h2>
+  <p class="centered-text">Send me reset password instructions</p>
+
+  <%= yield :alerts %>
+
+  <div class="field">
+    <%= f.label :email, class: "sr-only" %>
+    <%= f.email_field :email, autofocus: true, placeholder: "Email" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Send instructions",
+      class: "btn btn-lg btn-primary btn-block" %>
+  </div>
+
+  <%= render "devise/shared/links" %>
+<% end %>

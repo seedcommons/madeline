@@ -4,7 +4,11 @@
     i.fa.fa-check>
     = notice
 - if alert
-  p.alert
+  p.alert.alert-warning
     button.close data-dismiss="alert" type="button"  &times;
     i.fa.fa-info-circle>
     = alert
+- if devise_error_messages_content?
+  div.alert.alert-danger
+    i.fa.fa-exclamation-circle>
+    = devise_error_messages!
