@@ -20,7 +20,6 @@ class Admin::OrganizationsController < Admin::AdminController
   def update
     @coop = Organization.find(params[:id])
     @coop.update!(organization_params)
-    # redirect_to admin_organization_url(@coop)
     render plain: admin_organization_url(@coop)
   end
 end

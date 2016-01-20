@@ -5,9 +5,10 @@
     data: {'id': @coop.id, 'method': 'PUT'},
   },
   defaults: { \
-    input_html: { class: 'form-element col-lg-6' },
+    input_html: {class: 'form-element col-lg-6'},
   },
   method: :put) do |f|
+
 
   div.form-group.row
     label.col-lg-3 Name
@@ -38,8 +39,7 @@
     - unless @coop.new_record?
       span.col-lg-6.view-element
         = @coop.country.name
-    = f.input_field :country, collection: @countries, selected: @coop.country.id,
-      include_blank: true
+    = f.input_field :country_id, collection: @countries, include_blank: true
 
   div.form-group.row
     label.col-lg-3 Website
