@@ -9,6 +9,9 @@
   },
   method: :put) do |f|
 
+  if f.error_notification
+    p.alert.alert-warning
+      = f.error_notification
 
   div.form-group.row
     label.col-lg-3 Name
