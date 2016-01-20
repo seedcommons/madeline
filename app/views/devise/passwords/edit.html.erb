@@ -1,8 +1,14 @@
-<h2>Change your password</h2>
+<% content_for :title do "Change your password" end %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<% content_for :alerts do render "application/alerts" end %>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: "form-signin", method: :put }) do |f| %>
+
+  <h2 class="form-signin-heading"><%= yield :title %></h2>
+
   <%= f.hidden_field :reset_password_token %>
+
+  <%= yield :alerts %>
 
   <div class="field">
     <%= f.label :password, "New password" %><br />
@@ -18,8 +24,8 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit "Change my password", class: "btn btn-lg btn-primary btn-block" %>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+<% end %>

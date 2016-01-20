@@ -3,7 +3,7 @@
 <% content_for :alerts do render "application/alerts" end %>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-signin" }) do |f| %>
-  <h2 class="form-signin-heading">Forgot your password?</h2>
+  <h2 class="form-signin-heading"><%= yield :title %></h2>
   <p class="centered-text">Send me reset password instructions</p>
 
   <%= yield :alerts %>
