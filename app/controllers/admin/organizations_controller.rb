@@ -10,17 +10,25 @@ class Admin::OrganizationsController < Admin::AdminController
   def show
     @coop = Organization.find(params[:id])
     @countries = Country.all
+    @form_url = admin_organization_path
+    @form_method = :put
   end
 
   def new
     @coop = Organization.new
     @countries = Country.all
+    @form_url = new_admin_organization_path
+    @form_method = :post
   end
 
   def update
     @coop = Organization.find(params[:id])
-    @coop.update!(organization_params)
-    render plain: admin_organization_url(@coop)
+    if @coop.update(organization_params)
+      redirect_to admin_organization_path(@coop), notice: "Record updated."
+    else
+      show
+      render :show
+    end
   end
 end
 

@@ -1,17 +1,11 @@
 = simple_form_for(@coop,
-  url: admin_organization_path,
+  url: @form_url,
   html:{ \
     class: 'form-horizontal organization-record',
-    data: {'id': @coop.id, 'method': 'PUT'},
   },
   defaults: { \
     input_html: {class: 'form-element col-lg-6'},
-  },
-  method: :put) do |f|
-
-  if f.error_notification
-    p.alert.alert-warning
-      = f.error_notification
+  }) do |f|
 
   div.form-group.row
     label.col-lg-3 Name
@@ -65,4 +59,4 @@
       = f.button :button, class: 'btn btn-success col-lg-2 col-lg-offset-5'
     - else
       span.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-      = f.button :button, class: 'update-action btn btn-success col-lg-2'
+      = f.submit class: 'update-action btn btn-success col-lg-2'
