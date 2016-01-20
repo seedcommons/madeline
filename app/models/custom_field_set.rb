@@ -6,6 +6,7 @@
 #  division_id   :integer
 #  id            :integer          not null, primary key
 #  internal_name :string
+#  label         :string
 #  updated_at    :datetime         not null
 #
 # Indexes

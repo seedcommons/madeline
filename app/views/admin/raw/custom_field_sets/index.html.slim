@@ -14,7 +14,7 @@ table border=1
       td = link_to item.id, item_path(item)
       td = item.internal_name
       td = item.label
-      td = item.division.id
+      td = item.division.try(:id)
       td = item.created_at
       td = item.updated_at
 

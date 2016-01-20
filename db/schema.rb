@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114213018) do
+ActiveRecord::Schema.define(version: 20160120181702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,10 +36,20 @@ ActiveRecord::Schema.define(version: 20160114213018) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "custom_field_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+  end
+
+  add_index "custom_field_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
+
   create_table "custom_field_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "division_id"
     t.string "internal_name"
+    t.string "label"
     t.datetime "updated_at", null: false
   end
 
@@ -57,6 +67,28 @@ ActiveRecord::Schema.define(version: 20160114213018) do
   end
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
+
+  create_table "custom_value_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "custom_field_set_id"
+    t.integer "custom_value_settable_id"
+    t.string "custom_value_settable_type"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "custom_value_sets", ["custom_field_set_id"], name: "index_custom_value_sets_on_custom_field_set_id", using: :btree
+  add_index "custom_value_sets", ["custom_value_settable_type", "custom_value_settable_id"], name: "custom_value_sets_on_settable", using: :btree
+
+  create_table "custom_values", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "custom_field_id"
+    t.integer "custom_value_set_id"
+    t.datetime "updated_at", null: false
+    t.text "value"
+  end
+
+  add_index "custom_values", ["custom_field_id"], name: "index_custom_values_on_custom_field_id", using: :btree
+  add_index "custom_values", ["custom_value_set_id"], name: "index_custom_values_on_custom_value_set_id", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -297,6 +329,9 @@ ActiveRecord::Schema.define(version: 20160114213018) do
   add_foreign_key "countries", "languages", column: "default_language_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
+  add_foreign_key "custom_value_sets", "custom_field_sets"
+  add_foreign_key "custom_values", "custom_fields"
+  add_foreign_key "custom_values", "custom_value_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"

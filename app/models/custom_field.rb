@@ -26,6 +26,8 @@ class CustomField < ActiveRecord::Base
 
   belongs_to :custom_field_set
   # note, the custom field form layout can be hierarchially nested
+
+  has_closure_tree
   belongs_to :parent, class_name: 'CustomField'
 
 
