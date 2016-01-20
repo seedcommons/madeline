@@ -6,6 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+#
+# note, this is file is now significantly stripped down.
+# a more thorough population base base data relevant to the original system lives at lib/legacy/static_data
+#
+# todo: confirm if we should even keep this file at all
+
 #puts "seeds.rb"
 
 # the '99' is to make sure we leave space for the migrated divisions
@@ -38,6 +44,15 @@ option = loan_status.options.find_or_create_by(value: Loan::STATUS_COMPLETED_VAL
 option.update(position: 2, migration_id: 2)
 option.set_label_list(en: 'Completed', es: 'Prestamo Completo')
 
-OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'loan_type')
-OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'public_level')
-OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
+# OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'loan_type')
+# OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'public_level')
+# OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
+
+# for now mapping the '0' Person refs to 'null' and allowing null refs in the schema
+# Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
+
+
+# CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria-2').set_label('Loan Criteria Questionnaire')
+# CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+# CustomFieldSet.recalibrate_sequence(gap: 10)
+
