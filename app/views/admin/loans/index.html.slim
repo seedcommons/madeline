@@ -9,6 +9,24 @@
 
   - g.column name: 'ID', attribute: 'id'
 
+  - g.column name: 'Division', attribute: 'division_id'
+
+  - g.column name: 'Co-op', attribute: 'organization_id'
+
+  - g.column name: 'Status', attribute: 'status_value'
+
+  - g.column name: 'Signing Date', attribute: 'signing_date'
+
+  - g.column name: 'Length', attribute: 'length_months' do |loan|
+    - loan.length_months.to_s + " months"
+
+  - g.column name: 'Loan Type', attribute: 'loan_type_value'
+
+  - g.column name: 'Amount', attribute: 'amount' do |loan|
+    - number_to_currency(loan.amount)
+
+  - g.column name: 'Created', attribute: 'created_at'
+
   - g.column name: 'Updated', attribute: 'updated_at'
 
 header.block
