@@ -13,7 +13,8 @@
 
   - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter
 
-  - g.column name: 'Country' do |organization|
+  - g.column name: 'Country', attribute: 'name', assoc: :country,
+    detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
   - g.column name: 'Created', attribute: 'created_at'
@@ -30,7 +31,9 @@ div.row
   div.col-lg-3
     = grid_filter(@organizations_grid, :city_filter)
 
-/ label Country
-/ = grid_filter(@organizations_grid, :country_filter)
+  label.col-lg-1 Country
+  div.col-lg-3
+    = grid_filter(@organizations_grid, :country_filter)
 br
+
 = render_grid(@organizations_grid)
