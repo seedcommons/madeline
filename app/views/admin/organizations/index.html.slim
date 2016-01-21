@@ -25,7 +25,7 @@
 div.row
   h4 Filter by:
   label.col-lg-1 Name
-  div.col-lg-3
+  span.col-lg-3
     = grid_filter(@organizations_grid, :name_filter)
 
   label.col-lg-1 City
@@ -35,6 +35,11 @@ div.row
   label.col-lg-1 Country
   div.col-lg-3
     = grid_filter(@organizations_grid, :country_filter)
+
+div.row.actions
+  div.col-lg-9
+  button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
+  button.btn.col-lg-2.wg-external-submit-button data-grid-name="grid" Filter
 br
 
 = render_grid(@organizations_grid)
