@@ -11,10 +11,11 @@
 
   - g.column name: 'Name', attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter
+  - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter,
+    custom_filter: :auto
 
   - g.column name: 'Country', attribute: 'name', assoc: :country,
-    detach_with_id: :country_filter do |organization|
+    custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
   - g.column name: 'Created', attribute: 'created_at'
