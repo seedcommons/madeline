@@ -3,6 +3,7 @@ module Legacy
   class Migration
 
     def self.migrate_all
+      Legacy::StaticData.populate
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all
@@ -10,6 +11,7 @@ module Legacy
       Legacy::ProjectEvent.migrate_all
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
+      Legacy::LoanQuestion.migrate_all
     end
 
     # the core data which can be quickly migrated
@@ -22,6 +24,7 @@ module Legacy
 
 
     def self.purge_migrated
+      Legacy::LoanQuestion.purge_migrated
       Legacy::Note.purge_migrated
       Legacy::ProjectLog.purge_migrated
       Legacy::ProjectEvent.purge_migrated
