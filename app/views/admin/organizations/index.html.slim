@@ -3,15 +3,15 @@
 
 = render 'layouts/admin/tables'
 
-= grid(@organizations_grid, show_filters: :when_filtered) do |g|
+= define_grid(@organizations_grid, show_filters: :when_filtered) do |g|
 
   - g.blank_slate content_tag(:div, "No records found", class: 'alert alert-info')
 
   - g.column name: 'ID', attribute: 'id'
 
-  - g.column name: 'Name', attribute: 'name'
+  - g.column name: 'Name', attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: 'City', attribute: 'city'
+  - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter
 
   - g.column name: 'Country' do |organization|
     - organization.country.try(:name)
@@ -19,3 +19,18 @@
   - g.column name: 'Created', attribute: 'created_at'
 
   - g.column name: 'Updated', attribute: 'updated_at'
+
+div.row
+  h4 Filter by:
+  label.col-lg-1 Name
+  div.col-lg-3
+    = grid_filter(@organizations_grid, :name_filter)
+
+  label.col-lg-1 City
+  div.col-lg-3
+    = grid_filter(@organizations_grid, :city_filter)
+
+/ label Country
+/ = grid_filter(@organizations_grid, :country_filter)
+br
+= render_grid(@organizations_grid)
