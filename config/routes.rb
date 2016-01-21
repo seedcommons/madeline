@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :calendar, only: [:index]
     resources :dashboard, only: [:index]
     resources :organizations, only: [:index]
+    resources :loans, only: [:index]
 
     namespace :raw do
       resources :divisions
