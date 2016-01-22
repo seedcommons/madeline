@@ -40,15 +40,17 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-# The settings below are suggested to provide a good initial experience
-# with RSpec, but feel free to customize to your heart's content.
-=begin
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
   # get run.
-  config.filter_run :focus
-  config.run_all_when_everything_filtered = true
+#todo: confirm if we can enable this as the default handling. (i've found it pretty handy)
+  # config.filter_run :focus
+  # config.run_all_when_everything_filtered = true
+
+  # The settings below are suggested to provide a good initial experience
+# with RSpec, but feel free to customize to your heart's content.
+=begin
 
   # Allows RSpec to persist some state between runs in order to support
   # the `--only-failures` and `--next-failure` CLI options. We recommend

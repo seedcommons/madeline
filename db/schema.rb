@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120181702) do
+ActiveRecord::Schema.define(version: 20160122003401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,18 @@ ActiveRecord::Schema.define(version: 20160120181702) do
   end
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
+
+  create_table "custom_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "custom_data"
+    t.integer "custom_field_set_id", null: false
+    t.integer "custom_model_linkable_id", null: false
+    t.string "custom_model_linkable_type", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "custom_models", ["custom_field_set_id"], name: "index_custom_models_on_custom_field_set_id", using: :btree
+  add_index "custom_models", ["custom_model_linkable_type", "custom_model_linkable_id"], name: "custom_models_on_linkable", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -194,6 +206,7 @@ ActiveRecord::Schema.define(version: 20160120181702) do
     t.text "contact_notes"
     t.integer "country_id"
     t.datetime "created_at", null: false
+    t.json "custom_data"
     t.integer "division_id"
     t.string "email"
     t.string "fax"
@@ -308,6 +321,7 @@ ActiveRecord::Schema.define(version: 20160120181702) do
   add_foreign_key "countries", "languages", column: "default_language_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
+  add_foreign_key "custom_models", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"

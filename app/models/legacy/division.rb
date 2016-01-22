@@ -41,8 +41,8 @@ module Legacy
     end
 
     def self.purge_migrated
-      puts "::Division.where('id <> 99').delete_all"
-      ::Division.where.not(id: ::Division.root_id).destroy_all
+      puts "::Division.where('internal_name <> root').delete_all"
+      ::Division.where.not(internal_name: ::Division.root_internal_name).destroy_all
 
     end
 

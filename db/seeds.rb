@@ -10,7 +10,7 @@
 # note, this is file is now significantly stripped down.
 # a more thorough population base base data relevant to the original system lives at lib/legacy/static_data
 #
-# todo: confirm if we should even keep this file at all
+# todo: confirm if we should even keep this file at all, as it's basically a subset of Legacy::StaticData
 
 #puts "seeds.rb"
 
@@ -52,7 +52,7 @@ option.set_label_list(en: 'Completed', es: 'Prestamo Completo')
 # Person.find_or_create_by({id:0, name: 'dummy', first_name: 'dummy', division_id: Division.root_id})
 
 
-# CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria-2').set_label('Loan Criteria Questionnaire')
-# CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
-# CustomFieldSet.recalibrate_sequence(gap: 10)
+CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
+CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+CustomFieldSet.recalibrate_sequence(gap: 10)
 

@@ -32,4 +32,17 @@ class CustomFieldSet < ActiveRecord::Base
     label
   end
 
+
+  # returns a field by ether its id or internal_name
+  def get_field(field_identifier)
+    if field_identifier.is_a?(Integer)
+      field = custom_fields.find(field_identifier)
+    else
+      field = custom_fields.find_by({ internal_name: field_identifier })
+    end
+    raise "CustomField not found: #{field_identifier} for set: #{internal_name}"  unless field
+    field
+  end
+
+
 end
