@@ -36,37 +36,37 @@
 
   - g.column name: 'Updated', attribute: 'updated_at'
 
-header.block
-  div.row.filters
-    h4 Filter by:
+- unless @loans_grid.empty?
+  header.block
+    div.row.filters
+      h4 Filter by:
 
-    label.col-lg-1 Co-op
-    span.col-lg-4
-      = grid_filter(@loans_grid, :coop_filter)
+      label.col-lg-1 Co-op
+      span.col-lg-4
+        = grid_filter(@loans_grid, :coop_filter)
 
-    label.col-lg-1 Status
-    span.col-lg-2
-      = grid_filter(@loans_grid, :status_filter)
+      label.col-lg-1 Status
+      span.col-lg-2
+        = grid_filter(@loans_grid, :status_filter)
 
-    label.col-lg-1 Division
-    span.col-lg-3
-      = grid_filter(@loans_grid, :division_filter)
+      label.col-lg-1 Division
+      span.col-lg-3
+        = grid_filter(@loans_grid, :division_filter)
 
-  div.row.filters
-    label.col-lg-1 Loan Type
-    span.col-lg-3
-      = grid_filter(@loans_grid, :loan_type_filter)
+    div.row.filters
+      label.col-lg-1 Loan Type
+      span.col-lg-3
+        = grid_filter(@loans_grid, :loan_type_filter)
 
-    label.col-lg-1 Description
-    span.col-lg-7
-      = grid_filter(@loans_grid, :description_filter)
+      label.col-lg-1 Description
+      span.col-lg-7
+        = grid_filter(@loans_grid, :description_filter)
 
-
-  div.row.actions
-    div.col-lg-9
-    button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
-    button.btn.btn-primary.col-lg-2.wg-external-submit-button data-grid-name="grid"
-      | Filter
-br
+    div.row.actions
+      div.col-lg-9
+      button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
+      button.btn.btn-primary.col-lg-2.wg-external-submit-button data-grid-name="grid"
+        | Filter
+  br
 
 = render_grid(@loans_grid)
