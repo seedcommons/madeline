@@ -22,7 +22,9 @@ FactoryGirl.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
-    internal_name 'root'
+    internal_name nil
+    parent nil
+    # internal_name 'root'
 ##    organization  ## this was causing an infinite loop
   end
 end

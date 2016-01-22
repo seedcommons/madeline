@@ -7,6 +7,11 @@ table
   tr
     td Text
     td = @item.description
+  tr
+    td Parent
+    td
+      - if @item.parent
+        = link_to @item.parent.name, item_path(@item.parent)
 
 - if params[:debug]
   hr

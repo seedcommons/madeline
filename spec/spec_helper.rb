@@ -44,9 +44,9 @@ RSpec.configure do |config|
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
   # get run.
-#todo: confirm if we can enable this as the default handling. (i've found it pretty handy)
-  # config.filter_run :focus
-  # config.run_all_when_everything_filtered = true
+#todo: confirm if ok to enable this as the default handling. (i've found it pretty handy)
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
 
   # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.

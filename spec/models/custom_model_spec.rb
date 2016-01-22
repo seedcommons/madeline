@@ -22,9 +22,9 @@ describe CustomModel, :type => :model do
     loan = create(:loan)
     model = loan.loan_criteria
     value = 'this is a summary'
-    model.update_value('summary', value)
+    model.update_custom_value('summary', value)
     fetched = Loan.find(loan.id).loan_criteria
-    expect(fetched.get_value('summary')).to eq value
+    expect(fetched.custom_value('summary')).to eq value
   end
 
 end

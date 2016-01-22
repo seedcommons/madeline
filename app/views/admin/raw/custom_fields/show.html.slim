@@ -3,7 +3,9 @@
 table
   tr
     td Field Set
-    td = @item.custom_field_set.try(:name)
+    td
+      - if @item.custom_field_set
+        = link_to @item.custom_field_set.name, item_path(@item.custom_field_set)
   tr
     td Internal Name
     td = @item.internal_name

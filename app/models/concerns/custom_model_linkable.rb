@@ -27,8 +27,7 @@ module CustomModelLinkable
 
   # find or create the value set instance associated with given field set name for this model instance
   def custom_model(field_set_name, autocreate: true)
-    field_set = CustomFieldSet.find_by(internal_name: field_set_name)
-    raise "CustomFieldSet not found: #{field_set_name}"  unless field_set
+    field_set = CustomFieldSet.resolve(field_set_name, model: self)
 
     method = autocreate ? :find_or_create_by : :find_by
     custom_models.send(method, {custom_model_linkable: self, custom_field_set: field_set})
