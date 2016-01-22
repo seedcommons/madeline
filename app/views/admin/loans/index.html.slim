@@ -9,20 +9,25 @@
 
   - g.column name: 'ID', attribute: 'id'
 
-  - g.column name: 'Division', attribute: 'name', assoc: :division
+  - g.column name: 'Division', attribute: 'name', assoc: :division,
+    custom_filter: :auto, detach_with_id: :division_filter
 
-  - g.column name: 'Co-op', attribute: 'name', assoc: :organization
+  - g.column name: 'Co-op', attribute: 'name', assoc: :organization,
+    custom_filter: :auto, detach_with_id: :coop_filter
 
-  - g.column name: 'Status', attribute: 'status_value'
+  - g.column name: 'Status', attribute: 'status_value',
+    custom_filter: :auto, detach_with_id: :status_filter
 
   - g.column name: 'Signing Date', attribute: 'signing_date'
 
   - g.column name: 'Length', attribute: 'length_months' do |loan|
     - loan.length_months.to_s + " months"
 
-  - g.column name: 'Loan Type', attribute: 'loan_type_value'
+  - g.column name: 'Loan Type', attribute: 'loan_type_value',
+    custom_filter: :auto, detach_with_id: :loan_type_filter
 
-  - g.column name: 'Description', attribute: 'name'
+  - g.column name: 'Description', attribute: 'name',
+    detach_with_id: :description_filter
 
   - g.column name: 'Amount', attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
@@ -34,8 +39,28 @@
 header.block
   div.row.filters
     h4 Filter by:
-    label.col-lg-1 Filter
+
+    label.col-lg-1 Co-op
+    span.col-lg-4
+      = grid_filter(@loans_grid, :coop_filter)
+
+    label.col-lg-1 Status
+    span.col-lg-2
+      = grid_filter(@loans_grid, :status_filter)
+
+    label.col-lg-1 Division
     span.col-lg-3
+      = grid_filter(@loans_grid, :division_filter)
+
+  div.row.filters
+    label.col-lg-1 Loan Type
+    span.col-lg-3
+      = grid_filter(@loans_grid, :loan_type_filter)
+
+    label.col-lg-1 Description
+    span.col-lg-7
+      = grid_filter(@loans_grid, :description_filter)
+
 
   div.row.actions
     div.col-lg-9
