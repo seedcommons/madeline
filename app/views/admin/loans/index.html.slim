@@ -5,7 +5,9 @@
 
 = define_grid(@loans_grid, show_filters: :when_filtered) do |g|
 
-  - g.blank_slate content_tag(:div, "No records found", class: 'alert alert-info')
+  - g.blank_slate do
+    - @empty_list = true
+    - content_tag(:div, "No records found", class: 'alert alert-info')
 
   - g.column name: 'ID', attribute: 'id'
 
@@ -36,7 +38,7 @@
 
   - g.column name: 'Updated', attribute: 'updated_at'
 
-- unless @loans_grid.empty?
+- unless @empty_list
   header.block
     div.row.filters
       h4 Filter by:
