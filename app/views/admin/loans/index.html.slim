@@ -9,9 +9,9 @@
 
   - g.column name: 'ID', attribute: 'id'
 
-  - g.column name: 'Division', attribute: 'division_id'
+  - g.column name: 'Division', attribute: 'name', assoc: :division
 
-  - g.column name: 'Co-op', attribute: 'organization_id'
+  - g.column name: 'Co-op', attribute: 'name', assoc: :organization
 
   - g.column name: 'Status', attribute: 'status_value'
 
@@ -21,6 +21,8 @@
     - loan.length_months.to_s + " months"
 
   - g.column name: 'Loan Type', attribute: 'loan_type_value'
+
+  - g.column name: 'Description', attribute: 'name'
 
   - g.column name: 'Amount', attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
