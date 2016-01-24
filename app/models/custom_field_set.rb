@@ -49,9 +49,14 @@ class CustomFieldSet < ActiveRecord::Base
   # future: consider merging field sets at each level of the hierarchy. (not sure if this is useful or desirable)
   def self.resolve(internal_name, division: nil, model: nil)
     division = model.division  if !division && model
-    division ||= Division.root
+    if division
+      # puts "CustomFieldSet.resolve - using division param"
+      candidate_division = division
+    else
+      # puts "CustomFieldSet.resolve - using Division.root default"
+      candidate_division = Division.root
+    end
 
-    candidate_division = division
     result = nil
     # todo: confirm if there is a clever way to leverage closure tree to handle this hierarchical resolve logic
     while candidate_division do
@@ -60,7 +65,7 @@ class CustomFieldSet < ActiveRecord::Base
       candidate_division = candidate_division.parent
     end
 
-    raise "CustomFieldSet not found: #{self.name} for division: #{division.id}"  unless result
+    raise "CustomFieldSet not found: #{self.name} for division: #{division.try(:id)}"  unless result
     result
   end
 

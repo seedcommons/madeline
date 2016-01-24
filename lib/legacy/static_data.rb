@@ -3,7 +3,8 @@ module Legacy
   class StaticData
 
     def self.populate
-      ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
+      # ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
+      ::Division.create(id: 99, name: 'Root Division')  unless ::Division.root
       ::Division.recalibrate_sequence(gap: 1)
 
       Language.find_or_create_by(id: 1, name: 'English', code: 'EN')

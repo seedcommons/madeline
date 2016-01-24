@@ -7,6 +7,7 @@ describe Organization, type: :model do
   end
 
   it_should_behave_like 'notable'
+  it_should_behave_like 'custom_value_settable'
 
   it 'should set and get custom values' do
     create(:custom_field_set, :organization_fields)
@@ -18,6 +19,7 @@ describe Organization, type: :model do
   end
 
   it 'can filter by custom value' do
+    root_division
     create(:custom_field_set, :organization_fields)
     model = create(:organization)
     model.update_custom_value('is_recovered', true)
@@ -29,7 +31,6 @@ describe Organization, type: :model do
   end
 
   it 'should handle inherited custom field sets' do
-    root_division = Division.root
     sub_division = create(:division, parent: root_division, internal_name: 'sub')
     field_set = create(:custom_field_set, division: root_division, internal_name: Organization.name)
     create(:custom_field, custom_field_set: field_set, internal_name: 'root_string', data_type: 'string')

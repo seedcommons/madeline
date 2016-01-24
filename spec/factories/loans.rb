@@ -38,7 +38,7 @@
 
 FactoryGirl.define do
   factory :loan do
-    division { Division.root }
+    division { root_division }
     organization
     name { "Loan for " + Faker::Company.name }
     association :primary_agent_id, factory: :person
