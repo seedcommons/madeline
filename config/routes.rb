@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :notes
       resources :custom_field_sets
       resources :custom_fields
+      resources :custom_models
       post 'select_division', to: 'divisions#select'
     end
   end

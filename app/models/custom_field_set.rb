@@ -34,20 +34,20 @@ class CustomFieldSet < ActiveRecord::Base
 
 
   # returns a field by ether its id or internal_name
-  def field(field_identifier)
+  def field(field_identifier, required: true)
     if field_identifier.is_a?(Integer)
-      field = custom_fields.find(field_identifier)
+      field = custom_fields.find_by(id: field_identifier)
     else
-      field = custom_fields.find_by({ internal_name: field_identifier })
+      field = custom_fields.find_by(internal_name: field_identifier)
     end
-    raise "CustomField not found: #{field_identifier} for set: #{internal_name}"  unless field
+    raise "CustomField not found: #{field_identifier} for set: #{internal_name}"  if required && !field
     field
   end
 
 
   # Resolve the custom field set matching given internal name defined at the closest ancestor level.
   # future: consider merging field sets at each level of the hierarchy. (not sure if this is useful or desirable)
-  def self.resolve(internal_name, division: nil, model: nil)
+  def self.resolve(internal_name, division: nil, model: nil, required: true)
     division = model.division  if !division && model
     if division
       # puts "CustomFieldSet.resolve - using division param"
@@ -65,7 +65,7 @@ class CustomFieldSet < ActiveRecord::Base
       candidate_division = candidate_division.parent
     end
 
-    raise "CustomFieldSet not found: #{self.name} for division: #{division.try(:id)}"  unless result
+    raise "CustomFieldSet not found: #{internal_name} for division: #{division.try(:id)}"  if required && !result
     result
   end
 

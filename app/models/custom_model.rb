@@ -8,6 +8,7 @@
 #  custom_model_linkable_id   :integer          not null
 #  custom_model_linkable_type :string           not null
 #  id                         :integer          not null, primary key
+#  linkable_attribute         :string
 #  updated_at                 :datetime         not null
 #
 # Indexes
@@ -44,5 +45,9 @@ class CustomModel < ActiveRecord::Base
     custom_field_set
   end
 
+  # used by raw crud admin views
+  def name
+    "#{custom_model_linkable_type}[#{custom_model_linkable_id}]-#{linkable_attribute}"
+  end
 
 end
