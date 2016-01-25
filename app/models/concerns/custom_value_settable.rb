@@ -35,16 +35,23 @@ module CustomValueSettable
 
 
   def ensured_custom_data
-    custom_data || {}
+    self.custom_data ||= {}
+    self.custom_data  # this explicit return value is important!
   end
 
   def update_custom_value(field_identifier, value)
+    data = set_custom_value(field_identifier, value)
+    self.update(custom_data: data)
+  end
+
+  def set_custom_value(field_identifier, value)
     field = custom_field(field_identifier)  # note, this is fatal if field not found
     data = ensured_custom_data
     # future: value manipulation depending on field data type
     data[field.json_key] = value
-    self.update(custom_data: data)
+    data
   end
+
 
   def custom_value(field_identifier)
     field = custom_field(field_identifier)
@@ -62,6 +69,52 @@ module CustomValueSettable
 
   def custom_field?(field_identifier)
     self.class.custom_field?(field_identifier, model: self)
+  end
+
+  def method_missing(method_sym, *arguments, &block)
+    attribute_name, action = match_dynamic_method(method_sym)
+    puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
+    if action
+      case action
+        when :get
+          custom_value(attribute_name)
+        when :set
+          set_custom_value(attribute_name, arguments.first)
+        when :update
+          update_custom_value(attribute_name, arguments.first)
+      end
+    else
+      super
+    end
+  end
+
+  def respond_to_missing?(method_sym, include_private = false)
+    attribute_name, action = match_dynamic_method(method_sym)
+    if action
+      true
+    else
+      super
+    end
+  end
+
+  def match_dynamic_method(method_sym)
+    method_name = method_sym.to_s
+    if method_name.ends_with?('=')
+      attribute_name = method_name.chomp('=')
+      action = :set
+    elsif method_name.starts_with?('update_')
+      attribute_name = method_name.sub('update_', '')
+      action = :update
+    else
+      attribute_name = method_name
+      action = :get
+    end
+
+    if custom_field?(attribute_name)
+      [attribute_name, action]
+    else
+      [nil,nil]
+    end
   end
 
 

@@ -107,8 +107,9 @@ module CustomModelLinkable
   def get_attribute(attr_name)
     if respond_to?(attr_name)
       send(attr_name)
-    elsif respond_to?('custom_field?') && custom_field?(attr_name)
-      custom_value(attr_name)
+    # custom field attributes now handled via method_missing hook
+    # elsif respond_to?('custom_field?') && custom_field?(attr_name)
+    #   custom_value(attr_name)
     else
       raise "#{self.name} - unable to get attribute: #{attr_name}"
     end
@@ -118,8 +119,9 @@ module CustomModelLinkable
   def update_attribute(attr_name, value)
     if self.class.column_names.include?(attr_name)
       update(attr_name => value)
-    elsif respond_to?('custom_field?') && custom_field?(attr_name)
-      update_custom_value(attr_name, value)
+    # custom field attributes now handled via method_missing hook
+    # elsif respond_to?('custom_field?') && custom_field?(attr_name)
+    #   update_custom_value(attr_name, value)
     else
       raise "#{self.name} - unable to update attribute: #{attr_name}"
     end
