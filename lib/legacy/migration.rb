@@ -16,6 +16,7 @@ module Legacy
 
     # the core data which can be quickly migrated
     def self.migrate_core
+      Legacy::StaticData.populate
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all

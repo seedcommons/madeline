@@ -1,0 +1,16 @@
+table
+  tr
+    td ID
+    td Linkable
+    td Attribute
+    td Field Count
+    td Actions
+  - for item in items
+    tr
+      td = item.id
+      td = "#{item.custom_model_linkable_type}[#{item.custom_model_linkable_id}]"
+      td = item.linkable_attribute
+      td = item.custom_data.size
+      td = render view_path('common/list_actions'), {item: item}
+
+

@@ -32,14 +32,14 @@ module Legacy
 
     def self.migrate_all
       puts "loan questions: #{ self.count }"
-      self.where.not(active: 1).each &:migrate
+      self.all.each &:migrate
       # self.all.each &:migrate
       ::CustomField.recalibrate_sequence(gap: 100)
     end
 
     def self.purge_migrated
       puts "CustomField.destroy_all"
-      ::CustomField.destroy_all
+      ::CustomField.where("custom_field_set_id < 4").destroy_all
     end
 
 

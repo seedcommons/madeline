@@ -105,12 +105,17 @@ module Legacy
       progress_metric.create_option(migration_id: 2).set_label_list(en: 'ahead', es: 'adelantado')
 
 
+      CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
       CustomFieldSet.recalibrate_sequence(gap: 10)
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
+
+      loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
+      loan_field_set.custom_fields.destroy_all
+      loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
 
     end
 
