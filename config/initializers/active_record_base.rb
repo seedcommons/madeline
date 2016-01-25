@@ -12,8 +12,12 @@ class ActiveRecord::Base
 
   # will update the postgres sequence value to be greater than the hightest existing id plus a gap
   # gap - gap in id values to leave between existing hightest id and next value
-  def self.recalibrate_sequence(gap: 0)
-    self.connection.execute("SELECT setval('#{table_name}_id_seq', (SELECT MAX(id) FROM #{table_name})+#{gap})")
+  def self.recalibrate_sequence(gap: 0, id: nil)
+    if id
+      self.connection.execute("SELECT setval('#{table_name}_id_seq', #{id}")
+    else
+      self.connection.execute("SELECT setval('#{table_name}_id_seq', (SELECT MAX(id) FROM #{table_name})+#{gap})")
+    end
   end
 
 
