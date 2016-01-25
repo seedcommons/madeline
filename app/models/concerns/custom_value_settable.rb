@@ -12,8 +12,8 @@ module CustomValueSettable
 
     # Resolve the custom field set matching our model type defined at the closest ancestor level.
     # Note, this is overridden for CustomModel which has it's field set explicitly assigned based on the link context
-    def resolve_custom_field_set(division: nil, model: nil)
-      CustomFieldSet.resolve(self.name, division: division, model: model)
+    def resolve_custom_field_set(division: nil, model: nil, required: true)
+      CustomFieldSet.resolve(self.name, division: division, model: model, required: required)
     end
 
 
@@ -24,6 +24,11 @@ module CustomValueSettable
       base_relation ||= self
       field = resolve_custom_field_set(division: division).field(field_identifier)
       base_relation.where("custom_data->>? = ?", field.json_key, value)
+    end
+
+    def custom_field?(field_identifier, division: nil, model: nil)
+      field_set = resolve_custom_field_set(division: division, model: model, required: true)
+      field_set && field_set.field(field_identifier, required: false).present?
     end
 
   end
@@ -53,6 +58,10 @@ module CustomValueSettable
 
   def custom_field(field_identifier)
     resolve_custom_field_set.field(field_identifier)
+  end
+
+  def custom_field?(field_identifier)
+    self.class.custom_field?(field_identifier, model: self)
   end
 
 

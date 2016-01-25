@@ -124,6 +124,15 @@ br
 = render view_path('organization_snapshots/list'), { items: @item.organization_snapshots }
 
 
+br
+br
+b Questionnaire Responses -
+/=< link_to "New Step", new_item_path(:project_step, {project_id: @item.id, project_type: 'Loan'})
+br
+br
+= render view_path('custom_models/list'), {items: @item.custom_models}
+
+
 - if params[:debug]
   hr
   = debug @item
