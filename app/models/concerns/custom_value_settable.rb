@@ -27,7 +27,7 @@ module CustomValueSettable
     end
 
     def custom_field?(field_identifier, division: nil, model: nil)
-      field_set = resolve_custom_field_set(division: division, model: model, required: true)
+      field_set = resolve_custom_field_set(division: division, model: model, required: false)
       field_set && field_set.field(field_identifier, required: false).present?
     end
 
@@ -73,7 +73,7 @@ module CustomValueSettable
 
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action = match_dynamic_method(method_sym)
-    puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
+    # puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
     if action
       case action
         when :get
