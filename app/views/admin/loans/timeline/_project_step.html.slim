@@ -39,14 +39,13 @@
               = " Completed"
             - else
               = "Not yet completed"
-          ul
-            li
+          div.actions
+            a.action
               i.fa.fa-pencil
-            li
+            a.action
               i.fa.fa-files-o
-            li
-              = link_to [:admin, step], :method => :delete do |link|
-                i.fa.fa-trash
+            = link_to [:admin, step], method: :delete, class: 'action' do |link|
+              i.fa.fa-trash
           p
            = "Logs "
            i.fa.fa-plus-circle.fa-lg
