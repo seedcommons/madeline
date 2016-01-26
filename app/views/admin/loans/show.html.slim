@@ -2,7 +2,7 @@
 
 /= @loan.inspect
 
-/= @loan.project_steps.inspect
+= @loan.project_steps.inspect
 
 section.project-steps
   div.panel.panel-primary
@@ -31,11 +31,31 @@ section.project-steps
           h5 = step.summary
           p = step.details
         div.col-lg-4
-          p Status: Ahead
-          p Scheduled: Jun 1, 2013
-          p Completed: May 21, 2013 (11 days early)
-          p Finalized: Yes
+          p
+            = "Status: "
+            /= step.status
+          p
+            = "Scheduled: "
+            = step.scheduled_date
+          p
+            = "Completed: "
+            = step.completed_date
+            = " "
+            - days = step.completed_date - step.scheduled_date
+            - if days < 0
+              = "(_ days early)"
+            - elsif days > 0
+              = "(_ days late)"
+            - else
+              = "(on time)"
+          p
+            = "Finalized: "
+            = step.is_finalized ? 'Yes' : 'No'
         div.col-lg-3
-          p Completed
+          p
+            - if step.completed_date
+              = "Completed"
+            - else
+              = "Not yet completed"
           p Icons
           p Logs
