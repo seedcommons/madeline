@@ -65,7 +65,7 @@ describe Loan, :type => :model do
         create(
           :loan,
           organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
-          division: create(:division, organization: create(:organization, country: @country_us))
+          division: create(:division, parent: root_division, organization: create(:organization, country: @country_us))
         )
       end
       it 'returns city and country' do

@@ -23,7 +23,8 @@
 #
 # Represents a dynamic model instance which can be owned in a one-to-many 'belongs_to' relation by another
 # model instance in the system.
-# Primary use case are a Loan's Criteria and Loan Post-analysis questionnaires.
+# Primary use case are a Loan's Criteria and Loan Post-analysis questionnaire 'response sets'.
+# This model is only needed for one-to-many relations from an owning object to a related but distinct instance
 # Actual values are stored into a JSON field keyed by the numeric id of the associated field.
 # Note, the current design allows for custom field definitions to optionally specificy a 'slug' style field name,
 # but does not require it.  The custom value can be resolved either by field id, or the field 'internal_name' if assigned

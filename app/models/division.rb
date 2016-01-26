@@ -38,7 +38,7 @@ class Division < ActiveRecord::Base
   belongs_to :organization  # the organization which represents this loan agent division
 
   validates :name, presence: true
-
+  validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
 
   # Note: the closure_tree automatically provides a Division.root class method which returns the
