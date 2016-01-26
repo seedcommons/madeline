@@ -14,9 +14,9 @@ table
       td = item.is_finalized
       td = item.logs_count
       td
-        => link_to 'View', item
+        => link_to 'View', item_path(item)
         | -
-        =<> link_to 'Edit', edit_project_step_path(item)
+        =<> link_to 'Edit', edit_item_path(item)
         | -
-        =<> link_to 'Delete', item, method: :delete, data: {confirm: 'Are you sure?'}
+        =<> link_to 'Delete', item_path(item), method: :delete, data: {confirm: 'Are you sure?'}
 

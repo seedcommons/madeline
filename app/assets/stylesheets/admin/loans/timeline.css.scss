@@ -1,0 +1,19 @@
+@import "colors";
+
+.panel-success {
+  border-color: $green1;
+}
+
+.panel {
+  border-width: 2px;
+}
+
+.step {
+  .action {
+    margin: .5em;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+}

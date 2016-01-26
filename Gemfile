@@ -12,6 +12,8 @@ gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
+gem 'momentjs-rails'
+gem 'fullcalendar-rails'
 
 # Authentication / Authorization
 gem 'devise'
@@ -46,7 +48,8 @@ gem 'mini_magick'
 gem 'mysql2'
 
 # Tables
-gem 'wice_grid'
+gem 'wice_grid', '3.6.0.pre4'
+gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
 group :development, :test do
@@ -83,11 +86,11 @@ group :development do
   gem 'fix-db-schema-conflicts'
 
   # Deployment
-  # gem 'capistrano',  '~> 3.1'
-  # gem 'capistrano-rails', '~> 1.1'
-  # gem 'capistrano-passenger'
+  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-passenger'
 end
 
-group :doc do
+group :development, :doc do
   gem 'rails-erd'
 end

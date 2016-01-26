@@ -1,0 +1,65 @@
+// TODO: Classes & colors should change based on status of project
+div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-primary')
+      div.panel-body.row
+        div.col-lg-1
+          i.fa.fa-square-o
+        div.col-lg-4
+          h5.title
+            - if step.milestone?
+              i.fa.fa-list
+            - else
+              i.fa.fa-flag
+            = " "
+            = step.summary
+          p = step.details
+        div.col-lg-4
+          p
+            // TODO: Status should show actual status
+            = "Status: "
+            = step.status
+          p
+            = "Scheduled: "
+            = step.scheduled_date
+
+          - if step.completed?
+            div
+              = "Completed: "
+              = step.completed_date
+
+              // Move to separate partial or as a helper
+              // Move logic elsewhere, if possible
+
+              - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
+
+              - if step.days < 0
+                /- step.days_status = "early"
+                - days_statement = "(" + date_diff + " early)"
+              - elsif step.days > 0
+                /- step.days_status = "late"
+                - days_statement = "(" + date_diff + " late)"
+              - else
+                /- step.days_status = "on_time"
+                - days_statement = "(on time)"
+
+              p
+                = days_statement
+          p
+            = "Finalized: "
+            = step.is_finalized ? 'Yes' : 'No'
+        div.col-lg-3
+          p
+            - if step.completed?
+              i.fa.fa-check.fa-lg
+              = " Completed"
+            - else
+              = "Not yet completed"
+          div.actions
+            a.action
+              i.fa.fa-pencil
+            a.action
+              i.fa.fa-files-o
+            = link_to [:admin, step], method: :delete, class: 'action' do |link|
+              i.fa.fa-trash
+          p
+           = "Logs "
+           i.fa.fa-plus-circle.fa-lg

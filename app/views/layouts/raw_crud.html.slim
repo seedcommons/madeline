@@ -12,7 +12,7 @@ html
 
     #header
       #left
-        b The Madeline System
+        a href="/": b The Madeline System
       #right
         | User Name
       #center
@@ -50,10 +50,14 @@ html
         b Divisions
       - else
         = link_to 'Divisions', index_path(:divisions)
+      br
+      - if left_nav_selection == 'custom_field_sets'
+        b Questionnaires
+      - else
+        = link_to 'Questionnaires', index_path(:custom_field_sets)
 
     #section
       == yield
 
     /#footer
     /  | [footer]
-

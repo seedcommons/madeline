@@ -3,17 +3,23 @@
 # Table name: countries
 #
 #  id                  :integer          not null, primary key
-#  iso_code            :string(2)
-#  default_currency_id :integer
 #  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  name                :string
+#  default_currency_id :integer
 #  default_language_id :integer
+#  iso_code            :string(2)
 #  language_id         :integer
+#  name                :string
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
 #  index_countries_on_language_id  (language_id)
+#
+# Foreign Keys
+#
+#  fk_rails_12b1744656  (default_language_id => languages.id)
+#  fk_rails_6f479b409c  (language_id => languages.id)
+#  fk_rails_cc2d004fbb  (default_currency_id => currencies.id)
 #
 
 class Country < ActiveRecord::Base

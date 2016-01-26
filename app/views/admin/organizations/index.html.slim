@@ -1,21 +1,50 @@
 - content_for :title do
-  - 'Co-ops and Organizations'
+  - 'Co-ops'
 
 = render 'layouts/admin/tables'
 
-= grid(@organizations_grid, show_filters: :when_filtered) do |g|
+= define_grid(@organizations_grid, show_filters: :when_filtered) do |g|
+
+  - g.blank_slate do
+    - @empty_list = true
+    - content_tag(:div, "No records found", class: 'alert alert-info')
 
   - g.column name: 'ID', attribute: 'id'
 
-  - g.column name: 'Name', attribute: 'name'
+  - g.column name: 'Name', attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: 'City', attribute: 'city'
+  - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter,
+    custom_filter: :auto
 
-  - g.column name: 'Country' do |organization|
-    - organization.country.name
+  - g.column name: 'Country', attribute: 'name', assoc: :country,
+    custom_filter: :auto, detach_with_id: :country_filter do |organization|
+    - organization.country.try(:name)
 
-  - g.column name: 'Created', attribute: 'created_at' do |organization|
-    - organization.created_at
+  - g.column name: 'Created', attribute: 'created_at'
 
-  - g.column name: 'Updated', attribute: 'updated_at' do |organization|
-    - organization.updated_at
+  - g.column name: 'Updated', attribute: 'updated_at'
+
+- unless @empty_list
+  header.block
+    div.row.filters
+      h4 Filter by:
+      label.col-lg-1 Name
+      span.col-lg-3
+        = grid_filter(@organizations_grid, :name_filter)
+
+      label.col-lg-1 City
+      div.col-lg-3
+        = grid_filter(@organizations_grid, :city_filter)
+
+      label.col-lg-1 Country
+      div.col-lg-3
+        = grid_filter(@organizations_grid, :country_filter)
+
+    div.row.actions
+      div.col-lg-9
+      button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
+      button.btn.btn-primary.col-lg-2.wg-external-submit-button data-grid-name="grid"
+        | Filter
+  br
+
+= render_grid(@organizations_grid)
