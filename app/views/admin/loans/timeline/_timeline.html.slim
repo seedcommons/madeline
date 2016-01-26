@@ -1,0 +1,21 @@
+section.timeline
+  div.project-steps
+    div.panel.panel-primary
+      div.panel-body.row
+        div.col-lg-1
+          p Column
+        div.col-lg-4
+          h5 Name: Check on OccuCopy's variable costs.
+          p Description: Has the coop increased the number of prints on their service contract? Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.
+        div.col-lg-4
+          p Status: Ahead
+          p Scheduled: Jun 1, 2013
+          p Completed: May 21, 2013 (11 days early)
+          p Finalized: Yes
+        div.col-lg-3
+          p Completed
+          p Icons
+          p Logs
+
+    - loan.project_steps.each do |step|
+      = render "admin/loans/timeline/project_step", step: step
