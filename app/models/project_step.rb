@@ -2,16 +2,16 @@
 #
 # Table name: project_steps
 #
-#  agent_id        :integer
-#  completed_date  :date
-#  created_at      :datetime         not null
 #  id              :integer          not null, primary key
-#  is_finalized    :boolean
 #  project_id      :integer
 #  project_type    :string
+#  agent_id        :integer
 #  scheduled_date  :date
-#  step_type_value :string
+#  completed_date  :date
+#  is_finalized    :boolean
+#  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  step_type_value :string
 #
 # Indexes
 #

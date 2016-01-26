@@ -3,9 +3,9 @@ module Legacy
   class StaticData
 
     def self.populate
-      # ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
-      ::Division.create(id: 99, name: 'Root Division')  unless ::Division.root
-      ::Division.recalibrate_sequence(gap: 1)
+      ::Division.root
+      ::Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
+
 
       Language.find_or_create_by(id: 1, name: 'English', code: 'EN')
       Language.find_or_create_by(id: 2, name: 'Español', code: 'ES')
@@ -104,13 +104,11 @@ module Legacy
       progress_metric.create_option(migration_id: 1).set_label_list(en: 'on time', es: 'a tiempo')
       progress_metric.create_option(migration_id: 2).set_label_list(en: 'ahead', es: 'adelantado')
 
-
       CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+      #todo: find somplace to factor this out to
       CustomFieldSet.recalibrate_sequence(gap: 10)
-      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
-      org_field_set.custom_fields.destroy_all
-      org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
+
 
     end
 

@@ -18,24 +18,10 @@
 #  index_divisions_on_organization_id  (organization_id)
 #
 
-def root_division
-  # fetched = Division.roots
-  # # puts("unexpectedly non-unique root Division - count: #{fetched.size}")  if fetched.size > 1
-  # result = fetched.first
-  result = Division.root
-  unless result
-    # puts "autocreating root Division"
-    result = Division.create(name:'Root Division')
-  end
-  result
-end
-
-
 FactoryGirl.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
-    # organization - intentionally left nil # (would cause an infinite loop)
-    # parent - intentionally left nil
+##    organization  ## this was causing an infinite loop
   end
 end

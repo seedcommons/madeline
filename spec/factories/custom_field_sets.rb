@@ -16,52 +16,21 @@
 
 FactoryGirl.define do
   factory :custom_field_set do
-    division { root_division }
+    division
     internal_name Faker::Lorem.words(2).join('_').downcase
 
-    before(:create) do
-      # explicitly ensure that the default language used by the translatable module exists
-      Language.system_default
-    end
 
     after(:create) do |model|
+      # todo: confirm which approach is preferred
+
+      # note, by using the translation factory, we'll implicitly ensure that a language exists,
+      # but it's not guaranteed to match what is expected by the default translatable resolve
+      # create(:translation, translatable: model, translatable_attribute: 'label', text: Faker::Lorem.words(2).join(' '))
+
+      Language.system_default  # explicitly ensure that the default language used by the translatable module exists
       model.set_label(Faker::Lorem.words(2).join(' '))
+
     end
-
-    trait :generic_fields do
-      after(:create) do |model|
-        create(:custom_field, custom_field_set: model, internal_name: 'a_string', data_type: 'string')
-        create(:custom_field, custom_field_set: model, internal_name: 'a_number', data_type: 'number')
-        create(:custom_field, custom_field_set: model, internal_name: 'a_boolean', data_type: 'boolean')
-      end
-    end
-
-    trait :loan_criteria do
-      internal_name 'loan_criteria'
-      after(:create) do |model|
-        model.set_label('Loan Criteria Questionnaire')
-        create(:custom_field, custom_field_set: model, internal_name: 'summary', data_type: 'text')
-        create(:custom_field, custom_field_set: model, internal_name: 'workers', data_type: 'number')
-      end
-    end
-
-    trait :loan_post_analysis do
-      internal_name 'loan_post_analysis'
-      after(:create) do |model|
-        model.set_label('Loan Post Analysis')
-        create(:custom_field, custom_field_set: model, internal_name: 'new_worker_knowledge', data_type: 'text')
-        create(:custom_field, custom_field_set: model, internal_name: 'total_loan_amount', data_type: 'number')
-      end
-    end
-
-    trait :organization_fields do
-      internal_name Organization.name
-      after(:create) do |model|
-        create(:custom_field, custom_field_set: model, internal_name: 'is_recovered', data_type: 'boolean')
-      end
-    end
-
-
   end
 
 end

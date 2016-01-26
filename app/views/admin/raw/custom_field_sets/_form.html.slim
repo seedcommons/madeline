@@ -1,6 +1,7 @@
 = render view_path('common/errors'), { errors: @item.errors }
 
 = form_for @item, :url => form_url(@item) do |f|
+  = f.hidden_field :custom_field_set_id
   table
     tr
       td Division

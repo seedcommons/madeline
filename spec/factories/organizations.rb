@@ -35,7 +35,7 @@
 
 FactoryGirl.define do
   factory :organization do
-    division { root_division }
+    division
     country
     name { Faker::Company.name }
     sector { Faker::Company.profession }

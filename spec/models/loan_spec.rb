@@ -5,7 +5,6 @@ describe Loan, :type => :model do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'project_type', 'public_level']
-  it_should_behave_like 'custom_model_linkable', ['loan_criteria', 'loan_post_analysis']
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -65,7 +64,7 @@ describe Loan, :type => :model do
         create(
           :loan,
           organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
-          division: create(:division, parent: root_division, organization: create(:organization, country: @country_us))
+          division: create(:division, organization: create(:organization, country: @country_us))
         )
       end
       it 'returns city and country' do
@@ -95,10 +94,6 @@ describe Loan, :type => :model do
       before do
         # note, need to use specific dependent data here instead of factories, in order to match the expected I18n text below
         Language.find_or_create_by(name: 'English', code: 'EN')
-        # Note, option_set functionality depends on existance of root_division.
-        # So if we're not going to enable autocreation within the 'Division.root' logic, then we need
-        # to explicitly guarantee existence of the root division for any unit tests which use option sets
-        root_division
         option_set = Loan.status_option_set
         option_set.create_option(value: 'active').set_label_list(en: 'Active')
         option_set.create_option(value: 'completed').set_label_list(en: 'Completed')
