@@ -52,14 +52,16 @@ class ProjectStep < ActiveRecord::Base
   end
 
 
-
+  def completed?
+    self.completed_date ? true : false
+  end
 
   def completed_or_not
     self.completed_date ? 'completed' : 'not_completed'
   end
 
   def status
-    if self.completed
+    if self.completed?
       I18n.t :log_completed
     else
       project_logs.order(:date).last.try(:progress)
