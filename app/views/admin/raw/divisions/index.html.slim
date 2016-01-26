@@ -6,6 +6,7 @@ table border=1
     th ID
     th Name
     th Description
+    th Parent
     th # Loans
 
   - for item in @items
@@ -13,6 +14,7 @@ table border=1
       td = link_to item.id, item_path(item)
       td = item.name
       td = item.description
+      td = item.parent.try(:id)
       td = item.loans_count
 
 = will_paginate @items

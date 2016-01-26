@@ -39,8 +39,13 @@ class CustomField < ActiveRecord::Base
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
 
+  # for now use a stringified primary key
+  # todo: consider using the internal name when available - needs further discussion
+  def json_key
+    id.to_s
+  end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group']
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean']
 
 
 end

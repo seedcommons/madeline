@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe OptionSet, type: :model do
 
+  before do
+    root_division
+  end
+
   it 'has a valid factory' do
     expect(create(:option_set)).to be_valid
   end

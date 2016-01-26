@@ -1,5 +1,10 @@
 
 shared_examples_for 'option_settable' do |attribute_names|
+
+  before do
+    root_division
+  end
+
   let(:model_instance) { create(described_class.to_s.underscore) }
 
   #todo: confirm if it's reasonable to perform all of these tests for each class and attribute or sufficient to sample

@@ -2,13 +2,13 @@
 #
 # Table name: project_logs
 #
-#  id                    :integer          not null, primary key
-#  project_step_id       :integer
 #  agent_id              :integer
-#  date                  :date
 #  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  date                  :date
+#  id                    :integer          not null, primary key
 #  progress_metric_value :string
+#  project_step_id       :integer
+#  updated_at            :datetime         not null
 #
 # Indexes
 #

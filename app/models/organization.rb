@@ -2,15 +2,16 @@
 #
 # Table name: organizations
 #
-#  id                       :integer          not null, primary key
 #  alias                    :string
 #  city                     :string
 #  contact_notes            :text
 #  country_id               :integer
 #  created_at               :datetime         not null
+#  custom_data              :json
 #  division_id              :integer
 #  email                    :string
 #  fax                      :string
+#  id                       :integer          not null, primary key
 #  industry                 :string
 #  last_name                :string
 #  legal_name               :string
@@ -42,6 +43,8 @@
 class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
+  include CustomValueSettable  # allows setting dynamic fields like 'is_recovered', potentially customizable per division
+
 
   belongs_to :division
   belongs_to :country
