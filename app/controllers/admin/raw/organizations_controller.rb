@@ -24,7 +24,7 @@ class Admin::Raw::OrganizationsController < BaseCrudController
      :tax_no, :website, :contact_notes,
      :alias, :sector, :industry, :referral_source,
      :organization_snapshot_id,
-     :is_recovered  #todo: automatically include custom fields
+     :is_recovered, :dynamic_translatable_test  #todo: automatically include custom fields
     ]
   end
 
