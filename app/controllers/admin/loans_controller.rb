@@ -5,4 +5,8 @@ class Admin::LoansController < Admin::AdminController
       include: [:division, :organization]
     )
   end
+
+  def show
+    @loan = Loan.find(params[:id])
+  end
 end
