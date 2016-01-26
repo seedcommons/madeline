@@ -1,4 +1,6 @@
 class Admin::ProjectStepsController < Admin::AdminController
+  helper TimeLanguageHelper
+
   def destroy
     @step = ProjectStep.find(params[:id])
     @project = Loan.find(@step.project_id)

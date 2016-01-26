@@ -8,6 +8,12 @@
   border-width: 2px;
 }
 
-.action {
-  margin: .5em;
+.step {
+  .action {
+    margin: .5em;
+  }
+
+  .title {
+    font-weight: bold;
+  }
 }
