@@ -1,0 +1,26 @@
+= render view_path('common/errors'), { errors: @item.errors }
+
+= form_for @item, :url => form_url(@item) do |f|
+  = f.hidden_field :custom_model_linkable_type
+  = f.hidden_field :custom_model_linkable_id
+  table
+    tr
+      td Linkable
+      td
+        - if @item.custom_model_linkable
+          = link_to "#{@item.custom_model_linkable_type}[#{@item.custom_model_linkable_id}]", item_path(@item.custom_model_linkable)
+    tr
+      td Custom Field Set ID
+      td = f.text_field :custom_field_set_id
+    tr
+      td Linkable Attribute
+      td = f.text_field :linkable_attribute
+    tr
+      td Custom Data
+      td = f.text_area :custom_data
+    tr
+      td
+      td
+        br
+        = f.submit
+

@@ -5,7 +5,7 @@ describe Loan, :type => :model do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'project_type', 'public_level']
-  it_should_behave_like 'custom_model_linkable', ['loan_criteria', 'loan_post_analysis']
+  it_should_behave_like 'custom_model_linkable', [{ attr_name: 'loan_criteria' }, { attr_name: 'post_analysis', field_set_name: 'loan_post_analysis' }]
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -95,6 +95,8 @@ describe Loan, :type => :model do
       before do
         # note, need to use specific dependent data here instead of factories, in order to match the expected I18n text below
         Language.find_or_create_by(name: 'English', code: 'EN')
+        # todo: confirm if it makes sense to assign the locale here
+        # I18n.locale = :en
         # Note, option_set functionality depends on existance of root_division.
         # So if we're not going to enable autocreation within the 'Division.root' logic, then we need
         # to explicitly guarantee existence of the root division for any unit tests which use option sets

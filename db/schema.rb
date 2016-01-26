@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122003401) do
+ActiveRecord::Schema.define(version: 20160125041136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20160122003401) do
     t.integer "custom_field_set_id", null: false
     t.integer "custom_model_linkable_id", null: false
     t.string "custom_model_linkable_type", null: false
+    t.string "linkable_attribute"
     t.datetime "updated_at", null: false
   end
 
@@ -113,14 +114,17 @@ ActiveRecord::Schema.define(version: 20160122003401) do
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.integer "currency_id"
+    t.json "custom_data"
     t.integer "division_id"
     t.date "first_interest_payment_date"
     t.date "first_payment_date"
     t.integer "length_months"
+    t.integer "loan_criteria_id"
     t.string "loan_type_value"
     t.string "name"
     t.integer "organization_id"
     t.integer "organization_snapshot_id"
+    t.integer "post_analysis_id"
     t.integer "primary_agent_id"
     t.string "project_type_value"
     t.decimal "projected_return"
@@ -325,6 +329,8 @@ ActiveRecord::Schema.define(version: 20160122003401) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
+  add_foreign_key "loans", "custom_models", column: "loan_criteria_id"
+  add_foreign_key "loans", "custom_models", column: "post_analysis_id"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"
   add_foreign_key "loans", "people", column: "primary_agent_id"

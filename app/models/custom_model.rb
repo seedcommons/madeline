@@ -8,6 +8,7 @@
 #  custom_model_linkable_id   :integer          not null
 #  custom_model_linkable_type :string           not null
 #  id                         :integer          not null, primary key
+#  linkable_attribute         :string
 #  updated_at                 :datetime         not null
 #
 # Indexes
@@ -41,9 +42,13 @@ class CustomModel < ActiveRecord::Base
   # Ducktype interface override of default CustomValueSettable resolve logic.
   # Assumes linkable associated field set assigned when instance was created.
   # Allows leverage of rest of CustomValueSettable implementation
-  def resolve_custom_field_set
+  def resolve_custom_field_set(required: true)
     custom_field_set
   end
 
+  # used by raw crud admin views
+  def name
+    "#{custom_model_linkable_type}[#{custom_model_linkable_id}]-#{linkable_attribute}"
+  end
 
 end

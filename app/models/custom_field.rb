@@ -45,7 +45,11 @@ class CustomField < ActiveRecord::Base
     id.to_s
   end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean']
+  def translatable?
+    data_type == 'translatable'
+  end
+
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable']
 
 
 end
