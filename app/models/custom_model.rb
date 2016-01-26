@@ -41,7 +41,7 @@ class CustomModel < ActiveRecord::Base
   # Ducktype interface override of default CustomValueSettable resolve logic.
   # Assumes linkable associated field set assigned when instance was created.
   # Allows leverage of rest of CustomValueSettable implementation
-  def resolve_custom_field_set
+  def resolve_custom_field_set(required: true)
     custom_field_set
   end
 

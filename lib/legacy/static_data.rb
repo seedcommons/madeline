@@ -115,6 +115,7 @@ module Legacy
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
+      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
 
       loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
       loan_field_set.custom_fields.destroy_all
