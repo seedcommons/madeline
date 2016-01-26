@@ -37,17 +37,18 @@ section.project-steps
           p
             = "Scheduled: "
             = step.scheduled_date
-          p
+          div
             = "Completed: "
             = step.completed_date
-            = " "
-            - days = step.completed_date - step.scheduled_date
-            - if days < 0
-              = "(_ days early)"
-            - elsif days > 0
-              = "(_ days late)"
-            - else
-              = "(on time)"
+            p
+              - days = step.completed_date - step.scheduled_date
+              - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
+              - if days < 0
+                = "(" + date_diff + " early)"
+              - elsif days > 0
+                = "(" + date_diff + " late)"
+              - else
+                = "(on time)"
           p
             = "Finalized: "
             = step.is_finalized ? 'Yes' : 'No'
