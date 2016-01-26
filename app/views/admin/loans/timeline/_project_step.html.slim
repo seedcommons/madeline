@@ -34,12 +34,11 @@
             = step.is_finalized ? 'Yes' : 'No'
         div.col-lg-3
           p
-            / - if step.completed?
-            /    i.fa.fa-check
-            /   = "Completed"
-            / - else
-            /   = "Not yet completed"
-            = step.completed_or_not
+            - if step.completed?
+              i.fa.fa-check.fa-lg
+              = " Completed"
+            - else
+              = "Not yet completed"
           ul
             li
               i.fa.fa-pencil
