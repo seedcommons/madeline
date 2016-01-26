@@ -34,7 +34,8 @@
             = step.is_finalized ? 'Yes' : 'No'
         div.col-lg-3
           p
-            / - if step.completed_date
+            / - if step.completed?
+            /    i.fa.fa-check
             /   = "Completed"
             / - else
             /   = "Not yet completed"
@@ -45,7 +46,8 @@
             li
               i.fa.fa-files-o
             li
-              i.fa.fa-trash
+              = link_to [:admin, step], :method => :delete do |link|
+                i.fa.fa-trash
           p
            = "Logs "
            i.fa.fa-plus-circle.fa-lg
