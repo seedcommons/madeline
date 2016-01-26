@@ -1,0 +1,51 @@
+    div.panel class=(step.completed? ? 'panel-success' : 'panel-primary')
+      div.panel-body.row
+        div.col-lg-1
+          i.fa.fa-square-o
+        div.col-lg-4
+          h5
+            i.fa.fa-flag
+            i.fa.fa-list
+            = step.summary
+          p = step.details
+        div.col-lg-4
+          p
+            = "Status: "
+            = step.status
+          p
+            = "Scheduled: "
+            = step.scheduled_date
+
+          - if step.completed?
+            div
+              = "Completed: "
+              = step.completed_date
+              p
+                - days = step.completed_date - step.scheduled_date
+                - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
+                - if days < 0
+                  = "(" + date_diff + " early)"
+                - elsif days > 0
+                  = "(" + date_diff + " late)"
+                - else
+                  = "(on time)"
+          p
+            = "Finalized: "
+            = step.is_finalized ? 'Yes' : 'No'
+        div.col-lg-3
+          p
+            / - if step.completed_date
+            /   = "Completed"
+            / - else
+            /   = "Not yet completed"
+            = step.completed_or_not
+          ul
+            li
+              i.fa.fa-pencil
+            li
+              i.fa.fa-files-o
+            li
+              i.fa.fa-trash
+          p
+           = "Logs "
+           i.fa.fa-plus-circle.fa-lg
