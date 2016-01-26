@@ -11,7 +11,7 @@ class Admin::Raw::DivisionsController < BaseCrudController
   protected
 
   def update_attrs
-    [:name, :description]
+    [:name, :description, :parent_id]
   end
 
 
