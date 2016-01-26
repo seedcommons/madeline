@@ -88,11 +88,6 @@ class Division < ActiveRecord::Base
     result
   end
 
-  def root?
-    # internal_name == Division.root_internal_name
-    parent_id.present?
-  end
-
 
   # note, current 'accessible' logic is a placeholder until migrate updated to
   # deduce most appropriate division owner of people and orgs, and loan specific visibility
