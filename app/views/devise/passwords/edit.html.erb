@@ -12,10 +12,9 @@
   <%= yield :alerts %>
 
   <div class="field">
-    <%= f.label :password, t("user.new_password") %><br />
+    <%= f.label :password, t("user.new_password") %>
     <% if @minimum_password_length %>
       <em><%= t("user.minimum_password_length", minimum_length: @minimum_password_length) %></em>
-      <br />
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
