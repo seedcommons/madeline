@@ -12,14 +12,12 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.find(params[:id])
     @countries = Country.all
     @form_url = admin_organization_path
-    @form_method = :put
   end
 
   def new
     @org = Organization.new
     @countries = Country.all
     @form_url = new_admin_organization_path
-    @form_method = :post
   end
 
   def update
@@ -27,14 +25,17 @@ class Admin::OrganizationsController < Admin::AdminController
     if @org.update(organization_params)
       redirect_to admin_organization_path(@org), notice: "Record updated."
     else
-      show
+      # show
+      @countries = Country.all
+      @form_url = admin_organization_path
+      flash.now[:error] = "Errors found (see below)."
       render :show
     end
   end
+
+  private
+
+    def organization_params
+      params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
+    end
 end
-
-private
-
-  def organization_params
-    params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
-  end
