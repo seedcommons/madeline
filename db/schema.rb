@@ -67,18 +67,18 @@ ActiveRecord::Schema.define(version: 20160125041136) do
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
 
-  create_table "custom_models", force: :cascade do |t|
+  create_table "custom_value_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "custom_data"
     t.integer "custom_field_set_id", null: false
-    t.integer "custom_model_linkable_id", null: false
-    t.string "custom_model_linkable_type", null: false
+    t.integer "custom_value_set_linkable_id", null: false
+    t.string "custom_value_set_linkable_type", null: false
     t.string "linkable_attribute"
     t.datetime "updated_at", null: false
   end
 
-  add_index "custom_models", ["custom_field_set_id"], name: "index_custom_models_on_custom_field_set_id", using: :btree
-  add_index "custom_models", ["custom_model_linkable_type", "custom_model_linkable_id"], name: "custom_models_on_linkable", using: :btree
+  add_index "custom_value_sets", ["custom_field_set_id"], name: "index_custom_value_sets_on_custom_field_set_id", using: :btree
+  add_index "custom_value_sets", ["custom_value_set_linkable_type", "custom_value_set_linkable_id"], name: "custom_value_sets_on_linkable", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -119,12 +119,10 @@ ActiveRecord::Schema.define(version: 20160125041136) do
     t.date "first_interest_payment_date"
     t.date "first_payment_date"
     t.integer "length_months"
-    t.integer "loan_criteria_id"
     t.string "loan_type_value"
     t.string "name"
     t.integer "organization_id"
     t.integer "organization_snapshot_id"
-    t.integer "post_analysis_id"
     t.integer "primary_agent_id"
     t.string "project_type_value"
     t.decimal "projected_return"
@@ -325,12 +323,10 @@ ActiveRecord::Schema.define(version: 20160125041136) do
   add_foreign_key "countries", "languages", column: "default_language_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
-  add_foreign_key "custom_models", "custom_field_sets"
+  add_foreign_key "custom_value_sets", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
-  add_foreign_key "loans", "custom_models", column: "loan_criteria_id"
-  add_foreign_key "loans", "custom_models", column: "post_analysis_id"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"
   add_foreign_key "loans", "people", column: "primary_agent_id"

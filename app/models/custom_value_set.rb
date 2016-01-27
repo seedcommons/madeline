@@ -1,24 +1,24 @@
 # == Schema Information
 #
-# Table name: custom_models
+# Table name: custom_value_sets
 #
-#  created_at                 :datetime         not null
-#  custom_data                :json
-#  custom_field_set_id        :integer          not null
-#  custom_model_linkable_id   :integer          not null
-#  custom_model_linkable_type :string           not null
-#  id                         :integer          not null, primary key
-#  linkable_attribute         :string
-#  updated_at                 :datetime         not null
+#  created_at                     :datetime         not null
+#  custom_data                    :json
+#  custom_field_set_id            :integer          not null
+#  custom_value_set_linkable_id   :integer          not null
+#  custom_value_set_linkable_type :string           not null
+#  id                             :integer          not null, primary key
+#  linkable_attribute             :string
+#  updated_at                     :datetime         not null
 #
 # Indexes
 #
-#  custom_models_on_linkable                   (custom_model_linkable_type,custom_model_linkable_id)
-#  index_custom_models_on_custom_field_set_id  (custom_field_set_id)
+#  custom_value_sets_on_linkable                   (custom_value_set_linkable_type,custom_value_set_linkable_id)
+#  index_custom_value_sets_on_custom_field_set_id  (custom_field_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_99a00e528f  (custom_field_set_id => custom_field_sets.id)
+#  fk_rails_ea4b017c24  (custom_field_set_id => custom_field_sets.id)
 #
 
 #
@@ -31,11 +31,11 @@
 # but does not require it.  The custom value can be resolved either by field id, or the field 'internal_name' if assigned
 #
 
-class CustomModel < ActiveRecord::Base
-  include CustomValueSettable
+class CustomValueSet < ActiveRecord::Base
+  include CustomFieldAddable
 
 
-  belongs_to :custom_model_linkable, polymorphic: true
+  belongs_to :custom_value_set_linkable, polymorphic: true
   belongs_to :custom_field_set
 
 
@@ -48,7 +48,7 @@ class CustomModel < ActiveRecord::Base
 
   # used by raw crud admin views
   def name
-    "#{custom_model_linkable_type}[#{custom_model_linkable_id}]-#{linkable_attribute}"
+    "#{custom_value_set_linkable_type}[#{custom_value_set_linkable_id}]-#{linkable_attribute}"
   end
 
 end

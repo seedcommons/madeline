@@ -1,5 +1,5 @@
 
-shared_examples_for 'custom_model_linkable' do |attr_params_list|
+shared_examples_for 'custom_value_set_linkable' do |attr_params_list|
   let(:model_instance) { create(described_class.to_s.underscore) }
 
 
@@ -9,7 +9,7 @@ shared_examples_for 'custom_model_linkable' do |attr_params_list|
       field_set_name = attr_params[:field_set_name] || attr_name
       create(:custom_field_set, :generic_fields, internal_name: field_set_name)
       fetched = model_instance.send(attr_name, { autocreate: true })
-      expect(fetched).to be_kind_of CustomModel
+      expect(fetched).to be_kind_of CustomValueSet
     end
   end
 
@@ -28,9 +28,9 @@ shared_examples_for 'custom_model_linkable' do |attr_params_list|
       attr_name = attr_params[:attr_name]
       field_set_name = attr_params[:field_set_name] || attr_name
       create(:custom_field_set, :generic_fields, internal_name: field_set_name)
-      custom_model = model_instance.send(attr_name.to_sym, { autocreate: true })
+      custom_value_set = model_instance.send(attr_name.to_sym, { autocreate: true })
       value = 'brown cow'
-      custom_model.update_custom_value('a_string', value)
+      custom_value_set.update_custom_value('a_string', value)
       fetched = described_class.find(model_instance.id).send(attr_name)
       expect(fetched.custom_value('a_string')).to eq value
     end

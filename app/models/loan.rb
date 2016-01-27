@@ -11,12 +11,10 @@
 #  first_payment_date          :date
 #  id                          :integer          not null, primary key
 #  length_months               :integer
-#  loan_criteria_id            :integer
 #  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
 #  organization_snapshot_id    :integer
-#  post_analysis_id            :integer
 #  primary_agent_id            :integer
 #  project_type_value          :string
 #  projected_return            :decimal(, )
@@ -38,10 +36,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_3226b274ec  (loan_criteria_id => custom_models.id)
 #  fk_rails_5a4bc9458a  (division_id => divisions.id)
 #  fk_rails_7a8d917bd9  (secondary_agent_id => people.id)
-#  fk_rails_840ee0227d  (post_analysis_id => custom_models.id)
 #  fk_rails_ade0930898  (currency_id => currencies.id)
 #  fk_rails_dc1094f4ed  (organization_id => organizations.id)
 #  fk_rails_ded298065b  (representative_id => people.id)
@@ -52,8 +48,7 @@ class Loan < ActiveRecord::Base
   include Translatable
   include MediaAttachable
   include OptionSettable
-  include CustomValueSettable  # currently used for
-  include CustomModelLinkable  # supports associating loan criteria and post analysis questionnaire responses with a loan
+  include CustomValueSetLinkable  # supports associating loan criteria and post analysis questionnaire responses with a loan
 
   belongs_to :division
   belongs_to :organization
@@ -73,9 +68,9 @@ class Loan < ActiveRecord::Base
 
   # provides acess to linked CustomModel instances with the associated CustomFieldSet schema.
   # note these instances will be 'owned' by the loan's organization and potentially shared by more than one loan
-  belongs_to_custom :loan_criteria
-  belongs_to_custom :post_analysis, field_set: :loan_post_analysis
-  belongs_to_custom :old_loan_criteria
+  has_one_custom :loan_criteria
+  has_one_custom :post_analysis, field_set: :loan_post_analysis
+  has_one_custom :old_loan_criteria
 
 
   validates :division_id, presence: true

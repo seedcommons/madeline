@@ -42,8 +42,9 @@ module Legacy
           active_code = response.loan_question_active
           attribute_name = LOAN_QUESTION_ACTIVE_TO_ATTRIBUTE_NAME[active_code]
           puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}, attr: #{attribute_name}"
-          model = new_loan.fetch_belongs_to_custom(attribute_name, field_set_name: field.custom_field_set.internal_name,
-                                                   owner: new_loan.organization, autocreate: true)
+          # model = new_loan.fetch_belongs_to_custom(attribute_name, field_set_name: field.custom_field_set.internal_name,
+          #                                          owner: new_loan.organization, autocreate: true)
+          model = new_loan.fetch_has_one_custom(attribute_name, field_set_name: field.custom_field_set.internal_name, autocreate: true)
           # note, could be optimized by building entire json blob and storing as a single operations, but this seems fast enough
           puts "update: #{field.id} -> #{response.answer}"
           model.update_custom_value(field.id, response.answer)
@@ -52,24 +53,30 @@ module Legacy
         end
       end
 
+      # LoanResponseSet.where("ResponseSetID = ? and ResponseSetID <> LoanID", response_set_id).pluck('LoanID').each do |linked_loan_id|
+      #   puts "related loan: #{linked_loan_id}"
+      #   link_response(new_loan, linked_loan_id)
+      # end
+
       LoanResponseSet.where("ResponseSetID = ? and ResponseSetID <> LoanID", response_set_id).pluck('LoanID').each do |linked_loan_id|
         puts "related loan: #{linked_loan_id}"
-        link_response(new_loan, linked_loan_id)
+        # todo: clone cross-linked response sets
       end
+
 
 
     end
 
-    def self.link_response(source_loan, linked_loan_id)
-      linked_loan = Loan.find_by(id: linked_loan_id)
-      if linked_loan
-        linked_loan.update(loan_criteria_id: source_loan.loan_criteria_id, post_analysis_id: source_loan.post_analysis_id)
-        old_loan_criteria_id = source_loan.custom_value(:old_loan_criteria_id)
-        linked_loan.update_custom_value(:old_loan_criteria_id, old_loan_criteria_id)  if old_loan_criteria_id
-      else
-        puts "WARNING - linked loan not found: #{linked_loan_id}"
-      end
-    end
+    # def self.link_response(source_loan, linked_loan_id)
+    #   linked_loan = Loan.find_by(id: linked_loan_id)
+    #   if linked_loan
+    #     linked_loan.update(loan_criteria_id: source_loan.loan_criteria_id, post_analysis_id: source_loan.post_analysis_id)
+    #     old_loan_criteria_id = source_loan.custom_value(:old_loan_criteria_id)
+    #     linked_loan.update_custom_value(:old_loan_criteria_id, old_loan_criteria_id)  if old_loan_criteria_id
+    #   else
+    #     puts "WARNING - linked loan not found: #{linked_loan_id}"
+    #   end
+    # end
 
 
     LOAN_QUESTION_ACTIVE_TO_ATTRIBUTE_NAME = { 1 => :old_loan_criteria, 2 => :loan_criteria, 3 => :post_analysis }

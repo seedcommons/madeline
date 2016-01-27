@@ -7,7 +7,7 @@ describe Organization, type: :model do
   end
 
   it_should_behave_like 'notable'
-  it_should_behave_like 'custom_value_settable'
+  it_should_behave_like 'custom_field_set_addable'
 
   it 'should set and get custom values' do
     create(:custom_field_set, :organization_fields)

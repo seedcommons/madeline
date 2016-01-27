@@ -136,7 +136,7 @@ b Questionnaire Responses -
 /=< link_to "New Step", new_item_path(:project_step, {project_id: @item.id, project_type: 'Loan'})
 br
 br
-= render view_path('custom_models/list'), {items: @item.custom_models}
+= render view_path('custom_value_sets/list'), {items: @item.custom_value_sets}
 
 
 - if params[:debug]

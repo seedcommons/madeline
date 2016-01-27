@@ -1,5 +1,5 @@
 
-shared_examples_for 'custom_value_settable' do
+shared_examples_for 'custom_field_set_addable' do
   let(:model_instance) { create(described_class.to_s.underscore) }
 
 

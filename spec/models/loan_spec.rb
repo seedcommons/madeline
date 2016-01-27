@@ -5,7 +5,7 @@ describe Loan, :type => :model do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'project_type', 'public_level']
-  it_should_behave_like 'custom_model_linkable', [{ attr_name: 'loan_criteria' }, { attr_name: 'post_analysis', field_set_name: 'loan_post_analysis' }]
+  it_should_behave_like 'custom_value_set_linkable', [{ attr_name: 'loan_criteria' }, { attr_name: 'post_analysis', field_set_name: 'loan_post_analysis' }]
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid

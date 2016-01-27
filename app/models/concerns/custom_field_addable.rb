@@ -5,7 +5,7 @@
 #
 
 
-module CustomValueSettable
+module CustomFieldAddable
   extend ActiveSupport::Concern
 
   # todo: confirm if there are any negative consequences of potential duplicate includes of the Translatable module

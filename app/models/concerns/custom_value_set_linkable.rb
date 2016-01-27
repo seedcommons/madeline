@@ -10,11 +10,11 @@
 #
 
 
-module CustomModelLinkable
+module CustomValueSetLinkable
   extend ActiveSupport::Concern
 
   included do
-    has_many :custom_models, as: :custom_model_linkable
+    has_many :custom_value_sets, as: :custom_value_set_linkable
   end
 
 
@@ -55,7 +55,7 @@ module CustomModelLinkable
   # Find or create the value set instance associated with given field set name for this model instance
   def fetch_has_one_custom(attr_name, field_set_name: nil, autocreate: false)
 
-    result = custom_models.where({ custom_model_linkable: self, linkable_attribute: attr_name }).first
+    result = custom_value_sets.where({ custom_value_set_linkable: self, linkable_attribute: attr_name }).first
     if autocreate && !result
       result = create_has_custom(attr_name, field_set_name: field_set_name)
     end
@@ -64,14 +64,14 @@ module CustomModelLinkable
 
 
   def fetch_has_many_custom(attr_name)
-    custom_models.where(linkable_attribute: attr_name)
+    custom_value_sets.where(linkable_attribute: attr_name)
   end
 
 
   def create_has_custom(attr_name, field_set_name: nil)
     field_set_name ||= attr_name
     field_set = CustomFieldSet.resolve(field_set_name, model: self)
-    custom_models.create(custom_field_set: field_set, linkable_attribute: attr_name)
+    custom_value_sets.create(custom_field_set: field_set, linkable_attribute: attr_name)
   end
 
   # Note, the 'owner' param supports assigning a reference to an object which is 'owned' by a different object.
@@ -80,7 +80,7 @@ module CustomModelLinkable
     foreign_key_name ||= "#{attr_name}_id"
     existing_id = get_attribute(foreign_key_name)
     if existing_id
-      result = CustomModel.find(existing_id)
+      result = CustomValueSet.find(existing_id)
     else
       if autocreate
         result = create_belongs_to_custom(attr_name, field_set_name: field_set_name, foreign_key_name: foreign_key_name, owner: owner)
@@ -97,7 +97,7 @@ module CustomModelLinkable
     foreign_key_name ||= "#{attr_name}_id"
     owner ||= self
     field_set = CustomFieldSet.resolve(field_set_name, model: owner)
-    result = owner.custom_models.create({ custom_field_set: field_set, linkable_attribute: attr_name })
+    result = owner.custom_value_sets.create({ custom_field_set: field_set, linkable_attribute: attr_name })
     update_attribute(foreign_key_name, result.id)
     result
   end
