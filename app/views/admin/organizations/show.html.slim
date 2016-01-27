@@ -1,5 +1,5 @@
 - content_for :styles
-  = stylesheet_link_tag "admin/coops/coops", :media => "all"
+  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
 
 - content_for :scripts
@@ -10,13 +10,17 @@
 
 section.coop.show-view
 
-  header.row
-    div.actions
-      span.col-lg-8
-      a.edit-action.col-lg-2
-        i.fa.fa-pencil.fa-large  Edit
-      a.delete-action.col-lg-2
-        i.fa.fa-trash.fa-large  Delete
+  header
+    .show-actions
+      a.edit-action.view-element href="#"
+        i.fa.fa-pencil.fa-large>
+        | Edit
+      a.show-action.form-element href="#"
+        | Cancel
+      a.delete-action href="#"
+        i.fa.fa-trash.fa-large>
+        | Delete
+    .clearfix
 
   section.block
     = render 'form'

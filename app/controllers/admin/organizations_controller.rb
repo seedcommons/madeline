@@ -7,6 +7,7 @@ class Admin::OrganizationsController < Admin::AdminController
     )
   end
 
+  # show view includes edit
   def show
     @org = Organization.find(params[:id])
     @countries = Country.all

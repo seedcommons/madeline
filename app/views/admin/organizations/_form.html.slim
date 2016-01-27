@@ -7,56 +7,53 @@
       input_html: {class: 'form-element col-lg-6'},
   }) do |f|
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 Name
-    span.col-lg-6.view-element
+    .col-lg-6.view-element
       = @org.name
     = f.input_field :name
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 Address
-    span.col-lg-6.view-element
+    .col-lg-6.view-element
       = @org.street_address
     = f.input_field :street_address, as: :text
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 City
-    span.col-lg-6.view-element
+    .col-lg-6.view-element
       = @org.city
     = f.input_field :city
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 State
-    span.col-lg-6.view-element
+    .col-lg-6.view-element
       = @org.state
     = f.input_field :state
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 Country
     - unless @org.new_record?
-      span.col-lg-6.view-element
-        = @org.country.name
+      .col-lg-6.view-element
+        = @org.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 Website
-    span.col-lg-6.view-element
+    .col-lg-6.view-element
       - unless @org.website.nil?
         = link_to(@org.website, @org.website)
     = f.input_field :website
 
-  div.form-group.row
+  .form-group.row
     label.col-lg-3 Members
-    span.col-lg-6
-      - if @org.people.exists
-        - unless @org.people.empty?
-          - @org.people.each do |person|
-            = person
-            br
+    .col-lg-6
+      - unless @org.people.empty?
+        - @org.people.each do |person|
+          = person
+          br
 
-  div.actions.row.form-block
-    - if @org.new_record?
-      = f.button :button, class: 'btn btn-success col-lg-2 col-lg-offset-5'
-    - else
-      span.btn.btn-default.show-action.col-lg-2.col-lg-offset-8 Cancel
-      = f.submit class: 'update-action btn btn-success col-lg-2'
+  .actions.form-block
+    a.btn.btn-default.show-action Cancel
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix
