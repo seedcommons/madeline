@@ -49,10 +49,12 @@ en:
   general:
     email: "Email"
     login: "Login"
+    logout: "Logout"
     password: "Password"
     update: "Update"
 
   user:
+    account: "Account"
     change_password: "Change Password"
     confirm_new_password: "Confirm new password"
     current_password: "Current password"
