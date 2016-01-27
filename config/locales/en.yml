@@ -50,3 +50,8 @@ en:
     email: "Email"
     login: "Login"
     password: "Password"
+
+  user:
+    forgot_password: "Forgot Password"
+    forgot_password_instructions: "Enter your email to receive reset instructions"
+    send_instructions: "Send instructions"
