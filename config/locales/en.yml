@@ -45,3 +45,8 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
+
+  general:
+    email: "Email"
+    login: "Login"
+    password: "Password"
