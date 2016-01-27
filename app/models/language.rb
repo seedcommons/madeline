@@ -29,11 +29,10 @@ class Language < ActiveRecord::Base
     Language.find(id).try(:code)
   end
 
-  #UNUSED
-  # def self.system_default
-  #   self.first || self.create(name: 'English', code: 'EN')
-  # end
-
+  # todo: confirm if this is acceptable to define here.
+  def self.system_default
+    self.find_or_create_by(code: I18n.language_code)
+  end
 
 end
 
