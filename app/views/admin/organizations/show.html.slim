@@ -8,7 +8,7 @@
 - content_for :title
   = @org.name
 
-section.coop.show-view
+section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
 
   header
     .show-actions
