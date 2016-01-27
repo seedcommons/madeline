@@ -47,6 +47,10 @@ textarea {
   .form-block, .form-element {
     display: none;
   }
+
+  .form-horizontal .control-label {
+    padding-top: 0;
+  }
 }
 
 .actions {
