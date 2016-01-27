@@ -1,39 +1,44 @@
-<% content_for :title do 'Edit ' + resource_name.to_s.humanize end %>
+<% content_for(:title, content = t("user.edit_user",
+  user: resource_name.to_s.humanize)) %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email, t("general.email") %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
   <br>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div>
+      <%= t("user.waiting_confirmation", email: resource.unconfirmed_email) %>
+    </div>
     <br>
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :password, t("user.new_password") %>
+      <i><%= t("user.leave_blank") %></i><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
   <br>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation, t("user.confirm_new_password") %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
   <br>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.label :current_password, t("user.current_password") %>
+    <i><%= t("user.current_password_instructions") %></i><br />
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
   <br>
 
   <div class="actions">
-    <%= f.submit "Update", class: "btn btn-lg btn-primary" %>
+    <%= f.submit t("general.update"), class: "btn btn-lg btn-primary" %>
   </div>
 <% end %>
 <br>

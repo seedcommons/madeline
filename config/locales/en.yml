@@ -45,3 +45,23 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
+
+  general:
+    email: "Email"
+    login: "Login"
+    password: "Password"
+    update: "Update"
+
+  user:
+    change_password: "Change Password"
+    confirm_new_password: "Confirm new password"
+    current_password: "Current password"
+    current_password_instructions: "(we need your current password to confirm your changes)"
+    edit_user: "Edit %{user}"
+    forgot_password: "Forgot Password"
+    forgot_password_instructions: "Enter your email to receive reset instructions"
+    leave_blank: "(leave blank if you don't want to change your password)"
+    minimum_password_length: "(%{minimum_length} characters minimum)"
+    new_password: "New password"
+    send_instructions: "Send instructions"
+    waiting_confirmation: "Currently waiting confirmation for: %{email}"
