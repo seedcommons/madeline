@@ -28,7 +28,6 @@ class Admin::OrganizationsController < Admin::AdminController
       # show
       @countries = Country.all
       @form_url = admin_organization_path
-      flash.now[:error] = "Errors found (see below)."
       render :show
     end
   end

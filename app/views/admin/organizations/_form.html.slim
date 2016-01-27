@@ -3,55 +3,44 @@
     html: { \
       class: 'form-horizontal organization-record',
     },
+    wrapper: :horizontal_form,
     defaults: { \
-      input_html: {class: 'form-element col-lg-6'},
-  }) do |f|
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
 
-  .form-group.row
-    label.col-lg-3 Name
-    .col-lg-6.view-element
-      = @org.name
+  = f.error_notification
+  
+  = f.input :name
+    .view-element = @org.name
     = f.input_field :name
 
-  .form-group.row
-    label.col-lg-3 Address
-    .col-lg-6.view-element
-      = @org.street_address
+  = f.input :street_address
+    .view-element = @org.street_address
     = f.input_field :street_address, as: :text
 
-  .form-group.row
-    label.col-lg-3 City
-    .col-lg-6.view-element
-      = @org.city
+  = f.input :city
+    .view-element = @org.city
     = f.input_field :city
 
-  .form-group.row
-    label.col-lg-3 State
-    .col-lg-6.view-element
-      = @org.state
+  = f.input :state
+    .view-element = @org.state
     = f.input_field :state
 
-  .form-group.row
-    label.col-lg-3 Country
-    - unless @org.new_record?
-      .col-lg-6.view-element
-        = @org.country.try(:name)
+  = f.input :country
+    .view-element = @org.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true
 
-  .form-group.row
-    label.col-lg-3 Website
-    .col-lg-6.view-element
-      - unless @org.website.nil?
-        = link_to(@org.website, @org.website)
+  = f.input :website
+    - unless @org.website.nil?
+      .view-element = link_to(@org.website, @org.website)
     = f.input_field :website
 
-  .form-group.row
-    label.col-lg-3 Members
-    .col-lg-6
-      - unless @org.people.empty?
-        - @org.people.each do |person|
-          = person
-          br
+  / = f.input :people
+  /   - unless @org.people.empty?
+  /     - @org.people.each do |person|
+  /       = person
+  /       br
 
   .actions.form-block
     a.btn.btn-default.show-action Cancel
