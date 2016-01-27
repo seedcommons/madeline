@@ -1,8 +1,9 @@
-<% content_for(:title, content = "Change your password") %>
+<% content_for(:title, content = t("user.change_password")) %>
 
 <% content_for(:alerts, content = (render "application/alerts")) %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: "form-signin", method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name),
+  html: { class: "form-signin", method: :put }) do |f| %>
 
   <h2 class="form-signin-heading"><%= yield :title %></h2>
 
@@ -11,20 +12,21 @@
   <%= yield :alerts %>
 
   <div class="field">
-    <%= f.label :password, "New password" %><br />
+    <%= f.label :password, t("user.new_password") %><br />
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <em><%= t("user.minimum_password_length", minimum_length: @minimum_password_length) %></em>
+      <br />
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
+    <%= f.label :password_confirmation, t("user.confirm_new_password") %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password", class: "btn btn-lg btn-primary btn-block" %>
+    <%= f.submit t("user.change_password"), class: "btn btn-lg btn-primary btn-block" %>
   </div>
 
   <%= render "devise/shared/links" %>
