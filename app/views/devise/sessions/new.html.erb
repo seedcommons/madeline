@@ -1,6 +1,6 @@
-<% content_for :title do "Login" end %>
+<% content_for(:title, content = "Login") %>
 
-<% content_for :alerts do render "application/alerts" end %>
+<% content_for(:alerts, content = (render "application/alerts")) %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name),
   html: { class: "form-signin" }) do |f| %>
