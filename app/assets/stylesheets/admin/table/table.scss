@@ -1,17 +1,26 @@
-.content {
-  .actions {
-    margin: 20px 0;
-  }
+.actions {
+  display: inline-block;
+  margin: 20px 0;
+}
+
+.action {
+  padding: 6px 40px;
+  margin: 0 1em;
 }
 
 .filters {
-  label {
-    margin: 0 1em 0 0;
+  .filter {
+    margin: 1em 2em 1em 0;
+    display: inline-block;
   }
 
   .form-control, .custom-dropdown-container {
     display: inline-block;
     width: auto;
+  }
+
+  label {
+    margin: 0 1em 0 0;
   }
 
   .wg-detached-filter .custom-dropdown-container .expand-multi-select-icon,
@@ -21,16 +30,6 @@
     height: 100%;
     vertical-align: middle;
   }
-
-  .filter {
-    margin: 1em 2em 1em 0;
-    display: inline-block;
-  }
-
-  .action {
-    padding: 6px 40px;
-    margin: 0 1em;
-  }
 }
 
 .larger-text-box {
@@ -38,3 +37,4 @@
     min-width: 20em;
   }
 }
+
