@@ -20,9 +20,11 @@
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: 'Created', attribute: 'created_at'
+  - g.column name: 'Created', attribute: 'created_at' do |organization|
+    -  organization.created_at.strftime(t('time.formats.default'))
 
-  - g.column name: 'Updated', attribute: 'updated_at'
+  - g.column name: 'Updated', attribute: 'updated_at' do |organization|
+    -  organization.created_at.strftime(t('time.formats.default'))
 
 - unless @empty_list
   header.block

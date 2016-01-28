@@ -1,4 +1,8 @@
 en:
+  time:
+    formats:
+      default: '%b %d, %Y %H:%M'
+
   loans: Loans
   country: Country
   show: Show
