@@ -1,7 +1,7 @@
 li
-  a Preferences
+  = link_to t("user.account"), edit_user_registration_path
 
 li.divider role="separator"
 
 li
-  = link_to 'Log out', destroy_user_session_path, :method => :delete
+  = link_to t("general.logout"), destroy_user_session_path, :method => :delete
