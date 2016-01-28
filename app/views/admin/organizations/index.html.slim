@@ -1,5 +1,7 @@
-- content_for :title do
-  - 'Co-ops'
+- content_for :title, 'Co-ops'
+  
+- content_for :top_right
+  = link_to "New Co-op", new_admin_organization_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
 
