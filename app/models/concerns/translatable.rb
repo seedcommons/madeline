@@ -61,7 +61,7 @@ module Translatable
   def resolve_translation(attribute_name, language_code = nil)
     translation = get_translation_obj(attribute_name, language_code) ||
         translations.where({translatable_attribute: attribute_name}).first  # fallback to any avail translation, todo: better prioritization
-    translation.try(:text)
+    translation
   end
 
   def get_translation_obj(attribute_name, language_code = nil)
@@ -112,5 +112,3 @@ module Translatable
 
 
 end
-
-

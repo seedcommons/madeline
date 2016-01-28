@@ -74,7 +74,7 @@ class Loan < ActiveRecord::Base
     when 'all'
       all
     else
-      where(status_option_id: STATUS_OPTIONS.value_for(status))
+      where(status_value: status)
     end
   }
   scope :visible, -> { where.not(publicity_status: 'hidden') }

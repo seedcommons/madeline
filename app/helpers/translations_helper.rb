@@ -5,7 +5,7 @@ module TranslationsHelper
 
   def render_translation(translation)
     if translation
-      if translation.language.locale == I18n.locale
+      if translation.language.code == I18n.locale
         content_tag(:span, html_format(translation.text), class: "translation home_language")
       else
         content_tag(:span, html_format(translation.text), class: "translation foreign_language",
