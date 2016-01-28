@@ -31,6 +31,19 @@ class Admin::OrganizationsController < Admin::AdminController
     end
   end
 
+  def create
+    @org = Organization.new(organization_params)
+    @org.division = current_division
+
+    if @org.save
+      redirect_to admin_organization_path(@org), notice: 'Record was successfully created.'
+    else
+      @countries = Country.all
+      @form_action_url = admin_organizations_path
+      render :new
+    end
+  end
+
   private
 
     def organization_params
