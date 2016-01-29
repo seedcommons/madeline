@@ -1,4 +1,8 @@
 en:
+  time:
+    formats:
+      default: '%b %d, %Y %H:%M'
+
   loans: Loans
   country: Country
   show: Show
@@ -47,11 +51,22 @@ en:
   overdue: Overdue
 
   general:
+    city: "City"
+    clear: "Clear"
+    created: "Created"
+    coops: "Co-ops"
+    country: "Country"
     email: "Email"
+    filter: "Filter"
+    filter_by: "Filter by"
+    id: "ID"
     login: "Login"
     logout: "Logout"
+    name: "Name"
+    no_records: "No records found"
     password: "Password"
     update: "Update"
+    updated: "Updated"
 
   user:
     account: "Account"

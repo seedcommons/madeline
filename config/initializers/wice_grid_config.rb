@@ -122,8 +122,8 @@ if defined?(Wice::Defaults)
   # * <tt>:rails_date_helper</tt> - standard Rails date helper
   # * <tt>:rails_datetime_helper</tt> - standard Rails datetime helper
 
-  Wice::Defaults::DEFAULT_FILTER_FOR_DATE     = :bootstrap_datepicker
-  Wice::Defaults::DEFAULT_FILTER_FOR_DATETIME = :bootstrap_datepicker
+  Wice::Defaults::DEFAULT_FILTER_FOR_DATE     = :jquery_datepicker
+  Wice::Defaults::DEFAULT_FILTER_FOR_DATETIME = :jquery_datepicker
 
   # Format of the datetime displayed.
   # If you change the format, make sure to check if +DATETIME_PARSER+ can still parse this string.
@@ -131,21 +131,21 @@ if defined?(Wice::Defaults)
 
   # Format of the date displayed.
   # If you change the format, make sure to check if +DATE_PARSER+ can still parse this string.
-  Wice::Defaults::DATE_FORMAT     =  '%Y-%m-%d'
+  Wice::Defaults::DATE_FORMAT     =  "%Y-%m-%d"
 
   # Format of the date displayed in jQuery's Datepicker
   # If you change the format, make sure to check if +DATE_PARSER+ can still parse this string.
-  Wice::Defaults::DATE_FORMAT_JQUERY     =  'yy-mm-dd'
+  Wice::Defaults::DATE_FORMAT_JQUERY     =  "yy-mm-dd"
 
   # Format of the date displayed in Bootstrap's Datepicker
   # If you change the format, make sure to check if +DATE_PARSER+ can still parse this string.
-  Wice::Defaults::DATE_FORMAT_BOOTSTRAP     =  'yyyy-mm-dd'
+  Wice::Defaults::DATE_FORMAT_BOOTSTRAP     =  "yyyy-mm-dd"
 
   # With Calendar helpers enabled the parameter sent is the string displayed. This lambda will be given a date string in the
   # format defined by +DATETIME_FORMAT+ and must generate a DateTime object.
   # In many cases <tt>Time.zone.parse</tt> is enough, for instance,  <tt>%Y-%m-%d</tt>. If you change the format, make sure to check this code
   # and modify it if needed.
-  Wice::Defaults::DATETIME_PARSER = lambda do|datetime_string|
+  Wice::Defaults::DATETIME_PARSER = lambda do |datetime_string|
     if datetime_string.blank?
       nil
     elsif Time.zone
@@ -164,7 +164,7 @@ if defined?(Wice::Defaults)
   # format defined by +DATETIME+ and must generate a Date object.
   # In many cases <tt>Date.parse</tt> is enough, for instance,  <tt>%Y-%m-%d</tt>. If you change the format, make sure to check this code
   # and modify it if needed.
-  Wice::Defaults::DATE_PARSER = lambda do|date_string|
+  Wice::Defaults::DATE_PARSER = lambda do |date_string|
     if date_string.blank?
       nil
     else
@@ -181,6 +181,6 @@ if defined?(Wice::Defaults)
 
   # By default ActiveRecord calls are always executed inside Model.unscoped{}.
   # Setting <tt>USE_DEFAULT_SCOPE</tt> to true will use the default scope for all queries.
-  Wice::Defaults::USE_DEFAULT_SCOPE = false
+  Wice::Defaults::USE_DEFAULT_SCOPE = true
 
 end

@@ -32,5 +32,7 @@ Rails.application.routes.draw do
     get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
   end
 
+  get '/test' => 'static_pages#test'
+
   root to: 'admin/dashboard#index'
 end
