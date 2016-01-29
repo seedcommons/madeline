@@ -38,10 +38,10 @@ Rails.application.configure do
   # For wordpress template
   config.x.wordpress_template = {
     division_urls: { # get division from request url
-      'http://localhost:3000' => :us,
+      '/' => :us,
     },
-    template_urls: { # url of blank wordpress page for rails to retrieve
-      us: 'http://localhost:8888/us-dev/rails',
+    template_paths: { # url of blank wordpress page for rails to retrieve
+      us: '/wordpress/rails_template',
     },
   }
 
