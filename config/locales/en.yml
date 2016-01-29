@@ -58,7 +58,7 @@ en:
     country: "Country"
     email: "Email"
     filter: "Filter"
-    filter_by: "Filter by"
+    filter_by: "Filter by:"
     id: "ID"
     login: "Login"
     logout: "Logout"
