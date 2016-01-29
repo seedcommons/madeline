@@ -19,7 +19,8 @@
   - g.column name: t("general.status"), attribute: 'status_value',
     custom_filter: :auto, detach_with_id: :status_filter
 
-  - g.column name: t("loan.signing_date"), attribute: 'signing_date'
+  - g.column name: t("loan.signing_date"), attribute: 'signing_date' do |loan|
+    - loan.signing_date.strftime(t('time.formats.no_time'))
 
   - g.column name: t("loan.length"), attribute: 'length_months' do |loan|
     - loan.length_months.to_s + t("loan.months")
@@ -33,9 +34,11 @@
   - g.column name: t("loan.amount"), attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
 
-  - g.column name: t("general.created"), attribute: 'created_at'
+  - g.column name: t("general.created"), attribute: 'created_at' do |loan|
+    - loan.created_at.strftime(t('time.formats.default'))
 
-  - g.column name: t("general.updated"), attribute: 'updated_at'
+  - g.column name: t("general.updated"), attribute: 'updated_at' do |loan|
+    - loan.updated_at.strftime(t('time.formats.default'))
 
 - unless @empty_list
   header.block

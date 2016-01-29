@@ -2,6 +2,7 @@ en:
   time:
     formats:
       default: '%b %d, %Y %H:%M'
+      no_time: '%b %d, %Y'
 
   loans: Loans
   country: Country
