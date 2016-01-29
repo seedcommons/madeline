@@ -61,8 +61,9 @@ en:
     division: "Division"
     email: "Email"
     filter: "Filter"
-    filter_by: "Filter by"
+    filter_by: "Filter by:"
     id: "ID"
+    loans: "Loans"
     login: "Login"
     logout: "Logout"
     name: "Name"
@@ -88,5 +89,8 @@ en:
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
 
   loan:
+    amount: "amount"
+    length: "Length"
     loan_type: "Loan Type"
+    months: " mo."
     signing_date: "Signing Date"

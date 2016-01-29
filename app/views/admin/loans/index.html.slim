@@ -1,4 +1,4 @@
-- content_for(:title, content='Loans')
+- content_for(:title, content= t("general.loans"))
 
 = render 'layouts/admin/tables'
 
@@ -6,41 +6,42 @@
 
   - g.blank_slate do
     - @empty_list = true
-    - content_tag(:div, "No records found", class: 'alert alert-info')
+    - content_tag(:div, t("general.no_records"), class: 'alert alert-info')
 
-  - g.column name: 'ID', attribute: 'id'
+  - g.column name: t("general.id"), attribute: 'id'
 
-  - g.column name: 'Division', attribute: 'name', assoc: :division,
+  - g.column name: t("general.division"), attribute: 'name', assoc: :division,
     custom_filter: :auto, detach_with_id: :division_filter
 
-  - g.column name: 'Co-op', attribute: 'name', assoc: :organization,
+  - g.column name: t("general.coop"), attribute: 'name', assoc: :organization,
     custom_filter: :auto, detach_with_id: :coop_filter
 
-  - g.column name: 'Status', attribute: 'status_value',
+  - g.column name: t("general.status"), attribute: 'status_value',
     custom_filter: :auto, detach_with_id: :status_filter
 
-  - g.column name: 'Signing Date', attribute: 'signing_date'
+  - g.column name: t("loan.signing_date"), attribute: 'signing_date'
 
-  - g.column name: 'Length', attribute: 'length_months' do |loan|
-    - loan.length_months.to_s + " months"
+  - g.column name: t("loan.length"), attribute: 'length_months' do |loan|
+    - loan.length_months.to_s + t("loan.months")
 
-  - g.column name: 'Loan Type', attribute: 'loan_type_value',
+  - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
     custom_filter: :auto, detach_with_id: :loan_type_filter
 
-  - g.column name: 'Description', attribute: 'name',
+  - g.column name: t("general.description"), attribute: 'name',
     detach_with_id: :description_filter
 
-  - g.column name: 'Amount', attribute: 'amount' do |loan|
+  - g.column name: t("loan.amount"), attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
 
-  - g.column name: 'Created', attribute: 'created_at'
+  - g.column name: t("general.created"), attribute: 'created_at'
 
-  - g.column name: 'Updated', attribute: 'updated_at'
+  - g.column name: t("general.updated"), attribute: 'updated_at'
 
 - unless @empty_list
   header.block
     div.filters
-      h4 Filter by:
+      h4
+        = t("general.filter_by")
 
       div.filter
         label
