@@ -43,23 +43,28 @@
       h4 Filter by:
 
       div.filter
-        label Co-op
+        label
+          = t("general.coop")
         = grid_filter(@loans_grid, :coop_filter)
 
       div.filter
-        label Status
+        label
+          = t("general.status")
         = grid_filter(@loans_grid, :status_filter)
 
       div.filter
-        label Division
+        label
+          = t("general.division")
         = grid_filter(@loans_grid, :division_filter)
 
       div.filter
-        label Loan Type
+        label
+          = t("loan.loan_type")
         = grid_filter(@loans_grid, :loan_type_filter)
 
       div.filter.larger-text-box
-        label Description
+        label
+          = t("general.description")
         = grid_filter(@loans_grid, :description_filter)
 
       div.actions
