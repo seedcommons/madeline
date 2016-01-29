@@ -26,10 +26,12 @@
     - loan.length_months.to_s + t("loan.months")
 
   - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
-    custom_filter: :auto, detach_with_id: :loan_type_filter
+    custom_filter: :auto, detach_with_id: :loan_type_filter do |loan|
+    - loan[:loan_type]
 
-  - g.column name: t("general.description"), attribute: 'name',
-    detach_with_id: :description_filter
+  - g.column name: t("general.name"), attribute: 'name',
+    detach_with_id: :name_filter do |loan|
+    - "loan.name: " + loan.name + " , loan[:name]: " + loan[:name]
 
   - g.column name: t("loan.amount"), attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
@@ -68,8 +70,8 @@
 
       div.filter.larger-text-box
         label
-          = t("general.description")
-        = grid_filter(@loans_grid, :description_filter)
+          = t("general.name")
+        = grid_filter(@loans_grid, :name_filter)
 
       div.actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
@@ -79,3 +81,8 @@
           = t("general.filter")
 
 = render_grid(@loans_grid)
+
+ul
+  li Loan type is nil
+  li Value is different between loan[:name] and loan.name
+  li Filter uses loan[:name] value for name filtering

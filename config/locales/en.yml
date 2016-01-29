@@ -90,7 +90,7 @@ en:
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
 
   loan:
-    amount: "amount"
+    amount: "Amount"
     length: "Length"
     loan_type: "Loan Type"
     months: " mo."
