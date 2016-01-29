@@ -39,35 +39,34 @@
 
 - unless @empty_list
   header.block
-    div.row.filters
+    div.filters
       h4 Filter by:
 
-      label.col-lg-1 Co-op
-      span.col-lg-4
+      div.filter
+        label Co-op
         = grid_filter(@loans_grid, :coop_filter)
 
-      label.col-lg-1 Status
-      span.col-lg-2
+      div.filter
+        label Status
         = grid_filter(@loans_grid, :status_filter)
 
-      label.col-lg-1 Division
-      span.col-lg-3
+      div.filter
+        label Division
         = grid_filter(@loans_grid, :division_filter)
 
-    div.row.filters
-      label.col-lg-1 Loan Type
-      span.col-lg-3
+      div.filter
+        label Loan Type
         = grid_filter(@loans_grid, :loan_type_filter)
 
-      label.col-lg-1 Description
-      span.col-lg-7
+      div.filter.larger-text-box
+        label Description
         = grid_filter(@loans_grid, :description_filter)
 
-    div.row.actions
-      div.col-lg-9
-      button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
-      button.btn.btn-primary.col-lg-2.wg-external-submit-button data-grid-name="grid"
-        | Filter
-  br
+      div.actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+          = t("general.clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+          = t("general.filter")
 
 = render_grid(@loans_grid)
