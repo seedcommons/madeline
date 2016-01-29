@@ -4,8 +4,8 @@
 # Used to link a loan to its sets of questionnaire response data
 #
 # Three class level association definition methods are provided:
-#   has_one_custom - where association is defined by a back reference from the CustomModel and up to one instance is expected
-#   has_many_custom - where association is defined by a back reference from the CustomModel and multiple instances are supported
+#   has_one_custom - where association is defined by a back reference from the CustomValueSet and up to one instance is expected
+#   has_many_custom - where association is defined by a back reference from the CustomValueSet and multiple instances are supported
 #   belongs_to_custom - where association is defined by an xxx_id column on referencing class, supports references to objects not 'owned' by current object
 #
 
@@ -128,5 +128,3 @@ module CustomValueSetLinkable
   end
 
 end
-
-

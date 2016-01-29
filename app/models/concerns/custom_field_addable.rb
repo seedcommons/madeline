@@ -14,7 +14,7 @@ module CustomFieldAddable
   module ClassMethods
 
     # Resolve the custom field set matching our model type defined at the closest ancestor level.
-    # Note, this is overridden for CustomModel which has it's field set explicitly assigned based on the link context
+    # Note, this is overridden for CustomValueSet which has it's field set explicitly assigned based on the link context
     def resolve_custom_field_set(division: nil, model: nil, required: true)
       CustomFieldSet.resolve(self.name, division: division, model: model, required: required)
     end
@@ -151,5 +151,3 @@ module CustomFieldAddable
 
 
 end
-
-
