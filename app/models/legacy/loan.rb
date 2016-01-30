@@ -112,7 +112,7 @@ class Loan < ActiveRecord::Base
 
 
 
-  MIGRATION_STATUS_OPTIONS = TransientOptionSet.new(
+  MIGRATION_STATUS_OPTIONS = Legacy::TransientOptionSet.new(
       [ ['active', 'Prestamo Activo'],
         ['completed', 'Prestamo Completo'],
         ['frozen', 'Prestamo Congelado'],
@@ -123,13 +123,13 @@ class Loan < ActiveRecord::Base
         ['relationship_active', 'Relacion Activo']
       ])
 
-  PROJECT_TYPE_OPTIONS = TransientOptionSet.new(
+  PROJECT_TYPE_OPTIONS = Legacy::TransientOptionSet.new(
       [ ['conversion', 'Conversion'],
         ['expansion', 'Expansion'],
         ['startup', 'Start-up'],
       ])
 
-  PUBLIC_LEVEL_OPTIONS = TransientOptionSet.new(
+  PUBLIC_LEVEL_OPTIONS = Legacy::TransientOptionSet.new(
       [ ['featured', 'Featured'],
         ['hidden', 'Hidden'],
       ])

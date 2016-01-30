@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120181702) do
+ActiveRecord::Schema.define(version: 20160129225138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20160120181702) do
     t.integer "generations", null: false
   end
 
-  add_index "custom_field_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_sets", force: :cascade do |t|
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20160120181702) do
     t.integer "generations", null: false
   end
 
-  add_index "division_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "division_anc_desc_idx", unique: true, using: :btree
+  add_index "division_hierarchies", %w(ancestor_id descendant_id generations), name: "division_anc_desc_idx", unique: true, using: :btree
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 20160120181702) do
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
-    t.string   "code"
     t.datetime "created_at"
+    t.string   "locale"
     t.string   "name"
     t.datetime "updated_at"
   end
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(version: 20160120181702) do
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
-    t.integer  "language_id"
+    t.string   "locale"
     t.text     "text"
     t.string   "translatable_attribute"
     t.integer  "translatable_id"
@@ -281,7 +281,6 @@ ActiveRecord::Schema.define(version: 20160120181702) do
     t.datetime "updated_at"
   end
 
-  add_index "translations", ["language_id"], name: "index_translations_on_language_id", using: :btree
   add_index "translations", ["translatable_type", "translatable_id"], name: "index_translations_on_translatable_type_and_translatable_id", using: :btree
 
   create_table "users", force: :cascade do |t|
