@@ -17,7 +17,8 @@
     custom_filter: :auto, detach_with_id: :coop_filter
 
   - g.column name: t("general.status"), attribute: 'status_value',
-    custom_filter: :auto, detach_with_id: :status_filter
+    custom_filter: :auto, detach_with_id: :status_filter do |loan|
+    - t("loan.status.#{loan.status_value}")
 
   - g.column name: t("loan.signing_date"), attribute: 'signing_date' do |loan|
     - loan.signing_date.strftime(t('time.formats.no_time'))
