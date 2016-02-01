@@ -31,7 +31,7 @@
 
   - g.column name: t("general.name"), attribute: 'name',
     detach_with_id: :name_filter do |loan|
-    - "loan.name: " + loan.name + " , loan[:name]: " + loan[:name]
+    - loan[:name]
 
   - g.column name: t("loan.amount"), attribute: 'amount' do |loan|
     - number_to_currency(loan.amount)
@@ -81,8 +81,3 @@
           = t("general.filter")
 
 = render_grid(@loans_grid)
-
-ul
-  li Loan type is nil
-  li Value is different between loan[:name] and loan.name
-  li Filter uses loan[:name] value for name filtering
