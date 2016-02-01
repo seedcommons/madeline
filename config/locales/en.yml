@@ -93,7 +93,7 @@ en:
     amount: "Amount"
     length: "Length"
     loan_type: "Loan Type"
-    months: " mo."
+    months: "%{number} mo."
     signing_date: "Signing Date"
     status:
       active: "active"

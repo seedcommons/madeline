@@ -24,7 +24,7 @@
     - loan.signing_date.strftime(t('time.formats.no_time'))
 
   - g.column name: t("loan.length"), attribute: 'length_months' do |loan|
-    - loan.length_months.to_s + t("loan.months")
+    - t("loan.months", number: loan.length_months.to_s)
 
   - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
     custom_filter: :auto, detach_with_id: :loan_type_filter do |loan|
