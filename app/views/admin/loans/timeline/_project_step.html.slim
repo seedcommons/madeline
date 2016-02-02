@@ -29,16 +29,12 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
             div
               span
                 = t("project_step.labels.completed")
-              = step.completed_date
 
-              - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
-
-              - days_status = time_status(step.scheduled_date, step.completed_date)
-
-              - days_statement = t("project_step.status.#{days_status}", time: date_diff)
-
-              p
-                = days_statement
+              div
+                p
+                  = step.completed_date
+                p
+                  = status_statement(step.scheduled_date, step.completed_date)
           p
             span
               = t("project_step.labels.finalized")
@@ -58,5 +54,5 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
             = link_to [:admin, step], method: :delete, class: 'action' do |link|
               i.fa.fa-trash
           p
-           = "Logs "
+           = t("project_step.logs")
            i.fa.fa-plus-circle.fa-lg

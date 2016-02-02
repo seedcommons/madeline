@@ -31,5 +31,13 @@ module TimeLanguageHelper
 
     return status
   end
+
+  def status_statement(from_time, to_time)
+    date_diff = time_diff_in_natural_language(from_time, to_time)
+    days_status = time_status(from_time, to_time)
+    days_statement = t("project_step.status.#{days_status}", time: date_diff)
+
+    return days_statement
+  end
 end
 
