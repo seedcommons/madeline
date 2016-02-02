@@ -71,6 +71,7 @@ en:
     no__: "No"
     no_records: "No records found"
     password: "Password"
+    parenthesis: "(%{content})"
     status: "Status"
     update: "Update"
     updated: "Updated"

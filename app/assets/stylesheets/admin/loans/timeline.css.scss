@@ -17,3 +17,45 @@
     font-weight: bold;
   }
 }
+
+.timeline {
+
+  .info {
+    .info-label {
+      color: gray;
+      font-weight: bold;
+    }
+
+    .info-text {
+
+    }
+  }
+
+  .tight-block {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  .title {
+    margin: 0 0 1em;
+    padding: 0;
+    font-size: 1.1em;
+
+    .icon {
+      margin: 0;
+      display: inline-block;
+      width: 10%;
+      vertical-align: top;
+
+      i {
+        font-size: 1.5em;
+      }
+    }
+
+    .title-text {
+      display: inline-block;
+      width: 90%;
+    }
+  }
+}

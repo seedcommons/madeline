@@ -6,40 +6,52 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
 
         div.col-lg-4
           h5.title
-            - if step.milestone?
-              i.fa.fa-list
-            - else
-              i.fa.fa-flag
-            = " "
-            = step.summary
+            span.icon
+              - if step.milestone?
+                i.fa.fa-list
+              - else
+                i.fa.fa-flag
+            span.title-text
+              = step.summary
+
           p = step.details
 
-        div.col-lg-4
-          p
+        div.col-lg-5
+          p.info.row
             // TODO: Status should show actual status
-            span
+            span.info-label.col-lg-4
               = t("project_step.labels.status")
-            = step.status
-          p
-            span
+
+            span.info-text.col-lg-8
+              = step.status
+
+          p.info.row
+            span.info-label.col-lg-4
               = t("project_step.labels.scheduled")
-            = step.scheduled_date
+
+            span.info-text.col-lg-8
+              = step.scheduled_date
 
           - if step.completed?
-            div
-              span
+            div.info.row
+              span.info-label.col-lg-4
                 = t("project_step.labels.completed")
 
-              div
-                p
+              div.text.col-lg-8
+                p.tight-block
                   = step.completed_date
-                p
-                  = status_statement(step.scheduled_date, step.completed_date)
-          p
-            span
+                p.tight-block
+                  = t("general.parenthesis",
+                    content: status_statement(step.scheduled_date, step.completed_date))
+
+          p.info.row
+            span.info-label.col-lg-4
               = t("project_step.labels.finalized")
-            = step.is_finalized ? t("general.yes_") : t("general.no__")
-        div.col-lg-3
+
+            span.info-text.col-lg-8
+              = step.is_finalized ? t("general.yes_") : t("general.no__")
+
+        div.col-lg-2
           p
             - if step.completed?
               i.fa.fa-check.fa-lg
