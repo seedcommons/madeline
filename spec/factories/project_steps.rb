@@ -29,7 +29,7 @@ FactoryGirl.define do
     scheduled_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     completed_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     is_finalized [true, false].sample
-    step_type_value { ['step', 'milestone']  }
+    step_type_value ['step', 'milestone'].sample
 
     # for now parent must be saved before assigning the translatable fields
     after(:create) do |log|

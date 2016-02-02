@@ -51,8 +51,6 @@ class ProjectStep < ActiveRecord::Base
     project_logs.count
   end
 
-
-
   def is_completed
     completed_date.present?
   end
@@ -71,5 +69,20 @@ class ProjectStep < ActiveRecord::Base
 
   def display_date
     I18n.l (self.completed_date || self.scheduled_date), format: :long
+  end
+
+  # Below methods may need to be moved elsewhere
+  def completed?
+    self.completed_date ? true : false
+  end
+
+  def milestone?
+    self.step_type_value == "milestone" ? true : false
+  end
+
+  def days
+    if self.completed?
+      self.completed_date - self.scheduled_date
+    end
   end
 end
