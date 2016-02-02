@@ -17,5 +17,19 @@ module TimeLanguageHelper
 
     components.join(", ")
   end
+
+  def time_status(from_time, to_time)
+    time_diff = to_time - from_time
+
+    if time_diff < 0
+      status = "early"
+    elsif step.days > 0
+      status = "late"
+    else
+      status = "on_time"
+    end
+
+    return status
+  end
 end
 

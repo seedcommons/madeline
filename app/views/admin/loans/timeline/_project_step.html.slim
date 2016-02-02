@@ -3,6 +3,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
       div.panel-body.row
         div.col-lg-1
           i.fa.fa-square-o
+
         div.col-lg-4
           h5.title
             - if step.milestone?
@@ -12,6 +13,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
             = " "
             = step.summary
           p = step.details
+
         div.col-lg-4
           p
             // TODO: Status should show actual status
@@ -29,17 +31,9 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
                 = t("project_step.labels.completed")
               = step.completed_date
 
-              // Move to separate partial or as a helper
-              // Move logic elsewhere, if possible
-
               - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
 
-              - if step.days < 0
-                - days_status = "early"
-              - elsif step.days > 0
-                - days_status = "late"
-              - else
-                - days_status = "on_time"
+              - days_status = time_status(step.scheduled_date, step.completed_date)
 
               - days_statement = t("project_step.status.#{days_status}", time: date_diff)
 
