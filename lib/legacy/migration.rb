@@ -22,6 +22,9 @@ module Legacy
       Legacy::Loan.migrate_all
     end
 
+    def self.migrate_media
+      Legacy::Media.migrate_all
+    end
 
     def self.purge_migrated
       Legacy::LoanQuestion.purge_migrated
