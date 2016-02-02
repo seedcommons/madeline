@@ -15,15 +15,18 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
         div.col-lg-4
           p
             // TODO: Status should show actual status
-            = "Status: "
+            span
+              = t("project_step.labels.status")
             = step.status
           p
-            = "Scheduled: "
+            span
+              = t("project_step.labels.scheduled")
             = step.scheduled_date
 
           - if step.completed?
             div
-              = "Completed: "
+              span
+                = t("project_step.labels.completed")
               = step.completed_date
 
               // Move to separate partial or as a helper
@@ -32,27 +35,27 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
               - date_diff = time_diff_in_natural_language(step.scheduled_date, step.completed_date)
 
               - if step.days < 0
-                /- step.days_status = "early"
-                - days_statement = "(" + date_diff + " early)"
+                - days_status = "early"
               - elsif step.days > 0
-                /- step.days_status = "late"
-                - days_statement = "(" + date_diff + " late)"
+                - days_status = "late"
               - else
-                /- step.days_status = "on_time"
-                - days_statement = "(on time)"
+                - days_status = "on_time"
+
+              - days_statement = t("project_step.status.#{days_status}", time: date_diff)
 
               p
                 = days_statement
           p
-            = "Finalized: "
-            = step.is_finalized ? 'Yes' : 'No'
+            span
+              = t("project_step.labels.finalized")
+            = step.is_finalized ? t("general.yes_") : t("general.no__")
         div.col-lg-3
           p
             - if step.completed?
               i.fa.fa-check.fa-lg
-              = " Completed"
+              = t("project_step.status.completed")
             - else
-              = "Not yet completed"
+              = t("project_step.status.not_completed")
           div.actions
             a.action
               i.fa.fa-pencil

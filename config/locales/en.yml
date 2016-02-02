@@ -68,11 +68,13 @@ en:
     login: "Login"
     logout: "Logout"
     name: "Name"
+    no__: "No"
     no_records: "No records found"
     password: "Password"
     status: "Status"
     update: "Update"
     updated: "Updated"
+    yes_: "Yes"
 
   user:
     account: "Account"
@@ -99,3 +101,19 @@ en:
       active: "active"
       frozen: "frozen"
       liquidated: "liquidated"
+
+  project_step:
+    finalized: "Finalized:"
+    labels:
+      completed: "Completed:"
+      finalized: "Finalized:"
+      scheduled: "Scheduled:"
+      status: "Status:"
+    logs: "Logs"
+    timeline: "Timeline"
+    status:
+      completed: "Completed"
+      early: "%{time} early"
+      late: "%{time} late"
+      not_completed: "Not yet completed"
+      on_time: "(on time)"
