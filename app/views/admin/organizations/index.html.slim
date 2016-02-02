@@ -1,5 +1,4 @@
-- content_for :title do
-  - 'Co-ops'
+- content_for(:title, content = t("general.coops"))
 
 = render 'layouts/admin/tables'
 
@@ -7,44 +6,51 @@
 
   - g.blank_slate do
     - @empty_list = true
-    - content_tag(:div, "No records found", class: 'alert alert-info')
+    - content_tag(:div, t("general.no_records"), class: 'alert alert-info')
 
-  - g.column name: 'ID', attribute: 'id'
+  - g.column name: t("general.id"), attribute: 'id'
 
-  - g.column name: 'Name', attribute: 'name', detach_with_id: :name_filter
+  - g.column name: t("general.name"), attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: 'City', attribute: 'city', detach_with_id: :city_filter,
+  - g.column name: t("general.city"), attribute: 'city', detach_with_id: :city_filter,
     custom_filter: :auto
 
-  - g.column name: 'Country', attribute: 'name', assoc: :country,
+  - g.column name: t("general.country"), attribute: 'name', assoc: :country,
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: 'Created', attribute: 'created_at'
+  - g.column name: t("general.created"), attribute: 'created_at' do |organization|
+    -  organization.created_at.strftime(t('time.formats.default'))
 
-  - g.column name: 'Updated', attribute: 'updated_at'
+  - g.column name: t("general.updated"), attribute: 'updated_at' do |organization|
+    -  organization.created_at.strftime(t('time.formats.default'))
 
 - unless @empty_list
   header.block
-    div.row.filters
-      h4 Filter by:
-      label.col-lg-1 Name
-      span.col-lg-3
+    div.filters
+      h4
+        = t("general.filter_by")
+
+      div.larger-text-box.filter
+        label
+          = t("general.name")
         = grid_filter(@organizations_grid, :name_filter)
 
-      label.col-lg-1 City
-      div.col-lg-3
+      div.filter
+        label
+          = t("general.city")
         = grid_filter(@organizations_grid, :city_filter)
 
-      label.col-lg-1 Country
-      div.col-lg-3
+      div.filter
+        label
+          = t("general.country")
         = grid_filter(@organizations_grid, :country_filter)
 
-    div.row.actions
-      div.col-lg-9
-      button.btn.btn-link.col-lg-1.wg-external-reset-button data-grid-name="grid" Clear
-      button.btn.btn-primary.col-lg-2.wg-external-submit-button data-grid-name="grid"
-        | Filter
-  br
+      div.actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+          = t("general.clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+          = t("general.filter")
 
 = render_grid(@organizations_grid)

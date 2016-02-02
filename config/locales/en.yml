@@ -1,4 +1,9 @@
 en:
+  time:
+    formats:
+      default: '%b %d, %Y %H:%M'
+      no_time: '%b %d, %Y'
+
   loans: Loans
   country: Country
   show: Show
@@ -47,11 +52,27 @@ en:
   overdue: Overdue
 
   general:
+    city: "City"
+    clear: "Clear"
+    created: "Created"
+    coop: "Co-op"
+    coops: "Co-ops"
+    country: "Country"
+    description: "Description"
+    division: "Division"
     email: "Email"
+    filter: "Filter"
+    filter_by: "Filter by:"
+    id: "ID"
+    loans: "Loans"
     login: "Login"
     logout: "Logout"
+    name: "Name"
+    no_records: "No records found"
     password: "Password"
+    status: "Status"
     update: "Update"
+    updated: "Updated"
 
   user:
     account: "Account"
@@ -67,3 +88,14 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  loan:
+    amount: "Amount"
+    length: "Length"
+    loan_type: "Loan Type"
+    months: "%{number} mo."
+    signing_date: "Signing Date"
+    status:
+      active: "active"
+      frozen: "frozen"
+      liquidated: "liquidated"
