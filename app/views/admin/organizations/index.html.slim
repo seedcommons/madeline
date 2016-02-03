@@ -2,13 +2,13 @@
 
 = render 'layouts/admin/tables'
 
-= define_grid(@organizations_grid, show_filters: :when_filtered) do |g|
+= define_grid(@organizations_grid, show_filters: :always) do |g|
 
   - g.blank_slate do
     - @empty_list = true
     - content_tag(:div, t("general.no_records"), class: 'alert alert-info')
 
-  - g.column name: t("general.id"), attribute: 'id'
+  - g.column name: t("general.id"), attribute: 'id', filter: false
 
   - g.column name: t("general.name"), attribute: 'name', detach_with_id: :name_filter
 
@@ -19,10 +19,12 @@
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: t("general.created"), attribute: 'created_at' do |organization|
+  - g.column name: t("general.created"), attribute: 'created_at',
+    detach_with_id: :created_filter do |organization|
     -  organization.created_at.strftime(t('time.formats.default'))
 
-  - g.column name: t("general.updated"), attribute: 'updated_at' do |organization|
+  - g.column name: t("general.updated"), attribute: 'updated_at',
+    detach_with_id: :updated_filter do |organization|
     -  organization.created_at.strftime(t('time.formats.default'))
 
 - unless @empty_list
@@ -40,6 +42,18 @@
         label
           = t("general.city")
         = grid_filter(@organizations_grid, :city_filter)
+
+      div.filter
+        label
+          = "Created"
+        div.filter-content
+          = grid_filter(@organizations_grid, :created_filter)
+
+      div.filter
+        label
+          = "Updated"
+        div.filter-content
+          = grid_filter(@organizations_grid, :updated_filter)
 
       div.filter
         label
