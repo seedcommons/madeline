@@ -36,29 +36,32 @@
       div.larger-text-box.filter
         label
           = t("general.name")
-        = grid_filter(@organizations_grid, :name_filter)
+        div.filter-content
+          = grid_filter(@organizations_grid, :name_filter)
 
       div.filter
         label
           = t("general.city")
-        = grid_filter(@organizations_grid, :city_filter)
+        div.filter-content
+          = grid_filter(@organizations_grid, :city_filter)
 
       div.filter
         label
           = "Created"
-        div.filter-content
+        div.filter-content.dates
           = grid_filter(@organizations_grid, :created_filter)
 
       div.filter
         label
           = "Updated"
-        div.filter-content
+        div.filter-content.dates
           = grid_filter(@organizations_grid, :updated_filter)
 
       div.filter
         label
           = t("general.country")
-        = grid_filter(@organizations_grid, :country_filter)
+        div.filter-content
+          = grid_filter(@organizations_grid, :country_filter)
 
       div.actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
