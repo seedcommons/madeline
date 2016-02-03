@@ -3,7 +3,8 @@ class Admin::OrganizationsController < Admin::AdminController
     @organizations_grid = initialize_grid(
       Organization,
       include: :country,
-      order: 'name'
+      order: 'name',
+      per_page: 50
     )
   end
 end
