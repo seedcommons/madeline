@@ -96,6 +96,7 @@ en:
     months: "%{number} mo."
     signing_date: "Signing Date"
     status:
-      active: "active"
-      frozen: "frozen"
-      liquidated: "liquidated"
+      active: "Active"
+      completed: "Completed"
+      frozen: "Frozen"
+      liquidated: "Liquidated"
