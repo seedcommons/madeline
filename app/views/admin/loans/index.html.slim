@@ -55,12 +55,14 @@
       div.filter
         label
           = t("general.coop")
-        = grid_filter(@loans_grid, :coop_filter)
+        div.filter-content
+          = grid_filter(@loans_grid, :coop_filter)
 
       div.filter
         label
           = t("general.status")
-        = grid_filter(@loans_grid, :status_filter)
+        div.filter-content
+          = grid_filter(@loans_grid, :status_filter)
 
       div.filter
         label
