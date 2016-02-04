@@ -1,3 +1,6 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/content", :media => "all"
+
 div
   nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
     .container-fluid
@@ -40,7 +43,7 @@ div
         = render "layouts/admin/user_menu"
       .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
         = render "application/alerts"
-        section
+        section.content
           .page-header 
             h1.page-title = yield :title
             .top-right = yield :top_right

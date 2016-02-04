@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :calendar, only: [:index]
     resources :dashboard, only: [:index]
+    resources :loans, only: [:index]
     resources :organizations
 
     namespace :raw do
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
     resources :loans, only: [:index, :show]
     get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
   end
+
+  get '/test' => 'static_pages#test'
 
   root to: 'admin/dashboard#index'
 end

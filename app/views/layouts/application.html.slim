@@ -1,9 +1,15 @@
-- content_for :styles
-  = stylesheet_link_tag "admin/admin", :media => "all"
-  = stylesheet_link_tag "admin/bootstrap_layout", :media => "all"
-  = stylesheet_link_tag "admin/menu", :media => "all"
+- content_for :template, yield(:title) || t(:loans)
+
+- content_for :head
+  = javascript_include_tag "application"
+  = javascript_include_tag "embedded/app"
+  = javascript_include_tag "embedded/loans"
+  = stylesheet_link_tag "application", :media => "all"
+  = stylesheet_link_tag "embedded/general", :media => "all"
+  = csrf_meta_tags
 
 - content_for :content
-  = render "layouts/admin/page"
+  = render "application/alerts"
+  = yield
 
-= render template: "layouts/base"
+= render template: "layouts/embedded/wordpress-#{get_division_from_url}"
