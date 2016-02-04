@@ -43,6 +43,7 @@
   /       br
 
   .actions.form-block
-    a.btn.btn-default.show-action Cancel
+    - unless f.object.new_record?
+      a.btn.btn-default.show-action Cancel
     = f.submit class: 'update-action btn btn-success'
   .clearfix
