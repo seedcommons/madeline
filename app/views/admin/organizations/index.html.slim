@@ -47,13 +47,13 @@
 
       div.filter
         label
-          = "Created"
+          = t("general.created")
         div.filter-content.dates
           = grid_filter(@organizations_grid, :created_filter)
 
       div.filter
         label
-          = "Updated"
+          = t("loan.signing_date")
         div.filter-content.dates
           = grid_filter(@organizations_grid, :updated_filter)
 
