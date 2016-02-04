@@ -6,13 +6,9 @@ textarea {
   height: 2em;
 }
 
-.edit-view {
-  .form-block {
-    display: block;
-  }
-
-  .form-element {
-    display: inline-block;
+.edit-view, .new-view {
+  .form-block, .form-element {
+    display: inherit;
   }
 
   .view-block, .view-element {
@@ -21,27 +17,11 @@ textarea {
 }
 
 .new-view {
-  .form-block {
-    display: block;
-  }
-
-  .form-element {
-    display: inline-block;
-  }
-
-  .view-block, .view-element {
-    display: none;
-  }
 }
 
-
 .show-view {
-  .view-block {
-    display: block;
-  }
-
-  .view-element {
-    display: inline-block;
+  .view-block, .view-element {
+    display: inherit;
   }
 
   .form-block, .form-element {
@@ -50,6 +30,10 @@ textarea {
 
   .form-horizontal .control-label {
     padding-top: 0;
+  }
+
+  abbr[title="required"] {
+    display: none;
   }
 }
 
