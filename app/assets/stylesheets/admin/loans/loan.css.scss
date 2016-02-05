@@ -1,0 +1,15 @@
+@import "colors";
+
+.tab-pane {
+  padding: 1em;
+
+  &.active {
+    background: $gray1;
+  }
+}
+
+.nav-tabs > li {
+  &.active a {
+    background: $gray1;
+  }
+}
