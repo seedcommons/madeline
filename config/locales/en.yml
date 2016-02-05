@@ -56,6 +56,8 @@ en:
   city: "City"
   clear: "Clear"
   created: "Created"
+  confirm_deletion: 'Are you sure you want to delete this %{thing}?'
+  coop: "Co-op"
   coops: "Co-ops"
   country: "Country"
   email: "Email"
@@ -65,10 +67,17 @@ en:
   login: "Login"
   logout: "Logout"
   name: "Name"
+  new_thing: "New %{thing}"
   no_records: "No records found"
+  notice_deleted: 'Record was successfully deleted.'
+  notice_created: 'Record was successfully created.'
+  notice_updated: 'Record was successfully updated.'
   password: "Password"
   update: "Update"
   updated: "Updated"
+
+  organization:
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
 
   user:
     account: "Account"

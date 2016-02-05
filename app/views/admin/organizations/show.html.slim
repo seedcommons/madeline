@@ -17,7 +17,8 @@ section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
         | Edit
       a.show-action.form-element href="#"
         | Cancel
-      a.delete-action href="#"
+      / TODO: Consider using http://bootboxjs.com/ instead
+      = link_to admin_organization_path(@org), method: :delete, data: { confirm: t('organization.confirm_deletion') } 
         i.fa.fa-trash.fa-large>
         | Delete
     .clearfix

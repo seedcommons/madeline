@@ -24,7 +24,7 @@ class Admin::OrganizationsController < Admin::AdminController
   def update
     @org = Organization.find(params[:id])
     if @org.update(organization_params)
-      redirect_to admin_organization_path(@org), notice: "Record updated."
+      redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
       @countries = Country.all
       @form_action_url = admin_organization_path
@@ -37,11 +37,22 @@ class Admin::OrganizationsController < Admin::AdminController
     @org.division = current_division
 
     if @org.save
-      redirect_to admin_organization_path(@org), notice: 'Record was successfully created.'
+      redirect_to admin_organization_path(@org), notice: I18n.t(:notice_created)
     else
       @countries = Country.all
       @form_action_url = admin_organizations_path
       render :new
+    end
+  end
+
+  def destroy
+    @org = Organization.find(params[:id])
+    if @org.destroy
+      redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
+    else
+      @countries = Country.all
+      @form_action_url = admin_organization_path
+      render :show
     end
   end
 
