@@ -1,0 +1,38 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
+
+- content_for :scripts
+  = javascript_include_tag "admin/forms/forms"
+
+- content_for :title
+  = @org.name
+
+section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if @org.valid?
+        a.edit-action.view-element href="#"
+          i.fa.fa-pencil.fa-large>
+          = t(:edit)
+        a.show-action.form-element href="#" = t(:cancel)
+      - else
+        a href=admin_organization_path(@org) = t(:cancel)
+      / TODO: Consider using http://bootboxjs.com/ instead of JS confirmation dialog
+      = link_to [:admin, @org], method: :delete, data: { confirm: t('organization.confirm_deletion') } 
+        i.fa.fa-trash.fa-large>
+        = t(:delete)
+    .clearfix
+
+  section.block
+    = render 'form'
+
+  section.block
+    h1 Active Loans
+
+  section.block
+    h1 Media
+
+  section.block
+    h1 Notes

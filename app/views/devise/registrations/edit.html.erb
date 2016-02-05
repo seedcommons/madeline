@@ -4,7 +4,7 @@
   html: { method: :put }) do |f| %>
 
   <div class="field">
-    <%= f.label :email, t("general.email") %><br />
+    <%= f.label :email, t("email") %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
   <br>
@@ -37,6 +37,6 @@
   <br>
 
   <div class="actions">
-    <%= f.submit t("general.update"), class: "btn btn-lg btn-primary" %>
+    <%= f.submit t("update"), class: "btn btn-lg btn-primary" %>
   </div>
 <% end %>
