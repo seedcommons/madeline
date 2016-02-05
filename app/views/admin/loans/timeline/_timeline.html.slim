@@ -1,7 +1,0 @@
-section.timeline
-  div.project-steps
-    - unless @loan.project_steps.empty?
-      - @loan.project_steps.each do |step|
-        = render "admin/loans/timeline/project_step", step: step
-    - else
-      = "No timeline steps to display"

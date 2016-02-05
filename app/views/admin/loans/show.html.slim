@@ -4,7 +4,7 @@
   = stylesheet_link_tag "admin/loans/loan", :media => "all"
 
 div.loan-content
-  <!-- Nav tabs -->
+  // Nav tabs
   ul class="nav nav-tabs" role="tablist"
     li role="presentation"
       a href="#details" aria-controls="details" role="tab" data-toggle="tab"
@@ -25,12 +25,11 @@ div.loan-content
       a href="#more" aria-controls="more" role="tab" data-toggle="tab"
         = "More"
 
-  <!-- Tab panes -->
+  // Tab panes
   div class="tab-content"
     div role="tabpanel" class="tab-pane" id="details" ...
     div role="tabpanel" class="tab-pane" id="criteria" ...
-    div role="tabpanel" class="tab-pane active" id="timeline"
-      = render "admin/loans/timeline/timeline", loan: @loan
+    div role="tabpanel" class="tab-pane active" id="timeline" ...
     div role="tabpanel" class="tab-pane" id="calendar" ...
     div role="tabpanel" class="tab-pane" id="print" ...
     div role="tabpanel" class="tab-pane" id="more" ...

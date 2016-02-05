@@ -11,7 +11,6 @@ Rails.application.routes.draw do
     resources :dashboard, only: [:index]
     resources :loans, only: [:index, :show]
     resources :organizations, only: [:index]
-    resources :project_steps, only: [:destroy]
 
     namespace :raw do
       resources :divisions
