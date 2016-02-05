@@ -1,8 +1,4 @@
-- content_for :styles
-  = stylesheet_link_tag "admin/loans/timeline", :media => "all"
-
 section.timeline
-  h1 Timeline
   div.project-steps
     - unless @loan.project_steps.empty?
       - @loan.project_steps.each do |step|

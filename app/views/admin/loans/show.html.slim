@@ -1,6 +1,9 @@
 - content_for :title do @loan.name end
 
-div
+- content_for :styles
+  = stylesheet_link_tag "admin/loans/loan", :media => "all"
+
+div.loan-content
   <!-- Nav tabs -->
   ul class="nav nav-tabs" role="tablist"
     li role="presentation"
