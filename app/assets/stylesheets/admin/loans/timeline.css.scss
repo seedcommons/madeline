@@ -2,6 +2,14 @@
 
 .panel-success {
   border-color: $green1;
+
+  .completion-status {
+    color: $green1;
+  }
+
+  .completed {
+    background: $green1;
+  }
 }
 
 .panel {
@@ -90,4 +98,10 @@
 
 .last-col {
   padding-right: 0;
+}
+
+.status-details {
+  .info.row {
+    margin: 0 0 .5em 0;
+  }
 }

@@ -21,25 +21,25 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
           div.col-lg-5.status-details
             p.info.row
               // TODO: Status should show actual status
-              span.info-label.col-lg-4
+              span.info-label.col-lg-3
                 = t("project_step.labels.status")
 
-              span.info-text.col-lg-8
+              span.info-text.col-lg-9
                 = step.status
 
             p.info.row
-              span.info-label.col-lg-4
+              span.info-label.col-lg-3
                 = t("project_step.labels.scheduled")
 
-              span.info-text.col-lg-8
+              span.info-text.col-lg-9
                 = step.scheduled_date
 
             - if step.completed?
               div.info.row
-                span.info-label.col-lg-4
+                span.info-label.col-lg-3
                   = t("project_step.labels.completed")
 
-                div.text.col-lg-8
+                div.text.col-lg-9.completed
                   p.tight-block
                     = step.completed_date
                   p.tight-block
@@ -54,7 +54,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
                 = step.is_finalized ? t("general.yes_") : t("general.no__")
 
           div.col-lg-2.action-items.last-col
-            p
+            div.completion-status
               - if step.completed?
                 div.icon-with-text
                   span.icon-box
