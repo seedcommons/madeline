@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '~> 4.2.5'
 gem 'pg', '~> 0.15'
 
 # Assets
@@ -48,7 +48,8 @@ gem 'mini_magick'
 gem 'mysql2'
 
 # Tables
-gem 'wice_grid'
+gem 'wice_grid', '3.6.0.pre4'
+gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
 group :development, :test do
