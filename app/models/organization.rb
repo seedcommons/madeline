@@ -55,8 +55,6 @@ class Organization < ActiveRecord::Base
   validates :name, presence: true
   validates :division_id, presence: true
 
-  # before_destroy { |i| return false }
-
   def loans_count
     loans.size
   end
