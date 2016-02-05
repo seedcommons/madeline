@@ -53,6 +53,7 @@ en:
 
 
   ## Admin panel ##
+  cancel: "Cancel"
   city: "City"
   clear: "Clear"
   created: "Created"
@@ -60,6 +61,8 @@ en:
   coop: "Co-op"
   coops: "Co-ops"
   country: "Country"
+  delete: "Delete"
+  edit: "Edit"
   email: "Email"
   filter: "Filter"
   filter_by: "Filter by:"

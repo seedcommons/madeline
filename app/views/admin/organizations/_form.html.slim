@@ -43,7 +43,10 @@
   /       br
 
   .actions.form-block
-    - unless f.object.new_record?
-      a.btn.btn-default.show-action Cancel
+    - unless @org.new_record?
+      - if @org.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_organization_path(@org) = t(:cancel)
     = f.submit class: 'update-action btn btn-success'
   .clearfix
