@@ -1,17 +1,34 @@
-.actions {
-  display: inline-block;
-  margin: 20px 0;
-}
-
 .action {
   padding: 6px 40px;
   margin: 0 1em;
 }
 
+.actions {
+  display: inline-block;
+  margin: 20px 0;
+}
+
 .filters {
+  .dates {
+    width: 7em;
+  }
+
   .filter {
     margin: 1em 2em 1em 0;
     display: inline-block;
+  }
+
+  .filter-content {
+    display: inline-block;
+  }
+
+  .filter-content,
+  .wg-detached-filter .custom-dropdown-container .expand-multi-select-icon,
+  .wg-detached-filter .custom-dropdown-container .collapse-multi-select-icon,
+  .wice-grid .custom-dropdown-container .expand-multi-select-icon,
+  .wice-grid .custom-dropdown-container .collapse-multi-select-icon {
+    height: 100%;
+    vertical-align: middle;
   }
 
   .form-control, .custom-dropdown-container {
@@ -20,15 +37,8 @@
   }
 
   label {
-    margin: 0 1em 0 0;
-  }
-
-  .wg-detached-filter .custom-dropdown-container .expand-multi-select-icon,
-  .wg-detached-filter .custom-dropdown-container .collapse-multi-select-icon,
-  .wice-grid .custom-dropdown-container .expand-multi-select-icon,
-  .wice-grid .custom-dropdown-container .collapse-multi-select-icon {
-    height: 100%;
-    vertical-align: middle;
+    margin: 0 .5em 0 0;
+    display: inline-block;
   }
 }
 
@@ -37,4 +47,3 @@
     min-width: 20em;
   }
 }
-
