@@ -58,4 +58,20 @@
       width: 90%;
     }
   }
+
+  .action-items, .step-logs {
+    text-align: right;
+  }
+}
+
+.icon-with-text {
+  line-height: 2em;
+
+  .text {
+    margin: 0 1em;
+  }
+
+  .icon-box {
+    font-size: 1.7em;
+  }
 }

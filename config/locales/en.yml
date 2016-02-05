@@ -118,3 +118,7 @@ en:
       late: "%{time} late"
       not_completed: "Not yet completed"
       on_time: "(on time)"
+
+  log:
+    no_logs: "No Logs"
+    show_logs: "Show Logs (%{n})"
