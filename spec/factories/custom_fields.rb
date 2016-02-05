@@ -26,7 +26,6 @@ FactoryGirl.define do
     parent nil
 
     after(:create) do |model|
-      Language.system_default  # explicitly ensure that the default language used by the translatable module exists
       model.set_label(Faker::Lorem.words(2).join(' '))
     end
 
