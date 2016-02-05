@@ -1,3 +1,26 @@
 - content_for :title do @loan.name end
 
-= render "admin/loans/timeline/timeline", loan: @loan
+<div>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Details</a></li>
+    <li role="presentation"><a href="#criteria" aria-controls="criteria" role="tab" data-toggle="tab">Criteria</a></li>
+    <li role="presentation"><a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab">Timeline</a></li>
+    <li role="presentation"><a href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">Calendar</a></li>
+    <li role="presentation"><a href="#print" aria-controls="print" role="tab" data-toggle="tab">Print</a></li>
+    <li role="presentation"><a href="#more" aria-controls="more" role="tab" data-toggle="tab">More</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="details">...</div>
+    <div role="tabpanel" class="tab-pane" id="criteria">...</div>
+    <div role="tabpanel" class="tab-pane" id="timeline">
+      = render "admin/loans/timeline/timeline", loan: @loan
+    </div>
+    <div role="tabpanel" class="tab-pane" id="calendar">...</div>
+    <div role="tabpanel" class="tab-pane" id="print">...</div>
+    <div role="tabpanel" class="tab-pane" id="more">...</div>
+  </div>
+
+</div>
