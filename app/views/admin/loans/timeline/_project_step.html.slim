@@ -3,7 +3,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
       div.panel-body
 
         div.step-details.row
-          div.col-lg-1.check
+          div.col-lg-1.check.first-col
             i.fa.fa-square-o
 
           div.col-lg-4.main-details
@@ -53,26 +53,28 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
               span.info-text.col-lg-8
                 = step.is_finalized ? t("general.yes_") : t("general.no__")
 
-          div.col-lg-2.action-items
+          div.col-lg-2.action-items.last-col
             p
               - if step.completed?
-                i.fa.fa-check.fa-lg
-                = t("project_step.status.completed")
+                div.icon-with-text
+                  span.icon-box
+                    i.fa.fa-check.fa-lg
+                  span.text-right-of-icon
+                    = t("project_step.status.completed")
               - else
                 = t("project_step.status.not_completed")
             div.actions
               a.action
                 i.fa.fa-pencil
-              a.action
+              a.action.no-right-margin
                 i.fa.fa-files-o
               = link_to [:admin, step], method: :delete, class: 'action' do |link|
                 i.fa.fa-trash
 
         div.step-logs
           div.icon-with-text.view-logs-ctrl
-            span.text
+            span.text-left-of-icon
               - if step.logs_count > 0
-                // action to display log, shown as link
                 span.show-log
                   = t("log.show_logs", n: step.logs_count)
               - else
