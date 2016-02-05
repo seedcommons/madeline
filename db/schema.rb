@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129225138) do
+ActiveRecord::Schema.define(version: 20160205165630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,10 @@ ActiveRecord::Schema.define(version: 20160129225138) do
   create_table "countries", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "default_currency_id"
-    t.integer  "default_language_id"
     t.string   "iso_code", limit: 2
-    t.integer  "language_id"
     t.string   "name"
     t.datetime "updated_at", null: false
   end
-
-  add_index "countries", ["language_id"], name: "index_countries_on_language_id", using: :btree
 
   create_table "currencies", force: :cascade do |t|
     t.string   "code"
@@ -43,7 +39,7 @@ ActiveRecord::Schema.define(version: 20160129225138) do
     t.integer "generations", null: false
   end
 
-  add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "custom_field_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_sets", force: :cascade do |t|
@@ -74,7 +70,7 @@ ActiveRecord::Schema.define(version: 20160129225138) do
     t.integer "generations", null: false
   end
 
-  add_index "division_hierarchies", %w(ancestor_id descendant_id generations), name: "division_anc_desc_idx", unique: true, using: :btree
+  add_index "division_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "division_anc_desc_idx", unique: true, using: :btree
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
@@ -90,13 +86,6 @@ ActiveRecord::Schema.define(version: 20160129225138) do
 
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
-
-  create_table "languages", force: :cascade do |t|
-    t.datetime "created_at"
-    t.string   "locale"
-    t.string   "name"
-    t.datetime "updated_at"
-  end
 
   create_table "loans", force: :cascade do |t|
     t.decimal  "amount"
@@ -304,8 +293,6 @@ ActiveRecord::Schema.define(version: 20160129225138) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "countries", "currencies", column: "default_currency_id"
-  add_foreign_key "countries", "languages"
-  add_foreign_key "countries", "languages", column: "default_language_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
