@@ -1,0 +1,46 @@
+.form-group.row {
+  min-height: 2em;
+}
+
+textarea {
+  height: 2em;
+}
+
+.edit-view, .new-view {
+  .form-block, .form-element {
+    display: inherit;
+  }
+
+  .view-block, .view-element {
+    display: none;
+  }
+}
+
+.new-view {
+}
+
+.show-view {
+  .view-block, .view-element {
+    display: inherit;
+  }
+
+  .form-block, .form-element {
+    display: none;
+  }
+
+  .form-horizontal .control-label {
+    padding-top: 0;
+  }
+
+  abbr[title="required"] {
+    display: none;
+  }
+}
+
+.actions {
+  float: right;
+  a {
+    margin: 0 15px 0 0;
+    float: left;
+  }
+}
