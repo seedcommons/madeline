@@ -22,7 +22,7 @@
 
   - g.column name: t("loan.signing_date"), attribute: 'signing_date',
     detach_with_id: :signing_date_filter do |loan|
-    - loan.signing_date.strftime(t('time.formats.no_time'))
+    - loan.signing_date.try(:strftime, t('time.formats.no_time'))
 
   - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
     - t("loan.months", number: loan.length_months.to_s)
@@ -31,9 +31,9 @@
     custom_filter: :auto, detach_with_id: :loan_type_filter do |loan|
     - loan[:loan_type]
 
-  - g.column name: t("general.name"), attribute: 'name',
-    detach_with_id: :name_filter do |loan|
-    - loan[:name]
+  / - g.column name: t("general.name"), attribute: 'name',
+  /   detach_with_id: :name_filter do |loan|
+  /   - loan[:name]
 
   - g.column name: t("loan.amount"), attribute: 'amount', filter: false do |loan|
     - number_to_currency(loan.amount)
@@ -49,54 +49,45 @@
 - unless @empty_list
   header.block
     div.filters
-      h4
-        = t("general.filter_by")
+      h4 = t("general.filter_by")
 
       div.filter
-        label
-          = t("general.coop")
+        label = t("general.coop")
         div.filter-content
           = grid_filter(@loans_grid, :coop_filter)
 
       div.filter
-        label
-          = t("general.status")
+        label = t("general.status")
         div.filter-content
           = grid_filter(@loans_grid, :status_filter)
 
       div.filter
-        label
-          = t("general.division")
+        label = t("general.division")
         div.filter-content
           = grid_filter(@loans_grid, :division_filter)
 
-      div.filter.larger-text-box
-        label
-          = t("general.name")
-        div.filter-content
-          = grid_filter(@loans_grid, :name_filter)
+      / div.filter.larger-text-box
+      /   label = t("general.name")
+      /   div.filter-content
+      /     = grid_filter(@loans_grid, :name_filter)
 
       div.filter
-        label
-          = t("loan.loan_type")
+        label = t("loan.loan_type")
         div.filter-content
           = grid_filter(@loans_grid, :loan_type_filter)
 
       div.filter
-        label
-          = t("loan.signing_date")
+        label = t("loan.signing_date")
         div.filter-content.dates
           = grid_filter(@loans_grid, :signing_date_filter)
 
       div.filter
-        label
-          = t("general.created")
+        label = t("general.created")
         div.filter-content.dates
           = grid_filter(@loans_grid, :created_filter)
 
       div.filter
-        label
-          = t("general.updated")
+        label = t("general.updated")
         div.filter-content.dates
           = grid_filter(@loans_grid, :updated_filter)
 
