@@ -1,8 +1,12 @@
 en:
   time:
     formats:
-      default: '%b %d, %Y %I:%M %p'
-      no_time: '%b %d, %Y'
+      default: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
 
   ## Front end ##
   loans: Loans
@@ -107,3 +111,4 @@ en:
     loan_type: "Loan Type"
     months: "%{number} mo."
     signing_date: "Signing Date"
+    sign_date: "Sign Date"

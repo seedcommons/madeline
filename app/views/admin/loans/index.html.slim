@@ -20,9 +20,9 @@
     custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
     - loan.status
 
-  - g.column name: t("loan.signing_date"), attribute: 'signing_date',
+  - g.column name: t("loan.sign_date"), attribute: 'signing_date',
     detach_with_id: :signing_date_filter do |loan|
-    - loan.signing_date.try(:strftime, t('time.formats.no_time'))
+    - loan.signing_date.try(:strftime, t('time.formats.date_only'))
 
   - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
     - t("loan.months", number: loan.length_months.to_s)
@@ -40,11 +40,11 @@
 
   - g.column name: t("created"), attribute: 'created_at',
     detach_with_id: :created_filter do |loan|
-    - loan.created_at.strftime(t('time.formats.default'))
+    - fuzzy_time(loan.created_at)
 
   - g.column name: t("updated"), attribute: 'updated_at',
     detach_with_id: :updated_filter do |loan|
-    - loan.updated_at.strftime(t('time.formats.default'))
+    - fuzzy_time(loan.updated_at)
 
 - unless @empty_list
   header.block
