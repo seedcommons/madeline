@@ -86,7 +86,6 @@
         div.filter-content.dates
           = grid_filter(@loans_grid, :created_filter)
 
-      div.filter
         label = t("general.updated")
         div.filter-content.dates
           = grid_filter(@loans_grid, :updated_filter)
@@ -97,5 +96,6 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
           = t("general.filter")
+      .clearfix
 
 = render_grid(@loans_grid)
