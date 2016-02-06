@@ -17,8 +17,8 @@
     custom_filter: :auto, detach_with_id: :coop_filter
 
   - g.column name: t("status"), attribute: 'status_value',
-    custom_filter: :auto, detach_with_id: :status_filter do |loan|
-    - t("loan.status.#{loan.status_value}")
+    custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
+    - loan.status
 
   - g.column name: t("loan.signing_date"), attribute: 'signing_date',
     detach_with_id: :signing_date_filter do |loan|
@@ -28,8 +28,8 @@
     - t("loan.months", number: loan.length_months.to_s)
 
   - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
-    custom_filter: :auto, detach_with_id: :loan_type_filter do |loan|
-    - loan[:loan_type]
+    custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
+    - loan.loan_type
 
   / - g.column name: t("name"), attribute: 'name',
   /   detach_with_id: :name_filter do |loan|

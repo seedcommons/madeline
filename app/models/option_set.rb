@@ -40,8 +40,9 @@ class OptionSet < ActiveRecord::Base
     result
   end
 
+  # Returns a list of options suitable for input to `options_for_select`
   def translated_list
-    options.map{ |option| { value: option.value, label: option.label } }
+    options.map { |option| [option.label, option.value] }
   end
 
 

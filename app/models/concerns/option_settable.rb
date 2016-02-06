@@ -10,8 +10,8 @@
 #
 # will define the attribute name prefixed methods in the following format:
 #   class level:
-#     loan_type_option_set - the raw option set
-#     loan_type_option_list - list of hashes(value:xx, label:xx) for use as form select options
+#     loan_type_option_set - the option set object
+#     loan_type_options - list of pairs([label, value]) for input to `options_for_select`
 #     loan_type_option_label(value) - resolve a given value
 #     loan_type_option_values - list of valid values - may be used by test model factory defs
 #   instance level:
@@ -39,7 +39,7 @@ module OptionSettable
             option_set_for(attr_name)
           end
 
-          define_method("#{attr_name}_option_list") do
+          define_method("#{attr_name}_options") do
             option_set_for(attr_name).translated_list
           end
 

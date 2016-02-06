@@ -107,8 +107,3 @@ en:
     loan_type: "Loan Type"
     months: "%{number} mo."
     signing_date: "Signing Date"
-    status:
-      active: "Active"
-      completed: "Completed"
-      frozen: "Frozen"
-      liquidated: "Liquidated"
