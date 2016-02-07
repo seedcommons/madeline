@@ -22,17 +22,8 @@ FactoryGirl.define do
 
     after(:create) do |model|
       # todo: confirm which approach is preferred
-
-      # note, by using the translation factory, we'll implicitly ensure that a language exists,
-      # but it's not guaranteed to match what is expected by the default translatable resolve
-      # create(:translation, translatable: model, translatable_attribute: 'label', text: Faker::Lorem.words(2).join(' '))
-
-      Language.system_default  # explicitly ensure that the default language used by the translatable module exists
       model.set_label(Faker::Lorem.words(2).join(' '))
-
     end
   end
 
 end
-
-

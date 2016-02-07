@@ -1,4 +1,5 @@
-class TransientOption
+# -*- SkipSchemaAnnotations
+class Legacy::TransientOption
 
   attr_accessor :value, :label
 
