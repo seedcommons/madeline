@@ -80,6 +80,9 @@ en:
   updated: "Updated"
 
   general:
+    email: "Email"
+    login: "Login"
+    password: "Password"
     city: "City"
     clear: "Clear"
     created: "Created"
@@ -96,11 +99,14 @@ en:
     login: "Login"
     logout: "Logout"
     name: "Name"
+    no__: "No"
     no_records: "No records found"
     password: "Password"
+    parenthesis: "(%{content})"
     status: "Status"
     update: "Update"
     updated: "Updated"
+    yes_: "Yes"
 
   organization:
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
@@ -127,7 +133,27 @@ en:
     months: "%{number} mo."
     signing_date: "Signing Date"
     status:
-      active: "Active"
+      active: "active"
       completed: "Completed"
-      frozen: "Frozen"
-      liquidated: "Liquidated"
+      frozen: "frozen"
+      liquidated: "liquidated"
+
+  project_step:
+    finalized: "Finalized:"
+    labels:
+      completed: "Completed:"
+      finalized: "Finalized:"
+      scheduled: "Scheduled:"
+      status: "Status:"
+    logs: "Logs"
+    timeline: "Timeline"
+    status:
+      completed: "Completed"
+      early: "%{time} early"
+      late: "%{time} late"
+      not_completed: "Not yet completed"
+      on_time: "(on time)"
+
+  log:
+    no_logs: "No Logs"
+    show_logs: "Show Logs (%{n})"
