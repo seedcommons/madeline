@@ -46,13 +46,10 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    # seed_data
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
-    # note, it's useful to temporarily switch this to 'truncation' when attempting to debug database oddities during testing
-    # DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each, :js => true) do

@@ -14,8 +14,8 @@ shared_examples_for 'option_settable' do |attribute_names|
 
   it 'class should give option lists' do
     attribute_names.each do |attribute_name|
-      method = "#{attribute_name}_option_list".to_sym
-      expect(described_class.send(method, :en)).to be_a Array
+      method = "#{attribute_name}_options".to_sym
+      expect(described_class.send(method)).to be_a Array
     end
   end
 
@@ -46,17 +46,13 @@ shared_examples_for 'option_settable' do |attribute_names|
       option_set = OptionSet.fetch(described_class, attribute_name)
       value = 'active'
 
-      lang = create(:language)
-      # lang = Language.system_default
       label = 'Active'
-      option_set.create_option(value: value, migration_id: 1).set_label_list(lang.code => label)
+      option_set.options.create(label_translations: {I18n.locale => label}, value: value)
       model_instance.send("#{attribute_name}_value=", value)
-      result = model_instance.send("#{attribute_name}_label", lang.code)
-      # puts("#{described_class.name}.#{attribute_name} - value: #{value}, lang: #{lang.code} - label: #{result}")
-      expect(result).to eq label
+      result = model_instance.send("#{attribute_name}_label")
+      expect(result.to_s).to eq label
     end
   end
 
 
 end
-
