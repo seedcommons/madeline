@@ -46,40 +46,40 @@
 
 - unless @empty_list
   header.block
-    div.filters
+    .filters
       h4 = t("filter_by")
 
-      div.filter
+      .filter
         label = t("coop")
-        div.filter-content
+        .filter-content
           = grid_filter(@loans_grid, :coop_filter)
 
-      div.filter
+      .filter
         label = t("status")
-        div.filter-content
+        .filter-content
           = grid_filter(@loans_grid, :status_filter)
 
-      div.filter
+      .filter
         label = t("division")
-        div.filter-content
+        .filter-content
           = grid_filter(@loans_grid, :division_filter)
 
-      / div.filter.larger-text-box
+      / .filter.larger-text-box
       /   label = t("name")
-      /   div.filter-content
+      /   .filter-content
       /     = grid_filter(@loans_grid, :name_filter)
 
-      div.filter
+      .filter
         label = t("loan.loan_type")
-        div.filter-content
+        .filter-content
           = grid_filter(@loans_grid, :loan_type_filter)
 
-      div.filter
+      .filter
         label = t("loan.signing_date")
-        div.filter-content.dates
+        .filter-content.dates
           = grid_filter(@loans_grid, :signing_date_filter)
 
-      div.actions
+      .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
           = t("clear")
 

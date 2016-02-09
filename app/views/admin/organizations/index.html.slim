@@ -24,55 +24,38 @@
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: t("created"), attribute: 'created_at',
-    detach_with_id: :created_filter do |organization|
-    -  organization.created_at.strftime(t('time.formats.default'))
+  - g.column name: t("created"), attribute: 'created_at', filter: false do |organization|
+    -  fuzzy_time(organization.created_at)
 
-  - g.column name: t("updated"), attribute: 'updated_at',
-    detach_with_id: :updated_filter do |organization|
-    -  organization.created_at.strftime(t('time.formats.default'))
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |organization|
+    -  fuzzy_time(organization.updated_at)
 
 - unless @empty_list
   header.block
-    div.filters
-      h4
-        = t("filter_by")
+    .filters
+      h4 = t("filter_by")
 
-      div.larger-text-box.filter
-        label
-          = t("name")
-        div.filter-content
+      .larger-text-box.filter
+        label = t("name")
+        .filter-content
           = grid_filter(@organizations_grid, :name_filter)
 
-      div.filter
-        label
-          = t("city")
-        div.filter-content
+      .filter
+        label = t("city")
+        .filter-content
           = grid_filter(@organizations_grid, :city_filter)
 
-      div.filter
-        label
-          = t("created")
-        div.filter-content.dates
-          = grid_filter(@organizations_grid, :created_filter)
-
-      div.filter
-        label
-          = t("loan.signing_date")
-        div.filter-content.dates
-          = grid_filter(@organizations_grid, :updated_filter)
-
-      div.filter
-        label
-          = t("country")
-        div.filter-content
+      .filter
+        label = t("country")
+        .filter-content
           = grid_filter(@organizations_grid, :country_filter)
 
-      div.actions
+      .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
           = t("clear")
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
           = t("filter")
+      .clearfix
 
 = render_grid(@organizations_grid)
