@@ -87,32 +87,6 @@ en:
   update: "Update"
   updated: "Updated"
 
-  general:
-    email: "Email"
-    login: "Login"
-    password: "Password"
-    city: "City"
-    clear: "Clear"
-    created: "Created"
-    coop: "Co-op"
-    coops: "Co-ops"
-    country: "Country"
-    description: "Description"
-    division: "Division"
-    email: "Email"
-    filter: "Filter"
-    filter_by: "Filter by:"
-    id: "ID"
-    loans: "Loans"
-    login: "Login"
-    logout: "Logout"
-    name: "Name"
-    no_records: "No records found"
-    password: "Password"
-    status: "Status"
-    update: "Update"
-    updated: "Updated"
-
   organization:
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
 

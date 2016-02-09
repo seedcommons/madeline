@@ -25,10 +25,10 @@
     - organization.country.try(:name)
 
   - g.column name: t("created"), attribute: 'created_at', filter: false do |organization|
-    -  fuzzy_time(organization.created_at)
+    - fuzzy_time(organization.created_at)
 
   - g.column name: t("updated"), attribute: 'updated_at', filter: false do |organization|
-    -  fuzzy_time(organization.updated_at)
+    - fuzzy_time(organization.updated_at)
 
 - unless @empty_list
   header.block
