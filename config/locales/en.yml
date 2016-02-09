@@ -2,7 +2,9 @@ en:
   time:
     formats:
       default: '%b %d, %Y %I:%M %p'
+      no_time: '%b %d, %Y'
 
+  ## Front end ##
   loans: Loans
   country: Country
   show: Show
@@ -50,6 +52,33 @@ en:
   due: Due
   overdue: Overdue
 
+  ## Admin panel ##
+  cancel: "Cancel"
+  city: "City"
+  clear: "Clear"
+  created: "Created"
+  confirm_deletion: 'Are you sure you want to delete this %{thing}?'
+  coop: "Co-op"
+  coops: "Co-ops"
+  country: "Country"
+  delete: "Delete"
+  edit: "Edit"
+  email: "Email"
+  filter: "Filter"
+  filter_by: "Filter by:"
+  id: "ID"
+  login: "Login"
+  logout: "Logout"
+  name: "Name"
+  new_thing: "New %{thing}"
+  no_records: "No records found"
+  notice_deleted: 'Record was successfully deleted.'
+  notice_created: 'Record was successfully created.'
+  notice_updated: 'Record was successfully updated.'
+  password: "Password"
+  update: "Update"
+  updated: "Updated"
+
   general:
     email: "Email"
     login: "Login"
@@ -57,19 +86,27 @@ en:
     city: "City"
     clear: "Clear"
     created: "Created"
+    coop: "Co-op"
     coops: "Co-ops"
     country: "Country"
+    description: "Description"
+    division: "Division"
     email: "Email"
     filter: "Filter"
     filter_by: "Filter by:"
     id: "ID"
+    loans: "Loans"
     login: "Login"
     logout: "Logout"
     name: "Name"
     no_records: "No records found"
     password: "Password"
+    status: "Status"
     update: "Update"
     updated: "Updated"
+
+  organization:
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
 
   user:
     account: "Account"
@@ -85,3 +122,15 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  loan:
+    amount: "Amount"
+    length: "Length"
+    loan_type: "Loan Type"
+    months: "%{number} mo."
+    signing_date: "Signing Date"
+    status:
+      active: "Active"
+      completed: "Completed"
+      frozen: "Frozen"
+      liquidated: "Liquidated"

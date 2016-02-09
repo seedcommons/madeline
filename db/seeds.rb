@@ -20,8 +20,8 @@ Division.find_or_create_by(id: 99, internal_name: Division.root_internal_name, n
 Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
 
 
-Language.find_or_create_by(id: 1, name: 'English', code: 'EN')
-Language.find_or_create_by(id: 2, name: 'Español', code: 'ES')
+Language.find_or_create_by(id: 1, name: 'English', locale: :en)
+Language.find_or_create_by(id: 2, name: 'Español', locale: :es)
 # Language.find_or_create_by(id: 3, name: 'Français', code: 'FR')
 Language.recalibrate_sequence
 
@@ -55,4 +55,3 @@ option.set_label_list(en: 'Completed', es: 'Prestamo Completo')
 # CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria-2').set_label('Loan Criteria Questionnaire')
 # CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
 # CustomFieldSet.recalibrate_sequence(gap: 10)
-

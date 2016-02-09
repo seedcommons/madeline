@@ -1,29 +1,34 @@
-- content_for(:title, t("general.coops"))
+- content_for(:title, t("coops"))
+
+- content_for :with_title
+  = link_to "New Co-op", new_admin_organization_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
 
-= define_grid(@organizations_grid, show_filters: :always) do |g|
+= define_grid(@organizations_grid, show_filters: :always,
+    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
   - g.blank_slate do
     - @empty_list = true
-    - content_tag(:div, t("general.no_records"), class: 'alert alert-info')
+    - content_tag(:div, t("no_records"), class: 'alert alert-info')
 
-  - g.column name: t("general.id"), attribute: 'id', filter: false
+  - g.column name: t("id"), attribute: 'id', filter: false do |organization|
+    - link_to(organization.id, admin_organization_path(organization.id))
 
-  - g.column name: t("general.name"), attribute: 'name', detach_with_id: :name_filter
+  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: t("general.city"), attribute: 'city', detach_with_id: :city_filter,
+  - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
     custom_filter: :auto
 
-  - g.column name: t("general.country"), attribute: 'name', assoc: :country,
+  - g.column name: t("country"), attribute: 'name', assoc: :country,
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: t("general.created"), attribute: 'created_at',
+  - g.column name: t("created"), attribute: 'created_at',
     detach_with_id: :created_filter do |organization|
     -  organization.created_at.strftime(t('time.formats.default'))
 
-  - g.column name: t("general.updated"), attribute: 'updated_at',
+  - g.column name: t("updated"), attribute: 'updated_at',
     detach_with_id: :updated_filter do |organization|
     -  organization.created_at.strftime(t('time.formats.default'))
 
@@ -31,43 +36,43 @@
   header.block
     div.filters
       h4
-        = t("general.filter_by")
+        = t("filter_by")
 
       div.larger-text-box.filter
         label
-          = t("general.name")
+          = t("name")
         div.filter-content
           = grid_filter(@organizations_grid, :name_filter)
 
       div.filter
         label
-          = t("general.city")
+          = t("city")
         div.filter-content
           = grid_filter(@organizations_grid, :city_filter)
 
       div.filter
         label
-          = "Created"
+          = t("general.created")
         div.filter-content.dates
           = grid_filter(@organizations_grid, :created_filter)
 
       div.filter
         label
-          = "Updated"
+          = t("loan.signing_date")
         div.filter-content.dates
           = grid_filter(@organizations_grid, :updated_filter)
 
       div.filter
         label
-          = t("general.country")
+          = t("country")
         div.filter-content
           = grid_filter(@organizations_grid, :country_filter)
 
       div.actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
-          = t("general.clear")
+          = t("clear")
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
-          = t("general.filter")
+          = t("filter")
 
 = render_grid(@organizations_grid)
