@@ -51,8 +51,6 @@ class ProjectStep < ActiveRecord::Base
     project_logs.count
   end
 
-
-
   def is_completed
     completed_date.present?
   end
