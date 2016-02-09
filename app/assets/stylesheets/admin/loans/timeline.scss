@@ -1,21 +1,5 @@
 @import "colors";
 
-.panel-success {
-  border-color: $green1;
-
-  .completion-status {
-    color: $green1;
-  }
-
-  .completed {
-    background: $green1;
-  }
-}
-
-.panel {
-  border-width: 2px;
-}
-
 .step {
   .action {
     margin: .5em;
@@ -103,5 +87,47 @@
 .status-details {
   .info.row {
     margin: 0 0 .5em 0;
+  }
+}
+
+.panel {
+  border-width: 2px;
+}
+
+/* Color Coding */
+
+.on-time {
+  border-color: $ontime;
+
+  .completion-status {
+    color: $ontime;
+  }
+
+  .completed {
+    background: $ontime;
+  }
+}
+
+.late {
+  border-color: $late;
+
+  .completion-status {
+    color: $late;
+  }
+
+  .completed {
+    background: $late;
+  }
+}
+
+.early {
+  border-color: $early;
+
+  .completion-status {
+    color: $early;
+  }
+
+  .completed {
+    background: $early;
   }
 }
