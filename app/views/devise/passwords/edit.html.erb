@@ -1,25 +1,32 @@
-<h2>Change your password</h2>
+<% content_for(:title, t("user.change_password")) %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<% content_for(:alerts, (render "application/alerts")) %>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name),
+  html: { class: "form-signin", method: :put }) do |f| %>
+
+  <h2 class="form-signin-heading"><%= yield :title %></h2>
+
   <%= f.hidden_field :reset_password_token %>
 
+  <%= yield :alerts %>
+
   <div class="field">
-    <%= f.label :password, "New password" %><br />
+    <%= f.label :password, t("user.new_password") %>
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <p><em><%= t("user.minimum_password_length", minimum_length: @minimum_password_length) %></em></p>
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
+    <%= f.label :password_confirmation, t("user.confirm_new_password") %>
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit t("user.change_password"), class: "btn btn-lg btn-primary btn-block" %>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+<% end %>
