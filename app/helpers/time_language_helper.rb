@@ -23,13 +23,34 @@ module TimeLanguageHelper
 
     if time_diff < 0
       status = "early"
-    elsif step.days > 0
+    elsif time_diff > 0
       status = "late"
     else
       status = "on_time"
     end
 
     return status
+  end
+
+  def status_class(step)
+    set_dates(step)
+    status = time_status(@scheduled, @actual)
+
+    if status == "on_time"
+      return "on-time"
+    else
+      return status
+    end
+  end
+
+  def set_dates(step)
+    @scheduled = step.scheduled_date
+
+    unless step.completed_date
+      @actual = Date.today
+    else
+      @actual = step.completed_date
+    end
   end
 
   def status_statement(from_time, to_time)

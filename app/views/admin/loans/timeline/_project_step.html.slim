@@ -1,5 +1,17 @@
 // TODO: Classes & colors should change based on status of project
 div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-primary')
+
+  = status_class(step).inspect
+
+  - scheduled = step.scheduled_date
+
+  - unless step.completed_date
+    - actual = Date.today
+  - else
+    - actual = step.completed_date
+
+  = time_status(scheduled, actual)
+
   div.panel-body
 
     div.step-details.row
