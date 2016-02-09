@@ -1,6 +1,6 @@
-<% content_for(:title, content = t("user.change_password")) %>
+<% content_for(:title, t("user.change_password")) %>
 
-<% content_for(:alerts, content = (render "application/alerts")) %>
+<% content_for(:alerts, (render "application/alerts")) %>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name),
   html: { class: "form-signin", method: :put }) do |f| %>
@@ -14,7 +14,7 @@
   <div class="field">
     <%= f.label :password, t("user.new_password") %>
     <% if @minimum_password_length %>
-      <em><%= t("user.minimum_password_length", minimum_length: @minimum_password_length) %></em>
+      <p><em><%= t("user.minimum_password_length", minimum_length: @minimum_password_length) %></em></p>
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
