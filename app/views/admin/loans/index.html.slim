@@ -38,12 +38,10 @@
   - g.column name: t("loan.amount"), attribute: 'amount', filter: false do |loan|
     - number_to_currency(loan.amount)
 
-  - g.column name: t("created"), attribute: 'created_at',
-    detach_with_id: :created_filter do |loan|
+  - g.column name: t("created"), attribute: 'created_at', filter: false do |loan|
     - fuzzy_time(loan.created_at)
 
-  - g.column name: t("updated"), attribute: 'updated_at',
-    detach_with_id: :updated_filter do |loan|
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |loan|
     - fuzzy_time(loan.updated_at)
 
 - unless @empty_list
@@ -80,15 +78,6 @@
         label = t("loan.signing_date")
         div.filter-content.dates
           = grid_filter(@loans_grid, :signing_date_filter)
-
-      div.filter
-        label = t("created")
-        div.filter-content.dates
-          = grid_filter(@loans_grid, :created_filter)
-
-        label = t("updated")
-        div.filter-content.dates
-          = grid_filter(@loans_grid, :updated_filter)
 
       div.actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
