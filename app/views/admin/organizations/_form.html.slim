@@ -33,7 +33,7 @@
 
   = f.input :website
     - unless @org.website.nil?
-      .view-element = link_to(@org.website, urlify(@org.website))
+      .view-element = link_to(@org.website, urlify(@org.website), target: '_blank')
     = f.input_field :website
 
   / = f.input :people

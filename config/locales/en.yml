@@ -78,7 +78,7 @@ en:
   logout: "Logout"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found"
+  no_records: "No records found."
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
