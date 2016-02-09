@@ -1,0 +1,107 @@
+@import "colors";
+
+.panel-success {
+  border-color: $green1;
+
+  .completion-status {
+    color: $green1;
+  }
+
+  .completed {
+    background: $green1;
+  }
+}
+
+.panel {
+  border-width: 2px;
+}
+
+.step {
+  .action {
+    margin: .5em;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .title {
+    font-weight: bold;
+  }
+}
+
+.timeline {
+
+  .info {
+    .info-label {
+      color: gray;
+      font-weight: bold;
+    }
+
+    .info-text {
+
+    }
+  }
+
+  .tight-block {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  .title {
+    margin: 0 0 1em;
+    padding: 0;
+    font-size: 1.1em;
+
+    .icon {
+      margin: 0;
+      display: inline-block;
+      width: 10%;
+      vertical-align: top;
+
+      i {
+        font-size: 1.5em;
+      }
+    }
+
+    .title-text {
+      display: inline-block;
+      width: 90%;
+    }
+  }
+
+  .action-items, .step-logs {
+    text-align: right;
+  }
+}
+
+.icon-with-text {
+  line-height: 2em;
+}
+
+.text-left-of-icon {
+  margin: 0 1em 0 0;
+}
+
+.text-right-of-icon {
+  margin: 0 0 0 1em;
+}
+
+.icon-box {
+  font-size: 1.7em;
+}
+
+.first-col {
+  padding-left: 0;
+}
+
+.last-col {
+  padding-right: 0;
+}
+
+.status-details {
+  .info.row {
+    margin: 0 0 .5em 0;
+  }
+}
