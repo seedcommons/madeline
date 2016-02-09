@@ -1,16 +1,5 @@
 // TODO: Classes & colors should change based on status of project
-div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-primary')
-
-  = status_class(step).inspect
-
-  - scheduled = step.scheduled_date
-
-  - unless step.completed_date
-    - actual = Date.today
-  - else
-    - actual = step.completed_date
-
-  = time_status(scheduled, actual)
+div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-primary') class=(status_class(step))
 
   div.panel-body
 
@@ -32,12 +21,14 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
 
       div.col-lg-5.status-details
         p.info.row
-          // TODO: Status should show actual status
           span.info-label.col-lg-3
             = t("project_step.labels.status")
 
           span.info-text.col-lg-9
-            = step.status
+            - if step.status
+              = step.status
+            - else
+              = t(time_status(step), scope: ":project_step, :status")
 
         p.info.row
           span.info-label.col-lg-3
@@ -56,7 +47,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
                 = step.completed_date
               p.tight-block
                 = t("general.parenthesis",
-                  content: status_statement(step.scheduled_date, step.completed_date))
+                  content: status_statement(step))
 
         p.info.row
           span.info-label.col-lg-4

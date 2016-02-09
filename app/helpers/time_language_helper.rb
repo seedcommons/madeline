@@ -18,8 +18,9 @@ module TimeLanguageHelper
     components.join(", ")
   end
 
-  def time_status(from_time, to_time)
-    time_diff = to_time - from_time
+  def time_status(step)
+    set_dates(step)
+    time_diff = @actual - @scheduled
 
     if time_diff < 0
       status = "early"
@@ -33,8 +34,7 @@ module TimeLanguageHelper
   end
 
   def status_class(step)
-    set_dates(step)
-    status = time_status(@scheduled, @actual)
+    status = time_status(step)
 
     if status == "on_time"
       return "on-time"
@@ -53,9 +53,10 @@ module TimeLanguageHelper
     end
   end
 
-  def status_statement(from_time, to_time)
-    date_diff = time_diff_in_natural_language(from_time, to_time)
-    days_status = time_status(from_time, to_time)
+  def status_statement(step)
+    set_dates(step)
+    date_diff = time_diff_in_natural_language(@scheduled, @actual)
+    days_status = time_status(step)
     days_statement = t("project_step.status.#{days_status}", time: date_diff)
 
     return days_statement
