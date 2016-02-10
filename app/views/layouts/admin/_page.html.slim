@@ -1,3 +1,6 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/content", :media => "all"
+
 div
   nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
     .container-fluid
@@ -39,7 +42,9 @@ div
       #user-menu.user-menu-collapsed.user-menu
         = render "layouts/admin/user_menu"
       .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-        = yield :alerts
-        section
-          h1.page-header = yield :title
+        = render "application/alerts"
+        section.content
+          .page-header 
+            h1.page-title = yield :title
+            .with-title = yield :with_title
           = yield

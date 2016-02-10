@@ -1,21 +1,61 @@
-- content_for :title do
-  - 'Co-ops'
+- content_for(:title, t("coops"))
+
+- content_for :with_title
+  = link_to "New Co-op", new_admin_organization_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
 
-= grid(@organizations_grid, show_filters: :when_filtered) do |g|
+= define_grid(@organizations_grid, show_filters: :always,
+    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
-  - g.blank_slate content_tag(:div, "No records found", class: 'alert alert-info')
+  - g.blank_slate do
+    - @empty_list = true
+    - content_tag(:div, t("no_records"), class: 'alert alert-info')
 
-  - g.column name: 'ID', attribute: 'id'
+  - g.column name: t("id"), attribute: 'id', filter: false do |organization|
+    - link_to(organization.id, admin_organization_path(organization.id))
 
-  - g.column name: 'Name', attribute: 'name'
+  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
 
-  - g.column name: 'City', attribute: 'city'
+  - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
+    custom_filter: :auto
 
-  - g.column name: 'Country' do |organization|
+  - g.column name: t("country"), attribute: 'name', assoc: :country,
+    custom_filter: :auto, detach_with_id: :country_filter do |organization|
     - organization.country.try(:name)
 
-  - g.column name: 'Created', attribute: 'created_at'
+  - g.column name: t("created"), attribute: 'created_at', filter: false do |organization|
+    - fuzzy_time(organization.created_at)
 
-  - g.column name: 'Updated', attribute: 'updated_at'
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |organization|
+    - fuzzy_time(organization.updated_at)
+
+- unless @empty_list
+  header.block
+    .filters
+      h4 = t("filter_by")
+
+      .larger-text-box.filter
+        label = t("name")
+        .filter-content
+          = grid_filter(@organizations_grid, :name_filter)
+
+      .filter
+        label = t("city")
+        .filter-content
+          = grid_filter(@organizations_grid, :city_filter)
+
+      .filter
+        label = t("country")
+        .filter-content
+          = grid_filter(@organizations_grid, :country_filter)
+
+      .actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+          = t("clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+          = t("filter")
+      .clearfix
+
+= render_grid(@organizations_grid)
