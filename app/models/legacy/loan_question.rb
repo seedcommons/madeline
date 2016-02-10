@@ -25,8 +25,8 @@ module Legacy
       puts "#{data[:id]}: #{data[:label]}"
       label = data.delete(:label)
       model = ::CustomField.create(data)
-      # model.set_label(label, language: :es)
-      model.set_label(label, :es)
+      # model.set_label(label, :es)
+      model.set_translation(:label, label, locale: :es)
     end
 
 

@@ -25,7 +25,7 @@ table
     td = @item.amount
   tr
     td Summary
-    td = render view_path('common/translations'), { items: @item.summary_list }
+    td = render view_path('common/translations'), { items: @item.summary_translations }
   tr
     td Point Person
     td
@@ -64,7 +64,7 @@ table
         = link_to @item.representative.name, item_path(@item.representative)
   tr
     td Details
-    td = render view_path('common/translations'), { items: @item.details_list }
+    td = render view_path('common/translations'), { items: @item.details_translations }
   tr
     td Loan Criteria
     td

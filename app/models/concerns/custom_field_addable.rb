@@ -87,7 +87,8 @@ module CustomFieldAddable
       case action
         when :get
           if field.translatable?
-            return resolve_translation(field.json_key)
+            # beware, this is now returning the Translation, not the text value
+            return get_translation(field.json_key)
           else
             return custom_value(attribute_name)
           end
@@ -98,12 +99,12 @@ module CustomFieldAddable
         when :get_list
           puts "get list translatable - json key: #{field.json_key}"
           if field.translatable?
-            return translations_list(field.json_key)
+            return get_translations(field.json_key)
           end
         when :set_list
           puts "set list translatable - json key: #{field.json_key}"
           if field.translatable?
-            return set_translation_list(field.json_key, arguments.first)
+            return set_translations(field.json_key, arguments.first)
           end
       end
     end
@@ -127,9 +128,18 @@ module CustomFieldAddable
     elsif method_name.starts_with?('update_')
       attribute_name = method_name.sub('update_', '')
       action = :update
-    elsif method_name.ends_with?('_list')
+    # elsif method_name.ends_with?('_list')
+    #   # translatable support
+    #   attribute_name = method_name.chomp('_list')
+    #   if attribute_name.starts_with?('set_')
+    #     attribute_name = attribute_name.sub('set_', '')
+    #     action = :set_list
+    #   else
+    #     action = :get_list
+    #   end
+    elsif method_name.ends_with?('_translations')
       # translatable support
-      attribute_name = method_name.chomp('_list')
+      attribute_name = method_name.chomp('_translations')
       if attribute_name.starts_with?('set_')
         attribute_name = attribute_name.sub('set_', '')
         action = :set_list
