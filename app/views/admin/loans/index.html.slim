@@ -1,4 +1,4 @@
-- content_for(:title, t("general.loans"))
+- content_for(:title, t("loans"))
 
 = render 'layouts/admin/tables'
 
@@ -7,106 +7,86 @@
 
   - g.blank_slate do
     - @empty_list = true
-    - content_tag(:div, t("general.no_records"), class: 'alert alert-info')
+    - content_tag(:div, t("no_records"), class: 'alert alert-info')
 
-  - g.column name: t("general.id"), attribute: 'id', filter: false do |loan|
+  - g.column name: t("id"), attribute: 'id', filter: false do |loan|
     - link_to(loan.id, admin_loan_path(loan.id))
 
-  - g.column name: t("general.division"), attribute: 'name', assoc: :division,
+  - g.column name: t("division"), attribute: 'name', assoc: :division,
     custom_filter: :auto, detach_with_id: :division_filter
 
-  - g.column name: t("general.coop"), attribute: 'name', assoc: :organization,
+  - g.column name: t("coop"), attribute: 'name', assoc: :organization,
     custom_filter: :auto, detach_with_id: :coop_filter
 
-  - g.column name: t("general.status"), attribute: 'status_value',
-    custom_filter: :auto, detach_with_id: :status_filter do |loan|
-    - t("loan.status.#{loan.status_value}")
+  - g.column name: t("status"), attribute: 'status_value',
+    custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
+    - loan.status
 
-  - g.column name: t("loan.signing_date"), attribute: 'signing_date',
+  - g.column name: t("loan.sign_date"), attribute: 'signing_date',
     detach_with_id: :signing_date_filter do |loan|
-    - loan.signing_date.strftime(t('time.formats.no_time'))
+    - loan.signing_date.try(:strftime, t('time.formats.date_only'))
 
   - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
     - t("loan.months", number: loan.length_months.to_s)
 
   - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
-    custom_filter: :auto, detach_with_id: :loan_type_filter do |loan|
-    - loan[:loan_type]
+    custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
+    - loan.loan_type
 
-  - g.column name: t("general.name"), attribute: 'name',
-    detach_with_id: :name_filter do |loan|
-    - loan[:name]
+  / - g.column name: t("name"), attribute: 'name',
+  /   detach_with_id: :name_filter do |loan|
+  /   - loan[:name]
 
   - g.column name: t("loan.amount"), attribute: 'amount', filter: false do |loan|
     - number_to_currency(loan.amount)
 
-  - g.column name: t("general.created"), attribute: 'created_at',
-    detach_with_id: :created_filter do |loan|
-    - loan.created_at.strftime(t('time.formats.default'))
+  - g.column name: t("created"), attribute: 'created_at', filter: false do |loan|
+    - fuzzy_time(loan.created_at)
 
-  - g.column name: t("general.updated"), attribute: 'updated_at',
-    detach_with_id: :updated_filter do |loan|
-    - loan.updated_at.strftime(t('time.formats.default'))
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |loan|
+    - fuzzy_time(loan.updated_at)
 
 - unless @empty_list
   header.block
-    div.filters
-      h4
-        = t("general.filter_by")
+    .filters
+      h4 = t("filter_by")
 
-      div.filter
-        label
-          = t("general.coop")
-        div.filter-content
+      .filter
+        label = t("coop")
+        .filter-content
           = grid_filter(@loans_grid, :coop_filter)
 
-      div.filter
-        label
-          = t("general.status")
-        div.filter-content
+      .filter
+        label = t("status")
+        .filter-content
           = grid_filter(@loans_grid, :status_filter)
 
-      div.filter
-        label
-          = t("general.division")
-        div.filter-content
+      .filter
+        label = t("division")
+        .filter-content
           = grid_filter(@loans_grid, :division_filter)
 
-      div.filter.larger-text-box
-        label
-          = t("general.name")
-        div.filter-content
-          = grid_filter(@loans_grid, :name_filter)
+      / .filter.larger-text-box
+      /   label = t("name")
+      /   .filter-content
+      /     = grid_filter(@loans_grid, :name_filter)
 
-      div.filter
-        label
-          = t("loan.loan_type")
-        div.filter-content
+      .filter
+        label = t("loan.loan_type")
+        .filter-content
           = grid_filter(@loans_grid, :loan_type_filter)
 
-      div.filter
-        label
-          = t("loan.signing_date")
-        div.filter-content.dates
+      .filter
+        label = t("loan.signing_date")
+        .filter-content.dates
           = grid_filter(@loans_grid, :signing_date_filter)
 
-      div.filter
-        label
-          = t("general.created")
-        div.filter-content.dates
-          = grid_filter(@loans_grid, :created_filter)
-
-      div.filter
-        label
-          = t("general.updated")
-        div.filter-content.dates
-          = grid_filter(@loans_grid, :updated_filter)
-
-      div.actions
+      .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
-          = t("general.clear")
+          = t("clear")
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
-          = t("general.filter")
+          = t("filter")
+      .clearfix
 
 = render_grid(@loans_grid)

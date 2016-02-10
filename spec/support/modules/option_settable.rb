@@ -14,7 +14,7 @@ shared_examples_for 'option_settable' do |attribute_names|
 
   it 'class should give option lists' do
     attribute_names.each do |attribute_name|
-      method = "#{attribute_name}_option_list".to_sym
+      method = "#{attribute_name}_options".to_sym
       expect(described_class.send(method)).to be_a Array
     end
   end
