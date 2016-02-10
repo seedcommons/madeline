@@ -4,14 +4,19 @@
 }
 
 .actions {
-  display: inline-block;
+  display: block;
   margin: 20px 0;
+  float: right;
 }
 
 .filters {
   .custom-dropdown-container, .form-control {
     display: inline-block;
     width: auto;
+  }
+
+  .form-control {
+    max-width: 300px;
   }
 
   .dates {
