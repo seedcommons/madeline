@@ -1,10 +1,11 @@
-class TransientOptionSet
+# -*- SkipSchemaAnnotations
+class Legacy::TransientOptionSet
 
   attr_accessor :all, :value_map, :label_map
 
 
   def initialize(value_label_pairs)
-    @all = value_label_pairs.map{ |value, label| TransientOption.new(value, label) }
+    @all = value_label_pairs.map{ |value, label| Legacy::TransientOption.new(value, label) }
     @value_map = build_value_map(@all) # map of value to label
     @label_map = build_label_map(@all) # map of label to value
   end
