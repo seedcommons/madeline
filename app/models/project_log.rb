@@ -56,11 +56,14 @@ class ProjectLog < ActiveRecord::Base
 
 
   def progress(continuous=false)
-    ##JE todo: figure out how this is used and exactly what it needs to show
-    raise "todo: project_log.progress"
-    language = (I18n.locale == :es ? 'Spanish' : 'English')
-    field_name = (continuous ? 'Continuous' : 'WithEvents')
-    self.progress_metric.send(language + 'Display' + field_name).capitalize # e.g. EnglishDisplayWithEvents
+    # ##JE todo: figure out how this is used and exactly what it needs to show
+    # raise "todo: project_log.progress"
+    # language = (I18n.locale == :es ? 'Spanish' : 'English')
+    # field_name = (continuous ? 'Continuous' : 'WithEvents')
+    # self.progress_metric.send(language + 'Display' + field_name).capitalize # e.g. EnglishDisplayWithEvents
+
+    # todo, confirm needs around 'continuous' display variation
+    progress_metric_label
   end
 
   def progress_continuous

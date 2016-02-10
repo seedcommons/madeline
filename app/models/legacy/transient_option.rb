@@ -1,4 +1,5 @@
-module Legacy
+# -*- SkipSchemaAnnotations
+class Legacy::TransientOption
 
   class TransientOption
 

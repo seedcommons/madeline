@@ -8,6 +8,11 @@
     button.close data-dismiss="alert" type="button"  &times;
     i.fa.fa-info-circle>
     = alert
+- if flash[:error]
+  p.alert.alert-danger
+    button.close data-dismiss="alert" type="button"  &times;
+    i.fa.fa-exclamation-circle>
+    = flash[:error]
 - if devise_error_messages_content?
   div.alert.alert-danger
     i.fa.fa-exclamation-circle>

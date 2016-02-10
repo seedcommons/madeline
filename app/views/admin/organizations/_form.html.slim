@@ -1,0 +1,52 @@
+= simple_form_for(@org,
+    url: @form_action_url,
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  = f.error_notification
+  
+  = f.input :name
+    .view-element = @org.name
+    = f.input_field :name
+
+  = f.input :street_address
+    .view-element = @org.street_address
+    = f.input_field :street_address, as: :text
+
+  = f.input :city
+    .view-element = @org.city
+    = f.input_field :city
+
+  = f.input :state
+    .view-element = @org.state
+    = f.input_field :state
+
+  = f.input :country
+    .view-element = @org.country.try(:name)
+    = f.input_field :country_id, collection: @countries, include_blank: true
+
+  = f.input :website
+    - unless @org.website.nil?
+      .view-element = link_to(@org.website, urlify(@org.website), target: '_blank')
+    = f.input_field :website
+
+  / = f.input :people
+  /   - unless @org.people.empty?
+  /     - @org.people.each do |person|
+  /       = person
+  /       br
+
+  .actions.form-block
+    - unless @org.new_record?
+      - if @org.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_organization_path(@org) = t(:cancel)
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix

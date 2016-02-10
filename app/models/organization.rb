@@ -55,13 +55,12 @@ class Organization < ActiveRecord::Base
   belongs_to :primary_contact, class_name: 'Person'
   belongs_to :organization_snapshot # the latest data
 
-  has_many :loans
-  has_many :people, foreign_key: :primary_organization_id
-  has_many :organization_snapshots  # all historical data
+  has_many :loans, dependent: :destroy
+  has_many :people, foreign_key: :primary_organization_id, dependent: :nullify
+  has_many :organization_snapshots, dependent: :destroy # all historical data
 
   validates :name, presence: true
   validates :division_id, presence: true
-
 
   has_many_custom :loan_criteria
   has_many_custom :post_analysis, field_set: :loan_post_analysis

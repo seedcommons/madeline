@@ -1,0 +1,9 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/admin", :media => "all"
+  = stylesheet_link_tag "admin/bootstrap_layout", :media => "all"
+  = stylesheet_link_tag "admin/menu", :media => "all"
+
+- content_for :content
+  = render "layouts/admin/page"
+
+= render template: "layouts/base"

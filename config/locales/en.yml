@@ -1,4 +1,14 @@
 en:
+  time:
+    formats:
+      default: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+
+  ## Front end ##
   loans: Loans
   country: Country
   show: Show
@@ -45,3 +55,60 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
+
+  ## Admin panel ##
+  cancel: "Cancel"
+  city: "City"
+  clear: "Clear"
+  confirm_deletion: 'Are you sure you want to delete this %{thing}?'
+  coop: "Co-op"
+  coops: "Co-ops"
+  country: "Country"
+  created: "Created"
+  delete: "Delete"
+  description: "Description"
+  division: "Division"
+  edit: "Edit"
+  email: "Email"
+  filter: "Filter"
+  filter_by: "Filter by:"
+  id: "ID"
+  loans: "Loans"
+  login: "Login"
+  logout: "Logout"
+  name: "Name"
+  new_thing: "New %{thing}"
+  no_records: "No records found."
+  notice_created: 'Record was successfully created.'
+  notice_deleted: 'Record was successfully deleted.'
+  notice_updated: 'Record was successfully updated.'
+  password: "Password"
+  status: "Status"
+  update: "Update"
+  updated: "Updated"
+
+  organization:
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
+
+  user:
+    account: "Account"
+    change_password: "Change Password"
+    confirm_new_password: "Confirm new password"
+    current_password: "Current password"
+    current_password_instructions: "(we need your current password to confirm your changes)"
+    edit_user: "Edit %{user}"
+    forgot_password: "Forgot Password"
+    forgot_password_instructions: "Enter your email to receive reset instructions"
+    leave_blank: "(leave blank if you don't want to change your password)"
+    minimum_password_length: "(%{minimum_length} characters minimum)"
+    new_password: "New password"
+    send_instructions: "Send instructions"
+    waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  loan:
+    amount: "Amount"
+    length: "Length"
+    loan_type: "Loan Type"
+    months: "%{number} mo."
+    signing_date: "Signing Date"
+    sign_date: "Sign Date"

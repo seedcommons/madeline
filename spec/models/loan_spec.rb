@@ -93,29 +93,25 @@ describe Loan, :type => :model do
 
     describe '.status' do
       before do
-        # note, need to use specific dependent data here instead of factories, in order to match the expected I18n text below
-        Language.find_or_create_by(name: 'English', code: 'EN')
-        # todo: confirm if it makes sense to assign the locale here
-        # I18n.locale = :en
         # Note, option_set functionality depends on existance of root_division.
         # So if we're not going to enable autocreation within the 'Division.root' logic, then we need
         # to explicitly guarantee existence of the root division for any unit tests which use option sets
         root_division
         option_set = Loan.status_option_set
-        option_set.create_option(value: 'active').set_label_list(en: 'Active')
-        option_set.create_option(value: 'completed').set_label_list(en: 'Completed')
+        option_set.options.create(value: 'active', label_translations: { en: 'Active' })
+        option_set.options.create(value: 'completed', label_translations: { en: 'Completed' })
       end
       context 'with active loan' do
         let(:loan) { create(:loan, :active) }
         it 'returns active' do
-          expect(loan.status).to eq I18n.t(:loan_active)
+          expect(loan.status.to_s).to eq I18n.t(:loan_active)
         end
       end
 
       context 'with completed loan' do
         let(:loan) { create(:loan, :completed) }
         it 'returns complete' do
-          expect(loan.status).to eq I18n.t(:loan_completed)
+          expect(loan.status.to_s).to eq I18n.t(:loan_completed)
         end
       end
     end

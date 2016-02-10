@@ -1,3 +1,4 @@
+# -*- SkipSchemaAnnotations
 FactoryGirl.define do
   factory :repayment do
     amount_due { rand(1..50000) }

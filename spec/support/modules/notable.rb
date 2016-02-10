@@ -7,9 +7,8 @@ shared_examples_for 'notable' do
     end
 
     it 'should add and return matching text' do
-      expect(notable_model.notes.first.text).to eq(text)
+      expect(notable_model.notes.first.text.to_s).to eq(text)
     end
 
   end
 end
-
