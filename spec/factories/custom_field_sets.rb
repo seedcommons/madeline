@@ -19,11 +19,6 @@ FactoryGirl.define do
     division { root_division }
     internal_name Faker::Lorem.words(2).join('_').downcase
 
-    before(:create) do
-      # explicitly ensure that the default language used by the translatable module exists
-      Language.system_default
-    end
-
     after(:create) do |model|
       model.set_label(Faker::Lorem.words(2).join(' '))
     end
@@ -65,5 +60,3 @@ FactoryGirl.define do
   end
 
 end
-
-

@@ -1,63 +1,70 @@
-##
-## JE todo: update this to work with the new Translatable module
-##
-
-shared_examples_for 'translatable' do |column_names|
+shared_examples_for "translatable" do |attributes|
   let(:translatable_model) { create(described_class.to_s.underscore) }
-  context 'with translations' do
-    before do
-      column_names.each do |column_name|
-        translatable_model.send("set_#{column_name}".to_sym, Faker::Lorem.sentence)
-      end
-    end
 
+  attributes.each do |attribute|
+    context "with locale set to english" do
+      let!(:current_locale) { I18n.locale = :en }
 
-    it 'should give translation' do
-      column_names.each do |column_name|
-        getter_translation = translatable_model.send(column_name.to_sym)
-        raw_translation = Translation.find_by({translatable_type: translatable_model.class.name, translatable_id: translatable_model.id,
-                          translatable_attribute: column_name, language_id: Language.resolve_id(I18n.language_code)})
-        expect(getter_translation).to eq raw_translation.text
-      end
+      context "with translation in locale" do
+        let!(:translation) do
+          create(:translation,
+            translatable: translatable_model,
+            translatable_attribute: attribute,
+            locale: current_locale
+          )
+        end
 
-    end
-
-    it 'should have method for column name that fetches translation' do
-      column_names.each do |column_name|
-        method = "#{column_name}_list".to_sym
-        t = translatable_model.try(method)
-        expect(t).to be_a Array
-      end
-    end
-
-    xdescribe 'currency format' do
-      include ActionView::Helpers::NumberHelper
-      let(:currency) { translatable_model.try(:currency) }
-      let(:amount) { translatable_model.try(:amount) }
-
-      it 'should return a formatted currency amount with tooltip false' do
-        if currency && amount
-          formatted_currency = translatable_model.currency_format(amount, currency, tooltip = false)
-          expect(formatted_currency).to eq "#{formatted_symbol(currency.symbol)}#{formatted_amount(amount)}"
+        it "creates #{attribute} method which gets translation for current locale" do
+          fetched_translation = translatable_model.send(attribute.to_sym)
+          expect(fetched_translation).to be_a Translation
+          expect(fetched_translation.locale).to eq current_locale.to_s
+          expect(fetched_translation.text).to eq translation.text
         end
       end
 
-      it 'should return html-formatted currency amount with tooltip true' do
-        if currency && amount
-          formatted_currency = translatable_model.currency_format(amount, currency, tooltip = true)
-          html_string = %Q(<a href="#" onclick="return false" data-toggle="tooltip" class="currency_symbol" title="s">#{formatted_symbol(currency.symbol)}</a> #{formatted_amount(amount)})
-          expect(formatted_currency).to eq html_string
+      context "with no translation" do
+        it "#{attribute} method returns nil" do
+          fetched_translation = translatable_model.send(attribute.to_sym)
+          expect(fetched_translation).to be_nil
         end
+      end
+
+      context "with foreign translation" do
+        let!(:translation) do
+          create(:translation,
+            translatable: translatable_model,
+            translatable_attribute: attribute,
+            text: Faker::Lorem.paragraph(sentence_count = 2),
+            locale: :es
+          )
+        end
+
+        it "#{attribute} method returns any available translation" do
+          fetched_translation = translatable_model.send(attribute.to_sym)
+          expect(fetched_translation.text).to eq translation.text
+        end
+      end
+
+    end
+
+  end
+
+  describe "#{described_class} assignments on create" do
+    let!(:current_locale) { I18n.locale = :en }
+    let(:translatable_model) do
+      attribute_hash = {}
+      attributes.each do |attribute|
+        attribute_hash[attribute] = Faker::Hipster.sentence
+      end
+      create(described_class.to_s.underscore, attribute_hash)
+    end
+
+    attributes.each do |attribute|
+      it "has translations in current locale for #{attribute}" do
+        fetched_translation = translatable_model.send(attribute)
+        expect(fetched_translation).to be_a Translation
+        expect(fetched_translation.locale).to eq "en"
       end
     end
   end
-end
-
-def formatted_amount(amount)
-  amount_with_decimals = '%.2f' % amount
-  formatted_amount = number_with_delimiter(amount_with_decimals, delimiter: ',')
-end
-
-def formatted_symbol(symbol)
-  symbol.sub('$', ' $')
 end

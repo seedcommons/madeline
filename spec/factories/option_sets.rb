@@ -19,12 +19,6 @@ FactoryGirl.define do
     division { root_division }
     model_type "Loan"
     model_attribute "status"
-
-    before(:create) do
-      # explicitly ensure that the default language used by the translatable module exists
-      Language.system_default
-    end
-
   end
 
 end
