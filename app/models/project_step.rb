@@ -26,6 +26,9 @@
 class ProjectStep < ActiveRecord::Base
   include ::Translatable, OptionSettable
 
+  ON_TIME = [120, 73, 57] # hsl(120, 73%, 57%)
+  SUPER_EARLY = [120, 43, 34] # hsl(120, 43%, 34%)
+
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
 
@@ -79,5 +82,29 @@ class ProjectStep < ActiveRecord::Base
 
   def display_date
     I18n.l (self.completed_date || self.scheduled_date), format: :long
+  end
+
+  # Generate a CSS color based on the status and lateness of the step
+  def color
+    # if is_completed
+      a = color_spectrum(ON_TIME, SUPER_EARLY, 0.5)
+    # end
+
+    "hsl(#{a[0]}, #{a[1]}%, #{a[2]}%)"
+  end
+
+  # Using these in case we need to use different colors in the future
+  def border_color
+    color
+  end
+
+  def background_color
+    color
+  end
+
+  private
+
+  def color_spectrum(start, finish, fraction)
+    start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
   end
 end
