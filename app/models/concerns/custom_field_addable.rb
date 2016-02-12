@@ -14,7 +14,9 @@ module CustomFieldAddable
   module ClassMethods
 
     # Resolve the custom field set matching our model type defined at the closest ancestor level.
-    # Note, this is overridden for CustomValueSet which has it's field set explicitly assigned based on the link context
+    # Note, if division is provided that takes precedence over the model param.  i
+    # If no division provided, the model's division is used.  If neither provided, then the root division is used.
+    # This method is overridden for CustomValueSet which has its field set explicitly assigned based on the link context
     def resolve_custom_field_set(division: nil, model: nil, required: true)
       CustomFieldSet.resolve(self.name, division: division, model: model, required: required)
     end
@@ -29,6 +31,7 @@ module CustomFieldAddable
       base_relation.where("custom_data->>? = ?", field.json_key, value)
     end
 
+    # Returns true if the referenced attribute name corresponds to a custom field for the given division/model object.
     def custom_field?(field_identifier, division: nil, model: nil)
       field_set = resolve_custom_field_set(division: division, model: model, required: false)
       field_set && field_set.field(field_identifier, required: false).present?
@@ -42,11 +45,13 @@ module CustomFieldAddable
     self.custom_data  # this explicit return value is important!
   end
 
+  # Change/assign custom field value and immediate persist
   def update_custom_value(field_identifier, value)
     data = set_custom_value(field_identifier, value)
     self.update(custom_data: data)
   end
 
+  # Change/assign custom field value, but leave as tranient
   def set_custom_value(field_identifier, value)
     field = custom_field(field_identifier)  # note, this is fatal if field not found
     if field.translatable?
@@ -59,27 +64,68 @@ module CustomFieldAddable
     end
   end
 
-
+  # Fetches a custom value from the json field
   def custom_value(field_identifier)
     field = custom_field(field_identifier)
     result = ensured_custom_data[field.json_key]
     # future: result manipulation depending on field data type
   end
 
+  # Determines and returns which custom field set definition corresponds to this object instance, based on the owning division
+  # Raises an exception if no custom field set definition is found.
   # todo: consider making 'required: false' the default
   def resolve_custom_field_set(required: true)
     self.class.resolve_custom_field_set(model: self, required: required)
   end
 
+  # Returns the CustomField instance corresponding to the given attribute name for the current object
   def custom_field(field_identifier, required: true)
     field_set = resolve_custom_field_set(required: required)
     field_set.field(field_identifier, required: required)  if field_set
   end
 
+  # Returns true if the referenced attribute name corresponds to a custom field for the current object
   def custom_field?(field_identifier)
     self.class.custom_field?(field_identifier, model: self)
   end
 
+  #
+  # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
+  # awareness of translatable custom fields.
+  #
+  # For non-translatable custom fields, equivalent to:
+  #
+  # def foo
+  #   custom_value('foo')
+  # end
+  #
+  # def foo=(value)
+  #   set_custom_value('foo', value)
+  # end
+  #
+  # def update_foo
+  #   update_custom_value('foo', value)  #immediately persists
+  # end
+  #
+  #
+  # For translatable custom fields, equivalent to:
+  #
+  # def foo
+  #   get_translation('foo')  # returns Translation instance
+  # end
+  #
+  # def foo=(value)
+  #   set_translation('foo', value)
+  # end
+  #
+  # def foo_translations
+  #   get_translations('foo')  # list of all translations for associated field
+  # end
+  #
+  # def foo_translations=(values)
+  #   set_translations('foo', values)  # assigns a collection of translations
+  # end
+  #
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action, field = match_dynamic_method(method_sym)
     # puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
@@ -120,6 +166,7 @@ module CustomFieldAddable
     end
   end
 
+  # Determines attribute name and implied operations for dynamic methods as documented above
   def match_dynamic_method(method_sym)
     method_name = method_sym.to_s
     if method_name.ends_with?('=')
@@ -128,15 +175,6 @@ module CustomFieldAddable
     elsif method_name.starts_with?('update_')
       attribute_name = method_name.sub('update_', '')
       action = :update
-    # elsif method_name.ends_with?('_list')
-    #   # translatable support
-    #   attribute_name = method_name.chomp('_list')
-    #   if attribute_name.starts_with?('set_')
-    #     attribute_name = attribute_name.sub('set_', '')
-    #     action = :set_list
-    #   else
-    #     action = :get_list
-    #   end
     elsif method_name.ends_with?('_translations')
       # translatable support
       attribute_name = method_name.chomp('_translations')
