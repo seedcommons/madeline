@@ -140,7 +140,7 @@ en:
     loan_type: "Loan Type"
     months: "%{number} mo."
     signing_date: "Signing Date"
-<<<<<<< HEAD
+    sign_date: "Sign Date"
     status:
       active: "active"
       completed: "Completed"
@@ -166,6 +166,4 @@ en:
   log:
     no_logs: "No Logs"
     show_logs: "Show Logs (%{n})"
-=======
-    sign_date: "Sign Date"
->>>>>>> origin/develop
+
