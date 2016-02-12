@@ -42,15 +42,15 @@ div.panel.step style="border-color: #{step.border_color}"
               p.tight-block
                 = step.completed_date
               p.tight-block
-                = t("general.parenthesis",
+                = t("parenthesis",
                   content: status_statement(step))
 
         p.info.row
-          span.info-label.col-lg-4
+          span.info-label.col-lg-3
             = t("project_step.labels.finalized")
 
-          span.info-text.col-lg-8
-            = step.is_finalized ? t("general.yes_") : t("general.no__")
+          span.info-text.col-lg-9
+            = step.is_finalized ? t("reply_yes") : t("reply_no")
 
       div.col-lg-2.action-items.last-col
         div.completion-status
