@@ -18,6 +18,8 @@ module TimeLanguageHelper
     components.join(", ")
   end
 
+  # The below methods are stubbed and can be removed as needed
+
   def time_status(step)
     set_dates(step)
     time_diff = @actual - @scheduled
