@@ -1,5 +1,6 @@
 // TODO: Classes & colors should change based on status of project
-div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-primary') class=(status_class(step))
+
+div.panel.step style="border-color: #{step.border_color}"
 
   div.panel-body
 
@@ -11,11 +12,10 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
         h5.title
           span.icon
             - if step.milestone?
-              i.fa.fa-list
+              i.fa.fa-calendar-check-o
             - else
               i.fa.fa-flag
-          span.title-text
-            = step.summary
+          span.title-text = step.name
 
         p = step.details
 
@@ -31,7 +31,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
               = t(time_status(step), scope: ":project_step, :status")
 
         p.info.row
-          span.info-label.col-lg-3
+          span.info-label.col-lg-3 style="background: #{step.scheduled_bg}"
             = t("project_step.labels.scheduled")
 
           span.info-text.col-lg-9
@@ -42,7 +42,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
             span.info-label.col-lg-3
               = t("project_step.labels.completed")
 
-            div.text.col-lg-9.completed
+            div.text.col-lg-9 style="background-color: #{step.background_color}"
               p.tight-block
                 = step.completed_date
               p.tight-block
@@ -59,7 +59,7 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
       div.col-lg-2.action-items.last-col
         div.completion-status
           - if step.completed?
-            div.icon-with-text
+            div.icon-with-text.complete
               span.icon-box
                 i.fa.fa-check.fa-lg
               span.text-right-of-icon
@@ -69,9 +69,9 @@ div.panel.step class=(step.completed? ? 'panel-success completed' : 'panel-prima
         div.actions
           a.action
             i.fa.fa-pencil
-          a.action.no-right-margin
+          a.action
             i.fa.fa-files-o
-          /= link_to [:admin, step], method: :delete, class: 'action' do |link|
+          a.action
             i.fa.fa-trash
 
     div.step-logs

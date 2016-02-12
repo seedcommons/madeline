@@ -85,4 +85,34 @@ class ProjectStep < ActiveRecord::Base
       self.completed_date - self.scheduled_date
     end
   end
+
+  def border_color
+    # Stubbed border color
+    if self.completed?
+      "green"
+    else
+      "black"
+    end
+  end
+
+  def background_color
+    # Stubbed background color
+    color = self.border_color
+
+    if color == "black"
+      "inherit"
+    else
+      color
+    end
+  end
+
+  def scheduled_bg
+    # Stubbed scheduled date background
+
+    if self.completed?
+      "inherit"
+    else
+      self.background_color
+    end
+  end
 end

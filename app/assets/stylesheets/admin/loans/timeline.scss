@@ -94,40 +94,8 @@
   border-width: 2px;
 }
 
-/* Color Coding */
-
-.on-time {
-  border-color: $ontime;
-
-  .completion-status {
+.completion-status {
+  .complete {
     color: $ontime;
-  }
-
-  .completed {
-    background: $ontime;
-  }
-}
-
-.late {
-  border-color: $late;
-
-  .completion-status {
-    color: $late;
-  }
-
-  .completed {
-    background: $late;
-  }
-}
-
-.early {
-  border-color: $early;
-
-  .completion-status {
-    color: $early;
-  }
-
-  .completed {
-    background: $early;
   }
 }
