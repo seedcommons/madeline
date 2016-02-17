@@ -69,7 +69,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def admin_status
-    last_log_status
+    last_log_status || I18n.t(:none)
   end
 
   def status

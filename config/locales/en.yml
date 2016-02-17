@@ -79,6 +79,7 @@ en:
   name: "Name"
   new_thing: "New %{thing}"
   no_records: "No records found."
+  none: "None"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
