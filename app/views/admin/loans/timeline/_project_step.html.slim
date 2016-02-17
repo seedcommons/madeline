@@ -11,9 +11,9 @@ div.panel.step style="border-color: #{step.border_color}"
               i.fa.fa-calendar-check-o
             - else
               i.fa.fa-flag
-          span.title-text = step.name
+          span.title-text = step.try(:summary)
 
-        p = step.details
+        p = step.try(:details)
 
       div.col-lg-5.status-details
         p.info.row
@@ -21,8 +21,8 @@ div.panel.step style="border-color: #{step.border_color}"
             = t("project_step.labels.status")
 
           span.info-text.col-lg-9
-            - if step.status
-              = step.status
+            - if step.admin_status
+              = step.admin_status
             - else
               = t(time_status(step), scope: ":project_step, :status")
 
