@@ -1,0 +1,26 @@
+- content_for :styles
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
+  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
+
+- content_for :scripts
+  = javascript_include_tag "admin/forms/forms"
+
+section.loan class=(@loan.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if @loan.valid?
+        a.edit-action.view-element href="#"
+          i.fa.fa-pencil.fa-large>
+          = t(:edit)
+        a.show-action.form-element href="#" = t(:cancel)
+      - else
+        a href=admin_organization_path(@loan) = t(:cancel)
+      / TODO: Consider using http://bootboxjs.com/ instead of JS confirmation dialog
+      = link_to [:admin, @loan], method: :delete, data: { confirm: t('organization.confirm_deletion') }
+        i.fa.fa-trash.fa-large>
+        = t(:delete)
+    .clearfix
+
+  section.block
+    = render 'form'

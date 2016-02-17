@@ -1,20 +1,42 @@
 - content_for :title do @loan.name end
 
 - content_for :styles
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
+  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
   = stylesheet_link_tag "admin/loans/loan", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
 
+- content_for :scripts
+  = javascript_include_tag "admin/forms/forms"
 
-div.loan-content
+
+section.loan class=(@loan.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if @loan.valid?
+        a.edit-action.view-element href="#"
+          i.fa.fa-pencil.fa-large>
+          = t(:edit)
+        a.show-action.form-element href="#" = t(:cancel)
+      - else
+        a href=admin_organization_path(@loan) = t(:cancel)
+      / TODO: Consider using http://bootboxjs.com/ instead of JS confirmation dialog
+      = link_to [:admin, @loan], method: :delete, data: { confirm: t('loan.confirm_deletion') }
+        i.fa.fa-trash.fa-large>
+        = t(:delete)
+    .clearfix
+
+  div.loan-content
   // Nav tabs
   ul class="nav nav-tabs" role="tablist"
-    li role="presentation"
+    li role="presentation" class="active"
       a href="#details" aria-controls="details" role="tab" data-toggle="tab"
         ="Details"
     li role="presentation"
       a href="#criteria" aria-controls="criteria" role="tab" data-toggle="tab"
         = "Criteria"
-    li role="presentation" class="active"
+    li role="presentation"
       a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab"
         = "Timeline"
     li role="presentation"
@@ -29,9 +51,10 @@ div.loan-content
 
   // Tab panes
   div class="tab-content"
-    div role="tabpanel" class="tab-pane" id="details" ...
+    div role="tabpanel" class="tab-pane active" id="details"
+      = render "admin/loans/form", loan: @loan
     div role="tabpanel" class="tab-pane" id="criteria" ...
-    div role="tabpanel" class="tab-pane active" id="timeline"
+    div role="tabpanel" class="tab-pane" id="timeline"
       = render "admin/loans/timeline/timeline", loan: @loan
     div role="tabpanel" class="tab-pane" id="calendar" ...
     div role="tabpanel" class="tab-pane" id="print" ...

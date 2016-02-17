@@ -1,0 +1,37 @@
+= simple_form_for(@loan,
+    url: @form_action_url,
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  = f.error_notification
+
+  = f.input :organization_id, label: t("coop")
+    .view-element = @loan.organization.try(:name)
+    = f.input_field :organization_id, collection: @organizations, include_blank: true
+
+  = f.input :loan_type
+    .view-element = @loan.loan_type
+    = f.input_field :loan_type
+
+  = f.input :status
+    .view-element = @loan.status
+    = f.input_field :status
+
+  = f.input :amount
+    .view-element = number_to_currency(loan.amount)
+    = f.input_field :amount
+
+  .actions.form-block
+    - unless @loan.new_record?
+      - if @loan.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_organization_path(@loan) = t(:cancel)
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix

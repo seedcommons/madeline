@@ -10,5 +10,6 @@ class Admin::LoansController < Admin::AdminController
 
   def show
     @loan = Loan.find(params[:id])
+    @organizations = Organization.all
   end
 end
