@@ -62,6 +62,10 @@
 
 .icon-with-text {
   line-height: 2em;
+
+  .fa {
+    font-size: .8em;
+  }
 }
 
 .text-left-of-icon {
@@ -92,6 +96,7 @@
 
 .panel {
   border-width: 2px;
+  border-radius: 15px;
 }
 
 .completion-status {

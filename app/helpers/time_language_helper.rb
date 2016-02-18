@@ -59,7 +59,7 @@ module TimeLanguageHelper
     set_dates(step)
     date_diff = time_diff_in_natural_language(@scheduled, @actual)
     days_status = time_status(step)
-    days_statement = t("project_step.status.#{days_status}", time: date_diff)
+    days_statement = t("project_step.status.time_#{days_status}", time: date_diff)
 
     return days_statement
   end

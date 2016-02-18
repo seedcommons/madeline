@@ -80,6 +80,7 @@ en:
   new_thing: "New %{thing}"
   no_records: "No records found"
   no_records: "No records found."
+  none: "None"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
@@ -133,10 +134,12 @@ en:
     timeline: "Timeline"
     status:
       completed: "Completed"
-      early: "%{time} early"
-      late: "%{time} late"
+      early: "Early"
+      late: "Late"
       not_completed: "Not yet completed"
       on_time: "(on time)"
+      time_early: "%{time} early"
+      time_late: "%{time} late"
 
   log:
     no_logs: "No Logs"
