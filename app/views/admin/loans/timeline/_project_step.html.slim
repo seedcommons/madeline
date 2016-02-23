@@ -68,8 +68,9 @@ div.panel.step style="border-color: #{step.border_color}"
             i.fa.fa-pencil
           a.action
             i.fa.fa-files-o
-          a.action
-            i.fa.fa-trash
+          = link_to [:admin, step], method: :delete, class: "action",
+              data: { confirm: t('project_step.confirm_deletion') }
+              i.fa.fa-trash.fa-large>
 
     div.step-logs
       div.icon-with-text.view-logs-ctrl

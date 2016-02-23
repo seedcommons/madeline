@@ -4,4 +4,5 @@ section.timeline
       - @loan.project_steps.each do |step|
         = render "admin/loans/timeline/project_step", step: step
     - else
+      // TODO: This will show a new form for project step
       = "No timeline steps to display"

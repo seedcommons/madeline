@@ -124,6 +124,7 @@ en:
       liquidated: "liquidated"
 
   project_step:
+    confirm_deletion: "Are you sure you wish to delete this project step?"
     finalized: "Finalized:"
     labels:
       completed: "Completed:"
