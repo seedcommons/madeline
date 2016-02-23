@@ -1,19 +1,20 @@
 div.panel.step style="border-color: #{step.border_color}"
   div.panel-body
     div.step-details.row
-      div.col-lg-1.check.first-col
-        i.fa.fa-square-o
+      div.col-lg-4.main-details.first-col
+        div.row
+          div.col-lg-1.check.first-col
+            input type="checkbox"
+          div.col-lg-11.first-col
+            h5.title
+              span.icon
+                - if step.milestone?
+                  i.fa.fa-calendar-check-o
+                - else
+                  i.fa.fa-flag
+              span.title-text = step.try(:summary)
 
-      div.col-lg-4.main-details
-        h5.title
-          span.icon
-            - if step.milestone?
-              i.fa.fa-calendar-check-o
-            - else
-              i.fa.fa-flag
-          span.title-text = step.name
-
-        p = step.details
+            p = step.try(:details)
 
       div.col-lg-5.status-details
         p.info.row
@@ -21,10 +22,10 @@ div.panel.step style="border-color: #{step.border_color}"
             = t("project_step.labels.status")
 
           span.info-text.col-lg-9
-            - if step.status
-              = step.status
+            - if step.admin_status
+              = t("project_step.status.#{step.admin_status}")
             - else
-              = t(time_status(step), scope: ":project_step, :status")
+              = t("none")
 
         p.info.row
           span.info-label.col-lg-3
@@ -52,13 +53,13 @@ div.panel.step style="border-color: #{step.border_color}"
           span.info-text.col-lg-9
             = step.is_finalized ? t("reply_yes") : t("reply_no")
 
-      div.col-lg-2.action-items.last-col
+      div.col-lg-3.action-items.last-col
         div.completion-status
           - if step.completed?
             div.icon-with-text.complete
               span.icon-box
-                i.fa.fa-check.fa-lg
-              span.text-right-of-icon
+                i.fa.fa-check
+              span
                 = t("project_step.status.completed")
           - else
             = t("project_step.status.not_completed")
@@ -67,8 +68,9 @@ div.panel.step style="border-color: #{step.border_color}"
             i.fa.fa-pencil
           a.action
             i.fa.fa-files-o
-          a.action
-            i.fa.fa-trash
+          = link_to [:admin, step], method: :delete, class: "action",
+              data: { confirm: t('project_step.confirm_deletion') }
+              i.fa.fa-trash.fa-large>
 
     div.step-logs
       div.icon-with-text.view-logs-ctrl

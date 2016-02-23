@@ -15,15 +15,10 @@
 }
 
 .timeline {
-
   .info {
     .info-label {
-      color: gray;
+      color: $gray3;
       font-weight: bold;
-    }
-
-    .info-text {
-
     }
   }
 
@@ -62,14 +57,18 @@
 
 .icon-with-text {
   line-height: 2em;
+
+  .fa {
+    font-size: .8em;
+  }
 }
 
 .text-left-of-icon {
-  margin: 0 1em 0 0;
+  margin: 0 .5em 0 0;
 }
 
 .text-right-of-icon {
-  margin: 0 0 0 1em;
+  margin: 0 0 0 .5em;
 }
 
 .icon-box {
@@ -92,6 +91,7 @@
 
 .panel {
   border-width: 2px;
+  border-radius: 15px;
 }
 
 .completion-status {

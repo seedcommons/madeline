@@ -17,3 +17,5 @@
 
 //= require jquery-ui
 //= require wice_grid
+
+//= require twitter/bootstrap/rails/confirm
