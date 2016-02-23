@@ -17,11 +17,11 @@
 
   = f.input :loan_type
     .view-element = @loan.loan_type
-    = f.input_field :loan_type
+    = f.input_field :loan_type, collection: @loan_types
 
-  = f.input :status
+  = f.input :status_value, label: t(:status)
     .view-element = @loan.status
-    = f.input_field :status
+    = f.input_field :status_value, collection: @status_values
 
   = f.input :amount
     .view-element = number_to_currency(loan.amount)
