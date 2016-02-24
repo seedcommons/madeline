@@ -15,16 +15,15 @@ class Translation < ActiveRecord::Base
         translatable_type: new_model_name,
         translatable_id: remote_id,
         translatable_attribute: new_attribute_name,
-        # language_id: language,
-        locale: LANGUAGE_LOCALE_MAP[language],
+        locale: LANGUAGE_ID_TO_LOCALE[language],
         text: translated_content
     }
     data
   end
 
   def migrate
-    if [1,2].include?(language)
-      data = migration_data
+    data = migration_data
+    if data[:locale]
       puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
       ::Translation.create(data)
     else
@@ -50,7 +49,11 @@ class Translation < ActiveRecord::Base
                        'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes'}
   }
 
-  LANGUAGE_LOCALE_MAP = {1 => :en, 2 => :es, 3 => :fr}
+  LANGUAGE_ID_TO_LOCALE = {
+      1 => :en,
+      2 => :es,
+      3 => :fr
+  }
 
 end
 
