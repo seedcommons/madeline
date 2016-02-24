@@ -64,7 +64,7 @@ class Loan < ActiveRecord::Base
   attr_option_settable :status, :loan_type, :project_type, :public_level
 
 
-  validates :division_id, presence: true
+  validates :division_id, :organization_id, presence: true
 
 
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
