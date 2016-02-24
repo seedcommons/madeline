@@ -49,11 +49,17 @@ table
     td Industry
     td = @item.industry
   tr
+    td Is Recovered
+    td = @item.is_recovered
+  tr
     td Source
     td = @item.referral_source
   tr
     td Tax ID
     td = @item.tax_no
+  tr
+    td Dynamic Translatable Test
+    td = render view_path('common/translations'), {items: @item.dynamic_translatable_test_translations}
   tr
     td Created At
     td = @item.created_at
@@ -122,6 +128,15 @@ b Snapshot Data -
 br
 br
 = render view_path('organization_snapshots/list'), { items: @item.organization_snapshots }
+
+
+br
+br
+b Questionnaire Responses -
+/=< link_to "New Step", new_item_path(:project_step, {project_id: @item.id, project_type: 'Loan'})
+br
+br
+= render view_path('custom_value_sets/list'), {items: @item.custom_value_sets}
 
 
 - if params[:debug]

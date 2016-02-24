@@ -11,7 +11,7 @@ table
     td = @item.internal_name
   tr
     td Label
-    td = render view_path('common/translations'), {items: @item.label_list}
+    td = render view_path('common/translations'), {items: @item.label_translations}
   tr
     td Position
     td = @item.position

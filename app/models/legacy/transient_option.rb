@@ -1,15 +1,11 @@
 # -*- SkipSchemaAnnotations
 class Legacy::TransientOption
 
-  class TransientOption
+  attr_accessor :value, :label
 
-    attr_accessor :value, :label
-
-    def initialize(value, label)
-      @value = value
-      @label = label
-    end
-
+  def initialize(value, label)
+    @value = value
+    @label = label
   end
 
 end

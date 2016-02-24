@@ -43,7 +43,11 @@
 class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
-  include CustomValueSettable  # allows setting dynamic fields like 'is_recovered', potentially customizable per division
+  include CustomFieldAddable  # allows setting dynamic fields like 'is_recovered', potentially customizable per division
+
+  # provides 'ownership' relation with loan questionnaire responses.  note multiple loans may share the same
+  # loan_criteria or loan_post_analysis, so they are 'owned' by the org/co-op and referenced by the loan
+  include CustomValueSetLinkable
 
 
   belongs_to :division
@@ -57,6 +61,11 @@ class Organization < ActiveRecord::Base
 
   validates :name, presence: true
   validates :division_id, presence: true
+
+  has_many_custom :loan_criteria
+  has_many_custom :post_analysis, field_set: :loan_post_analysis
+  has_many_custom :old_loan_criteria
+
 
   def loans_count
     loans.size

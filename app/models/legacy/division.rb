@@ -30,7 +30,8 @@ module Legacy
     def migrate
       data = migration_data
       puts "#{data[:id]}: #{data[:name]}"
-      ::Division.create(data)
+      division = ::Division.new(data)
+      division.save(validate: false)
     end
 
 

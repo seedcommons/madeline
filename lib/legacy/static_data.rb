@@ -98,13 +98,22 @@ module Legacy
       progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
       progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
 
-
+      CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
       CustomFieldSet.recalibrate_sequence(gap: 10)
+
+      # need to leave room for migrated loan questions
+      CustomField.recalibrate_sequence(id: 200)
+
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
+      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+
+      # loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
+      # loan_field_set.custom_fields.destroy_all
+      # loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
 
     end
 
