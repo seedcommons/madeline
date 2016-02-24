@@ -23,7 +23,7 @@ class Translation < ActiveRecord::Base
   end
 
   def migrate
-    if [1,2].include?(language)
+    if [1,2,3].include?(language)
       data = migration_data
       puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
       ::Translation.create(data)
