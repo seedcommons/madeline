@@ -47,7 +47,7 @@ class OptionSet < ActiveRecord::Base
 
 
   def translated_label_by_value(value)
-    return nil unless value
+    return nil unless value.present?
     option = options.find_by(value: value)
     unless option
       return "missing option label - value: #{value}"  if true  # make this non-fatal for now
