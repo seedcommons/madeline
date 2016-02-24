@@ -60,6 +60,6 @@ class Admin::LoansController < Admin::AdminController
   private
 
     def loan_params
-      params.require(:loan).permit(:organization_id, :status_value, :amount)
+      params.require(:loan).permit(:amount, :loan_type_value, :organization_id, :status_value)
     end
 end
