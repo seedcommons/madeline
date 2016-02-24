@@ -19,6 +19,8 @@ gem "rails-backbone"
 
 # Authentication / Authorization
 gem 'devise'
+gem 'pundit'
+gem 'rolify'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.4'

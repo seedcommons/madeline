@@ -4,7 +4,6 @@
 #
 #  created_at      :datetime         not null
 #  currency_id     :integer
-#  custom_data     :json
 #  description     :text
 #  id              :integer          not null, primary key
 #  internal_name   :string
@@ -26,6 +25,7 @@
 
 class Division < ActiveRecord::Base
   has_closure_tree
+  resourcify
   alias_attribute :super_division, :parent
 
 

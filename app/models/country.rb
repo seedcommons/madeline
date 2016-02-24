@@ -15,7 +15,6 @@
 #
 
 class Country < ActiveRecord::Base
-  belongs_to :default_language, class_name: 'Language'
   belongs_to :default_currency, class_name: 'Currency'
 
   #JE todo use cached map
