@@ -15,7 +15,7 @@
     .view-element = @loan.organization.try(:name)
     = f.input_field :organization_id, collection: @organizations, include_blank: true
 
-  = f.input :loan_type_value
+  = f.input :loan_type_value, label: t("loan.loan_type")
     .view-element = @loan.try(:loan_type)
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
