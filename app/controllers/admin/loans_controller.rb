@@ -25,6 +25,21 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
 
     if @loan.update(loan_params)
+
+      # TODO: Loan should not break when loan_type_value is empty
+      # Loan type option set needs a fix, remove below when fixed
+      if @loan.loan_type_value == ""
+        @loan.loan_type_value = nil
+        @loan.save
+      end
+
+      # TODO: Loan should not break when status_value is empty
+      # Loan status option set needs a fix, remove below when fixed
+      if @loan.status_value == ""
+        @loan.status_value = nil
+        @loan.save
+      end
+
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
     else
       @organizations = Organization.all
