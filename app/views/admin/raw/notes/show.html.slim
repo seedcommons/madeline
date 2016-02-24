@@ -8,7 +8,7 @@ table
         = link_to @item.author.name, item_path(@item.author)
   tr
     td Text
-    td = render view_path('common/translations'), { items: @item.text_list }
+    td = render view_path('common/translations'), { items: @item.text_translations }
 
 - if @item.notable
   = link_to 'Back to Notable', item_path(@item.notable)
