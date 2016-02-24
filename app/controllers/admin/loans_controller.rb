@@ -13,22 +13,16 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     @organizations = Organization.all
     @form_action_url = admin_loan_path
-    @status_values = status_values
-    @loan_types = loan_types
   end
 
   def new
     @loan = Loan.new
     @organizations = Organization.all
     @form_action_url = admin_loans_path
-    @status_values = status_values
-    @loan_types = loan_types
   end
 
   def update
     @loan = Loan.find(params[:id])
-    @status_values = status_values
-    @loan_types = loan_types
 
     if @loan.update(loan_params)
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
@@ -41,8 +35,6 @@ class Admin::LoansController < Admin::AdminController
 
   def create
     @loan = Loan.new(loan_params)
-    @status_values = status_values
-    @loan_types = loan_types
 
     if @loan.save
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
@@ -69,13 +61,5 @@ class Admin::LoansController < Admin::AdminController
 
     def loan_params
       params.require(:loan).permit(:organization_id, :status_value, :amount)
-    end
-
-    def status_values
-      OptionSet.find(1).translated_list
-    end
-
-    def loan_types
-      OptionSet.find(2).translated_list
     end
 end
