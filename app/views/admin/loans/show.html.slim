@@ -2,15 +2,13 @@
 
 - content_for :styles
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
-  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
-  = stylesheet_link_tag "admin/loans/loan", :media => "all"
+  = stylesheet_link_tag "admin/loans/tabs", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
 
 - content_for :scripts
   = javascript_include_tag "admin/forms/forms"
 
-
-section.loan class=(@loan.valid? ? 'show-view' : 'edit-view')
+section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   header
     .show-actions
@@ -21,41 +19,55 @@ section.loan class=(@loan.valid? ? 'show-view' : 'edit-view')
         a.show-action.form-element href="#" = t(:cancel)
       - else
         a href=admin_organization_path(@loan) = t(:cancel)
-      / TODO: Consider using http://bootboxjs.com/ instead of JS confirmation dialog
-      = link_to [:admin, @loan], method: :delete, data: { confirm: t('loan.confirm_deletion') }
+      = link_to [:admin, @loan], method: :delete,
+        data: { confirm: t('loan.confirm_deletion') }
         i.fa.fa-trash.fa-large>
         = t(:delete)
     .clearfix
 
   div.loan-content
-  // Nav tabs
-  ul class="nav nav-tabs" role="tablist"
-    li role="presentation" class="active"
-      a href="#details" aria-controls="details" role="tab" data-toggle="tab"
-        ="Details"
-    li role="presentation"
-      a href="#criteria" aria-controls="criteria" role="tab" data-toggle="tab"
-        = "Criteria"
-    li role="presentation"
-      a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab"
-        = "Timeline"
-    li role="presentation"
-      a href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab"
-        = "Calendar"
-    li role="presentation"
-      a href="#print" aria-controls="print" role="tab" data-toggle="tab"
-        = "Print"
-    li role="presentation"
-      a href="#more" aria-controls="more" role="tab" data-toggle="tab"
-        = "More"
+    // Nav tabs
+    ul class="nav nav-tabs" role="tablist"
+      li role="presentation" class="active"
+        a href="#details" aria-controls="details" role="tab" data-toggle="tab"
+          = t("loan.details")
 
-  // Tab panes
-  div class="tab-content"
-    div role="tabpanel" class="tab-pane active" id="details"
-      = render "admin/loans/form", loan: @loan
-    div role="tabpanel" class="tab-pane" id="criteria" ...
-    div role="tabpanel" class="tab-pane" id="timeline"
-      = render "admin/loans/timeline/timeline", loan: @loan
-    div role="tabpanel" class="tab-pane" id="calendar" ...
-    div role="tabpanel" class="tab-pane" id="print" ...
-    div role="tabpanel" class="tab-pane" id="more" ...
+      li role="presentation"
+        a href="#criteria" aria-controls="criteria" role="tab" data-toggle="tab"
+          = t("loan.criteria")
+
+      li role="presentation"
+        a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab"
+          = t("loan.timeline")
+
+      li role="presentation"
+        a href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab"
+          = t("loan.calendar")
+
+      li role="presentation"
+        a href="#print" aria-controls="print" role="tab" data-toggle="tab"
+          = t("loan.print")
+
+      li role="presentation"
+        a href="#more" aria-controls="more" role="tab" data-toggle="tab"
+          = t("loan.more")
+
+    // Tab panes
+    div class="tab-content"
+      div role="tabpanel" class="tab-pane active flush" id="details"
+        section.block
+          = render "admin/loans/form", loan: @loan
+
+        section.block
+          h1 = t(:media)
+
+      div role="tabpanel" class="tab-pane" id="criteria" ...
+
+      div role="tabpanel" class="tab-pane" id="timeline"
+        = render "admin/loans/timeline/timeline", loan: @loan
+
+      div role="tabpanel" class="tab-pane" id="calendar" ...
+
+      div role="tabpanel" class="tab-pane" id="print" ...
+
+      div role="tabpanel" class="tab-pane" id="more" ...

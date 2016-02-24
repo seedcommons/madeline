@@ -12,7 +12,9 @@
   = f.error_notification
 
   = f.input :organization_id, label: t("coop")
-    .view-element = @loan.organization.try(:name)
+    .view-element
+      = link_to admin_organization_path(@loan.organization_id) do
+        - @loan.organization.try(:name)
     = f.input_field :organization_id, collection: @organizations, include_blank: true
 
   = f.input :loan_type_value, label: t("loan.loan_type")
@@ -23,9 +25,12 @@
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
-  = f.input :amount
+  = f.input :amount, label: t("loan.amount")
     .view-element = number_to_currency(loan.amount)
     = f.input_field :amount
+
+  = f.input :description, label: t("loan.description")
+    .view-element
 
   .actions.form-block
     - unless @loan.new_record?

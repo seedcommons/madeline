@@ -1,5 +1,4 @@
 - content_for :styles
-  = stylesheet_link_tag "admin/organizations/organizations", :media => "all"
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
 
 - content_for :scripts
@@ -8,7 +7,7 @@
 - content_for :title
   = @org.name
 
-section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
+section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 
   header
     .show-actions
@@ -19,8 +18,8 @@ section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
         a.show-action.form-element href="#" = t(:cancel)
       - else
         a href=admin_organization_path(@org) = t(:cancel)
-      / TODO: Consider using http://bootboxjs.com/ instead of JS confirmation dialog
-      = link_to [:admin, @org], method: :delete, data: { confirm: t('organization.confirm_deletion') } 
+      = link_to [:admin, @org], method: :delete,
+        data: { confirm: t('organization.confirm_deletion') }
         i.fa.fa-trash.fa-large>
         = t(:delete)
     .clearfix
@@ -29,10 +28,10 @@ section.coop class=(@org.valid? ? 'show-view' : 'edit-view')
     = render 'form'
 
   section.block
-    h1 Active Loans
+    h1 = t('organization.active_loans')
 
   section.block
-    h1 Media
+    h1 = t(:media)
 
   section.block
-    h1 Notes
+    h1 = t(:notes)
