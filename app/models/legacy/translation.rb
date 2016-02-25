@@ -15,14 +15,15 @@ class Translation < ActiveRecord::Base
         translatable_type: new_model_name,
         translatable_id: remote_id,
         translatable_attribute: new_attribute_name,
-        language_id: language,
+        # language_id: language,
+        locale: LANGUAGE_LOCALE_MAP[language],
         text: translated_content
     }
     data
   end
 
   def migrate
-    if [1,2].include?(language)
+    if [1,2,3].include?(language)
       data = migration_data
       puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
       ::Translation.create(data)
@@ -48,6 +49,8 @@ class Translation < ActiveRecord::Base
       'ProjectLog' => {'Explanation' => 'summary', 'DetailedExplanation' => 'details',
                        'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes'}
   }
+
+  LANGUAGE_LOCALE_MAP = {1 => :en, 2 => :es, 3 => :fr}
 
 end
 

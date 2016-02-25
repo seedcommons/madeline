@@ -31,6 +31,7 @@ class Cooperative < ActiveRecord::Base
         sector: sector,
         industry: industry,
         referral_source: source,
+        is_recovered: (recuperada == 1)
     }
     data
   end
@@ -38,7 +39,12 @@ class Cooperative < ActiveRecord::Base
   def migrate
     data = migration_data
     puts "#{data[:id]}: #{data[:name]}"
-    ::Organization.create(data)
+    existing = Organization.find_by(id: data[:id])
+    if existing
+      existing.update(data)
+    else
+      ::Organization.create(data)
+    end
   end
 
   def self.migrate_all

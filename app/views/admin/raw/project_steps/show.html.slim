@@ -3,10 +3,10 @@
 table
   tr
     td Summary
-    td = render view_path('common/translations'), { items: @item.summary_list }
+    td = render view_path('common/translations'), { items: @item.summary_translations }
   tr
     td Details
-    td = render view_path('common/translations'), { items: @item.details_list }
+    td = render view_path('common/translations'), { items: @item.details_translations }
   tr
     td Scheduled
     td = @item.scheduled_date

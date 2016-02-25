@@ -32,4 +32,42 @@ class CustomFieldSet < ActiveRecord::Base
     label
   end
 
+
+  # returns a field by ether its id or internal_name
+  def field(field_identifier, required: true)
+    if field_identifier.is_a?(Integer)
+      field = custom_fields.find_by(id: field_identifier)
+    else
+      field = custom_fields.find_by(internal_name: field_identifier)
+    end
+    raise "CustomField not found: #{field_identifier} for set: #{internal_name}"  if required && !field
+    field
+  end
+
+
+  # Resolve the custom field set matching given internal name defined at the closest ancestor level.
+  # future: consider merging field sets at each level of the hierarchy. (not sure if this is useful or desirable)
+  def self.resolve(internal_name, division: nil, model: nil, required: true)
+    division = model.division  if !division && model
+    if division
+      # puts "CustomFieldSet.resolve - using division param"
+      candidate_division = division
+    else
+      # puts "CustomFieldSet.resolve - using Division.root default"
+      candidate_division = Division.root
+    end
+
+    result = nil
+    # todo: confirm if there is a clever way to leverage closure tree to handle this hierarchical resolve logic
+    while candidate_division do
+      result = CustomFieldSet.find_by(internal_name: internal_name, division: candidate_division)
+      break  if result
+      candidate_division = candidate_division.parent
+    end
+
+    raise "CustomFieldSet not found: #{internal_name} for division: #{division.try(:id)}"  if required && !result
+    result
+  end
+
 end
+
