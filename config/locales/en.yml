@@ -80,7 +80,6 @@ en:
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found"
   no_records: "No records found."
   none: "None"
   notes: "Notes"
@@ -128,10 +127,10 @@ en:
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     status:
-      active: "active"
+      active: "Active"
       completed: "Completed"
-      frozen: "frozen"
-      liquidated: "liquidated"
+      frozen: "Frozen"
+      liquidated: "Liquidated"
     timeline: "Timeline"
 
   project_step:
@@ -143,6 +142,7 @@ en:
       scheduled: "Scheduled:"
       status: "Status:"
     logs: "Logs"
+    no_steps: "No timeline steps to display."
     timeline: "Timeline"
     status:
       completed: "Completed"

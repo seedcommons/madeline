@@ -1,4 +1,4 @@
-- content_for :title do @loan.name end
+- content_for(:title, @loan.name)
 
 - content_for :styles
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
