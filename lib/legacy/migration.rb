@@ -12,10 +12,12 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
+      Legacy::LoanResponseSet.migrate_all
     end
 
     # the core data which can be quickly migrated
     def self.migrate_core
+      Legacy::StaticData.populate
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all

@@ -47,9 +47,10 @@ class OptionSet < ActiveRecord::Base
 
 
   def translated_label_by_value(value)
-    return nil unless value
+    return nil unless value.present?
     option = options.find_by(value: value)
     unless option
+      return "missing option label - value: #{value}"  if true  # make this non-fatal for now
       #todo: confirm if RuntimeException is appropriate or other convention to follow
       raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value}"  unless option
       # fallback to use value as label if option record not found
