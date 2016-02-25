@@ -78,7 +78,6 @@ en:
   logout: "Logout"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found"
   no_records: "No records found."
   none: "None"
   notice_created: 'Record was successfully created.'
@@ -118,10 +117,10 @@ en:
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     status:
-      active: "active"
+      active: "Active"
       completed: "Completed"
-      frozen: "frozen"
-      liquidated: "liquidated"
+      frozen: "Frozen"
+      liquidated: "Liquidated"
 
   project_step:
     confirm_deletion: "Are you sure you wish to delete this project step?"
@@ -132,6 +131,7 @@ en:
       scheduled: "Scheduled:"
       status: "Status:"
     logs: "Logs"
+    no_steps: "No timeline steps to display."
     timeline: "Timeline"
     status:
       completed: "Completed"
