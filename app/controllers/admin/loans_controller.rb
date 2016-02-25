@@ -25,10 +25,8 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
 
     if @loan.update(loan_params)
-      update_values
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
     else
-      update_values
       @organizations = Organization.all
       @form_action_url = admin_loan_path
       render :show
@@ -63,21 +61,5 @@ class Admin::LoansController < Admin::AdminController
 
     def loan_params
       params.require(:loan).permit(:amount, :loan_type_value, :organization_id, :status_value)
-    end
-
-    def update_values
-      # TODO: Loan should not break when loan_type_value is empty
-      # Loan type option set needs a fix, remove below when fixed
-      if @loan.loan_type_value == ""
-        @loan.loan_type_value = nil
-        @loan.save
-      end
-
-      # TODO: Loan should not break when status_value is empty
-      # Loan status option set needs a fix, remove below when fixed
-      if @loan.status_value == ""
-        @loan.status_value = nil
-        @loan.save
-      end
     end
 end
