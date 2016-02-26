@@ -17,6 +17,10 @@
 }
 
 .expandable {
+  .less, .more {
+    margin: 0 .5em;
+  }
+
   .less {
     display: none;
   }
