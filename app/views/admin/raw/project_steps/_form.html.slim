@@ -9,6 +9,9 @@
       td Summary
       td = f.text_area :summary
     tr
+      td Step Type
+      td = f.select(:step_type_value, options_for_select(ProjectStep.step_type_option_set.translated_list, @item.step_type_value), {include_blank: '---'})
+    tr
       td Details
       td = f.text_area :details
     tr

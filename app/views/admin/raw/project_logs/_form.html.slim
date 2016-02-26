@@ -9,7 +9,7 @@
       td = f.select(:agent_id, person_select_options(@item.agent_id), {include_blank: '---'})
     tr
       td Progress Metric
-      td = f.select(:progress_metric_option_id, options_from_collection_for_select(ProjectLog::PROGRESS_METRIC_OPTIONS.all, :value, :label, @item.progress_metric_option_id), {include_blank: '---'})
+      td = f.select(:progress_metric_value, options_for_select(ProjectLog.progress_metric_option_set.translated_list, @item.progress_metric_value), {include_blank: '---'})
     tr
       td Date
       td = f.text_field :date
