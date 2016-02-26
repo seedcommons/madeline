@@ -58,17 +58,22 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
     div class="tab-content"
       div role="tabpanel" class="tab-pane flush" id="details"
         section.block
+          h1.sr-only "Loan Details"
           = render "admin/loans/form", loan: @loan
 
         section.block
           h1 = t(:media)
 
       div role="tabpanel" class="tab-pane" id="criteria" ...
+        section
+          h1.sr-only "Criteria"
 
       div role="tabpanel" class="tab-pane active" id="timeline"
         = render "admin/loans/timeline/timeline", loan: @loan
 
       div role="tabpanel" class="tab-pane" id="calendar" ...
+        section
+          h1.sr-only "Calendar"
 
       div role="tabpanel" class="tab-pane" id="print" ...
 

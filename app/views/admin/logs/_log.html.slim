@@ -11,8 +11,8 @@ div.panel.log.expandable
           a.action
             i.fa.fa-trash
 
-      div.col-lg-2.last-col
-        span.bold = log.progress_metric
+      div.col-lg-2.last-col.right-align
+        span.bold = log.try(:progress_metric)
 
   / TODO: Remove placeholder info
   div.panel-body
@@ -23,13 +23,14 @@ div.panel.log.expandable
         a.less role="button" Less
 
   div.panel-footer.more-info
-    p = log.details ? log.try(:details) : "These are placeholder details."
+    p.log-info
+      = log.details ? log.try(:details) : "These are placeholder details."
 
-    div
+    div.log-info
       span.bold = "Additional Notes: "
       = log.additional_notes ? log.try(:additional_notes) : "None"
 
-    div
+    div.log-info
       span.bold = "Private Notes: "
       = log.private_notes ? log.try(:private_notes) : "None"
 

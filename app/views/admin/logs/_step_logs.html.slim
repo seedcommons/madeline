@@ -13,8 +13,8 @@
       - if step.logs_count > 0
         section.logs
           header.row
-            h1.col-lg-8.first-col Logs
-            div.col-lg-4.last-col.action-items
+            span.col-lg-8.first-col.section-heading Logs
+            span.col-lg-4.last-col.action-items
               button.btn New Log
 
           - step.project_logs.each do |log|

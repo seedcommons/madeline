@@ -1,4 +1,6 @@
 section.timeline
+  h1.sr-only "Timeline"
+
   div.project-steps
     - unless @loan.project_steps.empty?
       - @loan.project_steps.each do |step|

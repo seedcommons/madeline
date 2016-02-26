@@ -5,9 +5,25 @@
 }
 
 .log {
-  .panel-body, .panel-footer, .panel-heading {
+  &.panel {
     background: $gray1;
+  }
+
+  .panel-body, .panel-footer, .panel-heading {
+    background: inherit;
     border: none;
+    padding: 0;
+    margin: 1em;
+  }
+
+  .log-info {
+    padding: 0;
+    margin: 1em 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
   }
 
   .actions-box {
@@ -46,4 +62,8 @@
       display: block;
     }
   }
+}
+
+.right-align {
+  text-align: right;
 }
