@@ -19,8 +19,8 @@ div.panel.log.expandable
     div.row
       p
         = log.summary ? log.try(:summary) : "This is a placeholder summary."
-        a.more role="button" More
-        a.less role="button" Less
+        a.more.log-ctrl role="button" More
+        a.less.log-ctrl role="button" Less
 
   div.panel-footer.more-info
     p.log-info

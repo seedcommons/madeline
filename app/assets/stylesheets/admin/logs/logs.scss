@@ -32,16 +32,16 @@
   }
 }
 
-.expandable {
-  .less, .more {
+.log.expandable {
+  .less.log-ctrl, .more.log-ctrl {
     margin: 0 .5em;
   }
 
-  .less {
+  .less.log-ctrl {
     display: none;
   }
 
-  .more {
+  .more.log-ctrl {
     display: inline;
   }
 
@@ -50,15 +50,43 @@
   }
 
   &.expanded {
-    .less {
+    .less.log-ctrl {
       display: inline;
     }
 
-    .more {
+    .more.log-ctrl {
       display: none;
     }
 
     .more-info {
+      display: block;
+    }
+  }
+}
+
+.step-logs.expandable {
+  .more.logs-ctrl {
+    display: inline;
+  }
+
+  .less.logs-ctrl {
+    display: none;
+  }
+
+  .logs {
+    display: none;
+  }
+
+  &.expanded {
+    .more.logs-ctrl {
+      display: none;
+    }
+
+    .less.logs-ctrl {
+      display: inline;
+    }
+
+    .logs {
       display: block;
     }
   }
