@@ -95,3 +95,14 @@
 .right-align {
   text-align: right;
 }
+
+.logs {
+  header.row {
+    margin: 1em 0;
+
+    .section-heading {
+      font-size: 1.25em;
+      font-weight: bold;
+    }
+  }
+}
