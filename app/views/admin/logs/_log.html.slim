@@ -1,4 +1,4 @@
-div.panel.log
+div.panel.log.expandable
   div.panel-heading
     div.row
       div.col-lg-10.first-col
@@ -14,12 +14,16 @@ div.panel.log
       div.col-lg-2.last-col
         span.bold = log.progress_metric
 
+  / TODO: Remove placeholder info
   div.panel-body
     div.row
-      p = log.summary
+      p
+        = log.summary ? log.try(:summary) : "This is a placeholder summary."
+        a.more role="button" More
+        a.less role="button" Less
 
   div.panel-footer.more-info
-    p = log.details
+    p = log.details ? log.try(:details) : "These are placeholder details."
 
     div
       span.bold = "Additional Notes: "

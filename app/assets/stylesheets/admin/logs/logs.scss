@@ -15,3 +15,31 @@
     margin: 0 1em;
   }
 }
+
+.expandable {
+  .less {
+    display: none;
+  }
+
+  .more {
+    display: inline;
+  }
+
+  .more-info {
+    display: none;
+  }
+
+  &.expanded {
+    .less {
+      display: inline;
+    }
+
+    .more {
+      display: none;
+    }
+
+    .more-info {
+      display: block;
+    }
+  }
+}
