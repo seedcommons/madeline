@@ -29,7 +29,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
   div.loan-content
     // Nav tabs
     ul class="nav nav-tabs" role="tablist"
-      li role="presentation" class="active"
+      li role="presentation"
         a href="#details" aria-controls="details" role="tab" data-toggle="tab"
           = t("loan.details")
 
@@ -37,7 +37,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
         a href="#criteria" aria-controls="criteria" role="tab" data-toggle="tab"
           = t("loan.criteria")
 
-      li role="presentation"
+      li role="presentation" class="active"
         a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab"
           = t("loan.timeline")
 
@@ -55,7 +55,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
     // Tab panes
     div class="tab-content"
-      div role="tabpanel" class="tab-pane active flush" id="details"
+      div role="tabpanel" class="tab-pane flush" id="details"
         section.block
           = render "admin/loans/form", loan: @loan
 
@@ -64,7 +64,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
       div role="tabpanel" class="tab-pane" id="criteria" ...
 
-      div role="tabpanel" class="tab-pane" id="timeline"
+      div role="tabpanel" class="tab-pane active" id="timeline"
         = render "admin/loans/timeline/timeline", loan: @loan
 
       div role="tabpanel" class="tab-pane" id="calendar" ...

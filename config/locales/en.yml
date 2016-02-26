@@ -55,6 +55,7 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
+  dash: " - "
 
   ## Admin panel ##
   cancel: "Cancel"

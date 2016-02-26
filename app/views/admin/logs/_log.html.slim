@@ -1,9 +1,31 @@
 div.panel.log
   div.panel-heading
+    div.row
+      div.col-lg-10.first-col
+        span.bold = log.date
+        span = t(:dash)
+        span = Person.find(log.agent_id).name
+        span.actions-box
+          a.action
+            i.fa.fa-pencil
+          a.action
+            i.fa.fa-trash
+
+      div.col-lg-2.last-col
+        span.bold = log.progress_metric
 
   div.panel-body
-    p = log.summary
+    div.row
+      p = log.summary
 
   div.panel-footer.more-info
     p = log.details
+
+    div
+      span.bold = "Additional Notes: "
+      = log.additional_notes ? log.try(:additional_notes) : "None"
+
+    div
+      span.bold = "Private Notes: "
+      = log.private_notes ? log.try(:private_notes) : "None"
 

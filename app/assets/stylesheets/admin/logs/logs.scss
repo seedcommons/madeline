@@ -1,3 +1,17 @@
+@import "../loans/_colors";
+
 .logs {
   text-align: left;
+}
+
+.log {
+  .panel-body, .panel-footer, .panel-heading {
+    background: $gray1;
+    border: none;
+  }
+
+  .actions-box {
+    text-align: left;
+    margin: 0 1em;
+  }
 }
