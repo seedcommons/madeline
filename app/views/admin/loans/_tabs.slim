@@ -1,7 +1,7 @@
 ul class="nav nav-tabs" role="tablist"
-  = render "admin/loans/tab", identifier: "details", label: "Details"
-  = render "admin/loans/tab", identifier: "criteria", label: "Criteria"
-  = render "admin/loans/tab", identifier: "timeline", label: "Timeline"
+  = render "admin/loans/tab", identifier: "details", label: t("loan.details")
+  = render "admin/loans/tab", identifier: "criteria", label: t("loan.criteria")
+  = render "admin/loans/tab", identifier: "timeline", label: t("loan.timeline")
   = render "admin/loans/tab", identifier: "calendar", label: t(:calendar)
   = render "admin/loans/tab", identifier: "print", label: t(:print)
   = render "admin/loans/tab", identifier: "more", label: t(:more)
@@ -18,7 +18,7 @@ div class="tab-content"
     content: timeline
 
   = render "tab_content", identifier: "calendar", active: "",
-    content: "calendar"
+    content: "Calendar"
 
   = render "tab_content", identifier: "print", active: "",
     content: "Print"
