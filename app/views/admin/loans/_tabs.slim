@@ -8,21 +8,21 @@ ul class="nav nav-tabs" role="tablist"
 
 div class="tab-content"
   - details = render "admin/loans/details", loan: @loan
-  = render "tab_content", identifier: "details", active: "active flush",
+  = render "tab_content", identifier: "details", category: "active flush",
     content: details
 
-  = render "tab_content", identifier: "criteria", active: "",
+  = render "tab_content", identifier: "criteria", category: "",
     content: "Criteria"
 
   - timeline = render "admin/loans/timeline/timeline", loan: @loan
-  = render "tab_content", identifier: "timeline", active: "",
+  = render "tab_content", identifier: "timeline", category: "",
     content: timeline
 
-  = render "tab_content", identifier: "calendar", active: "",
+  = render "tab_content", identifier: "calendar", category: "",
     content: "Calendar"
 
-  = render "tab_content", identifier: "print", active: "",
+  = render "tab_content", identifier: "print", category: "",
     content: "Print"
 
-  = render "tab_content", identifier: "more", active: "",
+  = render "tab_content", identifier: "more", category: "",
     content: "More"
