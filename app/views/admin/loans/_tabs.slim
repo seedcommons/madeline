@@ -1,10 +1,10 @@
 ul class="nav nav-tabs" role="tablist"
-  = render "admin/loans/tab", identifier: "details", label: t("loan.details")
-  = render "admin/loans/tab", identifier: "criteria", label: t("loan.criteria")
-  = render "admin/loans/tab", identifier: "timeline", label: t("loan.timeline")
-  = render "admin/loans/tab", identifier: "calendar", label: t(:calendar)
-  = render "admin/loans/tab", identifier: "print", label: t(:print)
-  = render "admin/loans/tab", identifier: "more", label: t(:more)
+  = render "tab", identifier: "details", label: t("loan.details")
+  = render "tab", identifier: "criteria", label: t("loan.criteria")
+  = render "tab", identifier: "timeline", label: t("loan.timeline")
+  = render "tab", identifier: "calendar", label: t(:calendar)
+  = render "tab", identifier: "print", label: t(:print)
+  = render "tab", identifier: "more", label: t(:more)
 
 div class="tab-content"
   = render "tab_content", identifier: "details", active: "",
