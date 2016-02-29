@@ -78,11 +78,13 @@ en:
   loans: "Loans"
   login: "Login"
   logout: "Logout"
+  media: "Media"
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
   no_records: "No records found."
   none: "None"
+  notes: "Notes"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
@@ -96,6 +98,7 @@ en:
   updated: "Updated"
 
   organization:
+    active_loans: "Active Loans"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
 
   user:
@@ -115,8 +118,11 @@ en:
 
   loan:
     amount: "Amount"
-    criteria: "Criteria"
     details: "Details"
+    calendar: "Calendar"
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
+    criteria: "Criteria"
+    description: "Description"
     length: "Length"
     loan_type: "Loan Type"
     months: "%{number} mo."
@@ -152,4 +158,3 @@ en:
   log:
     no_logs: "No Logs"
     show_logs: "Show Logs (%{n})"
-
