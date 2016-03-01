@@ -4,7 +4,7 @@ div.panel.step style="border-color: #{step.border_color}"
       div.col-lg-4.main-details.first-col
         div.row
           div.col-lg-1.check.first-col
-            input.select-step type="checkbox"
+            input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item')
           div.col-lg-11.first-col
             h5.title
               span.icon
