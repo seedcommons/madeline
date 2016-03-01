@@ -4,9 +4,15 @@ $ ->
     choose_all = $(this)[0].checked
 
     if (choose_all == true)
-      $inputs.addClass('checked').attr('checked', "checked").prop("checked", true)
+      check_items($inputs)
     else
-      $inputs.removeClass('checked').attr('checked', false).prop("checked", false)
+      uncheck_items($inputs)
+
+  check_items = (items) ->
+    $(items).addClass('checked').attr('checked', "checked").prop("checked", true)
+
+  uncheck_items = (items) ->
+    $(items).removeClass('checked').attr('checked', false).prop("checked", false)
 
   # Function to check all, which receives items/item
     # check_items(items)
