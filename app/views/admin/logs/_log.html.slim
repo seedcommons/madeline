@@ -6,9 +6,9 @@ div.panel.log.expandable
         span = t(:dash)
         span = Person.find(log.agent_id).name
         span.actions-box
-          a.action
+          a.action role="button"
             i.fa.fa-pencil
-          a.action
+          a.action role="button"
             i.fa.fa-trash
 
       div.col-lg-2.last-col.right-align
