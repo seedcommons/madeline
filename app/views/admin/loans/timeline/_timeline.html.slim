@@ -1,7 +1,36 @@
 section.timeline
-  div.project-steps
-    - unless @loan.project_steps.empty?
-      - @loan.project_steps.each do |step|
-        = render "admin/loans/timeline/project_step", step: step
-    - else
-      = t("project_step.no_steps")
+
+  form
+    header.row
+      div.col-lg-2.first-col
+        div.btn-group
+          button.btn.btn-default
+            input type="checkbox"
+
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            span.caret
+            span.sr-only Toggle Dropdown
+
+          ul.dropdown-menu
+            li
+              a All
+            li
+              a None
+            li
+              a Completed
+            li
+              a Incomplete
+
+      div.col-lg-8
+
+      div.col-lg-2.last-col
+        button.btn Edit all
+        button.btn New step
+
+    div.project-steps
+      - unless @loan.project_steps.empty?
+        - @loan.project_steps.each do |step|
+          = render "admin/loans/timeline/project_step", step: step
+      - else
+        = t("project_step.no_steps")
+
