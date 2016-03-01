@@ -21,12 +21,6 @@ section.timeline
             li
               a id="check-incomplete-ctrl" Incomplete
 
-      div.col-lg-8
-
-      div.col-lg-2.last-col
-        button.btn Edit all
-        button.btn New step
-
     div.project-steps
       - unless @loan.project_steps.empty?
         - @loan.project_steps.each do |step|
