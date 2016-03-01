@@ -1,7 +1,11 @@
 $ ->
   $('#choose-all').click () ->
-    $inputs = $(this).closest(".timeline form").find('.select-step')
-    choose_all = $(this)[0].checked
+    control_all(this)
+
+  # Check or uncheck all items
+  control_all = (control) ->
+    $inputs = $(control).closest(".timeline form").find('.select-step')
+    choose_all = $(control)[0].checked
 
     if (choose_all == true)
       check_items($inputs)
