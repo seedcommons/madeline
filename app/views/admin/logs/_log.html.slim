@@ -8,13 +8,11 @@ div.panel.log.expandable
         span.actions-box
           a.action role="button"
             i.fa.fa-pencil
-          a.action role="button"
-            i.fa.fa-trash
-
           = link_to [:admin, log], method: :delete, class: "action",
               data: { confirm: t('confirm_deletion', thing: t('project_log.project_log')),
-              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
-              i.fa.fa-trash.fa-large>
+              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) },
+              role: "button"
+              i.fa.fa-trash>
 
       div.col-lg-2.last-col.right-align
         span.bold = log.try(:progress_metric)
