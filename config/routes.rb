@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :loans
     resources :organizations
     resources :project_steps
+    resources :project_logs
 
     namespace :raw do
       resources :divisions
