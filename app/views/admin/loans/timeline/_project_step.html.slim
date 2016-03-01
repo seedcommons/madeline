@@ -68,8 +68,10 @@ div.panel.step style="border-color: #{step.border_color}"
             i.fa.fa-pencil
           a.action
             i.fa.fa-files-o
+
           = link_to [:admin, step], method: :delete, class: "action",
-              data: { confirm: t('project_step.confirm_deletion') }
+              data: { confirm: t('confirm_deletion', thing: t('project_step.project_step')),
+              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
               i.fa.fa-trash.fa-large>
 
     = render "admin/logs/step_logs", step: step

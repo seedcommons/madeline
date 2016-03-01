@@ -58,9 +58,11 @@ en:
   dash: " - "
 
   ## Admin panel ##
+  calendar: "Calendar"
   cancel: "Cancel"
   city: "City"
   clear: "Clear"
+  confirm: "Confirm"
   confirm_deletion: 'Are you sure you want to delete this %{thing}?'
   coop: "Co-op"
   coops: "Co-ops"
@@ -135,7 +137,6 @@ en:
     timeline: "Timeline"
 
   project_step:
-    confirm_deletion: "Are you sure you wish to delete this project step?"
     finalized: "Finalized:"
     labels:
       completed: "Completed:"
@@ -144,6 +145,7 @@ en:
       status: "Status:"
     logs: "Logs"
     no_steps: "No timeline steps to display."
+    project_step: "project step"
     timeline: "Timeline"
     status:
       completed: "Completed"
@@ -158,4 +160,3 @@ en:
     no_logs: "No Logs"
     hide_logs: "Hide Logs (%{n})"
     show_logs: "Show Logs (%{n})"
-

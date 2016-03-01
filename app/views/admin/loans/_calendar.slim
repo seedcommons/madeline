@@ -1,0 +1,10 @@
+- content_for :scripts
+  = javascript_include_tag "admin/calendar/calendar"
+
+- content_for :styles
+  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
+
+section
+  h1.sr-only "Calendar"
+
+  div#calendar
