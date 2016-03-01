@@ -99,3 +99,14 @@
     color: $ontime;
   }
 }
+
+/* Header */
+
+.timeline-header {
+  padding: 1em 0;
+
+  input[type="checkbox"] {
+    margin: 0;
+    vertical-align: middle;
+  }
+}
