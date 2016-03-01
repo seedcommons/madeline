@@ -8,6 +8,14 @@ $ ->
   $('#uncheck-all-ctrl').click () ->
     uncheck_all()
 
+  $('#check-completed-ctrl').click () ->
+    uncheck_all()
+    check_completed()
+
+  $('#check-incomplete-ctrl').click () ->
+    uncheck_all()
+    check_incomplete()
+
   # Check or uncheck all items with master checkbox
   control_all = () ->
     control = event.currentTarget
