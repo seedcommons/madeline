@@ -157,6 +157,7 @@ en:
       time_late: "%{time} late"
 
   log:
-    no_logs: "No Logs"
     hide_logs: "Hide Logs (%{n})"
+    log: "project log"
+    no_logs: "No Logs"
     show_logs: "Show Logs (%{n})"
