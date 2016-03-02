@@ -123,4 +123,8 @@ class Division < ActiveRecord::Base
     loans.size
   end
 
+  def permitted_locales
+    [:en, :es, :fr] # todo: make data driven
+  end
+
 end

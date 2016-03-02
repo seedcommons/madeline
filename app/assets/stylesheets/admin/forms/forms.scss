@@ -44,3 +44,119 @@ textarea {
     float: left;
   }
 }
+
+.date.required.form-control {
+  display: inline-block;
+  width: 32%;
+  margin-right: 5px;
+}
+
+//
+//project step form
+//
+
+
+.show-step-view {
+  .view-step-block {
+    display: inherit;
+  }
+
+  .form-step-block {
+    display: none;
+  }
+
+}
+
+.edit-step-view {
+  .form-step-block {
+    display: inherit;
+  }
+
+  .view-step-block {
+    display: none;
+  }
+}
+
+.step-form-left-group {
+  border-color: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.project-step-form {
+
+  .error_notification {
+    display: none;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .locale {
+    margin-bottom: 10px;
+  }
+
+  .summary {
+    margin-bottom: 10px;
+  }
+
+  .details {
+    margin-bottom: 5px;
+  }
+
+  .type {
+    margin-bottom: 10px;
+    margin-left: 5px;
+  }
+
+  .date {
+    margin-bottom: 10px;
+    margin-left: 5px;
+  }
+
+  .finalized {
+    margin-left: 5px;
+  }
+
+  .control-label {
+    text-align: right;
+    font-weight: normal;
+    font-size: small;
+    padding-top: 8px;
+  }
+
+  .control-label:after {
+    content: ":";
+  }
+
+
+  .checkbox-label {
+    text-align: right;
+    font-weight: normal;
+    font-size: small;
+    padding-top: 3px;
+  }
+
+  .checkbox-label:after {
+    content: ":";
+  }
+
+  .form-group {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  [class^="col-"],
+  [class*=" col-"] {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+}
+
+

@@ -22,6 +22,8 @@ module TimeLanguageHelper
 
   def time_status(step)
     set_dates(step)
+    return ''  unless @scheduled
+
     time_diff = @actual - @scheduled
 
     if time_diff < 0
@@ -57,8 +59,10 @@ module TimeLanguageHelper
 
   def status_statement(step)
     set_dates(step)
+    return ''  unless @scheduled
     date_diff = time_diff_in_natural_language(@scheduled, @actual)
     days_status = time_status(step)
+    # todo: discuss if we really want to display an 'x days early' status if the does not yet have an assigned completed_date
     days_statement = t("project_step.status.time_#{days_status}", time: date_diff)
 
     return days_statement

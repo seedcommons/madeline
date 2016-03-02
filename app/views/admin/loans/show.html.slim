@@ -3,6 +3,11 @@
 - content_for :styles
   = stylesheet_link_tag "admin/loans/loan", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
+
+- content_for :scripts
+  = javascript_include_tag "admin/forms/project_step_form"
+
 
 div.loan-content
   // Nav tabs

@@ -83,6 +83,7 @@ en:
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
+  error_notification:   'Something went wrong, please try again.'
   parenthesis: "(%{content})"
   password: "Password"
   reply_no: "No"

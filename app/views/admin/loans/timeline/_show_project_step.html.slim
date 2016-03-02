@@ -1,0 +1,84 @@
+div.panel-body
+  div.step-details.row
+    div.col-lg-4.main-details.first-col
+      div.row
+        div.col-lg-1.check.first-col
+          input type="checkbox"
+        div.col-lg-11.first-col
+          h5.title
+            span.icon
+              - if step.milestone?
+                i.fa.fa-calendar-check-o
+              - else
+                i.fa.fa-flag
+            span.title-text = step.try(:summary)
+
+          p = step.try(:details)
+
+    div.col-lg-5.status-details
+      p.info.row
+        span.info-label.col-lg-3
+          = t("project_step.labels.status")
+
+        span.info-text.col-lg-9
+          - if step.admin_status
+            = t("project_step.status.#{step.admin_status}")
+          - else
+            = t("none")
+
+      p.info.row
+        span.info-label.col-lg-3
+          = t("project_step.labels.scheduled")
+
+        span.info-text.col-lg-9 style="background: #{step.scheduled_bg}"
+          = step.scheduled_date
+
+          - if step.completed?
+        div.info.row
+          span.info-label.col-lg-3
+            = t("project_step.labels.completed")
+
+          div.text.col-lg-9 style="background-color: #{step.background_color}"
+            p.tight-block
+              = step.completed_date
+            p.tight-block
+              = t("parenthesis",
+                      content: status_statement(step))
+
+      p.info.row
+        span.info-label.col-lg-3
+          = t("project_step.labels.finalized")
+
+        span.info-text.col-lg-9
+          = step.is_finalized ? t("reply_yes") : t("reply_no")
+
+    div.col-lg-3.action-items.last-col
+      div.completion-status
+        - if step.completed?
+          div.icon-with-text.complete
+            span.icon-box
+              i.fa.fa-check
+            span
+              = t("project_step.status.completed")
+        - else
+          = t("project_step.status.not_completed")
+      div.actions
+        a.action.edit-step-action
+          i.fa.fa-pencil
+        a.action
+          i.fa.fa-files-o
+        = link_to [:admin, step], method: :delete, class: "action",
+                data: {confirm: t('project_step.confirm_deletion')}
+          i.fa.fa-trash.fa-large>
+
+  div.step-logs
+    div.icon-with-text.view-logs-ctrl
+      span.text-left-of-icon
+        - if step.logs_count > 0
+          span.show-log
+            = t("log.show_logs", n: step.logs_count)
+        - else
+          span.no-logs
+            = t("log.no_logs")
+      span.icon-box.add-log
+        i.fa.fa-plus-circle

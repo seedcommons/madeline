@@ -26,7 +26,7 @@ module Translatable
     # end
     #
     # def foo_translations
-    #   get_all_translations('foo')
+    #   get_translations('foo')
     # end
     #
     # def foo_translations=(translations)
@@ -47,23 +47,45 @@ module Translatable
     end
   end
 
-  def get_translation(attribute)
-    translation = translations.find_by(translatable_attribute: attribute, locale: I18n.locale)
-    translation = get_translations(attribute).first  unless translation
-    return associated_translation(translation) if translation
-    nil
+  # def get_translation(attribute, locale:I18n.locale)
+  #   translation = translations.find_by(translatable_attribute: attribute, locale: locale)
+  #   translation = get_translations(attribute).first  unless translation
+  #   associated_translation(translation) if translation
+  # end
+
+  def get_translation(attribute, locale:I18n.locale)
+    # important to filter against the association held in memory instead of performing a db lookup
+    # in order to redisplay potentially transient values
+    result = translations.find{|t|
+      t.translatable_attribute.to_sym == attribute.to_sym && t.locale.to_sym == locale.to_sym
+    }
+    unless result
+      result = translations.find{|t|
+        t.translatable_attribute.to_sym == attribute.to_sym
+      }
+    end
+    result
   end
 
   def get_translations(attribute)
     translations.where(translatable_attribute: attribute)
   end
 
-  def set_translation(attribute, text, locale: I18n.locale)
-    translation = get_translation(attribute)
+  def used_locales
+    translations.pluck(:locale).uniq.map {|l| l.to_sym}
+  end
+
+  def delete_translation(attribute, locale)
+    translation = get_translation(attribute, locale:locale)
+    translation.delete
+  end
+
+  def set_translation(attribute, text, locale: I18n.locale, old_locale: nil)
+    translation = get_translation(attribute, locale: old_locale || locale)
     if translation
-      translation.assign_attributes(text: text)
+      translation.assign_attributes(text: text, locale: locale)
     else
-      translation = translations.build(translatable_attribute: attribute, locale: locale, text: text)
+      translations.build(translatable_attribute: attribute, locale: locale, text: text)
     end
     text
   end
@@ -74,13 +96,41 @@ module Translatable
     end
   end
 
-  # returns the element from the parent objects assocation list for the given object's id
+  # returns the element from the parent objects association list for the given object's id
   # necessary to get autosave behavior to work as desired
-  def associated_translation(translation)
-    if translation
-      translations.find{|t| t.id == translation.id}
-    else
-      translation
+  # def associated_translation(translation)
+  #   if translation
+  #     translations.find{|t| t.id == translation.id}
+  #   else
+  #     translation
+  #   end
+  # end
+
+  #
+  # define a easy way to fetch a named attribute for a specific locale
+  #
+  # <attribute>_<locale> is equivalent to translations.where(translatable_attribute: attribute, locale: locale).first
+  #
+
+  def method_missing(method_sym, *arguments, &block)
+    # the first argument is a Symbol, so you need to_s it if you want to pattern match
+    if method_sym.to_s =~ /^(.*)_(.*)$/
+      translation = translations.where(translatable_attribute: $1, locale: $2).first
+      if translation
+        return translation.text
+      else
+        return nil
+      end
     end
+    super
   end
+
+  def respond_to?(method_sym, include_private = false)
+    if method_sym.to_s =~ /^(.*)_(.*)$/
+      translation = translations.where(translatable_attribute: $1, locale: $2).first
+      return translation.present?
+    end
+    super
+  end
+
 end
