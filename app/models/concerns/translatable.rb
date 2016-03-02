@@ -115,15 +115,11 @@ module Translatable
 
   def method_missing(method_sym, *arguments, &block)
     # the first argument is a Symbol, so you need to_s it if you want to pattern match
-    #fixme: make this dynamic method pattern more unique
+    # todo: consider make this dynamic method pattern more unique
     if method_sym.to_s =~ /^(.*)_(.*)$/
       if $2 != "translations" && respond_to?("#{$1}_translations")
-        translation = translations.where(translatable_attribute: $1, locale: $2).first
-        if translation
-          return translation.text
-        else
-          return ''
-        end
+        translation = get_translation($1, locale: $2, exact_match: true)
+        return translation.try(:text)
       end
     end
     super
@@ -131,8 +127,6 @@ module Translatable
 
   def respond_to?(method_sym, include_private = false)
     if method_sym.to_s =~ /^(.*)_(.*)$/
-      # translation = translations.where(translatable_attribute: $1, locale: $2).first
-      # return translation.present?
       if $2 != "translations" && respond_to?("#{$1}_translations")
         return true
       end
