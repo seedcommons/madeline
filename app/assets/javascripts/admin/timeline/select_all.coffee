@@ -32,10 +32,16 @@ $ ->
     $inputs = $(control).closest(".timeline form").find('.select-step')
     check_items($inputs)
 
+    $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
+    check_items($master_checkbox)
+
   uncheck_all = () ->
     control = event.currentTarget
     $inputs = $(control).closest(".timeline form").find('.select-step')
     uncheck_items($inputs)
+
+    $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
+    uncheck_items($master_checkbox)
 
   check_completed = () ->
     control = event.currentTarget
