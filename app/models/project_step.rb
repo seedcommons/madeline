@@ -41,6 +41,11 @@ class ProjectStep < ActiveRecord::Base
 
   validates :project_id, presence: true
 
+
+  def division
+    project.try(:division)
+  end
+
   def update_with_translations(project_step_params, translations_params)
     begin
     ActiveRecord::Base.transaction do

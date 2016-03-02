@@ -68,7 +68,12 @@ module Translatable
   end
 
   def used_locales
-    translations.pluck(:locale).uniq.map {|l| l.to_sym}
+    result = []
+    if respond_to?(:division)
+      result = self.division.try(:resolve_default_locales)
+    end
+    result += translations.pluck(:locale)
+    result.map(&:to_sym).uniq
   end
 
   def delete_translation(attribute, locale)
