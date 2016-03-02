@@ -131,11 +131,11 @@ class Division < ActiveRecord::Base
   def resolve_default_locales
     result = nil
     if custom_field(:default_locales)
+      result = default_locales
+    else
       # todo: confirm if this should be fatal
       # raise "missing Division.default_locales custom field definition"
       logger.warn("missing Division.default_locales custom field definition")
-    else
-      result = default_locales
     end
     unless result
       logger.warn("defaulting to local locale")
