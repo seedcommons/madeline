@@ -20,9 +20,8 @@ $ ->
   control_all = () ->
     control = event.currentTarget
     $inputs = $(control).closest(".timeline form").find('.select-step')
-    choose_all = $(control)[0].checked
 
-    if (choose_all == true)
+    if ($(control)[0].checked == true)
       check_items($inputs)
     else
       uncheck_items($inputs)
