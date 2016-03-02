@@ -109,11 +109,17 @@ module Legacy
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
-      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
 
       # loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
       # loan_field_set.custom_fields.destroy_all
       # loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
+
+      division_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Division')
+      division_field_set.custom_fields.destroy_all
+      # list of strings representing 2 char locale codes to be presented by default within translatable UIs
+      division_field_set.custom_fields.create!(internal_name: 'default_locales', data_type: 'list')
+      # todo: consider also having a division specific list of 'permitted_locales' - for now using all system locales,
+      # but will likely be confusing when supporting both es-AR and es-NI
 
     end
 
@@ -145,6 +151,12 @@ module Legacy
                                     summary: 'test log summary', details: 'test log details')
       step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
 
+      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
+      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+
+      # use 'es-AR' here since that is the existin spanish translation file.
+      # expecting that we'll likely switch this later to just 'es'
+      ::Division.root.update_default_locales( [ :en, :'es-AR' ] )
     end
 
   end

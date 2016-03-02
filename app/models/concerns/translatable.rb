@@ -47,19 +47,15 @@ module Translatable
     end
   end
 
-  # def get_translation(attribute, locale:I18n.locale)
-  #   translation = translations.find_by(translatable_attribute: attribute, locale: locale)
-  #   translation = get_translations(attribute).first  unless translation
-  #   associated_translation(translation) if translation
-  # end
-
-  def get_translation(attribute, locale:I18n.locale)
+  def get_translation(attribute, locale: I18n.locale, exact_match: false)
     # important to filter against the association held in memory instead of performing a db lookup
     # in order to redisplay potentially transient values
     result = translations.find{|t|
       t.translatable_attribute.to_sym == attribute.to_sym && t.locale.to_sym == locale.to_sym
     }
-    unless result
+    unless result || exact_match
+      # fall back to first translations of any locale if desired locale not present
+      # (except when fetching in order to perform update)
       result = translations.find{|t|
         t.translatable_attribute.to_sym == attribute.to_sym
       }
@@ -76,12 +72,12 @@ module Translatable
   end
 
   def delete_translation(attribute, locale)
-    translation = get_translation(attribute, locale:locale)
+    translation = get_translation(attribute, locale:locale, exact_match: true)
     translation.delete
   end
 
   def set_translation(attribute, text, locale: I18n.locale, old_locale: nil)
-    translation = get_translation(attribute, locale: old_locale || locale)
+    translation = get_translation(attribute, locale: old_locale || locale, exact_match: true)
     if translation
       translation.assign_attributes(text: text, locale: locale)
     else
@@ -114,12 +110,15 @@ module Translatable
 
   def method_missing(method_sym, *arguments, &block)
     # the first argument is a Symbol, so you need to_s it if you want to pattern match
+    #fixme: make this dynamic method pattern more unique
     if method_sym.to_s =~ /^(.*)_(.*)$/
-      translation = translations.where(translatable_attribute: $1, locale: $2).first
-      if translation
-        return translation.text
-      else
-        return nil
+      if $2 != "translations" && respond_to?("#{$1}_translations")
+        translation = translations.where(translatable_attribute: $1, locale: $2).first
+        if translation
+          return translation.text
+        else
+          return ''
+        end
       end
     end
     super
@@ -127,8 +126,11 @@ module Translatable
 
   def respond_to?(method_sym, include_private = false)
     if method_sym.to_s =~ /^(.*)_(.*)$/
-      translation = translations.where(translatable_attribute: $1, locale: $2).first
-      return translation.present?
+      # translation = translations.where(translatable_attribute: $1, locale: $2).first
+      # return translation.present?
+      if $2 != "translations" && respond_to?("#{$1}_translations")
+        return true
+      end
     end
     super
   end

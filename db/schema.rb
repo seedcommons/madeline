@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205165630) do
+ActiveRecord::Schema.define(version: 20160226191930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   create_table "divisions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "currency_id"
+    t.json     "custom_data"
     t.text     "description"
     t.string   "internal_name"
     t.string   "name"

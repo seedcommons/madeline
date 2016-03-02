@@ -4,6 +4,7 @@
 #
 #  created_at      :datetime         not null
 #  currency_id     :integer
+#  custom_data     :json
 #  description     :text
 #  id              :integer          not null, primary key
 #  internal_name   :string
@@ -24,6 +25,7 @@
 #
 
 class Division < ActiveRecord::Base
+  include CustomFieldAddable  # supports 'default_locales' persistence
   has_closure_tree
   alias_attribute :super_division, :parent
 
@@ -123,8 +125,33 @@ class Division < ActiveRecord::Base
     loans.size
   end
 
-  def permitted_locales
-    [:en, :es, :fr] # todo: make data driven
+  # returns list of locale symbols which should be presented by default within translatable UIs. i.e. [:es,:en]
+  # note, assumes 'default_locales' has been defined as a Division custom field
+  # todo: consider adapting CustomFieldAddable to support fields defined at the code level, instead of depending on db data
+  def resolve_default_locales
+    result = nil
+    if custom_field(:default_locales)
+      # todo: confirm if this should be fatal
+      # raise "missing Division.default_locales custom field definition"
+      logger.warn("missing Division.default_locales custom field definition")
+    else
+      result = default_locales
+    end
+    unless result
+      logger.warn("defaulting to local locale")
+      result = [ I18n.locale ]
+    end
+    result
   end
+
+  def resolve_permitted_locales
+    # beware, this is distinct from I18n.available_locales to flatten out the region specific locales
+    # for the purpose of the translatable fields.
+    # if we really want to support es-AR, etc in the translatable system, we need to tweak the migration
+    # and also think through all of the other implications
+    [:en, :es, :fr]
+    # todo: consider also having a division specific list of 'permitted_locales'
+  end
+
 
 end

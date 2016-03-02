@@ -48,6 +48,12 @@ class CustomFieldSet < ActiveRecord::Base
   # Resolve the custom field set matching given internal name defined at the closest ancestor level.
   # future: consider merging field sets at each level of the hierarchy. (not sure if this is useful or desirable)
   def self.resolve(internal_name, division: nil, model: nil, required: true)
+    # for model types which are not owned by a division, assume there is only a single CustomFieldSet defined
+    # need special handling for Division class to avoid infinite loop
+    if model.class == Division || ! model.respond_to?(:division)
+      return CustomFieldSet.find_by(internal_name: internal_name)
+    end
+
     division = model.division  if !division && model
     if division
       # puts "CustomFieldSet.resolve - using division param"

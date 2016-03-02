@@ -1,4 +1,5 @@
 en:
+  locale_name: English
   time:
     formats:
       default: '%b %e, %Y %l:%M %p'

@@ -14,4 +14,14 @@ module TranslationsHelper
     end
   end
 
+  def name_for_locale(locale)
+    I18n.t('locale_name', locale: locale)
+  end
+
+  # Returns a list of locale and name pairs suitable for input to `options_for_select`
+  def locale_options(locales)
+    locales ||= []
+    locales.map{ |locale| [name_for_locale(locale), locale] }
+  end
+
 end

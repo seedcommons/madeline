@@ -91,7 +91,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def permitted_locales
-    project.division.permitted_locales
+    project.division.resolve_permitted_locales
   end
 
   def unused_locales
@@ -171,8 +171,11 @@ class ProjectStep < ActiveRecord::Base
   # Form helpers
   #
 
+  # todo: figure out a cleaner solution here
+
   def method_missing(method_sym, *arguments, &block)
     if method_sym.to_s =~ /^locale_(.*)$/
+      # fixme: this is too fragile, a change in permitted_locales leads to broken system
       return $1 if permitted_locales.include? $1.to_sym
     end
     super
