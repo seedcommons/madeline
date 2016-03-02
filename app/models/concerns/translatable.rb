@@ -73,8 +73,24 @@ module Translatable
       result = self.division.try(:resolve_default_locales)
     end
     result += translations.pluck(:locale)
-    result.map(&:to_sym).uniq
+    result.map!(&:to_sym).uniq!
+    # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
+    if respond_to?(:permitted_locales)
+      permitted = self.permitted_locales
+      result.select!{ |l| permitted.include?(l) }
+    end
+    result
   end
+
+  def permitted_locales
+    division.resolve_permitted_locales
+  end
+
+  def unused_locales
+    permitted_locales - used_locales
+  end
+
+
 
   def delete_translation(attribute, locale)
     translation = get_translation(attribute, locale:locale, exact_match: true)
@@ -107,10 +123,18 @@ module Translatable
   #   end
   # end
 
+
+  #
+  # Form helpers
+  #
+
+
   #
   # define a easy way to fetch a named attribute for a specific locale
+  #   <attribute>_<locale> is equivalent to translations.where(translatable_attribute: attribute, locale: locale).first
   #
-  # <attribute>_<locale> is equivalent to translations.where(translatable_attribute: attribute, locale: locale).first
+  # support for detecting a changed locale for an existing translation
+  #   locale_<locale> returns the locale component of the method name
   #
 
   def method_missing(method_sym, *arguments, &block)
@@ -122,6 +146,12 @@ module Translatable
         return translation.try(:text)
       end
     end
+    if method_sym.to_s =~ /^locale_(.*)$/
+      # note, this assumes that invalid locales are already filtered out before reaching UI.
+      if permitted_locales.include? $1.to_sym
+        return $1
+      end
+    end
     super
   end
 
@@ -131,7 +161,15 @@ module Translatable
         return true
       end
     end
+    if method_sym.to_s =~ /^locale_(.*)$/
+      if permitted_locales.include? $1.to_sym
+        return permitted_locales.include? $1.to_sym
+      end
+    end
     super
   end
+
+
+
 
 end

@@ -95,14 +95,6 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
-  def permitted_locales
-    project.division.resolve_permitted_locales
-  end
-
-  def unused_locales
-    permitted_locales - used_locales
-  end
-
   # Below methods may need to be moved elsewhere
   def completed?
     self.completed_date ? true : false
@@ -152,6 +144,8 @@ class ProjectStep < ActiveRecord::Base
   # Translations helpers
   #
 
+  # todo: refactor up to translatable.rb
+
   def update_translations!(translation_params)
     # deleting the translations that have been removed
     JSON.parse(translation_params[:deleted_locales]).each { |l|
@@ -170,28 +164,6 @@ class ProjectStep < ActiveRecord::Base
       }
     }
     save!
-  end
-
-  #
-  # Form helpers
-  #
-
-  # todo: figure out a cleaner solution here
-
-  def method_missing(method_sym, *arguments, &block)
-    if method_sym.to_s =~ /^locale_(.*)$/
-      # fixme: this is too fragile, a change in permitted_locales leads to broken system
-      return $1 if permitted_locales.include? $1.to_sym
-    end
-    super
-  end
-
-  def respond_to?(method_sym, include_private = false)
-    if method_sym.to_s =~ /^locale_(.*)$/
-      permitted_locales.include? $1.to_sym
-    else
-      super
-    end
   end
 
 end
