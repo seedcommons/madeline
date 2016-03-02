@@ -57,10 +57,12 @@ en:
   overdue: Overdue
 
   ## Admin panel ##
+  all: "All"
   calendar: "Calendar"
   cancel: "Cancel"
   city: "City"
   clear: "Clear"
+  completed: "Completed"
   confirm: "Confirm"
   confirm_deletion: 'Are you sure you want to delete this %{thing}?'
   coop: "Co-op"
@@ -69,12 +71,14 @@ en:
   created: "Created"
   delete: "Delete"
   description: "Description"
+  dropdown_toggle: "Toggle Dropdown"
   division: "Division"
   edit: "Edit"
   email: "Email"
   filter: "Filter"
   filter_by: "Filter by:"
   id: "ID"
+  incomplete: "Incomplete"
   loans: "Loans"
   login: "Login"
   logout: "Logout"
