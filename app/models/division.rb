@@ -144,14 +144,5 @@ class Division < ActiveRecord::Base
     result
   end
 
-  def resolve_permitted_locales
-    # beware, this is distinct from I18n.available_locales to flatten out the region specific locales
-    # for the purpose of the translatable fields.
-    # if we really want to support es-AR, etc in the translatable system, we need to tweak the migration
-    # and also think through all of the other implications
-    [:en, :es, :fr]
-    # todo: consider also having a division specific list of 'permitted_locales'
-  end
-
 
 end

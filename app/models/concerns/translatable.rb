@@ -50,15 +50,15 @@ module Translatable
   def get_translation(attribute, locale: I18n.locale, exact_match: false)
     # important to filter against the association held in memory instead of performing a db lookup
     # in order to redisplay potentially transient values
-    result = translations.find{|t|
+    result = translations.find do |t|
       t.translatable_attribute.to_sym == attribute.to_sym && t.locale.to_sym == locale.to_sym
-    }
+    end
     unless result || exact_match
       # fall back to first translations of any locale if desired locale not present
       # (except when fetching in order to perform update)
-      result = translations.find{|t|
+      result = translations.find do |t|
         t.translatable_attribute.to_sym == attribute.to_sym
-      }
+      end
     end
     result
   end
@@ -73,18 +73,25 @@ module Translatable
       result = self.division.try(:resolve_default_locales)
     end
     result += translations.pluck(:locale)
-    result.map!(&:to_sym).uniq!
+
     # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
-    if respond_to?(:permitted_locales)
-      permitted = self.permitted_locales
-      result.select!{ |l| permitted.include?(l) }
-    end
-    result
+    permitted = self.permitted_locales
+    result.map(&:to_sym).uniq.select{ |l| permitted.include?(l) }
   end
 
+
+  # Beware, this is distinct from I18n.available_locales to flatten out the region specific locales
+  # for the purpose of the translatable fields.
+  # If we really want to support es-AR, etc in the translatable system, we need to tweak the migration
+  # and also think through all of the other implications
   def permitted_locales
-    division.resolve_permitted_locales
+    [:en, :es, :fr]   # todo: determine full list here
+    # Note, this list currently depends on being included in the I18n.available_locales list
+    # because we're leveraging the I18n system to translate our locale_name for the
+    # language selection drop-down.
+    # If we're okay with just using a simple map instead, then we could avoid that dependency.
   end
+
 
   def unused_locales
     permitted_locales - used_locales
@@ -138,7 +145,6 @@ module Translatable
   #
 
   def method_missing(method_sym, *arguments, &block)
-    # the first argument is a Symbol, so you need to_s it if you want to pattern match
     # todo: consider make this dynamic method pattern more unique
     if method_sym.to_s =~ /^(.*)_(.*)$/
       if $2 != "translations" && respond_to?("#{$1}_translations")
