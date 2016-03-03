@@ -1,0 +1,28 @@
+ul class="nav nav-tabs" role="tablist"
+  = render "tab", identifier: "details", label: t("loan.details")
+  = render "tab", identifier: "criteria", label: t("loan.criteria")
+  = render "tab", identifier: "timeline", label: t("loan.timeline")
+  = render "tab", identifier: "calendar", label: t(:calendar)
+  = render "tab", identifier: "print", label: t(:print)
+  = render "tab", identifier: "more", label: t(:more)
+
+div class="tab-content"
+  - details = render "admin/loans/details", loan: @loan
+  = render "tab_content", identifier: "details", category: "active flush",
+    content: details
+
+  = render "tab_content", identifier: "criteria", category: "",
+    content: "Criteria"
+
+  - timeline = render "admin/loans/timeline/timeline", loan: @loan
+  = render "tab_content", identifier: "timeline", category: "",
+    content: timeline
+
+  = render "tab_content", identifier: "calendar", category: "",
+    content: "Calendar"
+
+  = render "tab_content", identifier: "print", category: "",
+    content: "Print"
+
+  = render "tab_content", identifier: "more", category: "",
+    content: "More"
