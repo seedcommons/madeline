@@ -1,0 +1,36 @@
+= render view_path('common/show_header')
+
+table
+  tr
+    td Linkable
+    td
+      - if @item.custom_value_set_linkable
+        = link_to "#{@item.custom_value_set_linkable_type}[#{@item.custom_value_set_linkable_id}]", item_path(@item.custom_value_set_linkable)
+  tr
+    td Custom Field Set ID
+    td
+      - if @item.custom_field_set
+        = link_to @item.custom_field_set.internal_name, item_path(@item.custom_field_set)
+  tr
+    td Linkable Attribute
+    td = @item.linkable_attribute
+  tr
+    td Custom Data
+    td
+      - if @item.custom_data
+        /= @item.custom_data
+        table
+          tr
+            th Question
+            th Response
+
+          - for pair in @item.custom_data
+            tr
+              - field = CustomField.find(pair[0])
+              td = field.label
+              td = pair[1]
+
+
+- if params[:debug]
+  hr
+  = debug @item

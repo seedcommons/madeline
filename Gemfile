@@ -14,6 +14,7 @@ gem 'font-awesome-rails'
 gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
+gem 'twitter-bootstrap-rails-confirm'
 
 # Authentication / Authorization
 gem 'devise'

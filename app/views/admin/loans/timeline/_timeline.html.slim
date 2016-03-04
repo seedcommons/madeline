@@ -1,0 +1,7 @@
+section.timeline
+  div.project-steps
+    - unless @loan.project_steps.empty?
+      - @loan.project_steps.each do |step|
+        = render "admin/loans/timeline/project_step", step: step
+    - else
+      = t("project_step.no_steps")

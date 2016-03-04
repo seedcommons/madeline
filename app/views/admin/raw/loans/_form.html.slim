@@ -12,10 +12,10 @@
       td = f.select(:organization_id, organization_select_options(@item.organization_id), {include_blank: '---'})
     tr
       td Loan Type
-      td = f.select(:loan_type_option_id, options_from_collection_for_select(Loan::LOAN_TYPE_OPTIONS.all, :value, :label, @item.loan_type_option_id), {include_blank: '---'})
+      td = f.select(:loan_type_value, options_for_select(Loan.loan_type_option_set.translated_list, @item.loan_type_value), {include_blank: '---'})
     tr
       td Status
-      td = f.select(:status_option_id, options_from_collection_for_select(Loan::STATUS_OPTIONS.all, :value, :label, @item.status_option_id), {include_blank: '---'})
+      td = f.select(:status_value, options_for_select(Loan.status_option_set.translated_list, @item.status_value), {include_blank: '---'})
     tr
       td Amount
       td = f.text_field :amount
