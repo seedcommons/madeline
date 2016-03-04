@@ -9,31 +9,37 @@ div.panel.log.expandable
           a.action role="button"
             i.fa.fa-pencil
           = link_to [:admin, log], method: :delete, class: "action",
-              data: { confirm: t('confirm_deletion', thing: t('project_log.project_log')),
-              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) },
+              data: {confirm: t('confirm_deletion',
+                thing: t('project_log.project_log')),
+                "confirm-cancel": t(:cancel),
+                "confirm-proceed": t(:confirm) },
               role: "button"
               i.fa.fa-trash>
 
       div.col-lg-2.last-col.right-align
         span.bold = log.try(:progress_metric)
 
-  / TODO: Remove placeholder info
   div.panel-body
     div.row
       p
-        = log.summary ? log.try(:summary) : "This is a placeholder summary."
-        a.more.log-ctrl role="button" More
-        a.less.log-ctrl role="button" Less
+        = log.summary ? log.try(:summary) : ""
+
+        - if log.details || log.additional_notes || log.private_notes
+          a.more.log-ctrl role="button" = t(:more)
+          a.less.log-ctrl role="button" = t(:less)
 
   div.panel-footer.more-info
-    p.log-info
-      = log.details ? log.try(:details) : "These are placeholder details."
+    - if log.details
+      p.log-info
+        = log.try(:details)
 
     div.log-info
-      span.bold = "Additional Notes: "
-      = log.additional_notes ? log.try(:additional_notes) : "None"
+      - if log.additional_notes
+        span.bold = t("log.additional_notes")
+        span = log.try(:additional_notes)
 
     div.log-info
-      span.bold = "Private Notes: "
-      = log.private_notes ? log.try(:private_notes) : "None"
+      - if log.private_notes
+        span.bold = t("log.private_notes")
+        span = log.try(:private_notes)
 

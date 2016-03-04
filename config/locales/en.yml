@@ -157,7 +157,9 @@ en:
       time_late: "%{time} late"
 
   log:
+    additional_notes: "Additional Notes:"
     hide_logs: "Hide Logs (%{n})"
     log: "project log"
     no_logs: "No Logs"
+    private_notes: "Private Notes:"
     show_logs: "Show Logs (%{n})"
