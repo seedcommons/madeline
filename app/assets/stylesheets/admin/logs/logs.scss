@@ -1,5 +1,13 @@
 @import "../loans/_colors";
 
+.step-logs {
+  .icon-with-text {
+    .fa {
+      font-size: inherit;
+    }
+  }
+}
+
 .logs {
   text-align: left;
 }
@@ -77,6 +85,14 @@
     display: none;
   }
 
+  .add-log.condensed {
+    display: inline;
+  }
+
+  .add-log.full {
+    display: none;
+  }
+
   &.expanded {
     .more.logs-ctrl {
       display: none;
@@ -88,6 +104,14 @@
 
     .logs {
       display: block;
+    }
+
+    .add-log.condensed {
+      display: none;
+    }
+
+    .add-log.full {
+      display: inline-block;
     }
   }
 }
