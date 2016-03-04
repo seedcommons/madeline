@@ -2,18 +2,19 @@
 #
 # Table name: media
 #
+#  created_at            :datetime         not null
 #  id                    :integer          not null, primary key
+#  item                  :string
+#  item_content_type     :string
+#  item_file_size        :integer
+#  item_height           :integer
+#  item_width            :integer
+#  kind                  :string
 #  media_attachable_id   :integer
 #  media_attachable_type :string
 #  sort_order            :integer
-#  kind                  :string
-#  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  item                  :string
-#  item_file_size        :integer
-#  item_content_type     :string
-#  item_height           :integer
-#  item_width            :integer
+#  uploader_id           :integer
 #
 # Indexes
 #
@@ -22,7 +23,9 @@
 
 class Media < ActiveRecord::Base
   include Translatable
+
   belongs_to :media_attachable, polymorphic: true
+  belongs_to :uploader, class_name: "Person"
 
   mount_uploader :item, MediaItemUploader
   attr_translatable :caption, :description

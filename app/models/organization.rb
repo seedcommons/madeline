@@ -43,6 +43,7 @@
 class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
+  include MediaAttachable
   include CustomFieldAddable  # allows setting dynamic fields like 'is_recovered', potentially customizable per division
 
   # provides 'ownership' relation with loan questionnaire responses.  note multiple loans may share the same
