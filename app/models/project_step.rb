@@ -2,16 +2,16 @@
 #
 # Table name: project_steps
 #
+#  agent_id        :integer
+#  completed_date  :date
+#  created_at      :datetime         not null
 #  id              :integer          not null, primary key
+#  is_finalized    :boolean
 #  project_id      :integer
 #  project_type    :string
-#  agent_id        :integer
 #  scheduled_date  :date
-#  completed_date  :date
-#  is_finalized    :boolean
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
 #  step_type_value :string
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
@@ -51,8 +51,6 @@ class ProjectStep < ActiveRecord::Base
     project_logs.count
   end
 
-
-
   def is_completed
     completed_date.present?
   end
@@ -61,15 +59,68 @@ class ProjectStep < ActiveRecord::Base
     is_completed ? 'completed' : 'not_completed'
   end
 
+  def last_log_status
+    project_logs.order(:date).last.try(:progress)
+  end
+
+  def admin_status
+    last_log_status
+  end
+
   def status
     if is_completed
       I18n.t :log_completed
     else
-      project_logs.order(:date).last.try(:progress)
+      last_log_status
     end
   end
 
   def display_date
     I18n.l (self.completed_date || self.scheduled_date), format: :long
+  end
+
+  # Below methods may need to be moved elsewhere
+  def completed?
+    self.completed_date ? true : false
+  end
+
+  def milestone?
+    self.step_type_value == "milestone" ? true : false
+  end
+
+  def days
+    if self.completed?
+      self.completed_date - self.scheduled_date
+    end
+  end
+
+  def border_color
+    # Stubbed border color
+    if self.completed?
+      "green"
+    else
+      "black"
+    end
+  end
+
+  def background_color
+    # Stubbed background color
+    color = self.border_color
+
+    if color == "black"
+      "inherit"
+    else
+      color
+    end
+  end
+
+  def scheduled_bg
+    # Stubbed scheduled date background
+
+    if self.completed?
+      "inherit"
+    else
+      self.background_color
+    end
   end
 end

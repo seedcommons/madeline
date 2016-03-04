@@ -25,7 +25,7 @@ table
     td = @item.amount
   tr
     td Summary
-    td = render view_path('common/translations'), { items: @item.summary_list }
+    td = render view_path('common/translations'), { items: @item.summary_translations }
   tr
     td Point Person
     td
@@ -64,7 +64,22 @@ table
         = link_to @item.representative.name, item_path(@item.representative)
   tr
     td Details
-    td = render view_path('common/translations'), { items: @item.details_list }
+    td = render view_path('common/translations'), { items: @item.details_translations }
+  tr
+    td Loan Criteria
+    td
+      - if @item.loan_criteria
+        = link_to @item.loan_criteria.id, item_path(@item.loan_criteria)
+  tr
+    td Post Analysis
+    td
+      - if @item.post_analysis
+        = link_to @item.post_analysis.id, item_path(@item.post_analysis)
+  tr
+    td Old Loan Criteria
+    td
+      - if @item.old_loan_criteria
+        = link_to @item.old_loan_criteria.id, item_path(@item.old_loan_criteria)
   tr
     td Created At
     td = @item.created_at
