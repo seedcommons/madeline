@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
     t.string   "item_content_type"
     t.integer  "item_height"
     t.integer  "item_width"
+    t.integer  "uploader_id"
   end
 
   add_index "media", ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id", using: :btree
@@ -329,6 +330,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
   add_foreign_key "organizations", "countries"
