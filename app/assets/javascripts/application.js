@@ -19,3 +19,4 @@
 //= require wice_grid
 
 //= require twitter/bootstrap/rails/confirm
+//= require admin/admin
