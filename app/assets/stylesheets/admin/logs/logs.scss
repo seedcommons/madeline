@@ -1,9 +1,19 @@
 @import "../loans/_colors";
 
 .step-logs {
-  .icon-with-text {
+  .fa {
+    font-size: inherit;
+  }
+}
+
+.add-log {
+  &.condensed {
+    margin: 0 .25em;
+    padding: .25em 0 .25em .25em;
+    cursor: pointer;
+
     .fa {
-      font-size: inherit;
+      font-size: 1.25em;
     }
   }
 }
