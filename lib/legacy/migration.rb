@@ -13,6 +13,7 @@ module Legacy
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
       Legacy::LoanResponseSet.migrate_all
+      Legacy::LoanResponsesIFrame.migrate_all
     end
 
     # the core data which can be quickly migrated
