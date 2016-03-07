@@ -22,7 +22,8 @@ div.panel.log.expandable
   div.panel-body
     div.row
       p
-        = log.summary ? log.try(:summary) : ""
+        - if log.summary
+          span.summary = log.try(:summary)
 
         - if log.details || log.additional_notes || log.private_notes
           a.more.log-ctrl role="button" = t(:more)

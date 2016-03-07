@@ -15,12 +15,12 @@
       - if step.logs_count > 0
         section.logs
           header.row
-            span.col-lg-8.first-col.section-heading Logs
+            span.col-lg-8.first-col.section-heading = t("log.logs")
             span.col-lg-4.last-col.action-items
               div.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle
-                span.text-right-of-icon New Log
+                span.text-right-of-icon = t("log.new_log")
 
           - step.project_logs.each do |log|
             = render "admin/logs/log", step: step, log: log

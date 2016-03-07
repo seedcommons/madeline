@@ -8,7 +8,7 @@
 
 .add-log {
   background: $green1;
-  color: white;
+  color: $white;
 
   .fa {
     vertical-align: middle;
@@ -70,8 +70,8 @@
 }
 
 .log.expandable {
-  .less.log-ctrl, .more.log-ctrl {
-    margin: 0 .5em;
+  .summary {
+    margin: 0 .5em 0 0;
   }
 
   .less.log-ctrl {
