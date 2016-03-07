@@ -1,10 +1,10 @@
 ul class="nav nav-tabs" role="tablist"
-  = render "tab", identifier: "details", label: t("loan.details"), classes: "edit-tab"
-  = render "tab", identifier: "criteria", label: t("loan.criteria")
-  = render "tab", identifier: "timeline", label: t("loan.timeline")
-  = render "tab", identifier: "calendar", label: t(:calendar)
-  = render "tab", identifier: "print", label: t(:print)
-  = render "tab", identifier: "more", label: t(:more)
+  = render "tab", identifier: "details", label: t("loan.details"), tab_class: "active", link_class: "edit-tab"
+  = render "tab", identifier: "criteria", label: t("loan.criteria"), tab_class: "", link_class: ""
+  = render "tab", identifier: "timeline", label: t("loan.timeline"), tab_class: "", link_class: ""
+  = render "tab", identifier: "calendar", label: t(:calendar), tab_class: "", link_class: ""
+  = render "tab", identifier: "print", label: t(:print), tab_class: "", link_class: ""
+  = render "tab", identifier: "more", label: t(:more), tab_class: "", link_class: ""
 
 div class="tab-content"
   - details = render "admin/loans/details", loan: @loan
