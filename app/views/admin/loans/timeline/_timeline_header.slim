@@ -17,3 +17,18 @@ header.row.timeline-header
           a id="check-completed-ctrl" = t(:completed)
         li
           a id="check-incomplete-ctrl" = t(:incomplete)
+
+  div.col-lg-2
+    div.btn-group
+      button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        = "Batch Actions"
+        span.caret
+        span.sr-only = t(:dropdown_toggle)
+
+      ul.dropdown-menu
+        li
+          a id="delete-selected" = "Delete Selected"
+        li
+          a id="adjust-dates" = "Adjust Dates"
+        li
+          a id="finalize" = "Finalize"
