@@ -9,7 +9,7 @@
         - else
           span.no-logs
             = t("log.no_logs")
-      span.icon-box.add-log.condensed.text-success.last-col
+      span.add-log.condensed.last-col
         i.fa.fa-plus-circle
 
       - if step.logs_count > 0
@@ -17,7 +17,7 @@
           header.row
             span.col-lg-8.first-col.section-heading Logs
             span.col-lg-4.last-col.action-items
-              div.icon-with-text.btn.btn-success.add-log.full
+              div.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle
                 span.text-right-of-icon New Log

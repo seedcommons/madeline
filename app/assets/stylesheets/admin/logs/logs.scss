@@ -7,13 +7,32 @@
 }
 
 .add-log {
+  background: $green1;
+  color: white;
+
+  .fa {
+    vertical-align: middle;
+  }
+
   &.condensed {
     margin: 0 .25em;
     padding: .25em 0 .25em .25em;
     cursor: pointer;
+    background: inherit;
+    color: $green1;
 
     .fa {
-      font-size: 1.25em;
+      font-size: 2em;
+    }
+  }
+
+  &:hover {
+    border: 1px solid $green1;
+    color: $green1;
+    background: inherit;
+
+    &.condensed {
+      border: none;
     }
   }
 }
