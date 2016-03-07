@@ -7,7 +7,8 @@
 
 - content_for :scripts
   = javascript_include_tag "admin/forms/forms"
-  = javascript_include_tag "admin/timeline/select_all"
+  = javascript_include_tag "admin/timeline/select_steps"
+  = javascript_include_tag "admin/timeline/batch_actions"
 
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 

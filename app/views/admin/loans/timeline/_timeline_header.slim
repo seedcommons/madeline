@@ -25,10 +25,10 @@ header.row.timeline-header
         span.caret
         span.sr-only = t(:dropdown_toggle)
 
-      ul.dropdown-menu
-        li
-          a id="delete-selected" = "Delete Selected"
-        li
-          a id="adjust-dates" = "Adjust Dates"
-        li
-          a id="finalize" = "Finalize"
+      ul.dropdown-menu.batch-actions
+        li.action
+          a id="delete-selected" data-method-key="delete" = "Delete Selected"
+        li.action
+          a id="adjust-dates" data-method-key="adjust_dates" = "Adjust Dates"
+        li.action
+          a id="finalize" data-method-key="finalize" = "Finalize"
