@@ -50,12 +50,16 @@ class ProjectStep < ActiveRecord::Base
     project_logs.count
   end
 
-  def is_completed
+  def completed?
     completed_date.present?
   end
 
   def completed_or_not
-    is_completed ? 'completed' : 'not_completed'
+    completed? ? 'completed' : 'not_completed'
+  end
+
+  def milestone?
+    self.step_type_value == "milestone" ? true : false
   end
 
   def last_log_status
@@ -67,7 +71,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def status
-    if is_completed
+    if completed?
       I18n.t :log_completed
     else
       last_log_status
@@ -80,61 +84,38 @@ class ProjectStep < ActiveRecord::Base
 
   # Generate a CSS color based on the status and lateness of the step
   def color
-    # if is_completed
-      a = color_spectrum(ON_TIME, SUPER_EARLY, 0.5)
+    # if completed?
+      a = color_between(ON_TIME, SUPER_EARLY, 0.5)
     # end
 
     "hsl(#{a[0]}, #{a[1]}%, #{a[2]}%)"
   end
 
-  # Below methods may need to be moved elsewhere
-  def completed?
-    self.completed_date ? true : false
-  end
-
-  def milestone?
-    self.step_type_value == "milestone" ? true : false
-  end
-
   def days
-    if self.completed?
-      self.completed_date - self.scheduled_date
+    if completed?
+      completed_date - scheduled_date
     end
   end
 
   def border_color
-    # Stubbed border color
-    if self.completed?
-      "green"
-    else
-      "black"
-    end
+    color
   end
 
   def background_color
-    # Stubbed background color
-    color = self.border_color
+    color
+  end
 
-    if color == "black"
+  def scheduled_bg
+    if completed?
       "inherit"
     else
       color
     end
   end
 
-  def scheduled_bg
-    # Stubbed scheduled date background
-
-    if self.completed?
-      "inherit"
-    else
-      self.background_color
-    end
-  end
-
   private
 
-  def color_spectrum(start, finish, fraction)
+  def color_between(start, finish, fraction = 0.5)
     start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
   end
 

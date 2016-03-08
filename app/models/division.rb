@@ -4,6 +4,7 @@
 #
 #  created_at      :datetime         not null
 #  currency_id     :integer
+#  custom_data     :json
 #  description     :text
 #  id              :integer          not null, primary key
 #  internal_name   :string
