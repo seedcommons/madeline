@@ -3,6 +3,9 @@
   = stylesheet_link_tag "admin/bootstrap_layout", :media => "all"
   = stylesheet_link_tag "admin/menu", :media => "all"
 
+- content_for :scripts
+  = javascript_include_tag "admin/confirm"
+
 - content_for :content
   = render "layouts/admin/page"
 

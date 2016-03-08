@@ -1,0 +1,28 @@
+@import "colors";
+
+.tab-pane {
+  padding: 1em;
+
+  &.active {
+    background: $gray1;
+  }
+
+  &.flush {
+    padding: 0;
+    background: white;
+  }
+}
+
+.nav-tabs > li {
+  &.active a {
+    background: $gray1;
+  }
+}
+
+.flush {
+  .block {
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}

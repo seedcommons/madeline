@@ -6,7 +6,7 @@ class Translation < ActiveRecord::Base
   include LegacyModel
 
   def migration_data
-    new_model_name = map_model_name(remote_table)
+    new_model_name = Translation.map_model_name(remote_table)
     new_attribute_name = map_attribute_name(new_model_name, remote_column_name)
     puts "Translation[#{self.id}]"
     data = {
@@ -15,14 +15,15 @@ class Translation < ActiveRecord::Base
         translatable_type: new_model_name,
         translatable_id: remote_id,
         translatable_attribute: new_attribute_name,
-        language_id: language,
+        # language_id: language,
+        locale: LANGUAGE_LOCALE_MAP[language],
         text: translated_content
     }
     data
   end
 
   def migrate
-    if [1,2].include?(language)
+    if [1,2,3].include?(language)
       data = migration_data
       puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
       ::Translation.create(data)
@@ -32,10 +33,16 @@ class Translation < ActiveRecord::Base
     end
   end
 
-
-  def map_model_name(old_table)
-    return 'ProjectStep'  if old_table == 'ProjectEvents'
-    old_table.singularize  ## will need to expand this logic as we flush out the migration
+  # usage shared with Media
+  def self.map_model_name(old_table)
+    case old_table
+      when 'ProjectEvents'
+        'ProjectStep'
+      when 'Cooperatives'
+        'Organization'
+      else
+        old_table.singularize
+    end
   end
 
   def map_attribute_name(new_model, old_column)
@@ -46,8 +53,11 @@ class Translation < ActiveRecord::Base
       'Loan' => {'ShortDescription' => 'summary', 'Description' => 'details'},
       'ProjectStep' => {'Summary' => 'summary', 'Details' => 'details'},
       'ProjectLog' => {'Explanation' => 'summary', 'DetailedExplanation' => 'details',
-                       'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes'}
+                       'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes'},
+      'Media' => {'Caption' => 'caption', 'Description' => 'description'}
   }
+
+  LANGUAGE_LOCALE_MAP = {1 => :en, 2 => :es, 3 => :fr}
 
 end
 

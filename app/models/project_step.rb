@@ -2,16 +2,16 @@
 #
 # Table name: project_steps
 #
+#  agent_id        :integer
+#  completed_date  :date
+#  created_at      :datetime         not null
 #  id              :integer          not null, primary key
+#  is_finalized    :boolean
 #  project_id      :integer
 #  project_type    :string
-#  agent_id        :integer
 #  scheduled_date  :date
-#  completed_date  :date
-#  is_finalized    :boolean
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
 #  step_type_value :string
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
@@ -32,18 +32,14 @@ class ProjectStep < ActiveRecord::Base
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
 
-
   has_many :project_logs
-
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
   attr_option_settable :step_type
 
-
   validates :project_id, presence: true
-
 
   def name
     # logger.debug "this: #{self.inspect}"
@@ -53,8 +49,6 @@ class ProjectStep < ActiveRecord::Base
   def logs_count
     project_logs.count
   end
-
-
 
   def is_completed
     completed_date.present?
@@ -93,13 +87,49 @@ class ProjectStep < ActiveRecord::Base
     "hsl(#{a[0]}, #{a[1]}%, #{a[2]}%)"
   end
 
-  # Using these in case we need to use different colors in the future
+  # Below methods may need to be moved elsewhere
+  def completed?
+    self.completed_date ? true : false
+  end
+
+  def milestone?
+    self.step_type_value == "milestone" ? true : false
+  end
+
+  def days
+    if self.completed?
+      self.completed_date - self.scheduled_date
+    end
+  end
+
   def border_color
-    color
+    # Stubbed border color
+    if self.completed?
+      "green"
+    else
+      "black"
+    end
   end
 
   def background_color
-    color
+    # Stubbed background color
+    color = self.border_color
+
+    if color == "black"
+      "inherit"
+    else
+      color
+    end
+  end
+
+  def scheduled_bg
+    # Stubbed scheduled date background
+
+    if self.completed?
+      "inherit"
+    else
+      self.background_color
+    end
   end
 
   private
@@ -107,4 +137,5 @@ class ProjectStep < ActiveRecord::Base
   def color_spectrum(start, finish, fraction)
     start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
   end
+
 end

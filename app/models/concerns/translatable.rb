@@ -2,7 +2,7 @@ module Translatable
   extend ActiveSupport::Concern
 
   included do
-    has_many :translations, as: :translatable
+    has_many :translations, as: :translatable, autosave: true
     accepts_nested_attributes_for :translations
   end
 
@@ -49,9 +49,8 @@ module Translatable
 
   def get_translation(attribute)
     translation = translations.find_by(translatable_attribute: attribute, locale: I18n.locale)
-    return translation if translation
-    translation = get_translations(attribute).first
-    return translation if translation
+    translation = get_translations(attribute).first  unless translation
+    return associated_translation(translation) if translation
     nil
   end
 
@@ -72,6 +71,16 @@ module Translatable
   def set_translations(attribute, translations = {})
     translations.each do |locale, text|
       set_translation(attribute, text, locale: locale)
+    end
+  end
+
+  # returns the element from the parent objects assocation list for the given object's id
+  # necessary to get autosave behavior to work as desired
+  def associated_translation(translation)
+    if translation
+      translations.find{|t| t.id == translation.id}
+    else
+      translation
     end
   end
 end

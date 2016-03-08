@@ -1,0 +1,5 @@
+= render view_path('common/index_header')
+
+= render view_path('custom_value_sets/list'), {items: @items}
+
+= will_paginate @items
