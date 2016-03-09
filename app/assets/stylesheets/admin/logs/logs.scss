@@ -7,7 +7,7 @@
 }
 
 .add-log {
-  background: $green1;
+  background: $success1;
   color: $white;
 
   .fa {
@@ -19,7 +19,7 @@
     padding: .25em 0 .25em .25em;
     cursor: pointer;
     background: inherit;
-    color: $green1;
+    color: $success1;
 
     .fa {
       font-size: 2em;
@@ -27,8 +27,8 @@
   }
 
   &:hover {
-    border: 1px solid $green1;
-    color: $green1;
+    border: 1px solid $success1;
+    color: $success1;
     background: inherit;
 
     &.condensed {
