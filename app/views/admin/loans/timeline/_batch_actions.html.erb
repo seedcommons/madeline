@@ -1,17 +1,17 @@
-<li class="action">
-  <a id="delete-selected" data-method-key="DELETE" data-action-key="/project_steps/" data-confirm="<%= t("project_step.batch_delete_confirm") %>" data-confirm-cancel="<%= t(:cancel) %>" data-confirm-proceed="<%= t(:confirm) %>">
+<li>
+  <a id="delete-selected" data-method-key="DELETE" data-action-key="/project_steps/" data-confirm="<%= t("project_step.batch_delete_confirm") %>" data-confirm-cancel="<%= t(:cancel) %>" data-confirm-proceed="<%= t(:confirm) %>" class="action batch-action">
     <%= t("loan.delete_selected") %>
   </a>
 </li>
 
-<li class="action">
-  <a id="adjust-dates" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates">
+<li>
+  <a id="adjust-dates" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates" class="action">
     <%= t("loan.adjust_dates") %>
   </a>
 </li>
 
 <li class="action">
-  <a id="finalize" data-method-key="PATCH" data-action-key="/project_steps/finalize" data-confirm="<%= t("project_step.batch_finalize_confirm") %>" data-confirm-cancel="<%= t(:cancel) %>" data-confirm-proceed="<%= t(:confirm) %>">
+  <a id="finalize" data-method-key="PATCH" data-action-key="/project_steps/finalize" data-confirm="<%= t("project_step.batch_finalize_confirm") %>" data-confirm-cancel="<%= t(:cancel) %>" data-confirm-proceed="<%= t(:confirm) %>" class="action batch-action">
     <%= t("loan.finalize") %>
   </a>
 </li>
