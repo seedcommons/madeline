@@ -109,4 +109,9 @@
     margin: 0;
     vertical-align: middle;
   }
+
+  input[type="number"] {
+    max-width: 5em;
+    text-align: center;
+  }
 }
