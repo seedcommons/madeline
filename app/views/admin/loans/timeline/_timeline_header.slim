@@ -21,14 +21,14 @@ header.row.timeline-header
   div.col-lg-2
     div.btn-group
       button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-        = "Batch Actions"
+        = t("loan.batch_actions")
         span.caret
         span.sr-only = t(:dropdown_toggle)
 
       ul.dropdown-menu.batch-actions
         li.action
-          a id="delete-selected" data-method-key="delete" = "Delete Selected"
+          a id="delete-selected" data-method-key="DELETE" data-action-key="/project_steps/" = t("loan.delete_selected")
         li.action
-          a id="adjust-dates" data-method-key="adjust_dates" = "Adjust Dates"
+          a id="adjust-dates" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates" = t("loan.adjust_dates")
         li.action
-          a id="finalize" data-method-key="finalize" = "Finalize"
+          a id="finalize" data-method-key="PATCH" data-action-key="/project_steps/finalize" = t("loan.finalize")
