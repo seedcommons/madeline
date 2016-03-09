@@ -1,14 +1,23 @@
-<div class="modal fade" id="adjust-dates-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="adjust-dates-modal" tabindex="-1"
+  aria-labelledby="adjust-dates-label">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
           aria-label="<%= t(:cancel) %>">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Adjust dates</h4>
+        <h4 class="modal-title" id="adjust-dates-label">
+          Adjust Scheduled Dates
+          </h4>
       </div>
       <div class="modal-body">
-        <p>Adjust dates content</p>
+        <span>Move scheduled dates</span>
+        <button class="btn">forward</button>
+        <button class="btn">backward</button>
+
+        <input type="text" />
+
+        <span>days</span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">
