@@ -144,6 +144,8 @@ en:
     timeline: "Timeline"
 
   project_step:
+    batch_delete_confirm: "Are you sure you want to delete these project steps?"
+    batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
     finalized: "Finalized:"
     labels:
       completed: "Completed:"
@@ -153,6 +155,7 @@ en:
     logs: "Logs"
     no_steps: "No timeline steps to display."
     project_step: "project step"
+    project_steps: "project steps"
     timeline: "Timeline"
     status:
       completed: "Completed"

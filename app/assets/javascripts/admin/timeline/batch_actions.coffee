@@ -1,6 +1,8 @@
 $ ->
-  $(".batch-actions .action").click (e) ->
-    item = e.currentTarget
+  $(".batch-actions .action").on 'confirm:complete', (e) ->
+    adjust_form(e.currentTarget)
+
+  adjust_form = (item) ->
     $link = $(item).find("a")
 
     method_key = $link.attr("data-method-key")

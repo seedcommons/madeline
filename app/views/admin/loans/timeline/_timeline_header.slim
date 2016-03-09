@@ -26,9 +26,5 @@ header.row.timeline-header
         span.sr-only = t(:dropdown_toggle)
 
       ul.dropdown-menu.batch-actions
-        li.action
-          a id="delete-selected" data-method-key="DELETE" data-action-key="/project_steps/" = t("loan.delete_selected")
-        li.action
-          a id="adjust-dates" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates" = t("loan.adjust_dates")
-        li.action
-          a id="finalize" data-method-key="PATCH" data-action-key="/project_steps/finalize" = t("loan.finalize")
+        = render "admin/loans/timeline/batch_actions"
+
