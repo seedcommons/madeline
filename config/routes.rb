@@ -13,9 +13,6 @@ Rails.application.routes.draw do
     resources :organizations
     resources :project_steps
 
-    get 'project_logs/finalize', to: 'project_steps#finalize'
-    get 'project_logs/adjust_dates', to: 'project_steps#adjust_dates'
-
     namespace :raw do
       resources :divisions
       resources :loans

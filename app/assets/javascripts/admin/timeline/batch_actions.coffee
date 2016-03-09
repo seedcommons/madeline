@@ -1,11 +1,14 @@
 $ ->
   $(".batch-actions .action").click (e) ->
-    item = this
+    item = e.currentTarget
     $link = $(item).find("a")
+
     method_key = $link.attr("data-method-key")
+    action_key = $link.attr("data-action-key")
 
-    $form = $(this).closest("form")
-    $form.attr("data-method", method_key)
+    $form = $(item).closest("form")
 
-    form_data = $form.serialize()
-    console.log(form_data)
+    $form.find("#set-method").attr("value", method_key)
+    $form.attr("action", action_key)
+
+    $form.submit()

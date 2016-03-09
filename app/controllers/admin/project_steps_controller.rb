@@ -15,13 +15,4 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     redirect_to admin_loan_path(@step.project_id)
   end
-
-  def delete_selected
-  end
-
-  def adjust_dates
-  end
-
-  def finalize
-  end
 end
