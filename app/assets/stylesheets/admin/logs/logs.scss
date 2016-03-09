@@ -1,0 +1,167 @@
+@import "../loans/_colors";
+
+.step-logs {
+  .fa {
+    font-size: inherit;
+  }
+}
+
+.add-log {
+  background: $success1;
+  color: $white;
+
+  .fa {
+    vertical-align: middle;
+  }
+
+  &.condensed {
+    margin: 0 .25em;
+    padding: .25em 0 .25em .25em;
+    cursor: pointer;
+    background: inherit;
+    color: $success1;
+
+    .fa {
+      font-size: 2em;
+    }
+  }
+
+  &:hover {
+    border: 1px solid $success1;
+    color: $success1;
+    background: inherit;
+
+    &.condensed {
+      border: none;
+    }
+  }
+}
+
+.logs {
+  text-align: left;
+}
+
+.log {
+  &.panel {
+    background: $gray1;
+  }
+
+  .panel-body, .panel-footer, .panel-heading {
+    background: inherit;
+    border: none;
+    padding: 0;
+    margin: 1em;
+  }
+
+  .log-info {
+    padding: 0;
+    margin: 1em 0;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .actions-box {
+    text-align: left;
+    margin: 0 1em;
+  }
+}
+
+.log.expandable {
+  .summary {
+    margin: 0 .5em 0 0;
+  }
+
+  .less.log-ctrl {
+    display: none;
+  }
+
+  .more.log-ctrl {
+    display: inline;
+  }
+
+  .more-info {
+    display: none;
+  }
+
+  &.expanded {
+    .less.log-ctrl {
+      display: inline;
+    }
+
+    .more.log-ctrl {
+      display: none;
+    }
+
+    .more-info {
+      display: block;
+    }
+  }
+}
+
+.step-logs.expandable {
+  .more.logs-ctrl {
+    display: inline;
+  }
+
+  .less.logs-ctrl {
+    display: none;
+  }
+
+  .logs {
+    display: none;
+  }
+
+  .add-log.condensed {
+    display: inline;
+  }
+
+  .add-log.full {
+    display: none;
+  }
+
+  &.expanded {
+    .more.logs-ctrl {
+      display: none;
+    }
+
+    .less.logs-ctrl {
+      display: inline;
+    }
+
+    .logs {
+      display: block;
+    }
+
+    .add-log.condensed {
+      display: none;
+    }
+
+    .add-log.full {
+      display: inline-block;
+    }
+  }
+}
+
+.right-align {
+  text-align: right;
+}
+
+.logs {
+  header.row {
+    margin: 1em 0;
+
+    .section-heading {
+      font-size: 1.25em;
+      font-weight: bold;
+    }
+  }
+}
+
+.log-info {
+  .bold {
+    margin-right: .5em;
+  }
+}

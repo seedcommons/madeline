@@ -4,14 +4,14 @@ class Admin::ProjectStepsController < Admin::AdminController
   def destroy
     @step = ProjectStep.find(params[:id])
     if @step.destroy
-      redirect_to admin_loan_path(@step.project_id), notice: I18n.t(:notice_deleted)
+      redirect_to admin_loan_path(@step.project_id, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
     else
-      redirect_to admin_loan_path(@step.project_id)
+      redirect_to admin_loan_path(@step.project_id, anchor: 'timeline')
     end
   end
 
   def show
     @step = ProjectStep.find(params[:id])
-    redirect_to admin_loan_path(@step.project_id)
+    redirect_to admin_loan_path(@step.project_id, anchor: 'timeline')
   end
 end

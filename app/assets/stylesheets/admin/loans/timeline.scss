@@ -90,13 +90,22 @@
 }
 
 .panel {
-  border-width: 2px;
-  border-radius: 15px;
+  border: 1px solid $black;
+
+  &.step {
+    border-width: 2px;
+    border-radius: 15px;
+    border-color: $black;
+  }
+
+  &.log {
+    border-radius: 0px;
+  }
 }
 
 .completion-status {
   .complete {
-    color: $ontime;
+    color: $success2;
   }
 }
 

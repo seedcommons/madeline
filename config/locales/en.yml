@@ -55,6 +55,7 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
+  dash: " - "
 
   ## Admin panel ##
   all: "All"
@@ -160,5 +161,11 @@ en:
       time_late: "%{time} late"
 
   log:
+    additional_notes: "Additional Notes:"
+    hide_logs: "Hide Logs (%{n})"
+    log: "project log"
+    logs: "Logs"
+    new_log: "New Log"
     no_logs: "No Logs"
+    private_notes: "Private Notes:"
     show_logs: "Show Logs (%{n})"
