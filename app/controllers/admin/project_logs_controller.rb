@@ -5,9 +5,9 @@ class Admin::ProjectLogsController < Admin::AdminController
     @loan = Loan.find(@step.project_id)
 
     if @log.destroy
-      redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_deleted)
+      redirect_to admin_loan_path(@loan, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
     else
-      redirect_to admin_loan_path(@loan)
+      redirect_to admin_loan_path(@loan, anchor: 'timeline')
     end
   end
 
