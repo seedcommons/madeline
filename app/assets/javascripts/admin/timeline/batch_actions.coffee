@@ -2,6 +2,9 @@ $ ->
   $(".batch-actions .batch-action").on 'confirm:complete', (e) ->
     adjust_form(e.currentTarget)
 
+  $("#adjust-dates-confirm").click (e) ->
+    adjust_form(e.currentTarget)
+
   $("#adjust-dates").on "shown.bs.modal", () ->
     $("#adjust-dates-modal").focus()
 

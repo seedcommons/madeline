@@ -123,7 +123,9 @@ en:
 
   loan:
     adjust_dates: "Adjust Dates"
+    adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"
+    backward: "- backward"
     batch_actions: "Batch Actions"
     delete_selected: "Delete Selected"
     details: "Details"
@@ -132,9 +134,12 @@ en:
     criteria: "Criteria"
     description: "Description"
     finalize: "Finalize"
+    forward: "+ forward"
     length: "Length"
     loan_type: "Loan Type"
     months: "%{number} mo."
+    move_dates: "Move scheduled dates"
+    move_date_direction: "Move date forward or backward?"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     status:

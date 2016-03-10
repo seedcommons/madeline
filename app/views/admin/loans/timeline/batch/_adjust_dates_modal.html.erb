@@ -5,32 +5,34 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
           aria-label="<%= t(:cancel) %>">
-          <span aria-hidden="true">&times;</span></button>
+          <span aria-hidden="true">&times;</span>
+        </button>
         <h4 class="modal-title" id="adjust-dates-label">
-          Adjust Scheduled Dates
-          </h4>
+          <%= t("loan.adjust_scheduled_dates") %>
+        </h4>
       </div>
       <div class="modal-body">
-        <span>Move scheduled dates</span>
+        <span><%= t("loan.move_dates") %></span>
 
-        <div class="btn-group-vertical" role="group" aria-label="...">
-
-        <div class="btn-group-vertical button-group-radios" data-toggle="buttons" aria-label="">
-            <label class="btn btn-default">
-              <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-              <span>
-                + forward
-              </span>
-            </label>
-            <label class="btn btn-default">
-              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-              <span>
-                - backward
-              </span>
-            </label>
+        <div class="btn-group-vertical button-group-radios" data-toggle="buttons"
+        aria-label=<%= t("loan.move_date_direction") %>>
+          <label class="btn btn-default">
+            <input type="radio" name="time_direction" id="time-forward"
+              value="forward">
+            <span>
+              <%= t("loan.forward") %>
+            </span>
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="time_direction" id="time-backward"
+              value="backward">
+            <span>
+              <%= t("loan.backward") %>
+            </span>
+          </label>
         </div>
 
-        <input type="number" min="1" max="365" />
+        <input type="number" min="1" max="365" name="num_of_days" />
 
         <span>days</span>
       </div>
@@ -40,7 +42,7 @@
         </button>
         <a id="adjust-dates-confirm" data-method-key="PATCH"
           data-action-key="/project_steps/adjust_dates"
-          class="btn btn-primary action batch-action">
+          class="btn btn-primary action">
           <%= t("loan.adjust_dates") %>
         </a>
       </div>
