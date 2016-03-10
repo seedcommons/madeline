@@ -1,0 +1,29 @@
+ul class="nav nav-tabs" role="tablist"
+  = render "admin/loans/tabs/tab", identifier: "details", label: t("loan.details"), tab_class: "active", link_class: "edit-tab"
+  = render "admin/loans/tabs/tab", identifier: "criteria", label: t("loan.criteria"), tab_class: "", link_class: ""
+  = render "admin/loans/tabs/tab", identifier: "timeline", label: t("loan.timeline"), tab_class: "", link_class: ""
+  = render "admin/loans/tabs/tab", identifier: "calendar", label: t(:calendar), tab_class: "", link_class: ""
+  = render "admin/loans/tabs/tab", identifier: "print", label: t(:print), tab_class: "", link_class: ""
+  = render "admin/loans/tabs/tab", identifier: "more", label: t(:more), tab_class: "", link_class: ""
+
+div class="tab-content"
+  - details = render "admin/loans/content/details", loan: @loan
+  = render "admin/loans/tabs/tab_content", identifier: "details", category: "active flush",
+    content: details
+
+  - criteria = render "admin/loans/content/criteria", loan: @loan
+  = render "admin/loans/tabs/tab_content", identifier: "criteria", category: "",
+    content: criteria
+
+  - timeline = render "admin/loans/timeline/timeline", loan: @loan
+  = render "admin/loans/tabs/tab_content", identifier: "timeline", category: "",
+    content: timeline
+
+  - calendar = render "admin/loans/content/calendar", loan: @loan
+  = render "admin/loans/tabs/tab_content", identifier: "loan-calendar", category: "", content: calendar
+
+  = render "admin/loans/tabs/tab_content", identifier: "print", category: "",
+    content: t(:print)
+
+  = render "admin/loans/tabs/tab_content", identifier: "more", category: "",
+    content: t(:more)

@@ -4,11 +4,16 @@
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
   = stylesheet_link_tag "admin/loans/tabs", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
+  = stylesheet_link_tag "admin/logs/logs", :media => "all"
+  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
 
 - content_for :scripts
   = javascript_include_tag "admin/forms/forms"
+  = javascript_include_tag "admin/expand"
+  = javascript_include_tag "admin/timeline/select_all"
   = javascript_include_tag "admin/timeline/select_steps"
   = javascript_include_tag "admin/timeline/batch_actions"
+  = javascript_include_tag "admin/calendar/calendar"
 
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
@@ -29,5 +34,4 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
     .clearfix
 
   div.loan-content
-    = render "tabs"
-
+    = render "admin/loans/tabs/tabs"

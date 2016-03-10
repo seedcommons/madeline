@@ -1,0 +1,27 @@
+    div.step-logs.expandable
+      span.view-logs-ctrl
+        - if step.logs_count > 0
+          span.show-log
+            a.more.logs-ctrl role="button"
+              = t("log.show_logs", n: step.logs_count)
+            a.less.logs-ctrl role="button"
+              = t("log.hide_logs", n: step.logs_count)
+        - else
+          span.no-logs
+            = t("log.no_logs")
+      span.add-log.condensed.last-col
+        i.fa.fa-plus-circle
+
+      - if step.logs_count > 0
+        section.logs
+          header.row
+            span.col-lg-8.first-col.section-heading = t("log.logs")
+            span.col-lg-4.last-col.action-items
+              div.icon-with-text.btn.add-log.full
+                span.icon-box
+                  i.fa.fa-plus-circle
+                span.text-right-of-icon = t("log.new_log")
+
+          - step.project_logs.each do |log|
+            = render "admin/logs/log", step: step, log: log
+

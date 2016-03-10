@@ -14,8 +14,10 @@
 }
 
 .nav-tabs > li {
-  &.active a {
-    background: $gray1;
+  &.active {
+    a, a:hover, a:active, a:focus {
+      background: $gray1;
+    }
   }
 }
 
