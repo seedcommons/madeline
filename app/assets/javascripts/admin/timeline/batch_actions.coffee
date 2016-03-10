@@ -3,6 +3,7 @@ $ ->
     adjust_form(e.currentTarget)
 
   $("#adjust-dates-confirm").click (e) ->
+    $("#adjust-dates-modal").modal('hide')
     adjust_form(e.currentTarget)
 
   $("#adjust-dates").on "shown.bs.modal", () ->
