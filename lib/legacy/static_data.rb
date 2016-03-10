@@ -81,8 +81,8 @@ module Legacy
       step_type = OptionSet.find_or_create_by(
           division: ::Division.root, model_type: ::ProjectStep.name, model_attribute: 'step_type')
       step_type.options.destroy_all
-      step_type.options.create(value: 'step', label_translations: {en: 'Step', es: 'Paso'})
-      step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'TODO'})
+      step_type.options.create(value: 'step', label_translations: {en: 'Check in', es: 'Paso'})
+      step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'Hito'}) #todo: confirm translation
       # legacy data exists of type 'Agenda', but not expecting to carry this forward into the new system
       # step_type.options.create(value: 'agenda', label_translations: {en: 'Agenda', es: 'TODO'})
 
