@@ -33,6 +33,10 @@ namespace :tww do
     Legacy::Migration.migrate_secondary
   end
 
+  desc "migrate media records and files.  note: expects base source media folder to be defined by the LEGACY_MEDIA_BASE_PATH system environment variable (defaults to ../legacymedia)"
+  task :migrate_media => :environment do
+    Legacy::Migration.migrate_media
+  end
 
   # note, this task isn't really needed.  generally better to just drop the db,
   # but has been useful when retesting partial migrations during development

@@ -7,7 +7,7 @@
 
   - g.blank_slate do
     - @empty_list = true
-    - content_tag(:div, t("no_records"), class: 'alert alert-info')
+    .alert.alert-info = t("no_records")
 
   - g.column name: t("id"), attribute: 'id', filter: false do |loan|
     - link_to(loan.id, admin_loan_path(loan.id))

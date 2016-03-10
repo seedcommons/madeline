@@ -113,7 +113,7 @@ class ProjectStep < ActiveRecord::Base
   def border_color
     # Stubbed border color
     if self.completed?
-      "green"
+      "rgb(92, 184, 92)"
     else
       "black"
     end

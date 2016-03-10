@@ -101,6 +101,16 @@ ActiveRecord::Schema.define(version: 20160226191930) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
+  create_table "embeddable_media", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "height"
+    t.text     "html"
+    t.string   "original_url"
+    t.datetime "updated_at", null: false
+    t.string   "url"
+    t.integer  "width"
+  end
+
   create_table "loans", force: :cascade do |t|
     t.decimal  "amount"
     t.datetime "created_at", null: false
@@ -144,6 +154,7 @@ ActiveRecord::Schema.define(version: 20160226191930) do
     t.string   "media_attachable_type"
     t.integer  "sort_order"
     t.datetime "updated_at", null: false
+    t.integer  "uploader_id"
   end
 
   add_index "media", ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id", using: :btree
@@ -320,6 +331,7 @@ ActiveRecord::Schema.define(version: 20160226191930) do
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
   add_foreign_key "organizations", "countries"

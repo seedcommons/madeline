@@ -1,18 +1,29 @@
+$success1: rgb(92, 184, 92); // #5CB85C
+$success2: rgb(68, 157, 68); // #449D44
+$success3: rgb(60,118,61); // #3C763D
+
 $green1: rgb(115,200,100);
 $green2: rgb(20, 125, 0);
-$orange1: rgb(220, 145, 50);
-$orange2: rgb(220, 125, 0);
-$red1: red;
+
 $yellow1: rgb(205,205,0);
 $yellow2: yellow;
-$white: white;
 
+$orange1: rgb(220, 145, 50);
+$orange2: rgb(220, 125, 0);
+
+$danger1: rgb(217, 83, 79);
+$danger2: rgb(201, 48, 44);
+
+$red1: red;
+
+$white: white;
 $gray1: #eee;
 $gray2: rgb(230,230,230);
 $gray3: gray;
+$black: black;
 
 $late: $yellow2;
 $verylate: $orange2;
-$superlate: $red1;
-$ontime: $green2;
-$early: $green1;
+$superlate: $danger1;
+$ontime: $success2;
+$early: $success1;
