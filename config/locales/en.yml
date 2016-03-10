@@ -29,6 +29,7 @@ en:
   location: Location
   signing_date: Signing date
   summary: Summary
+  details: Details
   timeline: Timeline
   payments: Payments
   past_loans: Past Loans
