@@ -1,24 +1,27 @@
-form
-  div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1"
-    aria-labelledby="duplicate-step-label"
-    div.modal-dialog
-      div.modal-content
-        div.modal-header
-          button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
-            span aria-hidden="true" &times;
-          h4.modal-title id="duplicate-step-label"
-            = "Duplicate Project Step" + " " + step.id.to_s
-        div.modal-body
+div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledby="duplicate-step-label"
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
+          span aria-hidden="true" &times;
+        h4.modal-title id="duplicate-step-label"
+          = "Duplicate Project Step" + " " + step.id.to_s
+
+      div.modal-body
+        = form_tag do |f|
           div
-            input type="radio" name="duration" id="repeat-once" value="repeat-once" checked="checked"
+            input.repeat-once type="radio" name="duration"value="repeat-once" checked="checked"
               = "Once"
           div
-            input type="radio" name="duration" id="custom-repeat" value="custom-repeat"
+            input.custom-repeat type="radio" name="duration" value="custom-repeat"
               = "Repeat..."
 
-        div.modal-footer
-          button.btn.btn-default type="button" data-dismiss="modal"
-            = "Cancel"
+          div
+            = render "admin/project_steps/repeat_options", step: step, f: f
 
-          button.btn.btn-primary type="button" data-dismiss="modal"
-            = "Duplicate"
+      div.modal-footer
+        button.btn.btn-default type="button" data-dismiss="modal"
+          = "Cancel"
+
+        button.btn.btn-primary type="button" data-dismiss="modal"
+          = "Duplicate"
