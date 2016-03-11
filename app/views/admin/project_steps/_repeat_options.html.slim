@@ -1,39 +1,46 @@
-div.time-unit-options
-  span.bold Every:
-  input type="number" min="1" max="100" name="time_unit_frequency"
+div.repeat-options.hidden
+  div.time-unit-options.row
+    span.bold.col-lg-2 Every:
 
-  select name="time_unit"
-    option value="days" = t(:days)
-    option value="weeks" = t(:weeks)
-    option value="months" = t(:months)
+    div.col-lg-8
+      input type="number" min="1" max="100" name="time_unit_frequency"
 
-  div.month-options.hidden
-    span.bold On:
+      select name="time_unit"
+        option value="days" = t(:days)
+        option value="weeks" = t(:weeks)
+        option value="months" = t(:months)
 
-    div
-      input type="radio" name="month_repeat_on" val="day"
-        = step.scheduled_date.day
+  div.week-options.hidden.row
+    span.bold.col-lg-2 On:
 
-    div
-      input type="radio" name="month_repeat_on" val="date"
-        = Date::DAYNAMES[step.scheduled_date.wday]
+    div.col-lg-8
+      select name="week_repeat_on_day_of_week"
+        - Date::DAYNAMES.each_with_index do |day, i|
+          option val==i = day
 
-  div.week-options.hidden
-    span.bold On:
+  div.month-options.hidden.row
+    span.bold.col-lg-2 On:
 
-    select name="week_repeat_on_day_of_week"
-      - Date::DAYNAMES.each_with_index do |day, i|
-        option val==i = day
+    div.col-lg-8
+      div
+        input type="radio" name="month_repeat_on" val="day"
+          = step.scheduled_date.day
 
-  div.end-occurence
-    span.bold End:
-    div
-      input type="radio" name="end_occurence_type" val="num_of_occurences"
-      span After:
-      input type="number" min="1" max="100" name="num_of_occurences"
-      span occurence(s)
+      div
+        input type="radio" name="month_repeat_on" val="date"
+          = Date::DAYNAMES[step.scheduled_date.wday]
 
-    div
-      input type="radio" name="end_occurence_type" val="date"
-      span On:
-      input type="date"
+  div.end-occurence.row
+    span.bold.col-lg-2 End:
+
+    div.col-lg-8
+      div.row
+        input type="radio" name="end_occurence_type" val="num_of_occurences"
+        span After
+        input type="number" min="1" max="100" name="num_of_occurences"
+        span occurence(s)
+
+      div
+        input type="radio" name="end_occurence_type" val="date"
+        span On
+        input type="date"

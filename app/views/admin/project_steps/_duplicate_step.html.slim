@@ -16,8 +16,7 @@ div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledb
             input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
               span.bold = "Repeat..."
 
-          div.repeat-options.hidden
-            = render "admin/project_steps/repeat_options", step: step, f: f
+          = render "admin/project_steps/repeat_options", step: step, f: f
 
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
