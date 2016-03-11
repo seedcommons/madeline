@@ -1,4 +1,5 @@
-div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledby="duplicate-step-label"
+div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledby="duplicate-step-label"
+
   div.modal-dialog
     div.modal-content
       div.modal-header
@@ -8,15 +9,7 @@ div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledb
           = "Duplicate Project Step" + " " + step.id.to_s
 
       div.modal-body
-        = form_tag do |f|
-          div
-            input.repeat-once type="radio" name="repeat_duration"value="repeat_once" checked="checked"
-              span.bold = "Once"
-          div
-            input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
-              span.bold = "Repeat..."
-
-          = render "admin/project_steps/repeat_options", step: step, f: f
+        = render "admin/project_steps/duplicate_step_form", step: step
 
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"

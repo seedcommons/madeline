@@ -1,5 +1,5 @@
 div.repeat-options.hidden
-  div.time-unit-options.row
+  div.time-unit-options.form-group.row
     span.bold.col-lg-2 Every:
 
     div.col-lg-8
@@ -10,7 +10,7 @@ div.repeat-options.hidden
         option value="weeks" = t(:weeks)
         option value="months" = t(:months)
 
-  div.week-options.hidden.row
+  div.week-options.form-group.hidden.row
     span.bold.col-lg-2 On:
 
     div.col-lg-8
@@ -18,7 +18,7 @@ div.repeat-options.hidden
         - Date::DAYNAMES.each_with_index do |day, i|
           option val==i = day
 
-  div.month-options.hidden.row
+  div.month-options.form-group.hidden.row
     span.bold.col-lg-2 On:
 
     div.col-lg-8
@@ -30,7 +30,7 @@ div.repeat-options.hidden
         input type="radio" name="month_repeat_on" val="date"
           = Date::DAYNAMES[step.scheduled_date.wday]
 
-  div.end-occurence.row
+  div.end-occurence.form-group.row
     span.bold.col-lg-2 End:
 
     div.col-lg-8
