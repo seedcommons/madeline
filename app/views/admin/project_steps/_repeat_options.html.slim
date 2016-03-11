@@ -1,7 +1,5 @@
-= step.scheduled_date
-
-div
-  span Every:
+div.time-unit-options
+  span.bold Every:
   input type="number" min="1" max="100" name="time_unit_frequency"
 
   select name="time_unit"
@@ -9,9 +7,8 @@ div
     option value="weeks" = t(:weeks)
     option value="months" = t(:months)
 
-div
   div.month-options.hidden
-    span On:
+    span.bold On:
 
     div
       input type="radio" name="month_repeat_on" val="day"
@@ -22,16 +19,14 @@ div
         = Date::DAYNAMES[step.scheduled_date.wday]
 
   div.week-options.hidden
-    span On:
+    span.bold On:
 
     select name="week_repeat_on_day_of_week"
       - Date::DAYNAMES.each_with_index do |day, i|
         option val==i = day
 
-    / input type="week"
-
   div.end-occurence
-    span End
+    span.bold End:
     div
       input type="radio" name="end_occurence_type" val="num_of_occurences"
       span After:
@@ -42,4 +37,3 @@ div
       input type="radio" name="end_occurence_type" val="date"
       span On:
       input type="date"
-      / input.form-control type="date"
