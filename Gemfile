@@ -15,6 +15,7 @@ gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails-confirm'
+gem 'select2-rails'
 
 # Authentication / Authorization
 gem 'devise'
@@ -55,6 +56,9 @@ gem 'jquery-ui-rails'
 
 # Forms
 gem 'simple_form'
+
+# Passing controller data to JS
+gem 'gon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

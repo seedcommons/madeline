@@ -133,7 +133,7 @@ module Legacy
 
 
     def self.handy_test_data
-      user = ::User.create!({email: 'john@doe.com', password: 'xxxxxxxx', password_confirmation: 'xxxxxxxx'})
+      user = ::User.create!({email: 'john@doe.com', password: 'password', password_confirmation: 'password'})
 
       # division = Division.create(name: 'Test Division', parent_id: Division.root_id)
       # for now just use the root division
@@ -148,7 +148,8 @@ module Legacy
       step = ::ProjectStep.create!(project: loan, summary: "test step", step_type_value: :step)
       step_log = ::ProjectLog.create!(project_step: step,
                                     progress_metric_value: ::ProjectLog.progress_metric_option_set.value_for_migration_id(-1),
-                                    summary: 'test log summary', details: 'test log details')
+                                    summary: 'test log summary', details: 'test log details',
+                                    agent: person)
       step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
 
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')

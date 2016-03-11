@@ -13,6 +13,7 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     @organizations = Organization.all
     @form_action_url = admin_loan_path
+    gon.I18n = @loan.translate(:details, :summary)
   end
 
   def new

@@ -120,6 +120,17 @@ module Translatable
     end
   end
 
+
+  # TODO: this might not be the apropritate location for this helper
+  # Returns a hash of the translated terms in all permitted locales for this translatable
+  def translate(*terms)
+    permitted_locales.each_with_object({}) {|l, res|
+      res[l] = terms.each_with_object({}) {|term, res|
+        res[term] = I18n.t(term, locale: l)
+      }}
+  end
+
+
   # returns the element from the parent objects association list for the given object's id
   # necessary to get autosave behavior to work as desired
   # def associated_translation(translation)

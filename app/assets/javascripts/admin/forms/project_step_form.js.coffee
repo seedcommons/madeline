@@ -1,4 +1,9 @@
 $ ->
+  formatTypeOptions = (option) ->
+    icon = switch
+      when option.id == 'step' then 'flag'
+      when option.id == 'milestone' then 'calendar-check-o'
+    $('<i class="fa fa-' + icon + '"></i> <span>' + option.text + '</span>') unless !icon
 
   addToAvailableLocales = (scope, locale) ->
     elem = $(scope).find('#add_another_language')
@@ -25,6 +30,15 @@ $ ->
     else
       $(el).show()
 
+  initTypeSelects = (scope) ->
+    $(scope).find(".type").select2({
+      theme: "bootstrap",
+      minimumResultsForSearch: Infinity,
+      width: "100%",
+      templateResult: formatTypeOptions,
+      templateSelection: formatTypeOptions
+    });
+
   setCallbacks = (scope) ->
 
     #
@@ -38,7 +52,7 @@ $ ->
     #  
     # hide form
     #
-    
+
     $(scope).find('.show-step-action').click (evt) ->
       evt.preventDefault()
       $(scope).find(".edit-step-view").addClass('show-step-view').removeClass('edit-step-view')
@@ -46,7 +60,7 @@ $ ->
     #  
     # handle server response
     #
-    
+
     $(scope).find('.project-step-form')
             .on("ajax:success", (evt, data, status, xhr) ->
               parent = $(evt.target).parents("div .panel.step")
@@ -64,12 +78,10 @@ $ ->
     $("[data-hide]").click (evt) ->
       $(scope).find(".error_notification").hide()
 
-
-
     #
     # remove language
     #
-    
+
     $(scope).find('.remove_language').click (evt) ->
       evt.preventDefault()
 
@@ -85,7 +97,7 @@ $ ->
     #  
     # add another language
     #
-    
+
     $(scope).find('#add_another_language').click (evt) ->
       evt.preventDefault()
 
@@ -101,6 +113,8 @@ $ ->
                  .replace(new RegExp("data-locale=\"#{localeToReplace}\"", 'g'), "data-locale=\"#{newLocale}\"")
       newLanguageBlock = $.parseHTML(html)
       $(newLanguageBlock).data('locale', newLocale)
+      $(newLanguageBlock).find(".summary").attr("placeholder", gon.I18n[newLocale].summary).val('')
+      $(newLanguageBlock).find(".details").attr("placeholder", gon.I18n[newLocale].details).val('')
       $(newLanguageBlock).find("#project_step_locale_#{newLocale} option[value='#{newLocale}']").attr("selected", "selected")
       $(newLanguageBlock).find("#remove_#{newLocale}_language").click (evt) ->
         evt.preventDefault()
@@ -110,11 +124,28 @@ $ ->
 
       $(newLanguageBlock).insertAfter(lastLanguageBlock)
       setLinksVisibility(scope)
-      
+      setCallbacks(scope)
+
+    #
+    # Change existing translation locale
+    #
+
+    $(scope).find('.locale').change (evt) ->
+      evt.preventDefault()
+      newLocale = $(evt.target).val()
+      parent = $(evt.target).parents(".language-block")
+      parent.find('.summary').attr("placeholder", gon.I18n[newLocale].summary);
+      parent.find('.details').attr("placeholder", gon.I18n[newLocale].summary);
+
   #
   # Run once on load
   #
 
-  $('div .panel.step').each( (idx, el) ->
+
+  $('div .panel.step').each((idx, el) ->
     setLinksVisibility(el)
-    setCallbacks(el))
+    setCallbacks(el)
+    initTypeSelects(el)
+  )
+
+
