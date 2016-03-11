@@ -67,7 +67,7 @@ div.panel.step style="border-color: #{step.border_color}"
           a.action title="Edit Step"
             i.fa.fa-pencil
 
-          a.action title="Duplicate Step"
+          a.action title="Duplicate Step" data-toggle="modal" data-target="#duplicate-step-modal-#{step.id}"
             i.fa.fa-files-o
 
           = link_to [:admin, step], method: :delete, class: "action",
