@@ -10,12 +10,15 @@ form
             = "Duplicate Project Step" + " " + step.id.to_s
         div.modal-body
           div
-            input type="radio" name="duration" id="repeat-once" value="repeat-once"
+            input type="radio" name="duration" id="repeat-once" value="repeat-once" checked="checked"
               = "Once"
           div
             input type="radio" name="duration" id="custom-repeat" value="custom-repeat"
               = "Repeat..."
 
         div.modal-footer
+          button.btn.btn-default type="button" data-dismiss="modal"
+            = "Cancel"
+
           button.btn.btn-primary type="button" data-dismiss="modal"
             = "Duplicate"
