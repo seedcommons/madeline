@@ -2,15 +2,15 @@
 
 div
   span Every:
-  input type="number" min="1" max="100" name="time_unit"
-  select
-    option = t(:days)
-    option = t(:weeks)
-    option = t(:months)
+  input type="number" min="1" max="100" name="time_unit_frequency"
+
+  select name="time_unit"
+    option value="days" = t(:days)
+    option value="weeks" = t(:weeks)
+    option value="months" = t(:months)
 
 div
-  div.month-options
-    p Repeat Each Month
+  div.month-options.hidden
     span On:
 
     div
@@ -21,8 +21,7 @@ div
       input type="radio" name="month_repeat_on" val="date"
         = Date::DAYNAMES[step.scheduled_date.wday]
 
-  div.week-options
-    p Repeat Each Week
+  div.week-options.hidden
     span On:
 
     select name="week_repeat_on_day_of_week"

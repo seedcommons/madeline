@@ -10,10 +10,10 @@ div.modal.fade id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledb
       div.modal-body
         = form_tag do |f|
           div
-            input.repeat-once type="radio" name="repeat-duration"value="repeat-once" checked="checked"
+            input.repeat-once type="radio" name="repeat_duration"value="repeat_once" checked="checked"
               = "Once"
           div
-            input.custom-repeat type="radio" name="repeat-duration" value="custom-repeat"
+            input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
               = "Repeat..."
 
           div.repeat-options.hidden
