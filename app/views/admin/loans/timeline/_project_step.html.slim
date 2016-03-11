@@ -64,14 +64,15 @@ div.panel.step style="border-color: #{step.border_color}"
           - else
             = t("project_step.status.not_completed")
         div.actions
-          a.action
+          a.action title="Edit Step"
             i.fa.fa-pencil
-          a.action
+
+          a.action title="Duplicate Step"
             i.fa.fa-files-o
 
           = link_to [:admin, step], method: :delete, class: "action",
               data: { confirm: t('confirm_deletion', thing: t('project_step.project_step')),
-              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }, title: "Delete Step"
               i.fa.fa-trash.fa-large>
 
     = render "admin/logs/step_logs", step: step

@@ -2,14 +2,14 @@
       span.view-logs-ctrl
         - if step.logs_count > 0
           span.show-log
-            a.more.logs-ctrl role="button"
+            a.more.logs-ctrl role="button" title="Show Logs"
               = t("log.show_logs", n: step.logs_count)
-            a.less.logs-ctrl role="button"
+            a.less.logs-ctrl role="button" title="Hide Logs"
               = t("log.hide_logs", n: step.logs_count)
         - else
           span.no-logs
             = t("log.no_logs")
-      span.add-log.condensed.last-col
+      a.add-log.condensed.last-col title="New Log"
         i.fa.fa-plus-circle
 
       - if step.logs_count > 0
