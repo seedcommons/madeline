@@ -151,4 +151,18 @@ class ProjectStep < ActiveRecord::Base
       5
     end
   end
+
+  def nth_day
+    day = self.scheduled_day
+
+    if day == (1 || 21 || 31)
+      "st"
+    elsif  day == (2 || 22)
+      "nd"
+    elsif day == (3 || 23)
+      "rd"
+    else
+      "th"
+    end
+  end
 end

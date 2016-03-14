@@ -26,7 +26,8 @@ div.repeat-options.hidden
         input type="radio" name="month_repeat_on" val="day"
 
         span name="repeat_day_#{step.scheduled_date.day}"
-          = step.scheduled_date.day
+          = t("number.nth_day", nth: t("number.nth.#{step.nth_day}"),
+            day: step.scheduled_date.day)
 
       div
         input type="radio" name="month_repeat_on" val="date"

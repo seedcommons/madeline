@@ -177,4 +177,10 @@ en:
       num_3: "third"
       num_4: "fourth"
       num_5: "fifth"
+      nd: "nd"
+      rd: "rd"
+      st: "st"
+      th: "th"
     nth_weekday: "The %{nth} %{weekday}"
+    nth_day: "The %{day}%{nth}"
+
