@@ -1,6 +1,6 @@
 div.repeat-options.hidden
   div.time-unit-options.form-group.row
-    span.bold.col-lg-2 Every:
+    span.bold.col-lg-2 = t("project_step.every")
 
     div.col-lg-8
       input type="number" min="1" max="100" name="time_unit_frequency"
@@ -11,7 +11,7 @@ div.repeat-options.hidden
         option value="months" = t(:months)
 
   div.week-options.form-group.hidden.row
-    span.bold.col-lg-2 On:
+    span.bold.col-lg-2 = t("project_step.on_label")
 
     div.col-lg-8
       select name="week_repeat_on_day_of_week"
@@ -19,7 +19,7 @@ div.repeat-options.hidden
           option val==i = day
 
   div.month-options.form-group.hidden.row
-    span.bold.col-lg-2 On:
+    span.bold.col-lg-2 = t("project_step.on_label")
 
     div.col-lg-8
       div
@@ -38,16 +38,16 @@ div.repeat-options.hidden
             weekday: step.scheduled_weekday)
 
   div.end-occurence.form-group.row
-    span.bold.col-lg-2 End:
+    span.bold.col-lg-2 = t("project_step.end")
 
     div.col-lg-8
       div.row
         input type="radio" name="end_occurence_type" val="num_of_occurences"
-        span After
+        span = t("project_step.after")
         input type="number" min="1" max="100" name="num_of_occurences"
-        span occurence(s)
+        span = t("project_step.occurences")
 
       div
         input type="radio" name="end_occurence_type" val="date"
-        span On
+        span = t("project_step.on_text")
         input type="date"

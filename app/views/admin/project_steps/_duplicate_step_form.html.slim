@@ -2,10 +2,10 @@
 
   div.form-group.row
     input.repeat-once type="radio" name="repeat_duration"value="repeat_once" checked="checked"
-      span.bold = "Once"
+      span.bold = t("project_step.once")
 
   div.form-group.row
     input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
-      span.bold = "Repeat..."
+      span.bold = t("project_step.repeat")
 
   = render "admin/project_steps/repeat_options", step: step, f: f

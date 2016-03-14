@@ -141,6 +141,12 @@ en:
     timeline: "Timeline"
 
   project_step:
+    after: "After"
+    delete_step: "Delete Step"
+    duplicate_step: "Duplicate Step"
+    edit_step: "Edit Step"
+    end: "End:"
+    every: "Every:"
     finalized: "Finalized:"
     labels:
       completed: "Completed:"
@@ -149,7 +155,12 @@ en:
       status: "Status:"
     logs: "Logs"
     no_steps: "No timeline steps to display."
+    occurences: "occurence(s)"
+    once: "Once"
+    on_label: "On:"
+    on_text: "On"
     project_step: "project step"
+    repeat: "Repeat..."
     timeline: "Timeline"
     status:
       completed: "Completed"
