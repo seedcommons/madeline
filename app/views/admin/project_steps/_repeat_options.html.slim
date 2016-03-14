@@ -24,11 +24,17 @@ div.repeat-options.hidden
     div.col-lg-8
       div
         input type="radio" name="month_repeat_on" val="day"
+
+        span name="repeat_day_#{step.scheduled_date.day}"
           = step.scheduled_date.day
 
       div
         input type="radio" name="month_repeat_on" val="date"
-          = Date::DAYNAMES[step.scheduled_date.wday]
+
+        span name="repeat_date_#{step.scheduled_weekday_key}"
+          = t("number.nth_weekday",
+            nth: t("number.nth.num_#{step.nth_weekday}"),
+            weekday: step.scheduled_weekday)
 
   div.end-occurence.form-group.row
     span.bold.col-lg-2 End:

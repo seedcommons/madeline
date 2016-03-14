@@ -123,4 +123,32 @@ class ProjectStep < ActiveRecord::Base
       self.background_color
     end
   end
+
+  def scheduled_day
+    self.scheduled_date.day
+  end
+
+  def scheduled_weekday
+    Date::DAYNAMES[self.scheduled_date.wday]
+  end
+
+  def scheduled_weekday_key
+    self.nth_weekday.to_s + "_" + self.scheduled_weekday.downcase
+  end
+
+  def nth_weekday
+    day = scheduled_day.to_i
+
+    if (day <= 8)
+      1
+    elsif (8 <= day) && (day < 15)
+      2
+    elsif (15 <= day) && (day < 22)
+      3
+    elsif (22 <= day) && (day < 29)
+      4
+    else
+      5
+    end
+  end
 end

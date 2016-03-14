@@ -169,3 +169,12 @@ en:
     no_logs: "No Logs"
     private_notes: "Private Notes:"
     show_logs: "Show Logs (%{n})"
+
+  number:
+    nth:
+      num_1: "first"
+      num_2: "second"
+      num_3: "third"
+      num_4: "fourth"
+      num_5: "fifth"
+    nth_weekday: "The %{nth} %{weekday}"
