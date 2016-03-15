@@ -130,13 +130,15 @@ en:
 
   log:
     additional_notes: "Additional Notes:"
-    hide_logs: "Hide Logs (%{n})"
+    hide_logs: "Hide Logs"
+    hide_logs_n: "Hide Logs (%{n})"
     log: "project log"
     logs: "Logs"
     new_log: "New Log"
     no_logs: "No Logs"
     private_notes: "Private Notes:"
-    show_logs: "Show Logs (%{n})"
+    show_logs: "Show Logs"
+    show_logs_n: "Show Logs (%{n})"
 
   number:
     nth:
