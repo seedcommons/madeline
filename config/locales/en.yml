@@ -106,21 +106,6 @@ en:
     active_loans: "Active Loans"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
 
-  user:
-    account: "Account"
-    change_password: "Change Password"
-    confirm_new_password: "Confirm new password"
-    current_password: "Current password"
-    current_password_instructions: "(we need your current password to confirm your changes)"
-    edit_user: "Edit %{user}"
-    forgot_password: "Forgot Password"
-    forgot_password_instructions: "Enter your email to receive reset instructions"
-    leave_blank: "(leave blank if you don't want to change your password)"
-    minimum_password_length: "(%{minimum_length} characters minimum)"
-    new_password: "New password"
-    send_instructions: "Send instructions"
-    waiting_confirmation: "Currently waiting confirmation for: %{email}"
-
   loan:
     amount: "Amount"
     details: "Details"
@@ -139,6 +124,30 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     timeline: "Timeline"
+
+  log:
+    additional_notes: "Additional Notes:"
+    hide_logs: "Hide Logs (%{n})"
+    log: "project log"
+    logs: "Logs"
+    new_log: "New Log"
+    no_logs: "No Logs"
+    private_notes: "Private Notes:"
+    show_logs: "Show Logs (%{n})"
+
+  number:
+    nth:
+      num_1: "first"
+      num_2: "second"
+      num_3: "third"
+      num_4: "fourth"
+      num_5: "fifth"
+      nd: "nd"
+      rd: "rd"
+      st: "st"
+      th: "th"
+    nth_weekday: "The %{nth} %{weekday}"
+    nth_day: "The %{day}%{nth}"
 
   project_step:
     after: "After"
@@ -171,27 +180,17 @@ en:
       time_early: "%{time} early"
       time_late: "%{time} late"
 
-  log:
-    additional_notes: "Additional Notes:"
-    hide_logs: "Hide Logs (%{n})"
-    log: "project log"
-    logs: "Logs"
-    new_log: "New Log"
-    no_logs: "No Logs"
-    private_notes: "Private Notes:"
-    show_logs: "Show Logs (%{n})"
-
-  number:
-    nth:
-      num_1: "first"
-      num_2: "second"
-      num_3: "third"
-      num_4: "fourth"
-      num_5: "fifth"
-      nd: "nd"
-      rd: "rd"
-      st: "st"
-      th: "th"
-    nth_weekday: "The %{nth} %{weekday}"
-    nth_day: "The %{day}%{nth}"
-
+  user:
+    account: "Account"
+    change_password: "Change Password"
+    confirm_new_password: "Confirm new password"
+    current_password: "Current password"
+    current_password_instructions: "(we need your current password to confirm your changes)"
+    edit_user: "Edit %{user}"
+    forgot_password: "Forgot Password"
+    forgot_password_instructions: "Enter your email to receive reset instructions"
+    leave_blank: "(leave blank if you don't want to change your password)"
+    minimum_password_length: "(%{minimum_length} characters minimum)"
+    new_password: "New password"
+    send_instructions: "Send instructions"
+    waiting_confirmation: "Currently waiting confirmation for: %{email}"
