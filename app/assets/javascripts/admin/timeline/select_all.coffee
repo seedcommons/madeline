@@ -1,34 +1,51 @@
 $ ->
   $('#choose-all').click (e) ->
     control_all(e)
+    remember_checked(e);
 
   $('#check-all-ctrl').click (e) ->
     check_all(e)
+    remember_checked(e);
 
   $('#uncheck-all-ctrl').click (e) ->
     uncheck_all(e)
+    remember_checked(e);
 
   $('#check-completed-ctrl').click (e) ->
     uncheck_all(e)
     check_completed(e)
+    remember_checked(e);
 
   $('#check-incomplete-ctrl').click (e) ->
     uncheck_all(e)
     check_incomplete(e)
+    remember_checked(e);
+
+  $('.select-step').change (e) ->
+    remember_checked(e);
+
+  remember_checked = (e) ->
+    ids = [];
+
+    $('.select-step').each (index) ->
+      if (this.checked == true)
+        ids.push($(this).data('id'));
+
+    $("#step-ids").attr("data-step-ids", ids);
 
   # Check or uncheck all items with master checkbox
   control_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
 
-    if ($(control)[0].checked == true)
+    if (control.checked == true)
       check_items($inputs)
     else
       uncheck_items($inputs)
 
   check_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
     check_items($inputs)
 
     $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
@@ -36,7 +53,7 @@ $ ->
 
   uncheck_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
     uncheck_items($inputs)
 
     $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
@@ -44,12 +61,12 @@ $ ->
 
   check_completed = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.completed-item')
+    $inputs = $(control).closest(".timeline").find('.completed-item')
     check_items($inputs)
 
   check_incomplete = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.incomplete-item')
+    $inputs = $(control).closest(".timeline").find('.incomplete-item')
     check_items($inputs)
 
   check_items = (items) ->
