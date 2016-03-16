@@ -1,20 +1,37 @@
 $ ->
   $('#choose-all').click (e) ->
     control_all(e)
+    remember_checked(e);
 
   $('#check-all-ctrl').click (e) ->
     check_all(e)
+    remember_checked(e);
 
   $('#uncheck-all-ctrl').click (e) ->
     uncheck_all(e)
+    remember_checked(e);
 
   $('#check-completed-ctrl').click (e) ->
     uncheck_all(e)
     check_completed(e)
+    remember_checked(e);
 
   $('#check-incomplete-ctrl').click (e) ->
     uncheck_all(e)
     check_incomplete(e)
+    remember_checked(e);
+
+  $('.select-step').change (e) ->
+    remember_checked(e);
+
+  remember_checked = (e) ->
+    ids = [];
+
+    $('.select-step').each (index) ->
+      if (this.checked == true)
+        ids.push($(this).data('id'));
+
+    $("#step-ids").attr("data-step-ids", ids);
 
   # Check or uncheck all items with master checkbox
   control_all = (e) ->
