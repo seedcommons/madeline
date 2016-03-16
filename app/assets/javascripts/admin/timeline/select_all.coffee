@@ -38,7 +38,7 @@ $ ->
     control = e.currentTarget
     $inputs = $(control).closest(".timeline").find('.select-step')
 
-    if ($(control)[0].checked == true)
+    if (control.checked == true)
       check_items($inputs)
     else
       uncheck_items($inputs)
