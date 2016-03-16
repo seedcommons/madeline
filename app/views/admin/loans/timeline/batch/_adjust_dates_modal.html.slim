@@ -1,18 +1,15 @@
-div.modal.fade id="adjust-dates-modal" tabindex="-1"
-  aria-labelledby="adjust-dates-label"
+div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dates-label"
   div.modal-dialog
     div.modal-content
       div.modal-header
-        button type="button" class="close" data-dismiss="modal"
-          aria-label== t(:cancel)
+        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
             span aria-hidden="true" = t(:close_button)
         h4.modal-title id="adjust-dates-label"
           = t("loan.adjust_scheduled_dates")
       div.modal-body
         span = t("loan.move_dates")
 
-        div.btn-group-vertical.button-group-radios data-toggle="buttons"
-        aria-label== t("loan.move_date_direction")
+        div.btn-group-vertical.button-group-radios data-toggle="buttons" aria-label== t("loan.move_date_direction")
           label.btn.btn-default
             input type="radio" name="time_direction" id="time-forward" value="forward"
             span = t("loan.forward")
