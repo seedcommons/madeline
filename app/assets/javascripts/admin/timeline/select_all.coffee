@@ -19,7 +19,7 @@ $ ->
   # Check or uncheck all items with master checkbox
   control_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
 
     if ($(control)[0].checked == true)
       check_items($inputs)
@@ -28,7 +28,7 @@ $ ->
 
   check_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
     check_items($inputs)
 
     $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
@@ -36,7 +36,7 @@ $ ->
 
   uncheck_all = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.select-step')
+    $inputs = $(control).closest(".timeline").find('.select-step')
     uncheck_items($inputs)
 
     $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
@@ -44,12 +44,12 @@ $ ->
 
   check_completed = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.completed-item')
+    $inputs = $(control).closest(".timeline").find('.completed-item')
     check_items($inputs)
 
   check_incomplete = (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline form").find('.incomplete-item')
+    $inputs = $(control).closest(".timeline").find('.incomplete-item')
     check_items($inputs)
 
   check_items = (items) ->
