@@ -31,7 +31,7 @@ $ ->
       if (this.checked == true)
         ids.push($(this).data('id'));
 
-    $("#step-ids").attr("data-step-ids", ids);
+    $("#step-ids").attr("value", ids);
 
   # Check or uncheck all items with master checkbox
   control_all = (e) ->
