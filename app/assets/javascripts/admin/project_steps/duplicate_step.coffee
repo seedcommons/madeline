@@ -16,14 +16,8 @@ $ ->
     value = $option.val()
 
     $month_options = $item.closest("form").find(".month-options")
-    $week_options = $item.closest("form").find(".week-options")
 
-    if (value == "weeks")
-      $week_options.removeClass("hidden")
-      $month_options.addClass("hidden")
-    else if (value == "months")
-      $week_options.addClass("hidden")
+    if (value == "months")
       $month_options.removeClass("hidden")
     else
-      $week_options.addClass("hidden")
       $month_options.addClass("hidden")

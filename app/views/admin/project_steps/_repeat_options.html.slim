@@ -10,14 +10,6 @@ div.repeat-options.hidden
         option value="weeks" = t(:weeks)
         option value="months" = t(:months)
 
-  div.week-options.form-group.hidden.row
-    span.bold.col-lg-2 = t("project_step.on_label")
-
-    div.col-lg-8
-      select name="week_repeat_on_day_of_week"
-        - Date::DAYNAMES.each_with_index do |day, i|
-          option val==i = day
-
   div.month-options.form-group.hidden.row
     span.bold.col-lg-2 = t("project_step.on_label")
 
