@@ -1,29 +1,33 @@
 header.row.timeline-header
-  div.col-lg-2.first-col
-    div.btn-group
-      label.btn.btn-default
-        input type="checkbox" name="choose-all" id="choose-all"
+  form accept-charset="UTF-8" method="post"
+    input id="set-method" name="_method" type="hidden"
 
-      button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-        span.caret
-        span.sr-only = t(:dropdown_toggle)
+    div.col-lg-2.first-col
+      div.btn-group
+        label.btn.btn-default
+          input type="checkbox" name="choose-all" id="choose-all"
 
-      ul.dropdown-menu
-        li
-          a id="check-all-ctrl" = t(:all)
-        li
-          a id="uncheck-all-ctrl" = t(:none)
-        li
-          a id="check-completed-ctrl" = t(:completed)
-        li
-          a id="check-incomplete-ctrl" = t(:incomplete)
+        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          span.caret
+          span.sr-only = t(:dropdown_toggle)
 
-  div.col-lg-2
-    div.btn-group
-      button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-        = t("loan.batch_actions")
-        span.caret
-        span.sr-only = t(:dropdown_toggle)
+        ul.dropdown-menu
+          li
+            a id="check-all-ctrl" = t(:all)
+          li
+            a id="uncheck-all-ctrl" = t(:none)
+          li
+            a id="check-completed-ctrl" = t(:completed)
+          li
+            a id="check-incomplete-ctrl" = t(:incomplete)
 
-      = render "admin/loans/timeline/batch/batch_actions"
+        input type="hidden" name="step-ids" id="step-ids"
 
+    div.col-lg-2
+      div.btn-group
+        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          = t("loan.batch_actions")
+          span.caret
+          span.sr-only = t(:dropdown_toggle)
+
+        = render "admin/loans/timeline/batch/batch_actions"
