@@ -1,12 +1,11 @@
 section.timeline
   h1.sr-only t("loan.timeline")
 
-  form
-    = render "admin/loans/timeline/timeline_header"
+  = render "admin/loans/timeline/timeline_header"
 
-    div.project-steps
-      - unless @loan.project_steps.empty?
-        - @loan.project_steps.each do |step|
-          = render "admin/loans/timeline/project_step", step: step
-      - else
-        = t("project_step.no_steps")
+  div.project-steps
+    - unless @loan.project_steps.empty?
+      - @loan.project_steps.each do |step|
+        = render "admin/loans/timeline/project_step", step: step
+    - else
+      = t("project_step.no_steps")
