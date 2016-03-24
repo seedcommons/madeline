@@ -106,8 +106,8 @@ en:
     active_loans: "Active Loans"
     cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
-    delete: "Delete Organization"
-    edit: "Edit Organization"
+    delete: "Delete Co-op"
+    edit: "Edit Co-op"
 
   loan:
     amount: "Amount"
