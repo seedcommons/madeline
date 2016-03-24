@@ -20,20 +20,19 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
   header
     .show-actions
       - if @loan.valid?
-        a.edit-action.view-element title== t("loan.edit")
+        a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
-          = t(:edit)
-        a.show-action.form-element title== t("loan.cancel_edit")
-          = t(:cancel)
+          = t("loan.edit")
+        a.show-action.form-element
+          = t("loan.cancel_edit")
       - else
         a href=admin_organization_path(@loan) = t(:cancel)
       = link_to [:admin, @loan], method: :delete,
         data: {confirm: t('loan.confirm_deletion'),
           "confirm-cancel": t(:cancel),
-          "confirm-proceed": t(:confirm)},
-        title: t("loan.delete")
+          "confirm-proceed": t(:confirm)}
         i.fa.fa-trash.fa-large>
-        = t(:delete)
+        = t("loan.delete")
     .clearfix
 
   div.loan-content

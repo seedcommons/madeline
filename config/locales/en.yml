@@ -104,13 +104,16 @@ en:
 
   organization:
     active_loans: "Active Loans"
+    cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
+    delete: "Delete Organization"
+    edit: "Edit Organization"
 
   loan:
     amount: "Amount"
     details: "Details"
     calendar: "Calendar"
-    cancel_edit: "Cancel Edit Loan"
+    cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
     criteria: "Criteria"
     delete: "Delete Loan"
