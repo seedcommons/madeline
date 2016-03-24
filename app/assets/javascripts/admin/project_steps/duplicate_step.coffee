@@ -21,3 +21,13 @@ $ ->
       $month_options.removeClass("hidden")
     else
       $month_options.addClass("hidden")
+
+  $(".num-of-occurences").click (e) ->
+    check_radio(this)
+
+  $(".date-end-of-occurences").click (e) ->
+    check_radio(this)
+
+  check_radio = (item) ->
+    radio = $(item).find(".radio-item")
+    $(radio).attr('checked', "checked").prop("checked", true)
