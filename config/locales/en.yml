@@ -160,6 +160,7 @@ en:
   project_step:
     after: "After"
     delete_step: "Delete Step"
+    duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
     edit_step: "Edit Step"
     end: "End:"

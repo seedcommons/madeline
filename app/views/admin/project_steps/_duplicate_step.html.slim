@@ -6,14 +6,14 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
         button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
           span aria-hidden="true" &times;
         h4.modal-title id="duplicate-step-label"
-          = "Duplicate Project Step" + " " + step.id.to_s
+          = t("project_step.duplicate_step")
 
       div.modal-body
         = render "admin/project_steps/duplicate_step_form", step: step
 
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
-          = "Cancel"
+          = t(:cancel)
 
         button.btn.btn-primary type="button" data-dismiss="modal"
-          = "Duplicate"
+          = t("project_step.duplicate")
