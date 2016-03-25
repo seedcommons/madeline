@@ -3,9 +3,9 @@ div.repeat-options.hidden
     span.bold.col-lg-2 = t("project_step.every")
 
     div.col-lg-8
-      input type="number" min="1" max="100" name="time_unit_frequency"
+      input.form-control.inline type="number" min="1" max="100" name="time_unit_frequency"
 
-      select name="time_unit"
+      select.form-control.inline name="time_unit"
         option value="days" = t(:days)
         option value="weeks" = t(:weeks)
         option value="months" = t(:months)
@@ -36,10 +36,10 @@ div.repeat-options.hidden
       div.num-of-occurences.row
         input.radio-item type="radio" name="end_occurence_type" val="num_of_occurences"
         span = t("project_step.after")
-        input type="number" min="1" max="100" name="num_of_occurences"
+        input.form-control.inline type="number" min="1" max="100" name="num_of_occurences"
         span = t("project_step.occurences")
 
       div.date-end-of-occurences
         input.radio-item type="radio" name="end_occurence_type" val="date"
         span = t("project_step.on_text")
-        input type="date"
+        input.form-control.inline type="date"
