@@ -9,7 +9,7 @@ div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dat
       div.modal-body
         span = t("loan.move_dates")
 
-        div.btn-group-vertical.button-group-radios data-toggle="buttons" aria-label== t("loan.move_date_direction")
+        div.btn-group-vertical.button-group-radios.form-item data-toggle="buttons" aria-label== t("loan.move_date_direction")
           label.btn.btn-default
             input type="radio" name="time_direction" id="time-forward" value="forward"
             span = t("loan.forward")
@@ -17,9 +17,9 @@ div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dat
             input type="radio" name="time_direction" id="time-backward" value="backward"
             span = t("loan.backward")
 
-        input type="number" min="1" max="365" name="num_of_days"
+        input.form-control.inline.form-item type="number" min="1" max="365" name="num_of_days"
 
-        span = t(:days)
+        span.form-item = t(:days)
 
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
