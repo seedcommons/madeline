@@ -22,7 +22,7 @@ module TimeLanguageHelper
 
   def time_status(step)
     set_dates(step)
-    return ''  unless @scheduled
+    return ""  unless @scheduled
 
     time_diff = @actual - @scheduled
 

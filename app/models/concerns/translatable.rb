@@ -48,14 +48,16 @@ module Translatable
   end
 
   def get_translation(attribute, locale: I18n.locale, exact_match: false)
-    # important to filter against the association held in memory instead of performing a db lookup
-    # in order to redisplay potentially transient values
+    # It is important to filter against the association held in memory (instead of fetching the data from the DB)
+    # in order to redisplay potentially transient values when there is a validation error and a form needs to be
+    # displayed with values not yet # saved to the DB.
     result = translations.find do |t|
       t.translatable_attribute.to_sym == attribute.to_sym && t.locale.to_sym == locale.to_sym
     end
     unless result || exact_match
-      # fall back to first translations of any locale if desired locale not present
-      # (except when fetching in order to perform update)
+      # When we are just displaying a translatable value, we'll show the user's default locale,
+      # but if not available, then we'll show the first available one. In this case `exact_match:false` is passed in.
+      # When editing a form, we only want resolve the exact locale provided and `exact_match:true` is passed in.
       result = translations.find do |t|
         t.translatable_attribute.to_sym == attribute.to_sym
       end
@@ -67,6 +69,7 @@ module Translatable
     translations.where(translatable_attribute: attribute)
   end
 
+  # todo: consider duck typing here, but would probably want to first introduced our own base model class
   def used_locales
     result = []
     if respond_to?(:division)
@@ -75,10 +78,8 @@ module Translatable
     result += translations.pluck(:locale)
 
     # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
-    permitted = self.permitted_locales
-    result.map(&:to_sym).uniq.select{ |l| permitted.include?(l) }
+    result.map(&:to_sym) & self.permitted_locales
   end
-
 
   # Beware, this is distinct from I18n.available_locales to flatten out the region specific locales
   # for the purpose of the translatable fields.
@@ -92,18 +93,18 @@ module Translatable
     # If we're okay with just using a simple map instead, then we could avoid that dependency.
   end
 
-
   def unused_locales
     permitted_locales - used_locales
   end
 
-
-
   def delete_translation(attribute, locale)
-    translation = get_translation(attribute, locale:locale, exact_match: true)
+    translation = get_translation(attribute, locale: locale, exact_match: true)
     translation.delete
   end
 
+  # if old_locale is provided and different from locale, then the language for an existing set of translations
+  # was changed from one language to another within the edit UI, and we need to match against that existing record
+  # when fetching for the update
   def set_translation(attribute, text, locale: I18n.locale, old_locale: nil)
     translation = get_translation(attribute, locale: old_locale || locale, exact_match: true)
     if translation
@@ -120,16 +121,15 @@ module Translatable
     end
   end
 
-
-  # TODO: this might not be the apropritate location for this helper
+  # todo: consider a different location for this helper
   # Returns a hash of the translated terms in all permitted locales for this translatable
   def translate(*terms)
-    permitted_locales.each_with_object({}) {|l, res|
-      res[l] = terms.each_with_object({}) {|term, res|
+    permitted_locales.each_with_object({}) do |l, res|
+      res[l] = terms.each_with_object({}) do |term, res|
         res[term] = I18n.t(term, locale: l)
-      }}
+      end
+    end
   end
-
 
   # returns the element from the parent objects association list for the given object's id
   # necessary to get autosave behavior to work as desired
@@ -141,11 +141,9 @@ module Translatable
   #   end
   # end
 
-
   #
   # Form helpers
   #
-
 
   #
   # define a easy way to fetch a named attribute for a specific locale
@@ -157,13 +155,13 @@ module Translatable
 
   def method_missing(method_sym, *arguments, &block)
     # todo: consider make this dynamic method pattern more unique
-    if method_sym.to_s =~ /^(.*)_(.*)$/
+    if method_sym.to_s =~ /\A(.*)_(.*)\z/
       if $2 != "translations" && respond_to?("#{$1}_translations")
         translation = get_translation($1, locale: $2, exact_match: true)
         return translation.try(:text)
       end
     end
-    if method_sym.to_s =~ /^locale_(.*)$/
+    if method_sym.to_s =~ /\Alocale_(.*)\z/
       # note, this assumes that invalid locales are already filtered out before reaching UI.
       if permitted_locales.include? $1.to_sym
         return $1
@@ -173,20 +171,17 @@ module Translatable
   end
 
   def respond_to?(method_sym, include_private = false)
-    if method_sym.to_s =~ /^(.*)_(.*)$/
+    if method_sym.to_s =~ /\A(.*)_(.*)\z/
       if $2 != "translations" && respond_to?("#{$1}_translations")
         return true
       end
     end
-    if method_sym.to_s =~ /^locale_(.*)$/
+    if method_sym.to_s =~ /\Alocale_(.*)\z/
       if permitted_locales.include? $1.to_sym
         return permitted_locales.include? $1.to_sym
       end
     end
     super
   end
-
-
-
 
 end

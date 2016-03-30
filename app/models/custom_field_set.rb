@@ -50,7 +50,7 @@ class CustomFieldSet < ActiveRecord::Base
   def self.resolve(internal_name, division: nil, model: nil, required: true)
     # for model types which are not owned by a division, assume there is only a single CustomFieldSet defined
     # need special handling for Division class to avoid infinite loop
-    if model.class == Division || ! model.respond_to?(:division)
+    if model.class == Division || !model.respond_to?(:division)
       return CustomFieldSet.find_by(internal_name: internal_name)
     end
 

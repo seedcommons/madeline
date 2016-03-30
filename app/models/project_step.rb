@@ -48,11 +48,13 @@ class ProjectStep < ActiveRecord::Base
 
   def update_with_translations(project_step_params, translations_params)
     begin
-    ActiveRecord::Base.transaction do
-      update_translations!(translations_params)
-      update!(project_step_params)
-      true
-    end
+      # todo: Consider trying to just use nested attributes, but I'm doubtful that we'll be able to handle
+      # the form flags to delete translations without something ad hoc
+      ActiveRecord::Base.transaction do
+        update_translations!(translations_params)
+        update!(project_step_params)
+        true
+      end
     rescue ActiveRecord::RecordInvalid
       false
     end
@@ -148,21 +150,22 @@ class ProjectStep < ActiveRecord::Base
 
   def update_translations!(translation_params)
     # deleting the translations that have been removed
-    JSON.parse(translation_params[:deleted_locales]).each { |l|
-      [:details, :summary].each { |attr|
+    translation_params[:deleted_locales].each do |l|
+      [:details, :summary].each do |attr|
         delete_translation(attr, l)
-      }
-    }
+      end
+    end
 
     reload
 
     # updating/creating the translation that have been updated, added
-    permitted_locales.each { |l|
+    permitted_locales.each do |l|
       next if translation_params["locale_#{l}"].nil?
-      [:details, :summary].each { |attr|
+      [:details, :summary].each do |attr|
+        # note, old_locale handles the redesignation of a translation set to a different language
         set_translation(attr, translation_params["#{attr}_#{l}"], locale: translation_params["locale_#{l}"], old_locale: l)
-      }
-    }
+      end
+    end
     save!
   end
 

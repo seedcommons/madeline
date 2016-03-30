@@ -2,6 +2,7 @@
 
 - content_for :styles
   = stylesheet_link_tag "admin/forms/forms", :media => "all"
+  = stylesheet_link_tag "admin/forms/project_step_form", :media => "all"
   = stylesheet_link_tag "admin/loans/tabs", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
   = stylesheet_link_tag "admin/logs/logs", :media => "all"
@@ -15,6 +16,7 @@
   = javascript_include_tag "admin/expand"
   = javascript_include_tag "admin/calendar/calendar"
   = javascript_include_tag "admin/timeline/select_all"
+  / todo: use require_tree instead from application.js
 
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 

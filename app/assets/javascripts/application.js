@@ -21,3 +21,4 @@
 
 //= require twitter/bootstrap/rails/confirm
 //= require admin/admin
+//todo: use require_tree here, instead of per-page

@@ -67,7 +67,6 @@ SimpleForm.setup do |config|
     end
   end
 
-
   config.wrappers :horizontal_form_condensed, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
@@ -83,7 +82,6 @@ SimpleForm.setup do |config|
       ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
     end
   end
-
 
   1.upto(12) do |col|
     config.wrappers "step_form_left_#{col}", tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
@@ -119,7 +117,6 @@ SimpleForm.setup do |config|
       end
     end
   end
-
 
   config.wrappers :horizontal_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
