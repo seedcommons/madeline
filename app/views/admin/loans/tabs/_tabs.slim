@@ -19,7 +19,7 @@ div class="tab-content"
   = render "admin/loans/tabs/tab_content", identifier: "timeline", category: "",
     content: timeline
 
-  = calendar = render "admin/loans/content/calendar", loan: @loan
+  - calendar = render "admin/loans/content/calendar", loan: @loan
   = render "admin/loans/tabs/tab_content", identifier: "loan-calendar", category: "", content: calendar
 
   = render "admin/loans/tabs/tab_content", identifier: "print", category: "",

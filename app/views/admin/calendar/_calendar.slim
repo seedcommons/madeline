@@ -2,13 +2,17 @@
   = javascript_include_tag "admin/calendar/calendar"
   javascript:
     $(function(){
-      new MS.Views.CalendarView();
+      new MS.Views.CalendarView({
+        calendar_type: "loan",
+        loan: #{@loan.to_json.html_safe},
+        steps: #{@steps.to_json.html_safe}
+      });
     });
 
 - content_for :styles
   = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
 
--content_for :title
+- content_for :title
   = 'Calendar'
 
-div#calendar
+div#calendar.loan-calendar
