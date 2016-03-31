@@ -35,7 +35,9 @@ class MS.Views.CalendarView extends Backbone.View
     $('#calendar').fullCalendar('renderEvent', {
       title: "Test Step",
       date: new Date(),
-      id: 9999
+      id: 9999,
+      className: "cal-step",
+      allDay: true
     });
 
     self = this
@@ -47,8 +49,10 @@ class MS.Views.CalendarView extends Backbone.View
       step.original_scheduled_date = step.created_at
       
       cal_item = {}
-      cal_item.id = step.id
+      cal_item.id = "step-" + step.id
       cal_item.title = "Project Step"
+      cal_item.className = "cal-step"
+      cal_item.allDay = true
       
       if step.completed_date
         cal_item.start = step.completed_date
@@ -66,6 +70,8 @@ class MS.Views.CalendarView extends Backbone.View
     cal_item.start = loan.signing_date
     cal_item.title = "Start: " + loan.name + "starts"
     cal_item.id = "loan-" + loan.id + "-start"
+    cal_item.className = "cal-loan cal-loan-start"
+    cal_item.allDay = true
 
     $('#calendar').fullCalendar( 'renderEvent', cal_item );
 
@@ -75,13 +81,17 @@ class MS.Views.CalendarView extends Backbone.View
     cal_item.start = loan.target_end_date
     cal_item.title = "End: " + loan.name
     cal_item.id = "loan-" + loan.id + "-end"
+    cal_item.className = "cal-loan cal-loan-end"
+    cal_item.allDay = true
 
     $('#calendar').fullCalendar( 'renderEvent', cal_item );
 
   add_ghost_step: (step) ->
     cal_item = {}
-    cal_item.id = step.id
+    cal_item.id = "ghost-step-" + step.id
     cal_item.title = "Ghost Step"
     cal_item.start = step.original_scheduled_date
+    cal_item.className = "cal-ghost-step"
+    cal_item.allDay = true
 
     $('#calendar').fullCalendar( 'renderEvent', cal_item );
