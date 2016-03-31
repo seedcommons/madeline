@@ -3,8 +3,16 @@
 
 .fc-event {
   border-radius: 0;
-  min-height: 2em;
   margin-bottom: .25em;
+  padding: .25em;
+}
+
+.fc-view-container {
+  background: $white;
+}
+
+.cal-ghost-step, .cal-step {
+  min-height: 2em;
 }
 
 .cal-ghost-step {
@@ -15,4 +23,10 @@
   &:hover {
     color: $gray3;
   }
+}
+
+.cal-step, .cal-loan {
+  background: $gray1;
+  border: none;
+  color: $black;
 }
