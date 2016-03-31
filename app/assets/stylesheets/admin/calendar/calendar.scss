@@ -1,7 +1,18 @@
 @import "fullcalendar";
 @import "../colors";
 
+.fc-event {
+  border-radius: 0;
+  min-height: 2em;
+  margin-bottom: .25em;
+}
+
 .cal-ghost-step {
-  background: $gray2;
-  border: $gray1;
+  background: none;
+  border: 1px dashed $gray3;
+  color: $gray3;
+
+  &:hover {
+    color: $gray3;
+  }
 }
