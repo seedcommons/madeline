@@ -21,14 +21,16 @@ class MS.Views.CalendarView extends Backbone.View
       this.load_main_calendar()
 
   load_main_calendar: (params) ->
-    $('#calendar').fullCalendar()
+    # $('#calendar').fullCalendar()
 
-  load_loan_info: () ->
+  load_loan_info: (loan) ->
+    this.loan_start_event(loan)
+    this.loan_end_event(loan)
 
   load_project_steps: (steps) ->
     # Test project step
     $('#calendar').fullCalendar('renderEvent', {
-      title: "Project Step",
+      title: "Test Step",
       date: new Date(),
       id: 9999
     });
@@ -46,3 +48,22 @@ class MS.Views.CalendarView extends Backbone.View
         cal_item.start = step.scheduled_date
 
       $('#calendar').fullCalendar( 'renderEvent', cal_item );
+
+  loan_start_event: (loan) ->
+    cal_item = {}
+
+    cal_item.start = loan.signing_date
+    cal_item.title = "Start: " + loan.name + "starts"
+    cal_item.id = "loan-" + loan.id + "-start"
+
+    $('#calendar').fullCalendar( 'renderEvent', cal_item );
+
+  loan_end_event: (loan) ->
+    cal_item = {}
+
+    cal_item.start = loan.target_end_date
+    cal_item.title = "End: " + loan.name
+    cal_item.id = "loan-" + loan.id + "-end"
+
+    $('#calendar').fullCalendar( 'renderEvent', cal_item );
+
