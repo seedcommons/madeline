@@ -63,7 +63,7 @@ class MS.Views.CalendarView extends Backbone.View
       else
         cal_item.start = step.scheduled_date
 
-      $('#calendar').fullCalendar( 'renderEvent', cal_item );
+      $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
 
       if (step.original_scheduled_date != cal_item.start)
         self.add_ghost_step(step)
@@ -77,7 +77,7 @@ class MS.Views.CalendarView extends Backbone.View
     cal_item.className = "cal-loan cal-loan-start"
     cal_item.allDay = true
 
-    $('#calendar').fullCalendar( 'renderEvent', cal_item );
+    $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
 
   loan_end_event: (loan) ->
     cal_item = {}
@@ -88,14 +88,18 @@ class MS.Views.CalendarView extends Backbone.View
     cal_item.className = "cal-loan cal-loan-end"
     cal_item.allDay = true
 
-    $('#calendar').fullCalendar( 'renderEvent', cal_item );
+    $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
 
   add_ghost_step: (step) ->
     cal_item = {}
     cal_item.id = "ghost-step-" + step.id
     cal_item.title = "Ghost Step"
     cal_item.start = step.original_scheduled_date
-    cal_item.className = "cal-ghost-step"
     cal_item.allDay = true
 
-    $('#calendar').fullCalendar( 'renderEvent', cal_item );
+    if (step.step_type_value == "milestone")
+      cal_item.className = "cal-ghost-step cal-step-milestone"
+    else
+      cal_item.className = "cal-ghost-step"
+
+    $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
