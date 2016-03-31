@@ -51,8 +51,12 @@ class MS.Views.CalendarView extends Backbone.View
       cal_item = {}
       cal_item.id = "step-" + step.id
       cal_item.title = "Project Step"
-      cal_item.className = "cal-step"
       cal_item.allDay = true
+      
+      if (step.step_type_value == "milestone")
+        cal_item.className = "cal-step cal-step-milestone"
+      else
+        cal_item.className = "cal-step"
       
       if step.completed_date
         cal_item.start = step.completed_date
