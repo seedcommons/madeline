@@ -3,7 +3,8 @@
   javascript:
     $(function(){
       new MS.Views.CalendarView({
-        calendar_type: "main"
+        calendar_type: "main",
+        loans: #{@loans.to_json.html_safe}
       });
     });
 
@@ -13,5 +14,7 @@
 - content_for :title
   = 'Calendar'
 
-div#calendar.main-calendar
+section
+  div#calendar.main-calendar
+
 

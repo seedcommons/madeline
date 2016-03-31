@@ -18,10 +18,13 @@ class MS.Views.CalendarView extends Backbone.View
       this.load_loan_info(params.loan)
       this.load_project_steps(params.steps)
     else if (params.calendar_type == "main")
-      this.load_main_calendar()
+      this.load_main_calendar(params.loans)
 
-  load_main_calendar: (params) ->
-    # $('#calendar').fullCalendar()
+  load_main_calendar: (loans) ->
+    self = this
+
+    $(loans).each (key, loan) ->
+      self.load_loan_info(loan)
 
   load_loan_info: (loan) ->
     this.loan_start_event(loan)
