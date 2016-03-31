@@ -15,20 +15,22 @@ class MS.Views.CalendarView extends Backbone.View
 
     # Load calendar events based on calendar type
     if (params.calendar_type == "loan")
-      this.load_loan_info(params.loan)
+      this.load_loan_info(params.loan, params.calendar_type)
       this.load_project_steps(params.steps)
     else if (params.calendar_type == "main")
-      this.load_main_calendar(params.loans)
+      this.load_main_calendar(params.loans, params.calendar_type)
 
-  load_main_calendar: (loans) ->
+  load_main_calendar: (loans, calendar_type) ->
     self = this
 
     $(loans).each (key, loan) ->
-      self.load_loan_info(loan)
+      self.load_loan_info(loan, calendar_type)
 
-  load_loan_info: (loan) ->
-    this.loan_start_event(loan)
-    this.loan_end_event(loan)
+  load_loan_info: (loan, calendar_type) ->
+    this.loan_start_event(loan, calendar_type)
+    this.loan_end_event(loan, calendar_type)
+
+    console.log(calendar_type)
 
   load_project_steps: (steps) ->
     # Test project step
@@ -68,25 +70,33 @@ class MS.Views.CalendarView extends Backbone.View
       if (step.original_scheduled_date != cal_item.start)
         self.add_ghost_step(step)
 
-  loan_start_event: (loan) ->
+  loan_start_event: (loan, calendar_type) ->
     cal_item = {}
 
     cal_item.start = loan.signing_date
-    cal_item.title = "Start: " + loan.name + "starts"
     cal_item.id = "loan-" + loan.id + "-start"
     cal_item.className = "cal-loan cal-loan-start"
     cal_item.allDay = true
 
+    if (calendar_type == "main")
+      cal_item.title = "Start of " + loan.name
+    else
+      cal_item.title = "Project starts"
+
     $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
 
-  loan_end_event: (loan) ->
+  loan_end_event: (loan, calendar_type) ->
     cal_item = {}
 
     cal_item.start = loan.target_end_date
-    cal_item.title = "End: " + loan.name
     cal_item.id = "loan-" + loan.id + "-end"
     cal_item.className = "cal-loan cal-loan-end"
     cal_item.allDay = true
+
+    if (calendar_type == "main")
+      cal_item.title = "End of " + loan.name
+    else
+      cal_item.title = "Project ends"
 
     $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true );
 
