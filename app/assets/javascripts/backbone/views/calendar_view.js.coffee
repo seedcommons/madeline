@@ -38,9 +38,14 @@ class MS.Views.CalendarView extends Backbone.View
       id: 9999
     });
 
+    self = this
+
     cal_events = []
 
     $(steps).each (key, step) ->
+      # TODO: Replace original scheduled date with real data
+      step.original_scheduled_date = step.created_at
+      
       cal_item = {}
       cal_item.id = step.id
       cal_item.title = "Project Step"
@@ -51,6 +56,9 @@ class MS.Views.CalendarView extends Backbone.View
         cal_item.start = step.scheduled_date
 
       $('#calendar').fullCalendar( 'renderEvent', cal_item );
+
+      if (step.original_scheduled_date != cal_item.start)
+        self.add_ghost_step(step)
 
   loan_start_event: (loan) ->
     cal_item = {}
@@ -70,3 +78,10 @@ class MS.Views.CalendarView extends Backbone.View
 
     $('#calendar').fullCalendar( 'renderEvent', cal_item );
 
+  add_ghost_step: (step) ->
+    cal_item = {}
+    cal_item.id = step.id
+    cal_item.title = "Ghost Step"
+    cal_item.start = step.original_scheduled_date
+
+    $('#calendar').fullCalendar( 'renderEvent', cal_item );
