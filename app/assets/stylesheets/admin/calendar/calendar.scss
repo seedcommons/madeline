@@ -1,1 +1,7 @@
 @import "fullcalendar";
+@import "../colors";
+
+.cal-ghost-step {
+  background: $gray2;
+  border: $gray1;
+}
