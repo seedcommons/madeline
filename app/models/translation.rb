@@ -19,6 +19,8 @@
 class Translation < ActiveRecord::Base
   belongs_to :translatable, polymorphic: true
 
+  delegate :division, to: :translatable
+
   def to_s
     text
   end

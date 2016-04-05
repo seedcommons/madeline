@@ -11,11 +11,11 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(id: record.id).exists?
+    division_member_or_admin && scope.where(id: record.id).exists?
   end
 
   def create?
-    false
+    division_member_or_admin
   end
 
   def new?
@@ -23,7 +23,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    division_member_or_admin
   end
 
   def edit?
@@ -31,7 +31,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    division_admin
   end
 
   def scope
@@ -49,5 +49,19 @@ class ApplicationPolicy
     def resolve
       scope
     end
+  end
+
+  protected
+
+  def division_member
+    @user.has_role? :member, @record.division
+  end
+
+  def division_admin
+    @user.has_role? :admin, @record.division
+  end
+
+  def division_member_or_admin
+    division_member || division_admin
   end
 end

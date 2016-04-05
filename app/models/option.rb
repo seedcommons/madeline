@@ -23,6 +23,7 @@ class Option < ActiveRecord::Base
   include Translatable
 
   belongs_to :option_set
+  delegate :division, to: :option_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label

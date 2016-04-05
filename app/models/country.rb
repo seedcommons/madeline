@@ -17,10 +17,12 @@
 class Country < ActiveRecord::Base
   belongs_to :default_currency, class_name: 'Currency'
 
-  #JE todo use cached map
+  # TODO: replace instances of this method with find_by(name: name)
   def self.id_from_name(name)
     Country.where(name: name).pluck(:id).first
   end
 
-
+  def division
+    Division.root # for permissions purposes, assume country model belongs to root division
+  end
 end
