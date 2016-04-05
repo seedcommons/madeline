@@ -23,10 +23,10 @@ div.repeat-options.hidden
       div
         input type="radio" name="month_repeat_on" val="date"
 
-        span name="repeat_date_#{step.scheduled_weekday_key}"
+        span name="repeat_date_#{step.scheduled_date_weekday_key}"
           = t("number.nth_weekday",
-            nth: t("number.nth.num_#{step.nth_weekday}"),
-            weekday: step.scheduled_weekday)
+            nth: t("number.nth.num_#{step.week_of_scheduled_date}"),
+            weekday: step.weekday_of_scheduled_date)
 
   div.end-occurence.form-group.row
     span.bold.col-lg-2 = t("project_step.end")

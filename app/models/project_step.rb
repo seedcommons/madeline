@@ -128,15 +128,16 @@ class ProjectStep < ActiveRecord::Base
     self.scheduled_date.day
   end
 
-  def scheduled_weekday
+  def weekday_of_scheduled_date
     Date::DAYNAMES[self.scheduled_date.wday]
   end
 
-  def scheduled_weekday_key
-    self.nth_weekday.to_s + "_" + self.scheduled_weekday.downcase
+  def scheduled_date_weekday_key
+    self.week_of_scheduled_date.to_s + "_" + self.weekday_of_scheduled_date.downcase
   end
 
-  def nth_weekday
+  # Returns which week within a given month the scheduled date occurs.
+  def week_of_scheduled_date
     day = scheduled_day.to_i
 
     if (day < 8)
