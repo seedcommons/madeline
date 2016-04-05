@@ -155,7 +155,7 @@ en:
       st: "st"
       th: "th"
     nth_weekday: "The %{nth} %{weekday}"
-    nth_day: "The %{day}%{nth}"
+    the_day: "The %{day}"
 
   project_step:
     after: "After"

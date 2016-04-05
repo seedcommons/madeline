@@ -139,7 +139,7 @@ class ProjectStep < ActiveRecord::Base
   def nth_weekday
     day = scheduled_day.to_i
 
-    if (day <= 8)
+    if (day < 8)
       1
     elsif (8 <= day) && (day < 15)
       2
@@ -149,20 +149,6 @@ class ProjectStep < ActiveRecord::Base
       4
     else
       5
-    end
-  end
-
-  def nth_day
-    day = self.scheduled_day
-
-    if day == (1 || 21 || 31)
-      "st"
-    elsif  day == (2 || 22)
-      "nd"
-    elsif day == (3 || 23)
-      "rd"
-    else
-      "th"
     end
   end
 end
