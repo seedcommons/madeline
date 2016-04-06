@@ -1,6 +1,6 @@
 class Admin::OrganizationsController < Admin::AdminController
   def index
-    authorize Organization
+    authorize Organization.new(division: current_division)
     @organizations_grid = initialize_grid(
       Organization,
       include: :country,

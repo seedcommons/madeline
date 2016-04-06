@@ -23,5 +23,7 @@ class Role < ActiveRecord::Base
             :inclusion => { :in => Rolify.resource_types },
             :allow_nil => true
 
+  delegate :division, to: :resource
+
   scopify
 end
