@@ -19,9 +19,6 @@
 #
 
 def root_division
-  # fetched = Division.roots
-  # # puts("unexpectedly non-unique root Division - count: #{fetched.size}")  if fetched.size > 1
-  # result = fetched.first
   result = Division.root
   unless result
     # puts "autocreating root Division"
@@ -35,7 +32,7 @@ FactoryGirl.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
+    parent { root_division }
     # organization - intentionally left nil # (would cause an infinite loop)
-    # parent - intentionally left nil
   end
 end

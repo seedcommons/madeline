@@ -29,6 +29,13 @@ FactoryGirl.define do
       model.set_label(Faker::Lorem.words(2).join(' '))
     end
 
+    transient do
+      division { custom_field_set.division }
+    end
+
+    after(:create) do |custom_field, evaluator|
+      custom_field.custom_field_set.division = evaluator.division if evaluator.division.present?
+    end
   end
 
 end

@@ -167,6 +167,9 @@ GEM
     powerpack (0.1.1)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
+    pundit-matchers (1.0.2)
+      pundit (~> 1.0, >= 1.0.0)
+      rspec-rails (>= 3.0.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -338,6 +341,7 @@ DEPENDENCIES
   mysql2
   pg (~> 0.15)
   pundit
+  pundit-matchers
   rails (~> 4.2.5)
   rails-backbone
   rails-erd
