@@ -38,7 +38,7 @@ class CustomValueSet < ActiveRecord::Base
   belongs_to :custom_value_set_linkable, polymorphic: true
   belongs_to :custom_field_set
 
-  delegate :division, to: :custom_field_set
+  delegate :division, :division=, to: :custom_field_set
 
   # Ducktype interface override of default CustomValueSettable resolve logic.
   # Assumes linkable associated field set assigned when instance was created.

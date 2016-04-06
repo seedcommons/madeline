@@ -34,7 +34,7 @@ class Media < ActiveRecord::Base
   mount_uploader :item, MediaItemUploader
   attr_translatable :caption, :description
 
-  delegate :division, to: :media_attachable
+  delegate :division, :division=, to: :media_attachable
 
   scope :media_type, ->(media_type) { where(kind: media_type) }
   scope :images_only, -> { media_type('image') }

@@ -7,7 +7,7 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    division_member_or_admin
   end
 
   def show?
@@ -53,15 +53,25 @@ class ApplicationPolicy
 
   protected
 
-  def division_member
-    @user.has_role? :member, @record.division
+  def division_member(division: @record.division)
+    check_self_and_ancestors_for_role(role: :member, division: division)
   end
 
-  def division_admin
-    @user.has_role? :admin, @record.division
+  def division_admin(division: @record.division)
+    check_self_and_ancestors_for_role(role: :admin, division: division)
   end
 
-  def division_member_or_admin
-    division_member || division_admin
+  def division_member_or_admin(division: @record.division)
+    division_member(division: division) || division_admin(division: division)
+  end
+
+  def check_self_and_ancestors_for_role(role:, division: @record.division)
+    division_and_ancestors = division.self_and_ancestors
+
+    division_and_ancestors.each do |div|
+      return true if @user.has_role? role, div
+    end
+
+    false
   end
 end

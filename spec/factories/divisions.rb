@@ -27,12 +27,25 @@ def root_division
   result
 end
 
-
 FactoryGirl.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
     parent { root_division }
     # organization - intentionally left nil # (would cause an infinite loop)
+  end
+end
+
+# Defines a global trait for models that delegate their divisions
+# allowing us to assign them directly
+FactoryGirl.define do
+  trait :transient_division do
+    transient do
+      division { create(:division) }
+    end
+
+    after(:create) do |instance, evaluator|
+      instance.division = evaluator.division if evaluator.division.present?
+    end
   end
 end

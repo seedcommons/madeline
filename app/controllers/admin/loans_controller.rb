@@ -1,5 +1,6 @@
 class Admin::LoansController < Admin::AdminController
   def index
+    authorize Loan.new(division: current_division)
     @loans_grid = initialize_grid(Loan,
       include: [:division, :organization],
       order: 'loans.signing_date',
@@ -11,18 +12,21 @@ class Admin::LoansController < Admin::AdminController
 
   def show
     @loan = Loan.find(params[:id])
+    authorize @loan
     @organizations = Organization.all
     @form_action_url = admin_loan_path
   end
 
   def new
-    @loan = Loan.new
+    @loan = Loan.new(division: current_division)
+    authorize @loan
     @organizations = Organization.all
     @form_action_url = admin_loans_path
   end
 
   def update
     @loan = Loan.find(params[:id])
+    authorize @loan
 
     if @loan.update(loan_params)
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
@@ -34,7 +38,8 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_params)
+    @loan = Loan.new(loan_params).merge(division: current_division)
+    authorize @loan
 
     if @loan.save
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
@@ -47,6 +52,7 @@ class Admin::LoansController < Admin::AdminController
 
   def destroy
     @loan = Loan.find(params[:id])
+    authorize @loan
 
     if @loan.destroy
       redirect_to admin_loans_path, notice: I18n.t(:notice_deleted)

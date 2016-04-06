@@ -27,7 +27,7 @@ class ProjectLog < ActiveRecord::Base
   belongs_to :project_step
   belongs_to :agent, class_name: 'Person'
 
-  delegate :division, to: :project_step
+  delegate :division, :division=, to: :project_step
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details, :additional_notes, :private_notes

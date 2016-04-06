@@ -1,5 +1,6 @@
 class Admin::OrganizationsController < Admin::AdminController
   def index
+    authorize Organization
     @organizations_grid = initialize_grid(
       Organization,
       include: :country,
@@ -11,18 +12,22 @@ class Admin::OrganizationsController < Admin::AdminController
   # show view includes edit
   def show
     @org = Organization.find(params[:id])
+    authorize @org
     @countries = Country.all
     @form_action_url = admin_organization_path
   end
 
   def new
     @org = Organization.new
+    authorize @org
     @countries = Country.all
     @form_action_url = admin_organizations_path
   end
 
   def update
     @org = Organization.find(params[:id])
+    authorize @org
+
     if @org.update(organization_params)
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
@@ -36,6 +41,8 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.new(organization_params)
     @org.division = current_division
 
+    authorize @org
+
     if @org.save
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_created)
     else
@@ -47,6 +54,8 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def destroy
     @org = Organization.find(params[:id])
+    authorize @org
+
     if @org.destroy
       redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
     else

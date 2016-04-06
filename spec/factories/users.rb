@@ -40,6 +40,7 @@ FactoryGirl.define do
     sign_in_count { rand(1..25) }
     updated_at { Faker::Date.between(created_at, current_sign_in_at) }
     profile { create(:person) }
+    transient_division
 
     trait :member do
       transient do

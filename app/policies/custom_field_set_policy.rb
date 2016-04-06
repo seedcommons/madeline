@@ -1,0 +1,2 @@
+class CustomFieldSetPolicy < ApplicationPolicy
+end

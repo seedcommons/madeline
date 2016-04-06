@@ -33,7 +33,6 @@ class Division < ActiveRecord::Base
   has_many :people
   has_many :organizations
 
-
   belongs_to :parent, class_name: 'Division'
   belongs_to :default_currency, class_name: 'Currency'
   belongs_to :organization  # the organization which represents this loan agent division
@@ -87,6 +86,11 @@ class Division < ActiveRecord::Base
     result = root.try(:id)
     logger.info("division root.id: #{result}")
     result
+  end
+
+  # interface compatibility with other models
+  def division
+    self
   end
 
 
