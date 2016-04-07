@@ -1,0 +1,8 @@
+- if event.event_type == "loan_start"
+  div.calendar-event.loan-start
+    = event.title
+- elsif event.event_type == "loan_end"
+  div.calendar-event.loan-end
+    = event.title
+- else
+  = render "event_step", event: event
