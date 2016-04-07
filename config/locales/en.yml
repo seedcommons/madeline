@@ -63,7 +63,6 @@ en:
   cancel: "Cancel"
   city: "City"
   clear: "Clear"
-  close_button: "&times;"
   completed: "Completed"
   confirm: "Confirm"
   confirm_deletion: 'Are you sure you want to delete this %{thing}?'
