@@ -123,4 +123,30 @@ class ProjectStep < ActiveRecord::Base
       self.background_color
     end
   end
+
+  # The below methods may need to be moved to the events model
+    def step_event
+      cal_item = {}
+
+      cal_item[:start] = self.completed_date ? self.completed_date : self.scheduled_date
+
+      cal_item[:title] = self.name
+      cal_item[:event_type] = "project_step"
+      cal_item[:eventBackgroundColor] = self.background_color
+
+      return cal_item
+    end
+
+    def ghost_step_event
+      if (self.original_scheduled_date != self.scheduled_date)
+        cal_item = {}
+
+        cal_item[:start] = self.original_scheduled_date
+        cal_item[:title] = self.name
+        cal_item[:event_type] = "ghost_step"
+
+        return cal_item
+      end
+    end
+  # End of methods that may need to be moved to the events model
 end

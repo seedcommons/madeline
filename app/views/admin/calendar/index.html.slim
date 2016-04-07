@@ -3,8 +3,7 @@
   javascript:
     $(function(){
       new MS.Views.CalendarView({
-        calendar_type: "main",
-        loans: #{@loans.to_json.html_safe}
+        events: #{@events.to_json.html_safe}
       });
     });
 
@@ -15,6 +14,8 @@
   = 'Calendar'
 
 section
+  /= @events.inspect
+
   div#calendar.main-calendar
 
 

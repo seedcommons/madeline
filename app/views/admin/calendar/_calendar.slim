@@ -3,9 +3,7 @@
   javascript:
     $(function(){
       new MS.Views.CalendarView({
-        calendar_type: "loan",
-        loan: #{@loan.to_json.html_safe},
-        steps: #{@steps.to_json.html_safe}
+        events: #{@events.to_json.html_safe}
       });
     });
 
@@ -14,5 +12,7 @@
 
 - content_for :title
   = 'Calendar'
+
+/ = @events.inspect
 
 div#calendar.loan-calendar

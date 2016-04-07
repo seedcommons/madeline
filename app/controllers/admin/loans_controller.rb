@@ -14,6 +14,7 @@ class Admin::LoansController < Admin::AdminController
     @organizations = Organization.all
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
+    @events
   end
 
   def new

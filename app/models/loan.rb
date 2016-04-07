@@ -234,4 +234,24 @@ class Loan < ActiveRecord::Base
   def logs(order_by="Date DESC")
     @logs ||= ProjectLog.where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
   end
+
+  # The below methods may need to be moved to the events model
+    def calendar_start_event
+      cal_item = {}
+      cal_item[:start] = self.signing_date
+      cal_item[:title] = self.name
+      cal_item[:event_type] = "loan_start"
+
+      return cal_item
+    end
+
+    def calendar_end_event
+      cal_item = {}
+      cal_item[:start] = self.target_end_date
+      cal_item[:title] = self.name
+      cal_item[:event_type] = "loan_end"
+
+      return cal_item
+    end
+  # End of methods that may need to be moved to the events model
 end
