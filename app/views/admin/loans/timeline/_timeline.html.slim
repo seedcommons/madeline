@@ -1,4 +1,8 @@
 section.timeline
+  h1.sr-only t("loan.timeline")
+
+  = render "admin/loans/timeline/timeline_header"
+
   div.project-steps
     - unless @loan.project_steps.empty?
       - @loan.project_steps.each do |step|

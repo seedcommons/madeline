@@ -4,7 +4,7 @@ div.panel.step style="border-color: #{step.border_color}"
       div.col-lg-4.main-details.first-col
         div.row
           div.col-lg-1.check.first-col
-            input type="checkbox"
+            input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id== step.id
           div.col-lg-11.first-col
             h5.title
               span.icon
@@ -74,14 +74,4 @@ div.panel.step style="border-color: #{step.border_color}"
               "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
               i.fa.fa-trash.fa-large>
 
-    div.step-logs
-      div.icon-with-text.view-logs-ctrl
-        span.text-left-of-icon
-          - if step.logs_count > 0
-            span.show-log
-              = t("log.show_logs", n: step.logs_count)
-          - else
-            span.no-logs
-              = t("log.no_logs")
-        span.icon-box.add-log
-          i.fa.fa-plus-circle
+    = render "admin/logs/step_logs", step: step
