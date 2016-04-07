@@ -5,8 +5,8 @@ class MS.Views.DuplicateStepView extends Backbone.View
   events: (params) ->
     "change input[name='repeat_duration']": 'toggle_repeat_options'
     "change select[name='time_unit']": 'toggle_month_options'
-    "click .num-of-occurences": "check_radio"
-    "click .date-end-of-occurences": "check_radio"
+    "click .num-of-occurences": 'check_radio'
+    "click .date-end-of-occurences": 'check_radio'
 
   toggle_repeat_options: (e) ->
     item = e.currentTarget
@@ -29,7 +29,7 @@ class MS.Views.DuplicateStepView extends Backbone.View
     else
       $month_options.addClass("hidden")
 
-  check_radio = (e) ->
+  check_radio: (e) ->
     item = e.currentTarget
     radio = $(item).find(".radio-item")
     $(radio).attr('checked', "checked").prop("checked", true)

@@ -13,7 +13,12 @@
   = javascript_include_tag "admin/timeline/select_all"
   = javascript_include_tag "admin/expand"
   = javascript_include_tag "admin/calendar/calendar"
-  = javascript_include_tag "admin/project_steps/duplicate_step"
+
+  javascript:
+    $(function(){
+      new MS.Views.DuplicateStepView({
+      });
+    });
 
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
