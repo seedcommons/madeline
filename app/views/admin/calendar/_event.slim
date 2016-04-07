@@ -1,8 +1,12 @@
-- if event.event_type == "loan_start"
+/= cal_event.inspect
+
+/ div.calendar-event = cal_event[:title]
+
+- if cal_event[:event_type] == "loan_start"
   div.calendar-event.loan-start
-    = event.title
-- elsif event.event_type == "loan_end"
+    = cal_event[:title]
+- elsif cal_event[:event_type] == "loan_end"
   div.calendar-event.loan-end
-    = event.title
+    = cal_event[:title]
 - else
-  = render "event_step", event: event
+  = render "admin/calendar/event_step", cal_event: cal_event
