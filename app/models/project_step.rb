@@ -27,8 +27,14 @@
 class ProjectStep < ActiveRecord::Base
   include ::Translatable, OptionSettable
 
-  ON_TIME = [120, 73, 57] # hsl(120, 73%, 57%)
-  SUPER_EARLY = [120, 43, 34] # hsl(120, 43%, 34%)
+  COLORS = {
+    on_time: "hsl(120, 73%, 57%)",
+    super_early: "hsl(120, 43%, 34%)",
+    barely_late: "hsl(56, 100%, 66%)",
+    super_late: "hsl(357, 100%, 33%)",
+  }
+  SUPER_EARLY_PERIOD = 7.days
+  SUPER_LATE_PERIOD = 30.days
 
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
@@ -43,7 +49,6 @@ class ProjectStep < ActiveRecord::Base
   validates :project_id, presence: true
 
   def name
-    # logger.debug "this: #{self.inspect}"
     "#{project.try(:name)} step"
   end
 
@@ -83,18 +88,34 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
-  # Generate a CSS color based on the status and lateness of the step
-  def color
-    # if completed?
-      a = color_between(ON_TIME, SUPER_EARLY, 0.5)
-    # end
-
-    "hsl(#{a[0]}, #{a[1]}%, #{a[2]}%)"
+  def original_date
+    self[:original_date] || scheduled_date
   end
 
-  def days
-    if completed?
-      completed_date - scheduled_date
+  def date_changed?
+    self[:original_date].present?
+  end
+
+  def days_late
+    if scheduled_date
+      if completed?
+        (completed_date - original_date).to_i
+      else
+        ([scheduled_date, Date.today].max - original_date).to_i
+      end
+    end
+  end
+
+  # Generate a CSS color based on the status and lateness of the step
+  def color
+    if completed? && days_late <= 0
+      fraction = -days_late / SUPER_EARLY_PERIOD
+      color_between(COLORS[:on_time], COLORS[:super_early], fraction)
+    elsif days_late > 0
+      fraction = days_late / SUPER_LATE_PERIOD
+      color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
+    else # incomplete and not late
+      "inherit"
     end
   end
 
@@ -116,8 +137,14 @@ class ProjectStep < ActiveRecord::Base
 
   private
 
+  # start and finish are each CSS color strings in hsl format
   def color_between(start, finish, fraction = 0.5)
-    start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
+    # hsl to array
+    start = start.scan(/\d+/).map(&:to_f)
+    finish = finish.scan(/\d+/).map(&:to_f)
+
+    r = start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
+    "hsl(#{r[0]}, #{r[1]}%, #{r[2]}%)"
   end
 
 end
