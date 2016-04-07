@@ -17,11 +17,11 @@ class Admin::LoansController < Admin::AdminController
     
     @events = []
 
-    @events.push(@loan.calendar_start_event)
-    @events.push(@loan.calendar_end_event)
+    self.prepare_event(@loan.calendar_start_event)
+    self.prepare_event(@loan.calendar_end_event)
 
     @loan.project_steps.each do |step|
-      @events.push(step.calendar_scheduled_event)
+      self.prepare_event(step.calendar_scheduled_event)
     end
   end
 
@@ -65,6 +65,10 @@ class Admin::LoansController < Admin::AdminController
       @form_action_url = admin_loan_path
       render :show
     end
+  end
+
+  def prepare_event(cal_event)
+    @events.push(cal_event)
   end
 
   private
