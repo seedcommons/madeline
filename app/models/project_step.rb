@@ -125,28 +125,32 @@ class ProjectStep < ActiveRecord::Base
   end
 
   # The below methods may need to be moved to the events model
-    def step_event
+    def calendar_scheduled_event
       cal_item = {}
 
       cal_item[:start] = self.completed_date ? self.completed_date : self.scheduled_date
 
-      cal_item[:title] = self.name
+      cal_item[:title] = "Step: " + self.name
       cal_item[:event_type] = "project_step"
       cal_item[:eventBackgroundColor] = self.background_color
 
       return cal_item
     end
 
-    def ghost_step_event
-      if (self.original_scheduled_date != self.scheduled_date)
-        cal_item = {}
+    # TODO: Create way to track changes to scheduled date, including original date
+    # and number of times date has changed.
 
-        cal_item[:start] = self.original_scheduled_date
-        cal_item[:title] = self.name
-        cal_item[:event_type] = "ghost_step"
+    # TODO: Display ghost steps based on original scheduled date
+    # def calendar_original_scheduled_event
+    #   if (self.original_scheduled_date != self.scheduled_date)
+    #     cal_item = {}
 
-        return cal_item
-      end
-    end
+    #     cal_item[:start] = self.original_scheduled_date
+    #     cal_item[:title] = self.name
+    #     cal_item[:event_type] = "ghost_step"
+
+    #     return cal_item
+    #   end
+    # end
   # End of methods that may need to be moved to the events model
 end
