@@ -4,7 +4,10 @@ class MS.Views.CalendarView extends Backbone.View
 
   initialize: (params) ->
     # Initialize calendar
-    $('#calendar').fullCalendar()
+    $('#calendar').fullCalendar({
+      eventRender: (event, element) ->
+        element.find('.fc-title').html(event.title)
+    })
 
     this.render_cal_events(params.events)
 
