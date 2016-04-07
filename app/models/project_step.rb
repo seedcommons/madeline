@@ -132,7 +132,8 @@ class ProjectStep < ActiveRecord::Base
 
       cal_item[:title] = "Step: " + self.name
       cal_item[:event_type] = "project_step"
-      cal_item[:eventBackgroundColor] = self.background_color
+      cal_item[:backgroundColor] = self.background_color
+      cal_item[:borderColor] = self.border_color
 
       return cal_item
     end

@@ -14,7 +14,15 @@ class Admin::LoansController < Admin::AdminController
     @organizations = Organization.all
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
-    @events
+    
+    @events = []
+
+    @events.push(@loan.calendar_start_event)
+    @events.push(@loan.calendar_end_event)
+
+    @loan.project_steps.each do |step|
+      @events.push(step.calendar_scheduled_event)
+    end
   end
 
   def new
