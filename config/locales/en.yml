@@ -159,6 +159,7 @@ en:
       on_time: "(on time)"
       time_early: "%{time} early"
       time_late: "%{time} late"
+      time_on_time: "on time"
 
   log:
     additional_notes: "Additional Notes:"

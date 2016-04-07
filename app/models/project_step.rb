@@ -29,12 +29,14 @@ class ProjectStep < ActiveRecord::Base
 
   COLORS = {
     on_time: "hsl(120, 73%, 57%)",
-    super_early: "hsl(120, 43%, 34%)",
+    super_early: "hsl(120, 41%, 47%)",
     barely_late: "hsl(56, 100%, 66%)",
-    super_late: "hsl(357, 100%, 33%)",
+    super_late: "hsl(0, 74%, 54%)",
   }
-  SUPER_EARLY_PERIOD = 7.days
-  SUPER_LATE_PERIOD = 30.days
+  SUPER_EARLY_PERIOD = 7.0 # days
+  SUPER_LATE_PERIOD = 30.0 # days
+
+  default_scope { order('scheduled_date') }
 
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
@@ -142,6 +144,9 @@ class ProjectStep < ActiveRecord::Base
     # hsl to array
     start = start.scan(/\d+/).map(&:to_f)
     finish = finish.scan(/\d+/).map(&:to_f)
+
+    fraction = 0 if fraction < 0
+    fraction = 1 if fraction > 1
 
     r = start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
     "hsl(#{r[0]}, #{r[1]}%, #{r[2]}%)"
