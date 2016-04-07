@@ -7,6 +7,7 @@
 #  created_at      :datetime         not null
 #  id              :integer          not null, primary key
 #  is_finalized    :boolean
+#  original_date   :date
 #  project_id      :integer
 #  project_type    :string
 #  scheduled_date  :date
