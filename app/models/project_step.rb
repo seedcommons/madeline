@@ -41,6 +41,8 @@ class ProjectStep < ActiveRecord::Base
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
 
+  delegate :division, :division=, to: :project
+
   has_many :project_logs
 
   # define accessor like convenience methods for the fields stored in the Translations table

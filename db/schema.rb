@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407214822) do
-
+ActiveRecord::Schema.define(version: 20160408142938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160407214822) do
     t.integer "generations", null: false
   end
 
-  add_index "custom_field_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_sets", force: :cascade do |t|
@@ -83,7 +82,7 @@ ActiveRecord::Schema.define(version: 20160407214822) do
     t.integer "generations", null: false
   end
 
-  add_index "division_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "division_anc_desc_idx", unique: true, using: :btree
+  add_index "division_hierarchies", %w(ancestor_id descendant_id generations), name: "division_anc_desc_idx", unique: true, using: :btree
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
@@ -287,6 +286,17 @@ ActiveRecord::Schema.define(version: 20160407214822) do
   add_index "project_steps", ["agent_id"], name: "index_project_steps_on_agent_id", using: :btree
   add_index "project_steps", ["project_type", "project_id"], name: "index_project_steps_on_project_type_and_project_id", using: :btree
 
+  create_table "roles", force: :cascade do |t|
+    t.datetime "created_at"
+    t.string   "name", null: false
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", %w(name resource_type resource_id), name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true, using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
     t.string   "locale"
@@ -319,6 +329,13 @@ ActiveRecord::Schema.define(version: 20160407214822) do
   add_index "users", ["profile_id"], name: "index_users_on_profile_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "user_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
+
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
@@ -344,4 +361,6 @@ ActiveRecord::Schema.define(version: 20160407214822) do
   add_foreign_key "project_logs", "project_steps"
   add_foreign_key "project_steps", "people", column: "agent_id"
   add_foreign_key "users", "people", column: "profile_id"
+  add_foreign_key "users_roles", "roles"
+  add_foreign_key "users_roles", "users"
 end

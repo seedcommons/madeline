@@ -19,6 +19,6 @@ FactoryGirl.define do
   factory :custom_value_set do
     association :custom_value_set_linkable, factory: :loan
     custom_field_set
+    transient_division
   end
-
 end

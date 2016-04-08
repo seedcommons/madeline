@@ -12,5 +12,7 @@
 #
 
 class Currency < ActiveRecord::Base
-
+  def division
+    Division.root # for permissions purposes, assume currency model belongs to root division
+  end
 end

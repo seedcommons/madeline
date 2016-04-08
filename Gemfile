@@ -15,10 +15,12 @@ gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails-confirm'
-gem "rails-backbone"
+gem 'rails-backbone'
 
 # Authentication / Authorization
 gem 'devise'
+gem 'pundit'
+gem 'rolify'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.4'
@@ -75,6 +77,7 @@ group :development, :test do
 
   # Specs and Test Coverage
   gem 'rspec-rails'
+  gem 'pundit-matchers'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'faker'
