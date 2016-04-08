@@ -19,16 +19,16 @@ table
     td = @item.date
   tr
     td Summary
-    td = render view_path('common/translations'), {items: @item.summary_list}
+    td = render view_path('common/translations'), {items: @item.summary_translations}
   tr
     td Details
-    td = render view_path('common/translations'), {items: @item.details_list}
+    td = render view_path('common/translations'), {items: @item.details_translations}
   tr
     td Additional Notes
-    td = render view_path('common/translations'), {items: @item.additional_notes_list}
+    td = render view_path('common/translations'), {items: @item.additional_notes_translations}
   tr
     td Private Notes
-    td = render view_path('common/translations'), {items: @item.private_notes_list}
+    td = render view_path('common/translations'), {items: @item.private_notes_translations}
 
 - if @item.project_step
   = link_to 'Back to Step', item_path(@item.project_step)

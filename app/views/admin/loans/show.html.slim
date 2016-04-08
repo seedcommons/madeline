@@ -1,0 +1,34 @@
+- content_for(:title, @loan.name)
+
+- content_for :styles
+  = stylesheet_link_tag "admin/forms/forms", :media => "all"
+  = stylesheet_link_tag "admin/loans/tabs", :media => "all"
+  = stylesheet_link_tag "admin/loans/timeline", :media => "all"
+  = stylesheet_link_tag "admin/logs/logs", :media => "all"
+  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
+
+- content_for :scripts
+  = javascript_include_tag "admin/forms/forms"
+  = javascript_include_tag "admin/timeline/select_all"
+  = javascript_include_tag "admin/expand"
+  = javascript_include_tag "admin/calendar/calendar"
+
+section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if @loan.valid?
+        a.edit-action.view-element href="#"
+          i.fa.fa-pencil.fa-large>
+          = t(:edit)
+        a.show-action.form-element href="#" = t(:cancel)
+      - else
+        a href=admin_organization_path(@loan) = t(:cancel)
+      = link_to [:admin, @loan], method: :delete,
+        data: { confirm: t('loan.confirm_deletion') }
+        i.fa.fa-trash.fa-large>
+        = t(:delete)
+    .clearfix
+
+  div.loan-content
+    = render "admin/loans/tabs/tabs"

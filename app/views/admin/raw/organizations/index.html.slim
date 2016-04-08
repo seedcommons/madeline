@@ -6,6 +6,7 @@ table border=1
     th Name
     th City
     th Country
+    th Is Recovered
     th Loans
     th Created
     th Updated
@@ -16,6 +17,7 @@ table border=1
       td = item.name
       td = item.city
       td = item.country.try(:name)
+      td = item.is_recovered
       td = item.loans_count
       td = item.created_at
       td = item.updated_at

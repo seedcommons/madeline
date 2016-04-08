@@ -17,3 +17,11 @@
 
 //= require jquery-ui
 //= require wice_grid
+
+//= require twitter/bootstrap/rails/confirm
+//= require admin/admin
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/madeline_system

@@ -9,8 +9,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :calendar, only: [:index]
     resources :dashboard, only: [:index]
-    resources :loans, only: [:index]
+    resources :loans
     resources :organizations
+    resources :project_steps
+    resources :project_logs
 
     namespace :raw do
       resources :divisions
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
       resources :notes
       resources :custom_field_sets
       resources :custom_fields
+      resources :custom_value_sets
       post 'select_division', to: 'divisions#select'
     end
   end

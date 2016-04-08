@@ -9,3 +9,21 @@
     padding: 1em;
   }
 }
+
+.details {
+  section.block > h1 {
+    font-size: 1.5em;
+  }
+
+  .show-actions {
+    float: right;
+    a {
+      padding: 0 0 0 33px;
+      float: left;
+    }
+  }
+}
+
+.bold {
+  font-weight: bold;
+}

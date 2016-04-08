@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205165630) do
+ActiveRecord::Schema.define(version: 20160407214822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,19 @@ ActiveRecord::Schema.define(version: 20160205165630) do
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
 
+  create_table "custom_value_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json     "custom_data"
+    t.integer  "custom_field_set_id", null: false
+    t.integer  "custom_value_set_linkable_id", null: false
+    t.string   "custom_value_set_linkable_type", null: false
+    t.string   "linkable_attribute"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "custom_value_sets", ["custom_field_set_id"], name: "index_custom_value_sets_on_custom_field_set_id", using: :btree
+  add_index "custom_value_sets", ["custom_value_set_linkable_type", "custom_value_set_linkable_id"], name: "custom_value_sets_on_linkable", using: :btree
+
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
     t.integer "descendant_id", null: false
@@ -76,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   create_table "divisions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "currency_id"
+    t.json     "custom_data"
     t.text     "description"
     t.string   "internal_name"
     t.string   "name"
@@ -87,10 +101,21 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
+  create_table "embeddable_media", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "height"
+    t.text     "html"
+    t.string   "original_url"
+    t.datetime "updated_at", null: false
+    t.string   "url"
+    t.integer  "width"
+  end
+
   create_table "loans", force: :cascade do |t|
     t.decimal  "amount"
     t.datetime "created_at", null: false
     t.integer  "currency_id"
+    t.json     "custom_data"
     t.integer  "division_id"
     t.date     "first_interest_payment_date"
     t.date     "first_payment_date"
@@ -129,6 +154,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
     t.string   "media_attachable_type"
     t.integer  "sort_order"
     t.datetime "updated_at", null: false
+    t.integer  "uploader_id"
   end
 
   add_index "media", ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id", using: :btree
@@ -184,6 +210,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
     t.text     "contact_notes"
     t.integer  "country_id"
     t.datetime "created_at", null: false
+    t.json     "custom_data"
     t.integer  "division_id"
     t.string   "email"
     t.string   "fax"
@@ -250,6 +277,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
     t.date     "completed_date"
     t.datetime "created_at", null: false
     t.boolean  "is_finalized"
+    t.date     "original_date"
     t.integer  "project_id"
     t.string   "project_type"
     t.date     "scheduled_date"
@@ -295,6 +323,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
+  add_foreign_key "custom_value_sets", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
@@ -303,6 +332,7 @@ ActiveRecord::Schema.define(version: 20160205165630) do
   add_foreign_key "loans", "people", column: "primary_agent_id"
   add_foreign_key "loans", "people", column: "representative_id"
   add_foreign_key "loans", "people", column: "secondary_agent_id"
+  add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
   add_foreign_key "organizations", "countries"

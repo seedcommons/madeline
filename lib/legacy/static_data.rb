@@ -3,9 +3,9 @@ module Legacy
   class StaticData
 
     def self.populate
-      ::Division.root
-      ::Division.connection.execute("select setval('divisions_id_seq', greatest((select max(id) from divisions), 100))")
-
+      # ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
+      ::Division.create(id: 99, name: 'Root Division')  unless ::Division.root
+      ::Division.recalibrate_sequence(gap: 1)
 
       Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$')
       Currency.find_or_create_by(id: 2, name: 'U.S. Dollar', code: 'USD', symbol: 'US$')
@@ -98,11 +98,22 @@ module Legacy
       progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
       progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
 
+      CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
-      #todo: find somplace to factor this out to
       CustomFieldSet.recalibrate_sequence(gap: 10)
 
+      # need to leave room for migrated loan questions
+      CustomField.recalibrate_sequence(id: 200)
+
+      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
+      org_field_set.custom_fields.destroy_all
+      org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
+      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+
+      # loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
+      # loan_field_set.custom_fields.destroy_all
+      # loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
 
     end
 
