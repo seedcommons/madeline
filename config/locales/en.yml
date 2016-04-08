@@ -161,8 +161,9 @@ en:
       original_date: "Original Date:"
     logs: "Logs"
     no_steps: "No timeline steps to display."
-    project_step: "project step"
-    project_steps: "project steps"
+    project_step:
+      one: "project step"
+      other: "project steps"
     timeline: "Timeline"
     status:
       completed: "Completed"
