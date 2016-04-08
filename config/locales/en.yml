@@ -147,6 +147,7 @@ en:
       finalized: "Finalized:"
       scheduled: "Scheduled:"
       status: "Status:"
+      original_date: "Original Date:"
     logs: "Logs"
     no_steps: "No timeline steps to display."
     project_step: "project step"

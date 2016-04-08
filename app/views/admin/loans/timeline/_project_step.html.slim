@@ -18,28 +18,40 @@ div.panel.step style="border-color: #{step.border_color}"
 
       div.col-lg-5.status-details
         p.info.row
-          span.info-label.col-lg-3
+          span.info-label.col-lg-4
             = t("project_step.labels.status")
 
-          span.info-text.col-lg-9
+          span.info-text.col-lg-8
             - if step.admin_status
               = t("project_step.status.#{step.admin_status}")
             - else
               = t("none")
 
         p.info.row
-          span.info-label.col-lg-3
+          span.info-label.col-lg-4
             = t("project_step.labels.scheduled")
 
-          span.info-text.col-lg-9 style="background: #{step.scheduled_bg}"
+          span.info-text.col-lg-8 style="background: #{step.scheduled_bg}"
             = step.scheduled_date
+
+        - if step.date_changed?
+          div.info.row
+            span.info-label.col-lg-4
+              = t("project_step.labels.original_date")
+
+            div.text.col-lg-8
+              p.tight-block
+                = step.original_date
+              / p.tight-block
+              /   = t("parenthesis",
+              /     content: status_statement(step))
 
         - if step.completed?
           div.info.row
-            span.info-label.col-lg-3
+            span.info-label.col-lg-4
               = t("project_step.labels.completed")
 
-            div.text.col-lg-9 style="background-color: #{step.background_color}"
+            div.text.col-lg-8 style="background-color: #{step.background_color}"
               p.tight-block
                 = step.completed_date
               p.tight-block
@@ -47,10 +59,10 @@ div.panel.step style="border-color: #{step.border_color}"
                   content: status_statement(step))
 
         p.info.row
-          span.info-label.col-lg-3
+          span.info-label.col-lg-4
             = t("project_step.labels.finalized")
 
-          span.info-text.col-lg-9
+          span.info-text.col-lg-8
             = step.is_finalized ? t("reply_yes") : t("reply_no")
 
       div.col-lg-3.action-items.last-col
