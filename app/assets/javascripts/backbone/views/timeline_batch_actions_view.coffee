@@ -3,25 +3,25 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
   el: 'body'
 
   events: (params) ->
-    "confirm:complete .batch-actions .batch-action": 'adjust_form'
-    "click #adjust-dates-confirm": 'hide_adjust_dates_modal'
-    "shown.bs.modal #adjust-dates": 'show_adjust_dates_modal'
+    'confirm:complete .batch-actions .batch-action': 'adjustForm'
+    'click #adjust-dates-confirm': 'hideAdjustDatesModal'
+    'shown.bs.modal #adjust-dates': 'showAdjustDatesModal'
   
-  adjust_form: (e) ->
+  adjustForm: (e) ->
     item = e.currentTarget
-    method_key = $(item).attr("data-method-key")
-    action_key = $(item).attr("data-action-key")
+    methodKey = $(item).attr('data-method-key')
+    actionKey = $(item).attr('data-action-key')
 
-    $form = $(item).closest("form")
+    $form = $(item).closest('form')
 
-    $form.find("#set-method").attr("value", method_key)
-    $form.attr("action", action_key)
+    $form.find('#set-method').attr('value', methodKey)
+    $form.attr('action', actionKey)
 
     $form.submit()
 
-  hide_adjust_dates_modal: (e) ->
-    $("#adjust-dates-modal").modal('hide')
-    this.adjust_form(e)
+  hideAdjustDatesModal: (e) ->
+    $('#adjust-dates-modal').modal('hide')
+    this.adjustForm(e)
 
-  show_adjust_dates_modal: (e) ->
-    $("#adjust-dates-modal").focus()
+  showAdjustDatesModal: (e) ->
+    $('#adjust-dates-modal').focus()
