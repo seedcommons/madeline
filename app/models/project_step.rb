@@ -110,9 +110,9 @@ class ProjectStep < ActiveRecord::Base
 
   def date_status_statement
     if days_late < 0
-      I18n.t("project_step.status.days_early", time: -days_late)
+      I18n.t("project_step.status.days_early", days: -days_late)
     elsif days_late > 0
-      I18n.t("project_step.status.days_late", time: days_late)
+      I18n.t("project_step.status.days_late", days: days_late)
     else
       I18n.t("project_step.status.on_time")
     end

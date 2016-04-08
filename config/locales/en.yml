@@ -156,8 +156,8 @@ en:
       early: "Early"
       late: "Late"
       not_completed: "Not yet completed"
-      days_early: "%{time} days early"
-      days_late: "%{time} days late"
+      days_early: "%{days} days early"
+      days_late: "%{days} days late"
       on_time: "on time"
 
   log:
