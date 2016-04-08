@@ -21,7 +21,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
   hideAdjustDatesModal: (e) ->
     $('#adjust-dates-modal').modal('hide')
-    this.adjustForm(e)
+    @.adjustForm(e)
 
   showAdjustDatesModal: (e) ->
     $('#adjust-dates-modal').focus()

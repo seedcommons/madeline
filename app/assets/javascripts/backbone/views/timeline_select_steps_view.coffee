@@ -13,40 +13,40 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   checkAll: (e) ->
     $control = $(e.currentTarget)
     $inputs = $control.closest('.timeline').find('.select-step')
-    this.checkItems($inputs)
+    @.checkItems($inputs)
 
-    $masterCheckbox = $control.closest('.btn-group').find('#choose-all')
-    this.checkItems($masterCheckbox)
+    $masterCheckbox = $('#choose-all')
+    @.checkItems($masterCheckbox)
 
-    this.rememberChecked(e)
+    @.rememberChecked(e)
 
   uncheckAll: (e) ->
     $control = $(e.currentTarget)
     $inputs = $control.closest('.timeline').find('.select-step')
-    this.uncheckItems($inputs)
+    @.uncheckItems($inputs)
 
-    $masterCheckbox = $control.closest('.btn-group').find('#choose-all')
-    this.uncheckItems($masterCheckbox)
+    $masterCheckbox = $('#choose-all')
+    @.uncheckItems($masterCheckbox)
 
-    this.rememberChecked(e)
+    @.rememberChecked(e)
 
   checkCompleted: (e) ->
-    this.uncheckAll(e)
+    @.uncheckAll(e)
 
     $control = $(e.currentTarget)
     $inputs = $control.closest('.timeline').find('.completed-item')
-    this.checkItems($inputs)
+    @.checkItems($inputs)
 
-    this.rememberChecked(e)
+    @.rememberChecked(e)
 
   checkIncomplete: (e) ->
-    this.uncheckAll(e)
+    @.uncheckAll(e)
 
     $control = $(e.currentTarget)
     $inputs = $control.closest('.timeline').find('.incomplete-item')
-    this.checkItems($inputs)
+    @.checkItems($inputs)
 
-    this.rememberChecked(e)
+    @.rememberChecked(e)
 
   checkItems: (items) ->
     $(items).addClass('checked').attr('checked', 'checked').prop('checked', true)
@@ -59,18 +59,18 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
     control = e.currentTarget
     $inputs = $(control).closest('.timeline').find('.select-step')
 
-    if (control.checked == true)
-      this.checkItems($inputs)
+    if (control.checked)
+      @.checkItems($inputs)
     else
-      this.uncheckItems($inputs)
+      @.uncheckItems($inputs)
 
-    this.rememberChecked(e)
+    @.rememberChecked(e)
 
   rememberChecked: (e) ->
-    ids = [];
+    ids = []
 
     $('.select-step').each (index) ->
-      if (this.checked == true)
-        ids.push($(this).data('id'))
+      if (@.checked)
+        ids.push($(@).data('id'))
 
     $('#step-ids').attr('value', ids)
