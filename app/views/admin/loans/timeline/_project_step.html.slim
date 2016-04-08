@@ -42,9 +42,6 @@ div.panel.step style="border-color: #{step.border_color}"
             div.text.col-lg-8
               p.tight-block
                 = step.original_date
-              / p.tight-block
-              /   = t("parenthesis",
-              /     content: status_statement(step))
 
         - if step.completed?
           div.info.row
@@ -55,8 +52,7 @@ div.panel.step style="border-color: #{step.border_color}"
               p.tight-block
                 = step.completed_date
               p.tight-block
-                = t("parenthesis",
-                  content: status_statement(step))
+                = "(#{step.date_status_statement})"
 
         p.info.row
           span.info-label.col-lg-4

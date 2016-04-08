@@ -93,7 +93,6 @@ en:
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
-  parenthesis: "(%{content})"
   password: "Password"
   print: "Print"
   reply_no: "No"
@@ -157,10 +156,9 @@ en:
       early: "Early"
       late: "Late"
       not_completed: "Not yet completed"
-      on_time: "(on time)"
-      time_early: "%{time} early"
-      time_late: "%{time} late"
-      time_on_time: "on time"
+      days_early: "%{time} days early"
+      days_late: "%{time} days late"
+      on_time: "on time"
 
   log:
     additional_notes: "Additional Notes:"

@@ -108,6 +108,16 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
+  def date_status_statement
+    if days_late < 0
+      I18n.t("project_step.status.days_early", time: -days_late)
+    elsif days_late > 0
+      I18n.t("project_step.status.days_late", time: days_late)
+    else
+      I18n.t("project_step.status.on_time")
+    end
+  end
+
   # Generate a CSS color based on the status and lateness of the step
   def color
     if completed? && days_late <= 0
