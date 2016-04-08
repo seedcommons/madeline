@@ -1,23 +1,79 @@
 @import "colors";
 
-.step {
-  .action {
-    margin: .5em;
+.timeline {
+  .action-items, .step-logs {
+    text-align: right;
+  }
 
-    &:last-of-type {
-      margin-right: 0;
+  #adjust-dates-modal {
+    .form-item {
+      margin: 0 .2em;
     }
   }
 
-  .title {
-    font-weight: bold;
+  .completion-status {
+    .complete {
+      color: $success2;
+    }
   }
-}
 
-.timeline {
+  .first-col {
+    padding-left: 0;
+  }
+
+  .icon-box {
+    font-size: 1.7em;
+  }
+
+  .icon-with-text {
+    line-height: 2em;
+
+    .fa {
+      font-size: .8em;
+    }
+  }
+
   .info {
     .info-label {
       color: $gray3;
+      font-weight: bold;
+    }
+  }
+
+  .last-col {
+    padding-right: 0;
+  }
+
+  .panel {
+    border: 1px solid $black;
+
+    &.step {
+      border-width: 2px;
+      border-radius: 15px;
+      border-color: $black;
+    }
+
+    &.log {
+      border-radius: 0px;
+    }
+  }
+
+  .status-details {
+    .info.row {
+      margin: 0 0 .5em 0;
+    }
+  }
+
+  .step {
+    .action {
+      margin: .5em;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    .title {
       font-weight: bold;
     }
   }
@@ -26,6 +82,20 @@
     display: block;
     margin: 0;
     padding: 0;
+  }
+
+  .timeline-header {
+    padding: 1em 0;
+
+    input[type="checkbox"] {
+      margin: 0;
+      vertical-align: middle;
+    }
+
+    input[type="number"] {
+      max-width: 5em;
+      text-align: center;
+    }
   }
 
   .title {
@@ -50,72 +120,11 @@
     }
   }
 
-  .action-items, .step-logs {
-    text-align: right;
-  }
-}
-
-.icon-with-text {
-  line-height: 2em;
-
-  .fa {
-    font-size: .8em;
-  }
-}
-
-.text-left-of-icon {
-  margin: 0 .5em 0 0;
-}
-
-.text-right-of-icon {
-  margin: 0 0 0 .5em;
-}
-
-.icon-box {
-  font-size: 1.7em;
-}
-
-.first-col {
-  padding-left: 0;
-}
-
-.last-col {
-  padding-right: 0;
-}
-
-.status-details {
-  .info.row {
-    margin: 0 0 .5em 0;
-  }
-}
-
-.panel {
-  border: 1px solid $black;
-
-  &.step {
-    border-width: 2px;
-    border-radius: 15px;
-    border-color: $black;
+  .text-left-of-icon {
+    margin: 0 .5em 0 0;
   }
 
-  &.log {
-    border-radius: 0px;
-  }
-}
-
-.completion-status {
-  .complete {
-    color: $success2;
-  }
-}
-
-/* Header */
-
-.timeline-header {
-  padding: 1em 0;
-
-  input[type="checkbox"] {
-    margin: 0;
-    vertical-align: middle;
+  .text-right-of-icon {
+    margin: 0 0 0 .5em;
   }
 }
