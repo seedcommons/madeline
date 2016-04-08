@@ -14,7 +14,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
     $form = $(item).closest('form')
 
-    $form.find('#set-method').attr('value', methodKey)
+    $form.find('input[name=_method]').attr('value', methodKey)
     $form.attr('action', actionKey)
 
     $form.submit()
