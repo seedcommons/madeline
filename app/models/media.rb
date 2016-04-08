@@ -20,6 +20,10 @@
 #
 #  index_media_on_media_attachable_type_and_media_attachable_id  (media_attachable_type,media_attachable_id)
 #
+# Foreign Keys
+#
+#  fk_rails_d64ff8d67d  (uploader_id => people.id)
+#
 
 class Media < ActiveRecord::Base
   include Translatable

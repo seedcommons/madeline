@@ -94,7 +94,6 @@ en:
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
-  parenthesis: "(%{content})"
   password: "Password"
   print: "Print"
   reply_no: "No"
@@ -159,6 +158,7 @@ en:
       finalized: "Finalized:"
       scheduled: "Scheduled:"
       status: "Status:"
+      original_date: "Original Date:"
     logs: "Logs"
     no_steps: "No timeline steps to display."
     project_step: "project step"
@@ -169,9 +169,9 @@ en:
       early: "Early"
       late: "Late"
       not_completed: "Not yet completed"
-      on_time: "(on time)"
-      time_early: "%{time} early"
-      time_late: "%{time} late"
+      days_early: "%{days} days early"
+      days_late: "%{days} days late"
+      on_time: "on time"
 
   log:
     additional_notes: "Additional Notes:"
