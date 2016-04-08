@@ -3,11 +3,11 @@ require 'rails_helper'
 describe RolePolicy do
   subject { RolePolicy.new(user, role) }
 
-  let!(:parent_division) { create(:division) }
-  let!(:division) { create(:division, parent: parent_division) }
-  let!(:child_division) { create(:division, parent: division) }
+  let(:parent_division) { create(:division) }
+  let(:division) { create(:division, parent: parent_division) }
+  let(:child_division) { create(:division, parent: division) }
 
-  let(:role) { create(:role, resource: division) }
+  let(:role) { build(:role, resource: division) }
 
   context 'being a member of a division' do
     let(:user) { create(:user, :member, division: division) }
