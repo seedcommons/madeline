@@ -3,74 +3,74 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   el: 'body'
 
   events: (params) ->
-    'change .select-step': 'remember_checked'
-    'click #choose-all': 'control_all'
-    'click #check-all-ctrl': 'check_all'
-    'click #uncheck-all-ctrl': 'uncheck_all'
-    'click #check-completed-ctrl': 'check_completed'
-    'click #check-incomplete-ctrl': 'check_incomplete'
+    'change .select-step': 'rememberChecked'
+    'click #choose-all': 'controlAll'
+    'click #check-all-ctrl': 'checkAll'
+    'click #uncheck-all-ctrl': 'uncheckAll'
+    'click #check-completed-ctrl': 'checkCompleted'
+    'click #check-incomplete-ctrl': 'checkIncomplete'
  
-  check_all: (e) ->
-    control = e.currentTarget
-    $inputs = $(control).closest(".timeline").find('.select-step')
-    this.check_items($inputs)
+  checkAll: (e) ->
+    $control = $(e.currentTarget)
+    $inputs = $control.closest('.timeline').find('.select-step')
+    this.checkItems($inputs)
 
-    $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
-    this.check_items($master_checkbox)
+    $masterCheckbox = $control.closest('.btn-group').find('#choose-all')
+    this.checkItems($masterCheckbox)
 
-    this.remember_checked(e)
+    this.rememberChecked(e)
 
-  uncheck_all: (e) ->
-    control = e.currentTarget
-    $inputs = $(control).closest(".timeline").find('.select-step')
-    this.uncheck_items($inputs)
+  uncheckAll: (e) ->
+    $control = $(e.currentTarget)
+    $inputs = $control.closest('.timeline').find('.select-step')
+    this.uncheckItems($inputs)
 
-    $master_checkbox = $(control).closest(".btn-group").find("#choose-all")
-    this.uncheck_items($master_checkbox)
+    $masterCheckbox = $control.closest('.btn-group').find('#choose-all')
+    this.uncheckItems($masterCheckbox)
 
-    this.remember_checked(e)
+    this.rememberChecked(e)
 
-  check_completed: (e) ->
-    this.uncheck_all(e)
+  checkCompleted: (e) ->
+    this.uncheckAll(e)
 
-    control = e.currentTarget
-    $inputs = $(control).closest(".timeline").find('.completed-item')
-    this.check_items($inputs)
+    $control = $(e.currentTarget)
+    $inputs = $control.closest('.timeline').find('.completed-item')
+    this.checkItems($inputs)
 
-    this.remember_checked(e)
+    this.rememberChecked(e)
 
-  check_incomplete: (e) ->
-    this.uncheck_all(e)
+  checkIncomplete: (e) ->
+    this.uncheckAll(e)
 
-    control = e.currentTarget
-    $inputs = $(control).closest(".timeline").find('.incomplete-item')
-    this.check_items($inputs)
+    $control = $(e.currentTarget)
+    $inputs = $control.closest('.timeline').find('.incomplete-item')
+    this.checkItems($inputs)
 
-    this.remember_checked(e)
+    this.rememberChecked(e)
 
-  check_items: (items) ->
-    $(items).addClass('checked').attr('checked', "checked").prop("checked", true)
+  checkItems: (items) ->
+    $(items).addClass('checked').attr('checked', 'checked').prop('checked', true)
 
-  uncheck_items: (items) ->
-    $(items).removeClass('checked').attr('checked', false).prop("checked", false)
+  uncheckItems: (items) ->
+    $(items).removeClass('checked').attr('checked', false).prop('checked', false)
 
   # Check or uncheck all items with master checkbox
-  control_all: (e) ->
+  controlAll: (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest(".timeline").find('.select-step')
+    $inputs = $(control).closest('.timeline').find('.select-step')
 
     if (control.checked == true)
-      this.check_items($inputs)
+      this.checkItems($inputs)
     else
-      this.uncheck_items($inputs)
+      this.uncheckItems($inputs)
 
-    this.remember_checked(e)
+    this.rememberChecked(e)
 
-  remember_checked: (e) ->
+  rememberChecked: (e) ->
     ids = [];
 
     $('.select-step').each (index) ->
       if (this.checked == true)
         ids.push($(this).data('id'))
 
-    $("#step-ids").attr("value", ids)
+    $('#step-ids').attr('value', ids)
