@@ -164,6 +164,7 @@ en:
 
   project_step:
     after: "After"
+    days: "Day(s)"
     delete_step: "Delete Step"
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
@@ -180,6 +181,7 @@ en:
       status: "Status:"
       original_date: "Original Date:"
     logs: "Logs"
+    months: "Month(s)"
     no_steps: "No timeline steps to display."
     occurences: "occurence(s)"
     once: "Once"
@@ -198,6 +200,7 @@ en:
       days_early: "%{days} days early"
       days_late: "%{days} days late"
       on_time: "on time"
+    weeks: "Week(s)"
 
   user:
     account: "Account"
