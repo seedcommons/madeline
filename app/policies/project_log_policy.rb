@@ -1,0 +1,2 @@
+class ProjectLogPolicy < ApplicationPolicy
+end

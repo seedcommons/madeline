@@ -22,6 +22,7 @@ FactoryGirl.define do
     agent { create(:person) }
     date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today)}
     progress_metric_value { ['behind', 'ontime', 'ahead'].sample }
+    transient_division
 
     # for now parent must be saved before assigning the translatable fields
     after(:create) do |log|

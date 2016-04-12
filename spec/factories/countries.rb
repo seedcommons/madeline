@@ -21,5 +21,10 @@ FactoryGirl.define do
     iso_code { Faker::Address.country_code }
     name { Faker::Address.country }
     association :default_currency, factory: :currency
+
+    # compatibility with policy specs
+    transient do
+      division nil
+    end
   end
 end

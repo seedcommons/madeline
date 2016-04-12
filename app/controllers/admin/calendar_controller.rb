@@ -1,5 +1,7 @@
 class Admin::CalendarController < Admin::AdminController
   def index
+    skip_authorization
+
     @division = current_division
     @loans = current_division.loans
     @events = []

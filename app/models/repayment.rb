@@ -3,6 +3,8 @@ class Repayment < ActiveRecord::Base
 
   belongs_to :loan, :foreign_key => 'LoanID'
 
+  delegate :division, :division=, to: :loan
+
   def paid; self.date_paid ? true : false; end
 
   def status
