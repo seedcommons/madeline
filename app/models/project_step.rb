@@ -184,10 +184,10 @@ class ProjectStep < ActiveRecord::Base
 
       cal_item[:start] = self.completed_date ? self.completed_date : self.scheduled_date
 
-      cal_item[:title] = "Step: " + self.name
+      cal_item[:title] = self.name
       cal_item[:event_type] = "project_step"
-      cal_item[:backgroundColor] = self.background_color
-      cal_item[:borderColor] = self.border_color
+
+      cal_item[:backgroundColor] = self.color
 
       return cal_item
     end
@@ -196,17 +196,17 @@ class ProjectStep < ActiveRecord::Base
     # and number of times date has changed.
 
     # TODO: Display ghost steps based on original scheduled date
-    # def calendar_original_scheduled_event
-    #   if (self.original_scheduled_date != self.scheduled_date)
-    #     cal_item = {}
+    def calendar_original_scheduled_event
+      if (self.original_date)
+        cal_item = {}
 
-    #     cal_item[:start] = self.original_scheduled_date
-    #     cal_item[:title] = self.name
-    #     cal_item[:event_type] = "ghost_step"
+        cal_item[:start] = self.original_date
+        cal_item[:title] = "Ghost: " + self.name
+        cal_item[:event_type] = "ghost_step"
 
-    #     return cal_item
-    #   end
-    # end
+        return cal_item
+      end
+    end
   # End of methods that may need to be moved to the events model
 
   private

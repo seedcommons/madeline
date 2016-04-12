@@ -1,10 +1,35 @@
 @import "fullcalendar";
 @import "../colors";
 
-.fc-event {
-  border-radius: 0;
+.calendar-event {
   margin-bottom: .25em;
   padding: .25em;
+  background: $gray1;
+  border: none;
+  color: $black;
+  border-radius: 0;
+  max-height: 4em;
+  overflow-y: hidden;
+  font-size: .8em;
+
+  .fa {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1em;
+  }
+
+  .event-title {
+    display: inline-block;
+    width: 100%;
+    line-height: normal;
+    max-height: 1.25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 0 auto;
+    padding: 0;
+  }
 }
 
 .fc-view-container {
@@ -23,10 +48,4 @@
   &:hover {
     color: $gray3;
   }
-}
-
-.cal-step, .cal-loan {
-  background: $gray1;
-  border: none;
-  color: $black;
 }

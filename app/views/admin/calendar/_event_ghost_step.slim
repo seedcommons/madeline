@@ -1,14 +1,9 @@
-div.calendar-event.cal-step style="background: #{cal_event[:backgroundColor]}"
+div.calendar-event.cal-step.cal-ghost-step
   div
     div.left-box
       - if cal_event.try(:step_type_value) == "milestone"
         i.fa.fa-flag
       - else
         i.fa.fa-calendar-check-o
-    div.right-box.right-align
-      i.fa.fa-check
   div
     span.event-title = cal_event[:title]
-  div.right-align
-    i.fa.fa-pencil-square-o
-

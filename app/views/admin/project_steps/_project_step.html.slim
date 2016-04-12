@@ -13,8 +13,9 @@ div.panel.step style="border-color: #{step.border_color}"
                   i.fa.fa-calendar-check-o
                 - else
                   i.fa.fa-flag
-              span.title-text = step.try(:summary)
+              span.title-text = step.try(:name)
 
+            p = step.try(:summary)
             p = step.try(:details)
 
       div.col-lg-5.status-details
