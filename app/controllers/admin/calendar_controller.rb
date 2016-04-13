@@ -12,6 +12,7 @@ class Admin::CalendarController < Admin::AdminController
 
       loan.project_steps.each do |step|
         self.prepare_event(step.calendar_scheduled_event)
+        self.prepare_event(step.calendar_original_scheduled_event)
       end
     end
   end

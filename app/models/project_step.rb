@@ -195,16 +195,13 @@ class ProjectStep < ActiveRecord::Base
       return cal_item
     end
 
-    # TODO: Create way to track changes to scheduled date, including original date
-    # and number of times date has changed.
-
-    # TODO: Display ghost steps based on original scheduled date
+    # Ghost Step
     def calendar_original_scheduled_event
       if (self.original_date)
         cal_item = {}
 
         cal_item[:start] = self.original_date
-        cal_item[:title] = "Ghost: " + self.name
+        cal_item[:title] = "Ghost: " + self.name.to_s
         cal_item[:event_type] = "ghost_step"
 
         cal_item[:num_of_logs] = self.logs_count
