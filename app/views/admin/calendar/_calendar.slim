@@ -13,6 +13,7 @@
 - content_for :title
   = 'Calendar'
 
-/= @events.inspect
+section.calendar
+  /= @events.inspect
 
-div#calendar.loan-calendar
+  div#calendar.loan-calendar

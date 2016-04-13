@@ -1,4 +1,4 @@
-div.panel.step style="border-color: #{step.border_color}"
+div.panel.step data-id="#{step.id}" style="border-color: #{step.border_color}"
   div.panel-body
     div.step-details.row
       div.col-lg-4.main-details.first-col
@@ -13,9 +13,8 @@ div.panel.step style="border-color: #{step.border_color}"
                   i.fa.fa-calendar-check-o
                 - else
                   i.fa.fa-flag
-              span.title-text = step.try(:name)
+              span.title-text = step.try(:summary)
 
-            p = step.try(:summary)
             p = step.try(:details)
 
       div.col-lg-5.status-details

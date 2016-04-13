@@ -53,7 +53,7 @@ class ProjectStep < ActiveRecord::Base
   validates :project_id, presence: true
 
   def name
-    "#{project.try(:name)} step"
+    summary
   end
 
   def logs_count
@@ -148,7 +148,7 @@ class ProjectStep < ActiveRecord::Base
       color
     end
   end
- 
+
   def scheduled_day
     self.scheduled_date.day
   end
@@ -189,6 +189,9 @@ class ProjectStep < ActiveRecord::Base
 
       cal_item[:backgroundColor] = self.color
 
+      cal_item[:num_of_logs] = self.logs_count
+      cal_item[:id] = self.id
+
       return cal_item
     end
 
@@ -203,6 +206,8 @@ class ProjectStep < ActiveRecord::Base
         cal_item[:start] = self.original_date
         cal_item[:title] = "Ghost: " + self.name
         cal_item[:event_type] = "ghost_step"
+
+        cal_item[:num_of_logs] = self.logs_count
 
         return cal_item
       end
