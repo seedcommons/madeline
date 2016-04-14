@@ -1,5 +1,6 @@
 @import "fullcalendar";
 @import "../colors";
+@import "../components/multiline_ellipsis";
 
 .calendar-event {
   margin-bottom: .25em;
@@ -20,18 +21,6 @@
   }
 
   .event-title {
-    display: inline-block;
-    width: 100%;
-    line-height: normal;
-    max-height: 3em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
-    white-space: normal;
-    margin: 0 auto;
-    padding: 0;
-
     .fa {
       padding-right: .25em;
     }
@@ -43,19 +32,25 @@
 }
 
 .cal-ghost-step, .cal-step {
+  $right-box-width: 2em;
+
   min-height: 2em;
 
   .event-title {
-    // padding-left: .5em;
-    // display: inline;
+    display: inline-block;
+    width: calc(100% - 2em);
+    margin-right: 0;
+    background: inherit;
+
+    @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
   }
 
   .large-left-box {
-    width: 90%;
-    width: 70%;
-    width: calc(100% - 4em);
+    background: inherit;
     width: calc(100% - 2em);
     display: inline-block;
+    max-height: 3em;
+    overflow: hidden;
     margin: 0;
     padding: 0;
     float: left;
@@ -82,7 +77,7 @@
 }
 
 .cal-ghost-step {
-  background: none;
+  background: $white;
   border: 1px dashed $gray3;
   color: $gray3;
 

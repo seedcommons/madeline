@@ -1,19 +1,7 @@
 div.calendar-event.cal-step.cal-ghost-step
-  / div
-  /   div.left-box
-  /     - if cal_event.try(:step_type_value) == "milestone"
-  /       i.fa.fa-flag
-  /     - else
-  /       i.fa.fa-calendar-check-o
-  / div
-  /   span.event-title = cal_event[:title]
-  
-  div
-    span.event-title
-      - if cal_event.try(:step_type_value) == "milestone"
-        i.fa.fa-flag
-      - else
-        i.fa.fa-calendar-check-o
-      /= cal_event[:title].to_s 
-      = word_wrap(cal_event[:title].to_s, line_width: 20)
-      / = cal_event[:title].to_s + "This is a long event title"
+  span.event-title
+    - if cal_event.try(:step_type_value) == "milestone"
+      i.fa.fa-flag
+    - else
+      i.fa.fa-calendar-check-o
+    = cal_event[:title].to_s 
