@@ -1,5 +1,3 @@
-@import "components/multiline_ellipsis";
-
 // Page title and New button
 @media (min-width: 768px) {
   .page-header {
@@ -57,3 +55,9 @@
     font-size: .8em;
   }
 }
+
+@import "fullcalendar";
+
+@import "colors";
+@import "components/*";
+@import "calendar/*"

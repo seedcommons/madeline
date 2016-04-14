@@ -1,0 +1,112 @@
+@import "../colors";
+@import "../components/multiline_ellipsis";
+
+.calendar {
+  .calendar-event {
+    margin-bottom: .25em;
+    padding: .25em;
+    background: $gray1;
+    border: none;
+    color: $black;
+    border-radius: 0;
+    max-height: 4em;
+    overflow-y: hidden;
+    font-size: .8em;
+
+    .fa {
+      display: inline;
+      vertical-align: top;
+      font-size: 1em;
+      line-height: 1.2em;
+    }
+
+    .event-title {
+      width: calc(100% - 2em);
+      display: inline-block;
+      background: inherit;
+      // word-break: break-all;
+      hyphens: auto;
+
+      @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
+
+      .fa {
+        padding-right: .25em;
+      }
+    }
+  }
+
+  .fc-view-container {
+    background: $white;
+  }
+
+  .cal-ghost-step, .cal-step {
+    $right-box-width: 2em;
+
+    min-height: 2em;
+
+    .event-title {
+    }
+
+    .large-left-box {
+      background: inherit;
+      width: calc(100% - 2em);
+      display: inline-block;
+      max-height: 3em;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      float: left;
+    }
+
+    .small-left-box {
+      width: 1.5em;
+      display: inline-block;
+      vertical-align: top;
+      float: left;
+      margin: 0;
+      padding: 0;
+    }
+
+    .small-right-box {
+      width: 2em;
+      display: inline-block;
+      vertical-align: top;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      float: right;
+    }
+  }
+
+  .cal-ghost-step {
+    background: $white;
+    border: 1px dashed $gray3;
+    color: $gray3;
+
+    &:hover {
+      color: $gray3;
+    }
+  }
+
+  .cal-step {
+    &.cal-step-milestone {
+      border: 1px solid $black;
+    }
+
+    &.cal-step-checkin {
+
+    }
+
+    .top-info, .bottom-info {
+      height: 1.2em;
+    }
+
+    &.late {
+      border: 2px solid $black;
+
+      .event-title {
+        font-weight: bold;
+      }
+    }
+  }
+}

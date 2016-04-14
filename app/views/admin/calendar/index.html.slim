@@ -7,13 +7,8 @@
       });
     });
 
-- content_for :styles
-  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
-
 - content_for :title
   = 'Calendar'
 
 section.calendar
-  /= @events.inspect
-
   div#calendar.main-calendar
