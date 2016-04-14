@@ -171,6 +171,7 @@ en:
     edit_step: "Edit Step"
     end: "End:"
     every: "Every:"
+    confirm_deletion: 'Are you sure you want to delete this project step?  NOTE, %{log_count} log(s) will also be deleted.'
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
     batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
     finalized: "Finalized:"
