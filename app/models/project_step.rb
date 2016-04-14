@@ -192,6 +192,12 @@ class ProjectStep < ActiveRecord::Base
       cal_item[:num_of_logs] = self.logs_count
       cal_item[:id] = self.id
 
+      if self.milestone?
+        cal_item[:step_type] = "milestone"
+      else
+        cal_item[:step_type] = "checkin"
+      end
+
       return cal_item
     end
 

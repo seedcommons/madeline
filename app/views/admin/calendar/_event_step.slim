@@ -1,42 +1,4 @@
-div.calendar-event.cal-step style="background: #{cal_event[:backgroundColor]}"
-  / div
-  /   div.left-box
-  /     - if cal_event.try(:step_type_value) == "milestone"
-  /       i.fa.fa-flag
-  /     - else
-  /       i.fa.fa-calendar-check-o
-  /   div.right-box.right-align
-  /     i.fa.fa-check
-  
-  / div
-  /   div.large-left-box
-  /     - if cal_event.try(:step_type_value) == "milestone"
-  /       i.fa.fa-flag
-  /     - else
-  /       i.fa.fa-calendar-check-o
-  /     span.event-title = cal_event[:title].to_s + "This is a long event title"
-  /     
-  / div.small-right-box.right-align
-  /   div.align-top
-  /     i.fa.fa-check
-  /   div.align-bottom
-  /     i.fa.fa-pencil-square-o
-  /     = cal_event[:num_of_logs].to_s
-
-
-  / div.small-left-box
-  /     - if cal_event.try(:step_type_value) == "milestone"
-  /       i.fa.fa-flag
-  /     - else
-  /       i.fa.fa-calendar-check-o
-  / div.large-left-box
-  /     span.event-title = cal_event[:title].to_s + "This is a long event title"
-  / div.small-right-box.right-align
-  /   div.align-top
-  /     i.fa.fa-check
-  /   div.align-bottom
-  /     i.fa.fa-pencil-square-o
-  /     = cal_event[:num_of_logs].to_s
+div.calendar-event.cal-step class="cal-step-#{cal_event[:step_type]}" style="background: #{cal_event[:backgroundColor]}"
       
   div.large-left-box
     span.event-title
