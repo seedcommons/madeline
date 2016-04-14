@@ -3,7 +3,10 @@ module Legacy
   class StaticData
 
     def self.populate
-      # ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
+      # attempt to delete the seeds.rb created root division if exists, so this script will work after a freshly created db.
+      # note, this will likely fail if anything else in the current database has been created
+      ::Division.root.destroy  if ::Division.root.present?
+
       ::Division.create(id: 99, name: 'Root Division')  unless ::Division.root
       ::Division.recalibrate_sequence(gap: 1)
 
