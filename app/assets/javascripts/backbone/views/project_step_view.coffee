@@ -10,6 +10,7 @@ class MS.Views.ProjectStepView extends Backbone.View
   events:
     'click a.edit-step-action': 'showForm'
     'click a.cancel': 'hideForm'
+    'ajax:success': 'submissionSuccess'
 
   showForm: (e) ->
     e.preventDefault()
@@ -36,3 +37,6 @@ class MS.Views.ProjectStepView extends Backbone.View
       $("<i class=\"fa fa-#{icon}\"></i> <span>#{option.text}</span>")
     else
       $("<span>#{option.text}</span>")
+
+  submissionSuccess: (e, data) ->
+    @$el.replaceWith(data)

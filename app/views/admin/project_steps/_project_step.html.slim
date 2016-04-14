@@ -1,11 +1,10 @@
-div.panel.step style="border-color: #{step.border_color}"
-  div data-step-id="#{step.id}"
-    .view-step-block
-      = render "admin/project_steps/show_project_step", step: step
-    .form-step-block
-      = render "admin/project_steps/edit_project_step", step: step
+div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id}"
+  .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
+    = render "admin/project_steps/show_project_step", step: step
+  .form-step-block style="display: #{mode == :edit ? 'inherit' : 'none'}"
+    = render "admin/project_steps/edit_project_step", step: step
 
-javascript:
-  $(document).ready(function() {
-    new MS.Views.ProjectStepView({ el: $('div[data-step-id=#{step.id}]') });
-  });
+  javascript:
+    $(document).ready(function() {
+      new MS.Views.ProjectStepView({ el: $('div[data-step-id=#{step.id}]') });
+    });

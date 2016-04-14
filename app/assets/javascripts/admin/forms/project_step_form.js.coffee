@@ -25,22 +25,6 @@ $ ->
       $(el).show()
 
   setCallbacks = (scope) ->
-
-    #
-    # handle server response
-    #
-
-    $(scope).find('.project-step-form')
-            .on("ajax:success", (evt, data, status, xhr) ->
-              parent = $(evt.target).parents("div .panel.step")
-              html = $.parseHTML(xhr.responseText)
-              parent.html($(html).html())
-              setLinksVisibility(parent)
-              setCallbacks(parent)
-              )
-            .on "ajax:error", (e, xhr, status, error) ->
-              $(scope).find(".error_notification").show()
-
     #
     # remove language
     #

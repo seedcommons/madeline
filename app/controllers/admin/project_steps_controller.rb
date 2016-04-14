@@ -21,11 +21,10 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def update
     @step = ProjectStep.find(params[:id])
-    if @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
-      render partial: "/admin/loans/timeline/project_step", locals: {step: @step, mode: :show}
-    else
-      render partial: "/admin/loans/timeline/project_step", locals: {step: @step, mode: :edit}
-    end
+    authorize @step
+
+    valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
+    render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: valid ? :show : :edit}
   end
 
   private
