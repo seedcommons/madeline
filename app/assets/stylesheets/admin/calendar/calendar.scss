@@ -14,10 +14,10 @@
   font-size: .8em;
 
   .fa {
-    display: inline-block;
     display: inline;
-    vertical-align: middle;
+    vertical-align: top;
     font-size: 1em;
+    line-height: 1.2em;
   }
 
   .event-title {
@@ -91,10 +91,20 @@
 
 .cal-step {
   &.cal-step-milestone {
-
+    border: 1px solid $black;
   }
 
   &.cal-step-checkin {
 
+  }
+
+  .top-info, .bottom-info {
+    height: 1.2em;
+  }
+
+  &.late {
+    .event-title {
+      font-weight: bold;
+    }
   }
 }

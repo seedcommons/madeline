@@ -1,6 +1,6 @@
 div.calendar-event.cal-step.cal-ghost-step
   span.event-title
-    - if cal_event.try(:step_type_value) == "milestone"
+    - if cal_event[:step_type] == "milestone"
       i.fa.fa-flag
     - else
       i.fa.fa-calendar-check-o

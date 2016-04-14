@@ -192,11 +192,11 @@ class ProjectStep < ActiveRecord::Base
       cal_item[:num_of_logs] = self.logs_count
       cal_item[:id] = self.id
 
-      if self.milestone?
-        cal_item[:step_type] = "milestone"
-      else
-        cal_item[:step_type] = "checkin"
-      end
+      cal_item[:step_type] = self.milestone? ? "milestone" : "checkin"
+
+      cal_item[:completion_status] = self.completed? ? "complete" : "incomplete"
+
+      cal_item[:time_status] = self.days_late > 0 ? "late" : "on_time"
 
       return cal_item
     end
@@ -207,7 +207,7 @@ class ProjectStep < ActiveRecord::Base
         cal_item = {}
 
         cal_item[:start] = self.original_date
-        cal_item[:title] = "Ghost: " + self.name.to_s
+        cal_item[:title] = self.name.to_s
         cal_item[:event_type] = "ghost_step"
 
         cal_item[:num_of_logs] = self.logs_count
