@@ -24,8 +24,6 @@
       width: calc(100% - 2em);
       display: inline-block;
       background: inherit;
-      // word-break: break-all;
-      hyphens: auto;
 
       @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
 
