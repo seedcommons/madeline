@@ -27,6 +27,8 @@ class Note < ActiveRecord::Base
   belongs_to :notable, polymorphic: true
   belongs_to :author, class_name: 'Person'
 
+  delegate :division, :division=, to: :notable
+
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :text
 

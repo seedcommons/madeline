@@ -1,0 +1,28 @@
+div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dates-label"
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
+          span aria-hidden="true" &times;
+        h4.modal-title id="adjust-dates-label"
+          = t("loan.adjust_scheduled_dates")
+      div.modal-body
+        span = t("loan.move_dates")
+
+        div.btn-group-vertical.button-group-radios.form-item data-toggle="buttons" aria-label== t("loan.move_date_direction")
+          label.btn.btn-default
+            input type="radio" name="time_direction" id="time-forward" value="forward"
+            span = t("loan.forward")
+          label.btn.btn-default
+            input type="radio" name="time_direction" id="time-backward" value="backward"
+            span = t("loan.backward")
+
+        input.form-control.inline.form-item type="number" min="1" max="365" name="num_of_days"
+
+        span.form-item = t(:days)
+
+      div.modal-footer
+        button.btn.btn-default type="button" data-dismiss="modal"
+          = t(:cancel)
+        a.btn.btn-primary.action id="adjust-dates-confirm" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates"
+          = t("loan.adjust_dates")

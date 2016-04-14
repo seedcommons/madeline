@@ -24,11 +24,10 @@ FactoryGirl.define do
     data_type CustomField::DATA_TYPES.sample
     position [1..10].sample
     parent nil
+    transient_division
 
     after(:create) do |model|
       model.set_label(Faker::Lorem.words(2).join(' '))
     end
-
   end
-
 end

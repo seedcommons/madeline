@@ -1,0 +1,2 @@
+class CustomValueSetPolicy < ApplicationPolicy
+end

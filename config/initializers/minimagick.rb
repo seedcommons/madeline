@@ -1,0 +1,1 @@
+MiniMagick.logger = Rails.logger

@@ -2,9 +2,9 @@ div.panel-body
   div.step-details.row
     div.col-lg-4.main-details.first-col
       div.row
-        div.col-lg-1.check.first-col
+        div.col-lg-1.col-md-1.col-sm-1.col-xs-1.check.first-col
           input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id== step.id
-        div.col-lg-11.first-col
+        div.col-lg-11.col-md-11.col-sm-11.col-xs-11.first-col
           h5.title
             span.icon
               - if step.milestone?
@@ -42,7 +42,7 @@ div.panel-body
                     p.tight-block
                       = step.completed_date
                     p.tight-block
-                      = t("parenthesis", content: status_statement(step))
+                      = t("parenthesis", content: step.date_status_statement)
 
           tr
             td

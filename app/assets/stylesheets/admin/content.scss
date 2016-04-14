@@ -27,3 +27,7 @@
 .bold {
   font-weight: bold;
 }
+
+a, input[type="checkbox"], input[type="radio"], select {
+  cursor: pointer;
+}

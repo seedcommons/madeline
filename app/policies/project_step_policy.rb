@@ -1,0 +1,2 @@
+class ProjectStepPolicy < ApplicationPolicy
+end

@@ -21,4 +21,8 @@
 
 //= require twitter/bootstrap/rails/confirm
 //= require admin/admin
-//todo: use require_tree here, instead of per-page
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/madeline_system

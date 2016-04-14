@@ -1,7 +1,6 @@
 div.panel.step style="border-color: #{step.border_color}"
   div data-step-id="#{step.id}" class="#{mode == :edit ? 'edit-step-view' : 'show-step-view' }"
     .view-step-block
-      = render "admin/loans/timeline/show_project_step", step: step
+      = render "admin/project_steps/show_project_step", step: step
     .form-step-block
-      = render "admin/loans/timeline/edit_project_step", step: step
-
+      = render "admin/project_steps/edit_project_step", step: step
