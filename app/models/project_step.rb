@@ -43,7 +43,7 @@ class ProjectStep < ActiveRecord::Base
 
   delegate :division, :division=, to: :project
 
-  has_many :project_logs
+  has_many :project_logs, dependent: :destroy
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details

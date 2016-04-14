@@ -81,7 +81,7 @@ div.panel.step style="border-color: #{step.border_color}"
 
           = link_to [:admin, step], method: :delete, class: "action",
             data: { \
-              confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
+              confirm: t('project_step.confirm_deletion', log_count: step.logs_count),
               "confirm-cancel": t(:cancel),
               "confirm-proceed": t(:confirm),
               title: t("project_step.delete_step") \
