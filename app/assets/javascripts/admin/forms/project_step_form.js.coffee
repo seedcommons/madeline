@@ -1,10 +1,4 @@
 $ ->
-  formatTypeOptions = (option) ->
-    icon = switch
-      when option.id == 'step' then 'flag'
-      when option.id == 'milestone' then 'calendar-check-o'
-    $('<i class="fa fa-' + icon + '"></i> <span>' + option.text + '</span>') unless !icon
-
   addToAvailableLocales = (scope, locale) ->
     elem = $(scope).find('#add_another_language')
     $(elem).data('available-locales').splice(0, 0, locale)
@@ -12,7 +6,7 @@ $ ->
 
   getNextAvailableLocale = (scope) ->
     elem = $(scope).find('#add_another_language')
-    # hide the add new language link if we are returning the last unused locale    
+    # hide the add new language link if we are returning the last unused locale
     locale = $(elem).data('available-locales').splice(0, 1)[0]
     setLinksVisibility(scope)
     locale
@@ -30,34 +24,9 @@ $ ->
     else
       $(el).show()
 
-  initTypeSelects = (scope) ->
-    $(scope).find(".type").select2({
-      theme: "bootstrap",
-      minimumResultsForSearch: Infinity,
-      width: "100%",
-      templateResult: formatTypeOptions,
-      templateSelection: formatTypeOptions
-    });
-
   setCallbacks = (scope) ->
 
     #
-    # show form
-    #
-   
-    $(scope).find('.edit-step-action').click (evt) ->
-      evt.preventDefault()
-      $(scope).find(".show-step-view").addClass('edit-step-view').removeClass('show-step-view')
-
-    #  
-    # hide form
-    #
-
-    $(scope).find('.show-step-action').click (evt) ->
-      evt.preventDefault()
-      $(scope).find(".edit-step-view").addClass('show-step-view').removeClass('edit-step-view')
-
-    #  
     # handle server response
     #
 
@@ -71,12 +40,6 @@ $ ->
               )
             .on "ajax:error", (e, xhr, status, error) ->
               $(scope).find(".error_notification").show()
-
-    #
-    # ajax errors notification
-    #
-    $("[data-hide]").click (evt) ->
-      $(scope).find(".error_notification").hide()
 
     #
     # remove language
@@ -94,7 +57,7 @@ $ ->
       $(scope).find("#deleted_locales").val(JSON.stringify(deleted_locales))
       setLinksVisibility(scope)
 
-    #  
+    #
     # add another language
     #
 
@@ -145,7 +108,6 @@ $ ->
   $('div .panel.step').each((idx, el) ->
     setLinksVisibility(el)
     setCallbacks(el)
-    initTypeSelects(el)
   )
 
 

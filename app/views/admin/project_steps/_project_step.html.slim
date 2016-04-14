@@ -1,6 +1,11 @@
 div.panel.step style="border-color: #{step.border_color}"
-  div data-step-id="#{step.id}" class="#{mode == :edit ? 'edit-step-view' : 'show-step-view' }"
+  div data-step-id="#{step.id}"
     .view-step-block
       = render "admin/project_steps/show_project_step", step: step
     .form-step-block
       = render "admin/project_steps/edit_project_step", step: step
+
+javascript:
+  $(document).ready(function() {
+    new MS.Views.ProjectStepView({ el: $('div[data-step-id=#{step.id}]') });
+  });

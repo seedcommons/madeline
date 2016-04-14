@@ -1,24 +1,3 @@
-.show-step-view {
-  .view-step-block {
-    display: inherit;
-  }
-
-  .form-step-block {
-    display: none;
-  }
-}
-
-// note, show-step-view and edit-stepview are not identical
-.edit-step-view {
-  .view-step-block {
-    display: none;
-  }
-
-  .form-step-block {
-    display: inherit;
-  }
-}
-
 .step-form-left-group {
   border-color: lightgrey;
   border-style: solid;

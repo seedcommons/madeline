@@ -5,12 +5,6 @@ div.panel-body
           html: { class: 'project-step-form' },
           defaults: {html5: true}) do |f|
 
-    .error_notification
-      p.alert.alert-danger
-        button.close type="button" data-hide="alert" x
-        i.fa.fa-exclamation-circle>
-        = I18n.t(:error_notification)
-
     = f.error_notification
     input type="hidden" id="deleted_locales" name="project_step[deleted_locales]" value="[]"
 
@@ -30,8 +24,9 @@ div.panel-body
 
     .step_form_right.col-sm-4
       .clearfix
-        = f.input :step_type_value, label: 'Type', collection: ProjectStep.step_type_option_set.translated_list,
-                wrapper: :step_form_right_9, include_blank: '---', input_html: {class: 'type'}
+        = f.input :step_type_value, label: 'Type',
+            collection: ProjectStep.step_type_option_set.translated_list,
+            wrapper: :step_form_right_9, include_blank: '---', input_html: {class: 'type'}
       = f.input :scheduled_date, label: 'Scheduled', as: :date, wrapper: :step_form_right_9, input_html: {class: 'date'}
       = f.input :completed_date, label: 'Completed', as: :date, wrapper: :step_form_right_9, input_html: {class: 'date'}
       .form-group.date.optional.project_step_completed_date
@@ -42,5 +37,5 @@ div.panel-body
     .clearfix
 
     .actions.form-step-block
-      a.btn.btn-default.show-step-action = t(:cancel)
+      a.btn.btn-default.cancel = t(:cancel)
       = f.submit class: 'update-action btn btn-success'
