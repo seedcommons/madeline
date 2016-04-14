@@ -79,9 +79,13 @@ div.panel.step style="border-color: #{step.border_color}"
           a.action title==t('project_step.duplicate_step') data-toggle="modal" data-target="#duplicate-step-modal-#{step.id}"
             i.fa.fa-files-o
 
+          - if step.logs_count == 0
+            - delete_confirm_text = t('confirm_deletion', thing: t('project_step.project_step', count: 1))
+          - else
+            - delete_confirm_text = t('project_step.confirm_deletion', log_count: step.logs_count)
           = link_to [:admin, step], method: :delete, class: "action",
             data: { \
-              confirm: t('project_step.confirm_deletion', log_count: step.logs_count),
+              confirm: delete_confirm_text,
               "confirm-cancel": t(:cancel),
               "confirm-proceed": t(:confirm),
               title: t("project_step.delete_step") \
