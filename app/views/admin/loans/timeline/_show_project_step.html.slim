@@ -33,17 +33,16 @@ div.panel-body
         span.info-text.col-lg-9 style="background: #{step.scheduled_bg}"
           = step.scheduled_date
 
-          - if step.completed?
-        div.info.row
-          span.info-label.col-lg-3
-            = t("project_step.labels.completed")
+        - if step.completed?
+          div.info.row
+            span.info-label.col-lg-3
+              = t("project_step.labels.completed")
 
           div.text.col-lg-9 style="background-color: #{step.background_color}"
             p.tight-block
               = step.completed_date
             p.tight-block
-              = t("parenthesis",
-                      content: status_statement(step))
+              = t("parenthesis", content: status_statement(step))
 
       p.info.row
         span.info-label.col-lg-3
