@@ -1,14 +1,13 @@
+- content_for :title
+  = 'Calendar'
+
+section.calendar
+  div#calendar.loan-calendar
+
 - content_for :scripts
-  = javascript_include_tag "admin/calendar/calendar"
   javascript:
     $(function(){
       new MS.Views.CalendarView({
         events: #{@events.to_json.html_safe}
       });
     });
-
-- content_for :title
-  = 'Calendar'
-
-section.calendar
-  div#calendar.loan-calendar
