@@ -1,4 +1,8 @@
-/* mixin for multiline */
+/* Mixin for multiline ellipsis */
+
+/* Author: Natalia Onischuk */
+/* Source: http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/ */
+
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
   overflow: hidden;
   position: relative;
