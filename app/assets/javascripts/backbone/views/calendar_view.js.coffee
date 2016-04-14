@@ -9,13 +9,13 @@ class MS.Views.CalendarView extends Backbone.View
         element.find('.fc-title').html(event.title)
     })
 
-    this.render_cal_events(params.events)
+    @.renderCalEvents(params.events)
 
-  render_cal_events: (events) ->
-    self = this
+  renderCalEvents: (events) ->
+    self = @;
 
-    $(events).each (key, cal_event) ->
-      self.render_cal_event(cal_event)
+    $(events).each (key, calEvent) ->
+      self.renderCalEvent(calEvent)
 
-  render_cal_event: (cal_item) ->
-    $('#calendar').fullCalendar( 'renderEvent', cal_item, stick: true )
+  renderCalEvent: (calItem) ->
+    $('#calendar').fullCalendar( 'renderEvent', calItem, stick: true )
