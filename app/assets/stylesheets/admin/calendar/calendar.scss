@@ -21,6 +21,15 @@
   }
 
   .event-title {
+    width: calc(100% - 2em);
+    display: inline-block;
+    background: inherit;
+    word-break: normal;
+    word-break: break-all;
+    hyphens: auto;
+
+    @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
+
     .fa {
       padding-right: .25em;
     }
@@ -37,12 +46,6 @@
   min-height: 2em;
 
   .event-title {
-    display: inline-block;
-    width: calc(100% - 2em);
-    margin-right: 0;
-    background: inherit;
-
-    @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
   }
 
   .large-left-box {
