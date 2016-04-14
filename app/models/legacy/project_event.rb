@@ -12,7 +12,11 @@ module Legacy
         puts "ProjectEvent[#{id}] - mapping 0 MemberId ref to null"
         nil
       else
-        member_id
+        if Person.where(id: member_id).count > 0
+          member_id
+        else
+          puts "ProjectEvent[#{id}] - Person not found for MemberId: #{member_id}, mapping MemberId ref to null"
+        end
       end
     end
 
