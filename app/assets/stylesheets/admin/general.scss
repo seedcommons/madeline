@@ -1,0 +1,16 @@
+// General, miscellaneous styles to be used throughout the admin area.
+// General styles forming a cohesive, non-trivially sized group should be moved into separate file.
+
+// A two-column table for key-value style data.
+table.key-value {
+  td {
+    vertical-align: top;
+    padding-bottom: 5px;
+  }
+
+  td:first-of-type {
+    padding-right: 10px;
+    color: gray;
+    font-weight: bold;
+  }
+}

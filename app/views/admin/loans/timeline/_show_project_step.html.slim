@@ -16,40 +16,39 @@ div.panel-body
           p = step.try(:details)
 
     div.col-lg-5.status-details
-      p.info.row
-        span.info-label.col-lg-3
-          = t("project_step.labels.status")
+      div.info.row
+        table.key-value
+          tr
+            td
+              = t("project_step.labels.status")
+            td
+              - if step.admin_status
+                = t("project_step.status.#{step.admin_status}")
+              - else
+                = t("none")
+          tr
+            td
+              = t("project_step.labels.scheduled")
+            td
+              div style="background: #{step.scheduled_bg}"
+                = step.scheduled_date
 
-        span.info-text.col-lg-9
-          - if step.admin_status
-            = t("project_step.status.#{step.admin_status}")
-          - else
-            = t("none")
+            - if step.completed?
+              tr
+                td
+                  = t("project_step.labels.completed")
+                td
+                  div style="background-color: #{step.background_color}"
+                    p.tight-block
+                      = step.completed_date
+                    p.tight-block
+                      = t("parenthesis", content: status_statement(step))
 
-      p.info.row
-        span.info-label.col-lg-3
-          = t("project_step.labels.scheduled")
-
-        span.info-text.col-lg-9 style="background: #{step.scheduled_bg}"
-          = step.scheduled_date
-
-        - if step.completed?
-          div.info.row
-            span.info-label.col-lg-3
-              = t("project_step.labels.completed")
-
-          div.text.col-lg-9 style="background-color: #{step.background_color}"
-            p.tight-block
-              = step.completed_date
-            p.tight-block
-              = t("parenthesis", content: status_statement(step))
-
-      p.info.row
-        span.info-label.col-lg-3
-          = t("project_step.labels.finalized")
-
-        span.info-text.col-lg-9
-          = step.is_finalized ? t("reply_yes") : t("reply_no")
+          tr
+            td
+              = t("project_step.labels.finalized")
+            td
+              = step.is_finalized ? t("reply_yes") : t("reply_no")
 
     div.col-lg-3.action-items.last-col
       div.completion-status
