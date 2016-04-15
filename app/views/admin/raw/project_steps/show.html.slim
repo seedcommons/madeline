@@ -5,6 +5,9 @@ table
     td Summary
     td = render view_path('common/translations'), { items: @item.summary_translations }
   tr
+    td Step Type
+    td = @item.step_type_label
+  tr
     td Details
     td = render view_path('common/translations'), { items: @item.details_translations }
   tr

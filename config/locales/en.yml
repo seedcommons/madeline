@@ -1,4 +1,5 @@
 en:
+  locale_name: English
   time:
     formats:
       default: '%b %e, %Y %l:%M %p'
@@ -28,6 +29,7 @@ en:
   location: Location
   signing_date: Signing date
   summary: Summary
+  details: Details
   timeline: Timeline
   payments: Payments
   past_loans: Past Loans
@@ -94,6 +96,8 @@ en:
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
+  error_notification:   'Something went wrong, please try again.'
+  parenthesis: "(%{content})"
   password: "Password"
   print: "Print"
   reply_no: "No"

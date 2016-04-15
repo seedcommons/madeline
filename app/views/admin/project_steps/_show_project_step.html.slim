@@ -1,0 +1,74 @@
+div.panel-body
+  div.step-details.row
+    div.col-lg-4.main-details.first-col
+      div.row
+        div.col-lg-1.col-md-1.col-sm-1.col-xs-1.check.first-col
+          input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id== step.id
+        div.col-lg-11.col-md-11.col-sm-11.col-xs-11.first-col
+          h5.title
+            span.icon
+              - if step.milestone?
+                i.fa.fa-calendar-check-o
+              - else
+                i.fa.fa-flag
+            span.title-text = step.try(:summary)
+
+          p = step.try(:details)
+
+    div.col-lg-5.status-details
+      div.info.row
+        table.key-value
+          tr
+            td
+              = t("project_step.labels.status")
+            td
+              - if step.admin_status
+                = t("project_step.status.#{step.admin_status}")
+              - else
+                = t("none")
+          tr
+            td
+              = t("project_step.labels.scheduled")
+            td
+              div style="background: #{step.scheduled_bg}"
+                = step.scheduled_date
+
+            - if step.completed?
+              tr
+                td
+                  = t("project_step.labels.completed")
+                td
+                  div style="background-color: #{step.background_color}"
+                    p.tight-block
+                      = step.completed_date
+                    p.tight-block
+                      = t("parenthesis", content: step.date_status_statement)
+
+          tr
+            td
+              = t("project_step.labels.finalized")
+            td
+              = step.is_finalized ? t("reply_yes") : t("reply_no")
+
+    div.col-lg-3.action-items.last-col
+      div.completion-status
+        - if step.completed?
+          div.icon-with-text.complete
+            span.icon-box
+              i.fa.fa-check
+            span
+              = t("project_step.status.completed")
+        - else
+          = t("project_step.status.not_completed")
+      div.actions
+        a.action.edit-step-action href="#"
+          i.fa.fa-pencil
+        a.action
+          i.fa.fa-files-o
+
+        = link_to [:admin, step], method: :delete, class: "action",
+            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step')),
+            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+            i.fa.fa-trash.fa-large>
+
+  = render "admin/logs/step_logs", step: step

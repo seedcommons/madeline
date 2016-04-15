@@ -50,7 +50,7 @@ class CustomField < ActiveRecord::Base
     data_type == 'translatable'
   end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable']
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
 
 
 end

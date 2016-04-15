@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20160408142938) do
   create_table "divisions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "currency_id"
+    t.json     "custom_data"
     t.text     "description"
     t.string   "internal_name"
     t.string   "name"

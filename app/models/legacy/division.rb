@@ -32,6 +32,9 @@ module Legacy
       puts "#{data[:id]}: #{data[:name]}"
       division = ::Division.new(data)
       division.save(validate: false)
+
+      # todo: confirm how we should assigned default locales to migrated divisions
+
     end
 
 

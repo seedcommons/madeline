@@ -52,6 +52,24 @@ class ProjectStep < ActiveRecord::Base
 
   validates :project_id, presence: true
 
+  def division
+    project.try(:division)
+  end
+
+  def update_with_translations(project_step_params, translations_params)
+    begin
+      # todo: Consider trying to just use nested attributes, but I'm doubtful that we'll be able to handle
+      # the form flags to delete translations without something ad hoc
+      ActiveRecord::Base.transaction do
+        update_translations!(translations_params)
+        update!(project_step_params)
+        true
+      end
+    rescue ActiveRecord::RecordInvalid
+      false
+    end
+  end
+
   def name
     "#{project.try(:name)} step"
   end
@@ -148,7 +166,7 @@ class ProjectStep < ActiveRecord::Base
       color
     end
   end
- 
+
   def scheduled_day
     self.scheduled_date.day
   end
@@ -176,6 +194,33 @@ class ProjectStep < ActiveRecord::Base
     else
       5
     end
+  end
+
+  #
+  # Translations helpers
+  #
+
+  # todo: refactor up to translatable.rb
+
+  def update_translations!(translation_params)
+    # deleting the translations that have been removed
+    translation_params[:deleted_locales].each do |l|
+      [:details, :summary].each do |attr|
+        delete_translation(attr, l)
+      end
+    end
+
+    reload
+
+    # updating/creating the translation that have been updated, added
+    permitted_locales.each do |l|
+      next if translation_params["locale_#{l}"].nil?
+      [:details, :summary].each do |attr|
+        # note, old_locale handles the redesignation of a translation set to a different language
+        set_translation(attr, translation_params["#{attr}_#{l}"], locale: translation_params["locale_#{l}"], old_locale: l)
+      end
+    end
+    save!
   end
 
   private
