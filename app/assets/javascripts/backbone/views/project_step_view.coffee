@@ -1,11 +1,16 @@
+# Handles showing, hiding, formatting, and submitting of project step form
 class MS.Views.ProjectStepView extends Backbone.View
 
   TYPE_ICONS:
     'step': 'flag'
     'milestone': 'calendar-check-o'
 
-  initialize: ->
+  initialize: (params) ->
     @initTypeSelect()
+    new MS.Views.ProjectStepTranslationsView({
+      el: @$('.languages'),
+      permittedLocales: params.permittedLocales
+    })
 
   events:
     'click a.edit-step-action': 'showForm'

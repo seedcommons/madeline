@@ -6,9 +6,8 @@ div.panel-body
           defaults: {html5: true}) do |f|
 
     = f.error_notification
-    input type="hidden" id="deleted_locales" name="project_step[deleted_locales]" value="[]"
-
-    .step_form_left.col-sm-8
+    .step_form_left.col-sm-8.languages
+      input.deleted-locales type="hidden" name="project_step[deleted_locales]" value="[]"
       - step.used_locales.each do |l|
         .step-form-left-group.language-block data-locale="#{l}"
           .clearfix
@@ -18,9 +17,9 @@ div.panel-body
                     placeholder: I18n.t(:summary, locale: l)
           = f.input "details_#{l}".to_sym, as: :text, wrapper: :step_form_left_12,
                   input_html: {class: 'details', rows: 3}, placeholder: I18n.t(:details, locale: l)
-          a.remove_language id="remove_#{l}_language" href="#" data-locale="#{l}" Remove
+          a.remove-language href="#" Remove
           .clearfix
-      a.add_language id="add_another_language" href="#" data-available-locales="#{step.unused_locales.as_json}" Add another language
+      a.add-language href="#" Add Language
 
     .step_form_right.col-sm-4
       .clearfix

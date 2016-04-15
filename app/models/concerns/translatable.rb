@@ -99,7 +99,7 @@ module Translatable
 
   def delete_translation(attribute, locale)
     translation = get_translation(attribute, locale: locale, exact_match: true)
-    translation.delete
+    translation.delete if translation
   end
 
   # if old_locale is provided and different from locale, then the language for an existing set of translations

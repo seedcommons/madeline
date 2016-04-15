@@ -6,5 +6,8 @@ div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.i
 
   javascript:
     $(document).ready(function() {
-      new MS.Views.ProjectStepView({ el: $('div[data-step-id=#{step.id}]') });
+      new MS.Views.ProjectStepView({
+        el: $('div[data-step-id=#{step.id}]'),
+        permittedLocales: #{json step.permitted_locales}
+      });
     });
