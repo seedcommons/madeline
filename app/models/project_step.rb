@@ -196,6 +196,25 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
+
+  #
+  # batchable actions
+  #
+
+  def adjust_scheduled_date(days_adjustment)
+    self.scheduled_date += days_adjustment.days
+    save
+  end
+
+  def finalize
+    #todo: confirm if the 'finalize' logic should also affect the completed date
+    if is_finalized
+      false
+    else
+      update(is_finalized: true)
+    end
+  end
+
   #
   # Translations helpers
   #
