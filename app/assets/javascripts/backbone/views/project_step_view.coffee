@@ -2,8 +2,8 @@
 class MS.Views.ProjectStepView extends Backbone.View
 
   TYPE_ICONS:
-    'step': 'flag'
-    'milestone': 'calendar-check-o'
+    'checkin': 'calendar-check-o'
+    'milestone': 'flag'
 
   initialize: (params) ->
     @initTypeSelect()
