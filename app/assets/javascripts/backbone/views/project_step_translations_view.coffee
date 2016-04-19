@@ -23,7 +23,7 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
     # Update new block to new locale
     newBlock.html(newBlock.html().replace(new RegExp("_#{oldLocale}", 'g'), "_#{newLocale}"))
     newBlock.data('locale', newLocale)
-    newBlock.find('input[type=text]').val('')
+    newBlock.find('input[type=text], textarea').val('')
     newBlock.find('select.locale').val(newLocale)
 
     @$('a.add-language').before(newBlock)
