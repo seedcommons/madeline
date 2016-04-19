@@ -14,6 +14,7 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   events:
     'click a.edit-step-action': 'showForm'
+    'click a.duplicate-step-action': 'showDuplicateModal'
     'click a.cancel': 'hideForm'
     'ajax:success': 'submissionSuccess'
 
@@ -26,6 +27,10 @@ class MS.Views.ProjectStepView extends Backbone.View
     e.preventDefault()
     @$('.view-step-block').show()
     @$('.form-step-block').hide()
+
+  showDuplicateModal: (e) ->
+    e.preventDefault()
+    @$('.duplicate-step').modal('show')
 
   # Select 2 is used to show the pretty icons.
   initTypeSelect: ->
