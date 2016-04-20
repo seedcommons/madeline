@@ -10,8 +10,3 @@ section.timeline
     - else
       = t("project_step.no_steps")
 
-  div.project-steps-forms
-    - unless @loan.project_steps.empty?
-      - @loan.project_steps.each do |step|
-          = render "admin/project_steps/duplicate_step", step: step
-
