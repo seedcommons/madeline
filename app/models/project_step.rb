@@ -218,7 +218,7 @@ class ProjectStep < ActiveRecord::Base
     remaining = num_of_occurrences || MAX_OCCURRENCES
 
     allow_error = true
-    last_date = scheduled_date
+    last_date = duplicate_step_base_date
     while remaining > 0 do
       next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
       break  if end_date && next_date > end_date
@@ -250,17 +250,18 @@ class ProjectStep < ActiveRecord::Base
           agent: agent,
           step_type_value: step_type_value,
           scheduled_date: date,
-          original_date: date,
-          #todo: confirms the initial values here
+          original_date: nil,
           completed_date: nil,
           is_finalized: false,
       )
+      clone_translations(new_step)  # this will create transient copies of all of the source translatable attributes
       new_step.save  if should_persist
       new_step
+      # note, would likely want to also copy custom fields at the point in time which we expect those to be used on ProjectSteps
     rescue StandardError => e
       Rails.logger.error("create_duplicate error: #{e}")
       raise e  if allow_error
-      {error: e.inspect}  #todo: confirm how to handle errors only on subsequent records
+      {error: e.inspect}  #todo: confirm if the front-end logic desires this data or if it should be simply omitted
     end
 
   end
