@@ -2,7 +2,7 @@ header.timeline-header
   form accept-charset="UTF-8" method="post"
     input name="_method" type="hidden"
 
-    .btn-group
+    .btn-group role="group" aria-label="Select"
       label.btn.btn-default
         input type="checkbox" name="choose-all" id="choose-all"
 
@@ -22,10 +22,14 @@ header.timeline-header
 
       input type="hidden" name="step-ids" id="step-ids"
 
-    .btn-group
+    .btn-group role="group" aria-label="Batch Actions"
       button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
         => t("loan.batch_actions")
         span.caret
         span.sr-only = t(:dropdown_toggle)
 
       = render "admin/loans/timeline/batch/batch_actions"
+
+    .btn-group role="group" aria-label="Filter"
+      button.btn.btn-default.active type="button" data-toggle="button" aria-pressed=true All
+      button.btn.btn-default type="button" data-toggle="button" Incomplete
