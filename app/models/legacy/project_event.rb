@@ -49,7 +49,7 @@ module Legacy
       # on the fly to handle the orphaned logs
       max = self.connection.execute("select max(id) from ProjectEvents").first.first
       puts "setting projects_step_id_seq to: #{max+1000}"
-      ::ProjectStep.recalibrate_sequence(gap: 1000)
+      ::ProjectStep.recalibrate_sequence(id: max+1000)
 
       # note record 10155 has a malformed date (2013-12-00) which was causing low level barfage
       self.where("Type = 'Paso' and #{malformed_date_clause('Completed')}").each &:migrate

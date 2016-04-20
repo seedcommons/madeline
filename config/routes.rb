@@ -11,7 +11,17 @@ Rails.application.routes.draw do
     resources :dashboard, only: [:index]
     resources :loans
     resources :organizations
-    resources :project_steps
+    resources :project_steps do
+      collection do
+        delete '', to: 'project_steps#batch_destroy'
+        patch 'adjust_dates', to: 'project_steps#adjust_dates'
+        patch 'finalize', to: 'project_steps#finalize'
+      end
+      member do
+        # get 'duplicate_step', to: 'project_steps#show_duplicate_step'
+        post 'duplicate_step', to: 'project_steps#duplicate_step'
+      end
+    end
     resources :project_logs
 
     namespace :raw do

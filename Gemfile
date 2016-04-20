@@ -36,6 +36,11 @@ gem 'slim'
 # Cron jobs
 gem 'whenever', require: false
 
+# note, for now just using chronic, which was already included
+# if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
+#gem 'ice_cube'
+# beware, I tried 'tickle' first but it didn't seem stable
+
 # Internationalization
 gem 'rails-i18n'
 

@@ -24,6 +24,8 @@
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #
 
+require 'chronic'
+
 class ProjectStep < ActiveRecord::Base
   include ::Translatable, OptionSettable
 
@@ -195,6 +197,66 @@ class ProjectStep < ActiveRecord::Base
       5
     end
   end
+
+  # todo: confirm if we want to hardcode a limit for end_date bound repeats. and if so, what should that be?
+  MAX_OCCURRENCES = 100
+
+  def duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date)
+    if time_unit == 'days' || time_unit == 'weeks'
+      interval = frequency.send(time_unit)
+    end
+
+    results = []
+    remaining = num_of_occurrences || MAX_OCCURRENCES
+
+    allow_error = true
+    last_date = scheduled_date
+    while remaining > 0 do
+      next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
+      break  if end_date && next_date > end_date
+      results << create_duplicate(next_date, should_persist: true, allow_error: allow_error)
+      last_date = next_date
+      remaining -= 1
+      allow_error = false  # only throw exception if the first record fails
+    end
+
+    results
+  end
+
+  def apply_time_interval(date, frequency, time_unit, month_repeat_on)
+    interval = frequency.send(time_unit)
+    if time_unit == :days || time_unit == :weeks
+      date + interval
+    else
+      # note, Chronic doesn't seem to support 'this month', so need to subtract a month and use 'next month'
+      reference_date = date.beginning_of_month + interval - 1.month
+      Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
+    end
+  end
+
+  def create_duplicate(date = nil, should_persist: true, allow_error: true)
+    begin
+      date ||= scheduled_date
+      new_step = ProjectStep.new(
+          project: project,
+          agent: agent,
+          step_type_value: step_type_value,
+          scheduled_date: date,
+          original_date: date,
+          #todo: confirms the initial values here
+          completed_date: nil,
+          is_finalized: false,
+      )
+      new_step.save  if should_persist
+      new_step
+    rescue StandardError => e
+      Rails.logger.error("create_duplicate error: #{e}")
+      raise e  if allow_error
+      {error: e.inspect}  #todo: confirm how to handle errors only on subsequent records
+    end
+
+  end
+
 
   #
   # Translations helpers

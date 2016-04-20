@@ -9,17 +9,22 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
           = t("project_step.duplicate_step")
 
       div.modal-body
-        = form_tag do |f|
+        = form_tag("/admin/project_steps/#{step.id}/duplicate_step", method: 'post') do |f|
 
           div.form-group.row
-            input.repeat-once type="radio" name="repeat_duration"value="repeat_once" checked="checked"
-              span.bold = t("project_step.once")
+            = label_tag :repeat_once
+              input.repeat-once type="radio" id="repeat_once" name="repeat_duration" value="repeat_once" checked="checked"
+                span.bold = t("project_step.once")
 
           div.form-group.row
-            input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
-              span.bold = t("project_step.repeat")
+            = label_tag :repeat_duration
+              input.custom-repeat type="radio" id="repeat_duration" name="repeat_duration" value="custom_repeat"
+                span.bold = t("project_step.repeat")
 
           = render "admin/project_steps/repeat_options", step: step, f: f
+
+          //todo: rip out once AJAX flow properly wired
+          input type="submit" value="Submit Test"
 
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
@@ -27,3 +32,4 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
 
         button.btn.btn-primary type="button" data-dismiss="modal"
           = t("project_step.duplicate")
+
