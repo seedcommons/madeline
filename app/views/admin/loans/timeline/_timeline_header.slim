@@ -30,8 +30,10 @@ header.timeline-header
 
       = render "admin/loans/timeline/batch/batch_actions"
 
-    .filter.btn-group.button-group-radios data-toggle="buttons"
+    .filter.btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
       label.btn.btn-default.active
         input type="radio" name="filter" value="all" id="filter-all" checked=true  All
       label.btn.btn-default
         input type="radio" name="filter" value="incomplete" id="filter-incomplete"  Incomplete
+
+    a.btn.btn-default id="edit-all" href="#"  Edit All

@@ -1,9 +1,10 @@
-class MS.Views.TimelineFilterView extends Backbone.View
+class MS.Views.TimelineHeaderView extends Backbone.View
 
   el: 'body'
 
   events: (params) ->
     'click .filter .btn': 'filterSteps'
+    'click #edit-all': 'editAll'
 
   filterSteps: (e) ->
     item = e.currentTarget
@@ -12,3 +13,10 @@ class MS.Views.TimelineFilterView extends Backbone.View
       $('.step.completed').hide()
     else if selected == "all"
       $('.step').show()
+
+  editAll: (e) ->
+    e.preventDefault()
+    $('.view-step-block').hide()
+    $('.form-step-block').show()
+    $(e.currentTarget).hide()
+
