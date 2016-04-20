@@ -18,7 +18,7 @@ div.repeat-options.hidden
         // values here are Chronic gem compatible strings.  i.e. '26th day' or '4th Tuesday'
         input type="radio" name="month_repeat_on" value="#{step.scheduled_day.ordinalize} day" checked="checked"
 
-        span name="repeat_day_#{step.scheduled_date.day}"
+        span name="repeat_day_#{step.scheduled_day}"
           = t("number.the_day", day: step.scheduled_day.ordinalize)
 
       div

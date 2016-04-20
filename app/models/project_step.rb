@@ -131,9 +131,9 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def date_status_statement
-    if days_late < 0
+    if days_late && days_late < 0
       I18n.t("project_step.status.days_early", days: -days_late)
-    elsif days_late > 0
+    elsif days_late && days_late > 0
       I18n.t("project_step.status.days_late", days: days_late)
     else
       I18n.t("project_step.status.on_time")
@@ -142,10 +142,12 @@ class ProjectStep < ActiveRecord::Base
 
   # Generate a CSS color based on the status and lateness of the step
   def color
-    if completed? && days_late <= 0
+    # JE: note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil' error here even though
+    # it should not have been able to reach that part of the expression when the completed date not present
+    if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
       color_between(COLORS[:on_time], COLORS[:super_early], fraction)
-    elsif days_late > 0
+    elsif days_late && days_late > 0
       fraction = days_late / SUPER_LATE_PERIOD
       color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
     else # incomplete and not late
@@ -169,12 +171,18 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
+  # should probably rename these methods if they encapsulates special handling needed for the duplicate step feature
   def scheduled_day
-    self.scheduled_date.day
+    duplicate_step_base_date.day
+  end
+
+  # todo: confirm how the duplicate step dialog and logic should behave when there is no scheduled date
+  def duplicate_step_base_date
+    scheduled_date || Date.today
   end
 
   def weekday_of_scheduled_date
-    Date::DAYNAMES[self.scheduled_date.wday]
+    Date::DAYNAMES[self.duplicate_step_base_date.wday]
   end
 
   def scheduled_date_weekday_key
