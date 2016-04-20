@@ -10,8 +10,8 @@ div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dat
         span = t("loan.move_dates")
 
         div.btn-group-vertical.button-group-radios.form-item data-toggle="buttons" aria-label== t("loan.move_date_direction")
-          label.btn.btn-default
-            input type="radio" name="time_direction" id="time-forward" value="forward"
+          label.btn.btn-default.active
+            input type="radio" name="time_direction" id="time-forward" value="forward" checked=true
             span = t("loan.forward")
           label.btn.btn-default
             input type="radio" name="time_direction" id="time-backward" value="backward"
