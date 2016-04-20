@@ -52,6 +52,9 @@ class ProjectStep < ActiveRecord::Base
 
   validates :project_id, presence: true
 
+  before_save :before_save  #handles original date logic
+
+
   def division
     project.try(:division)
   end
@@ -110,12 +113,24 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
+  # todo: code review discussion:
+  # It feels awkward and confusing to tweak this getter since there is some logic which depends on the raw value and this also
+  # affects the json serialized data. (this threw me for a loop when verifying the duplicate step ajax response)
+  # Is it work having a separately named method for the logic which depends on this normalized result?
   def original_date
     self[:original_date] || scheduled_date
   end
 
   def date_changed?
     self[:original_date].present?
+  end
+
+  def before_save
+    # note, "is_finalized" means a step is no longer a draft, and future changes should remember the original scheduled date.
+    if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
+      self.original_date = scheduled_date_was
+      puts "original date automatically assigned to #{scheduled_date_was}"
+    end
   end
 
   def days_late
@@ -196,22 +211,26 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-
   #
   # batchable actions
   #
 
   def adjust_scheduled_date(days_adjustment)
-    self.scheduled_date += days_adjustment.days
-    save
+    if scheduled_date && days_adjustment != 0
+      new_date = scheduled_date + days_adjustment.days
+      # note, original_date will be assigned if needed by the before_save logic
+      update!(scheduled_date: new_date)
+    else
+      false
+    end
   end
 
+  # note, "is_finalized" means a step is no longer a draft, and future changes should remember the original scheduled date.
   def finalize
-    #todo: confirm if the 'finalize' logic should also affect the completed date
-    if is_finalized
+    if is_finalized?
       false
     else
-      update(is_finalized: true)
+      update!(is_finalized: true)
     end
   end
 

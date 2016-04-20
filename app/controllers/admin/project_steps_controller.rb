@@ -6,10 +6,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     if @step.destroy
-      # redirect_to admin_loan_path(@step.project_id, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
       display_timeline(@step, I18n.t(:notice_deleted))
     else
-      # redirect_to admin_loan_path(@step.project_id, anchor: 'timeline')
       display_timeline(@step)
     end
   end
@@ -18,7 +16,6 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    # redirect_to admin_loan_path(@step.project_id, anchor: 'timeline')
     display_timeline(@step)
   end
 
@@ -33,10 +30,10 @@ class Admin::ProjectStepsController < Admin::AdminController
   def batch_destroy
     puts "batch_destroy: params: #{params}"
     step_ids = params[:'step-ids']
-    project_id, success_count, failure_count = batch_operation(step_ids) do |step|
+    project_id, notice = batch_operation(step_ids) do |step|
       step.destroy
     end
-    display_timeline(project_id, I18n.t(:notice_batch_deleted, count: success_count))
+    display_timeline(project_id, notice)
   end
 
 
@@ -52,23 +49,23 @@ class Admin::ProjectStepsController < Admin::AdminController
              when 'backward'
                -1
              else
-               raises "adjust_dates - unexpected time_direction: #{time_direction}"
+               raise "adjust_dates - unexpected or missing time_direction: #{time_direction}"
            end
     days_adjustment = sign * num_of_days
 
-    project_id, success_count, failure_count = batch_operation(step_ids) do |step|
+    project_id, notice = batch_operation(step_ids) do |step|
       step.adjust_scheduled_date(days_adjustment)
     end
-    display_timeline(project_id, I18n.t(:notice_batch_updated, count: success_count))
+    display_timeline(project_id, notice)
   end
 
   def finalize
     puts "finalize: params: #{params}"
     step_ids = params[:'step-ids']
-    project_id, success_count, failure_count = batch_operation(step_ids) do |step|
+    project_id, notice = batch_operation(step_ids) do |step|
       step.finalize
     end
-    display_timeline(project_id, I18n.t(:notice_batch_updated, count: success_count))
+    display_timeline(project_id, notice)
   end
 
   private
@@ -77,19 +74,32 @@ class Admin::ProjectStepsController < Admin::AdminController
     success_count = 0
     failure_count = 0
     project_id = nil
+    raise_error = true
     step_ids.split(',').each do |step_id|
-      step = ProjectStep.find(step_id)
-      authorize step
-      project_id ||= step.project_id
-      #todo: confirm if we should wrap each operation in a try/catch or let first failure be fatal
-      if yield(step)
-        success_count += 1
-      else
+      begin
+        step = ProjectStep.find(step_id)
+        authorize step
+        project_id ||= step.project_id
+        if yield(step)
+          success_count += 1
+        else
+          # false return value indicates no change and record should be left out of both success and failure counts
+        end
+        raise_error = false
+      rescue StandardError => e
+        Rails.logger.error("project step: #{step_id} - batch operation error: #{e}")
+        raise e  if raise_error
         failure_count += 1
-        #todo: confirm if we need any special handling or displayed notice if the destroy fails
       end
     end
-    [project_id, success_count, failure_count]
+
+    if failure_count == 0
+      notice = I18n.t(:notice_batch_updated, count: success_count)
+    else
+      notice = I18n.t(:notice_batch_updated_with_failures, count: success_count, failure_count: failure_count)
+    end
+
+    [project_id, notice]
   end
 
 
