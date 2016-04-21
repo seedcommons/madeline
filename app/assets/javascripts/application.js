@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
 //= require select2-full
+//= require URI
 
 //= require jquery-ui
 //= require wice_grid
