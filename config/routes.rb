@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :organizations
     resources :project_steps do
       collection do
-        delete '', to: 'project_steps#batch_destroy'
+        patch :batch_destroy
         patch :adjust_dates
         patch :finalize
       end
