@@ -1,8 +1,11 @@
 class Admin::LoansController < Admin::AdminController
   def index
+    # Note, current_division is used when creating new entities and is guaranteed to return a value.
+    # selected_division is used for index filtering, and may be unassigned.
     authorize Loan.new(division: current_division)
     @loans_grid = initialize_grid(Loan,
       include: [:division, :organization],
+      conditions: division_index_filter,
       order: 'loans.signing_date',
       order_direction: 'desc',
       custom_order: { 'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date' },

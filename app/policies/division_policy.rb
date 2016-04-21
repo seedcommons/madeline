@@ -18,4 +18,9 @@ class DivisionPolicy < ApplicationPolicy
   def destroy?
     division_admin(division: @record)
   end
+
+  def select?
+    show?
+  end
+
 end

@@ -1,6 +1,13 @@
 - content_for :styles
   = stylesheet_link_tag "admin/content", :media => "all"
 
+- content_for :scripts
+
+  javascript:
+    $(function () {
+      new MS.Views.PageView();
+    });
+
 div
   nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
     .container-fluid
@@ -23,8 +30,10 @@ div
 
           .division.centered-box.nav.navbar-nav.col-sm-6
             span> Division:
-            select.form-control
-              option All
+            / Todo: Sort out proper css display handling here
+            = form_tag(admin_divisions_select_path, class: 'form-control') do
+              = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
+              = hidden_field_tag(:redisplay_url)
 
           ul.user.centered-box.nav.navbar-nav.navbar-right.col-sm-3
             li.dropdown

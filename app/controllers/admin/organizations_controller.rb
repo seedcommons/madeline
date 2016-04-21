@@ -4,6 +4,7 @@ class Admin::OrganizationsController < Admin::AdminController
     @organizations_grid = initialize_grid(
       Organization,
       include: :country,
+      conditions: division_index_filter,
       order: 'name',
       per_page: 50
     )
@@ -18,7 +19,7 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def new
-    @org = Organization.new
+    @org = Organization.new(division: current_division)
     authorize @org
     @countries = Country.all
     @form_action_url = admin_organizations_path
