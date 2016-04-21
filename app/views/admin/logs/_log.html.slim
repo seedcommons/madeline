@@ -1,7 +1,7 @@
 div.panel.log.expandable
   div.panel-heading
     div.row
-      div.col-lg-10.first-col
+      div.col-lg-10
         span.bold = log.date
         span = t(:dash)
         span = Person.find(log.agent_id).name
@@ -16,7 +16,7 @@ div.panel.log.expandable
               role: "button"
               i.fa.fa-trash>
 
-      div.col-lg-2.last-col.right-align
+      div.col-lg-2.right-align
         span.bold = log.try(:progress_metric)
 
   div.panel-body
