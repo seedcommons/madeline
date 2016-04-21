@@ -6,6 +6,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     'click .filter .btn': 'filterSteps'
     'click #edit-all': 'editAll'
     'click #edit-all-cancel': 'cancelEdit'
+    'click #save-all': 'saveAll'
 
   initialize: ->
     $('#edit-all-cancel').hide()
@@ -33,6 +34,15 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     e.preventDefault()
     $('.view-step-block').show()
     $('.form-step-block').hide()
+
+    $('#edit-all').show()
+    $('#new-step').show()
+    $('#edit-all-cancel').hide()
+    $('#save-all').hide()
+
+  saveAll: (e) ->
+    e.preventDefault()
+    $('.project-step-form').submit()
 
     $('#edit-all').show()
     $('#new-step').show()
