@@ -52,8 +52,7 @@ class ProjectStep < ActiveRecord::Base
 
   validates :project_id, presence: true
 
-  before_save :before_save  #handles original date logic
-
+  before_save :handle_original_date_logic
 
   def division
     project.try(:division)
@@ -125,8 +124,9 @@ class ProjectStep < ActiveRecord::Base
     self[:original_date].present?
   end
 
-  def before_save
-    # note, "is_finalized" means a step is no longer a draft, and future changes should remember the original scheduled date.
+  def handle_original_date_logic
+    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
+    # the original scheduled date.
     if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
       self.original_date = scheduled_date_was
       puts "original date automatically assigned to #{scheduled_date_was}"
@@ -211,10 +211,6 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  #
-  # batchable actions
-  #
-
   def adjust_scheduled_date(days_adjustment)
     if scheduled_date && days_adjustment != 0
       new_date = scheduled_date + days_adjustment.days
@@ -225,7 +221,8 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  # note, "is_finalized" means a step is no longer a draft, and future changes should remember the original scheduled date.
+  # Note, "is_finalized" means a step is no longer a draft, and future changes should remember the
+  # original scheduled date.
   def finalize
     if is_finalized?
       false
