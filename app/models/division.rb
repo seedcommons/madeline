@@ -148,6 +148,4 @@ class Division < ActiveRecord::Base
     end
     result
   end
-
-
 end

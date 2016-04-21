@@ -30,7 +30,8 @@
     = f.input_field :amount
 
   = f.input :description, label: t("loan.description")
-    .view-element
+    .view-element = loan.details
+    = f.input_field :details
 
   .actions.form-block
     - unless @loan.new_record?

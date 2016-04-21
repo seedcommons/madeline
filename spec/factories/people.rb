@@ -32,11 +32,10 @@
 
 FactoryGirl.define do
   factory :person do
-    # beware creating default division associations results in presence of multiple root divisions during test execution
     division { root_division }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    association :primary_organization, factory: :organization
+    primary_organization { root_division.organization }
     birth_date { Faker::Date.between(100.years.ago, 18.years.ago) }
   end
 
