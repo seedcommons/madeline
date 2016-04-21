@@ -37,8 +37,6 @@ class ProjectStep < ActiveRecord::Base
   }
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
-  # maximum allowed number of records to create when doing a 'duplicate with repeat' operation
-  DUPLICATION_RECORD_LIMIT = 60
 
   default_scope { order('scheduled_date') }
 
@@ -174,96 +172,11 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  def duplication_basis_date
-    scheduled_date || Date.today
+  # Returns a duplication helper object which encapsulate handling of the modal rendering and
+  # submit handling.
+  def duplication
+    @duplication ||= ProjectStepDuplication.new(self)
   end
-
-  def duplication_basis_day
-    duplication_basis_date.day
-  end
-
-  def duplication_basis_weekday
-    Date::DAYNAMES[duplication_basis_date.wday]
-  end
-
-  def duplication_basis_weekday_key
-    duplication_basis_week.to_s + "_" + duplication_basis_weekday.downcase
-  end
-
-  # Returns which week within a given month the scheduled date (or current date if absent) occurs.
-  def duplication_basis_week
-    day = duplication_basis_day.to_i
-
-    if (day < 8)
-      1
-    elsif (8 <= day) && (day < 15)
-      2
-    elsif (15 <= day) && (day < 22)
-      3
-    elsif (22 <= day) && (day < 29)
-      4
-    else
-      5
-    end
-  end
-
-  def duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date)
-    puts "freq: #{frequency}, time_unit: #{time_unit}, month_repeat_on: #{month_repeat_on}"
-    results = []
-    allow_error = true
-    last_date = duplication_basis_date
-    (num_of_occurrences || DUPLICATION_RECORD_LIMIT).times do
-      next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
-      puts "next date: #{next_date}"
-      break if end_date && next_date > end_date
-      results << create_duplicate(next_date, should_persist: true, allow_error: allow_error)
-      last_date = next_date
-      allow_error = false  # only throw exception if the first record fails
-    end
-
-    results
-  end
-
-  def apply_time_interval(date, frequency, time_unit, month_repeat_on)
-    puts "apply_time_interval - date: #{date}, freq: #{frequency}, time_unit: #{time_unit}, month_repeat_on: #{month_repeat_on}"
-
-    interval = frequency.send(time_unit)
-    if time_unit == :days || time_unit == :weeks
-      date + interval
-    else
-      # Note, Chronic doesn't seem to support 'this month' in this context, so need to subtract
-      # a month and use 'next month'.
-      reference_date = date.beginning_of_month + interval - 1.month
-      Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
-    end
-  end
-
-  def create_duplicate(date = nil, should_persist: true, allow_error: true)
-    begin
-      date ||= scheduled_date
-      new_step = ProjectStep.new(
-        project: project,
-        agent: agent,
-        step_type_value: step_type_value,
-        scheduled_date: date,
-        original_date: nil,
-        completed_date: nil,
-        is_finalized: false,
-      )
-      # This will create transient copies of all of the source translatable attributes.
-      clone_translations(new_step)
-      new_step.save if should_persist
-      new_step
-      # Note, would likely want to also copy custom fields at the point in time which we expect
-      # those to be used on ProjectSteps.
-    rescue => e
-      Rails.logger.error("create_duplicate error: #{e}")
-      raise e if allow_error
-      nil  # Partial failures will be stripped from result list.
-    end
-
-  end
-
 
   #
   # Translations helpers

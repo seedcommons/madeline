@@ -3,8 +3,8 @@ class MS.Views.DuplicateStepView extends Backbone.View
   el: 'body'
 
   events: (params) ->
-    'change input[name="repeat_duration"]': 'toggleRepeatOptions'
-    'change select[name="time_unit"]': 'toggleMonthOptions'
+    'change input[name="duplication[repeat_duration]"]': 'toggleRepeatOptions'
+    'change select[name="duplication[time_unit]"]': 'toggleMonthOptions'
     'click .num-of-occurences': 'checkRadio'
     'click .date-end-of-occurences': 'checkRadio'
 
