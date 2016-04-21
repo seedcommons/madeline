@@ -11,6 +11,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   initialize: ->
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
+    $('.filter .active').click()
 
   filterSteps: (e) ->
     item = e.currentTarget
