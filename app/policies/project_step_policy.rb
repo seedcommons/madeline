@@ -1,6 +1,6 @@
 class ProjectStepPolicy < ApplicationPolicy
 
-  def duplicate_step?
+  def duplicate?
     create?
   end
 

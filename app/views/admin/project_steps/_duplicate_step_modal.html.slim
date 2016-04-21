@@ -9,16 +9,16 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
           = t("project_step.duplicate_step")
 
       div.modal-body
-        = form_tag("/admin/project_steps/#{step.id}/duplicate_step", method: 'post') do |f|
+        = form_tag(duplicate_admin_project_step_path(step)) do |f|
 
           div.form-group.row
-            = label_tag :repeat_once
-              input.repeat-once type="radio" id="repeat_once" name="repeat_duration" value="repeat_once" checked="checked"
+            = label_tag
+              input.repeat-once type="radio" name="repeat_duration" value="repeat_once" checked="checked"
                 span.bold = t("project_step.once")
 
           div.form-group.row
-            = label_tag :repeat_duration
-              input.custom-repeat type="radio" id="repeat_duration" name="repeat_duration" value="custom_repeat"
+            = label_tag
+              input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
                 span.bold = t("project_step.repeat")
 
           = render "admin/project_steps/repeat_options", step: step, f: f

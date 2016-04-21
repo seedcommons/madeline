@@ -18,8 +18,7 @@ Rails.application.routes.draw do
         patch 'finalize', to: 'project_steps#finalize'
       end
       member do
-        # get 'duplicate_step', to: 'project_steps#show_duplicate_step'
-        post 'duplicate_step', to: 'project_steps#duplicate_step'
+        post :duplicate
       end
     end
     resources :project_logs

@@ -37,6 +37,8 @@ class ProjectStep < ActiveRecord::Base
   }
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
+  # maximum allowed number of records to create when doing a 'duplicate with repeat' operation
+  DUPLICATION_RECORD_LIMIT = 60
 
   default_scope { order('scheduled_date') }
 
@@ -142,8 +144,9 @@ class ProjectStep < ActiveRecord::Base
 
   # Generate a CSS color based on the status and lateness of the step
   def color
-    # JE: note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil' error here even though
-    # it should not have been able to reach that part of the expression when the completed date not present
+    # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
+    # error here even though it should not have been able to reach that part of the expression
+    # when the completed_date was not present, so defensively adding the 'days_late' nil checks.
     if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
       color_between(COLORS[:on_time], COLORS[:super_early], fraction)
@@ -171,27 +174,25 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  # should probably rename these methods if they encapsulates special handling needed for the duplicate step feature
-  def scheduled_day
-    duplicate_step_base_date.day
-  end
-
-  # todo: confirm how the duplicate step dialog and logic should behave when there is no scheduled date
-  def duplicate_step_base_date
+  def duplication_basis_date
     scheduled_date || Date.today
   end
 
-  def weekday_of_scheduled_date
-    Date::DAYNAMES[self.duplicate_step_base_date.wday]
+  def duplication_basis_day
+    duplication_basis_date.day
   end
 
-  def scheduled_date_weekday_key
-    self.week_of_scheduled_date.to_s + "_" + self.weekday_of_scheduled_date.downcase
+  def duplication_basis_weekday
+    Date::DAYNAMES[duplication_basis_date.wday]
   end
 
-  # Returns which week within a given month the scheduled date occurs.
-  def week_of_scheduled_date
-    day = scheduled_day.to_i
+  def duplication_basis_weekday_key
+    duplication_basis_week.to_s + "_" + duplication_basis_weekday.downcase
+  end
+
+  # Returns which week within a given month the scheduled date (or current date if absent) occurs.
+  def duplication_basis_week
+    day = duplication_basis_day.to_i
 
     if (day < 8)
       1
@@ -206,25 +207,17 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  # todo: confirm if we want to hardcode a limit for end_date bound repeats. and if so, what should that be?
-  MAX_OCCURRENCES = 100
-
   def duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date)
-    if time_unit == 'days' || time_unit == 'weeks'
-      interval = frequency.send(time_unit)
-    end
-
+    puts "freq: #{frequency}, time_unit: #{time_unit}, month_repeat_on: #{month_repeat_on}"
     results = []
-    remaining = num_of_occurrences || MAX_OCCURRENCES
-
     allow_error = true
-    last_date = duplicate_step_base_date
-    while remaining > 0 do
+    last_date = duplication_basis_date
+    (num_of_occurrences || DUPLICATION_RECORD_LIMIT).times do
       next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
-      break  if end_date && next_date > end_date
+      puts "next date: #{next_date}"
+      break if end_date && next_date > end_date
       results << create_duplicate(next_date, should_persist: true, allow_error: allow_error)
       last_date = next_date
-      remaining -= 1
       allow_error = false  # only throw exception if the first record fails
     end
 
@@ -232,11 +225,14 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def apply_time_interval(date, frequency, time_unit, month_repeat_on)
+    puts "apply_time_interval - date: #{date}, freq: #{frequency}, time_unit: #{time_unit}, month_repeat_on: #{month_repeat_on}"
+
     interval = frequency.send(time_unit)
     if time_unit == :days || time_unit == :weeks
       date + interval
     else
-      # note, Chronic doesn't seem to support 'this month', so need to subtract a month and use 'next month'
+      # Note, Chronic doesn't seem to support 'this month' in this context, so need to subtract
+      # a month and use 'next month'.
       reference_date = date.beginning_of_month + interval - 1.month
       Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
     end
@@ -246,22 +242,24 @@ class ProjectStep < ActiveRecord::Base
     begin
       date ||= scheduled_date
       new_step = ProjectStep.new(
-          project: project,
-          agent: agent,
-          step_type_value: step_type_value,
-          scheduled_date: date,
-          original_date: nil,
-          completed_date: nil,
-          is_finalized: false,
+        project: project,
+        agent: agent,
+        step_type_value: step_type_value,
+        scheduled_date: date,
+        original_date: nil,
+        completed_date: nil,
+        is_finalized: false,
       )
-      clone_translations(new_step)  # this will create transient copies of all of the source translatable attributes
-      new_step.save  if should_persist
+      # This will create transient copies of all of the source translatable attributes.
+      clone_translations(new_step)
+      new_step.save if should_persist
       new_step
-      # note, would likely want to also copy custom fields at the point in time which we expect those to be used on ProjectSteps
-    rescue StandardError => e
+      # Note, would likely want to also copy custom fields at the point in time which we expect
+      # those to be used on ProjectSteps.
+    rescue => e
       Rails.logger.error("create_duplicate error: #{e}")
-      raise e  if allow_error
-      {error: e.inspect}  #todo: confirm if the front-end logic desires this data or if it should be simply omitted
+      raise e if allow_error
+      nil  # Partial failures will be stripped from result list.
     end
 
   end

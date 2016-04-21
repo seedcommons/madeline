@@ -3,7 +3,7 @@ div.repeat-options.hidden
     span.bold.col-lg-2 = t("project_step.every")
 
     div.col-lg-8
-      input.form-control.inline type="number" min="1" max="100" name="time_unit_frequency"
+      input.form-control.inline type="number" min="1" max="60" name="time_unit_frequency" value="1"
 
       select.form-control.inline name="time_unit"
         option value="days" = t("project_step.days")
@@ -16,18 +16,18 @@ div.repeat-options.hidden
     div.col-lg-8
       div
         // values here are Chronic gem compatible strings.  i.e. '26th day' or '4th Tuesday'
-        input type="radio" name="month_repeat_on" value="#{step.scheduled_day.ordinalize} day" checked="checked"
+        input type="radio" name="month_repeat_on" value="#{step.duplication_basis_day.ordinalize} day" checked="checked"
 
-        span name="repeat_day_#{step.scheduled_day}"
-          = t("number.the_day", day: step.scheduled_day.ordinalize)
+        span name="repeat_day_#{step.duplication_basis_day}"
+          = t("number.the_day", day: step.duplication_basis_day.ordinalize)
 
       div
-        input type="radio" name="month_repeat_on" value="#{step.week_of_scheduled_date.ordinalize} #{step.weekday_of_scheduled_date}"
+        input type="radio" name="month_repeat_on" value="#{step.duplication_basis_week.ordinalize} #{step.duplication_basis_weekday}"
 
-        span name="repeat_date_#{step.scheduled_date_weekday_key}"
+        span name="repeat_date_#{step.duplication_basis_weekday_key}"
           = t("number.nth_weekday",
-            nth: t("number.nth.num_#{step.week_of_scheduled_date}"),
-            weekday: step.weekday_of_scheduled_date)
+            nth: t("number.nth.num_#{step.duplication_basis_week}"),
+            weekday: step.duplication_basis_weekday)
 
   // beware 'occurence' is misspelled here.  todo: confirm if i should fix all the css refs
   div.end-occurence.form-group.row

@@ -28,17 +28,17 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
 
-  def duplicate_step
-    puts "duplicate_step - params: #{params}"
+  def duplicate
     step = ProjectStep.find(params[:id])
     authorize step
 
     if params[:repeat_duration] == 'custom_repeat'
       frequency = params[:time_unit_frequency].to_i
+      raise "invalid time unit frequency: #{frequency}" if frequency <= 0
       time_unit = params[:time_unit].to_sym  # days, weeks, months
 
-      # expects back a Chronic gem compatible string.  i.e. '26th day' or '4th Tuesday'
-      month_repeat_on = params[:month_repeat_on]  if time_unit == :months
+      # Expects back a Chronic gem compatible string.  i.e. '26th day' or '4th Tuesday'
+      month_repeat_on = params[:month_repeat_on] if time_unit == :months
 
       end_occurrence_type = params[:end_occurrence_type].to_sym
       if end_occurrence_type == :count
@@ -48,18 +48,12 @@ class Admin::ProjectStepsController < Admin::AdminController
         end_date = params[:end_date].to_date  # todo: confirm what kind of error handling we want here
         num_of_occurrences = nil
       end
-
-      result = step.duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date)
-
+      result = step.duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date).compact
     else
-
       new_step = step.create_duplicate(should_persist: false)
       result = [new_step]
-
     end
-
     render json: result
-
   end
 
   private
