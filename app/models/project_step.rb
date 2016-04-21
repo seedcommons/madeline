@@ -54,6 +54,8 @@ class ProjectStep < ActiveRecord::Base
 
   validates :project_id, presence: true
 
+  before_save :handle_original_date_logic
+
   def division
     project.try(:division)
   end
@@ -120,6 +122,15 @@ class ProjectStep < ActiveRecord::Base
     self[:original_date].present?
   end
 
+  def handle_original_date_logic
+    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
+    # the original scheduled date.
+    if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
+      self.original_date = scheduled_date_was
+      puts "original date automatically assigned to #{scheduled_date_was}"
+    end
+  end
+
   def days_late
     if scheduled_date
       if completed?
@@ -176,6 +187,26 @@ class ProjectStep < ActiveRecord::Base
   # submit handling.
   def duplication
     @duplication ||= ProjectStepDuplication.new(self)
+  end
+
+  def adjust_scheduled_date(days_adjustment)
+    if scheduled_date && days_adjustment != 0
+      new_date = scheduled_date + days_adjustment.days
+      # note, original_date will be assigned if needed by the before_save logic
+      update!(scheduled_date: new_date)
+    else
+      false
+    end
+  end
+
+  # Note, "is_finalized" means a step is no longer a draft, and future changes should remember the
+  # original scheduled date.
+  def finalize
+    if is_finalized?
+      false
+    else
+      update!(is_finalized: true)
+    end
   end
 
   #

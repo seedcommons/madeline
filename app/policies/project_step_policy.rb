@@ -4,4 +4,16 @@ class ProjectStepPolicy < ApplicationPolicy
     create?
   end
 
+  def batch_destroy?
+    destroy?
+  end
+
+  def adjust_dates?
+    update?
+  end
+
+  def finalize?
+    update?
+  end
+
 end
