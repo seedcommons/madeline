@@ -112,10 +112,6 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
-  # todo: code review discussion:
-  # It feels awkward and confusing to tweak this getter since there is some logic which depends on the raw value and this also
-  # affects the json serialized data. (this threw me for a loop when verifying the duplicate step ajax response)
-  # Is it work having a separately named method for the logic which depends on this normalized result?
   def original_date
     self[:original_date] || scheduled_date
   end
