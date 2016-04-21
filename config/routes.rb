@@ -11,7 +11,13 @@ Rails.application.routes.draw do
     resources :dashboard, only: [:index]
     resources :loans
     resources :organizations
-    resources :project_steps
+    resources :project_steps do
+      collection do
+        patch :batch_destroy
+        patch :adjust_dates
+        patch :finalize
+      end
+    end
     resources :project_logs
 
     namespace :raw do
