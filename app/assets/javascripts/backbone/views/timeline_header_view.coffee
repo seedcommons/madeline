@@ -5,6 +5,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   events: (params) ->
     'click .filter .btn': 'filterSteps'
     'click #edit-all': 'editAll'
+    'click #edit-all-cancel': 'cancelEdit'
 
   initialize: ->
     $('#edit-all-cancel').hide()
@@ -27,3 +28,13 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     $('#new-step').hide()
     $('#edit-all-cancel').show()
     $('#save-all').show()
+
+  cancelEdit: (e) ->
+    e.preventDefault()
+    $('.view-step-block').show()
+    $('.form-step-block').hide()
+
+    $('#edit-all').show()
+    $('#new-step').show()
+    $('#edit-all-cancel').hide()
+    $('#save-all').hide()
