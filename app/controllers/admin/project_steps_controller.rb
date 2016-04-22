@@ -27,7 +27,14 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def create
-    @step = ProjectStep.new
+    # We initialize with project_step_params here to given enough info for authorize to work
+    @step = ProjectStep.new(project_step_params)
+    authorize @step
+
+    # This will likely be refactored in future to use nested attributes
+    # Passing an empty hash for first param because we already initialized params above
+    valid = @step.update_with_translations({}, translations_params(@step.permitted_locales))
+    render_step_partial(valid ? :show : :form)
   end
 
   def update
