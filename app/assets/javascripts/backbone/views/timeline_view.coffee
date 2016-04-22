@@ -10,6 +10,7 @@ class MS.Views.TimelineView extends Backbone.View
 
   events:
     'click #new-step': 'addBlankStep'
+    'ajax:error': 'submitError'
 
   # Adds step html, scrolls into view, and focuses first box if visible
   addSteps: (html) ->
@@ -23,8 +24,13 @@ class MS.Views.TimelineView extends Backbone.View
     lastStep.next().find("input[type=text]").focus()
 
   addBlankStep: (e) ->
-    e.preventDefault()
+    e.preventDefault() if e
     MS.loadingIndicator.show()
     $.get "/admin/project_steps/new?loan_id=#{@loan_id}", (html) =>
       MS.loadingIndicator.hide()
       @addSteps(html)
+
+  submitError: (e) ->
+    e.stopPropagation()
+    MS.errorModal.modal('show')
+    MS.loadingIndicator.hide()

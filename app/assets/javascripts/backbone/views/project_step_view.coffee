@@ -8,6 +8,7 @@ class MS.Views.ProjectStepView extends Backbone.View
   initialize: (params) ->
     @initTypeSelect()
     @persisted = params.persisted
+    @duplicate = params.duplicate
     new MS.Views.ProjectStepTranslationsView({
       el: @$('.languages'),
       permittedLocales: params.permittedLocales
@@ -19,7 +20,6 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
     'ajax:success': 'submitSuccess'
-    'ajax:error': 'submitError'
 
   showForm: (e) ->
     e.preventDefault()
@@ -60,8 +60,4 @@ class MS.Views.ProjectStepView extends Backbone.View
   submitSuccess: (e, data) ->
     @$el.replaceWith(data)
     MS.loadingIndicator.hide()
-
-  submitError: (e) ->
-    e.stopPropagation()
-    MS.errorModal.modal('show')
-    MS.loadingIndicator.hide()
+    MS.timelineView.addBlankStep() unless @persisted || @duplicate

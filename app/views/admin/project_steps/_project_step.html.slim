@@ -13,6 +13,7 @@ div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.i
     $(document).ready(function() {
       new MS.Views.ProjectStepView({
         el: $('div[data-step-id=#{step.id_or_temp_id}]'),
+        duplicate: #{json params[:action] == 'duplicate'},
         persisted: #{json step.persisted?},
         permittedLocales: #{json step.permitted_locales}
       });
