@@ -17,6 +17,9 @@ Rails.application.routes.draw do
         patch :adjust_dates
         patch :finalize
       end
+      member do
+        post :duplicate
+      end
     end
     resources :project_logs
 

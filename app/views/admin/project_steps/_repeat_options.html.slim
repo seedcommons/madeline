@@ -1,11 +1,13 @@
+- step_duplication = step.duplication
+
 div.repeat-options.hidden
   div.time-unit-options.form-group.row
     span.bold.col-lg-2 = t("project_step.every")
 
     div.col-lg-8
-      input.form-control.inline type="number" min="1" max="100" name="time_unit_frequency"
+      input.form-control.inline type="number" min="1" max="60" name="duplication[time_unit_frequency]" value="1"
 
-      select.form-control.inline name="time_unit"
+      select.form-control.inline name="duplication[time_unit]"
         option value="days" = t("project_step.days")
         option value="weeks" = t("project_step.weeks")
         option value="months" = t("project_step.months")
@@ -15,30 +17,32 @@ div.repeat-options.hidden
 
     div.col-lg-8
       div
-        input type="radio" name="month_repeat_on" val="day"
+        // values here are Chronic gem compatible strings.  i.e. '26th day' or '4th Tuesday'
+        input type="radio" name="duplication[month_repeat_on]" value="#{step_duplication.basis_day.ordinalize} day" checked="checked"
 
-        span name="repeat_day_#{step.scheduled_date.day}"
-          = t("number.the_day", day: step.scheduled_day.ordinalize)
+        span name="repeat_day_#{step_duplication.basis_day}"
+          = t("number.the_day", day: step_duplication.basis_day.ordinalize)
 
       div
-        input type="radio" name="month_repeat_on" val="date"
+        input type="radio" name="duplication[month_repeat_on]" value="#{step_duplication.basis_week.ordinalize} #{step_duplication.basis_weekday}"
 
-        span name="repeat_date_#{step.scheduled_date_weekday_key}"
+        span name="repeat_date_#{step_duplication.basis_weekday_key}"
           = t("number.nth_weekday",
-            nth: t("number.nth.num_#{step.week_of_scheduled_date}"),
-            weekday: step.weekday_of_scheduled_date)
+            nth: t("number.nth.num_#{step_duplication.basis_week}"),
+            weekday: step_duplication.basis_weekday)
 
+  // beware 'occurence' is misspelled here.  todo: confirm if i should fix all the css refs
   div.end-occurence.form-group.row
     span.bold.col-lg-2 = t("project_step.end")
 
     div.col-lg-8
       div.num-of-occurences.row
-        input.radio-item type="radio" name="end_occurence_type" val="num_of_occurences"
+        input.radio-item type="radio" name="duplication[end_occurrence_type]" value="count" checked="checked"
         span = t("project_step.after")
-        input.form-control.inline type="number" min="1" max="100" name="num_of_occurences"
+        input.form-control.inline type="number" min="1" max="100" name="duplication[num_of_occurrences]"
         span = t("project_step.occurences")
 
       div.date-end-of-occurences
-        input.radio-item type="radio" name="end_occurence_type" val="date"
+        input.radio-item type="radio" name="duplication[end_occurrence_type]" value="date"
         span = t("project_step.on_text")
-        input.form-control.inline type="date"
+        input.form-control.inline type="date" name="duplication[end_date]"

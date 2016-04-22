@@ -10,3 +10,7 @@ section.timeline
     - else
       = t("project_step.no_steps")
 
+  javascript:
+    $(function() {
+      MS.timelineView = new MS.Views.TimelineView();
+    });

@@ -27,6 +27,13 @@ class Admin::ProjectStepsController < Admin::AdminController
     render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: valid ? :show : :edit}
   end
 
+  def duplicate
+    step = ProjectStep.find(params[:id])
+    authorize step
+    @steps = step.duplication.perform(params[:duplication])
+    render(layout: false)
+  end
+
   def batch_destroy
     step_ids = params[:'step-ids']
     project_id, notice = batch_operation(step_ids) do |step|
