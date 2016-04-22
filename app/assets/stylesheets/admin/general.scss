@@ -14,3 +14,14 @@ table.key-value {
     font-weight: bold;
   }
 }
+
+// Full height columns
+@media (min-width: 768px) {
+  .full-height-container {
+    display: table-row;
+    .full-height {
+      display: table-cell;
+      vertical-align: top;
+    }
+  }
+}

@@ -17,10 +17,6 @@
     }
   }
 
-  .first-col {
-    padding-left: 0;
-  }
-
   .icon-box {
     font-size: 1.7em;
   }
@@ -40,10 +36,6 @@
     }
   }
 
-  .last-col {
-    padding-right: 0;
-  }
-
   .panel {
     border: 1px solid $black;
 
@@ -51,6 +43,10 @@
       border-width: 2px;
       border-radius: 15px;
       border-color: $black;
+
+      .check {
+        padding-right: 15px;
+      }
     }
 
     &.log {
@@ -99,24 +95,17 @@
   }
 
   .title {
-    margin: 0 0 1em;
-    padding: 0;
     font-size: 1.1em;
 
     .icon {
-      margin: 0;
-      display: inline-block;
-      width: 10%;
-      vertical-align: top;
-
+      padding: 0 5px 1em 0;
       i {
         font-size: 1.5em;
       }
     }
 
     .title-text {
-      display: inline-block;
-      width: 90%;
+      padding-bottom: 1em;
     }
   }
 

@@ -9,14 +9,14 @@
         - else
           span.no-logs
             = t("log.no_logs")
-      a.add-log.condensed.last-col title== t("log.new_log")
+      a.add-log.condensed title== t("log.new_log")
         i.fa.fa-plus-circle
 
       - if step.logs_count > 0
         section.logs
           header.row
-            span.col-lg-8.first-col.section-heading = t("log.logs")
-            span.col-lg-4.last-col.action-items
+            span.col-lg-8.section-heading = t("log.logs")
+            span.col-lg-4.action-items
               div.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle
@@ -26,7 +26,7 @@
             = render "admin/logs/log", step: step, log: log
 
           footer.row
-            span.col-lg-4.col-lg-offset-8.last-col.action-items
+            span.col-lg-4.col-lg-offset-8.action-items
               div.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle

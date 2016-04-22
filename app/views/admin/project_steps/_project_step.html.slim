@@ -1,4 +1,4 @@
-div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id}"
+div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id}" class=step.completed_or_not
   .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
     = render "admin/project_steps/show_project_step", step: step
   .form-step-block style="display: #{mode == :edit ? 'inherit' : 'none'}"

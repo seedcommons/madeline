@@ -17,6 +17,7 @@ gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails-confirm'
 gem 'select2-rails'
 gem 'rails-backbone'
+gem 'uri-js-rails' # URI manipulation
 
 # Authentication / Authorization
 gem 'devise'
