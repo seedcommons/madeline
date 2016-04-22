@@ -7,6 +7,7 @@ class MS.Views.DuplicateStepView extends Backbone.View
     'click .date-end-of-occurences': 'checkRadio'
     'click .btn-primary': 'submit'
     'ajax:success': 'submitSuccess'
+    'ajax:error': 'submitError'
 
   toggleRepeatOptions: (e) ->
     $item = $(e.currentTarget)
@@ -42,4 +43,9 @@ class MS.Views.DuplicateStepView extends Backbone.View
     e.stopPropagation() # Don't want this to travel up to ProjectStepView
     MS.timelineView.addStepsAndScroll(data)
     @$el.modal('hide')
+    MS.loadingIndicator.hide()
+
+  submitError: (e) ->
+    e.stopPropagation() # Don't want this to travel up to ProjectStepView
+    MS.errorModal.modal('show')
     MS.loadingIndicator.hide()

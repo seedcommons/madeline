@@ -1,0 +1,15 @@
+div.modal.fade id="glb-error-modal" tabindex="-1" aria-labelledby="glb-error-modal-label"
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
+          span aria-hidden="true" &times;
+        h4.modal-title id="glb-error-modal-label"
+          = t("error")
+
+      div.modal-body
+       = t("error_notification")
+
+      div.modal-footer
+        button.btn.btn-primary type="button" data-dismiss="modal"
+          = t("close")
