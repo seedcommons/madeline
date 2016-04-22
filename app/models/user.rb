@@ -41,4 +41,25 @@ class User < ActiveRecord::Base
   def name
     profile.try(:name)
   end
+
+  def accessible_division_ids
+    # Todo: Confirm what other roles types to include here.
+    base_ids = roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id)
+    all_ids = base_ids.map do |id|
+      division = Division.find_safe(id)
+      division.self_and_descendants.pluck(:id) if division
+    end
+    all_ids.flatten.uniq.compact
+  end
+
+  def accessible_divisions
+    # Todo: Confirm desired sort order
+    accessible_division_ids.map { |id| Division.find_safe(id) }.compact
+  end
+
+  def default_division
+    id = roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id).first
+    Division.find(id)
+  end
+
 end

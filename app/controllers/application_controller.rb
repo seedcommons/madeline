@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # Todo: Confirm if there is a better way to handle methods which need to be shared between
-  # views and controllers.
   helper_method :selected_division_id
   helper_method :division_select_options
 
@@ -16,8 +14,7 @@ class ApplicationController < ActionController::Base
 
   # Division to uses for new entities if a division is not specifically selected
   def default_division
-    # Todo: Return a default division dependent upon current user.
-    Division.root
+    current_user.default_division
   end
 
   # Represents the current division filter applied to index views.
@@ -31,8 +28,9 @@ class ApplicationController < ActionController::Base
   end
 
   def division_index_filter
-    division = selected_division
-    division.present? ? {division: division} : nil
+    selected = selected_division
+    ids = selected ? selected.self_and_descendant_ids : current_user.accessible_division_ids
+    {division: ids}
   end
 
   def selected_division_id
@@ -40,14 +38,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_selected_division_id(id)
+    id = nil if id.blank?
     session[:selected_division_id] = id
   end
 
   def division_select_options
-    #todo: limit to divisions current user has access to
-    (Division.all.map{|d| [d.name, d.id]}).insert(0, ['All', nil])
+    [['All', nil]].concat(current_user.accessible_divisions.map{ |d| [d.name, d.id] })
   end
-
 
   private
 
