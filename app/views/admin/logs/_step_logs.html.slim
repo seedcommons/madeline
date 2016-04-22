@@ -15,9 +15,9 @@
       - if step.logs_count > 0
         section.logs
           header.row
-            span.col-lg-8.section-heading = t("log.logs")
-            span.col-lg-4.action-items
-              div.icon-with-text.btn.add-log.full
+            .col-lg-8.section-heading = t("log.logs")
+            .col-lg-4.action-items
+              button.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle
                 span.text-right-of-icon = t("log.new_log")
@@ -25,9 +25,9 @@
           - step.project_logs.each do |log|
             = render "admin/logs/log", step: step, log: log
 
-          footer.row
+          footer.row.text-right
             span.col-lg-4.col-lg-offset-8.action-items
-              div.icon-with-text.btn.add-log.full
+              button.icon-with-text.btn.add-log.full
                 span.icon-box
                   i.fa.fa-plus-circle
                 span.text-right-of-icon = t("log.new_log")

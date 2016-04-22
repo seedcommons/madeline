@@ -44,6 +44,7 @@
 .log {
   &.panel {
     background: $gray1;
+    margin-bottom: 15px;
   }
 
   .panel-body, .panel-footer, .panel-heading {
@@ -150,8 +151,9 @@
 }
 
 .logs {
-  header.row {
-    margin: 1em 0;
+  header {
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     .section-heading {
       font-size: 1.25em;
