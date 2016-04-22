@@ -36,8 +36,10 @@ class MS.Views.DuplicateStepView extends Backbone.View
 
   submit: (e) ->
     @$('form').submit()
+    MS.loadingIndicator.show()
 
   submitSuccess: (e, data) ->
     e.stopPropagation() # Don't want this to travel up to ProjectStepView
     MS.timelineView.addStepsAndScroll(data)
     @$el.modal('hide')
+    MS.loadingIndicator.hide()

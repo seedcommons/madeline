@@ -58,6 +58,7 @@ en:
   due: Due
   overdue: Overdue
   dash: " - "
+  loading: "Loading..."
 
   ## Admin panel ##
   all: "All"
