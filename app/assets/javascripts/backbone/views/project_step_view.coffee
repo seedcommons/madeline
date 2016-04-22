@@ -17,7 +17,9 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.edit-step-action': 'showForm'
     'click a.duplicate-step-action': 'showDuplicateModal'
     'click a.cancel': 'cancel'
-    'ajax:success': 'submissionSuccess'
+    'submit form': 'onSubmit'
+    'ajax:success': 'submitSuccess'
+    'ajax:error': 'submitError'
 
   showForm: (e) ->
     e.preventDefault()
@@ -52,5 +54,14 @@ class MS.Views.ProjectStepView extends Backbone.View
     else
       $("<span>#{option.text}</span>")
 
-  submissionSuccess: (e, data) ->
+  onSubmit: ->
+    MS.loadingIndicator.show()
+
+  submitSuccess: (e, data) ->
     @$el.replaceWith(data)
+    MS.loadingIndicator.hide()
+
+  submitError: (e) ->
+    e.stopPropagation()
+    MS.errorModal.modal('show')
+    MS.loadingIndicator.hide()
