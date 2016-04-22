@@ -78,6 +78,11 @@ class ProjectStep < ActiveRecord::Base
     "#{project.try(:name)} step"
   end
 
+  # For use in views if record not yet saved.
+  def id_or_temp_id
+    @id_or_temp_id ||= id || "tempid#{rand(1000000)}"
+  end
+
   def logs_count
     project_logs.count
   end

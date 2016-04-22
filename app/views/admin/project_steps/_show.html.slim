@@ -63,8 +63,9 @@ div.panel-body
       div.actions
         a.action.edit-step-action href="#"
           i.fa.fa-pencil
-        a.action.duplicate-step-action href="#"
-          i.fa.fa-files-o
+        - if policy(step).duplicate?
+          a.action.duplicate-step-action href="#"
+            i.fa.fa-files-o
 
         = link_to [:admin, step], method: :delete, class: "action",
             data: { confirm: t('confirm_deletion', thing: t('project_step.project_step')),

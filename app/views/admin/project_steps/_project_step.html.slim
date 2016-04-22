@@ -1,15 +1,15 @@
-div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id}"
+div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id_or_temp_id}"
   .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
-    = render "admin/project_steps/show_project_step", step: step
+    = render "admin/project_steps/show", step: step
   .form-step-block style="display: #{mode == :edit ? 'inherit' : 'none'}"
-    = render "admin/project_steps/edit_project_step", step: step
+    = render "admin/project_steps/form", step: step
 
-  = render "admin/project_steps/duplicate_step_modal", step: step
+  = render "admin/project_steps/duplicate_step_modal", step: step if policy(step).duplicate?
 
   javascript:
     $(document).ready(function() {
       new MS.Views.ProjectStepView({
-        el: $('div[data-step-id=#{step.id}]'),
+        el: $('div[data-step-id=#{step.id_or_temp_id}]'),
         permittedLocales: #{json step.permitted_locales}
       });
     });

@@ -1,7 +1,9 @@
 class ProjectStepPolicy < ApplicationPolicy
 
+  delegate :persisted?, to: :record
+
   def duplicate?
-    create?
+    create? && persisted?
   end
 
   def batch_destroy?

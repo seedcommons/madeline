@@ -16,13 +16,6 @@
   = javascript_include_tag "admin/expand"
   = javascript_include_tag "admin/calendar/calendar"
 
-  javascript:
-    $(function(){
-      new MS.Views.TimelineSelectStepsView();
-      new MS.Views.TimelineBatchActionsView();
-      new MS.Views.DuplicateStepView();
-    });
-
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   header

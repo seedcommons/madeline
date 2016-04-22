@@ -30,7 +30,8 @@ class Admin::ProjectStepsController < Admin::AdminController
   def duplicate
     step = ProjectStep.find(params[:id])
     authorize step
-    render json: step.duplication.perform(params[:duplication])
+    @steps = step.duplication.perform(params[:duplication])
+    render(layout: false)
   end
 
   def batch_destroy
