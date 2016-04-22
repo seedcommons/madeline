@@ -15,13 +15,18 @@ class MS.Views.TimelineView extends Backbone.View
   # Adds step html, scrolls into view, and focuses first box if visible
   addSteps: (html) ->
     lastStep = @$('.step').last()
-    scrollY = if lastStep
+    scrollY = if lastStep.length > 0
       lastStep.offset().top + lastStep.height() - $('.nav').height()
     else
       0
     @$('.project-steps').append(html)
     $('html, body').animate({ scrollTop: scrollY }, 500);
     lastStep.next().find("input[type=text]").focus()
+    @showHideNoStepsMsg()
+
+  removeStep: (el) ->
+    el.remove()
+    @showHideNoStepsMsg()
 
   addBlankStep: (e) ->
     e.preventDefault() if e
@@ -34,3 +39,7 @@ class MS.Views.TimelineView extends Backbone.View
     e.stopPropagation()
     MS.errorModal.modal('show')
     MS.loadingIndicator.hide()
+
+  showHideNoStepsMsg: ->
+    stepCount = @$('.step').length
+    @$('#no-steps-msg')[if stepCount > 0 then 'hide' else 'show']()

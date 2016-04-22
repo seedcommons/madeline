@@ -32,7 +32,7 @@ class MS.Views.ProjectStepView extends Backbone.View
       @$('.view-step-block').show()
       @$('.form-step-block').hide()
     else
-      @$el.remove()
+      MS.timelineView.removeStep(@$el)
 
   showDuplicateModal: (e) ->
     e.preventDefault()
