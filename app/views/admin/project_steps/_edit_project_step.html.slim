@@ -31,7 +31,13 @@ div.panel-body
       .form-group.date.optional.project_step_completed_date
         = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
         .col-sm-9
-          = f.check_box :is_finalized, class: "step_form_right_9 finalized"
+          - if step.is_finalized_locked?
+            = step.is_finalized ? t("reply_yes") : t("reply_no")
+            / Todo: Confirm what display handling is desired here, and what asset to use if
+            / to be represented as an image
+            =< "(#{t('locked')})"
+          - else
+            = f.check_box :is_finalized, class: "step_form_right_9 finalized"
 
     .clearfix
 
