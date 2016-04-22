@@ -148,7 +148,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def render_step_partial(mode)
-    render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: mode}
+    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode }
   end
 end
 
