@@ -7,6 +7,7 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   initialize: (params) ->
     @initTypeSelect()
+    @persisted = params.persisted
     new MS.Views.ProjectStepTranslationsView({
       el: @$('.languages'),
       permittedLocales: params.permittedLocales
@@ -15,7 +16,7 @@ class MS.Views.ProjectStepView extends Backbone.View
   events:
     'click a.edit-step-action': 'showForm'
     'click a.duplicate-step-action': 'showDuplicateModal'
-    'click a.cancel': 'hideForm'
+    'click a.cancel': 'cancel'
     'ajax:success': 'submissionSuccess'
 
   showForm: (e) ->
@@ -23,10 +24,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     @$('.view-step-block').hide()
     @$('.form-step-block').show()
 
-  hideForm: (e) ->
+  cancel: (e) ->
     e.preventDefault()
-    @$('.view-step-block').show()
-    @$('.form-step-block').hide()
+    if @persisted
+      @$('.view-step-block').show()
+      @$('.form-step-block').hide()
+    else
+      @$el.remove()
 
   showDuplicateModal: (e) ->
     e.preventDefault()
