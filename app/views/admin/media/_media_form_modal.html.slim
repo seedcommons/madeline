@@ -2,9 +2,7 @@
   div.modal-dialog
     div.modal-content
       = simple_form_for [:admin, media], 
-        url: admin_media_path(media, 
-          media_attachable_id: media.media_attachable_id, 
-          media_attachable_type: media.media_attachable_type) do |f|
+        url: action_url do |f|
         div.modal-header
           button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
             span aria-hidden="true" &times;

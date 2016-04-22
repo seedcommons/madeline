@@ -2,35 +2,21 @@ class Admin::MediaController < Admin::AdminController
   before_action :find_attachable
   before_action :find_media
 
-
-  def new
-    authorize @attachable
-    authorize @media
-    @available_locales = current_division.resolve_default_locales || I18n.available_locales
-  end
-
-  def edit
-    authorize @attachable
-    authorize @media
-    @available_locales = current_division.resolve_default_locales || I18n.available_locales
-  end
-
   def update
     authorize @attachable
     authorize @media
-    Rails.logger.ap media_params
     @media.update_attributes(media_params)
-
 
     redirect_to [:admin, @attachable]
   end
-
-  def show
-
-  end
+  alias_method :create, :update
 
   def destroy
+    authorize @attachable
+    authorize @media
+    @media.destroy
 
+    redirect_to [:admin, @attachable]
   end
 
   private

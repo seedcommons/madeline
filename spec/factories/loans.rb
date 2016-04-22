@@ -83,13 +83,13 @@ FactoryGirl.define do
 
     trait :with_loan_media do
       after(:create) do |loan|
-        create_list(:media, rand(1..10), :random_image, media_attachable: loan)
+        create_list(:media, rand(1..10), media_attachable: loan)
       end
     end
 
     trait :with_coop_media do
       after(:create) do |loan|
-        create_list(:media, rand(1..10), :random_image, media_attachable: loan.organization)
+        create_list(:media, rand(1..10), media_attachable: loan.organization)
       end
     end
 
