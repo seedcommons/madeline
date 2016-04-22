@@ -26,6 +26,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     display_timeline(@step)
   end
 
+  def create
+    @step = ProjectStep.new
+  end
+
   def update
     @step = ProjectStep.find(params[:id])
     authorize @step
@@ -117,7 +121,8 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def project_step_params
-    params.require(:project_step).permit(:is_finalized, :scheduled_date, :completed_date, :step_type_value)
+    params.require(:project_step).permit(:is_finalized, :scheduled_date, :completed_date, :step_type_value,
+      :project_type, :project_id)
   end
 
   #todo: factor out into a concern as we implement other translatable forms
