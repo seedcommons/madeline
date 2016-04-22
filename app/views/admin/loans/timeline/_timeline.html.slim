@@ -12,5 +12,5 @@ section.timeline
 
   javascript:
     $(function() {
-      MS.timelineView = new MS.Views.TimelineView();
+      MS.timelineView = new MS.Views.TimelineView({ loan_id: #{json @loan.id} });
     });

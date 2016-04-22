@@ -12,6 +12,13 @@ class Admin::ProjectStepsController < Admin::AdminController
     end
   end
 
+  def new
+    @loan = Loan.find(params[:loan_id])
+    @step = ProjectStep.new(project: @loan)
+    authorize @step
+    render_step_partial(:form)
+  end
+
   def show
     @step = ProjectStep.find(params[:id])
     authorize @step
@@ -24,7 +31,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
-    render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: valid ? :show : :edit}
+    render_step_partial(valid ? :show : :form)
   end
 
   def duplicate
@@ -126,5 +133,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     redirect_to admin_loan_path(project_id, anchor: 'timeline'), notice: notice
   end
 
+  private
+
+  def render_step_partial(mode)
+    render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: mode}
+  end
 end
 

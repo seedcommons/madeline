@@ -2,10 +2,14 @@ class MS.Views.TimelineView extends Backbone.View
 
   el: 'body'
 
-  initialize: ->
+  initialize: (options) ->
+    @loan_id = options.loan_id
     new MS.Views.TimelineSelectStepsView();
     new MS.Views.TimelineBatchActionsView();
     new MS.Views.TimelineHeaderView();
+
+  events:
+    'click #new-step': 'addBlankStep'
 
   addStepsAndScroll: (html) ->
     lastStep = @$('.step').last()
@@ -15,3 +19,10 @@ class MS.Views.TimelineView extends Backbone.View
       0
     @$('.project-steps').append(html)
     $('html, body').animate({ scrollTop: scrollY }, 500);
+
+  addBlankStep: (e) ->
+    e.preventDefault()
+    MS.loadingIndicator.show()
+    $.get "/admin/project_steps/new?loan_id=#{@loan_id}", (html) =>
+      MS.loadingIndicator.hide()
+      @addStepsAndScroll(html)

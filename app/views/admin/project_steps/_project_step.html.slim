@@ -1,7 +1,7 @@
 div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id_or_temp_id}" class=step.completed_or_not
   .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
     = render "admin/project_steps/show", step: step
-  .form-step-block style="display: #{mode == :edit ? 'inherit' : 'none'}"
+  .form-step-block style="display: #{mode == :form ? 'inherit' : 'none'}"
     = render "admin/project_steps/form", step: step
 
   = render "admin/project_steps/duplicate_step_modal", step: step if policy(step).duplicate?
