@@ -1,4 +1,6 @@
 en:
   loans:
+    index:
+      title: "Loans"
     show:
       new_step: "New Step"
