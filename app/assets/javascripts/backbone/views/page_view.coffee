@@ -1,9 +1,9 @@
 class MS.Views.PageView extends Backbone.View
 
-  el: 'body'
+  el: "#select_division_form"
 
   events: (params) ->
-    'change select[name="division_id"]': 'selectDivision'
+    'change select': 'selectDivision'
 
   selectDivision: (e) ->
     $item = $(e.currentTarget)

@@ -1,4 +1,4 @@
-class Admin::DivisionsController < ApplicationController
+class Admin::DivisionsController < Admin::AdminController
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -9,6 +9,13 @@ class Admin::DivisionsController < ApplicationController
     division = Division.find_safe(division_id)
     authorize division || current_division
     redirect_to redisplay_url
+  end
+
+  private
+
+  def set_selected_division_id(id)
+    id = nil if id.blank?
+    session[:selected_division_id] = id
   end
 
 end

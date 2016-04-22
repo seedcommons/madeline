@@ -1,13 +1,3 @@
-- content_for :styles
-  = stylesheet_link_tag "admin/content", :media => "all"
-
-- content_for :scripts
-
-  javascript:
-    $(function () {
-      new MS.Views.PageView();
-    });
-
 div
   nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
     .container-fluid
@@ -31,7 +21,7 @@ div
           .division.centered-box.nav.navbar-nav.col-sm-6
             span> Division:
             / Todo: Sort out proper css display handling here
-            = form_tag(admin_divisions_select_path, class: 'form-control') do
+            = form_tag(admin_divisions_select_path, id: 'select_division_form', class: 'form-control') do
               = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
               = hidden_field_tag(:redisplay_url)
 
@@ -57,3 +47,9 @@ div
             h1.page-title = yield :title
             .with-title = yield :with_title
           = yield
+
+- content_for :scripts
+  javascript:
+    $(function() {
+      new MS.Views.PageView();
+    })

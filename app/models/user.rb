@@ -42,24 +42,26 @@ class User < ActiveRecord::Base
     profile.try(:name)
   end
 
+  def accessible_divisions
+    # Todo: Confirm desired sort order.
+    accessible_division_ids.map{ |id| Division.find_safe(id) }.compact
+  end
+
   def accessible_division_ids
     # Todo: Confirm what other roles types to include here.
-    base_ids = roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id)
-    all_ids = base_ids.map do |id|
+    all_ids = roll_referenced_division_ids.map do |id|
       division = Division.find_safe(id)
       division.self_and_descendants.pluck(:id) if division
     end
     all_ids.flatten.uniq.compact
   end
 
-  def accessible_divisions
-    # Todo: Confirm desired sort order
-    accessible_division_ids.map { |id| Division.find_safe(id) }.compact
+  def default_division
+    Division.find(roll_referenced_division_ids.first)
   end
 
-  def default_division
-    id = roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id).first
-    Division.find(id)
+  def roll_referenced_division_ids
+    roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id)
   end
 
 end
