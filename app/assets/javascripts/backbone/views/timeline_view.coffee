@@ -4,9 +4,12 @@ class MS.Views.TimelineView extends Backbone.View
 
   initialize: (options) ->
     @loan_id = options.loan_id
+
     new MS.Views.TimelineSelectStepsView();
     new MS.Views.TimelineBatchActionsView();
     new MS.Views.TimelineHeaderView();
+
+    @addBlankStep() if @stepCount() == 0
 
   events:
     'click #new-step': 'addBlankStep'
@@ -41,5 +44,7 @@ class MS.Views.TimelineView extends Backbone.View
     MS.loadingIndicator.hide()
 
   showHideNoStepsMsg: ->
-    stepCount = @$('.step').length
-    @$('#no-steps-msg')[if stepCount > 0 then 'hide' else 'show']()
+    @$('#no-steps-msg')[if @stepCount() > 0 then 'hide' else 'show']()
+
+  stepCount: ->
+    @$('.step').length
