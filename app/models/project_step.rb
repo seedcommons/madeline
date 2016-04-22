@@ -132,7 +132,6 @@ class ProjectStep < ActiveRecord::Base
     # the original scheduled date.
     if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
       self.original_date = scheduled_date_was
-      puts "original date automatically assigned to #{scheduled_date_was}"
     end
   end
 
@@ -221,14 +220,16 @@ class ProjectStep < ActiveRecord::Base
   # todo: refactor up to translatable.rb
 
   def update_translations!(translation_params)
-    # deleting the translations that have been removed
-    translation_params[:deleted_locales].each do |l|
-      [:details, :summary].each do |attr|
-        delete_translation(attr, l)
+    if persisted?
+      # deleting the translations that have been removed
+      translation_params[:deleted_locales].each do |l|
+        [:details, :summary].each do |attr|
+          delete_translation(attr, l)
+        end
       end
-    end
 
-    reload
+      reload
+    end
 
     # updating/creating the translation that have been updated, added
     permitted_locales.each do |l|

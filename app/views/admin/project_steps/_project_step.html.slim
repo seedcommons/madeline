@@ -1,8 +1,11 @@
 div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id_or_temp_id}" class=step.completed_or_not
-  .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
-    = render "admin/project_steps/show", step: step
-  .form-step-block style="display: #{mode == :edit ? 'inherit' : 'none'}"
+
+  .form-step-block style="display: #{mode == :form ? 'inherit' : 'none'}"
     = render "admin/project_steps/form", step: step
+
+  - if step.persisted? # No need for show partial if this is a new record
+    .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
+      = render "admin/project_steps/show", step: step
 
   = render "admin/project_steps/duplicate_step_modal", step: step if policy(step).duplicate?
 
@@ -10,6 +13,8 @@ div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.i
     $(document).ready(function() {
       new MS.Views.ProjectStepView({
         el: $('div[data-step-id=#{step.id_or_temp_id}]'),
+        duplicate: #{json params[:action] == 'duplicate'},
+        persisted: #{json step.persisted?},
         permittedLocales: #{json step.permitted_locales}
       });
     });

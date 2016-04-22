@@ -10,7 +10,6 @@ en:
       my_only: '%b %Y'
 
   ## Front end ##
-  loans: Loans
   country: Country
   show: Show
   show_active: Active
