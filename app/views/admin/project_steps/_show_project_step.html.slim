@@ -1,10 +1,10 @@
-div.panel-body
-  div.step-details.row
-    div.col-lg-4.main-details
-      div.full-height-container
-        div.full-height.check
+.panel-body
+  .step-details.row
+    .col-lg-4.main-details
+      .full-height-container
+        .full-height.check
           input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id=step.id
-        div.full-height
+        .full-height
           h5.title.full-height-container
             span.full-height.icon
               - if step.milestone?
@@ -15,8 +15,8 @@ div.panel-body
 
           p = step.try(:details)
 
-    div.col-lg-5.status-details
-      div.info.row
+    .col-lg-5.status-details
+      .info.row
         table.key-value
           tr
             td
@@ -50,17 +50,17 @@ div.panel-body
             td
               = step.is_finalized ? t("reply_yes") : t("reply_no")
 
-    div.col-lg-3.action-items
-      div.completion-status
+    .col-lg-3.action-items
+      .completion-status
         - if step.completed?
-          div.icon-with-text.complete
+          .icon-with-text.complete
             span.icon-box
               i.fa.fa-check
             span
               = t("project_step.status.completed")
         - else
           = t("project_step.status.not_completed")
-      div.actions
+      .actions
         a.action.edit-step-action href="#"
           i.fa.fa-pencil
         a.action.duplicate-step-action href="#"
