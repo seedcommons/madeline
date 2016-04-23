@@ -27,16 +27,7 @@ table.key-value {
 }
 
 .distributed-container {
-  text-align: justify;
-
-  .distributed {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  &:after {
-    content: "";
-    width: 100%;
-    display: inline-block;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }

@@ -83,7 +83,7 @@
   }
 
   .timeline-header {
-    padding: 1em 0;
+    text-align: center;
 
     input[type="checkbox"] {
       margin: 0;
@@ -93,6 +93,18 @@
     input[type="number"] {
       max-width: 5em;
       text-align: center;
+    }
+
+    .item {
+      padding-bottom: 15px;
+    }
+
+    .batch-actions {
+      float: left;
+    }
+
+    .top-actions {
+      float: right;
     }
   }
 
