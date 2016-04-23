@@ -6,9 +6,9 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     if @step.destroy
-      display_timeline(@step, I18n.t(:notice_deleted))
+      display_timeline(@step.project_id, I18n.t(:notice_deleted))
     else
-      display_timeline(@step)
+      display_timeline(@step.project_id)
     end
   end
 
@@ -23,7 +23,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    display_timeline(@step)
+    display_timeline(@step.project_id)
   end
 
   def create
