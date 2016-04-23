@@ -3,7 +3,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   el: 'body'
 
   events: (params) ->
-    'click .filter .btn': 'filterSteps'
+    'click .filter-switch .btn': 'filterSteps'
     'click #edit-all': 'editAll'
     'click #edit-all-cancel': 'cancelEdit'
     'click #save-all': 'saveAll'
@@ -11,7 +11,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   initialize: ->
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
-    $('.filter .active').click()
+    $('.filter-switch .active').click()
 
   filterSteps: (e) ->
     item = e.currentTarget
