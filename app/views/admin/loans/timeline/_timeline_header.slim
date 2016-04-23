@@ -3,8 +3,8 @@ header.timeline-header
     input name="_method" type="hidden"
     = hidden_field_tag :authenticity_token, form_authenticity_token
 
-    .row
-      .col-sm-4
+    .distributed-container
+      .distributed
         .btn-group role="group" aria-label="Select"
           label.btn.btn-default
             input type="checkbox" name="choose-all" id="choose-all"
@@ -29,15 +29,15 @@ header.timeline-header
 
           = render "admin/loans/timeline/batch/batch_actions"
 
-      .col-sm-4.text-center
+      .distributed
         .filter.btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
           label.btn.btn-default class=(params[:filter].present? && params[:filter] != 'all' ? '' : 'active')
             input type="radio" name="filter" value="all" id="filter-all"  All
           label.btn.btn-default class=(params[:filter] == 'incomplete' ? 'active' : '')
             input type="radio" name="filter" value="incomplete" id="filter-incomplete"  Incomplete
 
-      .col-sm-4.text-right
+      .distributed
         a.btn.btn-default> id="edit-all" href="#"  = t('.edit_all')
         a.btn.btn-default> id="edit-all-cancel" href="#"  = t('.cancel_edit')
         a.btn.btn-primary> id="save-all" href="#"  = t('.save_all')
-        a.btn.btn-primary> id="new-step" href="#"  = t(".new_step")
+        a.btn.btn-success> id="new-step" href="#"  = t(".new_step")
