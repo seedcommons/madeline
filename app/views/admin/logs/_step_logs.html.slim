@@ -1,34 +1,34 @@
-    div.step-logs.expandable
-      span.view-logs-ctrl
-        - if step.logs_count > 0
-          span.show-log
-            a.more.logs-ctrl role="button"
-              = t("log.show_logs_n", n: step.logs_count)
-            a.less.logs-ctrl role="button"
-              = t("log.hide_logs_n", n: step.logs_count)
-        - else
-          span.no-logs
-            = t("log.no_logs")
-      a.add-log.condensed title== t("log.new_log")
-        i.fa.fa-plus-circle
+.step-logs.expandable
+  span.view-logs-ctrl
+    - if step.logs_count > 0
+      span.show-log
+        a.more.logs-ctrl role="button"
+          = t("log.show_logs_n", n: step.logs_count)
+        a.less.logs-ctrl role="button"
+          = t("log.hide_logs_n", n: step.logs_count)
+    - else
+      span.no-logs
+        = t("log.no_logs")
+  a.add-log.condensed title== t("log.new_log")
+    i.fa.fa-plus-circle
 
-      - if step.logs_count > 0
-        section.logs
-          header.row
-            .col-lg-8.section-heading = t("log.logs")
-            .col-lg-4.action-items
-              button.icon-with-text.btn.add-log.full
-                span.icon-box
-                  i.fa.fa-plus-circle
-                span.text-right-of-icon = t("log.new_log")
+  - if step.logs_count > 0
+    section.logs
+      header.row
+        .col-lg-8.section-heading = t("log.logs")
+        .col-lg-4.action-items
+          button.icon-with-text.btn.add-log.full
+            span.icon-box
+              i.fa.fa-plus-circle
+            span.text-right-of-icon = t("log.new_log")
 
-          - step.project_logs.each do |log|
-            = render "admin/logs/log", step: step, log: log
+      - step.project_logs.each do |log|
+        = render "admin/logs/log", step: step, log: log
 
-          footer.row.text-right
-            span.col-lg-4.col-lg-offset-8.action-items
-              button.icon-with-text.btn.add-log.full
-                span.icon-box
-                  i.fa.fa-plus-circle
-                span.text-right-of-icon = t("log.new_log")
+      footer.row.text-right
+        span.col-lg-4.col-lg-offset-8.action-items
+          button.icon-with-text.btn.add-log.full
+            span.icon-box
+              i.fa.fa-plus-circle
+            span.text-right-of-icon = t("log.new_log")
 
