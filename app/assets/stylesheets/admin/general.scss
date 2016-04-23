@@ -1,7 +1,7 @@
 // General, miscellaneous styles to be used throughout the admin area.
 // General styles forming a cohesive, non-trivially sized group should be moved into separate file.
 
-@import "bootstrap/variables";
+// @import "bootstrap/variables";
 
 // A two-column table for key-value style data.
 table.key-value {
@@ -10,21 +10,10 @@ table.key-value {
     padding-bottom: 5px;
   }
 
-  td:first-of-type {
+  th {
     padding-right: 10px;
     color: gray;
     font-weight: bold;
-  }
-}
-
-// Full height columns
-@media (min-width: $screen-sm-min) {
-  .full-height-container {
-    display: table-row;
-    .full-height {
-      display: table-cell;
-      vertical-align: top;
-    }
   }
 }
 

@@ -44,17 +44,12 @@
 
       .check {
         padding-right: 15px;
+        padding-bottom: 15px;
       }
     }
 
     &.log {
       border-radius: 0px;
-    }
-  }
-
-  .status-details {
-    .info.row {
-      margin: 0 0 .5em 0;
     }
   }
 
@@ -67,12 +62,20 @@
       }
     }
 
-    .title {
-      font-weight: bold;
+    .check-details {
+      display: flex;
     }
 
-    .step-details .info td {
-      padding: 2px 4px;
+    .title {
+      font-weight: bold;
+      margin: 0;
+      display: flex;
+    }
+
+    .step-details {
+      .info td {
+        padding: 2px 4px;
+      }
     }
   }
 
