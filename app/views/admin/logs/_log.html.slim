@@ -1,10 +1,10 @@
 .panel.log.expandable
   .panel-heading
     .row
-      .col-lg-10
-        span.bold = log.date
-        span = t(:dash)
-        span = Person.find(log.agent_id).name
+      .col-sm-10
+        b => log.date
+        => t(:dash)
+        => Person.find(log.agent_id).name
         span.actions-box
           a.action role="button"
             i.fa.fa-pencil
@@ -16,7 +16,7 @@
               role: "button"
               i.fa.fa-trash>
 
-      .col-lg-2.right-align
+      .col-sm-2.text-right
         span.bold = log.try(:progress_metric)
 
   .panel-body
