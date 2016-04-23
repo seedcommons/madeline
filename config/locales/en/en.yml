@@ -192,7 +192,7 @@ en:
     logs: "Logs"
     months: "Month(s)"
     no_steps: "No timeline steps to display."
-    occurences: "occurence(s)"
+    occurrences: "occurrence(s)"
     once: "Once"
     on_label: "On:"
     on_text: "On"

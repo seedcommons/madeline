@@ -31,18 +31,17 @@ div.repeat-options.hidden
             nth: t("number.nth.num_#{step_duplication.basis_week}"),
             weekday: step_duplication.basis_weekday)
 
-  // beware 'occurence' is misspelled here.  todo: confirm if i should fix all the css refs
-  div.end-occurence.form-group.row
+  div.end-occurrence.form-group.row
     span.bold.col-lg-2 = t("project_step.end")
 
     div.col-lg-8
-      div.num-of-occurences.row
+      div.num-of-occurrences.row
         input.radio-item type="radio" name="duplication[end_occurrence_type]" value="count" checked="checked"
         span = t("project_step.after")
         input.form-control.inline type="number" min="1" max="100" name="duplication[num_of_occurrences]"
-        span = t("project_step.occurences")
+        span = t("project_step.occurrences")
 
-      div.date-end-of-occurences
+      div.date-end-of-occurrences
         input.radio-item type="radio" name="duplication[end_occurrence_type]" value="date"
         span = t("project_step.on_text")
         input.form-control.inline type="date" name="duplication[end_date]"
