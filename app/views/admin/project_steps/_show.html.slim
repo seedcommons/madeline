@@ -6,10 +6,11 @@
           input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id=step.id
         .full-height
           h5.title.full-height-container
-            span.full-height.icon
-              - if step.milestone?
+            - if step.step_type_value == 'checkin'
+              span.full-height.icon
                 i.fa.fa-calendar-check-o
-              - else
+            - elsif step.step_type_value == 'milestone'
+              span.full-height.icon
                 i.fa.fa-flag
             span.full-height.title-text = step.try(:summary)
 
@@ -29,20 +30,18 @@
           tr
             td
               = t("project_step.labels.scheduled")
-            td
-              div style="background: #{step.scheduled_bg}"
-                = step.scheduled_date
+            td style="background: #{step.scheduled_bg}"
+              = step.scheduled_date
 
             - if step.completed?
               tr
                 td
                   = t("project_step.labels.completed")
-                td
-                  div style="background-color: #{step.background_color}"
-                    p.tight-block
-                      = step.completed_date
-                    p.tight-block
-                      = t("parenthesis", content: step.date_status_statement)
+                td style="background-color: #{step.background_color}"
+                  p.tight-block
+                    = step.completed_date
+                  p.tight-block
+                    = t("parenthesis", content: step.date_status_statement)
 
           tr
             td
@@ -55,7 +54,7 @@
         - if step.completed?
           .icon-with-text.complete
             span.icon-box
-              i.fa.fa-check
+              i.fa.fa-check>
             span
               = t("project_step.status.completed")
         - else

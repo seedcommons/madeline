@@ -14,18 +14,16 @@
   .completion-status {
     .complete {
       color: $success2;
+      line-height: 1;
     }
   }
 
   .icon-box {
-    font-size: 1.7em;
   }
 
   .icon-with-text {
-    line-height: 0.7;
-
     .fa {
-      font-size: .8em;
+      font-size: 1.2em;
     }
   }
 
@@ -71,6 +69,10 @@
 
     .title {
       font-weight: bold;
+    }
+
+    .step-details .info td {
+      padding: 2px 4px;
     }
   }
 

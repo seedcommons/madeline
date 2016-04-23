@@ -31,13 +31,13 @@ header.timeline-header
 
       .col-sm-4.text-center
         .filter.btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
-          label.btn.btn-default class=(params[:filter] == 'all' ? 'active' : '')
+          label.btn.btn-default class=(params[:filter].present? && params[:filter] != 'all' ? '' : 'active')
             input type="radio" name="filter" value="all" id="filter-all"  All
           label.btn.btn-default class=(params[:filter] == 'incomplete' ? 'active' : '')
             input type="radio" name="filter" value="incomplete" id="filter-incomplete"  Incomplete
 
       .col-sm-4.text-right
-        a.btn.btn-default> id="new-step" href="#"  = t(".new_step")
-        a.btn.btn-default id="edit-all" href="#"  Edit All
-        a.btn.btn-default> id="edit-all-cancel" href="#"  Cancel Edit
-        a.btn.btn-primary id="save-all" href="#"  Save All
+        a.btn.btn-default> id="edit-all" href="#"  = t('.edit_all')
+        a.btn.btn-default> id="edit-all-cancel" href="#"  = t('.cancel_edit')
+        a.btn.btn-primary> id="save-all" href="#"  = t('.save_all')
+        a.btn.btn-primary> id="new-step" href="#"  = t(".new_step")
