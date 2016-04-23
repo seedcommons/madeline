@@ -1,8 +1,4 @@
 .content {
-  .row {
-    margin: 0;
-  }
-
   .block {
     background: #eee;
     margin: 1em 0;
@@ -17,6 +13,8 @@
 
   .show-actions {
     float: right;
+    padding-bottom: 15px;
+
     a {
       padding: 0 0 0 33px;
       float: left;
@@ -26,4 +24,8 @@
 
 .bold {
   font-weight: bold;
+}
+
+a, input[type="checkbox"], input[type="radio"], select {
+  cursor: pointer;
 }

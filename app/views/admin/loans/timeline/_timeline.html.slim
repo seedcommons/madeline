@@ -1,11 +1,16 @@
 section.timeline
-  h1.sr-only t("loan.timeline")
+  h1.sr-only = t("loan.timeline")
 
   = render "admin/loans/timeline/timeline_header"
 
   div.project-steps
-    - unless @loan.project_steps.empty?
-      - @loan.project_steps.each do |step|
-        = render "admin/loans/timeline/project_step", step: step
+    - if @loan.project_steps.empty?
+      #no-steps-msg = t("project_step.no_steps")
     - else
-      = t("project_step.no_steps")
+      - @loan.project_steps.each do |step|
+        = render "admin/project_steps/project_step", step: step, mode: :show
+
+  javascript:
+    $(function() {
+      MS.timelineView = new MS.Views.TimelineView({ loan_id: #{json @loan.id} });
+    });

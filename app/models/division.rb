@@ -25,14 +25,15 @@
 #
 
 class Division < ActiveRecord::Base
+  include CustomFieldAddable  # supports 'default_locales' persistence
   has_closure_tree
+  resourcify
   alias_attribute :super_division, :parent
 
 
   has_many :loans   #, dependent: :destroy  - should probably require owned models to be explicitly deleted
   has_many :people
   has_many :organizations
-
 
   belongs_to :parent, class_name: 'Division'
   belongs_to :default_currency, class_name: 'Currency'
@@ -89,6 +90,11 @@ class Division < ActiveRecord::Base
     result
   end
 
+  # interface compatibility with other models
+  def division
+    self
+  end
+
 
   # note, current 'accessible' logic is a placeholder until migrate updated to
   # deduce most appropriate division owner of people and orgs, and loan specific visibility
@@ -123,5 +129,25 @@ class Division < ActiveRecord::Base
   def loans_count
     loans.size
   end
+
+  # returns list of locale symbols which should be presented by default within translatable UIs. i.e. [:es,:en]
+  # note, assumes 'default_locales' has been defined as a Division custom field
+  # todo: consider adapting CustomFieldAddable to support fields defined at the code level, instead of depending on db data
+  def resolve_default_locales
+    result = nil
+    if custom_field(:default_locales)
+      result = default_locales
+    else
+      # todo: confirm if this should be fatal
+      # raise "missing Division.default_locales custom field definition"
+      logger.warn("missing Division.default_locales custom field definition")
+    end
+    unless result
+      logger.warn("defaulting to local locale")
+      result = [ I18n.locale ]
+    end
+    result
+  end
+
 
 end

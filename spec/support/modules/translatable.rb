@@ -1,5 +1,10 @@
 shared_examples_for "translatable" do |attributes|
-  let(:translatable_model) { create(described_class.to_s.underscore) }
+  let(:translatable_model) do
+    model = create(described_class.to_s.underscore)
+    # purge any translations created by the original factory since we'll be creating new ones below
+    model.translations.destroy_all
+    model
+  end
 
   attributes.each do |attribute|
     context "with locale set to english" do
@@ -7,11 +12,14 @@ shared_examples_for "translatable" do |attributes|
 
       context "with translation in locale" do
         let!(:translation) do
-          create(:translation,
+          result = create(:translation,
             translatable: translatable_model,
             translatable_attribute: attribute,
             locale: current_locale
           )
+          # need to update the cached association
+          translatable_model.reload
+          result
         end
 
         it "creates #{attribute} method which gets translation for current locale" do
@@ -31,12 +39,14 @@ shared_examples_for "translatable" do |attributes|
 
       context "with foreign translation" do
         let!(:translation) do
-          create(:translation,
+          result = create(:translation,
             translatable: translatable_model,
             translatable_attribute: attribute,
             text: Faker::Lorem.paragraph(sentence_count = 2),
             locale: :es
           )
+          translatable_model.reload
+          result
         end
 
         it "#{attribute} method returns any available translation" do

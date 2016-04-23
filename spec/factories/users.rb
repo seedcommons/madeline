@@ -40,5 +40,26 @@ FactoryGirl.define do
     sign_in_count { rand(1..25) }
     updated_at { Faker::Date.between(created_at, current_sign_in_at) }
     profile { create(:person) }
+    transient_division
+
+    trait :member do
+      transient do
+        division { create(:division) }
+      end
+
+      after(:create) do |user, evaluator|
+        user.add_role :member, evaluator.division if evaluator.division.present?
+      end
+    end
+
+    trait :admin do
+      transient do
+        division { create(:division) }
+      end
+
+      after(:create) do |user, evaluator|
+        user.add_role :admin, evaluator.division if evaluator.division.present?
+      end
+    end
   end
 end

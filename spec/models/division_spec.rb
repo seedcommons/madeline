@@ -7,6 +7,6 @@ describe Division, :type => :model do
 
   it 'can only have one root' do
     root_division
-    expect { create(:division) }.to raise_error(ActiveRecord::RecordInvalid)
+    expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 end

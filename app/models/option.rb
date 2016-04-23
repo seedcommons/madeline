@@ -23,8 +23,19 @@ class Option < ActiveRecord::Base
   include Translatable
 
   belongs_to :option_set
+  delegate :division, :division=, to: :option_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
+
+  after_create :ensure_value_assigned
+
+  def ensure_value_assigned
+    unless value
+      # puts "defaulting value to id: #{self.id}"
+      # make sure we don't have any recursive callbacks
+      self.update_column(:value, self.id)
+    end
+  end
 
 end

@@ -10,7 +10,7 @@ class Admin::Raw::ProjectStepsController < BaseCrudController
 
   def update_attrs
     [:project_id, :project_type, :agent_id,
-     :scheduled_date, :completed_date, :is_finalized, :summary, :details]
+     :scheduled_date, :completed_date, :is_finalized, :summary, :details, :step_type_value]
   end
 
 

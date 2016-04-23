@@ -1,0 +1,2 @@
+class LoanPolicy < ApplicationPolicy
+end

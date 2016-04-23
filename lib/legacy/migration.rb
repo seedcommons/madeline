@@ -29,6 +29,15 @@ module Legacy
       Legacy::Media.migrate_all
     end
 
+    def self.migrate_secondary
+      Legacy::ProjectEvent.migrate_all
+      Legacy::ProjectLog.migrate_all
+      Legacy::Note.migrate_all
+      Legacy::LoanQuestion.migrate_all
+      Legacy::LoanResponseSet.migrate_all
+    end
+
+
     def self.purge_migrated
       Legacy::LoanQuestion.purge_migrated
       Legacy::Note.purge_migrated

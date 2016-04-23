@@ -1,0 +1,47 @@
+- step_duplication = step.duplication
+
+div.repeat-options.hidden
+  div.time-unit-options.form-group.row
+    span.bold.col-lg-2 = t("project_step.every")
+
+    div.col-lg-8
+      input.form-control.inline type="number" min="1" max="60" name="duplication[time_unit_frequency]" value="1"
+
+      select.form-control.inline name="duplication[time_unit]"
+        option value="days" = t("project_step.days")
+        option value="weeks" = t("project_step.weeks")
+        option value="months" = t("project_step.months")
+
+  div.month-options.form-group.hidden.row
+    span.bold.col-lg-2 = t("project_step.on_label")
+
+    div.col-lg-8
+      div
+        // values here are Chronic gem compatible strings.  i.e. '26th day' or '4th Tuesday'
+        input type="radio" name="duplication[month_repeat_on]" value="#{step_duplication.basis_day.ordinalize} day" checked="checked"
+
+        span name="repeat_day_#{step_duplication.basis_day}"
+          = t("number.the_day", day: step_duplication.basis_day.ordinalize)
+
+      div
+        input type="radio" name="duplication[month_repeat_on]" value="#{step_duplication.basis_week.ordinalize} #{step_duplication.basis_weekday}"
+
+        span name="repeat_date_#{step_duplication.basis_weekday_key}"
+          = t("number.nth_weekday",
+            nth: t("number.nth.num_#{step_duplication.basis_week}"),
+            weekday: step_duplication.basis_weekday)
+
+  div.end-occurrence.form-group.row
+    span.bold.col-lg-2 = t("project_step.end")
+
+    div.col-lg-8
+      div.num-of-occurrences.row
+        input.radio-item type="radio" name="duplication[end_occurrence_type]" value="count" checked="checked"
+        span = t("project_step.after")
+        input.form-control.inline type="number" min="1" max="100" name="duplication[num_of_occurrences]"
+        span = t("project_step.occurrences")
+
+      div.date-end-of-occurrences
+        input.radio-item type="radio" name="duplication[end_occurrence_type]" value="date"
+        span = t("project_step.on_text")
+        input.form-control.inline type="date" name="duplication[end_date]"

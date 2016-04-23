@@ -15,10 +15,14 @@ gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails-confirm'
-gem "rails-backbone"
+gem 'select2-rails'
+gem 'rails-backbone'
+gem 'uri-js-rails' # URI manipulation
 
 # Authentication / Authorization
 gem 'devise'
+gem 'pundit'
+gem 'rolify'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.4'
@@ -32,6 +36,11 @@ gem 'slim'
 
 # Cron jobs
 gem 'whenever', require: false
+
+# note, for now just using chronic, which was already included
+# if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
+#gem 'ice_cube'
+# beware, I tried 'tickle' first but it didn't seem stable
 
 # Internationalization
 gem 'rails-i18n'
@@ -57,6 +66,9 @@ gem 'jquery-ui-rails'
 # Forms
 gem 'simple_form'
 
+# Passing controller data to JS
+gem 'gon'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -75,6 +87,7 @@ group :development, :test do
 
   # Specs and Test Coverage
   gem 'rspec-rails'
+  gem 'pundit-matchers'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'faker'

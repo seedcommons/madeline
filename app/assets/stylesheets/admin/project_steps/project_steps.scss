@@ -1,0 +1,17 @@
+.project-steps {
+  .duplicate-step {
+    .form-group {
+      &.row {
+        margin: 1em 0;
+      }
+
+      input, select, span {
+        margin: 4px;
+      }
+    }
+
+    .repeat-options {
+      margin-left: 2em;
+    }
+  }
+}
