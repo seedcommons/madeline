@@ -21,11 +21,11 @@ class Admin::LoansController < Admin::AdminController
 
     @events = []
 
-    self.prepare_event(@loan.calendar_start_event)
-    self.prepare_event(@loan.calendar_end_event)
+    prepare_event(@loan.calendar_start_event)
+    prepare_event(@loan.calendar_end_event)
 
     @loan.project_steps.each do |step|
-      self.prepare_event(step.calendar_scheduled_event)
+      prepare_event(step.calendar_scheduled_event)
     end
   end
 

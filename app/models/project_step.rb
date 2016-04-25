@@ -188,7 +188,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def scheduled_day
-    self.scheduled_date.day
+    scheduled_date.day
   end
 
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
@@ -250,35 +250,33 @@ class ProjectStep < ActiveRecord::Base
     def calendar_scheduled_event
       cal_item = {}
 
-      cal_item[:start] = self.completed_date ? self.completed_date : self.scheduled_date
+      cal_item[:start] = completed_date ? completed_date : scheduled_date
+      cal_item[:title] = name
+      cal_item[:backgroundColor] = color
 
-      cal_item[:title] = self.name
       cal_item[:event_type] = "project_step"
+      cal_item[:num_of_logs] = logs_count
+      cal_item[:id] = id
 
-      cal_item[:backgroundColor] = self.color
+      cal_item[:step_type] = milestone? ? "milestone" : "checkin"
 
-      cal_item[:num_of_logs] = self.logs_count
-      cal_item[:id] = self.id
+      cal_item[:completion_status] = completed? ? "complete" : "incomplete"
 
-      cal_item[:step_type] = self.milestone? ? "milestone" : "checkin"
-
-      cal_item[:completion_status] = self.completed? ? "complete" : "incomplete"
-
-      cal_item[:time_status] = self.days_late > 0 ? "late" : "on_time"
+      cal_item[:time_status] = days_late > 0 ? "late" : "on_time"
 
       return cal_item
     end
 
     # Ghost Step
     def calendar_original_scheduled_event
-      if (self.original_date)
+      if (original_date)
         cal_item = {}
 
-        cal_item[:start] = self.original_date
-        cal_item[:title] = self.name.to_s
+        cal_item[:start] = original_date
+        cal_item[:title] = name.to_s
         cal_item[:event_type] = "ghost_step"
 
-        cal_item[:num_of_logs] = self.logs_count
+        cal_item[:num_of_logs] = logs_count
 
         return cal_item
       end

@@ -238,8 +238,8 @@ class Loan < ActiveRecord::Base
   # The below methods may need to be moved to the events model
     def calendar_start_event
       cal_item = {}
-      cal_item[:start] = self.signing_date
-      cal_item[:title] = "Start " + self.name
+      cal_item[:start] = signing_date
+      cal_item[:title] = "Start " + name
       cal_item[:event_type] = "loan_start"
 
       return cal_item
@@ -247,8 +247,8 @@ class Loan < ActiveRecord::Base
 
     def calendar_end_event
       cal_item = {}
-      cal_item[:start] = self.target_end_date
-      cal_item[:title] = "End " + self.name
+      cal_item[:start] = target_end_date
+      cal_item[:title] = "End " + name
       cal_item[:event_type] = "loan_end"
 
       return cal_item
