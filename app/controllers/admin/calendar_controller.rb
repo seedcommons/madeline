@@ -7,6 +7,7 @@ class Admin::CalendarController < Admin::AdminController
     authorize @division
 
     @loans.each do |loan|
+      # TODO: Move prepare events to reusable concern
       prepare_event(loan.calendar_start_event)
       prepare_event(loan.calendar_end_event)
 
