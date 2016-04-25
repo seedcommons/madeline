@@ -10,8 +10,8 @@ div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dat
         span = t("loan.move_dates")
 
         div.btn-group-vertical.button-group-radios.form-item data-toggle="buttons" aria-label== t("loan.move_date_direction")
-          label.btn.btn-default
-            input type="radio" name="time_direction" id="time-forward" value="forward"
+          label.btn.btn-default.active
+            input type="radio" name="time_direction" id="time-forward" value="forward" checked=true
             span = t("loan.forward")
           label.btn.btn-default
             input type="radio" name="time_direction" id="time-backward" value="backward"
@@ -24,5 +24,5 @@ div.modal.fade id="adjust-dates-modal" tabindex="-1" aria-labelledby="adjust-dat
       div.modal-footer
         button.btn.btn-default type="button" data-dismiss="modal"
           = t(:cancel)
-        a.btn.btn-primary.action id="adjust-dates-confirm" data-method-key="PATCH" data-action-key="/project_steps/adjust_dates"
+        a.btn.btn-primary.action id="adjust-dates-confirm" data-method-key="PATCH" data-action-key="/admin/project_steps/adjust_dates"
           = t("loan.adjust_dates")

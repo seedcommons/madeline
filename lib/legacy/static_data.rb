@@ -3,7 +3,10 @@ module Legacy
   class StaticData
 
     def self.populate
-      # ::Division.create(id: 99, internal_name: ::Division.root_internal_name, name: 'Root Division')  unless ::Division.find_by(internal_name: ::Division.root_internal_name)
+      # attempt to delete the seeds.rb created root division if exists, so this script will work after a freshly created db.
+      # note, this will likely fail if anything else in the current database has been created
+      ::Division.root.destroy  if ::Division.root.present?
+
       ::Division.create(id: 99, name: 'Root Division')  unless ::Division.root
       ::Division.recalibrate_sequence(gap: 1)
 
@@ -81,8 +84,8 @@ module Legacy
       step_type = OptionSet.find_or_create_by(
           division: ::Division.root, model_type: ::ProjectStep.name, model_attribute: 'step_type')
       step_type.options.destroy_all
-      step_type.options.create(value: 'step', label_translations: {en: 'Step', es: 'Paso'})
-      step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'TODO'})
+      step_type.options.create(value: 'checkin', label_translations: {en: 'Check-in', es: 'Paso'})
+      step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'Hito'}) #todo: confirm translation
       # legacy data exists of type 'Agenda', but not expecting to carry this forward into the new system
       # step_type.options.create(value: 'agenda', label_translations: {en: 'Agenda', es: 'TODO'})
 
@@ -101,6 +104,8 @@ module Legacy
       CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
       CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+      # Todo: Find out what this new question represents
+      CustomFieldSet.find_or_create_by(id: 4, division: Division.root, internal_name: 'fourth_question_set').set_label('Fourth Question Set')
       CustomFieldSet.recalibrate_sequence(gap: 10)
 
       # need to leave room for migrated loan questions
@@ -109,11 +114,17 @@ module Legacy
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
-      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
 
       # loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
       # loan_field_set.custom_fields.destroy_all
       # loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
+
+      division_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Division')
+      division_field_set.custom_fields.destroy_all
+      # list of strings representing 2 char locale codes to be presented by default within translatable UIs
+      division_field_set.custom_fields.create!(internal_name: 'default_locales', data_type: 'list')
+      # todo: consider also having a division specific list of 'permitted_locales' - for now using all system locales,
+      # but will likely be confusing when supporting both es-AR and es-NI
 
     end
 
@@ -123,6 +134,35 @@ module Legacy
       Country.destroy_all rescue nil
       Currency.destroy_all rescue nil
       OptionSet.destroy_all rescue nil
+    end
+
+
+    def self.handy_test_data
+      user = ::User.create!({email: 'john@doe.com', password: 'password', password_confirmation: 'password'})
+
+      # division = Division.create(name: 'Test Division', parent_id: Division.root_id)
+      # for now just use the root division
+      division = ::Division.root
+
+      org = ::Organization.create!(name: 'Test Co-op', division: division)
+      person = ::Person.create!(first_name: 'John', last_name: 'Doe', primary_organization: org, division: division)
+      loan = ::Loan.create!(organization: org,
+                          loan_type_value: ::Loan.loan_type_option_set.value_for_migration_id(6),
+                          status_value: :active, division: division)
+
+      step = ::ProjectStep.create!(project: loan, summary: "test step", step_type_value: :step)
+      step_log = ::ProjectLog.create!(project_step: step,
+                                    progress_metric_value: ::ProjectLog.progress_metric_option_set.value_for_migration_id(-1),
+                                    summary: 'test log summary', details: 'test log details',
+                                    agent: person)
+      step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
+
+      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
+      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+
+      # use 'es-AR' here since that is the existin spanish translation file.
+      # expecting that we'll likely switch this later to just 'es'
+      ::Division.root.update_default_locales( [ :en, :'es-AR' ] )
     end
 
   end

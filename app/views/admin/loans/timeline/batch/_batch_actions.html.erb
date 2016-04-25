@@ -1,7 +1,7 @@
 <ul class="dropdown-menu batch-actions">
   <li>
-    <a id="delete-selected" data-method-key="DELETE"
-      data-action-key="/project_steps/"
+    <a id="delete-selected" data-method-key="PATCH"
+      data-action-key="/admin/project_steps/batch_destroy"
       data-confirm="<%= t("project_step.batch_delete_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
       data-confirm-proceed="<%= t(:confirm) %>"
@@ -19,7 +19,7 @@
 
   <li class="action">
     <a id="finalize" data-method-key="PATCH"
-      data-action-key="/project_steps/finalize"
+      data-action-key="/admin/project_steps/finalize"
       data-confirm="<%= t("project_step.batch_finalize_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
       data-confirm-proceed="<%= t(:confirm) %>"

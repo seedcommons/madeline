@@ -1,6 +1,7 @@
 table
   tr
     td Summary
+    td Type
     td Scheduled
     td Completed
     td Finalized
@@ -9,6 +10,7 @@ table
   - for item in items
     tr
       td = item.summary
+      td = item.step_type_label
       td = item.scheduled_date
       td = item.completed_date
       td = item.is_finalized

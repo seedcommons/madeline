@@ -14,11 +14,8 @@
   .completion-status {
     .complete {
       color: $success2;
+      line-height: 1;
     }
-  }
-
-  .icon-box {
-    font-size: 1.7em;
   }
 
   .info {
@@ -35,16 +32,15 @@
       border-width: 2px;
       border-radius: 15px;
       border-color: $black;
+
+      .check {
+        padding-right: 15px;
+        padding-bottom: 15px;
+      }
     }
 
     &.log {
       border-radius: 0px;
-    }
-  }
-
-  .status-details {
-    .info.row {
-      margin: 0 0 .5em 0;
     }
   }
 
@@ -57,13 +53,25 @@
       }
     }
 
+    .check-details {
+      display: flex;
+    }
+
     .title {
       font-weight: bold;
+      margin: 0;
+      display: flex;
+    }
+
+    .step-details {
+      .info td {
+        padding: 2px 4px;
+      }
     }
   }
 
   .timeline-header {
-    padding: 1em 0;
+    text-align: center;
 
     input[type="checkbox"] {
       margin: 0;
@@ -74,27 +82,32 @@
       max-width: 5em;
       text-align: center;
     }
+
+    .item {
+      padding-bottom: 15px;
+    }
+
+    .batch-actions {
+      float: left;
+    }
+
+    .top-actions {
+      float: right;
+    }
   }
 
   .title {
-    margin: 0 0 1em;
-    padding: 0;
     font-size: 1.1em;
 
     .icon {
-      margin: 0;
-      display: inline-block;
-      width: 10%;
-      vertical-align: top;
-
+      padding: 0 5px 1em 0;
       i {
         font-size: 1.5em;
       }
     }
 
     .title-text {
-      display: inline-block;
-      width: 90%;
+      padding-bottom: 1em;
     }
   }
 }

@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
+//= require select2-full
+//= require URI
+//= require bootstrap-responsive-tabs
 
 //= require jquery-ui
 //= require wice_grid

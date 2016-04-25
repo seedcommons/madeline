@@ -18,5 +18,4 @@ module TimeLanguageHelper
 
     components.join(", ")
   end
-
 end

@@ -13,5 +13,14 @@ html lang="en-US"
     = yield :scripts
     = yield :styles
 
+    javascript:
+      $(function() { new MS.Views.ApplicationView(); });
+
   body
     = content_for?(:content) ? yield(:content) : yield
+
+#glb-load-ind
+  = image_tag('glb-load-ind.gif')
+  = t('loading')
+
+= render("layouts/error_modal")

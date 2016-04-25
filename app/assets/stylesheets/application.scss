@@ -15,8 +15,14 @@
 @import "bootstrap";
 @import "jasny-bootstrap";
 
+@import "select2";
+@import "select2-bootstrap";
+
+@import "global-loading-indicator";
+
 // Vendor Styles
 @import "font-awesome";
+@import "bootstrap-responsive-tabs";
 
 body {
   color: #333435;

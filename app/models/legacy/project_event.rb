@@ -12,7 +12,11 @@ module Legacy
         puts "ProjectEvent[#{id}] - mapping 0 MemberId ref to null"
         nil
       else
-        member_id
+        if Person.where(id: member_id).count > 0
+          member_id
+        else
+          puts "ProjectEvent[#{id}] - Person not found for MemberId: #{member_id}, mapping MemberId ref to null"
+        end
       end
     end
 
@@ -44,8 +48,8 @@ module Legacy
       # make sure to precalibrate our project steps sequence since we'll be needing to add some default project steps
       # on the fly to handle the orphaned logs
       max = self.connection.execute("select max(id) from ProjectEvents").first.first
-      puts "setting projects_step_id_seq to: #{max+1000}"
-      ::ProjectStep.recalibrate_sequence(gap: 1000)
+      puts "setting projects_step_id_seq to: #{max + 1000}"
+      ::ProjectStep.recalibrate_sequence(id: max + 1000)
 
       # note record 10155 has a malformed date (2013-12-00) which was causing low level barfage
       self.where("Type = 'Paso' and #{malformed_date_clause('Completed')}").each &:migrate
@@ -64,7 +68,7 @@ module Legacy
 
 
     MIGRATION_TYPE_OPTIONS = TransientOptionSet.new(
-        [ [:step, 'Paso'],
+        [ [:checkin, 'Paso'],
           [:agenda, 'Agenda'], # note, agenda items not currently scoped for migration
         ]
     )
