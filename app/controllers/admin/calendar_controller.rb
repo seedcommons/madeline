@@ -1,10 +1,10 @@
 class Admin::CalendarController < Admin::AdminController
   def index
-    skip_authorization
-
     @division = current_division
     @loans = current_division.loans
     @events = []
+
+    authorize @division
 
     @loans.each do |loan|
       prepare_event(loan.calendar_start_event)
@@ -17,6 +17,7 @@ class Admin::CalendarController < Admin::AdminController
     end
   end
 
+  # TODO: Move to reusable concern
   def prepare_event(cal_event)
     content = render_to_string(partial: "admin/calendar/event", locals: {cal_event: cal_event}).html_safe
     cal_event[:title] = content

@@ -75,6 +75,7 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  # TODO: Move to reusable concern
   def prepare_event(cal_event)
     content = render_to_string(partial: "admin/calendar/event", locals: {cal_event: cal_event}).html_safe
     cal_event[:title] = content
