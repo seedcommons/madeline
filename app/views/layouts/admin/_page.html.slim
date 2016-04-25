@@ -20,8 +20,7 @@ div
 
           .division.centered-box.nav.navbar-nav.col-sm-6
             span> Division:
-            / Todo: Sort out proper css display handling here
-            = form_tag(admin_divisions_select_path, id: 'select_division_form', class: 'form-control') do
+            = form_tag(admin_divisions_select_path, id: 'select_division_form') do
               = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
               = hidden_field_tag(:redisplay_url)
 
