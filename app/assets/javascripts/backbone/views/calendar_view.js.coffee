@@ -5,15 +5,18 @@ class MS.Views.CalendarView extends Backbone.View
   initialize: (params) ->
     # Initialize calendar
     @$el.fullCalendar({
-      eventRender: (event, element) ->
-        element.find('.fc-title').html(event.title)
+      eventRender: (calEvent, element) ->
+        element.find('.fc-title').html(calEvent.title)
     })
 
-    @renderCalEvents(params.events)
+    @renderCalEvents(params.calEvents)
 
-  renderCalEvents: (events) ->
-    $(events).each (key, calEvent) =>
+  renderCalEvents: (calEvents) ->
+    $(calEvents).each (key, calEvent) =>
       this.renderCalEvent(calEvent)
 
   renderCalEvent: (calItem) ->
     @$el.fullCalendar('renderEvent', calItem, stick: true)
+
+  rerenderEvents: (calEvents) ->
+    console.log("This is where events will be rerendered")

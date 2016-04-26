@@ -7,6 +7,6 @@ section.calendar
 javascript:
   $(function(){
     new MS.Views.CalendarView({
-      events: #{@events.to_json.html_safe}
+      calEvents: #{@events.to_json.html_safe}
     });
   });

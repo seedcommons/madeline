@@ -39,5 +39,8 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
 javascript:
   $(function(){
-    new MS.Views.LoanTabView();
+    new MS.Views.LoanTabView({
+      el: '.nav-tabs',
+      cal-events: #{@events.to_json.html_safe}
+    });
   });
