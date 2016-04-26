@@ -4,10 +4,3 @@
 section.calendar
   h1.sr-only = t(:calendar)
   div#calendar.loan-calendar
-
-javascript:
-  $(function(){
-    new MS.Views.CalendarView({
-      events: #{@events.to_json.html_safe}
-    });
-  });

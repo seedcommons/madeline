@@ -36,3 +36,8 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   div.loan-content
     = render "admin/loans/tabs/tabs"
+
+javascript:
+  $(function(){
+    new MS.Views.LoanTabView();
+  });
