@@ -5,6 +5,11 @@ div.panel-body
           html: { class: 'project-step-form' },
           defaults: {html5: true}) do |f|
 
+    / Need to pass these through to create but not update.
+    - if step.new_record?
+      = f.hidden_field(:project_id)
+      = f.hidden_field(:project_type)
+
     = f.error_notification
     .step_form_left.col-sm-8.languages
       input.deleted-locales type="hidden" name="project_step[deleted_locales]" value="[]"

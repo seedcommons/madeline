@@ -1,12 +1,12 @@
 class MS.Views.DuplicateStepView extends Backbone.View
 
-  el: 'body'
-
   events: (params) ->
-    'change input[name="repeat_duration"]': 'toggleRepeatOptions'
-    'change select[name="time_unit"]': 'toggleMonthOptions'
-    'click .num-of-occurences': 'checkRadio'
-    'click .date-end-of-occurences': 'checkRadio'
+    'change input[name="duplication[repeat_duration]"]': 'toggleRepeatOptions'
+    'change select[name="duplication[time_unit]"]': 'toggleMonthOptions'
+    'click .num-of-occurrences': 'checkRadio'
+    'click .date-end-of-occurrences': 'checkRadio'
+    'click .btn-primary': 'submit'
+    'ajax:success': 'submitSuccess'
 
   toggleRepeatOptions: (e) ->
     $item = $(e.currentTarget)
@@ -33,3 +33,13 @@ class MS.Views.DuplicateStepView extends Backbone.View
     $item = $(e.currentTarget)
     $radio = $item.find('.radio-item')
     $radio.attr('checked', 'checked').prop('checked', true)
+
+  submit: (e) ->
+    @$('form').submit()
+    MS.loadingIndicator.show()
+
+  submitSuccess: (e, data) ->
+    e.stopPropagation() # Don't want this to travel up to ProjectStepView
+    MS.timelineView.addSteps(data)
+    @$el.modal('hide')
+    MS.loadingIndicator.hide()

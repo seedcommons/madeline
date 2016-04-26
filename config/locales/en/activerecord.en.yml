@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      project_step:
+        one: "Project Step"
+        other: "Project Steps"

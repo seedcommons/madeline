@@ -1,10 +1,10 @@
-header.row.timeline-header
+header.timeline-header
   form accept-charset="UTF-8" method="post"
     input name="_method" type="hidden"
     = hidden_field_tag :authenticity_token, form_authenticity_token
 
-    div.col-lg-2.col-md-2.col-sm-6.col-xs-6.first-col
-      div.btn-group
+    .item.batch-actions
+      .btn-group role="group" aria-label="Select"
         label.btn.btn-default
           input type="checkbox" name="choose-all" id="choose-all"
 
@@ -13,22 +13,32 @@ header.row.timeline-header
           span.sr-only = t(:dropdown_toggle)
 
         ul.dropdown-menu
-          li
-            a id="check-all-ctrl" = t(:all)
-          li
-            a id="uncheck-all-ctrl" = t(:none)
-          li
-            a id="check-completed-ctrl" = t(:completed)
-          li
-            a id="check-incomplete-ctrl" = t(:incomplete)
+          li: a id="check-all-ctrl" = t(:all)
+          li: a id="uncheck-all-ctrl" = t(:none)
+          li: a id="check-completed-ctrl" = t(:completed)
+          li: a id="check-incomplete-ctrl" = t(:incomplete)
 
         input type="hidden" name="step-ids" id="step-ids"
 
-    div.col-lg-2.col-lg-2.col-md-2.col-sm-6.col-xs-6
-      div.btn-group
+      .btn-group role="group" aria-label="Batch Actions"
         button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          = t("loan.batch_actions")
+          => t("loan.batch_actions")
           span.caret
           span.sr-only = t(:dropdown_toggle)
 
         = render "admin/loans/timeline/batch/batch_actions"
+
+    .item.top-actions
+      a.btn.btn-default> id="edit-all" href="#"  = t('.edit_all')
+      a.btn.btn-default> id="edit-all-cancel" href="#"  = t('.cancel_edit')
+      a.btn.btn-primary> id="save-all" href="#"  = t('.save_all')
+      a.btn.btn-primary> id="new-step" href="#"  = t(".new_step")
+
+    .item.filter-switch
+      .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
+        label.btn.btn-default class=(params[:filter].present? && params[:filter] != 'all' ? '' : 'active')
+          input type="radio" name="filter" value="all" id="filter-all"  All
+        label.btn.btn-default class=(params[:filter] == 'incomplete' ? 'active' : '')
+          input type="radio" name="filter" value="incomplete" id="filter-incomplete"  Incomplete
+
+    .clearfix

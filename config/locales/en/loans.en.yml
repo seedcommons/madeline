@@ -1,0 +1,9 @@
+en:
+  loans:
+    index:
+      title: "Loans"
+    show:
+      new_step: "New Step"
+      edit_all: Edit All
+      cancel_edit: Cancel Edit
+      save_all: Save All

@@ -7,6 +7,8 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   initialize: (params) ->
     @initTypeSelect()
+    @persisted = params.persisted
+    @duplicate = params.duplicate
     new MS.Views.ProjectStepTranslationsView({
       el: @$('.languages'),
       permittedLocales: params.permittedLocales
@@ -15,18 +17,22 @@ class MS.Views.ProjectStepView extends Backbone.View
   events:
     'click a.edit-step-action': 'showForm'
     'click a.duplicate-step-action': 'showDuplicateModal'
-    'click a.cancel': 'hideForm'
-    'ajax:success': 'submissionSuccess'
+    'click a.cancel': 'cancel'
+    'submit form': 'onSubmit'
+    'ajax:success': 'submitSuccess'
 
   showForm: (e) ->
     e.preventDefault()
     @$('.view-step-block').hide()
     @$('.form-step-block').show()
 
-  hideForm: (e) ->
+  cancel: (e) ->
     e.preventDefault()
-    @$('.view-step-block').show()
-    @$('.form-step-block').hide()
+    if @persisted
+      @$('.view-step-block').show()
+      @$('.form-step-block').hide()
+    else
+      MS.timelineView.removeStep(@$el)
 
   showDuplicateModal: (e) ->
     e.preventDefault()
@@ -48,5 +54,10 @@ class MS.Views.ProjectStepView extends Backbone.View
     else
       $("<span>#{option.text}</span>")
 
-  submissionSuccess: (e, data) ->
+  onSubmit: ->
+    MS.loadingIndicator.show()
+
+  submitSuccess: (e, data) ->
     @$el.replaceWith(data)
+    MS.loadingIndicator.hide()
+    MS.timelineView.addBlankStep() unless @persisted || @duplicate
