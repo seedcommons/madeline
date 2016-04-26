@@ -3,5 +3,6 @@
   when "loan_end" then "loan" \
   when "project_step" then "step" \
   else "ghost_step" \
+  end
 
 = render "admin/calendar/#{template}", cal_event: cal_event
