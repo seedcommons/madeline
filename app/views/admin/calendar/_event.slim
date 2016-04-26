@@ -1,12 +1,7 @@
-/ TODO: Convert to case statement
+- template = case cal_event[:event_type] \
+  when "loan_start" then "loan" \
+  when "loan_end" then "loan" \
+  when "project_step" then "step" \
+  else "ghost_step" \
 
-- if cal_event[:event_type] == "loan_start"
-  div.calendar-event.loan-starts
-    = render "admin/calendar/event_loan", cal_event: cal_event
-- elsif cal_event[:event_type] == "loan_end"
-  div.calendar-event.loan-end
-    = render "admin/calendar/event_loan", cal_event: cal_event
-- elsif cal_event[:event_type] == "project_step"
-  = render "admin/calendar/event_step", cal_event: cal_event
-- else
-  = render "admin/calendar/event_ghost_step", cal_event: cal_event
+= render "admin/calendar/#{template}", cal_event: cal_event
