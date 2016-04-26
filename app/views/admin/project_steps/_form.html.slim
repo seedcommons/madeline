@@ -38,8 +38,6 @@ div.panel-body
         .col-sm-9
           - if step.is_finalized_locked?
             = step.is_finalized ? t("reply_yes") : t("reply_no")
-            / Todo: Confirm what display handling is desired here, and what asset to use if
-            / to be represented as an image
             =< "(#{t('locked')})"
           - else
             = f.check_box :is_finalized, class: "step_form_right_9 finalized"

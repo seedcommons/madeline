@@ -151,7 +151,6 @@ class ProjectStep < ActiveRecord::Base
   # cases.
   def unfinalize_allowed
     if is_finalized_changed? && ! is_finalized && is_finalized_locked?
-      Rails.logger.info("unfinalized disallowed for project_step: #{id}")
       errors.add(:is_finalized, I18n.t("project_step.unfinalize_disallowed"))
     end
   end
