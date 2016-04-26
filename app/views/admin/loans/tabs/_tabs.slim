@@ -7,23 +7,20 @@ ul class="nav nav-tabs nav-tabs-responsive" role="tablist"
   = render "admin/loans/tabs/tab", identifier: "more", label: t(:more), tab_class: "", link_class: ""
 
 div class="tab-content"
-  - details = render "admin/loans/content/details", loan: @loan
-  = render "admin/loans/tabs/tab_content", identifier: "details", category: "active flush",
-    content: details
+  div role="tabpanel" class="tab-pane active flush" id="details"
+    = render "admin/loans/content/details", loan: @loan
 
-  - criteria = render "admin/loans/content/criteria", loan: @loan
-  = render "admin/loans/tabs/tab_content", identifier: "criteria", category: "",
-    content: criteria
+  div role="tabpanel" class="tab-pane" id="criteria"
+    = render "admin/loans/content/criteria", loan: @loan
 
-  - timeline = render "admin/loans/timeline/timeline", loan: @loan
-  = render "admin/loans/tabs/tab_content", identifier: "timeline", category: "",
-    content: timeline
+  div role="tabpanel" class="tab-pane" id="timeline"
+    = render "admin/loans/timeline/timeline", loan: @loan
 
-  - calendar = render "admin/loans/content/calendar", loan: @loan
-  = render "admin/loans/tabs/tab_content", identifier: "loan-calendar", category: "", content: calendar
+  div role="tabpanel" class="tab-pane" id="loan-calendar"
+    = render "admin/loans/content/calendar", loan: @loan
 
-  = render "admin/loans/tabs/tab_content", identifier: "print", category: "",
-    content: t(:print)
+  div role="tabpanel" class="tab-pane" id="print"
+    = t(:print)
 
-  = render "admin/loans/tabs/tab_content", identifier: "more", category: "",
-    content: t(:more)
+  div role="tabpanel" class="tab-pane" id="more"
+    = t(:more)
