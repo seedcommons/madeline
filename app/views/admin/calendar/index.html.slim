@@ -4,10 +4,9 @@
 section.calendar
   div#calendar.main-calendar
 
-- content_for :scripts
-  javascript:
-    $(function(){
-      new MS.Views.CalendarView({
-        events: #{@events.to_json.html_safe}
-      });
+javascript:
+  $(function(){
+    new MS.Views.CalendarView({
+      events: #{@events.to_json.html_safe}
     });
+  });
