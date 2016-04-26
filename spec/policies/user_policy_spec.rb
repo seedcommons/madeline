@@ -19,8 +19,8 @@ describe UserPolicy do
   context 'being a member of the division' do
     let(:user) { create(:user, :member, division: division) }
 
-    permit_actions [:index, :edit, :update, :show, :create]
-    forbid_actions [:destroy]
+    permit_actions [:index, :show]
+    forbid_actions [:destroy, :edit, :update, :create]
   end
 
   context 'being an admin in the division' do
@@ -32,8 +32,8 @@ describe UserPolicy do
   context 'being a member of a parent division' do
     let(:user) { create(:user, :member, division: parent_division) }
 
-    permit_actions [:index, :show, :create, :edit, :update]
-    forbid_actions [:destroy]
+    permit_actions [:index, :show]
+    forbid_actions [:destroy, :create, :edit, :update]
   end
 
   context 'being an admin of a parent division' do
