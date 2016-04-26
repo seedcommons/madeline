@@ -1,5 +1,4 @@
 @import "../colors";
-@import "../components/multiline_ellipsis";
 
 .calendar {
   .calendar-event {
@@ -21,11 +20,8 @@
     }
 
     .event-title {
-      width: calc(100% - 2em);
       display: inline-block;
       background: inherit;
-
-      @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: inherit);
 
       .fa {
         padding-right: .25em;
@@ -38,12 +34,7 @@
   }
 
   .cal-ghost-step, .cal-step {
-    $right-box-width: 2em;
-
     min-height: 2em;
-
-    .event-title {
-    }
 
     .large-left-box {
       background: inherit;
@@ -89,22 +80,20 @@
   .cal-step {
     &.cal-step-milestone {
       border: 1px solid $black;
+
+      &.late {
+        border: 2px solid $black;
+      }
     }
 
-    &.cal-step-checkin {
-
+    &.late {
+      .event-title {
+        font-weight: bold;
+      }
     }
 
     .top-info, .bottom-info {
       height: 1.2em;
-    }
-
-    &.late {
-      border: 2px solid $black;
-
-      .event-title {
-        font-weight: bold;
-      }
     }
   }
 }
