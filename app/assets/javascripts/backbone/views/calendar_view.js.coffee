@@ -1,14 +1,22 @@
 class MS.Views.CalendarView extends Backbone.View
 
-  el: '#calendar'
+  el: '.calendar'
 
   initialize: (params) ->
     # Initialize calendar
-    @$el.fullCalendar({
+
+    @$calendar = @$('#calendar')
+
+    @$calendar.fullCalendar({
       # Changes the default event render to load in html rather than title only
       eventRender: (calEvent, element) ->
         element.find('.fc-title').html(calEvent.title)
     })
+
+    $('[data-toggle="popover"]').popover()
+
+    popoverContent = @$("#legend-content").html()
+    @$('#show-legend').attr("data-content", popoverContent)
 
     @renderCalEvents(params.calEvents)
 
@@ -17,7 +25,7 @@ class MS.Views.CalendarView extends Backbone.View
       this.renderCalEvent(calEvent)
 
   renderCalEvent: (calItem) ->
-    @$el.fullCalendar('renderEvent', calItem, stick: true)
+    @$calendar.fullCalendar('renderEvent', calItem, stick: true)
 
   rerenderEvents: (e) ->
-    @$el.fullCalendar('rerenderEvents')
+    @$calendar.fullCalendar('rerenderEvents')

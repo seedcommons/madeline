@@ -96,4 +96,21 @@
       height: 1.2em;
     }
   }
+
+  .cal-legend {
+    font-size: .9em;
+
+    td {
+      padding-right: .5em;
+    }
+
+    th {
+      font-weight: normal;
+    }
+  }
+
+  .legend-block {
+    display: inline-block;
+    width: 50%;
+  }
 }
