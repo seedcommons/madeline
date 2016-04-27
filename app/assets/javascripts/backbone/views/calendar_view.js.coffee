@@ -20,5 +20,4 @@ class MS.Views.CalendarView extends Backbone.View
     @$el.fullCalendar('renderEvent', calItem, stick: true)
 
   rerenderEvents: (e) ->
-    console.log("This is where events will be rerendered")
     @$el.fullCalendar('rerenderEvents')
