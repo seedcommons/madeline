@@ -3,12 +3,6 @@
 
 section.calendar
   h1.sr-only = t(:calendar)
-  
-  div#legend-content
-    = render "admin/calendar/legend"
-  
-  div.row.right-align
-    button.btn#show-legend type="button" data-toggle="popover" title="Legend" data-html="true" data-placement="left"
-      = "Legend"
+  = render "admin/calendar/legend"
       
   div#calendar.loan-calendar

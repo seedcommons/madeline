@@ -101,6 +101,14 @@
     display: none;
     font-size: .9em;
 
+    table {
+      width: auto;
+    }
+
+    tr {
+      padding-bottom: .25em;
+    }
+
     td {
       span {
         display: inline-block;
@@ -111,10 +119,15 @@
 
     th {
       font-weight: normal;
+      padding-bottom: .25em;
       padding-left: .5em;
+      text-align: left;
     }
 
     td, th {
+      border: none;
+      width: auto;
+
       &.bold {
         font-weight: bold;
       }
@@ -153,7 +166,7 @@
     }
 
     .original-date {
-      width: 1.25em;
+      width: 1.5em;
       height: 1.25em;
       border: 1px dashed $gray3;
     }
