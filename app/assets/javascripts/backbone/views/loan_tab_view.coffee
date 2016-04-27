@@ -2,19 +2,16 @@ class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
     @calEvents = params.calEvents
-    console.log(@calEvents)
+    calendarTab = @$('.calendar-tab').closest('li')
+    @openCalendar() if @$(calendarTab).hasClass('active')
 
   events: ->
-    'click .tab': 'closeCalendar'
-    'click .calendar-tab': 'openCalendar'
-
-  closeCalendar: (e) ->
-    $('#loan-calendar').css('display', 'none')
+    'shown.bs.tab .calendar-tab': 'openCalendar'
 
   openCalendar: (e) ->
-    $('#loan-calendar').css('display', 'block')
-
-    @calView = new MS.Views.CalendarView()
+    @calView = new MS.Views.CalendarView({
+      calEvents: @calEvents
+    })
 
     # if !@calView
     #   @calView = new MS.Views.CalendarView({
