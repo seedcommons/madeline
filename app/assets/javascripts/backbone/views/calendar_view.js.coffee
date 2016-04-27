@@ -5,6 +5,7 @@ class MS.Views.CalendarView extends Backbone.View
   initialize: (params) ->
     # Initialize calendar
     @$el.fullCalendar({
+      # Changes the default event render to load in html rather than title only
       eventRender: (calEvent, element) ->
         element.find('.fc-title').html(calEvent.title)
     })
@@ -18,5 +19,6 @@ class MS.Views.CalendarView extends Backbone.View
   renderCalEvent: (calItem) ->
     @$el.fullCalendar('renderEvent', calItem, stick: true)
 
-  rerenderEvents: (calEvents) ->
+  rerenderEvents: (e) ->
     console.log("This is where events will be rerendered")
+    @$el.fullCalendar('rerenderEvents')

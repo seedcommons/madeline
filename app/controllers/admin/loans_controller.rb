@@ -16,12 +16,10 @@ class Admin::LoansController < Admin::AdminController
     @organizations = Organization.all
     @form_action_url = admin_loan_path
     gon.I18n = @loan.translate(:details, :summary)
-
     @steps = @loan.project_steps
 
-    @events = []
-
-    # TODO: Move prepare events to resuable concern
+    # TODO: Move calendar logic to resuable concern
+    @calEvents = []
     prepare_event(@loan.calendar_start_event)
     prepare_event(@loan.calendar_end_event)
 
@@ -81,7 +79,7 @@ class Admin::LoansController < Admin::AdminController
   def prepare_event(cal_event)
     content = render_to_string(partial: "admin/calendar/event", locals: {cal_event: cal_event}).html_safe
     cal_event[:title] = content
-    @events.push(cal_event)
+    @calEvents.push(cal_event)
   end
 
   private

@@ -2,12 +2,12 @@ class Admin::CalendarController < Admin::AdminController
   def index
     @division = current_division
     @loans = current_division.loans
-    @events = []
 
     authorize @division
 
+    # TODO: Move calendar logic to reusable concern
+    @calEvents = []
     @loans.each do |loan|
-      # TODO: Move prepare events to reusable concern
       prepare_event(loan.calendar_start_event)
       prepare_event(loan.calendar_end_event)
 
@@ -22,6 +22,6 @@ class Admin::CalendarController < Admin::AdminController
   def prepare_event(cal_event)
     content = render_to_string(partial: "admin/calendar/event", locals: {cal_event: cal_event}).html_safe
     cal_event[:title] = content
-    @events.push(cal_event)
+    @calEvents.push(cal_event)
   end
 end
