@@ -11,6 +11,17 @@ class MS.Views.CalendarView extends Backbone.View
       # Changes the default event render to load in html rather than title only
       eventRender: (calEvent, element) ->
         element.find('.fc-title').html(calEvent.title)
+
+      customButtons: {
+        legendButton: {
+          text: 'Legend'
+        }
+      },
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek legendButton'
+      }
     })
 
     $('[data-toggle="popover"]').popover()
