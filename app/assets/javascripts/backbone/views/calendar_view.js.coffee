@@ -13,22 +13,18 @@ class MS.Views.CalendarView extends Backbone.View
         element.find('.fc-title').html(calEvent.title)
 
       customButtons: {
-        legendButton: {
+        legend: {
           text: 'Legend'
         }
       },
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,agendaWeek legendButton'
+        right: 'month,agendaWeek legend'
       }
     })
 
-    $('[data-toggle="popover"]').popover()
-
-    popoverContent = @$("#legend-content").html()
-    @$('#show-legend').attr("data-content", popoverContent)
-
+    @renderLegend()
     @renderCalEvents(params.calEvents)
 
   renderCalEvents: (calEvents) ->
@@ -40,3 +36,15 @@ class MS.Views.CalendarView extends Backbone.View
 
   rerenderEvents: (e) ->
     @$calendar.fullCalendar('rerenderEvents')
+
+  renderLegend: (e) ->
+    $('[data-toggle="popover"]').popover()
+    popoverContent = @$("#legend-content").html()
+
+    @$('.fc-legend-button').popover({
+      'content': popoverContent,
+      'html': true,
+      'placement': 'left',
+      'toggle': 'popover',
+      title: 'Legend'
+    })
