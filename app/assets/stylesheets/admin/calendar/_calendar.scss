@@ -101,11 +101,12 @@
     font-size: .9em;
 
     td {
-      padding-right: .5em;
+      text-align: center;
     }
 
     th {
       font-weight: normal;
+      padding-left: .5em;
     }
 
     td, th {
@@ -118,10 +119,32 @@
       padding: .2em;
     }
 
-    .milestone-legend {
-      .fa {
-        border: 1px solid $black;
-      }
+    .milestone {
+      border: 1px solid $black;
+    }
+
+    .early {
+      background: $early;
+    }
+
+    .ontime {
+      background: $ontime;
+    }
+
+    .late {
+      background: $late
+    }
+
+    .verylate {
+      background: $verylate;
+    }
+
+    .superlate {
+      background: $superlate;
+    }
+
+    .original-date {
+      border: 1px dashed $gray3;
     }
   }
 
