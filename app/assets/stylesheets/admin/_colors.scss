@@ -22,8 +22,13 @@ $gray2: rgb(230,230,230);
 $gray3: gray;
 $black: black;
 
-$late: $yellow2;
+$onTime: hsl(120, 73%, 57%);
+$superEarly: hsl(120, 41%, 47%);
+$barelyLate: hsl(56, 100%, 66%);
+$superLate: hsl(0, 74%, 54%);
+
+$early: $superEarly;
+$ontime: $onTime;
+$late: $barelyLate;
 $verylate: $orange2;
-$superlate: $danger1;
-$ontime: $success2;
-$early: $success1;
+$superlate: $superLate;
