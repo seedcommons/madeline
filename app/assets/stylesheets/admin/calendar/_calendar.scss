@@ -107,6 +107,22 @@
     th {
       font-weight: normal;
     }
+
+    td, th {
+      &.bold {
+        font-weight: bold;
+      }
+    }
+
+    .fa {
+      padding: .2em;
+    }
+
+    .milestone-legend {
+      .fa {
+        border: 1px solid $black;
+      }
+    }
   }
 
   .legend-block {
