@@ -1,0 +1,10 @@
+div.modal.fade tabindex="-1" role="dialog" aria-labelledby="project-step-label" id="calendar-step-modal"
+  div.modal-dialog.modal-lg
+    div.modal-content
+      div.modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
+          span aria-hidden="true" &times;
+        h4.modal-title id="project-step-label"
+          = t("project_step.project_step", count: 1)
+
+      div.modal-body

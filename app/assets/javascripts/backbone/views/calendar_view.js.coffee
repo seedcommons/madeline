@@ -56,5 +56,8 @@ class MS.Views.CalendarView extends Backbone.View
     calStep = e.currentTarget
     id = @$(calStep).attr('data-step-id')
     selector = '.step[data-step-id=' + id + ']'
-    projectStepContent = $('.project-steps').find(selector).html()
-    console.log(projectStepContent)
+    projectStep = $('.project-steps').find(selector)
+    projectStepContent = $(projectStep).html()
+
+    @$('#calendar-step-modal').find('.modal-body').empty().append(projectStepContent)
+    @$('#calendar-step-modal').modal({show: true})
