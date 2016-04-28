@@ -125,7 +125,6 @@ class ProjectStep < ActiveRecord::Base
     # the original scheduled date.
     if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
       self.original_date = scheduled_date_was
-      puts "original date automatically assigned to #{scheduled_date_was}"
     end
   end
 

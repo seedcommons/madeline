@@ -43,25 +43,31 @@ class User < ActiveRecord::Base
   end
 
   def accessible_divisions
-    # Todo: Confirm desired sort order.
-    accessible_division_ids.map{ |id| Division.find_safe(id) }.compact
+    division_scope.resolve
   end
 
   def accessible_division_ids
-    # Todo: Confirm what other roles types to include here.
-    all_ids = roll_referenced_division_ids.map do |id|
-      division = Division.find_safe(id)
-      division.self_and_descendants.pluck(:id) if division
-    end
-    all_ids.flatten.uniq.compact
+    division_scope.accessible_ids
+  end
+
+  def division_scope
+    DivisionPolicy::Scope.new(self, Division)
   end
 
   def default_division
-    Division.find(roll_referenced_division_ids.first)
+    Division.find(default_division_id)
   end
 
-  def roll_referenced_division_ids
-    roles.where(resource_type: :Division, name: [:admin]).pluck(:resource_id)
+  # For now, gives first preference to the division owning the user's profile, then looks for a role
+  # associated division.
+  # Todo: Confirm precise business rule desired here.  Will possibly depend on new data modeling.
+  def default_division_id
+    owning_division_id || division_scope.base_accessible_ids.first
+  end
+
+  def owning_division_id
+    # Note could just do 'profile&.division_id' if we upgrade to Ruby 2.3
+    profile ? profile.division_id : nil
   end
 
 end

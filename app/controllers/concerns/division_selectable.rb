@@ -21,8 +21,7 @@ module DivisionSelectable
   # which the current user has access to.
   def division_index_filter
     selected = selected_division
-    ids = selected ? selected.self_and_descendant_ids : current_user.accessible_division_ids
-    {division_id: ids}
+    selected ? {division_id: selected.self_and_descendant_ids} : nil
   end
 
   def selected_division_id

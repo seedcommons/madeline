@@ -3,7 +3,8 @@ class Admin::LoansController < Admin::AdminController
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
     # selected_division is used for index filtering, and may be unassigned.
     authorize Loan.new(division: current_division)
-    @loans_grid = initialize_grid(Loan,
+    @loans_grid = initialize_grid(
+      policy_scope(Loan),
       include: [:division, :organization],
       conditions: division_index_filter,
       order: 'loans.signing_date',

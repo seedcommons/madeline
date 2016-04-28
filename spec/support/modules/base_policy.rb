@@ -9,7 +9,9 @@ shared_examples_for 'base_policy' do |record_class|
   let!(:child_division) { create(:division, parent: division) }
 
   context 'being a member of a parent division' do
-    let(:user) { create(:user, :member, division: parent_division) }
+    let(:user) {
+      create(:user, :member, division: parent_division)
+    }
 
     permit_all_but_destroy
   end
