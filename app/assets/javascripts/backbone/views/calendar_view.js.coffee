@@ -27,6 +27,9 @@ class MS.Views.CalendarView extends Backbone.View
     @renderLegend()
     @renderCalEvents(params.calEvents)
 
+  events:
+    'click .cal-step': 'showStepModal'
+
   renderCalEvents: (calEvents) ->
     $(calEvents).each (key, calEvent) =>
       this.renderCalEvent(calEvent)
@@ -39,7 +42,7 @@ class MS.Views.CalendarView extends Backbone.View
 
   renderLegend: (e) ->
     $('[data-toggle="popover"]').popover()
-    popoverContent = @$("#legend-content").html()
+    popoverContent = @$('#legend-content').html()
 
     @$('.fc-legend-button').popover({
       'content': popoverContent,
@@ -48,3 +51,10 @@ class MS.Views.CalendarView extends Backbone.View
       'toggle': 'popover',
       title: 'Legend'
     })
+
+  showStepModal: (e) ->
+    calStep = e.currentTarget
+    id = @$(calStep).attr('data-step-id')
+    selector = '.step[data-step-id=' + id + ']'
+    projectStepContent = $('.project-steps').find(selector).html()
+    console.log(projectStepContent)
