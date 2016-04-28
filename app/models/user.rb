@@ -66,8 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def owning_division_id
-    # Note could just do 'profile&.division_id' if we upgrade to Ruby 2.3
-    profile ? profile.division_id : nil
+    profile.try(:division_id)
   end
 
 end
