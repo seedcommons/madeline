@@ -12,7 +12,6 @@
 = include_gon
 
 - content_for :scripts
-  = javascript_include_tag "admin/forms/forms"
   = javascript_include_tag "admin/expand"
   = javascript_include_tag "admin/calendar/calendar"
 
@@ -38,3 +37,6 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   div.loan-content
     = render "admin/loans/tabs/tabs"
+
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '.loan.details' }) });
