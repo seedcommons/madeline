@@ -1,9 +1,4 @@
-div.panel.step [
-  style="border-color: #{step.border_color}"
-  data-step-id="#{step.id_or_temp_id}"
-  data-color="#{step.border_color}"
-  class=step.completed_or_not
-  ]
+div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.id_or_temp_id}" class=step.completed_or_not
 
   .form-step-block style="display: #{mode == :form ? 'inherit' : 'none'}"
     = render "admin/project_steps/form", step: step

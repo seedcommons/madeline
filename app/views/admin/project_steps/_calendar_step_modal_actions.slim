@@ -1,0 +1,12 @@
+.actions
+  a.action.edit-step-action.btn.btn-default href="#"
+    i.fa.fa-pencil
+  - if policy(step).duplicate?
+    a.action.duplicate-step-action.btn.btn-default href="#"
+      i.fa.fa-files-o
+      = t("project_step.duplicate")
+
+  = link_to [:admin, step], method: :delete, class: "action .btn.btn-default",
+      data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
+      "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+      i.fa.fa-trash.fa-large>

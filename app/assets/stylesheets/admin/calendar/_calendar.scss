@@ -180,4 +180,22 @@
       display: block;
     }
   }
+
+  #calendar-step-modal {
+    .modal-content {
+      background: $gray1;
+    }
+  }
+
+  .modal-body {
+    .step {
+      border: none;
+      background: inherit;
+      box-shadow: none;
+
+      .actions, .check, .title {
+        display: none;
+      }
+    }
+  }
 }
