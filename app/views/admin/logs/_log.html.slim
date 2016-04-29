@@ -2,7 +2,7 @@
   .panel-heading
     .row
       .col-sm-10
-        b => log.date
+        b => log.date.try(:strftime, t('time.formats.date_only'))
         => t(:dash)
         => Person.find(log.agent_id).name
         span.actions-box
@@ -42,4 +42,3 @@
       - if log.private_notes
         span.bold = t("log.private_notes")
         span = log.try(:private_notes)
-
