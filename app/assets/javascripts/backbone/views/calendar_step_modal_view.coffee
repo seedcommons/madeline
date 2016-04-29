@@ -15,15 +15,15 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     # title = $(projectStep).find('.title-text').html()
     #
     # @$('#calendar-step-modal').find('.modal-body').empty().append(projectStepContent)
-    # @$('#calendar-step-modal').find('.modal-title').empty().append(title)
+
     # calendarStep = @$('#calendar-step-modal').find('.modal-body').find('.step')
     # @$('#calendar-step-modal').find('.modal-content').css('border', '2px solid ' + color)
 
     MS.loadingIndicator.show()
-    $.get '/admin/project_steps/' + id, (html) =>
+    $.get '/admin/project_steps/' + id, context: 'calendar', (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->
-    @$('#calendar-step-modal').find('.modal-body').empty().append(html)
+    @$('#calendar-step-modal').find('.modal-content').empty().append(html)
     @$('#calendar-step-modal').modal({show: true})
     MS.loadingIndicator.hide()
