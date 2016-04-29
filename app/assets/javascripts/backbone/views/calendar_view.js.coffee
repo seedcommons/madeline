@@ -27,9 +27,6 @@ class MS.Views.CalendarView extends Backbone.View
     @renderLegend()
     @renderCalEvents(params.calEvents)
 
-  events:
-    'click .cal-step': 'showStepModal'
-
   renderCalEvents: (calEvents) ->
     $(calEvents).each (key, calEvent) =>
       this.renderCalEvent(calEvent)
@@ -50,23 +47,4 @@ class MS.Views.CalendarView extends Backbone.View
       'placement': 'left',
       'toggle': 'popover',
       title: 'Legend'
-    })
-
-  showStepModal: (e) ->
-    calStep = e.currentTarget
-    id = @$(calStep).attr('data-step-id')
-    selector = '.step[data-step-id=' + id + ']'
-    projectStep = $('.project-steps').find(selector)
-    color = $(projectStep).attr('data-color')
-    projectStepContent = $(projectStep).clone()
-    title = $(projectStep).find('.title-text').html()
-
-    @$('#calendar-step-modal').find('.modal-body').empty().append(projectStepContent)
-    @$('#calendar-step-modal').find('.modal-title').empty().append(title)
-    calendarStep = @$('#calendar-step-modal').find('.modal-body').find('.step')
-    @$('#calendar-step-modal').modal({show: true})
-    @$('#calendar-step-modal').find('.modal-content').css('border', '2px solid ' + color)
-
-    new MS.Views.ProjectStepView({
-      el: @$('#calendar-step-modal')
     })
