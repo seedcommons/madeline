@@ -11,6 +11,7 @@
     max-height: 4em;
     overflow-y: hidden;
     font-size: .8em;
+    cursor: default;
 
     .fa {
       display: inline;
@@ -78,6 +79,10 @@
   }
 
   .cal-step {
+    &:hover {
+      cursor: pointer;
+    }
+
     &.cal-step-milestone {
       border: 1px solid $black;
 
