@@ -7,8 +7,15 @@
 // As we remove style includes from individual pages, they should be added
 // as @imports here instead.
 
+@import "colors";
 @import "general";
-@import "forms/forms";
+@import "table/*";
+@import "forms/*";
+@import "fullcalendar";
+@import "calendar/*";
+@import "loans/*";
+@import "logs/*";
+@import "project_steps/*";
 
 // Page title and New button
 @media (min-width: 768px) {
@@ -26,9 +33,3 @@
     vertical-align: bottom;
   }
 }
-
-@import "fullcalendar";
-
-@import "colors";
-@import "general";
-@import "calendar/*"

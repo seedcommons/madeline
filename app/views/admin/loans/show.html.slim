@@ -1,12 +1,5 @@
 - content_for(:title, @loan.name)
 
-- content_for :styles
-  = stylesheet_link_tag "admin/forms/project_step_form", :media => "all"
-  = stylesheet_link_tag "admin/loans/tabs", :media => "all"
-  = stylesheet_link_tag "admin/loans/timeline", :media => "all"
-  = stylesheet_link_tag "admin/logs/logs", :media => "all"
-  = stylesheet_link_tag "admin/project_steps/project_steps", :media => "all"
-
 = include_gon
 
 - content_for :scripts
