@@ -5,6 +5,7 @@
 #  agent_id        :integer
 #  completed_date  :date
 #  created_at      :datetime         not null
+#  finalized_at    :datetime
 #  id              :integer          not null, primary key
 #  is_finalized    :boolean
 #  original_date   :date
@@ -53,8 +54,10 @@ class ProjectStep < ActiveRecord::Base
   attr_option_settable :step_type
 
   validates :project_id, presence: true
+  validate :unfinalize_allowed
 
   before_save :handle_original_date_logic
+  before_save :handle_finalized_at
 
   def division
     project.try(:division)
@@ -127,12 +130,37 @@ class ProjectStep < ActiveRecord::Base
     self[:original_date].present?
   end
 
+  private
+
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
     if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
       self.original_date = scheduled_date_was
     end
+  end
+
+  def handle_finalized_at
+    if is_finalized && !finalized_at
+      self.finalized_at = Time.now
+    elsif !is_finalized && finalized_at
+      self.finalized_at = nil
+    end
+  end
+
+  public
+
+  # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
+  # as finalized.  Note, should generally be avoided by front-end logic, but guards against edge
+  # cases.
+  def unfinalize_allowed
+    if is_finalized_changed? && !is_finalized && is_finalized_locked?
+      errors.add(:is_finalized, I18n.t("project_step.unfinalize_disallowed"))
+    end
+  end
+
+  def is_finalized_locked?
+    finalized_at && Time.now > finalized_at + 1.day
   end
 
   def days_late
