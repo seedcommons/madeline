@@ -1,7 +1,6 @@
 - content_for(:title, @loan.name)
 
 - content_for :styles
-  = stylesheet_link_tag "admin/forms/forms", :media => "all"
   = stylesheet_link_tag "admin/forms/project_step_form", :media => "all"
   = stylesheet_link_tag "admin/loans/tabs", :media => "all"
   = stylesheet_link_tag "admin/loans/timeline", :media => "all"
@@ -12,7 +11,6 @@
 = include_gon
 
 - content_for :scripts
-  = javascript_include_tag "admin/forms/forms"
   = javascript_include_tag "admin/expand"
   = javascript_include_tag "admin/calendar/calendar"
 
@@ -38,3 +36,6 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   div.loan-content
     = render "admin/loans/tabs/tabs"
+
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '.loan.details' }) });
