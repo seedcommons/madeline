@@ -213,6 +213,34 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
+  # Returns number of days that the scheduled date has been moved out if finalized, or days late
+  # if just now marked completed.  Assumes that record has pending changes assigned, but not yet
+  # saved. Only returns 0 or a positive value.  Used to trigger potential automatic scheduled date
+  # shift of subsequent steps.
+  def pending_days_shifted
+    days_shifted = 0
+    if is_finalized? && scheduled_date_changed?
+      if scheduled_date_was && scheduled_date
+        days_shifted = (scheduled_date - scheduled_date_was).to_i
+      end
+    end
+    if scheduled_date && completed_date && completed_date_changed? && completed_date_was.blank? &&
+      completed_date > scheduled_date
+      days_shifted = (completed_date - scheduled_date).to_i
+    end
+    return [0,days_shifted].max
+  end
+
+  def subsequent_step_ids(original_date = nil)
+    date = original_date || scheduled_date
+    return [] unless date
+    # Todo: Confirm if this is the exact criteria desired.  It's unlikely that there would be
+    # prior uncompleted steps, but if there are perhaps we should just shift all uncompleted
+    # steps.
+    project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
+      date: date, id: id).pluck(:id)
+  end
+
   #
   # Translations helpers
   #
