@@ -184,8 +184,9 @@
   #calendar-step-modal {
     .step {
       border-width: 2px;
-      
-      .actions, .check {
+      margin-bottom: 0;
+
+      .check {
         display: none;
       }
     }

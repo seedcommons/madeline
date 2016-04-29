@@ -1,19 +1,4 @@
 div.modal.fade tabindex="-1" role="dialog" aria-labelledby="project-step-label" id="calendar-step-modal"
   div.modal-dialog.modal-lg
     div.modal-content
-      div.modal-header
-        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
-          span aria-hidden="true" &times;
-        h4.modal-title id="project-step-label"
       div.modal-body
-      
-      div.modal-footer
-        a.action.edit-step-action.btn.btn-default href="#"
-          i.fa.fa-pencil
-        a.action.duplicate-step-action.btn.btn-default href="#"
-          i.fa.fa-files-o
-          = t("project_step.duplicate") 
-        = link_to '#', method: :delete, class: "action btn btn-default",
-            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
-            i.fa.fa-trash.fa-large>
