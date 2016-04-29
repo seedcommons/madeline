@@ -18,7 +18,7 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def new
-    @org = Organization.new
+    @org = Organization.new(division: current_division)
     authorize @org
     @countries = Country.all
     @form_action_url = admin_organizations_path
