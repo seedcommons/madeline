@@ -61,5 +61,4 @@ class MS.Views.ProjectStepView extends Backbone.View
     @$el.replaceWith(data)
     MS.loadingIndicator.hide()
     MS.timelineView.addBlankStep() unless @persisted || @duplicate
-
-    # TODO: Rerender calendar events if step is edited, deleted, or duplicated
+    MS.CalendarView.rerenderEvents()
