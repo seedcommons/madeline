@@ -1,76 +1,6 @@
 @import "../colors";
 
 .timeline {
-  .action-items, .step-logs {
-    text-align: right;
-  }
-
-  #adjust-dates-modal {
-    .form-item {
-      margin: 0 .2em;
-    }
-  }
-
-  .completion-status {
-    .complete {
-      color: $success2;
-      line-height: 1;
-    }
-  }
-
-  .info {
-    .info-label {
-      color: $gray3;
-      font-weight: bold;
-    }
-  }
-
-  .panel {
-    border: 1px solid $black;
-
-    &.step {
-      border-width: 2px;
-      border-radius: 15px;
-      border-color: $black;
-
-      .check {
-        padding-right: 15px;
-        padding-bottom: 15px;
-      }
-    }
-
-    &.log {
-      border-radius: 0px;
-    }
-  }
-
-  .step {
-    .action {
-      margin: .5em;
-      padding: 0;
-
-      &:last-of-type {
-        margin-right: 0;
-      }
-    }
-
-    .check-details {
-      display: flex;
-    }
-
-    .title {
-      font-weight: bold;
-      margin: 0;
-      display: flex;
-    }
-
-    .step-details {
-      .info td {
-        padding: 2px 4px;
-      }
-    }
-  }
-
   .timeline-header {
     text-align: center;
 
@@ -94,21 +24,6 @@
 
     .top-actions {
       float: right;
-    }
-  }
-
-  .title {
-    font-size: 1.1em;
-
-    .icon {
-      padding: 0 5px 1em 0;
-      i {
-        font-size: 1.5em;
-      }
-    }
-
-    .title-text {
-      padding-bottom: 1em;
     }
   }
 }

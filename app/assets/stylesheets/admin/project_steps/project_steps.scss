@@ -15,3 +15,86 @@
     }
   }
 }
+
+.step {
+  .action-items, .step-logs {
+    text-align: right;
+  }
+
+  .action {
+    margin: .5em;
+    padding: 0;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .check-details {
+    display: flex;
+  }
+
+  .completion-status {
+    .complete {
+      color: $success2;
+      line-height: 1;
+    }
+  }
+
+  .info {
+    .info-label {
+      color: $gray3;
+      font-weight: bold;
+    }
+  }
+
+  .step-details {
+    .info td {
+      padding: 2px 4px;
+    }
+  }
+
+  .title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+
+    .icon {
+      padding: 0 5px 1em 0;
+      i {
+        font-size: 1.5em;
+      }
+    }
+
+    .title-text {
+      padding-bottom: 1em;
+    }
+  }
+}
+
+.panel {
+  border: 1px solid $black;
+
+  &.step {
+    border-width: 2px;
+    border-radius: 15px;
+    border-color: $black;
+
+    .check {
+      padding-right: 15px;
+      padding-bottom: 15px;
+    }
+  }
+
+  &.log {
+    border-radius: 0;
+    background: $gray2;
+  }
+}
+
+#adjust-dates-modal {
+  .form-item {
+    margin: 0 .2em;
+  }
+}

@@ -1,13 +1,25 @@
 .panel-body
   - if context == 'calendar'
-    h4.title
-      - if step.step_type_value == 'checkin'
-        .icon
-          i.fa.fa-calendar-check-o
-      - elsif step.step_type_value == 'milestone'
-        .icon
-          i.fa.fa-flag
-      .title-text = step.try(:summary)
+    div.row
+      h4.title.col-lg-8.col-md-12
+        - if step.step_type_value == 'checkin'
+          .icon
+            i.fa.fa-calendar-check-o
+        - elsif step.step_type_value == 'milestone'
+          .icon
+            i.fa.fa-flag
+        .title-text = step.try(:summary)
+        
+      .actions.col-lg-4.col-md-12
+        a.action.edit-step-action href="#"
+          i.fa.fa-pencil
+          = t(:edit)
+
+        = link_to [:admin, step], method: :delete, class: "action",
+            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
+            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+            i.fa.fa-trash.fa-large>
+            | Delete
     
   .step-details.row
     .col-md-6.check-details
@@ -36,17 +48,19 @@
               = t("project_step.status.completed")
         - else
           = t("project_step.status.not_completed")
-      .actions
-        a.action.edit-step-action href="#"
-          i.fa.fa-pencil
-        - if policy(step).duplicate?
-          a.action.duplicate-step-action href="#"
-            i.fa.fa-files-o
+      - if context == "timeline"
+        .actions
+          a.action.edit-step-action href="#"
+            i.fa.fa-pencil
+            
+          - if policy(step).duplicate? && (context == 'timeline')
+            a.action.duplicate-step-action href="#"
+              i.fa.fa-files-o
 
-        = link_to [:admin, step], method: :delete, class: "action",
-            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
-            i.fa.fa-trash.fa-large>
+          = link_to [:admin, step], method: :delete, class: "action",
+              data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
+              "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+              i.fa.fa-trash.fa-large>
       .clearfix
 
     .col-md-4.col-md-pull-2.status-details

@@ -182,12 +182,32 @@
   }
 
   #calendar-step-modal {
+    .modal-content {
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
     .step {
+      background: $gray1;
       border-width: 2px;
       margin-bottom: 0;
 
       .check {
         display: none;
+      }
+    }
+
+    .actions {
+      margin: 0;
+      text-align: right;
+
+      .action {
+        text-align: center;
+        margin: 0 0 0 15px;
+        padding: 10px;
+        display: inline-block;
+        float: none;
       }
     }
   }
