@@ -68,5 +68,5 @@ class MS.Views.CalendarView extends Backbone.View
     @$('#calendar-step-modal').find('.modal-content').css('border', '2px solid ' + color)
 
     new MS.Views.ProjectStepView({
-      el: @$(calendarStep)
+      el: @$('#calendar-step-modal')
     })
