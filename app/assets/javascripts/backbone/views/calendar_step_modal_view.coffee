@@ -6,8 +6,8 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     'click .cal-step': 'showStepModal'
 
   showStepModal: (e) ->
-    # calStep = e.currentTarget
-    # id = @$(calStep).attr('data-step-id')
+    calStep = e.currentTarget
+    id = @$(calStep).attr('data-step-id')
     # selector = '.step[data-step-id=' + id + ']'
     # projectStep = $('.project-steps').find(selector)
     # color = $(projectStep).attr('data-color')
@@ -19,4 +19,11 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     # calendarStep = @$('#calendar-step-modal').find('.modal-body').find('.step')
     # @$('#calendar-step-modal').find('.modal-content').css('border', '2px solid ' + color)
 
+    MS.loadingIndicator.show()
+    $.get '/admin/project_steps/' + id, (html) =>
+      @replaceContent(html)
+
+  replaceContent: (html) ->
+    @$('#calendar-step-modal').find('.modal-body').empty().append(html)
     @$('#calendar-step-modal').modal({show: true})
+    MS.loadingIndicator.hide()

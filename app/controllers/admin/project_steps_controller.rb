@@ -24,6 +24,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     if request.xhr?
+      render_step_partial(:show)
+    else
       display_timeline(@step.project_id)
     end
   end
