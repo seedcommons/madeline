@@ -8,7 +8,7 @@ section.timeline
       #no-steps-msg = t("project_step.no_steps")
     - else
       - @loan.project_steps.each do |step|
-        = render "admin/project_steps/project_step", step: step, mode: :show
+        = render "admin/project_steps/project_step", step: step, mode: :show, context: 'timeline'
 
   javascript:
     $(function() {

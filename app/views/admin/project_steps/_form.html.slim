@@ -9,6 +9,8 @@ div.panel-body
     - if step.new_record?
       = f.hidden_field(:project_id)
       = f.hidden_field(:project_type)
+      
+    = hidden_field_tag(:context, context)
 
     = f.error_notification
     .step_form_left.col-sm-8.languages

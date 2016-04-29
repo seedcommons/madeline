@@ -6,13 +6,14 @@ div.panel.step [
   ]
 
   .form-step-block style="display: #{mode == :form ? 'inherit' : 'none'}"
-    = render "admin/project_steps/form", step: step
+    = render "admin/project_steps/form", step: step, context: context
 
   - if step.persisted? # No need for show partial if this is a new record
     .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
-      = render "admin/project_steps/show", step: step
+      = render "admin/project_steps/show", step: step, context: context
 
-  = render "admin/project_steps/duplicate_step_modal", step: step if policy(step).duplicate?
+  = render "admin/project_steps/duplicate_step_modal",
+    step: (step if policy(step).duplicate?), context: context
 
   javascript:
     $(document).ready(function() {

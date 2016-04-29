@@ -23,7 +23,9 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    display_timeline(@step.project_id)
+    if request.xhr?
+      display_timeline(@step.project_id)
+    end
   end
 
   def create
@@ -148,7 +150,6 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def render_step_partial(mode)
-    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode }
+    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode, context: params[:context]}
   end
 end
-
