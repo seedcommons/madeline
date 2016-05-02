@@ -278,7 +278,7 @@ class ProjectStep < ActiveRecord::Base
     def calendar_scheduled_event
       cal_item = {}
 
-      cal_item[:start] = completed_date ? completed_date : scheduled_date
+      cal_item[:start] = completed? ? completed_date : scheduled_date
       cal_item[:title] = name
       cal_item[:backgroundColor] = color
 
@@ -287,10 +287,8 @@ class ProjectStep < ActiveRecord::Base
       cal_item[:id] = id
 
       cal_item[:step_type] = milestone? ? "milestone" : "checkin"
-
       cal_item[:completion_status] = completed? ? "complete" : "incomplete"
-
-      cal_item[:time_status] = days_late > 0 ? "late" : "on_time"
+      cal_item[:time_status] = days_late && days_late > 0 ? "late" : "on_time"
 
       return cal_item
     end
