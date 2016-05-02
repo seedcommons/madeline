@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       end
     end
     resources :project_logs
+    namespace :divisions do
+      post :select
+    end
 
     namespace :raw do
       resources :divisions

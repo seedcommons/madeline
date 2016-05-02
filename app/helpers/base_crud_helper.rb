@@ -74,12 +74,12 @@ module BaseCrudHelper
     form.select(name, country_select_options(model.send(name)), {include_blank: '---'})
   end
 
-  def division_select_options(selected)
+  def division_select_options_crud(selected)
     options_from_collection_for_select(Division.all, :id, :name, selected)
   end
 
   def select_division(form, model, name = 'division_id'.to_sym)
-    form.select(name, division_select_options(model.send(name)), {include_blank: '---'})
+    form.select(name, division_select_options_crud(model.send(name)), {include_blank: '---'})
   end
 
 

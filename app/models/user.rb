@@ -41,4 +41,32 @@ class User < ActiveRecord::Base
   def name
     profile.try(:name)
   end
+
+  def accessible_divisions
+    division_scope.resolve
+  end
+
+  def accessible_division_ids
+    division_scope.accessible_ids
+  end
+
+  def division_scope
+    DivisionPolicy::Scope.new(self, Division)
+  end
+
+  def default_division
+    Division.find(default_division_id)
+  end
+
+  # For now, gives first preference to the division owning the user's profile, then looks for a role
+  # associated division.
+  # Todo: Confirm precise business rule desired here.  Will possibly depend on new data modeling.
+  def default_division_id
+    owning_division_id || division_scope.base_accessible_ids.first
+  end
+
+  def owning_division_id
+    profile.try(:division_id)
+  end
+
 end
