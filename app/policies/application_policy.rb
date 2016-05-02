@@ -7,7 +7,10 @@ class ApplicationPolicy
   end
 
   def index?
-    division_member_or_admin
+    puts "ApplicationPolicy.index?"
+    # division_member_or_admin
+    # Assume that users are allowed index view unless specifically disallowed
+    true
   end
 
   def show?

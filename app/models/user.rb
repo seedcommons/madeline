@@ -69,4 +69,13 @@ class User < ActiveRecord::Base
     profile.try(:division_id)
   end
 
+  def active_for_authentication?
+    division_scope.base_accessible_ids.present?
+  end
+
+  def inactive_message
+    unless division_scope.base_accessible_ids.present?
+      I18n.t("user.not_permission")
+    end
+  end
 end

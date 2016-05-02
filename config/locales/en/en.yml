@@ -66,6 +66,7 @@ en:
   all: "All"
   calendar: "Calendar"
   cancel: "Cancel"
+  cancel_edit: "Cancel Edit"
   city: "City"
   clear: "Clear"
   completed: "Completed"
@@ -79,7 +80,7 @@ en:
   delete: "Delete"
   description: "Description"
   dropdown_toggle: "Toggle Dropdown"
-  division: "Division"
+  divisions: "Divisions"
   edit: "Edit"
   email: "Email"
   filter: "Filter"
@@ -111,12 +112,19 @@ en:
   update: "Update"
   updated: "Updated"
 
+  # Keys in the top level scope should be gradually moved into this 'common' subgroup.
+  # This will avoid collisions with top level keys matching subgroups. (Which can lead to
+  # very cryptic errors)
+  common:
+    division: "Division"
+    divisions: "Divisions"
+
   organization:
     active_loans: "Active Loans"
-    cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
     delete: "Delete Co-op"
     edit: "Edit Co-op"
+    new: "New Co-op"
 
   loan:
     adjust_dates: "Adjust Dates"
@@ -231,3 +239,4 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+    not_permission: "User is not permissioned with access to any divisions"

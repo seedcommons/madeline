@@ -3,7 +3,6 @@ li = link_to 'Co-ops', admin_organizations_path
 li = link_to 'Loans', admin_loans_path
 li = link_to 'Calendar', admin_calendar_index_path
 li: a Members
+- if policy(Division).index?
+  li = link_to 'Divisions', admin_divisions_path
 li: a Reports
-
-hr.hidden-xs
-li = link_to "Raw Admin Views", admin_raw_divisions_path

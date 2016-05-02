@@ -1,0 +1,53 @@
+- content_for(:title, t("common.divisions"))
+
+- content_for :with_title
+  = link_to t(".new"), new_admin_division_path, class: 'btn btn-default new-button'
+
+= render 'layouts/admin/tables'
+
+= define_grid(@divisions_grid, show_filters: :always,
+    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
+
+  - g.blank_slate do
+    - @empty_list = true
+    - content_tag(:div, t("no_records"), class: 'alert alert-info')
+
+  - g.column name: t("id"), attribute: 'id', filter: false do |division|
+    - link_to(division.id, admin_division_path(division.id))
+
+  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
+
+  - g.column name: t("parent"), attribute: 'name', assoc: :parent,
+    custom_filter: :auto, detach_with_id: :parent_filter do |division|
+    - division.parent.try(:name)
+
+  - g.column name: t("created"), attribute: 'created_at', filter: false do |division|
+    - fuzzy_time(division.created_at)
+
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |division|
+    - fuzzy_time(division.updated_at)
+
+- unless @empty_list
+  header.block
+    .filters
+      h4 = t("filter_by")
+
+      .larger-text-box.filter
+        label = t("name")
+        .filter-content
+          = grid_filter(@divisions_grid, :name_filter)
+
+      .filter
+        label = t("parent")
+        .filter-content
+          = grid_filter(@divisions_grid, :parent_filter)
+
+      .actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+          = t("clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+          = t("filter")
+      .clearfix
+
+= render_grid(@divisions_grid)

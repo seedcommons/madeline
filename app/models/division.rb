@@ -95,6 +95,12 @@ class Division < ActiveRecord::Base
     self
   end
 
+  def has_noncascading_owned_records?
+    Division.where(parent: self).present? ||
+      Organization.where(division: self).present? ||
+      Loan.where(division: self).present?  ||
+      Person.where(division: self).present?
+  end
 
   # note, current 'accessible' logic is a placeholder until migrate updated to
   # deduce most appropriate division owner of people and orgs, and loan specific visibility

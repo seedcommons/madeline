@@ -1,6 +1,7 @@
 class Admin::OrganizationsController < Admin::AdminController
   def index
-    authorize Organization.new(division: current_division)
+    # authorize Organization.new(division: current_division)
+    authorize Organization
     @organizations_grid = initialize_grid(
       policy_scope(Organization),
       include: :country,

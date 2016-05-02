@@ -1,6 +1,7 @@
 class DivisionPolicy < ApplicationPolicy
   def index?
-    division_member_or_admin(division: @record)
+    # Require admin role on at least one division to allow access to index view
+    user.roles.where(name: 'admin', resource_type: 'Division').present?
   end
 
   def show?
@@ -8,15 +9,19 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def create?
-    division_admin(division: @record)
+    # Need to let record with missing parent pass through the policy check so a validation
+    # message can be presented to the user.
+    # Todo: Confirm if there a better approach here?
+    return true unless @record.parent
+    division_admin(division: @record.parent)
   end
 
   def update?
-    division_admin(division: @record)
+    division_admin(division: @record) && !@record.root?
   end
 
   def destroy?
-    division_admin(division: @record)
+    division_admin(division: @record) && !@record.root? && !@record.has_noncascading_owned_records?
   end
 
   def select?
