@@ -9,15 +9,17 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
           = t("project_step.duplicate_step")
 
       div.modal-body
-        = form_tag do |f|
+        = form_tag(duplicate_admin_project_step_path(step), remote: true) do |f|
+          = hidden_field_tag :authenticity_token, form_authenticity_token
+          div.form-group.row
+            = label_tag
+              input.repeat-once type="radio" name="duplication[repeat_duration]" value="once" checked="checked"
+                span.bold = t("project_step.once")
 
           div.form-group.row
-            input.repeat-once type="radio" name="repeat_duration"value="repeat_once" checked="checked"
-              span.bold = t("project_step.once")
-
-          div.form-group.row
-            input.custom-repeat type="radio" name="repeat_duration" value="custom_repeat"
-              span.bold = t("project_step.repeat")
+            = label_tag
+              input.custom-repeat type="radio" name="duplication[repeat_duration]" value="custom_repeat"
+                span.bold = t("project_step.repeat")
 
           = render "admin/project_steps/repeat_options", step: step, f: f
 
@@ -25,5 +27,10 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
         button.btn.btn-default type="button" data-dismiss="modal"
           = t(:cancel)
 
-        button.btn.btn-primary type="button" data-dismiss="modal"
+        button.btn.btn-primary type="button"
           = t("project_step.duplicate")
+
+  javascript:
+    $(function() {
+      new MS.Views.DuplicateStepView({ el: "#duplicate-step-modal-#{step.id}" });
+    });

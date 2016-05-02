@@ -9,6 +9,9 @@
 .add-log {
   background: $success1;
   color: $white;
+  line-height: 2.2em;
+  padding-top: 0;
+  padding-bottom: 0;
 
   .fa {
     vertical-align: middle;
@@ -44,6 +47,7 @@
 .log {
   &.panel {
     background: $gray1;
+    margin-bottom: 15px;
   }
 
   .panel-body, .panel-footer, .panel-heading {
@@ -65,7 +69,7 @@
 
   .actions-box {
     text-align: left;
-    margin: 0 1em;
+    margin: 0 0.5em;
   }
 }
 
@@ -145,13 +149,10 @@
   }
 }
 
-.right-align {
-  text-align: right;
-}
-
 .logs {
-  header.row {
-    margin: 1em 0;
+  header {
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     .section-heading {
       font-size: 1.25em;

@@ -9,12 +9,22 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
+
+
+//////////////////////////////////////////////////////////////////////////////////
+// Note: For the admin system, we are moving away from the old practice
+// of including JS on a per-page basis.
+// All admin JS should generally be under the backbone folder, and
+// everything in there is included via `require backbone/madeline_system` above.
+
+
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
 //= require select2-full
+//= require URI
+//= require bootstrap-responsive-tabs
 
 //= require jquery-ui
 //= require wice_grid

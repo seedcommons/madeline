@@ -5,6 +5,7 @@
 #  agent_id        :integer
 #  completed_date  :date
 #  created_at      :datetime         not null
+#  finalized_at    :datetime
 #  id              :integer          not null, primary key
 #  is_finalized    :boolean
 #  original_date   :date
@@ -23,6 +24,8 @@
 #
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #
+
+require 'chronic'
 
 class ProjectStep < ActiveRecord::Base
   include ::Translatable, OptionSettable
@@ -51,8 +54,10 @@ class ProjectStep < ActiveRecord::Base
   attr_option_settable :step_type
 
   validates :project_id, presence: true
+  validate :unfinalize_allowed
 
   before_save :handle_original_date_logic
+  before_save :handle_finalized_at
 
   def division
     project.try(:division)
@@ -74,6 +79,11 @@ class ProjectStep < ActiveRecord::Base
 
   def name
     "#{project.try(:name)} step"
+  end
+
+  # For use in views if record not yet saved.
+  def id_or_temp_id
+    @id_or_temp_id ||= id || "tempid#{rand(1000000)}"
   end
 
   def logs_count
@@ -120,12 +130,37 @@ class ProjectStep < ActiveRecord::Base
     self[:original_date].present?
   end
 
+  private
+
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
     if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
       self.original_date = scheduled_date_was
     end
+  end
+
+  def handle_finalized_at
+    if is_finalized && !finalized_at
+      self.finalized_at = Time.now
+    elsif !is_finalized && finalized_at
+      self.finalized_at = nil
+    end
+  end
+
+  public
+
+  # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
+  # as finalized.  Note, should generally be avoided by front-end logic, but guards against edge
+  # cases.
+  def unfinalize_allowed
+    if is_finalized_changed? && !is_finalized && is_finalized_locked?
+      errors.add(:is_finalized, I18n.t("project_step.unfinalize_disallowed"))
+    end
+  end
+
+  def is_finalized_locked?
+    finalized_at && Time.now > finalized_at + 1.day
   end
 
   def days_late
@@ -139,9 +174,9 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def date_status_statement
-    if days_late < 0
+    if days_late && days_late < 0
       I18n.t("project_step.status.days_early", days: -days_late)
-    elsif days_late > 0
+    elsif days_late && days_late > 0
       I18n.t("project_step.status.days_late", days: days_late)
     else
       I18n.t("project_step.status.on_time")
@@ -150,10 +185,13 @@ class ProjectStep < ActiveRecord::Base
 
   # Generate a CSS color based on the status and lateness of the step
   def color
-    if completed? && days_late <= 0
+    # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
+    # error here even though it should not have been able to reach that part of the expression
+    # when the completed_date was not present, so defensively adding the 'days_late' nil checks.
+    if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
       color_between(COLORS[:on_time], COLORS[:super_early], fraction)
-    elsif days_late > 0
+    elsif days_late && days_late > 0
       fraction = days_late / SUPER_LATE_PERIOD
       color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
     else # incomplete and not late
@@ -177,33 +215,10 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  def scheduled_day
-    self.scheduled_date.day
-  end
-
-  def weekday_of_scheduled_date
-    Date::DAYNAMES[self.scheduled_date.wday]
-  end
-
-  def scheduled_date_weekday_key
-    self.week_of_scheduled_date.to_s + "_" + self.weekday_of_scheduled_date.downcase
-  end
-
-  # Returns which week within a given month the scheduled date occurs.
-  def week_of_scheduled_date
-    day = scheduled_day.to_i
-
-    if (day < 8)
-      1
-    elsif (8 <= day) && (day < 15)
-      2
-    elsif (15 <= day) && (day < 22)
-      3
-    elsif (22 <= day) && (day < 29)
-      4
-    else
-      5
-    end
+  # Returns a duplication helper object which encapsulate handling of the modal rendering and
+  # submit handling.
+  def duplication
+    @duplication ||= ProjectStepDuplication.new(self)
   end
 
   def adjust_scheduled_date(days_adjustment)
@@ -233,14 +248,16 @@ class ProjectStep < ActiveRecord::Base
   # todo: refactor up to translatable.rb
 
   def update_translations!(translation_params)
-    # deleting the translations that have been removed
-    translation_params[:deleted_locales].each do |l|
-      [:details, :summary].each do |attr|
-        delete_translation(attr, l)
+    if persisted?
+      # deleting the translations that have been removed
+      translation_params[:deleted_locales].each do |l|
+        [:details, :summary].each do |attr|
+          delete_translation(attr, l)
+        end
       end
-    end
 
-    reload
+      reload
+    end
 
     # updating/creating the translation that have been updated, added
     permitted_locales.each do |l|

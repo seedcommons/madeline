@@ -1,10 +1,10 @@
-div.panel.log.expandable
-  div.panel-heading
-    div.row
-      div.col-lg-10.first-col
-        span.bold = log.date
-        span = t(:dash)
-        span = Person.find(log.agent_id).name
+.panel.log.expandable
+  .panel-heading
+    .row
+      .col-sm-10
+        b => log.date
+        => t(:dash)
+        => Person.find(log.agent_id).name
         span.actions-box
           a.action role="button"
             i.fa.fa-pencil
@@ -16,30 +16,29 @@ div.panel.log.expandable
               role: "button"
               i.fa.fa-trash>
 
-      div.col-lg-2.last-col.right-align
+      .col-sm-2.text-right
         span.bold = log.try(:progress_metric)
 
-  div.panel-body
-    div.row
-      p
-        - if log.summary
-          span.summary = log.try(:summary)
+  .panel-body
+    p
+      - if log.summary
+        span.summary = log.try(:summary)
 
-        - if log.details || log.additional_notes || log.private_notes
-          a.more.log-ctrl role="button" = t(:more)
-          a.less.log-ctrl role="button" = t(:less)
+      - if log.details || log.additional_notes || log.private_notes
+        a.more.log-ctrl role="button" = t(:more)
+        a.less.log-ctrl role="button" = t(:less)
 
-  div.panel-footer.more-info
+  .panel-footer.more-info
     - if log.details
       p.log-info
         = log.try(:details)
 
-    div.log-info
+    .log-info
       - if log.additional_notes
         span.bold = t("log.additional_notes")
         span = log.try(:additional_notes)
 
-    div.log-info
+    .log-info
       - if log.private_notes
         span.bold = t("log.private_notes")
         span = log.try(:private_notes)

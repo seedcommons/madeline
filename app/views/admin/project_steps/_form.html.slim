@@ -5,6 +5,11 @@ div.panel-body
           html: { class: 'project-step-form' },
           defaults: {html5: true}) do |f|
 
+    / Need to pass these through to create but not update.
+    - if step.new_record?
+      = f.hidden_field(:project_id)
+      = f.hidden_field(:project_type)
+
     = f.error_notification
     .step_form_left.col-sm-8.languages
       input.deleted-locales type="hidden" name="project_step[deleted_locales]" value="[]"
@@ -31,7 +36,11 @@ div.panel-body
       .form-group.date.optional.project_step_completed_date
         = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
         .col-sm-9
-          = f.check_box :is_finalized, class: "step_form_right_9 finalized"
+          - if step.is_finalized_locked?
+            = step.is_finalized ? t("reply_yes") : t("reply_no")
+            =< "(#{t('locked')})"
+          - else
+            = f.check_box :is_finalized, class: "step_form_right_9 finalized"
 
     .clearfix
 

@@ -131,6 +131,18 @@ module Translatable
     end
   end
 
+  # Clones all translations associated with current instance into target translatable instance as
+  # transient values.
+  def clone_translations(destination)
+    translations.each do |translation|
+      destination.translations.build(
+        translatable_attribute: translation.translatable_attribute,
+        locale: translation.locale,
+        text: translation.text
+      )
+    end
+  end
+
   # returns the element from the parent objects association list for the given object's id
   # necessary to get autosave behavior to work as desired
   # def associated_translation(translation)

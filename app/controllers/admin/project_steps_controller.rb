@@ -6,17 +6,35 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     if @step.destroy
-      display_timeline(@step, I18n.t(:notice_deleted))
+      display_timeline(@step.project_id, I18n.t(:notice_deleted))
     else
-      display_timeline(@step)
+      display_timeline(@step.project_id)
     end
+  end
+
+  def new
+    @loan = Loan.find(params[:loan_id])
+    @step = ProjectStep.new(project: @loan)
+    authorize @step
+    render_step_partial(:form)
   end
 
   def show
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    display_timeline(@step)
+    display_timeline(@step.project_id)
+  end
+
+  def create
+    # We initialize with project_step_params here to given enough info for authorize to work
+    @step = ProjectStep.new(project_step_params)
+    authorize @step
+
+    # This will likely be refactored in future to use nested attributes
+    # Passing an empty hash for first param because we already initialized params above
+    valid = @step.update_with_translations({}, translations_params(@step.permitted_locales))
+    render_step_partial(valid ? :show : :form)
   end
 
   def update
@@ -24,7 +42,14 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
-    render partial: "/admin/project_steps/project_step", locals: {step: @step, mode: valid ? :show : :edit}
+    render_step_partial(valid ? :show : :form)
+  end
+
+  def duplicate
+    step = ProjectStep.find(params[:id])
+    authorize step
+    @steps = step.duplication.perform(params[:duplication])
+    render(layout: false)
   end
 
   def batch_destroy
@@ -68,7 +93,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
   # the timeline.
-  def batch_operation(step_ids)
+  def batch_operation(step_ids, notice_key: :notice_batch_updated)
     success_count = 0
     failure_count = 0
     project_id = nil
@@ -92,18 +117,17 @@ class Admin::ProjectStepsController < Admin::AdminController
       end
     end
 
-    if failure_count == 0
-      notice = I18n.t(:notice_batch_updated, count: success_count)
-    else
-      notice = I18n.t(:notice_batch_updated_with_failures,
-        count: success_count, failure_count: failure_count)
+    notice = I18n.t(notice_key, count: success_count)
+    if failure_count > 0
+      notice = [notice, I18n.t(:notice_batch_failures, failure_count: failure_count)].join(" ")
     end
 
     [project_id, notice]
   end
 
   def project_step_params
-    params.require(:project_step).permit(:is_finalized, :scheduled_date, :completed_date, :step_type_value)
+    params.require(:project_step).permit(:is_finalized, :scheduled_date, :completed_date, :step_type_value,
+      :project_type, :project_id)
   end
 
   #todo: factor out into a concern as we implement other translatable forms
@@ -119,5 +143,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     redirect_to admin_loan_path(project_id, anchor: 'timeline'), notice: notice
   end
 
+  private
+
+  def render_step_partial(mode)
+    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode }
+  end
 end
 
