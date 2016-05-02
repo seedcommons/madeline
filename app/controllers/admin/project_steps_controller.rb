@@ -93,7 +93,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
   # the timeline.
-  def batch_operation(step_ids)
+  def batch_operation(step_ids, notice_key: :notice_batch_updated)
     success_count = 0
     failure_count = 0
     project_id = nil
@@ -117,11 +117,9 @@ class Admin::ProjectStepsController < Admin::AdminController
       end
     end
 
-    if failure_count == 0
-      notice = I18n.t(:notice_batch_updated, count: success_count)
-    else
-      notice = I18n.t(:notice_batch_updated_with_failures,
-        count: success_count, failure_count: failure_count)
+    notice = I18n.t(notice_key, count: success_count)
+    if failure_count > 0
+      notice = [notice, I18n.t(:notice_batch_failures, failure_count: failure_count)].join(" ")
     end
 
     [project_id, notice]
