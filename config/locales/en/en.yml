@@ -173,6 +173,10 @@ en:
 
   project_step:
     after: "After"
+    confirm_deletion: "Are you sure you want to delete this project step?  NOTE, %{log_count} log(s) will also be deleted."
+    confirm_shift_subsequent:
+      one: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the subsequent step date back by %{days} days?"
+      other: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the %{count} subsequent step dates back by %{days} days?"
     days: "Day(s)"
     delete_step: "Delete Step"
     duplicate: "Duplicate"
@@ -180,7 +184,6 @@ en:
     edit_step: "Edit Step"
     end: "End:"
     every: "Every:"
-    confirm_deletion: 'Are you sure you want to delete this project step?  NOTE, %{log_count} log(s) will also be deleted.'
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
     batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
     finalized: "Finalized:"
@@ -201,6 +204,7 @@ en:
       one: "project step"
       other: "project steps"
     repeat: "Repeat..."
+    shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
     status:
       completed: "Completed"

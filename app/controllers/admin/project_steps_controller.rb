@@ -41,8 +41,24 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
+    @step.assign_attributes(project_step_params)
+    days_shifted = @step.pending_days_shifted # Detect potential schedule shift.
+    subsequent_count = @step.subsequent_step_ids.size
     valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
-    render_step_partial(valid ? :show : :form)
+    # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
+    days_shifted = 0 unless valid && subsequent_count > 0
+    render partial: "/admin/project_steps/project_step", locals: {step: @step,
+      mode: valid ? :show : :edit, days_shifted: days_shifted, subsequent_count: subsequent_count}
+  end
+
+  # Updates scheduled date of all project steps following this
+  def shift_subsequent
+    @step = ProjectStep.find(params[:id])
+    num_days = params[:num_days].to_i
+    authorize @step
+    ids = @step.subsequent_step_ids(@step.scheduled_date - num_days.days)
+    unused, notice = batch_operation(ids){ |step| step.adjust_scheduled_date(num_days) }
+    display_timeline(@step.project_id, notice)
   end
 
   def duplicate
@@ -93,12 +109,14 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
   # the timeline.
+  # 'step_ids' may either be an array of integer or comma separated string
   def batch_operation(step_ids, notice_key: :notice_batch_updated)
     success_count = 0
     failure_count = 0
     project_id = nil
     raise_error = true
-    step_ids.split(',').each do |step_id|
+    step_ids = step_ids.split(',') if step_ids.is_a?(String)
+    step_ids.each do |step_id|
       begin
         step = ProjectStep.find(step_id)
         authorize step
