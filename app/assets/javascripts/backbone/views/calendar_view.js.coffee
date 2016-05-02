@@ -21,7 +21,8 @@ class MS.Views.CalendarView extends Backbone.View
         left: 'prev,next today',
         center: 'title',
         right: 'month,agendaWeek legend'
-      }
+      },
+      allDayDefault: true
     })
 
     @renderLegend()

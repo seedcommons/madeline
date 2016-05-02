@@ -20,12 +20,20 @@ class Admin::LoansController < Admin::AdminController
 
     # TODO: Move calendar logic to resuable concern
     @calEvents = []
-    prepare_event(@loan.calendar_start_event)
-    prepare_event(@loan.calendar_end_event)
+
+    if @loan[:signing_date] && @loan[:target_end_date]
+      prepare_event(@loan.calendar_start_event)
+      prepare_event(@loan.calendar_end_event)
+    end
 
     @loan.project_steps.each do |step|
-      prepare_event(step.calendar_scheduled_event)
-      prepare_event(step.calendar_original_scheduled_event)
+      if step[:scheduled_date]
+        prepare_event(step.calendar_scheduled_event)
+        
+        if step.calendar_original_scheduled_event
+          prepare_event(step.calendar_original_scheduled_event)
+        end
+      end
     end
   end
 
