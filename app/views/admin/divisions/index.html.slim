@@ -17,8 +17,11 @@
 
   - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
 
+  / Todo: Either figure out how to get this filter to properly apply when selected, or just rip out,
+  / Probably not worth the effort to get working unless it's something trivial.
+  / Displaying a list of child divisions from the show view is potentially more useful anyways.
   - g.column name: t("parent"), attribute: 'name', assoc: :parent,
-    custom_filter: :auto, detach_with_id: :parent_filter do |division|
+    custom_filter: @parent_filter_choices, detach_with_id: :parent_filter do |division|
     - division.parent.try(:name)
 
   - g.column name: t("created"), attribute: 'created_at', filter: false do |division|

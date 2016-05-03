@@ -13,27 +13,32 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def index
-    @new_tran = t(".new")
     authorize Division
     @divisions_grid = initialize_grid(
-      Division,
+      policy_scope(Division),
       order: 'name',
       per_page: 50
     )
+    @parent_filter_choices = current_user.accessible_divisions.map{ |d| [d.name, d.id] }
   end
 
   # show view includes edit
   def show
     @division = Division.find(params[:id])
     authorize @division
-    @potential_parents = potential_parents
+    # Todo: Confirm best way to factor these view helper data structures.
+    # Started to following the example set by the OrganizationsController here, but seems better
+    # to provide helper methods for the view to directly call.
+    # @currency_choices = Currency.all
+    # @parent_choices = parent_choices(@division)
     @form_action_url = admin_division_path
   end
 
   def new
     @division = Division.new(parent: current_division)
     authorize @division
-    @potential_parents = potential_parents
+    # @currency_choices = Currency.all
+    # @parent_choices = parent_choices(@division)
     @form_action_url = admin_divisions_path
   end
 
@@ -44,7 +49,8 @@ class Admin::DivisionsController < Admin::AdminController
     if @division.update(division_params)
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)
     else
-      @potential_parents = potential_parents
+      # @currency_choices = Currency.all
+      # @parent_choices = parent_choices(@division)
       @form_action_url = admin_division_path
       render :show
     end
@@ -57,7 +63,8 @@ class Admin::DivisionsController < Admin::AdminController
     if @division.save
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_created)
     else
-      @potential_parents = potential_parents
+      # @currency_choices = Currency.all
+      # @parent_choices = parent_choices(@division)
       @form_action_url = admin_divisions_path
       render :new
     end
@@ -70,7 +77,8 @@ class Admin::DivisionsController < Admin::AdminController
     if @division.destroy
       redirect_to admin_divisions_path, notice: I18n.t(:notice_deleted)
     else
-      @potential_parents = potential_parents
+      # @currency_choices = Currency.all
+      # @parent_choices = parent_choices(@division)
       @form_action_url = admin_division_path
       render :show
     end
@@ -79,13 +87,7 @@ class Admin::DivisionsController < Admin::AdminController
   private
 
   def division_params
-    params.require(:division).permit(:name, :parent_id)
-  end
-
-  # List of other divisions which are allowed to be reassigned as parent to this division.
-  #fixme: exclude self and children
-  def potential_parents
-    Division.all
+    params.require(:division).permit(:name, :description, :default_currency_id, :parent_id)
   end
 
   def set_selected_division_id(id)

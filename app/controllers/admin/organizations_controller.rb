@@ -1,5 +1,7 @@
 class Admin::OrganizationsController < Admin::AdminController
   def index
+    # Todo: Confirm that it makes more sense to authorize an index view against the class instead
+    # a transient instance
     # authorize Organization.new(division: current_division)
     authorize Organization
     @organizations_grid = initialize_grid(

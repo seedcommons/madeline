@@ -7,9 +7,8 @@ class ApplicationPolicy
   end
 
   def index?
-    puts "ApplicationPolicy.index?"
-    # division_member_or_admin
-    # Assume that users are allowed index view unless specifically disallowed
+    # Rely on scope filtering and assume that users are allowed to view an index unless specifically
+    # disallowed.
     true
   end
 
