@@ -17,7 +17,7 @@ describe DivisionPolicy do
   context 'being an admin of a division' do
     let(:user) { create(:user, :admin, division: division) }
 
-    permit_actions [:show, :edit, :update,]
+    permit_actions [:show, :edit, :update]
     forbid_actions [:create, :destroy]
   end
 

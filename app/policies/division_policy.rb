@@ -17,11 +17,19 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def update?
-    division_admin(division: @record) && !@record.root?
+
+    division_admin(division: @record) &&
+      !@record.root?  # Root division is considered read-only.
   end
 
+  # Note, for now we disallow deletion of divisions which have any organizations, loans, people,
+  # or child divisions.  Can change later if needed to allow the ability to delete with all
+  # dependencies.
+  # Todo: Confirm if destroy permission should be restricted to admins of the parent division.
   def destroy?
-    division_admin(division: @record.parent) && !@record.root? && !@record.has_noncascading_owned_records?
+    division_admin(division: @record.parent) &&
+      !@record.root? &&
+      !@record.has_noncascading_owned_records?
   end
 
   def select?

@@ -10,9 +10,9 @@ Rails.application.routes.draw do
     resources :calendar, only: [:index]
     resources :dashboard, only: [:index]
     resources :divisions do
-      # collection do
-      #   post :select
-      # end
+      collection do
+        post :select
+      end
     end
     resources :loans
     resources :organizations
@@ -29,9 +29,6 @@ Rails.application.routes.draw do
       member do
         patch :shift_subsequent
       end
-    end
-    namespace :divisions do
-      post :select
     end
 
     namespace :raw do

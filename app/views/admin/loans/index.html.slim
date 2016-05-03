@@ -12,7 +12,7 @@
   - g.column name: t("id"), attribute: 'id', filter: false do |loan|
     - link_to(loan.id, admin_loan_path(loan.id))
 
-  - g.column name: t("division.division"), attribute: 'name', assoc: :division,
+  - g.column name: t("common.division"), attribute: 'name', assoc: :division,
     custom_filter: :auto, detach_with_id: :division_filter
 
   - g.column name: t("coop"), attribute: 'name', assoc: :organization,
@@ -62,7 +62,7 @@
           = grid_filter(@loans_grid, :status_filter)
 
       .filter
-        label = t("division.division")
+        label = t("common.division")
         .filter-content
           = grid_filter(@loans_grid, :division_filter)
 

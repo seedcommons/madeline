@@ -80,7 +80,6 @@ en:
   delete: "Delete"
   description: "Description"
   dropdown_toggle: "Toggle Dropdown"
-  divisions: "Divisions"
   edit: "Edit"
   email: "Email"
   filter: "Filter"
@@ -239,4 +238,4 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
-    not_permission: "User is not permissioned with access to any divisions"
+    no_access: "User is not permissioned with access to any divisions"
