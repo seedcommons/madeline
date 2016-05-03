@@ -35,11 +35,13 @@
           = grid_filter(@organizations_grid, :country_filter)
 
       .actions
-        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+        button.btn.btn-link.wg-external-reset-button data-grid-name="organizations"
           = t("clear")
 
-        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="organizations"
           = t("filter")
+          
+        button.btn.wg-external-csv-export-button data-grid-name="organizations" Export To CSV
       .clearfix
 
 = render_grid(@organizations_grid)
