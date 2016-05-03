@@ -5,13 +5,6 @@
 
 = render 'layouts/admin/tables'
 
-// The below grid definitions apply to the visual grid only
-// Data link cannot be used in the organizations grid to render CSV
-/ = define_grid(@organizations_grid, show_filters: :always,
-/     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
-/     
-/     = render "grid_content", g: g
-
 = render "organizations_grid"
 
 - unless @empty_list
