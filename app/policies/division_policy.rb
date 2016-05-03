@@ -17,7 +17,6 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def update?
-
     division_admin(division: @record) &&
       !@record.root?  # Root division is considered read-only.
   end
@@ -29,7 +28,7 @@ class DivisionPolicy < ApplicationPolicy
   def destroy?
     division_admin(division: @record.parent) &&
       !@record.root? &&
-      !@record.has_noncascading_owned_records?
+      !@record.has_noncascading_dependents?
   end
 
   def select?

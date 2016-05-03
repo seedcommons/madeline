@@ -1,7 +1,7 @@
 - content_for(:title, t("common.divisions"))
 
 - content_for :with_title
-  = link_to t("division.new"), new_admin_division_path, class: 'btn btn-default new-button'
+  = link_to t("divisions.new"), new_admin_division_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
 
@@ -20,7 +20,7 @@
   / Todo: Either figure out how to get this filter to properly apply when selected, or just rip out,
   / Probably not worth the effort to get working unless it's something trivial.
   / Displaying a list of child divisions from the show view is potentially more useful anyways.
-  - g.column name: t("parent"), attribute: 'name', assoc: :parent,
+  - g.column name: t("divisions.parent"), attribute: 'name', assoc: :parent,
     custom_filter: @parent_filter_choices, detach_with_id: :parent_filter do |division|
     - division.parent.try(:name)
 
@@ -41,7 +41,7 @@
           = grid_filter(@divisions_grid, :name_filter)
 
       .filter
-        label = t("parent")
+        label = t("divisions.parent")
         .filter-content
           = grid_filter(@divisions_grid, :parent_filter)
 

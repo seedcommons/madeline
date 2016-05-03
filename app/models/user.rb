@@ -80,8 +80,6 @@ class User < ActiveRecord::Base
   end
 
   def inactive_message
-    unless has_some_access?
-      I18n.t("user.no_access")
-    end
+    I18n.t("user.no_access") unless has_some_access?
   end
 end

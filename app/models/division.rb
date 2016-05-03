@@ -100,7 +100,7 @@ class Division < ActiveRecord::Base
     self
   end
 
-  def has_noncascading_owned_records?
+  def has_noncascading_dependents?
     Division.where(parent: self).present? ||
       Organization.where(division: self).present? ||
       Loan.where(division: self).present?  ||

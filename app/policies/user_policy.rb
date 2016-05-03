@@ -1,8 +1,4 @@
 class UserPolicy < ApplicationPolicy
-  def index?
-    any_division_admin?
-  end
-
   def create?
     division_admin
   end
