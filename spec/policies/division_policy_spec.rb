@@ -10,27 +10,35 @@ describe DivisionPolicy do
   context 'being a member of a division' do
     let(:user) { create(:user, :member, division: division) }
 
-    permit_actions [:index, :show]
+    permit_actions [:show]
     forbid_actions [:create, :edit, :update, :destroy]
   end
 
   context 'being an admin of a division' do
     let(:user) { create(:user, :admin, division: division) }
 
-    permit_all
+    permit_actions [:show, :edit, :update,]
+    forbid_actions [:create, :destroy]
   end
 
   context 'being a member of a parent division' do
     let(:user) { create(:user, :member, division: parent_division) }
 
-    permit_actions [:index, :show]
+    permit_actions [:show]
     forbid_actions [:create, :edit, :update, :destroy]
   end
 
   context 'being an admin of a parent division' do
     let(:user) { create(:user, :admin, division: parent_division) }
 
-    permit_all
+    permit_actions [:show, :create, :edit, :update, ]
+    it 'can not delete division with a child' do
+      should forbid_action :destroy
+    end
+    it 'can delete division without children' do
+      expect(DivisionPolicy.new(user, child_division).destroy?).to be_truthy
+    end
+
   end
 
   context 'being a member of a child division' do
@@ -44,6 +52,8 @@ describe DivisionPolicy do
 
     forbid_all
   end
+
+  # Todo: Confirm business rules and implement tests for Division index permissions.
 
   describe 'Scope' do
     context 'being a member of a division' do

@@ -1,7 +1,7 @@
 class DivisionPolicy < ApplicationPolicy
   def index?
     # Require admin role on at least one division to allow access to index view
-    user.roles.where(name: 'admin', resource_type: 'Division').present?
+    any_division_admin?
   end
 
   def show?
@@ -21,7 +21,7 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    division_admin(division: @record) && !@record.root? && !@record.has_noncascading_owned_records?
+    division_admin(division: @record.parent) && !@record.root? && !@record.has_noncascading_owned_records?
   end
 
   def select?

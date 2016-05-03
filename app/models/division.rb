@@ -33,6 +33,7 @@ class Division < ActiveRecord::Base
   has_many :loans, dependent: :restrict_with_exception
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
+  has_many :users, dependent: :nullify
 
   has_many :custom_field_sets, dependent: :destroy
   has_many :option_sets, dependent: :destroy

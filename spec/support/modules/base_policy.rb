@@ -51,12 +51,14 @@ shared_examples_for 'base_policy' do |record_class|
   end
 end
 
+# Todo: Confirm business rules and update tests for index permissions.
+
 def permit_all
   permit_actions [:index, :create, :show, :edit, :update, :destroy]
 end
 
 def forbid_all
-  forbid_actions [:index, :create, :show, :edit, :update, :destroy]
+  forbid_actions [:create, :show, :edit, :update, :destroy]
 end
 
 def permit_all_but_destroy
