@@ -6,8 +6,14 @@ class Admin::OrganizationsController < Admin::AdminController
       include: :country,
       conditions: division_index_filter,
       order: 'name',
-      per_page: 50
+      per_page: 50,
+      name: 'organizations',
+      enable_export_to_csv: true,
+      csv_file_name: 'organizations'
     )
+
+    export_grid_if_requested('organizations' => 'organizations_grid') do
+    end
   end
 
   # show view includes edit
