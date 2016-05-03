@@ -324,7 +324,7 @@ class ProjectStep < ActiveRecord::Base
 
     # Ghost Step
     def calendar_original_scheduled_event
-      if (original_date)
+      if (original_date && original_date != scheduled_date)
         cal_item = {}
 
         cal_item[:start] = original_date
