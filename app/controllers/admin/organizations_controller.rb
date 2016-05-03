@@ -2,8 +2,9 @@ class Admin::OrganizationsController < Admin::AdminController
   def index
     authorize Organization.new(division: current_division)
     @organizations_grid = initialize_grid(
-      Organization,
+      policy_scope(Organization),
       include: :country,
+      conditions: division_index_filter,
       order: 'name',
       per_page: 50
     )

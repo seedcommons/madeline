@@ -9,6 +9,11 @@ div.panel.step style="border-color: #{step.border_color}" data-step-id="#{step.i
 
   = render "admin/project_steps/duplicate_step_modal", step: step if policy(step).duplicate?
 
+  - days_shifted ||= 0
+  - if days_shifted > 0
+    = render "admin/project_steps/shift_subsequent_confirm_modal", step: step,
+      days_shifted: days_shifted, subsequent_count: subsequent_count
+
   javascript:
     $(document).ready(function() {
       new MS.Views.ProjectStepView({

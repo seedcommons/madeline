@@ -44,4 +44,49 @@ describe DivisionPolicy do
 
     forbid_all
   end
+
+  describe 'Scope' do
+    context 'being a member of a division' do
+      let(:user) { create(:user, :member, division: division) }
+      it 'can not resolve the parent division' do
+        expect(division_id_scope(user, parent_division.id)).not_to exist
+      end
+      it 'can resolve the division' do
+        expect(division_id_scope(user, division.id)).to exist
+      end
+      it 'can resolve the child division' do
+        expect(division_id_scope(user, child_division.id)).to exist
+      end
+    end
+
+    context 'being an admin of a division' do
+      let(:user) { create(:user, :admin, division: division) }
+      it 'can not resolve the parent division' do
+        expect(division_id_scope(user, parent_division.id)).not_to exist
+      end
+      it 'can resolve the division' do
+        expect(division_id_scope(user, division.id)).to exist
+      end
+      it 'can resolve the child division' do
+        expect(division_id_scope(user, child_division.id)).to exist
+      end
+    end
+
+    context 'being owned by, but without roll association with a division' do
+      let(:user) { create(:user, division: division) }
+      it 'can not resolve any division' do
+        expect(division_scope(user)).not_to exist
+      end
+    end
+
+    def division_id_scope(user, division_id)
+      division_scope(user, id: division_id)
+    end
+
+    def division_scope(user, conditions = nil)
+      DivisionPolicy::Scope.new(user, Division.where(conditions)).resolve
+    end
+  end
+
 end
+

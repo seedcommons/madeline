@@ -14,6 +14,10 @@ class ProjectStepPolicy < ApplicationPolicy
     update?
   end
 
+  def shift_subsequent?
+    update?
+  end
+
   def finalize?
     update?
   end
