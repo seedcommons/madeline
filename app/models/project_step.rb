@@ -122,12 +122,8 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
-  def original_date
-    self[:original_date] || scheduled_date
-  end
-
   def date_changed?
-    self[:original_date].present?
+    original_date.present?
   end
 
   private
@@ -135,7 +131,7 @@ class ProjectStep < ActiveRecord::Base
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
+    if scheduled_date_changed? && is_finalized? && original_date.blank?
       self.original_date = scheduled_date_was
     end
   end
@@ -163,12 +159,17 @@ class ProjectStep < ActiveRecord::Base
     finalized_at && Time.now > finalized_at + 1.day
   end
 
+  # The date to use when calculating days_late.
+  def on_time_date
+    original_date || scheduled_date
+  end
+
   def days_late
     if scheduled_date
       if completed?
-        (completed_date - original_date).to_i
+        (completed_date - on_time_date).to_i
       else
-        ([scheduled_date, Date.today].max - original_date).to_i
+        ([scheduled_date, Date.today].max - on_time_date).to_i
       end
     end
   end
@@ -243,6 +244,34 @@ class ProjectStep < ActiveRecord::Base
     else
       update!(is_finalized: true)
     end
+  end
+
+  # Returns number of days that the scheduled date has been moved out if finalized, or days late
+  # if just now marked completed.  Assumes that record has pending changes assigned, but not yet
+  # saved. Only returns 0 or a positive value.  Used to trigger potential automatic scheduled date
+  # shift of subsequent steps.
+  def pending_days_shifted
+    days_shifted = 0
+    if is_finalized? && scheduled_date_changed?
+      if scheduled_date_was && scheduled_date
+        days_shifted = (scheduled_date - scheduled_date_was).to_i
+      end
+    end
+    if scheduled_date && completed_date && completed_date_changed? && completed_date_was.blank? &&
+      completed_date > scheduled_date
+      days_shifted = (completed_date - scheduled_date).to_i
+    end
+    return [0,days_shifted].max
+  end
+
+  def subsequent_step_ids(previous_scheduled_date = nil)
+    date = previous_scheduled_date || scheduled_date
+    return [] unless date
+    # Todo: Confirm if this is the exact criteria desired.  It's unlikely that there would be
+    # prior uncompleted steps, but if there are perhaps we should just shift all uncompleted
+    # steps.
+    project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
+      date: date, id: id).pluck(:id)
   end
 
   #

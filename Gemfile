@@ -25,8 +25,8 @@ gem 'pundit'
 gem 'rolify'
 
 # Pagination
-gem 'will_paginate', '~> 3.0.4'
-gem 'will_paginate-bootstrap'
+# gem 'will_paginate', '~> 3.0.4'
+# gem 'will_paginate-bootstrap'
 
 # Remove UTF8 parameter from GET forms
 gem 'utf8_enforcer_workaround'
