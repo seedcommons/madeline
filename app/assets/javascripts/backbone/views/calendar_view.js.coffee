@@ -30,8 +30,9 @@ class MS.Views.CalendarView extends Backbone.View
   renderCalEvent: (calItem) ->
     @$calendar.fullCalendar('renderEvent', calItem, stick: true)
 
-  rerenderEvents: (e) ->
-    @$calendar.fullCalendar('rerenderEvents')
+  refresh: (e) ->
+    # UNCOMMENT ONCE AJAX EVENT FETCHING IS IMPLEMENTED
+    # @$calendar.fullCalendar('refetchEvents')
 
   renderLegend: (e) ->
     $('[data-toggle="popover"]').popover()

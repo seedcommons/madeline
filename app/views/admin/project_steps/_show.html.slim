@@ -7,18 +7,22 @@
         - elsif step.step_type_value == 'milestone'
           .icon: i.fa.fa-flag
         .title-text = step.try(:summary)
-        
+
       .actions.col-lg-4.col-md-4
         a.action.edit-step-action href="#"
           i.fa.fa-pencil>
           = t(:edit)
 
-        = link_to [:admin, step], method: :delete, class: "action",
-            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+        = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
+            data: { \
+              confirm: t('confirm_deletion',
+              thing: t('project_step.project_step', count: 1)),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm) \
+            }
             i.fa.fa-trash.fa-large>
             = t(:delete)
-    
+
   .step-details.row
     .col-md-6.check-details
       .check
@@ -47,11 +51,11 @@
       - if context == "timeline"
           .actions
             a.action.edit-step-action href="#": i.fa.fa-pencil
-              
+
             - if policy(step).duplicate?
                 a.action.duplicate-step-action href="#": i.fa.fa-files-o
 
-            = link_to [:admin, step], method: :delete, class: "action",
+            = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
                 data: { \
                   confirm: t('confirm_deletion',
                   thing: t('project_step.project_step', count: 1)),
@@ -65,7 +69,7 @@
           tr
             th = t("project_step.labels.status")
             td = step.admin_status ? t("project_step.status.#{step.admin_status}"): t("none")
-              
+
           tr
             th = t("project_step.labels.scheduled")
             td style="background: #{step.scheduled_bg}" = step.scheduled_date

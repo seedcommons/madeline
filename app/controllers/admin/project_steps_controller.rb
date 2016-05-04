@@ -5,10 +5,15 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    if @step.destroy
-      display_timeline(@step.project_id, I18n.t(:notice_deleted))
+    if request.xhr?
+      @step.destroy
+      render nothing: true
     else
-      display_timeline(@step.project_id)
+      if @step.destroy
+        display_timeline(@step.project_id, I18n.t(:notice_deleted))
+      else
+        display_timeline(@step.project_id)
+      end
     end
   end
 

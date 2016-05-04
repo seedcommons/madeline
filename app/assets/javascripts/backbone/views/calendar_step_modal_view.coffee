@@ -4,6 +4,7 @@ class MS.Views.CalendarStepModalView extends Backbone.View
 
   events:
     'click .loan-calendar .cal-step': 'showStepModal'
+    'click a.action-delete': 'deleteStep'
 
   showStepModal: (e) ->
     calStep = e.currentTarget
@@ -16,3 +17,6 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     @$('#calendar-step-modal').find('.modal-content').html(html)
     @$('#calendar-step-modal').modal({show: true})
     MS.loadingIndicator.hide()
+
+  deleteStep: ->
+    @$('#calendar-step-modal').modal('hide')
