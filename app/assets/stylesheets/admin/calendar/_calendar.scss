@@ -48,15 +48,6 @@
       float: left;
     }
 
-    .small-left-box {
-      width: 1.5em;
-      display: inline-block;
-      vertical-align: top;
-      float: left;
-      margin: 0;
-      padding: 0;
-    }
-
     .small-right-box {
       width: 2em;
       display: inline-block;
@@ -151,23 +142,23 @@
     }
 
     .early {
-      background: $early;
+      background: $superEarly;
     }
 
     .ontime {
-      background: $ontime;
+      background: $onTime;
     }
 
     .late {
-      background: $late
+      background: $barelyLate;
     }
 
     .verylate {
-      background: $verylate;
+      background: $veryLate;
     }
 
     .superlate {
-      background: $superlate;
+      background: $superLate;
     }
 
     .original-date {

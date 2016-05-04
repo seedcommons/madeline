@@ -7,23 +7,18 @@ class MS.Views.CalendarView extends Backbone.View
 
     @$calendar = @$('#calendar')
 
-    @$calendar.fullCalendar({
+    @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: (calEvent, element) ->
         element.find('.fc-title').html(calEvent.title)
-
-      customButtons: {
-        legend: {
+      customButtons:
+        legend:
           text: 'Legend'
-        }
-      },
-      header: {
-        left: 'prev,next today',
-        center: 'title',
+      header:
+        left: 'prev,next today'
+        center: 'title'
         right: 'month,agendaWeek legend'
-      },
       allDayDefault: true
-    })
 
     @renderLegend()
     @renderCalEvents(params.calEvents)
@@ -42,10 +37,9 @@ class MS.Views.CalendarView extends Backbone.View
     $('[data-toggle="popover"]').popover()
     popoverContent = @$('#legend-content').html()
 
-    @$('.fc-legend-button').popover({
-      'content': popoverContent,
-      'html': true,
-      'placement': 'left',
-      'toggle': 'popover',
+    @$('.fc-legend-button').popover
+      content: popoverContent
+      html: true
+      placement: 'left'
+      toggle: 'popover'
       title: 'Legend'
-    })
