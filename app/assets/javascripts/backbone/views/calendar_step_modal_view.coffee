@@ -13,6 +13,6 @@ class MS.Views.CalendarStepModalView extends Backbone.View
       @replaceContent(html)
 
   replaceContent: (html) ->
-    @$('#calendar-step-modal').find('.modal-content').empty().append(html)
+    @$('#calendar-step-modal').find('.modal-content').html(html)
     @$('#calendar-step-modal').modal({show: true})
     MS.loadingIndicator.hide()

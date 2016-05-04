@@ -25,7 +25,7 @@
         input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id=step.id
 
       .main-details
-        - if context == 'timeline'
+        - if context == "timeline
             h5.title
               - if step.step_type_value == 'checkin'
                 .icon: i.fa.fa-calendar-check-o
