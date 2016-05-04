@@ -82,6 +82,7 @@ en:
   division: "Division"
   edit: "Edit"
   email: "Email"
+  export_to_csv: "Export to CSV"
   filter: "Filter"
   filter_by: "Filter by:"
   id: "ID"
