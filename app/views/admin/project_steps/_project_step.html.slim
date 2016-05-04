@@ -13,9 +13,8 @@ div.panel.step [
       .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
         = render "admin/project_steps/show", step: step, context: context
 
-  - unless context == "calendar"
-      = render "admin/project_steps/duplicate_step_modal",
-        step: (step if policy(step).duplicate?), context: context
+  - if policy(step).duplicate? && context == "timeline"
+      = render "admin/project_steps/duplicate_step_modal", step: step, context: context
 
   - days_shifted ||= 0
   - if days_shifted > 0
