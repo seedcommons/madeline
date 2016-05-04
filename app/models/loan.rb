@@ -59,6 +59,7 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :project_steps, as: :project
+  has_many :project_logs, through: :project_steps
 
 
   # define accessor-like convenience methods for the fields stored in the Translations table
@@ -231,8 +232,8 @@ class Loan < ActiveRecord::Base
     end
   end
 
-  def logs(order_by="Date DESC")
-    @logs ||= ProjectLog.where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
+  def logs
+    project_logs
   end
 
   # The below methods may need to be moved to the events model

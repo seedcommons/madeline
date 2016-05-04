@@ -14,5 +14,5 @@
     cp config/secrets.yml.example config/secrets.yml
     emacs config/secrets.yml
     rake db:drop db:setup
-    rake tww:migrate_legacy
+    rake dev:fake_data
     rails s

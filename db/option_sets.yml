@@ -1,0 +1,113 @@
+loan:
+  status:
+    active:
+      label_translations:
+        en: Active
+        es: Prestamo Activo
+    completed:
+      label_translations:
+        en: Completed
+        es: Prestamo Completo
+    frozen:
+      label_translations:
+        en: Frozen
+        es: Prestamo Congelado
+    liquidated:
+      label_translations:
+        en: Liquidated
+        es: Prestamo Liquidado
+    prospective:
+      label_translations:
+        en: Prospective
+        es: Prestamo Prospectivo
+    refinanced:
+      label_translations:
+        en: Refinanced
+        es: Prestamo Refinanciado
+    relationship:
+      label_translations:
+        en: Relationship
+        es: Relacion
+    relationship_active:
+      label_translations:
+        en: Relationship Active
+        es: Relacion Activo
+  loan_type:
+    liquidity_loc:
+      label_translations:
+        en: Liquidity line of credit
+        es: Línea de crédito de efectivo
+    investment_loc:
+      label_translations:
+        en: Investment line of credit
+        es: Línea de crédito de inversión
+    investment:
+      label_translations:
+        en: Investment Loans
+        es: Préstamo de Inversión
+    evolving:
+      label_translations:
+        en: Evolving loan
+        es: Préstamo de evolución
+    single_liquidity_loc:
+      label_translations:
+        en: Single Liquidity line of credit
+        es: Línea puntual de crédito de efectivo
+    wc_investment:
+      label_translations:
+        en: Working Capital Investment Loan
+        es: Préstamo de Inversión de Capital de Trabajo
+    sa_investment:
+      label_translations:
+        en: Secured Asset Investment Loan
+        es: Préstamo de Inversión de Bienes Asegurados
+  project_type:
+    conversion:
+      label_translations:
+        en: Conversion
+        es: TODO
+    expansion:
+      label_translations:
+        en: Expansion
+        es: TODO
+    startup:
+      label_translations:
+        en: Start-up
+        es: TODO
+  public_level:
+    featured:
+      label_translations:
+        en: Featured
+        es: TODO
+    hidden:
+      label_translations:
+        en: Hidden
+        es: TODO
+
+project_log:
+  progress_metric:
+    change_plan:
+      migration_id: -3
+      label_translations:
+        en: In need of changing its whole plan
+        es: con necesidad de cambiar su plan completamente
+    change_events:
+      migration_id: -2
+      label_translations:
+        en: In need of changing some events
+        es: con necesidad de cambiar su plan completamente
+    behind:
+      migration_id: -1
+      label_translations:
+        en: Behind
+        es: atrasado
+    on_time:
+      migration_id: 1
+      label_translations:
+        en: On time
+        es: a tiempo
+    ahead:
+      migration_id: 2
+      label_translations:
+        en: Ahead
+        es: adelantado
