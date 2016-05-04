@@ -8,7 +8,7 @@
     - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |organization|
       - link_to(organization.id, admin_organization_path(organization.id))
     
-    - g.column name: t("id"), attribute: 'id', in_html: false
+    - g.column name: csv_id, attribute: 'id', in_html: false
 
     - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
 
