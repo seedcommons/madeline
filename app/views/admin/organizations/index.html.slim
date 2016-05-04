@@ -22,7 +22,7 @@
 
   - g.column name: t("country"), attribute: 'name', assoc: :country,
     custom_filter: :auto, detach_with_id: :country_filter do |organization|
-    - organization.country.name ? organization.country.name : ''
+    - organization.country.try(:name)
 
   - g.column name: t("created"), attribute: 'created_at', filter: false do |organization|
     - fuzzy_time(organization.created_at)

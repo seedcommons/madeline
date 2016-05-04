@@ -22,7 +22,7 @@
   .panel-body
     p
       - if log.summary
-        span.summary = log.summary ? log.summary : ''
+        span.summary = log.try(:summary)
 
       - if log.details || log.additional_notes || log.private_notes
         a.more.log-ctrl role="button" = t(:more)
@@ -36,9 +36,9 @@
     .log-info
       - if log.additional_notes
         span.bold = t("log.additional_notes")
-        span = log.additional_notes ? log.additional_notes : ''
+        span = log.try(:additional_notes)
 
     .log-info
       - if log.private_notes
         span.bold = t("log.private_notes")
-        span = log.private_notes ? log.private_notes : ''
+        span = log.try(:private_notes)

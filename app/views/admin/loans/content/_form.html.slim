@@ -14,15 +14,15 @@
   = f.input :organization_id, label: t("coop")
     .view-element
       = link_to admin_organization_path(@loan.organization_id) do
-        - @loan.organization.name ? @loan.organization.name : ''
+        - @loan.organization.try(:name)
     = f.input_field :organization_id, collection: @organizations, include_blank: true
 
   = f.input :loan_type_value, label: t("loan.loan_type")
-    .view-element = @loan.loan_type ? @loan.loan_type : ''
+    .view-element = @loan.try(:loan_type)
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
   = f.input :status_value, label: t(:status)
-    .view-element = @loan.status ? @loan.status : ''
+    .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
   = f.input :amount, label: t("loan.amount")
