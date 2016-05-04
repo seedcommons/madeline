@@ -3,15 +3,13 @@
 
 section.calendar
   = render "admin/calendar/legend"
-    
+
   div#calendar.main-calendar
-  
+
   = render "admin/calendar/step_modal"
 
 javascript:
   $(function(){
-    new MS.Views.CalendarView({
-      calEvents: #{@calEvents.to_json.html_safe}
-    });
+    MS.calendarView = new MS.Views.CalendarView({ calEvents: #{@calEvents.to_json.html_safe} });
     new MS.Views.CalendarStepModalView();
   });

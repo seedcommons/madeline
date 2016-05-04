@@ -9,7 +9,7 @@ class MS.Views.LoanTabView extends Backbone.View
     'shown.bs.tab .calendar-tab': 'openCalendar'
 
   openCalendar: (e) ->
-    if @calView
-      @calView.rerenderEvents()
+    if MS.calendarView
+      MS.calendarView.refresh()
     else
-      @calView = new MS.Views.CalendarView({calEvents: @calEvents})
+      MS.calendarView = new MS.Views.CalendarView({calEvents: @calEvents})
