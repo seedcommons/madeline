@@ -16,6 +16,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @loan = Loan.find(params[:loan_id])
     @step = ProjectStep.new(project: @loan)
     authorize @step
+    params[:context] = "timeline"
     render_step_partial(:form)
   end
 
@@ -52,7 +53,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
     days_shifted = 0 unless valid && subsequent_count > 0
     render partial: "/admin/project_steps/project_step", locals: {step: @step,
-      mode: valid ? :show : :edit, days_shifted: days_shifted, subsequent_count: subsequent_count}
+      mode: valid ? :show : :edit, days_shifted: days_shifted, subsequent_count: subsequent_count,
+      context: params[:context]}
   end
 
   # Updates scheduled date of all project steps following this
