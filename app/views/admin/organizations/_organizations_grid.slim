@@ -1,4 +1,4 @@
-= define_grid(@organizations_grid, show_filters: :always,
+= define_grid(@organizations_grid, show_filters: :show, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
     - g.blank_slate do
