@@ -5,7 +5,7 @@ en:
     formats:
       default: '%b %e, %Y'
       short: '%m-%d-%y'
-      long: '%b %e, %Y'
+      long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
 
