@@ -1,4 +1,8 @@
 es:
-  locale_name: Español
+  locale_name:
+    en: Inglés
+    es: Español
+    es-AR: Español (Argentina)
+    fr: Francés
   summary: Resumen
   details: Detalles

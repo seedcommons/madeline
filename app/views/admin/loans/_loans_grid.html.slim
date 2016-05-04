@@ -22,7 +22,7 @@
 
     - g.column name: t("loan.sign_date"), attribute: 'signing_date',
       detach_with_id: :signing_date_filter do |loan|
-      - loan.signing_date.try(:strftime, t('time.formats.date_only'))
+      - loan.signing_date ? l(loan.signing_date) : ''
 
     - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
       - t("loan.months", number: loan.length_months.to_s)

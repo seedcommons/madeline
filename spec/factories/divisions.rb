@@ -32,7 +32,6 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
     parent { root_division }
-    # organization - intentionally left nil # (would cause an infinite loop)
   end
 end
 
@@ -41,7 +40,7 @@ end
 FactoryGirl.define do
   trait :transient_division do
     transient do
-      division { create(:division) }
+      division { nil }
     end
 
     after(:create) do |instance, evaluator|
