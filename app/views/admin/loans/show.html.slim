@@ -15,9 +15,12 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
       - else
         a href=admin_organization_path(@loan) = t(:cancel)
       = link_to [:admin, @loan], method: :delete,
-        data: {confirm: t('loan.confirm_deletion'),
+        data: { \
+          confirm: t("loan.confirm_deletion"), 
           "confirm-cancel": t(:cancel),
-          "confirm-proceed": t(:confirm)}
+          "confirm-proceed": t(:confirm),
+          "confirm-title": t("loan.delete") \
+        }
         i.fa.fa-trash.fa-large>
         = t("loan.delete")
     .clearfix
