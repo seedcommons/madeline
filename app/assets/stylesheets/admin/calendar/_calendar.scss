@@ -182,6 +182,7 @@
   }
 
   #calendar-step-modal {
+    // Default modal content and styling is replaced with project step
     .modal-content {
       background: none;
       border: none;
@@ -189,7 +190,6 @@
     }
 
     .step {
-      background: $gray1;
       border-width: 2px;
       margin-bottom: 0;
 
