@@ -70,10 +70,6 @@
   }
 
   .cal-step {
-    &:hover {
-      cursor: pointer;
-    }
-
     &.cal-step-milestone {
       border: 1px solid $black;
 
@@ -90,6 +86,14 @@
 
     .top-info, .bottom-info {
       height: 1.2em;
+    }
+  }
+
+  .loan-calendar {
+    .cal-step {
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
