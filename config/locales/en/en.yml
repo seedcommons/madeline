@@ -1,8 +1,19 @@
 en:
   locale_name: English
+
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%m-%d-%y'
+      long: '%b %e, %Y'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+
   time:
     formats:
-      default: '%b %e, %Y %l:%M %p'
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
       full_tz: '%b %e, %Y %l:%M %p %Z'
       date_only: '%b %e, %Y'
       time_only: '%l:%M %P'
