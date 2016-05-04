@@ -10,16 +10,16 @@ div.panel.step [
     = render "admin/project_steps/form", step: step, context: context
 
   - if step.persisted? # No need for show partial if this is a new record
-      .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
-        = render "admin/project_steps/show", step: step, context: context
+    .view-step-block style="display: #{mode == :show ? 'inherit' : 'none'}"
+      = render "admin/project_steps/show", step: step, context: context
 
   - if policy(step).duplicate? && context == "timeline"
-      = render "admin/project_steps/duplicate_step_modal", step: step, context: context
+    = render "admin/project_steps/duplicate_step_modal", step: step, context: context
 
   - days_shifted ||= 0
   - if days_shifted > 0
-      = render "admin/project_steps/shift_subsequent_confirm_modal", step: step,
-        days_shifted: days_shifted, subsequent_count: subsequent_count
+    = render "admin/project_steps/shift_subsequent_confirm_modal", step: step,
+      days_shifted: days_shifted, subsequent_count: subsequent_count
 
   javascript:
     $(document).ready(function() {

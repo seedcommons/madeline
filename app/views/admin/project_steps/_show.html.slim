@@ -29,25 +29,25 @@
         input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id=step.id
 
       .main-details
-        - if context == "timeline
-            h5.title
-              - if step.step_type_value == 'checkin'
-                .icon: i.fa.fa-calendar-check-o
-              - elsif step.step_type_value == 'milestone'
-                .icon: i.fa.fa-flag
-              .title-text = step.try(:summary)
+        - if context == "timeline"
+          h5.title
+            - if step.step_type_value == 'checkin'
+              .icon: i.fa.fa-calendar-check-o
+            - elsif step.step_type_value == 'milestone'
+              .icon: i.fa.fa-flag
+            .title-text = step.try(:summary)
 
         p = step.try(:details)
 
     .col-md-2.col-md-push-4.action-items
       .completion-status
         - if step.completed?
-            .icon-with-text.complete
-              span.icon-box
-                i.fa.fa-check>
-                = t("project_step.status.completed")
+          .icon-with-text.complete
+            span.icon-box
+              i.fa.fa-check>
+              = t("project_step.status.completed")
         - else
-            = t("project_step.status.not_completed")
+          = t("project_step.status.not_completed")
       - if context == "timeline"
           .actions
             a.action.edit-step-action href="#": i.fa.fa-pencil
