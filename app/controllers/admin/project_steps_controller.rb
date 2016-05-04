@@ -57,9 +57,13 @@ class Admin::ProjectStepsController < Admin::AdminController
     valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
     # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
     days_shifted = 0 unless valid && subsequent_count > 0
-    render partial: "/admin/project_steps/project_step", locals: {step: @step,
-      mode: valid ? :show : :edit, days_shifted: days_shifted, subsequent_count: subsequent_count,
-      context: params[:context]}
+    render partial: "/admin/project_steps/project_step", locals: {
+      step: @step,
+      mode: valid ? :show : :edit,
+      days_shifted: days_shifted,
+      subsequent_count: subsequent_count,
+      context: params[:context]
+    }
   end
 
   # Updates scheduled date of all project steps following this
@@ -175,6 +179,10 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def render_step_partial(mode)
-    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode, context: params[:context]}
+    render partial: "/admin/project_steps/project_step", locals: {
+      step: @step,
+      mode: mode,
+      context: params[:context]
+    }
   end
 end
