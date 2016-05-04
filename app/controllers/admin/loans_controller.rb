@@ -12,13 +12,12 @@ class Admin::LoansController < Admin::AdminController
       custom_order: { 'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date' },
       per_page: 50,
       name: 'loans',
-      enable_export_to_csv: true,
-      csv_file_name: 'loans'
+      enable_export_to_csv: true
     )
 
     @csv_mode = true
 
-    export_grid_if_requested('loans' => 'loans_grid') do
+    export_grid_if_requested do
       # This block only executes if CSV is not being returned
       @csv_mode = false
     end
