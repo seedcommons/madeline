@@ -3,7 +3,8 @@
 /   html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
 = define_grid(@organizations_grid, show_filters: :always,
-    html: {class: 'rowlink table-hover'}) do |g|
+    html: {class: 'rowlink table-hover',
+    data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
   - g.blank_slate do
     - @empty_list = true
