@@ -118,19 +118,19 @@ describe Loan, :type => :model do
 
     describe '.project_events' do
       let!(:loan) { create(:loan) }
-      let!(:project_events) do
-        project_events = []
-        project_events << create_list(:project_event, 2, :past, :completed, :with_logs, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 8, :past, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :future, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :past, :completed, :for_loan, loan_id: loan.id)
-        project_events << create_list(:project_event, 2, :past, :with_logs, :for_loan, loan_id: loan.id)
-        project_events.flatten
+      let!(:project_steps) do
+        project_steps = []
+        project_steps << create_list(:project_step, 2, :past, :completed, :with_logs, :for_loan, loan_id: loan.id)
+        project_steps << create_list(:project_step, 8, :past, :for_loan, loan_id: loan.id)
+        project_steps << create_list(:project_step, 2, :future, :for_loan, loan_id: loan.id)
+        project_steps << create_list(:project_step, 2, :past, :completed, :for_loan, loan_id: loan.id)
+        project_steps << create_list(:project_step, 2, :past, :with_logs, :for_loan, loan_id: loan.id)
+        project_steps.flatten
       end
 
       xit 'it should return all future events and past events if they are complete or have logs' do
-        # puts project_events.awesome_inspect
-        events = loan.project_events
+        # puts project_steps.awesome_inspect
+        events = loan.project_steps
         expect(events.size).to eq 8
         events.each do |event|
           if event.logs.empty? && !event.completed
@@ -152,7 +152,7 @@ describe Loan, :type => :model do
       end
 
       describe 'sorting' do
-        let!(:loan) { create(:loan, :with_one_project_event) }
+        let!(:loan) { create(:loan, :with_one_project_step) }
         let!(:loan_pics) { create_list(:media, 2, context_table: 'Loans', context_id: loan.id).sort_by(&:media_path) }
         let!(:coop_pics) { create_list(:media, 2, context_table: 'Cooperatives', context_id: loan.cooperative.id).sort_by(&:media_path) }
         let!(:log_pics) do

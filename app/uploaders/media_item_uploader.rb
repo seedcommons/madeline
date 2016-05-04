@@ -4,8 +4,8 @@ class MediaItemUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::MimeTypes
 
-  IMAGE_REGEX = /\Aimage\/.*\z/i
-  VIDEO_REGEX = /\Avideo\/.*\z/i
+  IMAGE_REGEX = %r{\Aimage\/.*\z}i
+  VIDEO_REGEX = %r{\Avideo\/.*\z}i
 
   # the kind of storage to use for this uploader
   storage :file
@@ -17,6 +17,7 @@ class MediaItemUploader < CarrierWave::Uploader::Base
 
   version :thumb, if: :image? do
     process resize_to_fill: [100, 100]
+    process convert: 'png'
   end
   #TODO: Identify appropriate dimensions for these versions
   version :small
@@ -27,7 +28,7 @@ class MediaItemUploader < CarrierWave::Uploader::Base
   def store_dir
     owner_type = model.media_attachable_type.underscore
     owner_id = model.media_attachable_id
-    path = File.join('uploads', Rails.env, owner_type, "#{owner_id}", "#{model.id}")
+    path = File.join("uploads", Rails.env, owner_type, "#{owner_id}", "#{model.id}")
     path
   end
 
@@ -48,11 +49,11 @@ class MediaItemUploader < CarrierWave::Uploader::Base
   def set_media_kind_on_model
     case model.item_content_type
     when IMAGE_REGEX
-      model.kind = 'image'
+      model.kind = "image"
     when VIDEO_REGEX
-      model.kind = 'video'
+      model.kind = "video"
     else
-      model.kind = 'file'
+      model.kind = "file"
     end
   end
 
