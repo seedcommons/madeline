@@ -1,5 +1,9 @@
 en:
-  locale_name: English
+  locale_name:
+    en: English
+    es: Spanish
+    es-AR: Spanish (Argentina)
+    fr: French
   time:
     formats:
       default: '%b %e, %Y %l:%M %p'
@@ -115,6 +119,7 @@ en:
     active_loans: "Active Loans"
     cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
+    media: "Co-op Media"
     delete: "Delete Co-op"
     edit: "Edit Co-op"
 
@@ -137,6 +142,7 @@ en:
     forward: "+ forward"
     length: "Length"
     loan_type: "Loan Type"
+    media: "Loan media"
     months: "%{number} mo."
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
@@ -231,3 +237,7 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  media:
+    confirm_deletion: "Are you sure you want to delete this media item?"
+    caption: "%{locale_name} Caption"

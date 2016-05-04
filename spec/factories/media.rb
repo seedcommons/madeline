@@ -19,10 +19,16 @@
 #
 #  index_media_on_media_attachable_type_and_media_attachable_id  (media_attachable_type,media_attachable_id)
 #
+require 'open-uri'
 
 FactoryGirl.define do
   factory :media do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the swing.jpg')) }
+    caption { Faker::Hipster.paragraph(2) }
     transient_division
+
+    trait :random_image do
+      item { open(Faker::Avatar.image) }
+    end
   end
 end
