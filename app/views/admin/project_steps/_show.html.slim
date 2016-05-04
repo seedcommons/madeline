@@ -9,13 +9,15 @@
         .title-text = step.try(:summary)
         
       .actions.col-lg-4.col-md-4
-        a.action.edit-step-action href="#": i.fa.fa-pencil = t(:edit)
+        a.action.edit-step-action href="#"
+          i.fa.fa-pencil>
+          = t(:edit)
 
         = link_to [:admin, step], method: :delete, class: "action",
             data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
             "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
             i.fa.fa-trash.fa-large>
-            | Delete
+            = t(:delete)
     
   .step-details.row
     .col-md-6.check-details
