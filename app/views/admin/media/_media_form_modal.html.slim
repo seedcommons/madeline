@@ -1,8 +1,7 @@
 .modal.edit-media
   div.modal-dialog
     div.modal-content
-      = simple_form_for [:admin, media], 
-        url: action_url do |f|
+      = simple_form_for [:admin, media], url: action_url do |f|
         div.modal-header
           button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
             span aria-hidden="true" &times;

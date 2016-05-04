@@ -42,4 +42,13 @@ class Media < ActiveRecord::Base
   def alt
     self.try(:caption) || self.media_attachable.try(:name)
   end
+
+  def thumbnail?
+    case kind
+    when "image"
+      true
+    else
+      false
+    end
+  end
 end
