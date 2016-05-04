@@ -16,13 +16,13 @@
       custom_filter: :auto
 
     - g.column name: t("country"), attribute: 'name', assoc: :country,
-      custom_filter: :auto, detach_with_id: :country_filter, in_csv: false do |organization|
+      custom_filter: :auto, detach_with_id: :country_filter do |organization|
       - organization.country.try(:name)
 
     - g.column name: t("created"), attribute: 'created_at', filter: false,
       in_csv: false do |organization|
       - fuzzy_time(organization.created_at)
-    
+      
     - g.column name: t("created"), attribute: 'created_at', in_html: false
 
     - g.column name: t("updated"), attribute: 'updated_at', filter: false,
