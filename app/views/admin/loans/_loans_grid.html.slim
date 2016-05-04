@@ -1,9 +1,5 @@
-/ Data link cannot be used in the grid to render CSV.
-/   define_grid(@loans_grid, show_filters: :always, 
-/     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
-
 = define_grid(@loans_grid, show_filters: :always,
-    html: {class: 'rowlink table-hover'}) do |g|
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
     - g.blank_slate do
       - @empty_list = true

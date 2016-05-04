@@ -1,37 +1,32 @@
-/ Data link cannot be used in the organizations grid to render CSV.
-/ define_grid(@organizations_grid, show_filters: :always, 
-/   html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
-
 = define_grid(@organizations_grid, show_filters: :always,
-    html: {class: 'rowlink table-hover',
-    data: {link: @csv_mode ? nil : 'row'}}) do |g|
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
-  - g.blank_slate do
-    - @empty_list = true
-    - content_tag(:div, t("no_records"), class: 'alert alert-info')
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t("no_records"), class: 'alert alert-info')
 
-  - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |organization|
-    - link_to(organization.id, admin_organization_path(organization.id))
-  
-  - g.column name: t("id"), attribute: 'id', in_html: false
-
-  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
-
-  - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
-    custom_filter: :auto
-
-  - g.column name: t("country"), attribute: 'name', assoc: :country,
-    custom_filter: :auto, detach_with_id: :country_filter, in_csv: false do |organization|
-    - organization.country.try(:name)
-
-  - g.column name: t("created"), attribute: 'created_at', filter: false,
-    in_csv: false do |organization|
-    - fuzzy_time(organization.created_at)
-  
-  - g.column name: t("created"), attribute: 'created_at', in_html: false
-
-  - g.column name: t("updated"), attribute: 'updated_at', filter: false,
-    in_csv: false do |organization|
-    - fuzzy_time(organization.updated_at)
+    - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |organization|
+      - link_to(organization.id, admin_organization_path(organization.id))
     
-  - g.column name: t("updated"), attribute: 'updated_at', in_html: false
+    - g.column name: t("id"), attribute: 'id', in_html: false
+
+    - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
+
+    - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
+      custom_filter: :auto
+
+    - g.column name: t("country"), attribute: 'name', assoc: :country,
+      custom_filter: :auto, detach_with_id: :country_filter, in_csv: false do |organization|
+      - organization.country.try(:name)
+
+    - g.column name: t("created"), attribute: 'created_at', filter: false,
+      in_csv: false do |organization|
+      - fuzzy_time(organization.created_at)
+    
+    - g.column name: t("created"), attribute: 'created_at', in_html: false
+
+    - g.column name: t("updated"), attribute: 'updated_at', filter: false,
+      in_csv: false do |organization|
+      - fuzzy_time(organization.updated_at)
+      
+    - g.column name: t("updated"), attribute: 'updated_at', in_html: false

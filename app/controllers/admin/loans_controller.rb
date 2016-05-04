@@ -16,7 +16,11 @@ class Admin::LoansController < Admin::AdminController
       csv_file_name: 'loans'
     )
 
+    @csv_mode = true
+
     export_grid_if_requested('loans' => 'loans_grid') do
+      # This block only executes if CSV is not being returned
+      @csv_mode = false
     end
   end
 
