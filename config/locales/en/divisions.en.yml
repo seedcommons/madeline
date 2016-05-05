@@ -4,6 +4,7 @@ en:
   divisions:
     shared:
       new: "New Division"
+      parent: "Parent Division"
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     divisions:
@@ -13,4 +14,3 @@ en:
         edit: "Edit Division"
       form:
         default_currency: "Default Currency"
-        parent: "Parent Division"

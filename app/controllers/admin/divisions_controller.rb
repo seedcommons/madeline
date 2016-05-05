@@ -16,6 +16,7 @@ class Admin::DivisionsController < Admin::AdminController
     authorize Division
     @divisions_grid = initialize_grid(
       policy_scope(Division),
+      conditions: index_filter,
       order: 'name',
       per_page: 50
     )
@@ -91,6 +92,11 @@ class Admin::DivisionsController < Admin::AdminController
   def set_selected_division_id(id)
     id = nil if id.blank?
     session[:selected_division_id] = id
+  end
+
+  def index_filter
+    selected = selected_division
+    selected ? {id: selected.self_and_descendant_ids} : nil
   end
 
   def prep_form_vars

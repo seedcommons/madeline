@@ -25,7 +25,7 @@
 
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
-    = f.input :parent, label: t(".parent")
+    = f.input :parent, label: t("divisions.shared.parent")
       .view-element
         - if @division.parent
           = link_to @division.parent.name, admin_division_path(@division.parent)

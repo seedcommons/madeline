@@ -135,6 +135,7 @@ en:
     description: "Description"
     division: "Division"
     divisions: "Divisions"
+    parent: "Parent"
     street_address: "Street Address"
     website: "Website"
 
