@@ -9,8 +9,8 @@ class MS.Views.CalendarView extends Backbone.View
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
-      eventRender: (calEvent, element) ->
-        element.find('.fc-title').html(calEvent.title)
+      eventRender: @eventRender.bind(this),
+      loading: @loading.bind(this),
       events: params.calendar_events_url
       customButtons:
         legend:
@@ -36,3 +36,9 @@ class MS.Views.CalendarView extends Backbone.View
       placement: 'left'
       toggle: 'popover'
       title: 'Legend'
+
+  eventRender: (calEvent, element) ->
+    element.find('.fc-title').html(calEvent.title)
+
+  loading: (isLoading) ->
+    MS.loadingIndicator[if isLoading then 'show' else 'hide']()
