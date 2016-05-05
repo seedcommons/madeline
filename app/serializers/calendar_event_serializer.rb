@@ -11,7 +11,7 @@ class CalendarEventSerializer < ActiveModel::Serializer
     "#{object.event_type}-#{object.model_id}"
   end
 
-  # def title
-  #   object.html
-  # end
+  def title
+    object.html
+  end
 end
