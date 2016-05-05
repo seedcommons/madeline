@@ -1,7 +1,7 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    @calEvents = params.calEvents
+    @calendar_events_url = params.calendar_events_url
     calendarTab = @$('.calendar-tab').closest('li')
     @openCalendar() if @$(calendarTab).hasClass('active')
 
@@ -12,4 +12,4 @@ class MS.Views.LoanTabView extends Backbone.View
     if MS.calendarView
       MS.calendarView.refresh()
     else
-      MS.calendarView = new MS.Views.CalendarView({calEvents: @calEvents})
+      MS.calendarView = new MS.Views.CalendarView({calendar_events_url: @calendar_events_url})

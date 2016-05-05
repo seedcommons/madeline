@@ -33,6 +33,6 @@ javascript:
     new MS.Views.ShowEditView({ el: '.loan.details' })
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
-      calEvents: #{@calEvents.to_json.html_safe}
+      calendar_events_url: "#{@calendar_events_url}"
     })
   })
