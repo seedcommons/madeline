@@ -303,40 +303,13 @@ class ProjectStep < ActiveRecord::Base
     save!
   end
 
-  # The below methods may need to be moved to the events model
-    def calendar_scheduled_event
-      cal_item = {}
+  def calendar_date
+    completed? ? completed_date : scheduled_date
+  end
 
-      cal_item[:start] = completed? ? completed_date : scheduled_date
-      cal_item[:title] = name
-      cal_item[:backgroundColor] = color
-
-      cal_item[:event_type] = "project_step"
-      cal_item[:num_of_logs] = logs_count
-      cal_item[:id] = id
-
-      cal_item[:step_type] = milestone? ? "milestone" : "checkin"
-      cal_item[:completion_status] = completed? ? "complete" : "incomplete"
-      cal_item[:time_status] = days_late && days_late > 0 ? "late" : "on_time"
-
-      return cal_item
-    end
-
-    # Ghost Step
-    def calendar_original_scheduled_event
-      if (original_date && original_date != scheduled_date)
-        cal_item = {}
-
-        cal_item[:start] = original_date
-        cal_item[:title] = name.to_s
-        cal_item[:event_type] = "ghost_step"
-
-        cal_item[:num_of_logs] = logs_count
-
-        return cal_item
-      end
-    end
-  # End of methods that may need to be moved to the events model
+  def calendar_events
+    [CalendarEvent.new_project_step(self), CalendarEvent.new_ghost_step(self)].compact
+  end
 
   private
 

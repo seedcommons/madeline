@@ -21,24 +21,8 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     gon.I18n = @loan.translate(:details, :summary)
     @steps = @loan.project_steps
+    @calEvents = loan_events(@loan)
 
-    # TODO: Move calendar logic to resuable concern
-    @calEvents = []
-
-    if @loan[:signing_date] && @loan[:target_end_date]
-      prepare_event(@loan.calendar_start_event)
-      prepare_event(@loan.calendar_end_event)
-    end
-
-    @loan.project_steps.each do |step|
-      if step[:scheduled_date]
-        prepare_event(step.calendar_scheduled_event)
-        
-        if step.calendar_original_scheduled_event
-          prepare_event(step.calendar_original_scheduled_event)
-        end
-      end
-    end
   end
 
   def new

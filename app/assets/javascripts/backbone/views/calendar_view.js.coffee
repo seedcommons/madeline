@@ -23,6 +23,7 @@ class MS.Views.CalendarView extends Backbone.View
     @renderLegend()
     @renderCalEvents(params.calEvents)
 
+  #JE Todo: not needed once source used
   renderCalEvents: (calEvents) ->
     $(calEvents).each (key, calEvent) =>
       this.renderCalEvent(calEvent)

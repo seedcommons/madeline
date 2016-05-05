@@ -5,25 +5,13 @@ class Admin::CalendarController < Admin::AdminController
 
     authorize @division
 
-    # TODO: Move calendar logic to reusable concern
+    #JE Todo: rename with snakecase
     @calEvents = []
 
     @loans.each do |loan|
-      if loan[:signing_date] && loan[:target_end_date]
-        prepare_event(loan.calendar_start_event)
-        prepare_event(loan.calendar_end_event)
-      end
-
-      loan.project_steps.each do |step|
-        if step.scheduled_date
-          prepare_event(step.calendar_scheduled_event)
-          
-          if step.calendar_original_scheduled_event
-            prepare_event(step.calendar_original_scheduled_event)
-          end
-        end
-      end
+      @calEvents.concat( loan_events(loan) )
     end
+
   end
 
   # TODO: Move to reusable concern

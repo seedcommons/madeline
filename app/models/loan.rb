@@ -236,23 +236,8 @@ class Loan < ActiveRecord::Base
     project_logs
   end
 
-  # The below methods may need to be moved to the events model
-    def calendar_start_event
-      cal_item = {}
-      cal_item[:start] = signing_date
-      cal_item[:title] = "Start " + name
-      cal_item[:event_type] = "loan_start"
+  def calendar_events
+    [CalendarEvent.new_loan_start(self), CalendarEvent.new_loan_end(self)].compact
+  end
 
-      return cal_item
-    end
-
-    def calendar_end_event
-      cal_item = {}
-      cal_item[:start] = target_end_date
-      cal_item[:title] = "End " + name
-      cal_item[:event_type] = "loan_end"
-
-      return cal_item
-    end
-  # End of methods that may need to be moved to the events model
 end
