@@ -46,9 +46,8 @@ class CalendarEvent
     @model_type = 'ProjectStep'
     @model_id = step.id
 
-    # @step_type = step.milestone? ? "milestone" : "checkin"
     @step_type = step.step_type_value
-    # JE Todo - update to use step.completed_or_not
+    # could update to use step.completed_or_not
     @completion_status = step.completed? ? "complete" : "incomplete"
     @time_status = step.days_late && step.days_late > 0 ? "late" : "on_time"
     self
@@ -82,15 +81,16 @@ class CalendarEvent
     self
   end
 
+  def id
+    "#{event_type}-#{model_id}"
+  end
+
   def self.filtered_events(date_range, loan_filter, loan_scope = Loan, step_scope = ProjectStep)
     events = loan_events_by_date_loan_scope(date_range, loan_scope.where(loan_filter))
-    # JE Todo: apply project_step_scope scope
     events += step_events_by_date_loan_filter(date_range, loan_filter, step_scope)
 
-    # puts "before select event count: #{events.count}" #JE Todo: remove
     # Filter out sibling events outside of our range
     events.select!{ |event| date_range === event.start }
-    # puts "after select event count: #{events.count}, first: #{events.first.inspect}" #JE Todo: remove
     events
   end
 
@@ -100,8 +100,14 @@ class CalendarEvent
 
   def self.step_events_by_date_loan_filter(date_range, loan_filter, scope = ProjectStep)
     project_step_date_filter(date_range, scope).
-      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).  #JE Todo: should be able to use a join here
+      # Would be nice to be able to use a join here, but this performs okay with the full migrated
+      # data, and I'm not sure if it's possible without entirely hand crafted SQL
+      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).
       map(&:calendar_events).flatten
+  end
+
+  def self.test(loan_filter)
+    ProjectStep.joins(:loans).where(loans: loan_filter)
   end
 
   def self.loan_date_filter(range, scope = Loan)

@@ -21,7 +21,7 @@ class Admin::CalendarEventsController < Admin::AdminController
   end
 
   def render_for_loan_filter(date_range, loan_filter)
-    # JE Todo: apply project_step_scope scope
+    # JE Todo: Should theoretically apply project_step_scope scope here, but won't change results
     events = CalendarEvent.filtered_events(date_range, loan_filter, loan_policy_scope(Loan), ProjectStep)
     events.each{ |event| event.html = render_event(event) }
     render json: events
