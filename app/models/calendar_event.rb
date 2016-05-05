@@ -82,4 +82,42 @@ class CalendarEvent
     self
   end
 
+  def self.filtered_events(date_range, loan_filter, loan_scope = Loan, step_scope = ProjectStep)
+    events = loan_events_by_date_loan_scope(date_range, loan_scope.where(loan_filter))
+    # JE Todo: apply project_step_scope scope
+    events += step_events_by_date_loan_filter(date_range, loan_filter, step_scope)
+
+    puts "before select event count: #{events.count}" #JE Todo: remove
+    # Filter out sibling events outside of our range
+    events.select!{ |event| date_range === event.start }
+    puts "after select event count: #{events.count}, first: #{events.first.inspect}" #JE Todo: remove
+    events
+  end
+
+  def self.loan_date_filter(range, scope = Loan)
+    # Seems like a nice 'OR' syntax won't be available until Rails 5.
+    # Loan.where(signing_date: date_range).or(target_end_date: date_range)
+    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
+      {first: range.first, last: range.last})
+  end
+
+  def self.loan_events_by_date_loan_scope(range, scope = Loan)
+    # Seems like a nice 'OR' syntax won't be available until Rails 5.
+    # Loan.where(signing_date: date_range).or(target_end_date: date_range)
+    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
+      {first: range.first, last: range.last}).
+      map(&:calendar_events).flatten
+  end
+
+  def self.project_step_date_filter(range, scope = ProjectStep)
+    scope.where("completed_date between :first and :last OR scheduled_date between :first and :last "\
+      "OR original_date between :first and :last", {first: range.first, last: range.last})
+  end
+
+  def self.step_events_by_date_loan_filter(date_range, loan_filter, scope = ProjectStep)
+    project_step_date_filter(date_range, scope).
+      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).  #JE Todo: should be able to use a join here
+      map(&:calendar_events).flatten
+  end
+
 end

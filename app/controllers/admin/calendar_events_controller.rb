@@ -20,18 +20,37 @@ class Admin::CalendarEventsController < Admin::AdminController
     render_for_loan_filter(date_range(params), division_index_filter)
   end
 
-  def render_for_loan_filter(date_range, filter)
-    puts "loan filter: #{filter}, date range: #{date_range}" #JE Todo: remove
+  def render_for_loan_filter(date_range, loan_filter)
+    puts "loan filter: #{loan_filter}, date range: #{date_range}" #JE Todo: remove
 
-    # JE Todo: optimize this with db queries
-    loans = LoanPolicy::Scope.new(current_user, Loan.where(filter)).resolve
-    events = loans.reduce([]){ |list, loan| list.concat(loan_events(loan, render: false)) }
-    puts "before select div event count: #{events.count}" #JE Todo: remove
-    events.select!{ |event| date_range === event.start }
-    puts "after select div event count: #{events.count}, first: #{events.first.inspect}" #JE Todo: remove
+    # events = CalendarEvent.by_loan_date_filter(date_range, loan_policy_scope(Loan.where(filter)))
+    # events += CalendarEvent.by_project_step_date_loan_filter(date_range, filter)
+    #
+    # puts "before select event count: #{events.count}" #JE Todo: remove
+    # # Filter out sibling events outside of our range
+    # events.select!{ |event| date_range === event.start }
+    # puts "after select event count: #{events.count}, first: #{events.first.inspect}" #JE Todo: remove
+
+    # JE Todo: apply project_step_scope scope
+    events = CalendarEvent.filtered_events(date_range, loan_filter, loan_policy_scope(Loan), ProjectStep)
     events.each{ |event| event.html = render_event(event) }
     render json: events
   end
+
+  # def loan_policy_scope(scope)
+  #   LoanPolicy::Scope.new(current_user, scope).resolve
+  # end
+
+
+  # def filtered_events(loan_filter, date_range)
+  # def loan_filter_with_dates(loan_filter, date_range)
+  #   CalendarEvent.loan_date_filter(date_range).where(loan_filter)
+  # end
+
+  # def steps_by_loan_filter_dates(loan_filter, date_range)
+  #   project_steps = CalendarEvent.project_step_date_filter(date_range).
+  #     where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id))
+  # end
 
   def date_range(params)
     start_date = date_param(params[:start], Date.today.beginning_of_month)
