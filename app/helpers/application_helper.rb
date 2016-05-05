@@ -26,4 +26,9 @@ module ApplicationHelper
   def json(obj)
     obj.to_json.html_safe
   end
+
+  # Using Id instead of ID is Excel compatible
+  def csv_id
+    t(:id).capitalize
+  end
 end

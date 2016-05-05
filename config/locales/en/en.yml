@@ -4,12 +4,23 @@ en:
     es: Spanish
     es-AR: Spanish (Argentina)
     fr: French
+
   time:
     formats:
-      default: '%b %e, %Y %l:%M %p'
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
       full_tz: '%b %e, %Y %l:%M %p %Z'
       date_only: '%b %e, %Y'
       time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%m-%d-%y'
+      long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
 
@@ -86,6 +97,7 @@ en:
   division: "Division"
   edit: "Edit"
   email: "Email"
+  export_to_csv: "Export to CSV"
   filter: "Filter"
   filter_by: "Filter by:"
   id: "ID"

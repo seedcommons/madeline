@@ -10,8 +10,17 @@ class Admin::LoansController < Admin::AdminController
       order: 'loans.signing_date',
       order_direction: 'desc',
       custom_order: { 'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date' },
-      per_page: 50
+      per_page: 50,
+      name: 'loans',
+      enable_export_to_csv: true
     )
+
+    @csv_mode = true
+
+    export_grid_if_requested do
+      # This block only executes if CSV is not being returned
+      @csv_mode = false
+    end
   end
 
   def show
