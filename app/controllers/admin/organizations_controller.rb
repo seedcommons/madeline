@@ -17,14 +17,14 @@ class Admin::OrganizationsController < Admin::AdminController
   def show
     @org = Organization.find(params[:id])
     authorize @org
-    @countries = Country.all
+    prep_form_vars
     @form_action_url = admin_organization_path
   end
 
   def new
     @org = Organization.new(division: current_division)
     authorize @org
-    @countries = Country.all
+    prep_form_vars
     @form_action_url = admin_organizations_path
   end
 
@@ -35,7 +35,7 @@ class Admin::OrganizationsController < Admin::AdminController
     if @org.update(organization_params)
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
-      @countries = Country.all
+      prep_form_vars
       @form_action_url = admin_organization_path
       render :show
     end
@@ -50,7 +50,7 @@ class Admin::OrganizationsController < Admin::AdminController
     if @org.save
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_created)
     else
-      @countries = Country.all
+      prep_form_vars
       @form_action_url = admin_organizations_path
       render :new
     end
@@ -63,7 +63,7 @@ class Admin::OrganizationsController < Admin::AdminController
     if @org.destroy
       redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
     else
-      @countries = Country.all
+      prep_form_vars
       @form_action_url = admin_organization_path
       render :show
     end
@@ -74,4 +74,8 @@ class Admin::OrganizationsController < Admin::AdminController
     def organization_params
       params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
     end
+
+  def prep_form_vars
+    @countries = Country.all
+  end
 end

@@ -9,10 +9,6 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def create?
-    # Need to let record with missing parent pass through the policy check so a validation
-    # message can be presented to the user.
-    # Todo: Confirm if there a better approach here?
-    return true unless @record.parent
     division_admin(division: @record.parent)
   end
 
@@ -24,7 +20,7 @@ class DivisionPolicy < ApplicationPolicy
   # Note, for now we disallow deletion of divisions which have any organizations, loans, people,
   # or child divisions.  Can change later if needed to allow the ability to delete with all
   # dependencies.
-  # Todo: Confirm if destroy permission should be restricted to admins of the parent division.
+  # Also, for now, restricting destroy permission to admins of the parent division.
   def destroy?
     division_admin(division: @record.parent) &&
       !@record.root? &&

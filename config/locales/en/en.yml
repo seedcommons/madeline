@@ -115,8 +115,12 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    address_state: "State"
+    description: "Description"
     division: "Division"
     divisions: "Divisions"
+    street_address: "Street Address"
+    website: "Website"
 
   organization:
     active_loans: "Active Loans"
