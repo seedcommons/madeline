@@ -52,10 +52,6 @@ shared_examples_for 'division_owned_scope' do |record_type|
       scope_class(record_type).new(user, record_class(record_type).where(conditions)).resolve
     end
 
-    def record_class(record_type)
-      record_type.to_s.camelize.constantize
-    end
-
     def scope_class(record_type)
       "#{record_type.to_s.camelize}Policy::Scope".constantize
     end

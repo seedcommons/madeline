@@ -10,6 +10,9 @@ describe DivisionPolicy do
   context 'being a member of a division' do
     let(:user) { create(:user, :member, division: division) }
 
+    it 'can not index' do
+      expect(described_class.new(user, Division).index?).to be_falsey
+    end
     permit_actions [:show]
     forbid_actions [:create, :edit, :update, :destroy]
   end
@@ -17,6 +20,9 @@ describe DivisionPolicy do
   context 'being an admin of a division' do
     let(:user) { create(:user, :admin, division: division) }
 
+    it 'can index' do
+      expect(described_class.new(user, Division).index?).to be_truthy
+    end
     permit_actions [:show, :edit, :update]
     forbid_actions [:create, :destroy]
   end
