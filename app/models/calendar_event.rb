@@ -1,4 +1,5 @@
 class CalendarEvent
+  include ActiveModel::Serialization
 
   attr_accessor :start_date
   attr_accessor :title

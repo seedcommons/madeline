@@ -8,11 +8,20 @@ class ApplicationController < ActionController::Base
 
   # Used by LoansController & CalendarController
   # JE Todo: Confirm best place for these shared methods.  "concerns/CalendarEventable"?
-  def loan_events(loan)
+  def loan_events(loan, render: true)
     events = loan.calendar_events
     loan.project_steps.each{ |step| events.concat(step.calendar_events) }
-    events.each{ |event| event.title = render_event(event) }
+    if render
+      events.each{ |event| event.html = render_event(event) } #JE Todo: remove once data fetched via source api
+      events.each{ |event| event.title = render_event(event) }
+    end
     events
+  end
+
+  # JE: Not sure why my class level 'root=false' initializers didn't seem to work to disable the
+  # root json element when serialiing, but this seems to do the trick.
+  def default_serializer_options
+    {root: false}
   end
 
   private
