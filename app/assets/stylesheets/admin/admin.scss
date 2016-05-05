@@ -8,7 +8,9 @@
 // as @imports here instead.
 
 @import "general";
-@import "forms/forms";
+@import "content";
+@import "forms/*";
+@import "general";
 
 // Page title and New button
 @media (min-width: 768px) {

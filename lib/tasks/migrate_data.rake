@@ -11,13 +11,6 @@ namespace :tww do
     Legacy::StaticData.purge
   end
 
-  # handy data to populated a clean db with for ad hoc testing
-  desc "populate db with some basic test data"
-  task :handy_test_data => :environment do
-    Legacy::StaticData.handy_test_data
-  end
-
-
   desc "migrate TWW data from legacy mysql to new postgres db"
   task :migrate_all => :environment do
     Legacy::Migration.migrate_all

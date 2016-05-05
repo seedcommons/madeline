@@ -1,11 +1,26 @@
 en:
-  locale_name: English
+  locale_name:
+    en: English
+    es: Spanish
+    es-AR: Spanish (Argentina)
+    fr: French
+
   time:
     formats:
-      default: '%b %e, %Y %l:%M %p'
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
       full_tz: '%b %e, %Y %l:%M %p %Z'
       date_only: '%b %e, %Y'
       time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%m-%d-%y'
+      long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
 
@@ -82,6 +97,7 @@ en:
   dropdown_toggle: "Toggle Dropdown"
   edit: "Edit"
   email: "Email"
+  export_to_csv: "Export to CSV"
   filter: "Filter"
   filter_by: "Filter by:"
   id: "ID"
@@ -125,6 +141,7 @@ en:
   organization:
     active_loans: "Active Loans"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
+    media: "Co-op Media"
     delete: "Delete Co-op"
     edit: "Edit Co-op"
     new: "New Co-op"
@@ -148,6 +165,7 @@ en:
     forward: "+ forward"
     length: "Length"
     loan_type: "Loan Type"
+    media: "Loan media"
     months: "%{number} mo."
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
@@ -243,3 +261,7 @@ en:
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
     no_access: "User is not permissioned with access to any divisions"
+
+  media:
+    confirm_deletion: "Are you sure you want to delete this media item?"
+    caption: "%{locale_name} Caption"

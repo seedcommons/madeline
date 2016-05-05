@@ -176,6 +176,8 @@ GEM
     pundit-matchers (1.0.2)
       pundit (~> 1.0, >= 1.0.0)
       rspec-rails (>= 3.0.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -350,6 +352,7 @@ DEPENDENCIES
   pg (~> 0.15)
   pundit
   pundit-matchers
+  quiet_assets
   rails (~> 4.2.5)
   rails-backbone
   rails-erd

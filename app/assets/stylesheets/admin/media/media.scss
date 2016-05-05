@@ -1,0 +1,47 @@
+@import '../loans/colors';
+
+.media-browser {
+  div.media-item { display: inline-block; }
+
+  .thumb {
+    position: relative;
+    margin-bottom: 30px;
+    margin-right: 15px;
+
+    .actions {
+      position: absolute;
+      top: 0px;
+      right: 2px;
+      display: none;
+      font-size: 18px;
+
+      a {
+        margin: 0 5px 0 0;
+        padding-right: 0px;
+        color: $gray3;
+      }
+    }
+
+    &:hover {
+      .actions {
+        display: block;
+      }
+    }
+
+    .extension {
+      background-color: $gray2;
+      display: block;
+      width: 100px;
+      height: 100px;
+      padding-top: 32px;
+      text-align: center;
+      color: $gray3;
+      font-size: 1.4em;
+    }
+
+    a {
+      display: block;
+      &:hover { text-decoration: none; }
+    }
+  }
+}

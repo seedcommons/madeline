@@ -9,8 +9,17 @@ class Admin::OrganizationsController < Admin::AdminController
       include: :country,
       conditions: division_index_filter,
       order: 'name',
-      per_page: 50
+      per_page: 50,
+      name: 'organizations',
+      enable_export_to_csv: true
     )
+
+    @csv_mode = true
+
+    export_grid_if_requested do
+      # This block only executes if CSV is not being returned
+      @csv_mode = false
+    end
   end
 
   # show view includes edit

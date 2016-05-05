@@ -20,5 +20,4 @@ FactoryGirl.define do
     model_type "Loan"
     model_attribute "status"
   end
-
 end
