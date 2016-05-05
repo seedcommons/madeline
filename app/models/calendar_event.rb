@@ -12,6 +12,7 @@ class CalendarEvent
   attr_accessor :event_type
   attr_accessor :num_of_logs
 
+  # JE Todo: Confirm if potentially useful and worth including
   attr_accessor :model_type  #Loan/ProjectStep
   attr_accessor :model_id
 
@@ -58,6 +59,8 @@ class CalendarEvent
     @title = step.name.to_s
     @event_type = "ghost_step"
     @num_of_logs = step.logs_count
+    @model_type = 'ProjectStep'
+    @model_id = step.id
     self
   end
 
@@ -65,6 +68,8 @@ class CalendarEvent
     @start = loan.signing_date
     @title = "Start " + loan.name
     @event_type = "loan_start"
+    @model_type = 'Loan'
+    @model_id = loan.id
     self
   end
 
@@ -72,6 +77,8 @@ class CalendarEvent
     @start = loan.target_end_date
     @title = "End " + loan.name
     @event_type = "loan_end"
+    @model_type = 'Loan'
+    @model_id = loan.id
     self
   end
 

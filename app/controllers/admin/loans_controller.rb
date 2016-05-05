@@ -21,8 +21,8 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     gon.I18n = @loan.translate(:details, :summary)
     @steps = @loan.project_steps
-    @calEvents = loan_events(@loan)
-
+    # @calEvents = loan_events(@loan)
+    @calendar_events_url = "/admin/calendar_events/loan/#{@loan.id}"
   end
 
   def new
@@ -69,13 +69,6 @@ class Admin::LoansController < Admin::AdminController
       @form_action_url = admin_loan_path
       render :show
     end
-  end
-
-  # TODO: Move to reusable concern
-  def prepare_event(cal_event)
-    content = render_to_string(partial: "admin/calendar/event", locals: {cal_event: cal_event}).html_safe
-    cal_event[:title] = content
-    @calEvents.push(cal_event)
   end
 
   private

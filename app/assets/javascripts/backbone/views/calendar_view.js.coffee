@@ -9,8 +9,9 @@ class MS.Views.CalendarView extends Backbone.View
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
-      eventRender: (calEvent, element) ->
-        element.find('.fc-title').html(calEvent.title)
+#      eventRender: (calEvent, element) ->
+#        element.find('.fc-title').html(calEvent.title)
+      events: params.calendar_events_url
       customButtons:
         legend:
           text: 'Legend'
@@ -21,19 +22,18 @@ class MS.Views.CalendarView extends Backbone.View
       allDayDefault: true
 
     @renderLegend()
-    @renderCalEvents(params.calEvents)
+#    @renderCalEvents(params.calEvents)
 
   #JE Todo: not needed once source used
-  renderCalEvents: (calEvents) ->
-    $(calEvents).each (key, calEvent) =>
-      this.renderCalEvent(calEvent)
-
-  renderCalEvent: (calItem) ->
-    @$calendar.fullCalendar('renderEvent', calItem, stick: true)
+#  renderCalEvents: (calEvents) ->
+#    $(calEvents).each (key, calEvent) =>
+#      this.renderCalEvent(calEvent)
+#
+#  renderCalEvent: (calItem) ->
+#    @$calendar.fullCalendar('renderEvent', calItem, stick: true)
 
   refresh: (e) ->
-    # UNCOMMENT ONCE AJAX EVENT FETCHING IS IMPLEMENTED
-    # @$calendar.fullCalendar('refetchEvents')
+    @$calendar.fullCalendar('refetchEvents')
 
   renderLegend: (e) ->
     $('[data-toggle="popover"]').popover()

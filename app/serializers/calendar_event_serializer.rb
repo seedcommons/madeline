@@ -5,8 +5,13 @@ class CalendarEventSerializer < ActiveModel::Serializer
 
   attributes :start
   attributes :title
+  attributes :id
 
-  def title
-    object.html
+  def id
+    "#{object.event_type}-#{object.model_id}"
   end
+
+  # def title
+  #   object.html
+  # end
 end

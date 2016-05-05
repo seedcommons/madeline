@@ -5,12 +5,12 @@ class Admin::CalendarController < Admin::AdminController
 
     authorize @division
 
-    #JE Todo: rename with snakecase
-    @calEvents = []
+    #JE Todo: Confirm if we want to support an 'all' view, or just the currently selected division.
+    @calendar_events_url = "/admin/calendar_events/division/#{@division.id}"
 
-    @loans.each do |loan|
-      @calEvents.concat( loan_events(loan) )
-    end
+    # @loans.each do |loan|
+    #   @calEvents.concat( loan_events(loan) )
+    # end
 
   end
 

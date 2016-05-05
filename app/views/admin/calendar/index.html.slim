@@ -10,5 +10,5 @@ section.calendar
 
 javascript:
   $(function(){
-    MS.calendarView = new MS.Views.CalendarView({ calEvents: #{@calEvents.to_json.html_safe} });
+    MS.calendarView = new MS.Views.CalendarView({calendar_events_url: "#{@calendar_events_url}"});
   });
