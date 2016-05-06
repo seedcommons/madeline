@@ -154,7 +154,7 @@ en:
     forward: "+ forward"
     length: "Length"
     loan_type: "Loan Type"
-    media: "Loan media"
+    media: "Loan Media"
     months: "%{number} mo."
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
