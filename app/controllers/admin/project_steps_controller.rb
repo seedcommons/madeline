@@ -85,7 +85,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def batch_destroy
     step_ids = params[:'step-ids']
-    project_id, notice = batch_operation(step_ids) do |step|
+    project_id, notice = batch_operation(step_ids, notice_key: :notice_batch_deleted) do |step|
       step.destroy
     end
     display_timeline(project_id, notice)
