@@ -31,4 +31,8 @@ module ApplicationHelper
   def csv_id
     t(:id).capitalize
   end
+
+  def division_policy(record)
+    DivisionPolicy.new(current_user, record)
+  end
 end
