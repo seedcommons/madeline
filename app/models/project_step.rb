@@ -78,7 +78,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def name
-    "#{project.try(:name)} step"
+    summary
   end
 
   # For use in views if record not yet saved.
@@ -216,6 +216,10 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
+  def scheduled_day
+    scheduled_date.day
+  end
+
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
   # submit handling.
   def duplication
@@ -297,6 +301,14 @@ class ProjectStep < ActiveRecord::Base
       end
     end
     save!
+  end
+
+  def calendar_date
+    completed? ? completed_date : scheduled_date
+  end
+
+  def calendar_events
+    CalendarEvent.build_for(self)
   end
 
   private

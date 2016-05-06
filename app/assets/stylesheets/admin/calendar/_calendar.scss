@@ -1,0 +1,214 @@
+@import "../colors";
+
+.calendar {
+  .calendar-event {
+    margin-bottom: .25em;
+    padding: .25em;
+    background: $gray1;
+    border: none;
+    color: $black;
+    border-radius: 0;
+    max-height: 4em;
+    overflow-y: hidden;
+    font-size: .8em;
+    cursor: default;
+
+    .fa {
+      display: inline;
+      vertical-align: top;
+      font-size: 1em;
+      line-height: 1.2em;
+    }
+
+    .event-title {
+      display: inline-block;
+      background: inherit;
+
+      .fa {
+        padding-right: .25em;
+      }
+    }
+  }
+
+  .fc-view-container {
+    background: $white;
+  }
+
+  .cal-ghost-step, .cal-step {
+    min-height: 2em;
+
+    .large-left-box {
+      background: inherit;
+      width: calc(100% - 2em);
+      display: inline-block;
+      max-height: 3em;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      float: left;
+    }
+
+    .small-right-box {
+      width: 2em;
+      display: inline-block;
+      vertical-align: top;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      float: right;
+    }
+  }
+
+  .cal-ghost-step {
+    background: $white;
+    border: 1px dashed $gray3;
+    color: $gray3;
+
+    &:hover {
+      color: $gray3;
+    }
+  }
+
+  .cal-step {
+    &.cal-step-milestone {
+      border: 1px solid $black;
+
+      &.late {
+        border: 2px solid $black;
+      }
+    }
+
+    &.late {
+      .event-title {
+        font-weight: bold;
+      }
+    }
+
+    .top-info, .bottom-info {
+      height: 1.2em;
+    }
+  }
+
+  .loan-calendar {
+    .cal-step {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .cal-legend {
+    display: none;
+    font-size: .9em;
+
+    table {
+      width: auto;
+    }
+
+    tr {
+      padding-bottom: .25em;
+    }
+
+    td {
+      span {
+        display: inline-block;
+        width: 1.5em;
+        text-align: center;
+      }
+    }
+
+    th {
+      font-weight: normal;
+      padding-bottom: .25em;
+      padding-left: .5em;
+      text-align: left;
+    }
+
+    td, th {
+      border: none;
+      width: auto;
+
+      &.bold {
+        font-weight: bold;
+      }
+    }
+
+    .column {
+      padding: .5em;
+    }
+
+    .fa {
+      padding: .2em;
+    }
+
+    .milestone {
+      border: 1px solid $black;
+    }
+
+    .early {
+      background: $superEarly;
+    }
+
+    .ontime {
+      background: $onTime;
+    }
+
+    .late {
+      background: $barelyLate;
+    }
+
+    .verylate {
+      background: $veryLate;
+    }
+
+    .superlate {
+      background: $superLate;
+    }
+
+    .original-date {
+      width: 1.5em;
+      height: 1.25em;
+      border: 1px dashed $gray3;
+    }
+  }
+
+  .popover {
+    width: auto;
+    max-width: 600px;
+
+    .cal-legend {
+      display: block;
+    }
+  }
+
+  #calendar-step-modal {
+    // Default modal content and styling is replaced with project step
+    .modal-content {
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .step {
+      border-width: 2px;
+      margin-bottom: 0;
+
+      .check {
+        display: none;
+      }
+    }
+
+    .actions {
+      margin: 0;
+      text-align: right;
+
+      .action {
+        text-align: center;
+        margin: 0 0 0 15px;
+        padding: 0 10px;
+        display: inline-block;
+        float: none;
+      }
+    }
+  }
+}

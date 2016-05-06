@@ -22,8 +22,10 @@ $gray2: rgb(230,230,230);
 $gray3: gray;
 $black: black;
 
-$late: $yellow2;
-$verylate: $orange2;
-$superlate: $danger1;
-$ontime: $success2;
-$early: $success1;
+// Color values from project step model
+$onTime: hsl(120, 73%, 57%);
+$superEarly: hsl(120, 41%, 47%);
+$barelyLate: hsl(56, 100%, 66%);
+$superLate: hsl(0, 74%, 54%);
+
+$veryLate: $orange2;

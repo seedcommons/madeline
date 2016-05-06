@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :calendar, only: [:index]
+    resources :calendar_events, only: [:index]
     resources :dashboard, only: [:index]
     resources :loans
     resources :organizations

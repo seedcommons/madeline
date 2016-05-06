@@ -1,90 +1,6 @@
-@import "colors";
+@import "../colors";
 
 .timeline {
-  .action-items, .step-logs {
-    text-align: right;
-  }
-
-  #adjust-dates-modal {
-    .form-item {
-      margin: 0 .2em;
-    }
-  }
-
-  .completion-status {
-    .complete {
-      color: $success2;
-      line-height: 1;
-    }
-  }
-
-  .icon-box {
-  }
-
-  .icon-with-text {
-    .fa {
-      font-size: 1.2em;
-    }
-  }
-
-  .info {
-    .info-label {
-      color: $gray3;
-      font-weight: bold;
-    }
-  }
-
-  .panel {
-    border: 1px solid $black;
-
-    &.step {
-      border-width: 2px;
-      border-radius: 15px;
-      border-color: $black;
-
-      .check {
-        padding-right: 15px;
-        padding-bottom: 15px;
-      }
-    }
-
-    &.log {
-      border-radius: 0px;
-    }
-  }
-
-  .step {
-    .action {
-      margin: .5em;
-
-      &:last-of-type {
-        margin-right: 0;
-      }
-    }
-
-    .check-details {
-      display: flex;
-    }
-
-    .title {
-      font-weight: bold;
-      margin: 0;
-      display: flex;
-    }
-
-    .step-details {
-      .info td {
-        padding: 2px 4px;
-      }
-    }
-  }
-
-  .tight-block {
-    display: block;
-    margin: 0;
-    padding: 0;
-  }
-
   .timeline-header {
     text-align: center;
 
@@ -109,28 +25,5 @@
     .top-actions {
       float: right;
     }
-  }
-
-  .title {
-    font-size: 1.1em;
-
-    .icon {
-      padding: 0 5px 1em 0;
-      i {
-        font-size: 1.5em;
-      }
-    }
-
-    .title-text {
-      padding-bottom: 1em;
-    }
-  }
-
-  .text-left-of-icon {
-    margin: 0 .5em 0 0;
-  }
-
-  .text-right-of-icon {
-    margin: 0 0 0 .5em;
   }
 }

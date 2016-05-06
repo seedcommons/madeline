@@ -22,3 +22,25 @@ table.key-value {
   flex-flow: row wrap;
   justify-content: space-between;
 }
+
+.right-align {
+  text-align: right;
+}
+
+.tight-block {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.text-right-of-icon {
+  margin: 0 0 0 .5em;
+}
+
+.icon-with-text {
+  line-height: 2em;
+
+  .fa {
+    font-size: .8em;
+  }
+}

@@ -5,10 +5,15 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    if @step.destroy
-      display_timeline(@step.project_id, I18n.t(:notice_deleted))
+    if request.xhr?
+      @step.destroy
+      render nothing: true
     else
-      display_timeline(@step.project_id)
+      if @step.destroy
+        display_timeline(@step.project_id, I18n.t(:notice_deleted))
+      else
+        display_timeline(@step.project_id)
+      end
     end
   end
 
@@ -16,6 +21,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @loan = Loan.find(params[:loan_id])
     @step = ProjectStep.new(project: @loan)
     authorize @step
+    params[:context] = "timeline"
     render_step_partial(:form)
   end
 
@@ -23,7 +29,11 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    display_timeline(@step.project_id)
+    if request.xhr?
+      render_step_partial(:show)
+    else
+      display_timeline(@step.project_id)
+    end
   end
 
   def create
@@ -47,8 +57,13 @@ class Admin::ProjectStepsController < Admin::AdminController
     valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
     # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
     days_shifted = 0 unless valid && subsequent_count > 0
-    render partial: "/admin/project_steps/project_step", locals: {step: @step,
-      mode: valid ? :show : :edit, days_shifted: days_shifted, subsequent_count: subsequent_count}
+    render partial: "/admin/project_steps/project_step", locals: {
+      step: @step,
+      mode: valid ? :show : :edit,
+      days_shifted: days_shifted,
+      subsequent_count: subsequent_count,
+      context: params[:context]
+    }
   end
 
   # Updates scheduled date of all project steps following this
@@ -164,7 +179,10 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def render_step_partial(mode)
-    render partial: "/admin/project_steps/project_step", locals: { step: @step, mode: mode }
+    render partial: "/admin/project_steps/project_step", locals: {
+      step: @step,
+      mode: mode,
+      context: params[:context]
+    }
   end
 end
-

@@ -235,4 +235,9 @@ class Loan < ActiveRecord::Base
   def logs
     project_logs
   end
+
+  def calendar_events
+    CalendarEvent.build_for(self)
+  end
+
 end
