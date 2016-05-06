@@ -94,7 +94,7 @@ class Admin::LoansController < Admin::AdminController
   def prep_form_vars
     @division_choices = division_choices
     @organizations = Organization.all
-    @people = Person.all  #4427 todo: confirm if subfilters should be applied for loan agents
+    @people = Person.all
     @currency_choices = Currency.all
     @representative_choices = @loan.organization ? @loan.organization.people : @people
   end
