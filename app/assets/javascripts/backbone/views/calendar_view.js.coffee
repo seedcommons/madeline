@@ -55,3 +55,4 @@ class MS.Views.CalendarView extends Backbone.View
     calStep = e.currentTarget
     id = @$(calStep).attr('data-step-id').replace(/project_step-/, '')
     new MS.Views.CalendarStepModalView(id: id, context: 'calendar')
+    MS.loadingIndicator.show()

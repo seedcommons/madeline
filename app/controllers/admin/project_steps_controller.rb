@@ -21,7 +21,6 @@ class Admin::ProjectStepsController < Admin::AdminController
     @loan = Loan.find(params[:loan_id])
     @step = ProjectStep.new(project: @loan)
     authorize @step
-    params[:context] = "timeline"
     render_step_partial(:form)
   end
 

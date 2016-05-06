@@ -12,7 +12,8 @@ class MS.Views.CalendarStepModalView extends Backbone.View
       @showNewStep()
 
   events:
-    'click a.action-delete': 'deleteStep'
+    'click a.action-delete': 'hideModal'
+    'click #new_project_step .cancel': 'hideModal'
 
   showStep: ->
     $.get '/admin/project_steps/' + @id, context: @context, (html) =>
@@ -27,5 +28,5 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     @$el.modal({show: true})
     MS.loadingIndicator.hide()
 
-  deleteStep: ->
+  hideModal: ->
     @$el.modal('hide')
