@@ -1,11 +1,11 @@
-@import '../loans/colors';
+@import '../colors';
 
 .media-browser {
   div.media-item { display: inline-block; }
 
   .thumb {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     margin-right: 15px;
 
     .actions {

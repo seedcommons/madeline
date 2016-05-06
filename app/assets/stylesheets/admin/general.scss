@@ -22,3 +22,60 @@ table.key-value {
   flex-flow: row wrap;
   justify-content: space-between;
 }
+
+.right-align {
+  text-align: right;
+}
+
+.tight-block {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.text-right-of-icon {
+  margin: 0 0 0 .5em;
+}
+
+.icon-with-text {
+  line-height: 2em;
+
+  .fa {
+    font-size: .8em;
+  }
+}
+
+.content {
+  // Gray blocks found throughout the admin interface.
+  .block {
+    background: #eee;
+    margin: 1em 0;
+    padding: 1em;
+  }
+}
+
+.details {
+  section.block h1 {
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+
+  .show-actions {
+    float: right;
+    padding-bottom: 15px;
+
+    a {
+      padding: 0 0 0 33px;
+      float: left;
+    }
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+a, input[type="checkbox"], input[type="radio"], select {
+  cursor: pointer;
+}
+

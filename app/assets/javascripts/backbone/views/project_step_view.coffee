@@ -19,7 +19,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.duplicate-step-action': 'showDuplicateModal'
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
-    'ajax:success': 'submitSuccess'
+    'ajax:success': 'ajaxSuccess'
 
   showForm: (e) ->
     e.preventDefault()
@@ -57,7 +57,11 @@ class MS.Views.ProjectStepView extends Backbone.View
   onSubmit: ->
     MS.loadingIndicator.show()
 
-  submitSuccess: (e, data) ->
-    @$el.replaceWith(data)
-    MS.loadingIndicator.hide()
-    MS.timelineView.addBlankStep() unless @persisted || @duplicate
+  ajaxSuccess: (e, data) ->
+    if $(e.target).is('form')
+      @$el.replaceWith(data)
+      MS.loadingIndicator.hide()
+      MS.timelineView.addBlankStep() unless @persisted || @duplicate
+    else if $(e.target).is('a.action-delete')
+      @$el.remove()
+    MS.calendarView.refresh()

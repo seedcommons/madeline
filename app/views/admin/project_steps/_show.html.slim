@@ -1,18 +1,42 @@
 .panel-body
+  - if context == 'calendar'
+    div.row
+      h4.title.col-lg-8.col-md-8
+        - if step.step_type_value == 'checkin'
+          .icon: i.fa.fa-calendar-check-o
+        - elsif step.step_type_value == 'milestone'
+          .icon: i.fa.fa-flag
+        .title-text = step.try(:summary)
+
+      .actions.col-lg-4.col-md-4
+        a.action.edit-step-action href="#"
+          i.fa.fa-pencil>
+          = t(:edit)
+
+        = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
+            data: { \
+              confirm: t('confirm_deletion',
+              thing: t('project_step.project_step', count: 1)),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm),
+              "confirm-title": t("project_step.delete_step") \
+            }
+            i.fa.fa-trash.fa-large>
+            = t(:delete)
+
   .step-details.row
     .col-md-6.check-details
       .check
         input.select-step type="checkbox" class=(step.completed? ? 'completed-item' : 'incomplete-item') data-id=step.id
 
       .main-details
-        h5.title
-          - if step.step_type_value == 'checkin'
-            .icon
-              i.fa.fa-calendar-check-o
-          - elsif step.step_type_value == 'milestone'
-            .icon
-              i.fa.fa-flag
-          .title-text = step.try(:summary)
+        - if context == "timeline"
+          h5.title
+            - if step.step_type_value == 'checkin'
+              .icon: i.fa.fa-calendar-check-o
+            - elsif step.step_type_value == 'milestone'
+              .icon: i.fa.fa-flag
+            .title-text = step.try(:summary)
 
         p = step.try(:details)
 
@@ -25,30 +49,28 @@
               = t("project_step.status.completed")
         - else
           = t("project_step.status.not_completed")
-      .actions
-        a.action.edit-step-action href="#"
-          i.fa.fa-pencil
-        - if policy(step).duplicate?
-          a.action.duplicate-step-action href="#"
-            i.fa.fa-files-o
+      - if context == "timeline"
+          .actions
+            a.action.edit-step-action href="#": i.fa.fa-pencil
 
-        = link_to [:admin, step], method: :delete, class: "action",
-            data: { confirm: t('confirm_deletion', thing: t('project_step.project_step', count: 1)),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
-            i.fa.fa-trash.fa-large>
+            - if policy(step).duplicate?
+                a.action.duplicate-step-action href="#": i.fa.fa-files-o
+
+            = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
+                data: { \
+                  confirm: t('confirm_deletion',
+                  thing: t('project_step.project_step', count: 1)),
+                  "confirm-cancel": t(:cancel),
+                  "confirm-proceed": t(:confirm) }
+                i.fa.fa-trash.fa-large>
       .clearfix
-
     .col-md-4.col-md-pull-2.status-details
       .info
         table.key-value
           tr
-            th
-              = t("project_step.labels.status")
-            td
-              - if step.admin_status
-                = t("project_step.status.#{step.admin_status}")
-              - else
-                = t("none")
+            th = t("project_step.labels.status")
+            td = step.admin_status ? t("project_step.status.#{step.admin_status}"): t("none")
+
           tr
             th
               = t("project_step.labels.scheduled")
@@ -57,17 +79,14 @@
 
             - if step.completed?
               tr
-                th
-                  = t("project_step.labels.completed")
+                th = t("project_step.labels.completed")
                 td style="background-color: #{step.background_color}"
                   p.tight-block
                     => step.completed_date ? l(step.completed_date) : ''
                     = "(#{step.date_status_statement})"
 
           tr
-            th
-              = t("project_step.labels.finalized")
-            td
-              = step.is_finalized ? t("reply_yes") : t("reply_no")
+            th = t("project_step.labels.finalized")
+            td = step.is_finalized ? t("reply_yes") : t("reply_no")
 
-  = render "admin/logs/step_logs", step: step
+  = render "admin/logs/step_logs", step: step, context: context
