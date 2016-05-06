@@ -5,13 +5,16 @@
     margin-bottom: .25em;
     padding: .25em;
     background: $gray1;
-    border: none;
     color: $black;
     border-radius: 0;
     max-height: 4em;
     overflow-y: hidden;
     font-size: .8em;
     cursor: default;
+
+    // All events have a border the same color as the default bg color
+    // so that they will be the same height as events with actual borders.
+    border: 1px solid $gray1;
 
     .fa {
       display: inline;
@@ -35,7 +38,7 @@
   }
 
   .cal-ghost-step, .cal-step {
-    min-height: 2em;
+    min-height: 3em;
 
     .large-left-box {
       background: inherit;
