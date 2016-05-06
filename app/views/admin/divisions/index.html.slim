@@ -18,11 +18,15 @@
           = grid_filter(@divisions_grid, :name_filter)
 
       .actions
-        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+        button.btn.btn-link.wg-external-reset-button data-grid-name="divisions"
           = t("clear")
 
-        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="divisions"
           = t("filter")
+
+        button.btn.btn-default.wg-external-csv-export-button data-grid-name="divisions"
+          = t("export_to_csv")
+
       .clearfix
 
 = render_grid(@divisions_grid)
