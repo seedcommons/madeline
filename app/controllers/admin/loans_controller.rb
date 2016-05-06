@@ -30,7 +30,7 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     gon.I18n = @loan.translate(:details, :summary)
     @steps = @loan.project_steps
-    @calendar_events_url = "/admin/calendar_events/loan/#{@loan.id}"
+    @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
   end
 
   def new

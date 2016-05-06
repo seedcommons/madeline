@@ -1,24 +1,30 @@
 class CalendarEvent
   include ActiveModel::Serialization
 
-  attr_accessor :start_date
+  attr_accessor :start
   attr_accessor :title
   attr_accessor :html  # transient value populated by controller and serialized as 'title'
 
-  attr_accessor :start
-  attr_accessor :title
-  attr_accessor :backgroundColor
-
   attr_accessor :event_type
-  attr_accessor :num_of_logs
-
-  # JE Todo: Confirm if potentially useful and worth including
-  attr_accessor :model_type  #Loan/ProjectStep
   attr_accessor :model_id
 
+  attr_accessor :backgroundColor
   attr_accessor :step_type
   attr_accessor :completion_status
   attr_accessor :time_status
+  attr_accessor :num_of_logs
+
+  def self.build_for(model)
+    puts "model: #{model.inspect}"
+    case model
+    when Loan
+      [new_loan_start(model), new_loan_end(model)]
+    when ProjectStep
+      [new_project_step(model), new_ghost_step(model)]
+    else
+      raise "CalendarEvent.build_for - unexpected model class: #{model.class}"
+    end.compact
+  end
 
   def self.new_project_step(step)
     step.calendar_date ? new.initialize_project_step(step) : nil
@@ -34,6 +40,44 @@ class CalendarEvent
 
   def self.new_loan_end(loan)
     loan.target_end_date ? new.initialize_loan_end(loan) : nil
+  end
+
+  def self.filtered_events(date_range: nil, loan_filter: nil, loan_scope: Loan, step_scope: ProjectStep)
+    events = loan_events_by_date_loan_scope(date_range, loan_scope.where(loan_filter))
+    events += step_events_by_date_loan_filter(date_range: date_range, loan_filter: loan_filter,
+      scope: step_scope)
+
+    # Filter out sibling events outside of our range
+    events.select!{ |event| date_range === event.start }
+    events
+  end
+
+  def self.loan_events_by_date_loan_scope(range, scope = Loan)
+    loan_date_filter(range, scope).map(&:calendar_events).flatten
+  end
+
+  def self.step_events_by_date_loan_filter(date_range: nil, loan_filter: nil, scope: ProjectStep)
+    project_step_date_filter(date_range, scope).
+      # Would be nice to be able to use a join here, but this performs okay with the full migrated
+      # data, and I'm not sure if it's possible without entirely hand crafted SQL
+      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).
+      map(&:calendar_events).flatten
+  end
+
+  def self.test(loan_filter)
+    ProjectStep.joins(:loans).where(loans: loan_filter)
+  end
+
+  def self.loan_date_filter(range, scope = Loan)
+    # Seems like a nice 'OR' syntax won't be available until Rails 5.
+    # Loan.where(signing_date: date_range).or(target_end_date: date_range)
+    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
+                {first: range.first, last: range.last})
+  end
+
+  def self.project_step_date_filter(range, scope = ProjectStep)
+    scope.where("completed_date between :first and :last OR scheduled_date between :first and :last "\
+      "OR original_date between :first and :last", {first: range.first, last: range.last})
   end
 
   def initialize_project_step(step)
@@ -83,43 +127,6 @@ class CalendarEvent
 
   def id
     "#{event_type}-#{model_id}"
-  end
-
-  def self.filtered_events(date_range, loan_filter, loan_scope = Loan, step_scope = ProjectStep)
-    events = loan_events_by_date_loan_scope(date_range, loan_scope.where(loan_filter))
-    events += step_events_by_date_loan_filter(date_range, loan_filter, step_scope)
-
-    # Filter out sibling events outside of our range
-    events.select!{ |event| date_range === event.start }
-    events
-  end
-
-  def self.loan_events_by_date_loan_scope(range, scope = Loan)
-    loan_date_filter(range, scope).map(&:calendar_events).flatten
-  end
-
-  def self.step_events_by_date_loan_filter(date_range, loan_filter, scope = ProjectStep)
-    project_step_date_filter(date_range, scope).
-      # Would be nice to be able to use a join here, but this performs okay with the full migrated
-      # data, and I'm not sure if it's possible without entirely hand crafted SQL
-      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).
-      map(&:calendar_events).flatten
-  end
-
-  def self.test(loan_filter)
-    ProjectStep.joins(:loans).where(loans: loan_filter)
-  end
-
-  def self.loan_date_filter(range, scope = Loan)
-    # Seems like a nice 'OR' syntax won't be available until Rails 5.
-    # Loan.where(signing_date: date_range).or(target_end_date: date_range)
-    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
-                {first: range.first, last: range.last})
-  end
-
-  def self.project_step_date_filter(range, scope = ProjectStep)
-    scope.where("completed_date between :first and :last OR scheduled_date between :first and :last "\
-      "OR original_date between :first and :last", {first: range.first, last: range.last})
   end
 
 end

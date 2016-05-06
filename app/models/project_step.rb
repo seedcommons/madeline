@@ -308,7 +308,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def calendar_events
-    [CalendarEvent.new_project_step(self), CalendarEvent.new_ghost_step(self)].compact
+    CalendarEvent.build_for(self)
   end
 
   private

@@ -1,30 +1,34 @@
 class Admin::CalendarEventsController < Admin::AdminController
-  def loan
-    loan = Loan.find(params[:loan_id])
-    authorize loan, :show?
-    render_for_loan_filter(date_range(params), {id: loan.id})
-  end
 
-  # supports an explicitly specified division from the path info
-  def division
-    division = Division.find(params[:division_id])
-    authorize division, :show?
-    render_for_loan_filter(date_range(params), {division_id: division.id})
-  end
-
-  # this version honors the currently selected division
+  # 'start' and 'end' ISO8601 formatted date params and always expected.
+  # 'loan_id' is optional and scopes to results to a single loan if provided, otherwise all loans
+  # within the current top nav division selection are included..
   def index
-    skip_authorization
-    # JE Todo: restore authorize when manage division branch merged
-    # authorize Loan, :index?
-    render_for_loan_filter(date_range(params), division_index_filter)
+    if params[:loan_id]
+      loan = Loan.find(params[:loan_id])
+      authorize loan, :show?
+      loan_filter = {id: loan.id}
+    else
+      skip_authorization
+      # JE Todo: restore authorize when manage division branch merged
+      # authorize Loan, :index?
+      loan_filter = division_index_filter
+    end
+    render_for_loan_filter(date_range(params), loan_filter)
   end
+
+  private
 
   def render_for_loan_filter(date_range, loan_filter)
     # JE Todo: Should theoretically apply project_step_scope scope here, but won't change results
-    events = CalendarEvent.filtered_events(date_range, loan_filter, loan_policy_scope(Loan), ProjectStep)
+    events = CalendarEvent.filtered_events(date_range: date_range, loan_filter: loan_filter,
+      loan_scope: loan_policy_scope(Loan), step_scope: ProjectStep)
     events.each{ |event| event.html = render_event(event) }
     render json: events
+  end
+
+  def render_event(event)
+    render_to_string(partial: "admin/calendar/event", locals: {cal_event: event}).html_safe
   end
 
   def date_range(params)
@@ -36,4 +40,5 @@ class Admin::CalendarEventsController < Admin::AdminController
   def date_param(date_string, default = nil)
     date_string ? Date.iso8601(date_string) : default
   end
+
 end

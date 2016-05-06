@@ -237,7 +237,7 @@ class Loan < ActiveRecord::Base
   end
 
   def calendar_events
-    [CalendarEvent.new_loan_start(self), CalendarEvent.new_loan_end(self)].compact
+    CalendarEvent.build_for(self)
   end
 
 end

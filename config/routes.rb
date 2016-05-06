@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :calendar, only: [:index]
-    # resources :calendar_events, only: [:index]
+    resources :calendar_events, only: [:index]
     resources :dashboard, only: [:index]
     resources :loans
     resources :organizations
@@ -28,14 +28,6 @@ Rails.application.routes.draw do
     resources :project_logs
     namespace :divisions do
       post :select
-    end
-
-    #JE Todo: Confirm if we should nest these internal API routes under a namespace like "API::V1".
-    #JE Todo: Confirm if there is a better way to define these routes.
-    namespace :calendar_events do
-      root to: :index
-      get 'loan/:loan_id', to: :loan
-      get 'division/:division_id', to: :division
     end
 
     scope '/:media_attachable_type/:media_attachable_id' do

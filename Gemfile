@@ -69,7 +69,7 @@ gem 'simple_form'
 # Passing controller data to JS
 gem 'gon'
 
-# JE Todo: Confirm if there are any potential conflicts between gon and active_model_serializers
+# Used by CalendarEventsController when serializing event data for Calendar widget
 gem 'active_model_serializers'
 
 group :development, :test do
