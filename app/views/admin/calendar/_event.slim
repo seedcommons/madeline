@@ -3,7 +3,11 @@
 
     div.calendar-event class="#{(cal_event.event_type = 'loan_start') ? 'loan-start' : 'loan-end'}"
       span.event-title
-        = cal_event.html
+        - if cal_event.event_type == "loan_start"
+            i.fa.fa-play-circle
+        - else
+            i.fa.fa-stop-circle
+        = cal_event.title
 
   - when "project_step"
 
@@ -40,4 +44,4 @@
             i.fa.fa-flag
         - else
             i.fa.fa-calendar-check-o
-        = cal_event.title.to_s
+        = cal_event.title
