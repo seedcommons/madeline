@@ -4,7 +4,7 @@
 
 = render "loans_grid"
 
-- unless @empty_list
+- unless @loans_grid.empty? && !@loans_grid.filtering_on?
   header.block
     .filters
       h4 = t("filter_by")
@@ -45,7 +45,7 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="loans"
           = t("filter")
-        
+
         button.btn.btn-default.wg-external-csv-export-button data-grid-name="loans"
           = t("export_to_csv")
       .clearfix

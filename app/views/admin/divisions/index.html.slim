@@ -7,7 +7,7 @@
 
 = render "divisions_grid"
 
-- unless @empty_list
+- unless @divisions_grid.empty?
   header.block
     .filters
       h4 = t("filter_by")

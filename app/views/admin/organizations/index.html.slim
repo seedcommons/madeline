@@ -7,7 +7,7 @@
 
 = render "organizations_grid"
 
-- unless @empty_list
+- unless @organizations_grid.empty? && !@organizations_grid.filtering_on?
   header.block
     .filters
       h4 = t("filter_by")
@@ -33,7 +33,7 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="organizations"
           = t("filter")
-          
+
         button.btn.btn-default.wg-external-csv-export-button data-grid-name="organizations"
           = t("export_to_csv")
       .clearfix
