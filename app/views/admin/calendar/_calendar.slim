@@ -2,6 +2,6 @@ section.calendar
   h1.sr-only = t(:calendar)
   = render "admin/calendar/legend"
       
-  div#calendar.loan-calendar
+  div#calendar.loan-calendar data-loan-id="loan-#{loan.id}"
   
   = render "admin/calendar/step_modal"
