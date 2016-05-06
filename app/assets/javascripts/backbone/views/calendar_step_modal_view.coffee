@@ -1,23 +1,27 @@
 class MS.Views.CalendarStepModalView extends Backbone.View
 
-  el: '.calendar'
+  el: '#calendar-step-modal'
+
+  initialize: (params) ->
+    # params.id ? @showStep : @showNewStep
+    @id = params.id
+    @context = params.context
 
   events:
-    'click .loan-calendar .cal-step': 'showStepModal'
     'click a.action-delete': 'deleteStep'
 
-  showStepModal: (e) ->
-    calStep = e.currentTarget
-    id = @$(calStep).attr('data-step-id').replace(/project_step-/, '');
-    MS.loadingIndicator.show()
+  showStep: ->
+    $.get '/admin/project_steps/' + @id, context: @context, (html) =>
+      @replaceContent(html)
 
-    $.get '/admin/project_steps/' + id + '/', context: 'calendar', (html) =>
+  showNewStep: ->
+    $.get '/admin/project_steps/new', context: @context, (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->
-    @$('#calendar-step-modal').find('.modal-content').html(html)
-    @$('#calendar-step-modal').modal({show: true})
+    @$el.find('.modal-content').html(html)
+    @$el.modal({show: true})
     MS.loadingIndicator.hide()
 
   deleteStep: ->
-    @$('#calendar-step-modal').modal('hide')
+    @$el.modal('hide')

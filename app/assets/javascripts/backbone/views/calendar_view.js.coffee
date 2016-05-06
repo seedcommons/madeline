@@ -23,8 +23,14 @@ class MS.Views.CalendarView extends Backbone.View
 
     @renderLegend()
 
-  refresh: (e) ->
-    @$calendar.fullCalendar('refetchEvents')
+  events:
+    'click .loan-calendar .cal-step': 'showStepModal'
+
+  eventRender: (calEvent, element) ->
+    element.find('.fc-title').html(calEvent.title)
+
+  loading: (isLoading) ->
+    MS.loadingIndicator[if isLoading then 'show' else 'hide']()
 
   renderLegend: (e) ->
     $('[data-toggle="popover"]').popover()
@@ -37,8 +43,10 @@ class MS.Views.CalendarView extends Backbone.View
       toggle: 'popover'
       title: 'Legend'
 
-  eventRender: (calEvent, element) ->
-    element.find('.fc-title').html(calEvent.title)
+  refresh: (e) ->
+    @$calendar.fullCalendar('refetchEvents')
 
-  loading: (isLoading) ->
-    MS.loadingIndicator[if isLoading then 'show' else 'hide']()
+  showStepModal: (e) ->
+    calStep = e.currentTarget
+    id = @$(calStep).attr('data-step-id').replace(/project_step-/, '')
+    new MS.Views.CalendarStepModalView(id: id, context: 'calendar')

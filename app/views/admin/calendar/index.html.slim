@@ -6,8 +6,6 @@ section.calendar
 
   div#calendar.main-calendar
 
-  = render "admin/calendar/step_modal"
-
 javascript:
   $(function(){
     MS.calendarView = new MS.Views.CalendarView({calendar_events_url: #{json @calendar_events_url}});
