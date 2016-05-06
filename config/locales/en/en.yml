@@ -5,6 +5,14 @@ en:
     es-AR: Spanish (Argentina)
     fr: French
 
+  activerecord:
+    models:
+      media: "Media"
+      log: "Log"
+      organization: "Organization"
+      loan: "Loan"
+      project_step: "Project Step"
+
   time:
     formats:
       default: '%b %e, %Y'
@@ -258,3 +266,4 @@ en:
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
+    create: "Create Media"
