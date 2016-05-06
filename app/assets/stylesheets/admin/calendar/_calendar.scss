@@ -90,7 +90,7 @@
   }
 
   .loan-calendar {
-    .cal-step {
+    .cal-step, td {
       &:hover {
         cursor: pointer;
       }
