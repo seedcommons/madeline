@@ -12,14 +12,14 @@ describe UserPolicy do
   context 'being the user' do
     let(:user) { described_user }
 
-    permit_actions [:edit, :update, :show]
+    permit_actions [:index, :edit, :update, :show]
     forbid_actions [:create, :destroy]
   end
 
   context 'being a member of the division' do
     let(:user) { create(:user, :member, division: division) }
 
-    permit_actions [:show]
+    permit_actions [:index, :show]
     forbid_actions [:destroy, :edit, :update, :create]
   end
 
@@ -32,7 +32,7 @@ describe UserPolicy do
   context 'being a member of a parent division' do
     let(:user) { create(:user, :member, division: parent_division) }
 
-    permit_actions [:show]
+    permit_actions [:index, :show]
     forbid_actions [:destroy, :create, :edit, :update]
   end
 
@@ -45,14 +45,12 @@ describe UserPolicy do
   context 'being a member of a child division' do
     let(:user) { create(:user, :member, division: child_division) }
 
-    forbid_all
+    forbid_all_but_index
   end
 
   context 'being an admin of a child division' do
     let(:user) { create(:user, :admin, division: child_division) }
 
-    forbid_all
+    forbid_all_but_index
   end
-
-  # Todo: Confirm business rules and implement tests for User index permissions.
 end
