@@ -41,24 +41,3 @@ en:
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     loans:
-  activerecord:
-    attributes:
-      organization:
-        division: "Division"
-        organization: "Co-op"
-        name: "Name"
-        loan_type: "Loan Type"
-        status: "Status"
-        amount: "Amount"
-        currency: "Currency"
-        primary_agent: "Point Person"
-        secondary_agent: "Second"
-        length_months: "Length (months)"
-        first_payment_date: "First Payment Date"
-        first_interest_payment_date: "First Interest Payment Date"
-        target_end_date: "Target End Date"
-        projected_return: "Projected Return"
-        representative: "Representative"
-        details: "Details"
-        project_type: "Project Type"
-        public_level: "Public Level"

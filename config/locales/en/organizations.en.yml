@@ -6,15 +6,6 @@ en:
     delete: "Delete Co-op"
     edit: "Edit Co-op"
     new: "New Co-op"
-  activerecord:
-    attributes:
-      organization:
-        name: "Name"
-        street_address: "Street Address"
-        city: "City"
-        state: "State"
-        country: "Country"
-        website: "Website"
 
 
 

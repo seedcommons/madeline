@@ -12,6 +12,38 @@ en:
       organization: "Organization"
       loan: "Loan"
       project_step: "Project Step"
+    attributes:
+      division:
+        description: "Description"
+        default_currency: "Default Currency"
+        name: "Name"
+        parent: "Parent Division"
+      loan:
+        division: "Division"
+        organization: "Co-op"
+        name: "Name"
+        loan_type: "Loan Type"
+        status: "Status"
+        amount: "Amount"
+        currency: "Currency"
+        primary_agent: "Point Person"
+        secondary_agent: "Second"
+        length_months: "Length (months)"
+        first_payment_date: "First Payment Date"
+        first_interest_payment_date: "First Interest Payment Date"
+        target_end_date: "Target End Date"
+        projected_return: "Projected Return"
+        representative: "Representative"
+        details: "Details"
+        project_type: "Project Type"
+        public_level: "Public Level"
+      organization:
+        name: "Name"
+        street_address: "Street Address"
+        city: "City"
+        state: "State"
+        country: "Country"
+        website: "Website"
 
   time:
     formats:
