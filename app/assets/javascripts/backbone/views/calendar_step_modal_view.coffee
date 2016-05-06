@@ -8,9 +8,10 @@ class MS.Views.CalendarStepModalView extends Backbone.View
 
   showStepModal: (e) ->
     calStep = e.currentTarget
-    id = @$(calStep).attr('data-step-id')
+    id = @$(calStep).attr('data-step-id').replace(/project_step-/, '');
     MS.loadingIndicator.show()
-    $.get '/admin/project_steps/' + id, context: 'calendar', (html) =>
+
+    $.get '/admin/project_steps/' + id + '/', context: 'calendar', (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->
