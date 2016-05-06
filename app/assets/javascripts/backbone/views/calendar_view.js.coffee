@@ -9,8 +9,8 @@ class MS.Views.CalendarView extends Backbone.View
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
-      eventRender: @eventRender.bind(this),
-      loading: @loading.bind(this),
+      eventRender: @eventRender.bind(this)
+      loading: @loading.bind(this)
       events: params.calendar_events_url
       customButtons:
         legend:
@@ -20,11 +20,15 @@ class MS.Views.CalendarView extends Backbone.View
         center: 'title'
         right: 'month,agendaWeek legend'
       allDayDefault: true
+      dayClick: @dayClick.bind(this)
 
     @renderLegend()
 
   events:
     'click .loan-calendar .cal-step': 'showStepModal'
+
+  dayClick: ->
+    new MS.Views.CalendarStepModalView(context: 'calendar', loanId: 7)
 
   eventRender: (calEvent, element) ->
     element.find('.fc-title').html(calEvent.title)
