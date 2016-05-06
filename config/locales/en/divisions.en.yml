@@ -12,5 +12,10 @@ en:
         confirm_deletion: "WARNING: Are you sure you want to permanently delete this Division? If it has any custom fields or option sets, they will also be deleted."
         delete: "Delete Division"
         edit: "Edit Division"
-      form:
+  activerecord:
+    attributes:
+      division:
+        description: "Description"
         default_currency: "Default Currency"
+        name: "Name"
+        parent: "Parent Division"

@@ -22,8 +22,8 @@ class DivisionPolicy < ApplicationPolicy
   # dependencies.
   # Also, for now, restricting destroy permission to admins of the parent division.
   def destroy?
-    division_admin(division: @record.parent) &&
-      !@record.root? &&
+    !@record.root? &&
+      division_admin(division: @record.parent) &&
       !@record.has_noncascading_dependents?
   end
 

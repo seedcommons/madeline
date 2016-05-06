@@ -79,7 +79,7 @@ class ApplicationPolicy
 
   # Require admin role on at least one division to allow access to index view for divisions or users
   def any_division_admin?
-    user.roles.where(name: 'admin', resource_type: 'Division').present?
+    user.roles.where(name: 'admin', resource_type: 'Division').any?
   end
 
 end

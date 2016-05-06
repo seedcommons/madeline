@@ -11,21 +11,21 @@
 
   = f.error_notification
 
-  = f.input :name, label: t("name")
+  = f.input :name
     .view-element = @division.name
     = f.input_field :name
 
-  = f.input :description, label: t("common.description")
+  = f.input :description
     .view-element = @division.description
     = f.input_field :description, as: :text
 
-  = f.input :default_currency, label: t(".default_currency")
+  = f.input :default_currency
     .view-element = @division.default_currency.try(:name)
     = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
 
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
-    = f.input :parent, label: t("divisions.shared.parent")
+    = f.input :parent
       .view-element
         - if @division.parent
           = link_to @division.parent.name, admin_division_path(@division.parent)
