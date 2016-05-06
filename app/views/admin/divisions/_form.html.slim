@@ -1,0 +1,41 @@
+= simple_form_for(@division,
+    url: @form_action_url,
+    html: { \
+      class: 'form-horizontal division-record',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  = f.error_notification
+
+  = f.input :name
+    .view-element = @division.name
+    = f.input_field :name
+
+  = f.input :description
+    .view-element = @division.description
+    = f.input_field :description, as: :text
+
+  = f.input :default_currency
+    .view-element = @division.default_currency.try(:name)
+    = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
+
+  / Only allow parent to be reassigned if current user has access to current parent.
+  - if @division.parent && policy(@division.parent).show?
+    = f.input :parent
+      .view-element
+        - if @division.parent
+          = link_to @division.parent.name, admin_division_path(@division.parent)
+      = f.input_field :parent_id, collection: @parent_choices, include_blank: false
+
+  .actions.form-block
+    - unless @division.new_record?
+      - if @division.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_division_path(@division) = t(:cancel)
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix

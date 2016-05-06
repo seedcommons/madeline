@@ -1,7 +1,7 @@
 - content_for(:title, t("coops"))
 
 - content_for :with_title
-  = link_to "New Co-op", new_admin_organization_path, class: 'btn btn-default new-button'
+  = link_to t("organization.new"), new_admin_organization_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
 

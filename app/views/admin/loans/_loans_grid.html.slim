@@ -10,7 +10,7 @@
       
     - g.column name: csv_id, attribute: 'id', in_html: false
 
-    - g.column name: t("division"), attribute: 'name', assoc: :division,
+    - g.column name: t("common.division"), attribute: 'name', assoc: :division,
       custom_filter: :auto, detach_with_id: :division_filter
 
     - g.column name: t("coop"), attribute: 'name', assoc: :organization,

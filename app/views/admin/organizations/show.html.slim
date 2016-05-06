@@ -13,7 +13,7 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
           i.fa.fa-pencil.fa-large>
           = t("organization.edit")
         a.show-action.form-element
-          = t("organization.cancel_edit")
+          = t("cancel_edit")
       - else
         a href=admin_organization_path(@org) = t(:cancel)
       / TODO: Confirm and cancel should have defaults

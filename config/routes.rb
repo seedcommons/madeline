@@ -10,8 +10,14 @@ Rails.application.routes.draw do
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :dashboard, only: [:index]
+    resources :divisions do
+      collection do
+        post :select
+      end
+    end
     resources :loans
     resources :organizations
+    resources :project_logs
     resources :project_steps do
       collection do
         patch :batch_destroy
@@ -24,10 +30,6 @@ Rails.application.routes.draw do
       member do
         patch :shift_subsequent
       end
-    end
-    resources :project_logs
-    namespace :divisions do
-      post :select
     end
 
     scope '/:media_attachable_type/:media_attachable_id' do

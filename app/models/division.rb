@@ -26,26 +26,31 @@
 
 class Division < ActiveRecord::Base
   include CustomFieldAddable  # supports 'default_locales' persistence
-  has_closure_tree
+  has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
 
+  has_many :loans, dependent: :restrict_with_exception
+  has_many :people, dependent: :restrict_with_exception
+  has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :loans   #, dependent: :destroy  - should probably require owned models to be explicitly deleted
-  has_many :people
-  has_many :organizations
+  has_many :custom_field_sets, dependent: :destroy
+  has_many :option_sets, dependent: :destroy
 
   belongs_to :parent, class_name: 'Division'
-  belongs_to :default_currency, class_name: 'Currency'
+
+  # Note the requirements around a single currency or a 'default currency' per division has been in
+  # flux. Should probably rename the DB column to 'default_currency_id' once definitively settled.
+  belongs_to :default_currency, class_name: 'Currency', foreign_key: 'currency_id'
+  alias_attribute :default_currency_id, :currency_id
+
   belongs_to :organization  # the organization which represents this loan agent division
 
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
-
   # Note: the closure_tree automatically provides a Division.root class method which returns the
   # first Division with a null parent_id ordered by id.
-
 
   # Note, this code is useful for debugging unit tests with elusive Division.root dependencies
   #
@@ -83,7 +88,6 @@ class Division < ActiveRecord::Base
   #   result
   # end
 
-
   def self.root_id
     result = root.try(:id)
     logger.info("division root.id: #{result}")
@@ -95,39 +99,11 @@ class Division < ActiveRecord::Base
     self
   end
 
-
-  # note, current 'accessible' logic is a placeholder until migrate updated to
-  # deduce most appropriate division owner of people and orgs, and loan specific visibility
-  # access control model implemented
-
-  def accessible_organizations
-    # for now hack access to current or root division owned entities
-    if root?
-      Organization.all
-    else
-      Organization.where(division_id: [id, Division.root_id]).order(:name)
-    end
-  end
-
-  def accessible_people
-    # for now hack access to current or root division owned entities
-    if root?
-      Person.all
-    else
-      Person.where(division_id: [id, Division.root_id]).order(:last_name)
-    end
-  end
-
-  def accessible_loans
-    if root?
-      Loan.all
-    else
-      Loan.where(division_id: [id, Division.root_id]).order(signing_date: :desc)
-    end
-  end
-
-  def loans_count
-    loans.size
+  def has_noncascading_dependents?
+    Division.where(parent: self).present? ||
+      Organization.where(division: self).present? ||
+      Loan.where(division: self).present?  ||
+      Person.where(division: self).present?
   end
 
   # returns list of locale symbols which should be presented by default within translatable UIs. i.e. [:es,:en]

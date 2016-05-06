@@ -7,7 +7,9 @@ class ApplicationPolicy
   end
 
   def index?
-    division_member_or_admin
+    # Rely on scope filtering and assume that users are allowed to view an index unless specifically
+    # disallowed.
+    true
   end
 
   def show?
@@ -74,4 +76,10 @@ class ApplicationPolicy
 
     false
   end
+
+  # Require admin role on at least one division to allow access to index view for divisions or users
+  def any_division_admin?
+    user.roles.where(name: 'admin', resource_type: 'Division').any?
+  end
+
 end
