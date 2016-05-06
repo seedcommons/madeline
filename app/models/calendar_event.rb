@@ -8,7 +8,7 @@ class CalendarEvent
   attr_accessor :event_type
   attr_accessor :model_id
 
-  attr_accessor :backgroundColor
+  attr_accessor :background_color
   attr_accessor :step_type
   attr_accessor :completion_status
   attr_accessor :time_status
@@ -83,7 +83,7 @@ class CalendarEvent
   def initialize_project_step(step)
     @start = step.calendar_date
     @title = step.name.to_s
-    @backgroundColor = step.color
+    @background_color = step.color
 
     @event_type = "project_step"
     @num_of_logs = step.logs_count
