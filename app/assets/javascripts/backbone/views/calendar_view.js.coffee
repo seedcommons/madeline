@@ -17,7 +17,7 @@ class MS.Views.CalendarView extends Backbone.View
       header:
         left: 'prev,next today'
         center: 'title'
-        right: 'month,agendaWeek legend'
+        right: 'month,basicWeek legend'
       allDayDefault: true
       dayClick: @dayClick.bind(this)
 
