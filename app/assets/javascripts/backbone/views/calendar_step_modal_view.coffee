@@ -3,9 +3,12 @@ class MS.Views.CalendarStepModalView extends Backbone.View
   el: '#calendar-step-modal'
 
   initialize: (params) ->
-    # params.id ? @showStep : @showNewStep
-    @id = params.id
     @context = params.context
+    if params.id
+      @id = params.id
+      @showStep()
+    else
+      @showNewStep()
 
   events:
     'click a.action-delete': 'deleteStep'
