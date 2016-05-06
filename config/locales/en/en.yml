@@ -139,14 +139,6 @@ en:
     street_address: "Street Address"
     website: "Website"
 
-  organization:
-    active_loans: "Active Loans"
-    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
-    media: "Co-op Media"
-    delete: "Delete Co-op"
-    edit: "Edit Co-op"
-    new: "New Co-op"
-
   loan:
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
