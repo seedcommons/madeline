@@ -10,8 +10,7 @@
     div.calendar-event.cal-step [
       class="cal-step-#{cal_event.step_type} #{cal_event.time_status}"
       style="background: #{cal_event.backgroundColor}"
-      data-step-id="#{cal_event.id}"]
-      /JE Todo: should probably qualify this step-id with the model type
+      data-step-id="#{cal_event.model_id}"]
 
       div.large-left-box
         span.event-title
@@ -35,7 +34,7 @@
 
   - when "ghost_step"
 
-    div.calendar-event.cal-ghost-step data-step-id="#{cal_event.id}"
+    div.calendar-event.cal-ghost-step data-step-id="#{cal_event.model_id}"
       span.event-title
         - if cal_event.step_type == "milestone"
             i.fa.fa-flag
