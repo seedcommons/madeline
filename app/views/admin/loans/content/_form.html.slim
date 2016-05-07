@@ -46,7 +46,7 @@
 
   = f.input :summary
     .view-element = @loan.summary
-    = f.input_field :summary
+    = f.input_field :summary, as: :text
 
   = f.input :primary_agent
     .view-element = @loan.primary_agent.try(:name)
@@ -90,7 +90,7 @@
 
   = f.input :details
     .view-element = @loan.details
-    = f.input_field :details
+    = f.input_field :details, as: :text
 
   = f.input :project_type
     .view-element = @loan.project_type_label
