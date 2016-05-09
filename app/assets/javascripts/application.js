@@ -30,7 +30,12 @@
 //= require wice_grid
 
 //= require twitter/bootstrap/rails/confirm
+
+//= require moment
+//= require fullcalendar
+
 //= require admin/admin
+
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync

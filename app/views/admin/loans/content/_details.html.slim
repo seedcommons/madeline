@@ -3,4 +3,6 @@ section.block
   = render "admin/loans/content/form", loan: @loan
 
 section.block
-  h1 = t(:media)
+  h1 = t("loan.media")
+  .row 
+    = render "admin/media/index", media: @loan.media, owner: @loan

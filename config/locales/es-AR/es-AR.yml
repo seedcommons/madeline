@@ -1,4 +1,9 @@
 es-AR:
+  locale_name:
+    en: Inglés
+    es: Español
+    es-AR: Español (Argentina)
+    fr: Francés
   loans: Préstamos
   country: País
   show: Mostrar
@@ -18,6 +23,7 @@ es-AR:
   location: Ubicación
   signing_date: Fecha de inicío
   summary: Resumen
+  details: Detalles
   timeline: Cronología
   payments: Cuotas
   past_loans: Préstamos anteriores
@@ -29,7 +35,7 @@ es-AR:
   all_loans: Todos los préstamos
   gallery: Galería
   back_to: "Volver a %{name}"
-  media_gallery: Galería de fotos 
+  media_gallery: Galería de fotos
   no_media_found: No hay fotos con ese criterio.
   images_of: "Imagenes de %{name}"
   images_from_this_project: Imagenes del proyecto
@@ -54,7 +60,7 @@ es-AR:
     previous_label: "&#8592; Anterior"
     next_label: "Próximo &#8594;"
     page_gap: "&hellip;"
-  
+
   routes:
     loans: prestamos
     gallery: galeria

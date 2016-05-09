@@ -25,8 +25,8 @@ gem 'pundit'
 gem 'rolify'
 
 # Pagination
-gem 'will_paginate', '~> 3.0.4'
-gem 'will_paginate-bootstrap'
+# gem 'will_paginate', '~> 3.0.4'
+# gem 'will_paginate-bootstrap'
 
 # Remove UTF8 parameter from GET forms
 gem 'utf8_enforcer_workaround'
@@ -69,6 +69,9 @@ gem 'simple_form'
 # Passing controller data to JS
 gem 'gon'
 
+# Used by CalendarEventsController when serializing event data for Calendar widget
+gem 'active_model_serializers'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -93,6 +96,7 @@ group :development, :test do
   gem 'faker'
   gem 'capybara'
   gem 'simplecov'
+  gem 'quiet_assets'
 end
 
 group :development do

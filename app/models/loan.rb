@@ -59,6 +59,7 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :project_steps, as: :project
+  has_many :project_logs, through: :project_steps
 
 
   # define accessor-like convenience methods for the fields stored in the Translations table
@@ -154,9 +155,11 @@ class Loan < ActiveRecord::Base
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
-  def currency
-    @currency ||= self.country.default_currency
-  end
+  # def currency
+  #   # Revisit the default currency  handling later.  Doesn't not seem to be working as desired,
+  #   # and this code currently precludes being able to update the currency from the edit form.
+  #   @currency ||= self.country.default_currency
+  # end
 
   def location
     if self.organization.try(:city).present?
@@ -231,7 +234,12 @@ class Loan < ActiveRecord::Base
     end
   end
 
-  def logs(order_by="Date DESC")
-    @logs ||= ProjectLog.where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
+  def logs
+    project_logs
   end
+
+  def calendar_events
+    CalendarEvent.build_for(self)
+  end
+
 end

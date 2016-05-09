@@ -2,51 +2,9 @@
 
 = render 'layouts/admin/tables'
 
-= define_grid(@loans_grid, show_filters: :always,
-    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
+= render "loans_grid"
 
-  - g.blank_slate do
-    - @empty_list = true
-    .alert.alert-info = t("no_records")
-
-  - g.column name: t("id"), attribute: 'id', filter: false do |loan|
-    - link_to(loan.id, admin_loan_path(loan.id))
-
-  - g.column name: t("division"), attribute: 'name', assoc: :division,
-    custom_filter: :auto, detach_with_id: :division_filter
-
-  - g.column name: t("coop"), attribute: 'name', assoc: :organization,
-    custom_filter: :auto, detach_with_id: :coop_filter
-
-  - g.column name: t("status"), attribute: 'status_value',
-    custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
-    - loan.status
-
-  - g.column name: t("loan.sign_date"), attribute: 'signing_date',
-    detach_with_id: :signing_date_filter do |loan|
-    - loan.signing_date.try(:strftime, t('time.formats.date_only'))
-
-  - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
-    - t("loan.months", number: loan.length_months.to_s)
-
-  - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
-    custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
-    - loan.loan_type
-
-  / - g.column name: t("name"), attribute: 'name',
-  /   detach_with_id: :name_filter do |loan|
-  /   - loan[:name]
-
-  - g.column name: t("loan.amount"), attribute: 'amount', filter: false do |loan|
-    - number_to_currency(loan.amount)
-
-  - g.column name: t("created"), attribute: 'created_at', filter: false do |loan|
-    - fuzzy_time(loan.created_at)
-
-  - g.column name: t("updated"), attribute: 'updated_at', filter: false do |loan|
-    - fuzzy_time(loan.updated_at)
-
-- unless @empty_list
+- unless @loans_grid.empty? && !@loans_grid.filtering_on?
   header.block
     .filters
       h4 = t("filter_by")
@@ -62,7 +20,7 @@
           = grid_filter(@loans_grid, :status_filter)
 
       .filter
-        label = t("division")
+        label = t("common.division")
         .filter-content
           = grid_filter(@loans_grid, :division_filter)
 
@@ -82,11 +40,14 @@
           = grid_filter(@loans_grid, :signing_date_filter)
 
       .actions
-        button.btn.btn-link.wg-external-reset-button data-grid-name="grid"
+        button.btn.btn-link.wg-external-reset-button data-grid-name="loans"
           = t("clear")
 
-        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="grid"
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="loans"
           = t("filter")
+
+        button.btn.btn-default.wg-external-csv-export-button data-grid-name="loans"
+          = t("export_to_csv")
       .clearfix
 
 = render_grid(@loans_grid)

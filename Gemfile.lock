@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_model_serializers (0.9.5)
+      activemodel (>= 3.2)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -176,6 +178,8 @@ GEM
     pundit-matchers (1.0.2)
       pundit (~> 1.0, >= 1.0.0)
       rspec-rails (>= 3.0.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -309,9 +313,6 @@ GEM
       activerecord (> 3.2)
       coffee-rails (> 3.2)
       kaminari (~> 0.16)
-    will_paginate (3.0.7)
-    will_paginate-bootstrap (1.0.1)
-      will_paginate (>= 3.0.3)
     with_advisory_lock (3.0.0)
       activerecord (>= 3.2)
       thread_safe
@@ -322,6 +323,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   annotate
   awesome_print
   better_errors
@@ -353,6 +355,7 @@ DEPENDENCIES
   pg (~> 0.15)
   pundit
   pundit-matchers
+  quiet_assets
   rails (~> 4.2.5)
   rails-backbone
   rails-erd
@@ -373,8 +376,6 @@ DEPENDENCIES
   utf8_enforcer_workaround
   whenever
   wice_grid (= 3.6.0.pre4)
-  will_paginate (~> 3.0.4)
-  will_paginate-bootstrap
 
 BUNDLED WITH
    1.11.2

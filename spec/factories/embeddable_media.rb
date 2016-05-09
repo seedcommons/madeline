@@ -5,5 +5,4 @@ FactoryGirl.define do
     height [1..600].sample
     width [1..600].sample
   end
-
 end

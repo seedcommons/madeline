@@ -17,8 +17,16 @@ module Translatable
     #   get_translation('foo')
     # end
     #
+    # def foo_en
+    #   get_translation('foo', locale: :en)
+    # end
+    #
     # def foo=(text)
     #   set_translation('foo', text)
+    # end
+    #
+    # def foo_en=(text)
+    #   set_translation('foo', text, locale: :en)
     # end
     #
     # def set_foo(text, locale)
@@ -32,8 +40,13 @@ module Translatable
     # def foo_translations=(translations)
     #   set_translations('foo', translations)
     # end
+    #
+    # def locale_en
+    #   :en
+    # end
 
     def attr_translatable(*attributes)
+      # attribute methods
       attributes.each do |attribute|
         define_method(attribute) { get_translation(attribute) }
         define_method("#{attribute}=") { |text| set_translation(attribute, text) }
@@ -43,6 +56,14 @@ module Translatable
         define_method("#{attribute}_translations") { get_translations(attribute) }
         define_method("#{attribute}_translations=") { |translations| set_translations(attribute, translations) }
         alias_method "set_#{attribute}_translations", "#{attribute}_translations="
+        I18n.available_locales.each do |locale|
+          define_method("#{attribute}_#{locale.to_s}") { get_translation(attribute, locale: locale) }
+          define_method("#{attribute}_#{locale.to_s}=") { |text| set_translation(attribute, text, locale: locale) }
+        end
+      end
+      # locale methods
+      I18n.available_locales.each do |locale|
+        define_method("locale_#{locale.to_s}") { locale }
       end
     end
   end
@@ -81,16 +102,9 @@ module Translatable
     result.map(&:to_sym) & self.permitted_locales
   end
 
-  # Beware, this is distinct from I18n.available_locales to flatten out the region specific locales
-  # for the purpose of the translatable fields.
-  # If we really want to support es-AR, etc in the translatable system, we need to tweak the migration
-  # and also think through all of the other implications
+  # TODO: Replace with division-specific locales or remove during refactoring
   def permitted_locales
-    [:en, :es, :fr]   # todo: determine full list here
-    # Note, this list currently depends on being included in the I18n.available_locales list
-    # because we're leveraging the I18n system to translate our locale_name for the
-    # language selection drop-down.
-    # If we're okay with just using a simple map instead, then we could avoid that dependency.
+    I18n.available_locales
   end
 
   def unused_locales
@@ -152,48 +166,4 @@ module Translatable
   #     translation
   #   end
   # end
-
-  #
-  # Form helpers
-  #
-
-  #
-  # define a easy way to fetch a named attribute for a specific locale
-  #   <attribute>_<locale> is equivalent to translations.where(translatable_attribute: attribute, locale: locale).first
-  #
-  # support for detecting a changed locale for an existing translation
-  #   locale_<locale> returns the locale component of the method name
-  #
-
-  def method_missing(method_sym, *arguments, &block)
-    # todo: consider make this dynamic method pattern more unique
-    if method_sym.to_s =~ /\A(.*)_(.*)\z/
-      if $2 != "translations" && respond_to?("#{$1}_translations")
-        translation = get_translation($1, locale: $2, exact_match: true)
-        return translation.try(:text)
-      end
-    end
-    if method_sym.to_s =~ /\Alocale_(.*)\z/
-      # note, this assumes that invalid locales are already filtered out before reaching UI.
-      if permitted_locales.include? $1.to_sym
-        return $1
-      end
-    end
-    super
-  end
-
-  def respond_to?(method_sym, include_private = false)
-    if method_sym.to_s =~ /\A(.*)_(.*)\z/
-      if $2 != "translations" && respond_to?("#{$1}_translations")
-        return true
-      end
-    end
-    if method_sym.to_s =~ /\Alocale_(.*)\z/
-      if permitted_locales.include? $1.to_sym
-        return permitted_locales.include? $1.to_sym
-      end
-    end
-    super
-  end
-
 end

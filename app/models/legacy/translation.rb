@@ -46,14 +46,19 @@ class Translation < ActiveRecord::Base
   end
 
   def map_attribute_name(new_model, old_column)
-    ATTRIBUTE_MAP[new_model][old_column]
+    result = ATTRIBUTE_MAP[new_model][old_column]
+    raise "unexpected old translation attribute name: #{old_column}" unless result
+    result
   end
 
   ATTRIBUTE_MAP = {
       'Loan' => {'ShortDescription' => 'summary', 'Description' => 'details'},
       'ProjectStep' => {'Summary' => 'summary', 'Details' => 'details'},
-      'ProjectLog' => {'Explanation' => 'summary', 'DetailedExplanation' => 'details',
-                       'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes'},
+      'ProjectLog' => {
+        'Explanation' => 'summary', 'DetailedExplanation' => 'details',
+        'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes',
+        'NotasPrivados' => 'private_notes'
+      },
       'Media' => {'Caption' => 'caption', 'Description' => 'description'}
   }
 

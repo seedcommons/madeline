@@ -1,0 +1,19 @@
+= define_grid(@divisions_grid, show_filters: :show, hide_csv_button: true,
+  html: { class: 'rowlink table-hover', data: { link: @csv_mode ? nil : 'row' } }) do |g|
+
+  - g.blank_slate t("no_records")
+
+  - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |division|
+    - link_to(division.id, admin_division_path(division.id))
+
+  - g.column name: csv_id, attribute: 'id', in_html: false
+
+  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
+
+  - g.column name: t("divisions.shared.parent"), attribute: 'name', assoc: :parent, filter: false
+
+  - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |division|
+    - fuzzy_time(division.created_at)
+
+  - g.column name: t("updated"), attribute: 'updated_at', filter: false, in_csv: false do |division|
+    - fuzzy_time(division.updated_at)

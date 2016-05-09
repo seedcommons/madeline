@@ -15,7 +15,7 @@ module TranslationsHelper
   end
 
   def name_for_locale(locale)
-    I18n.t('locale_name', locale: locale)
+    I18n.t("locale_name.#{locale}", locale: locale)
   end
 
   # Returns a list of locale and name pairs suitable for input to `options_for_select`

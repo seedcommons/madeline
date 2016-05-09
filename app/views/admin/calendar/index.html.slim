@@ -1,10 +1,14 @@
-- content_for :scripts
-  = javascript_include_tag "admin/calendar/calendar"
+- content_for :title
+  = t(:calendar)
 
-- content_for :styles
-  = stylesheet_link_tag "admin/calendar/calendar", :media => "all"
+section.calendar
+  = render "admin/calendar/legend"
 
--content_for :title
-  = 'Calendar'
+  div#calendar.main-calendar
 
-div#calendar
+  = render "admin/calendar/step_modal"
+
+javascript:
+  $(function(){
+    MS.calendarView = new MS.Views.CalendarView({calendar_events_url: #{json @calendar_events_url}});
+  });

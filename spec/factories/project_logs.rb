@@ -19,9 +19,9 @@
 FactoryGirl.define do
   factory :project_log do
     project_step
-    agent { create(:person) }
-    date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today)}
-    progress_metric_value { ['behind', 'ontime', 'ahead'].sample }
+    association :agent, factory: :person
+    date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
+    progress_metric_value { ["behind", "on_time", "ahead"].sample }
     transient_division
 
     # for now parent must be saved before assigning the translatable fields

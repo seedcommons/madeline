@@ -7,8 +7,18 @@
 // As we remove style includes from individual pages, they should be added
 // as @imports here instead.
 
+@import "colors";
+@import "bootstrap_layout";
 @import "general";
-@import "forms/forms";
+@import "menu";
+@import "index_table";
+@import "forms/*";
+@import "fullcalendar";
+@import "calendar/*";
+@import "loans/*";
+@import "logs/*";
+@import "project_steps/*";
+@import "media/*";
 
 // Page title and New button
 @media (min-width: 768px) {

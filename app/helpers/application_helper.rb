@@ -16,8 +16,8 @@ module ApplicationHelper
       when 24.hours..6.months then :md_only
       else :my_only
     end
-    display = datetime.strftime(t("time.formats.#{format}"))
-    full = datetime.strftime(t('time.formats.full_tz'))
+    display = l(datetime, format: format)
+    full = l(datetime, format: "full_tz")
     %Q{<span title="#{full}">#{display}</span>}.html_safe
   end
 
@@ -25,5 +25,14 @@ module ApplicationHelper
   # In Rails 4, this is necessary and sufficient to guard against XSS in JSON.
   def json(obj)
     obj.to_json.html_safe
+  end
+
+  # Using Id instead of ID is Excel compatible
+  def csv_id
+    t(:id).capitalize
+  end
+
+  def division_policy(record)
+    DivisionPolicy.new(current_user, record)
   end
 end

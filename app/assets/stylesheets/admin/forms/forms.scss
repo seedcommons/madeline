@@ -2,12 +2,19 @@
   min-height: 2em;
 }
 
-textarea {
-  height: 2em;
+.edit-view .form-group.date .form-element {
+  width: 30%;
+  max-width: 150px;
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.form-group textarea.text {
+  height: 6em;
 }
 
 .edit-view, .new-view {
-  .form-block, .form-element {
+  .form-block, .form-group .form-element {
     display: inherit;
   }
 
@@ -16,15 +23,12 @@ textarea {
   }
 }
 
-.new-view {
-}
-
 .show-view {
   .view-block, .view-element {
     display: inherit;
   }
 
-  .form-block, .form-element {
+  .form-block, .form-group .form-element {
     display: none;
   }
 
