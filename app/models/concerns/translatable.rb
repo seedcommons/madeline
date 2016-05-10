@@ -135,16 +135,6 @@ module Translatable
     end
   end
 
-  # todo: consider a different location for this helper
-  # Returns a hash of the translated terms in all permitted locales for this translatable
-  def translate(*terms)
-    permitted_locales.each_with_object({}) do |l, res|
-      res[l] = terms.each_with_object({}) do |term, res|
-        res[term] = I18n.t(term, locale: l)
-      end
-    end
-  end
-
   # Clones all translations associated with current instance into target translatable instance as
   # transient values.
   def clone_translations(destination)
