@@ -14,7 +14,7 @@ div.panel-body
 
     = f.error_notification
     .step_form_left.col-sm-8.languages
-      input.deleted-locales type="hidden" name="project_step[deleted_locales]" value="[]"
+      input type="hidden" name="project_step[deleted_locales]" value="[]"
       - step.used_locales.each do |l|
         .step-form-left-group.language-block data-locale="#{l}"
           .clearfix
