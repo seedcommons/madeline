@@ -16,7 +16,7 @@ div.panel-body
     .step_form_left.col-sm-8.languages
       input type="hidden" name="project_step[deleted_locales]" value="[]"
       - step.used_locales.each do |l|
-        .step-form-left-group.language-block data-locale="#{l}"
+        .language-block data-locale="#{l}"
           .clearfix
             = f.input "locale_#{l}".to_sym, label: false, collection: locale_options(step.permitted_locales),
                     wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false

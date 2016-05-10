@@ -1,31 +1,10 @@
-.step-form-left-group {
-  border-color: lightgrey;
-  border-style: solid;
-  border-width: 1px;
-  padding: 5px;
-  margin-bottom: 20px;
-}
-
 .project-step-form {
-
   .error_notification {
     display: none;
   }
 
   textarea {
     resize: vertical;
-  }
-
-  .locale {
-    margin-bottom: 10px;
-  }
-
-  .summary {
-    margin-bottom: 10px;
-  }
-
-  .details {
-    margin-bottom: 5px;
   }
 
   .select2 {
