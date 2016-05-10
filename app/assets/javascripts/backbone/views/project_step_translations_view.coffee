@@ -55,7 +55,7 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
     for item in block.find('[data-translatable]')
       do ->
         item_name = $(item).attr('data-translatable')
-        $(item).attr('placeholder', gon.I18n[locale][item_name])
+        $(item).attr('placeholder', I18n.t(item_name, {locale: locale}))
 
   availableLocales: ->
     used = @$('select.locale').map( -> $(this).val() ).get()
