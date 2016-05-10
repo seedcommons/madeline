@@ -19,11 +19,13 @@ div.panel-body
         .language-block data-locale="#{l}"
           .clearfix
             = f.input "locale_#{l}".to_sym, label: false, collection: locale_options(step.permitted_locales),
-                    wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
-            = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12, input_html: {class: 'summary', data: {translatable: 'summary'}},
-                    placeholder: I18n.t(:summary, locale: l)
+                wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
+            = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12,
+                input_html: {data: {translatable: 'summary'}},
+                placeholder: I18n.t(:summary, locale: l)
           = f.input "details_#{l}".to_sym, as: :text, wrapper: :step_form_left_12,
-                  input_html: {class: 'details', rows: 3, data: {translatable: 'details'}}, placeholder: I18n.t(:details, locale: l)
+              input_html: {rows: 3, data: {translatable: 'details'}},
+              placeholder: I18n.t(:details, locale: l)
           a.remove-language href="#" Remove
           .clearfix
       a.add-language href="#" Add Language
