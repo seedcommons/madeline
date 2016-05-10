@@ -65,7 +65,7 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
     @$('.language-block').length
 
   addToDeletedLocales: (locale) ->
-    el = @$('.deleted-locales')
+    el = @$('[name$="[deleted_locales]"]')
     array = JSON.parse(el.val())
     array.push(locale)
     el.val(JSON.stringify(array))
