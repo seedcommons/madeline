@@ -43,7 +43,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     # This will likely be refactored in future to use nested attributes
     # Passing an empty hash for first param because we already initialized params above
-    valid = @step.update_with_translations({}, translations_params(@step.permitted_locales))
+    valid = @step.update_with_translations({}, translations_params(I18n.available_locales))
     render_step_partial(valid ? :show : :form)
   end
 
@@ -54,7 +54,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step.assign_attributes(project_step_params)
     days_shifted = @step.pending_days_shifted # Detect potential schedule shift.
     subsequent_count = @step.subsequent_step_ids.size
-    valid = @step.update_with_translations(project_step_params, translations_params(@step.permitted_locales))
+    valid = @step.update_with_translations(project_step_params, translations_params(I18n.available_locales))
     # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
     days_shifted = 0 unless valid && subsequent_count > 0
     render partial: "/admin/project_steps/project_step", locals: {
