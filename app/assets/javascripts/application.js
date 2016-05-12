@@ -30,9 +30,13 @@
 //= require wice_grid
 
 //= require twitter/bootstrap/rails/confirm
+//= require admin/confirm
 
 //= require moment
 //= require fullcalendar
+
+//= require i18n
+//= require i18n/translations
 
 //= require admin/admin
 
@@ -41,6 +45,3 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/madeline_system
-
-//= require i18n
-//= require i18n/translations

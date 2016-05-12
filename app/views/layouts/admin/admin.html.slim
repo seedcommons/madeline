@@ -3,8 +3,10 @@
   = stylesheet_link_tag "admin/bootstrap_layout", :media => "all"
   = stylesheet_link_tag "admin/menu", :media => "all"
 
-- content_for :scripts
-  = javascript_include_tag "admin/confirm"
+- content_for :scripts  
+  javascript:
+    I18n.availableLocales = #{json I18n.available_locales}
+    $(function() { new MS.Views.ApplicationView() })
 
 - content_for :content
   = render "layouts/admin/page"
