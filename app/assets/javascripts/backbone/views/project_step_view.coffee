@@ -10,8 +10,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @persisted = params.persisted
     @duplicate = params.duplicate
     new MS.Views.ProjectStepTranslationsView({
-      el: @$('.languages'),
-      permittedLocales: params.permittedLocales
+      el: @$('.languages')
     })
 
   events:

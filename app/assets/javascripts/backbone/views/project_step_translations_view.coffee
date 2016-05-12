@@ -2,7 +2,7 @@
 class MS.Views.ProjectStepTranslationsView extends Backbone.View
 
   initialize: (params) ->
-    @permittedLocales = params.permittedLocales
+    @permittedLocales = I18n.availableLocales
     @updateLinks()
 
   events:
