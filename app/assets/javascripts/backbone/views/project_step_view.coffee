@@ -19,7 +19,8 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
-    'click .add-log': 'showLogModal'
+    'click [data-action="add-log"]': 'showLogModal'
+    'click [data-action="edit-log"]': 'showLogModal'
 
   showForm: (e) ->
     e.preventDefault()
