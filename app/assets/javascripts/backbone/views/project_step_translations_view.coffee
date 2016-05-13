@@ -52,10 +52,9 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
 
   # Updates placeholders for text fields to a new locale
   updatePlaceholders: (block, locale) ->
-    for item in block.find('[data-translatable]')
-      do ->
-        item_name = $(item).attr('data-translatable')
-        $(item).attr('placeholder', I18n.t(item_name, {locale: locale}))
+    block.find('[data-translatable]').each ->
+      item_name = $(this).attr('data-translatable')
+      $(this).attr('placeholder', I18n.t(item_name, {locale: locale}))
 
   availableLocales: ->
     used = @$('select.locale').map( -> $(this).val() ).get()
