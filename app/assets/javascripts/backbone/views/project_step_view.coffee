@@ -19,6 +19,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
+    'click .add-log': 'showLogModal'
 
   showForm: (e) ->
     e.preventDefault()
@@ -36,6 +37,10 @@ class MS.Views.ProjectStepView extends Backbone.View
   showDuplicateModal: (e) ->
     e.preventDefault()
     @$('.duplicate-step').modal('show')
+
+  showLogModal: (e) ->
+    e.preventDefault()
+    $('#log-modal').modal('show')
 
   # Select 2 is used to show the pretty icons.
   initTypeSelect: ->
