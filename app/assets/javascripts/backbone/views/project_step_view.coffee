@@ -70,7 +70,8 @@ class MS.Views.ProjectStepView extends Backbone.View
   showLogModal: (e) ->
     e.preventDefault()
     log = e.currentTarget
-    if @$(log).data('log-id')
-      new MS.Views.LogModalView({id: @$(log).data('log-id')})
+    action = @$(log).data('action')
+    if action == "edit-log"
+      new MS.Views.LogModalView({action: action, logId: @$(log).data('log-id')})
     else
-      new MS.Views.LogModalView()
+      new MS.Views.LogModalView({action: action, stepId: @$(log).data('step-id')})
