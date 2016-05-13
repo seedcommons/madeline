@@ -1,7 +1,8 @@
 class MS.Views.LogModalView extends Backbone.View
 
-  # el: '.log'
+  el: '#log-modal'
 
   # events:
 
-  # initialize: ->
+  initialize: (params) ->
+    $('#log-modal').modal('show')

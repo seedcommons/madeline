@@ -39,10 +39,6 @@ class MS.Views.ProjectStepView extends Backbone.View
     e.preventDefault()
     @$('.duplicate-step').modal('show')
 
-  showLogModal: (e) ->
-    e.preventDefault()
-    $('#log-modal').modal('show')
-
   # Select 2 is used to show the pretty icons.
   initTypeSelect: ->
     @$('.type').select2({
@@ -70,3 +66,11 @@ class MS.Views.ProjectStepView extends Backbone.View
     else if $(e.target).is('a.action-delete')
       @$el.remove()
     MS.calendarView.refresh()
+
+  showLogModal: (e) ->
+    e.preventDefault()
+    log = e.currentTarget
+    if @$(log).data('log-id')
+      new MS.Views.LogModalView({id: @$(log).data('log-id')})
+    else
+      new MS.Views.LogModalView()
