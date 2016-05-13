@@ -28,7 +28,7 @@
 require 'chronic'
 
 class ProjectStep < ActiveRecord::Base
-  include ::Translatable, OptionSettable
+  include Translatable, OptionSettable
 
   COLORS = {
     on_time: "hsl(120, 73%, 57%)",

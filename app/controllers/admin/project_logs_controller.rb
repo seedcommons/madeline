@@ -1,12 +1,39 @@
 class Admin::ProjectLogsController < Admin::AdminController
+  include TranslationSaveable
+
+  def show
+    @log = ProjectLog.find(params[:id])
+    authorize_with_parents
+
+    redirect_to admin_loan_path(@loan)
+  end
+
+  def new
+    @log = ProjectLog.new(project_step_id: params[:step_id])
+    render_form
+  end
+
+  def edit
+    @log = ProjectLog.find(params[:id])
+    render_form
+  end
+
+  def create
+    @log = ProjectLog.new(project_log_attribs)
+    authorize_with_parents
+    save_and_render_partial
+  end
+
+  def update
+    @log = ProjectLog.find(params[:id])
+    @log.assign_attributes(project_log_attribs)
+    authorize_with_parents
+    save_and_render_partial
+  end
+
   def destroy
     @log = ProjectLog.find(params[:id])
-    @step = ProjectStep.find(@log.project_step_id)
-    @loan = Loan.find(@step.project_id)
-
-    authorize @log
-    authorize @step
-    authorize @loan
+    authorize_with_parents
 
     if @log.destroy
       redirect_to admin_loan_path(@loan, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
@@ -15,15 +42,32 @@ class Admin::ProjectLogsController < Admin::AdminController
     end
   end
 
-  def show
-    @log = ProjectLog.find(params[:id])
+  private
+
+  def authorize_with_parents
     @step = ProjectStep.find(@log.project_step_id)
     @loan = Loan.find(@step.project_id)
 
     authorize @log
     authorize @step
     authorize @loan
+  end
 
-    redirect_to admin_loan_path(@loan)
+  def project_log_attribs
+    params.require(:project_log).permit(*([:agent_id, :date, :project_step_id, :progress_metric_value] +
+      translation_params(:summary, :details, :additional_notes, :private_notes)))
+  end
+
+  # Renders show partial on success, form partial on failure.
+  def save_and_render_partial
+    if @log.save
+      render partial: "admin/logs/log", locals: {log: @log}
+    else
+      render_form status: 422
+    end
+  end
+
+  def render_form(status: 200)
+    render partial: "admin/logs/form", locals: {log: @log}, status: status
   end
 end

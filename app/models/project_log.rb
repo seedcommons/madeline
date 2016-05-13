@@ -29,14 +29,11 @@ class ProjectLog < ActiveRecord::Base
 
   delegate :division, :division=, to: :project_step
 
-  # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details, :additional_notes, :private_notes
 
   attr_option_settable :progress_metric
 
-
   validates :project_step_id, presence: true
-
 
   def name
     # logger.debug "this: #{self.inspect}"
@@ -49,12 +46,9 @@ class ProjectLog < ActiveRecord::Base
     progress_metric_label
   end
 
-
-
   def project
     project_step.try(:project)
   end
-
 
   def progress(continuous=false)
     # ##JE todo: figure out how this is used and exactly what it needs to show
