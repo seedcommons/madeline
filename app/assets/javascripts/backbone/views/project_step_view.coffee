@@ -9,7 +9,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @initTypeSelect()
     @persisted = params.persisted
     @duplicate = params.duplicate
-    new MS.Views.ProjectStepTranslationsView({
+    new MS.Views.TranslationsView({
       el: @$('.languages')
     })
 

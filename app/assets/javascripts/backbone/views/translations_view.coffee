@@ -1,5 +1,5 @@
 # Handles adding, removing, and formatting translations in a project step form
-class MS.Views.ProjectStepTranslationsView extends Backbone.View
+class MS.Views.TranslationsView extends Backbone.View
 
   initialize: (params) ->
     @permittedLocales = I18n.availableLocales
