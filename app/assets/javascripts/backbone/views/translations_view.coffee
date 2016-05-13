@@ -66,7 +66,7 @@ class MS.Views.TranslationsView extends Backbone.View
     @$('.language-block').length
 
   addToDeletedLocales: (locale) ->
-    input = @$('[name=$"[deleted_locales][]"]').first()
+    input = @$('[name$="[deleted_locales][]"]').first()
     if input.val()
       input2 = input.clone().insertAfter(input).val(locale)
     else
