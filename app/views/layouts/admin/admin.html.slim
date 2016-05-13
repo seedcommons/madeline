@@ -4,8 +4,7 @@
   = stylesheet_link_tag "admin/menu", :media => "all"
 
 - content_for :scripts  
-  javascript:
-    I18n.availableLocales = #{json I18n.available_locales}
+  = render "layouts/admin/global_js"
 
 - content_for :content
   = render "layouts/admin/page"
