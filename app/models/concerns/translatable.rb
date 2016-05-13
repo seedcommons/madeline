@@ -29,6 +29,10 @@ module Translatable
     #   set_translation('foo', text, locale: :en)
     # end
     #
+    # def clear_foo_en
+    #   delete_translation('foo', :en)
+    # end
+    #
     # def set_foo(text, locale)
     #   set_translation('foo', text, locale)
     # end
@@ -57,8 +61,9 @@ module Translatable
         define_method("#{attribute}_translations=") { |translations| set_translations(attribute, translations) }
         alias_method "set_#{attribute}_translations", "#{attribute}_translations="
         I18n.available_locales.each do |locale|
-          define_method("#{attribute}_#{locale.to_s}") { get_translation(attribute, locale: locale) }
-          define_method("#{attribute}_#{locale.to_s}=") { |text| set_translation(attribute, text, locale: locale) }
+          define_method("#{attribute}_#{locale}") { get_translation(attribute, locale: locale) }
+          define_method("#{attribute}_#{locale}=") { |text| set_translation(attribute, text, locale: locale) }
+          define_method("clear_#{attribute}_#{locale}") { delete_translation(attribute, locale) }
         end
       end
       # locale methods
@@ -100,6 +105,14 @@ module Translatable
 
     # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
     result.map(&:to_sym) & self.permitted_locales
+  end
+
+  def deleted_locales=(locales)
+    locales.each do |l|
+      # We don't want to destroy translations that have changed since being loaded.
+      # Only existing, unchanged translations.
+      translations.each{ |t| t.destroy if t.locale.to_sym == l.to_sym && t.persisted? && !t.text_changed? }
+    end
   end
 
   # TODO: Replace with division-specific locales or remove during refactoring

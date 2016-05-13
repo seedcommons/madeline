@@ -20,15 +20,8 @@ class MS.Views.TranslationsView extends Backbone.View
     newBlock = @$('.language-block').last().clone()
     oldLocale = $(newBlock).data('locale')
 
-    # Update new block to new locale
-    newBlock.html(newBlock.html().replace(new RegExp("_#{oldLocale}", 'g'), "_#{newLocale}"))
-    newBlock.data('locale', newLocale)
-    newBlock.find('input[type=text], textarea').val('')
-    newBlock.find('select.locale').val(newLocale)
-
+    @changeBlockLocale(newBlock, newLocale)
     @$('a.add-language').before(newBlock)
-
-    @updatePlaceholders(newBlock, newLocale)
     @updateLinks()
 
   removeLanguage: (e) ->
@@ -47,8 +40,17 @@ class MS.Views.TranslationsView extends Backbone.View
   localeChanged: (e) ->
     select = @$(e.target)
     block = select.closest('.language-block')
-    @updatePlaceholders(block, select.val())
+    @addToDeletedLocales(block.data('locale'))
+    @changeBlockLocale(block, select.val())
     @updateLinks()
+
+  changeBlockLocale: (block, newLocale) ->
+    oldLocale = block.data('locale')
+    block.html(block.html().replace(new RegExp("_#{oldLocale}", 'g'), "_#{newLocale}"))
+    block.data('locale', newLocale).attr("data-locale", newLocale)
+    block.find('input[type=text], textarea').val('')
+    block.find('select.locale').val(newLocale)
+    @updatePlaceholders(block, newLocale)
 
   # Updates placeholders for text fields to a new locale
   updatePlaceholders: (block, locale) ->
@@ -64,7 +66,8 @@ class MS.Views.TranslationsView extends Backbone.View
     @$('.language-block').length
 
   addToDeletedLocales: (locale) ->
-    el = @$('[name$="[deleted_locales]"]')
-    array = JSON.parse(el.val())
-    array.push(locale)
-    el.val(JSON.stringify(array))
+    input = @$('[name$="[deleted_locales][]"]').first()
+    if input.val()
+      input2 = input.clone().insertAfter(input).val(locale)
+    else
+      input.val(locale)

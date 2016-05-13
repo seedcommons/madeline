@@ -28,7 +28,7 @@
 require 'chronic'
 
 class ProjectStep < ActiveRecord::Base
-  include ::Translatable, OptionSettable
+  include Translatable, OptionSettable
 
   COLORS = {
     on_time: "hsl(120, 73%, 57%)",
@@ -48,7 +48,6 @@ class ProjectStep < ActiveRecord::Base
 
   has_many :project_logs, dependent: :destroy
 
-  # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
   attr_option_settable :step_type
@@ -61,20 +60,6 @@ class ProjectStep < ActiveRecord::Base
 
   def division
     project.try(:division)
-  end
-
-  def update_with_translations(project_step_params, translations_params)
-    begin
-      # todo: Consider trying to just use nested attributes, but I'm doubtful that we'll be able to handle
-      # the form flags to delete translations without something ad hoc
-      ActiveRecord::Base.transaction do
-        update_translations!(translations_params)
-        update!(project_step_params)
-        true
-      end
-    rescue ActiveRecord::RecordInvalid
-      false
-    end
   end
 
   def name
@@ -272,35 +257,6 @@ class ProjectStep < ActiveRecord::Base
     # steps.
     project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
       date: date, id: id).pluck(:id)
-  end
-
-  #
-  # Translations helpers
-  #
-
-  # todo: refactor up to translatable.rb
-
-  def update_translations!(translation_params)
-    if persisted?
-      # deleting the translations that have been removed
-      translation_params[:deleted_locales].each do |l|
-        [:details, :summary].each do |attr|
-          delete_translation(attr, l)
-        end
-      end
-
-      reload
-    end
-
-    # updating/creating the translation that have been updated, added
-    permitted_locales.each do |l|
-      next if translation_params["locale_#{l}"].nil?
-      [:details, :summary].each do |attr|
-        # note, old_locale handles the redesignation of a translation set to a different language
-        set_translation(attr, translation_params["#{attr}_#{l}"], locale: translation_params["locale_#{l}"], old_locale: l)
-      end
-    end
-    save!
   end
 
   def calendar_date
