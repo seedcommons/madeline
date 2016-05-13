@@ -1,4 +1,5 @@
 class Admin::ProjectStepsController < Admin::AdminController
+  include TranslationSaveable
   helper TimeLanguageHelper
 
   def destroy
@@ -40,10 +41,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     # We initialize with project_step_params here to given enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
-
-    # This will likely be refactored in future to use nested attributes
-    # Passing an empty hash for first param because we already initialized params above
-    valid = @step.update_with_translations({}, translations_params(I18n.available_locales))
+    valid = @step.save
     render_step_partial(valid ? :show : :form)
   end
 
@@ -52,11 +50,16 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
 
     @step.assign_attributes(project_step_params)
-    days_shifted = @step.pending_days_shifted # Detect potential schedule shift.
+
+     # Detect potential schedule shift.
+    days_shifted = @step.pending_days_shifted
     subsequent_count = @step.subsequent_step_ids.size
-    valid = @step.update_with_translations(project_step_params, translations_params(I18n.available_locales))
+
+    valid = @step.save
+
     # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
     days_shifted = 0 unless valid && subsequent_count > 0
+
     render partial: "/admin/project_steps/project_step", locals: {
       step: @step,
       mode: valid ? :show : :edit,
@@ -159,17 +162,8 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def project_step_params
-    params.require(:project_step).permit(:is_finalized, :scheduled_date, :completed_date, :step_type_value,
-      :project_type, :project_id)
-  end
-
-  #todo: factor out into a concern as we implement other translatable forms
-  def translations_params(locales)
-    translation_params_list = locales.map { |l| %I(locale_#{l} details_#{l} summary_#{l}) }.flatten
-    result = params.require(:project_step).permit(translation_params_list + [:deleted_locales])
-    # note, the 'deleted_locales' param is JSON encoded because it was easier to treat as a single field at the form level
-    result[:deleted_locales] = JSON.parse(result[:deleted_locales])
-    result
+    params.require(:project_step).permit(*([:is_finalized, :scheduled_date, :completed_date, :step_type_value,
+      :project_type, :project_id] + translation_params(:summary, :details)))
   end
 
   def display_timeline(project_id, notice = nil)
