@@ -27,10 +27,14 @@ class MS.Views.CalendarView extends Backbone.View
   events:
     'click .loan-calendar .cal-step': 'showStepModal'
 
-  dayClick: ->
+  dayClick: (date) ->
     if @$el.find('.loan-calendar')
       loanId = @$el.find('.loan-calendar').data('loan-id')
-      new MS.Views.CalendarStepModalView(context: 'calendar', loanId: loanId)
+      new MS.Views.CalendarStepModalView(
+        context: 'calendar',
+        loanId: loanId,
+        date: date.format('YYYY-MM-DD')
+      )
       MS.loadingIndicator.show()
 
   eventRender: (calEvent, element) ->
