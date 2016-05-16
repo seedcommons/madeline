@@ -29,7 +29,7 @@ class MS.Views.CalendarView extends Backbone.View
 
   dayClick: ->
     if @$el.find('.loan-calendar')
-      loanId = @$el.find('.loan-calendar').attr('data-loan-id').replace(/loan-/, '')
+      loanId = @$el.find('.loan-calendar').data('loan-id')
       new MS.Views.CalendarStepModalView(context: 'calendar', loanId: loanId)
       MS.loadingIndicator.show()
 
