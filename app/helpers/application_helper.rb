@@ -1,7 +1,9 @@
 module ApplicationHelper
   # adds "http://" if no protocol present
   def urlify(url)
-    URI(url).scheme ? url : "http://" + url
+    # JE Todo 3776: Confirm if there is a better way to handle malformed data than passing through
+    # with a rescue block.  Note, the original code was just failing.
+    URI(url).scheme ? url : "http://" + url rescue url
   end
 
   # Format datetime with telescoping accuracy based on how distant it is:

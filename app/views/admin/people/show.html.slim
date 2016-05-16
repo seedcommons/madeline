@@ -1,0 +1,38 @@
+- content_for :title
+  = @person.name
+- content_for :styles
+  = stylesheet_link_tag "admin/media/media", media: "all"
+
+
+section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if @person.valid?
+        a.edit-action.view-element
+          i.fa.fa-pencil.fa-large>
+          = t(".edit")
+        a.show-action.form-element
+          = t("cancel_edit")
+      - else
+        a href=admin_people_path(@person) = t(:cancel)
+      = link_to [:admin, @person], method: :delete,
+          data: { confirm: t('.confirm_deletion'),
+          "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+        i.fa.fa-trash.fa-large>
+        = t(".delete")
+    .clearfix
+
+  section.block
+    = render 'form'
+
+  section.block
+    h1 = t('people.shared.media')
+    .row 
+      = render "admin/media/index", media: @person.media, owner: @person
+
+  section.block
+    h1 = t(:notes)
+
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '.person.details' }) });

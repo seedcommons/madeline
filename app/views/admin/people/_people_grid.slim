@@ -1,0 +1,30 @@
+= define_grid(@people_grid, show_filters: :show, hide_csv_button: true,
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+
+    - g.blank_slate t("no_records")
+
+    - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |person|
+      - link_to(person.id, admin_person_path(person.id))
+
+    - g.column name: csv_id, attribute: 'id', in_html: false
+
+    - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
+
+    - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
+      custom_filter: :auto
+
+    - g.column name: t("country"), attribute: 'name', assoc: :country,
+      custom_filter: :auto, detach_with_id: :country_filter do |organization|
+      - organization.country.try(:name)
+
+    - g.column name: t("created"), attribute: 'created_at', filter: false,
+      in_csv: false do |person|
+      - fuzzy_time(person.created_at)
+
+    - g.column name: t("created"), attribute: 'created_at', in_html: false
+
+    - g.column name: t("updated"), attribute: 'updated_at', filter: false,
+      in_csv: false do |person|
+      - fuzzy_time(person.updated_at)
+
+    - g.column name: t("updated"), attribute: 'updated_at', in_html: false

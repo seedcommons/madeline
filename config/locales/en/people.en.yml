@@ -1,0 +1,17 @@
+en:
+  # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+  # style shortcuts.
+  people:
+    shared:
+      media: "Member Media"
+      new: "New Member"
+      people: "Members"
+      person: "Member"
+
+  # The admin top level group is used here to allow t(".edit") style shortcuts from views
+  admin:
+    people:
+      show:
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Member?"
+        delete: "Delete Member"
+        edit: "Edit Member"

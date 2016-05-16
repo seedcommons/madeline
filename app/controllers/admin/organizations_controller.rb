@@ -70,7 +70,7 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_organization_path
+      @form_action_url = admin_organization_path(@org)
       render :show
     end
   end
@@ -80,6 +80,26 @@ class Admin::OrganizationsController < Admin::AdminController
     def organization_params
       params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
     end
+
+
+  #  alias                    :string
+  #  contact_notes            :text
+  #  division_id              :integer
+  #  email                    :string
+  #  fax                      :string
+  #  industry                 :string
+  #  name                     :string
+  #  neighborhood             :string
+  #  primary_contact_id       :integer
+  #  primary_phone            :string
+  #  referral_source          :string
+  #  secondary_phone          :string
+  #  sector                   :string
+  #  tax_no                   :string
+  #  website                  :string
+
+  #  organization_snapshot_id :integer
+
 
   def prep_form_vars
     @countries = Country.all

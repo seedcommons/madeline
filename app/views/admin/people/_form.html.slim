@@ -1,0 +1,50 @@
+= simple_form_for(@person,
+    url: @form_action_url,
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  = f.error_notification
+
+  = f.input :first_name
+    .view-element = @person.first_name
+    = f.input_field :first_name
+
+  = f.input :last_name
+    .view-element = @person.last_name
+    = f.input_field :last_name
+
+  = f.input :street_address
+    .view-element = @person.street_address
+    = f.input_field :street_address, as: :text
+
+  = f.input :city
+    .view-element = @person.city
+    = f.input_field :city
+
+  = f.input :state
+    .view-element = @person.state
+    = f.input_field :state
+
+  = f.input :country
+    .view-element = @person.country.try(:name)
+    = f.input_field :country_id, collection: @countries, include_blank: true
+
+  = f.input :website
+    - unless @person.website.nil?
+      .view-element = link_to(@person.website, urlify(@person.website), target: '_blank')
+    = f.input_field :website
+
+  .actions.form-block
+    - unless @person.new_record?
+      - if @person.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_person_path(@person) = t(:cancel)
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix
