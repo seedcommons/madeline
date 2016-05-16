@@ -2,8 +2,7 @@ div.panel-body
 
   = simple_form_for([:admin, step],
           remote: true,
-          html: { class: 'project-step-form' },
-          defaults: {html5: true}) do |f|
+          html: {class: 'project-step-form'}) do |f|
 
     / Need to pass these through to create but not update.
     - if step.new_record?

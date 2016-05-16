@@ -11,27 +11,94 @@
 
   = f.error_notification
 
-  = f.input :organization_id, label: t("coop")
+  - if @loan.division && division_policy(@loan.division).show?
+    = f.input :division
+      .view-element
+        - if @loan.division
+          = link_to @loan.division.name, admin_division_path(@loan.division_id)
+      = f.input_field :division_id, collection: @division_choices, include_blank: false
+
+  = f.input :organization
     .view-element
       = link_to admin_organization_path(@loan.organization_id) do
         - @loan.organization.try(:name)
     = f.input_field :organization_id, collection: @organizations, include_blank: true
 
-  = f.input :loan_type_value, label: t("loan.loan_type")
-    .view-element = @loan.try(:loan_type)
+  = f.input :name
+    .view-element = @loan.name
+    = f.input_field :name
+
+  = f.input :loan_type
+    .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
-  = f.input :status_value, label: t(:status)
+  = f.input :status
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
-  = f.input :amount, label: t("loan.amount")
+  = f.input :amount
     .view-element = number_to_currency(loan.amount)
     = f.input_field :amount
 
-  = f.input :description, label: t("loan.description")
-    .view-element = loan.details
-    = f.input_field :details
+  = f.input :currency
+    .view-element = @loan.currency.try(:name)
+    = f.input_field :currency_id, collection: @currency_choices, include_blank: true
+
+  = f.input :summary
+    .view-element = @loan.summary
+    = f.input_field :summary, as: :text
+
+  = f.input :primary_agent
+    .view-element = @loan.primary_agent.try(:name)
+    = f.input_field :primary_agent_id, collection: @people, include_blank: true
+
+  = f.input :secondary_agent
+    .view-element = @loan.secondary_agent.try(:name)
+    = f.input_field :secondary_agent_id, collection: @people, include_blank: true
+
+  = f.input :length_months
+    .view-element = loan.length_months
+    = f.input_field :length_months
+
+  = f.input :rate
+    .view-element = loan.rate
+    = f.input_field :rate
+
+  = f.input :signing_date
+    .view-element = loan.signing_date
+    = f.input_field :signing_date
+
+  = f.input :first_payment_date
+    .view-element = loan.first_payment_date
+    = f.input_field :first_payment_date
+
+  = f.input :first_interest_payment_date
+    .view-element = loan.first_interest_payment_date
+    = f.input_field :first_interest_payment_date
+
+  = f.input :target_end_date
+    .view-element = loan.target_end_date
+    = f.input_field :target_end_date
+
+  = f.input :projected_return
+    .view-element = loan.projected_return
+    = f.input_field :projected_return
+
+  = f.input :representative
+    .view-element = @loan.representative.try(:name)
+    = f.input_field :representative_id, collection: @representative_choices, include_blank: true
+
+  = f.input :details
+    .view-element = @loan.details
+    = f.input_field :details, as: :text
+
+  = f.input :project_type
+    .view-element = @loan.project_type_label
+    = f.input_field :project_type_value, collection: Loan.project_type_options, include_blank: true
+
+  = f.input :public_level
+    .view-element = @loan.public_level_label
+    = f.input_field :public_level_value, collection: Loan.public_level_options, include_blank: true
 
   .actions.form-block
     - unless @loan.new_record?

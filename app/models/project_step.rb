@@ -195,8 +195,8 @@ class ProjectStep < ActiveRecord::Base
     elsif days_late && days_late > 0
       fraction = days_late / SUPER_LATE_PERIOD
       color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
-    else # incomplete and not late
-      "inherit"
+    else # incomplete and not late (use default color)
+      nil
     end
   end
 

@@ -96,7 +96,6 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 end
 
-# def seed_data
-#   # puts "calling seeds.rb"
-#   load "#{Rails.root}/db/seeds.rb"
-# end
+def record_class(record_type)
+  record_type.to_s.camelize.constantize
+end

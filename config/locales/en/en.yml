@@ -5,6 +5,46 @@ en:
     es-AR: Spanish (Argentina)
     fr: French
 
+  activerecord:
+    models:
+      media: "Media"
+      log: "Log"
+      organization: "Organization"
+      loan: "Loan"
+      project_step: "Project Step"
+    attributes:
+      division:
+        description: "Description"
+        default_currency: "Default Currency"
+        name: "Name"
+        parent: "Parent Division"
+      loan:
+        division: "Division"
+        organization: "Co-op"
+        name: "Name"
+        loan_type: "Loan Type"
+        status: "Status"
+        amount: "Amount"
+        currency: "Currency"
+        primary_agent: "Point Person"
+        secondary_agent: "Second"
+        length_months: "Length (months)"
+        first_payment_date: "First Pmt. Date"
+        first_interest_payment_date: "First Int. Pmt. Date"
+        target_end_date: "Target End Date"
+        projected_return: "Projected Return"
+        representative: "Representative"
+        details: "Details"
+        project_type: "Project Type"
+        public_level: "Public Level"
+      organization:
+        name: "Name"
+        street_address: "Street Address"
+        city: "City"
+        state: "State"
+        country: "Country"
+        website: "Website"
+
   time:
     formats:
       default: '%b %e, %Y'
@@ -81,6 +121,7 @@ en:
   all: "All"
   calendar: "Calendar"
   cancel: "Cancel"
+  cancel_edit: "Cancel Edit"
   city: "City"
   clear: "Clear"
   completed: "Completed"
@@ -94,7 +135,6 @@ en:
   delete: "Delete"
   description: "Description"
   dropdown_toggle: "Toggle Dropdown"
-  division: "Division"
   edit: "Edit"
   email: "Email"
   export_to_csv: "Export to CSV"
@@ -127,45 +167,17 @@ en:
   update: "Update"
   updated: "Updated"
 
-  organization:
-    active_loans: "Active Loans"
-    cancel_edit: "Cancel Edit"
-    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
-    media: "Co-op Media"
-    delete: "Delete Co-op"
-    edit: "Edit Co-op"
-
-  loan:
-    adjust_dates: "Adjust Dates"
-    adjust_scheduled_dates: "Adjust Scheduled Dates"
-    amount: "Amount"
-    backward: "- backward"
-    batch_actions: "Batch Actions"
-    delete_selected: "Delete"
-    details: "Details"
-    calendar: "Calendar"
-    cancel_edit: "Cancel Edit"
-    confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
-    criteria: "Criteria"
-    delete: "Delete Loan"
+  # Keys in the top level scope should be gradually moved into this 'common' subgroup.
+  # This will avoid collisions with top level keys matching subgroups. (Which can lead to
+  # very cryptic errors)
+  common:
+    address_state: "State"
     description: "Description"
-    edit: "Edit Loan"
-    finalize: "Finalize"
-    forward: "+ forward"
-    length: "Length"
-    loan_type: "Loan Type"
-    media: "Loan Media"
-    months: "%{number} mo."
-    move_dates: "Move scheduled dates"
-    move_date_direction: "Move date forward or backward?"
-    signing_date: "Signing Date"
-    sign_date: "Sign Date"
-    status:
-      active: "Active"
-      completed: "Completed"
-      frozen: "Frozen"
-      liquidated: "Liquidated"
-    timeline: "Timeline"
+    division: "Division"
+    divisions: "Divisions"
+    parent: "Parent"
+    street_address: "Street Address"
+    website: "Website"
 
   log:
     additional_notes: "Additional Notes:"
@@ -249,7 +261,9 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+    no_access: "User is not permissioned with access to any divisions"
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
+    create: "Create Media"

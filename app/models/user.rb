@@ -69,4 +69,17 @@ class User < ActiveRecord::Base
     profile.try(:division_id)
   end
 
+  def has_some_access?
+    division_scope.base_accessible_ids.present?
+  end
+
+  # Require a user to have access to at least some division in order to login.
+  # Note, this avoids needing to worry about a nil current_division in the controller logic.
+  def active_for_authentication?
+    has_some_access?
+  end
+
+  def inactive_message
+    I18n.t("user.no_access") unless has_some_access?
+  end
 end

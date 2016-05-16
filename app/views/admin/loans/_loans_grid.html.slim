@@ -1,16 +1,14 @@
 = define_grid(@loans_grid, show_filters: :show, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
-    - g.blank_slate do
-      - @empty_list = true
-      .alert.alert-info = t("no_records")
+    - g.blank_slate t("no_records")
 
     - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))
-      
+
     - g.column name: csv_id, attribute: 'id', in_html: false
 
-    - g.column name: t("division"), attribute: 'name', assoc: :division,
+    - g.column name: t("common.division"), attribute: 'name', assoc: :division,
       custom_filter: :auto, detach_with_id: :division_filter
 
     - g.column name: t("coop"), attribute: 'name', assoc: :organization,
@@ -36,7 +34,7 @@
 
     - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |loan|
       - fuzzy_time(loan.created_at)
-  
+
     - g.column name: t("created"), attribute: 'created_at', filter: false, in_html: false do |loan|
       - loan.created_at
 

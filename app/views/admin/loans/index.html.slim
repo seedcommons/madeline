@@ -4,8 +4,8 @@
 
 = render "loans_grid"
 
-- unless @empty_list
-  header.block
+- unless @loans_grid.empty? && !@loans_grid.filtering_on?
+  header.block.index-table
     .filters
       h4 = t("filter_by")
 
@@ -20,7 +20,7 @@
           = grid_filter(@loans_grid, :status_filter)
 
       .filter
-        label = t("division")
+        label = t("common.division")
         .filter-content
           = grid_filter(@loans_grid, :division_filter)
 
@@ -45,7 +45,7 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="loans"
           = t("filter")
-        
+
         button.btn.btn-default.wg-external-csv-export-button data-grid-name="loans"
           = t("export_to_csv")
       .clearfix

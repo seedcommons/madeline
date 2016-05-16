@@ -1,17 +1,20 @@
 - case cal_event.event_type
   - when "loan_start", "loan_end"
 
-    div.calendar-event class="#{(cal_event.event_type = 'loan_start') ? 'loan-start' : 'loan-end'}"
+    div.calendar-event class="#{cal_event.event_type == 'loan_start' ? 'loan-start' : 'loan-end'}"
       span.event-title
-        = cal_event.html
+        - if cal_event.event_type == "loan_start"
+            i.fa.fa-play-circle
+        - else
+            i.fa.fa-stop-circle
+        = cal_event.title
 
   - when "project_step"
 
     div.calendar-event.cal-step [
       class="cal-step-#{cal_event.step_type} #{cal_event.time_status}"
-      style="background: #{cal_event.backgroundColor}"
-      data-step-id="#{cal_event.id}"]
-      /JE Todo: should probably qualify this step-id with the model type
+      style="#{(c = cal_event.background_color) ? "background: #{c}" : ''}"
+      data-step-id="#{cal_event.model_id}"]
 
       div.large-left-box
         span.event-title
@@ -35,10 +38,10 @@
 
   - when "ghost_step"
 
-    div.calendar-event.cal-ghost-step data-step-id="#{cal_event.id}"
+    div.calendar-event.cal-ghost-step data-step-id="#{cal_event.model_id}"
       span.event-title
         - if cal_event.step_type == "milestone"
             i.fa.fa-flag
         - else
             i.fa.fa-calendar-check-o
-        = cal_event.title.to_s
+        = cal_event.title
