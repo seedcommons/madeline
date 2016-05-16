@@ -61,11 +61,14 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form')
-      @$el.replaceWith(data)
       MS.loadingIndicator.hide()
 
       if @context == 'timeline'
+        @$el.replaceWith(data)
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
+      else
+        $('#calendar-step-modal').modal('hide')
+    
     else if $(e.target).is('a.action-delete')
       @$el.remove()
     MS.calendarView.refresh()
