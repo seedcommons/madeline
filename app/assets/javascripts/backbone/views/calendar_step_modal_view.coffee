@@ -16,7 +16,7 @@ class MS.Views.CalendarStepModalView extends Backbone.View
     'click #new_project_step .cancel': 'hideModal'
 
   showStep: ->
-    $.get '/admin/project_steps/' + @id, context: @context, (html) =>
+    $.get "/admin/project_steps/#{@id}", context: @context, (html) =>
       @replaceContent(html)
 
   showNewStep: ->
