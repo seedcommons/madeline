@@ -9,7 +9,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @initTypeSelect()
     @persisted = params.persisted
     @duplicate = params.duplicate
-    @context = @$el.attr('data-context')
+    @context = @$el.data('context')
     new MS.Views.ProjectStepTranslationsView({
       el: @$('.languages'),
       permittedLocales: params.permittedLocales
