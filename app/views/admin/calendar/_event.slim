@@ -1,7 +1,7 @@
 - case cal_event.event_type
   - when "loan_start", "loan_end"
 
-    div.calendar-event class="#{(cal_event.event_type = 'loan_start') ? 'loan-start' : 'loan-end'}"
+    div.calendar-event class="#{cal_event.event_type == 'loan_start' ? 'loan-start' : 'loan-end'}"
       span.event-title
         - if cal_event.event_type == "loan_start"
             i.fa.fa-play-circle
