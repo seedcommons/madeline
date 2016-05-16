@@ -36,6 +36,10 @@ class ApplicationPolicy
     division_admin
   end
 
+  def reassign_division?
+    division_admin
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

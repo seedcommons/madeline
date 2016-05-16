@@ -49,9 +49,7 @@ class Admin::PeopleController < Admin::AdminController
 
   def create
     @person = Person.new(person_params)
-    #fixme
-    @person.division = current_division
-
+    # Note, assumes division assigned as a form param
     authorize @person
 
     if @person.save
@@ -82,11 +80,17 @@ class Admin::PeopleController < Admin::AdminController
     params.require(:person).permit(
       :first_name, :last_name, :street_address, :city, :state, :postal_code, :country_id,
       :primary_phone, :secondary_phone, :email, :tax_no, :birth_date, :website, :contact_notes,
-      :division_id, :primary_organization_id)
+      :division_id, :primary_organization_id
+    )
   end
 
   def prep_form_vars
     @countries = Country.all
-    @organizations = Organization.all
+    @organization_choices = organization_choices
+    @division_choices = division_choices
+  end
+
+  def organization_choices
+    organization_policy_scope(Organization.all)
   end
 end

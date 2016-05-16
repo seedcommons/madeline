@@ -11,6 +11,7 @@ en:
       log: "Log"
       organization: "Organization"
       loan: "Loan"
+      person: "Member"
       project_step: "Project Step"
     attributes:
       division:
@@ -44,6 +45,23 @@ en:
         state: "State"
         country: "Country"
         website: "Website"
+      person:
+        division: "Division"
+        primary_organization: "Co-op"
+        first_name: "First Name"
+        last_name: "Last Name"
+        street_address: "Street Address"
+        city: "City"
+        state: "State"
+        postal_code: "Zip Code"
+        country: "Country"
+        email: "E-mail"
+        primary_phone: "Phone"
+        secondary_phone: "Mobile"
+        tax_no: "National ID"
+        birth_date: "Birth Date"
+        website: "Website"
+        contact_notes: "Contact Notes"
 
   time:
     formats:

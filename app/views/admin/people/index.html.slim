@@ -1,4 +1,4 @@
-- content_for(:title, t("common.people"))
+- content_for(:title, t("people.shared.people"))
 
 - content_for :with_title
   = link_to t("people.shared.new"), new_admin_person_path, class: 'btn btn-default new-button'
@@ -16,6 +16,11 @@
         label = t("name")
         .filter-content
           = grid_filter(@people_grid, :name_filter)
+
+      .filter
+        label = t("activerecord.attributes.person.primary_organization")
+        .filter-content
+          = grid_filter(@people_grid, :organization_filter)
 
       .filter
         label = t("city")

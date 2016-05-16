@@ -2,7 +2,6 @@
 #
 # Table name: people
 #
-#  id                      :integer          not null, primary key
 #  birth_date              :date
 #  city                    :string
 #  contact_notes           :text
@@ -12,10 +11,12 @@
 #  email                   :string
 #  fax                     :string
 #  first_name              :string
+#  id                      :integer          not null, primary key
 #  last_name               :string
 #  legal_name              :string
 #  name                    :string
 #  neighborhood            :string
+#  postal_code             :string
 #  primary_organization_id :integer
 #  primary_phone           :string
 #  secondary_phone         :string
@@ -60,7 +61,5 @@ class Person < ActiveRecord::Base
   def name
     "#{first_name} #{last_name}"
   end
-
-
 
 end

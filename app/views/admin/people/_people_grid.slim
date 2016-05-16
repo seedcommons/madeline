@@ -10,12 +10,17 @@
 
     - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
 
+    - g.column name: t("activerecord.attributes.person.primary_organization"), attribute: 'name',
+      assoc: :primary_organization,
+      custom_filter: :auto, detach_with_id: :organization_filter do |person|
+      - person.primary_organization.try(:name)
+
     - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
       custom_filter: :auto
 
     - g.column name: t("country"), attribute: 'name', assoc: :country,
-      custom_filter: :auto, detach_with_id: :country_filter do |organization|
-      - organization.country.try(:name)
+      custom_filter: :auto, detach_with_id: :country_filter do |person|
+      - person.country.try(:name)
 
     - g.column name: t("created"), attribute: 'created_at', filter: false,
       in_csv: false do |person|

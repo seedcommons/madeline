@@ -11,6 +11,17 @@
 
   = f.error_notification
 
+  - if policy(@person).reassign_division?
+    = f.input :division
+      .view-element
+        - if @person.division
+          = link_to @person.division.name, admin_division_path(@person.division)
+      = f.input_field :division_id, collection: @division_choices, include_blank: false
+
+  = f.input :primary_organization
+    .view-element = @person.primary_organization.try(:name)
+    = f.input_field :primary_organization_id, collection: @organization_choices, include_blank: true
+
   = f.input :first_name
     .view-element = @person.first_name
     = f.input_field :first_name
@@ -31,14 +42,42 @@
     .view-element = @person.state
     = f.input_field :state
 
+  = f.input :postal_code
+    .view-element = @person.postal_code
+    = f.input_field :postal_code
+
   = f.input :country
     .view-element = @person.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true
+
+  = f.input :email
+    .view-element = @person.email
+    = f.input_field :email
+
+  = f.input :primary_phone
+    .view-element = @person.primary_phone
+    = f.input_field :primary_phone
+
+  = f.input :secondary_phone
+    .view-element = @person.secondary_phone
+    = f.input_field :secondary_phone
+
+  = f.input :tax_no
+    .view-element = @person.tax_no
+    = f.input_field :tax_no
+
+  = f.input :birth_date
+    .view-element = @person.birth_date
+    = f.input_field :birth_date
 
   = f.input :website
     - unless @person.website.nil?
       .view-element = link_to(@person.website, urlify(@person.website), target: '_blank')
     = f.input_field :website
+
+  = f.input :contact_notes
+    .view-element = @person.contact_notes
+    = f.input_field :contact_notes
 
   .actions.form-block
     - unless @person.new_record?

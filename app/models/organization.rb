@@ -18,6 +18,7 @@
 #  name                     :string
 #  neighborhood             :string
 #  organization_snapshot_id :integer
+#  postal_code              :string
 #  primary_contact_id       :integer
 #  primary_phone            :string
 #  referral_source          :string
