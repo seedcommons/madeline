@@ -53,11 +53,8 @@
     = f.input_field :country_id, collection: @countries, include_blank: true
 
   = f.input :email
-    - if policy(@person).update_email?
-      .view-element = @person.email
-      = f.input_field :email
-    - else
-      = @person.email
+    .view-element = @person.email
+    = f.input_field :email
 
   = f.input :primary_phone
     .view-element = @person.primary_phone
@@ -111,6 +108,10 @@
 
     javascript:
       $(function() { new MS.Views.PersonView({el: '.person.details'}); });
+
+  - else
+    = f.input :has_system_access
+      = @person.has_system_access
 
   .actions.form-block
     - unless @person.new_record?

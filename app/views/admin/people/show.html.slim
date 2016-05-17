@@ -8,19 +8,21 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
 
   header
     .show-actions
-      - if @person.valid?
-        a.edit-action.view-element
-          i.fa.fa-pencil.fa-large>
-          = t(".edit")
-        a.show-action.form-element
-          = t("cancel_edit")
-      - else
-        a href=admin_people_path(@person) = t(:cancel)
-      = link_to [:admin, @person], method: :delete,
-          data: { confirm: t('.confirm_deletion'),
-          "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
-        i.fa.fa-trash.fa-large>
-        = t(".delete")
+      - if policy(@person).update?
+        - if @person.valid?
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element
+            = t("cancel_edit")
+        - else
+          a href=admin_people_path(@person) = t(:cancel)
+      - if policy(@person).destroy?
+        = link_to [:admin, @person], method: :delete,
+            data: { confirm: t('.confirm_deletion'),
+            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+          i.fa.fa-trash.fa-large>
+          = t(".delete")
     .clearfix
 
   section.block

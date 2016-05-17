@@ -1,17 +1,16 @@
 class PersonPolicy < ApplicationPolicy
 
+  # Make records assocaited with a user record read only except for admins or self.
+  def update?
+    user_is_record? || @record.has_system_access ? division_admin : division_member_or_admin
+  end
+
   def update_access?
     division_admin
   end
 
   def update_password?
     user_is_record? || division_admin
-  end
-
-  # For People associated with User records, restrict updates to email to admins or self.
-  # JE Todo 3776: Confirm if all fields should be locked, or just email?
-  def update_email?
-    !@record.user || user_is_record? || division_admin
   end
 
   private
