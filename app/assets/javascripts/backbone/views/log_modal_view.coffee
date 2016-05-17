@@ -2,8 +2,6 @@ class MS.Views.LogModalView extends Backbone.View
 
   el: '#log-modal'
 
-  # events:
-
   initialize: (params) ->
     if params.action == "add-log"
       @showNew(params.stepId)
@@ -19,6 +17,9 @@ class MS.Views.LogModalView extends Backbone.View
     MS.loadingIndicator.show()
     $.get '/admin/project_logs/new', step_id: stepId, (html) =>
       @replaceContent(html)
+    new MS.Views.TranslationsView({
+      el: @$('[data-content-translatable="log"]')
+    })
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)

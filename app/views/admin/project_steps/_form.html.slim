@@ -13,7 +13,7 @@ div.panel-body
     = hidden_field_tag(:context, context)
 
     = f.error_notification
-    .step_form_left.col-sm-8.languages
+    .step_form_left.col-sm-8.languages data-content-translatable='step'
       input type="hidden" name="project_step[deleted_locales][]"
       - step.used_locales.each do |l|
         .language-block data-locale="#{l}"
