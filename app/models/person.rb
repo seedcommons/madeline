@@ -68,15 +68,11 @@ class Person < ActiveRecord::Base
   before_save :update_user
   after_save :handle_roles
   after_save :clean_up_passwords
+  before_save :update_full_name
 
-  #JE todo: this is a placeholder until we implement an automatic update or decide on different handling around the full name
-  def name
-    "#{first_name} #{last_name}"
+  def update_full_name
+    self.name = "#{first_name} #{last_name}"
   end
-
-  # def has_system_access
-  #   (user && user.has_some_access?) == true
-  # end
 
   # Lazy evaluation getter
   def owning_division_role
