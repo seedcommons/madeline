@@ -8,6 +8,7 @@ en:
       people: "Members"
       person: "Member"
       invalid_division_role: "Invalid access role"
+      has_system_access: "System access"
     roles:
       member: "Member"
       admin: "Admin"

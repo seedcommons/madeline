@@ -62,7 +62,8 @@ en:
         birth_date: "Birth Date"
         website: "Website"
         contact_notes: "Contact Notes"
-        owning_division_role: "System Access"
+        owning_division_role: "Access Role"
+        has_system_access: "Has System Access"
         password: "Password"
         password_confirmation: "Password Confirmation"
 

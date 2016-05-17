@@ -32,6 +32,11 @@
         .filter-content
           = grid_filter(@people_grid, :country_filter)
 
+      .filter
+        label = t("people.shared.has_system_access")
+        .filter-content
+          = grid_filter(@people_grid, :access_filter)
+
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="people"
           = t("clear")

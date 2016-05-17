@@ -84,6 +84,17 @@
     .view-element = @person.contact_notes
     = f.input_field :contact_notes
 
+  /= f.input :has_system_access
+  /  - if policy(@person).update_access?
+  /    .view-element = @person.has_system_access
+  /    = f.input_field :has_system_access
+  /  - else
+  /    = @person.has_system_access
+
+  = f.input :has_system_access
+    .view-element = @person.has_system_access
+    = f.input_field :has_system_access
+
   = f.input :owning_division_role
     - if policy(@person).update_access?
       .view-element = @person.owning_division_role_label

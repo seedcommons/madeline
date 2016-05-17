@@ -11,6 +11,7 @@
 #  email                   :string
 #  fax                     :string
 #  first_name              :string
+#  has_system_access       :boolean          default(FALSE), not null
 #  id                      :integer          not null, primary key
 #  last_name               :string
 #  legal_name              :string
@@ -73,18 +74,9 @@ class Person < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def has_associated_user?
-    User.where(profile_id: id).any?
-  end
-
-  def ensured_associated_user
-    create_associated_user unless associated_user
-    associated_user
-  end
-
-  def has_online_access
-    has_associated_user?
-  end
+  # def has_system_access
+  #   (user && user.has_some_access?) == true
+  # end
 
   # Lazy evaluation getter
   def owning_division_role
@@ -106,11 +98,16 @@ class Person < ActiveRecord::Base
   end
 
   def user_required?
-    owning_division_role.present? || password.present? || password_confirmation.present?
+    #owning_division_role.present? || password.present? || password_confirmation.present?
+    has_system_access
   end
 
   def division_role_valid
-    if owning_division_role.present? && !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym)
+    # if owning_division_role.present? && !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym)
+    #   errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
+    # end
+    if has_system_access && (owning_division_role.blank? ||
+      !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym))
       errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
     end
   end
