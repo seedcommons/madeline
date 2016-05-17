@@ -11,13 +11,12 @@ class Admin::ProjectLogsController < Admin::AdminController
   def new
     @log = ProjectLog.new(project_step_id: params[:step_id])
     authorize_with_parents
-    # render layout: false
     render partial: "admin/logs/new"
   end
 
   def edit
     @log = ProjectLog.find(params[:id])
-    authorize @log
+    authorize_with_parents
     render partial: "admin/logs/edit", layout: false
   end
 
