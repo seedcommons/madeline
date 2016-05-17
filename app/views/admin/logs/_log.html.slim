@@ -6,7 +6,7 @@
         => t(:dash)
         => Person.find(log.agent_id).name
         span.actions-box
-          a.action role="button" data-action="edit-log" data-log-id="#{log.id}"
+          a.action role="button" data-action="edit-log" data-log-id="#{log.id}" data-parent-step-id="#{step.id}"
             i.fa.fa-pencil
           = link_to [:admin, log], method: :delete, class: "action",
               data: {confirm: t('confirm_deletion',

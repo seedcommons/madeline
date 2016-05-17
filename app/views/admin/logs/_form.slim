@@ -2,9 +2,11 @@
   remote: true,
   html: { class: 'project-step-form' }) do |f|
   
+  = f.hidden_field(:project_step_id)
+  
   = f.error_notification
   
   = f.input :date, as: :date
   = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true
   
-  = render "admin/logs/translatable", log: @log, f: f
+  /= render "admin/logs/translatable", log: @log, f: f

@@ -63,9 +63,9 @@ class Admin::ProjectLogsController < Admin::AdminController
   # Renders show partial on success, form partial on failure.
   def save_and_render_partial
     if @log.save
-      render partial: "admin/logs/log", locals: {log: @log}
+      render partial: "admin/logs/log", locals: {log: @log, step: @step}
     else
-      render partial: "admin/logs/form", locals: {log: @log}, status: 422
+      render partial: "admin/logs/form", locals: {log: @log, step: @step}, status: 422
     end
   end
 end

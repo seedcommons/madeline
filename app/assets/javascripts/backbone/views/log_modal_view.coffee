@@ -4,10 +4,13 @@ class MS.Views.LogModalView extends Backbone.View
 
   events:
     'click [data-action="submit"]': 'submitForm'
+    'ajax:success': 'ajaxSuccess'
 
   initialize: (params) ->
+    @stepId = params.stepId
+
     if params.action == "add-log"
-      @showNew(params.stepId)
+      @showNew(@stepId)
     else
       @showEdit(params.logId)
 
@@ -26,8 +29,15 @@ class MS.Views.LogModalView extends Backbone.View
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
-    @$el.modal({show: true})
+    @$el.modal('show')
     MS.loadingIndicator.hide()
 
   submitForm: ->
     @$el.find('form').submit()
+    @$el.modal('hide')
+
+  ajaxSuccess: (e, data) ->
+    step = $(".timeline [data-step-id='#{@stepId}']")
+    $(step).find('.step-logs').addClass('expanded')
+    logs = $(step).find('.logs-list')
+    $(logs).append(data)
