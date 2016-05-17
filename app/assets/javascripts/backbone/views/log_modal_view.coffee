@@ -32,12 +32,11 @@ class MS.Views.LogModalView extends Backbone.View
     @$el.modal('show')
     MS.loadingIndicator.hide()
 
-  submitForm: ->
+  submitForm: (e) ->
+    e.preventDefault()
     @$el.find('form').submit()
     @$el.modal('hide')
 
   ajaxSuccess: (e, data) ->
     step = $(".timeline [data-step-id='#{@stepId}']")
-    $(step).find('.step-logs').addClass('expanded')
-    logs = $(step).find('.logs-list')
-    $(logs).append(data)
+    $(step).find('.step-logs').html(data).addClass('expanded')
