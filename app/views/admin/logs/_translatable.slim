@@ -1,0 +1,23 @@
+.languages
+  input type="hidden" name="project_log[deleted_locales][]"
+  - log.used_locales.each do |l|
+    .language-block data-locale="#{l}"
+      .clearfix
+        = f.input "locale_#{l}".to_sym, label: false,
+          collection: locale_options(log.permitted_locales),
+          input_html: {class: 'locale'}, include_blank: false
+        = f.input "summary_#{l}".to_sym,
+          input_html: {data: {translatable: 'summary'}},
+          placeholder: I18n.t(:summary, locale: l)
+      = f.input "details_#{l}".to_sym, as: :text,
+        input_html: {rows: 3, data: {translatable: 'details'}},
+        placeholder: I18n.t(:details, locale: l)
+      = f.input "additional_notes_#{l}".to_sym, as: :text,
+        input_html: {rows: 3, data: {translatable: 'additional_notes'}},
+        placeholder: I18n.t('log.additional_notes', locale: l)
+      = f.input "private_notes_#{l}".to_sym, as: :text,
+        input_html: {rows: 3, data: {translatable: 'private_notes'}},
+        placeholder: I18n.t('log.private_notes', locale: l)
+      a.remove-language href="#" Remove
+      .clearfix
+  a.add-language href="#" Add Language
