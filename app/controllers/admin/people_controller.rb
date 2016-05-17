@@ -23,6 +23,7 @@ class Admin::PeopleController < Admin::AdminController
   def show
     @person = Person.find(params[:id])
     authorize @person
+    # @person.prepare_for_edit
     prep_form_vars
     @form_action_url = admin_person_path
   end
@@ -80,7 +81,8 @@ class Admin::PeopleController < Admin::AdminController
     params.require(:person).permit(
       :first_name, :last_name, :street_address, :city, :state, :postal_code, :country_id,
       :primary_phone, :secondary_phone, :email, :tax_no, :birth_date, :website, :contact_notes,
-      :division_id, :primary_organization_id
+      :division_id, :primary_organization_id,
+      :has_online_access, :password, :password_confirmation, :owning_division_role
     )
   end
 
@@ -88,6 +90,7 @@ class Admin::PeopleController < Admin::AdminController
     @countries = Country.all
     @organization_choices = organization_choices
     @division_choices = division_choices
+    @roles = [:member, :admin, :foo]
   end
 
   def organization_choices

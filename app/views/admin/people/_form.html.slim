@@ -79,6 +79,22 @@
     .view-element = @person.contact_notes
     = f.input_field :contact_notes
 
+  /= f.input :has_online_access
+  /  .view-element = @person.has_online_access
+  /  = f.input_field :has_online_access
+
+  = f.input :owning_division_role
+    .view-element = @person.owning_division_role
+    = f.input_field :owning_division_role, collection: @roles, include_blank: true
+
+  = f.input :password
+    .view-element = @person.password
+    = f.input_field :password
+
+  = f.input :password_confirmation
+    .view-element = @person.password_confirmation
+    = f.input_field :password_confirmation
+
   .actions.form-block
     - unless @person.new_record?
       - if @person.valid?
