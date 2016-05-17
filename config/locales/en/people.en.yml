@@ -7,6 +7,11 @@ en:
       new: "New Member"
       people: "Members"
       person: "Member"
+      invalid_division_role: "Invalid access role"
+    roles:
+      member: "Member"
+      admin: "Admin"
+      none: "None"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:

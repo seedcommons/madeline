@@ -11,12 +11,14 @@
 
   = f.error_notification
 
-  - if policy(@person).reassign_division?
-    = f.input :division
+  = f.input :division
+    - if policy(@person).reassign_division?
       .view-element
         - if @person.division
           = link_to @person.division.name, admin_division_path(@person.division)
       = f.input_field :division_id, collection: @division_choices, include_blank: false
+    - else
+      = @person.division.try(:name)
 
   = f.input :primary_organization
     .view-element = @person.primary_organization.try(:name)
@@ -51,8 +53,11 @@
     = f.input_field :country_id, collection: @countries, include_blank: true
 
   = f.input :email
-    .view-element = @person.email
-    = f.input_field :email
+    - if policy(@person).update_email?
+      .view-element = @person.email
+      = f.input_field :email
+    - else
+      = @person.email
 
   = f.input :primary_phone
     .view-element = @person.primary_phone
@@ -79,21 +84,21 @@
     .view-element = @person.contact_notes
     = f.input_field :contact_notes
 
-  /= f.input :has_online_access
-  /  .view-element = @person.has_online_access
-  /  = f.input_field :has_online_access
-
   = f.input :owning_division_role
-    .view-element = @person.owning_division_role
-    = f.input_field :owning_division_role, collection: @roles, include_blank: true
+    - if policy(@person).update_access?
+      .view-element = @person.owning_division_role_label
+      = f.input_field :owning_division_role, collection: @roles_choices, include_blank: true
+    - else
+      = @person.owning_division_role_label
 
-  = f.input :password
-    .view-element = @person.password
-    = f.input_field :password
+  - if policy(@person).update_password?
+    = f.input :password
+      .view-element = @person.password
+      = f.input_field :password
 
-  = f.input :password_confirmation
-    .view-element = @person.password_confirmation
-    = f.input_field :password_confirmation
+    = f.input :password_confirmation
+      .view-element = @person.password_confirmation
+      = f.input_field :password_confirmation
 
   .actions.form-block
     - unless @person.new_record?

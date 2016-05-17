@@ -23,7 +23,6 @@ class Admin::PeopleController < Admin::AdminController
   def show
     @person = Person.find(params[:id])
     authorize @person
-    # @person.prepare_for_edit
     prep_form_vars
     @form_action_url = admin_person_path
   end
@@ -90,7 +89,13 @@ class Admin::PeopleController < Admin::AdminController
     @countries = Country.all
     @organization_choices = organization_choices
     @division_choices = division_choices
-    @roles = [:member, :admin, :foo]
+    @roles_choices = role_choices
+  end
+
+  def role_choices
+    Person::VALID_DIVISION_ROLES.map do |role|
+      [I18n.t("people.roles.#{role}"), role]
+    end
   end
 
   def organization_choices
