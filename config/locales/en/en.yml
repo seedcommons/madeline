@@ -181,6 +181,7 @@ en:
 
   log:
     additional_notes: "Additional Notes:"
+    edit: "Edit Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"
     log: "project log"
@@ -188,6 +189,7 @@ en:
     new_log: "New Log"
     no_logs: "No Logs"
     private_notes: "Private Notes:"
+    save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
 
