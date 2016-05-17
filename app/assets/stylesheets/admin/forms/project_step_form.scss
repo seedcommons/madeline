@@ -20,6 +20,11 @@
   .date {
     margin-bottom: 10px;
     margin-left: 5px;
+
+    select {
+      width: auto;
+      display: inline-block;
+    }
   }
 
   .finalized {

@@ -5,7 +5,7 @@
 = render "loans_grid"
 
 - unless @loans_grid.empty? && !@loans_grid.filtering_on?
-  header.block
+  header.block.index-table
     .filters
       h4 = t("filter_by")
 
