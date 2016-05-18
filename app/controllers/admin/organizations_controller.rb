@@ -77,11 +77,18 @@ class Admin::OrganizationsController < Admin::AdminController
 
   private
 
-    def organization_params
-      params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
-    end
+  def organization_params
+    params.require(:organization).permit(
+      :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
+      :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
+      :industry, :sector, :referral_source, :contact_notes,
+      :division_id, :primary_contact_id
+    )
+  end
 
   def prep_form_vars
     @countries = Country.all
+    @division_choices = division_choices
+    @contact_choices = @org.people
   end
 end

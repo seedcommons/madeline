@@ -21,7 +21,9 @@
       = @person.division.try(:name)
 
   = f.input :primary_organization
-    .view-element = @person.primary_organization.try(:name)
+    .view-element
+      - if @person.primary_organization
+        = link_to @person.primary_organization.name, admin_organization_path(@person.primary_organization)
     = f.input_field :primary_organization_id, collection: @organization_choices, include_blank: true
 
   = f.input :first_name
