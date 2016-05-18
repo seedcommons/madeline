@@ -2,6 +2,7 @@
   input[type='text'], select, textarea {
     display: inline-block;
     width: auto;
+    margin-bottom: 0;
   }
 
   label {
@@ -18,5 +19,28 @@
     textarea, [type='text'] {
       width: calc(100% - 10em)
     }
+  }
+
+  .actions {
+    display: block;
+    float: none;
+    margin-left: 10em;
+    margin-bottom: 15px;
+
+    .action {
+      float: none;
+    }
+  }
+
+  .expandable {
+    display: none;
+
+    &.expanded {
+      display: block;
+    }
+  }
+
+  .hidden {
+    display: none;
   }
 }
