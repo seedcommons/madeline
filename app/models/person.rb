@@ -65,10 +65,10 @@ class Person < ActiveRecord::Base
   attr_writer :owning_division_role
   attr_accessor :password, :password_confirmation
 
+  before_save :update_full_name
   before_save :update_user
   after_save :handle_roles
   after_save :clean_up_passwords
-  before_save :update_full_name
 
   def update_full_name
     self.name = "#{first_name} #{last_name}"
@@ -94,14 +94,10 @@ class Person < ActiveRecord::Base
   end
 
   def user_required?
-    #owning_division_role.present? || password.present? || password_confirmation.present?
     has_system_access
   end
 
   def division_role_valid
-    # if owning_division_role.present? && !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym)
-    #   errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
-    # end
     if has_system_access && (owning_division_role.blank? ||
       !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym))
       errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
@@ -110,7 +106,6 @@ class Person < ActiveRecord::Base
 
   # Delegates validation to the automatically created user instance.
   def user_valid
-    # JE Todo: backend policy restriction of updates to user fields on person record
     if user_required?
       update_user
       unless user.valid?
@@ -131,7 +126,6 @@ class Person < ActiveRecord::Base
           user.password_confirmation = self.password_confirmation
         end
       else
-        # auto_build_user
         build_user(
           email: email,
           password: password,
@@ -144,10 +138,9 @@ class Person < ActiveRecord::Base
   def handle_roles
     old_role = resolve_owning_division_role
     new_role = owning_division_role.present? ? owning_division_role.to_sym : nil
+    # Invalid roles expected to rejected by validation rules. but avoid cryptic error just in case.
     raise "Unexpected division role: #{new_role}" if new_role && !VALID_DIVISION_ROLES.include?(new_role)
-    # puts "update assoc - old role: #{old_role}, new role: #{new_role}"
     if old_role != new_role
-      # puts "apply change in role"
       user.remove_role old_role, division if old_role
       user.add_role new_role, division if new_role
     end

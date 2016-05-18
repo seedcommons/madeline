@@ -81,26 +81,6 @@ class Admin::OrganizationsController < Admin::AdminController
       params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
     end
 
-
-  #  alias                    :string
-  #  contact_notes            :text
-  #  division_id              :integer
-  #  email                    :string
-  #  fax                      :string
-  #  industry                 :string
-  #  name                     :string
-  #  neighborhood             :string
-  #  primary_contact_id       :integer
-  #  primary_phone            :string
-  #  referral_source          :string
-  #  secondary_phone          :string
-  #  sector                   :string
-  #  tax_no                   :string
-  #  website                  :string
-
-  #  organization_snapshot_id :integer
-
-
   def prep_form_vars
     @countries = Country.all
   end

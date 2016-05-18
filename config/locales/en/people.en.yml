@@ -3,15 +3,15 @@ en:
   # style shortcuts.
   people:
     shared:
+      has_system_access: "System access"
+      invalid_division_role: "Invalid access role"
       media: "Member Media"
       new: "New Member"
       people: "Members"
       person: "Member"
-      invalid_division_role: "Invalid access role"
-      has_system_access: "System access"
     roles:
-      member: "Member"
       admin: "Admin"
+      member: "Member"
       none: "None"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
