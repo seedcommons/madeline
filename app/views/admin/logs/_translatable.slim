@@ -8,16 +8,20 @@
           input_html: {class: 'locale'}, include_blank: false
         = f.input "summary_#{l}".to_sym,
           input_html: {data: {translatable: 'summary'}},
-          placeholder: I18n.t(:summary, locale: l)
+          placeholder: I18n.t(:summary, locale: l),
+          label: I18n.t(:summary, locale: l)
       = f.input "details_#{l}".to_sym, as: :text,
         input_html: {rows: 3, data: {translatable: 'details'}},
-        placeholder: I18n.t(:details, locale: l)
+        placeholder: I18n.t(:details, locale: l),
+        label: I18n.t(:details, locale: l)
       = f.input "additional_notes_#{l}".to_sym, as: :text,
         input_html: {rows: 3, data: {translatable: 'additional_notes'}},
-        placeholder: I18n.t('log.additional_notes', locale: l)
+        placeholder: I18n.t('log.additional_notes', punctuation: "", locale: l),
+        label: I18n.t('log.additional_notes', punctuation: "", locale: l)
       = f.input "private_notes_#{l}".to_sym, as: :text,
         input_html: {rows: 3, data: {translatable: 'private_notes'}},
-        placeholder: I18n.t('log.private_notes', locale: l)
+        placeholder: I18n.t('log.private_notes', punctuation: "", locale: l),
+        label: I18n.t('log.private_notes', punctuation: "", locale: l)
       a.remove-language href="#" Remove
       .clearfix
   a.add-language href="#" Add Language

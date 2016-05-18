@@ -37,10 +37,10 @@
 
     .log-info
       - if log.additional_notes
-        span.bold = t("log.additional_notes")
+        span.bold = t("log.additional_notes", punctuation: ":")
         span = log.try(:additional_notes)
 
     .log-info
       - if log.private_notes
-        span.bold = t("log.private_notes")
+        span.bold = t("log.private_notes", punctuation: ":")
         span = log.try(:private_notes)

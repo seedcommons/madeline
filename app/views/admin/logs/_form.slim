@@ -9,4 +9,4 @@
   = f.input :date, as: :date
   = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true
   
-  /= render "admin/logs/translatable", log: @log, f: f
+  = render "admin/logs/translatable", log: @log, f: f

@@ -179,7 +179,7 @@ en:
     website: "Website"
 
   log:
-    additional_notes: "Additional Notes:"
+    additional_notes: "Additional Notes%{punctuation}"
     edit: "Edit Log"
     delete: "Delete Log"
     hide_logs: "Hide Logs"
@@ -188,7 +188,7 @@ en:
     logs: "Logs"
     new_log: "New Log"
     no_logs: "No Logs"
-    private_notes: "Private Notes:"
+    private_notes: "Private Notes%{punctuation}"
     save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
