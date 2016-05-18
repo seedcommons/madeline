@@ -6,14 +6,16 @@
         => t(:dash)
         => Person.find(log.agent_id).name
         span.actions-box
-          a.action role="button"
+          a.action role="button" data-action="edit-log" data-log-id="#{log.id}" data-parent-step-id="#{step.id}"
             i.fa.fa-pencil
-          = link_to [:admin, log], method: :delete, class: "action",
-              data: {confirm: t('confirm_deletion',
+          = link_to [:admin, log], method: :delete, class: "action", role: "button",
+              data: { \
+                confirm: t('confirm_deletion',
                 thing: t('project_log.project_log')),
                 "confirm-cancel": t(:cancel),
-                "confirm-proceed": t(:confirm) },
-              role: "button"
+                "confirm-proceed": t(:confirm),
+                "confirm-title": t("log.delete") \
+              }
               i.fa.fa-trash>
 
       .col-sm-2.text-right
@@ -35,10 +37,10 @@
 
     .log-info
       - if log.additional_notes
-        span.bold = t("log.additional_notes")
+        span.bold = t("log.additional_notes", punctuation: ":")
         span = log.try(:additional_notes)
 
     .log-info
       - if log.private_notes
-        span.bold = t("log.private_notes")
+        span.bold = t("log.private_notes", punctuation: ":")
         span = log.try(:private_notes)

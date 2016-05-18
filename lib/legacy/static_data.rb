@@ -123,8 +123,6 @@ module Legacy
       division_field_set.custom_fields.destroy_all
       # list of strings representing 2 char locale codes to be presented by default within translatable UIs
       division_field_set.custom_fields.create!(internal_name: 'default_locales', data_type: 'list')
-      # todo: consider also having a division specific list of 'permitted_locales' - for now using all system locales,
-      # but will likely be confusing when supporting both es-AR and es-NI
 
     end
 
@@ -160,9 +158,7 @@ module Legacy
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
 
-      # use 'es-AR' here since that is the existin spanish translation file.
-      # expecting that we'll likely switch this later to just 'es'
-      ::Division.root.update_default_locales( [ :en, :'es-AR' ] )
+      ::Division.root.update_default_locales([:en, :es])
     end
 
   end

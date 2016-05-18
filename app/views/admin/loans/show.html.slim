@@ -28,6 +28,8 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
   div.loan-content
     = render "admin/loans/tabs/tabs"
     
+  = render "admin/logs/log_modal"
+    
 javascript:
   $(function(){
     new MS.Views.ShowEditView({ el: '.loan.details' })

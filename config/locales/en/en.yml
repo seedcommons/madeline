@@ -2,7 +2,6 @@ en:
   locale_name:
     en: English
     es: Spanish
-    es-AR: Spanish (Argentina)
     fr: French
 
   activerecord:
@@ -171,23 +170,28 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add_language: "Add Language"
     address_state: "State"
     description: "Description"
     division: "Division"
     divisions: "Divisions"
     parent: "Parent"
+    remove: "Remove"
     street_address: "Street Address"
     website: "Website"
 
   log:
-    additional_notes: "Additional Notes:"
+    additional_notes: "Additional Notes%{punctuation}"
+    edit: "Edit Log"
+    delete: "Delete Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"
     log: "project log"
     logs: "Logs"
     new_log: "New Log"
     no_logs: "No Logs"
-    private_notes: "Private Notes:"
+    private_notes: "Private Notes%{punctuation}"
+    save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
 

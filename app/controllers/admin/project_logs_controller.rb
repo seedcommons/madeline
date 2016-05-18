@@ -11,13 +11,13 @@ class Admin::ProjectLogsController < Admin::AdminController
   def new
     @log = ProjectLog.new(project_step_id: params[:step_id])
     authorize_with_parents
-    render layout: false
+    render partial: "admin/logs/new"
   end
 
   def edit
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
-    render layout: false
+    render partial: "admin/logs/edit", layout: false, locals: {log: @log}
   end
 
   def create
@@ -63,9 +63,9 @@ class Admin::ProjectLogsController < Admin::AdminController
   # Renders show partial on success, form partial on failure.
   def save_and_render_partial
     if @log.save
-      render partial: "admin/logs/log", locals: {log: @log}
+      render partial: "admin/logs/step_logs", locals: {step: @step}
     else
-      render partial: "admin/logs/form", locals: {log: @log}, status: 422
+      render partial: "admin/logs/form", locals: {log: @log, step: @step}, status: 422
     end
   end
 end

@@ -11,6 +11,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @duplicate = params.duplicate
     @context = @$el.data('context')
     new MS.Views.TranslationsView({
+      el: @$('[data-content-translatable="step"]')
     })
 
   events:
@@ -19,6 +20,8 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
+    'click [data-action="add-log"]': 'showLogModal'
+    'click [data-action="edit-log"]': 'showLogModal'
 
   showForm: (e) ->
     e.preventDefault()
@@ -70,3 +73,16 @@ class MS.Views.ProjectStepView extends Backbone.View
     else if $(e.target).is('a.action-delete')
       @$el.remove()
     MS.calendarView.refresh()
+
+  showLogModal: (e) ->
+    e.preventDefault()
+    link = e.currentTarget
+    action = @$(link).data('action')
+
+    if !@modalView
+      @modalView = new MS.Views.LogModalView()
+
+    if action == "edit-log"
+      @modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+    else
+      @modalView.showNew(@$(link).data('parent-step-id'))
