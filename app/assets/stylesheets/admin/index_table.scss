@@ -1,0 +1,45 @@
+.index-table {
+  .action {
+    padding: 6px 40px;
+    margin: 0 1em;
+  }
+
+  .actions {
+    display: block;
+    margin: 20px 0;
+    float: right;
+  }
+
+  .filters {
+    .custom-dropdown-container, .form-control {
+      display: inline-block;
+      width: auto;
+    }
+
+    .form-control {
+      max-width: 300px;
+    }
+
+    .filter {
+      margin: 1em 2em 1em 0;
+      display: inline-block;
+    }
+
+    .filter-content {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+
+    label {
+      margin: 0 .5em 0 0;
+      display: inline-block;
+    }
+  }
+
+  .larger-text-box {
+    .form-control {
+      min-width: 20em;
+    }
+  }
+}

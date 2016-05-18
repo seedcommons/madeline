@@ -8,9 +8,16 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :calendar, only: [:index]
+    resources :calendar_events, only: [:index]
     resources :dashboard, only: [:index]
+    resources :divisions do
+      collection do
+        post :select
+      end
+    end
     resources :loans
     resources :organizations
+    resources :project_logs
     resources :project_steps do
       collection do
         patch :batch_destroy
@@ -20,8 +27,14 @@ Rails.application.routes.draw do
       member do
         post :duplicate
       end
+      member do
+        patch :shift_subsequent
+      end
     end
-    resources :project_logs
+
+    scope '/:media_attachable_type/:media_attachable_id' do
+      resources :media
+    end
 
     namespace :raw do
       resources :divisions

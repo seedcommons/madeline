@@ -1,4 +1,7 @@
 fr:
-  locale_name: Français
+  locale_name:
+    en: Anglais
+    es: Espanol
+    fr: Français
   summary: Résumé
   details: Détails

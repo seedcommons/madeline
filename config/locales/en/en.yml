@@ -1,11 +1,65 @@
 en:
-  locale_name: English
+  locale_name:
+    en: English
+    es: Spanish
+    fr: French
+
+  activerecord:
+    models:
+      media: "Media"
+      log: "Log"
+      organization: "Organization"
+      loan: "Loan"
+      project_step: "Project Step"
+    attributes:
+      division:
+        description: "Description"
+        default_currency: "Default Currency"
+        name: "Name"
+        parent: "Parent Division"
+      loan:
+        division: "Division"
+        organization: "Co-op"
+        name: "Name"
+        loan_type: "Loan Type"
+        status: "Status"
+        amount: "Amount"
+        currency: "Currency"
+        primary_agent: "Point Person"
+        secondary_agent: "Second"
+        length_months: "Length (months)"
+        first_payment_date: "First Pmt. Date"
+        first_interest_payment_date: "First Int. Pmt. Date"
+        target_end_date: "Target End Date"
+        projected_return: "Projected Return"
+        representative: "Representative"
+        details: "Details"
+        project_type: "Project Type"
+        public_level: "Public Level"
+      organization:
+        name: "Name"
+        street_address: "Street Address"
+        city: "City"
+        state: "State"
+        country: "Country"
+        website: "Website"
+
   time:
     formats:
-      default: '%b %e, %Y %l:%M %p'
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
       full_tz: '%b %e, %Y %l:%M %p %Z'
       date_only: '%b %e, %Y'
       time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%m-%d-%y'
+      long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
 
@@ -66,6 +120,7 @@ en:
   all: "All"
   calendar: "Calendar"
   cancel: "Cancel"
+  cancel_edit: "Cancel Edit"
   city: "City"
   clear: "Clear"
   completed: "Completed"
@@ -79,14 +134,15 @@ en:
   delete: "Delete"
   description: "Description"
   dropdown_toggle: "Toggle Dropdown"
-  division: "Division"
   edit: "Edit"
   email: "Email"
+  export_to_csv: "Export to CSV"
   filter: "Filter"
   filter_by: "Filter by:"
   id: "ID"
   incomplete: "Incomplete"
   loans: "Loans"
+  locked: "Locked"
   login: "Login"
   logout: "Logout"
   media: "Media"
@@ -101,7 +157,7 @@ en:
   notice_updated: 'Record was successfully updated.'
   notice_batch_deleted: '%{count} record(s) successfully deleted.'
   notice_batch_updated: '%{count} record(s) successfully updated.'
-  notice_batch_updated_with_failures: '%{count} record(s) successfully updated.  %{failure_count} record(s) with failures.'
+  notice_batch_failures: '%{failure_count} record(s) with failures.'
   password: "Password"
   print: "Print"
   reply_no: "No"
@@ -110,43 +166,17 @@ en:
   update: "Update"
   updated: "Updated"
 
-  organization:
-    active_loans: "Active Loans"
-    cancel_edit: "Cancel Edit"
-    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
-    delete: "Delete Co-op"
-    edit: "Edit Co-op"
-
-  loan:
-    adjust_dates: "Adjust Dates"
-    adjust_scheduled_dates: "Adjust Scheduled Dates"
-    amount: "Amount"
-    backward: "- backward"
-    batch_actions: "Batch Actions"
-    delete_selected: "Delete Selected"
-    details: "Details"
-    calendar: "Calendar"
-    cancel_edit: "Cancel Edit"
-    confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
-    criteria: "Criteria"
-    delete: "Delete Loan"
+  # Keys in the top level scope should be gradually moved into this 'common' subgroup.
+  # This will avoid collisions with top level keys matching subgroups. (Which can lead to
+  # very cryptic errors)
+  common:
+    address_state: "State"
     description: "Description"
-    edit: "Edit Loan"
-    finalize: "Finalize"
-    forward: "+ forward"
-    length: "Length"
-    loan_type: "Loan Type"
-    months: "%{number} mo."
-    move_dates: "Move scheduled dates"
-    move_date_direction: "Move date forward or backward?"
-    signing_date: "Signing Date"
-    sign_date: "Sign Date"
-    status:
-      active: "Active"
-      completed: "Completed"
-      frozen: "Frozen"
-      liquidated: "Liquidated"
-    timeline: "Timeline"
+    division: "Division"
+    divisions: "Divisions"
+    parent: "Parent"
+    street_address: "Street Address"
+    website: "Website"
 
   log:
     additional_notes: "Additional Notes:"
@@ -172,6 +202,10 @@ en:
 
   project_step:
     after: "After"
+    confirm_deletion: "Are you sure you want to delete this project step?  NOTE, %{log_count} log(s) will also be deleted."
+    confirm_shift_subsequent:
+      one: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the subsequent step date back by %{days} days?"
+      other: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the %{count} subsequent step dates back by %{days} days?"
     days: "Day(s)"
     delete_step: "Delete Step"
     duplicate: "Duplicate"
@@ -179,7 +213,6 @@ en:
     edit_step: "Edit Step"
     end: "End:"
     every: "Every:"
-    confirm_deletion: 'Are you sure you want to delete this project step?  NOTE, %{log_count} log(s) will also be deleted.'
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
     batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
     finalized: "Finalized:"
@@ -200,6 +233,7 @@ en:
       one: "project step"
       other: "project steps"
     repeat: "Repeat..."
+    shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
     status:
       completed: "Completed"
@@ -209,6 +243,7 @@ en:
       days_early: "%{days} days early"
       days_late: "%{days} days late"
       on_time: "on time"
+    unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
 
   user:
@@ -225,3 +260,9 @@ en:
     new_password: "New password"
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+    no_access: "User is not permissioned with access to any divisions"
+
+  media:
+    confirm_deletion: "Are you sure you want to delete this media item?"
+    caption: "%{locale_name} Caption"
+    create: "Create Media"

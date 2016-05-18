@@ -2,13 +2,14 @@ div.panel-body
 
   = simple_form_for([:admin, step],
           remote: true,
-          html: { class: 'project-step-form' },
-          defaults: {html5: true}) do |f|
+          html: {class: 'project-step-form'}) do |f|
 
     / Need to pass these through to create but not update.
     - if step.new_record?
       = f.hidden_field(:project_id)
       = f.hidden_field(:project_type)
+      
+    = hidden_field_tag(:context, context)
 
     = f.error_notification
     .step_form_left.col-sm-8.languages
@@ -31,12 +32,18 @@ div.panel-body
         = f.input :step_type_value, label: 'Type',
             collection: ProjectStep.step_type_option_set.translated_list,
             wrapper: :step_form_right_9, include_blank: '---', input_html: {class: 'type'}
-      = f.input :scheduled_date, label: 'Scheduled', as: :date, wrapper: :step_form_right_9, input_html: {class: 'date'}
-      = f.input :completed_date, label: 'Completed', as: :date, wrapper: :step_form_right_9, input_html: {class: 'date'}
+      = f.input :scheduled_date, label: 'Scheduled', as: :date, wrapper: :step_form_right_9,
+        input_html: {class: 'date'}
+      = f.input :completed_date, label: 'Completed', as: :date, wrapper: :step_form_right_9,
+        input_html: {class: 'date'}, include_blank: true
       .form-group.date.optional.project_step_completed_date
         = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
         .col-sm-9
-          = f.check_box :is_finalized, class: "step_form_right_9 finalized"
+          - if step.is_finalized_locked?
+            = step.is_finalized ? t("reply_yes") : t("reply_no")
+            =< "(#{t('locked')})"
+          - else
+            = f.check_box :is_finalized, class: "step_form_right_9 finalized"
 
     .clearfix
 

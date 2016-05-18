@@ -1,0 +1,32 @@
+- content_for(:title, t("common.divisions"))
+
+- content_for :with_title
+  = link_to t("divisions.shared.new"), new_admin_division_path, class: 'btn btn-default new-button'
+
+= render 'layouts/admin/tables'
+
+= render "divisions_grid"
+
+- unless @empty_list
+  header.block
+    .filters
+      h4 = t("filter_by")
+
+      .larger-text-box.filter
+        label = t("name")
+        .filter-content
+          = grid_filter(@divisions_grid, :name_filter)
+
+      .actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="divisions"
+          = t("clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="divisions"
+          = t("filter")
+
+        button.btn.btn-default.wg-external-csv-export-button data-grid-name="divisions"
+          = t("export_to_csv")
+
+      .clearfix
+
+= render_grid(@divisions_grid)

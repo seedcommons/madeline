@@ -1,11 +1,8 @@
-- content_for :styles
-  = stylesheet_link_tag "admin/forms/forms", :media => "all"
-
-- content_for :scripts
-  = javascript_include_tag "admin/forms/forms"
-
 - content_for :title
   = @org.name
+- content_for :styles
+  = stylesheet_link_tag "admin/media/media", media: "all"
+
 
 section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 
@@ -16,7 +13,7 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
           i.fa.fa-pencil.fa-large>
           = t("organization.edit")
         a.show-action.form-element
-          = t("organization.cancel_edit")
+          = t("cancel_edit")
       - else
         a href=admin_organization_path(@org) = t(:cancel)
       / TODO: Confirm and cancel should have defaults
@@ -34,7 +31,12 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
     h1 = t('organization.active_loans')
 
   section.block
-    h1 = t(:media)
+    h1 = t('organization.media')
+    .row 
+      = render "admin/media/index", media: @org.media, owner: @org
 
   section.block
     h1 = t(:notes)
+
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '.coop.details' }) });

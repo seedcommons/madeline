@@ -5,6 +5,7 @@
 #  agent_id        :integer
 #  completed_date  :date
 #  created_at      :datetime         not null
+#  finalized_at    :datetime
 #  id              :integer          not null, primary key
 #  is_finalized    :boolean
 #  original_date   :date
@@ -53,8 +54,10 @@ class ProjectStep < ActiveRecord::Base
   attr_option_settable :step_type
 
   validates :project_id, presence: true
+  validate :unfinalize_allowed
 
   before_save :handle_original_date_logic
+  before_save :handle_finalized_at
 
   def division
     project.try(:division)
@@ -75,7 +78,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def name
-    "#{project.try(:name)} step"
+    summary
   end
 
   # For use in views if record not yet saved.
@@ -119,28 +122,54 @@ class ProjectStep < ActiveRecord::Base
     I18n.l (self.completed_date || self.scheduled_date), format: :long
   end
 
-  def original_date
-    self[:original_date] || scheduled_date
+  def date_changed?
+    original_date.present?
   end
 
-  def date_changed?
-    self[:original_date].present?
-  end
+  private
 
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_date_changed? && is_finalized? && self[:original_date].blank?
+    if scheduled_date_changed? && is_finalized? && original_date.blank?
       self.original_date = scheduled_date_was
     end
+  end
+
+  def handle_finalized_at
+    if is_finalized && !finalized_at
+      self.finalized_at = Time.now
+    elsif !is_finalized && finalized_at
+      self.finalized_at = nil
+    end
+  end
+
+  public
+
+  # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
+  # as finalized.  Note, should generally be avoided by front-end logic, but guards against edge
+  # cases.
+  def unfinalize_allowed
+    if is_finalized_changed? && !is_finalized && is_finalized_locked?
+      errors.add(:is_finalized, I18n.t("project_step.unfinalize_disallowed"))
+    end
+  end
+
+  def is_finalized_locked?
+    finalized_at && Time.now > finalized_at + 1.day
+  end
+
+  # The date to use when calculating days_late.
+  def on_time_date
+    original_date || scheduled_date
   end
 
   def days_late
     if scheduled_date
       if completed?
-        (completed_date - original_date).to_i
+        (completed_date - on_time_date).to_i
       else
-        ([scheduled_date, Date.today].max - original_date).to_i
+        ([scheduled_date, Date.today].max - on_time_date).to_i
       end
     end
   end
@@ -166,8 +195,8 @@ class ProjectStep < ActiveRecord::Base
     elsif days_late && days_late > 0
       fraction = days_late / SUPER_LATE_PERIOD
       color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
-    else # incomplete and not late
-      "inherit"
+    else # incomplete and not late (use default color)
+      nil
     end
   end
 
@@ -185,6 +214,10 @@ class ProjectStep < ActiveRecord::Base
     else
       color
     end
+  end
+
+  def scheduled_day
+    scheduled_date.day
   end
 
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
@@ -211,6 +244,34 @@ class ProjectStep < ActiveRecord::Base
     else
       update!(is_finalized: true)
     end
+  end
+
+  # Returns number of days that the scheduled date has been moved out if finalized, or days late
+  # if just now marked completed.  Assumes that record has pending changes assigned, but not yet
+  # saved. Only returns 0 or a positive value.  Used to trigger potential automatic scheduled date
+  # shift of subsequent steps.
+  def pending_days_shifted
+    days_shifted = 0
+    if is_finalized? && scheduled_date_changed?
+      if scheduled_date_was && scheduled_date
+        days_shifted = (scheduled_date - scheduled_date_was).to_i
+      end
+    end
+    if scheduled_date && completed_date && completed_date_changed? && completed_date_was.blank? &&
+      completed_date > scheduled_date
+      days_shifted = (completed_date - scheduled_date).to_i
+    end
+    return [0,days_shifted].max
+  end
+
+  def subsequent_step_ids(previous_scheduled_date = nil)
+    date = previous_scheduled_date || scheduled_date
+    return [] unless date
+    # Todo: Confirm if this is the exact criteria desired.  It's unlikely that there would be
+    # prior uncompleted steps, but if there are perhaps we should just shift all uncompleted
+    # steps.
+    project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
+      date: date, id: id).pluck(:id)
   end
 
   #
@@ -240,6 +301,14 @@ class ProjectStep < ActiveRecord::Base
       end
     end
     save!
+  end
+
+  def calendar_date
+    completed? ? completed_date : scheduled_date
+  end
+
+  def calendar_events
+    CalendarEvent.build_for(self)
   end
 
   private
