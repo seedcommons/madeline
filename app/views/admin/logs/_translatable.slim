@@ -1,6 +1,6 @@
 .languages data-content-translatable='log'
   input type="hidden" name="project_log[deleted_locales][]"
-  - log.used_locales.each do |l|
+  - log.used_locales_or_current_locale.each do |l|
     .language-block data-locale="#{l}"
       .clearfix
         = f.input "locale_#{l}".to_sym, label: false,

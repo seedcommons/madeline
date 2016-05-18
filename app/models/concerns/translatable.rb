@@ -99,6 +99,12 @@ module Translatable
     translations.map(&:locale).uniq
   end
 
+  # Returns all locales for which we have translations, or an array
+  # containing only the current locale if there are no translations.
+  def used_locales_or_current_locale
+    used_locales.presence || [I18n.locale]
+  end
+
   def deleted_locales=(locales)
     locales.each do |l|
       # We don't want to destroy translations that have changed since being loaded.
