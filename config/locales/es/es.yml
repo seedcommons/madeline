@@ -55,6 +55,14 @@ es:
     formats:
       long: ! '%d de %B de %Y'
 
+  time:
+    formats:
+      # Note, these translations are required to avoid fatal errors on list views
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+
   will_paginate:
     previous_label: "&#8592; Anterior"
     next_label: "Próximo &#8594;"
