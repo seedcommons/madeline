@@ -1,13 +1,12 @@
-= simple_form_for([:admin, @log],
-  remote: true,
-  html: { class: 'project-step-form' }) do |f|
+= simple_form_for([:admin, @log], remote: true) do |f|
   
   = f.hidden_field(:project_step_id)
   
   = f.error_notification
   
   = f.input :date, as: :date
-  = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true
-  = f.input :progress_metric_value, as: :select
+  = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
+    label: "Member"
+  = f.input :progress_metric_value, as: :select, label: "Status"
   
   = render "admin/logs/translatable", log: @log, f: f

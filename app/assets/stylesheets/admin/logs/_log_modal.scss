@@ -1,0 +1,22 @@
+#log-modal {
+  input[type='text'], select, textarea {
+    display: inline-block;
+    width: auto;
+  }
+
+  label {
+    width: 10em;
+    vertical-align: middle;
+  }
+
+  .languages {
+    label {
+      width: 10em;
+      vertical-align: top;
+    }
+
+    textarea, [type='text'] {
+      width: calc(100% - 10em)
+    }
+  }
+}
