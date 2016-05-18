@@ -19,6 +19,12 @@ class Member < ActiveRecord::Base
         country_id: Country.id_from_name(self.country),
         tax_no: national_id,
     }
+    if access_status
+      data[:has_system_access] = true
+      data[:email] = "#{username}@example.com"
+      data[:password] = data[:password_confirmation] = password
+      data[:owning_division_role] = username == 'brendan' ? :admin : :member
+    end
     data
   end
 
