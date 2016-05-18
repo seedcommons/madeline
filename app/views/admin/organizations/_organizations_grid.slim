@@ -1,7 +1,9 @@
 = define_grid(@organizations_grid, show_filters: :show, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
-    - g.blank_slate t("no_records")
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t("no_records"), class: 'alert alert-info')
 
     - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |organization|
       - link_to(organization.id, admin_organization_path(organization.id))
