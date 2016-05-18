@@ -4,7 +4,7 @@
     .language-block data-locale="#{l}"
       .clearfix
         = f.input "locale_#{l}".to_sym, label: false,
-          collection: locale_options(log.permitted_locales),
+          collection: locale_options,
           input_html: {class: 'locale'}, include_blank: false
         = f.input "summary_#{l}".to_sym,
           input_html: {data: {translatable: 'summary'}},

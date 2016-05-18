@@ -95,16 +95,8 @@ module Translatable
     translations.where(translatable_attribute: attribute)
   end
 
-  # todo: consider duck typing here, but would probably want to first introduced our own base model class
   def used_locales
-    result = []
-    if respond_to?(:division)
-      result = self.division.try(:resolve_default_locales)
-    end
-    result += translations.pluck(:locale)
-
-    # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
-    result.map(&:to_sym) & self.permitted_locales
+    translations.map(&:locale).uniq
   end
 
   def deleted_locales=(locales)
@@ -113,15 +105,6 @@ module Translatable
       # Only existing, unchanged translations.
       translations.each{ |t| t.destroy if t.locale.to_sym == l.to_sym && t.persisted? && !t.text_changed? }
     end
-  end
-
-  # TODO: Replace with division-specific locales or remove during refactoring
-  def permitted_locales
-    I18n.available_locales
-  end
-
-  def unused_locales
-    permitted_locales - used_locales
   end
 
   def delete_translation(attribute, locale)

@@ -18,7 +18,7 @@ div.panel-body
         .language-block data-locale="#{l}"
           .clearfix
             = f.input "locale_#{l}".to_sym, label: false,
-              collection: locale_options(step.permitted_locales),
+              collection: locale_options,
               wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
             = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12,
               input_html: {data: {translatable: 'summary'}},
