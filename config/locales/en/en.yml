@@ -170,11 +170,13 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add_language: "Add Language"
     address_state: "State"
     description: "Description"
     division: "Division"
     divisions: "Divisions"
     parent: "Parent"
+    remove: "Remove"
     street_address: "Street Address"
     website: "Website"
 

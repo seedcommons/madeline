@@ -23,12 +23,12 @@ class MS.Views.LogModalView extends Backbone.View
     MS.loadingIndicator.show()
     $.get '/admin/project_logs/new', step_id: stepId, (html) =>
       @replaceContent(html)
-    new MS.Views.TranslationsView({
-      el: @$('[data-content-translatable="log"]')
-    })
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
+    new MS.Views.TranslationsView({
+      el: @$('[data-content-translatable="log"]')
+    })
     @$el.modal('show')
     MS.loadingIndicator.hide()
 

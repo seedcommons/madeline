@@ -22,6 +22,6 @@
         input_html: {rows: 3, data: {translatable: 'private_notes'}},
         placeholder: I18n.t('log.private_notes', punctuation: "", locale: l),
         label: I18n.t('log.private_notes', punctuation: "", locale: l)
-      a.remove-language href="#" Remove
+      a.remove-language href="#" = t("common.remove")
       .clearfix
-  a.add-language href="#" Add Language
+  a.add-language href="#" = t("common.add_language")
