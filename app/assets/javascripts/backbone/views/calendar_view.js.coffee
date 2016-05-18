@@ -44,15 +44,13 @@ class MS.Views.CalendarView extends Backbone.View
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()
 
   renderLegend: (e) ->
-    $('[data-toggle="popover"]').popover()
-    popoverContent = @$('#legend-content').html()
-
     @$('.fc-legend-button').popover
-      content: popoverContent
+      content: @$('#legend-content').html()
       html: true
       placement: 'left'
       toggle: 'popover'
       title: 'Legend'
+      trigger: 'focus'
 
   refresh: (e) ->
     @$calendar.fullCalendar('refetchEvents')
