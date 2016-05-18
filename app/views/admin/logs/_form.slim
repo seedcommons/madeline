@@ -8,5 +8,6 @@
   
   = f.input :date, as: :date
   = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true
+  = f.input :progress_metric_value, as: :select
   
   = render "admin/logs/translatable", log: @log, f: f
