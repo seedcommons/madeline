@@ -10,9 +10,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @persisted = params.persisted
     @duplicate = params.duplicate
     @context = @$el.data('context')
-    new MS.Views.ProjectStepTranslationsView({
-      el: @$('.languages'),
-      permittedLocales: params.permittedLocales
+    new MS.Views.TranslationsView({
     })
 
   events:
@@ -68,7 +66,7 @@ class MS.Views.ProjectStepView extends Backbone.View
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
       else
         $('#calendar-step-modal').modal('hide')
-    
+
     else if $(e.target).is('a.action-delete')
       @$el.remove()
     MS.calendarView.refresh()

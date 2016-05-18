@@ -1,8 +1,8 @@
 # Handles adding, removing, and formatting translations in a project step form
-class MS.Views.ProjectStepTranslationsView extends Backbone.View
+class MS.Views.TranslationsView extends Backbone.View
 
   initialize: (params) ->
-    @permittedLocales = params.permittedLocales
+    @permittedLocales = I18n.availableLocales
     @updateLinks()
 
   events:
@@ -20,15 +20,8 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
     newBlock = @$('.language-block').last().clone()
     oldLocale = $(newBlock).data('locale')
 
-    # Update new block to new locale
-    newBlock.html(newBlock.html().replace(new RegExp("_#{oldLocale}", 'g'), "_#{newLocale}"))
-    newBlock.data('locale', newLocale)
-    newBlock.find('input[type=text], textarea').val('')
-    newBlock.find('select.locale').val(newLocale)
-
+    @changeBlockLocale(newBlock, newLocale)
     @$('a.add-language').before(newBlock)
-
-    @updatePlaceholders(newBlock, newLocale)
     @updateLinks()
 
   removeLanguage: (e) ->
@@ -47,13 +40,23 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
   localeChanged: (e) ->
     select = @$(e.target)
     block = select.closest('.language-block')
-    @updatePlaceholders(block, select.val())
+    @addToDeletedLocales(block.data('locale'))
+    @changeBlockLocale(block, select.val())
     @updateLinks()
+
+  changeBlockLocale: (block, newLocale) ->
+    oldLocale = block.data('locale')
+    block.html(block.html().replace(new RegExp("_#{oldLocale}", 'g'), "_#{newLocale}"))
+    block.data('locale', newLocale).attr("data-locale", newLocale)
+    block.find('input[type=text], textarea').val('')
+    block.find('select.locale').val(newLocale)
+    @updatePlaceholders(block, newLocale)
 
   # Updates placeholders for text fields to a new locale
   updatePlaceholders: (block, locale) ->
-    block.find('.summary').attr("placeholder", gon.I18n[locale].summary);
-    block.find('.details').attr("placeholder", gon.I18n[locale].details);
+    block.find('[data-translatable]').each ->
+      item_name = $(this).attr('data-translatable')
+      $(this).attr('placeholder', I18n.t(item_name, { locale: locale }))
 
   availableLocales: ->
     used = @$('select.locale').map( -> $(this).val() ).get()
@@ -63,7 +66,8 @@ class MS.Views.ProjectStepTranslationsView extends Backbone.View
     @$('.language-block').length
 
   addToDeletedLocales: (locale) ->
-    el = @$('.deleted-locales')
-    array = JSON.parse(el.val())
-    array.push(locale)
-    el.val(JSON.stringify(array))
+    input = @$('[name$="[deleted_locales][]"]').first()
+    if input.val()
+      input2 = input.clone().insertAfter(input).val(locale)
+    else
+      input.val(locale)

@@ -1,0 +1,11 @@
+.language-block {
+  border-color: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  .form-control {
+    margin-bottom: 10px;
+  }
+}

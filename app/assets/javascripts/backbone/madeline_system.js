@@ -10,3 +10,5 @@ window.MS = {
   Routers: {},
   Views: {}
 };
+
+$(function() { new MS.Views.ApplicationView() })
