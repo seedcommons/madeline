@@ -28,7 +28,10 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
     = render 'form'
 
   section.block
-    h1 = t('organization.active_loans')
+    = render 'people'
+
+  section.block
+    = render 'loans'
 
   section.block
     h1 = t('organization.media')

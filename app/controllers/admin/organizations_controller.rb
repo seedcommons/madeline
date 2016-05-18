@@ -90,5 +90,20 @@ class Admin::OrganizationsController < Admin::AdminController
     @countries = Country.all
     @division_choices = division_choices
     @contact_choices = @org.people
+
+    @people_grid = initialize_grid(
+      @org.people,
+      order: 'name',
+      name: 'people',
+      per_page: 10
+    )
+
+    @loans_grid = initialize_grid(
+      @org.active_loans,
+      order: 'loans.signing_date',
+      order_direction: 'desc',
+      name: 'loans',
+      per_page: 10
+    )
   end
 end
