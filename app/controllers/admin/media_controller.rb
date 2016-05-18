@@ -31,6 +31,6 @@ class Admin::MediaController < Admin::AdminController
 
   def media_params
     # TODO: Generic method for whitelisting translatable params as part of Translatable module
-    params.require(:media).permit(:item, :caption_en, :caption_es, :'caption_es-AR', :caption_fr)
+    params.require(:media).permit(:item, :caption_en, :caption_es, :caption_fr)
   end
 end

@@ -2,7 +2,6 @@ en:
   locale_name:
     en: English
     es: Spanish
-    es-AR: Spanish (Argentina)
     fr: French
 
   activerecord:
