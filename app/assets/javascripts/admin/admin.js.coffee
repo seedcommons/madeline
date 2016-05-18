@@ -8,3 +8,7 @@ $ ->
       history.pushState null, null, '#' + $(e.target).attr('href').substr(1)
     else
       location.hash = '#' + $(e.target).attr('href').substr(1)
+
+# Trigger popstate as a Backbone event
+window.onpopstate = (event) ->
+  Backbone.trigger('popstate', event)
