@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     OrganizationPolicy::Scope.new(current_user, scope).resolve
   end
 
+  def person_policy_scope(scope)
+    PersonPolicy::Scope.new(current_user, scope).resolve
+  end
+
   def default_serializer_options
     {root: false}
   end

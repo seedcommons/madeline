@@ -46,6 +46,7 @@ en:
         legal_name: "Legal Name"
         name: "Name"
         neighborhood: "Neighborhood"
+        people: "Members"
         primary_contact: "Primary Contact"
         primary_phone: "Phone"
         referral_source: "Referral Source"

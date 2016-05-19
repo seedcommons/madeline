@@ -36,7 +36,10 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.find(params[:id])
     authorize @org
 
-    if @org.update(organization_params)
+    org_params = organization_params
+    # Not sure why params.permit wasn't honoring this field for the native simple_form array
+    org_params[:person_ids] = params[:organization][:person_ids]
+    if @org.update(org_params)
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
@@ -85,6 +88,7 @@ class Admin::OrganizationsController < Admin::AdminController
     @countries = Country.all
     @division_choices = division_choices
     @contact_choices = @org.people
+    @people_choices = person_policy_scope(Person.all).order(:name)
 
     @loans_grid = initialize_grid(
       @org.active_loans,

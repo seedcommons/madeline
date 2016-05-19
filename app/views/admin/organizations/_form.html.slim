@@ -86,6 +86,14 @@
     .view-element = @org.contact_notes
     = f.input_field :contact_notes
 
+  = f.input :people
+    .view-element style=""
+      - @org.people.each do |person|
+        = link_to person.name, admin_person_path(person)
+        br
+    .form-element
+      = f.association :people, label: false, collection: @people_choices, include_blank: true
+
   .actions.form-block
     - unless @org.new_record?
       - if @org.valid?
@@ -94,3 +102,6 @@
         a.btn.btn-default href=admin_organization_path(@org) = t(:cancel)
     = f.submit class: 'update-action btn btn-success'
   .clearfix
+
+javascript:
+  $(function() { $('#organization_person_ids').select2(); });
