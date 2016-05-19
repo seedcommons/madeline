@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422004646) do
+ActiveRecord::Schema.define(version: 20160519191242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(version: 20160422004646) do
     t.string   "name"
     t.string   "neighborhood"
     t.integer  "organization_snapshot_id"
+    t.string   "postal_code"
     t.integer  "primary_contact_id"
     t.string   "primary_phone"
     t.string   "referral_source"
@@ -243,10 +244,12 @@ ActiveRecord::Schema.define(version: 20160422004646) do
     t.string   "email"
     t.string   "fax"
     t.string   "first_name"
+    t.boolean  "has_system_access", default: false, null: false
     t.string   "last_name"
     t.string   "legal_name"
     t.string   "name"
     t.string   "neighborhood"
+    t.string   "postal_code"
     t.integer  "primary_organization_id"
     t.string   "primary_phone"
     t.string   "secondary_phone"
@@ -275,6 +278,7 @@ ActiveRecord::Schema.define(version: 20160422004646) do
     t.integer  "agent_id"
     t.date     "completed_date"
     t.datetime "created_at", null: false
+    t.integer  "date_change_count", default: 0, null: false
     t.datetime "finalized_at"
     t.boolean  "is_finalized"
     t.date     "original_date"
