@@ -80,10 +80,16 @@ class User < ActiveRecord::Base
   # Require a user to have access to at least some division in order to login.
   # Note, this avoids needing to worry about a nil current_division in the controller logic.
   def active_for_authentication?
-    has_some_access? && profile && profile.has_system_access?
+    profile && profile.has_system_access? && has_some_access?
   end
 
   def inactive_message
-    I18n.t("user.no_access") unless has_some_access?
+    if !profile
+      I18n.t("user.no_person")
+    elsif !profile.has_system_access?
+      I18n.t("user.no_system_access")
+    else
+      I18n.t("user.no_division_access")
+    end
   end
 end

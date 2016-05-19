@@ -307,10 +307,11 @@ en:
     leave_blank: "(leave blank if you don't want to change your password)"
     minimum_password_length: "(%{minimum_length} characters minimum)"
     new_password: "New password"
+    no_division_access: "User is not permissioned with access to any divisions."
+    no_person: "User is not associated with a Person."
+    no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
-    no_access: "User is not permissioned with access to any divisions"
-
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
