@@ -18,8 +18,12 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
         a href=admin_organization_path(@org) = t(:cancel)
       / TODO: Confirm and cancel should have defaults
       = link_to [:admin, @org], method: :delete,
-          data: { confirm: t('organization.confirm_deletion'),
-          "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+          data: { \
+            confirm: t('organization.confirm_deletion'),
+            "confirm-title": t("organization.delete"),
+            "confirm-cancel": t(:cancel),
+            "confirm-proceed": t(:confirm) \
+          }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
     .clearfix

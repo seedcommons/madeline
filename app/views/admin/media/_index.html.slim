@@ -10,7 +10,9 @@
             i.fa.fa-pencil
           = link_to admin_media_path(media_item, link_params),
               method: :delete,
-              data: { confirm: t('media.confirm_deletion'),
+              data: { \
+                confirm: t("media.confirm_deletion"),
+                "confirm-title": t("media.delete"),
                 "confirm-cancel": t(:cancel),
                 "confirm-proceed": t(:confirm) } do
             i.fa.fa-trash

@@ -17,8 +17,12 @@ section.division.details class=(@division.valid? ? 'show-view' : 'edit-view')
         / TODO: Confirm and cancel should have defaults
       - if policy(@division).destroy?
         = link_to [:admin, @division], method: :delete,
-            data: { confirm: t('.confirm_deletion'),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+            data: { \
+              confirm: t(".confirm_deletion"),
+              "confirm-title": t(".delete"),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm) \
+            }
           i.fa.fa-trash.fa-large>
           = t(".delete")
     .clearfix
