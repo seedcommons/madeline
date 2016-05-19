@@ -79,6 +79,14 @@
             td style="background: #{step.scheduled_bg}"
               = step.scheduled_date ? l(step.scheduled_date) : ''
 
+          - if step.original_date
+            tr
+              th = t("project_step.labels.original_date")
+              td
+                p.tight-block
+                  => l(step.original_date)
+                  = "(#{step.original_date_statement})"
+
             - if step.completed?
               tr
                 th = t("project_step.labels.completed")

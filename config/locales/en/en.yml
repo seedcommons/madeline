@@ -247,7 +247,10 @@ en:
       not_completed: "Not yet completed"
       days_early: "%{days} days early"
       days_late: "%{days} days late"
-      on_time: "on time"
+      on_time: "On time"
+      changed_times:
+        one: "Changed once"
+        other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
 
