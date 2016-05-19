@@ -32,6 +32,7 @@ class Media < ActiveRecord::Base
   belongs_to :uploader, class_name: "Person"
 
   mount_uploader :item, MediaItemUploader
+  validates_presence_of :item
   attr_translatable :caption, :description
 
   delegate :division, :division=, to: :media_attachable

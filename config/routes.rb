@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       end
     end
 
-    scope '/:media_attachable_type/:media_attachable_id' do
+    scope '/:attachable_type/:attachable_id' do
       resources :media
     end
 

@@ -32,8 +32,8 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 
   section.block
     h1 = t('organization.media')
-    .row 
-      = render "admin/media/index", media: @org.media, owner: @org
+    .row
+      = render "admin/media/index", owner: @org
 
   section.block
     h1 = t(:notes)

@@ -273,4 +273,5 @@ en:
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
-    create: "Create Media"
+    add: "Add Media"
+    edit: "Edit Media"
