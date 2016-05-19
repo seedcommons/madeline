@@ -7,7 +7,7 @@
 
 = render "people_grid"
 
-- unless @people_grid.empty? && !@people_grid.filtering_on?
+- unless @empty_list
   header.block.index-table
     .filters
       h4 = t("filter_by")
