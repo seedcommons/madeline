@@ -99,13 +99,11 @@
           = @person.owning_division_role_label
 
       - if policy(@person).update_password?
-        = f.input :password
-          .view-element = @person.password
-          = f.input_field :password
+        = render "password_fields", f: f
 
-        = f.input :password_confirmation
-          .view-element = @person.password_confirmation
-          = f.input_field :password_confirmation
+  - elsif policy(@person).update_password?
+    / Allow non-admin to update password for self
+    = render "password_fields", f: f
 
     javascript:
       $(function() { new MS.Views.PersonView({el: '.person.details'}); });
