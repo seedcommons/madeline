@@ -25,9 +25,5 @@
 
   javascript:
     $(document).ready(function() {
-      new MS.Views.MediaView({
-        el: $('.media-browser'),
-        attachableType: #{json link_params[:attachable_type]},
-        attachableId: #{json link_params[:attachable_id]}
-      });
+      new MS.Views.MediaView({ el: $('.media-browser') });
     });

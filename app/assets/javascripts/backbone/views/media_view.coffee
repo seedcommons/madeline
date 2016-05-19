@@ -1,10 +1,6 @@
 # Handles clicks on media objects and manages the media modal.
 class MS.Views.MediaView extends Backbone.View
 
-  initialize: (params) ->
-    @attachableType = params.attachableType
-    @attachableId = params.attachableId
-
   events:
     'click a.edit': 'showMediaModal'
     'click a.new': 'showMediaModal'
