@@ -248,7 +248,9 @@ en:
       one: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the subsequent step date back by %{days} days?"
       other: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the %{count} subsequent step dates back by %{days} days?"
     days: "Day(s)"
-    delete_step: "Delete Step"
+    delete:
+      one: "Delete Step"
+      other: "Delete Steps"
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
     edit_step: "Edit Step"
@@ -257,6 +259,9 @@ en:
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
     batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
     finalized: "Finalized:"
+    finalize:
+      one: "Finalize Step"
+      other: "Finalize Steps"
     labels:
       completed: "Completed:"
       finalized: "Finalized:"
@@ -283,7 +288,10 @@ en:
       not_completed: "Not yet completed"
       days_early: "%{days} days early"
       days_late: "%{days} days late"
-      on_time: "on time"
+      on_time: "On time"
+      changed_times:
+        one: "Changed once"
+        other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
 

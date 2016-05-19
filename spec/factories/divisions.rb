@@ -22,7 +22,7 @@ def root_division
   result = Division.root
   unless result
     # puts "autocreating root Division"
-    result = Division.create(name:'Root Division')
+    result = Division.create(name:'None')
   end
   result
 end

@@ -19,7 +19,7 @@
               thing: t('project_step.project_step', count: 1)),
               "confirm-cancel": t(:cancel),
               "confirm-proceed": t(:confirm),
-              "confirm-title": t("project_step.delete_step") \
+              "confirm-title": t('project_step.delete', count: 1) \
             }
             i.fa.fa-trash.fa-large>
             = t(:delete)
@@ -61,7 +61,9 @@
                   confirm: t('confirm_deletion',
                   thing: t('project_step.project_step', count: 1)),
                   "confirm-cancel": t(:cancel),
-                  "confirm-proceed": t(:confirm) }
+                  "confirm-proceed": t(:confirm),
+                  "confirm-title": t("project_step.delete", count: 1) \
+                }
                 i.fa.fa-trash.fa-large>
       .clearfix
     .col-md-4.col-md-pull-2.status-details
@@ -76,6 +78,14 @@
               = t("project_step.labels.scheduled")
             td style="background: #{step.scheduled_bg}"
               = step.scheduled_date ? l(step.scheduled_date) : ''
+
+          - if step.original_date
+            tr
+              th = t("project_step.labels.original_date")
+              td
+                p.tight-block
+                  => l(step.original_date)
+                  = "(#{step.original_date_statement})"
 
             - if step.completed?
               tr
