@@ -9,10 +9,6 @@ en:
       new: "New Member"
       people: "Members"
       person: "Member"
-    roles:
-      admin: "Admin"
-      member: "Member"
-      none: "None"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:

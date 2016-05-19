@@ -5,10 +5,10 @@ class MS.Views.PersonView extends Backbone.View
     'click #person_has_system_access': 'showHideUserFields'
 
   showHideUserFields: ->
-    if $('#person_has_system_access').is(':checked')
-      $('#user_fields').show()
+    if @$('#person_has_system_access').is(':checked')
+      @$('#user_fields').show()
     else
-      $('#user_fields').hide()
+      @$('#user_fields').hide()
 
   initialize: ->
     @showHideUserFields()

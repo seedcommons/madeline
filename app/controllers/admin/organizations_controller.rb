@@ -24,14 +24,12 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.find(params[:id])
     authorize @org
     prep_form_vars
-    @form_action_url = admin_organization_path
   end
 
   def new
     @org = Organization.new(division: current_division)
     authorize @org
     prep_form_vars
-    @form_action_url = admin_organizations_path
   end
 
   def update
@@ -42,7 +40,6 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
-      @form_action_url = admin_organization_path
       render :show
     end
   end
@@ -57,7 +54,6 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_created)
     else
       prep_form_vars
-      @form_action_url = admin_organizations_path
       render :new
     end
   end
@@ -70,7 +66,6 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_organization_path(@org)
       render :show
     end
   end

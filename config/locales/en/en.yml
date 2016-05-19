@@ -77,6 +77,14 @@ en:
         tax_no: "National ID"
         website: "Website"
 
+  simple_form:
+    options:
+      person:
+        owning_division_role:
+          admin: "Admin"
+          member: "Member"
+          none: "None"
+
   time:
     formats:
       default: '%b %e, %Y'

@@ -1,5 +1,4 @@
-- content_for :title
-  = @division.name
+- content_for(:title, @division.name)
 
 section.division.details class=(@division.valid? ? 'show-view' : 'edit-view')
 

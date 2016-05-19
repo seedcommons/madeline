@@ -28,6 +28,10 @@
 #  fk_rails_a8794354f0  (profile_id => people.id)
 #
 
+#
+# In order to access the system, profile must reference a Person record with 'has_system_access' true.
+# More information about the distinction between User and Person can be found under person.rb.
+
 class User < ActiveRecord::Base
   rolify
   # Include default devise modules. Others available are:
@@ -76,7 +80,7 @@ class User < ActiveRecord::Base
   # Require a user to have access to at least some division in order to login.
   # Note, this avoids needing to worry about a nil current_division in the controller logic.
   def active_for_authentication?
-    has_some_access? && profile && profile.has_system_access
+    has_some_access? && profile && profile.has_system_access?
   end
 
   def inactive_message

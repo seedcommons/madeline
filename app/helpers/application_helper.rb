@@ -1,9 +1,8 @@
 module ApplicationHelper
   # adds "http://" if no protocol present
   def urlify(url)
-    # Is there is a better way to handle malformed data, than passing through
-    # with a rescue block?  Note, the original code was just failing.
-    URI(url).scheme ? url : "http://" + url rescue url
+    # Rescue block used to safely pass through raw value if invalid url is provided
+    URI(url).scheme ? url : "http://#{url}" rescue url
   end
 
   # Format datetime with telescoping accuracy based on how distant it is:

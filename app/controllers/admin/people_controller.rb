@@ -24,14 +24,12 @@ class Admin::PeopleController < Admin::AdminController
     @person = Person.find(params[:id])
     authorize @person
     prep_form_vars
-    @form_action_url = admin_person_path
   end
 
   def new
     @person = Person.new(division: current_division)
     authorize @person
     prep_form_vars
-    @form_action_url = admin_people_path
   end
 
   def update
@@ -42,7 +40,6 @@ class Admin::PeopleController < Admin::AdminController
       redirect_to admin_person_path(@person), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
-      @form_action_url = admin_person_path
       render :show
     end
   end
@@ -56,7 +53,6 @@ class Admin::PeopleController < Admin::AdminController
       redirect_to admin_person_path(@person), notice: I18n.t(:notice_created)
     else
       prep_form_vars
-      @form_action_url = admin_people_path
       render :new
     end
   end
@@ -69,7 +65,6 @@ class Admin::PeopleController < Admin::AdminController
       redirect_to admin_people_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_person_path(@person)
       render :show
     end
   end
@@ -93,9 +88,7 @@ class Admin::PeopleController < Admin::AdminController
   end
 
   def role_choices
-    Person::VALID_DIVISION_ROLES.map do |role|
-      [I18n.t("people.roles.#{role}"), role]
-    end
+    Person::VALID_DIVISION_ROLES
   end
 
   def organization_choices

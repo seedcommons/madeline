@@ -1,7 +1,4 @@
-- content_for :title
-  = @person.name
-- content_for :styles
-  = stylesheet_link_tag "admin/media/media", media: "all"
+- content_for(:title, @person.name)
 
 
 section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
@@ -30,8 +27,7 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
 
   section.block
     h1 = t('people.shared.media')
-    .row 
-      = render "admin/media/index", media: @person.media, owner: @person
+    .row = render "admin/media/index", media: @person.media, owner: @person
 
   section.block
     h1 = t(:notes)

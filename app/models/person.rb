@@ -38,12 +38,21 @@
 #  fk_rails_fdfb048ae6  (country_id => countries.id)
 #
 
+#
+# Person represents the contact and relationship information for a loan agent or co-op members,
+# and is distinguished from User which represents access and authentication information.
+# A valid User must reference a Person record with 'has_system_access' in order to login into the
+# system.  When a Person record is created or updated with 'has_system_access' true, then an
+# associated User record is created with the access granted based on the transient
+# 'owning_division_role' attribute and 'password'/'password_confirmation' attributes.
+#
+
 class Person < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
 
-  VALID_DIVISION_ROLES = [:member, :admin]
+  VALID_DIVISION_ROLES = %i(member admin)
 
   belongs_to :division
   belongs_to :country
@@ -53,7 +62,7 @@ class Person < ActiveRecord::Base
   has_many :secondary_agent_loans, class_name: 'Loan', foreign_key: :secondary_agent_id
   has_many :representative_loans,  class_name: 'Loan', foreign_key: :representative_id
 
-  has_one :user, foreign_key: :profile_id, autosave: true
+  has_one :user, foreign_key: :profile_id, autosave: true, dependent: :destroy
 
   validates :division_id, presence: true
   validates :first_name, presence: true
@@ -70,10 +79,6 @@ class Person < ActiveRecord::Base
   after_save :handle_roles
   after_save :clean_up_passwords
 
-  def update_full_name
-    self.name = "#{first_name} #{last_name}"
-  end
-
   # Lazy evaluation getter
   def owning_division_role
     @owning_division_role = resolve_owning_division_role unless defined? @owning_division_role
@@ -82,7 +87,13 @@ class Person < ActiveRecord::Base
 
   def owning_division_role_label
     label_key = owning_division_role || 'none'
-    I18n.t("people.roles.#{label_key}")
+    I18n.t("simple_form.options.person.owning_division_role.#{label_key}")
+  end
+
+  private
+
+  def update_full_name
+    self.name = "#{first_name} #{last_name}"
   end
 
   def resolve_owning_division_role
@@ -94,11 +105,11 @@ class Person < ActiveRecord::Base
   end
 
   def user_required?
-    has_system_access
+    has_system_access?
   end
 
   def division_role_valid
-    if has_system_access && (owning_division_role.blank? ||
+    if has_system_access? && (owning_division_role.blank? ||
       !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym))
       errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
     end

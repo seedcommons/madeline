@@ -2,7 +2,7 @@ class PersonPolicy < ApplicationPolicy
 
   # Make records assocaited with a user record read only except for admins or self.
   def update?
-    user_is_record? || @record.has_system_access ? division_admin : division_member_or_admin
+    user_is_record? || (@record.has_system_access? ? division_admin : division_member_or_admin)
   end
 
   def update_access?
@@ -16,7 +16,7 @@ class PersonPolicy < ApplicationPolicy
   private
 
   def user_is_record?
-    @record.user && @user && @user.id != nil && @record.user.id == @user.id
+    @user == @record.user
   end
 
   class Scope < DivisionOwnedScope
