@@ -85,7 +85,7 @@
   - if policy(@person).update_access?
 
     = f.input :has_system_access
-      .view-element = @person.has_system_access
+      .view-element = translate_boolean(@person.has_system_access)
       = f.input_field :has_system_access
 
     / The display of these fields is toggled based on the state of the above system access checkbox
