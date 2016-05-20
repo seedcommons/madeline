@@ -16,8 +16,12 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
           a href=admin_people_path(@person) = t(:cancel)
       - if policy(@person).destroy?
         = link_to [:admin, @person], method: :delete,
-            data: { confirm: t('.confirm_deletion'),
-            "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+            data: { \
+              confirm: t('.confirm_deletion'),
+              "confirm-title": t('.delete'),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm)\
+          }
           i.fa.fa-trash.fa-large>
           = t(".delete")
     .clearfix
