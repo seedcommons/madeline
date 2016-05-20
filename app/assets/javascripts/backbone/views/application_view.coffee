@@ -12,6 +12,18 @@ class MS.Views.ApplicationView extends Backbone.View
   events: ->
     'click .more': 'toggleExpanded'
     'click .less': 'toggleExpanded'
+    'click .ms-popover': 'showPopover'
 
   toggleExpanded: (e) ->
     @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
+
+  showPopover: (e) ->
+    @curPopover = $(e.currentTarget)
+    @curPopover.popover('show')
+    self = this
+    hide = (e) ->
+      unless self.$(e.target).is('.ms-popover')
+        self.$('.ms-popover').popover('hide')
+        self.$el.off 'click', hide # Unregister for performance reasons
+    @$el.on 'click', hide
+
