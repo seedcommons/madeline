@@ -9,6 +9,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @initTypeSelect()
     @persisted = params.persisted
     @duplicate = params.duplicate
+    @context = @$el.data('context')
     new MS.Views.ProjectStepTranslationsView({
       el: @$('.languages'),
       permittedLocales: params.permittedLocales
@@ -27,12 +28,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     @$('.form-step-block').show()
 
   cancel: (e) ->
-    e.preventDefault()
-    if @persisted
-      @$('.view-step-block').show()
-      @$('.form-step-block').hide()
-    else
-      MS.timelineView.removeStep(@$el)
+    if @context == 'timeline'
+      e.preventDefault()
+      if @persisted
+        @$('.view-step-block').show()
+        @$('.form-step-block').hide()
+      else
+        MS.timelineView.removeStep(@$el)
 
   showDuplicateModal: (e) ->
     e.preventDefault()
@@ -59,9 +61,14 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form')
-      @$el.replaceWith(data)
       MS.loadingIndicator.hide()
-      MS.timelineView.addBlankStep() unless @persisted || @duplicate
+
+      if @context == 'timeline'
+        @$el.replaceWith(data)
+        MS.timelineView.addBlankStep() unless @persisted || @duplicate
+      else
+        $('#calendar-step-modal').modal('hide')
+    
     else if $(e.target).is('a.action-delete')
       @$el.remove()
     MS.calendarView.refresh()

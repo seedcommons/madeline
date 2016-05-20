@@ -1,7 +1,8 @@
 module ApplicationHelper
   # adds "http://" if no protocol present
   def urlify(url)
-    URI(url).scheme ? url : "http://" + url
+    # Rescue block used to safely pass through raw value if invalid url is provided
+    URI(url).scheme ? url : "http://#{url}" rescue url
   end
 
   # Format datetime with telescoping accuracy based on how distant it is:

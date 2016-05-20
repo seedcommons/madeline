@@ -1,5 +1,5 @@
 li
-  = link_to t("user.account"), edit_user_registration_path
+  = link_to t("user.account"), admin_person_path(@current_user.profile)
 
 li.divider role="separator"
 

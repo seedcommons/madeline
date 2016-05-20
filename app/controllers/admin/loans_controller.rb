@@ -27,7 +27,6 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
-    @form_action_url = admin_loan_path
     gon.I18n = @loan.translate(:details, :summary)
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
@@ -37,7 +36,6 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.new(division: current_division)
     authorize @loan
     prep_form_vars
-    @form_action_url = admin_loans_path
   end
 
   def update
@@ -48,7 +46,6 @@ class Admin::LoansController < Admin::AdminController
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
-      @form_action_url = admin_loan_path
       render :show
     end
   end
@@ -61,7 +58,6 @@ class Admin::LoansController < Admin::AdminController
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
     else
       prep_form_vars
-      @form_action_url = admin_loans_path
       render :new
     end
   end
@@ -74,7 +70,6 @@ class Admin::LoansController < Admin::AdminController
       redirect_to admin_loans_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_loan_path
       render :show
     end
   end

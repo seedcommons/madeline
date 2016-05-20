@@ -68,7 +68,7 @@ module Legacy
 
 
     MIGRATION_TYPE_OPTIONS = TransientOptionSet.new(
-        [ [:checkin, 'Paso'],
+        [ [:milestone, 'Paso'],
           [:agenda, 'Agenda'], # note, agenda items not currently scoped for migration
         ]
     )

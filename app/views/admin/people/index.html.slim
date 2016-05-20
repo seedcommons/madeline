@@ -1,0 +1,51 @@
+- content_for(:title, t("people.shared.people"))
+
+- content_for :with_title
+  = link_to t("people.shared.new"), new_admin_person_path, class: 'btn btn-default new-button'
+
+= render 'layouts/admin/tables'
+
+= render "people_grid"
+
+- unless @empty_list
+  header.block.index-table
+    .filters
+      h4 = t("filter_by")
+
+      .larger-text-box.filter
+        label = t("name")
+        .filter-content
+          = grid_filter(@people_grid, :name_filter)
+
+      .filter
+        label = t("activerecord.attributes.person.primary_organization")
+        .filter-content
+          = grid_filter(@people_grid, :organization_filter)
+
+      .filter
+        label = t("city")
+        .filter-content
+          = grid_filter(@people_grid, :city_filter)
+
+      .filter
+        label = t("country")
+        .filter-content
+          = grid_filter(@people_grid, :country_filter)
+
+      .filter
+        label = t("people.shared.has_system_access")
+        .filter-content
+          = grid_filter(@people_grid, :access_filter)
+
+      .actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="people"
+          = t("clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="people"
+          = t("filter")
+
+        button.btn.btn-default.wg-external-csv-export-button data-grid-name="people"
+          = t("export_to_csv")
+      .clearfix
+
+= render_grid(@people_grid)

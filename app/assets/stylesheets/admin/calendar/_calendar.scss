@@ -92,8 +92,8 @@
     }
   }
 
-  .loan-calendar {
-    .cal-step {
+  .loan-calendar .fc-body {
+    .cal-step, td {
       &:hover {
         cursor: pointer;
       }

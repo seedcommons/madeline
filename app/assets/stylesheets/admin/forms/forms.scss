@@ -9,12 +9,21 @@
   padding-right: 10px;
 }
 
+// Booleans should not have fixed height/widths. A style from somewhere else is
+// trying to impose them on all .form-controls.
+.form-group.boolean {
+  .form-control {
+    height: inherit;
+    width: inherit;
+  }
+}
+
 .form-group textarea.text {
   height: 6em;
 }
 
 .edit-view, .new-view {
-  .form-block, .form-group .form-element {
+  .form-block, .form-element {
     display: inherit;
   }
 
@@ -28,7 +37,7 @@
     display: inherit;
   }
 
-  .form-block, .form-group .form-element {
+  .form-block, .form-element {
     display: none;
   }
 
@@ -39,6 +48,17 @@
   abbr[title="required"] {
     display: none;
   }
+
+  // Need to specially hide the label element that Rails inserts for checkboxes,
+  // as it makes the element too tall in show mode.
+  .form-group.boolean div label {
+    display: none;
+  }
+}
+
+.select2-container {
+  width: 100% !important;
+  padding: 0;
 }
 
 .actions {

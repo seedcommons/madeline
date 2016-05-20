@@ -7,8 +7,8 @@
 
 = render "organizations_grid"
 
-- unless @organizations_grid.empty? && !@organizations_grid.filtering_on?
-  header.block
+- unless @empty_list
+  header.block.index-table
     .filters
       h4 = t("filter_by")
 

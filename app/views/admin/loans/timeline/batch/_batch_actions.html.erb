@@ -5,6 +5,7 @@
       data-confirm="<%= t("project_step.batch_delete_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
       data-confirm-proceed="<%= t(:confirm) %>"
+      data-confirm-title="<%= t('project_step.delete', count: 2) %>"
       class="action batch-action">
       <%= t("loan.delete_selected") %>
     </a>
@@ -23,6 +24,7 @@
       data-confirm="<%= t("project_step.batch_finalize_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
       data-confirm-proceed="<%= t(:confirm) %>"
+      data-confirm-title="<%= t('project_step.finalize', count: 2) %>"
       class="action batch-action">
       <%= t("loan.finalize") %>
     </a>
