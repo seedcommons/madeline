@@ -91,7 +91,7 @@ if defined?(Wice::Defaults)
   #                              Showing All Records                          #
 
   # Enable or disable showing all records (non-paginated table)
-  Wice::Defaults::ALLOW_SHOWING_ALL_RECORDS = true
+  Wice::Defaults::ALLOW_SHOWING_ALL_RECORDS = false
 
   # If number of all queries is more than this value, the user will be given a warning message
   Wice::Defaults::START_SHOWING_WARNING_FROM = 100

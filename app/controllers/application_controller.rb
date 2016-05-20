@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
     LoanPolicy::Scope.new(current_user, scope).resolve
   end
 
+  def organization_policy_scope(scope)
+    OrganizationPolicy::Scope.new(current_user, scope).resolve
+  end
+
+  def person_policy_scope(scope)
+    PersonPolicy::Scope.new(current_user, scope).resolve
+  end
+
   def default_serializer_options
     {root: false}
   end

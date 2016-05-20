@@ -14,23 +14,23 @@ class Cooperative < ActiveRecord::Base
     data = {
         id: self.id,
         division_id: ::Division.root_id,
-        name: name,
-        legal_name: nombre_legal_completo,
-        primary_phone: telephone,
-        email: email,
-        street_address: address,
-        city: city,
-        neighborhood: borough,
-        state: state,
+        name: name.try(:strip),
+        legal_name: nombre_legal_completo.try(:strip),
+        primary_phone: telephone.try(:strip),
+        email: email.try(:strip),
+        street_address: address.try(:strip),
+        city: city.try(:strip),
+        neighborhood: borough.try(:strip),
+        state: state.try(:strip),
         country_id: Country.id_from_name(self.country),
-        tax_no: tax_id,
+        tax_no: tax_id.try(:strip),
         #todo: figure out why this bombs, perhaps because source column is already lower case
         #website: web,
-        alias: self.alias,
+        alias: self.alias.try(:strip),
         ##todo: is_recovered: recuperada, - once custom fields are implemented
-        sector: sector,
-        industry: industry,
-        referral_source: source,
+        sector: sector.try(:strip),
+        industry: industry.try(:strip),
+        referral_source: source.try(:strip),
         is_recovered: (recuperada == 1)
     }
     data

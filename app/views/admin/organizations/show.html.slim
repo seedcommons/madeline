@@ -1,8 +1,4 @@
-- content_for :title
-  = @org.name
-- content_for :styles
-  = stylesheet_link_tag "admin/media/media", media: "all"
-
+- content_for(:title, @org.name)
 
 section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 
@@ -32,12 +28,11 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
     = render 'form'
 
   section.block
-    h1 = t('organization.active_loans')
+    = render 'loans'
 
   section.block
     h1 = t('organization.media')
-    .row
-      = render "admin/media/index", owner: @org
+    .row = render "admin/media/index", owner: @org
 
   section.block
     h1 = t(:notes)

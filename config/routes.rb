@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :loans
     resources :organizations
+    resources :people
     resources :project_logs
     resources :project_steps do
       collection do

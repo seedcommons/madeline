@@ -24,4 +24,7 @@ module TranslationsHelper
     locales.map{ |locale| [name_for_locale(locale), locale] }
   end
 
+  def translate_boolean(bool)
+    t(bool ? "reply_yes" : "reply_no")
+  end
 end

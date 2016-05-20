@@ -24,25 +24,25 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.find(params[:id])
     authorize @org
     prep_form_vars
-    @form_action_url = admin_organization_path
   end
 
   def new
     @org = Organization.new(division: current_division)
     authorize @org
     prep_form_vars
-    @form_action_url = admin_organizations_path
   end
 
   def update
     @org = Organization.find(params[:id])
     authorize @org
 
-    if @org.update(organization_params)
+    org_params = organization_params
+    # Not sure why params.permit wasn't honoring this field for the native simple_form array
+    org_params[:person_ids] = params[:organization][:person_ids]
+    if @org.update(org_params)
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
-      @form_action_url = admin_organization_path
       render :show
     end
   end
@@ -57,7 +57,6 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organization_path(@org), notice: I18n.t(:notice_created)
     else
       prep_form_vars
-      @form_action_url = admin_organizations_path
       render :new
     end
   end
@@ -70,18 +69,33 @@ class Admin::OrganizationsController < Admin::AdminController
       redirect_to admin_organizations_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_organization_path
       render :show
     end
   end
 
   private
 
-    def organization_params
-      params.require(:organization).permit(:name, :street_address, :city, :state, :country_id, :website)
-    end
+  def organization_params
+    params.require(:organization).permit(
+      :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
+      :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
+      :industry, :sector, :referral_source, :contact_notes,
+      :division_id, :primary_contact_id
+    )
+  end
 
   def prep_form_vars
     @countries = Country.all
+    @division_choices = division_choices
+    @contact_choices = @org.people
+    @people_choices = person_policy_scope(Person.all).order(:name)
+
+    @loans_grid = initialize_grid(
+      @org.active_loans,
+      order: 'loans.signing_date',
+      order_direction: 'desc',
+      name: 'loans',
+      per_page: 10
+    )
   end
 end

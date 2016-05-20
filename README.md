@@ -16,3 +16,6 @@
     rake db:drop db:setup
     rake dev:fake_data
     rails s
+
+### Creating a test user from the rails console
+    Person.create(division_id: 99, email: 'jfe@pobox.com', first_name: 'jfe', has_system_access: true, password: 'xxxxxxxx', password_confirmation: 'xxxxxxxx', owning_division_role: 'admin')
