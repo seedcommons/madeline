@@ -70,7 +70,7 @@ class Person < ActiveRecord::Base
   validate :division_role_valid
   validate :user_valid
 
-  # Transient attributes to fascilitate user managment
+  # Transient attributes to facilitate user management
   attr_writer :owning_division_role
   attr_accessor :password, :password_confirmation
 
