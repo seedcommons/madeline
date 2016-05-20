@@ -1,6 +1,6 @@
 class MS.Views.TimelineView extends Backbone.View
 
-  el: 'body'
+  el: 'section.timeline'
 
   initialize: (options) ->
     @loan_id = options.loan_id

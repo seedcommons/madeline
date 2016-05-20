@@ -1,0 +1,7 @@
+en:
+  # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+  # style shortcuts.
+  project_logs:
+    shared:
+      confirm_deletion: "Are you sure you want to delete this log?"
+      delete: "Delete Log"

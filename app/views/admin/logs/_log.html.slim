@@ -9,10 +9,12 @@
           a.action role="button"
             i.fa.fa-pencil
           = link_to [:admin, log], method: :delete, class: "action",
-              data: {confirm: t('confirm_deletion',
-                thing: t('project_log.project_log')),
+              data: { \
+                confirm: t("project_logs.shared.confirm_deletion"),
+                "confirm-title": t("project_logs.shared.delete"),
                 "confirm-cancel": t(:cancel),
-                "confirm-proceed": t(:confirm) },
+                "confirm-proceed": t(:confirm) \
+              },
               role: "button"
               i.fa.fa-trash>
 

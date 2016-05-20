@@ -1,19 +1,25 @@
 class Admin::MediaController < Admin::AdminController
-  before_action :find_attachable
-  before_action :find_media
+  before_action :find_attachable, :find_media, :authorize_media
 
-  def update
-    authorize @attachable
-    authorize @media
-    @media.update_attributes(media_params)
-
-    redirect_to [:admin, @attachable]
+  def new
+    render_modal_partial
   end
-  alias_method :create, :update
+
+  def edit
+    render_modal_partial
+  end
+
+  def create
+    @media.update_attributes(media_params)
+    if @media.valid?
+      render partial: "admin/media/index", locals: {owner: @media.media_attachable}
+    else
+      render_modal_partial(status: 422)
+    end
+  end
+  alias_method :update, :create
 
   def destroy
-    authorize @attachable
-    authorize @media
     @media.destroy
 
     redirect_to [:admin, @attachable]
@@ -26,7 +32,18 @@ class Admin::MediaController < Admin::AdminController
   end
 
   def find_attachable
-    @attachable = params[:media_attachable_type].classify.constantize.find(params[:media_attachable_id])
+    @attachable = params[:attachable_type].singularize.classify.constantize.find(params[:attachable_id])
+  end
+
+  def authorize_media
+    authorize @attachable
+    authorize @media
+  end
+
+  def render_modal_partial(status: 200)
+    link_params = @media.attributes.slice(:attachable_id, :attachable_type)
+    @submit_url = @media.new_record? ? admin_media_index_path(link_params) : admin_media_path(link_params)
+    render partial: "admin/media/modal_content", status: status
   end
 
   def media_params
