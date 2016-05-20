@@ -35,6 +35,10 @@
     .view-element = @org.secondary_phone
     = f.input_field :secondary_phone
 
+  = f.input :fax
+    .view-element = @org.fax
+    = f.input_field :fax
+
   = f.input :email
     .view-element = @org.email
     = f.input_field :email
@@ -73,6 +77,14 @@
   = f.input :sector
     .view-element = @org.sector
     = f.input_field :sector
+
+  = f.input :tax_no
+    .view-element = @org.tax_no
+    = f.input_field :tax_no
+
+  = f.input :alias
+    .view-element = @org.alias
+    = f.input_field :alias
 
   = f.input :industry
     .view-element = @org.industry

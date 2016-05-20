@@ -38,10 +38,12 @@ en:
         project_type: "Project Type"
         public_level: "Public Level"
       organization:
+        alias: "Alias"
         city: "City"
         contact_notes: "Contact Notes"
         division: "Division"
         email: "E-mail"
+        fax: "Fax"
         industry: "Industry"
         legal_name: "Legal Name"
         name: "Name"
@@ -54,6 +56,7 @@ en:
         street_address: "Street Address"
         sector: "Sector"
         state: "State"
+        tax_no: "Tax ID"
         country: "Country"
         website: "Website"
       person:
