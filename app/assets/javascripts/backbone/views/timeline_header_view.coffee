@@ -51,6 +51,7 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     e.preventDefault()
     $('.view-step-block').show()
     $('.form-step-block').hide()
+    $('.new-record').closest('.form-step-block').show()
 
     $('#edit-all').show()
     $('#new-step').show()

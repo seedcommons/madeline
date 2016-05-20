@@ -1,4 +1,4 @@
-div.panel-body
+div.panel-body class=('new-record' if step.new_record?)
 
   = simple_form_for([:admin, step],
           remote: true,
@@ -8,7 +8,7 @@ div.panel-body
     - if step.new_record?
       = f.hidden_field(:project_id)
       = f.hidden_field(:project_type)
-      
+
     = hidden_field_tag(:context, context)
 
     = f.error_notification
