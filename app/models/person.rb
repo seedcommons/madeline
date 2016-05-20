@@ -147,6 +147,7 @@ class Person < ActiveRecord::Base
   end
 
   def handle_roles
+    return unless has_system_access # not expected, but broken form display logic was allowing
     old_role = resolve_owning_division_role
     new_role = owning_division_role.present? ? owning_division_role.to_sym : nil
     # Invalid roles expected to rejected by validation rules. but avoid cryptic error just in case.
