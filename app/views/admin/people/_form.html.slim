@@ -101,12 +101,12 @@
       - if policy(@person).update_password?
         = render "password_fields", f: f
 
+    javascript:
+      $(function() { new MS.Views.PersonView({el: '.person.details'}); });
+
   - elsif policy(@person).update_password?
     / Allow non-admin to update password for self
     = render "password_fields", f: f
-
-    javascript:
-      $(function() { new MS.Views.PersonView({el: '.person.details'}); });
 
   - else
     = f.input :has_system_access
