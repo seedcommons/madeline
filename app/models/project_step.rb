@@ -110,7 +110,11 @@ class ProjectStep < ActiveRecord::Base
   def admin_date_status
     days = days_late
     if days
-      days <= 0 ? I18n.t('project_step.status.on_time') : I18n.t('project_step.status.late')
+      if days <= 0
+        I18n.t('project_step.status.on_time')
+      else
+        I18n.t('project_step.status.days_late', days: days)
+      end
     else
       I18n.t(:none)
     end
