@@ -2,18 +2,19 @@
 #
 # Table name: project_steps
 #
-#  agent_id        :integer
-#  completed_date  :date
-#  created_at      :datetime         not null
-#  finalized_at    :datetime
-#  id              :integer          not null, primary key
-#  is_finalized    :boolean
-#  original_date   :date
-#  project_id      :integer
-#  project_type    :string
-#  scheduled_date  :date
-#  step_type_value :string
-#  updated_at      :datetime         not null
+#  agent_id          :integer
+#  completed_date    :date
+#  created_at        :datetime         not null
+#  date_change_count :integer          default(0), not null
+#  finalized_at      :datetime
+#  id                :integer          not null, primary key
+#  is_finalized      :boolean
+#  original_date     :date
+#  project_id        :integer
+#  project_type      :string
+#  scheduled_date    :date
+#  step_type_value   :string
+#  updated_at        :datetime         not null
 #
 # Indexes
 #
@@ -91,8 +92,21 @@ class ProjectStep < ActiveRecord::Base
     project_logs.order(:date).last.try(:progress)
   end
 
+  def admin_date_status
+    days = days_late
+    if days
+      if days <= 0
+        I18n.t('project_step.status.on_time')
+      else
+        I18n.t('project_step.status.days_late', days: days)
+      end
+    else
+      I18n.t(:none)
+    end
+  end
+
   def admin_status
-    last_log_status || I18n.t(:none)
+    last_log_status || admin_date_status
   end
 
   def status
@@ -116,8 +130,11 @@ class ProjectStep < ActiveRecord::Base
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_date_changed? && is_finalized? && original_date.blank?
-      self.original_date = scheduled_date_was
+    if scheduled_date_changed? && is_finalized?
+      if original_date.blank?
+        self.original_date = scheduled_date_was
+      end
+      self.date_change_count = self.date_change_count.to_i.succ
     end
   end
 
@@ -167,6 +184,10 @@ class ProjectStep < ActiveRecord::Base
     else
       I18n.t("project_step.status.on_time")
     end
+  end
+
+  def original_date_statement
+    I18n.t("project_step.status.changed_times", count: date_change_count)
   end
 
   # Generate a CSS color based on the status and lateness of the step

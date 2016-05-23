@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :loans
     resources :organizations
+    resources :people
     resources :project_logs
     resources :project_steps do
       collection do
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
       end
     end
 
-    scope '/:media_attachable_type/:media_attachable_id' do
+    scope '/:attachable_type/:attachable_id' do
       resources :media
     end
 

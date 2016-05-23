@@ -36,14 +36,12 @@ class Admin::DivisionsController < Admin::AdminController
     @division = Division.find(params[:id])
     authorize @division
     prep_form_vars
-    @form_action_url = admin_division_path
   end
 
   def new
     @division = Division.new(parent: current_division)
     authorize @division
     prep_form_vars
-    @form_action_url = admin_divisions_path
   end
 
   def update
@@ -54,7 +52,6 @@ class Admin::DivisionsController < Admin::AdminController
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
-      @form_action_url = admin_division_path
       render :show
     end
   end
@@ -73,7 +70,6 @@ class Admin::DivisionsController < Admin::AdminController
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_created)
     else
       prep_form_vars
-      @form_action_url = admin_divisions_path
       render :new
     end
   end
@@ -86,7 +82,6 @@ class Admin::DivisionsController < Admin::AdminController
       redirect_to admin_divisions_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
-      @form_action_url = admin_division_path
       render :show
     end
   end

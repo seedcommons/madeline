@@ -10,22 +10,34 @@ class Member < ActiveRecord::Base
         id: self.id,
         division_id: ::Division.root_id,
         primary_organization_id: cooperative_id,
-        first_name: first_name,
-        last_name: last_name,
+        first_name: first_name.try(:strip),
+        last_name: last_name.try(:strip),
         name: "#{first_name} #{last_name}",
         primary_phone: phone,
-        street_address: address,
-        city: city,
-        country_id: Country.id_from_name(self.country),
+        street_address: address.try(:strip),
+        city: city.try(:strip),
+        country_id: Country.id_from_name(self.country.try(:strip)),
         tax_no: national_id,
     }
+    if access_status > 0 && password.present? && username.present?
+      email = "#{username.downcase}@example.com"
+      if Person.where(email: email).exists?
+        puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
+      else
+        data[:has_system_access] = true
+        data[:email] = email
+        adjusted_password = password.ljust(8, '0')
+        data[:password] = data[:password_confirmation] = adjusted_password
+        data[:owning_division_role] = username == 'brendan' ? :admin : :member
+      end
+    end
     data
   end
 
   def migrate
     data = migration_data
     puts "#{data[:id]}: #{data[:name]}"
-    ::Person.create(data)
+    ::Person.create!(data)
   end
 
 

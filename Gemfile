@@ -73,6 +73,9 @@ gem 'gon'
 # Used by CalendarEventsController when serializing event data for Calendar widget
 gem 'active_model_serializers'
 
+# File uploads for remote: true forms
+gem 'remotipart', '~> 1.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

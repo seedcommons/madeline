@@ -1,8 +1,4 @@
-- content_for :title
-  = @org.name
-- content_for :styles
-  = stylesheet_link_tag "admin/media/media", media: "all"
-
+- content_for(:title, @org.name)
 
 section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 
@@ -18,8 +14,12 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
         a href=admin_organization_path(@org) = t(:cancel)
       / TODO: Confirm and cancel should have defaults
       = link_to [:admin, @org], method: :delete,
-          data: { confirm: t('organization.confirm_deletion'),
-          "confirm-cancel": t(:cancel), "confirm-proceed": t(:confirm) }
+          data: { \
+            confirm: t('organization.confirm_deletion'),
+            "confirm-title": t("organization.delete"),
+            "confirm-cancel": t(:cancel),
+            "confirm-proceed": t(:confirm) \
+          }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
     .clearfix
@@ -28,12 +28,11 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
     = render 'form'
 
   section.block
-    h1 = t('organization.active_loans')
+    = render 'loans'
 
   section.block
     h1 = t('organization.media')
-    .row 
-      = render "admin/media/index", media: @org.media, owner: @org
+    .row = render "admin/media/index", owner: @org
 
   section.block
     h1 = t(:notes)

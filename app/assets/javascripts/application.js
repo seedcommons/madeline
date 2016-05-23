@@ -27,6 +27,7 @@
 //= require bootstrap-responsive-tabs
 
 //= require jquery-ui
+//= require jquery.remotipart
 //= require wice_grid
 
 //= require twitter/bootstrap/rails/confirm
