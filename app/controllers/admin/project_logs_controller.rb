@@ -11,7 +11,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   def new
     @log = ProjectLog.new(project_step_id: params[:step_id])
     authorize_with_parents
-    render partial: "admin/logs/new"
+    render "admin/logs/new", layout: false
   end
 
   def edit
@@ -20,7 +20,7 @@ class Admin::ProjectLogsController < Admin::AdminController
 
     @progress_metrics = ['behind', 'on_time']
 
-    render partial: "admin/logs/edit", layout: false, locals: {log: @log}
+    render "admin/logs/edit", layout: false, locals: {log: @log}
   end
 
   def create
