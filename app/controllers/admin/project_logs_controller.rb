@@ -17,6 +17,9 @@ class Admin::ProjectLogsController < Admin::AdminController
   def edit
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
+
+    @progress_metrics = ['behind', 'on_time']
+
     render partial: "admin/logs/edit", layout: false, locals: {log: @log}
   end
 

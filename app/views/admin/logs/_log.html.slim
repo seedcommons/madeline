@@ -21,7 +21,8 @@
               i.fa.fa-trash>
 
       .col-sm-2.text-right
-        span.bold = log.try(:progress_metric)
+        span.bold
+          = log.progress_metric_value ? t("log.status.#{log.progress_metric_value}") : ''
 
   .panel-body
     p

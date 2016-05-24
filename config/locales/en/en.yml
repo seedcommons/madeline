@@ -239,6 +239,9 @@ en:
     save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
+    status:
+      behind: "Behind"
+      on_time: "On time"
 
   number:
     nth:
