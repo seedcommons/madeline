@@ -242,6 +242,7 @@ en:
     status:
       behind: "Behind"
       on_time: "On time"
+    step_completed: "Step completed on this date"
 
   number:
     nth:
