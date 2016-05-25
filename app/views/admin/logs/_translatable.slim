@@ -8,12 +8,10 @@
           input_html: {class: 'locale'}, include_blank: false
         = f.input "summary_#{l}".to_sym,
           input_html: {data: {translatable: 'common.summary'}},
-          label_html: {data: {translatable: 'common.summary'}},
           placeholder: I18n.t('common.summary', locale: l),
           label: I18n.t('common.summary', locale: l)
       = f.input "details_#{l}".to_sym, as: :text,
         input_html: {rows: 3, data: {translatable: 'common.details'}},
-        label_html: {data: {translatable: 'common.details'}},
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
       
@@ -24,13 +22,11 @@
       div.expandable data-expandable='additional_notes'
         = f.input "additional_notes_#{l}".to_sym, as: :text,
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
-          label_html: {data: {translatable: 'log.additional_notes'}},
           placeholder: I18n.t('log.additional_notes', locale: l),
           label: I18n.t('log.additional_notes', locale: l)
       div.expandable data-expandable='private_notes'
         = f.input "private_notes_#{l}".to_sym, as: :text,
           input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
-          label_html: {data: {translatable: 'log.private_notes'}},
           placeholder: I18n.t('log.private_notes', locale: l),
           label: I18n.t('log.private_notes', locale: l)
       a.remove-language href='#' = t('common.remove')
