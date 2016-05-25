@@ -56,7 +56,9 @@
 
   .media-container {
     text-align: right;
-    
+    height: 8.25em;
+    overflow: scroll;
+
     .media-modal {
       text-align: left;
     }
