@@ -94,6 +94,15 @@ class Division < ActiveRecord::Base
     result
   end
 
+  def name
+    if root?
+      # Localized display name for the special 'root' division
+      I18n.t("divisions.shared.root")
+    else
+      self[:name]
+    end
+  end
+
   # interface compatibility with other models
   def division
     self
