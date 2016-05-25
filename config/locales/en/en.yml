@@ -218,11 +218,13 @@ en:
     add_language: "Add Language"
     address_state: "State"
     description: "Description"
+    details: "Details"
     division: "Division"
     divisions: "Divisions"
     parent: "Parent"
     remove: "Remove"
     street_address: "Street Address"
+    summary: "Summary"
     website: "Website"
 
   log:
