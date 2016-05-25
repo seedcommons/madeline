@@ -53,4 +53,12 @@
       margin: 0 .5em 0 1em;
     }
   }
+
+  .media-container {
+    text-align: right;
+    
+    .media-modal {
+      text-align: left;
+    }
+  }
 }
