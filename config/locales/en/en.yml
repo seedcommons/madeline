@@ -327,9 +327,17 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
+
+  menu:
+    calendar: "Calendar"
+    coops: "Co-ops"
+    dashboard: "Dashboard"
+    divisions: "Divisions"
+    loans: "Loans"
