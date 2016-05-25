@@ -6,6 +6,11 @@ class MS.Views.MediaView extends Backbone.View
     'click a.new': 'showMediaModal'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
+    'click .cancel': 'hideModal'
+
+  hideModal: (e) ->
+    e.preventDefault()
+    @$('.media-modal').modal('hide')
 
   showMediaModal: (e) ->
     MS.loadingIndicator.show()
