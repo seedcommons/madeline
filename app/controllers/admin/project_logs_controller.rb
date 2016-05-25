@@ -33,6 +33,14 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log = ProjectLog.find(params[:id])
     @log.assign_attributes(project_log_attribs)
     authorize_with_parents
+
+    if params[:step_completed_on_date] == '1'
+      log_params = params[:project_log]
+      completed_date = Date.new log_params["date(1i)"].to_i, log_params["date(2i)"].to_i, log_params["date(3i)"].to_i
+      @step.completed_date = completed_date
+      @step.save
+    end
+
     save_and_render_partial
   end
 
