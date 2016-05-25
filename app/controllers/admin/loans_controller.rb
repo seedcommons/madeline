@@ -34,6 +34,7 @@ class Admin::LoansController < Admin::AdminController
 
   def new
     @loan = Loan.new(division: current_division)
+    @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
   end
@@ -51,7 +52,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_params).merge(division: current_division)
+    @loan = Loan.new(loan_params)
     authorize @loan
 
     if @loan.save
