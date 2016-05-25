@@ -4,10 +4,11 @@
   
   = f.error_notification
   
-  div
+  div.date
     = f.input :date, as: :date
-    = check_box_tag(:complete_step_on_date)
+    = check_box_tag(:step_completed_on_date)
     span = t('log.step_completed')
+      
   = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
     label: "Member"
   = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: "Status"

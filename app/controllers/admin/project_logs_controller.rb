@@ -5,6 +5,11 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
 
+    if params[:step_completed_on_date]
+      @step.completed_date = params[:project_log][:date]
+      redirect_to admin_project_step_url, action: "update", id: @step.id
+    end
+
     redirect_to admin_loan_path(@loan)
   end
 

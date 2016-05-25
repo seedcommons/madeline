@@ -43,4 +43,14 @@
   .hidden {
     display: none;
   }
+
+  .date {
+    .form-group {
+      display: inline-block;
+    }
+
+    input[type='checkbox'] {
+      margin: 0 .5em 0 1em;
+    }
+  }
 }
