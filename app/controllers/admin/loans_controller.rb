@@ -89,9 +89,16 @@ class Admin::LoansController < Admin::AdminController
 
   def prep_form_vars
     @division_choices = division_choices
-    @organizations = Organization.all
-    @people = Person.all
-    @currency_choices = Currency.all
-    @representative_choices = @loan.organization ? @loan.organization.people : @people
+    @organization_choices = organization_policy_scope(Organization.all).order(:name)
+    # Todo: Confirm what additional filter should be applied for agent selection
+    @agent_choices = person_policy_scope(Person.all).order(:name)
+    @currency_choices = Currency.all.order(:name)
+    @representative_choices = representative_choices
   end
+
+  def representative_choices
+    raw_choices = @loan.organization ? @loan.organization.people : Person.all
+    person_policy_scope(raw_choices).order(:name)
+  end
+
 end

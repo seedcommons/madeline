@@ -36,4 +36,13 @@ module ApplicationHelper
   def division_policy(record)
     DivisionPolicy.new(current_user, record)
   end
+
+  def organization_policy(record)
+    OrganizationPolicy.new(current_user, record)
+  end
+
+  def person_policy(record)
+    PersonPolicy.new(current_user, record)
+  end
+
 end

@@ -10,19 +10,29 @@
 
   = f.error_notification
 
-  - if @loan.division && division_policy(@loan.division).show?
-    = f.input :division
-      .view-element
-        - if @loan.division
+  = f.input :division
+    .view-element
+       - if @loan.division && division_policy(@loan.division).show?
           = link_to @loan.division.name, admin_division_path(@loan.division_id)
-      = f.input_field :division_id, collection: @division_choices, include_blank: false
+       - else
+        = @loan.division.try(:name)
+    .form-element
+      - if !@loan.division || division_policy(@loan.division).show?
+        = f.input_field :division_id, collection: @division_choices, include_blank: false
+      - else
+        = @loan.division.try(:name)
 
   = f.input :organization
     .view-element
-      - if @loan.organization
-        = link_to admin_organization_path(@loan.organization_id) do
-          - @loan.organization.try(:name)
-    = f.input_field :organization_id, collection: @organizations, include_blank: true
+      - if @loan.organization && organization_policy(@loan.organization).show?
+        = link_to @loan.organization.name, admin_organization_path(@loan.organization_id)
+      - else
+        = @loan.organization.try(:name)
+    .form-element
+      - if !@loan.organization || organization_policy(@loan.organization).show?
+        = f.input_field :organization_id, collection: @organization_choices, include_blank: true
+      - else
+        = @loan.organization.try(:name)
 
   = f.input :name
     .view-element = @loan.name
@@ -49,12 +59,28 @@
     = f.input_field :summary, as: :text
 
   = f.input :primary_agent
-    .view-element = @loan.primary_agent.try(:name)
-    = f.input_field :primary_agent_id, collection: @people, include_blank: true
+    .view-element
+      - if @loan.primary_agent && person_policy(@loan.primary_agent).show?
+        = link_to @loan.primary_agent.name, admin_person_path(@loan.primary_agent)
+      - else
+        = @loan.primary_agent.try(:name)
+    .form-element
+      - if !@loan.primary_agent || person_policy(@loan.primary_agent).show?
+        = f.input_field :primary_agent_id, collection: @agent_choices, include_blank: true
+      - else
+        = @loan.primary_agent.try(:name)
 
   = f.input :secondary_agent
-    .view-element = @loan.secondary_agent.try(:name)
-    = f.input_field :secondary_agent_id, collection: @people, include_blank: true
+    .view-element
+      - if @loan.secondary_agent && person_policy(@loan.secondary_agent).show?
+        = link_to @loan.secondary_agent.name, admin_person_path(@loan.secondary_agent)
+      - else
+        = @loan.secondary_agent.try(:name)
+    .form-element
+      - if !@loan.secondary_agent || person_policy(@loan.secondary_agent).show?
+        = f.input_field :secondary_agent_id, collection: @agent_choices, include_blank: true
+      - else
+        = @loan.secondary_agent.try(:name)
 
   = f.input :length_months
     .view-element = @loan.length_months
@@ -85,8 +111,16 @@
     = f.input_field :projected_return
 
   = f.input :representative
-    .view-element = @loan.representative.try(:name)
-    = f.input_field :representative_id, collection: @representative_choices, include_blank: true
+    .view-element
+      - if @loan.representative && person_policy(@loan.representative).show?
+        = link_to @loan.representative.name, admin_person_path(@loan.representative)
+      - else
+        = @loan.representative.try(:name)
+    .form-element
+      - if !@loan.representative || person_policy(@loan.representative).show?
+        = f.input_field :representative_id, collection: @representative_choices, include_blank: true
+      - else
+        = @loan.representative.try(:name)
 
   = f.input :details
     .view-element = @loan.details
