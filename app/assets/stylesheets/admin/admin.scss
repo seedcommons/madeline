@@ -7,13 +7,17 @@
 // As we remove style includes from individual pages, they should be added
 // as @imports here instead.
 
-@import "colors";
+// Vendor Styles
 @import "bootstrap_layout";
+@import "jquery-ui";
+@import "wice_grid";
+@import "fullcalendar";
+
+@import "colors";
 @import "general";
 @import "menu";
 @import "index_table";
 @import "forms/*";
-@import "fullcalendar";
 @import "calendar/*";
 @import "loans/*";
 @import "logs/*";

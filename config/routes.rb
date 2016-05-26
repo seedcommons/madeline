@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         patch :shift_subsequent
       end
     end
+    resources :loan_questions, path: 'questions'
 
     scope '/:attachable_type/:attachable_id' do
       resources :media
