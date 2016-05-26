@@ -67,16 +67,21 @@ class Admin::ProjectLogsController < Admin::AdminController
   end
 
   def project_log_attribs
-    params.require(:project_log).permit(*([:agent_id, :date, :project_step_id, :progress_metric_value] +
+    params.require(:project_log).permit(*(
+      [:agent_id, :date, :project_step_id, :progress_metric_value] +
       translation_params(:summary, :details, :additional_notes, :private_notes)))
   end
 
   # Renders show partial on success, form partial on failure.
   def save_and_render_partial
     if @log.save
-      render partial: "admin/logs/step_logs", locals: {step: @step}
+      render partial: 'admin/project_steps/project_step', locals: {
+        step: @step,
+        context: 'timeline',
+        mode: :show
+      }
     else
-      render partial: "admin/logs/form", locals: {log: @log, step: @step}, status: 422
+      render partial: 'admin/logs/form', locals: {log: @log, step: @step}, status: 422
     end
   end
 end

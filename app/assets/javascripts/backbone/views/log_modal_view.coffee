@@ -34,7 +34,8 @@ class MS.Views.LogModalView extends Backbone.View
 
   ajaxSuccess: (e, data) ->
     step = $(".timeline [data-step-id='#{@stepId}']")
-    $(step).find('.step-logs').replaceWith(data)
+    $(step).replaceWith(data)
+    step = $(".timeline [data-step-id='#{@stepId}']")
     $(step).find('.step-logs').addClass('expanded')
 
   expandContent: (e) ->
