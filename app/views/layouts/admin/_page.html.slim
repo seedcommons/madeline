@@ -20,7 +20,7 @@ div
 
           .division.centered-box.nav.navbar-nav.col-sm-6
             span> Division:
-            = form_tag(select_admin_divisions_path, id: 'select_division_form') do
+            span = form_tag(select_admin_divisions_path, id: 'select_division_form') do
               = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
               = hidden_field_tag(:redisplay_url)
 
@@ -42,7 +42,7 @@ div
       .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
         = render "application/alerts"
         section.content
-          .page-header 
+          .page-header
             h1.page-title = yield :title
             .with-title = yield :with_title
           = yield

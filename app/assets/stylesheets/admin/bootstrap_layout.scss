@@ -34,7 +34,8 @@ body {
 
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
-  max-height: none;
+  // This was making things get cut off on Chrome's emulator without being able to scroll
+  // max-height: none;
 }
 
 /*
@@ -68,13 +69,13 @@ body {
   margin-bottom: 20px;
   margin-left: -20px;
 }
-.nav-sidebar > li > a {
+.nav-sidebar li a {
   padding-right: 20px;
   padding-left: 20px;
 }
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
+.nav-sidebar .active a,
+.nav-sidebar .active a:hover,
+.nav-sidebar .active a:focus {
   color: #fff;
   background-color: #428bca;
 }
