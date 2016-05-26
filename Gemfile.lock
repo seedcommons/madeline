@@ -134,6 +134,9 @@ GEM
       momentjs-rails (>= 2.9.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    goldiloader (0.0.10)
+      activerecord (>= 3.2, < 5.1)
+      activesupport (>= 3.2, < 5.1)
     gon (6.0.1)
       actionpack (>= 3.0)
       json
@@ -347,6 +350,7 @@ DEPENDENCIES
   font-awesome-rails
   font-awesome-sass (~> 4.3)
   fullcalendar-rails
+  goldiloader
   gon
   jquery-rails
   jquery-ui-rails
