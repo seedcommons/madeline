@@ -1,2 +1,5 @@
 section
   p = t("loan.criteria")
+
+- if @loan.loan_criteria
+  = render "admin/loans/content/questionnaire", record: @loan.loan_criteria

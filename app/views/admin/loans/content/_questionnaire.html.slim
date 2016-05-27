@@ -1,0 +1,22 @@
+/p Field set type: #{record.custom_field_set.name}
+
+/= simple_form_for([:admin, record],
+/    html: { \
+/      class: 'form-horizontal organization-record',
+/    },
+/    wrapper: :horizontal_form_condensed,
+/    defaults: { \
+/      input_html: {class: 'form-element form-control'},
+/    },
+/  ) do |f|
+
+
+- record.custom_field_set.depth_first_fields.each do |field|
+  div style="margin-left: #{field.depth*15}px"
+    p
+      = "#{field.transient_position}. "
+      b = field.label
+    p = record.custom_value(field.id)
+
+
+

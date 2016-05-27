@@ -4,7 +4,8 @@
       .col-sm-10
         b => log.date ? l(log.date) : ''
         => t(:dash)
-        => Person.find(log.agent_id).name
+        - if log.agent_id
+          => Person.find(log.agent_id).name
         span.actions-box
           a.action role="button"
             i.fa.fa-pencil
