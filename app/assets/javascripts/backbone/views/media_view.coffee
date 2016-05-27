@@ -1,12 +1,15 @@
-# Handles clicks on media objects and manages the media modal.
+# Handles events on all media browser elements on the page.
+# Controls the media modal (no more than one per page).
 class MS.Views.MediaView extends Backbone.View
 
+  el: 'body'
+
   events:
-    'click a.edit': 'showMediaModal'
-    'click a.new': 'showMediaModal'
+    'click .media-action.edit': 'showMediaModal'
+    'click .media-action.new': 'showMediaModal'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
-    'click .cancel': 'hideModal'
+    'click .media-action.cancel': 'hideModal'
 
   hideModal: (e) ->
     e.preventDefault()
@@ -15,7 +18,10 @@ class MS.Views.MediaView extends Backbone.View
   showMediaModal: (e) ->
     MS.loadingIndicator.show()
     e.preventDefault()
-    $.get @$(e.currentTarget).attr('href'), (html) =>
+    link = e.currentTarget
+    @mediaBox = @$(link).closest('.media-browser')
+
+    $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
       @$('.media-modal').modal('show')
       MS.loadingIndicator.hide()
@@ -28,6 +34,6 @@ class MS.Views.MediaView extends Backbone.View
     MS.loadingIndicator.hide()
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @$('.media-modal').modal('hide')
-      @$el.replaceWith(data.responseText)
+      @mediaBox.replaceWith(data.responseText)
     else
       @$('.media-modal .modal-content').html(data.responseText)

@@ -6,7 +6,7 @@
       .thumb
         = link_to media_thumbnail(media_item), media_item.item.url
         .actions
-          = link_to edit_admin_media_path(media_item, link_params), class: 'edit' do
+          = link_to edit_admin_media_path(media_item, link_params), class: 'media-action edit' do
             i.fa.fa-pencil
           = link_to admin_media_path(media_item, link_params),
               method: :delete,
@@ -18,14 +18,4 @@
             i.fa.fa-trash
   div.media-item#media-new
     .thumb
-      = link_to image_tag("new-image.png"), new_admin_media_path(link_params), class: 'new'
-
-  .modal.media-modal
-    div.modal-dialog
-      div.modal-content
-        // Content to be filled in by JS via AJAX.
-
-  javascript:
-    $(document).ready(function() {
-      new MS.Views.MediaView({ el: $('.media-browser') });
-    });
+      = link_to image_tag("new-image.png"), new_admin_media_path(link_params), class: 'media-action new'

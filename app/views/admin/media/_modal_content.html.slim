@@ -12,5 +12,5 @@ div.modal-body
       = f.input "caption_#{locale}".to_sym, label: t('media.caption', locale_name: locale_name)
 
 div.modal-footer
-  button.btn.btn-default.cancel type="button" = t(:cancel)
-  button.btn.btn-primary = t(:submit)
+  button.btn.btn-default.media-action.cancel type="button" = t(:cancel)
+  button.btn.btn-primary.media-action = t(:submit)
