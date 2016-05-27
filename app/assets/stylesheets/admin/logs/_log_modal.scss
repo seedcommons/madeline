@@ -55,9 +55,14 @@
   }
 
   .media-container {
-    text-align: right;
-    height: 8.25em;
+    text-align: left;
+    max-height: 8.25em;
+    max-width: 100%;
     overflow: scroll;
+
+    @media (min-width: 992px) {
+      text-align: right;
+    }
 
     .media-modal {
       text-align: left;
