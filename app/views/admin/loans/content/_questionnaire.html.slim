@@ -1,22 +1,35 @@
 /p Field set type: #{record.custom_field_set.name}
 
-/= simple_form_for([:admin, record],
-/    html: { \
-/      class: 'form-horizontal organization-record',
-/    },
-/    wrapper: :horizontal_form_condensed,
-/    defaults: { \
-/      input_html: {class: 'form-element form-control'},
-/    },
-/  ) do |f|
+= simple_form_for([:admin, record],
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
 
 
-- record.custom_field_set.depth_first_fields.each do |field|
-  div style="margin-left: #{field.depth*15}px"
-    p
-      = "#{field.transient_position}. "
-      b = field.label
-    p = record.custom_value(field.id)
+  = f.hidden_field(:custom_value_set_linkable_type)
+  = f.hidden_field(:custom_value_set_linkable_id)
+  = f.hidden_field(:custom_field_set_id)
+  = f.hidden_field(:linkable_attribute)
 
+  - record.custom_field_set.depth_first_fields.each do |field|
+    div style="margin-left: #{field.depth*15}px"
+      p
+        = "#{field.transient_position}. "
+        b = field.label
+      - unless field.data_type == 'group'
+        .view-element = record.custom_value(field.id)
+        = f.input_field field.attribute_sym
 
-
+  .actions.form-block
+    - unless record.new_record?
+      - if record.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_custom_value_set_path(record) = t(:cancel)
+    = f.submit class: 'update-action btn btn-success'
+  .clearfix

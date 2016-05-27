@@ -51,7 +51,7 @@ class CustomValueSet < ActiveRecord::Base
 
   # used by raw crud admin views
   def name
-    "#{custom_value_set_linkable_type}[#{custom_value_set_linkable_id}]-#{linkable_attribute}"
+    "#{custom_value_set_linkable.name} - #{linkable_attribute}"
   end
 
 end

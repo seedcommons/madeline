@@ -30,6 +30,7 @@ module Legacy
     def migration_data
       data = {
         id: id,
+        internal_name: "field_#{id}",
         custom_field_set_id: active,
         position: orden,
         migration_position: orden,

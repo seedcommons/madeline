@@ -43,6 +43,10 @@ class CustomField < ActiveRecord::Base
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
 
+  def attribute_sym
+    internal_name.to_sym
+  end
+
   def traverse_depth_first(list)
     list << self
     counter = 0
