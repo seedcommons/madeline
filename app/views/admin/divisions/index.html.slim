@@ -6,6 +6,7 @@
 = render 'layouts/admin/tables'
 
 = render "divisions_grid"
+- @no_records = @divisions_grid.current_page_records.length < 1
 
 - unless @empty_list
   header.block
@@ -29,4 +30,6 @@
 
       .clearfix
 
-= render_grid(@divisions_grid)
+.index-grid class="#{'no-records' if @no_records}"
+  = render_grid(@divisions_grid)
+  = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
