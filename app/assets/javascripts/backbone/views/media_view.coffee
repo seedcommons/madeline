@@ -11,20 +11,27 @@ class MS.Views.MediaView extends Backbone.View
     'ajax:complete .media-modal form': 'submitComplete'
     'click .media-action.cancel': 'hideModal'
 
-  hideModal: (e) ->
-    e.preventDefault()
-    @$('.media-modal').modal('hide')
-
   showMediaModal: (e) ->
     MS.loadingIndicator.show()
     e.preventDefault()
     link = e.currentTarget
     @mediaBox = @$(link).closest('.media-browser')
+    @mediaType = @mediaBox.data('media-type')
+
+    if @mediaType == 'ProjectLog'
+      @$('#log-modal').modal('hide')
 
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
       @$('.media-modal').modal('show')
       MS.loadingIndicator.hide()
+
+  hideModal: (e) ->
+    e.preventDefault()
+    @$('.media-modal').modal('hide')
+
+    if @mediaType == 'ProjectLog'
+      @$('#log-modal').modal('show')
 
   submitForm: ->
     MS.loadingIndicator.show()
@@ -35,5 +42,8 @@ class MS.Views.MediaView extends Backbone.View
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @$('.media-modal').modal('hide')
       @mediaBox.replaceWith(data.responseText)
+
+      if @mediaType == 'ProjectLog'
+        @$('#log-modal').modal('show')
     else
       @$('.media-modal .modal-content').html(data.responseText)

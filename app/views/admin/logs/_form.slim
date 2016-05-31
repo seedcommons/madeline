@@ -12,11 +12,11 @@
           
     div.col-lg-6.col-md-6
       = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
-        label: "Member"
-      = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: "Status"
+        label: 'Member'
+      = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: 'Status'
       
     div.col-lg-6.col-md-6.media-container
       - unless @log.new_record?
-        = render "admin/media/index", media: @log.media, owner: @log
+        = render 'admin/media/index', media: @log.media, owner: @log
   
-  = render "admin/logs/translatable", log: @log, f: f
+  = render 'admin/logs/translatable', log: @log, f: f
