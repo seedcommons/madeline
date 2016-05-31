@@ -219,6 +219,8 @@ en:
     description: "Description"
     division: "Division"
     divisions: "Divisions"
+    no_records: "No records found."
+    no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
     street_address: "Street Address"
     website: "Website"
