@@ -3,7 +3,7 @@
 
     - g.blank_slate do
       - @empty_list = true
-      - content_tag(:div, t("no_records"), class: 'alert alert-info')
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
     - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |person|
       - link_to(person.id, admin_person_path(person.id))

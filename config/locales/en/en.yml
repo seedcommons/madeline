@@ -194,7 +194,6 @@ en:
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found."
   none: "None"
   notes: "Notes"
   notice_created: 'Record was successfully created.'
