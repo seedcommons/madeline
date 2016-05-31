@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def division_choices
-    current_user.accessible_divisions - [Division.root]
+    current_user.accessible_divisions
   end
 
   def loan_policy_scope(scope)
