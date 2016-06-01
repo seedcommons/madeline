@@ -37,6 +37,10 @@ class Division < ActiveRecord::Base
   has_many :custom_field_sets, dependent: :destroy
   has_many :option_sets, dependent: :destroy
 
+  # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
+  has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
+  has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
+
   belongs_to :parent, class_name: 'Division'
 
   # Note the requirements around a single currency or a 'default currency' per division has been in
