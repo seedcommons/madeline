@@ -7,6 +7,7 @@ class MS.Views.MediaView extends Backbone.View
   events:
     'click .media-action.edit': 'showMediaModal'
     'click .media-action.new': 'showMediaModal'
+    'click .media-action.delete': 'hideLogModal'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
     'click .media-action.cancel': 'hideModal'
@@ -15,21 +16,28 @@ class MS.Views.MediaView extends Backbone.View
     MS.loadingIndicator.show()
     e.preventDefault()
     link = e.currentTarget
-    @mediaBox = @$(link).closest('.media-browser')
-
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
-    @$('#log-modal').modal('hide') if @isLog
+    @defineMediaVariables(link)
 
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
       @$('.media-modal').modal('show')
       MS.loadingIndicator.hide()
 
+  defineMediaVariables: (link) ->
+    @mediaBox = @$(link).closest('.media-browser')
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+    @$('#log-modal').modal('hide') if @isLog
+
   hideModal: (e) ->
     e.preventDefault()
     @$('.media-modal').modal('hide')
     @$('#log-modal').modal('show') if @isLog
+
+  hideLogModal: (e) ->
+    e.preventDefault()
+    link = e.currentTarget
+    @defineMediaVariables(link)
 
   submitForm: ->
     MS.loadingIndicator.show()

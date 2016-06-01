@@ -8,14 +8,15 @@
         .actions
           = link_to edit_admin_media_path(media_item, link_params), class: 'media-action edit' do
             i.fa.fa-pencil
-          = link_to admin_media_path(media_item, link_params),
-              method: :delete,
-              data: { \
-                confirm: t("media.confirm_deletion"),
-                "confirm-title": t("media.delete"),
-                "confirm-cancel": t(:cancel),
-                "confirm-proceed": t(:confirm) } do
+          = link_to admin_media_path(media_item, link_params), class: 'media-action delete',
+            data: { \
+              confirm: t('media.confirm_deletion'),
+              'confirm-title': t('media.delete'),
+              'confirm-cancel': t(:cancel),
+              'confirm-proceed': t(:confirm),
+              'confirm-cancel-class': 'media-action btn cancel btn-default' } do
             i.fa.fa-trash
   div.media-item#media-new
     .thumb
-      = link_to image_tag("new-image.png"), new_admin_media_path(link_params), class: 'media-action new'
+      = link_to image_tag("new-image.png"), new_admin_media_path(link_params),
+        class: 'media-action new'
