@@ -8,6 +8,7 @@ class MS.Views.MediaView extends Backbone.View
     'click .media-action.edit': 'showMediaModal'
     'click .media-action.new': 'showMediaModal'
     'click .media-action.delete': 'hideLogModal'
+    'confirm:complete .media-action.delete': 'deleteItem'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
     'click .media-action.cancel': 'hideModal'
@@ -16,7 +17,12 @@ class MS.Views.MediaView extends Backbone.View
     MS.loadingIndicator.show()
     e.preventDefault()
     link = e.currentTarget
-    @defineMediaVariables(link)
+
+    #@defineMediaVariables(link)s
+    @mediaBox = @$(link).closest('.media-browser')
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+    @$('#log-modal').modal('hide') if @isLog
 
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
@@ -37,7 +43,12 @@ class MS.Views.MediaView extends Backbone.View
   hideLogModal: (e) ->
     e.preventDefault()
     link = e.currentTarget
-    @defineMediaVariables(link)
+
+    # @defineMediaVariables(link)
+    @mediaBox = @$(link).closest('.media-browser')
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+    @$('#log-modal').modal('hide') if @isLog
 
   submitForm: ->
     MS.loadingIndicator.show()
@@ -51,3 +62,24 @@ class MS.Views.MediaView extends Backbone.View
       @$('#log-modal').modal('show') if @isLog
     else
       @$('.media-modal .modal-content').html(data.responseText)
+
+  closeLogModal: (e) ->
+    e.preventDefault()
+    link = e.currentTarget
+    @mediaBox = @$(link).closest('.media-browser')
+
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+    @$('#log-modal').modal('hide') if @isLog
+
+  deleteItem: (e, response) ->
+    e.preventDefault()
+    link = e.currentTarget
+    @mediaBox = @$(link).closest('.media-browser')
+    console.log(response)
+    url = @$(link).attr('href')
+    data = {
+      '_method': 'DELETE'
+    }
+
+    $.post(url, data)
