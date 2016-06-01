@@ -42,8 +42,6 @@ class User < ActiveRecord::Base
   belongs_to :profile, class_name: Person
   delegate :division, :division=, to: :profile
 
-  validates :profile_id, presence: true
-
   def name
     profile.try(:name)
   end
