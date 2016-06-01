@@ -31,9 +31,10 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="organizations"
           = t("filter")
-
-        button.btn.btn-default.wg-external-csv-export-button data-grid-name="organizations"
-          = t("export_to_csv")
       .clearfix
 
 = render_grid(@organizations_grid)
+
+.text-right
+  button.btn.btn-link.wg-external-csv-export-button data-grid-name="organizations"
+    = t("export_to_csv")
