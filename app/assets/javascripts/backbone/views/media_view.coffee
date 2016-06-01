@@ -11,6 +11,7 @@ class MS.Views.MediaView extends Backbone.View
     'confirm:complete .media-action.delete': 'deleteItem'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
+    'ajax:complete .media-action.proceed': 'deleteComplete'
     'click .media-action.cancel': 'hideModal'
 
   showMediaModal: (e) ->
@@ -75,11 +76,14 @@ class MS.Views.MediaView extends Backbone.View
   deleteItem: (e, response) ->
     e.preventDefault()
     link = e.currentTarget
-    @mediaBox = @$(link).closest('.media-browser')
-    console.log(response)
-    url = @$(link).attr('href')
-    data = {
-      '_method': 'DELETE'
-    }
 
-    $.post(url, data)
+    @mediaBox = @$(link).closest('.media-browser')
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+
+    $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
+      @deleteComplete(html)
+
+  deleteComplete: (html) ->
+    @mediaBox.replaceWith(html)
+    @$('#log-modal').modal('show') if @isLog
