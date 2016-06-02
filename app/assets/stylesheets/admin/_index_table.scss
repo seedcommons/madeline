@@ -43,3 +43,21 @@
     }
   }
 }
+
+
+.index-grid {
+  .no-records-match {
+    visibility: hidden;
+  }
+
+  &.no-records {
+    .wice-grid-container {
+      visibility: hidden;
+      height: 0;
+    }
+
+    .no-records-match {
+      visibility: visible;
+    }
+  }
+}

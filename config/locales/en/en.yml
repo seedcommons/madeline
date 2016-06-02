@@ -193,7 +193,6 @@ en:
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found."
   none: "None"
   notes: "Notes"
   notice_created: 'Record was successfully created.'
@@ -220,6 +219,8 @@ en:
     details: "Details"
     division: "Division"
     divisions: "Divisions"
+    no_records: "No records found."
+    no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
     remove: "Remove"
     street_address: "Street Address"
