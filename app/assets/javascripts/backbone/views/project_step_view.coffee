@@ -10,9 +10,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @persisted = params.persisted
     @duplicate = params.duplicate
     @context = @$el.data('context')
-    new MS.Views.TranslationsView({
-      el: @$('[data-content-translatable="step"]')
-    })
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
 
   events:
     'click a.edit-step-action': 'showForm'
@@ -82,8 +80,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    if !@modalView
-      @modalView = new MS.Views.LogModalView(parentView: this)
+    @modalView = new MS.Views.LogModalView(parentView: this) unless @modalView
 
     if action == "edit-log"
       @modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
