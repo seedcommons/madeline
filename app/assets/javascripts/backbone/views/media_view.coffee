@@ -7,53 +7,54 @@ class MS.Views.MediaView extends Backbone.View
   events:
     'click .media-action.edit': 'showMediaModal'
     'click .media-action.new': 'showMediaModal'
-    'click .media-action.delete': 'hideLogModal'
-    'confirm:complete .media-action.delete': 'deleteItem'
+    'click .media-action.cancel': 'hideMediaModal'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
+    'click .media-action.delete': 'hideLogModal'
+    'confirm:complete .media-action.delete': 'deleteItem'
     'ajax:complete .media-action.proceed': 'deleteComplete'
-    'click .media-action.cancel': 'hideModal'
+
+  defineMediaVariables: (link) ->
+    @mediaBox = @$(link).closest('.media-browser')
+    mediaType = @mediaBox.data('media-type')
+    @isLog = mediaType == 'ProjectLog' ? true : false
+
+  deleteComplete: (html) ->
+    MS.loadingIndicator.hide()
+    @mediaBox.replaceWith(html)
+    @$('#log-modal').modal('show') if @isLog
+
+  deleteItem: (e, response) ->
+    e.preventDefault()
+    link = e.currentTarget
+    @defineMediaVariables(link)
+    MS.loadingIndicator.show()
+
+    $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
+      @deleteComplete(html)
+
+  hideLogModal: (e) ->
+    e.preventDefault()
+    link = e.currentTarget
+    @defineMediaVariables(link)
+    @$('#log-modal').modal('hide') if @isLog
+
+  hideMediaModal: (e) ->
+    e.preventDefault()
+    @$('.media-modal').modal('hide')
+    @$('#log-modal').modal('show') if @isLog
 
   showMediaModal: (e) ->
     MS.loadingIndicator.show()
     e.preventDefault()
     link = e.currentTarget
-
-    #@defineMediaVariables(link)s
-    @mediaBox = @$(link).closest('.media-browser')
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
+    @defineMediaVariables(link)
     @$('#log-modal').modal('hide') if @isLog
 
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
       @$('.media-modal').modal('show')
       MS.loadingIndicator.hide()
-
-  defineMediaVariables: (link) ->
-    @mediaBox = @$(link).closest('.media-browser')
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
-    @$('#log-modal').modal('hide') if @isLog
-
-  hideModal: (e) ->
-    e.preventDefault()
-    @$('.media-modal').modal('hide')
-    @$('#log-modal').modal('show') if @isLog
-
-  hideLogModal: (e) ->
-    e.preventDefault()
-    link = e.currentTarget
-
-    # @defineMediaVariables(link)
-    @mediaBox = @$(link).closest('.media-browser')
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
-    @$('#log-modal').modal('hide') if @isLog
-
-  submitForm: ->
-    MS.loadingIndicator.show()
-    @$('.media-modal form').submit()
 
   submitComplete: (e, data) ->
     MS.loadingIndicator.hide()
@@ -64,26 +65,6 @@ class MS.Views.MediaView extends Backbone.View
     else
       @$('.media-modal .modal-content').html(data.responseText)
 
-  closeLogModal: (e) ->
-    e.preventDefault()
-    link = e.currentTarget
-    @mediaBox = @$(link).closest('.media-browser')
-
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
-    @$('#log-modal').modal('hide') if @isLog
-
-  deleteItem: (e, response) ->
-    e.preventDefault()
-    link = e.currentTarget
-
-    @mediaBox = @$(link).closest('.media-browser')
-    mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
-
-    $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
-      @deleteComplete(html)
-
-  deleteComplete: (html) ->
-    @mediaBox.replaceWith(html)
-    @$('#log-modal').modal('show') if @isLog
+  submitForm: ->
+    MS.loadingIndicator.show()
+    @$('.media-modal form').submit()
