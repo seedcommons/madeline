@@ -155,7 +155,6 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
-  dash: " - "
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
