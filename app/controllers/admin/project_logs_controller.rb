@@ -11,15 +11,14 @@ class Admin::ProjectLogsController < Admin::AdminController
   def new
     @log = ProjectLog.new(project_step_id: params[:step_id])
     authorize_with_parents
+    @progress_metrics = ProjectLog.progress_metric_options
     render "admin/logs/new", layout: false
   end
 
   def edit
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
-
     @progress_metrics = ProjectLog.progress_metric_options
-
     render "admin/logs/edit", layout: false, locals: {log: @log}
   end
 
