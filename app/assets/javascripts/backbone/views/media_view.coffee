@@ -10,21 +10,20 @@ class MS.Views.MediaView extends Backbone.View
     'click .media-action.cancel': 'hideMediaModal'
     'click .media-modal .btn-primary': 'submitForm'
     'ajax:complete .media-modal form': 'submitComplete'
-    'click .media-action.delete': 'hideLogModal'
-    'confirm:complete .media-action.delete': 'deleteItem'
+    'click .media-action.delete': 'deleteItem'
+    'confirm:complete .media-action.delete': 'deleteConfirm'
     'ajax:complete .media-action.proceed': 'deleteComplete'
 
   defineMediaVariables: (link) ->
     @mediaBox = @$(link).closest('.media-browser')
     mediaType = @mediaBox.data('media-type')
-    @isLog = mediaType == 'ProjectLog' ? true : false
 
-  deleteComplete: (html) ->
-    MS.loadingIndicator.hide()
-    @mediaBox.replaceWith(html)
-    @$('#log-modal').modal('show') if @isLog
+  deleteItem: (e) ->
+    # Need to make sure we don't really follow the delete link.
+    # Doing the actual delete is handled once the link is confirmed.
+    e.preventDefault()
 
-  deleteItem: (e, response) ->
+  deleteConfirm: (e, response) ->
     e.preventDefault()
     link = e.currentTarget
     @defineMediaVariables(link)
@@ -33,23 +32,19 @@ class MS.Views.MediaView extends Backbone.View
     $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
       @deleteComplete(html)
 
-  hideLogModal: (e) ->
-    e.preventDefault()
-    link = e.currentTarget
-    @defineMediaVariables(link)
-    @$('#log-modal').modal('hide') if @isLog
+  deleteComplete: (html) ->
+    MS.loadingIndicator.hide()
+    @mediaBox.replaceWith(html)
 
   hideMediaModal: (e) ->
     e.preventDefault()
     @$('.media-modal').modal('hide')
-    @$('#log-modal').modal('show') if @isLog
 
   showMediaModal: (e) ->
     MS.loadingIndicator.show()
     e.preventDefault()
     link = e.currentTarget
     @defineMediaVariables(link)
-    @$('#log-modal').modal('hide') if @isLog
 
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
@@ -61,7 +56,6 @@ class MS.Views.MediaView extends Backbone.View
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @$('.media-modal').modal('hide')
       @mediaBox.replaceWith(data.responseText)
-      @$('#log-modal').modal('show') if @isLog
     else
       @$('.media-modal .modal-content').html(data.responseText)
 
