@@ -8,9 +8,14 @@ html lang="en-US"
       = ' | Madeline System'
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = csrf_meta_tags
+
     = javascript_include_tag "application"
+
+    javascript:
+      I18n.availableLocales = #{json I18n.available_locales};
+      $(function() { new MS.Views.ApplicationView(); });
+
     = stylesheet_link_tag "application", :media => "all"
-    = yield :scripts
     = yield :styles
 
   body class="#{params[:controller].gsub('/', '-')}
