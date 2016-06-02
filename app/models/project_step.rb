@@ -76,6 +76,10 @@ class ProjectStep < ActiveRecord::Base
     project_logs.count
   end
 
+  def set_completed!(date)
+    update_attribute(:completed_date, date)
+  end
+
   def completed?
     completed_date.present?
   end
