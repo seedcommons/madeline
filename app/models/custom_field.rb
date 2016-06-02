@@ -29,6 +29,9 @@ class CustomField < ActiveRecord::Base
 
   has_closure_tree order: 'position'
 
+  # Transient value populated by depth first traversal of questions scoped to a specific division.
+  # Starts with '1'.  Used in hierarchical display of questions.
+  attr_accessor :transient_position
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
@@ -38,6 +41,20 @@ class CustomField < ActiveRecord::Base
 
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
+  end
+
+  def attribute_sym
+    internal_name.to_sym
+  end
+
+  def traverse_depth_first(list)
+    list << self
+    counter = 0
+    children.each do |child|
+      counter += 1
+      child.transient_position = counter
+      child.traverse_depth_first(list)
+    end
   end
 
   # for now use a stringified primary key

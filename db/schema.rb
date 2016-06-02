@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520190603) do
+ActiveRecord::Schema.define(version: 20160526193533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,9 +55,10 @@ ActiveRecord::Schema.define(version: 20160520190603) do
     t.integer  "custom_field_set_id"
     t.string   "data_type"
     t.string   "internal_name"
-    t.string   "label"
+    t.integer  "migration_position"
     t.integer  "parent_id"
     t.integer  "position"
+    t.boolean  "required", default: false, null: false
     t.datetime "updated_at", null: false
   end
 
