@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
+  helper_method :admin_controller?
+
+  def admin_controller?
+    false
+  end
+
   protected
 
   def division_choices

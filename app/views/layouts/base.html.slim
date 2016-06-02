@@ -15,8 +15,8 @@ html lang="en-US"
       I18n.availableLocales = #{json I18n.available_locales};
       $(function() { new MS.Views.ApplicationView(); });
 
-    = stylesheet_link_tag "application", :media => "all"
-    = yield :styles
+    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_link_tag "admin/admin", media: "all" if admin_controller?
 
   body class="#{params[:controller].gsub('/', '-')}
               action-#{params[:action]}
