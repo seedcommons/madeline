@@ -46,10 +46,7 @@
           = t("filter")
       .clearfix
 
-- @no_records = @loans_grid.current_page_records.length < 1
-.index-grid class="#{'no-records' if @no_records}"
-  = render_grid(@loans_grid)
-  = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
+= render_index_grid(@loans_grid)
 
 .text-right
   button.btn.btn-link.wg-external-csv-export-button data-grid-name="loans"
