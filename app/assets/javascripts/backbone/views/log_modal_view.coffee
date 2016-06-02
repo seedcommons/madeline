@@ -20,16 +20,14 @@ class MS.Views.LogModalView extends Backbone.View
       @replaceContent(html)
 
   replaceContent: (html) ->
-    @$el.find('.modal-content').html(html)
-    new MS.Views.TranslationsView({
-      el: @$('[data-content-translatable="log"]')
-    })
+    @$('.modal-content').html(html)
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="log"]'))
     @$el.modal('show')
     MS.loadingIndicator.hide()
 
   submitForm: (e) ->
     e.preventDefault()
-    @$el.find('form').submit()
+    @$('form').submit()
     @$el.modal('hide')
 
   ajaxSuccess: (e, data) ->
