@@ -20,6 +20,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     'ajax:success': 'ajaxSuccess'
     'click [data-action="add-log"]': 'showLogModal'
     'click [data-action="edit-log"]': 'showLogModal'
+    'confirm:complete [data-action="delete-log"]': 'deleteLog'
 
   showForm: (e) ->
     e.preventDefault()
@@ -61,6 +62,7 @@ class MS.Views.ProjectStepView extends Backbone.View
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form')
       MS.loadingIndicator.hide()
+      MS.calendarView.refresh()
 
       if @context == 'timeline'
         @replaceWith(data)
@@ -69,8 +71,8 @@ class MS.Views.ProjectStepView extends Backbone.View
         $('#calendar-step-modal').modal('hide')
 
     else if $(e.target).is('a.action-delete')
+      MS.calendarView.refresh()
       @$el.remove()
-    MS.calendarView.refresh()
 
   replaceWith: (html) ->
     @$el.replaceWith(html)
@@ -86,3 +88,8 @@ class MS.Views.ProjectStepView extends Backbone.View
       @modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
     else
       @modalView.showNew(@$(link).data('parent-step-id'))
+
+  deleteLog: (e, response) ->
+    $.post @$(e.target).attr('href'), {_method: 'DELETE'}
+    @$(e.target).closest('.log').remove()
+    false

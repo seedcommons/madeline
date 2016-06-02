@@ -34,12 +34,8 @@ class Admin::ProjectLogsController < Admin::AdminController
   def destroy
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
-
-    if @log.destroy
-      redirect_to admin_loan_path(@loan, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
-    else
-      redirect_to admin_loan_path(@loan, anchor: 'timeline')
-    end
+    @log.destroy
+    render nothing: true
   end
 
   private

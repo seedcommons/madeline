@@ -7,8 +7,9 @@
           a.action role='button' data-action='edit-log' data-log-id="#{log.id}" data-parent-step-id="#{step.id}"
             i.fa.fa-pencil
 
-          = link_to [:admin, log], method: :delete, class: 'action', role: 'button',
+          = link_to [:admin, log], class: 'action', role: 'button',
               data: { \
+                action: 'delete-log',
                 confirm: t('confirm_deletion',
                 thing: t('project_log.project_log')),
                 'confirm-cancel': t(:cancel),
