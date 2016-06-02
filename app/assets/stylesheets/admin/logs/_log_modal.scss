@@ -60,21 +60,17 @@
     max-width: 100%;
     overflow: auto;
 
-    // Change padding/margins to work with right alignment.
-    .media-browser {
-      padding-right: 0;
-
-      .media-item .thumb {
-        margin: 0 0 15px 15px;
-      }
-    }
-
     @media (min-width: 992px) {
       text-align: right;
-    }
 
-    .media-modal {
-      text-align: left;
+      // Change padding/margins to work with right alignment.
+      .media-browser {
+        padding-right: 0;
+
+        .media-item .thumb {
+          margin: 0 0 15px 15px;
+        }
+      }
     }
   }
 }
