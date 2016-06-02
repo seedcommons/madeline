@@ -1,12 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////
-// Note: For the admin system, we are moving away from the old practice
-// of including styles on a per-page basis.
-// Current, the admin.scss file is included via the admin layout. This should eventually
-// be changed to be include globally per the usual Rails setup.
-//
-// As we remove style includes from individual pages, they should be added
-// as @imports here instead.
-
 @import "jquery-ui";
 @import "wice_grid";
 @import "colors";
