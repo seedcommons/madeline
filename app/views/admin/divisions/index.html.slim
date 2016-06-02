@@ -3,8 +3,6 @@
 - content_for :with_title
   = link_to t("divisions.shared.new"), new_admin_division_path, class: 'btn btn-default new-button'
 
-= render 'layouts/admin/tables'
-
 = render "divisions_grid"
 
 - unless @empty_list
