@@ -4,9 +4,7 @@
   = link_to t("people.shared.new"), new_admin_person_path, class: 'btn btn-default new-button'
 
 = render 'layouts/admin/tables'
-
 = render "people_grid"
-- @no_records = @people_grid.current_page_records.length < 1
 
 - unless @empty_list
   header.block.index-table
@@ -46,6 +44,7 @@
           = t("filter")
       .clearfix
 
+- @no_records = @people_grid.current_page_records.length < 1
 .index-grid class="#{'no-records' if @no_records}"
   = render_grid(@people_grid)
   = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
