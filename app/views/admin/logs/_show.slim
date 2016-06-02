@@ -22,7 +22,7 @@
 
       .col-sm-2.text-right
         span.bold
-          = log.progress_metric_value ? t("log.status.#{log.progress_metric_value}") : ''
+          = log.progress_metric_value ? log.progress_metric : ''
 
   .panel-body
     p
