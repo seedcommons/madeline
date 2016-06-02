@@ -65,7 +65,7 @@ class MS.Views.ProjectStepView extends Backbone.View
       MS.loadingIndicator.hide()
 
       if @context == 'timeline'
-        @$el.replaceWith(data)
+        @replaceWith(data)
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
       else
         $('#calendar-step-modal').modal('hide')
@@ -74,13 +74,16 @@ class MS.Views.ProjectStepView extends Backbone.View
       @$el.remove()
     MS.calendarView.refresh()
 
+  replaceWith: (html) ->
+    @$el.replaceWith(html)
+
   showLogModal: (e) ->
     e.preventDefault()
     link = e.currentTarget
     action = @$(link).data('action')
 
     if !@modalView
-      @modalView = new MS.Views.LogModalView()
+      @modalView = new MS.Views.LogModalView(parentView: this)
 
     if action == "edit-log"
       @modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))

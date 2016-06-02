@@ -1,5 +1,8 @@
 class MS.Views.LogModalView extends Backbone.View
 
+  initialize: (options) ->
+    @parentView = options.parentView
+
   el: '#log-modal'
 
   events:
@@ -31,10 +34,7 @@ class MS.Views.LogModalView extends Backbone.View
     @$el.modal('hide')
 
   ajaxSuccess: (e, data) ->
-    step = $(".timeline [data-step-id='#{@stepId}']")
-    $(step).replaceWith(data)
-    updated_step = $(".timeline [data-step-id='#{@stepId}']")
-    $(updated_step).find('.step-logs').addClass('expanded')
+    @parentView.replaceWith(data)
 
   expandContent: (e) ->
     e.preventDefault()

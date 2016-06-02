@@ -1,4 +1,4 @@
-.step-logs.expandable
+div class=("step-logs expandable" << (@expand_logs ? " expanded" : ""))
   span.view-logs-ctrl
     - if step.logs_count > 0
       span.show-log
