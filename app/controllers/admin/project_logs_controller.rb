@@ -10,16 +10,12 @@ class Admin::ProjectLogsController < Admin::AdminController
 
   def new
     @log = ProjectLog.new(project_step_id: params[:step_id])
-    authorize_with_parents
-    @progress_metrics = ProjectLog.progress_metric_options
-    render "admin/logs/new", layout: false
+    authorize_and_render_modal
   end
 
   def edit
     @log = ProjectLog.find(params[:id])
-    authorize_with_parents
-    @progress_metrics = ProjectLog.progress_metric_options
-    render "admin/logs/edit", layout: false, locals: {log: @log}
+    authorize_and_render_modal
   end
 
   def create
@@ -48,6 +44,12 @@ class Admin::ProjectLogsController < Admin::AdminController
 
   private
 
+  def authorize_and_render_modal
+    authorize_with_parents
+    @progress_metrics = ProjectLog.progress_metric_options
+    render "modal", layout: false
+  end
+
   def authorize_with_parents
     @step = ProjectStep.find(@log.project_step_id)
     @loan = Loan.find(@step.project_id)
@@ -74,7 +76,7 @@ class Admin::ProjectLogsController < Admin::AdminController
         mode: :show
       }
     else
-      render partial: 'admin/logs/form', locals: {log: @log, step: @step}, status: 422
+      render partial: 'admin/project_logs/form', locals: {log: @log, step: @step}, status: 422
     end
   end
 end

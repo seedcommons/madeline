@@ -9,7 +9,7 @@ div class=("step-logs expandable" << (@expand_logs ? " expanded" : ""))
     - else
       span.no-logs
         = t("log.no_logs")
-  a.add-log.condensed title="#{t('log.new_log')}" data-action="add-log" data-parent-step-id== step.id
+  a.add-log.condensed title="#{t('log.new')}" data-action="add-log" data-parent-step-id== step.id
     i.fa.fa-plus-circle
 
   - if step.logs_count > 0
@@ -20,15 +20,15 @@ div class=("step-logs expandable" << (@expand_logs ? " expanded" : ""))
           button.icon-with-text.btn.add-log.full data-action="add-log" data-parent-step-id== step.id
             span.icon-box
               i.fa.fa-plus-circle
-            span.text-right-of-icon = t("log.new_log")
+            span.text-right-of-icon = t("log.new")
 
       div.logs-list
         - step.project_logs.each do |log|
-          = render "admin/logs/show", step: step, log: log
+          = render "admin/project_logs/show", step: step, log: log
 
       footer.row.text-right
         span.col-lg-4.col-lg-offset-8.action-items
           button.icon-with-text.btn.add-log.full data-action="add-log" data-parent-step-id== step.id
             span.icon-box
               i.fa.fa-plus-circle
-            span.text-right-of-icon = t("log.new_log")
+            span.text-right-of-icon = t("log.new")
