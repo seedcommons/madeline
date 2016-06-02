@@ -9,7 +9,7 @@
 - @no_records = @divisions_grid.current_page_records.length < 1
 
 - unless @empty_list
-  header.block
+  header.block.index-table
     .filters
       h4 = t("filter_by")
 
@@ -25,11 +25,12 @@
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="divisions"
           = t("filter")
 
-        button.btn.btn-default.wg-external-csv-export-button data-grid-name="divisions"
-          = t("export_to_csv")
-
       .clearfix
 
 .index-grid class="#{'no-records' if @no_records}"
   = render_grid(@divisions_grid)
   = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
+
+.text-right
+  button.btn.btn-link.wg-external-csv-export-button data-grid-name="divisions"
+    = t("export_to_csv")
