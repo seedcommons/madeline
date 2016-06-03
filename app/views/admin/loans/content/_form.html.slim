@@ -11,10 +11,10 @@
   = f.error_notification
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: @division_choices)
+    choices: @division_choices, include_blank_choice: false)
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
-    choices: @organization_choices)
+    choices: @organization_choices, include_blank_choice: false)
 
   = f.input :name
     .view-element = @loan.name
