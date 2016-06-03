@@ -15,7 +15,7 @@ class Admin::DivisionsController < Admin::AdminController
   def index
     authorize Division
     @divisions_grid = initialize_grid(
-      policy_scope(Division),
+      policy_scope(Division.where.not(parent: nil)),
       conditions: index_filter,
       order: 'name',
       per_page: 50,
