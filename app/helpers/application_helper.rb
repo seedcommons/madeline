@@ -37,6 +37,14 @@ module ApplicationHelper
     DivisionPolicy.new(current_user, record)
   end
 
+  def organization_policy(record)
+    OrganizationPolicy.new(current_user, record)
+  end
+
+  def person_policy(record)
+    PersonPolicy.new(current_user, record)
+  end
+
   def render_index_grid(grid)
     no_records = grid.current_page_records.length < 1
     content_tag(:div, class: "index-grid #{'no-records' if no_records}") do

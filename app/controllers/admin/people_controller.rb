@@ -92,6 +92,6 @@ class Admin::PeopleController < Admin::AdminController
   end
 
   def organization_choices
-    organization_policy_scope(Organization.all)
+    organization_policy_scope(Organization.all).order(:name)
   end
 end

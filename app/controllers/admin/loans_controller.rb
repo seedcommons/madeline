@@ -34,6 +34,7 @@ class Admin::LoansController < Admin::AdminController
 
   def new
     @loan = Loan.new(division: current_division)
+    @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
   end
@@ -51,7 +52,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_params).merge(division: current_division)
+    @loan = Loan.new(loan_params)
     authorize @loan
 
     if @loan.save
@@ -88,9 +89,16 @@ class Admin::LoansController < Admin::AdminController
 
   def prep_form_vars
     @division_choices = division_choices
-    @organizations = Organization.all
-    @people = Person.all
-    @currency_choices = Currency.all
-    @representative_choices = @loan.organization ? @loan.organization.people : @people
+    @organization_choices = organization_policy_scope(Organization.all).order(:name)
+    # Todo: Confirm what additional filter should be applied for agent selection
+    @agent_choices = person_policy_scope(Person.all).order(:name)
+    @currency_choices = Currency.all.order(:name)
+    @representative_choices = representative_choices
   end
+
+  def representative_choices
+    raw_choices = @loan.organization ? @loan.organization.people : Person.all
+    person_policy_scope(raw_choices).order(:name)
+  end
+
 end

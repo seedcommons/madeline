@@ -49,8 +49,6 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def create
     @org = Organization.new(organization_params)
-    @org.division = current_division
-
     authorize @org
 
     if @org.save
