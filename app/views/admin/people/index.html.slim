@@ -3,8 +3,6 @@
 - content_for :with_title
   = link_to t("people.shared.new"), new_admin_person_path, class: 'btn btn-default new-button'
 
-= render 'layouts/admin/tables'
-
 = render "people_grid"
 
 - unless @empty_list
@@ -43,9 +41,10 @@
 
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="people"
           = t("filter")
-
-        button.btn.btn-default.wg-external-csv-export-button data-grid-name="people"
-          = t("export_to_csv")
       .clearfix
 
-= render_grid(@people_grid)
+= render_index_grid(@people_grid)
+
+.text-right
+  button.btn.btn-link.wg-external-csv-export-button data-grid-name="people"
+    = t("export_to_csv")

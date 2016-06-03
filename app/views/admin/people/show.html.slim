@@ -36,5 +36,8 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
   section.block
     h1 = t(:notes)
 
-  javascript:
-    $(function() { new MS.Views.ShowEditView({ el: '.person.details' }) });
+= render "admin/media/modal"
+
+javascript:
+  $(function() { new MS.Views.ShowEditView({ el: '.person.details' }) });
+    

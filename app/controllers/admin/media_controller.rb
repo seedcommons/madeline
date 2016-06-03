@@ -21,8 +21,12 @@ class Admin::MediaController < Admin::AdminController
 
   def destroy
     @media.destroy
-
-    redirect_to [:admin, @attachable]
+    
+    if request.xhr?
+      render partial: "admin/media/index", locals: {owner: @attachable}
+    else
+      redirect_to [:admin, @attachable]
+    end
   end
 
   private

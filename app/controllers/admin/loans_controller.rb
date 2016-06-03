@@ -27,7 +27,7 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
-    gon.I18n = @loan.translate(:details, :summary)
+    @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
   end

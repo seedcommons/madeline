@@ -3,12 +3,10 @@
 - content_for :with_title
   = link_to t("divisions.shared.new"), new_admin_division_path, class: 'btn btn-default new-button'
 
-= render 'layouts/admin/tables'
-
 = render "divisions_grid"
 
 - unless @empty_list
-  header.block
+  header.block.index-table
     .filters
       h4 = t("filter_by")
 
@@ -24,9 +22,10 @@
         button.btn.btn-primary.wg-external-submit-button.action data-grid-name="divisions"
           = t("filter")
 
-        button.btn.btn-default.wg-external-csv-export-button data-grid-name="divisions"
-          = t("export_to_csv")
-
       .clearfix
 
-= render_grid(@divisions_grid)
+= render_index_grid(@divisions_grid)
+
+.text-right
+  button.btn.btn-link.wg-external-csv-export-button data-grid-name="divisions"
+    = t("export_to_csv")

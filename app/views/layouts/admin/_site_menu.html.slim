@@ -1,9 +1,8 @@
-li = link_to 'Dashboard', root_path
-li = link_to 'Co-ops', admin_organizations_path
-li = link_to 'Loans', admin_loans_path
-li = link_to 'Calendar', admin_calendar_index_path
+li = link_to t('menu.dashboard'), root_path
+li = link_to t('menu.coops'), admin_organizations_path
+li = link_to t('menu.loans'), admin_loans_path
+li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('people.shared.people'), admin_people_path
 - if policy(Division).index?
-  li = link_to 'Divisions', admin_divisions_path
-li: a Reports
+  li = link_to t('menu.divisions'), admin_divisions_path

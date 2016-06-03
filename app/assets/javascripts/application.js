@@ -25,15 +25,20 @@
 //= require select2-full
 //= require URI
 //= require bootstrap-responsive-tabs
+//= require bootstrap-multi-modal-fix
 
 //= require jquery-ui
 //= require jquery.remotipart
 //= require wice_grid
 
 //= require twitter/bootstrap/rails/confirm
+//= require admin/confirm
 
 //= require moment
 //= require fullcalendar
+
+//= require i18n
+//= require i18n/translations
 
 //= require admin/admin
 

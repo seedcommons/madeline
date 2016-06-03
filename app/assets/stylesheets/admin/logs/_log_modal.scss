@@ -1,0 +1,76 @@
+#log-modal {
+  input[type='text'], select, textarea {
+    display: inline-block;
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  label.control-label {
+    width: 10em;
+    vertical-align: middle;
+  }
+
+  .languages {
+    label {
+      width: 10em;
+      vertical-align: top;
+    }
+
+    textarea, [type='text'] {
+      width: calc(100% - 10em)
+    }
+  }
+
+  .actions {
+    display: block;
+    float: none;
+    margin-left: 10em;
+    margin-bottom: 15px;
+
+    .action {
+      float: none;
+    }
+  }
+
+  .expandable {
+    display: none;
+
+    &.expanded {
+      display: block;
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .date {
+    .form-group {
+      display: inline-block;
+    }
+
+    input[type='checkbox'] {
+      margin: 0 .5em 0 1em;
+    }
+  }
+
+  .media-container {
+    text-align: left;
+    max-height: 10em;
+    max-width: 100%;
+    overflow: auto;
+
+    @media (min-width: 992px) {
+      text-align: right;
+
+      // Change padding/margins to work with right alignment.
+      .media-browser {
+        padding-right: 0;
+
+        .media-item .thumb {
+          margin: 0 0 15px 15px;
+        }
+      }
+    }
+  }
+}

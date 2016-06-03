@@ -6,10 +6,16 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
 
+  helper_method :admin_controller?
+
+  def admin_controller?
+    false
+  end
+
   protected
 
   def division_choices
-    current_user.accessible_divisions - [Division.root]
+    current_user.accessible_divisions
   end
 
   def loan_policy_scope(scope)
