@@ -22,4 +22,8 @@ module TranslationsHelper
   def locale_options
     I18n.available_locales.map{ |locale| [name_for_locale(locale), locale] }
   end
+
+  def translate_boolean(bool)
+    t(bool ? "reply_yes" : "reply_no")
+  end
 end
