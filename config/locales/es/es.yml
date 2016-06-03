@@ -63,6 +63,10 @@ es:
       my_only: '%b %Y'
       full_tz: '%b %e, %Y %l:%M %p %Z'
 
+  common:
+    details: Detalles
+    summary: Resumen
+
   will_paginate:
     previous_label: "&#8592; Anterior"
     next_label: "Próximo &#8594;"

@@ -20,7 +20,7 @@ class Member < ActiveRecord::Base
         tax_no: national_id,
     }
     if access_status > 0 && password.present? && username.present?
-      email = "#{username.downcase}@example.com"
+      email = "#{username.downcase}@theworkingworld.org"
       if Person.where(email: email).exists?
         puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
       else

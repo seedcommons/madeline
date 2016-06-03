@@ -1,8 +1,11 @@
-h1 = t('organization.active_loans')
+.header-with-links
+  h1 = t('organization.active_loans')
+  = link_to t(".view_all_loans"), admin_loans_path('loans[f][organizations.name][]' => @org.name)
+  = link_to t("loan.shared.new"), new_admin_loan_path(organization_id: @org.id), class: 'btn btn-default new-button'
 
 = grid(@loans_grid, show_filters: :no, html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
-  - g.blank_slate t("no_records")
+  - g.blank_slate t("common.no_records")
 
   - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |loan|
     - link_to(loan.id, admin_loan_path(loan.id))

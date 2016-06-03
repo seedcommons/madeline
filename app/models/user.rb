@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
   # associated division.
   # Todo: Confirm precise business rule desired here.  Will possibly depend on new data modeling.
   def default_division_id
-    owning_division_id || division_scope.base_accessible_ids.first
+    owning_division_id
   end
 
   def owning_division_id
