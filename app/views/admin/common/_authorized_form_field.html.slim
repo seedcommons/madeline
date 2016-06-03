@@ -1,0 +1,13 @@
+= f.input field_name
+  .view-element
+    - if may_show_link
+      = link_to model_field.name, link_path
+    - else
+      = model_field.try(:name)
+  .form-element
+    - if may_edit
+      = f.input_field id_field_name, collection: choices, include_blank: true
+    - else
+      / Beware, we're assuming that may_edit will always be true if the model_field is null.
+      / If that assumption becomes invalid in the future, then we'll need use a 'try' here.
+      = model_field.name

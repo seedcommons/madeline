@@ -1,11 +1,7 @@
-/ JE Todo: Confirm how these styles should be factored
-div style="margin-bottom: 15px"
-  h1 style="display: inline"
-    = t('organization.active_loans')
-  span style="margin-left: 10px"
-    = link_to t(".view_all_loans"), admin_loans_path({'loans[f][organizations.name][]' => @org.name})
-  span style="float: right"
-    = link_to t("loan.shared.new"), new_admin_loan_path({organization_id: @org.id}), class: 'btn btn-default new-button'
+.header-with-links
+  h1 = t('organization.active_loans')
+  = link_to t(".view_all_loans"), admin_loans_path('loans[f][organizations.name][]' => @org.name)
+  = link_to t("loan.shared.new"), new_admin_loan_path(organization_id: @org.id), class: 'btn btn-default new-button'
 
 = grid(@loans_grid, show_filters: :no, html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 

@@ -10,29 +10,11 @@
 
   = f.error_notification
 
-  = f.input :division
-    .view-element
-       - if @loan.division && division_policy(@loan.division).show?
-          = link_to @loan.division.name, admin_division_path(@loan.division_id)
-       - else
-        = @loan.division.try(:name)
-    .form-element
-      - if !@loan.division || division_policy(@loan.division).show?
-        = f.input_field :division_id, collection: @division_choices, include_blank: false
-      - else
-        = @loan.division.try(:name)
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
+    choices: @division_choices)
 
-  = f.input :organization
-    .view-element
-      - if @loan.organization && organization_policy(@loan.organization).show?
-        = link_to @loan.organization.name, admin_organization_path(@loan.organization_id)
-      - else
-        = @loan.organization.try(:name)
-    .form-element
-      - if !@loan.organization || organization_policy(@loan.organization).show?
-        = f.input_field :organization_id, collection: @organization_choices, include_blank: true
-      - else
-        = @loan.organization.try(:name)
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
+    choices: @organization_choices)
 
   = f.input :name
     .view-element = @loan.name
@@ -58,29 +40,11 @@
     .view-element = @loan.summary
     = f.input_field :summary, as: :text
 
-  = f.input :primary_agent
-    .view-element
-      - if @loan.primary_agent && person_policy(@loan.primary_agent).show?
-        = link_to @loan.primary_agent.name, admin_person_path(@loan.primary_agent)
-      - else
-        = @loan.primary_agent.try(:name)
-    .form-element
-      - if !@loan.primary_agent || person_policy(@loan.primary_agent).show?
-        = f.input_field :primary_agent_id, collection: @agent_choices, include_blank: true
-      - else
-        = @loan.primary_agent.try(:name)
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
+    choices: @agent_choices)
 
-  = f.input :secondary_agent
-    .view-element
-      - if @loan.secondary_agent && person_policy(@loan.secondary_agent).show?
-        = link_to @loan.secondary_agent.name, admin_person_path(@loan.secondary_agent)
-      - else
-        = @loan.secondary_agent.try(:name)
-    .form-element
-      - if !@loan.secondary_agent || person_policy(@loan.secondary_agent).show?
-        = f.input_field :secondary_agent_id, collection: @agent_choices, include_blank: true
-      - else
-        = @loan.secondary_agent.try(:name)
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
+    choices: @agent_choices)
 
   = f.input :length_months
     .view-element = @loan.length_months
@@ -110,17 +74,8 @@
     .view-element = @loan.projected_return
     = f.input_field :projected_return
 
-  = f.input :representative
-    .view-element
-      - if @loan.representative && person_policy(@loan.representative).show?
-        = link_to @loan.representative.name, admin_person_path(@loan.representative)
-      - else
-        = @loan.representative.try(:name)
-    .form-element
-      - if !@loan.representative || person_policy(@loan.representative).show?
-        = f.input_field :representative_id, collection: @representative_choices, include_blank: true
-      - else
-        = @loan.representative.try(:name)
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
+    choices: @representative_choices)
 
   = f.input :details
     .view-element = @loan.details
