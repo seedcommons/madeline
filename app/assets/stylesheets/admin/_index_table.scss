@@ -47,7 +47,7 @@
 
 .index-grid {
   .no-records-match {
-    visibility: hidden;
+    display: none;
   }
 
   &.no-records {
@@ -57,7 +57,12 @@
     }
 
     .no-records-match {
-      visibility: visible;
+      display: block;
+    }
+
+    .text-right {
+      visibility: hidden;
+      height: 0;
     }
   }
 }

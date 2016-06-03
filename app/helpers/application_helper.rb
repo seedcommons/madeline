@@ -47,10 +47,6 @@ module ApplicationHelper
 
   def render_index_grid(grid)
     no_records = grid.current_page_records.length < 1
-    content_tag(:div, class: "index-grid #{'no-records' if no_records}") do
-      concat render_grid(grid)
-      concat content_tag(:div, t('common.no_records_match'),
-        class: 'alert alert-info no-records-match')
-    end
+    render "admin/common/grid", no_records: no_records, grid: grid
   end
 end
