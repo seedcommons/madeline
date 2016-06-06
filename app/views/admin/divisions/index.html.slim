@@ -3,8 +3,6 @@
 - content_for :with_title
   = link_to t("divisions.shared.new"), new_admin_division_path, class: 'btn btn-default new-button'
 
-= render 'layouts/admin/tables'
-
 = render "divisions_grid"
 
 - unless @empty_list
@@ -26,8 +24,4 @@
 
       .clearfix
 
-= render_grid(@divisions_grid)
-
-.text-right
-  button.btn.btn-link.wg-external-csv-export-button data-grid-name="divisions"
-    = t("export_to_csv")
+= render_index_grid(@divisions_grid)

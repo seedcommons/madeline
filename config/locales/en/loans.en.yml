@@ -30,6 +30,8 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     timeline: "Timeline"
+    shared:
+      new: "New Loan"
   loans:
     index:
       title: "Loans"

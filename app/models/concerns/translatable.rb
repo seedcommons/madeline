@@ -29,6 +29,10 @@ module Translatable
     #   set_translation('foo', text, locale: :en)
     # end
     #
+    # def clear_foo_en
+    #   delete_translation('foo', :en)
+    # end
+    #
     # def set_foo(text, locale)
     #   set_translation('foo', text, locale)
     # end
@@ -57,8 +61,9 @@ module Translatable
         define_method("#{attribute}_translations=") { |translations| set_translations(attribute, translations) }
         alias_method "set_#{attribute}_translations", "#{attribute}_translations="
         I18n.available_locales.each do |locale|
-          define_method("#{attribute}_#{locale.to_s}") { get_translation(attribute, locale: locale) }
-          define_method("#{attribute}_#{locale.to_s}=") { |text| set_translation(attribute, text, locale: locale) }
+          define_method("#{attribute}_#{locale}") { get_translation(attribute, locale: locale) }
+          define_method("#{attribute}_#{locale}=") { |text| set_translation(attribute, text, locale: locale) }
+          define_method("clear_#{attribute}_#{locale}") { delete_translation(attribute, locale) }
         end
       end
       # locale methods
@@ -90,25 +95,22 @@ module Translatable
     translations.where(translatable_attribute: attribute)
   end
 
-  # todo: consider duck typing here, but would probably want to first introduced our own base model class
   def used_locales
-    result = []
-    if respond_to?(:division)
-      result = self.division.try(:resolve_default_locales)
+    translations.map(&:locale).uniq
+  end
+
+  # Returns all locales for which we have translations, or an array
+  # containing only the current locale if there are no translations.
+  def used_locales_or_current_locale
+    used_locales.presence || [I18n.locale]
+  end
+
+  def deleted_locales=(locales)
+    locales.each do |l|
+      # We don't want to destroy translations that have changed since being loaded.
+      # Only existing, unchanged translations.
+      translations.each{ |t| t.destroy if t.locale.to_sym == l.to_sym && t.persisted? && !t.text_changed? }
     end
-    result += translations.pluck(:locale)
-
-    # need to ignore any existing locales in UI if they don't currently correspond to a permitted locale
-    result.map(&:to_sym) & self.permitted_locales
-  end
-
-  # TODO: Replace with division-specific locales or remove during refactoring
-  def permitted_locales
-    I18n.available_locales
-  end
-
-  def unused_locales
-    permitted_locales - used_locales
   end
 
   def delete_translation(attribute, locale)
@@ -132,16 +134,6 @@ module Translatable
   def set_translations(attribute, translations = {})
     translations.each do |locale, text|
       set_translation(attribute, text, locale: locale)
-    end
-  end
-
-  # todo: consider a different location for this helper
-  # Returns a hash of the translated terms in all permitted locales for this translatable
-  def translate(*terms)
-    permitted_locales.each_with_object({}) do |l, res|
-      res[l] = terms.each_with_object({}) do |term, res|
-        res[term] = I18n.t(term, locale: l)
-      end
     end
   end
 

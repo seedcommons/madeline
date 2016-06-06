@@ -7,7 +7,7 @@ module Legacy
       # note, this will likely fail if anything else in the current database has been created
       ::Division.root.destroy  if ::Division.root.present?
 
-      ::Division.create(id: 99, name: 'None')  unless ::Division.root
+      ::Division.create(id: 99, name: '-')  unless ::Division.root
       ::Division.recalibrate_sequence(gap: 1)
 
       Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$')

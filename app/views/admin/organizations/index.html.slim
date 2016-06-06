@@ -3,8 +3,6 @@
 - content_for :with_title
   = link_to t("organization.new"), new_admin_organization_path, class: 'btn btn-default new-button'
 
-= render 'layouts/admin/tables'
-
 = render "organizations_grid"
 
 - unless @empty_list
@@ -35,8 +33,4 @@
           = t("filter")
       .clearfix
 
-= render_grid(@organizations_grid)
-
-.text-right
-  button.btn.btn-link.wg-external-csv-export-button data-grid-name="organizations"
-    = t("export_to_csv")
+= render_index_grid(@organizations_grid)

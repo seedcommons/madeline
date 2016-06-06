@@ -37,5 +37,7 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
   section.block
     h1 = t(:notes)
 
-  javascript:
-    $(function() { new MS.Views.ShowEditView({ el: '.coop.details' }) });
+= render "admin/media/modal"
+
+javascript:
+  $(function() { new MS.Views.ShowEditView({ el: '.coop.details' }) });

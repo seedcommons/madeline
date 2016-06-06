@@ -5,8 +5,6 @@ en:
     shared:
       new: "New Division"
       parent: "Parent Division"
-      # Display name used for root division
-      root: "Global"
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     divisions:

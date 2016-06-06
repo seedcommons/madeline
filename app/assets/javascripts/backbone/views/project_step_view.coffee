@@ -10,10 +10,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @persisted = params.persisted
     @duplicate = params.duplicate
     @context = @$el.data('context')
-    new MS.Views.ProjectStepTranslationsView({
-      el: @$('.languages'),
-      permittedLocales: params.permittedLocales
-    })
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
 
   events:
     'click a.edit-step-action': 'showForm'
@@ -21,6 +18,9 @@ class MS.Views.ProjectStepView extends Backbone.View
     'click a.cancel': 'cancel'
     'submit form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
+    'click [data-action="add-log"]': 'showLogModal'
+    'click [data-action="edit-log"]': 'showLogModal'
+    'confirm:complete [data-action="delete-log"]': 'deleteLog'
 
   showForm: (e) ->
     e.preventDefault()
@@ -62,13 +62,34 @@ class MS.Views.ProjectStepView extends Backbone.View
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form')
       MS.loadingIndicator.hide()
+      MS.calendarView.refresh()
 
       if @context == 'timeline'
-        @$el.replaceWith(data)
+        @replaceWith(data)
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
       else
         $('#calendar-step-modal').modal('hide')
-    
+
     else if $(e.target).is('a.action-delete')
+      MS.calendarView.refresh()
       @$el.remove()
-    MS.calendarView.refresh()
+
+  replaceWith: (html) ->
+    @$el.replaceWith(html)
+
+  showLogModal: (e) ->
+    e.preventDefault()
+    link = e.currentTarget
+    action = @$(link).data('action')
+
+    @modalView = new MS.Views.LogModalView(parentView: this) unless @modalView
+
+    if action == "edit-log"
+      @modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+    else
+      @modalView.showNew(@$(link).data('parent-step-id'))
+
+  deleteLog: (e, response) ->
+    $.post @$(e.target).attr('href'), {_method: 'DELETE'}
+    @$(e.target).closest('.log').remove()
+    false

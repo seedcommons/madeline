@@ -1,6 +1,7 @@
 - content_for(:title, t("loans.index.title"))
 
-= render 'layouts/admin/tables'
+- content_for :with_title
+  = link_to t("loan.shared.new"), new_admin_loan_path, class: 'btn btn-default new-button'
 
 = render "loans_grid"
 
@@ -47,8 +48,4 @@
           = t("filter")
       .clearfix
 
-= render_grid(@loans_grid)
-
-.text-right
-  button.btn.btn-link.wg-external-csv-export-button data-grid-name="loans"
-    = t("export_to_csv")
+= render_index_grid(@loans_grid)

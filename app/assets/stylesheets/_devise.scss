@@ -1,0 +1,123 @@
+/*
+  Bootstrap Signin Template
+  Site: http://getbootstrap.com/examples/signin/
+*/
+
+body.devise {
+  padding-top: 100px;
+  padding-bottom: 40px;
+  background-color: #eee;
+
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+
+  .form-signin .form-signin-heading,
+  .form-signin .checkbox {
+    margin-bottom: 10px;
+  }
+
+  .form-signin .checkbox {
+    font-weight: normal;
+  }
+
+  .form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  h1, h2 {
+    text-align: center;
+  }
+
+  h1 {
+    margin: 15px 0;
+    padding: 0;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .form-signin {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    background: white;
+
+    .form-signin-heading {
+      margin: 0 0 15px;
+    }
+  }
+
+  .field {
+    margin: 0 auto;
+    width: 80%;
+
+    .text-input, input[type=email], input[type=password] {
+      width: 100%;
+      margin: 0 0 15px;
+    }
+
+    input[type=checkbox] {
+      margin: .2em;
+    }
+
+    &.checkbox-field {
+      input[type=checkbox] {
+        margin: .2em;
+        line-height: 1;
+      }
+
+      label {
+        margin: 0;
+        line-height: 1;
+        font-weight: normal;
+      }
+    }
+
+    &.remember {
+      margin-bottom: 15px;
+    }
+  }
+
+  .actions {
+    margin-bottom: 15px;
+  }
+
+  .centered-text {
+    text-align: center;
+  }
+
+  #error_explanation {
+    color: red;
+    font-size: 110%;
+
+    h2 {
+      font-size: 125%;
+    }
+  }
+}

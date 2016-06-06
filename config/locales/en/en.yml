@@ -155,7 +155,6 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
-  dash: " - "
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
@@ -194,7 +193,6 @@ en:
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found."
   none: "None"
   notes: "Notes"
   notice_created: 'Record was successfully created.'
@@ -215,25 +213,38 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add_language: "Add Language"
     address_state: "State"
     description: "Description"
+    details: "Details"
     division: "Division"
     divisions: "Divisions"
+    no_records: "No records found."
+    no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
+    remove: "Remove"
     street_address: "Street Address"
+    summary: "Summary"
     website: "Website"
 
   log:
-    additional_notes: "Additional Notes:"
+    additional_notes: "Additional Notes"
+    edit: "Edit Log"
+    delete: "Delete Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"
     log: "project log"
     logs: "Logs"
-    new_log: "New Log"
+    new: "New Log"
     no_logs: "No Logs"
-    private_notes: "Private Notes:"
+    private_notes: "Private Notes"
+    save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
+    status:
+      behind: "Behind"
+      on_time: "On time"
+    step_completed: "Step completed on this date"
 
   number:
     nth:
