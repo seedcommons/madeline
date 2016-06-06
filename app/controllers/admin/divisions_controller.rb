@@ -16,6 +16,7 @@ class Admin::DivisionsController < Admin::AdminController
     authorize Division
     @divisions_grid = initialize_grid(
       policy_scope(Division.where.not(parent: nil)),
+      include: [:default_currency],
       conditions: index_filter,
       order: 'name',
       per_page: 50,

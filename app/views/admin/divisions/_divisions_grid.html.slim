@@ -11,8 +11,14 @@
   - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
 
   - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
+  
+  - g.column name: t("activerecord.attributes.division.description"), attribute: 'description',
+    in_html: false, filter: false
 
   - g.column name: t("divisions.shared.parent"), attribute: 'name', assoc: :parent, filter: false
+  
+  - g.column name: t("activerecord.attributes.division.default_currency"), attribute: 'name',
+    assoc: :default_currency, in_html: false, filter: false do |division|
 
   - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |division|
     - fuzzy_time(division.created_at)
