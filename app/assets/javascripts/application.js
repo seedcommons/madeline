@@ -29,6 +29,7 @@
 //= require jquery-ui
 //= require jquery.remotipart
 //= require wice_grid
+//= require tree.jquery
 
 //= require twitter/bootstrap/rails/confirm
 
