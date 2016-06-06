@@ -3,7 +3,7 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize Organization
     @organizations_grid = initialize_grid(
       policy_scope(Organization),
-      include: :country,
+      include: [:country, :division],
       conditions: division_index_filter,
       order: 'name',
       per_page: 50,
