@@ -97,6 +97,7 @@ group :development, :test do
 
   # Better console printing
   gem 'awesome_print'
+  gem 'hirb'
 
   # Specs and Test Coverage
   gem 'rspec-rails'
