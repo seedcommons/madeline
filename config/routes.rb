@@ -33,7 +33,8 @@ Rails.application.routes.draw do
         patch :shift_subsequent
       end
     end
-    resources :loan_questions, path: 'questions'
+    # get '/questions/:field_set' => 'loan_questions#index'
+    resources :loan_questions
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

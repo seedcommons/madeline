@@ -1,1 +1,13 @@
 - content_for(:title, t('.title'))
+
+/ ol.sortable.ui-sortable
+/   - @questions.each do |question|
+/     li = question.label
+
+/ .jqtree data-url=admin_loan_questions
+.jqtree data-data=@json
+
+javascript:
+  $(function(){
+    new MS.Views.LoanQuestionsView({});
+  });

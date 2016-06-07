@@ -69,7 +69,7 @@ gem 'simple_form'
 # Passing controller data to JS
 gem 'gon'
 
-# Used by CalendarEventsController when serializing event data for Calendar widget
+# Generating JSON data
 gem 'active_model_serializers'
 
 # File uploads for remote: true forms
