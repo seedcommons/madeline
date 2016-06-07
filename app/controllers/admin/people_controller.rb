@@ -3,7 +3,7 @@ class Admin::PeopleController < Admin::AdminController
     authorize Person
     @people_grid = initialize_grid(
       policy_scope(Person),
-      include: :country,
+      include: [:country, :division, :primary_organization],
       conditions: division_index_filter,
       order: 'name',
       per_page: 50,
