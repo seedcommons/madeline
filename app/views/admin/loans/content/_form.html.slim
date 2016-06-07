@@ -36,9 +36,7 @@
     .view-element = @loan.currency.try(:name)
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
-  = f.input :summary
-    .view-element = @loan.summary
-    = f.input_field :summary, as: :text
+  = render 'admin/loans/content/translatable', loan: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
     choices: @agent_choices)
@@ -76,10 +74,6 @@
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
     choices: @representative_choices)
-
-  = f.input :details
-    .view-element = @loan.details
-    = f.input_field :details, as: :text
 
   = f.input :project_type
     .view-element = @loan.project_type_label

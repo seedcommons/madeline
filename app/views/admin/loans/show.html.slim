@@ -36,4 +36,5 @@ javascript:
       el: '.nav-tabs',
       calendar_events_url: #{json @calendar_events_url}
     })
+    new MS.Views.TranslationsView({el: $('[data-content-translatable="loan"]')})
   })
