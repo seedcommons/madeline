@@ -5,27 +5,19 @@
     - @empty_list = true
     - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-  - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |division|
+  - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |division|
     - link_to(division.id, admin_division_path(division.id))
-
   - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
-
-  - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
-  
+  - g.column name: t('common.name'), attribute: 'name', detach_with_id: :name_filter
   - g.column name: t("activerecord.attributes.division.description"), attribute: 'description',
     in_html: false, filter: false
-
   - g.column name: t("divisions.shared.parent"), attribute: 'name', assoc: :parent, filter: false
-  
   - g.column name: t("activerecord.attributes.division.default_currency"), attribute: 'name',
     assoc: :default_currency, in_html: false, filter: false do |division|
 
-  - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |division|
+  - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_csv: false do |division|
     - fuzzy_time(division.created_at)
-    
-  - g.column name: t("created"), attribute: 'created_at', filter: false, in_html: false
-
-  - g.column name: t("updated"), attribute: 'updated_at', filter: false, in_csv: false do |division|
+  - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_html: false
+  - g.column name: t('common.updated'), attribute: 'updated_at', filter: false, in_csv: false do |division|
     - fuzzy_time(division.updated_at)
-    
-  - g.column name: t("updated"), attribute: 'updated_at', filter: false, in_html: false
+  - g.column name: t('common.updated'), attribute: 'updated_at', filter: false, in_html: false
