@@ -9,7 +9,6 @@
       - link_to(organization.id, admin_organization_path(organization.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
     - g.column name: 'Division', attribute: 'name', assoc: :division, in_html: false, filter: false
-
     - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
     - g.column name: 'Legal Name', attribute: 'legal_name', in_html: false, filter: false
     
@@ -17,9 +16,7 @@
     - g.column name: 'Secondary Phone', attribute: 'secondary_phone', in_html: false, filter: false
     - g.column name: 'Fax', attribute: 'fax', in_html: false, filter: false
     - g.column name: 'Email', attribute: 'email', in_html: false, filter: false
-    
-    // TO ADD: PRIMARY CONTACT
-    
+    - g.column name: 'primary_contact', attribute: 'name', assoc: :primary_contact, in_html: false, filter: false  
     - g.column name: 'Street Address', attribute: 'street_address', in_html: false, filter: false
     - g.column name: 'Neighborhood', attribute: 'neighborhood', in_html: false, filter: false
     - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter, custom_filter: :auto
