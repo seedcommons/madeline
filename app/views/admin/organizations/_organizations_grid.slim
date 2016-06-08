@@ -33,8 +33,10 @@
     - g.column name: 'referral_source', attribute: 'referral_source', in_html: false, filter: false
     - g.column name: 'contact_notes', attribute: 'contact_notes', in_html: false, filter: false
     
-    // TO ADD: PEOPLE
-    
+    - g.column name: 'people', attribute: 'name', assoc: :people, in_html: false do |organization|
+      - if organization.people.length > 0
+        - organization.people.collect{|person| person[:name]}.to_sentence
+  
     - g.column name: t("created"), attribute: 'created_at', filter: false,
       in_csv: false do |organization|
       - fuzzy_time(organization.created_at)
