@@ -1,4 +1,4 @@
-class LoanQuestionSerializer < ActiveModel::Serializer
+class CustomFieldSerializer < ActiveModel::Serializer
   attributes :name
 
   def name
