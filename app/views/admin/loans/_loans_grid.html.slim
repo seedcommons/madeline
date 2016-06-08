@@ -46,9 +46,11 @@
     - g.column name: 'projected_return', attribute: 'projected_return', filter: false, in_html: false
     - g.column name: 'projected_return', attribute: 'projected_return', filter: false, in_html: false
   
-    / MISSING: Translatable and Option Settable Items
-    /- g.column name: 'Summary', attribute: 'summary', filter: false, in_html: false
+    / MISSING: Translatable Items
+    / - g.column name: 'Summary', attribute: 'text', assoc: :summary, filter: false, in_html: false
     /- g.column name: 'details', attribute: 'text', assoc: :details, filter: false, in_html: false
+    
+    / TODO: Option Settable Items are displaying value and not display text
     - g.column name: 'project_type_value', attribute: 'project_type_value', filter: false, in_html: false
     - g.column name: 'public_level_value', attribute: 'public_level_value', filter: false, in_html: false
     
