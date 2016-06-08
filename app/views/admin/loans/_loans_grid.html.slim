@@ -34,9 +34,6 @@
       
     - g.column name: 'currency', attribute: 'symbol', assoc: :currency, filter: false, in_html: false
     
-    / MISSING:
-    /- g.column name: 'Summary', attribute: 'summary', filter: false, in_html: false
-    
     - g.column name: 'primary_agent', attribute: 'name', assoc: :primary_agent, filter: false, in_html: false
     - g.column name: 'secondary_agent', attribute: 'name', assoc: :secondary_agent, filter: false, in_html: false
     - g.column name: 'representative', attribute: 'name', assoc: :representative, filter: false, in_html: false
@@ -50,9 +47,10 @@
     - g.column name: 'projected_return', attribute: 'projected_return', filter: false, in_html: false
   
     / MISSING: Translatable and Option Settable Items
+    /- g.column name: 'Summary', attribute: 'summary', filter: false, in_html: false
     /- g.column name: 'details', attribute: 'text', assoc: :details, filter: false, in_html: false
-    /- g.column name: 'project_type_label', attribute: 'project_type_label', filter: false, in_html: false
-    /- g.column name: 'public_level_label', attribute: 'public_level_label', filter: false, in_html: false
+    - g.column name: 'project_type_value', attribute: 'project_type_value', filter: false, in_html: false
+    - g.column name: 'public_level_value', attribute: 'public_level_value', filter: false, in_html: false
     
     - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |loan|
       - fuzzy_time(loan.created_at)
