@@ -37,6 +37,9 @@ en:
         details: "Details"
         project_type: "Project Type"
         public_level: "Public Level"
+        rate: "Rate"
+        signing_date: "Signing Date"
+        summary: "Summary"
       organization:
         alias: "Alias"
         city: "City"
