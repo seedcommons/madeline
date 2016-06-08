@@ -215,16 +215,19 @@ en:
   common:
     add_language: "Add Language"
     address_state: "State"
+    created: "Created"
     description: "Description"
     details: "Details"
     division: "Division"
     divisions: "Divisions"
+    name: "Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
     remove: "Remove"
     street_address: "Street Address"
     summary: "Summary"
+    updated: "Updated"
     website: "Website"
 
   log:
