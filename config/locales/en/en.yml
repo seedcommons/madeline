@@ -215,6 +215,7 @@ en:
   common:
     add_language: "Add Language"
     address_state: "State"
+    caption: "Caption"
     description: "Description"
     details: "Details"
     division: "Division"

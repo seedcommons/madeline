@@ -55,7 +55,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_params)
+    @loan = Loan.new(loan_attribs)
     authorize @loan
 
     if @loan.save
@@ -82,16 +82,15 @@ class Admin::LoansController < Admin::AdminController
 
   def loan_attribs
     params.require(:loan).permit(*(
-    [
-      :division_id, :organization_id, :loan_type_value, :status_value, :name,
-      :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
-      :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
-      :target_end_date, :projected_return, :representative_id,
-      :project_type_value, :public_level_value
-    ] +
-      translation_params(:summary, :details)))
+      [
+        :division_id, :organization_id, :loan_type_value, :status_value, :name,
+        :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
+        :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
+        :target_end_date, :projected_return, :representative_id,
+        :project_type_value, :public_level_value
+      ] + translation_params(:summary, :details)
+    ))
   end
-
 
   def prep_form_vars
     @division_choices = division_choices

@@ -30,11 +30,11 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 = render "admin/media/modal"
 
 javascript:
-  $(function(){
-    new MS.Views.ShowEditView({ el: '.loan.details' })
+  $(function() {
+    new MS.Views.ShowEditView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
       calendar_events_url: #{json @calendar_events_url}
-    })
-    new MS.Views.TranslationsView({el: $('[data-content-translatable="loan"]')})
-  })
+    });
+    new MS.Views.TranslationsView({el: $('[data-content-translatable="loan"]')});
+  });
