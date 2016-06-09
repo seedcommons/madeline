@@ -62,7 +62,6 @@ class MS.Views.ProjectStepView extends Backbone.View
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form')
       MS.loadingIndicator.hide()
-      MS.calendarView.refresh()
 
       if @context == 'timeline'
         @replaceWith(data)
