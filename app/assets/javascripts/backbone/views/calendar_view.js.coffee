@@ -37,8 +37,7 @@ class MS.Views.CalendarView extends Backbone.View
       )
       MS.loadingIndicator.show()
 
-  eventRender: (calEvent, element) ->
-    element.find('.fc-title').html(calEvent.title)
+  eventRender: (calEvent) -> calEvent.html
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()
