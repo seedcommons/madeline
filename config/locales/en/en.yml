@@ -41,6 +41,7 @@ en:
         signing_date: "Signing Date"
         summary: "Summary"
       organization:
+        additional_people: "Additional Members"
         alias: "Alias"
         city: "City"
         contact_notes: "Contact Notes"
