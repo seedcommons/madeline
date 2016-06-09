@@ -111,7 +111,7 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def prep_form_vars
-    @currency_choices = Currency.all
+    @currency_choices = Currency.order(:name)
     @parent_choices = parent_choices(@division)
   end
 

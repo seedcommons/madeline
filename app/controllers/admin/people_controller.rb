@@ -86,7 +86,7 @@ class Admin::PeopleController < Admin::AdminController
   end
 
   def prep_form_vars
-    @countries = Country.all
+    @countries = Country.order(:name)
     @organization_choices = organization_choices
     @division_choices = division_choices
     @roles_choices = role_choices

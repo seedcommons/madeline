@@ -94,8 +94,7 @@ class Admin::LoansController < Admin::AdminController
   def prep_form_vars
     @division_choices = division_choices
     @organization_choices = organization_policy_scope(Organization.all).order(:name)
-    # Todo: Confirm what additional filter should be applied for agent selection
-    @agent_choices = person_policy_scope(Person.all).order(:name)
+    @agent_choices = person_policy_scope(Person.where(has_system_access: true)).order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
   end

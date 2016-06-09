@@ -87,9 +87,9 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def prep_form_vars
-    @countries = Country.all
+    @countries = Country.order(:name)
     @division_choices = division_choices
-    @contact_choices = @org.people
+    @contact_choices = @org.people.order(:name)
     @people_choices = person_policy_scope(Person.all).order(:name)
 
     @loans_grid = initialize_grid(
