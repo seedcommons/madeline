@@ -21,7 +21,13 @@ class Admin::DivisionsController < Admin::AdminController
       order: 'name',
       per_page: 50,
       name: 'divisions',
-      enable_export_to_csv: true
+      enable_export_to_csv: true,
+      custom_order: {
+        # Order by tree depth and then division name when ordering by parent.
+        "parents_divisions.name" =>
+          "(SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = divisions.id),"\
+          "parents_divisions.name"
+      }
     )
     @parent_filter_choices = current_user.accessible_divisions.map{ |d| [d.name, d.id] }
 
