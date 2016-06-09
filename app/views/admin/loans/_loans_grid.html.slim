@@ -58,11 +58,11 @@
       in_html: false do |loan|
         - loan.details
 
-    - g.column name: t('activerecord.attributes.loan.project_type'), filter: false, in_html: false
-      do |loan|
+    - g.column name: t('activerecord.attributes.loan.project_type'), filter: false,
+      in_html: false do |loan|
       - loan.try(:project_type_label)
-    - g.column name: t('activerecord.attributes.loan.public_level'), filter: false, in_html: false
-      do |loan|
+    - g.column name: t('activerecord.attributes.loan.public_level'), filter: false,
+      in_html: false do |loan|
       - loan.try(:public_level_label)
     
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
