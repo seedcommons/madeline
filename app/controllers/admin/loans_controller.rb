@@ -5,7 +5,7 @@ class Admin::LoansController < Admin::AdminController
     authorize Loan
     @loans_grid = initialize_grid(
       policy_scope(Loan),
-      include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative],
+      include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative, :translations],
       conditions: division_index_filter,
       order: 'loans.signing_date',
       order_direction: 'desc',

@@ -51,10 +51,13 @@
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
   
-    / MISSING: Translatable Items
-    / - g.column name: t('activerecord.attributes.loan.summary'), attribute: 'text', assoc: :summary, filter: false, in_html: false
-    /- g.column name: t('activerecord.attributes.loan.details'), attribute: 'text', assoc: :details, filter: false, in_html: false
-    
+    - g.column name: t('activerecord.attributes.loan.summary'), attribute: 'id',
+      assoc: :translations, table_alias: 'summary', filter: false, in_html: false do |loan|
+        - loan.summary
+    - g.column name: t('activerecord.attributes.loan.details'), attribute: 'id',
+      assoc: :translations, table_alias: 'details', filter: false, in_html: false do |loan|
+        - loan.details
+
     - g.column name: t('activerecord.attributes.loan.project_type'),
       attribute: 'project_type_value', filter: false, in_html: false do |loan|
       - loan.try(:project_type_label)
