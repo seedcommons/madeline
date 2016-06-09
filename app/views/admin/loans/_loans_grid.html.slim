@@ -55,11 +55,12 @@
     / - g.column name: t('activerecord.attributes.loan.summary'), attribute: 'text', assoc: :summary, filter: false, in_html: false
     /- g.column name: t('activerecord.attributes.loan.details'), attribute: 'text', assoc: :details, filter: false, in_html: false
     
-    / TODO: Option Settable Items are displaying value and not display text
     - g.column name: t('activerecord.attributes.loan.project_type'),
-      attribute: 'project_type_value', filter: false, in_html: false
+      attribute: 'project_type_value', filter: false, in_html: false do |loan|
+      - loan.try(:project_type_label)
     - g.column name: t('activerecord.attributes.loan.public_level'),
-      attribute: 'public_level_value', filter: false, in_html: false
+      attribute: 'public_level_value', filter: false, in_html: false do |loan|
+      - loan.try(:public_level_label)
     
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
       in_csv: false do |loan|
