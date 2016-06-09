@@ -7,6 +7,11 @@ class Admin::PeopleController < Admin::AdminController
       conditions: division_index_filter,
       order: 'name',
       per_page: 50,
+      custom_order: {
+        "people.name" => "LOWER(people.name)",
+        "people.city" => "LOWER(people.city)",
+        "organizations.name" => "LOWER(organizations.name)"
+      },
       name: 'people',
       enable_export_to_csv: true
     )

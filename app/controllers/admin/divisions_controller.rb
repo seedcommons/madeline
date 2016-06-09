@@ -23,6 +23,7 @@ class Admin::DivisionsController < Admin::AdminController
       name: 'divisions',
       enable_export_to_csv: true,
       custom_order: {
+        "divisions.name" => "LOWER(divisions.name)",
         # Order by tree depth and then division name when ordering by parent.
         "parents_divisions.name" =>
           "(SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = divisions.id),"\

@@ -6,6 +6,10 @@ class Admin::OrganizationsController < Admin::AdminController
       include: [:country, :division, :primary_contact, :people],
       conditions: division_index_filter,
       order: 'name',
+      custom_order: {
+        "organizations.name" => "LOWER(organizations.name)",
+        "organizations.city" => "LOWER(organizations.city)"
+      },
       per_page: 50,
       name: 'organizations',
       enable_export_to_csv: true

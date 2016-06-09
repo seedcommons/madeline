@@ -9,7 +9,11 @@ class Admin::LoansController < Admin::AdminController
       conditions: division_index_filter,
       order: 'loans.signing_date',
       order_direction: 'desc',
-      custom_order: { 'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date' },
+      custom_order: {
+        "divisions.name" => "LOWER(divisions.name)",
+        "organizations.name" => "LOWER(organizations.name)",
+        'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date'
+      },
       per_page: 50,
       name: 'loans',
       enable_export_to_csv: true
