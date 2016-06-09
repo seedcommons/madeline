@@ -1,19 +1,20 @@
 - content_for(:title, t('.title'))
 
-.jqtree data-data=@json
+.loan-questions
+  .jqtree data-data=@json
 
-.hidden
-  .question-wrapper
-    / Each question is wrapped with this element
-    .question.show-view
-  
-  .links-block
-    / This is added to the end of each question
-    .links.view-block
-      a.edit-action> href="#"
-        i.fa.fa-pencil
-      a.delete-action href="#"
-        i.fa.fa-trash
+  .hidden
+    .question-wrapper
+      / Each question is wrapped with this element
+      .question.show-view
+    
+    .links-block
+      / This is added to the end of each question
+      .links.view-block
+        a.edit-action> href="#"
+          i.fa.fa-pencil
+        a.delete-action href="#"
+          i.fa.fa-trash
 
 javascript:
   $(function(){
