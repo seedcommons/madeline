@@ -38,18 +38,6 @@
     }
   }
 
-  .expandable {
-    display: none;
-
-    &.expanded {
-      display: block;
-    }
-  }
-
-  .hidden {
-    display: none;
-  }
-
   .date {
     .form-group {
       display: inline-block;

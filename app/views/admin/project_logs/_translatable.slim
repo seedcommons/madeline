@@ -29,9 +29,9 @@
 
       div.actions
         - if f.object.additional_notes.blank?
-          a.action data-control='additional_notes' = t('log.additional_notes')
+          a.action data-expands='additional_notes' = t('log.additional_notes')
         - if f.object.private_notes.blank?
-          a.action data-control='private_notes' = t('log.private_notes')
+          a.action data-expands='private_notes' = t('log.private_notes')
 
       a.remove-language href='#' = t('common.remove')
       .clearfix
