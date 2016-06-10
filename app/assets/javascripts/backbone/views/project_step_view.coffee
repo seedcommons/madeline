@@ -68,6 +68,7 @@ class MS.Views.ProjectStepView extends Backbone.View
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
       else
         $('#calendar-step-modal').modal('hide')
+        MS.calendarView.refresh()
 
     else if $(e.target).is('a.action-delete')
       MS.calendarView.refresh()
