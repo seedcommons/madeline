@@ -26,6 +26,8 @@ div.panel.step [
       new MS.Views.ProjectStepView({
         el: $('.step[data-step-id=#{step.id_or_temp_id}][data-context=#{context}]'),
         duplicate: #{json params[:action] == 'duplicate'},
-        persisted: #{json step.persisted?}
+        persisted: #{json step.persisted?},
+        daysShifted: #{days_shifted},
+        stepId: #{step.id}
       });
     });
