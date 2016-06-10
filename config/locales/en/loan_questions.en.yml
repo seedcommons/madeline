@@ -3,3 +3,6 @@ en:
     loan_questions:
       index:
         title: "Loan Questions"
+      edit_modal:
+        label: "Title"
+        title: "Edit Item"

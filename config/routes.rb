@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       end
     end
     # get '/questions/:field_set' => 'loan_questions#index'
-    resources :loan_questions
+    resources :loan_questions, as: :custom_fields
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

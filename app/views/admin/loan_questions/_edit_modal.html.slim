@@ -1,0 +1,21 @@
+= simple_form_for([:admin, @loan_question],
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+  
+  .modal-header
+    h4.modal-title = t '.title'
+  .modal-body
+    = f.error_notification
+    
+    = f.input :label, label: t('.label')
+
+  .modal-footer
+    button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
+    = f.submit 'Save', class: 'update-action btn btn-success'
+      
