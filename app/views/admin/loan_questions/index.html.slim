@@ -4,10 +4,6 @@
   .jqtree data-data=@json
 
   .hidden
-    .question-wrapper
-      / Each question is wrapped with this element
-      .question.show-view
-    
     .links-block
       / This is added to the end of each question
       .links.view-block
@@ -15,6 +11,7 @@
           i.fa.fa-pencil
         a.delete-action href="#"
           i.fa.fa-trash
+      .clearfix
     
     #edit-modal.modal.fade tabindex="-1" role="dialog"
       .modal-dialog

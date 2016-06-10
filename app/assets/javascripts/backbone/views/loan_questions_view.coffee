@@ -10,7 +10,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.data('id', node.id)
             .find('.jqtree-element')
             .addClass('view-block')
-            .wrap($('.question-wrapper').html())
             .after($('.links-block').html())
     })
 
