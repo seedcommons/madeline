@@ -15,6 +15,15 @@
           i.fa.fa-pencil
         a.delete-action href="#"
           i.fa.fa-trash
+    
+    #edit-modal.modal.fade tabindex="-1" role="dialog"
+      .modal-dialog
+        .modal-content
+          .modal-body
+          .modal-footer
+            button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
+            button.btn.btn-primary type="button" = t :save
+            
 
 javascript:
   $(function(){

@@ -1,5 +1,5 @@
 class CustomFieldSerializer < ActiveModel::Serializer
-  attributes :name, :children
+  attributes :id, :name, :children
 
   def name
     object.label.to_s

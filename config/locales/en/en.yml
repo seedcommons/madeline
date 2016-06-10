@@ -207,6 +207,7 @@ en:
   print: "Print"
   reply_no: "No"
   reply_yes: "Yes"
+  save: "Save"
   status: "Status"
   update: "Update"
   updated: "Updated"

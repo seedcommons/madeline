@@ -7,7 +7,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       data: @$('.jqtree').data('data')
       dragAndDrop: true
       onCreateLi: (node, $li) ->
-        $li.find('.jqtree-element')
+        $li.data('id', node.id)
+            .find('.jqtree-element')
             .addClass('view-block')
             .wrap($('.question-wrapper').html())
             .after($('.links-block').html())
@@ -25,3 +26,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # $(e.target).closest('.show-view').hide()
 
     # $(e.target).closest('.show-view').removeClass('show-view').addClass('edit-view')
+
+    qid = $(e.target).closest('li').data('id')
+    $('.modal-content').load("/admin/loan_questions/#{qid}/edit")
