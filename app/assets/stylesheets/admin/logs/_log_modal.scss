@@ -17,7 +17,8 @@
     }
 
     textarea, [type='text'] {
-      width: calc(100% - 10em)
+      width: calc(100% - 10em);
+      max-width: calc(100% - 10em);
     }
   }
 
