@@ -9,3 +9,10 @@
     margin-bottom: 10px;
   }
 }
+
+// Keep translatable language select box a natural width
+.languages {
+  select {
+    width: auto;
+  }
+}

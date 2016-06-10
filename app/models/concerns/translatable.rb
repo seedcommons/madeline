@@ -108,7 +108,7 @@ module Translatable
       # Make sure default locale is displayed first if present
       [I18n.locale] | locales
     else
-      locales
+      locales.presence || [I18n.locale]
     end
   end
 
