@@ -15,7 +15,7 @@
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
 
-      div.expandable data-expandable='additional_notes'
+      div data-expandable='additional_notes' class=("expandable" << (@log.additional_notes_en ? " expanded" : ""))
         a.more Show Additional Notes
         a.less Hide Additional Notes
         div.hideable
