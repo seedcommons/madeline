@@ -39,10 +39,22 @@
   }
 
   .expandable {
-    display: none;
+    margin-bottom: 15px;
+    
+    .hideable, .less {
+      display: none;
+    }
+    .more {
+      display: block;
+    }
 
     &.expanded {
-      display: block;
+      .hideable, .less {
+        display: block;
+      }
+      .more {
+        display: none;
+      }
     }
   }
 

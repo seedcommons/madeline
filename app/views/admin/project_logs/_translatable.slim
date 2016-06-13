@@ -16,18 +16,21 @@
         label: I18n.t('common.details', locale: l)
 
       div.expandable data-expandable='additional_notes'
-        = f.input :"additional_notes_#{l}", as: :text,
+        a.more Show Additional Notes
+        a.less Hide Additional Notes
+        div.hideable
+          = f.input :"additional_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
           placeholder: I18n.t('log.additional_notes', locale: l),
           label: I18n.t('log.additional_notes', locale: l)
       div.expandable data-expandable='private_notes'
-        = f.input :"private_notes_#{l}", as: :text,
-          input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
-          placeholder: I18n.t('log.private_notes', locale: l),
-          label: I18n.t('log.private_notes', locale: l)
-      div.actions
-        a.action data-control='additional_notes' = t('log.additional_notes')
-        a.action data-control='private_notes' = t('log.private_notes')
+        a.more Show Private Notes
+        a.less Hide Private Notes
+        div.hideable
+          = f.input :"private_notes_#{l}", as: :text,
+            input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
+            placeholder: I18n.t('log.private_notes', locale: l),
+            label: I18n.t('log.private_notes', locale: l)
 
       a.remove-language href='#' = t('common.remove')
       .clearfix
