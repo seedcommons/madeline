@@ -56,8 +56,11 @@ class MS.Views.TranslationsView extends Backbone.View
   updatePlaceholders: (block, locale) ->
     block.find('[data-translatable]').each ->
       item_name = $(this).attr('data-translatable')
-      $(this).attr('placeholder', I18n.t(item_name, { locale: locale }))
-      $(this).prev().html(I18n.t(item_name, { locale: locale }))
+      if $(this).is('a')
+        $(this).html(I18n.t(item_name, { locale: locale }))
+      else
+        $(this).attr('placeholder', I18n.t(item_name, { locale: locale }))
+        $(this).prev().html(I18n.t(item_name, { locale: locale }))
 
   availableLocales: ->
     used = @$('select.locale').map( -> $(this).val() ).get()

@@ -17,8 +17,8 @@
 
       - expanded = @log.get_translation('additional_notes', locale: l) ? "expanded" : ""
       div.expandable data-expandable='additional_notes' class== expanded
-        a.more Show Additional Notes
-        a.less Hide Additional Notes
+        a.more data-translatable='log.show_additional_notes' = I18n.t('log.show_additional_notes', locale: l)
+        a.less data-translatable='log.hide_additional_notes' = I18n.t('log.hide_additional_notes', locale: l)
         div.hideable
           = f.input :"additional_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
@@ -27,8 +27,8 @@
           
       - expanded = @log.get_translation('private_notes', locale: l) ? "expanded" : ""
       div.expandable data-expandable='private_notes' class== expanded
-        a.more Show Private Notes
-        a.less Hide Private Notes
+        a.more data-translatable='log.show_private_notes' = I18n.t('log.show_private_notes', locale: l)
+        a.less data-translatable='log.hide_private_notes' = I18n.t('log.hide_private_notes', locale: l)
         div.hideable
           = f.input :"private_notes_#{l}", as: :text,
             input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
