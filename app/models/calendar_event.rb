@@ -104,6 +104,7 @@ class CalendarEvent
     @num_of_logs = step.logs_count
     @model_type = 'ProjectStep'
     @model_id = step.id
+    @step_type = step.step_type_value
     self
   end
 
