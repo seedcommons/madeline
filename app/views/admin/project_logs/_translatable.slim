@@ -15,7 +15,8 @@
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
 
-      div data-expandable='additional_notes' class=("expandable" << (@log.additional_notes_en ? " expanded" : ""))
+      - expanded = @log.get_translation('additional_notes', locale: l) ? "expanded" : ""
+      div.expandable data-expandable='additional_notes' class== expanded
         a.more Show Additional Notes
         a.less Hide Additional Notes
         div.hideable
@@ -23,7 +24,9 @@
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
           placeholder: I18n.t('log.additional_notes', locale: l),
           label: I18n.t('log.additional_notes', locale: l)
-      div.expandable data-expandable='private_notes'
+          
+      - expanded = @log.get_translation('private_notes', locale: l) ? "expanded" : ""
+      div.expandable data-expandable='private_notes' class== expanded
         a.more Show Private Notes
         a.less Hide Private Notes
         div.hideable
