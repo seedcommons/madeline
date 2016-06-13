@@ -19,14 +19,14 @@ class Admin::ProjectLogsController < Admin::AdminController
   end
 
   def create
-    @log = ProjectLog.new(project_log_attribs)
+    @log = ProjectLog.new(project_log_params)
     authorize_with_parents
     save_and_render_partial
   end
 
   def update
     @log = ProjectLog.find(params[:id])
-    @log.assign_attributes(project_log_attribs)
+    @log.assign_attributes(project_log_params)
     authorize_with_parents
     save_and_render_partial
   end
@@ -55,7 +55,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     authorize @loan
   end
 
-  def project_log_attribs
+  def project_log_params
     params.require(:project_log).permit(*(
       [:agent_id, :date, :project_step_id, :progress_metric_value] +
       translation_params(:summary, :details, :additional_notes, :private_notes)))

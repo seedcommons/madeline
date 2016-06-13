@@ -44,7 +44,7 @@ class Admin::LoansController < Admin::AdminController
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
-    @loan.assign_attributes(loan_attribs)
+    @loan.assign_attributes(loan_params)
 
     if @loan.save
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
@@ -55,7 +55,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_attribs)
+    @loan = Loan.new(loan_params)
     authorize @loan
 
     if @loan.save
@@ -80,7 +80,7 @@ class Admin::LoansController < Admin::AdminController
 
   private
 
-  def loan_attribs
+  def loan_params
     params.require(:loan).permit(*(
       [
         :division_id, :organization_id, :loan_type_value, :status_value, :name,

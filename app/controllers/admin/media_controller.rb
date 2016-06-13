@@ -12,7 +12,7 @@ class Admin::MediaController < Admin::AdminController
   end
 
   def create
-    @media.assign_attributes(media_attribs)
+    @media.assign_attributes(media_params)
     if @media.save
       render partial: "admin/media/index", locals: {owner: @media.media_attachable}
     else
@@ -23,7 +23,7 @@ class Admin::MediaController < Admin::AdminController
 
   def destroy
     @media.destroy
-    
+
     if request.xhr?
       render partial: "admin/media/index", locals: {owner: @attachable}
     else
@@ -52,7 +52,7 @@ class Admin::MediaController < Admin::AdminController
     render partial: "admin/media/modal_content", status: status
   end
 
-  def media_attribs
+  def media_params
     params.require(:media).permit(*([:item] + translation_params(:caption, :description)))
   end
 end
