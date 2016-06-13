@@ -20,6 +20,7 @@ class MS.Views.TranslationsView extends Backbone.View
     newBlock = @$('.language-block').last().clone()
     oldLocale = $(newBlock).data('locale')
 
+    $(newBlock).find('.expandable').removeClass('expanded')
     @changeBlockLocale(newBlock, newLocale)
     @$('a.add-language').before(newBlock)
     @updateLinks()
