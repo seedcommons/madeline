@@ -2,19 +2,13 @@
   input type='hidden' name='media[deleted_locales][]'
   - media.used_locales_or_current_locale.each do |l|
     .language-block data-locale="#{l}"
-      .clearfix
+      a.remove-language href='#' = t('common.remove')
+      div.fields
         = f.input :"locale_#{l}", label: false,
           collection: locale_options,
           input_html: {class: 'locale'}, include_blank: false
-      = f.input :"caption_#{l}",
-        input_html: {data: {translatable: 'common.summary'}},
-        placeholder: I18n.t('common.caption', locale: l),
-        label: I18n.t('common.caption', locale: l)
-      = f.input :"description_#{l}", as: :text,
-        input_html: {rows: 3, data: {translatable: 'common.details'}},
-        placeholder: I18n.t('common.description', locale: l),
-        label: I18n.t('common.description', locale: l)
-
-      a.remove-language href='#' = t('common.remove')
-      .clearfix
+        = f.input :"caption_#{l}",
+          input_html: {data: {translatable: 'common.summary'}},
+          placeholder: I18n.t('common.caption', locale: l),
+          label: I18n.t('common.caption', locale: l)
   a.add-language href='#' = t('common.add_language')
