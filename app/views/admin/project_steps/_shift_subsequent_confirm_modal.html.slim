@@ -1,4 +1,4 @@
-div.modal.fade.duplicate-step [id="step-shift-subsequent-confirm-modal-#{step.id}" tabindex="-1"
+div.modal.fade.shift-step [id="step-shift-subsequent-confirm-modal-#{step.id}" tabindex="-1"
   aria-labelledby="shift-subsequent-label"]
 
   div.modal-dialog
@@ -18,8 +18,3 @@ div.modal.fade.duplicate-step [id="step-shift-subsequent-confirm-modal-#{step.id
 
         = link_to(t(:yes), shift_subsequent_admin_project_step_path(@step, num_days: days_shifted),
           method: :patch, class: "btn btn-primary")
-
-javascript:
-  $(function () {
-    $("#step-shift-subsequent-confirm-modal-#{step.id}").modal("show");
-  });
