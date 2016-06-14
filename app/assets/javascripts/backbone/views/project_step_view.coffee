@@ -93,8 +93,7 @@ class MS.Views.ProjectStepView extends Backbone.View
       @modalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
-    $.post @$(e.target).attr('href'), {_method: 'DELETE'}
-    @$(e.target).closest('.log').remove()
+    $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)
     false
 
   showShiftDatesModal: (e) ->

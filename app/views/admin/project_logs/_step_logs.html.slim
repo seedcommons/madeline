@@ -25,10 +25,3 @@ div class=("step-logs expandable" << (@expand_logs ? " expanded" : ""))
       div.logs-list
         - step.project_logs.each do |log|
           = render "admin/project_logs/show", step: step, log: log
-
-      footer.row.text-right
-        span.col-lg-4.col-lg-offset-8.action-items
-          button.icon-with-text.btn.add-log.full data-action="add-log" data-parent-step-id== step.id
-            span.icon-box
-              i.fa.fa-plus-circle
-            span.text-right-of-icon = t("log.new")
