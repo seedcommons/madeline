@@ -9,6 +9,7 @@ class MS.Views.CalendarView extends Backbone.View
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)
+      eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
       events: params.calendar_events_url
       height: 'auto'
@@ -38,6 +39,11 @@ class MS.Views.CalendarView extends Backbone.View
       MS.loadingIndicator.show()
 
   eventRender: (calEvent) -> calEvent.html
+
+  eventDrop: (event, _, revertFunc) ->
+    if event.model_type == "ProjectStep" && event.is_finalized
+      modalView = new MS.Views.MoveStepModalView(el: $("<div>").appendTo(@$el), parentView: this)
+      modalView.show(event.model_id)
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()

@@ -27,11 +27,10 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
-      end
-      member do
         patch :shift_subsequent
       end
     end
+    resources :project_step_moves
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

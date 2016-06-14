@@ -292,6 +292,7 @@ en:
       original_date: "Original Date:"
     logs: "Logs"
     months: "Month(s)"
+    move: "Move Step"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"

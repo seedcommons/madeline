@@ -1,23 +1,25 @@
-= simple_form_for([:admin, @log], remote: true) do |f|
+// Using a separate div here with explicit class in case form_for becomes fields_for later.
+.log-form
+  = simple_fields_for(@log) do |f|
 
-  = f.hidden_field(:project_step_id)
+    = f.hidden_field(:project_step_id)
 
-  = f.error_notification
+    = f.error_notification
 
-  div.row
-    div.date.col-lg-9
-      = f.input :date, as: :date
-      label.light
-        = check_box_tag(:step_completed_on_date)
-        = t('log.step_completed')
+    div.row
+      div.date.col-lg-9
+        = f.input :date, as: :date
+        label.light
+          = check_box_tag(:step_completed_on_date)
+          = t('log.step_completed')
 
-    div.col-lg-6.col-md-6
-      = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
-        label: 'Member'
-      = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: 'Status'
+      div.col-lg-6.col-md-6
+        = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
+          label: 'Member'
+        = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: 'Status'
 
-    div.col-lg-6.col-md-6.media-container
-      - unless @log.new_record?
-        = render 'admin/media/index', media: @log.media, owner: @log
+      div.col-lg-6.col-md-6.media-container
+        - unless @log.new_record?
+          = render 'admin/media/index', media: @log.media, owner: @log
 
-  = render 'admin/project_logs/translatable', log: @log, f: f
+    = render 'admin/project_logs/translatable', log: @log, f: f
