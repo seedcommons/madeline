@@ -93,18 +93,13 @@ class MS.Views.ProjectStepView extends Backbone.View
       @modalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
-    $.post @$(e.target).attr('href'), {_method: 'DELETE'}
-
-    # Number of logs currently visible includes one just deleted from database
-    logsList = @$(e.target).closest('.logs-list')
-    numOfLogs = @$(logsList).children().length
-
-    if numOfLogs < 2
-      logContainer = @$(logsList).closest('.step-logs')
-      @$(logContainer).removeClass('expanded')
-      @$(logContainer).find('.view-logs-ctrl').html('<span class="no-logs">No Logs</span>')
-
-    @$(e.target).closest('.log').remove()
+    self = this
+    $.post(
+      @$(e.target).attr('href')
+      {_method: 'DELETE'}
+      (data, textStatus, jqXHR) ->
+        self.replaceWith(data)
+    )
     false
 
   showShiftDatesModal: (e) ->

@@ -34,8 +34,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   def destroy
     @log = ProjectLog.find(params[:id])
     authorize_with_parents
-    @log.destroy
-    render nothing: true
+    destroy_and_render_partial
   end
 
   private
@@ -73,6 +72,17 @@ class Admin::ProjectLogsController < Admin::AdminController
       }
     else
       render partial: 'admin/project_logs/form', locals: {log: @log, step: @step}, status: 422
+    end
+  end
+
+  def destroy_and_render_partial
+    if @log.destroy
+      @expand_logs = @step.logs_count > 0
+      render partial: 'admin/project_steps/project_step', locals: {
+        step: @step,
+        context: 'timeline',
+        mode: :show
+      }
     end
   end
 end
