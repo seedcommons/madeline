@@ -33,7 +33,7 @@ class DivisionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.where(id: accessible_ids).order(:name)
+      scope.where(id: accessible_ids)
     end
 
     # This merges in child divisions of the divisions for which a user has been specifically

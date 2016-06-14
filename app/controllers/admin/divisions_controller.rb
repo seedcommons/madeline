@@ -30,7 +30,6 @@ class Admin::DivisionsController < Admin::AdminController
           "parents_divisions.name"
       }
     )
-    @parent_filter_choices = current_user.accessible_divisions.map{ |d| [d.name, d.id] }
 
     @csv_mode = true
     export_grid_if_requested do
