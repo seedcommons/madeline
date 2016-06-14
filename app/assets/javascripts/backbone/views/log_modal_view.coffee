@@ -3,8 +3,6 @@ class MS.Views.LogModalView extends Backbone.View
   initialize: (options) ->
     @parentView = options.parentView
 
-  el: '#log-modal'
-
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:success': 'ajaxSuccess'
@@ -23,17 +21,18 @@ class MS.Views.LogModalView extends Backbone.View
       @replaceContent(html)
 
   replaceContent: (html) ->
-    @$('.modal-content').html(html)
+    @$el.html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="log"]'))
-    @$el.modal('show')
+    @$('.modal').modal('show')
     MS.loadingIndicator.hide()
 
   submitForm: (e) ->
     e.preventDefault()
     @$('form').submit()
-    @$el.modal('hide')
+    @$('.modal').modal('hide')
 
   ajaxSuccess: (e, data) ->
+    MS.loadingIndicator.hide()
     @parentView.replaceWith(data)
 
   expandContent: (e) ->
