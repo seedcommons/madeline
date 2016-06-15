@@ -3,21 +3,21 @@ class MS.Views.MoveStepModalView extends Backbone.View
   initialize: (options) ->
     @parentView = options.parentView
     @context = options.context
-    @cancelCallback = options.cancelCallback
     @daysShifted = options.daysShifted
+    @deferred = jQuery.Deferred()
+    @submitted = false
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'click [data-dismiss="modal"]': 'cancel'
-    'ajax:success': 'ajaxSuccess'
-    'hidden.bs.modal': 'destroySelf'
+    'hidden.bs.modal': 'cancel'
+    'ajax:success form': 'submitSuccess'
 
   show: (stepId) ->
     MS.loadingIndicator.show()
     @stepId = stepId
     params = "step_id=#{@stepId}&days_shifted=#{@daysShifted}&context=#{@context}"
-    $.get "/admin/project_step_moves/new?#{params}", (html) =>
-      @replaceContent(html)
+    $.get "/admin/project_step_moves/new?#{params}", (html) => @replaceContent(html)
+    @deferred.promise()
 
   replaceContent: (html) ->
     @$el.html(html)
@@ -27,15 +27,20 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   submitForm: (e) ->
     e.preventDefault()
+    MS.loadingIndicator.show()
     @$('form').submit()
     @$('.modal').modal('hide')
-
-  ajaxSuccess: (e, data) ->
-    MS.loadingIndicator.hide()
-    #@parentView.replaceWith(data)
+    @submitted = true
 
   cancel: ->
-    @cancelCallback.call() if @cancelCallback
+    unless @submitted
+      @deferred.reject()
+      @destroySelf()
+
+  submitSuccess: (e, data) ->
+    MS.loadingIndicator.hide()
+    @deferred.resolve(data)
+    @destroySelf()
 
   destroySelf: ->
     @$el.remove()

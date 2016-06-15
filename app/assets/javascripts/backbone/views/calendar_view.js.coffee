@@ -46,9 +46,11 @@ class MS.Views.CalendarView extends Backbone.View
         el: $("<div>").appendTo(@$el)
         context: 'calendar_drag'
         parentView: this
-        cancelCallback: revertFunc
         daysShifted: delta.days()
       modalView.show(event.model_id)
+      .done => @refresh()
+      .fail => revertFunc()
+
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()
