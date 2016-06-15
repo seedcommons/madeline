@@ -11,14 +11,21 @@ class Admin::DivisionsController < Admin::AdminController
   def index
     authorize Division
     @divisions_grid = initialize_grid(
-      policy_scope(Division),
+      policy_scope(Division.where.not(parent: nil)),
+      include: [:default_currency],
       conditions: index_filter,
       order: 'name',
       per_page: 50,
       name: 'divisions',
-      enable_export_to_csv: true
+      enable_export_to_csv: true,
+      custom_order: {
+        "divisions.name" => "LOWER(divisions.name)",
+        # Order by tree depth and then division name when ordering by parent.
+        "parents_divisions.name" =>
+          "(SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = divisions.id),"\
+          "parents_divisions.name"
+      }
     )
-    @parent_filter_choices = current_user.accessible_divisions.map{ |d| [d.name, d.id] }
 
     @csv_mode = true
     export_grid_if_requested do
@@ -99,7 +106,7 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def prep_form_vars
-    @currency_choices = Currency.all
+    @currency_choices = Currency.order(:name)
     @parent_choices = parent_choices(@division)
   end
 

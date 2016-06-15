@@ -51,10 +51,26 @@ table.key-value {
     background: #eee;
     margin: 1em 0;
     padding: 1em;
+
+    .header-with-links {
+      margin-bottom: 15px;
+
+      h1 {
+        display: inline-block;
+      }
+
+      a {
+        margin-left: 10px;
+      }
+
+      .btn {
+        float: right;
+      }
+    }
   }
 }
 
-.details {
+section.details {
   section.block h1 {
     margin-top: 0;
     font-size: 1.5em;

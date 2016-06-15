@@ -3,30 +3,62 @@
 
     - g.blank_slate do
       - @empty_list = true
-      - content_tag(:div, t("no_records"), class: 'alert alert-info')
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-    - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |organization|
+    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |organization|
       - link_to(organization.id, admin_organization_path(organization.id))
-
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
-
-    - g.column name: t("name"), attribute: 'name', detach_with_id: :name_filter
-
-    - g.column name: t("city"), attribute: 'city', detach_with_id: :city_filter,
-      custom_filter: :auto
-
-    - g.column name: t("country"), attribute: 'name', assoc: :country,
+    - g.column name: t('common.division'), attribute: 'name', assoc: :division, in_html: false, filter: false
+    - g.column name: t('common.name'), attribute: 'name', detach_with_id: :name_filter
+    - g.column name: t('activerecord.attributes.organization.legal_name'), attribute: 'legal_name',
+      in_html: false, filter: false
+    
+    - g.column name: t('activerecord.attributes.organization.primary_phone'),
+      attribute: 'primary_phone', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.secondary_phone'),
+      attribute: 'secondary_phone', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.fax'), attribute: 'fax',
+      in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.email'), attribute: 'email',
+      in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.primary_contact'), attribute: 'name',
+      assoc: :primary_contact, in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.street_address'),
+      attribute: 'street_address', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.neighborhood'),
+      attribute: 'neighborhood', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.city'), attribute: 'city',
+      detach_with_id: :city_filter, custom_filter: :auto
+    - g.column name: t('activerecord.attributes.organization.state'), attribute: 'state',
+      in_html: false, filter: false
+    - g.column name:  t('activerecord.attributes.organization.country'), attribute: 'name', assoc: :country,
       custom_filter: :auto, detach_with_id: :country_filter do |organization|
       - organization.country.try(:name)
 
-    - g.column name: t("created"), attribute: 'created_at', filter: false,
+    - g.column name: t('activerecord.attributes.organization.website'), attribute: 'website', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.sector'), attribute: 'sector', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.tax_no'), attribute: 'sector', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.alias'), attribute: 'alias', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.industry'), attribute: 'industry', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.referral_source'), attribute: 'referral_source', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.contact_notes'), attribute: 'contact_notes', in_html: false, filter: false
+    
+    - g.column name: t('activerecord.attributes.organization.additional_people'), attribute: 'name',
+      assoc: :people, table_alias: 'members', in_html: false, filter: false do |organization|
+      - if organization.people.length > 0
+        - organization.people.collect{|person| person[:name]}.to_sentence
+    
+    - g.column name: t('activerecord.attributes.organization.active_loans'),
+      in_html: false, filter: false do |organization|
+      - if organization.active_loans.length > 0
+        - organization.active_loans.collect{|loan| loan[:name]}.to_sentence
+  
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false,
       in_csv: false do |organization|
       - fuzzy_time(organization.created_at)
+    - g.column name: t('common.created'), attribute: 'created_at', in_html: false, filter: false
 
-    - g.column name: t("created"), attribute: 'created_at', in_html: false, filter: false
-
-    - g.column name: t("updated"), attribute: 'updated_at', filter: false,
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false,
       in_csv: false do |organization|
       - fuzzy_time(organization.updated_at)
-
-    - g.column name: t("updated"), attribute: 'updated_at', in_html: false, filter: false
+    - g.column name: t('common.updated'), attribute: 'updated_at', in_html: false, filter: false

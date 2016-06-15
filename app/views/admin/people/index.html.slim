@@ -43,8 +43,4 @@
           = t("filter")
       .clearfix
 
-= render_grid(@people_grid)
-
-.text-right
-  button.btn.btn-link.wg-external-csv-export-button data-grid-name="people"
-    = t("export_to_csv")
+= render_index_grid(@people_grid)

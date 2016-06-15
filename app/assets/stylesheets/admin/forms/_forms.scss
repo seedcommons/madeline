@@ -79,3 +79,8 @@
   display: inline-block;
   width: auto;
 }
+
+// Labels are bold by default.
+label.light {
+  font-weight: normal;
+}

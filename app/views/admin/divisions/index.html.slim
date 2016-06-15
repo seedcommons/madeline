@@ -24,8 +24,4 @@
 
       .clearfix
 
-= render_grid(@divisions_grid)
-
-.text-right
-  button.btn.btn-link.wg-external-csv-export-button data-grid-name="divisions"
-    = t("export_to_csv")
+= render_index_grid(@divisions_grid)

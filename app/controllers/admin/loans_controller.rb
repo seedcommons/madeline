@@ -5,11 +5,15 @@ class Admin::LoansController < Admin::AdminController
     authorize Loan
     @loans_grid = initialize_grid(
       policy_scope(Loan),
-      include: [:division, :organization],
+      include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative],
       conditions: division_index_filter,
       order: 'loans.signing_date',
       order_direction: 'desc',
-      custom_order: { 'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date' },
+      custom_order: {
+        "divisions.name" => "LOWER(divisions.name)",
+        "organizations.name" => "LOWER(organizations.name)",
+        'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date'
+      },
       per_page: 50,
       name: 'loans',
       enable_export_to_csv: true
@@ -27,13 +31,14 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
-    gon.I18n = @loan.translate(:details, :summary)
+    @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
   end
 
   def new
     @loan = Loan.new(division: current_division)
+    @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
   end
@@ -51,7 +56,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def create
-    @loan = Loan.new(loan_params).merge(division: current_division)
+    @loan = Loan.new(loan_params)
     authorize @loan
 
     if @loan.save
@@ -88,9 +93,15 @@ class Admin::LoansController < Admin::AdminController
 
   def prep_form_vars
     @division_choices = division_choices
-    @organizations = Organization.all
-    @people = Person.all
-    @currency_choices = Currency.all
-    @representative_choices = @loan.organization ? @loan.organization.people : @people
+    @organization_choices = organization_policy_scope(Organization.all).order(:name)
+    @agent_choices = person_policy_scope(Person.where(has_system_access: true)).order(:name)
+    @currency_choices = Currency.all.order(:name)
+    @representative_choices = representative_choices
   end
+
+  def representative_choices
+    raw_choices = @loan.organization ? @loan.organization.people : Person.all
+    person_policy_scope(raw_choices).order(:name)
+  end
+
 end

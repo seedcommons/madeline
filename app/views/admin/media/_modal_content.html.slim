@@ -1,5 +1,5 @@
 div.modal-header
-  button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
+  button type="button" class="media-action close cancel" aria-label== t(:cancel)
     span aria-hidden="true" &times;
   h4.modal-title = t("media.#{@media.new_record? ? 'add' : 'edit'}")
 
@@ -12,5 +12,5 @@ div.modal-body
       = f.input "caption_#{locale}".to_sym, label: t('media.caption', locale_name: locale_name)
 
 div.modal-footer
-  button.btn.btn-default type="button" data-dismiss="modal" = t(:cancel)
-  button.btn.btn-primary = t(:submit)
+  button.btn.btn-default.media-action.cancel type="button" = t(:cancel)
+  button.btn.btn-primary.media-action = t(:submit)
