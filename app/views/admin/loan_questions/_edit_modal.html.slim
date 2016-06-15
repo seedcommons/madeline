@@ -2,8 +2,7 @@
     remote: true,
     html: { \
       class: 'form-horizontal organization-record',
-      'data-id' => @loan_question.id,
-      'data-permitted-locales' => @loan_question.permitted_locales,
+      data: { id: @loan_question.id },
     },
     wrapper: :horizontal_form_condensed,
     defaults: { \
@@ -16,11 +15,17 @@
   .modal-body
     = f.error_notification
 
-    .languages
-      input.deleted-locales type="hidden" name="custom_field[deleted_locales]" value="[]"
-      - @loan_question.used_locales.each do |l|
+    .languages data-content-translatable='loan_question'
+      input.deleted-locales type="hidden" name="custom_field[deleted_locales][]"
+      - @loan_question.used_locales_or_current_locale.each do |l|
         .language-block data-locale="#{l}"
-          = f.input "label_#{l}".to_sym, label: t('.label_label', locale: l)
+          = f.input :"locale_#{l}", label: false,
+            collection: locale_options,
+            input_html: {class: 'locale'}, include_blank: false
+          = f.input :"label_#{l}", as: :text,
+            input_html: {data: {translatable: 'admin.loan_questions.edit_modal.label_label'}},
+            placeholder: I18n.t('admin.loan_questions.edit_modal.label_label', locale: l),
+            label: t('.label_label', locale: l)
           a.remove-language href="#" Remove
       a.add-language href="#" Add Language
 
