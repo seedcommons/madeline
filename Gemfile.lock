@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/leikind/wice_grid.git
+  revision: ad34505c4baafeeea6ea5009df291d82a0f62ad8
+  ref: ad34505c4baafeeea6ea5009df291d82a0f62ad8
+  specs:
+    wice_grid (3.6.0)
+      activerecord (> 3.2)
+      coffee-rails (> 3.2)
+      kaminari (~> 0.16)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -149,7 +159,7 @@ GEM
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     json (1.8.3)
-    kaminari (0.16.3)
+    kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     libv8 (3.16.14.13)
@@ -312,10 +322,6 @@ GEM
       rack (>= 1.0)
     whenever (0.9.4)
       chronic (>= 0.6.3)
-    wice_grid (3.6.0.pre4)
-      activerecord (> 3.2)
-      coffee-rails (> 3.2)
-      kaminari (~> 0.16)
     with_advisory_lock (3.0.0)
       activerecord (>= 3.2)
       thread_safe
@@ -380,7 +386,7 @@ DEPENDENCIES
   uri-js-rails
   utf8_enforcer_workaround
   whenever
-  wice_grid (= 3.6.0.pre4)
+  wice_grid!
 
 BUNDLED WITH
    1.11.2
