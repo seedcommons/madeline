@@ -21,6 +21,7 @@ div.panel.step [
     = render "admin/project_steps/shift_subsequent_confirm_modal", step: step,
       days_shifted: days_shifted, subsequent_count: subsequent_count
 
+  - stepId = step.id ? step.id : 0
   javascript:
     $(document).ready(function() {
       new MS.Views.ProjectStepView({
@@ -28,6 +29,6 @@ div.panel.step [
         duplicate: #{json params[:action] == 'duplicate'},
         persisted: #{json step.persisted?},
         daysShifted: #{days_shifted},
-        stepId: #{step.id}
+        stepId: #{stepId}
       });
     });
