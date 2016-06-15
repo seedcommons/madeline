@@ -9,9 +9,10 @@
     div.row
       div.date.col-lg-9
         = f.input :date, as: :date
-        label.light
-          = check_box_tag(:step_completed_on_date)
-          = t('log.step_completed')
+        - if @log.new_record?
+          label.light
+            = check_box_tag(:step_completed_on_date)
+            = t('log.step_completed')
 
       div.col-lg-6.col-md-6
         = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
