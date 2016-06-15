@@ -271,7 +271,7 @@ class ProjectStep < ActiveRecord::Base
       completed_date > scheduled_date
       days_shifted = (completed_date - scheduled_date).to_i
     end
-    return [0,days_shifted].max
+    days_shifted
   end
 
   def subsequent_step_ids(previous_scheduled_date = nil)

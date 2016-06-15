@@ -98,9 +98,10 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   # Show move step modal if step was just moved.
   showMoveStepModal: (e) ->
-    if @daysShifted > 0
+    if @daysShifted != 0
       modalView = new MS.Views.MoveStepModalView
         el: $("<div>").appendTo(@$el)
         context: 'edit_date'
         parentView: this
+        daysShifted: @daysShifted
       modalView.show(@stepId)

@@ -40,13 +40,14 @@ class MS.Views.CalendarView extends Backbone.View
 
   eventRender: (calEvent) -> calEvent.html
 
-  eventDrop: (event, _, revertFunc) ->
+  eventDrop: (event, delta, revertFunc) ->
     if event.model_type == "ProjectStep" && event.is_finalized
       modalView = new MS.Views.MoveStepModalView
         el: $("<div>").appendTo(@$el)
         context: 'calendar_drag'
         parentView: this
         cancelCallback: revertFunc
+        daysShifted: delta.days()
       modalView.show(event.model_id)
 
   loading: (isLoading) ->

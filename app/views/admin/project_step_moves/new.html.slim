@@ -11,15 +11,18 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
             => t(".orig_date_remembered")
             = t(".please_log")
 
+          = f.hidden_field :days_shifted
+          = f.hidden_field :context
+
           .row
-            - if @context == "calendar_drag" && !@step_move.step_completed?
+            - if @step_move.context == "calendar_drag" && !@step_move.step_completed?
               = f.input :move_type, as: :radio_buttons, collection: ProjectStepMove::MOVE_TYPES
               .clearfix
 
             = f.input :shift_subsequent, as: :radio_buttons do
               label.shift-subsequent
                 => f.check_box :shift_subsequent
-                = t(".shift_hint")
+                = t(".shift_hint", count: @step_move.days_shifted)
 
           hr
 

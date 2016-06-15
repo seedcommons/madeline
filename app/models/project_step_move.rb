@@ -6,7 +6,7 @@ class ProjectStepMove
 
   MOVE_TYPES = %i(change_sched_date mark_completed)
 
-  attr_reader :step, :move_type, :shift_subsequent
+  attr_reader :step, :move_type, :shift_subsequent, :days_shifted, :context
 
   delegate :completed?, to: :step, prefix: true
 
@@ -14,9 +14,13 @@ class ProjectStepMove
     @step = params[:step]
     @move_type = params[:move_type] || "change_sched_date"
     @shift_subsequent = params[:shift_subsequent] == "1"
+    @days_shifted = params[:days_shifted]
+    @context = params[:context]
   end
 
   def execute!
+    # if move_type == "change_sched_date"
+    #   @step.scheduled_date =
 
   end
 

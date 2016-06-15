@@ -4,6 +4,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
     @parentView = options.parentView
     @context = options.context
     @cancelCallback = options.cancelCallback
+    @daysShifted = options.daysShifted
 
   events:
     'click [data-action="submit"]': 'submitForm'
@@ -14,7 +15,8 @@ class MS.Views.MoveStepModalView extends Backbone.View
   show: (stepId) ->
     MS.loadingIndicator.show()
     @stepId = stepId
-    $.get "/admin/project_step_moves/new?step_id=#{@stepId}&context=#{@context}", (html) =>
+    params = "step_id=#{@stepId}&days_shifted=#{@daysShifted}&context=#{@context}"
+    $.get "/admin/project_step_moves/new?#{params}", (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->

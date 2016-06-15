@@ -4,10 +4,14 @@ class Admin::ProjectStepMovesController < Admin::AdminController
   def new
     @step = ProjectStep.find(params[:step_id])
     authorize @step, :update?
-    @step_move = ProjectStepMove.new(step: @step)
+    @step_move = ProjectStepMove.new(
+      step: @step,
+      days_shifted: params[:days_shifted],
+      context: params[:context]
+    )
+
     set_log_form_vars
     @log = ProjectLog.new(project_step_id: params[:step_id])
-    @context = params[:context]
     render layout: false
   end
 
