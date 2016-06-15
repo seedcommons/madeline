@@ -13,7 +13,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
-    # @showShiftDatesModal()
+    @showShiftDatesModal()
 
   events:
     'click a.edit-step-action': 'showForm'
