@@ -2,6 +2,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   initialize: (options) ->
     @parentView = options.parentView
+    @context = options.context
 
   events:
     'click [data-action="submit"]': 'submitForm'
@@ -11,7 +12,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
   show: (stepId) ->
     MS.loadingIndicator.show()
     @stepId = stepId
-    $.get "/admin/project_step_moves/new?step_id=#{@stepId}", (html) =>
+    $.get "/admin/project_step_moves/new?step_id=#{@stepId}&context=#{@context}", (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->

@@ -12,7 +12,7 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
             = t(".please_log")
 
           .row
-            - unless @step_move.step_completed?
+            - if @context == "calendar_drag" && !@step_move.step_completed?
               = f.input :move_type, as: :radio_buttons, collection: ProjectStepMove::MOVE_TYPES
               .clearfix
 

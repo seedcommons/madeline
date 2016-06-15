@@ -13,7 +13,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
-    @showShiftDatesModal()
+    @showMoveStepModal()
 
   events:
     'click a.edit-step-action': 'showForm'
@@ -96,6 +96,11 @@ class MS.Views.ProjectStepView extends Backbone.View
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)
     false
 
-  showShiftDatesModal: (e) ->
-    if ((@daysShifted > 0))
-      $("#step-shift-subsequent-confirm-modal-#{@stepId}").modal("show")
+  # Show move step modal if step was just moved.
+  showMoveStepModal: (e) ->
+    if @daysShifted > 0
+      modalView = new MS.Views.MoveStepModalView
+        el: $("<div>").appendTo(@$el)
+        context: 'edit_date'
+        parentView: this
+      modalView.show(@stepId)

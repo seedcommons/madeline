@@ -1,3 +1,5 @@
+- days_shifted = 0 if local_assigns[:days_shifted].nil?
+
 div.panel.step [
   style="border-color: #{step.border_color}"
   data-step-id="#{step.id_or_temp_id}"
@@ -16,13 +18,8 @@ div.panel.step [
   - if policy(step).duplicate? && context == "timeline"
     = render "admin/project_steps/duplicate_step_modal", step: step, context: context
 
-  - days_shifted ||= 0
-  - if days_shifted > 0
-    = render "admin/project_steps/shift_subsequent_confirm_modal", step: step,
-      days_shifted: days_shifted, subsequent_count: subsequent_count
-
   javascript:
-    $(document).ready(function() {
+    $(function() {
       new MS.Views.ProjectStepView({
         el: $('.step[data-step-id=#{step.id_or_temp_id}][data-context=#{context}]'),
         duplicate: #{json params[:action] == 'duplicate'},

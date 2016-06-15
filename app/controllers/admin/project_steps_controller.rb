@@ -53,30 +53,18 @@ class Admin::ProjectStepsController < Admin::AdminController
 
      # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
-    subsequent_count = @step.subsequent_step_ids.size
 
     valid = @step.save
 
-    # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
-    days_shifted = 0 unless valid && subsequent_count > 0
+    # Ignore schedule shift if not successfully saved
+    days_shifted = 0 unless valid
 
     render partial: "/admin/project_steps/project_step", locals: {
       step: @step,
       mode: valid ? :show : :edit,
       days_shifted: days_shifted,
-      subsequent_count: subsequent_count,
       context: params[:context]
     }
-  end
-
-  # Updates scheduled date of all project steps following this
-  def shift_subsequent
-    @step = ProjectStep.find(params[:id])
-    num_days = params[:num_days].to_i
-    authorize @step
-    ids = @step.subsequent_step_ids(@step.scheduled_date - num_days.days)
-    unused, notice = batch_operation(ids){ |step| step.adjust_scheduled_date(num_days) }
-    display_timeline(@step.project_id, notice)
   end
 
   def duplicate
