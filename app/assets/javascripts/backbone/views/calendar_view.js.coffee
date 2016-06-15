@@ -46,6 +46,7 @@ class MS.Views.CalendarView extends Backbone.View
         el: $("<div>").appendTo(@$el)
         context: 'calendar_drag'
         parentView: this
+        cancelCallback: revertFunc
       modalView.show(event.model_id)
 
   loading: (isLoading) ->
