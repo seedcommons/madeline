@@ -41,6 +41,7 @@ en:
         signing_date: "Signing Date"
         summary: "Summary"
       organization:
+        active_loans: "Active Loans"
         additional_people: "Additional Members"
         alias: "Alias"
         city: "City"
