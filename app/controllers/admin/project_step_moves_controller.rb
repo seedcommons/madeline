@@ -37,17 +37,6 @@ class Admin::ProjectStepMovesController < Admin::AdminController
   private
 
   def project_step_move_params
-    params.require(:project_step_move).permit(:move_type, :shift_subsequent)
+    params.require(:project_step_move).permit(:move_type, :shift_subsequent, :days_shifted, :context)
   end
-
-  #
-  # # Updates scheduled date of all project steps following this
-  # def shift_subsequent
-  #   @step = ProjectStep.find(params[:id])
-  #   num_days = params[:num_days].to_i
-  #   authorize @step
-  #   ids = @step.subsequent_step_ids(@step.scheduled_date - num_days.days)
-  #   unused, notice = batch_operation(ids){ |step| step.adjust_scheduled_date(num_days) }
-  #   display_timeline(@step.project_id, notice)
-  # end
 end

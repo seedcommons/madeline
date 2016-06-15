@@ -274,16 +274,6 @@ class ProjectStep < ActiveRecord::Base
     days_shifted
   end
 
-  def subsequent_step_ids(previous_scheduled_date = nil)
-    date = previous_scheduled_date || scheduled_date
-    return [] unless date
-    # Todo: Confirm if this is the exact criteria desired.  It's unlikely that there would be
-    # prior uncompleted steps, but if there are perhaps we should just shift all uncompleted
-    # steps.
-    project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
-      date: date, id: id).pluck(:id)
-  end
-
   def calendar_date
     completed? ? completed_date : scheduled_date
   end
