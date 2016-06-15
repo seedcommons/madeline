@@ -4,5 +4,6 @@ en:
       index:
         title: "Loan Questions"
       edit_modal:
-        label: "Title"
+        data_type_label: "Data type"
+        label_label: "Title"
         title: "Edit Item"
