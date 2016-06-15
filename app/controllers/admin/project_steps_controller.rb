@@ -65,7 +65,7 @@ class Admin::ProjectStepsController < Admin::AdminController
       mode: valid ? :show : :edit,
       days_shifted: days_shifted,
       subsequent_count: subsequent_count,
-      context: params[:context]
+      context: 'timeline'
     }
   end
 

@@ -13,7 +13,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
-    @showShiftDatesModal()
+    # @showShiftDatesModal()
 
   events:
     'click a.edit-step-action': 'showForm'
@@ -71,6 +71,8 @@ class MS.Views.ProjectStepView extends Backbone.View
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
       else
         $('#calendar-step-modal').modal('hide')
+        timeline_step = $("[data-step-id='#{@stepId}'][data-context='timeline']")
+        $(timeline_step).replaceWith(data)
         MS.calendarView.refresh()
 
     else if $(e.target).is('a.action-delete')
