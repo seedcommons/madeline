@@ -40,6 +40,8 @@ class CustomField < ActiveRecord::Base
 
   delegate :division, :division=, to: :custom_field_set
 
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
+
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
@@ -69,14 +71,9 @@ class CustomField < ActiveRecord::Base
   end
 
   def has_label
-    # labels = translations.where(translatable_attribute: 'label')
-    # raise labels.inspect
-    if label.to_s.blank? #&& (labels.empty? || labels.any? { |i| i.text.blank? })
+    if label.to_s.blank?
       errors.add(:label, "can't be blank")
     end
   end
-
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
-
 
 end

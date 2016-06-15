@@ -18,15 +18,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'submit #edit-modal form': 'updateNode'
 
   editNode: (e) ->
-    # $(e.target).closest('.view-block').after('
-    #   <div class="jqtree-element form-block">
-    #     <button class="btn show-action">Cancel</button>
-    #   </div>
-    # ')
-    # $(e.target).closest('.show-view').hide()
-
-    # $(e.target).closest('.show-view').removeClass('show-view').addClass('edit-view')
-
     qid = @$(e.target).closest('li').data('id')
     @$('.modal-content').load("/admin/loan_questions/#{qid}/edit")
 
@@ -47,6 +38,5 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     )
 
     MS.loadingIndicator.hide()
-
     # Prevent form from being submitted again
     return false
