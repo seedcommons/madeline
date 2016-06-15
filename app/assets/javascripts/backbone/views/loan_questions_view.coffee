@@ -33,18 +33,19 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   updateNode: (e) ->
     MS.loadingIndicator.show()
 
-    # We send form data via ajax so we can capture the response from server
     $form = @$(e.target).closest('form')
-    $.post($form.attr('action'), $form.serialize(), ((response) ->
+    id = $form.data('id')
+    node = @tree.tree('getNodeById', id)
+
+    # We send form data via ajax so we can capture the response from server
+    $.post($form.attr('action'), $form.serialize()).done( (response) ->
       # Update node on page with data returned from server
-      id = $form.data('id')
-      node = $('.jqtree').tree('getNodeById', id)
       $('.jqtree').tree('updateNode', node, response)
-    ), 'json')
+      $('#edit-modal').modal('hide')
+    ).fail( (response) ->
+      $('.modal-content').html(response.responseText)
+    )
 
-    # check for errors here
-
-    @$('#edit-modal').modal('hide')
     MS.loadingIndicator.hide()
 
     # Prevent form from being submitted again

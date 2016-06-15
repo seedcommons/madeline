@@ -21,7 +21,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
       if @loan_question.update(loan_question_params)
         format.json { render json: @loan_question.reload }
       else
-        # format.html { render action: 'edit' }
+        format.html { render partial: 'edit_modal', status: :unprocessable_entity }
         # format.json { render json: @loan_question.errors, status: :unprocessable_entity }
       end
     end
