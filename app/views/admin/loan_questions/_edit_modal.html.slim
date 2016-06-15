@@ -3,6 +3,7 @@
     html: { \
       class: 'form-horizontal organization-record',
       'data-id' => @loan_question.id,
+      'data-permitted-locales' => @loan_question.permitted_locales,
     },
     wrapper: :horizontal_form_condensed,
     defaults: { \
@@ -14,7 +15,15 @@
     h4.modal-title = t '.title'
   .modal-body
     = f.error_notification
-    = f.input :label, label: t('.label_label')
+
+    .languages
+      input.deleted-locales type="hidden" name="custom_field[deleted_locales]" value="[]"
+      - @loan_question.used_locales.each do |l|
+        .language-block data-locale="#{l}"
+          = f.input "label_#{l}".to_sym, label: t('.label_label', locale: l)
+          a.remove-language href="#" Remove
+      a.add-language href="#" Add Language
+
     = f.input :data_type, label: t('.data_type_label')
 
   .modal-footer

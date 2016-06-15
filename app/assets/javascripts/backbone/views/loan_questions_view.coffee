@@ -19,7 +19,13 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   editNode: (e) ->
     qid = @$(e.target).closest('li').data('id')
-    @$('.modal-content').load("/admin/loan_questions/#{qid}/edit")
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{qid}/edit", ->
+      $('#edit-modal').modal('show')
+      new MS.Views.ProjectStepTranslationsView({
+        el: $('.languages'),
+        permittedLocales: $('#edit-modal form').data('permitted-locales').split(' ')
+      })
+    )
 
   updateNode: (e) ->
     MS.loadingIndicator.show()
