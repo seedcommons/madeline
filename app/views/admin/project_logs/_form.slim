@@ -9,7 +9,7 @@
     div.row
       div.date.col-lg-9
         = f.input :date, as: :date
-        - if @log.new_record?
+        - if @log.new_record? && context == :manual
           label.light
             = check_box_tag(:step_completed_on_date)
             = t('log.step_completed')

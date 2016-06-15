@@ -23,7 +23,8 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
 
           hr
 
-          = render "admin/project_logs/form"
+          = render "admin/project_logs/form", context: :step_move
+
       div.modal-footer
         a.btn.btn-default data-dismiss="modal" = t(:cancel)
         a.btn.btn-primary data-action="submit" = t(".move")
