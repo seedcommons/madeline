@@ -6,6 +6,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:success': 'ajaxSuccess'
+    'hidden.bs.modal': 'destroySelf'
 
   show: (stepId) ->
     MS.loadingIndicator.show()
@@ -27,3 +28,6 @@ class MS.Views.MoveStepModalView extends Backbone.View
   ajaxSuccess: (e, data) ->
     MS.loadingIndicator.hide()
     #@parentView.replaceWith(data)
+
+  destroySelf: ->
+    @$el.remove()
