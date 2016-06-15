@@ -54,18 +54,20 @@ class Admin::ProjectStepsController < Admin::AdminController
      # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
     subsequent_count = @step.subsequent_step_ids.size
-
     valid = @step.save
 
-    # Ignore schedule shift if not successfully saved, or no subsequent steps to update.
-    days_shifted = 0 unless valid && subsequent_count > 0
+    # Ignore schedule shift if not successfully saved or no subsequent steps to update.
+    # Ignore days shifted if not updating from timeline.
+    days_shifted = 0 unless valid && subsequent_count > 0 && params[:context] == 'timeline'
 
+    # Rendered partial will always be for timeline.
+    # Timeline step content updated from calendar and timeline step update.
     render partial: "/admin/project_steps/project_step", locals: {
       step: @step,
       mode: valid ? :show : :edit,
       days_shifted: days_shifted,
       subsequent_count: subsequent_count,
-      context: params[:context]
+      context: 'timeline'
     }
   end
 
