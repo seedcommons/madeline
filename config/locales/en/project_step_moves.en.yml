@@ -1,0 +1,8 @@
+en:
+  admin:
+    project_step_moves:
+      new:
+        move: "Move Step"
+        orig_date_remembered: "The original date for this step will be remembered."
+        please_log: "Please add a log entry for this change below before continuing."
+        shift_hint: "Shift all subsequent steps by the same amount?"

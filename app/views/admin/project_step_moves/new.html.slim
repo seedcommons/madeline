@@ -4,10 +4,26 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
       div.modal-header
         button.close type="button" data-dismiss="modal" aria-label== t(:close)
           span aria-hidden="true" &times;
-        h4.modal-title = t("project_step.move")
+        h4.modal-title = t(".move")
       div.modal-body
         = simple_form_for([:admin, @step_move], remote: true) do |f|
+          .alert.alert-info
+            => t(".orig_date_remembered")
+            = t(".please_log")
+
+          .row
+            - unless @step_move.step_completed?
+              = f.input :move_type, as: :radio_buttons, collection: ProjectStepMove::MOVE_TYPES
+              .clearfix
+
+            = f.input :shift_subsequent, as: :radio_buttons do
+              label.shift-subsequent
+                => f.check_box :shift_subsequent
+                = t(".shift_hint")
+
+          hr
+
           = render "admin/project_logs/form"
       div.modal-footer
         a.btn.btn-default data-dismiss="modal" = t(:cancel)
-        a.btn.btn-primary data-action="submit" = t("project_step.move")
+        a.btn.btn-primary data-action="submit" = t(".move")

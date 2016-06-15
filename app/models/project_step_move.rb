@@ -4,10 +4,15 @@ class ProjectStepMove
   include ActiveModel::Validations
   include ActiveModel::Conversion
 
-  attr_reader :move_type, :shift_subsequent
+  MOVE_TYPES = %i(change_sched_date mark_completed)
 
-  def initialize(move_type: nil, shift_subsequent: nil)
-    @move_type = move_type
+  attr_reader :step, :move_type, :shift_subsequent
+
+  delegate :completed?, to: :step, prefix: true
+
+  def initialize(step: nil, move_type: nil, shift_subsequent: nil)
+    @step = step
+    @move_type = move_type || "change_sched_date"
     @shift_subsequent = shift_subsequent
   end
 
