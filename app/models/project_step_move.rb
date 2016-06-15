@@ -10,10 +10,14 @@ class ProjectStepMove
 
   delegate :completed?, to: :step, prefix: true
 
-  def initialize(step: nil, move_type: nil, shift_subsequent: nil)
-    @step = step
-    @move_type = move_type || "change_sched_date"
-    @shift_subsequent = shift_subsequent
+  def initialize(params = {})
+    @step = params[:step]
+    @move_type = params[:move_type] || "change_sched_date"
+    @shift_subsequent = params[:shift_subsequent] == "1"
+  end
+
+  def execute!
+
   end
 
   def persisted?
