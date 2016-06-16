@@ -18,15 +18,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'submit #edit-modal form': 'updateNode'
 
   editNode: (e) ->
+    MS.loadingIndicator.show()
     qid = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load("/admin/loan_questions/#{qid}/edit", ->
       $('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+      MS.loadingIndicator.hide()
     )
 
   updateNode: (e) ->
     MS.loadingIndicator.show()
-
     $form = @$(e.target).closest('form')
     id = $form.data('id')
     node = @tree.tree('getNodeById', id)
