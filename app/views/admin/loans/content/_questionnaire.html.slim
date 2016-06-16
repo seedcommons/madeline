@@ -30,6 +30,17 @@
         - if loan_response.has_number?
           .view-element = loan_response.number
           = f.input_field "#{field.attribute_sym}__number".to_sym, as: :decimal
+        - if loan_response.has_sheet?
+          - sheet = loan_response.embeddable_media || EmbeddableMedia.new
+          .view-element
+            - if sheet.url
+              p = link_to 'Spreadsheet', sheet.url, {target: '_blank'}
+              iframe width='#{sheet.width}' height='#{sheet.height}' frameborder='1' src='#{sheet.url}'
+          /4301 Todo: Figure out how to approach editing the spread sheet parameters
+          /- f.simple_fields_for sheet do |ff|
+          /  = ff.input_field :original_url
+          /  = ff.input_field :height
+          /  = ff.input_field :width
         - if loan_response.has_text?
           .view-element = loan_response.text
           = f.input_field "#{field.attribute_sym}__text".to_sym, as: loan_response.text_form_field_type
