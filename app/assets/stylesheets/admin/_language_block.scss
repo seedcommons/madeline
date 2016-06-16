@@ -9,16 +9,12 @@
     margin-bottom: 10px;
   }
 
-  .form-group:last-of-type {
-    margin-bottom: 0;
-  }
-
   a.remove-language {
     float: right;
   }
 
   // Keep translatable language select box a natural width
-  select[id^=loan_locale_] {
+  select.locale {
     width: auto;
   }
 }

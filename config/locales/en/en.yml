@@ -85,14 +85,26 @@ en:
         state: "State"
         tax_no: "National ID"
         website: "Website"
+      project_log:
+        date: "Log Date"
+        agent_id: "Member"
+        progress_metric_value: "Status"
 
   simple_form:
+    labels:
+      project_step_move:
+        move_type: "Which Date?"
+        shift_subsequent: "Shift Others?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
+      project_step_move:
+        move_type:
+          change_date: "Change step's scheduled date"
+          mark_completed: "Mark step completed on this date"
 
   time:
     formats:
@@ -294,6 +306,7 @@ en:
       original_date: "Original Date:"
     logs: "Logs"
     months: "Month(s)"
+    move: "Move Step"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"

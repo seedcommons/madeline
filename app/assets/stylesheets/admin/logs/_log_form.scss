@@ -1,4 +1,4 @@
-#log-modal {
+.log-form {
   input[type='text'], select, textarea {
     display: inline-block;
     width: auto;
@@ -35,18 +35,6 @@
     .action {
       float: none;
     }
-  }
-
-  .expandable {
-    display: none;
-
-    &.expanded {
-      display: block;
-    }
-  }
-
-  .hidden {
-    display: none;
   }
 
   .date {

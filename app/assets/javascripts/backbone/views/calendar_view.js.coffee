@@ -9,6 +9,7 @@ class MS.Views.CalendarView extends Backbone.View
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)
+      eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
       events: params.calendar_events_url
       height: 'auto'
@@ -37,8 +38,31 @@ class MS.Views.CalendarView extends Backbone.View
       )
       MS.loadingIndicator.show()
 
-  eventRender: (calEvent, element) ->
-    element.find('.fc-title').html(calEvent.title)
+  eventRender: (calEvent) -> calEvent.html
+
+  eventDrop: (event, delta, revertFunc) ->
+    if event.model_type == 'ProjectStep' && event.is_finalized
+      unless @moveStepModalView
+        @moveStepModalView = new MS.Views.MoveStepModalView
+          el: $("<div>").appendTo(@$el)
+          context: 'calendar_drag'
+
+      @moveStepModalView.show(event.model_id, delta.days())
+      .done => @refresh()
+      .fail => revertFunc()
+    else if event.model_type == 'Loan'
+      # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
+      setTimeout =>
+        if confirm(I18n.t("loan.move_date_confirm.body"))
+          loanId = @$el.find('.loan-calendar').data('loan-id')
+          $.post "/admin/loans/#{loanId}/change_date",
+            _method: "PATCH"
+            which_date: event.event_type
+            new_date: event.start.format('YYYY-MM-DD')
+        else
+          revertFunc()
+      ,1
+
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()

@@ -8,6 +8,7 @@ class MS.Views.ApplicationView extends Backbone.View
   initialize: ->
     MS.loadingIndicator = @$('#glb-load-ind')
     MS.errorModal = @$('#glb-error-modal')
+    new MS.Views.Expander()
 
   events: ->
     'click .more': 'toggleExpanded'

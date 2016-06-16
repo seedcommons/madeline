@@ -45,6 +45,12 @@ class Admin::LoansController < Admin::AdminController
     prep_form_vars
   end
 
+  def steps
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    render layout: false
+  end
+
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
@@ -56,6 +62,14 @@ class Admin::LoansController < Admin::AdminController
       prep_form_vars
       render :show
     end
+  end
+
+  def change_date
+    @loan = Loan.find(params[:id])
+    authorize @loan, :update?
+    attrib = params[:which_date] == "loan_start" ? :signing_date : :target_end_date
+    @loan.update_attributes(attrib => params[:new_date])
+    render nothing: true
   end
 
   def create
