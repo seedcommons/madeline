@@ -36,7 +36,7 @@ class LoanResponse
   end
 
   def embeddable_media
-    embeddable_media_id ? EmbeddableMedia.find(embeddable_media_id) : nil
+    embeddable_media_id.present? ? EmbeddableMedia.find(embeddable_media_id) : nil
   end
 
   def embeddable_media=(record)
