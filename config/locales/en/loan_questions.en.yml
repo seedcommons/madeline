@@ -1,9 +1,11 @@
 en:
+  loan_question:
+    data_type: "Data type"
+    # text: "Title"
+
   admin:
     loan_questions:
       index:
         title: "Loan Questions"
       edit_modal:
-        data_type_label: "Data type"
-        label_label: "Title"
         title: "Edit Item"
