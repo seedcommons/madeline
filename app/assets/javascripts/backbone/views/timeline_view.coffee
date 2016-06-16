@@ -3,17 +3,24 @@ class MS.Views.TimelineView extends Backbone.View
   el: 'section.timeline'
 
   initialize: (options) ->
-    @loan_id = options.loan_id
+    @loanId = options.loanId
 
     new MS.Views.TimelineSelectStepsView();
     new MS.Views.TimelineBatchActionsView();
     new MS.Views.TimelineHeaderView();
 
-    @addBlankStep() if @stepCount() == 0
+    @refreshSteps()
 
   events:
     'click #new-step': 'addBlankStep'
     'ajax:error': 'submitError'
+
+  refreshSteps: ->
+    MS.loadingIndicator.show()
+    $.get "/admin/loans/#{@loanId}/steps", (html) =>
+      MS.loadingIndicator.hide()
+      @$('.project-steps').html(html)
+      @addBlankStep() if @stepCount() == 0
 
   # Adds step html, scrolls into view, and focuses first box if visible
   addSteps: (html) ->
@@ -34,7 +41,7 @@ class MS.Views.TimelineView extends Backbone.View
   addBlankStep: (e) ->
     e.preventDefault() if e
     MS.loadingIndicator.show()
-    $.get "/admin/project_steps/new?loan_id=#{@loan_id}", (html) =>
+    $.get "/admin/project_steps/new?loan_id=#{@loanId}", (html) =>
       MS.loadingIndicator.hide()
       @addSteps(html)
 

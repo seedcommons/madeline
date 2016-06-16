@@ -43,6 +43,12 @@ class Admin::LoansController < Admin::AdminController
     prep_form_vars
   end
 
+  def steps
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    render layout: false
+  end
+
   def update
     @loan = Loan.find(params[:id])
     authorize @loan

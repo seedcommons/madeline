@@ -15,7 +15,11 @@ Rails.application.routes.draw do
         post :select
       end
     end
-    resources :loans
+    resources :loans do
+      member do
+        get :steps
+      end
+    end
     resources :organizations
     resources :people
     resources :project_logs
