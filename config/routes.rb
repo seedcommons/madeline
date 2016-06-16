@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :loans do
       member do
         get :steps
+        patch :change_date
       end
     end
     resources :organizations

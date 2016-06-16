@@ -61,6 +61,14 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  def change_date
+    @loan = Loan.find(params[:id])
+    authorize @loan, :update?
+    attrib = params[:which_date] == "loan_start" ? :signing_date : :target_end_date
+    @loan.update_attributes(attrib => params[:new_date])
+    render nothing: true
+  end
+
   def create
     @loan = Loan.new(loan_params)
     authorize @loan
