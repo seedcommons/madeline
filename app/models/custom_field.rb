@@ -37,8 +37,6 @@ class CustomField < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
 
-  validate :has_label
-
   delegate :division, :division=, to: :custom_field_set
 
   DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
@@ -70,11 +68,4 @@ class CustomField < ActiveRecord::Base
   def translatable?
     data_type == 'translatable'
   end
-
-  def has_label
-    if label.to_s.blank?
-      errors.add(:label, "can't be blank")
-    end
-  end
-
 end
