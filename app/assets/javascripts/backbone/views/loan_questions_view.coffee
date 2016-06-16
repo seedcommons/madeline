@@ -16,6 +16,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   events: (params) ->
     'click .links .edit-action': 'editNode'
     'submit #edit-modal form': 'updateNode'
+    'tree.move .jqtree': 'moveNode'
 
   editNode: (e) ->
     MS.loadingIndicator.show()
@@ -44,3 +45,18 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     MS.loadingIndicator.hide()
     # Prevent form from being submitted again
     return false
+
+  moveNode: (e) ->
+    MS.loadingIndicator.show()
+    e.preventDefault()
+    id = e.move_info.moved_node.id
+    data =
+      _method: 'patch'
+      move: true
+      target: e.move_info.target_node.id
+      relation: e.move_info.position # before, after, or inside
+
+    e.move_info.do_move()
+    $.post("/admin/loan_questions/#{id}", data, ->
+      MS.loadingIndicator.hide()
+    )

@@ -18,14 +18,34 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def update
     authorize @loan_question
 
-    respond_to do |format|
-      if @loan_question.update(loan_question_params)
-        format.json { render json: @loan_question.reload }
-      else
-        format.html { render partial: 'edit_modal', status: :unprocessable_entity }
-        # format.json { render json: @loan_question.errors, status: :unprocessable_entity }
+    if params[:move]
+      target = CustomField.find params[:target]
+
+      method = case params[:relation]
+      when 'before' then :prepend_sibling
+      when 'after' then :append_sibling
+      when 'inside' then :prepend_child
+      end
+
+      respond_to do |format|
+        if method && target.send(method, @loan_question)
+          format.json { head :no_content }
+        else
+          format.json { render json: @loan_question.errors, status: :unprocessable_entity }
+        end
+      end
+
+    else
+      respond_to do |format|
+        if @loan_question.update(loan_question_params)
+          format.json { render json: @loan_question.reload }
+        else
+          format.html { render partial: 'edit_modal', status: :unprocessable_entity }
+          # format.json { render json: @loan_question.errors, status: :unprocessable_entity }
+        end
       end
     end
+
   end
 
   private
