@@ -63,7 +63,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     MS.loadingIndicator.show()
 
   ajaxSuccess: (e, data) ->
-    if $(e.target).is('form')
+    if $(e.target).is('form.project-step-form')
       MS.loadingIndicator.hide()
 
       if @context == 'timeline'
@@ -104,4 +104,4 @@ class MS.Views.ProjectStepView extends Backbone.View
         context: 'edit_date'
         parentView: this
         daysShifted: @daysShifted
-      modalView.show(@stepId)
+      modalView.show(@stepId).done -> MS.timelineView.refreshSteps()
