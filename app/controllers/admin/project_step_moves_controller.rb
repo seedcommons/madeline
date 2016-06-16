@@ -24,14 +24,7 @@ class Admin::ProjectStepMovesController < Admin::AdminController
 
     @log.save
     @step_move.execute!
-
-    @expand_logs = true
-    set_log_form_vars
-    render partial: 'admin/project_steps/project_step', locals: {
-      step: @step,
-      context: 'timeline',
-      mode: :show
-    }
+    render nothing: true
   end
 
   private
