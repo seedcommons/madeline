@@ -13,12 +13,19 @@ class MS.Views.TranslationsView extends Backbone.View
   addLanguage: (e) ->
     e.preventDefault()
 
-    newLocale = @availableLocales()[0]
+    availLoc = @availableLocales()
+
+    newLocale = availLoc[0]
     return false unless newLocale
 
     # Clone existing block
     newBlock = @$('.language-block').last().clone()
     oldLocale = $(newBlock).data('locale')
+
+    # Remove already-defined locales from dropdown.
+    newBlock.find('select.locale option')
+      .filter (_, o) -> availLoc.indexOf($(o).val()) == -1
+      .remove()
 
     @changeBlockLocale(newBlock, newLocale)
     @$('a.add-language').before(newBlock)
@@ -60,8 +67,10 @@ class MS.Views.TranslationsView extends Backbone.View
       $(this).prev().html(I18n.t(item_name, { locale: locale }))
 
   availableLocales: ->
-    used = @$('select.locale').map( -> $(this).val() ).get()
-    @permittedLocales.filter (l) -> used.indexOf(l) < 0
+    @permittedLocales.filter (l) => @usedLocales().indexOf(l) < 0
+
+  usedLocales: ->
+    @$('select.locale').map( -> $(this).val() ).get()
 
   blockCount: ->
     @$('.language-block').length
