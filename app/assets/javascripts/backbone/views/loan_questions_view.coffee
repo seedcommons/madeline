@@ -56,7 +56,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       target: e.move_info.target_node.id
       relation: e.move_info.position # before, after, or inside
 
-    e.move_info.do_move()
-    $.post("/admin/loan_questions/#{id}", data, ->
+    $.post("/admin/loan_questions/#{id}", data).done( ->
+      e.move_info.do_move()
       MS.loadingIndicator.hide()
+    ).fail( (response) ->
+      MS.loadingIndicator.hide()
+      $alert = $(response.responseText).hide()
+      $alert.appendTo($('.alerts')).show('fast')
     )

@@ -27,12 +27,12 @@ class Admin::LoanQuestionsController < Admin::AdminController
       when 'inside' then :prepend_child
       end
 
-      respond_to do |format|
-        if method && target.send(method, @loan_question)
-          format.json { head :no_content }
-        else
-          format.json { render json: @loan_question.errors, status: :unprocessable_entity }
-        end
+      begin
+        target.send(method, @loan_question)
+        head :no_content
+      rescue
+        flash.now[:error] = I18n.t('loan_questions.move_error') + ": " + $!.to_s
+        render partial: 'application/alerts', status: :unprocessable_entity
       end
 
     else
