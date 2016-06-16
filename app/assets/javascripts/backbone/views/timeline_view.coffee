@@ -17,6 +17,7 @@ class MS.Views.TimelineView extends Backbone.View
 
   refreshSteps: ->
     MS.loadingIndicator.show()
+    @$('.project-steps').empty()
     $.get "/admin/loans/#{@loanId}/steps", (html) =>
       MS.loadingIndicator.hide()
       @$('.project-steps').html(html)
