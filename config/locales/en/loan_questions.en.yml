@@ -1,7 +1,7 @@
 en:
   loan_question:
     data_type: "Data type"
-    # text: "Title"
+    text: "Title"
 
   admin:
     loan_questions:

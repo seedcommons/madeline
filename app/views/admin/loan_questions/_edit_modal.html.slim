@@ -26,9 +26,9 @@
             collection: locale_options,
             input_html: {class: 'locale'}, include_blank: false
           = f.input :"label_#{l}", as: :text,
-            input_html: {data: {translatable: 'loan_questions.text'}},
-            placeholder: I18n.t('loan_questions.text', locale: l),
-            label: t('loan_questions.text', locale: l)
+            input_html: {data: {translatable: 'loan_question.text'}},
+            placeholder: I18n.t('loan_question.text', locale: l),
+            label: t('loan_question.text', locale: l)
           a.remove-language href='#' = t('common.remove')
       a.add-language href='#' = t('common.add_language')
 
