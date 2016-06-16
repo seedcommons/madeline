@@ -20,10 +20,10 @@ class Admin::ProjectStepMovesController < Admin::AdminController
     authorize @step, :update?
     @log = ProjectLog.new(project_log_attribs)
     authorize @log, :create?
-    @step_move = ProjectStepMove.new(project_step_move_params.merge(step: @step))
+    @step_move = ProjectStepMove.new(project_step_move_params.merge(step: @step, log: @log))
 
-    @log.save
     @step_move.execute!
+    @log.save!
     render nothing: true
   end
 
