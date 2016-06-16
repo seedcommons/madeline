@@ -2,7 +2,8 @@
   input type='hidden' name='project_log[deleted_locales][]'
   - log.used_locales_or_current_locale.each do |l|
     .language-block data-locale="#{l}"
-      .clearfix
+      a.remove-language href='#' = t('common.remove')
+      div.fields
         = f.input :"locale_#{l}", label: false,
           collection: locale_options,
           input_html: {class: 'locale'}, include_blank: false
@@ -18,12 +19,15 @@
       div class=("expandable" if f.object.get_translation(:additional_notes, locale: l).blank?) data-expandable='additional_notes'
         = f.input :"additional_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
+          wrapper_html: {class: 'expandable', data: {expandable: 'additional_notes'}},
           placeholder: I18n.t('log.additional_notes', locale: l),
           label: I18n.t('log.additional_notes', locale: l)
+
 
       div class=("expandable" if f.object.get_translation(:private_notes, locale: l).blank?) data-expandable='private_notes'
         = f.input :"private_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
+          wrapper_html: {class: 'expandable', data: {expandable: 'private_notes'}},
           placeholder: I18n.t('log.private_notes', locale: l),
           label: I18n.t('log.private_notes', locale: l)
 

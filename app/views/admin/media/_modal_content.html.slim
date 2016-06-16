@@ -7,9 +7,7 @@ div.modal-body
   = simple_form_for [:admin, @media], url: @submit_url, remote: true do |f|
     = f.error_notification
     = f.input :item
-    - I18n.available_locales.each do |locale|
-      - locale_name = t("locale_name.#{locale}")
-      = f.input "caption_#{locale}".to_sym, label: t('media.caption', locale_name: locale_name)
+    = render 'admin/media/translatable', media: @media, f: f
 
 div.modal-footer
   button.btn.btn-default.media-action.cancel type="button" = t(:cancel)

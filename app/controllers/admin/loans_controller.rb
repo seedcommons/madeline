@@ -1,4 +1,6 @@
 class Admin::LoansController < Admin::AdminController
+  include TranslationSaveable
+
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
     # selected_division is used for index filtering, and may be unassigned.
@@ -46,8 +48,9 @@ class Admin::LoansController < Admin::AdminController
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
+    @loan.assign_attributes(loan_params)
 
-    if @loan.update(loan_params)
+    if @loan.save
       redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
@@ -82,13 +85,15 @@ class Admin::LoansController < Admin::AdminController
   private
 
   def loan_params
-    params.require(:loan).permit(
-      :division_id, :organization_id, :loan_type_value, :status_value, :name,
-      :amount, :currency_id, :summary, :primary_agent_id, :secondary_agent_id,
-      :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
-      :target_end_date, :projected_return, :representative_id, :details,
-      :project_type_value, :public_level_value
-    )
+    params.require(:loan).permit(*(
+      [
+        :division_id, :organization_id, :loan_type_value, :status_value, :name,
+        :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
+        :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
+        :target_end_date, :projected_return, :representative_id,
+        :project_type_value, :public_level_value
+      ] + translation_params(:summary, :details)
+    ))
   end
 
   def prep_form_vars

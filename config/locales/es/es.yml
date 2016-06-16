@@ -66,6 +66,8 @@ es:
   common:
     details: Detalles
     summary: Resumen
+    caption: Subtítulo
+    description: Descripción
 
   will_paginate:
     previous_label: "&#8592; Anterior"

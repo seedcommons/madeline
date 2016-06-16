@@ -221,6 +221,7 @@ en:
     add_language: "Add Language"
     address_state: "State"
     created: "Created"
+    caption: "Caption"
     description: "Description"
     details: "Details"
     division: "Division"

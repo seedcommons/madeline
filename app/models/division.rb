@@ -25,7 +25,6 @@
 #
 
 class Division < ActiveRecord::Base
-  include CustomFieldAddable  # supports 'default_locales' persistence
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
