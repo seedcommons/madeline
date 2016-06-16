@@ -6,7 +6,6 @@ class MS.Views.LogModalView extends Backbone.View
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'hidden.bs.modal': 'cancel'
     'ajax:success': 'submitSuccess'
 
 
@@ -34,13 +33,6 @@ class MS.Views.LogModalView extends Backbone.View
     @$('.modal').modal('hide')
     @submitted = true
 
-  cancel: ->
-    @destroySelf() unless @submitted
-
-  ajaxSuccess: (e, data) ->
+  submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
     @parentView.replaceWith(data)
-    @destroySelf()
-
-  destroySelf: ->
-    @$el.remove()

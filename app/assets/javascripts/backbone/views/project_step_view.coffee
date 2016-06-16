@@ -85,12 +85,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    modalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+    unless @logModalView
+      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
     else
-      modalView.showNew(@$(link).data('parent-step-id'))
+      @logModalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)
@@ -99,9 +100,8 @@ class MS.Views.ProjectStepView extends Backbone.View
   # Show move step modal if step was just moved.
   showMoveStepModal: (e) ->
     if @daysShifted
-      modalView = new MS.Views.MoveStepModalView
-        el: $("<div>").appendTo(@$el)
-        context: 'edit_date'
-        parentView: this
-        daysShifted: @daysShifted
-      modalView.show(@stepId).done -> MS.timelineView.refreshSteps()
+      unless @moveStepModalView
+        @moveStepModalView = new MS.Views.MoveStepModalView
+          el: $("<div>").appendTo(@$el)
+          context: 'edit_date'
+      @moveStepModalView.show(@stepId, @daysShifted).done -> MS.timelineView.refreshSteps()
