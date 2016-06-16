@@ -1,6 +1,6 @@
 class Admin::LoanQuestionsController < Admin::AdminController
   include TranslationSaveable
-  before_action :set_loan_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_loan_question, only: [:show, :edit, :update, :destroy, :move]
 
   def index
     authorize CustomField
@@ -17,35 +17,28 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def update
     authorize @loan_question
-
-    if params[:move]
-      target = CustomField.find params[:target]
-
-      method = case params[:relation]
-      when 'before' then :prepend_sibling
-      when 'after' then :append_sibling
-      when 'inside' then :prepend_child
-      end
-
-      begin
-        target.send(method, @loan_question)
-        head :no_content
-      rescue
-        flash.now[:error] = I18n.t('loan_questions.move_error') + ": " + $!.to_s
-        render partial: 'application/alerts', status: :unprocessable_entity
-      end
-
+    if @loan_question.update(loan_question_params)
+      render json: @loan_question.reload
     else
-      respond_to do |format|
-        if @loan_question.update(loan_question_params)
-          format.json { render json: @loan_question.reload }
-        else
-          format.html { render partial: 'edit_modal', status: :unprocessable_entity }
-          # format.json { render json: @loan_question.errors, status: :unprocessable_entity }
-        end
-      end
+      render partial: 'edit_modal', status: :unprocessable_entity
+    end
+  end
+
+  def move
+    authorize @loan_question
+    target = CustomField.find params[:target]
+
+    method = case params[:relation]
+    when 'before' then :prepend_sibling
+    when 'after' then :append_sibling
+    when 'inside' then :prepend_child
     end
 
+    target.send(method, @loan_question)
+    head :no_content
+  rescue
+    flash.now[:error] = I18n.t('loan_questions.move_error') + ": " + $!.to_s
+    render partial: 'application/alerts', status: :unprocessable_entity
   end
 
   private

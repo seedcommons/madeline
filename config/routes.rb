@@ -33,8 +33,9 @@ Rails.application.routes.draw do
         patch :shift_subsequent
       end
     end
-    # get '/questions/:field_set' => 'loan_questions#index'
-    resources :loan_questions, as: :custom_fields
+    resources :loan_questions, as: :custom_fields do
+      patch 'move', on: :member
+    end
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

@@ -52,11 +52,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = e.move_info.moved_node.id
     data =
       _method: 'patch'
-      move: true
       target: e.move_info.target_node.id
       relation: e.move_info.position # before, after, or inside
 
-    $.post("/admin/loan_questions/#{id}", data).done( ->
+    $.post("/admin/loan_questions/#{id}/move", data).done( ->
       e.move_info.do_move()
       MS.loadingIndicator.hide()
     ).fail( (response) ->
