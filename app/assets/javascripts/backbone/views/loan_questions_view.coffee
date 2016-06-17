@@ -7,10 +7,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     @tree.tree
       data: @tree.data('data')
       dragAndDrop: true
+      selectable: false
+      useContextMenu: false
       onCreateLi: (node, $li) ->
         $li.data('id', node.id)
             .find('.jqtree-element')
-            .addClass('view-block')
             .after($('.links-block').html())
 
   events: (params) ->
