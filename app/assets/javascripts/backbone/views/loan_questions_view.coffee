@@ -13,6 +13,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.data('id', node.id)
             .find('.jqtree-element')
             .after($('.links-block').html())
+    @tree.find('li:last-child').after($('.new-item-block').html())
 
   events: (params) ->
     'click .links .edit-action': 'editNode'

@@ -8,5 +8,6 @@ en:
     loan_questions:
       index:
         title: "Loan Questions"
+        add_item: "Add question or group"
       edit_modal:
         title: "Edit Item"

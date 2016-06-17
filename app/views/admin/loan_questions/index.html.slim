@@ -13,6 +13,14 @@
           i.fa.fa-trash
       .clearfix
     
+    .new-item-block
+      / This is added after each last child
+      li.jqtree_common.new-item
+        .jqtree_common.jqtree-element
+          span.jqtree_common.jqtree-title 
+            a href="#" = t '.add_item'
+        .clearfix
+    
   #edit-modal.modal.fade tabindex="-1" role="dialog"
     .modal-dialog
       .modal-content            
