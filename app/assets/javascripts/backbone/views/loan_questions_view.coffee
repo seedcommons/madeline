@@ -57,16 +57,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $form = @$(e.target).closest('form')
 
     # We send form data via ajax so we can capture the response from server
-    $.post($form.attr('action'), $form.serialize()).done( (response) =>
+    $.post($form.attr('action'), $form.serialize())
+    .done (response) =>
       # Insert node with data returned from server
       parent_node = @tree.tree('getNodeById', response.parent_id)
       @$('#edit-modal').modal('hide')
       @tree.tree('appendNode', response, parent_node)
       @filterInit()
       @addNewItemBlocks()
-    ).fail( (response) =>
+    .fail (response) =>
       @$('.modal-content').html(response.responseText)
-    )
 
     MS.loadingIndicator.hide()
     # Prevent form from being submitted again
@@ -79,15 +79,15 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     node = @tree.tree('getNodeById', id)
 
     # We send form data via ajax so we can capture the response from server
-    $.post($form.attr('action'), $form.serialize()).done( (response) =>
+    $.post($form.attr('action'), $form.serialize())
+    .done (response) =>
       # Update node on page with data returned from server
       @tree.tree('updateNode', node, response)
       @$('#edit-modal').modal('hide')
       @filterInit()
       @addNewItemBlocks()
-    ).fail( (response) =>
+    .fail (response) =>
       @$('.modal-content').html(response.responseText)
-    )
 
     MS.loadingIndicator.hide()
     # Prevent form from being submitted again
@@ -102,16 +102,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       target: e.move_info.target_node.id
       relation: e.move_info.position # before, after, or inside
 
-    $.post("/admin/loan_questions/#{id}/move", data).done( =>
+    $.post("/admin/loan_questions/#{id}/move", data)
+    .done =>
       e.move_info.do_move()
       MS.loadingIndicator.hide()
       @filterInit()
       @addNewItemBlocks()
-    ).fail( (response) ->
+    .fail (response) ->
       MS.loadingIndicator.hide()
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
-    )
 
   confirmDelete: (e) ->
     # Replace generic confirmation message with one with specific number of descendants
@@ -125,16 +125,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
 
-    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}").done( =>
+    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
+    .done =>
       MS.loadingIndicator.hide()
       @tree.tree('removeNode', node)
       @filterInit()
       @addNewItemBlocks()
-    ).fail( (response) ->
+    .fail (response) ->
       MS.loadingIndicator.hide()
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
-    )
     return false
 
   addNewItemBlocks: ->
