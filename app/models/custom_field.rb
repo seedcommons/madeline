@@ -26,9 +26,9 @@ class CustomField < ActiveRecord::Base
   include Translatable
 
   belongs_to :custom_field_set
-  # note, the custom field form layout can be hierarchially nested
 
-  has_closure_tree order: 'position'
+  # note, the custom field form layout can be hierarchially nested
+  has_closure_tree order: 'position', dependent: :destroy
 
   # Transient value populated by depth first traversal of questions scoped to a specific division.
   # Starts with '1'.  Used in hierarchical display of questions.

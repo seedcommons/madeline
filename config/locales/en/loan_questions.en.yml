@@ -1,9 +1,14 @@
 en:
   loan_question: "Loan question"
   loan_questions:
+    confirm_deletion: "WARNING: If this item has any questions or groups belonging to it, they will be deleted as well! Are you sure you want to delete this?"
+    confirm_deletion_descendants:
+      zero: "Are you sure you want to delete this?"
+      one: "WARNING: This item has 1 question or group belonging to it, which will be deleted as well! Are you sure you want to delete this?"
+      other: "WARNING: This item has %{count} questions or groups belonging to it, which will be deleted as well! Are you sure you want to delete this?"
     data_type: "Data type"
-    move_error: "The item could not be moved due to an error"
     delete_error: "The item could not be deleted due to an error"
+    move_error: "The item could not be moved due to an error"
     text: "Title"
 
   admin:

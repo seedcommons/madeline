@@ -10,7 +10,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       selectable: false
       useContextMenu: false
       onCreateLi: (node, $li) ->
-        $li.data('id', node.id)
+        $li.attr('data-id', node.id)
             .find('.jqtree-element')
             .after($('.links-block').html())
     @addNewItemBlocks()
@@ -21,6 +21,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'submit #edit-modal form.new-form': 'createNode'
     'submit #edit-modal form.update-form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
+    'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
 
   newNode: (e) ->
@@ -99,6 +100,13 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
     )
+
+  confirmDelete: (e) ->
+    # Replace generic confirmation message with one with specific number of descendants
+    id = @$(e.target).closest('li').data('id')
+    node = @tree.tree('getNodeById', id)
+    @$(e.target).closest('a').attr('data-confirm',
+      I18n.t("loan_questions.confirm_deletion_descendants", count: node.descendants_count))
 
   deleteNode: (e) ->
     MS.loadingIndicator.show()
