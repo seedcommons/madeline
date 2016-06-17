@@ -37,6 +37,7 @@ module Legacy
         parent_id: grupo,
         required: (required == 1),
         data_type: data_type,
+        has_embeddable_media: (i_frame == 1),
         label_es: question,
         label_en: question_en
       }

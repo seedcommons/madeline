@@ -49,6 +49,55 @@ class CustomField < ActiveRecord::Base
     internal_name.to_sym
   end
 
+  # List of value keys for fields which have nested values
+  def value_types
+    result =
+      case data_type
+      when 'string'
+        [:text]
+      when 'text'
+        [:text]
+      when 'number'
+        [:number]
+      when 'range'
+        [:rating, :text]
+      else
+        []
+      end
+
+    if has_embeddable_media
+      if result
+        result << :embeddable_media
+      else
+        raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
+      end
+    end
+    puts "field: #{name} - value type: #{result}"
+    result
+  end
+
+  # Simple form type mapping
+  def form_field_type
+    case data_type
+    when 'string'
+      :string
+    when 'text'
+      :text
+    when 'number'
+      :decimal
+    when 'range'
+      :select
+    when 'boolean'
+      :boolean
+    when 'translatable'
+      :text
+    when 'list'
+      :select
+    when 'group'
+      nil # group type fields are not expected to have rendered form fields
+    end
+  end
+
   def traverse_depth_first(list)
     list << self
     counter = 0

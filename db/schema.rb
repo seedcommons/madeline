@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20160603060505) do
     t.datetime "created_at", null: false
     t.integer  "custom_field_set_id"
     t.string   "data_type"
+    t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "migration_position"
     t.integer  "parent_id"
