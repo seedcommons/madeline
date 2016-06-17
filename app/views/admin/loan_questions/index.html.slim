@@ -1,6 +1,13 @@
 - content_for(:title, t('.title'))
 
 .loan-questions
+  .filter-switch
+    .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
+      label.btn.btn-default class=(params[:fieldset].present? && params[:fieldset] != 'criteria' ? '' : 'active')
+        input type="radio" name="fieldset" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
+      label.btn.btn-default class=(params[:fieldset] == 'post_analysis' ? 'active' : '')
+        input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
+  
   .jqtree data-data=@json
 
   .hidden

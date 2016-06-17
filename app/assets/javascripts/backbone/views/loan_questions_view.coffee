@@ -3,6 +3,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   el: '.loan-questions'
 
   initialize: (params) ->
+    @listenTo(Backbone, 'popstate', @popstate)
     @tree = @$('.jqtree')
     @tree.tree
       data: @tree.data('data')
@@ -11,8 +12,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       useContextMenu: false
       onCreateLi: (node, $li) ->
         $li.attr('data-id', node.id)
+            .attr('data-fieldset', node.fieldset)
             .find('.jqtree-element')
             .after($('.links-block').html())
+    # new MS.Views.FilterSwitchView()
+    @filterInit()
     @addNewItemBlocks()
 
   events: (params) ->
@@ -23,6 +27,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
+    'click .filter-switch .btn': 'filterSwitch'
 
   newNode: (e) ->
     MS.loadingIndicator.show()
@@ -128,3 +133,23 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item').remove()
     @tree.find('li:last-child').after(@$('.new-item-block').html())
+
+  filterSwitch: (e) ->
+    selected = $(e.currentTarget).find('input')[0].value
+    if selected == "post_analysis"
+      @tree.find('li[data-fieldset="criteria"]').hide()
+      @tree.find('li[data-fieldset="post_analysis"]').show()
+      url = URI(window.location.href).setQuery('filter', 'post_analysis').href()
+      history.pushState(null, "", url)
+    else if selected == "criteria"
+      @tree.find('li[data-fieldset="post_analysis"]').hide()
+      @tree.find('li[data-fieldset="criteria"]').show()
+      url = URI(window.location.href).setQuery('filter', 'criteria').href()
+      history.pushState(null, "", url)
+
+  filterInit: ->
+    selected = URI(window.location.href).query(true)['filter']
+    if selected == "post_analysis"
+      @tree.find('li[data-fieldset="criteria"]').hide()
+    else
+      @tree.find('li[data-fieldset="post_analysis"]').hide()

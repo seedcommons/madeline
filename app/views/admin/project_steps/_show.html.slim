@@ -16,8 +16,6 @@
         = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
             data: { \
               confirm: t("project_step.confirm_deletion"),
-              "confirm-cancel": t(:cancel),
-              "confirm-proceed": t(:confirm),
               "confirm-title": t('project_step.delete', count: 1) \
             }
             i.fa.fa-trash.fa-large>
@@ -58,8 +56,6 @@
             = link_to [:admin, step], method: :delete, class: "action action-delete", remote: true,
                 data: { \
                   confirm: t("project_step.confirm_deletion"),
-                  "confirm-cancel": t(:cancel),
-                  "confirm-proceed": t(:confirm),
                   "confirm-title": t('project_step.delete', count: 1) \
                 }
                 i.fa.fa-trash.fa-large>
