@@ -6,9 +6,7 @@ class MS.Views.Expander extends Backbone.View
     'click [data-expands]': 'expand'
 
   expand: (e) ->
-    console.log("HERE", e.target)
     e.preventDefault()
     target = @$(e.currentTarget).data('expands')
-    console.log("[data-expandable='#{target}']")
     @$("[data-expandable='#{target}']").show()
     @$(e.currentTarget).hide()

@@ -16,18 +16,15 @@
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
 
-      div class=("expandable" if f.object.get_translation(:additional_notes, locale: l).blank?) data-expandable='additional_notes'
+      div data-expandable=("additional_notes" if f.object.get_translation(:additional_notes, locale: l).blank?)
         = f.input :"additional_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.additional_notes'}},
-          wrapper_html: {class: 'expandable', data: {expandable: 'additional_notes'}},
           placeholder: I18n.t('log.additional_notes', locale: l),
           label: I18n.t('log.additional_notes', locale: l)
 
-
-      div class=("expandable" if f.object.get_translation(:private_notes, locale: l).blank?) data-expandable='private_notes'
+      div data-expandable=("private_notes" if f.object.get_translation(:private_notes, locale: l).blank?)
         = f.input :"private_notes_#{l}", as: :text,
           input_html: {rows: 3, data: {translatable: 'log.private_notes'}},
-          wrapper_html: {class: 'expandable', data: {expandable: 'private_notes'}},
           placeholder: I18n.t('log.private_notes', locale: l),
           label: I18n.t('log.private_notes', locale: l)
 
