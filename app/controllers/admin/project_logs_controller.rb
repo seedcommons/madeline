@@ -10,7 +10,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   end
 
   def new
-    @log = ProjectLog.new(project_step_id: params[:step_id])
+    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today)
     @step = @log.project_step
     authorize_and_render_modal
   end

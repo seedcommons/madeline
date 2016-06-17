@@ -11,7 +11,7 @@ class Admin::ProjectStepMovesController < Admin::AdminController
     )
 
     set_log_form_vars
-    @log = ProjectLog.new(project_step_id: params[:step_id])
+    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today)
     render layout: false
   end
 
