@@ -62,6 +62,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       parent_node = @tree.tree('getNodeById', response.parent_id)
       @$('#edit-modal').modal('hide')
       @tree.tree('appendNode', response, parent_node)
+      @filterInit()
       @addNewItemBlocks()
     ).fail( (response) =>
       @$('.modal-content').html(response.responseText)
@@ -82,6 +83,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       # Update node on page with data returned from server
       @tree.tree('updateNode', node, response)
       @$('#edit-modal').modal('hide')
+      @filterInit()
       @addNewItemBlocks()
     ).fail( (response) =>
       @$('.modal-content').html(response.responseText)
@@ -103,6 +105,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $.post("/admin/loan_questions/#{id}/move", data).done( =>
       e.move_info.do_move()
       MS.loadingIndicator.hide()
+      @filterInit()
       @addNewItemBlocks()
     ).fail( (response) ->
       MS.loadingIndicator.hide()
@@ -125,6 +128,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}").done( =>
       MS.loadingIndicator.hide()
       @tree.tree('removeNode', node)
+      @filterInit()
       @addNewItemBlocks()
     ).fail( (response) ->
       MS.loadingIndicator.hide()
