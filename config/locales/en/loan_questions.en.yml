@@ -3,6 +3,7 @@ en:
   loan_questions:
     data_type: "Data type"
     move_error: "The item could not be moved due to an error"
+    delete_error: "The item could not be deleted due to an error"
     text: "Title"
 
   admin:

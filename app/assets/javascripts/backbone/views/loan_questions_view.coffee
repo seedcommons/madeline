@@ -18,10 +18,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   events: (params) ->
     'click .new-action': 'newNode'
     'click .edit-action': 'editNode'
-    'confirm:complete .delete-action': 'deleteNode'
     'submit #edit-modal form.new-form': 'createNode'
     'submit #edit-modal form.update-form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
+    'confirm:complete .delete-action': 'deleteNode'
 
   newNode: (e) ->
     MS.loadingIndicator.show()
@@ -59,18 +59,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     MS.loadingIndicator.hide()
     # Prevent form from being submitted again
-    return false
-
-  deleteNode: (e) ->
-    MS.loadingIndicator.show()
-    id = @$(e.target).closest('li').data('id')
-    node = @tree.tree('getNodeById', id)
-
-    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}").done( =>
-      MS.loadingIndicator.hide()
-      @tree.tree('removeNode', node)
-      @addNewItemBlocks()
-    )
     return false
 
   updateNode: (e) ->
@@ -111,6 +99,22 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
     )
+
+  deleteNode: (e) ->
+    MS.loadingIndicator.show()
+    id = @$(e.target).closest('li').data('id')
+    node = @tree.tree('getNodeById', id)
+
+    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}").done( =>
+      MS.loadingIndicator.hide()
+      @tree.tree('removeNode', node)
+      @addNewItemBlocks()
+    ).fail( (response) ->
+      MS.loadingIndicator.hide()
+      $alert = $(response.responseText).hide()
+      $alert.appendTo($('.alerts')).show('fast')
+    )
+    return false
 
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
