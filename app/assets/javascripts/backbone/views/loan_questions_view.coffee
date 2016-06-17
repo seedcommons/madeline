@@ -17,16 +17,27 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   events: (params) ->
     'click .links .edit-action': 'editNode'
+    'click .new-action': 'newNode'
     'submit #edit-modal form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
 
   editNode: (e) ->
     MS.loadingIndicator.show()
-    qid = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{qid}/edit", ->
+    id = @$(e.target).closest('li').data('id')
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", ->
+      MS.loadingIndicator.hide()
       $('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+    )
+
+  newNode: (e) ->
+    MS.loadingIndicator.show()
+    parent_id = @$(e.target).closest('li').parents('li').data('id')
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/new", ->
       MS.loadingIndicator.hide()
+      $('#edit-modal').modal('show')
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+      $('#custom_field_parent_id').val(parent_id)
     )
 
   updateNode: (e) ->

@@ -10,8 +10,25 @@ class Admin::LoanQuestionsController < Admin::AdminController
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 
+  def new
+    field_set = params[:field_set] || 'loan_criteria'
+    @loan_question = CustomFieldSet.find_by(internal_name: field_set).custom_fields.build
+    authorize @loan_question
+    render partial: 'edit_modal'
+  end
+
   def edit
     render partial: 'edit_modal'
+  end
+
+  def create
+    @loan_question = CustomField.new(loan_question_params)
+    authorize @loan_question
+    if @loan_question.save
+      render json: @loan_question.reload
+    else
+      render partial: 'edit_modal', status: :unprocessable_entity
+    end
   end
 
   def update
@@ -46,6 +63,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
-      params.require(:custom_field).permit(:label, :data_type, :parent_id, :position, *translation_params(:label))
+      params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
+        :custom_field_set_id, *translation_params(:label))
     end
 end
