@@ -11,8 +11,9 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def new
-    field_set = params[:field_set] || 'loan_criteria'
-    @loan_question = CustomFieldSet.find_by(internal_name: field_set).custom_fields.build
+    field_set_name = params[:fieldset]
+    field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
+    @loan_question = field_set.custom_fields.build
     authorize @loan_question
     render partial: 'edit_modal'
   end

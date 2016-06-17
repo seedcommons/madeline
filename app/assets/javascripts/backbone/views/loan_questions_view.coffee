@@ -35,7 +35,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   newNode: (e) ->
     MS.loadingIndicator.show()
     parent_id = @$(e.target).closest('li').parents('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/new", =>
+    fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
       MS.loadingIndicator.hide()
       @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
@@ -138,7 +139,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     @tree.find('li:last-child').after(@$('.new-item-block').html())
     # Ensure at least one
     if @tree.find('.new-item').size() == 0
-      @tree.find('ul').append(@$('.new-item-block').html()) 
+      @tree.find('ul').append(@$('.new-item-block').html())
 
   filterSwitch: (e) ->
     selected = $(e.currentTarget).find('input')[0].value
