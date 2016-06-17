@@ -30,6 +30,7 @@
 //= require jquery-ui
 //= require jquery.remotipart
 //= require wice_grid
+//= require bootstrap-datepicker
 
 //= require twitter/bootstrap/rails/confirm
 //= require admin/confirm
