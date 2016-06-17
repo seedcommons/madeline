@@ -54,6 +54,12 @@ class Admin::LoanQuestionsController < Admin::AdminController
     render partial: 'application/alerts', status: :unprocessable_entity
   end
 
+  def destroy
+    @loan_question.destroy
+    flash.now[:notice] = I18n.t('notice_deleted')
+    render partial: 'application/alerts'
+  end
+
   private
 
     def set_loan_question

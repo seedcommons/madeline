@@ -18,6 +18,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   events: (params) ->
     'click .new-action': 'newNode'
     'click .edit-action': 'editNode'
+    'click .delete-action': 'deleteNode'
     'submit #edit-modal form.new-form': 'createNode'
     'submit #edit-modal form.update-form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
@@ -25,19 +26,19 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   newNode: (e) ->
     MS.loadingIndicator.show()
     parent_id = @$(e.target).closest('li').parents('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/new", ->
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/new", =>
       MS.loadingIndicator.hide()
-      $('#edit-modal').modal('show')
+      @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
-      $('#custom_field_parent_id').val(parent_id)
+      @$('#custom_field_parent_id').val(parent_id)
     )
 
   editNode: (e) ->
     MS.loadingIndicator.show()
     id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", ->
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
       MS.loadingIndicator.hide()
-      $('#edit-modal').modal('show')
+      @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
     )
 
@@ -60,6 +61,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Prevent form from being submitted again
     return false
 
+  deleteNode: (e) ->
+    # MS.loadingIndicator.show()
+    # e.preventDefault()
+    id = @$(e.target).closest('li').data('id')
+    @$(e.target).attr('href', "/admin/loan_questions/#{id}")
+
+    # $.post("/admin/loan_questions/#{id}", { _method: 'delete' }).done( ->
+    #   MS.loadingIndicator.hide()
+    # )
+
   updateNode: (e) ->
     MS.loadingIndicator.show()
     $form = @$(e.target).closest('form')
@@ -67,13 +78,13 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     node = @tree.tree('getNodeById', id)
 
     # We send form data via ajax so we can capture the response from server
-    $.post($form.attr('action'), $form.serialize()).done( (response) ->
+    $.post($form.attr('action'), $form.serialize()).done( (response) =>
       # Update node on page with data returned from server
-      $('.jqtree').tree('updateNode', node, response)
-      $('#edit-modal').modal('hide')
+      @$('.jqtree').tree('updateNode', node, response)
+      @$('#edit-modal').modal('hide')
       @addNewItemBlocks()
-    ).fail( (response) ->
-      $('.modal-content').html(response.responseText)
+    ).fail( (response) =>
+      @$('.modal-content').html(response.responseText)
     )
 
     MS.loadingIndicator.hide()
@@ -100,5 +111,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     )
 
   addNewItemBlocks: ->
+    # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item-block').remove()
     @tree.find('li:last-child').after(@$('.new-item-block').html())

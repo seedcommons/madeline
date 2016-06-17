@@ -181,6 +181,7 @@ en:
   created: "Created"
   days: "days"
   delete: "Delete"
+  delete_record: "Delete Record"
   description: "Description"
   dropdown_toggle: "Toggle Dropdown"
   edit: "Edit"
