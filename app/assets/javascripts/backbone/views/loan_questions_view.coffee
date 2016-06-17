@@ -13,22 +13,14 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.data('id', node.id)
             .find('.jqtree-element')
             .after($('.links-block').html())
-    @tree.find('li:last-child').after($('.new-item-block').html())
+    @addNewItemBlocks()
 
   events: (params) ->
-    'click .links .edit-action': 'editNode'
     'click .new-action': 'newNode'
-    'submit #edit-modal form': 'updateNode'
+    'click .edit-action': 'editNode'
+    'submit #edit-modal form.new-form': 'createNode'
+    'submit #edit-modal form.update-form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
-
-  editNode: (e) ->
-    MS.loadingIndicator.show()
-    id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", ->
-      MS.loadingIndicator.hide()
-      $('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
-    )
 
   newNode: (e) ->
     MS.loadingIndicator.show()
@@ -39,6 +31,34 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
       $('#custom_field_parent_id').val(parent_id)
     )
+
+  editNode: (e) ->
+    MS.loadingIndicator.show()
+    id = @$(e.target).closest('li').data('id')
+    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", ->
+      MS.loadingIndicator.hide()
+      $('#edit-modal').modal('show')
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+    )
+
+  createNode: (e) ->
+    MS.loadingIndicator.show()
+    $form = @$(e.target).closest('form')
+
+    # We send form data via ajax so we can capture the response from server
+    $.post($form.attr('action'), $form.serialize()).done( (response) =>
+      # Insert node with data returned from server
+      parent_node = @tree.tree('getNodeById', response.parent_id)
+      @$('#edit-modal').modal('hide')
+      @tree.tree('appendNode', response, parent_node)
+      @addNewItemBlocks()
+    ).fail( (response) =>
+      @$('.modal-content').html(response.responseText)
+    )
+
+    MS.loadingIndicator.hide()
+    # Prevent form from being submitted again
+    return false
 
   updateNode: (e) ->
     MS.loadingIndicator.show()
@@ -51,6 +71,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       # Update node on page with data returned from server
       $('.jqtree').tree('updateNode', node, response)
       $('#edit-modal').modal('hide')
+      @addNewItemBlocks()
     ).fail( (response) ->
       $('.modal-content').html(response.responseText)
     )
@@ -68,11 +89,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       target: e.move_info.target_node.id
       relation: e.move_info.position # before, after, or inside
 
-    $.post("/admin/loan_questions/#{id}/move", data).done( ->
+    $.post("/admin/loan_questions/#{id}/move", data).done( =>
       e.move_info.do_move()
       MS.loadingIndicator.hide()
+      @addNewItemBlocks()
     ).fail( (response) ->
       MS.loadingIndicator.hide()
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
     )
+
+  addNewItemBlocks: ->
+    @tree.find('.new-item-block').remove()
+    @tree.find('li:last-child').after(@$('.new-item-block').html())
