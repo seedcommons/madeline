@@ -29,7 +29,9 @@ class MS.Views.TimelineHeaderView extends Backbone.View
       history.pushState(null, "", url)
 
   filterInit: ->
-    selected = URI(window.location.href).query(true)['filter']
+    selected = URI(window.location.href).query(true)['filter'] || 'all'
+    $('.filter-switch .btn').removeClass('active')
+    $('.filter-switch input[value="'+selected+'"]').closest('.btn').addClass('active')
     if selected == "incomplete"
       $('.step.completed').hide()
     else

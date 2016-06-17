@@ -36,9 +36,9 @@ header.timeline-header
 
     .item.filter-switch
       .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
-        label.btn.btn-default class=(params[:filter].present? && params[:filter] != 'all' ? '' : 'active')
+        label.btn.btn-default
           input type="radio" name="filter" value="all" id="filter-all"  = t(:all)
-        label.btn.btn-default class=(params[:filter] == 'incomplete' ? 'active' : '')
+        label.btn.btn-default
           input type="radio" name="filter" value="incomplete" id="filter-incomplete"  = t(:incomplete)
 
     .clearfix
