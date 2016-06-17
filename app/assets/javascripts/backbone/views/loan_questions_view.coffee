@@ -136,6 +136,9 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item').remove()
     @tree.find('li:last-child').after(@$('.new-item-block').html())
+    # Ensure at least one
+    if @tree.find('.new-item').size() == 0
+      @tree.find('ul').append(@$('.new-item-block').html()) 
 
   filterSwitch: (e) ->
     selected = $(e.currentTarget).find('input')[0].value
