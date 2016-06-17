@@ -6,7 +6,8 @@ class CalendarEvent
   attr_accessor :html  # transient value populated by controller and serialized as 'title'
 
   attr_accessor :event_type
-  attr_accessor :model_id
+  attr_accessor :model
+  attr_accessor :model_type
 
   attr_accessor :background_color
   attr_accessor :step_type
@@ -88,7 +89,7 @@ class CalendarEvent
     @event_type = "project_step"
     @num_of_logs = step.logs_count
     @model_type = 'ProjectStep'
-    @model_id = step.id
+    @model = step
 
     @step_type = step.step_type_value
     # could update to use step.completed_or_not
@@ -103,7 +104,8 @@ class CalendarEvent
     @event_type = "ghost_step"
     @num_of_logs = step.logs_count
     @model_type = 'ProjectStep'
-    @model_id = step.id
+    @model = step
+    @step_type = step.step_type_value
     self
   end
 
@@ -112,7 +114,7 @@ class CalendarEvent
     @title = "Start " + loan.name
     @event_type = "loan_start"
     @model_type = 'Loan'
-    @model_id = loan.id
+    @model = loan
     self
   end
 
@@ -121,7 +123,7 @@ class CalendarEvent
     @title = "End " + loan.name
     @event_type = "loan_end"
     @model_type = 'Loan'
-    @model_id = loan.id
+    @model = loan
     self
   end
 
@@ -129,4 +131,7 @@ class CalendarEvent
     "#{event_type}-#{model_id}"
   end
 
+  def model_id
+    model.id
+  end
 end

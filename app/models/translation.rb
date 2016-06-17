@@ -21,6 +21,10 @@ class Translation < ActiveRecord::Base
 
   delegate :division, :division=, to: :translatable
 
+  def blank?
+    text.blank?
+  end
+
   def to_s
     text
   end

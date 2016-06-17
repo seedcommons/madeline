@@ -5,43 +5,73 @@
       - @empty_list = true
       - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-    - g.column name: t("id"), attribute: 'id', filter: false, in_csv: false do |loan|
+    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))
-
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name',
+      in_html: false, filter: false
 
-    - g.column name: t("common.division"), attribute: 'name', assoc: :division,
-      custom_filter: :auto, detach_with_id: :division_filter
-
-    - g.column name: t("coop"), attribute: 'name', assoc: :organization,
-      custom_filter: :auto, detach_with_id: :coop_filter
-
-    - g.column name: t("status"), attribute: 'status_value',
+    - g.column name: t('activerecord.attributes.loan.division'), attribute: 'name',
+      assoc: :division, custom_filter: :auto, detach_with_id: :division_filter
+    - g.column name: t('activerecord.attributes.loan.organization'), attribute: 'name',
+      assoc: :organization, custom_filter: :auto, detach_with_id: :coop_filter
+    - g.column name: t('activerecord.attributes.loan.status'), attribute: 'status_value',
       custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
       - loan.status
-
-    - g.column name: t("loan.sign_date"), attribute: 'signing_date',
+    - g.column name: t('activerecord.attributes.loan.signing_date'), attribute: 'signing_date',
       detach_with_id: :signing_date_filter do |loan|
       - loan.signing_date ? l(loan.signing_date) : ''
-
-    - g.column name: t("loan.length"), attribute: 'length_months', filter: false do |loan|
+    - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
+      filter: false do |loan|
       - t("loan.months", number: loan.length_months.to_s)
-
-    - g.column name: t("loan.loan_type"), attribute: 'loan_type_value',
+    - g.column name: t('activerecord.attributes.loan.loan_type'), attribute: 'loan_type_value',
       custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
       - loan.loan_type
-
-    - g.column name: t("loan.amount"), attribute: 'amount', filter: false do |loan|
+    - g.column name: t('activerecord.attributes.loan.amount'), attribute: 'amount',
+      filter: false do |loan|
       - number_to_currency(loan.amount)
+    - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
+      assoc: :currency, filter: false, in_html: false
+    
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
+      assoc: :primary_agent, filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), attribute: 'name',
+      assoc: :secondary_agent, filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.representative'), attribute: 'name',
+      assoc: :representative, filter: false, in_html: false
 
-    - g.column name: t("created"), attribute: 'created_at', filter: false, in_csv: false do |loan|
+    - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
+      filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.rate'), attribute: 'rate', filter: false,
+      in_html: false
+    - g.column name: t('activerecord.attributes.loan.first_payment_date'),
+      attribute: 'first_payment_date', filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.first_interest_payment_date'),
+      attribute: 'first_interest_payment_date', filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.target_end_date'),
+      attribute: 'target_end_date', filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.projected_return'),
+      attribute: 'projected_return', filter: false, in_html: false
+  
+    - g.column name: t('activerecord.attributes.loan.summary'), filter: false,
+      in_html: false do |loan|
+        - loan.summary
+    - g.column name: t('activerecord.attributes.loan.details'), filter: false,
+      in_html: false do |loan|
+        - loan.details
+
+    - g.column name: t('activerecord.attributes.loan.project_type'), filter: false,
+      in_html: false do |loan|
+      - loan.try(:project_type_label)
+    - g.column name: t('activerecord.attributes.loan.public_level'), filter: false,
+      in_html: false do |loan|
+      - loan.try(:public_level_label)
+    
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false,
+      in_csv: false do |loan|
       - fuzzy_time(loan.created_at)
-
-    - g.column name: t("created"), attribute: 'created_at', filter: false, in_html: false do |loan|
-      - loan.created_at
-
-    - g.column name: t("updated"), attribute: 'updated_at', filter: false, in_csv: false do |loan|
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_html: false
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false,
+      in_csv: false do |loan|
       - fuzzy_time(loan.updated_at)
-
-    - g.column name: t("updated"), attribute: 'updated_at', filter: false, in_html: false do |loan|
-      - loan.updated_at
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false, in_html: false

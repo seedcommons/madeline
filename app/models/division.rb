@@ -25,7 +25,6 @@
 #
 
 class Division < ActiveRecord::Base
-  include CustomFieldAddable  # supports 'default_locales' persistence
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
@@ -48,6 +47,8 @@ class Division < ActiveRecord::Base
 
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+
+  scope :by_name, -> { order("LOWER(divisions.name)") }
 
   # Note: the closure_tree automatically provides a Division.root class method which returns the
   # first Division with a null parent_id ordered by id.

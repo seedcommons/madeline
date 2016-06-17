@@ -16,6 +16,7 @@
 @import "jasny-bootstrap";
 @import "select2";
 @import "select2-bootstrap";
+@import "bootstrap-datepicker3";
 @import "global-loading-indicator";
 @import "devise";
 
@@ -25,4 +26,8 @@
 
 body {
   color: #333435;
+}
+
+[data-expandable] {
+  display: none;
 }

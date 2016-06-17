@@ -5,6 +5,7 @@
 #  agent_id              :integer
 #  created_at            :datetime         not null
 #  date                  :date
+#  date_changed_to       :date
 #  id                    :integer          not null, primary key
 #  progress_metric_value :string
 #  project_step_id       :integer

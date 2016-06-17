@@ -1,4 +1,4 @@
-#log-modal {
+.log-form {
   input[type='text'], select, textarea {
     display: inline-block;
     width: auto;
@@ -17,7 +17,13 @@
     }
 
     textarea, [type='text'] {
-      width: calc(100% - 10em)
+      width: 100%;
+      max-width: 100%;
+
+      @media (min-width: 768px) {
+        width: calc(100% - 10em);
+        max-width: calc(100% - 10em);
+      }
     }
   }
 
@@ -25,23 +31,10 @@
     display: block;
     float: none;
     margin-left: 10em;
-    margin-bottom: 15px;
 
     .action {
       float: none;
     }
-  }
-
-  .expandable {
-    display: none;
-
-    &.expanded {
-      display: block;
-    }
-  }
-
-  .hidden {
-    display: none;
   }
 
   .date {

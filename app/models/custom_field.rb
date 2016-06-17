@@ -7,10 +7,9 @@
 #  data_type           :string
 #  id                  :integer          not null, primary key
 #  internal_name       :string
-#  migration_position  :integer
+#  label               :string
 #  parent_id           :integer
 #  position            :integer
-#  required            :boolean          default(FALSE), not null
 #  updated_at          :datetime         not null
 #
 # Indexes

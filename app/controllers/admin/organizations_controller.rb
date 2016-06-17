@@ -3,9 +3,13 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize Organization
     @organizations_grid = initialize_grid(
       policy_scope(Organization),
-      include: :country,
+      include: [:country, :division, :primary_contact, :people],
       conditions: division_index_filter,
       order: 'name',
+      custom_order: {
+        "organizations.name" => "LOWER(organizations.name)",
+        "organizations.city" => "LOWER(organizations.city)"
+      },
       per_page: 50,
       name: 'organizations',
       enable_export_to_csv: true
@@ -83,9 +87,9 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def prep_form_vars
-    @countries = Country.all
+    @countries = Country.order(:name)
     @division_choices = division_choices
-    @contact_choices = @org.people
+    @contact_choices = @org.people.order(:name)
     @people_choices = person_policy_scope(Person.all).order(:name)
 
     @loans_grid = initialize_grid(

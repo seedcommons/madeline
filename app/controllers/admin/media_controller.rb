@@ -1,4 +1,6 @@
 class Admin::MediaController < Admin::AdminController
+  include TranslationSaveable
+
   before_action :find_attachable, :find_media, :authorize_media
 
   def new
@@ -10,8 +12,8 @@ class Admin::MediaController < Admin::AdminController
   end
 
   def create
-    @media.update_attributes(media_params)
-    if @media.valid?
+    @media.assign_attributes(media_params)
+    if @media.save
       render partial: "admin/media/index", locals: {owner: @media.media_attachable}
     else
       render_modal_partial(status: 422)
@@ -21,7 +23,7 @@ class Admin::MediaController < Admin::AdminController
 
   def destroy
     @media.destroy
-    
+
     if request.xhr?
       render partial: "admin/media/index", locals: {owner: @attachable}
     else
@@ -51,7 +53,6 @@ class Admin::MediaController < Admin::AdminController
   end
 
   def media_params
-    # TODO: Generic method for whitelisting translatable params as part of Translatable module
-    params.require(:media).permit(:item, :caption_en, :caption_es, :caption_fr)
+    params.require(:media).permit(*([:item] + translation_params(:caption, :description)))
   end
 end

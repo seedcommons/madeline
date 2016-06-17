@@ -18,6 +18,7 @@ gem 'twitter-bootstrap-rails-confirm'
 gem 'select2-rails'
 gem 'rails-backbone'
 gem 'uri-js-rails' # URI manipulation
+gem 'bootstrap-datepicker-rails'
 
 # Authentication / Authorization
 gem 'devise'
@@ -60,9 +61,14 @@ gem 'mini_magick'
 gem 'mysql2'
 
 # Tables
-gem 'wice_grid', '3.6.0.pre4'
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
+
+# We are using this fork because
+# 1. the csv_encoding feature has not been released yet
+#    despite being committed in November 2015.
+# 2. We added a placeholder to the bootstrap datepicker (PR outstanding on main project)
+gem 'wice_grid', github: 'sassafrastech/wice_grid', branch: 'rails3'
 
 # Forms
 gem 'simple_form'

@@ -26,14 +26,15 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
   div.loan-content
     = render "admin/loans/tabs/tabs"
 
-= render "admin/project_logs/log_modal"
 = render "admin/media/modal"
 
 javascript:
-  $(function(){
-    new MS.Views.ShowEditView({ el: '.loan.details' })
+  $(function() {
+    new MS.Views.ShowEditView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
-      calendar_events_url: #{json @calendar_events_url}
-    })
-  })
+      calendar_events_url: #{json @calendar_events_url},
+      loanId: #{json @loan.id}
+    });
+  });
+

@@ -37,7 +37,12 @@ en:
         details: "Details"
         project_type: "Project Type"
         public_level: "Public Level"
+        rate: "Rate"
+        signing_date: "Signing Date"
+        summary: "Summary"
       organization:
+        active_loans: "Active Loans"
+        additional_people: "Additional Members"
         alias: "Alias"
         city: "City"
         contact_notes: "Contact Notes"
@@ -80,14 +85,26 @@ en:
         state: "State"
         tax_no: "National ID"
         website: "Website"
+      project_log:
+        date: "Log Date"
+        agent_id: "Member"
+        progress_metric_value: "Status"
 
   simple_form:
+    labels:
+      project_step_move:
+        move_type: "Which Date?"
+        shift_subsequent: "Shift Others?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
+      project_step_move:
+        move_type:
+          change_date: "Change step's scheduled date"
+          mark_completed: "Mark step completed on this date"
 
   time:
     formats:
@@ -215,16 +232,20 @@ en:
   common:
     add_language: "Add Language"
     address_state: "State"
+    created: "Created"
+    caption: "Caption"
     description: "Description"
     details: "Details"
     division: "Division"
     divisions: "Divisions"
+    name: "Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
     remove: "Remove"
     street_address: "Street Address"
     summary: "Summary"
+    updated: "Updated"
     website: "Website"
 
   log:
@@ -285,6 +306,7 @@ en:
       original_date: "Original Date:"
     logs: "Logs"
     months: "Month(s)"
+    move: "Move Step"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"
