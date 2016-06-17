@@ -18,7 +18,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   events: (params) ->
     'click .new-action': 'newNode'
     'click .edit-action': 'editNode'
-    'click .delete-action': 'deleteNode'
+    'confirm:complete .delete-action': 'deleteNode'
     'submit #edit-modal form.new-form': 'createNode'
     'submit #edit-modal form.update-form': 'updateNode'
     'tree.move .jqtree': 'moveNode'
@@ -62,14 +62,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     return false
 
   deleteNode: (e) ->
-    # MS.loadingIndicator.show()
-    # e.preventDefault()
+    MS.loadingIndicator.show()
     id = @$(e.target).closest('li').data('id')
-    @$(e.target).attr('href', "/admin/loan_questions/#{id}")
+    node = @tree.tree('getNodeById', id)
 
-    # $.post("/admin/loan_questions/#{id}", { _method: 'delete' }).done( ->
-    #   MS.loadingIndicator.hide()
-    # )
+    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}").done( =>
+      MS.loadingIndicator.hide()
+      @tree.tree('removeNode', node)
+      @addNewItemBlocks()
+    )
+    return false
 
   updateNode: (e) ->
     MS.loadingIndicator.show()
@@ -80,7 +82,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize()).done( (response) =>
       # Update node on page with data returned from server
-      @$('.jqtree').tree('updateNode', node, response)
+      @tree.tree('updateNode', node, response)
       @$('#edit-modal').modal('hide')
       @addNewItemBlocks()
     ).fail( (response) =>
@@ -112,5 +114,5 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
-    @tree.find('.new-item-block').remove()
+    @tree.find('.new-item').remove()
     @tree.find('li:last-child').after(@$('.new-item-block').html())

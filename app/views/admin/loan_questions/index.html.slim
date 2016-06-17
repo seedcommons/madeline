@@ -18,9 +18,9 @@
         = link_to '#', method: :delete, class: "delete-action", remote: true,
             data: { \
               confirm: t("confirm_deletion", thing: t(:loan_question)),
+              "confirm-title": t(:delete_record),
               "confirm-cancel": t(:cancel),
               "confirm-proceed": t(:confirm),
-              "confirm-title": t(:delete_record),
             }
             
           i.fa.fa-trash
