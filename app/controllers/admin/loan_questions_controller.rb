@@ -11,12 +11,10 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def edit
-    authorize @loan_question
     render partial: 'edit_modal'
   end
 
   def update
-    authorize @loan_question
     if @loan_question.update(loan_question_params)
       render json: @loan_question.reload
     else
@@ -25,13 +23,11 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def move
-    authorize @loan_question
-    target = CustomField.find params[:target]
-
+    target = CustomField.find(params[:target])
     method = case params[:relation]
-    when 'before' then :prepend_sibling
-    when 'after' then :append_sibling
-    when 'inside' then :prepend_child
+      when 'before' then :prepend_sibling
+      when 'after' then :append_sibling
+      when 'inside' then :prepend_child
     end
 
     target.send(method, @loan_question)
@@ -45,6 +41,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
     def set_loan_question
       @loan_question = CustomField.find(params[:id])
+      authorize @loan_question
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
