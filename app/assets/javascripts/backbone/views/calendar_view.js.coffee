@@ -50,6 +50,7 @@ class MS.Views.CalendarView extends Backbone.View
       @moveStepModalView.show(event.model_id, delta.days())
       .done => @refresh()
       .fail => revertFunc()
+
     else if event.model_type == 'Loan'
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>

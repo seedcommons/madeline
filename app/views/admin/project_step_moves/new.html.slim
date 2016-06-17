@@ -6,7 +6,7 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
           span aria-hidden="true" &times;
         h4.modal-title = t(".move")
       div.modal-body
-        = simple_form_for([:admin, @step_move], remote: true) do |f|
+        = simple_form_for([:admin, @step_move]) do |f|
           .alert.alert-info
             => t(".orig_date_remembered")
             = t(".please_log")

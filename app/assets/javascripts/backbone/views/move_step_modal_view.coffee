@@ -2,14 +2,14 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   initialize: (options) ->
     @context = options.context
-    @submitted = false
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'hidden.bs.modal': 'cancel'
-    'ajax:success form': 'submitSuccess'
+    'submit form': 'submitForm'
+    'hidden.bs.modal': 'modalHidden'
 
   show: (stepId, daysShifted) ->
+    @submitted = false
     MS.loadingIndicator.show()
     @stepId = stepId
     @deferred = jQuery.Deferred()
@@ -26,15 +26,18 @@ class MS.Views.MoveStepModalView extends Backbone.View
   submitForm: (e) ->
     e.preventDefault()
     MS.loadingIndicator.show()
-    @$('.modal').modal('hide')
-    @$('form').submit()
     @submitted = true
+    @$('.modal').modal('hide') # Form will be submitted when this is finished. See below.
 
-  cancel: ->
-    unless @submitted
+  modalHidden: ->
+    # If the form has been submitted, we need to wait for the modal to finish hiding before
+    # actually submitting the data, else the modal doesn't properly hide in some cases.
+    if @submitted
+      form = @$('form')
+      $.post(form.attr('action'), form.serialize()).done =>
+        MS.loadingIndicator.hide()
+        @deferred.resolve()
+
+    # Otherwise, it means the user has cancelled the process, so reject the deferred.
+    else
       @deferred.reject()
-
-  submitSuccess: (e, data) ->
-    e.stopPropagation()
-    MS.loadingIndicator.hide()
-    @deferred.resolve(data)
