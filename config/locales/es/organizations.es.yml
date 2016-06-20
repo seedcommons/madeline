@@ -1,0 +1,13 @@
+es:
+  organization:
+    active_loans: "Préstamos Activos"
+    confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar esta cooperativa para siempre? Si tiene prèstamos asociados, ¡también van a borrarse!"
+    media: "Fotos de la Cooperativa"
+    delete: "Borrar Cooperativa"
+    edit: "Editar Cooperativa"
+    new: "Nueva Cooperativa"
+    people: "Miembros"
+  admin:
+    organizations:
+      loans:
+        view_all_loans: "Ver Todos los Préstamos"
