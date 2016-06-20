@@ -87,7 +87,7 @@ en:
         website: "Website"
       project_log:
         date: "Log Date"
-        agent_id: "Member"
+        agent: "Member"
         progress_metric_value: "Status"
 
   simple_form:

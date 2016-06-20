@@ -79,6 +79,8 @@ class Person < ActiveRecord::Base
   after_save :handle_roles
   after_save :clean_up_passwords
 
+  scope :by_name, -> { order("LOWER(first_name), LOWER(last_name)") }
+
   # Lazy evaluation getter
   def owning_division_role
     @owning_division_role = resolve_owning_division_role unless defined? @owning_division_role

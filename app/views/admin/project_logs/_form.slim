@@ -15,9 +15,8 @@
             = t('log.step_completed')
 
       div.col-lg-6.col-md-6
-        = f.association :agent, selected: (@log.agent.try(:id) || current_user.id), include_blank: true,
-          label: 'Member'
-        = f.input :progress_metric_value, as: :select, collection: @progress_metrics, label: 'Status'
+        = f.association :agent, include_blank: true, collection: @people
+        = f.input :progress_metric_value, as: :select, collection: @progress_metrics
 
       div.col-lg-6.col-md-6.media-container
         - unless @log.new_record?
