@@ -15,12 +15,19 @@
   = f.hidden_field(:linkable_attribute)
 
   - record.custom_field_set.depth_first_fields.each do |field|
+    - loan_response = record.custom_value(field.id)
+
     div style="margin-left: #{field.depth*15}px"
       p
         = "#{field.transient_position}. "
         b = field.label
+        /= " #{field.attribute_sym}: original hash: #{loan_response.original_hash}"
+
+      - if field.explanation.present?
+        /todo 4301: better style handling
+        p style="font-size:x-small; color:grey; margin-top: -10px"
+          = field.explanation
       - unless field.data_type == 'group'
-        - loan_response = record.custom_value(field.id)
         - field = loan_response.custom_field
         /p = "#{field.attribute_sym}: original hash: #{loan_response.original_hash}"
 
@@ -35,7 +42,8 @@
           .view-element
             - if sheet.url
               p = link_to 'Spreadsheet', sheet.url, {target: '_blank'}
-              iframe width='#{sheet.width}' height='#{sheet.height}' frameborder='1' src='#{sheet.url}'
+              /todo 4301: make initially hidden
+              /iframe width='#{sheet.width}' height='#{sheet.height}' frameborder='1' src='#{sheet.url}'
           /4301 Todo: Figure out how to approach editing the spread sheet parameters
           /- f.simple_fields_for sheet do |ff|
           /  = ff.input_field :original_url
