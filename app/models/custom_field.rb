@@ -39,7 +39,7 @@ class CustomField < ActiveRecord::Base
 
   delegate :division, :division=, to: :custom_field_set
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
+  DATA_TYPES = %i(string text number range group boolean translatable list)
 
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"

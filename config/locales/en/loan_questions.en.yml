@@ -19,3 +19,16 @@ en:
       form:
         edit_item: "Edit Question or Group"
         new_item: "New Question or Group"
+
+  simple_form:
+    options:
+      custom_field:
+        data_type:
+          string: String
+          text: Text
+          number: Number
+          range: Range
+          group: Group
+          boolean: Boolean
+          translatable: Translatable
+          list: List
