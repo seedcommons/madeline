@@ -14,13 +14,14 @@
     .links-block
       / This is added to the end of each question
       .links
-        a.edit-action> href="#"
+        a.edit-action> href="#" title=t('.edit_item')
           i.fa.fa-pencil
         = link_to '#', method: :delete, class: "delete-action", remote: true,
             data: { \
               confirm: t("loan_questions.confirm_deletion"),
               "confirm-title": t(:delete_record),
-            }
+            },
+            title: t('.delete_item')
             
           i.fa.fa-trash
       .clearfix
