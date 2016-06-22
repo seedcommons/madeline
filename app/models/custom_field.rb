@@ -39,6 +39,8 @@ class CustomField < ActiveRecord::Base
 
   delegate :division, :division=, to: :custom_field_set
 
+  validates :data_type, presence: true
+
   DATA_TYPES = %i(string text number range group boolean translatable list)
 
   def name
