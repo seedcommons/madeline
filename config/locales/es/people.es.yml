@@ -1,0 +1,15 @@
+es:
+  people:
+    shared:
+      has_system_access: "Acceso al sistema"
+      invalid_division_role: "Rol de acceso inválido"
+      media: "Fotos del Miembro "
+      new: "Nuevo Miembro "
+      people: "Miembros"
+      person: "Miembro"
+  admin:
+    people:
+      show:
+        confirm_deletion: "ATENCIÓN: ¿Seguro que quieres borrar a este Miembro para siempre?"
+        delete: "Borrar Miembro"
+        edit: "Editar Miembro"
