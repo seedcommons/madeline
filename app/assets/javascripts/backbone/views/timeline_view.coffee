@@ -57,4 +57,4 @@ class MS.Views.TimelineView extends Backbone.View
     @$('#no-steps-msg')[if @stepCount() > 0 then 'hide' else 'show']()
 
   stepCount: ->
-    @$('.step').length
+    @$('.step').not('.new-record').length
