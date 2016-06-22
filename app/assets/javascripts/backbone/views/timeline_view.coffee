@@ -5,9 +5,9 @@ class MS.Views.TimelineView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
 
-    new MS.Views.TimelineSelectStepsView();
-    new MS.Views.TimelineBatchActionsView();
-    new MS.Views.TimelineHeaderView();
+    new MS.Views.TimelineSelectStepsView()
+    new MS.Views.TimelineBatchActionsView()
+    new MS.Views.TimelineHeaderView()
 
     @refreshSteps()
 
@@ -31,7 +31,7 @@ class MS.Views.TimelineView extends Backbone.View
     else
       0
     @$('.project-steps').append(html)
-    $('html, body').animate({ scrollTop: scrollY }, 500);
+    $('html, body').animate({ scrollTop: scrollY }, 500)
     lastStep.next().find("input[type=text]").focus()
     @showHideNoStepsMsg()
 

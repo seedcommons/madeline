@@ -3,39 +3,14 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   el: 'body'
 
   events: ->
-    'click .filter-switch .btn': 'filterSteps'
     'click #edit-all': 'editAll'
     'click #edit-all-cancel': 'cancelEdit'
     'click #save-all': 'saveAll'
 
   initialize: ->
-    @listenTo(Backbone, 'popstate', @popstate)
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
-    @filterInit()
-
-  popstate: (e) ->
-    @filterInit()
-
-  filterSteps: (e) ->
-    selected = $(e.currentTarget).find('input')[0].value
-    if selected == "incomplete"
-      $('.step.completed').hide()
-      url = URI(window.location.href).setQuery('filter', 'incomplete').href()
-      history.pushState(null, "", url)
-    else if selected == "all"
-      $('.step').show()
-      url = URI(window.location.href).setQuery('filter', 'all').href()
-      history.pushState(null, "", url)
-
-  filterInit: ->
-    selected = URI(window.location.href).query(true)['filter'] || 'all'
-    $('.filter-switch .btn').removeClass('active')
-    $('.filter-switch input[value="'+selected+'"]').closest('.btn').addClass('active')
-    if selected == "incomplete"
-      $('.step.completed').hide()
-    else
-      $('.step').show()
+    new MS.Views.FilterSwitchView(defaultFilter: 'all')
 
   editAll: (e) ->
     e.preventDefault()

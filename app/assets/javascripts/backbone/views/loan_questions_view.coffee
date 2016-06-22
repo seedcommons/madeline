@@ -3,7 +3,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   el: '.loan-questions'
 
   initialize: (params) ->
-    @listenTo(Backbone, 'popstate', @popstate)
     @tree = @$('.jqtree')
     @tree.tree
       data: @tree.data('data')
@@ -12,15 +11,12 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       useContextMenu: false
       onCreateLi: (node, $li) ->
         $li.attr('data-id', node.id)
-            .addClass(node.fieldset)
+            .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
             .after($('.links-block').html())
-    # new MS.Views.FilterSwitchView()
-    @filterInit()
+    new MS.Views.FilterSwitchView
+      defaultFilter: 'criteria'
     @addNewItemBlocks()
-
-  popstate: (e) ->
-    @filterInit()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -30,7 +26,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'click .filter-switch .btn': 'filterSwitch'
 
   newNode: (e) ->
     MS.loadingIndicator.show()
@@ -144,27 +139,3 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Ensure at least one
     if @tree.find('.new-item').size() == 0
       @tree.find('ul').append(@$('.new-item-block').html())
-
-  filterSwitch: (e) ->
-    selected = $(e.currentTarget).find('input')[0].value
-    if selected == "post_analysis"
-      @tree.find('li.criteria').hide()
-      @tree.find('li.post_analysis').show()
-      url = URI(window.location.href).setQuery('fieldset', 'post_analysis').href()
-      history.pushState(null, "", url)
-    else if selected == "criteria"
-      @tree.find('li.post_analysis').hide()
-      @tree.find('li.criteria').show()
-      url = URI(window.location.href).setQuery('fieldset', 'criteria').href()
-      history.pushState(null, "", url)
-
-  filterInit: ->
-    selected = URI(window.location.href).query(true)['fieldset'] || 'criteria'
-    $('.filter-switch .btn').removeClass('active')
-    $('.filter-switch input[value="'+selected+'"]').closest('.btn').addClass('active')
-    if selected == "post_analysis"
-      @tree.find('li.criteria').hide()
-      @tree.find('li.post_analysis').show()
-    else
-      @tree.find('li.post_analysis').hide()
-      @tree.find('li.criteria').show()
