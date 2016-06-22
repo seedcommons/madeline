@@ -256,32 +256,31 @@ class ProjectStep < ActiveRecord::Base
     end
   end
 
-  # Returns number of days that the scheduled date has been moved out if finalized, or days late
-  # if just now marked completed.  Assumes that record has pending changes assigned, but not yet
-  # saved. Only returns 0 or a positive value.  Used to trigger potential automatic scheduled date
-  # shift of subsequent steps.
+  # Returns number of days that the step's calendar date is about to be shifted.
+  # - If step is incomplete, returns number of days the scheduled date has been shifted.
+  # - If step is about to be set as complete, returns number of days late or early (negative).
+  # - If step was already complete, returns number of days completed date has been shifted.
+  # Assumes that record has pending changes assigned, but not yet saved.
   def pending_days_shifted
-    days_shifted = 0
-    if is_finalized? && scheduled_date_changed?
-      if scheduled_date_was && scheduled_date
-        days_shifted = (scheduled_date - scheduled_date_was).to_i
-      end
-    end
-    if scheduled_date && completed_date && completed_date_changed? && completed_date_was.blank? &&
-      completed_date > scheduled_date
-      days_shifted = (completed_date - scheduled_date).to_i
-    end
-    return [0,days_shifted].max
-  end
+    return 0 unless is_finalized?
 
-  def subsequent_step_ids(previous_scheduled_date = nil)
-    date = previous_scheduled_date || scheduled_date
-    return [] unless date
-    # Todo: Confirm if this is the exact criteria desired.  It's unlikely that there would be
-    # prior uncompleted steps, but if there are perhaps we should just shift all uncompleted
-    # steps.
-    project.project_steps.where("scheduled_date >= :date and completed_date is null and id != :id",
-      date: date, id: id).pluck(:id)
+    # If completed date just got set.
+    if scheduled_date && completed_date && completed_date_changed? &&
+      completed_date_was.blank? && completed_date > scheduled_date
+      return (completed_date - scheduled_date).to_i
+    end
+
+    # If incomplete and scheduled date changed.
+    if !completed? && scheduled_date_changed? && scheduled_date_was && scheduled_date
+      return (scheduled_date - scheduled_date_was).to_i
+    end
+
+    # If complete and completed date changed.
+    if completed? && completed_date_changed? && completed_date_was && completed_date
+      return (completed_date - completed_date_was).to_i
+    end
+
+    0
   end
 
   def calendar_date

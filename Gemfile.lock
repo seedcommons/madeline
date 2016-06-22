@@ -1,9 +1,9 @@
 GIT
-  remote: git://github.com/leikind/wice_grid.git
-  revision: ad34505c4baafeeea6ea5009df291d82a0f62ad8
-  ref: ad34505c4baafeeea6ea5009df291d82a0f62ad8
+  remote: git://github.com/sassafrastech/wice_grid.git
+  revision: 8d5c4b53b2a05afb818d67034865e6617a9605ba
+  branch: rails3
   specs:
-    wice_grid (3.6.0)
+    wice_grid (3.6.2)
       activerecord (> 3.2)
       coffee-rails (> 3.2)
       kaminari (~> 0.16)
@@ -66,6 +66,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-datepicker-rails (1.6.1.1)
+      railties (>= 3.0)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -387,6 +389,7 @@ DEPENDENCIES
   awesome_print
   better_errors
   binding_of_caller
+  bootstrap-datepicker-rails
   bootstrap-sass
   bullet
   byebug

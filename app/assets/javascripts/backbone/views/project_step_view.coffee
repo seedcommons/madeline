@@ -13,13 +13,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
-    @showShiftDatesModal()
+    @showMoveStepModal()
 
   events:
     'click a.edit-step-action': 'showForm'
     'click a.duplicate-step-action': 'showDuplicateModal'
     'click a.cancel': 'cancel'
-    'submit form': 'onSubmit'
+    'submit form.project-step-form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
     'click [data-action="add-log"]': 'showLogModal'
     'click [data-action="edit-log"]': 'showLogModal'
@@ -63,7 +63,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     MS.loadingIndicator.show()
 
   ajaxSuccess: (e, data) ->
-    if $(e.target).is('form')
+    if $(e.target).is('form.project-step-form')
       MS.loadingIndicator.hide()
 
       if @context == 'timeline'
@@ -85,17 +85,23 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    modalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+    unless @logModalView
+      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      modalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
     else
-      modalView.showNew(@$(link).data('parent-step-id'))
+      @logModalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)
     false
 
-  showShiftDatesModal: (e) ->
-    if ((@daysShifted > 0))
-      $("#step-shift-subsequent-confirm-modal-#{@stepId}").modal("show")
+  # Show move step modal if step was just moved.
+  showMoveStepModal: (e) ->
+    if @daysShifted
+      unless @moveStepModalView
+        @moveStepModalView = new MS.Views.MoveStepModalView
+          el: $("<div>").appendTo(@$el)
+          context: 'edit_date'
+      @moveStepModalView.show(@stepId, @daysShifted).done -> MS.timelineView.refreshSteps()

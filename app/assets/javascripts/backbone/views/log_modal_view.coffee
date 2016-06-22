@@ -2,11 +2,12 @@ class MS.Views.LogModalView extends Backbone.View
 
   initialize: (options) ->
     @parentView = options.parentView
+    @submitted = false
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'ajax:success': 'ajaxSuccess'
-    'click [data-control]': 'expandContent'
+    'ajax:success': 'submitSuccess'
+
 
   showEdit: (logId, stepId) ->
     MS.loadingIndicator.show()
@@ -30,15 +31,8 @@ class MS.Views.LogModalView extends Backbone.View
     e.preventDefault()
     @$('form').submit()
     @$('.modal').modal('hide')
+    @submitted = true
 
-  ajaxSuccess: (e, data) ->
+  submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
     @parentView.replaceWith(data)
-
-  expandContent: (e) ->
-    e.preventDefault()
-    link = e.currentTarget
-    control = @$(link).data("control")
-    selector = @$(link).closest('.language-block').find("[data-expandable='#{control}']")
-    @$(selector).addClass('expanded')
-    @$(link).addClass('hidden')

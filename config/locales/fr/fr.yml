@@ -9,3 +9,5 @@ fr:
   common:
     summary: Résumé
     details: Détails
+    caption: Légende
+    description: La description

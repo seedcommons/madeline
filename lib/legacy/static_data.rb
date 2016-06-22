@@ -114,16 +114,6 @@ module Legacy
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.destroy_all
       org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
-
-      # loan_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Loan')
-      # loan_field_set.custom_fields.destroy_all
-      # loan_field_set.custom_fields.create!(internal_name: 'old_loan_criteria_id', data_type: 'number')
-
-      division_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Division')
-      division_field_set.custom_fields.destroy_all
-      # list of strings representing 2 char locale codes to be presented by default within translatable UIs
-      division_field_set.custom_fields.create!(internal_name: 'default_locales', data_type: 'list')
-
     end
 
 
@@ -157,8 +147,6 @@ module Legacy
 
       org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
-
-      ::Division.root.update_default_locales([:en, :es])
     end
 
   end
