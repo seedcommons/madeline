@@ -14,8 +14,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
             .after($('.links-block').html())
-    new MS.Views.FilterSwitchView
-      defaultFilter: 'criteria'
+    new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 
   events: (params) ->

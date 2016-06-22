@@ -4,7 +4,7 @@ class MS.Views.FilterSwitchView extends Backbone.View
 
   initialize: (params) ->
     @listenTo(Backbone, 'popstate', @popstate)
-    @defaultFilter = params['defaultFilter']
+    @defaultFilter = params['defaultFilter'] if params
     @filterInit()
 
   popstate: (e) ->
@@ -20,7 +20,10 @@ class MS.Views.FilterSwitchView extends Backbone.View
     history.pushState(null, "", url)
 
   filterInit: ->
-    selected = URI(window.location.href).query(true)['filter'] || @defaultFilter
+    # Select first button if no default filter given
+    selected = URI(window.location.href).query(true)['filter'] || @defaultFilter ||
+      $(".filter-switch input").first().val()
+
     $('.filter-switch .btn').removeClass('active')
     $(".filter-switch input[value='#{selected}']").closest('.btn').addClass('active')
     @doFilter(selected)

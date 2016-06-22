@@ -10,7 +10,6 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   initialize: ->
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
-    new MS.Views.FilterSwitchView(defaultFilter: 'all')
 
   editAll: (e) ->
     e.preventDefault()

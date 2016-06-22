@@ -7,9 +7,10 @@ class MS.Views.TimelineView extends Backbone.View
 
     new MS.Views.TimelineSelectStepsView()
     new MS.Views.TimelineBatchActionsView()
+    new MS.Views.TimelineHeaderView()
 
     @refreshSteps ->
-      new MS.Views.TimelineHeaderView()
+      new MS.Views.FilterSwitchView()
 
   events:
     'click #new-step': 'addBlankStep'
