@@ -2,8 +2,15 @@
 
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
-  header
+  header        
     .show-actions
+      span.dropdown
+        a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+          => "Print"
+          span.caret
+        ul.dropdown-menu
+          li Print Loan Memo
+        
       - if @loan.valid?
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
@@ -37,4 +44,3 @@ javascript:
       loanId: #{json @loan.id}
     });
   });
-
