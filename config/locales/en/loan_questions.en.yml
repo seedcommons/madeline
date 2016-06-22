@@ -16,6 +16,6 @@ en:
       index:
         title: "Loan Questions"
         add_item: "Add question or group"
-      edit_modal:
+      form:
         edit_item: "Edit Question or Group"
         new_item: "New Question or Group"
