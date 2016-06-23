@@ -27,13 +27,13 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
           span.caret
         ul.dropdown-menu.dropdown-menu-right
           li
-            a Print Loan Memo
+            a data-print='memo' Print Loan Memo
           li.divider role="separator"
           li.dropdown-header Print specific part
           li
-            a Details Only
+            a data-print='details' Details Only
           li
-            a Criteria Only
+            a data-print='criteria' Criteria Only
     .clearfix
 
   div.loan-content
