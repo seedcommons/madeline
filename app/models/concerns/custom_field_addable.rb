@@ -156,6 +156,7 @@ module CustomFieldAddable
   # end
   #
   def method_missing(method_sym, *arguments, &block)
+    #puts "method missing - #{method_sym}"
     attribute_name, action, field = match_dynamic_method(method_sym)
     # puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
     if action
@@ -187,7 +188,7 @@ module CustomFieldAddable
   end
 
   def respond_to_missing?(method_sym, include_private = false)
-    # puts "respond to missing: #{method_sym} - self: #{self}"
+    #puts "respond to missing: #{method_sym} - self: #{self}"
     attribute_name, action = match_dynamic_method(method_sym)
     if action
       true
@@ -203,6 +204,8 @@ module CustomFieldAddable
     # avoid problems with nested attribute methods and form helpers
     return nil if method_name.end_with?('came_from_user?')
     return nil if method_name.end_with?('before_type_cast')
+    return nil if method_name == 'policy_class'
+    return nil if method_name == 'to_ary'
 
     if method_name.ends_with?('=')
       attribute_name = method_name.chomp('=')

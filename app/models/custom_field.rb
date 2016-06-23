@@ -36,6 +36,7 @@ class CustomField < ActiveRecord::Base
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
+  attr_translatable :explanation
 
   delegate :division, :division=, to: :custom_field_set
 

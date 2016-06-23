@@ -30,5 +30,5 @@ section.questionnaire.details class=(@record.valid? ? 'show-view' : 'edit-view')
   section.block
     = render 'admin/loans/content/questionnaire', record: @record
 
-  javascript:
-    $(function() { new MS.Views.ShowEditView({ el: '.questionnaire.details' }) });
+javascript:
+  $(function() { new MS.Views.ShowEditView({ el: '.questionnaire.details' }) });
