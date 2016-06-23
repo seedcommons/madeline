@@ -3,16 +3,7 @@
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   header        
-    .show-actions.hidden-print
-      span.dropdown
-        a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-          => "Print"
-          span.caret
-        ul.dropdown-menu
-          li Loan Memo
-          li Details Only
-          li Criteria Only
-        
+    .show-actions.hidden-print        
       - if @loan.valid?
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
@@ -30,6 +21,19 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
         }
         i.fa.fa-trash.fa-large>
         = t("loan.delete")
+      span.dropdown
+        a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+          => "Print"
+          span.caret
+        ul.dropdown-menu.dropdown-menu-right
+          li
+            a Print Loan Memo
+          li.divider role="separator"
+          li.dropdown-header Print specific part
+          li
+            a Details Only
+          li
+            a Criteria Only
     .clearfix
 
   div.loan-content
