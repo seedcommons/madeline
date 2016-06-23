@@ -73,6 +73,6 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
       params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
-        :custom_field_set_id, *translation_params(:label))
+        :custom_field_set_id, *translation_params(:label, :explanation))
     end
 end

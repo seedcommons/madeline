@@ -8,6 +8,7 @@ en:
       other: "<b>WARNING:</b> This item has <b>%{count} questions or groups</b> belonging to it, which <b>will be deleted as well!</b> Are you <b>sure</b> you want to delete this?"
     data_type: "Data type"
     delete_error: "The item could not be deleted due to an error"
+    explanation: "Explanation"
     move_error: "The item could not be moved due to an error"
     text: "Title"
 
