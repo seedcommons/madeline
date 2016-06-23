@@ -1,0 +1,5 @@
+- if @loan.loan_criteria
+  = render "admin/loans/content/questionnaire", record: @loan.loan_criteria
+
+- else
+  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})

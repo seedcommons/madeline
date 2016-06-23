@@ -51,6 +51,12 @@ class Admin::LoansController < Admin::AdminController
     render layout: false
   end
 
+  def criteria
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    render layout: false
+  end
+
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
