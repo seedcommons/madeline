@@ -18,11 +18,6 @@
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
       collection: CustomField::DATA_TYPES
 
-    / = f.translatable_inputs 'loan_question' do
-    /   = f.translatable_input :label, as: :text,
-    /     placeholder: I18n.t('loan_questions.text', locale: l),
-    /     label: t('loan_questions.text', locale: l)
-
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
         input_html: {data: {translatable: 'loan_questions.text'}},
@@ -32,24 +27,6 @@
         input_html: {data: {translatable: 'loan_questions.explanation'}},
         placeholder: I18n.t('loan_questions.explanation', locale: l),
         label: t('loan_questions.explanation', locale: l)
-    
-    / .languages data-content-translatable='loan_question'
-    /   input.deleted-locales type="hidden" name="custom_field[deleted_locales][]"
-    /   - @loan_question.used_locales_or_current_locale.each do |l|
-    /     .language-block data-locale="#{l}"
-    /       a.remove-language href='#' = t('common.remove')
-    /       = f.input :"locale_#{l}", label: false,
-    /         collection: locale_options,
-    /         input_html: {class: 'locale'}, include_blank: false
-    /       = f.input :"label_#{l}", as: :text,
-    /         input_html: {data: {translatable: 'loan_questions.text'}},
-    /         placeholder: I18n.t('loan_questions.text', locale: l),
-    /         label: t('loan_questions.text', locale: l)
-    /       = f.input :"explanation_#{l}", as: :text,
-    /         input_html: {data: {translatable: 'loan_questions.explanation'}},
-    /         placeholder: I18n.t('loan_questions.explanation', locale: l),
-    /         label: t('loan_questions.explanation', locale: l)
-    /   a.add-language href='#' = t('common.add_language')
     
     - if f.object.new_record?
       = f.input_field :parent_id, as: :hidden

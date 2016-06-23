@@ -33,7 +33,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
       MS.loadingIndicator.hide()
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
       @$('#custom_field_parent_id').val(parent_id)
     )
 
@@ -43,7 +43,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
       MS.loadingIndicator.hide()
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
     )
 
   createNode: (e) ->
