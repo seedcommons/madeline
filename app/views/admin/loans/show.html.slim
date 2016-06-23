@@ -3,13 +3,15 @@
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   header        
-    .show-actions
+    .show-actions.hidden-print
       span.dropdown
         a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
           => "Print"
           span.caret
         ul.dropdown-menu
-          li Print Loan Memo
+          li Loan Memo
+          li Details Only
+          li Criteria Only
         
       - if @loan.valid?
         a.edit-action.view-element

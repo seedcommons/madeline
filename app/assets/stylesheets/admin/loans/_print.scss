@@ -1,0 +1,18 @@
+@media print {
+  .loan {
+    .form-group {
+      label, > div {
+        display: inline-block;
+      }
+
+      label {
+        // text-align: right;
+        width: 1.5in;
+      }
+    }
+
+    // .nav-tabs, .show-actions {
+    //   display: none;
+    // }
+  }
+}
