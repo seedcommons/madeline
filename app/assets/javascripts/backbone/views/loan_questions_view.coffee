@@ -14,7 +14,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
             .after($('.links-block').html())
-    new MS.Views.FilterSwitchView()
+    @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 
   events: (params) ->
@@ -57,7 +57,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       parent_node = @tree.tree('getNodeById', response.parent_id)
       @$('#edit-modal').modal('hide')
       @tree.tree('appendNode', response, parent_node)
-      @filterInit()
+      @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
@@ -78,7 +78,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       # Update node on page with data returned from server
       @tree.tree('updateNode', node, response)
       @$('#edit-modal').modal('hide')
-      @filterInit()
+      @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
@@ -100,7 +100,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     .done =>
       e.move_info.do_move()
       MS.loadingIndicator.hide()
-      @filterInit()
+      @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
       MS.loadingIndicator.hide()
@@ -123,7 +123,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     .done =>
       MS.loadingIndicator.hide()
       @tree.tree('removeNode', node)
-      @filterInit()
+      @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
       MS.loadingIndicator.hide()
