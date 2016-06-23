@@ -49,7 +49,7 @@ class MS.Views.MediaView extends Backbone.View
     $.get @$(link).attr('href'), (html) =>
       @$('.media-modal .modal-content').html(html)
       @$('.media-modal').modal('show')
-      new MS.Views.TranslationsView(el: @$('[data-content-translatable="media"]'));
+      new MS.Views.TranslationsView()
       MS.loadingIndicator.hide()
 
   submitComplete: (e, data) ->

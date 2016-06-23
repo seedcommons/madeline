@@ -33,10 +33,9 @@ module SimpleForm
     include TranslationsHelper
 
     def translatable_inputs(&block)
-      object_name = object.model_name.singular
       out = %Q{
-        <div class="languages" data-content-translatable="#{object_name}">
-          <input class="deleted-locales" name="#{object_name}[deleted_locales][]" type="hidden" />
+        <div class="languages">
+          <input class="deleted-locales" name="#{object.model_name.singular}[deleted_locales][]" type="hidden" />
       }.html_safe
       object.used_locales_or_current_locale.each do |l|
         out += %Q{
@@ -52,7 +51,8 @@ module SimpleForm
         out += "</div>".html_safe
       end
       out += %Q{
-        <a class="add-language" href="#">#{I18n.t('common.add_language')}</a></div>
+          <a class="add-language" href="#">#{I18n.t('common.add_language')}</a>
+        </div>
       }.html_safe
       out
     end
