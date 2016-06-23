@@ -20,6 +20,9 @@ en:
     loan_type: "Loan Type"
     media: "Loan Media"
     months: "%{number} mo."
+    move_date_confirm:
+      title: "Move Date?"
+      body: "Are you sure you want to change the loan date?"
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     post_analysis: "Post Analysis"
@@ -31,6 +34,8 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     timeline: "Timeline"
+    shared:
+      new: "New Loan"
   loans:
     index:
       title: "Loans"

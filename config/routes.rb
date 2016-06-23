@@ -16,7 +16,12 @@ Rails.application.routes.draw do
         post :select
       end
     end
-    resources :loans
+    resources :loans do
+      member do
+        get :steps
+        patch :change_date
+      end
+    end
     resources :organizations
     resources :people
     resources :project_logs
@@ -28,11 +33,10 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
-      end
-      member do
         patch :shift_subsequent
       end
     end
+    resources :project_step_moves
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

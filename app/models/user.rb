@@ -42,14 +42,12 @@ class User < ActiveRecord::Base
   belongs_to :profile, class_name: Person
   delegate :division, :division=, to: :profile
 
-  validates :profile_id, presence: true
-
   def name
     profile.try(:name)
   end
 
   def accessible_divisions
-    division_scope.resolve
+    division_scope.resolve.by_name
   end
 
   def accessible_division_ids

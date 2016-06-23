@@ -1,0 +1,13 @@
+div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
+  div.modal-dialog.modal-lg
+    div.modal-content
+      div.modal-header
+        button.close type="button" data-dismiss="modal" aria-label== t(:close)
+          span aria-hidden="true" &times;
+        h4.modal-title = t("log.#{params[:action]}")
+      div.modal-body
+        = simple_form_for([:admin, @log], remote: true) do |f|
+          = render "admin/project_logs/form", context: :manual
+      div.modal-footer
+        a.btn.btn-default data-dismiss="modal" = t(:cancel)
+        a.btn.btn-primary data-action="submit" = t("log.save")

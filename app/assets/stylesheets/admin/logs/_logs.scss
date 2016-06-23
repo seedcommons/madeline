@@ -166,3 +166,10 @@
     margin-right: .5em;
   }
 }
+
+[data-context='calendar'] {
+  [data-action='edit-log'],
+  .step-logs.expandable .add-log[data-action='add-log'] {
+    display: none;
+  }
+}

@@ -79,6 +79,8 @@ class Person < ActiveRecord::Base
   after_save :handle_roles
   after_save :clean_up_passwords
 
+  scope :by_name, -> { order("LOWER(first_name), LOWER(last_name)") }
+
   # Lazy evaluation getter
   def owning_division_role
     @owning_division_role = resolve_owning_division_role unless defined? @owning_division_role
@@ -153,7 +155,9 @@ class Person < ActiveRecord::Base
     # Invalid roles expected to rejected by validation rules. but avoid cryptic error just in case.
     raise "Unexpected division role: #{new_role}" if new_role && !VALID_DIVISION_ROLES.include?(new_role)
     if old_role != new_role
-      user.remove_role old_role, division if old_role
+      # For now safest to remove all other roles.  May need to revisit if more complexity
+      # is allowed around permissions in the future.
+      user.roles.destroy_all
       user.add_role new_role, division if new_role
     end
   end

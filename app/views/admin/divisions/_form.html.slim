@@ -27,7 +27,10 @@
     = f.input :parent
       .view-element
         - if @division.parent
-          = link_to @division.parent.name, admin_division_path(@division.parent)
+          - if @division.parent == Division.root
+            = @division.parent.name
+          - else
+            = link_to @division.parent.name, admin_division_path(@division.parent)
       = f.input_field :parent_id, collection: @parent_choices, include_blank: false
 
   .actions.form-block

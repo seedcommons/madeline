@@ -1,7 +1,5 @@
 - content_for(:title, @loan.name)
 
-= include_gon
-
 section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   header
@@ -16,7 +14,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
         a href=admin_organization_path(@loan) = t(:cancel)
       = link_to [:admin, @loan], method: :delete,
         data: { \
-          confirm: t("loan.confirm_deletion"), 
+          confirm: t("loan.confirm_deletion"),
           "confirm-cancel": t(:cancel),
           "confirm-proceed": t(:confirm),
           "confirm-title": t("loan.delete") \
@@ -27,12 +25,16 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
   div.loan-content
     = render "admin/loans/tabs/tabs"
-    
+
+= render "admin/media/modal"
+
 javascript:
-  $(function(){
-    new MS.Views.ShowEditView({ el: '.loan.details' })
+  $(function() {
+    new MS.Views.ShowEditView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
-      calendar_events_url: #{json @calendar_events_url}
-    })
-  })
+      calendar_events_url: #{json @calendar_events_url},
+      loanId: #{json @loan.id}
+    });
+  });
+

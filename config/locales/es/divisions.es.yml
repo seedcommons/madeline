@@ -1,0 +1,11 @@
+es:
+  divisions:
+    shared:
+      new: "Nueva División"
+      parent: "División Principal"
+  admin:
+    divisions:
+      show:
+        confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar esta División para siempre? Si tiene campos personalizados u opciones preconfiguradas, ¡también se borrarán!"
+        delete: "Borrar División"
+        edit: "Editar División"

@@ -1,0 +1,9 @@
+es:
+  simple_form:
+    'yes': 'Sí'
+    'no': 'No'
+    required:
+      text: 'obligatorio'
+      mark: '*'
+    error_notification:
+      default_message: "Ciertos errores impidieron que se guarde el registro. Por favor revisar los siguientes problemas:"

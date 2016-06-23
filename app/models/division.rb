@@ -25,7 +25,6 @@
 #
 
 class Division < ActiveRecord::Base
-  include CustomFieldAddable  # supports 'default_locales' persistence
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
@@ -48,6 +47,8 @@ class Division < ActiveRecord::Base
 
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+
+  scope :by_name, -> { order("LOWER(divisions.name)") }
 
   # Note: the closure_tree automatically provides a Division.root class method which returns the
   # first Division with a null parent_id ordered by id.
@@ -94,15 +95,6 @@ class Division < ActiveRecord::Base
     result
   end
 
-  def name
-    if root?
-      # Localized display name for the special 'root' division
-      I18n.t("divisions.shared.root")
-    else
-      self[:name]
-    end
-  end
-
   # interface compatibility with other models
   def division
     self
@@ -113,24 +105,5 @@ class Division < ActiveRecord::Base
       Organization.where(division: self).present? ||
       Loan.where(division: self).present?  ||
       Person.where(division: self).present?
-  end
-
-  # returns list of locale symbols which should be presented by default within translatable UIs. i.e. [:es,:en]
-  # note, assumes 'default_locales' has been defined as a Division custom field
-  # todo: consider adapting CustomFieldAddable to support fields defined at the code level, instead of depending on db data
-  def resolve_default_locales
-    result = nil
-    if custom_field(:default_locales)
-      result = default_locales
-    else
-      # todo: confirm if this should be fatal
-      # raise "missing Division.default_locales custom field definition"
-      logger.warn("missing Division.default_locales custom field definition")
-    end
-    unless result
-      logger.warn("defaulting to local locale")
-      result = [ I18n.locale ]
-    end
-    result
   end
 end

@@ -5,6 +5,7 @@
 #  agent_id              :integer
 #  created_at            :datetime         not null
 #  date                  :date
+#  date_changed_to       :date
 #  id                    :integer          not null, primary key
 #  progress_metric_value :string
 #  project_step_id       :integer
@@ -28,15 +29,13 @@ class ProjectLog < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project_step
+  delegate :name, to: :agent, prefix: true, allow_nil: true
 
-  # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details, :additional_notes, :private_notes
 
   attr_option_settable :progress_metric
 
-
   validates :project_step_id, presence: true
-
 
   def name
     # logger.debug "this: #{self.inspect}"
@@ -49,12 +48,9 @@ class ProjectLog < ActiveRecord::Base
     progress_metric_label
   end
 
-
-
   def project
     project_step.try(:project)
   end
-
 
   def progress(continuous=false)
     # ##JE todo: figure out how this is used and exactly what it needs to show

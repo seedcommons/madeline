@@ -1,8 +1,8 @@
 div.panel-body class=('new-record' if step.new_record?)
 
   = simple_form_for([:admin, step],
-          remote: true,
-          html: {class: 'project-step-form'}) do |f|
+    remote: true,
+    html: { class: 'project-step-form' }) do |f|
 
     / Need to pass these through to create but not update.
     - if step.new_record?
@@ -12,30 +12,34 @@ div.panel-body class=('new-record' if step.new_record?)
     = hidden_field_tag(:context, context)
 
     = f.error_notification
-    .step_form_left.col-sm-8.languages
-      input.deleted-locales type="hidden" name="project_step[deleted_locales]" value="[]"
-      - step.used_locales.each do |l|
-        .step-form-left-group.language-block data-locale="#{l}"
-          .clearfix
-            = f.input "locale_#{l}".to_sym, label: false, collection: locale_options(step.permitted_locales),
-                    wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
-            = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12, input_html: {class: 'summary'},
-                    placeholder: I18n.t(:summary, locale: l)
+    .step_form_left.col-sm-8.languages data-content-translatable='step'
+      input type="hidden" name="project_step[deleted_locales][]"
+      - step.used_locales_or_current_locale.each do |l|
+        .language-block data-locale="#{l}"
+          a.remove-language href="#" = t('common.remove')
+          = f.input "locale_#{l}".to_sym, label: false,
+            collection: locale_options,
+            wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
+          = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12,
+            input_html: {data: {translatable: 'common.summary'}},
+            placeholder: I18n.t('common.summary', locale: l)
           = f.input "details_#{l}".to_sym, as: :text, wrapper: :step_form_left_12,
-                  input_html: {class: 'details', rows: 3}, placeholder: I18n.t(:details, locale: l)
-          a.remove-language href="#" Remove
+            input_html: {rows: 3, data: {translatable: 'common.details'}},
+            placeholder: I18n.t('common.details', locale: l)
           .clearfix
-      a.add-language href="#" Add Language
+      a.add-language href="#" = t('common.add_language')
 
     .step_form_right.col-sm-4
-      .clearfix
-        = f.input :step_type_value, label: 'Type',
-            collection: ProjectStep.step_type_option_set.translated_list,
-            wrapper: :step_form_right_9, include_blank: '---', input_html: {class: 'type'}
-      = f.input :scheduled_date, label: 'Scheduled', as: :date, wrapper: :step_form_right_9,
-        input_html: {class: 'date'}
-      = f.input :completed_date, label: 'Completed', as: :date, wrapper: :step_form_right_9,
-        input_html: {class: 'date'}, include_blank: true
+      = f.input :step_type_value, label: 'Type',
+        collection: ProjectStep.step_type_option_set.translated_list,
+        wrapper: :step_form_right_9,
+        include_blank: '---',
+        wrapper_html: {class: 'clearfix'},
+        input_html: {class: 'type'}
+      = f.input :scheduled_date, label: 'Scheduled', as: :date_picker, wrapper_html: {class: 'clearfix'},
+        wrapper: :step_form_right_9
+      = f.input :completed_date, label: 'Completed', as: :date_picker, wrapper_html: {class: 'clearfix'},
+        wrapper: :step_form_right_9
       .form-group.date.optional.project_step_completed_date
         = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
         .col-sm-9

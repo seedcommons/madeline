@@ -37,7 +37,12 @@ en:
         details: "Details"
         project_type: "Project Type"
         public_level: "Public Level"
+        rate: "Rate"
+        signing_date: "Signing Date"
+        summary: "Summary"
       organization:
+        active_loans: "Active Loans"
+        additional_people: "Additional Members"
         alias: "Alias"
         city: "City"
         contact_notes: "Contact Notes"
@@ -80,14 +85,26 @@ en:
         state: "State"
         tax_no: "National ID"
         website: "Website"
+      project_log:
+        date: "Log Date"
+        agent: "Member"
+        progress_metric_value: "Status"
 
   simple_form:
+    labels:
+      project_step_move:
+        move_type: "Which Date?"
+        shift_subsequent: "Shift Others?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
+      project_step_move:
+        move_type:
+          change_date: "Change step's scheduled date"
+          mark_completed: "Mark step completed on this date"
 
   time:
     formats:
@@ -155,7 +172,6 @@ en:
   paid: Paid
   due: Due
   overdue: Overdue
-  dash: " - "
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
@@ -194,7 +210,6 @@ en:
   more: "More"
   name: "Name"
   new_thing: "New %{thing}"
-  no_records: "No records found."
   none: "None"
   notes: "Notes"
   notice_created: 'Record was successfully created.'
@@ -215,25 +230,42 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add_language: "Add Language"
     address_state: "State"
+    created: "Created"
+    caption: "Caption"
     description: "Description"
+    details: "Details"
     division: "Division"
     divisions: "Divisions"
+    name: "Name"
+    no_records: "No records found."
+    no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
+    remove: "Remove"
     street_address: "Street Address"
+    summary: "Summary"
+    updated: "Updated"
     website: "Website"
 
   log:
-    additional_notes: "Additional Notes:"
+    additional_notes: "Additional Notes"
+    edit: "Edit Log"
+    delete: "Delete Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"
     log: "project log"
     logs: "Logs"
-    new_log: "New Log"
+    new: "New Log"
     no_logs: "No Logs"
-    private_notes: "Private Notes:"
+    private_notes: "Private Notes"
+    save: "Save Log"
     show_logs: "Show Logs"
     show_logs_n: "Show Logs (%{n})"
+    status:
+      behind: "Behind"
+      on_time: "On time"
+    step_completed: "Step completed on this date"
 
   number:
     nth:
@@ -274,6 +306,7 @@ en:
       original_date: "Original Date:"
     logs: "Logs"
     months: "Month(s)"
+    move: "Move Step"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"

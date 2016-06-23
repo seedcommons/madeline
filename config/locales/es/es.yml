@@ -3,71 +3,326 @@ es:
     en: Inglés
     es: Español
     fr: Francés
-  loans: Préstamos
-  country: País
-  show: Mostrar
-  show_active: Activos
-  show_completed: Completos
-  show_all: Todos
-  loan_active: Activo
-  loan_completed: Completo
-  no_loans_found: No hay préstamos con ese criterio.
-  more_details: Más detalles
-  project_with: "Proyecto con %{name}"
-  project_id: "Proyecto %{id}"
-  back_to_loans: Regresar a la lista de préstamos
-  about_this_project: Sobre este proyecto
-  status: Situación
-  amount: Cantidad
-  location: Ubicación
-  signing_date: Fecha de inicío
-  summary: Resumen
-  details: Detalles
-  timeline: Cronología
-  payments: Cuotas
-  past_loans: Préstamos anteriores
-  no_description_found: No encontramos esa descripción.
-  payment_schedule: Calendario de cuotas
-  status: Situación
-  due_date: Fecha de vencimiento
-  first_loan: Préstamo inicial
-  all_loans: Todos los préstamos
-  gallery: Galería
-  back_to: "Volver a %{name}"
-  media_gallery: Galería de fotos
-  no_media_found: No hay fotos con ese criterio.
-  images_of: "Imagenes de %{name}"
-  images_from_this_project: Imagenes del proyecto
-  cooperative: Cooperativa
-  cooperative_name: "Cooperativa %{name}"
-  not_yet_translated: Traducción pendiente. <a href="http://labase.org/contacto">Comunicáte con nosotros</a> si quisieras ayudarnos con la traducción.
-  log_completed: Completo
-  log_not_yet_completed: Incompleto
-  show_logs: Mostrar registros
-  hide_logs: Ocultar registros
-  show_more: Ver más
-  show_less: Ver menos
-  paid: Pagado
-  due: Vence
-  overdue: Atrasado
-
-  date:
-    formats:
-      long: ! '%d de %B de %Y'
-
+  activerecord:
+    models:
+      media: "Fotos"
+      log: "Apunte"
+      organization: "Organización"
+      loan: "Préstamo"
+      person: "Miembro"
+      project_step: "Paso del Proyecto"
+    attributes:
+      division:
+        description: "Descripción"
+        default_currency: "Moneda Predeterminada"
+        name: "Nombre"
+        parent: "División Principal"
+      loan:
+        division: "División"
+        organization: "Cooperativa"
+        name: "Nombre"
+        loan_type: "Tipo de Préstamo"
+        status: "Estado"
+        amount: "Monto"
+        currency: "Moneda"
+        primary_agent: "Responsable"
+        secondary_agent: "Colaborador"
+        length_months: "Duración (meses)"
+        first_payment_date: "Fecha de 1er Pago "
+        first_interest_payment_date: "Fecha de 1er Pago de Interés"
+        target_end_date: "Fecha de Finalización Prevista"
+        projected_return: "Retorno Proyectado"
+        representative: "Representante"
+        details: "Detalles"
+        project_type: "Tipo de Proyecto"
+        public_level: "Nivel Público"
+        rate: "Tasa"
+        signing_date: "Fecha de Firma"
+        summary: "Resumen"
+      organization:
+        additional_people: "Miembros Adicionales"
+        alias: "Alias"
+        city: "Ciudad"
+        contact_notes: "Notas de Contacto"
+        division: "División"
+        email: "Correo electrónico"
+        fax: "Fax"
+        industry: "Industria"
+        legal_name: "Nombre Legal"
+        name: "Nombre"
+        neighborhood: "Barrio"
+        people: "Miembros"
+        primary_contact: "Contacto Principal"
+        primary_phone: "Teléfono"
+        referral_source: "Fuente del Contacto"
+        secondary_phone: "Tel. Celular"
+        street_address: "Domicilio"
+        sector: "Sector"
+        state: "Estado"
+        tax_no: "Nro. de identificación impositiva"
+        country: "País"
+        website: "Página web"
+      person:
+        birth_date: "Fecha de Nacimiento"
+        city: "Ciudad"
+        contact_notes: "Notas del Contacto"
+        country: "País"
+        division: "División"
+        email: "Correo electrónico"
+        first_name: "Nombre de Pila"
+        has_system_access: "Tiene Acceso al Sistema"
+        last_name: "Apellido"
+        owning_division_role: "Rol de Acceso"
+        postal_code: "Código Postal"
+        password: "Contraseña"
+        password_confirmation: "Confirmación de Contraseña"
+        primary_organization: "Cooperativa"
+        primary_phone: "Teléfono"
+        secondary_phone: "Tel. Celular"
+        street_address: "Domicilio"
+        state: "Estado"
+        tax_no: "Nro. de Documento"
+        website: "Página Web"
+  simple_form:
+    options:
+      person:
+        owning_division_role:
+          admin: "Admin"
+          member: "Miembro"
+          none: "Ninguno"
   time:
     formats:
-      # Note, these translations are required to avoid fatal errors on list views
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
       time_only: '%l:%M %P'
       md_only: '%b %e'
       my_only: '%b %Y'
-      full_tz: '%b %e, %Y %l:%M %p %Z'
-
-  will_paginate:
-    previous_label: "&#8592; Anterior"
-    next_label: "Próximo &#8594;"
-    page_gap: "&hellip;"
-
-  routes:
-    loans: prestamos
-    gallery: galeria
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%m-%d-%y'
+      long: '%B %e, %Y'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+  show: Mostrar
+  show_active: Activo
+  show_completed: Completo
+  show_all: Todos
+  loan_active: Activos
+  loan_completed: Completos
+  no_loans_found: No se encontraron préstamos.
+  more_details: Más detalles
+  project_with: "Proyecto con %{name}"
+  project_id: "Projecto %{id}"
+  back_to_loans: Regresar a Lista de Préstamos
+  about_this_project: Sobre Este Proyecto
+  amount: Monto
+  location: Ubicación
+  signing_date: Fecha de Firma
+  summary: Resumen
+  details: Detalles
+  timeline: Línea de Tiempo
+  payments: Devoluciones
+  past_loans: Préstamos Anteriores
+  no_description_found: No se encontró descripción.
+  payment_schedule: Calendario de Devoluciones
+  due_date: Fecha de Vencimiento
+  first_loan: Este es el primer préstamo a esta cooperativa.
+  all_loans: Todos los Préstamos a esta Cooperativa
+  gallery: Galería
+  back_to: "Regresar a %{name}"
+  media_gallery: Galería de Fotos
+  no_media_found: No se encontraron fotos.
+  images_of: "Imágenes de %{name}"
+  images_from_this_project: Imágenes de este proyecto
+  cooperative: Cooperativa
+  cooperative_name: "Cooperativa %{name} "
+  not_yet_translated: Este texto aún no ha sido traducido. <a href="http://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
+  log_completed: Completo
+  log_not_yet_completed: Aún incompleto
+  show_logs: Mostrar Apuntes
+  hide_logs: Ocultar Apuntes
+  show_more: Más
+  show_less: Menos
+  paid: Pagado
+  due: Vence
+  overdue: Retrasado
+  loading: "Cargando..."
+  error: "Error"
+  error_notification: "Lo lamentamos, pero hubo un error al procesar tu solicitud."
+  close: "Cerrar"
+  all: "Todos"
+  calendar: "Calendario"
+  cancel: "Cancelar"
+  cancel_edit: "Cancelar Edición"
+  city: "Ciudad"
+  clear: "Quitar"
+  completed: "Completo"
+  confirm: "Confirmar"
+  confirm_deletion: '¿Realmente quieres borrar %{thing}?'
+  coop: "Cooperativa"
+  coops: "Cooperativas"
+  country: "País"
+  created: "Creado"
+  days: "días"
+  delete: "Borrar"
+  description: "Descripción"
+  dropdown_toggle: "Alternar Menú Desplegable"
+  edit: "Editar"
+  email: "Correo electrónico"
+  export_to_csv: "Exportar a CSV"
+  filter: "Filtrar"
+  filter_by: "Filtrar por:"
+  id: "ID"
+  incomplete: "Incompleto"
+  loans: "Préstamos"
+  locked: "Bloqueado"
+  login: "Iniciar sesión"
+  logout: "Finalizar sesión"
+  more: "Más"
+  name: "Nombre"
+  new_thing: "Nuevo %{thing}"
+  none: "Ninguno/a"
+  notes: "Notas"
+  notice_created: 'El registro fue creado correctamente.'
+  notice_deleted: 'El registro fue borrado correctamente.'
+  notice_updated: 'El registro fue actualizado correctamente. '
+  notice_batch_deleted: '%{count} registo(s) borrado(s) correctamente.'
+  notice_batch_updated: '%{count} registro(s) actualizado(s) correctamente.'
+  notice_batch_failures: '%{failure_count} registro(s) con fallas.'
+  password: "Contraseña"
+  print: "Imprimir"
+  reply_no: "No"
+  reply_yes: "Sí"
+  status: "Estado"
+  update: "Actualizar"
+  updated: "Actualizado"
+  common:
+    add_language: "Agregar Idioma"
+    address_state: "Estado"
+    created: "Creado"
+    description: "Descripción"
+    details: "Detalles"
+    division: "División"
+    divisions: "Divisiones"
+    name: "Nombre"
+    no_records: "No se encontraron registros."
+    no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
+    parent: "Principal"
+    remove: "Eliminar"
+    street_address: "Domicilio"
+    summary: "Resumen"
+    updated: "Actualizado"
+    website: "Página web"
+  log:
+    additional_notes: "Notas adicionales"
+    edit: "Editar Apunte"
+    delete: "Borrar Log"
+    hide_logs: "Ocultar Apuntes"
+    hide_logs_n: "Ocultar (%{n}) Apuntes"
+    log: "apunte de proyecto"
+    logs: "Apuntes"
+    new: "Nuevo Apunte"
+    no_logs: "No Hay Apuntes"
+    private_notes: "Notas Privadas"
+    save: "Guardar Apunte"
+    show_logs: "Mostrar Apuntes"
+    show_logs_n: "Mostrar (%{n}) Apuntes"
+    status:
+      behind: "Atrasado"
+      on_time: "A Tiempo"
+    step_completed: "Paso completado en esta fecha"
+  number:
+    nth:
+      num_1: "primero"
+      num_2: "segundo"
+      num_3: "tercero"
+      num_4: "cuarto"
+      num_5: "quinto"
+    nth_weekday: "El %{nth} %{weekday}"
+    the_day: "El %{day}"
+  project_step:
+    after: "Después de"
+    confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
+    confirm_shift_subsequent:
+      one: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover la siguiente fecha de paso hacia atrás %{days} días?"
+      other: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover las siguientes %{count} fechas de paso hacia atrás %{days} días?"
+    days: "Día(s)"
+    delete:
+      one: "Borraro Paso"
+      other: "Borrar Pasos"
+    duplicate: "Duplicar"
+    duplicate_step: "Duplicar Paso"
+    edit_step: "Editar Paso"
+    end: "Fin:"
+    every: "Cada:"
+    batch_delete_confirm: "¿Realmente quieres borrar estos pasos de proyecto?"
+    batch_finalize_confirm: "¿Realmente quieres finalizar estos pasos de proyecto?"
+    finalized: "Finalizado:"
+    finalize:
+      one: "Finalizar Paso"
+      other: "Finalizar Pasos"
+    labels:
+      completed: "Completado:"
+      finalized: "Finalizado:"
+      scheduled: "Previsto:"
+      status: "Estado:"
+      original_date: "Fecha Original:"
+    logs: "Apuntes"
+    months: "Mes(es)"
+    no_steps: "No hay pasos de la línea de tiempo que mostrar."
+    occurrences: "ocurrencia(s)"
+    once: "Una vez"
+    on_label: "En:"
+    on_text: "En"
+    project_step:
+      one: "paso del proyecto"
+      other: "pasos del proyecto"
+    repeat: "Repetir..."
+    shift_subsequent: "¿Mover las siguientes Fechas de Completado?"
+    timeline: "Línea de Tiempo"
+    status:
+      completed: "Completado"
+      early: "Adelantado"
+      late: "Atrasado"
+      not_completed: "Aún incompleto"
+      days_early: "%{days} días adelantado"
+      days_late: "%{days} días atrasado"
+      on_time: "A tiempo"
+      changed_times:
+        one: "Cambiado una vez"
+        other: "Cambiado %{count} veces"
+    unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
+    weeks: "Semana(s)"
+  user:
+    account: "Cuenta"
+    change_password: "Cambiar Contraseña"
+    confirm_new_password: "Confirmar nueva contraseña"
+    current_password: "Contraseña actual"
+    current_password_instructions: "(necesitamos tu contraseña actual para confirmar tus cambios)"
+    edit_user: "Editar %{user}"
+    forgot_password: "Olvidé mi Contraseña"
+    forgot_password_instructions: "Ingresar tu correo electrónico para recibir instrucciones de reinicio"
+    leave_blank: "(dejar en blanco si no quieres cambiar tu contraseña)"
+    minimum_password_length: "(%{minimum_length} caracteres como mínimo)"
+    new_password: "Nueva contraseña"
+    no_division_access: "El usuario no tiene permiso para acceder a ninguna división."
+    no_person: "El usuario no está asociado a una Persona."
+    no_system_access: "El usuario no tiene acceso al sistema."
+    send_instructions: "Enviar instrucciones"
+    waiting_confirmation: "Esperando confirmación para: %{email}"
+  media:
+    confirm_deletion: "¿Realmente quieres borrar esta foto?"
+    caption: "Epígrafe para %{locale_name} "
+    add: "Agregar Foto"
+    edit: "Editar Fotos"
+    delete: "Borrar Foto(s)"
+  menu:
+    calendar: "Calendario"
+    coops: "Cooperativas"
+    dashboard: "Tablero de mandos"
+    divisions: "Divisiones"
+    loans: "Préstamos"

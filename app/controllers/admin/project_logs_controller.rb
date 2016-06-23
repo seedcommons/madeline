@@ -1,29 +1,45 @@
 class Admin::ProjectLogsController < Admin::AdminController
-  def destroy
-    @log = ProjectLog.find(params[:id])
-    @step = ProjectStep.find(@log.project_step_id)
-    @loan = Loan.find(@step.project_id)
-
-    authorize @log
-    authorize @step
-    authorize @loan
-
-    if @log.destroy
-      redirect_to admin_loan_path(@loan, anchor: 'timeline'), notice: I18n.t(:notice_deleted)
-    else
-      redirect_to admin_loan_path(@loan, anchor: 'timeline')
-    end
-  end
+  include TranslationSaveable, LogControllable
 
   def show
     @log = ProjectLog.find(params[:id])
-    @step = ProjectStep.find(@log.project_step_id)
-    @loan = Loan.find(@step.project_id)
-
+    @step = @log.project_step
     authorize @log
-    authorize @step
-    authorize @loan
 
-    redirect_to admin_loan_path(@loan)
+    redirect_to admin_loan_path(@step.project)
+  end
+
+  def new
+    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today, agent: current_user.profile)
+    @step = @log.project_step
+    authorize_and_render_modal
+  end
+
+  def edit
+    @log = ProjectLog.find(params[:id])
+    @step = @log.project_step
+    authorize_and_render_modal
+  end
+
+  def create
+    @log = ProjectLog.new(project_log_params)
+    @step = @log.project_step
+    authorize @log
+    save_and_render_partial
+  end
+
+  def update
+    @log = ProjectLog.find(params[:id])
+    @log.assign_attributes(project_log_params)
+    @step = @log.project_step
+    authorize @log
+    save_and_render_partial
+  end
+
+  def destroy
+    @log = ProjectLog.find(params[:id])
+    @step = @log.project_step
+    authorize @log
+    destroy_and_render_partial
   end
 end

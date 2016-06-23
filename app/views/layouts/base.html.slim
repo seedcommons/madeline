@@ -8,15 +8,19 @@ html lang="en-US"
       = ' | Madeline System'
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = csrf_meta_tags
+
     = javascript_include_tag "application"
-    = stylesheet_link_tag "application", :media => "all"
-    = yield :scripts
-    = yield :styles
 
     javascript:
+      I18n.availableLocales = #{json I18n.available_locales};
       $(function() { new MS.Views.ApplicationView(); });
 
-  body class="#{params[:controller].gsub('/', '-')} action-#{params[:action]}"
+    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_link_tag "admin/admin", media: "all" if admin_controller?
+
+  body class="#{params[:controller].gsub('/', '-')}
+              action-#{params[:action]}
+              #{devise_controller? ? 'devise' : ''}"
     = content_for?(:content) ? yield(:content) : yield
 
 #glb-load-ind

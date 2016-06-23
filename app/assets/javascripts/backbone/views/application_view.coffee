@@ -8,6 +8,7 @@ class MS.Views.ApplicationView extends Backbone.View
   initialize: ->
     MS.loadingIndicator = @$('#glb-load-ind')
     MS.errorModal = @$('#glb-error-modal')
+    new MS.Views.Expander()
 
   events: ->
     'click .more': 'toggleExpanded'
@@ -26,4 +27,3 @@ class MS.Views.ApplicationView extends Backbone.View
         self.$('.ms-popover').popover('hide')
         self.$el.off 'click', hide # Unregister for performance reasons
     @$el.on 'click', hide
-

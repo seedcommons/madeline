@@ -10,7 +10,7 @@
 # note, a more thorough population of basic data lives at lib/legacy/static_data
 #
 
-::Division.create(name: 'None')  unless ::Division.root
+::Division.create(name: '-')  unless ::Division.root
 
 # #puts "seeds.rb"
 #
