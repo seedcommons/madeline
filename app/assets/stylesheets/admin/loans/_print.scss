@@ -21,7 +21,9 @@
 
     .featured-image {
       img {
-        width: 90%;
+        display: block;
+        width: 70%;
+        margin: 0 auto;
       }
     }
   }
