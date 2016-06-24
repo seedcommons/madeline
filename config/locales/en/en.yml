@@ -350,6 +350,16 @@ en:
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
 
+  loan:
+    criteria: "Criteria"
+    details: "Details"
+    memo: "Loan Memo"
+    print: "Print"
+    print_criteria: "Criteria Only"
+    print_details: "Details Only"
+    print_memo: "Print Loan Memo"
+    print_part: "Print specific part"
+
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"

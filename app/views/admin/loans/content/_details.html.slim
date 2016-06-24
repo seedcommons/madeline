@@ -20,14 +20,14 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
       = t("loan.delete")
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-        => "Print"
+        => t('loan.print')
         span.caret
       ul.dropdown-menu.dropdown-menu-right.print-actions
-        li = link_to("Print Loan Memo", print_memo_admin_loan_path(@loan.id), 'data-print': 'memo', target: '_blank')
+        li = link_to(t('loan.print_memo'), print_memo_admin_loan_path(@loan.id), 'data-print': 'memo', target: '_blank')
         li.divider role="separator"
-        li.dropdown-header Print specific part
-        li = link_to("Details Only", print_details_admin_loan_path(@loan.id), 'data-print': 'details', target: '_blank')
-        li = link_to("Criteria Only", print_criteria_admin_loan_path(@loan.id), 'data-print': 'criteria', target: '_blank')
+        li.dropdown-header = t('loan.print_part')
+        li = link_to(t('loan.print_details'), print_details_admin_loan_path(@loan.id), 'data-print': 'details', target: '_blank')
+        li = link_to(t('loan.print_criteria'), print_criteria_admin_loan_path(@loan.id), 'data-print': 'criteria', target: '_blank')
   = render "admin/loans/content/form", loan: @loan
 
 section.block data-container='media'

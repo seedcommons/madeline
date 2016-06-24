@@ -2,18 +2,18 @@
 
 section data-container="loan"
   header
-    .btn.btn-default data-action="print" Print
-    h1 Loan Memo
+    .btn.btn-default data-action="print" = t('loan.print')
+    h1 = t('loan.memo')
 
   section.loan.details class='show-view'
-    h2 Details
+    h2 = t('loan.details')
     = render "admin/loans/content/details", loan: @loan
 
   section.featured-image
     = image_tag(@first_image.item.url)
 
   section.loan.criteria class='show-view'
-    h2 Criteria
+    h2 = t('loan.criteria')
     = render "admin/loans/content/criteria", loan: @loan
 
   javascript:

@@ -5,7 +5,7 @@ section data-container="loan"
     .btn.btn-default data-action="print" Print
 
   section.loan.criteria class='show-view'
-    h2 Criteria
+    h2 = t('loan.criteria')
     = render "admin/loans/content/criteria", loan: @loan
 
   javascript:

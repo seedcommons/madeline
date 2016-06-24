@@ -2,10 +2,10 @@
 
 section data-container="loan"
   header
-    .btn.btn-default data-action="print" Print
+    .btn.btn-default data-action="print" = t('loan.print')
 
   section.loan.details class='show-view'
-    h2 Details
+    h2 = t('loan.details')
     = render "admin/loans/content/details", loan: @loan
 
   javascript:
