@@ -26,7 +26,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.update(record_params)
-      redirect_to record_path(@record), notice: I18n.t(:notice_updated)
+      redirect_to display_path, notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
@@ -38,7 +38,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.save
-      redirect_to record_path(@record), notice: I18n.t(:notice_created)
+      redirect_to display_path, notice: I18n.t(:notice_created)
     else
       prep_form_vars
       render :new
@@ -50,7 +50,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.destroy
-      redirect_to record_path(@record), notice: I18n.t(:notice_deleted)
+      redirect_to display_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
       render :show
@@ -87,6 +87,11 @@ class Admin::CustomValueSetsController < Admin::AdminController
   end
 
   def prep_form_vars
+  end
+
+  def display_path
+    #record_path(@record)
+    admin_loan_path(@record.custom_value_set_linkable) + "#criteria"
   end
 
 end

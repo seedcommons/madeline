@@ -44,11 +44,13 @@
             .view-element
               - if sheet.url
                 p
-                  a.action.toggle-action href="#" data="iframe_#{field.attribute_sym}"
-                    = "Show/Hide Spreadsheet"
-                  =< link_to "Open Spreadsheet", sheet.url, {target: '_blank'}
-                iframe [id="iframe_#{field.attribute_sym}" style="display: none"
-                  width="#{sheet.width}" height="#{sheet.height}" frameborder="1" src="#{sheet.url}"]
+                  a.action.show-content-action href="#" block-id="iframe-#{field.attribute_sym}" block-content='<iframe width="#{sheet.width}" height="#{sheet.height}" frameborder="1" src="#{sheet.url}">'
+                    = "Display spreadsheet inline"
+                  = ' - '
+                  = link_to "Open spreadsheet in new tab", sheet.url, {target: '_blank'}
+
+                div id="iframe-#{field.attribute_sym}"
+
             /4301 Todo: Figure out how to approach editing the spread sheet parameters
             /- f.simple_fields_for sheet do |ff|
             /  = ff.input_field :original_url
