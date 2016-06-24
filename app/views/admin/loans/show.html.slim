@@ -29,10 +29,8 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
           li = link_to("Print Loan Memo", print_memo_admin_loan_path(@loan.id), 'data-print': 'memo', target: '_blank')
           li.divider role="separator"
           li.dropdown-header Print specific part
-          li
-            a data-print='details' Details Only
-          li
-            a data-print='criteria' Criteria Only
+          li = link_to("Details Only", print_details_admin_loan_path(@loan.id), 'data-print': 'details', target: '_blank')
+          li = link_to("Criteria Only", print_criteria_admin_loan_path(@loan.id), 'data-print': 'criteria', target: '_blank')
     .clearfix
 
   div.loan-content
