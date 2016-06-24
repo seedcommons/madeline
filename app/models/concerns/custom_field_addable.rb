@@ -53,23 +53,52 @@ module CustomFieldAddable
 
   # Change/assign custom field value, but leave as tranient
   def set_custom_value(field_identifier, value)
+    if (field_identifier.is_a? String) && field_identifier.include?('__')
+      parts = field_identifier.split('__')
+      field_identifier = parts[0]
+      nested_attribute = parts[1]
+    end
+
     field = custom_field(field_identifier)  # note, this is fatal if field not found
     if field.translatable?
       set_translation(field.json_key, value)
     else
       data = ensured_custom_data
       # future: value manipulation depending on field data type
-      data[field.json_key] = value
+      if nested_attribute
+        hash = data[field.json_key] || {}
+        hash[nested_attribute] = value
+        data[field.json_key] = hash
+      else
+        data[field.json_key] = value
+      end
       data
     end
   end
 
   # Fetches a custom value from the json field
   def custom_value(field_identifier)
+    if (field_identifier.is_a? String) && field_identifier.include?('__')
+      parts = field_identifier.split('__')
+      field_identifier = parts[0]
+      nested_attribute = parts[1]
+    end
     field = custom_field(field_identifier)
-    result = ensured_custom_data[field.json_key]
-    # future: result manipulation depending on field data type
+    raw_value = ensured_custom_data[field.json_key]
+    # 4301 Todo: '< 200' implies LoanResponse field.  Need to either add something to custom field
+    # schema to drive this marshalling or do a wider refactor to be less generic.
+    value = (field.id < 200) ? LoanResponse.new(field, raw_value) : raw_value
+    if nested_attribute
+      value.send(nested_attribute)
+    else
+      value
+    end
   end
+
+  # def custom_value_hash(field_identifier)
+  #   field = custom_field(field_identifier)
+  #   value_hash = ensured_custom_data[field.json_key]
+  # end
 
   # Determines and returns which custom field set definition corresponds to this object instance, based on the owning division
   # Raises an exception if no custom field set definition is found.
@@ -127,6 +156,7 @@ module CustomFieldAddable
   # end
   #
   def method_missing(method_sym, *arguments, &block)
+    #puts "method missing - #{method_sym}"
     attribute_name, action, field = match_dynamic_method(method_sym)
     # puts("mm attr name: #{attribute_name}, action: #{action}, args.first: #{arguments.first}")
     if action
@@ -158,6 +188,7 @@ module CustomFieldAddable
   end
 
   def respond_to_missing?(method_sym, include_private = false)
+    #puts "respond to missing: #{method_sym} - self: #{self}"
     attribute_name, action = match_dynamic_method(method_sym)
     if action
       true
@@ -169,6 +200,13 @@ module CustomFieldAddable
   # Determines attribute name and implied operations for dynamic methods as documented above
   def match_dynamic_method(method_sym)
     method_name = method_sym.to_s
+
+    # avoid problems with nested attribute methods and form helpers
+    return nil if method_name.end_with?('came_from_user?')
+    return nil if method_name.end_with?('before_type_cast')
+    return nil if method_name == 'policy_class'
+    return nil if method_name == 'to_ary'
+
     if method_name.ends_with?('=')
       attribute_name = method_name.chomp('=')
       action = :set
@@ -189,7 +227,14 @@ module CustomFieldAddable
       action = :get
     end
 
-    field = custom_field(attribute_name, required: false)
+    if attribute_name.include?('__')
+      parts = attribute_name.split('__')
+      field_name = parts[0]
+    else
+      field_name = attribute_name
+    end
+
+    field = custom_field(field_name, required: false)
     if field
       [attribute_name, action, field]
     else

@@ -25,6 +25,7 @@ en:
       body: "Are you sure you want to change the loan date?"
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
+    post_analysis: "Post-Analysis"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     status:

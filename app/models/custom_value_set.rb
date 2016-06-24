@@ -38,7 +38,9 @@ class CustomValueSet < ActiveRecord::Base
   belongs_to :custom_value_set_linkable, polymorphic: true
   belongs_to :custom_field_set
 
-  delegate :division, :division=, to: :custom_field_set
+  validates :custom_value_set_linkable, presence: true
+
+  delegate :division, :division=, to: :custom_value_set_linkable
 
   # Ducktype interface override of default CustomValueSettable resolve logic.
   # Assumes linkable associated field set assigned when instance was created.
@@ -49,7 +51,7 @@ class CustomValueSet < ActiveRecord::Base
 
   # used by raw crud admin views
   def name
-    "#{custom_value_set_linkable_type}[#{custom_value_set_linkable_id}]-#{linkable_attribute}"
+    "#{custom_value_set_linkable.name} - #{linkable_attribute}"
   end
 
 end

@@ -1,0 +1,38 @@
+= simple_form_for([:admin, @loan_question],
+    remote: true,
+    html: { \
+      class: (@loan_question.new_record? ? 'new-form' : 'update-form'),
+      data: { id: @loan_question.id },
+    },
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+  
+  .modal-header
+    h4.modal-title = @loan_question.new_record? ? t('.new_item') : t('.edit_item')
+  .modal-body
+    = f.error_notification
+
+    = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
+      collection: CustomField::DATA_TYPES
+
+    = f.translatable_inputs do |l|
+      = f.input :"label_#{l}", as: :text,
+        input_html: {data: {translatable: 'loan_questions.text'}},
+        placeholder: I18n.t('loan_questions.text', locale: l),
+        label: t('loan_questions.text', locale: l)
+      = f.input :"explanation_#{l}", as: :text,
+        input_html: {data: {translatable: 'loan_questions.explanation'}},
+        placeholder: I18n.t('loan_questions.explanation', locale: l),
+        label: t('loan_questions.explanation', locale: l)
+    
+    - if f.object.new_record?
+      = f.input_field :parent_id, as: :hidden
+      = f.input_field :custom_field_set_id, as: :hidden
+      = f.input_field :fieldset, value: params[:fieldset], as: :hidden
+
+  .modal-footer
+    button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
+    = f.submit 'Save', class: 'submit-action btn btn-success'
+      

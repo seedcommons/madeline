@@ -12,7 +12,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @context = @$el.data('context')
     @daysShifted = params.daysShifted
     @stepId = params.stepId
-    new MS.Views.TranslationsView(el: @$('[data-content-translatable="step"]'))
+    new MS.Views.TranslationsView()
     @showMoveStepModal()
 
   events:

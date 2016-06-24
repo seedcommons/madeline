@@ -1,0 +1,37 @@
+en:
+  loan_question: "Loan question"
+  loan_questions:
+    confirm_deletion: "<b>WARNING:</b> If this item has any questions or groups belonging to it, <b>they will be deleted as well!</b> Are you <b>sure</b> you want to delete this?"
+    confirm_deletion_descendants:
+      zero: "Are you sure you want to delete this?"
+      one: "<b>WARNING:</b> This item has <b>1 question or group</b> belonging to it, which <b>will be deleted as well!</b> Are you sure you want to delete this?"
+      other: "<b>WARNING:</b> This item has <b>%{count} questions or groups</b> belonging to it, which <b>will be deleted as well!</b> Are you <b>sure</b> you want to delete this?"
+    data_type: "Data type"
+    delete_error: "The item could not be deleted due to an error"
+    explanation: "Explanation"
+    move_error: "The item could not be moved due to an error"
+    text: "Title"
+
+  admin:
+    loan_questions:
+      index:
+        title: "Loan Questions"
+        add_item: "Add question or group"
+        edit_item: "Edit Item"
+        delete_item: "Delete Item"
+      form:
+        edit_item: "Edit Question or Group"
+        new_item: "New Question or Group"
+
+  simple_form:
+    options:
+      custom_field:
+        data_type:
+          string: String
+          text: Text
+          number: Number
+          range: Range
+          group: Group
+          boolean: Boolean
+          translatable: Translatable
+          list: List

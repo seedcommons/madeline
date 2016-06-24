@@ -1,0 +1,34 @@
+- content_for(:title, @record.name)
+
+p = link_to "Back to loan", admin_loan_path(@record.custom_value_set_linkable)
+
+section.questionnaire.details class=(@record.valid? ? 'show-view' : 'edit-view')
+
+  header
+    .show-actions
+      - if policy(@record).update?
+        - if @record.valid?
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element
+            = t("cancel_edit")
+        - else
+          a href=admin_custom_value_set_path(@record) = t(:cancel)
+      /- if policy(@record).destroy?
+        = link_to [:admin, @record], method: :delete,
+            data: { \
+              confirm: t(".confirm_deletion"),
+              "confirm-title": t(".delete"),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm) \
+            }
+          i.fa.fa-trash.fa-large>
+          = t(".delete")
+    .clearfix
+
+  section.block
+    = render 'admin/loans/content/questionnaire', record: @record
+
+javascript:
+  $(function() { new MS.Views.ShowEditView({ el: '.questionnaire.details' }) });
