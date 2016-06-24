@@ -51,13 +51,13 @@
     choices: @agent_choices, classes: 'hidden-print')
 
   = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'print-only'}
-    span = @loan.primary_agent.name
+    span = @loan.primary_agent.try(:name)
 
   = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'print-only'}
-      span = @loan.secondary_agent.name
+      span = @loan.secondary_agent.try(:name)
 
   = f.input t('activerecord.attributes.loan.representative'), wrapper_html: {class: 'print-only'}
-     span = @loan.representative.name
+     span = @loan.representative.try(:name)
 
   = f.input :length_months
     .view-element = @loan.length_months
