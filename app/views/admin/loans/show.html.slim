@@ -25,7 +25,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
         a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
           => "Print"
           span.caret
-        ul.dropdown-menu.dropdown-menu-right
+        ul.dropdown-menu.dropdown-menu-right.print-actions
           li
             a data-print='memo' Print Loan Memo
           li.divider role="separator"
@@ -44,6 +44,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 javascript:
   $(function() {
     new MS.Views.ShowEditView({el: '.loan.details'});
+    new MS.Views.LoanPrintView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
       calendar_events_url: #{json @calendar_events_url},

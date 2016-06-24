@@ -105,3 +105,13 @@ class MS.Views.ProjectStepView extends Backbone.View
           el: $("<div>").appendTo(@$el)
           context: 'edit_date'
       @moveStepModalView.show(@stepId, @daysShifted).done -> MS.timelineView.refreshSteps()
+
+    # 'click [data-print]': 'preparePrint'
+    'click .print-actions span': 'preparePrint'
+    
+  preparePrint: (e) ->
+    console.log("You have entered print")
+    e.preventDefault()
+    initiatingItem = e.currentTarget()
+    printType = initiatingItem.data('print')
+    console.log(printType)
