@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       member do
         get :steps
         patch :change_date
+        get :print_memo
+        get :print_details
+        get :print_criteria
       end
     end
     resources :organizations

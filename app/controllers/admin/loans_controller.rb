@@ -96,6 +96,24 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  def print_memo
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+  end
+
+  def print_details
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+  end
+
+  def print_criteria
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+  end
+
   private
 
   def loan_params
