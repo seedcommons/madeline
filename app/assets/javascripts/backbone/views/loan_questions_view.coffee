@@ -3,6 +3,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   el: '.loan-questions'
 
   initialize: (params) ->
+    new MS.Views.AutoLoadingIndicatorView()
     @tree = @$('.jqtree')
     @tree.tree
       data: @tree.data('data')
@@ -27,27 +28,22 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'confirm:complete .delete-action': 'deleteNode'
 
   newNode: (e) ->
-    MS.loadingIndicator.show()
     parent_id = @$(e.target).closest('li').parents('li').data('id')
     fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
     @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
-      MS.loadingIndicator.hide()
       @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView()
       @$('#custom_field_parent_id').val(parent_id)
     )
 
   editNode: (e) ->
-    MS.loadingIndicator.show()
     id = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
-      MS.loadingIndicator.hide()
       @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView()
     )
 
   createNode: (e) ->
-    MS.loadingIndicator.show()
     $form = @$(e.target).closest('form')
 
     # We send form data via ajax so we can capture the response from server
@@ -62,12 +58,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
-    MS.loadingIndicator.hide()
     # Prevent form from being submitted again
     return false
 
   updateNode: (e) ->
-    MS.loadingIndicator.show()
     $form = @$(e.target).closest('form')
     id = $form.data('id')
     node = @tree.tree('getNodeById', id)
@@ -83,12 +77,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
-    MS.loadingIndicator.hide()
     # Prevent form from being submitted again
     return false
 
   moveNode: (e) ->
-    MS.loadingIndicator.show()
     e.preventDefault()
     id = e.move_info.moved_node.id
     data =
@@ -99,11 +91,9 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $.post("/admin/loan_questions/#{id}/move", data)
     .done =>
       e.move_info.do_move()
-      MS.loadingIndicator.hide()
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
-      MS.loadingIndicator.hide()
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
 
@@ -115,18 +105,15 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       I18n.t("loan_questions.confirm_deletion_descendants", count: node.descendants_count))
 
   deleteNode: (e) ->
-    MS.loadingIndicator.show()
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
 
     $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
     .done =>
-      MS.loadingIndicator.hide()
       @tree.tree('removeNode', node)
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
-      MS.loadingIndicator.hide()
       $alert = $(response.responseText).hide()
       $alert.appendTo($('.alerts')).show('fast')
     return false
