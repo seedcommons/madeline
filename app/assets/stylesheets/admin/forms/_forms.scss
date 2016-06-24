@@ -35,7 +35,7 @@
   }
 
   .view-block, .view-element {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -45,7 +45,7 @@
   }
 
   .form-block, .form-element {
-    display: none;
+    display: none !important;
   }
 
   .form-horizontal .control-label {

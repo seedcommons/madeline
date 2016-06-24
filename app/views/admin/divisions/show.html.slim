@@ -1,8 +1,8 @@
 - content_for(:title, @division.name)
 
-section.division.details class=(@division.valid? ? 'show-view' : 'edit-view')
+section.division.details
 
-  header
+  section.block.division-fields class=(@division.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if policy(@division).update?
         - if @division.valid?
@@ -12,7 +12,7 @@ section.division.details class=(@division.valid? ? 'show-view' : 'edit-view')
           a.show-action.form-element
             = t("cancel_edit")
         - else
-          a href=admin_division_path(@division) = t(:cancel)
+          a href=admin_division_path(@division) = t("cancel_edit")
         / TODO: Confirm and cancel should have defaults
       - if policy(@division).destroy?
         = link_to [:admin, @division], method: :delete,
@@ -24,10 +24,7 @@ section.division.details class=(@division.valid? ? 'show-view' : 'edit-view')
             }
           i.fa.fa-trash.fa-large>
           = t(".delete")
-    .clearfix
-
-  section.block
     = render 'form'
 
   javascript:
-    $(function() { new MS.Views.ShowEditView({ el: '.division.details' }) });
+    $(function() { new MS.Views.ShowEditView({ el: '.division-fields' }) });
