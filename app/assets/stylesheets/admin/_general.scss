@@ -77,13 +77,13 @@ section.details {
   }
 
   .show-actions {
-    padding-bottom: 15px;
+    margin-bottom: 5px;
     text-align: right;
     width: 100%;
 
     > a, > div, > span {
-      padding: 0 0 0 33px;
       display: inline-block;
+      margin-left: 10px;
     }
   }
 }

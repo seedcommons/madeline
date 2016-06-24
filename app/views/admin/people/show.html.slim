@@ -1,9 +1,9 @@
 - content_for(:title, @person.name)
 
 
-section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
+section.person.details
 
-  header
+  section.block.person-fields class=(@person.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if policy(@person).update?
         - if @person.valid?
@@ -13,7 +13,7 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
           a.show-action.form-element
             = t("cancel_edit")
         - else
-          a href=admin_people_path(@person) = t(:cancel)
+          a href=admin_person_path(@person) = t("cancel_edit")
       - if policy(@person).destroy?
         = link_to [:admin, @person], method: :delete,
             data: { \
@@ -24,9 +24,6 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
           }
           i.fa.fa-trash.fa-large>
           = t(".delete")
-    .clearfix
-
-  section.block
     = render 'form'
 
   section.block
@@ -39,5 +36,5 @@ section.person.details class=(@person.valid? ? 'show-view' : 'edit-view')
 = render "admin/media/modal"
 
 javascript:
-  $(function() { new MS.Views.ShowEditView({ el: '.person.details' }) });
-    
+  $(function() { new MS.Views.ShowEditView({ el: '.person-fields' }) });
+
