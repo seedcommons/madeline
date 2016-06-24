@@ -13,7 +13,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
-            .after($('.links-block').html())
+            .append($('.links-block').html())
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 

@@ -1,10 +1,9 @@
 = simple_form_for([:admin, @loan_question],
     remote: true,
     html: { \
-      class: 'form-horizontal ' + (@loan_question.new_record? ? 'new-form' : 'update-form'),
+      class: (@loan_question.new_record? ? 'new-form' : 'update-form'),
       data: { id: @loan_question.id },
     },
-    wrapper: :horizontal_form_condensed,
     defaults: { \
       input_html: {class: 'form-element form-control'},
     },
