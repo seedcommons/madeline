@@ -109,3 +109,9 @@
     display: none;
   }
 }
+
+@media print {
+  [data-action="print"] {
+    display: none;
+  }
+}

@@ -1,0 +1,14 @@
+- content_for(:title, @loan.name)
+
+section data-container="loan"
+  header
+    .btn.btn-default data-action="print" Print
+
+  section.loan.criteria class='show-view'
+    h2 Criteria
+    = render "admin/loans/content/criteria", loan: @loan
+
+  javascript:
+    $(function() {
+      new MS.Views.LoanPrintView({el: "[data-container='loan']"});
+    });
