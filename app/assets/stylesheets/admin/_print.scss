@@ -97,6 +97,14 @@
   width: 8in;
   padding: 0 .25in;
 
+  .hidden-print {
+    display: none;
+  }
+
+  .print-only {
+    display: block;
+  }
+  
   .mainmenu, #navbar, #user-menu {
     display: none;
   }

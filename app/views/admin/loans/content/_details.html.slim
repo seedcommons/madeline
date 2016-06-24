@@ -1,5 +1,5 @@
 section.block data-container='details'
-  h1.sr-only = t("loan.details")
+  h1.sr-only.print-only = t("loan.details")
   = render "admin/loans/content/form", loan: @loan
 
 section.block data-container='media'

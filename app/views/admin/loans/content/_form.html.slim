@@ -19,6 +19,9 @@
   = f.input :name
     .view-element = @loan.name
     = f.input_field :name
+    
+  span = @loan.division.name
+  span = @loan.organization.name
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
