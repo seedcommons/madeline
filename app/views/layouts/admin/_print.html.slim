@@ -1,9 +1,9 @@
 section.content
-  .page-header 
+  .page-header
     h1.page-title = yield :title
     .with-title = yield :with_title
   = yield
-  
+
 javascript:
   $(function() {
     new MS.Views.PageView();

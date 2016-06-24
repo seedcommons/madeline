@@ -1,8 +1,8 @@
 - if @print_view
   - content_for :content
-    = render "layouts/admin/print"  
+    = render "layouts/admin/print"
 - else
   - content_for :content
     = render "layouts/admin/page"
-    
+
 = render template: "layouts/base"

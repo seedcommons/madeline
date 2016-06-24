@@ -49,13 +49,13 @@
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
     choices: @agent_choices, classes: 'hidden-print')
-    
+
   = f.input 'Primary Agent', wrapper_html: {class: 'print-only'}
     span = @loan.primary_agent.name
-  
+
   = f.input 'Secondary Agent', wrapper_html: {class: 'print-only'}
       span = @loan.secondary_agent.name
-      
+
   = f.input 'Representative', wrapper_html: {class: 'print-only'}
       span = @loan.representative.name
 
