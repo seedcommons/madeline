@@ -41,7 +41,6 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 javascript:
   $(function() {
     new MS.Views.ShowEditView({el: '.loan.details'});
-    new MS.Views.LoanPrintView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
       calendar_events_url: #{json @calendar_events_url},
