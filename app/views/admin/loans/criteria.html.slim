@@ -1,10 +1,46 @@
-/- if @loan.post_analysis
-/  = link_to "Edit Post Analysis", admin_custom_value_set_path(@loan.post_analysis)
-/- else
-/  = link_to "New Post Analysis", new_admin_custom_value_set_path({linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_post_analysis, linkable_attribute: :post_analysis})
+- record = @loan.loan_criteria
 
-/- if @loan.loan_criteria
-= render "admin/loans/content/questionnaire", record: @record
+section.block.questionnaire-fields class=((record && record.valid?) ? 'show-view' : 'edit-view')
+  .show-actions
+    - if policy(@loan).update?
+      - if record && record.valid?
+        / The suppress-show-edit-tab prevents the generic ShowEditView from navigating over to the
+        / main loan edit view.
+        / 'aux-block' is needed since it seems that both the '.loan.details' and 'section.criteria'
+        / blocks need to have their classes updated to expose the edit questionnaire fields.
+        a.edit-action.view-element
+          / aux-block=".questionnaire-body"
+          i.fa.fa-pencil.fa-large>
+          = t(".edit")
+        a.show-action.form-element
+          = t("cancel_edit")
+      /- else
+      /  a href=admin_custom_value_set_path(record) = t(:cancel)
+    /- if policy(@record).destroy?
+      = link_to [:admin, @record], method: :delete,
+          data: { \
+            confirm: t(".confirm_deletion"),
+            "confirm-title": t(".delete"),
+            "confirm-cancel": t(:cancel),
+            "confirm-proceed": t(:confirm) \
+          }
+        i.fa.fa-trash.fa-large>
+        = t(".delete")
+  .clearfix
 
-/- else
-/  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})
+  /div.questionnaire-content
+  = render "admin/loans/content/questionnaire", record: record
+
+  // Criteria content is loaded dynamically by LoanCriteriaView
+
+/todo 4301: remove this once edit working within tab view
+- if record
+  p = link_to "(Debug Edit)", admin_custom_value_set_path(record)
+
+javascript:
+  $(function() {
+    new MS.Views.ShowEditView({ el: '.questionnaire-fields' });
+    //new MS.Views.ToggleBlocksView({ el: '.questionnaire-fields' });
+  });
+
+

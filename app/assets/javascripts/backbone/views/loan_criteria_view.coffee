@@ -12,10 +12,10 @@ class MS.Views.LoanCriteriaView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.loan-criteria').empty()
+    @$('.criteria-content').empty()
     $.get "/admin/loans/#{@loanId}/criteria", (html) =>
       MS.loadingIndicator.hide()
-      @$('.loan-criteria').html(html)
+      @$('.criteria-content').html(html)
 
   submitError: (e) ->
     e.stopPropagation()

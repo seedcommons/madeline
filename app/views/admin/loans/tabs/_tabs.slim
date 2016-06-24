@@ -11,7 +11,9 @@ div class="tab-content"
     = render "admin/loans/content/details", loan: @loan
 
   div role="tabpanel" class="tab-pane" id="criteria"
-    = render "admin/loans/content/criteria", loan: @loan
+    section.criteria
+      div.criteria-content
+        // Content loaded dynamically via LoanCriteriaView ajax logic
 
   div role="tabpanel" class="tab-pane" id="timeline"
     = render "admin/loans/timeline/timeline", loan: @loan
