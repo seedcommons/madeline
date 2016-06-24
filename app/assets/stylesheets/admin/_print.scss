@@ -1,3 +1,7 @@
+.print-only {
+  display: none;
+}
+
 .bootstrap-print {
   /* Bootstrap Print Styles */
   /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
@@ -100,6 +104,21 @@
   .hidden-print {
     display: none;
   }
+
+  // Default Bootstrap classes
+  // Classes below do not show these items on screens in a print view
+  // As alternative, .print-only is being used instead
+  // .visible-print-block {
+  //   display: block;
+  // }
+  //
+  // .visible-print-inline {
+  //   display: inline;
+  // }
+  //
+  // .visible-print-inline-block {
+  //   display: inline-block;
+  // }
 
   .print-only {
     display: block;

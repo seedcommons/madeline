@@ -11,17 +11,20 @@
   = f.error_notification
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: @division_choices, include_blank_choice: false)
+    choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
-    choices: @organization_choices, include_blank_choice: false)
+    choices: @organization_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = f.input :name
     .view-element = @loan.name
     = f.input_field :name
     
-  span = @loan.division.name
-  span = @loan.organization.name
+  = f.input 'Division', wrapper_html: {class: 'print-only'}
+    span = @loan.division.name
+  
+  = f.input 'Co-op', wrapper_html: {class: 'print-only'}
+    span = @loan.organization.name
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
