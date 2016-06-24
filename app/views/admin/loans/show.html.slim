@@ -26,8 +26,7 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
           => "Print"
           span.caret
         ul.dropdown-menu.dropdown-menu-right.print-actions
-          li
-            a data-print='memo' Print Loan Memo
+          li = link_to("Print Loan Memo", print_memo_admin_loan_path(@loan.id), 'data-print': 'memo', target: '_blank')
           li.divider role="separator"
           li.dropdown-header Print specific part
           li

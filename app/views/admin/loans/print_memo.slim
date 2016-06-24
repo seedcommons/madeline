@@ -1,7 +1,9 @@
 - content_for(:title, @loan.name)
 
+h1 Loan Memo
+
 section.loan.details class='show-view'
-  h1 Details
+  h2 Details
   
   header        
     / .show-actions.hidden-print        
@@ -40,8 +42,8 @@ section.loan.details class='show-view'
   = render "admin/loans/content/details", loan: @loan
 
 section.loan.criteria class='show-view'
+  h2 Criteria
   = render "admin/loans/content/criteria", loan: @loan
-
 
 javascript:
   $(function() {

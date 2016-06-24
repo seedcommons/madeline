@@ -1,4 +1,4 @@
-.print-view {
+.bootstrap-print {
   /* Bootstrap Print Styles */
   /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 
@@ -90,8 +90,8 @@
     // Bootstrap specific changes end
 }
 
-.action-print_details {
-  @extend .print-view;
+.print-view {
+  @extend .bootstrap-print;
 
   padding-top: 0;
   width: 8in;
@@ -104,7 +104,7 @@
   .print-only {
     display: block;
   }
-  
+
   .mainmenu, #navbar, #user-menu {
     display: none;
   }
