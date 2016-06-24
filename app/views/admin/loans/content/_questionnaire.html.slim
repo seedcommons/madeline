@@ -8,6 +8,7 @@
     },
   ) do |f|
 
+  = f.error_notification
 
   = f.hidden_field(:custom_value_set_linkable_type)
   = f.hidden_field(:custom_value_set_linkable_id)
@@ -39,6 +40,9 @@
           - if loan_response.has_number?
             .view-element = loan_response.number
             = f.input_field "#{field.attribute_sym}__number".to_sym, as: :decimal
+            / Useful for testing server-side validation
+            /= f.input "#{field.attribute_sym}__number".to_sym, as: :string, label: false
+
           - if loan_response.has_sheet?
             - sheet = loan_response.embeddable_media || EmbeddableMedia.new
             .view-element

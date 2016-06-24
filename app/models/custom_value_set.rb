@@ -39,6 +39,7 @@ class CustomValueSet < ActiveRecord::Base
   belongs_to :custom_field_set
 
   validates :custom_value_set_linkable, presence: true
+  validate :custom_fields_valid
 
   delegate :division, :division=, to: :custom_value_set_linkable
 
@@ -52,6 +53,30 @@ class CustomValueSet < ActiveRecord::Base
   # used by raw crud admin views
   def name
     "#{custom_value_set_linkable.name} - #{linkable_attribute}"
+  end
+
+  private
+
+  def custom_fields_valid
+    custom_field_set.depth_first_fields.each do |field|
+      loan_response = custom_value(field.id)
+      # Note, this is a reference for how server-side validation can be done, but the simple form
+      # 'decimal' field type seems to prevent invalid numbers from even being submitted.
+      if loan_response.has_number?
+        unless is_number_or_blank?(loan_response.number)
+          number_sym = "#{field.attribute_sym}__number".to_sym
+          errors.add(number_sym, "invalid number")
+        end
+      end
+    end
+  end
+
+  def is_number?(object)
+    true if Float(object) rescue false
+  end
+
+  def is_number_or_blank?(object)
+    true if object.blank? || Float(object) rescue false
   end
 
 end
