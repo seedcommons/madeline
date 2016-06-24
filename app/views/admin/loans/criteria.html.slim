@@ -3,8 +3,8 @@
 /- else
 /  = link_to "New Post Analysis", new_admin_custom_value_set_path({linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_post_analysis, linkable_attribute: :post_analysis})
 
-- if @loan.loan_criteria
-  = render "admin/loans/content/questionnaire", record: @loan.loan_criteria
+/- if @loan.loan_criteria
+= render "admin/loans/content/questionnaire", record: @record
 
-- else
-  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})
+/- else
+/  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})

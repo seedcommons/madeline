@@ -2,65 +2,60 @@
 /  p = t("loan.criteria")
 
 - record = @loan.loan_criteria
+/- unless record
+/  - field_set = CustomFieldSet.find_by(internal_name: :loan_criteria)
+/  - record = CustomValueSet.new(custom_value_set_linkable: @loan, custom_field_set: field_set,
+/    linkable_attribute: :loan_criteria)
+/
+/todo 4301: remove 'questionnaire'
+/ beware, for now the loan details tab must already be in edit mode for the new record to show in edit mode
+section.criteria.details class=((record && record.valid?) ? 'show-view' : 'edit-view')
 
-- if record
-
-  /todo 4301: remove 'questionnaire'
-  section.criteria.questionnaire.details class=(record.valid? ? 'show-view' : 'edit-view')
-
-    header
-      .show-actions
-        - if policy(record).update?
-          - if record.valid?
-            /a.criteria-edit-action.view-element
-            /  i.fa.fa-pencil.fa-large>
-            /  = "edit criteria"
-            /  /+ t(".edit")
-            /a.criteria-show-action.form-element
-            /  = "cancel edit criteria"
-            /  /+ t("cancel_edit")
-
-            / The suppressShowEditTab prevents the generic ShowEditView from navigating over to the
-            / main loan edit view.  # needed for loan criteria.  both the '.loan.details' and 'section.criteria' need to be updated
-            /
-            a.edit-action.view-element suppress-show-edit-tab="true" aux-block="section.criteria"
-              i.fa.fa-pencil.fa-large>
-              = t(".edit")
-            a.show-action.form-element
-              = t("cancel_edit")
-          - else
-            a href=admin_custom_value_set_path(record) = t(:cancel)
-        /- if policy(@record).destroy?
-          = link_to [:admin, @record], method: :delete,
-              data: { \
-                confirm: t(".confirm_deletion"),
-                "confirm-title": t(".delete"),
-                "confirm-cancel": t(:cancel),
-                "confirm-proceed": t(:confirm) \
-              }
-            i.fa.fa-trash.fa-large>
-            = t(".delete")
-      .clearfix
+  header
+    .show-actions
+      - if policy(@loan).update?
+        - if record && record.valid?
+          / The suppress-show-edit-tab prevents the generic ShowEditView from navigating over to the
+          / main loan edit view.
+          / 'aux-block' is needed since it seems that both the '.loan.details' and 'section.criteria'
+          / blocks need to have their classes updated to expose the edit questionnaire fields.
+          a.edit-action.view-element suppress-show-edit-tab="true" aux-block="section.criteria"
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element
+            = t("cancel_edit")
+        /- else
+        /  a href=admin_custom_value_set_path(record) = t(:cancel)
+      /- if policy(@record).destroy?
+        = link_to [:admin, @record], method: :delete,
+            data: { \
+              confirm: t(".confirm_deletion"),
+              "confirm-title": t(".delete"),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm) \
+            }
+          i.fa.fa-trash.fa-large>
+          = t(".delete")
+    .clearfix
 
 
-    div.loan-criteria
-      // Criteria content is loaded dynamically by LoanCriteriaView
-    /section.block
-    /  = render 'admin/loans/content/questionnaire', record: @record
+  div.loan-criteria
+    // Criteria content is loaded dynamically by LoanCriteriaView
+  /section.block
+  /  = render 'admin/loans/content/questionnaire', record: @record
 
-    /todo 4301: remove this once edit working within tab view
-    p
-      => link_to "(Debug Edit)", admin_custom_value_set_path(record)
+  /todo 4301: remove this once edit working within tab view
+  /p
+  /  => link_to "(Debug Edit)", admin_custom_value_set_path(record)
 
 
-- else
-  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})
+/- else
+/  => link_to "New Loan Criteria", new_admin_custom_value_set_path({ linkable_type: 'Loan', linkable_id: @loan.id, field_set_name: :loan_criteria, linkable_attribute: :loan_criteria})
 
 
 javascript:
   $(function() {
-    // note, ShowEditView handling is inherited from the top level loan scope
-    //new MS.Views.CriteriaShowEditView({ el: '.criteria.details' });
+    // note, ShowEditView handling is shared with the top level loan scope
     new MS.Views.ToggleBlocksView({ el: '.criteria.details' });
   });
 
