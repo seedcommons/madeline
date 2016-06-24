@@ -1,4 +1,4 @@
-@media print {
+.print-view {
   .loan {
     .form-group {
       label, > div {
@@ -6,23 +6,17 @@
       }
 
       label {
-        // text-align: right;
         width: 1.5in;
+        text-align: left;
+      }
+
+      > div {
+        width: 6in;
       }
     }
 
     [data-container='media'] {
       display: none;
     }
-
-    // .nav-tabs, .show-actions {
-    //   display: none;
-    // }
-  }
-}
-
-.action-print_details {
-  .show-actions {
-    display: none;
   }
 }
