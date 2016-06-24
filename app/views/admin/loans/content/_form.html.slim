@@ -45,10 +45,19 @@
   = render 'admin/loans/content/translatable', loan: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
-    choices: @agent_choices)
+    choices: @agent_choices, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
-    choices: @agent_choices)
+    choices: @agent_choices, classes: 'hidden-print')
+    
+  = f.input 'Primary Agent', wrapper_html: {class: 'print-only'}
+    span = @loan.primary_agent.name
+  
+  = f.input 'Secondary Agent', wrapper_html: {class: 'print-only'}
+      span = @loan.secondary_agent.name
+      
+  = f.input 'Representative', wrapper_html: {class: 'print-only'}
+      span = @loan.representative.name
 
   = f.input :length_months
     .view-element = @loan.length_months
@@ -79,7 +88,7 @@
     = f.input_field :projected_return
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
-    choices: @representative_choices)
+    choices: @representative_choices, classes: 'hidden-print')
 
   = f.input :project_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.project_type_label
