@@ -90,7 +90,8 @@
         a.btn.btn-default.show-action = t(:cancel)
       - else
         a.btn.btn-default href=admin_custom_value_set_path(record) = t(:cancel)
-    = f.submit class: 'update-action btn btn-success'
+    - submit_label = record.new_record? ? t("loan.create_criteria") : t("loan.update_criteria")
+    = f.submit submit_label, class: 'update-action btn btn-success'
   .clearfix
 
 

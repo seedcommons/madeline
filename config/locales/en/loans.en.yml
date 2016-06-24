@@ -11,6 +11,7 @@ en:
     cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
     confirm_criteria_deletion: "WARNING: Are you sure you want to permanently delete all criteria responses for this loan?"
+    create_criteria: "Create Criteria Response Set"
     criteria: "Criteria"
     delete: "Delete Loan"
     delete_criteria: "Delete Loan Criteria Responses"
@@ -36,6 +37,7 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     timeline: "Timeline"
+    update_criteria: "Update Criteria Responses"
     shared:
       new: "New Loan"
   loans:
