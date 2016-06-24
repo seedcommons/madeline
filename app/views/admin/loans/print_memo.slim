@@ -9,6 +9,9 @@ section data-container="loan"
     h2 Details
     = render "admin/loans/content/details", loan: @loan
 
+  section.featured-image
+    = image_tag(@first_image.item.url)
+
   section.loan.criteria class='show-view'
     h2 Criteria
     = render "admin/loans/content/criteria", loan: @loan

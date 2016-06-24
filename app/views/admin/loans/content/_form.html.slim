@@ -56,8 +56,8 @@
   = f.input 'Secondary Agent', wrapper_html: {class: 'print-only'}
       span = @loan.secondary_agent.name
 
-  = f.input 'Representative', wrapper_html: {class: 'print-only'}
-      span = @loan.representative.name
+//  = f.input 'Representative', wrapper_html: {class: 'print-only'}
+//      span = @loan.representative.name
 
   = f.input :length_months
     .view-element = @loan.length_months

@@ -100,6 +100,7 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
     @print_view = true
+    @first_image = @loan.media.find {|item| item.kind == 'image'}
   end
 
   def print_details

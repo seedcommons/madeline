@@ -1,5 +1,5 @@
 .print-view {
-  .loan {
+  [data-container="loan"] {
     .form-group {
       label, > div {
         display: inline-block;
@@ -17,6 +17,12 @@
 
     [data-container='media'] {
       display: none;
+    }
+
+    .featured-image {
+      img {
+        width: 90%;
+      }
     }
   }
 }
