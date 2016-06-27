@@ -22,9 +22,14 @@ describe CustomValueSet, :type => :model do
     loan = create(:loan)
     model = loan.create_loan_criteria
     value = 'this is a summary'
-    model.update_custom_value('summary', value)
+    # model.update_custom_value('summary', value)
+    model.summary__text = value
+    model.save
     fetched = Loan.find(loan.id).loan_criteria
-    expect(fetched.custom_value('summary')).to eq value
+    # expect(fetched.custom_value('summary')).to eq value
+    fetched_summary_obj = fetched.custom_value('summary')
+    expect(fetched_summary_obj.class).to eq LoanResponse
+    expect(fetched_summary_obj.text).to eq value
   end
 
 end

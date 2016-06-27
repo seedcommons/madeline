@@ -72,7 +72,6 @@ class CustomField < ActiveRecord::Base
         raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
       end
     end
-    puts "field: #{name} - value type: #{result}"
     result
   end
 
