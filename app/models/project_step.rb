@@ -2,19 +2,18 @@
 #
 # Table name: project_steps
 #
-#  agent_id          :integer
-#  completed_date    :date
-#  created_at        :datetime         not null
-#  date_change_count :integer          default(0), not null
-#  finalized_at      :datetime
-#  id                :integer          not null, primary key
-#  is_finalized      :boolean
-#  original_date     :date
-#  project_id        :integer
-#  project_type      :string
-#  scheduled_date    :date
-#  step_type_value   :string
-#  updated_at        :datetime         not null
+#  agent_id        :integer
+#  completed_date  :date
+#  created_at      :datetime         not null
+#  finalized_at    :datetime
+#  id              :integer          not null, primary key
+#  is_finalized    :boolean
+#  original_date   :date
+#  project_id      :integer
+#  project_type    :string
+#  scheduled_date  :date
+#  step_type_value :string
+#  updated_at      :datetime         not null
 #
 # Indexes
 #

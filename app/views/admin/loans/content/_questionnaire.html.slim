@@ -24,14 +24,13 @@
         p
           = "#{field.transient_position}. "
           b = field.label
-          /= " #{field.attribute_sym}: original hash: #{loan_response.original_hash}"
-
         - if field.explanation.present?
-          /todo 4301: better style handling
+          / Todo: better style handling needed
           p style="font-size:x-small; color:grey; margin-top: -10px"
             = field.explanation
         - unless field.data_type == 'group'
           - field = loan_response.custom_field
+          / This has been very handy to temporarily enable to assist with debugging
           /p = "#{field.attribute_sym}: original hash: #{loan_response.original_hash}"
 
           - if loan_response.has_rating?
@@ -55,34 +54,9 @@
 
                 div id="iframe-#{field.attribute_sym}"
 
-            /4301 Todo: Figure out how to approach editing the spread sheet parameters
-            /- f.simple_fields_for sheet do |ff|
-            /  = ff.input_field :original_url
-            /  = ff.input_field :height
-            /  = ff.input_field :width
           - if loan_response.has_text?
             .view-element = loan_response.text
             = f.input_field "#{field.attribute_sym}__text".to_sym, as: loan_response.text_form_field_type
-
-          /.view-element
-          /  - if loan_response.has_rating?
-          /    = "Rating: #{loan_response.rating}"
-          /    br
-          /  - if loan_response.has_number?
-          /    = loan_response.number
-          /    br
-          /  - if loan_response.has_text?
-          /    = loan_response.text
-          /    br
-          /
-          /- f.simple_fields_for loan_response do |ff|
-          /  = ff.input_field :rating, collection: [0..5], include_blank: true
-          /  = ff.input_field :number, as: :decimal
-          /  = ff.input_field :text, as: loan_response.text_form_field_type
-
-
-          /.view-element = record.custom_value(field.id)
-          /= f.input_field field.attribute_sym, as: field.form_field_type
 
   .actions.form-block
     - unless record.new_record?

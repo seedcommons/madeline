@@ -63,26 +63,11 @@ class Admin::CustomValueSetsController < Admin::AdminController
     type.constantize.find(id)
   end
 
-  def record_path(record)
-    return admin_custom_value_set_path(record)
-    #todo: integrate into criteria tab of loan viedw
-
-    #4301 Todo: Consider LoanQuestionairesController subclass
-    if record.custom_value_set_linkable.is_a?(Loan)
-      admin_loan_path(record.custom_value_set_linkable)
-    else
-      raise "Unexpected custom_value_set_linkable: #{record.custom_value_set_linkable}"
-    end
-  end
-
   def record_params
     params.require(:custom_value_set).permit!
-    # todo: tighten up
-    # (:custom_value_set_linkable_type, :custom_value_set_linkable_id, :custom_field_set_id,)
   end
 
   def custom_attributes
-    #todo: filter out groups
     custom_field_set.depth_first_fields.map(&:attribute_sym)
   end
 
@@ -90,8 +75,14 @@ class Admin::CustomValueSetsController < Admin::AdminController
   end
 
   def display_path
-    #record_path(@record)
     admin_loan_path(@record.custom_value_set_linkable) + "#criteria"
+
+    # This version will rerender as a top level.  Useful for debugging
+    # if record.custom_value_set_linkable.is_a?(Loan)
+    #   admin_loan_path(record.custom_value_set_linkable)
+    # else
+    #   raise "Unexpected custom_value_set_linkable: #{record.custom_value_set_linkable}"
+    # end
   end
 
 end

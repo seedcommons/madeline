@@ -1,3 +1,5 @@
+/ Note, content is loaded via ajax when the loan's 'Criteria' tab is exposed.
+
 section.block.questionnaire-fields class=(@record.persisted? && @record.valid? ? 'show-view' : 'edit-view')
   .show-actions
     - if policy(@loan).update?
@@ -23,10 +25,6 @@ section.block.questionnaire-fields class=(@record.persisted? && @record.valid? ?
   .clearfix
 
   = render "admin/loans/content/questionnaire", record: @record
-
-/todo 4301: remove this once edit working within tab view
-- if @record.id
-  p = link_to "(Debug Edit)", admin_custom_value_set_path(@record)
 
 javascript:
   $(function() {

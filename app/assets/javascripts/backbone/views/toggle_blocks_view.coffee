@@ -1,4 +1,5 @@
 # Allows for show/hide of blocks with id referenced by 'data' attribute of link
+# or dynamic exposure of content stored into custom attributes of a link
 class MS.Views.ToggleBlocksView extends Backbone.View
 
   events:

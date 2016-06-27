@@ -1,6 +1,5 @@
 class MS.Views.LoanCriteriaView extends Backbone.View
 
-  # 4301 todo: figure out best way to share between loan criteria and post analysis
   el: 'section.criteria'
 
   initialize: (options) ->
