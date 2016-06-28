@@ -42,6 +42,8 @@ class CustomField < ActiveRecord::Base
 
   validates :data_type, presence: true
 
+  after_save :ensure_internal_name
+
   DATA_TYPES = %i(string text number range group boolean translatable list)
 
   def name
@@ -119,4 +121,12 @@ class CustomField < ActiveRecord::Base
   def translatable?
     data_type == 'translatable'
   end
+
+  private
+
+    def ensure_internal_name
+      if !internal_name
+        self.update! internal_name: "field_#{id}"
+      end
+    end
 end
