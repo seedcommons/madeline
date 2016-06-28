@@ -32,7 +32,7 @@ class MS.Views.TimelineView extends Backbone.View
       0
     @$('.project-steps').append(html)
     $('html, body').animate({ scrollTop: scrollY }, 500);
-    lastStep.next().find("input[type=text]").focus()
+    lastStep.next().find("input[type=text]").first().focus()
     @showHideNoStepsMsg()
 
   removeStep: (el) ->
