@@ -33,6 +33,8 @@ section.coop.details
 
   section.block
     h1 = t(:notes)
+    - @org.notes.each do |note|
+      p = note.text
 
 = render "admin/media/modal"
 

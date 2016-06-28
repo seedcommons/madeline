@@ -18,12 +18,6 @@
 class Note < ActiveRecord::Base
   include ::Translatable
 
-  # create_table :notes do |t|
-  #   t.references :notable, polymorphic: true, index: true
-  #   t.references :author, references: :people, index: true
-  #   t.timestamps
-
-
   belongs_to :notable, polymorphic: true
   belongs_to :author, class_name: 'Person'
 
