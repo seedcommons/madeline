@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :loans do
       member do
         get :steps
+        get :criteria
         patch :change_date
       end
     end

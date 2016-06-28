@@ -26,7 +26,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.update(record_params)
-      redirect_to record_path(@record), notice: I18n.t(:notice_updated)
+      redirect_to display_path, notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
@@ -38,7 +38,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.save
-      redirect_to record_path(@record), notice: I18n.t(:notice_created)
+      redirect_to display_path, notice: I18n.t(:notice_created)
     else
       prep_form_vars
       render :new
@@ -50,7 +50,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
     authorize @record
 
     if @record.destroy
-      redirect_to record_path(@record), notice: I18n.t(:notice_deleted)
+      redirect_to display_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
       render :show
@@ -63,30 +63,26 @@ class Admin::CustomValueSetsController < Admin::AdminController
     type.constantize.find(id)
   end
 
-  def record_path(record)
-    return admin_custom_value_set_path(record)
-    #todo: integrate into criteria tab of loan viedw
-
-    #4301 Todo: Consider LoanQuestionairesController subclass
-    if record.custom_value_set_linkable.is_a?(Loan)
-      admin_loan_path(record.custom_value_set_linkable)
-    else
-      raise "Unexpected custom_value_set_linkable: #{record.custom_value_set_linkable}"
-    end
-  end
-
   def record_params
     params.require(:custom_value_set).permit!
-    # todo: tighten up
-    # (:custom_value_set_linkable_type, :custom_value_set_linkable_id, :custom_field_set_id,)
   end
 
   def custom_attributes
-    #todo: filter out groups
     custom_field_set.depth_first_fields.map(&:attribute_sym)
   end
 
   def prep_form_vars
+  end
+
+  def display_path
+    admin_loan_path(@record.custom_value_set_linkable) + "#criteria"
+
+    # This version will rerender as a top level.  Useful for debugging
+    # if record.custom_value_set_linkable.is_a?(Loan)
+    #   admin_loan_path(record.custom_value_set_linkable)
+    # else
+    #   raise "Unexpected custom_value_set_linkable: #{record.custom_value_set_linkable}"
+    # end
   end
 
 end
