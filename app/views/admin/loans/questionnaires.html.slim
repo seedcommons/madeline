@@ -15,7 +15,7 @@
 
   div.questionnaire data-attrib=attrib
 
-    section.block.questionnaire-fields class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
+    section.block class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
       .show-actions
         - if policy(@loan).update? && value_set.persisted?
           a.edit-action.view-element
@@ -35,11 +35,11 @@
 
       h2 = t("loan.#{attrib}")
 
-      = render "admin/loans/content/questionnaire", record: value_set
+      = render "admin/loans/content/questionnaire_form", record: value_set
 
     javascript:
       $(function() {
-        new MS.Views.ShowEditView({ el: '.questionnaire-fields' });
+        new MS.Views.ShowEditView({ el: ".questionnaire[data-attrib=#{attrib}] .block" });
       });
 
 
