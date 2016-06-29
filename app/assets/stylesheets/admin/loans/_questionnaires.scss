@@ -1,0 +1,18 @@
+section.questionnaires {
+  .filter-switch {
+    text-align: center;
+  }
+
+  // Overriding this because it's nice for it to be floated right opposite h2
+  .show-actions {
+    float: right;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  input[type="number"] {
+    max-width: 8em;
+  }
+}

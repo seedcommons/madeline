@@ -35,6 +35,8 @@ class Admin::CustomValueSetsController < Admin::AdminController
   end
 
   def display_path
-    admin_loan_path(@record.custom_value_set_linkable) + "#questionnaires"
+    admin_loan_path(@record.custom_value_set_linkable,
+      selected: @record.linkable_attribute,
+      anchor: "questionnaires")
   end
 end

@@ -1,9 +1,19 @@
 / Note, this content is loaded via ajax when the loan's 'Questionnaires' tab is exposed.
 
+/ Switch at top allowing toggling between criteria and post analysis
+.filter-switch.centered-text
+  .btn-group.button-group-radios data-toggle="buttons"
+    label.btn.btn-default data-attrib="criteria"
+      input type="radio" name="top_buttons" value="1"
+        = t("loan.criteria")
+    label.btn.btn-default data-attrib="post_analysis"
+      input type="radio" name="top_buttons" value="2"
+        = t("loan.post_analysis")
+
+
 - @value_sets.each do |attrib, value_set|
 
-  div
-    h1 = attrib
+  div.questionnaire data-attrib=attrib
 
     section.block.questionnaire-fields class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
       .show-actions
@@ -27,7 +37,7 @@
               i.fa.fa-trash.fa-large>
               = t(".delete")
 
-      .clearfix
+      h2 = t("loan.#{attrib}")
 
       = render "admin/loans/content/questionnaire", record: value_set
 
