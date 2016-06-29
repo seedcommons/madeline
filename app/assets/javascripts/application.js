@@ -20,6 +20,10 @@
 
 //= require jquery
 //= require jquery_ujs
+
+//= require i18n
+//= require i18n/translations
+
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
 //= require select2-full
@@ -37,9 +41,6 @@
 
 //= require moment
 //= require fullcalendar
-
-//= require i18n
-//= require i18n/translations
 
 //= require admin/admin
 
