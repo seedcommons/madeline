@@ -148,7 +148,7 @@ class Admin::LoansController < Admin::AdminController
     # TODO: Replace stub
     @attached_links = [
       "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing",
-      "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing"
+      "https://docs.google.com/document/d/19O86e3OIzt8_pO14CP4dbQ4n9e0-uLgcxNOIL_AcxS4/edit?usp=sharing"
     ]
 
     if @attached_links
