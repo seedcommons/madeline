@@ -64,11 +64,6 @@ class Organization < ActiveRecord::Base
   validates :name, presence: true
   validates :division_id, presence: true
 
-  has_many_custom :loan_criteria
-  has_many_custom :post_analysis, field_set: :loan_post_analysis
-  has_many_custom :old_loan_criteria
-
-
   def loans_count
     loans.size
   end

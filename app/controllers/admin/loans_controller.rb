@@ -55,11 +55,11 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
 
-    @record = @loan.loan_criteria
+    @record = @loan.criteria
     unless @record
       field_set = CustomFieldSet.find_by(internal_name: :loan_criteria)
       @record = CustomValueSet.new(custom_value_set_linkable: @loan, custom_field_set: field_set,
-        linkable_attribute: :loan_criteria)
+        linkable_attribute: :criteria)
     end
 
     render layout: false

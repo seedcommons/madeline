@@ -70,9 +70,9 @@ class Loan < ActiveRecord::Base
 
   # provides acess to linked CustomModel instances with the associated CustomFieldSet schema.
   # note these instances will be 'owned' by the loan's organization and potentially shared by more than one loan
-  has_one_custom :loan_criteria
+  has_one_custom :criteria, field_set: :loan_criteria
   has_one_custom :post_analysis, field_set: :loan_post_analysis
-  has_one_custom :old_loan_criteria
+  has_one_custom :old_criteria, field_set: :old_loan_criteria
 
 
   validates :division_id, :organization_id, presence: true
