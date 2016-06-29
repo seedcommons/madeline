@@ -242,6 +242,7 @@ en:
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
+    print: "Print"
     remove: "Remove"
     street_address: "Street Address"
     summary: "Summary"

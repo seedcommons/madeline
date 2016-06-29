@@ -29,7 +29,9 @@
 }
 
 @media print {
-  .visible-print-preview {
-    display: none;
+  .print-view {
+    .visible-print-preview {
+      display: none;
+    }
   }
 }
