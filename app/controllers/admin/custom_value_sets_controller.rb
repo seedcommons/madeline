@@ -3,7 +3,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
   def show
     @record = CustomValueSet.find(params[:id])
     authorize @record
-    prep_form_vars
   end
 
   def new
@@ -18,7 +17,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
     @record = CustomValueSet.new(custom_value_set_linkable: linkable, custom_field_set: field_set,
       linkable_attribute: linkable_attribute)
     authorize @record
-    prep_form_vars
   end
 
   def update
@@ -28,7 +26,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
     if @record.update(record_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     else
-      prep_form_vars
       render :show
     end
   end
@@ -40,7 +37,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
     if @record.save
       redirect_to display_path, notice: I18n.t(:notice_created)
     else
-      prep_form_vars
       render :new
     end
   end
@@ -52,7 +48,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
     if @record.destroy
       redirect_to display_path, notice: I18n.t(:notice_deleted)
     else
-      prep_form_vars
       render :show
     end
   end
@@ -69,9 +64,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
 
   def custom_attributes
     custom_field_set.depth_first_fields.map(&:attribute_sym)
-  end
-
-  def prep_form_vars
   end
 
   def display_path
