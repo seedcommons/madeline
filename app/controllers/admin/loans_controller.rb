@@ -151,9 +151,10 @@ class Admin::LoansController < Admin::AdminController
       "https://docs.google.com/document/d/19O86e3OIzt8_pO14CP4dbQ4n9e0-uLgcxNOIL_AcxS4/edit?usp=sharing"
     ]
 
-    if @attached_links
+    # TODO: Use translations
+    unless @attached_links.blank?
       linked_docs_notice = "There are " + @attached_links.length.to_s + " linked documents. " + view_context.link_to('Click to open each document in a new tab.', '#', data: {action: 'open-links', links: @attached_links})
-      flash[:notice] = linked_docs_notice.html_safe
+      flash[:alert] = linked_docs_notice.html_safe
     end
   end
 
