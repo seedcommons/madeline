@@ -153,7 +153,7 @@ class Admin::LoansController < Admin::AdminController
 
     # TODO: Use translations
     unless @attached_links.blank?
-      linked_docs_notice = "There are " + @attached_links.length.to_s + " linked documents. " + view_context.link_to('Click to open each document in a new tab.', '#', data: {action: 'open-links', links: @attached_links})
+      linked_docs_notice = I18n.t('loan.num_of_links', count: @attached_links.length) + " " + view_context.link_to(I18n.t('loan.open_links'), '#', data: {action: 'open-links', links: @attached_links})
       flash[:alert] = linked_docs_notice.html_safe
     end
   end

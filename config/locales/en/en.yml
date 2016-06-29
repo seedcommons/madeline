@@ -360,6 +360,10 @@ en:
     print_details: "Details Only"
     print_memo: "Print Loan Memo"
     print_part: "Print specific part"
+    num_of_links:
+      one: "There is %{count} linked documents."
+      other: "There are %{count} linked documents."
+    open_links: "Click to open each document in a new tab."
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
