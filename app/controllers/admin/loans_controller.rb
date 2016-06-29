@@ -153,8 +153,12 @@ class Admin::LoansController < Admin::AdminController
 
     # TODO: Use translations
     unless @attached_links.blank?
-      linked_docs_notice = I18n.t('loan.num_of_links', count: @attached_links.length) + " " + view_context.link_to(I18n.t('loan.open_links'), '#', data: {action: 'open-links', links: @attached_links})
-      flash.now[:alert] = linked_docs_notice.html_safe
+      open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
+        '#', data: {action: 'open-links', links: @attached_links})
+      notice_text = I18n.t('loan.num_of_links', count: @attached_links.length) + " "
+      notice_text += open_link_text + " "
+      notice_text += I18n.t('loan.popup_blocker') if @attached_links.length > 1
+      flash.now[:alert] = notice_text.html_safe
     end
   end
 end
