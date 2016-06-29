@@ -20,10 +20,10 @@
     .view-element = @loan.name
     = f.input_field :name
     
-  = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'print-only'}
+  = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.division.name
   
-  = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'print-only'}
+  = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.organization.name
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
@@ -50,13 +50,13 @@
   = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
     choices: @agent_choices, classes: 'hidden-print')
 
-  = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'print-only'}
+  = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.primary_agent.try(:name)
 
-  = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'print-only'}
+  = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
       span = @loan.secondary_agent.try(:name)
 
-  = f.input t('activerecord.attributes.loan.representative'), wrapper_html: {class: 'print-only'}
+  = f.input t('activerecord.attributes.loan.representative'), wrapper_html: {class: 'visible-print-block'}
      span = @loan.representative.try(:name)
 
   = f.input :length_months
