@@ -2,15 +2,17 @@
 #
 # Table name: custom_fields
 #
-#  created_at          :datetime         not null
-#  custom_field_set_id :integer
-#  data_type           :string
-#  id                  :integer          not null, primary key
-#  internal_name       :string
-#  label               :string
-#  parent_id           :integer
-#  position            :integer
-#  updated_at          :datetime         not null
+#  created_at           :datetime         not null
+#  custom_field_set_id  :integer
+#  data_type            :string
+#  has_embeddable_media :boolean          default(FALSE), not null
+#  id                   :integer          not null, primary key
+#  internal_name        :string
+#  migration_position   :integer
+#  parent_id            :integer
+#  position             :integer
+#  required             :boolean          default(FALSE), not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
