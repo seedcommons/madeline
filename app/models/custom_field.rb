@@ -88,10 +88,6 @@ class CustomField < ActiveRecord::Base
       :select
     when 'boolean'
       :boolean
-    when 'translatable'
-      :text
-    when 'list'
-      :select
     when 'group'
       nil # group type fields are not expected to have rendered form fields
     end
@@ -113,11 +109,13 @@ class CustomField < ActiveRecord::Base
     id.to_s
   end
 
+  # We are deprecating this field type, due to lack of need and much added complexity,
+  # but this method is still used heavily in custom_field_addable.rb, so leaving this
+  # here for now on the off chance that we end up needing this field type after all.
   def translatable?
-    data_type == 'translatable'
+    false
   end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
-
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean']
 
 end
