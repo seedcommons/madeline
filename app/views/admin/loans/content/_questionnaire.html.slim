@@ -34,7 +34,7 @@
           /p = "#{field.attribute_sym}: original hash: #{loan_response.original_hash}"
 
           - if loan_response.has_rating?
-            .view-element = "Rating: #{loan_response.rating}"
+            .view-element = "#{I18n.t('loan.rating')}: #{loan_response.rating}"
             = f.input_field "#{field.attribute_sym}__rating".to_sym, collection: Array(0..5), include_blank: true
           - if loan_response.has_number?
             .view-element = loan_response.number
@@ -48,9 +48,9 @@
               - if sheet.url
                 p
                   a.action.show-content-action href="#" block-id="iframe-#{field.attribute_sym}" block-content='<iframe width="#{sheet.width}" height="#{sheet.height}" frameborder="1" src="#{sheet.url}">'
-                    = "Display spreadsheet inline"
+                    = t("loan.spreadsheet_inline")
                   = ' - '
-                  = link_to "Open spreadsheet in new tab", sheet.url, {target: '_blank'}
+                  = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
                 div id="iframe-#{field.attribute_sym}"
 

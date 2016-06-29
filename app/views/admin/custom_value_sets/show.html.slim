@@ -5,7 +5,7 @@
 
 - content_for(:title, @record.name)
 
-p = link_to "Back to loan", admin_loan_path(@record.custom_value_set_linkable)
+p = link_to t("loan.back_to_loan"), admin_loan_path(@record.custom_value_set_linkable)
 
 section.criteria.details class=(@record.valid? ? 'show-view' : 'edit-view')
 

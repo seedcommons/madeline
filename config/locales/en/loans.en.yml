@@ -3,6 +3,7 @@ en:
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"
+    back_to_loan: Back to Loan
     backward: "- backward"
     batch_actions: "Batch Actions"
     delete_selected: "Delete"
@@ -29,8 +30,12 @@ en:
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     post_analysis: "Post Analysis"
+    questionnaire: "Questionnaire"
+    rating: "Rating"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
+    spreadsheet_new_tab: "Open spreadsheet in new tab"
+    spreadsheet_inline: "Display spreadsheet inline"
     status:
       active: "Active"
       completed: "Completed"

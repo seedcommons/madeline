@@ -1,6 +1,6 @@
-- content_for(:title, "Questionnaire")
+- content_for(:title, t("loan.questionnaire"))
 
-p = link_to "Back to loan", admin_loan_path(@record.custom_value_set_linkable)
+p = link_to t("loan.back_to_loan"), admin_loan_path(@record.custom_value_set_linkable)
 
 section.questionnaire.details.new-view
 
