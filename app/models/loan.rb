@@ -50,6 +50,8 @@ class Loan < ActiveRecord::Base
   include OptionSettable
   include CustomValueSetLinkable  # supports associating loan criteria and post analysis questionnaire responses with a loan
 
+  QUESTION_SET_TYPES = %i(criteria post_analysis)
+
   belongs_to :division
   belongs_to :organization
   belongs_to :primary_agent, class_name: 'Person'

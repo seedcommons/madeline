@@ -1,34 +1,39 @@
-/ Note, content is loaded via ajax when the loan's 'Questions' tab is exposed.
+/ Note, this content is loaded via ajax when the loan's 'Questions' tab is exposed.
 
-section.block.questionnaire-fields class=(@record.persisted? && @record.valid? ? 'show-view' : 'edit-view')
-  .show-actions
-    - if policy(@loan).update?
-      - if @record.persisted? && @record.valid?
-        a.edit-action.view-element
-          i.fa.fa-pencil.fa-large>
-          = t(".edit")
-        a.show-action.form-element
-          = t("cancel_edit")
-      - else
-        a href=admin_loan_path(@loan) = t(:cancel)
-      - if @record.persisted?
-        = link_to [:admin, @record], method: :delete,
-          data: { \
-            confirm: t("loan.confirm_criteria_deletion"),
-            "confirm-cancel": t(:cancel),
-            "confirm-proceed": t(:confirm),
-            "confirm-title": t("loan.delete_criteria") \
-          }
-          i.fa.fa-trash.fa-large>
-          = t(".delete")
+- @value_sets.each do |attrib, value_set|
 
-  .clearfix
+  div
+    h1 = attrib
 
-  = render "admin/loans/content/questionnaire", record: @record
+    section.block.questionnaire-fields class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
+      .show-actions
+        - if policy(@loan).update?
+          - if value_set.persisted? && value_set.valid?
+            a.edit-action.view-element
+              i.fa.fa-pencil.fa-large>
+              = t(".edit")
+            a.show-action.form-element
+              = t("cancel_edit")
+          - else
+            a href=admin_loan_path(@loan) = t(:cancel)
+          - if value_set.persisted?
+            = link_to [:admin, value_set], method: :delete,
+              data: { \
+                confirm: t("loan.confirm_criteria_deletion"),
+                "confirm-cancel": t(:cancel),
+                "confirm-proceed": t(:confirm),
+                "confirm-title": t("loan.delete_criteria") \
+              }
+              i.fa.fa-trash.fa-large>
+              = t(".delete")
 
-javascript:
-  $(function() {
-    new MS.Views.ShowEditView({ el: '.questionnaire-fields' });
-  });
+      .clearfix
+
+      = render "admin/loans/content/questionnaire", record: value_set
+
+    javascript:
+      $(function() {
+        new MS.Views.ShowEditView({ el: '.questionnaire-fields' });
+      });
 
 

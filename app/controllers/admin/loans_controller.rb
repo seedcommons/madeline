@@ -55,11 +55,21 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
 
-    @record = @loan.criteria
-    unless @record
-      field_set = CustomFieldSet.find_by(internal_name: :loan_criteria)
-      @record = CustomValueSet.new(custom_value_set_linkable: @loan, custom_field_set: field_set,
-        linkable_attribute: :criteria)
+    # Value sets are sets of answers to criteria and post analysis question sets.
+    @value_sets = ActiveSupport::OrderedHash.new
+
+    Loan::QUESTION_SET_TYPES.each do |attrib|
+      # Attempt to retrieve existing value set from object
+      @value_sets[attrib] = @loan.send(attrib)
+
+      # If existing set not found, build a blank one with which to render the form.
+      unless @value_sets[attrib]
+        @value_sets[attrib] = CustomValueSet.new(
+          custom_value_set_linkable: @loan,
+          custom_field_set: CustomFieldSet.find_by(internal_name: "loan_#{attrib}"),
+          linkable_attribute: attrib
+        )
+      end
     end
 
     render layout: false
