@@ -1,6 +1,6 @@
-class MS.Views.LoanCriteriaView extends Backbone.View
+class MS.Views.LoanQuestionsView extends Backbone.View
 
-  el: 'section.criteria'
+  el: 'section.questions'
 
   initialize: (options) ->
     @loanId = options.loanId
@@ -11,10 +11,10 @@ class MS.Views.LoanCriteriaView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.criteria-content').empty()
-    $.get "/admin/loans/#{@loanId}/criteria", (html) =>
+    @$('.questions-content').empty()
+    $.get "/admin/loans/#{@loanId}/questions", (html) =>
       MS.loadingIndicator.hide()
-      @$('.criteria-content').html(html)
+      @$('.questions-content').html(html)
 
   submitError: (e) ->
     e.stopPropagation()

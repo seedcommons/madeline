@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :loans do
       member do
         get :steps
-        get :criteria
+        get :questions
         patch :change_date
       end
     end
