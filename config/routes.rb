@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         patch :change_date
       end
     end
+    resources :notes, except: [:index]
     resources :organizations
     resources :people
     resources :project_logs

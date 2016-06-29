@@ -1,6 +1,12 @@
-p.note
+.note
   => note.text
   | &mdash;
   = link_to note.author.name, admin_person_path(note.author)
   ' ,
-  = l note.created_at.to_date
+  => l note.created_at.to_date
+  
+  .links 
+    => link_to edit_admin_note_path(note)
+      i.fa.fa-pencil
+    => link_to admin_note_path(note), method: :delete, data: { confirm: t('confirm_deletion', thing: t(:note)) }
+      i.fa.fa-trash

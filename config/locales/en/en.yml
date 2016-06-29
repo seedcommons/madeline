@@ -211,6 +211,7 @@ en:
   name: "Name"
   new_thing: "New %{thing}"
   none: "None"
+  note: "Note"
   notes: "Notes"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
