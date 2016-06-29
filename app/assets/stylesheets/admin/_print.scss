@@ -1,17 +1,16 @@
 .print-view {
-  padding-top: 0;
   width: 8in;
   padding: .25in;
-
-  .visible-print-preview {
-    display: block;
-  }
 
   .content .block {
     background: none;
   }
 
   .hidden-print {
+    display: none;
+  }
+
+  .mainmenu, #navbar, #user-menu {
     display: none;
   }
 
@@ -23,13 +22,11 @@
     display: block !important;
   }
 
-  .mainmenu, #navbar, #user-menu {
-    display: none;
+  .visible-print-preview {
+    display: block;
   }
-}
 
-@media print {
-  .print-view {
+  @media print {
     .visible-print-preview {
       display: none;
     }

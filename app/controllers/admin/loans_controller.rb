@@ -151,7 +151,6 @@ class Admin::LoansController < Admin::AdminController
       "https://docs.google.com/document/d/19O86e3OIzt8_pO14CP4dbQ4n9e0-uLgcxNOIL_AcxS4/edit?usp=sharing"
     ]
 
-    # TODO: Use translations
     unless @attached_links.blank?
       open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
         '#', data: {action: 'open-links', links: @attached_links})
