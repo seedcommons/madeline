@@ -110,6 +110,21 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  def print_memo
+    prep_print_view
+    prep_attached_links
+    @first_image = @loan.media.find {|item| item.kind == 'image'}
+  end
+
+  def print_details
+    prep_print_view
+  end
+
+  def print_criteria
+    prep_print_view
+    prep_attached_links
+  end
+
   private
 
   def loan_params
@@ -137,4 +152,26 @@ class Admin::LoansController < Admin::AdminController
     person_policy_scope(raw_choices).order(:name)
   end
 
+  def prep_print_view
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+  end
+
+  def prep_attached_links
+    # TODO: Replace stub
+    @attached_links = [
+      "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing",
+      "https://docs.google.com/document/d/19O86e3OIzt8_pO14CP4dbQ4n9e0-uLgcxNOIL_AcxS4/edit?usp=sharing"
+    ]
+
+    unless @attached_links.blank?
+      open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
+        '#', data: {action: 'open-links', links: @attached_links})
+      notice_text = I18n.t('loan.num_of_links', count: @attached_links.length) + " "
+      notice_text += open_link_text + " "
+      notice_text += I18n.t('loan.popup_blocker') if @attached_links.length > 1
+      flash.now[:alert] = notice_text.html_safe
+    end
+  end
 end

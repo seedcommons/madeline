@@ -1,5 +1,5 @@
 .view-element
-  = f.input :summary
+  = f.input :summary, wrapper_html: {class: 'hidden-print'}
     = @loan.summary
   = f.input :details
     = @loan.details

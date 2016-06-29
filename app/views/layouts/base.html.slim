@@ -20,7 +20,8 @@ html lang="en-US"
 
   body class="#{params[:controller].gsub('/', '-')}
               action-#{params[:action]}
-              #{devise_controller? ? 'devise' : ''}"
+              #{devise_controller? ? 'devise' : ''}
+              #{@print_view ? 'print-view' : ''}"
     = content_for?(:content) ? yield(:content) : yield
 
 #glb-load-ind
