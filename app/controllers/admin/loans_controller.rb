@@ -97,22 +97,18 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def print_memo
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    @print_view = true
+    prep_print_view
+    prep_attached_links
     @first_image = @loan.media.find {|item| item.kind == 'image'}
   end
 
   def print_details
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    @print_view = true
+    prep_print_view
   end
 
   def print_criteria
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    @print_view = true
+    prep_print_view
+    prep_attached_links
   end
 
   private
@@ -140,6 +136,20 @@ class Admin::LoansController < Admin::AdminController
   def representative_choices
     raw_choices = @loan.organization ? @loan.organization.people : Person.all
     person_policy_scope(raw_choices).order(:name)
+  end
+
+  def prep_print_view
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+  end
+
+  def prep_attached_links
+    # TODO: Replace stub
+    @attached_links = [
+      "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing",
+      "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing"
+    ]
   end
 
 end
