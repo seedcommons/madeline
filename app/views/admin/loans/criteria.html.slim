@@ -1,7 +1,7 @@
 / Note, content is loaded via ajax when the loan's 'Criteria' tab is exposed.
 
 section.block.questionnaire-fields class=(@record.persisted? && @record.valid? ? 'show-view' : 'edit-view')
-  .show-actions
+  .show-actions.hidden-print
     - if policy(@loan).update?
       - if @record.persisted? && @record.valid?
         a.edit-action.view-element
@@ -30,5 +30,3 @@ javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.questionnaire-fields' });
   });
-
-
