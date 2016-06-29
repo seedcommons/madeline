@@ -17,25 +17,21 @@
 
     section.block.questionnaire-fields class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
       .show-actions
-        - if policy(@loan).update?
-          - if value_set.persisted? && value_set.valid?
-            a.edit-action.view-element
-              i.fa.fa-pencil.fa-large>
-              = t(".edit")
-            a.show-action.form-element
-              = t("cancel_edit")
-          - else
-            a href=admin_loan_path(@loan) = t(:cancel)
-          - if value_set.persisted?
-            = link_to [:admin, value_set], method: :delete,
-              data: { \
-                confirm: t("loan.confirm_criteria_deletion"),
-                "confirm-cancel": t(:cancel),
-                "confirm-proceed": t(:confirm),
-                "confirm-title": t("loan.delete_criteria") \
-              }
-              i.fa.fa-trash.fa-large>
-              = t(".delete")
+        - if policy(@loan).update? && value_set.persisted?
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element
+            = t("cancel_edit")
+          = link_to [:admin, value_set], method: :delete,
+            data: { \
+              confirm: t("loan.confirm_criteria_deletion"),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm),
+              "confirm-title": t("loan.delete_criteria") \
+            }
+            i.fa.fa-trash.fa-large>
+            = t(".delete")
 
       h2 = t("loan.#{attrib}")
 
