@@ -34,7 +34,12 @@ section.coop.details
   section.block
     h1 = t(:notes)
     - @org.notes.each do |note|
-      p = note.text
+      p.note
+        => note.text
+        | &mdash;
+        = link_to note.author.name, admin_person_path(note.author)
+        ' ,
+        = l note.created_at.to_date
 
 = render "admin/media/modal"
 
