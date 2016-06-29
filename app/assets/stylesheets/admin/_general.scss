@@ -79,11 +79,17 @@ section.details {
   .show-actions {
     margin-bottom: 5px;
     text-align: right;
-    width: 100%;
 
-    > a, > div, > span {
+    a {
       display: inline-block;
       margin-left: 10px;
+    }
+
+    .dropdown-menu {
+      a {
+        display: block;
+        margin: 0;
+      }
     }
   }
 }
