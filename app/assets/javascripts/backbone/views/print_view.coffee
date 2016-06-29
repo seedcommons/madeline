@@ -1,5 +1,7 @@
 class MS.Views.PrintView extends Backbone.View
 
+  el: ".print-view"
+
   events:
     'click [data-action="print"]': 'print'
     'click [data-action="open-links"]': 'openAttachedLinks'

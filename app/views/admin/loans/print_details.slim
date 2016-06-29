@@ -1,11 +1,6 @@
 - content_for(:title, @loan.name)
-  
+
 section data-container="loan"
   section.loan.details class='show-view'
     h2 = t('loan.details')
     = render "admin/loans/content/details", loan: @loan
-
-  javascript:
-    $(function() {
-      new MS.Views.PrintView({el: "body"});
-    });
