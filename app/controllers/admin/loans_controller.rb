@@ -51,7 +51,7 @@ class Admin::LoansController < Admin::AdminController
     render layout: false
   end
 
-  def questions
+  def questionnaires
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
 

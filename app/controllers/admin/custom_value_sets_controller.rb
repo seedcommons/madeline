@@ -67,7 +67,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
   end
 
   def display_path
-    admin_loan_path(@record.custom_value_set_linkable) + "#questions"
+    admin_loan_path(@record.custom_value_set_linkable) + "#questionnaires"
 
     # This version will rerender as a top level.  Useful for debugging
     # if record.custom_value_set_linkable.is_a?(Loan)

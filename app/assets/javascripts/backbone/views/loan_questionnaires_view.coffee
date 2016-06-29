@@ -1,6 +1,6 @@
-class MS.Views.LoanQuestionsView extends Backbone.View
+class MS.Views.LoanQuestionnairesView extends Backbone.View
 
-  el: 'section.questions'
+  el: 'section.questionnaires'
 
   initialize: (options) ->
     @loanId = options.loanId
@@ -11,10 +11,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questions-content').empty()
-    $.get "/admin/loans/#{@loanId}/questions", (html) =>
+    @$('.questionnaires-content').empty()
+    $.get "/admin/loans/#{@loanId}/questionnaires", (html) =>
       MS.loadingIndicator.hide()
-      @$('.questions-content').html(html)
+      @$('.questionnaires-content').html(html)
 
   submitError: (e) ->
     e.stopPropagation()

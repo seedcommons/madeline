@@ -7,7 +7,7 @@
 
 p = link_to t("loan.back_to_loan"), admin_loan_path(@record.custom_value_set_linkable)
 
-section.questions.details class=(@record.valid? ? 'show-view' : 'edit-view')
+section.questionnaires.details class=(@record.valid? ? 'show-view' : 'edit-view')
 
   header
     .show-actions
@@ -26,4 +26,4 @@ section.questions.details class=(@record.valid? ? 'show-view' : 'edit-view')
     = render 'admin/loans/content/questionnaire', record: @record
 
 javascript:
-  $(function() { new MS.Views.ShowEditView({ el: '.questions.details' }) });
+  $(function() { new MS.Views.ShowEditView({ el: '.questionnaires.details' }) });

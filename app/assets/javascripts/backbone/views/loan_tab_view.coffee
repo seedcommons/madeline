@@ -6,12 +6,12 @@ class MS.Views.LoanTabView extends Backbone.View
 
     @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
     @loadSteps() if @$('.timeline-tab').closest('li').hasClass('active')
-    @loadQuestions() if @$('.questions-tab').closest('li').hasClass('active')
+    @loadQuestionnaires() if @$('.questionnaires-tab').closest('li').hasClass('active')
 
   events: ->
     'shown.bs.tab .calendar-tab': 'openCalendar'
     'shown.bs.tab .timeline-tab': 'loadSteps'
-    'shown.bs.tab .questions-tab': 'loadQuestions'
+    'shown.bs.tab .questionnaires-tab': 'loadQuestionnaires'
 
   openCalendar: (e) ->
     if MS.calendarView
@@ -25,8 +25,8 @@ class MS.Views.LoanTabView extends Backbone.View
     else
       MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
 
-  loadQuestions: ->
-    if MS.loanQuestionsView
-      MS.loanQuestionsView.refreshContent()
+  loadQuestionnaires: ->
+    if MS.loanQuestionnairesView
+      MS.loanQuestionnairesView.refreshContent()
     else
-      MS.loanQuestionsView = new MS.Views.LoanQuestionsView(loanId: @loanId)
+      MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)

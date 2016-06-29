@@ -1,6 +1,6 @@
 ul class="nav nav-tabs nav-tabs-responsive" role="tablist"
   = render "admin/loans/tabs/tab", identifier: "details", label: t("loan.details"), tab_class: "active", link_class: "edit-tab"
-  = render "admin/loans/tabs/tab", identifier: "questions", label: t("loan.questions"), tab_class: "", link_class: "questions-tab"
+  = render "admin/loans/tabs/tab", identifier: "questionnaires", label: t("loan.questionnaires"), tab_class: "", link_class: "questionnaires-tab"
   = render "admin/loans/tabs/tab", identifier: "timeline", label: t("loan.timeline"), tab_class: "", link_class: "timeline-tab"
   = render "admin/loans/tabs/tab", identifier: "loan-calendar", label: t(:calendar), tab_class: "", link_class: "calendar-tab"
   = render "admin/loans/tabs/tab", identifier: "print", label: t(:print), tab_class: "", link_class: ""
@@ -10,8 +10,8 @@ div class="tab-content"
   div role="tabpanel" class="tab-pane active flush" id="details"
     = render "admin/loans/content/details", loan: @loan
 
-  div role="tabpanel" class="tab-pane" id="questions"
-    = render "admin/loans/content/questions", loan: @loan
+  div role="tabpanel" class="tab-pane" id="questionnaires"
+    = render "admin/loans/content/questionnaires", loan: @loan
 
   div role="tabpanel" class="tab-pane" id="timeline"
     = render "admin/loans/timeline/timeline", loan: @loan
