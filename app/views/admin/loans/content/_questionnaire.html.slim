@@ -60,11 +60,8 @@
 
   .actions.form-block
     - unless record.new_record?
-      - if record.valid?
-        a.btn.btn-default.show-action = t(:cancel)
-      - else
-        a.btn.btn-default href=admin_custom_value_set_path(record) = t(:cancel)
-    - submit_label = record.new_record? ? t("loan.create_criteria") : t("loan.update_criteria")
+      a.btn.btn-default.show-action = t(:cancel)
+    - submit_label = t("loan.save_responses")
     = f.submit submit_label, class: 'update-action btn btn-success'
   .clearfix
 
