@@ -21,10 +21,10 @@
     = f.input_field :name
     
   = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
-    span = @loan.division.name
+    span = @loan.division.try(:name)
   
   = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
-    span = @loan.organization.name
+    span = @loan.organization.try(:name)
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type

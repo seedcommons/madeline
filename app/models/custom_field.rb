@@ -31,15 +31,81 @@ class CustomField < ActiveRecord::Base
 
   has_closure_tree order: 'position'
 
+  # Transient value populated by depth first traversal of questions scoped to a specific division.
+  # Starts with '1'.  Used in hierarchical display of questions.
+  attr_accessor :transient_position
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
+  attr_translatable :explanation
 
   delegate :division, :division=, to: :custom_field_set
 
 
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
+  end
+
+  def attribute_sym
+    internal_name.to_sym
+  end
+
+  # List of value keys for fields which have nested values
+  def value_types
+    result =
+      case data_type
+      when 'string'
+        [:text]
+      when 'text'
+        [:text]
+      when 'number'
+        [:number]
+      when 'range'
+        [:rating, :text]
+      else
+        []
+      end
+
+    if has_embeddable_media
+      if result
+        result << :embeddable_media
+      else
+        raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
+      end
+    end
+    result
+  end
+
+  # Simple form type mapping
+  def form_field_type
+    case data_type
+    when 'string'
+      :string
+    when 'text'
+      :text
+    when 'number'
+      :decimal
+    when 'range'
+      :select
+    when 'boolean'
+      :boolean
+    when 'translatable'
+      :text
+    when 'list'
+      :select
+    when 'group'
+      nil # group type fields are not expected to have rendered form fields
+    end
+  end
+
+  def traverse_depth_first(list)
+    list << self
+    counter = 0
+    children.each do |child|
+      counter += 1
+      child.transient_position = counter
+      child.traverse_depth_first(list)
+    end
   end
 
   # for now use a stringified primary key

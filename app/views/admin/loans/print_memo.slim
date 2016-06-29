@@ -5,9 +5,17 @@ section data-container="loan"
     h2 = t('loan.details')
     = render "admin/loans/content/details", loan: @loan
 
-  section.featured-image
-    = image_tag(@first_image.item.url)
+  section.featured-image  
+    = image_tag(@first_image.item.url) if @first_image
 
   section.loan.criteria class='show-view'
     h2 = t('loan.criteria')
     = render "admin/loans/content/criteria", loan: @loan
+
+javascript:
+  $(function() {
+    new MS.Views.LoanPrintView({
+      el: '.print-view',
+      loanId: #{json @loan.id}
+    });
+  });
