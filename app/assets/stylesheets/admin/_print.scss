@@ -5,7 +5,7 @@
 .print-view {
   padding-top: 0;
   width: 8in;
-  padding: 0 .25in;
+  padding: .25in;
 
   .visible-print-preview {
     display: block;
@@ -17,6 +17,10 @@
 
   .hidden-print {
     display: none;
+  }
+
+  .page-header {
+    margin: 20px 0;
   }
 
   .print-only {
