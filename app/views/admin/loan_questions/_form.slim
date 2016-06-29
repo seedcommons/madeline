@@ -16,6 +16,8 @@
 
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
       collection: CustomField::DATA_TYPES
+      
+    = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
