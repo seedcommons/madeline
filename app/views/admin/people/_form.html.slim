@@ -112,7 +112,7 @@
     = f.input :has_system_access
       = @person.has_system_access
 
-  .actions.form-block
+  .actions.form-element
     - unless @person.new_record?
       - if @person.valid?
         a.btn.btn-default.show-action = t(:cancel)

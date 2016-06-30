@@ -29,22 +29,28 @@
 .edit-view {
 }
 
+// These classes allow toggling of form view and show view.
+// Each form field consists of a .form-element (with the actual <input>, etc.)
+// and a .view-element (with the read-only attribute data).
+// When the user clicks 'edit', the edit-view class is appended to an outer element,
+// and these styles thus make the .view-elements disappear and the .form-elements show.
+// When the user clicks 'cancel edit', the opposite happens.
 .edit-view, .new-view {
-  .form-block, .form-element {
+  .form-element {
     display: inherit;
   }
 
-  .view-block, .view-element {
+  .view-element {
     display: none !important;
   }
 }
 
 .show-view {
-  .view-block, .view-element {
+  .view-element {
     display: inherit;
   }
 
-  .form-block, .form-element {
+  .form-element {
     display: none !important;
   }
 

@@ -58,7 +58,7 @@
             .view-element = loan_response.text
             = f.input_field "#{field.attribute_sym}__text".to_sym, as: loan_response.text_form_field_type
 
-  .actions.form-block
+  .actions.form-element
     - unless record.new_record?
       a.btn.btn-default.show-action = t(:cancel)
     - submit_label = t("loan.save_responses")
