@@ -22,22 +22,35 @@
   height: 6em;
 }
 
+// These classes allow toggling of form view and show view.
+// Each form field consists of a .form-element (with the actual <input>, etc.)
+// and a .view-element (with the read-only attribute data).
+// When the user clicks 'edit', the edit-view class is appended to an outer element,
+// and these styles thus make the .view-elements disappear and the .form-elements show.
+// When the user clicks 'cancel edit', the opposite happens.
 .edit-view, .new-view {
-  .form-block, .form-element {
-    display: inherit;
+  .form-element {
+    display: block;
   }
 
-  .view-block, .view-element {
+  // We need to list specific tag types here that need to override the default display: block above.
+  a.form-element { display: inline; }
+  input.form-element, textarea.form-element, select.form-element { display: inline-block; }
+
+  .view-element {
     display: none !important;
   }
 }
 
 .show-view {
-  .view-block, .view-element {
-    display: inherit;
+  .view-element {
+    display: block;
   }
 
-  .form-block, .form-element {
+  // We need to list specific tag types here that need to override the default display: block above.
+  a.view-element { display: inline; }
+
+  .form-element {
     display: none !important;
   }
 
