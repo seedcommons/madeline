@@ -26,8 +26,11 @@ section.questionnaires {
       width: 8em;
     }
 
-    select[data-rating] {
+    select {
       width: 8em;
+    }
+
+    select[data-rating] {
       margin-bottom: 1em;
     }
 

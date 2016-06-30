@@ -7,6 +7,7 @@ class LoanResponse
   attr_accessor :custom_field
   attr_accessor :text
   attr_accessor :number
+  attr_accessor :boolean
   attr_accessor :rating
   attr_accessor :embeddable_media_id
 
@@ -15,6 +16,7 @@ class LoanResponse
     @custom_field = field
     @text = @hash[:text]
     @number = @hash[:number]
+    @boolean = @hash[:boolean]
     @rating = @hash[:rating]
     @embeddable_media_id = @hash[:embeddable_media_id]
   end
@@ -61,6 +63,10 @@ class LoanResponse
 
   def has_sheet?
     field_attributes.include?(:embeddable_media)
+  end
+
+  def has_boolean?
+    field_attributes.include?(:boolean)
   end
 
   # Allows for one line string field to also be presented for 'rating' typed fields

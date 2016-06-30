@@ -34,6 +34,13 @@
               .view-element.answer = value.text
             = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
 
+          - if value.has_boolean?
+            - if value.boolean.present?
+              .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
+            = f.input_field "#{field.attribute_sym}__boolean".to_sym,
+              collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
+              prompt: I18n.t("select_prompt"), data: {boolean: true}
+
           - if value.has_sheet?
             - sheet = value.embeddable_media || EmbeddableMedia.new
             .view-element

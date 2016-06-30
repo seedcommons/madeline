@@ -54,16 +54,12 @@ class CustomField < ActiveRecord::Base
   def value_types
     result =
       case data_type
-      when 'string'
-        [:text]
-      when 'text'
-        [:text]
-      when 'number'
-        [:number]
-      when 'range'
-        [:rating, :text]
-      else
-        []
+      when 'string' then [:text]
+      when 'text' then [:text]
+      when 'number' then [:number]
+      when 'range' then [:rating, :text]
+      when 'boolean' then [:boolean]
+      else []
       end
 
     if has_embeddable_media
