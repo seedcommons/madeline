@@ -37,6 +37,7 @@ en:
     sign_date: "Sign Date"
     spreadsheet_new_tab: "Open spreadsheet in new tab"
     spreadsheet_inline: "Display spreadsheet inline"
+    spreadsheet_hide: "Hide spreadsheet"
     status:
       active: "Active"
       completed: "Completed"

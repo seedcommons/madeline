@@ -39,9 +39,12 @@
             .view-element
               - if sheet.url
                 p.spreadsheet-links
-                  a.action.show-content-action href="#" block-id="iframe-#{field.attribute_sym}" block-content='<iframe width="#{sheet.width}" height="#{sheet.height}" frameborder="1" src="#{sheet.url}">'
+                  a[href="#" data-expands="iframe-#{field.attribute_sym}"
+                    data-content="<iframe src='#{sheet.url}'>"]
                     = t("loan.spreadsheet_inline")
+                  a href="#" data-hides="iframe-#{field.attribute_sym}"
+                    = t("loan.spreadsheet_hide")
                   = ' - '
                   = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
-                div id="iframe-#{field.attribute_sym}"
+                div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
