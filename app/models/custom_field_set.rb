@@ -36,6 +36,14 @@ class CustomFieldSet < ActiveRecord::Base
     custom_fields.where(parent: nil)
   end
 
+  def child_groups
+    children.select { |c| c.data_type == 'group' }
+  end
+
+  def depth
+    -1
+  end
+
   def depth_first_fields
     list = []
     counter = 0

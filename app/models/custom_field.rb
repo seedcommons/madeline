@@ -50,6 +50,10 @@ class CustomField < ActiveRecord::Base
     internal_name.to_sym
   end
 
+  def child_groups
+    children.select { |c| c.data_type == 'group' }
+  end
+
   # List of value keys for fields which have nested values
   def value_types
     result =

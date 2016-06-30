@@ -13,6 +13,10 @@ section data-container="loan"
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
       h2 = t('loan.criteria')
+
+      h3 = t('loan.toc')
+      = render "admin/loans/content/questionnaire_toc", group: @loan.criteria.custom_field_set
+
       - if @loan.criteria
         = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
       - else

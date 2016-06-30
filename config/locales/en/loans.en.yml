@@ -45,6 +45,7 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     timeline: "Timeline"
+    toc: "Table of Contents"
     shared:
       new: "New Loan"
   loans:
