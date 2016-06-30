@@ -11,20 +11,26 @@
   = f.error_notification
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: @division_choices, include_blank_choice: false)
+    choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
-    choices: @organization_choices, include_blank_choice: false)
+    choices: @organization_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = f.input :name
     .view-element = @loan.name
     = f.input_field :name
+    
+  = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
+    span = @loan.division.try(:name)
+  
+  = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
+    span = @loan.organization.try(:name)
 
-  = f.input :loan_type
+  = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
-  = f.input :status
+  = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
@@ -39,10 +45,19 @@
   = render 'admin/loans/content/translatable', loan: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
-    choices: @agent_choices)
+    choices: @agent_choices, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
-    choices: @agent_choices)
+    choices: @agent_choices, classes: 'hidden-print')
+
+  = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'visible-print-block'}
+    span = @loan.primary_agent.try(:name)
+
+  = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
+      span = @loan.secondary_agent.try(:name)
+
+  = f.input t('activerecord.attributes.loan.representative'), wrapper_html: {class: 'visible-print-block'}
+     span = @loan.representative.try(:name)
 
   = f.input :length_months
     .view-element = @loan.length_months
@@ -52,34 +67,34 @@
     .view-element = @loan.rate
     = f.input_field :rate
 
-  = f.input :signing_date
+  = f.input :signing_date,  wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.signing_date
     = f.input_field :signing_date, as: :date_picker
 
-  = f.input :first_payment_date
+  = f.input :first_payment_date, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.first_payment_date
     = f.input_field :first_payment_date, as: :date_picker
 
-  = f.input :first_interest_payment_date
+  = f.input :first_interest_payment_date,  wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.first_interest_payment_date
     = f.input_field :first_interest_payment_date, as: :date_picker
 
-  = f.input :target_end_date
+  = f.input :target_end_date, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.target_end_date
     = f.input_field :target_end_date, as: :date_picker
 
-  = f.input :projected_return
+  = f.input :projected_return, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.projected_return
     = f.input_field :projected_return
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
-    choices: @representative_choices)
+    choices: @representative_choices, classes: 'hidden-print')
 
-  = f.input :project_type
+  = f.input :project_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.project_type_label
     = f.input_field :project_type_value, collection: Loan.project_type_options, include_blank: true
 
-  = f.input :public_level
+  = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
     = f.input_field :public_level_value, collection: Loan.public_level_options, include_blank: true
 

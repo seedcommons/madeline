@@ -76,9 +76,7 @@ class Loan < ActiveRecord::Base
   has_one_custom :post_analysis, field_set: :loan_post_analysis
   has_one_custom :old_criteria, field_set: :old_loan_criteria
 
-
   validates :division_id, :organization_id, presence: true
-
 
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name
@@ -94,6 +92,10 @@ class Loan < ActiveRecord::Base
     loan_type_label
   end
 
+  # Gets embedded urls from criteria data. Returns empty array if criteria not defined yet.
+  def criteria_embedded_urls
+    criteria.try(:embedded_urls) || []
+  end
 
   # the special name of a default step to use/create when migrating a log without a step
   DEFAULT_STEP_NAME = '[default]'

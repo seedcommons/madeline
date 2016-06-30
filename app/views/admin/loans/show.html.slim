@@ -1,5 +1,4 @@
 - content_for(:title, @loan.name)
-
 section.loan.details
   div.loan-content
     = render "admin/loans/tabs/tabs"
@@ -14,4 +13,3 @@ javascript:
       loanId: #{json @loan.id}
     });
   });
-

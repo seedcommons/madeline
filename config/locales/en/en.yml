@@ -245,11 +245,28 @@ en:
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
+    print: "Print"
     remove: "Remove"
     street_address: "Street Address"
     summary: "Summary"
     updated: "Updated"
     website: "Website"
+
+  loan:
+    criteria: "Criteria"
+    details: "Details"
+    memo: "Loan Memo"
+    num_of_links:
+      one: "There is %{count} linked document."
+      other: "There are %{count} linked documents."
+    open_links:
+      one: "Click to open the document in a new tab."
+      other: "Click to open each document in a new tab."
+    popup_blocker: "You may need to disable your popup blocker or enable all popups from this site in order to view your documents."
+    print: "Print"
+    print_criteria: "Criteria Only"
+    print_details: "Details Only"
+    print_memo: "Print Loan Memo"
 
   log:
     additional_notes: "Additional Notes"

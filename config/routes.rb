@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         get :steps
         get :questionnaires
         patch :change_date
+        get :print
       end
     end
     resources :loan_questions, as: :custom_fields do

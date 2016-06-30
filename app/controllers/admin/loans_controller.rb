@@ -120,6 +120,15 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  def print
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+    @mode = params[:mode]
+    @first_image = @loan.media.find {|item| item.kind == 'image'}
+    prep_attached_links if @mode != "details-only"
+  end
+
   private
 
   def loan_params
@@ -147,4 +156,19 @@ class Admin::LoansController < Admin::AdminController
     person_policy_scope(raw_choices).order(:name)
   end
 
+  def prep_print_view
+  end
+
+  def prep_attached_links
+    @attached_links = @loan.criteria_embedded_urls
+
+    unless @attached_links.empty?
+      open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
+        '#', data: {action: 'open-links', links: @attached_links})
+      notice_text = "".html_safe
+      notice_text << I18n.t('loan.num_of_links', count: @attached_links.length) << " " << open_link_text
+      notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
+      flash.now[:alert] = notice_text
+    end
+  end
 end

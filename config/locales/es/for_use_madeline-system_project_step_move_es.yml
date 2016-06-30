@@ -1,0 +1,10 @@
+es:
+  admin:
+    project_step_moves:
+      new:
+        move: "Cambiar Fecha de Paso"
+        orig_date_remembered: "La fecha original de este paso será recordada."
+        please_log: "Por favor agregar un Apunte para este cambio más abajo antes de continuar."
+        shift_hint:
+          one: "¿Mover todos los pasos incompletos siguientes 1 día?"
+          other: "¿Mover todos los pasos incompletos siguientes %{count} días?"

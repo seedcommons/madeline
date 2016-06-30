@@ -1,0 +1,34 @@
+.print-view {
+  [data-container="loan"] {
+    .form-group {
+      label, div {
+        display: inline-block;
+      }
+
+      label {
+        width: 1.5in;
+        text-align: left;
+      }
+
+      div {
+        width: 6in;
+      }
+    }
+
+    [data-container='media'] {
+      display: none;
+    }
+
+    .featured-image {
+      img {
+        display: block;
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+
+    .spreadsheet-links {
+      display: none;
+    }
+  }
+}

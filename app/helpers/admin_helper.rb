@@ -5,7 +5,7 @@ module AdminHelper
   end
 
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
-    include_blank_choice: true)
+    include_blank_choice: true, classes: '')
     model_field = model.send(field_name)
     if model_field
       policy = "#{model_field.class.name}Policy".constantize.new(current_user, model_field)
@@ -23,7 +23,8 @@ module AdminHelper
       may_show_link: model_field && policy.show?,
       # Beware, if the 'may_edit' logic changes and might be false even with a non-nil model_field,
       # then the paratial code will also need updating to make nil safe.
-      may_edit: !model_field || policy.show?
+      may_edit: !model_field || policy.show?,
+      classes: classes
     }
   end
 end

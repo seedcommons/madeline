@@ -1,12 +1,17 @@
-  ol
+  - wrapper_tag = {tag: group.depth == -1 ? :div : :ol}
+  *wrapper_tag
 
-    - group.children.each do |field|
+    - group.children.each_with_index do |field, idx|
 
-      li
+      - item_tag = {tag: group.depth == -1 ? :div : :li}
+      *item_tag data-level=field.level data-type=field.data_type
 
         - value = value_set.custom_value(field.id)
 
-        div.question-label = field.label
+        - if group.depth == -1
+          h3 = "#{idx + 1}. #{field.label}"
+        - else
+          div.question-label = field.label
 
         - if field.explanation.present?
           p.explanation = field.explanation
