@@ -26,7 +26,6 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
         li = link_to(t('loan.print_memo'), print_admin_loan_path(@loan.id, mode: "memo"),
           'data-print': 'memo', target: '_blank')
         li.divider role="separator"
-        li.dropdown-header = t('loan.print_part')
         li = link_to(t('loan.print_details'), print_admin_loan_path(@loan.id, mode: "details-only"),
           'data-print': 'details', target: '_blank')
         li = link_to(t('loan.print_criteria'), print_admin_loan_path(@loan.id, mode: "criteria-only"),

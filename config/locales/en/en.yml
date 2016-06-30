@@ -367,7 +367,6 @@ en:
     print_criteria: "Criteria Only"
     print_details: "Details Only"
     print_memo: "Print Loan Memo"
-    print_part: "Print specific part"
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
