@@ -4,11 +4,3 @@ section data-container="loan"
   section.loan.criteria class='show-view'
     h2 = t('loan.criteria')
     = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
-
-javascript:
-  $(function() {
-    new MS.Views.LoanPrintView({
-      el: '.print-view',
-      loanId: #{json @loan.id}
-    });
-  });
