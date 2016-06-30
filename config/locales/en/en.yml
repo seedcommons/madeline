@@ -176,6 +176,7 @@ en:
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
   close: "Close"
+  select_prompt: "Select..."
 
   ## Admin panel ##
   all: "All"

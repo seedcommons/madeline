@@ -2,16 +2,17 @@
 #
 # Table name: custom_fields
 #
-#  created_at          :datetime         not null
-#  custom_field_set_id :integer
-#  data_type           :string
-#  id                  :integer          not null, primary key
-#  internal_name       :string
-#  migration_position  :integer
-#  parent_id           :integer
-#  position            :integer
-#  required            :boolean          default(FALSE), not null
-#  updated_at          :datetime         not null
+#  created_at           :datetime         not null
+#  custom_field_set_id  :integer
+#  data_type            :string
+#  has_embeddable_media :boolean          default(FALSE), not null
+#  id                   :integer          not null, primary key
+#  internal_name        :string
+#  migration_position   :integer
+#  parent_id            :integer
+#  position             :integer
+#  required             :boolean          default(FALSE), not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
@@ -44,7 +45,7 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  DATA_TYPES = %i(string text number range group boolean translatable list)
+  DATA_TYPES = %i(string text number range group boolean)
 
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
@@ -58,16 +59,12 @@ class CustomField < ActiveRecord::Base
   def value_types
     result =
       case data_type
-      when 'string'
-        [:text]
-      when 'text'
-        [:text]
-      when 'number'
-        [:number]
-      when 'range'
-        [:rating, :text]
-      else
-        []
+      when 'string' then [:text]
+      when 'text' then [:text]
+      when 'number' then [:number]
+      when 'range' then [:rating, :text]
+      when 'boolean' then [:boolean]
+      else []
       end
 
     if has_embeddable_media
@@ -93,10 +90,6 @@ class CustomField < ActiveRecord::Base
       :select
     when 'boolean'
       :boolean
-    when 'translatable'
-      :text
-    when 'list'
-      :select
     when 'group'
       nil # group type fields are not expected to have rendered form fields
     end
@@ -118,8 +111,11 @@ class CustomField < ActiveRecord::Base
     id.to_s
   end
 
+  # We are deprecating this field type, due to lack of need and much added complexity,
+  # but this method is still used heavily in custom_field_addable.rb, so leaving this
+  # here for now on the off chance that we end up needing this field type after all.
   def translatable?
-    data_type == 'translatable'
+    false
   end
 
   private

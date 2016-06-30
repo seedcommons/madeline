@@ -79,7 +79,7 @@ module Legacy
     # end
 
 
-    LOAN_QUESTION_ACTIVE_TO_ATTRIBUTE_NAME = { 1 => :old_loan_criteria, 2 => :loan_criteria, 3 => :post_analysis }
+    LOAN_QUESTION_ACTIVE_TO_ATTRIBUTE_NAME = { 1 => :old_criteria, 2 => :criteria, 3 => :post_analysis }
 
   end
 
