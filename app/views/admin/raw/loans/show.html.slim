@@ -68,8 +68,8 @@ table
   tr
     td Loan Criteria
     td
-      - if @item.loan_criteria
-        = link_to @item.loan_criteria.id, item_path(@item.loan_criteria)
+      - if @item.criteria
+        = link_to @item.criteria.id, item_path(@item.criteria)
   tr
     td Post Analysis
     td
@@ -78,8 +78,8 @@ table
   tr
     td Old Loan Criteria
     td
-      - if @item.old_loan_criteria
-        = link_to @item.old_loan_criteria.id, item_path(@item.old_loan_criteria)
+      - if @item.old_criteria
+        = link_to @item.old_criteria.id, item_path(@item.old_criteria)
   tr
     td Created At
     td = @item.created_at

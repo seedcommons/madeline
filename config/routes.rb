@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :loans do
       member do
         get :steps
-        get :criteria
+        get :questionnaires
         patch :change_date
         get :print_memo
         get :print_details

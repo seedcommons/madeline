@@ -32,6 +32,10 @@ class CustomFieldSet < ActiveRecord::Base
     label
   end
 
+  def children
+    custom_fields.where(parent: nil)
+  end
+
   def depth_first_fields
     list = []
     counter = 0

@@ -98,7 +98,7 @@
     .view-element = @loan.public_level_label
     = f.input_field :public_level_value, collection: Loan.public_level_options, include_blank: true
 
-  .actions.form-block
+  .actions.form-element
     - unless @loan.new_record?
       - if @loan.valid?
         a.btn.btn-default.show-action = t(:cancel)
