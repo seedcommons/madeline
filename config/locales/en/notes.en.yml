@@ -1,0 +1,8 @@
+en:
+  notes:
+    new: "New Note"
+  admin:
+    notes:
+      form:
+        edit_item: "Edit Note"
+        new_item: "New Note"

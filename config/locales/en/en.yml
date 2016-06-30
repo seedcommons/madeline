@@ -213,8 +213,6 @@ en:
   name: "Name"
   new_thing: "New %{thing}"
   none: "None"
-  note: "Note"
-  notes: "Notes"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
@@ -245,6 +243,8 @@ en:
     name: "Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
+    note: "Note"
+    notes: "Notes"
     parent: "Parent"
     print: "Print"
     remove: "Remove"

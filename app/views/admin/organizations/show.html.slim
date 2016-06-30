@@ -17,8 +17,6 @@ section.coop.details
           data: { \
             confirm: t('organization.confirm_deletion'),
             "confirm-title": t("organization.delete"),
-            "confirm-cancel": t(:cancel),
-            "confirm-proceed": t(:confirm) \
           }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
@@ -32,7 +30,9 @@ section.coop.details
     .row = render "admin/media/index", owner: @org
 
   section.block
-    h1 = t(:notes)
+    .header-with-links
+      h1 = t('common.notes')
+      = link_to t("notes.new"), new_admin_note_path, class: 'btn btn-default new-button'
     = render @org.notes
 
 = render "admin/media/modal"

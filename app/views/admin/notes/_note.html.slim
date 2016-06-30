@@ -1,12 +1,46 @@
-.note
-  => note.text
-  | &mdash;
-  = link_to note.author.name, admin_person_path(note.author)
-  ' ,
-  => l note.created_at.to_date
-  
-  .links 
-    => link_to edit_admin_note_path(note)
-      i.fa.fa-pencil
-    => link_to admin_note_path(note), method: :delete, data: { confirm: t('confirm_deletion', thing: t(:note)) }
-      i.fa.fa-trash
+.note data-id=note.id
+  .form-block style="display: #{defined?(mode) && mode == :form ? 'inherit' : 'none'}"
+    / = render "admin/notes/form", locals: { note: note }
+    = simple_form_for([:admin, note],
+        remote: true,
+        html: { \
+          class: (note.new_record? ? 'new-form' : 'update-form'),
+          data: { id: note.id },
+        },
+        defaults: { \
+          input_html: {class: 'form-element form-control'},
+        },
+      ) do |f|
+      
+      = f.error_notification
+      
+      = f.input :text, as: :text
+
+      button.btn.btn-default.cancel type="button" = t :cancel
+      = f.submit 'Save', class: 'submit-action btn btn-success'
+
+  - unless note.new_record?
+    .view-block style="display: #{defined?(mode) && mode == :form ? 'none' : 'inherit'}"
+      => note.text
+      | &mdash;
+      = link_to note.author.name, admin_person_path(note.author)
+      ' ,
+      => l note.created_at.to_date
+      
+      .links 
+        => link_to edit_admin_note_path(note), remote: true, class: 'edit-action'
+          i.fa.fa-pencil
+        => link_to admin_note_path(note), method: :delete, 
+            data: { confirm: t('confirm_deletion', thing: t('common.note')) },
+            remote: true
+          i.fa.fa-trash
+
+  javascript:
+    $(function() {
+      new MS.Views.NoteView({
+        el: $('.note[data-id=#{note.id}]'),
+        //persisted: #{json note.persisted?},
+        //id: #{json note.id}
+        new_record: #{json note.new_record?},
+      });
+    });
