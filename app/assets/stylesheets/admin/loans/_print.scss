@@ -1,7 +1,7 @@
 .print-view {
   [data-container="loan"] {
     .form-group {
-      label, > div {
+      label, div {
         display: inline-block;
       }
 
@@ -10,7 +10,7 @@
         text-align: left;
       }
 
-      > div {
+      div {
         width: 6in;
       }
     }
