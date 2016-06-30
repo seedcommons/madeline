@@ -12,7 +12,9 @@ section.questionnaires {
     margin-top: 0;
   }
 
-  input[type="number"] {
-    max-width: 8em;
+  .questionnaire-form {
+    input[type="number"] {
+      max-width: 8em;
+    }
   }
 }

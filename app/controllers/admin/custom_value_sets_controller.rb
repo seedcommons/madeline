@@ -30,10 +30,6 @@ class Admin::CustomValueSetsController < Admin::AdminController
     params.require(:custom_value_set).permit!
   end
 
-  def custom_attributes
-    custom_field_set.depth_first_fields.map(&:attribute_sym)
-  end
-
   def display_path
     admin_loan_path(@record.custom_value_set_linkable,
       selected: @record.linkable_attribute,
