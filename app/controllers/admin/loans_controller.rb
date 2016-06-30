@@ -160,13 +160,9 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def prep_attached_links
-    # TODO: Replace stub
-    @attached_links = [
-      "https://docs.google.com/document/d/1NgosyN7yPdXCPmFxlZ2piO5G_Yr19d_cgo7I31mMQVE/edit?usp=sharing",
-      "https://docs.google.com/document/d/19O86e3OIzt8_pO14CP4dbQ4n9e0-uLgcxNOIL_AcxS4/edit?usp=sharing"
-    ]
+    @attached_links = @loan.criteria_embedded_urls
 
-    unless @attached_links.blank?
+    unless @attached_links.empty?
       open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
         '#', data: {action: 'open-links', links: @attached_links})
       notice_text = "".html_safe

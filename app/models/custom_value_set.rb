@@ -55,6 +55,13 @@ class CustomValueSet < ActiveRecord::Base
     "#{custom_value_set_linkable.name} - #{linkable_attribute}"
   end
 
+  # Fetches urls of all embeddable media in the whole custom value set
+  def embedded_urls
+    return [] if custom_data.blank?
+    emb_ids = custom_data.values.map { |v| v["embeddable_media_id"] }.compact
+    EmbeddableMedia.find(emb_ids).map(&:url)
+  end
+
   private
 
   def custom_fields_valid

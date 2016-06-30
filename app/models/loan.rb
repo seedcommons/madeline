@@ -92,6 +92,10 @@ class Loan < ActiveRecord::Base
     loan_type_label
   end
 
+  # Gets embedded urls from criteria data. Returns empty array if criteria not defined yet.
+  def criteria_embedded_urls
+    criteria.try(:embedded_urls) || []
+  end
 
   # the special name of a default step to use/create when migrating a log without a step
   DEFAULT_STEP_NAME = '[default]'
