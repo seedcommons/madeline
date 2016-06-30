@@ -33,10 +33,9 @@
     display: block;
   }
 
-  // We need to list specific tag types here that need to be display: inline
-  a.form-element {
-    display: inline;
-  }
+  // We need to list specific tag types here that need to override the default display: block above.
+  a.form-element { display: inline; }
+  input.form-element, textarea.form-element, select.form-element { display: inline-block; }
 
   .view-element {
     display: none !important;
@@ -48,10 +47,8 @@
     display: block;
   }
 
-  // We need to list specific tag types here that need to be display: inline
-  a.view-element {
-    display: inline;
-  }
+  // We need to list specific tag types here that need to override the default display: block above.
+  a.view-element { display: inline; }
 
   .form-element {
     display: none !important;
