@@ -29,19 +29,19 @@
               .view-element.answer = value.number
             = f.input_field "#{field.attribute_sym}__number".to_sym, as: :decimal
 
+          - if value.has_text?
+            - if value.text.present?
+              .view-element.answer = value.text
+            = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
+
           - if value.has_sheet?
             - sheet = value.embeddable_media || EmbeddableMedia.new
             .view-element
               - if sheet.url
-                p
+                p.spreadsheet-links
                   a.action.show-content-action href="#" block-id="iframe-#{field.attribute_sym}" block-content='<iframe width="#{sheet.width}" height="#{sheet.height}" frameborder="1" src="#{sheet.url}">'
                     = t("loan.spreadsheet_inline")
                   = ' - '
                   = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
                 div id="iframe-#{field.attribute_sym}"
-
-          - if value.has_text?
-            - if value.text.present?
-              .view-element.answer = value.text
-            = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
