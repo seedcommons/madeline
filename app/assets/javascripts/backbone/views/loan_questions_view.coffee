@@ -94,8 +94,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
-      $alert = $(response.responseText).hide()
-      $alert.appendTo($('.alerts')).show('fast')
+      MS.alert(response.responseText)
 
   confirmDelete: (e) ->
     # Replace generic confirmation message with one with specific number of descendants
@@ -114,8 +113,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
-      $alert = $(response.responseText).hide()
-      $alert.appendTo($('.alerts')).show('fast')
+      MS.alert(response.responseText)
     return false
 
   addNewItemBlocks: ->
