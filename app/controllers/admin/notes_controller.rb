@@ -7,10 +7,6 @@ class Admin::NotesController < Admin::AdminController
     render partial: 'note', locals: { mode: :form }
   end
 
-  def edit
-    render nothing: true
-  end
-
   def create
     @note = Note.new(note_params)
 
@@ -22,14 +18,10 @@ class Admin::NotesController < Admin::AdminController
   end
 
   def update
-    respond_to do |format|
-      if @note.update(note_params)
-        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
-      end
+    if @note.update(note_params)
+      render partial: 'show', locals: { note: @note }
+    else
+      render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end
   end
 
