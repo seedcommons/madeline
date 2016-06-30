@@ -32,7 +32,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
     @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView()
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
       @$('#custom_field_parent_id').val(parent_id)
     )
 
@@ -40,7 +40,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView()
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
     )
 
   createNode: (e) ->
