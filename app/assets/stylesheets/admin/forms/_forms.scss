@@ -37,7 +37,12 @@
 // When the user clicks 'cancel edit', the opposite happens.
 .edit-view, .new-view {
   .form-element {
-    display: inherit;
+    display: block;
+  }
+
+  // We need to list specific tag types here that need to be display: inline
+  a.form-element {
+    display: inline;
   }
 
   .view-element {
@@ -47,7 +52,12 @@
 
 .show-view {
   .view-element {
-    display: inherit;
+    display: block;
+  }
+
+  // We need to list specific tag types here that need to be display: inline
+  a.view-element {
+    display: inline;
   }
 
   .form-element {
