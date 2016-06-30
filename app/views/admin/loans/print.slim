@@ -1,0 +1,19 @@
+- content_for(:title, @loan.name)
+
+section data-container="loan"
+
+  - if @mode != "criteria-only"
+    section.loan.details class='show-view'
+      h2 = t('loan.details')
+      = render "admin/loans/content/details", loan: @loan
+
+    section.featured-image
+      = image_tag(@first_image.item.url) if @first_image
+
+  - if @mode != "details-only"
+    section.loan.criteria class='show-view'
+      h2 = t('loan.criteria')
+      - if @loan.criteria
+        = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
+      - else
+        = t('loan.criteria_not_entered')

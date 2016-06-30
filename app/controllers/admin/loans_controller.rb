@@ -120,19 +120,13 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
-  def print_memo
-    prep_print_view
-    prep_attached_links
+  def print
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+    @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
-  end
-
-  def print_details
-    prep_print_view
-  end
-
-  def print_criteria
-    prep_print_view
-    prep_attached_links
+    prep_attached_links if @mode != "details-only"
   end
 
   private
@@ -163,9 +157,6 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def prep_print_view
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    @print_view = true
   end
 
   def prep_attached_links

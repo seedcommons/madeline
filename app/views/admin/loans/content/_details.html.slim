@@ -23,11 +23,14 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
         => t('loan.print')
         span.caret
       ul.dropdown-menu.dropdown-menu-right.print-actions
-        li = link_to(t('loan.print_memo'), print_memo_admin_loan_path(@loan.id), 'data-print': 'memo', target: '_blank')
+        li = link_to(t('loan.print_memo'), print_admin_loan_path(@loan.id, mode: "memo"),
+          'data-print': 'memo', target: '_blank')
         li.divider role="separator"
         li.dropdown-header = t('loan.print_part')
-        li = link_to(t('loan.print_details'), print_details_admin_loan_path(@loan.id), 'data-print': 'details', target: '_blank')
-        li = link_to(t('loan.print_criteria'), print_criteria_admin_loan_path(@loan.id), 'data-print': 'criteria', target: '_blank')
+        li = link_to(t('loan.print_details'), print_admin_loan_path(@loan.id, mode: "details-only"),
+          'data-print': 'details', target: '_blank')
+        li = link_to(t('loan.print_criteria'), print_admin_loan_path(@loan.id, mode: "criteria-only"),
+          'data-print': 'criteria', target: '_blank')
   = render "admin/loans/content/form", loan: @loan
 
 section.block data-container='media'

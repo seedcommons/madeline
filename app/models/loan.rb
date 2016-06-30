@@ -76,9 +76,7 @@ class Loan < ActiveRecord::Base
   has_one_custom :post_analysis, field_set: :loan_post_analysis
   has_one_custom :old_criteria, field_set: :old_loan_criteria
 
-
   validates :division_id, :organization_id, presence: true
-
 
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name

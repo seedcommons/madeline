@@ -21,9 +21,7 @@ Rails.application.routes.draw do
         get :steps
         get :questionnaires
         patch :change_date
-        get :print_memo
-        get :print_details
-        get :print_criteria
+        get :print
       end
     end
     resources :organizations
