@@ -24,7 +24,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     MS.loadingIndicator.hide()
 
   initTopButtons: ->
-    selected = URI(window.location.href).query(true)['selected']
+    selected = URI(window.location.href).query(true)['selected'] || 'criteria'
     @showQuestionnaire(selected)
     @$('.filter-switch .btn').removeClass('active')
     @$(".filter-switch .btn[data-attrib=#{selected}]").addClass('active')
