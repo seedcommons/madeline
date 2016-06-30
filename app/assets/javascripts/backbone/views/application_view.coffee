@@ -9,6 +9,9 @@ class MS.Views.ApplicationView extends Backbone.View
     MS.loadingIndicator = @$('#glb-load-ind')
     MS.errorModal = @$('#glb-error-modal')
     new MS.Views.Expander()
+    MS.alert = (html) ->
+      $alert = $(html).hide()
+      $alert.appendTo($('.alerts')).show('fast')
 
   events: ->
     'click .more': 'toggleExpanded'

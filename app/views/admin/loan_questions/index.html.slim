@@ -1,0 +1,43 @@
+- content_for(:title, t('.title'))
+
+.loan-questions
+  .filter-switch
+    .btn-group.button-group-radios data-toggle="buttons" aria-label="Fieldset"
+      label.btn.btn-default
+        input type="radio" name="fieldset" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
+      label.btn.btn-default
+        input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
+  
+  .jqtree data-data=@json
+
+  .hidden
+    .links-block
+      / This is added to the end of each question
+      .links
+        a.edit-action> href="#" title=t('.edit_item')
+          i.fa.fa-pencil
+        = link_to '#', method: :delete, class: "delete-action", remote: true,
+            data: { \
+              confirm: t("loan_questions.confirm_deletion"),
+              "confirm-title": t(:delete_record),
+            },
+            title: t('.delete_item')
+            
+          i.fa.fa-trash
+    
+    .new-item-block
+      / This is added after each last child
+      li.jqtree_common.new-item
+        .jqtree_common.jqtree-element
+          span.jqtree_common.jqtree-title 
+            a.new-action href="#" = t '.add_item'
+        .clearfix
+    
+  #edit-modal.modal.fade tabindex="-1" role="dialog"
+    .modal-dialog
+      .modal-content            
+
+javascript:
+  $(function(){
+    new MS.Views.LoanQuestionsView({});
+  });

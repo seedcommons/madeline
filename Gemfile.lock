@@ -30,8 +30,10 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.9.5)
-      activemodel (>= 3.2)
+    active_model_serializers (0.10.0)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -152,6 +154,9 @@ GEM
       momentjs-rails (>= 2.9.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    goldiloader (0.0.10)
+      activerecord (>= 3.2, < 5.1)
+      activesupport (>= 3.2, < 5.1)
     gon (6.0.1)
       actionpack (>= 3.0)
       json
@@ -201,7 +206,7 @@ GEM
     mime-types (2.99.1)
     mini_magick (4.5.0)
     mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     momentjs-rails (2.11.0)
       railties (>= 3.1)
     multi_json (1.11.2)
@@ -403,6 +408,7 @@ DEPENDENCIES
   font-awesome-rails
   font-awesome-sass (~> 4.3)
   fullcalendar-rails
+  goldiloader
   gon
   guard-livereload (~> 2.5)
   hirb

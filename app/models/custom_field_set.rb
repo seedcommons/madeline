@@ -32,6 +32,28 @@ class CustomFieldSet < ActiveRecord::Base
     label
   end
 
+  def children
+    custom_fields.where(parent: nil)
+  end
+
+  def child_groups
+    children.select { |c| c.data_type == 'group' }
+  end
+
+  def depth
+    -1
+  end
+
+  def depth_first_fields
+    list = []
+    counter = 0
+    custom_fields.where(parent: nil).each do |top_group|
+      counter += 1
+      top_group.transient_position = counter
+      top_group.traverse_depth_first(list)
+    end
+    list
+  end
 
   # returns a field by ether its id or internal_name
   def field(field_identifier, required: true)

@@ -5,23 +5,25 @@ class MS.Views.TimelineView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
 
-    new MS.Views.TimelineSelectStepsView();
-    new MS.Views.TimelineBatchActionsView();
-    new MS.Views.TimelineHeaderView();
+    new MS.Views.TimelineSelectStepsView()
+    new MS.Views.TimelineBatchActionsView()
+    new MS.Views.TimelineHeaderView()
 
-    @refreshSteps()
+    @refreshSteps ->
+      new MS.Views.FilterSwitchView()
 
   events:
     'click #new-step': 'addBlankStep'
     'ajax:error': 'submitError'
 
-  refreshSteps: ->
+  refreshSteps: (callback) ->
     MS.loadingIndicator.show()
     @$('.project-steps').empty()
     $.get "/admin/loans/#{@loanId}/steps", (html) =>
       MS.loadingIndicator.hide()
       @$('.project-steps').html(html)
       @addBlankStep() if @stepCount() == 0
+      callback()
 
   # Adds step html, scrolls into view, and focuses first box if visible
   addSteps: (html) ->
@@ -31,8 +33,8 @@ class MS.Views.TimelineView extends Backbone.View
     else
       0
     @$('.project-steps').append(html)
-    $('html, body').animate({ scrollTop: scrollY }, 500);
-    lastStep.next().find("input[type=text]").focus()
+    $('html, body').animate({ scrollTop: scrollY }, 500)
+    lastStep.next().find("input[type=text]").first().focus()
     @showHideNoStepsMsg()
 
   removeStep: (el) ->
@@ -55,4 +57,4 @@ class MS.Views.TimelineView extends Backbone.View
     @$('#no-steps-msg')[if @stepCount() > 0 then 'hide' else 'show']()
 
   stepCount: ->
-    @$('.step').length
+    @$('.step').not('.new-record').length

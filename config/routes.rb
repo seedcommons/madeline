@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
+    resources :custom_value_sets
     resources :dashboard, only: [:index]
     resources :divisions do
       collection do
@@ -18,8 +19,13 @@ Rails.application.routes.draw do
     resources :loans do
       member do
         get :steps
+        get :questionnaires
         patch :change_date
+        get :print
       end
+    end
+    resources :loan_questions, as: :custom_fields do
+      patch 'move', on: :member
     end
     resources :notes, except: [:index]
     resources :organizations

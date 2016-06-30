@@ -1,0 +1,45 @@
+/ Note, this content is loaded via ajax when the loan's 'Questionnaires' tab is exposed.
+
+/ Switch at top allowing toggling between criteria and post analysis
+.filter-switch.centered-text
+  .btn-group.button-group-radios data-toggle="buttons"
+    label.btn.btn-default data-attrib="criteria"
+      input type="radio" name="top_buttons" value="1"
+        = t("loan.criteria")
+    label.btn.btn-default data-attrib="post_analysis"
+      input type="radio" name="top_buttons" value="2"
+        = t("loan.post_analysis")
+
+
+- @value_sets.each do |attrib, value_set|
+
+  div.questionnaire data-attrib=attrib
+
+    section.block class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
+      .show-actions
+        - if policy(@loan).update? && value_set.persisted?
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element
+            = t("cancel_edit")
+          = link_to [:admin, value_set], method: :delete,
+            data: { \
+              confirm: t("loan.confirm_response_deletion"),
+              "confirm-cancel": t(:cancel),
+              "confirm-proceed": t(:confirm),
+              "confirm-title": t("loan.delete_responses") \
+            }
+            i.fa.fa-trash.fa-large>
+            = t(".delete")
+
+      h2 = t("loan.#{attrib}")
+
+      = render "admin/loans/content/questionnaire_form", value_set: value_set
+
+    javascript:
+      $(function() {
+        new MS.Views.ShowEditView({ el: ".questionnaire[data-attrib=#{attrib}] .block" });
+      });
+
+

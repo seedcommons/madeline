@@ -77,12 +77,19 @@ section.details {
   }
 
   .show-actions {
-    text-align: right;
     margin-bottom: 5px;
+    text-align: right;
 
     a {
       display: inline-block;
       margin-left: 10px;
+    }
+
+    .dropdown-menu {
+      a {
+        display: block;
+        margin: 0;
+      }
     }
   }
 }

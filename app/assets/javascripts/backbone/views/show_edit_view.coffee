@@ -7,7 +7,6 @@ class MS.Views.ShowEditView extends Backbone.View
 
   showEdit: ->
     @$el.addClass('edit-view').removeClass('show-view')
-    $('.edit-tab').tab 'show'
 
   showShow: ->
     @$el.addClass('show-view').removeClass('edit-view')
