@@ -24,6 +24,9 @@ Rails.application.routes.draw do
         get :print
       end
     end
+    resources :loan_questions, as: :custom_fields do
+      patch 'move', on: :member
+    end
     resources :organizations
     resources :people
     resources :project_logs

@@ -20,6 +20,10 @@
 
 //= require jquery
 //= require jquery_ujs
+
+//= require i18n
+//= require i18n/translations
+
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
 //= require select2-full
@@ -30,6 +34,7 @@
 //= require jquery-ui
 //= require jquery.remotipart
 //= require wice_grid
+//= require tree.jquery
 //= require bootstrap-datepicker
 
 //= require twitter/bootstrap/rails/confirm
@@ -37,9 +42,6 @@
 
 //= require moment
 //= require fullcalendar
-
-//= require i18n
-//= require i18n/translations
 
 //= require admin/admin
 

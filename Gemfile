@@ -76,11 +76,14 @@ gem 'simple_form'
 # Passing controller data to JS
 gem 'gon'
 
-# Used by CalendarEventsController when serializing event data for Calendar widget
+# Generating JSON data
 gem 'active_model_serializers'
 
 # File uploads for remote: true forms
 gem 'remotipart', '~> 1.2'
+
+# Eager loading
+gem 'goldiloader'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -97,6 +100,7 @@ group :development, :test do
 
   # Better console printing
   gem 'awesome_print'
+  gem 'hirb'
 
   # Specs and Test Coverage
   gem 'rspec-rails'
@@ -121,6 +125,10 @@ group :development do
   gem 'capistrano',  '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+
+  # Auto reload browser
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem 'rack-livereload'
 end
 
 group :development, :doc do

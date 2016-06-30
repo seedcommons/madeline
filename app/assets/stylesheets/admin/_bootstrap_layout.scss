@@ -34,7 +34,8 @@ body {
 
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
-  max-height: none;
+  // This was making things get cut off on Chrome's emulator without being able to scroll
+  // max-height: none;
 }
 
 /*

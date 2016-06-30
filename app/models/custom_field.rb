@@ -27,9 +27,9 @@ class CustomField < ActiveRecord::Base
   include Translatable
 
   belongs_to :custom_field_set
-  # note, the custom field form layout can be hierarchially nested
 
-  has_closure_tree order: 'position'
+  # note, the custom field form layout can be hierarchially nested
+  has_closure_tree order: 'position', dependent: :destroy
 
   # Transient value populated by depth first traversal of questions scoped to a specific division.
   # Starts with '1'.  Used in hierarchical display of questions.
@@ -41,6 +41,11 @@ class CustomField < ActiveRecord::Base
 
   delegate :division, :division=, to: :custom_field_set
 
+  validates :data_type, presence: true
+
+  after_save :ensure_internal_name
+
+  DATA_TYPES = %i(string text number range group boolean)
 
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
@@ -117,6 +122,11 @@ class CustomField < ActiveRecord::Base
     false
   end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean']
+  private
 
+    def ensure_internal_name
+      if !internal_name
+        self.update! internal_name: "field_#{id}"
+      end
+    end
 end
