@@ -178,10 +178,10 @@ class Admin::LoansController < Admin::AdminController
     unless @attached_links.blank?
       open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
         '#', data: {action: 'open-links', links: @attached_links})
-      notice_text = I18n.t('loan.num_of_links', count: @attached_links.length) + " "
-      notice_text += open_link_text + " "
-      notice_text += I18n.t('loan.popup_blocker') if @attached_links.length > 1
-      flash.now[:alert] = notice_text.html_safe
+      notice_text = "".html_safe
+      notice_text << I18n.t('loan.num_of_links', count: @attached_links.length) << " " << open_link_text
+      notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
+      flash.now[:alert] = notice_text
     end
   end
 end
