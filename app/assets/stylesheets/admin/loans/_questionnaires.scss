@@ -13,8 +13,26 @@ section.questionnaires {
   }
 
   .questionnaire-form {
+    li {
+      min-height: 3em;
+      margin-bottom: 1em;
+    }
+
+    .question-label {
+      margin-bottom: 1em;
+    }
+
     input[type="number"] {
-      max-width: 8em;
+      width: 8em;
+    }
+
+    select[data-rating] {
+      width: 8em;
+      margin-bottom: 1em;
+    }
+
+    .answer {
+      font-weight: bold;
     }
   }
 }
