@@ -22,13 +22,6 @@
   height: 6em;
 }
 
-.form-group.decimal
-
-// Not sure why, but the view-elements where not being hidden for the Loan Questionnaires form
-// unless there is previously defined .edit-view block here
-.edit-view {
-}
-
 // These classes allow toggling of form view and show view.
 // Each form field consists of a .form-element (with the actual <input>, etc.)
 // and a .view-element (with the read-only attribute data).
