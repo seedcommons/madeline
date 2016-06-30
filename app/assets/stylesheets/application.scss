@@ -28,6 +28,7 @@ body {
   color: #333435;
 }
 
-[data-expandable] {
+// Styles related to the Expander functionality.
+[data-expandable], [data-hides] {
   display: none;
 }

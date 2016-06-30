@@ -2,16 +2,17 @@
 #
 # Table name: custom_fields
 #
-#  created_at          :datetime         not null
-#  custom_field_set_id :integer
-#  data_type           :string
-#  id                  :integer          not null, primary key
-#  internal_name       :string
-#  migration_position  :integer
-#  parent_id           :integer
-#  position            :integer
-#  required            :boolean          default(FALSE), not null
-#  updated_at          :datetime         not null
+#  created_at           :datetime         not null
+#  custom_field_set_id  :integer
+#  data_type            :string
+#  has_embeddable_media :boolean          default(FALSE), not null
+#  id                   :integer          not null, primary key
+#  internal_name        :string
+#  migration_position   :integer
+#  parent_id            :integer
+#  position             :integer
+#  required             :boolean          default(FALSE), not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
@@ -30,9 +31,13 @@ class CustomField < ActiveRecord::Base
 
   has_closure_tree order: 'position'
 
+  # Transient value populated by depth first traversal of questions scoped to a specific division.
+  # Starts with '1'.  Used in hierarchical display of questions.
+  attr_accessor :transient_position
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
+  attr_translatable :explanation
 
   delegate :division, :division=, to: :custom_field_set
 
@@ -41,17 +46,73 @@ class CustomField < ActiveRecord::Base
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
 
+  def attribute_sym
+    internal_name.to_sym
+  end
+
+  # List of value keys for fields which have nested values
+  def value_types
+    result =
+      case data_type
+      when 'string' then [:text]
+      when 'text' then [:text]
+      when 'number' then [:number]
+      when 'range' then [:rating, :text]
+      when 'boolean' then [:boolean]
+      else []
+      end
+
+    if has_embeddable_media
+      if result
+        result << :embeddable_media
+      else
+        raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
+      end
+    end
+    result
+  end
+
+  # Simple form type mapping
+  def form_field_type
+    case data_type
+    when 'string'
+      :string
+    when 'text'
+      :text
+    when 'number'
+      :decimal
+    when 'range'
+      :select
+    when 'boolean'
+      :boolean
+    when 'group'
+      nil # group type fields are not expected to have rendered form fields
+    end
+  end
+
+  def traverse_depth_first(list)
+    list << self
+    counter = 0
+    children.each do |child|
+      counter += 1
+      child.transient_position = counter
+      child.traverse_depth_first(list)
+    end
+  end
+
   # for now use a stringified primary key
   # todo: consider using the internal name when available - needs further discussion
   def json_key
     id.to_s
   end
 
+  # We are deprecating this field type, due to lack of need and much added complexity,
+  # but this method is still used heavily in custom_field_addable.rb, so leaving this
+  # here for now on the off chance that we end up needing this field type after all.
   def translatable?
-    data_type == 'translatable'
+    false
   end
 
-  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean', 'translatable', 'list']
-
+  DATA_TYPES = ['string', 'text', 'number', 'range', 'group', 'boolean']
 
 end
