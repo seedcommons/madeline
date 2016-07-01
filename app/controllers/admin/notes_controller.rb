@@ -1,25 +1,26 @@
 class Admin::NotesController < Admin::AdminController
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
-  def new
-    @note = Note.new
-    authorize @note
-    render partial: 'note', locals: { mode: :form }
-  end
-
+  # def new
+  #   @note = Note.new
+  #   authorize @note
+  #   render partial: 'note', locals: { mode: :form }
+  # end
+  #
   def create
-    @note = Note.new(note_params)
+    @note = Note.new(note_params, author: current_user)
+    authorize @note
 
     if @note.save
-      render json: @note, status: :created
+      render partial: 'show', locals: { note: @note.reload }
     else
-      render json: @note.errors, status: :unprocessable_entity
+      render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end
   end
 
   def update
     if @note.update(note_params)
-      render partial: 'show', locals: { note: @note }
+      render partial: 'note', locals: { note: @note.reload }
     else
       render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end
@@ -40,6 +41,6 @@ class Admin::NotesController < Admin::AdminController
     end
 
     def note_params
-      params.require(:note).permit(:text)
+      params.require(:note).permit(:text, :notable_id)
     end
 end

@@ -29,13 +29,20 @@ section.coop.details
     h1 = t('organization.media')
     .row = render "admin/media/index", owner: @org
 
-  section.block
+  section.block.notes
     .header-with-links
       h1 = t('common.notes')
-      = link_to t("notes.new"), new_admin_note_path, class: 'btn btn-default new-button'
+      button.btn.btn-default.new-button = t("notes.new")
     = render @org.notes
+    
+    .hidden
+      .new-note
+        = render partial: 'admin/notes/form', locals: { note: @new_note }
 
 = render "admin/media/modal"
 
 javascript:
-  $(function() { new MS.Views.ShowEditView({ el: '.coop-fields' }) });
+  $(function() { 
+    new MS.Views.OrganizationView();
+    new MS.Views.ShowEditView({ el: '.coop-fields' });
+  });

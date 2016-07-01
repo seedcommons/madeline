@@ -1,7 +1,7 @@
 = simple_form_for([:admin, note],
     remote: true,
     html: { \
-      class: 'note-form ' + (note.new_record? ? 'new-form' : 'update-form'),
+      class: 'note-form ' + (note.new_record? ? 'new-form' : 'edit-form'),
       data: { id: note.id },
     },
     defaults: { \
@@ -12,6 +12,9 @@
   = f.error_notification
   
   = f.input :text, as: :text
+  
+  = f.input :notable_id, as: :hidden
+  = f.input :notable_class, as: :hidden, input_html: { value: f.object.notable.class }
 
   button.btn.btn-default.cancel type="button" = t :cancel
   = f.submit 'Save', class: 'submit btn btn-success'

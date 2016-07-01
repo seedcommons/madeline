@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     resources :loan_questions, as: :custom_fields do
       patch 'move', on: :member
     end
-    resources :notes, except: [:index]
+    resources :notes, only: [:create, :update, :destroy]
     resources :organizations
     resources :people
     resources :project_logs
