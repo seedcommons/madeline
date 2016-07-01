@@ -3,7 +3,7 @@ div.panel-body class=('new-record' if step.new_record?)
   = simple_form_for([:admin, step],
     remote: true,
     html: { class: 'project-step-form' }) do |f|
-
+    
     / Need to pass these through to create but not update.
     - if step.new_record?
       = f.hidden_field(:project_id)

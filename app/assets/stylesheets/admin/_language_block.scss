@@ -5,6 +5,9 @@
   padding: 10px;
   border: 1px solid $gray4;
 
+  // Temporary fix for translation styling problems
+  margin: 15px 0;
+
   &:last-of-type {
     margin-bottom: 10px;
   }
@@ -23,4 +26,11 @@
 // Consider refactoring later.
 .project-step-form .language-block .form-control {
   margin-bottom: 10px;
+}
+
+.languages {
+  .add-language {
+    display: block;
+    margin: 15px 0;
+  }
 }

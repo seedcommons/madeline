@@ -40,7 +40,7 @@ module SimpleForm
       }.html_safe
       object.used_locales_or_current_locale.each do |l|
         out += %Q{
-          <div class="language-block" data-locale="#{l}">
+          <div class="language-block row" data-locale="#{l}">
             <a class="remove-language" href="#">#{I18n.t('common.remove')}</a>
         }.html_safe
         out += input :"locale_#{l}", label: false,
