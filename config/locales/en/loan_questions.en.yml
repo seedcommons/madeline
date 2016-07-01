@@ -28,11 +28,8 @@ en:
     options:
       custom_field:
         data_type:
-          string: String
-          text: Text
-          number: Number
-          range: Range
+          short answer: Short Answer
+          paragraph: Paragraph
+          multiple choice: Multiple Choice
           group: Group
-          boolean: Boolean
           translatable: Translatable
-          list: List
