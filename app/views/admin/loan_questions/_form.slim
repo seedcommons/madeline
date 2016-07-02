@@ -15,7 +15,7 @@
     = f.error_notification
 
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
-      collection: CustomField::DATA_TYPES
+      collection: @data_types
       
     = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
 
