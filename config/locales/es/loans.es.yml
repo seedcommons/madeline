@@ -1,0 +1,45 @@
+es:
+  loan:
+    adjust_dates: "Modificar fechas"
+    adjust_scheduled_dates: "Modificar Fechas Previstas"
+    amount: "Monto"
+    backward: "- hacia atrás"
+    batch_actions: "Acciones en Lotes"
+    delete_selected: "Borrar"
+    details: "Detalles"
+    calendar: "Calendario"
+    cancel_edit: "Cancelar la Edición"
+    confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este préstamo para siempre?"
+    criteria: "Criterios"
+    delete: "Borrar Préstamo"
+    description: "Descripción"
+    edit: "Editar Préstamo"
+    finalize: "Finalizar"
+    forward: "+ hacia adelante"
+    length: "Duración"
+    loan_type: "Tipo de Préstamo"
+    media: "Fotos del Préstamo"
+    months: "%{number} meses "
+    move_date_confirm:
+      title: "Mover Fecha?"
+      body: "¿Realmente quieres cambiar la fecha del préstamo?"
+    move_dates: "Mover las fechas previstas"
+    move_date_direction: "¿Mover la fecha hacia adelante o hacia atrás?"
+    signing_date: "Fecha de Firma"
+    sign_date: "Fecha de Firma"
+    status:
+      active: "Activo"
+      completed: "Completo"
+      frozen: "Congelado"
+      liquidated: "Liquidado"
+    timeline: "Línea de Tiempo"
+    shared:
+      new: "Nuevo Préstamo"
+  loans:
+    index:
+      title: "Préstamos"
+    show:
+      new_step: "Nuevo Paso"
+      edit_all: Editar Todo
+      cancel_edit: Cancelar Edición
+      save_all: Guardar Todo

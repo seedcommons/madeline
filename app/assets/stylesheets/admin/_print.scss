@@ -1,0 +1,34 @@
+.print-view {
+  width: 8in;
+  padding: .25in;
+
+  .content .block {
+    background: none;
+  }
+
+  .hidden-print {
+    display: none;
+  }
+
+  .mainmenu, #navbar, #user-menu {
+    display: none;
+  }
+
+  .page-header {
+    margin: 20px 0;
+  }
+
+  .visible-print-block {
+    display: block !important;
+  }
+
+  .visible-print-preview {
+    display: block;
+  }
+
+  @media print {
+    .visible-print-preview {
+      display: none;
+    }
+  }
+}

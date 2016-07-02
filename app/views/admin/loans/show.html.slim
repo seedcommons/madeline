@@ -1,28 +1,5 @@
 - content_for(:title, @loan.name)
-
-section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
-
-  header
-    .show-actions
-      - if @loan.valid?
-        a.edit-action.view-element
-          i.fa.fa-pencil.fa-large>
-          = t("loan.edit")
-        a.show-action.form-element
-          = t("loan.cancel_edit")
-      - else
-        a href=admin_organization_path(@loan) = t(:cancel)
-      = link_to [:admin, @loan], method: :delete,
-        data: { \
-          confirm: t("loan.confirm_deletion"),
-          "confirm-cancel": t(:cancel),
-          "confirm-proceed": t(:confirm),
-          "confirm-title": t("loan.delete") \
-        }
-        i.fa.fa-trash.fa-large>
-        = t("loan.delete")
-    .clearfix
-
+section.loan.details
   div.loan-content
     = render "admin/loans/tabs/tabs"
 
@@ -30,11 +7,9 @@ section.loan.details class=(@loan.valid? ? 'show-view' : 'edit-view')
 
 javascript:
   $(function() {
-    new MS.Views.ShowEditView({el: '.loan.details'});
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
       calendar_events_url: #{json @calendar_events_url},
       loanId: #{json @loan.id}
     });
   });
-

@@ -1,8 +1,4 @@
 class Admin::DivisionsController < Admin::AdminController
-
-  before_action :authenticate_user!
-  after_action :verify_authorized
-
   def select
     redisplay_url = params[:redisplay_url] || root_path
     division_id = params[:division_id]

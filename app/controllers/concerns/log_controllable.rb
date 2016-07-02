@@ -5,6 +5,7 @@ module LogControllable
 
   def set_log_form_vars
     @progress_metrics = ProjectLog.progress_metric_options
+    @people = Person.by_name
   end
 
   def authorize_and_render_modal

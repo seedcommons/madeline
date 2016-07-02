@@ -1,8 +1,8 @@
 - content_for(:title, @org.name)
 
-section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
+section.coop.details
 
-  header
+  section.block.coop-fields  class=(@org.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if @org.valid?
         a.edit-action.view-element
@@ -11,7 +11,7 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
         a.show-action.form-element
           = t("cancel_edit")
       - else
-        a href=admin_organization_path(@org) = t(:cancel)
+        a href=admin_organization_path(@org) = t("cancel_edit")
       / TODO: Confirm and cancel should have defaults
       = link_to [:admin, @org], method: :delete,
           data: { \
@@ -22,9 +22,6 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
           }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
-    .clearfix
-
-  section.block
     = render 'form'
 
   section.block
@@ -40,4 +37,4 @@ section.coop.details class=(@org.valid? ? 'show-view' : 'edit-view')
 = render "admin/media/modal"
 
 javascript:
-  $(function() { new MS.Views.ShowEditView({ el: '.coop.details' }) });
+  $(function() { new MS.Views.ShowEditView({ el: '.coop-fields' }) });

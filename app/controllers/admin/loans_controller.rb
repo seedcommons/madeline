@@ -51,6 +51,30 @@ class Admin::LoansController < Admin::AdminController
     render layout: false
   end
 
+  def questionnaires
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+
+    # Value sets are sets of answers to criteria and post analysis question sets.
+    @value_sets = ActiveSupport::OrderedHash.new
+
+    Loan::QUESTION_SET_TYPES.each do |attrib|
+      # Attempt to retrieve existing value set from object
+      @value_sets[attrib] = @loan.send(attrib)
+
+      # If existing set not found, build a blank one with which to render the form.
+      unless @value_sets[attrib]
+        @value_sets[attrib] = CustomValueSet.new(
+          custom_value_set_linkable: @loan,
+          custom_field_set: CustomFieldSet.find_by(internal_name: "loan_#{attrib}"),
+          linkable_attribute: attrib
+        )
+      end
+    end
+
+    render layout: false
+  end
+
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
@@ -96,6 +120,15 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
+  def print
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    @print_view = true
+    @mode = params[:mode]
+    @first_image = @loan.media.find {|item| item.kind == 'image'}
+    prep_attached_links if @mode != "details-only"
+  end
+
   private
 
   def loan_params
@@ -123,4 +156,19 @@ class Admin::LoansController < Admin::AdminController
     person_policy_scope(raw_choices).order(:name)
   end
 
+  def prep_print_view
+  end
+
+  def prep_attached_links
+    @attached_links = @loan.criteria_embedded_urls
+
+    unless @attached_links.empty?
+      open_link_text = view_context.link_to(I18n.t('loan.open_links', count: @attached_links.length),
+        '#', data: {action: 'open-links', links: @attached_links})
+      notice_text = "".html_safe
+      notice_text << I18n.t('loan.num_of_links', count: @attached_links.length) << " " << open_link_text
+      notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
+      flash.now[:alert] = notice_text
+    end
+  end
 end

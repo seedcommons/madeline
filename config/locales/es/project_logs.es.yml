@@ -1,0 +1,5 @@
+es:
+  project_logs:
+    shared:
+      confirm_deletion: "¿Realmente quieres borrar este apunte?"
+      delete: "Borrar Apunte"

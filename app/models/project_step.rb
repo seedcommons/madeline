@@ -85,7 +85,7 @@ class ProjectStep < ActiveRecord::Base
   end
 
   def completed_or_not
-    completed? ? 'completed' : 'not_completed'
+    completed? ? 'completed' : 'incomplete'
   end
 
   def milestone?
