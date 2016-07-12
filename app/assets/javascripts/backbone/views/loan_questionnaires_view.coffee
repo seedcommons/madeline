@@ -12,10 +12,8 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').empty()
-    $.get "/admin/loans/#{@loanId}/questionnaires", (html) =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
       MS.loadingIndicator.hide()
-      @$('.questionnaires-content').html(html)
       @filterSwitchView.filterInit()
 
   submitError: (e) ->
