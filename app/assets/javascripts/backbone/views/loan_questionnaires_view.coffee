@@ -33,6 +33,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
             # .find('.jqtree-title')
-            # .html(@$(".question[data-id=#{node.id}]").html())
+            # .html(@$(".answer-wrapper[data-id=#{node.id}]").html())
             .find('.jqtree-element')
             .append(@$(".answer-wrapper[data-id=#{node.id}]").html())

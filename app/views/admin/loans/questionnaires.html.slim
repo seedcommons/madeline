@@ -8,8 +8,6 @@
     label.btn.btn-default
       input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
 
-.jqtree data-data=@json
-
 - @value_sets.each do |attrib, value_set|
 
   div.questionnaire.filterable data-attrib=attrib class=attrib
@@ -34,6 +32,8 @@
 
       h2 = t("loan.#{attrib}")
 
+      .jqtree data-data=@json
+    
       = render "admin/loans/content/questionnaire_form", value_set: value_set
 
     javascript:
