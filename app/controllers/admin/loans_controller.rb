@@ -72,6 +72,9 @@ class Admin::LoansController < Admin::AdminController
       end
     end
 
+    @questions = CustomField.loan_questions
+    @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
+
     render layout: false
   end
 

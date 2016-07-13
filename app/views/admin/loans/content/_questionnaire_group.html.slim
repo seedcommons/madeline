@@ -4,7 +4,7 @@
     - group.children.each_with_index do |field, idx|
 
       - item_tag = {tag: group.depth == -1 ? :div : :li}
-      *item_tag data-level=field.level data-type=field.data_type
+      *item_tag data-level=field.level data-type=field.data_type data-id=field.id
 
         - value = value_set.custom_value(field.id)
 

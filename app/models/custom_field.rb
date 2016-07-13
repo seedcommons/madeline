@@ -47,6 +47,11 @@ class CustomField < ActiveRecord::Base
 
   DATA_TYPES = %i(string text number range group boolean)
 
+  def self.loan_questions
+    joins(:custom_field_set).where(custom_field_sets:
+      { internal_name: ['loan_criteria', 'loan_post_analysis'] })
+  end
+
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
