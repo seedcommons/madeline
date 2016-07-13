@@ -29,5 +29,10 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       dragAndDrop: false
       selectable: false
       useContextMenu: false
-      onCreateLi: (node, $li) ->
-        $li.attr('data-id', node.id).addClass("filterable #{node.fieldset}")
+      onCreateLi: (node, $li) =>
+        $li.attr('data-id', node.id)
+            .addClass("filterable #{node.fieldset}")
+            # .find('.jqtree-title')
+            # .html(@$(".question[data-id=#{node.id}]").html())
+            .find('.jqtree-element')
+            .append(@$(".answer-wrapper[data-id=#{node.id}]").html())
