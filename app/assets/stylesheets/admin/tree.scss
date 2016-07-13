@@ -1,5 +1,4 @@
 .filter-switch {
-  padding-bottom: 20px;
   text-align: center
 }
 
@@ -42,6 +41,18 @@ ul.jqtree-tree {
   }
 }
 
+.loan-questions .filter-switch {
+  padding-bottom: 20px;
+}
+
 .questionnaires ul.jqtree-tree li.jqtree_common .jqtree-element {
   display: block;
+
+  .explanation, .answer, .form-element {
+    margin: 10px 0 0 0;
+  }
+
+  .form-element {
+    display: block;
+  }
 }
