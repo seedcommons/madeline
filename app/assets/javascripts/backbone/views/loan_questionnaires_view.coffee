@@ -32,9 +32,11 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
-            # .find('.jqtree-title')
-            # .html(@$(".question[data-id=#{node.id}]").html())
             .find('.jqtree-element')
-            # .click( => @tree.tree('toggle', node) )
-            .append(@$(".question[data-id=#{node.id}] > .explanation").clone())
-            .append(@$(".question[data-id=#{node.id}] > .answer-wrapper").html())
+            # .click => @tree.tree('toggle', node)
+            # .click -> $(this).find('.jqtree-toggler').first().click()
+            .append(@$(".question[data-id=#{node.id}] > .explanation"))
+            .append(@$(".question[data-id=#{node.id}] > .answer-wrapper"))
+    # @tree.find('.jqtree-element').click =>
+    #   @tree.tree('toggle', @tree.tree('getNodeById', ))
+    # $('.jqtree-toggler').click -> stopPropagation()
