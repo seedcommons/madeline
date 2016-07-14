@@ -1,6 +1,11 @@
 class CustomFieldSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count
 
+  def initialize(*args, loan: nil)
+    @loan = loan
+    super(*args)
+  end
+
   def name
     object.label.to_s
   end
@@ -9,7 +14,7 @@ class CustomFieldSerializer < ActiveModel::Serializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node) }
+      object.children.sort_by { |i| i.required_for?(@loan) ? 0 : 1 }.map { |node| self.class.new(node) }
     end
   end
 

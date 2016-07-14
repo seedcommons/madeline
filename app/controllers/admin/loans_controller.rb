@@ -72,8 +72,10 @@ class Admin::LoansController < Admin::AdminController
         )
       end
 
-      questions = CustomField.loan_questions(attrib)
-      @questions_json[attrib] = ActiveModel::Serializer::CollectionSerializer.new(questions.roots).to_json
+      # questions = CustomField.loan_questions(attrib)
+      # @questions_json[attrib] = ActiveModel::Serializer::CollectionSerializer.new(questions.roots).to_json
+      root_questions = CustomField.loan_questions(attrib).roots.sort_by { |q| q.required_for?(@loan) ? 0 : 1 }
+      @questions_json[attrib] = ActiveModel::Serializer::CollectionSerializer.new(root_questions, loan: @loan).to_json
     end
 
     render layout: false

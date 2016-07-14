@@ -130,7 +130,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def required_for?(loan)
-    [true, false].sample
+    id % 2 == 0
   end
 
   private
