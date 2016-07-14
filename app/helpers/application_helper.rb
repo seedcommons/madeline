@@ -49,9 +49,4 @@ module ApplicationHelper
     no_records = grid.current_page_records.length < 1
     render "admin/common/grid", no_records: no_records, grid: grid
   end
-
-  def render_markdown(text)
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-    markdown.render(text).html_safe
-  end
 end

@@ -85,9 +85,6 @@ gem 'remotipart', '~> 1.2'
 # Eager loading
 gem 'goldiloader'
 
-# Render markdown
-gem 'redcarpet'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
