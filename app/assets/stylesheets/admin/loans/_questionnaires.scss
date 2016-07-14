@@ -16,6 +16,16 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
+  .question[data-level="0"] {
+    font-size: 24px;
+    font-weight: 500;
+
+    > ol {
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+
   .question-label {
     margin-bottom: 1em;
   }
