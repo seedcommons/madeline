@@ -24,24 +24,15 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initializeTree: ->
     tree = @$('.jqtree')
+    tree.tree
+      dragAndDrop: false
+      selectable: false
+      useContextMenu: false
+      onCreateLi: (node, $li) =>
+        $li.attr('data-id', node.id)
+            .find('.jqtree-element')
+            .append(@$(".question[data-id=#{node.id}] > .explanation"))
+            .append(@$(".question[data-id=#{node.id}] > .answer-wrapper"))
+
     tree.each ->
-      $(this).tree
-        data: $(this).data('data')
-        dragAndDrop: false
-        selectable: false
-        useContextMenu: false
-        onCreateLi: (node, $li) =>
-          $li.attr('data-id', node.id)
-              # .addClass("filterable #{node.fieldset}")
-              .find('.jqtree-element')
-              # .click => tree.tree('toggle', node)
-              # .click -> $(this).find('.jqtree-toggler').first().click()
-              .append($(".question[data-id=#{node.id}] > .explanation"))
-              .append($(".question[data-id=#{node.id}] > .answer-wrapper"))
-
-    # tree.find('.jqtree-element').click ->
-    #   id = $(this).closest('li').data('id')
-    #   node = tree.tree('getNodeById', id)
-    #   tree.tree('toggle', node)
-
-    # $('.jqtree-toggler').click -> stopPropagation()
+      $(this).tree 'loadData', $(this).data('data')
