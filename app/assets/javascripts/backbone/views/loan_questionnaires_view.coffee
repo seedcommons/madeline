@@ -33,6 +33,8 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
             .find('.jqtree-element')
             .append(@$(".question[data-id=#{node.id}] > .explanation"))
             .append(@$(".question[data-id=#{node.id}] > .answer-wrapper"))
+            .find('.jqtree-title')
+            .before(@$(".question[data-id=#{node.id}] > * > .optional")).before(' ')
 
     tree.each ->
       $(this).tree 'loadData', $(this).data('data')

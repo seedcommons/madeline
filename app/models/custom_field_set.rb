@@ -98,4 +98,3 @@ class CustomFieldSet < ActiveRecord::Base
   end
 
 end
-

@@ -3,7 +3,10 @@ ol
     li.question data-level=field.level data-type=field.data_type data-id=field.id
       - value = value_set.custom_value(field.id)
 
-      div.question-label = field.label
+      div.question-label 
+        - if !field.required_for?(@loan)
+          span.optional<> = "(#{t(:optional)})"
+        = field.label
 
       - if !@print_view && field.explanation.present?
         p.explanation = field.explanation

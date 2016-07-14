@@ -129,6 +129,10 @@ class CustomField < ActiveRecord::Base
     false
   end
 
+  def required_for?(loan)
+    [true, false].sample
+  end
+
   private
 
     def ensure_internal_name
