@@ -38,7 +38,7 @@
 
             - if value.has_text?
               - if value.text.present?
-                .view-element.answer = value.text
+                .view-element.answer = render_markdown value.text
               = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
 
             - if value.has_boolean?
