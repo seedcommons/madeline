@@ -13,7 +13,7 @@
         - else
           div.question-label = field.label
 
-        - if field.explanation.present?
+        - if !@print_view && field.explanation.present?
           p.explanation = field.explanation
 
         / Recurse if group, else render
