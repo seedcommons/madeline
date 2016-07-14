@@ -32,6 +32,7 @@ en:
     post_analysis: "Post-Analysis"
     questionnaires: "Questions"
     questionnaire: "Questionnaire"
+    questions: "Questions"
     rating: "Score"
     save_responses: "Save Responses"
     signing_date: "Signing Date"
@@ -62,3 +63,9 @@ en:
       questionnaires:
         edit: "Edit Responses"
         delete: "Delete All Responses"
+      timeline:
+        timeline_header:
+          cancel_edit: "Cancel Edit"
+          edit_all: "Edit All"
+          new_step: "New Step"
+          save_all: "Save All"

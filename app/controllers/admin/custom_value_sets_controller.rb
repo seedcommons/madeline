@@ -32,7 +32,7 @@ class Admin::CustomValueSetsController < Admin::AdminController
 
   def display_path
     admin_loan_path(@record.custom_value_set_linkable,
-      selected: @record.linkable_attribute,
+      filter: @record.linkable_attribute.sub(/^loan_/, ''),
       anchor: "questions")
   end
 end
