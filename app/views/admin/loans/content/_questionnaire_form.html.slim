@@ -15,8 +15,9 @@
   = f.hidden_field(:custom_field_set_id)
   = f.hidden_field(:linkable_attribute)
 
-  - unless @print_view
-    .jqtree data-data=@questions_json[attrib]
+  / - unless @print_view
+  - unless @print_view || attrib == :post_analysis
+    .jqtree data-data=@questions_json[attrib] class=attrib
 
   div class=('hidden' unless @print_view)
     = render "admin/loans/content/questionnaire_group",

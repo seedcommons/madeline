@@ -57,12 +57,12 @@ en:
       edit_all: Edit All
       cancel_edit: Cancel Edit
       save_all: Save All
+  questionnaires:
+    optional_questions: "Optional Questions"
+
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     loans:
-      content:
-        questionnaire_group:
-          optional_questions: "Optional Questions"
       questionnaires:
         edit: "Edit Responses"
         delete: "Delete All Responses"
