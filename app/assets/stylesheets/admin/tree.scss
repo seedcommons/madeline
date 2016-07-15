@@ -49,7 +49,11 @@ ul.jqtree-tree {
 .questionnaires ul.jqtree-tree li.jqtree_common .jqtree-element {
   display: block;
 
-  .explanation, .answer, .form-element {
+  .question-label {
+    display: inline;
+  }
+
+  .help-block, .answer, .form-element {
     margin: 10px 0 0 0;
   }
 

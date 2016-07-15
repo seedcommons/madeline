@@ -14,7 +14,7 @@ class CustomFieldSerializer < ActiveModel::Serializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.sort_by { |i| i.required_for?(@loan) ? 0 : 1 }.map { |node| self.class.new(node) }
+      object.children.sort_by_required(@loan).map { |node| self.class.new(node) }
     end
   end
 

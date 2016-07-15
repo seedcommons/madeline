@@ -54,6 +54,10 @@ class CustomField < ActiveRecord::Base
       { internal_name: field_set })
   end
 
+  def self.sort_by_required(loan)
+    all.sort_by { |i| i.required_for?(loan) ? 0 : 1 }
+  end
+
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
   end

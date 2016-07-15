@@ -1,5 +1,10 @@
 ol
-  - group.children.each do |field|
+  - optional_encountered = false
+  - group.children.sort_by_required(@loan).each do |field|
+    - if !optional_encountered && !field.required_for?(@loan)
+      - optional_encountered = true
+      <fieldset><legend>#{t '.optional_questions'}</legend>
+
     li.question (data-level=field.level data-type=field.data_type data-id=field.id 
         class=(field.required_for?(@loan) ? 'required' : 'optional'))
       - value = value_set.custom_value(field.id)
@@ -10,7 +15,7 @@ ol
         = field.label
 
       - if !@print_view && field.explanation.present?
-        p.explanation = field.explanation
+        p.help-block = field.explanation
 
       / Recurse if group, else render
       - if field.data_type == 'group'
@@ -58,3 +63,6 @@ ol
                   = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
                 div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+
+  - if optional_encountered
+    </fieldset>
