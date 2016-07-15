@@ -26,11 +26,15 @@ section.questionnaires {
     }
   }
 
+  .question.optional {
+    background-color: #f7f7f7;
+  }
+
   .question-label {
     margin-bottom: 1em;
   }
 
-  .optional {
+  .optional-marker {
     font-style: italic;
     color: #888;
   }
