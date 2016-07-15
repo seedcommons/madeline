@@ -29,13 +29,11 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       selectable: false
       useContextMenu: false
       onCreateLi: (node, $li) =>
+        $question = @$(".question[data-id=#{node.id}]")
         $li.attr('data-id', node.id)
-            .addClass(@$(".question[data-id=#{node.id}]").attr('class'))
-            .find('.jqtree-element')
-            .append(@$(".question[data-id=#{node.id}] > .explanation"))
-            .append(@$(".question[data-id=#{node.id}] > .answer-wrapper"))
+            .addClass($question.attr('class'))
             .find('.jqtree-title')
-            .before(@$(".question[data-id=#{node.id}] > * > .optional-marker")).before(' ')
+            .html($question.children().not('ol'))
 
     tree.each ->
       $(this).tree 'loadData', $(this).data('data')
