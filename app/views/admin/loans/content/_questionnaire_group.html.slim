@@ -1,17 +1,28 @@
-  - wrapper_tag = {tag: group.depth == -1 ? :div : :ol}
-  *wrapper_tag
-
+  div
     - group.children.each_with_index do |field, idx|
 
-      - item_tag = {tag: group.depth == -1 ? :div : :li}
-      *item_tag class="question" data-level=field.level data-type=field.data_type data-id=field.id
+      .question data-level=field.level data-type=field.data_type data-id=field.id
 
         - value = value_set.custom_value(field.id)
+        - index_str = (indices + [idx + 1]).join(".")
 
-        - if group.depth == -1
-          h3 = "#{idx + 1}. #{field.label}"
+        - if field.data_type == 'group'
+          - if field.has_non_group_children?
+            .header
+              = @loan.division.name
+              br
+              = t("loan.print_header_title")
+              br
+              = @loan.organization.name
+              br
+              = I18n.l(Date.today, format: :long)
+
+            - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
+            *item_tag
+              => index_str
+              = (parents.map(&:label) + [field.label]).join(": ")
         - else
-          div.question-label = field.label
+          .question-label = "#{index_str} #{field.label}"
 
         - if !@print_view && field.explanation.present?
           p.explanation = field.explanation
@@ -19,10 +30,11 @@
         / Recurse if group, else render
         - if field.data_type == 'group'
 
-          = render("admin/loans/content/questionnaire_group", f: f, value_set: value_set, group: field)
+          = render("admin/loans/content/questionnaire_group",
+            f: f, value_set: value_set, group: field, parents: parents + [field], indices: indices + [idx + 1])
 
         - else
-        
+
           .answer-wrapper
 
             - if value.has_rating?
@@ -62,3 +74,7 @@
                     = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
                   div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+
+            - if value.blank?
+              .view-element.answer.blank = t("loan.no_answer")
+
