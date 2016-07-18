@@ -10,6 +10,7 @@ en:
     delete_error: "The item could not be deleted due to an error"
     explanation: "Explanation"
     has_embeddable_media: "Allow files or links to be attached"
+    manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
     text: "Title"
 

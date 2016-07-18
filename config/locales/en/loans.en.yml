@@ -59,3 +59,6 @@ en:
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     loans:
+      questionnaires:
+        edit: "Edit Responses"
+        delete: "Delete All Responses"

@@ -1,0 +1,59 @@
+.filter-switch {
+  text-align: center
+}
+
+ul.jqtree-tree {
+  margin-bottom: 15px;
+
+  li.jqtree_common {
+    margin-bottom: 2px;
+    padding-right: 2px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    .jqtree-element {
+      padding: 10px;
+      display: flex;
+
+      .jqtree-title {
+        margin: 0;
+        flex-grow: 100;
+      }
+    }
+    .links {
+      white-space: nowrap;
+      .fa { margin-left: 10px; }
+    }
+    &.new-item {
+      border-style: dashed;
+
+      .jqtree-element {
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        a {
+          color: #afafaf;
+          text-decoration: underline;
+          &:hover { color: #696969; }
+        }
+      }
+    }
+  }
+}
+
+.loan-questions .filter-switch {
+  padding-bottom: 20px;
+}
+
+.questionnaires ul.jqtree-tree li.jqtree_common .jqtree-element {
+  display: block;
+
+  .explanation, .answer, .form-element {
+    margin: 10px 0 0 0;
+  }
+
+  .form-element {
+    display: block;
+  }
+}

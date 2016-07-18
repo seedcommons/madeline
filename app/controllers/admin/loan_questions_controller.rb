@@ -4,9 +4,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def index
     authorize CustomField
-    @questions = CustomField
-        .joins(:custom_field_set)
-        .where(custom_field_sets: {internal_name: ['loan_criteria', 'loan_post_analysis']})
+    @questions = CustomField.loan_questions
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 
@@ -77,7 +75,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     end
 
     def render_form(status: nil)
-      @data_types = CustomField::DATA_TYPES.map do |i| 
+      @data_types = CustomField::DATA_TYPES.map do |i|
         [I18n.t("simple_form.options.custom_field.data_type.#{i}"), i]
       end.sort
       if status

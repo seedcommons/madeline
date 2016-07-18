@@ -1,8 +1,4 @@
 section.questionnaires {
-  .filter-switch {
-    text-align: center;
-  }
-
   // Overriding this because it's nice for it to be floated right opposite h2
   .show-actions {
     float: right;
@@ -25,7 +21,7 @@ section.questionnaires {
   }
 
   .explanation {
-    margin-top: -10px;
+    font-style: italic;
     font-size: 12px;
     color: #888;
   }

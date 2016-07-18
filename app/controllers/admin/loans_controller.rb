@@ -57,6 +57,7 @@ class Admin::LoansController < Admin::AdminController
 
     # Value sets are sets of answers to criteria and post analysis question sets.
     @value_sets = ActiveSupport::OrderedHash.new
+    @questions_json = {}
 
     Loan::QUESTION_SET_TYPES.each do |attrib|
       # Attempt to retrieve existing value set from object
@@ -70,6 +71,9 @@ class Admin::LoansController < Admin::AdminController
           linkable_attribute: "loan_#{attrib}"
         )
       end
+
+      questions = CustomField.loan_questions(attrib)
+      @questions_json[attrib] = ActiveModel::Serializer::CollectionSerializer.new(questions.roots).to_json
     end
 
     render layout: false

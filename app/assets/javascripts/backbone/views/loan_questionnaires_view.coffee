@@ -5,37 +5,39 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @refreshContent()
+    @filterSwitchView = new MS.Views.FilterSwitchView()
 
   events:
     'ajax:error': 'submitError'
-    'click .filter-switch .btn': 'changeQuestionnaire'
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').empty()
-    $.get "/admin/loans/#{@loanId}/questionnaires", (html) =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
       MS.loadingIndicator.hide()
-      @$('.questionnaires-content').html(html)
-      @initTopButtons()
+      @initializeTree()
+      @filterSwitchView.filterInit()
 
   submitError: (e) ->
     e.stopPropagation()
     MS.errorModal.modal('show')
     MS.loadingIndicator.hide()
 
-  initTopButtons: ->
-    selected = URI(window.location.href).query(true)['selected'] || 'criteria'
-    @showQuestionnaire(selected)
-    @$('.filter-switch .btn').removeClass('active')
-    @$(".filter-switch .btn[data-attrib=#{selected}]").addClass('active')
+  initializeTree: ->
+    tree = @$('.jqtree')
+    # This initializes the jqtree
+    tree.tree
+      dragAndDrop: false
+      selectable: false
+      useContextMenu: false
+      # This is fired for each li element in the jqtree just after it's created.
+      # We pull pieces from the hidden questionnaire below and insert them.
+      # This runs during the loadData event below.
+      onCreateLi: (node, $li) =>
+        $li.attr('data-id', node.id)
+            .find('.jqtree-element')
+            .append(@$(".question[data-id=#{node.id}] > .explanation"))
+            .append(@$(".question[data-id=#{node.id}] > .answer-wrapper"))
 
-  changeQuestionnaire: (e) ->
-    selected = $(e.currentTarget).closest('.btn').data('attrib')
-    @showQuestionnaire(selected)
-    url = URI(window.location.href).setQuery('selected', selected).href()
-    history.pushState(null, "", url)
-
-  showQuestionnaire: (attrib) ->
-    @$('.questionnaire').hide()
-    @$(".questionnaire[data-attrib=#{attrib}]").show()
-
+    # Load the data into each tree from its data-data attribute.
+    tree.each ->
+      $(this).tree 'loadData', $(this).data('data')

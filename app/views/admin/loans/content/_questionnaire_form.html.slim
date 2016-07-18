@@ -15,8 +15,12 @@
   = f.hidden_field(:custom_field_set_id)
   = f.hidden_field(:linkable_attribute)
 
-  = render "admin/loans/content/questionnaire_group",
-    f: f, value_set: value_set, group: value_set.custom_field_set
+  - unless @print_view
+    .jqtree data-data=@questions_json[attrib]
+
+  div class=('hidden' unless @print_view)
+    = render "admin/loans/content/questionnaire_group",
+      f: f, value_set: value_set, group: value_set.custom_field_set
 
   .actions.form-element
     - unless value_set.new_record?
