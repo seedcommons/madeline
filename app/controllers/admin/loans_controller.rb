@@ -67,7 +67,7 @@ class Admin::LoansController < Admin::AdminController
         @value_sets[attrib] = CustomValueSet.new(
           custom_value_set_linkable: @loan,
           custom_field_set: CustomFieldSet.find_by(internal_name: "loan_#{attrib}"),
-          linkable_attribute: attrib
+          linkable_attribute: "loan_#{attrib}"
         )
       end
     end
