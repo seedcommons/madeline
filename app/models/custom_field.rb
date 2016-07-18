@@ -48,6 +48,8 @@ class CustomField < ActiveRecord::Base
   DATA_TYPES = %i(string text number range group boolean)
 
   def self.loan_questions(field_set = nil)
+    # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
+    # to be prepended for the database, and if it's not, it is set to both, to return all loan questions.
     field_set &&= "loan_#{field_set}"
     field_set ||= ['loan_criteria', 'loan_post_analysis']
     joins(:custom_field_set).where(custom_field_sets:
