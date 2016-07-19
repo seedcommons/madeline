@@ -19,13 +19,18 @@
   - unless @print_view || attrib == :post_analysis
     .jqtree data-data=@questions_json[attrib] class=attrib
 
-  div class=('hidden' unless @print_view)
-    = render "admin/loans/content/questionnaire_group",
-      f: f, value_set: value_set, group: value_set.custom_field_set
-
   .actions.form-element
     - unless value_set.new_record?
       a.btn.btn-default.show-action = t(:cancel)
     - submit_label = t("loan.save_responses")
     = f.submit submit_label, class: 'update-action btn btn-success'
   .clearfix
+
+= simple_fields_for(value_set, 
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+  div class=('hidden' unless @print_view)
+    = render "admin/loans/content/questionnaire_group",
+      f: f, value_set: value_set, group: value_set.custom_field_set

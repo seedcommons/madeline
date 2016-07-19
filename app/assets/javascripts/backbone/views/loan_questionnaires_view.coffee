@@ -23,10 +23,9 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     MS.loadingIndicator.hide()
 
   initializeTree: ->
-    tree = @$('.jqtree')
-    processed = []
+    @tree = @$('.jqtree')
     # Initialize the jqtree
-    tree.tree
+    @tree.tree
       dragAndDrop: false
       selectable: false
       useContextMenu: false
@@ -34,23 +33,23 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       # We pull pieces from the hidden questionnaire below and insert them.
       # This runs during the loadData event below.
       onCreateLi: (node, $li) =>
-        unless (node.id == undefined || node.id in processed)
-          $question = @$(".question[data-id=#{node.id}]")
-          $li.attr('data-id', node.id)
-              .addClass($question.attr('class'))
-              .find('.jqtree-title')
-              .html($question.children().not('ol'))
+        $question = @$(".question[data-id=#{node.id}]")
+        $li.attr('data-id', node.id)
+            .addClass($question.attr('class'))
 
-        processed.push node.id
+        # Don't replace content of 'optional questions' groups
+        unless node.id == undefined
+          $li.find('.jqtree-title')
+              .html($question.children().not('ol').clone())
 
-    # Load the data into each tree from its data-data attribute.
-    tree.each (index, tree) =>
-      $(tree).tree 'loadData', $(tree).data('data')
-      @groupOptional(tree, $(tree).tree 'getTree')
+    # Load the data into each tree from its 'data-data' attribute.
+    @tree.each =>
+      @tree.tree 'loadData', @tree.data('data')
+      @groupOptional(@tree.tree 'getTree')
 
-  groupOptional: (tree, root) ->
-    if root && root.children.some( (el) -> el.optional )
-      $(tree).tree(
+  groupOptional: (root) ->
+    if root.children.some( (el) -> el.optional )
+      @tree.tree(
         'appendNode',
         { name: I18n.t('questionnaires.optional_questions') },
         root
