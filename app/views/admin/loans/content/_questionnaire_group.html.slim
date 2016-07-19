@@ -1,12 +1,12 @@
 ol
   - optional_encountered = false
   - group.children.sort_by_required(@loan).each do |field|
+    - css_class = field.required_for?(@loan) ? 'required' : 'optional'
     - if !optional_encountered && !field.required_for?(@loan)
       - optional_encountered = true
-      <fieldset><legend>#{t 'questionnaires.optional_questions'}</legend>
+      <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-    li.question (data-level=field.level data-type=field.data_type data-id=field.id 
-        class=(field.required_for?(@loan) ? 'required' : 'optional'))
+    li.question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
       - value = value_set.custom_value(field.id)
 
       div.question-label 
