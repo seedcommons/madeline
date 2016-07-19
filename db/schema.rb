@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160702193806) do
+ActiveRecord::Schema.define(version: 20160719155018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20160702193806) do
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "migration_position"
+    t.boolean  "override_associations", default: false, null: false
     t.integer  "parent_id"
     t.integer  "position"
     t.boolean  "required", default: false, null: false
@@ -64,6 +65,11 @@ ActiveRecord::Schema.define(version: 20160702193806) do
   end
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
+
+  create_table "custom_fields_options", id: false, force: :cascade do |t|
+    t.integer "custom_field_id"
+    t.integer "option_id"
+  end
 
   create_table "custom_value_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -351,6 +357,9 @@ ActiveRecord::Schema.define(version: 20160702193806) do
   add_foreign_key "custom_value_sets", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "loan_type_questions", "custom_fields", column: "question_id"
+  add_foreign_key "loan_type_questions", "divisions"
+  add_foreign_key "loan_type_questions", "options", column: "loan_type_id"
   add_foreign_key "loans", "currencies"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"

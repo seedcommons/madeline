@@ -9,6 +9,7 @@
 #  id                   :integer          not null, primary key
 #  internal_name        :string
 #  migration_position   :integer
+#  overridden_id        :integer
 #  parent_id            :integer
 #  position             :integer
 #  required             :boolean          default(FALSE), not null
@@ -23,10 +24,19 @@
 #  fk_rails_b30226ad05  (custom_field_set_id => custom_field_sets.id)
 #
 
+# Full conceptual meaning of 'override_associations' boolean:
+# "This question specifies its own set of required loan types rather than inheriting from its
+# parent question"
+
+
 class CustomField < ActiveRecord::Base
   include Translatable
 
   belongs_to :custom_field_set
+
+  # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
+  # question for a given loan type.
+  has_and_belongs_to_many :options
 
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
@@ -54,6 +64,24 @@ class CustomField < ActiveRecord::Base
     field_set ||= ['loan_criteria', 'loan_post_analysis']
     joins(:custom_field_set).where(custom_field_sets:
       { internal_name: field_set })
+  end
+
+  # Feature #4737
+  # Resolves if this particular question is considered required for the provided loan, based on
+  # presence of association records in the custom_fields_options relation table, and the
+  # 'override_associations' flag.
+  # - If override is true and join records are present, question is required for those loan types
+  #   and optional for all others
+  # - If override is true and no records are present, all are optional
+  # - If override is false, inherit from parent
+  # Note, loan type association records are ignored for questions without the 'override_assocations'
+  # flag assigned.
+  def required_for?(loan)
+    if override_associations
+      options.include?(loan.loan_type_option)
+    else
+      parent && parent.required_for(loan)
+    end
   end
 
   def name
