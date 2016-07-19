@@ -35,6 +35,10 @@ class CustomField < ActiveRecord::Base
   # Starts with '1'.  Used in hierarchical display of questions.
   attr_accessor :transient_position
 
+  # Transient value assigned when resolved with the context of a given loan type using matching
+  # records from the LoanTypeQuestion relation table.
+  attr_accessor :required
+
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
   attr_translatable :explanation
@@ -54,6 +58,36 @@ class CustomField < ActiveRecord::Base
     field_set ||= ['loan_criteria', 'loan_post_analysis']
     joins(:custom_field_set).where(custom_field_sets:
       { internal_name: field_set })
+  end
+
+  def self.loan_type_questions(field_set = nil, loan_type = nil)
+    # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
+    # to be prepended for the database, and if it's not, it is set to both, to return all loan questions.
+    field_set &&= "loan_#{field_set}"
+    field_set ||= ['loan_criteria', 'loan_post_analysis']
+    joins(:custom_field_set).where(custom_field_sets:
+      { internal_name: field_set })
+  end
+
+  def self.resolve_loan_questions(field_set_name: nil, division: nil, loan_type: nil, loan: nil)
+    if loan
+      division ||= loan.division
+      loan_type ||= loan.loan_type
+    end
+    raise "division or loan must be provided" unless division
+
+    field_set = CustomFieldSet.resolve(field_set_name, division: division, required: true)
+    fields = field_set.depth_first_fields.clone
+
+    # Apply the per loan type relation data.
+    if loan_type
+      loan_type_relations = LoanTypeQuestion.resolve(division, loan_type)
+      fields.each do |field|
+        match = loan_type_relations.find { |relation| relation.question_id == field.id }
+        field.required = match.required if match
+      end
+    end
+    fields
   end
 
   def name
