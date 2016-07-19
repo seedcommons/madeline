@@ -33,7 +33,6 @@ class CustomFieldSet < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
 
-  # includes fields definite at parent division levels
   attr_accessor :merged_fields
 
   def name
@@ -94,26 +93,38 @@ class CustomFieldSet < ActiveRecord::Base
 
     result = nil
     while candidate_division do
-      match = CustomFieldSet.find_by(internal_name: internal_name, division: candidate_division)
-      if match
-        unless result
-          result = match
-          result.merged_fields = []
-        end
-        # Remove fields inherited from a parent division which are overridden at this division level.
-        overridden_ids = match.custom_fields.map(&:overridden_id).compact
-        result.merged_fields.reject! { |f| overridden_ids.include?(f.id) }
-        result.merged_fields += match.custom_fields
-        # Todo: Do we need a field type which represents a removed overridden field?
-      end
+      result = CustomFieldSet.find_by(internal_name: internal_name, division: candidate_division)
+      break  if result
       candidate_division = candidate_division.parent
     end
 
     raise "CustomFieldSet not found: #{internal_name} for division: #{division.try(:id)}"  if required && !result
+    result
+  end
+
+  # Includes fields defined at parent division levels
+  def merged_fields
+    @merged_fields ||= resolve_merged_fields
+  end
+
+  def resolve_merged_fields
+    result = custom_fields
+    parent_division = division.parent
+    while parent_division do
+      match = CustomFieldSet.find_by(internal_name: internal_name, division: parent_division)
+      if match
+        # Remove fields inherited from a parent division which are overridden at this division level.
+        overridden_ids = result.map(&:overridden_id).compact
+        inheritted_fields = match.custom_fields.reject! { |f| overridden_ids.include?(f.id) }
+        merged_fields += inheritted_fields
+        # Todo: Do we need a field type which represents a removed overridden field?
+      end
+      parent_division = parent_division.parent
+    end
     # Todo: Confirm how position field will be handled in relation to division hierarchy by the
     # questions management admin UI.
-    result.merged_fields.sort { |left, right| left.position <=> right.position }
-    #puts "cfs.resolve result: #{result.inspect} - merged_fields: #{result.merged_fields}"
+    result.sort { |left, right| left.position <=> right.position }
+    #puts "resolve_merged_fields result: #{result.inspect} - merged_fields: #{result.merged_fields}"
     result
   end
 
