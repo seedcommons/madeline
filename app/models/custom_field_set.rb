@@ -114,17 +114,14 @@ class CustomFieldSet < ActiveRecord::Base
       match = CustomFieldSet.find_by(internal_name: internal_name, division: parent_division)
       if match
         # Remove fields inherited from a parent division which are overridden at this division level.
-        overridden_ids = result.map(&:overridden_id).compact
-        inheritted_fields = match.custom_fields.reject! { |f| overridden_ids.include?(f.id) }
-        merged_fields += inheritted_fields
-        # Todo: Do we need a field type which represents a removed overridden field?
+        #overridden_ids = result.map(&:overridden_id).compact
+        #inheritted_fields = match.custom_fields.reject! { |f| overridden_ids.include?(f.id) }
+        #merged_fields += inheritted_fields
+        merged_fields += match.custom_fields
       end
       parent_division = parent_division.parent
     end
-    # Todo: Confirm how position field will be handled in relation to division hierarchy by the
-    # questions management admin UI.
     result.sort { |left, right| left.position <=> right.position }
-    #puts "resolve_merged_fields result: #{result.inspect} - merged_fields: #{result.merged_fields}"
     result
   end
 
