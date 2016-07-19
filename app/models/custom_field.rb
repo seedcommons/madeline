@@ -9,7 +9,6 @@
 #  id                    :integer          not null, primary key
 #  internal_name         :string
 #  migration_position    :integer
-#  overridden_id         :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer

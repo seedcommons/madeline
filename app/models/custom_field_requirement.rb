@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: custom_field_requirements
+#
+#  custom_field_id :integer
+#  id              :integer          not null, primary key
+#  option_id       :integer
+#
+
 # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
 # question for a given loan type.
 
