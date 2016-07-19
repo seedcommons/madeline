@@ -36,9 +36,11 @@ class CustomField < ActiveRecord::Base
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
-  #has_and_belongs_to_many :options
   has_many :custom_field_requirements, dependent: :destroy
-  has_many :options, through: :custom_field_requirements
+
+  # has_many :options, through: :custom_field_requirements
+  # alias_method :loan_types, :options
+  has_many :loan_types, class_name: 'Option', through: :custom_field_requirements
 
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
@@ -80,9 +82,9 @@ class CustomField < ActiveRecord::Base
   # flag assigned.
   def required_for?(loan)
     if override_associations
-      options.include?(loan.loan_type_option)
+      loan_types.include?(loan.loan_type_option)
     else
-      parent && parent.required_for(loan)
+      parent && parent.required_for?(loan)
     end
   end
 

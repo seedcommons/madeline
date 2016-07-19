@@ -12,5 +12,6 @@
 
 class CustomFieldRequirement < ActiveRecord::Base
   belongs_to :custom_field
-  belongs_to :option
+  #belongs_to :option
+  belongs_to :loan_type, class_name: 'Option', foreign_key: :option_id
 end
