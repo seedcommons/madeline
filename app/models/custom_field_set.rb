@@ -1,3 +1,9 @@
+# Represents a set a loan questions or division's custom defined fields on a Loan, Person or
+# Organization.
+#
+# Must be instantiated via the CustomFieldSet.resolve method in order to properly merge in
+# fields inherited from ancestor divisions.
+#
 # == Schema Information
 #
 # Table name: custom_field_sets
@@ -27,13 +33,15 @@ class CustomFieldSet < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
 
+  attr_accessor :merged_fields
 
   def name
     label
   end
 
   def children
-    custom_fields.where(parent: nil)
+    #custom_fields.where(parent: nil)
+    merged_fields.select { |f| f.parent.blank? }
   end
 
   def child_groups
@@ -47,7 +55,7 @@ class CustomFieldSet < ActiveRecord::Base
   def depth_first_fields
     list = []
     counter = 0
-    custom_fields.where(parent: nil).each do |top_group|
+    merged_fields.where(parent: nil).each do |top_group|
       counter += 1
       top_group.transient_position = counter
       top_group.traverse_depth_first(list)
@@ -72,21 +80,18 @@ class CustomFieldSet < ActiveRecord::Base
   def self.resolve(internal_name, division: nil, model: nil, required: true)
     # for model types which are not owned by a division, assume there is only a single CustomFieldSet defined
     # need special handling for Division class to avoid infinite loop
-    if model.class == Division || !model.respond_to?(:division)
+    if !division && (model.class == Division || !model.respond_to?(:division))
       return CustomFieldSet.find_by(internal_name: internal_name)
     end
 
     division = model.division  if !division && model
     if division
-      # puts "CustomFieldSet.resolve - using division param"
       candidate_division = division
     else
-      # puts "CustomFieldSet.resolve - using Division.root default"
       candidate_division = Division.root
     end
 
     result = nil
-    # todo: confirm if there is a clever way to leverage closure tree to handle this hierarchical resolve logic
     while candidate_division do
       result = CustomFieldSet.find_by(internal_name: internal_name, division: candidate_division)
       break  if result
@@ -94,6 +99,29 @@ class CustomFieldSet < ActiveRecord::Base
     end
 
     raise "CustomFieldSet not found: #{internal_name} for division: #{division.try(:id)}"  if required && !result
+    result
+  end
+
+  # Includes fields defined at parent division levels
+  def merged_fields
+    @merged_fields ||= resolve_merged_fields
+  end
+
+  def resolve_merged_fields
+    result = custom_fields
+    parent_division = division.parent
+    while parent_division do
+      match = CustomFieldSet.find_by(internal_name: internal_name, division: parent_division)
+      if match
+        # Remove fields inherited from a parent division which are overridden at this division level.
+        #overridden_ids = result.map(&:overridden_id).compact
+        #inheritted_fields = match.custom_fields.reject! { |f| overridden_ids.include?(f.id) }
+        #merged_fields += inheritted_fields
+        merged_fields += match.custom_fields
+      end
+      parent_division = parent_division.parent
+    end
+    result.sort { |left, right| left.position <=> right.position }
     result
   end
 
