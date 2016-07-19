@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719155018) do
+ActiveRecord::Schema.define(version: 20160719165018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,11 @@ ActiveRecord::Schema.define(version: 20160719155018) do
   add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
+  create_table "custom_field_requirements", force: :cascade do |t|
+    t.integer "custom_field_id"
+    t.integer "option_id"
+  end
+
   create_table "custom_field_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "division_id"
@@ -65,11 +70,6 @@ ActiveRecord::Schema.define(version: 20160719155018) do
   end
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
-
-  create_table "custom_fields_options", id: false, force: :cascade do |t|
-    t.integer "custom_field_id"
-    t.integer "option_id"
-  end
 
   create_table "custom_value_sets", force: :cascade do |t|
     t.datetime "created_at", null: false

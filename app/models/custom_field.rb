@@ -2,18 +2,19 @@
 #
 # Table name: custom_fields
 #
-#  created_at           :datetime         not null
-#  custom_field_set_id  :integer
-#  data_type            :string
-#  has_embeddable_media :boolean          default(FALSE), not null
-#  id                   :integer          not null, primary key
-#  internal_name        :string
-#  migration_position   :integer
-#  overridden_id        :integer
-#  parent_id            :integer
-#  position             :integer
-#  required             :boolean          default(FALSE), not null
-#  updated_at           :datetime         not null
+#  created_at            :datetime         not null
+#  custom_field_set_id   :integer
+#  data_type             :string
+#  has_embeddable_media  :boolean          default(FALSE), not null
+#  id                    :integer          not null, primary key
+#  internal_name         :string
+#  migration_position    :integer
+#  overridden_id         :integer
+#  override_associations :boolean          default(FALSE), not null
+#  parent_id             :integer
+#  position              :integer
+#  required              :boolean          default(FALSE), not null
+#  updated_at            :datetime         not null
 #
 # Indexes
 #
@@ -36,7 +37,9 @@ class CustomField < ActiveRecord::Base
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
-  has_and_belongs_to_many :options
+  #has_and_belongs_to_many :options
+  has_many :custom_field_requirements, dependent: :destroy
+  has_many :options, through: :custom_field_requirements
 
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
