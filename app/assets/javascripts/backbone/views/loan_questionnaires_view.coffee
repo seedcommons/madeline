@@ -44,27 +44,30 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
     # Load the data into each tree from its 'data-data' attribute.
     @tree.each =>
-      @tree.tree 'loadData', @tree.data('data')
-      @groupOptional(@tree.tree 'getTree')
+      data = @groupOptional(@tree.data 'data')
+      @tree.tree 'loadData', data
 
-  groupOptional: (root) ->
+  groupOptional: (nodes) ->
     optionalGroupName = I18n.t('questionnaires.optional_questions')
 
     # Recurse, depth first
-    if root.children.length
-      @groupOptional(child) for child in root.children
+    for node in nodes
+      if node.children?.length
+        node.children = @groupOptional(node.children)
 
-      if root.children.some( (el) -> el.optional )
-        # Add optional group to this level
-        @tree.tree(
-          'appendNode',
-          { name: optionalGroupName },
-          root
-        )
-        optionalGroup = root.children[root.children.length - 1]
+    if nodes.some( (el) -> el.optional )
+      # Add optional group to this level
+      nodes.push { name: optionalGroupName, children: [] }
+      optionalGroup = nodes[nodes.length - 1]
 
-        child_ids = root.children.map( (i) -> i.id )
-        for id in child_ids
-          node = @tree.tree('getNodeById', id) if id
-          if node?.optional
-            @tree.tree('moveNode', node, optionalGroup, 'inside')
+      # child_ids = nodes.map( (i) -> i.id )
+      for node in nodes
+        # node = @tree.tree('getNodeById', id) if id
+        if node.optional
+          optionalGroup.children.push node
+          # nodes.splice(nodes.indexOf(node), 1)
+
+      # Remove original copies of optional nodes
+      nodes = nodes.filter( (node) -> !node.optional )
+
+    nodes

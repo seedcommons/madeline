@@ -60,6 +60,10 @@ class CustomField < ActiveRecord::Base
     all.sort_by { |i| i.required_for?(loan) ? 0 : 1 }
   end
 
+  # def self.group_optional(loan)
+  #   roots.each(&:group_optional)
+  # end
+
   def name
     "#{custom_field_set.internal_name}-#{internal_name}"
   end
@@ -138,6 +142,17 @@ class CustomField < ActiveRecord::Base
   def required_for?(loan)
     id % 2 == 1
   end
+
+  # def group_optional(loan)
+  #   if children.present?
+  #     children.each { |child| child.group_optional }
+  #
+  #     if children.any? { |child| !child.required_for?(loan) }
+  #       optionalNode = CustomField.new(data_type: :optional_group)
+  #       optionalNode.label = I18n.t('questionnaires.optional_questions')
+  #     end
+  #   end
+  # end
 
   private
 
