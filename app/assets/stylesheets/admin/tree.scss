@@ -39,6 +39,15 @@ ul.jqtree-tree {
         }
       }
     }
+
+    &.optional-group {
+      background-color: #f7f7f7;
+      
+      > .jqtree-element > .jqtree-title {
+        font-style: italic;
+        color: #888;
+      }
+    }
   }
 }
 

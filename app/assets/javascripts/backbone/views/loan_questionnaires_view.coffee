@@ -37,8 +37,9 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
         $li.attr('data-id', node.id)
             .addClass($question.attr('class'))
 
-        # Don't replace content of 'optional questions' groups
-        unless node.id == undefined
+        if node.id == 'optional_group'
+          $li.addClass('optional-group')
+        else
           $li.find('.jqtree-title')
               .html($question.children().not('ol').clone())
 
@@ -57,15 +58,12 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
     if nodes.some( (el) -> el.optional )
       # Add optional group to this level
-      nodes.push { name: optionalGroupName, children: [] }
+      nodes.push { id: 'optional_group', name: optionalGroupName, children: [] }
       optionalGroup = nodes[nodes.length - 1]
 
-      # child_ids = nodes.map( (i) -> i.id )
       for node in nodes
-        # node = @tree.tree('getNodeById', id) if id
         if node.optional
           optionalGroup.children.push node
-          # nodes.splice(nodes.indexOf(node), 1)
 
       # Remove original copies of optional nodes
       nodes = nodes.filter( (node) -> !node.optional )
