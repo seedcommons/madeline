@@ -48,15 +48,23 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       @groupOptional(@tree.tree 'getTree')
 
   groupOptional: (root) ->
-    if root.children.some( (el) -> el.optional )
-      @tree.tree(
-        'appendNode',
-        { name: I18n.t('questionnaires.optional_questions') },
-        root
-      )
-      newNode = root.children[root.children.length - 1]
+    optionalGroupName = I18n.t('questionnaires.optional_questions')
 
-      for id in root.children.map( (i) -> i.id )
-        node = @tree.tree('getNodeById', id) if id
-        if node && node.optional
-          @tree.tree('moveNode', node, newNode, 'inside')
+    # Recurse, depth first
+    if root.children.length
+      @groupOptional(child) for child in root.children
+
+      if root.children.some( (el) -> el.optional )
+        # Add optional group to this level
+        @tree.tree(
+          'appendNode',
+          { name: optionalGroupName },
+          root
+        )
+        optionalGroup = root.children[root.children.length - 1]
+
+        child_ids = root.children.map( (i) -> i.id )
+        for id in child_ids
+          node = @tree.tree('getNodeById', id) if id
+          if node?.optional
+            @tree.tree('moveNode', node, optionalGroup, 'inside')
