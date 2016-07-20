@@ -46,15 +46,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @tree.each =>
       @tree.tree 'loadData', @tree.data('data')
       @groupOptional(@tree.tree 'getTree')
-      # @groupOptional(@tree.children('ul'))
-
-  # groupOptional: ($root) ->
-  #   optional_children = $root.children('li.optional')
-  #   if optional_children.length
-  #     $root.append $('.optional_questions_group').clone()
-  #     $root.find('.optional_questions_group ul').append(optional_children)
-  #   for child in $root.children('li')
-  #     @groupOptional($(child))
 
   groupOptional: (root) ->
     if root.children.some( (el) -> el.optional )
@@ -65,37 +56,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       )
       newNode = root.children[root.children.length - 1]
 
-      # optional_children = []
-      # clones = clone(root.children)
       for id in root.children.map( (i) -> i.id )
         node = @tree.tree('getNodeById', id) if id
         if node && node.optional
           @tree.tree('moveNode', node, newNode, 'inside')
-          # optional_children.push node
-
-      # node = optional_children[0]
-      # while node
-      #   @tree.tree('moveNode', node, newNode, 'inside')
-      #   node = optional_children[0]
-
-# clone = (obj) ->
-#   if not obj? or typeof obj isnt 'object'
-#     return obj
-#
-#   if obj instanceof Date
-#     return new Date(obj.getTime())
-#
-#   if obj instanceof RegExp
-#     flags = ''
-#     flags += 'g' if obj.global?
-#     flags += 'i' if obj.ignoreCase?
-#     flags += 'm' if obj.multiline?
-#     flags += 'y' if obj.sticky?
-#     return new RegExp(obj.source, flags)
-#
-#   newInstance = new obj.constructor()
-#
-#   for key of obj
-#     newInstance[key] = clone obj[key]
-#
-#   return newInstance
