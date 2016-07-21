@@ -33,4 +33,4 @@
   ) do |f|
   div class=('hidden' unless @print_view)
     = render "admin/loans/content/questionnaire_group",
-      f: f, value_set: value_set, group: value_set.custom_field_set
+      f: f, value_set: value_set, group: value_set.custom_field_set, parents: [], indices: []

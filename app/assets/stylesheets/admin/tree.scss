@@ -5,6 +5,11 @@
 ul.jqtree-tree {
   margin-bottom: 15px;
 
+  .jqtree-title {
+    color: $body;
+  }
+
+
   li.jqtree_common {
     margin-bottom: 2px;
     padding-right: 2px;

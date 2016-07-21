@@ -32,6 +32,11 @@ section.questionnaires {
 
   .question-label {
     margin-bottom: 1em;
+    font-weight: bold;
+  }
+
+  .jqtree-title {
+    font-weight: bold;
   }
 
   .help-block {
@@ -52,8 +57,18 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
+  .header {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+
   .answer {
-    font-weight: bold;
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+    &.blank {
+      font-style: italic;
+    }
   }
 
   .spreadsheet-links {
@@ -73,6 +88,15 @@ section.questionnaires {
     > .jqtree-element > .jqtree-title {
       font-style: italic;
       color: #888;
+    }
+  }
+}
+
+@media print {
+  .questionnaire-form {
+    .question[data-type=group] {
+      page-break-before: always;
+      page-break-after: always;
     }
   }
 }

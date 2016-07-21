@@ -1,16 +1,33 @@
-  ol
+  div
     - optional_encountered = false
-    - group.children.sort_by_required(@loan).each do |field|
+    - group.children.sort_by_required(@loan).each_with_index do |field, idx|
       - css_class = field.required_for?(@loan) ? 'required' : 'optional'
       - if !optional_encountered && !field.required_for?(@loan)
         - optional_encountered = true
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      li.question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
+      .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - value = value_set.custom_value(field.id)
+        - index_str = (indices + [idx + 1]).join(".")
 
-        div.question-label 
-          = field.label
+        - if field.data_type == 'group'
+          / Page header for print view
+          - if field.has_non_group_children?
+            .header
+              = @loan.division.name
+              br
+              = t("loan.print_header_title")
+              br
+              = @loan.organization.name
+              br
+              = I18n.l(Date.today, format: :long)
+
+            - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
+            *item_tag
+              => index_str
+              = (parents.map(&:label) + [field.label]).join(": ")
+        - else
+          .question-label = "#{index_str} #{field.label}"
 
         - if !@print_view && field.explanation.present?
           p.help-block = field.explanation
@@ -18,10 +35,11 @@
         / Recurse if group, else render
         - if field.data_type == 'group'
 
-          = render("admin/loans/content/questionnaire_group", f: f, value_set: value_set, group: field)
+          = render("admin/loans/content/questionnaire_group",
+            f: f, value_set: value_set, group: field, parents: parents + [field], indices: indices + [idx + 1])
 
         - else
-        
+
           .answer-wrapper
 
             - if value.has_rating?
@@ -61,6 +79,9 @@
                     = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
 
                   div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+
+            - if value.blank?
+              .view-element.answer.blank = t("loan.no_answer")
 
     - if optional_encountered
       </fieldset>
