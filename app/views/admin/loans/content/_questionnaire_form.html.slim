@@ -1,36 +1,37 @@
-= simple_form_for([:admin, value_set],
-    html: { \
-      class: 'form-horizontal questionnaire-form',
-    },
-    wrapper: :horizontal_form_condensed,
-    defaults: { \
-      input_html: {class: 'form-element form-control'},
-    },
-  ) do |f|
+.questionnaire-form
+  = simple_form_for([:admin, value_set],
+      html: { \
+        class: 'form-horizontal',
+      },
+      wrapper: :horizontal_form_condensed,
+      defaults: { \
+        input_html: {class: 'form-element form-control'},
+      },
+    ) do |f|
 
-  = f.error_notification
+    = f.error_notification
 
-  = f.hidden_field(:custom_value_set_linkable_type)
-  = f.hidden_field(:custom_value_set_linkable_id)
-  = f.hidden_field(:custom_field_set_id)
-  = f.hidden_field(:linkable_attribute)
+    = f.hidden_field(:custom_value_set_linkable_type)
+    = f.hidden_field(:custom_value_set_linkable_id)
+    = f.hidden_field(:custom_field_set_id)
+    = f.hidden_field(:linkable_attribute)
 
-  / - unless @print_view
-  - unless @print_view || attrib == :post_analysis
-    .jqtree data-data=@questions_json[attrib] class=attrib
+    / - unless @print_view
+    - unless @print_view || attrib == :post_analysis
+      .jqtree data-data=@questions_json[attrib] class=attrib
 
-  .actions.form-element
-    - unless value_set.new_record?
-      a.btn.btn-default.show-action = t(:cancel)
-    - submit_label = t("loan.save_responses")
-    = f.submit submit_label, class: 'update-action btn btn-success'
-  .clearfix
+    .actions.form-element
+      - unless value_set.new_record?
+        a.btn.btn-default.show-action = t(:cancel)
+      - submit_label = t("loan.save_responses")
+      = f.submit submit_label, class: 'update-action btn btn-success'
+    .clearfix
 
-= simple_fields_for(value_set, 
-    defaults: { \
-      input_html: {class: 'form-element form-control'},
-    },
-  ) do |f|
-  div class=('hidden' unless @print_view)
-    = render "admin/loans/content/questionnaire_group",
-      f: f, value_set: value_set, group: value_set.custom_field_set, parents: [], indices: []
+  = simple_fields_for(value_set, 
+      defaults: { \
+        input_html: {class: 'form-element form-control'},
+      },
+    ) do |f|
+    div class=('hidden' unless @print_view)
+      = render "admin/loans/content/questionnaire_group",
+        f: f, value_set: value_set, group: value_set.custom_field_set, parents: [], indices: []

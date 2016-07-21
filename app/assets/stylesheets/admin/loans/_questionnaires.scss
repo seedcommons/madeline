@@ -16,16 +16,6 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
-  .question[data-level="0"] {
-    font-size: 24px;
-    font-weight: 500;
-
-    > ol {
-      font-size: 14px;
-      font-weight: normal;
-    }
-  }
-
   .question.optional {
     background-color: #f7f7f7;
   }
