@@ -10,8 +10,6 @@ ol
       - value = value_set.custom_value(field.id)
 
       div.question-label 
-        - if !field.required_for?(@loan)
-          span.optional-marker<> = "(#{t :optional})"
         = field.label
 
       - if !@print_view && field.explanation.present?

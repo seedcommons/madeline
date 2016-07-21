@@ -26,17 +26,12 @@ section.questionnaires {
     }
   }
 
-  .question.optional, .optional-group {
+  .question.optional {
     background-color: #f7f7f7;
   }
 
   .question-label {
     margin-bottom: 1em;
-  }
-
-  .optional-marker {
-    font-style: italic;
-    color: #888;
   }
 
   .help-block {
@@ -69,5 +64,15 @@ section.questionnaires {
     width: 100%;
     height: 500px;
     border: 1px solid #ccc;
+  }
+
+  ul.jqtree-tree li.jqtree_common.optional-group {
+    background-color: #f7f7f7;
+    margin-top: 12px;
+
+    > .jqtree-element > .jqtree-title {
+      font-style: italic;
+      color: #888;
+    }
   }
 }
