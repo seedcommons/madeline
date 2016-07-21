@@ -7,6 +7,39 @@ section.questionnaires {
   h2 {
     margin-top: 0;
   }
+
+  li.jqtree_common {
+    &.optional-group {
+      background-color: hsl(0,0%,96%);
+      margin-top: 12px;
+
+      > .jqtree-element > .jqtree-title {
+        font-style: italic;
+        color: #888;
+      }
+    }
+
+    &.question.optional {
+      background-color: hsl(0,0%,96%);
+    }
+
+    .jqtree-element {
+      display: block;
+
+      .question-label {
+        display: inline;
+      }
+
+      .help-block, .answer, .form-element {
+        margin: 10px 0 0 0;
+        p:last-child { margin: 0; }
+      }
+
+      .form-element {
+        display: block;
+      }
+    }
+  }
 }
 
 // This is scoped separately because it can appear inside the print view.
@@ -14,10 +47,6 @@ section.questionnaires {
   li {
     min-height: 3em;
     margin-bottom: 1em;
-  }
-
-  .question.optional {
-    background-color: #f7f7f7;
   }
 
   .question-label {
@@ -69,16 +98,6 @@ section.questionnaires {
     width: 100%;
     height: 500px;
     border: 1px solid #ccc;
-  }
-
-  ul.jqtree-tree li.jqtree_common.optional-group {
-    background-color: #f7f7f7;
-    margin-top: 12px;
-
-    > .jqtree-element > .jqtree-title {
-      font-style: italic;
-      color: #888;
-    }
   }
 }
 
