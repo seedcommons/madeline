@@ -30,7 +30,7 @@
           .question-label = "#{index_str} #{field.label}"
 
         - if !@print_view && field.explanation.present?
-          p.help-block = field.explanation
+          p.help-block.tree-view = field.explanation
 
         / Recurse if group, else render
         - if field.data_type == 'group'
@@ -40,7 +40,7 @@
 
         - else
 
-          .answer-wrapper
+          .answer-wrapper.tree-view
 
             - if value.has_rating?
               - if value.rating.present?

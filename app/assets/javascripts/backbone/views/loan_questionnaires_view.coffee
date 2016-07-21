@@ -41,7 +41,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
           $li.addClass('optional-group')
         else
           $li.find('.jqtree-title')
-              .html($question.children().not('ol').clone())
+              .after($question.children('.tree-view').clone())
 
     # Load the data into each tree from its 'data-data' attribute.
     @tree.each =>
