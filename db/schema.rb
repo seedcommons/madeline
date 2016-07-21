@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160702193806) do
+ActiveRecord::Schema.define(version: 20160720210759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,11 @@ ActiveRecord::Schema.define(version: 20160702193806) do
   add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
+  create_table "custom_field_requirements", force: :cascade do |t|
+    t.integer "custom_field_id"
+    t.integer "option_id"
+  end
+
   create_table "custom_field_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer  "division_id"
@@ -57,6 +62,7 @@ ActiveRecord::Schema.define(version: 20160702193806) do
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "migration_position"
+    t.boolean  "override_associations", default: false, null: false
     t.integer  "parent_id"
     t.integer  "position"
     t.boolean  "required", default: false, null: false
@@ -104,9 +110,13 @@ ActiveRecord::Schema.define(version: 20160702193806) do
 
   create_table "embeddable_media", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string   "document_key"
+    t.string   "end_cell"
     t.integer  "height"
     t.text     "html"
     t.string   "original_url"
+    t.string   "sheet_number"
+    t.string   "start_cell"
     t.datetime "updated_at", null: false
     t.string   "url"
     t.integer  "width"

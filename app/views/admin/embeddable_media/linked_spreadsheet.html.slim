@@ -1,0 +1,40 @@
+html
+  body
+
+    p
+      b Linked Google Spreadsheet
+
+    = simple_form_for([:admin, @record],
+        html: { \
+          class: 'form-horizontal questionnaire-form',
+        },
+        wrapper: :horizontal_form_condensed,
+        defaults: { \
+          input_html: {class: 'form-element form-control'},
+        },
+      ) do |f|
+
+      = f.error_notification
+
+      = f.input 'URL'
+        = f.input_field :original_url, size: 120
+
+      / Note, sheet number is probably not useful to capture via this input form
+      /= f.input :sheet_number
+      /  = f.input_field :sheet_number
+
+      = f.input :start_cell
+        = f.input_field :start_cell
+
+      = f.input :end_cell
+        = f.input_field :end_cell
+
+      .actions.form-element
+        - unless @record.new_record?
+          a.btn.btn-default.show-action = t(:cancel)
+        - submit_label = 'Save'
+        = f.submit submit_label, class: 'update-action btn btn-success'
+
+      .clearfix
+
+
