@@ -55,9 +55,11 @@ class CustomFieldSet < ActiveRecord::Base
     list
   end
 
-  # returns a field by ether its id or internal_name
+  # returns a field by either its id or internal_name
   def field(field_identifier, required: true)
-    if field_identifier.is_a?(Integer)
+    if field_identifier.is_a?(CustomField)
+      field = field_identifier
+    elsif field_identifier.is_a?(Integer)
       field = custom_fields.find_by(id: field_identifier)
     else
       field = custom_fields.find_by(internal_name: field_identifier)

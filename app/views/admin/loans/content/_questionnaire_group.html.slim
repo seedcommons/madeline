@@ -5,7 +5,7 @@
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
     
       / Page header for print view
-      - if field.data_type == 'group' && !field.first_child?
+      - if field.data_type == 'group' && !field.first_child? && !value_set.empty?(field)
         .header
           = @loan.division.name
           br
@@ -20,11 +20,11 @@
         - optional_encountered = true
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - value = value_set.custom_value(field.id)
+      - value = value_set.custom_value(field)
       - css_class = optional ? 'optional' : 'required'
 
-      / Don't print unanswered questions
-      - css_class += ' hidden-print' if field.data_type != 'group' && value.blank?
+      / Don't print unanswered questions or groups
+      - css_class += ' hidden-print' if value_set.empty?(field)
       
       .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
