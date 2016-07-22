@@ -1,0 +1,2 @@
+class EmbeddableMediaPolicy < ApplicationPolicy
+end
