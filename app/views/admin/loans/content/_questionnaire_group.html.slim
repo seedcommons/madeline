@@ -61,23 +61,35 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
             - if value.has_sheet?
-              - sheet = value.embeddable_media || EmbeddableMedia.new
+              - sheet = value.embeddable_media
               .view-element
-                - if sheet.url
-                  p.spreadsheet-links
-                    a[href="#" data-expands="iframe-#{field.attribute_sym}"
-                      data-content="<iframe src='#{sheet.display_url}'>"]
-                      = t("loan.spreadsheet_inline")
-                    a href="#" data-hides="iframe-#{field.attribute_sym}"
-                      = t("loan.spreadsheet_hide")
+                p.spreadsheet-links
+                  - if sheet
+                    - if sheet.display_url.present?
+                      / Beware, the display_height value doesn't not seem to be honored
+                      a[href="#" data-expands="iframe-#{field.attribute_sym}"
+                        data-content="<iframe src='#{sheet.display_url}' height='#{sheet.display_height}'>"]
+                        = t("loan.spreadsheet_inline")
+                      a href="#" data-hides="iframe-#{field.attribute_sym}"
+                        = t("loan.spreadsheet_hide")
+                      = ' - '
+                    = link_to t("loan.spreadsheet_new_tab"), sheet.original_url, target: '_blank'
                     = ' - '
-                    = link_to t("loan.spreadsheet_new_tab"), sheet.original_url, {target: '_blank'}
+                    = link_to t("linked_sheet.edit"), edit_admin_embeddable_medium_path(sheet), target: '_blank'
                     = ' - '
-                    = link_to 'edit', edit_admin_embeddable_medium_path(sheet), {target: '_blank'}
-                    /= link_to 'edit', "/admin/embeddable_media/#{sheet.id}", {target: '_blank'}
+                    = link_to [:admin, sheet], method: :delete, target: '_blank',
+                        data: { \
+                          confirm: t('linked_sheet.confirm_deletion'),
+                          "confirm-title": t("linked_sheet.delete"),
+                          "confirm-cancel": t(:cancel),
+                          "confirm-proceed": t(:confirm) \
+                        }
+                      i.fa.fa-trash.fa-large>
+                      = t("linked_sheet.delete")
+                  - else
+                    = link_to t('linked_sheet.new'), new_admin_embeddable_medium_path({owner_type: value_set.class.name, owner_id: value_set.id, owner_attribute: field.id}), target: '_blank'
 
-                  div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+                div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")
-

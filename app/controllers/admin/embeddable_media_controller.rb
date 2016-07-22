@@ -1,17 +1,29 @@
 class Admin::EmbeddableMediaController < Admin::AdminController
 
+  def index
+  end
+
   def show
     @record = EmbeddableMedia.find(params[:id])
     #authorize @record
     skip_authorization
     @record.ensure_migration
-    render 'linked_spreadsheet', layout: false
+    render 'linked_sheet', layout: false
   end
 
   def new
-    @record = EmbeddableMedia.new
+    owner_type = params[:owner_type]
+    owner_id = params[:owner_id]
+    owner_attribute = params[:owner_attribute]
+    @record = EmbeddableMedia.new(owner_type: owner_type, owner_id: owner_id, owner_attribute: owner_attribute)
 #    authorize @record
     skip_authorization
+
+    # Note, was getting "undefined method `admin_embeddable_media_index_path'" error if record
+    # wasn't saved before rendering form.  Some wackiness related to 'media' pluralization handling?
+    @record.save
+
+    render 'linked_sheet', layout: false
   end
 
   def create
@@ -20,29 +32,6 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     skip_authorization
     @record.parse_key_gid_from_original_url
     @record.save!
-    redirect_to display_path, notice: I18n.t(:notice_created)
-  end
-
-  def edit
-    @record = EmbeddableMedia.find(params[:id])
-    #authorize @record
-    skip_authorization
-    @record.ensure_migration
-    render 'linked_spreadsheet', layout: false
-  end
-
-
-  def update
-    @record = EmbeddableMedia.find(params[:id])
-#    authorize @record
-    skip_authorization
-#    @record.update!(record_params)
-#    redirect_to display_path, notice: I18n.t(:notice_updated)
-
-    puts "update - params: #{record_params}"
-
-    @record.assign_attributes(record_params)
-    @record.parse_key_gid_from_original_url
 
     if @record.save
       render plain: "success"
@@ -52,12 +41,39 @@ class Admin::EmbeddableMediaController < Admin::AdminController
 
   end
 
+  def edit
+    @record = EmbeddableMedia.find(params[:id])
+    #authorize @record
+    skip_authorization
+    @record.ensure_migration
+    render 'linked_sheet', layout: false
+  end
+
+
+  def update
+    @record = EmbeddableMedia.find(params[:id])
+#    authorize @record
+    skip_authorization
+
+    puts "update - params: #{record_params}"
+
+    @record.assign_attributes(record_params)
+    @record.parse_key_gid_from_original_url
+
+    if @record.save
+      render plain: "success - display url: #{@record.display_url}"
+    else
+      render :show
+    end
+
+  end
+
   def destroy
-    @record = CustomValueSet.find(params[:id])
+    @record = EmbeddableMedia.find(params[:id])
 #    authorize @record
     skip_authorization
     @record.destroy!
-    redirect_to display_path, notice: I18n.t(:notice_deleted)
+    render plain: "success"
   end
 
   private

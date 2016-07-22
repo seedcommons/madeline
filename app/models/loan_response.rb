@@ -10,8 +10,9 @@ class LoanResponse
   attr_accessor :boolean
   attr_accessor :rating
   attr_accessor :embeddable_media_id
+  attr_accessor :owner
 
-  def initialize(field, hash)
+  def initialize(field, hash, owner)
     @hash = HashWithIndifferentAccess.new(hash || {})
     @custom_field = field
     @text = @hash[:text]
@@ -19,6 +20,7 @@ class LoanResponse
     @boolean = @hash[:boolean]
     @rating = @hash[:rating]
     @embeddable_media_id = @hash[:embeddable_media_id]
+    @owner = owner
   end
 
   def model_name
@@ -38,7 +40,13 @@ class LoanResponse
   end
 
   def embeddable_media
-    embeddable_media_id.present? ? EmbeddableMedia.find(embeddable_media_id) : nil
+    if embeddable_media_id.present?
+      result = EmbeddableMedia.find_safe(embeddable_media_id)
+    end
+    unless result
+      result = EmbeddableMedia.where(owner_id: @owner.id, owner_type: @owner.class.name, owner_attribute: @custom_field.id).first
+    end
+    result
   end
 
   def embeddable_media=(record)
