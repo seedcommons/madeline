@@ -73,8 +73,8 @@
                       a href="#" data-hides="iframe-#{field.attribute_sym}"
                         = t("loan.spreadsheet_hide")
                       = ' - '
-                    = link_to t("loan.spreadsheet_new_tab"), sheet.original_url, target: '_blank'
-                    = ' - '
+                      = link_to t("loan.spreadsheet_new_tab"), sheet.original_url, target: '_blank'
+                      = ' - '
                     = link_to t("linked_sheet.edit"), edit_admin_embeddable_medium_path(sheet), target: '_blank'
                     = ' - '
                     = link_to [:admin, sheet], method: :delete, target: '_blank',
