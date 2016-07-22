@@ -1,40 +1,34 @@
-html
-  body
+- content_for(:title, t("linked_sheet.linked_document"))
+      
+= simple_form_for([:admin, @record]) do |f|
 
-    p
-      b Linked Google Spreadsheet
+  = f.error_notification
 
-    = simple_form_for([:admin, @record]) do |f|
+  = f.hidden_field(:owner_type)
+  = f.hidden_field(:owner_id)
+  = f.hidden_field(:owner_attribute)
 
-      = f.error_notification
+  = f.input 'URL'
+    = f.input_field :original_url, size: 120
 
-      = f.hidden_field(:owner_type)
-      = f.hidden_field(:owner_id)
-      = f.hidden_field(:owner_attribute)
+  / Note, sheet number is probably not useful to capture via this input form.
+  / It's more naturally just parsed from the provided 'original_url'
+  /= f.input :sheet_number
+  /  = f.input_field :sheet_number
 
-      = f.input 'URL'
-        = f.input_field :original_url, size: 120
+  = f.input :start_cell
+    = f.input_field :start_cell
 
-      / Note, sheet number is probably not useful to capture via this input form.
-      / It's more naturally just parsed from the provided 'original_url'
-      /= f.input :sheet_number
-      /  = f.input_field :sheet_number
+  = f.input :end_cell
+    = f.input_field :end_cell
 
-      = f.input :start_cell
-        = f.input_field :start_cell
+  /- if @record.original_url
+  /= "Display URL: #{@record.display_url}"
 
-      = f.input :end_cell
-        = f.input_field :end_cell
+  .actions.form-element
+    /- unless @record.new_record?
+    /  a.btn.btn-default.show-action = t(:cancel)
+    - submit_label = 'Save'
+    = f.submit submit_label, class: 'update-action btn btn-success'
 
-      /- if @record.original_url
-      /= "Display URL: #{@record.display_url}"
-
-      .actions.form-element
-        /- unless @record.new_record?
-        /  a.btn.btn-default.show-action = t(:cancel)
-        - submit_label = 'Save'
-        = f.submit submit_label, class: 'update-action btn btn-success'
-
-      .clearfix
-
-
+  .clearfix
