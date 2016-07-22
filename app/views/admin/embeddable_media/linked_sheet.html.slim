@@ -16,10 +16,8 @@
   = f.hidden_field(:owner_id)
   = f.hidden_field(:owner_attribute)
   
-  p = t("linked_sheet.link_instructions")
-  
   .form-group
-    = f.input t("linked_sheet.url")
+    = f.input :original_url, label: t("linked_sheet.url")
       = f.input_field :original_url, size: 120
 
   / Note, sheet number is probably not useful to capture via this input form.
@@ -27,14 +25,14 @@
   /= f.input :sheet_number
   /  = f.input_field :sheet_number
 
-  p = t("linked_sheet.cell_instructions")
+  h4 = t("linked_sheet.cell_instructions")
   
   .form-group    
-    = f.input :start_cell
+    = f.input :start_cell, label: t("linked_sheet.start_cell")
       = f.input_field :start_cell
 
   .form-group
-    = f.input :end_cell
+    = f.input :end_cell, label: t("linked_sheet.end_cell")
       = f.input_field :end_cell
 
   /- if @record.original_url
