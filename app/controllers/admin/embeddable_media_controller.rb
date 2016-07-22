@@ -10,7 +10,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     # Note, was getting "undefined method `admin_embeddable_media_index_path'" error if record
     # wasn't saved before rendering form.  Some wackiness related to 'media' pluralization handling?
     @record.save
-    render 'linked_sheet', layout: false
+    render 'linked_sheet'
   end
 
   # def create
