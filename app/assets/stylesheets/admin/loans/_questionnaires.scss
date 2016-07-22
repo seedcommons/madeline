@@ -9,12 +9,22 @@ section.questionnaires {
   }
 
   li.jqtree_common {
+    border: none;
+
+    h3, h4, h5 { display: inline; }
+    h3 { font-size: 20px; }
+
+    ul.jqtree_common {
+      margin-left: 30px;
+    }
+
     &.optional-group {
       background-color: hsl(0,0%,96%);
       margin-top: 12px;
 
       > .jqtree-element > .jqtree-title {
         font-style: italic;
+        font-weight: bold;
         color: #888;
       }
     }
@@ -51,10 +61,6 @@ section.questionnaires {
 
   .question-label {
     margin-bottom: 1em;
-    font-weight: bold;
-  }
-
-  .jqtree-title {
     font-weight: bold;
   }
 

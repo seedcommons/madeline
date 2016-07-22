@@ -27,14 +27,14 @@
               = I18n.l(Date.today, format: :long)
 
           - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
-          *item_tag
+          *item_tag class="tree-view"
             => index_str
             - if field.first_child?
               = field.label
             - else
               = (parents.map(&:label) + [field.label]).join(": ")
         - else
-          .question-label = "#{index_str} #{field.label}"
+          .question-label.tree-view = "#{index_str} #{field.label}"
 
         - if field.explanation.present?
           p.help-block.hidden-print.tree-view = field.explanation
