@@ -16,7 +16,7 @@
           = I18n.l(Date.today, format: :long)
 
       - optional = !field.required_for?(@loan)
-      - if !optional_encountered && optionals_exist && optional
+      - if !optional_encountered && optionals_exist && optional && !value_set.empty?(field)
         - optional_encountered = true
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
