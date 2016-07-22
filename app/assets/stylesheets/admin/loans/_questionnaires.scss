@@ -99,6 +99,20 @@ section.questionnaires {
     height: 500px;
     border: 1px solid #ccc;
   }
+
+  fieldset {
+    padding: 15px;
+    border: 1px solid hsl(0,0%,75%);
+    margin: 15px 0 0;
+
+    legend {
+      font-size: 16px;
+      width: inherit;
+      border: none;
+      padding: 0 5px;
+      margin: 0;
+    }
+  }
 }
 
 @media print {

@@ -1,11 +1,14 @@
   div
     - optional_encountered = false
+    - optionals_exist = group.children.any? { |i| !i.required_for?(@loan) }
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
-      - css_class = field.required_for?(@loan) ? 'required' : 'optional'
-      - if !optional_encountered && !field.required_for?(@loan)
+    
+      - optional = !field.required_for?(@loan)
+      - if !optional_encountered && optionals_exist && optional
         - optional_encountered = true
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
+      - css_class = optional ? 'optional' : 'required'
       .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - value = value_set.custom_value(field.id)
         - index_str = (indices + [idx + 1]).join(".")
