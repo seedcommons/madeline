@@ -16,7 +16,7 @@
 
         - if field.data_type == 'group'
           / Page header for print view
-          - if field.has_non_group_children?
+          - if !field.first_child?
             .header
               = @loan.division.name
               br
@@ -26,9 +26,12 @@
               br
               = I18n.l(Date.today, format: :long)
 
-            - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
-            *item_tag
-              => index_str
+          - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
+          *item_tag
+            => index_str
+            - if field.first_child?
+              = field.label
+            - else
               = (parents.map(&:label) + [field.label]).join(": ")
         - else
           .question-label = "#{index_str} #{field.label}"
