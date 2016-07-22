@@ -1,6 +1,6 @@
 en:
   linked_sheet:
-    cell_instructions: "Optional: Select the fields you wished to be displayed. Use the top-left most and bottom-right most cells you want displated, such as A1 and H17."
+    cell_instructions: "Optional Range of Cells for Spreadsheet: Select the fields you wished to be displayed. Use the top-left most and bottom-right most cells you want displated, such as A1 and H17."
     confirm_deletion: "WARNING: Are you sure you want to delete this linked document?"
     delete: "Delete Linked Document"
     edit: "Edit Linked Document"
@@ -9,5 +9,5 @@ en:
     new: "Add Linked Document"
     notice_deleted: "Linked document successfully deleted."
     notice_saved: "Linked document successfully saved."
-    save: "Save Linked Document"
+    save: "Success! Change Made."
     url: "URL"
