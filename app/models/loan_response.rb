@@ -44,7 +44,8 @@ class LoanResponse
       result = EmbeddableMedia.find_safe(embeddable_media_id)
     end
     unless result
-      result = EmbeddableMedia.where(owner_id: @owner.id, owner_type: @owner.class.name, owner_attribute: @custom_field.id).first
+      result = EmbeddableMedia.where(owner_id: @owner.id, owner_type: @owner.class.name,
+        owner_attribute: @custom_field.id).first
     end
     result
   end

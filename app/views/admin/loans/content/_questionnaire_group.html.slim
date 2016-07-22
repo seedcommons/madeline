@@ -87,7 +87,9 @@
                       i.fa.fa-trash.fa-large>
                       = t("linked_sheet.delete")
                   - else
-                    = link_to t('linked_sheet.new'), new_admin_embeddable_medium_path({owner_type: value_set.class.name, owner_id: value_set.id, owner_attribute: field.id}), target: '_blank'
+                    = link_to t('linked_sheet.new'), new_admin_embeddable_medium_path({ \
+                      owner_type: value_set.class.name, owner_id: value_set.id,
+                      owner_attribute: field.id}), target: '_blank'
 
                 div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
 

@@ -36,5 +36,3 @@ class Admin::CustomValueSetsController < Admin::AdminController
       anchor: "questions")
   end
 end
-
-

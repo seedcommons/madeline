@@ -43,7 +43,6 @@ class EmbeddableMedia < ActiveRecord::Base
     # appears broken for all but the first few records in the system, and all of the applied
     # display parameters are simply ignored.
     parsed = /(.*)&single=true&range=(.*)%3A(.*)&output=html&gid=(.*)/.match(url)
-    #puts "parsed: #{parsed.inspect}"
     raise "unable to parse sheet url: #{url}" unless parsed
     if parsed
       if parsed.size != 5
@@ -76,11 +75,8 @@ class EmbeddableMedia < ActiveRecord::Base
     # Note, the attempt to allow a user enter a sheet number or name in the popup form of the
     # legacy PHP system never worked.
     # That value was sipmly ignored and the gid from the orignal url actually being used.
-    #puts "original_url: #{original_url}"
     gid_match = /.*gid=(\d*).*/.match(original_url)
     self.sheet_number = gid_match[1] if gid_match
-    #puts "gid_match: #{gid_match.inspect}"
-    #puts "sheet_number: #{sheet_number}"
     self
   end
 
@@ -96,9 +92,11 @@ class EmbeddableMedia < ActiveRecord::Base
     ensure_migration
     # Todo: confirm if any special behavior needed for Google Apps environments
     if /.*spreadsheet\/ccc\?.*/.match(original_url)
-      "https://docs.google.com/spreadsheet/ccc?key=#{document_key}&gid=#{sheet_number}&single=true#{range_param}&output=html"
+      "https://docs.google.com/spreadsheet/ccc?key=#{document_key}&gid=#{sheet_number}&single=true"\
+        "#{range_param}&output=html"
     elsif /.*spreadsheets\/d\/.*/.match(original_url)
-      "https://docs.google.com/spreadsheets/d/#{document_key}/htmlembed?single=true&gid=#{sheet_number}#{range_param}&widget=false"
+      "https://docs.google.com/spreadsheets/d/#{document_key}/htmlembed?single=true"\
+        "&gid=#{sheet_number}#{range_param}&widget=false"
     else
       # Unexpected url format, just pass through
       original_url
