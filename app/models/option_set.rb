@@ -25,9 +25,7 @@ class OptionSet < ActiveRecord::Base
 
   has_many :options, -> { order(:position) }, dependent: :destroy
 
-
   validates :division_id, presence: true
-
 
   # future: support division specific versions of the option sets
   def self.fetch(clazz, attribute)
@@ -45,10 +43,15 @@ class OptionSet < ActiveRecord::Base
     options.map { |option| [option.label, option.value] }
   end
 
+  def option_by_value(value)
+    return nil unless value.present?
+    options.find_by(value: value)
+  end
+
 
   def translated_label_by_value(value)
     return nil unless value.present?
-    option = options.find_by(value: value)
+    option = option_by_value(value)
     unless option
       return "missing option label - value: #{value}"  if true  # make this non-fatal for now
       #todo: confirm if RuntimeException is appropriate or other convention to follow
@@ -61,7 +64,6 @@ class OptionSet < ActiveRecord::Base
 
     option.label
   end
-
 
   # list all values. useful for test specs
   def values
