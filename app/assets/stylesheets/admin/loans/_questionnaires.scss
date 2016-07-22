@@ -58,7 +58,13 @@ section.questionnaires {
   }
 
   .spreadsheet-links {
-    font-size: 12px;
+    margin-top: 15px;
+
+    .doc-actions {
+      a {
+        margin-right: 15px;
+      }
+    }
   }
 
   .spreadsheet iframe {

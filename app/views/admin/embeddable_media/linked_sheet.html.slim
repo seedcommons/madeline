@@ -1,26 +1,41 @@
 - content_for(:title, t("linked_sheet.linked_document"))
       
-= simple_form_for([:admin, @record]) do |f|
+= simple_form_for([:admin, @record],
+    html: { \
+      class: 'form-horizontal',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
 
   = f.error_notification
 
   = f.hidden_field(:owner_type)
   = f.hidden_field(:owner_id)
   = f.hidden_field(:owner_attribute)
-
-  = f.input 'URL'
-    = f.input_field :original_url, size: 120
+  
+  p = t("linked_sheet.link_instructions")
+  
+  .form-group
+    = f.input t("linked_sheet.url")
+      = f.input_field :original_url, size: 120
 
   / Note, sheet number is probably not useful to capture via this input form.
   / It's more naturally just parsed from the provided 'original_url'
   /= f.input :sheet_number
   /  = f.input_field :sheet_number
 
-  = f.input :start_cell
-    = f.input_field :start_cell
+  p = t("linked_sheet.cell_instructions")
+  
+  .form-group    
+    = f.input :start_cell
+      = f.input_field :start_cell
 
-  = f.input :end_cell
-    = f.input_field :end_cell
+  .form-group
+    = f.input :end_cell
+      = f.input_field :end_cell
 
   /- if @record.original_url
   /= "Display URL: #{@record.display_url}"
@@ -28,7 +43,6 @@
   .actions.form-element
     /- unless @record.new_record?
     /  a.btn.btn-default.show-action = t(:cancel)
-    - submit_label = 'Save'
-    = f.submit submit_label, class: 'update-action btn btn-success'
+    = f.submit t("linked_sheet.save"), class: 'update-action btn btn-success'
 
   .clearfix
