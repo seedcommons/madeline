@@ -12,8 +12,9 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
-      Legacy::LoanResponseSet.migrate_all
+      # save EmbeddableMedia first as those records will now be updated as the LoanResponses are saved
       Legacy::LoanResponsesIFrame.migrate_all
+      Legacy::LoanResponseSet.migrate_all
     end
 
     # the core data which can be quickly migrated
@@ -34,8 +35,8 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
-      Legacy::LoanResponseSet.migrate_all
       Legacy::LoanResponsesIFrame.migrate_all
+      Legacy::LoanResponseSet.migrate_all
     end
 
 
