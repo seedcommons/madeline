@@ -31,15 +31,17 @@ class EmbeddableMedia < ActiveRecord::Base
 
   delegate :division, :division=, to: :owner
 
+  # Temporary logic to handle previously migrated data.
   def ensure_migration
     unless document_key.present?
-      parse_sheet_range_from_url
+      parse_legacy_display_data
     end
   end
 
-  def parse_sheet_range_from_url
+  # Used by migration logic.  This method won't be needed by the system as it moves forward.
+  def parse_legacy_display_data
     return unless url
-    # This block of code matches the original PHP logic, but the implied functionalty actually
+    # This block of code matches the original PHP logic, but the implied functionality actually
     # appears broken for all but the first few records in the system, and all of the applied
     # display parameters are simply ignored.
     parsed = /(.*)&single=true&range=(.*)%3A(.*)&output=html&gid=(.*)/.match(url)
@@ -52,11 +54,16 @@ class EmbeddableMedia < ActiveRecord::Base
         if parsed[1] != original_url
           raise "original_url mismatch - parsed: #{parsed[1]}, expected: #{original_url}}"
         else
+          # There are a handful of migrations records missing the 'original_url' value
           self.original_url = parsed[1]
         end
       end
+      # Capture and honor the cell range entered into the legacy system.
+      # Should perhaps confirm with Brendan if that is desired, given that this functionality was
+      # broken in the legacy system.
       self.start_cell = parsed[2]
       self.end_cell = parsed[3]
+      # Beware the gid appended to the tail of the legacy system url is usually bogus and irrelevant
     end
     parse_key_gid_from_original_url
     self

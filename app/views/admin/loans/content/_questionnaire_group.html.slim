@@ -36,6 +36,12 @@
         - else
 
           .answer-wrapper
+            / It's very useful to be able to temporarily expose this block for debugging.
+            / Please don't remove.
+            /= "field id: #{field.id}"
+            /br
+            /= "raw data: #{value_set.custom_data[field.id.to_s]}"
+            /br
 
             - if value.has_rating?
               - if value.rating.present?

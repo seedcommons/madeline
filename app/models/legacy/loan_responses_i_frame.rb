@@ -21,7 +21,9 @@ module Legacy
     def migrate
       data = migration_data
       puts "#{data[:id]}: #{data[:url]}"
-      ::EmbeddableMedia.create(data)
+      model = ::EmbeddableMedia.new(data)
+      model.parse_legacy_display_data
+      model.save!
     end
 
 
