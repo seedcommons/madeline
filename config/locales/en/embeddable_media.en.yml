@@ -1,6 +1,6 @@
 en:
   linked_sheet:
-    confirm_deletion: "WARNING: Are you sure you want to delete this spreadsheet link information?"
-    delete: "Delete Link"
-    edit: "Edit Link Data"
-    new: "Create New Spreadsheet Link"
+    confirm_deletion: "WARNING: Are you sure you want to delete this linked document?"
+    delete: "Delete Linked Document"
+    edit: "Edit Linked Document"
+    new: "Add Linked Document"
