@@ -8,9 +8,10 @@
         - optional_encountered = true
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
+      - value = value_set.custom_value(field.id)
       - css_class = optional ? 'optional' : 'required'
+      - css_class += ' hidden-print' if field.data_type != 'group' && value.blank?
       .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
-        - value = value_set.custom_value(field.id)
         - index_str = (indices + [idx + 1]).join(".")
 
         - if field.data_type == 'group'
@@ -32,8 +33,8 @@
         - else
           .question-label = "#{index_str} #{field.label}"
 
-        - if !@print_view && field.explanation.present?
-          p.help-block.tree-view = field.explanation
+        - if field.explanation.present?
+          p.help-block.hidden-print.tree-view = field.explanation
 
         / Recurse if group, else render
         - if field.data_type == 'group'
