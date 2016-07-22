@@ -100,8 +100,8 @@ class CustomField < ActiveRecord::Base
     children.select { |c| c.data_type == 'group' }
   end
 
-  def has_non_group_children?
-    children.any? { |c| c.data_type != 'group' }
+  def first_child?
+    parent && siblings_before.empty?
   end
 
   # List of value keys for fields which have nested values
