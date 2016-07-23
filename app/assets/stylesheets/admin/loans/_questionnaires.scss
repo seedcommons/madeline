@@ -10,6 +10,12 @@ section.questionnaires {
 
   li.jqtree_common {
     border: none;
+    margin-bottom: 3px;
+    padding-bottom: 0.1px; // prevent margin collapse
+
+    &.jqtree-folder.jqtree-closed {
+      margin-bottom: 3px;
+    }
 
     h3, h4, h5 { display: inline; }
     h3 { font-size: 20px; }

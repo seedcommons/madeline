@@ -41,12 +41,12 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
           $li.addClass('optional-group')
         else
           $li.find('.jqtree-title')
-              .html($question.children '.tree-view')
+              .html($question.children('.tree-view').clone())
 
     # Load the data into each tree from its 'data-data' attribute.
-    @tree.each =>
-      data = @groupOptional(@tree.data 'data')
-      @tree.tree 'loadData', data
+    @tree.each (index, tree) =>
+      data = @groupOptional($(tree).data 'data')
+      $(tree).tree 'loadData', data
 
   groupOptional: (nodes) ->
     optionalGroupName = I18n.t('questionnaires.optional_questions')
