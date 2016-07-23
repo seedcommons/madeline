@@ -86,12 +86,17 @@ class CustomField < ActiveRecord::Base
   # - If override is false, inherit from parent
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
+  # def required_for?(loan)
+  #   if override_associations
+  #     loan_types.include?(loan.loan_type_option)
+  #   else
+  #     parent && parent.required_for?(loan)
+  #   end
+  # end
+
+  # Temporary stub to demonstrate functionality
   def required_for?(loan)
-    if override_associations
-      loan_types.include?(loan.loan_type_option)
-    else
-      parent && parent.required_for?(loan)
-    end
+    id % 2 == 1
   end
 
   def name
@@ -171,10 +176,6 @@ class CustomField < ActiveRecord::Base
   # here for now on the off chance that we end up needing this field type after all.
   def translatable?
     false
-  end
-
-  def required_for?(loan)
-    id % 2 == 1
   end
 
   private
