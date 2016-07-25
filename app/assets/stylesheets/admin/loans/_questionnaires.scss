@@ -129,9 +129,8 @@ section.questionnaires {
 
 @media print {
   .questionnaire-form {
-    .question[data-type=group] {
+    .header {
       page-break-before: always;
-      page-break-after: always;
     }
   }
 }

@@ -4,8 +4,13 @@
 
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
     
-      / Page header for print view
       - if field.data_type == 'group' && !field.first_child? && !value_set.empty?(field)
+        / Close and reopen fieldset with new group/page
+        - if optional_encountered
+          </fieldset>
+          - reopen_fieldset = true
+          
+        / Page header for print view
         .header
           = @loan.division.name
           br
@@ -16,8 +21,8 @@
           = I18n.l(Date.today, format: :long)
 
       - optional = !field.required_for?(@loan)
-      - if !optional_encountered && optionals_exist && optional && !value_set.empty?(field)
-        - optional_encountered = true
+      - if reopen_fieldset || (!optional_encountered && optionals_exist && optional && !value_set.empty?(field))
+        - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
       - value = value_set.custom_value(field)
