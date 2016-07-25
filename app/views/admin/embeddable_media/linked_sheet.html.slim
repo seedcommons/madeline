@@ -29,14 +29,11 @@
   
   .form-group    
     = f.input :start_cell, label: t("linked_sheet.start_cell")
-      = f.input_field :start_cell
+      = f.input_field :start_cell, size: 6
 
   .form-group
     = f.input :end_cell, label: t("linked_sheet.end_cell")
-      = f.input_field :end_cell
-
-  /- if @record.original_url
-  /= "Display URL: #{@record.display_url}"
+      = f.input_field :end_cell, size: 6
 
   .actions.form-element
     /- unless @record.new_record?
