@@ -40,13 +40,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     @record.assign_attributes(record_params)
     @record.parse_key_gid_from_original_url
     if @record.save
-      # render plain: "success - display url: #{@record.display_url}"
-
-      # TODO: Use a cleaner way to get loan associated with embeddable media
-      owner_type = instance_eval(@record[:owner_type])
-      owner_id = @record[:owner_id]
-      @item_owner = owner_type.find(owner_id)
-
+      @item_owner = @record.owner
       if @item_owner[:custom_value_set_linkable_type] == "Loan"
         @loan = Loan.find(@item_owner[:custom_value_set_linkable_id])
         redirect_to admin_loan_path(@loan, anchor: 'questions'), notice: I18n.t("linked_sheet.notice_saved")
