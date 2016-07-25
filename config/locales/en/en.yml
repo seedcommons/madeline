@@ -204,6 +204,7 @@ en:
   filter_by: "Filter by:"
   id: "ID"
   incomplete: "Incomplete"
+  less: "Less"
   loans: "Loans"
   locked: "Locked"
   login: "Login"
