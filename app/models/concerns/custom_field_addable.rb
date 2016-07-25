@@ -124,7 +124,7 @@ module CustomFieldAddable
     self.class.custom_field?(field_identifier, model: self)
   end
 
-  def empty?(field_identifier)
+  def unanswered?(field_identifier)
     value = custom_value(field_identifier)
     field = custom_field(field_identifier)
     value.blank? && field.descendants.all? { |i| custom_value(i.id).blank? }

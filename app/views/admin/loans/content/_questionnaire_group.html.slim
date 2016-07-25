@@ -4,7 +4,7 @@
 
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
     
-      - if field.data_type == 'group' && !field.first_child? && !value_set.empty?(field)
+      - if field.data_type == 'group' && !field.first_child? && !value_set.unanswered?(field)
         / Close and reopen fieldset with new group/page
         - if optional_encountered
           </fieldset>
@@ -21,7 +21,7 @@
           = I18n.l(Date.today, format: :long)
 
       - optional = !field.required_for?(@loan)
-      - if reopen_fieldset || (!optional_encountered && optionals_exist && optional && !value_set.empty?(field))
+      - if reopen_fieldset || (!optional_encountered && optionals_exist && optional && !value_set.unanswered?(field))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
@@ -29,7 +29,7 @@
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
-      - css_class += ' hidden-print' if value_set.empty?(field)
+      - css_class += ' hidden-print' if value_set.unanswered?(field)
       
       .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
