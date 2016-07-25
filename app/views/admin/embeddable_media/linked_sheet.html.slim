@@ -1,40 +1,43 @@
-html
-  body
+- content_for(:title, t("linked_sheet.linked_document"))
+      
+= simple_form_for([:admin, @record],
+    html: { \
+      class: 'form-horizontal',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
 
-    p
-      b Linked Google Spreadsheet
+  = f.error_notification
 
-    = simple_form_for([:admin, @record]) do |f|
+  = f.hidden_field(:owner_type)
+  = f.hidden_field(:owner_id)
+  = f.hidden_field(:owner_attribute)
+  
+  .form-group
+    = f.input :original_url, label: t("linked_sheet.url")
+      = f.input_field :original_url, size: 120
 
-      = f.error_notification
+  / Note, sheet number is probably not useful to capture via this input form.
+  / It's more naturally just parsed from the provided 'original_url'
+  /= f.input :sheet_number
+  /  = f.input_field :sheet_number
 
-      = f.hidden_field(:owner_type)
-      = f.hidden_field(:owner_id)
-      = f.hidden_field(:owner_attribute)
+  h4 = t("linked_sheet.cell_instructions")
+  
+  .form-group    
+    = f.input :start_cell, label: t("linked_sheet.start_cell")
+      = f.input_field :start_cell, size: 6
 
-      = f.input 'URL'
-        = f.input_field :original_url, size: 120
+  .form-group
+    = f.input :end_cell, label: t("linked_sheet.end_cell")
+      = f.input_field :end_cell, size: 6
 
-      / Note, sheet number is probably not useful to capture via this input form.
-      / It's more naturally just parsed from the provided 'original_url'
-      /= f.input :sheet_number
-      /  = f.input_field :sheet_number
+  .actions.form-element
+    /- unless @record.new_record?
+    /  a.btn.btn-default.show-action = t(:cancel)
+    = f.submit t("linked_sheet.save"), class: 'update-action btn btn-success'
 
-      = f.input :start_cell
-        = f.input_field :start_cell
-
-      = f.input :end_cell
-        = f.input_field :end_cell
-
-      /- if @record.original_url
-      /= "Display URL: #{@record.display_url}"
-
-      .actions.form-element
-        /- unless @record.new_record?
-        /  a.btn.btn-default.show-action = t(:cancel)
-        - submit_label = 'Save'
-        = f.submit submit_label, class: 'update-action btn btn-success'
-
-      .clearfix
-
-
+  .clearfix

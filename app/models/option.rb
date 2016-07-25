@@ -23,6 +23,12 @@ class Option < ActiveRecord::Base
   include Translatable
 
   belongs_to :option_set
+
+  # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
+  # question for a given loan type.
+  has_many :custom_field_requirements, dependent: :destroy
+  has_many :custom_fields, through: :custom_field_requirements
+
   delegate :division, :division=, to: :option_set
 
   # define accessor like convenience methods for the fields stored in the Translations table

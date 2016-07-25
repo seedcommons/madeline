@@ -10,7 +10,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     # Note, was getting "undefined method `admin_embeddable_media_index_path'" error if record
     # wasn't saved before rendering form.  Some wackiness related to 'media' pluralization handling?
     @record.save
-    render 'linked_sheet', layout: false
+    render 'linked_sheet'
   end
 
   # def create
@@ -30,18 +30,23 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     # Note, this can be removed once migration logic is updated and we can assume everybody
     # is working with clean data.
     @record.ensure_migration
-    render 'linked_sheet', layout: false
+    render 'linked_sheet'
   end
 
   def update
     @record = EmbeddableMedia.find(params[:id])
     handle_authorize
+
     @record.assign_attributes(record_params)
     @record.parse_key_gid_from_original_url
     if @record.save
-      render plain: "success - display url: #{@record.display_url}"
+      @item_owner = @record.owner
+      if @item_owner[:custom_value_set_linkable_type] == "Loan"
+        @loan = Loan.find(@item_owner[:custom_value_set_linkable_id])
+        redirect_to admin_loan_path(@loan, anchor: 'questions'), notice: I18n.t("linked_sheet.notice_saved")
+      end
     else
-      render :show
+      render :edit
     end
   end
 
@@ -65,9 +70,8 @@ class Admin::EmbeddableMediaController < Admin::AdminController
 
   def record_params
     params.require(:embeddable_media).permit(
-      :original_url, :sheet_number, :start_cell, :end_cell
+      :original_url, :sheet_number, :start_cell, :end_cell, :owner_type, :owner_id
     )
   end
 
 end
-

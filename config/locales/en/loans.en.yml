@@ -34,13 +34,14 @@ en:
     print_header_title: "Investment Profile and Credit Memo"
     questionnaires: "Questions"
     questionnaire: "Questionnaire"
+    questions: "Questions"
     rating: "Score"
     save_responses: "Save Responses"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
-    spreadsheet_new_tab: "Open spreadsheet in new tab"
-    spreadsheet_inline: "Display spreadsheet inline"
-    spreadsheet_hide: "Hide spreadsheet"
+    spreadsheet_new_tab: "Open document in new tab"
+    spreadsheet_inline: "Display document inline"
+    spreadsheet_hide: "Hide document"
     status:
       active: "Active"
       completed: "Completed"
@@ -64,3 +65,9 @@ en:
       questionnaires:
         edit: "Edit Responses"
         delete: "Delete All Responses"
+      timeline:
+        timeline_header:
+          cancel_edit: "Cancel Edit"
+          edit_all: "Edit All"
+          new_step: "New Step"
+          save_all: "Save All"
