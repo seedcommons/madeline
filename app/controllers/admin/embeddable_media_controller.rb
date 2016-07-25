@@ -7,22 +7,24 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     @record = EmbeddableMedia.new(owner_type: owner_type, owner_id: owner_id, owner_attribute: owner_attribute)
     # need this until migration updated and all developers have newly migrated data
     handle_authorize
-    # Note, was getting "undefined method `admin_embeddable_media_index_path'" error if record
-    # wasn't saved before rendering form.  Some wackiness related to 'media' pluralization handling?
-    @record.save
     render 'linked_sheet'
   end
 
-  # def create
-  #   @record = EmbeddableMedia.new(record_params)
-  #   authorize @record
-  #   @record.parse_key_gid_from_original_url
-  #   if @record.save
-  #     render plain: "success"
-  #   else
-  #     render :show
-  #   end
-  # end
+  def create
+    @record = EmbeddableMedia.new(record_params)
+    handle_authorize
+
+    @record.parse_key_gid_from_original_url
+    if @record.save
+      @item_owner = @record.owner
+      if @item_owner[:custom_value_set_linkable_type] == "Loan"
+        @loan = Loan.find(@item_owner[:custom_value_set_linkable_id])
+        redirect_to admin_loan_path(@loan, anchor: 'questions'), notice: I18n.t("linked_sheet.notice_saved")
+      end
+    else
+      render 'linked_sheet'
+    end
+  end
 
   def edit
     @record = EmbeddableMedia.find(params[:id])
@@ -46,7 +48,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
         redirect_to admin_loan_path(@loan, anchor: 'questions'), notice: I18n.t("linked_sheet.notice_saved")
       end
     else
-      render :edit
+      render 'linked_sheet'
     end
   end
 
@@ -70,7 +72,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
 
   def record_params
     params.require(:embeddable_media).permit(
-      :original_url, :sheet_number, :start_cell, :end_cell, :owner_type, :owner_id
+      :original_url, :sheet_number, :start_cell, :end_cell, :owner_type, :owner_id, :owner_attribute
     )
   end
 

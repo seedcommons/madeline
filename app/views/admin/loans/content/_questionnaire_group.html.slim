@@ -87,7 +87,7 @@
                         i.fa.fa-external-link.fa-large>
                         = t("loan.spreadsheet_new_tab")
                   .form-element.doc-actions
-                    = link_to edit_admin_embeddable_medium_path(sheet)
+                    = link_to edit_admin_embeddable_media_path(sheet)
                       i.fa.fa-pencil.fa-large>
                       = t("linked_sheet.edit")
                     = link_to [:admin, sheet], method: :delete, target: '_blank',
@@ -101,9 +101,9 @@
                       = t("linked_sheet.delete")
                 - else
                   .form-element
-                    = link_to t('linked_sheet.new'), new_admin_embeddable_medium_path({ \
+                    = link_to t('linked_sheet.new'), new_admin_embeddable_media_path({ \
                       owner_type: value_set.class.name, owner_id: value_set.id,
-                      owner_attribute: field.id}), target: '_blank'
+                      owner_attribute: field.id})
 
                 div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
 
