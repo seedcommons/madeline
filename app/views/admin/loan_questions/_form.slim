@@ -14,6 +14,8 @@
   .modal-body
     = f.error_notification
 
+    = f.collection_radio_buttons :override_associations,
+      [[false, 'Inherits from parent'], [true, 'Overrides parent']], :first, :last
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
       collection: @data_types
       
