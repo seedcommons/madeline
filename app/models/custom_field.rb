@@ -59,8 +59,6 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  default_scope { order(:position) }
-
   DATA_TYPES = %i(string text number range group boolean)
 
   def self.loan_questions(field_set = nil)
