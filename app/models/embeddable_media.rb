@@ -23,7 +23,7 @@
 #  index_embeddable_media_on_owner_type_and_owner_id  (owner_type,owner_id)
 #
 
-# Represents a link to a google spreadsheet
+# Represents a link to an online document, usually a google spreadsheet
 
 class EmbeddableMedia < ActiveRecord::Base
 
@@ -31,7 +31,7 @@ class EmbeddableMedia < ActiveRecord::Base
 
   delegate :division, :division=, to: :owner
 
-  # Temporary logic to handle previously migrated data.
+  # TODO: Temporary logic to handle previously migrated data.
   def ensure_migration
     unless document_key.present?
       parse_legacy_display_data

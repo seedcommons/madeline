@@ -5,7 +5,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
     owner_id = params[:owner_id]
     owner_attribute = params[:owner_attribute]
     @record = EmbeddableMedia.new(owner_type: owner_type, owner_id: owner_id, owner_attribute: owner_attribute)
-    # need this until migration updated and all developers have newly migrated data
+    # TODO: need this until migration updated and all developers have newly migrated data
     handle_authorize
     render 'linked_sheet'
   end
@@ -29,7 +29,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
   def edit
     @record = EmbeddableMedia.find(params[:id])
     handle_authorize
-    # Note, this can be removed once migration logic is updated and we can assume everybody
+    # TODO: this can be removed once migration logic is updated and we can assume everybody
     # is working with clean data.
     @record.ensure_migration
     render 'linked_sheet'
@@ -62,7 +62,7 @@ class Admin::EmbeddableMediaController < Admin::AdminController
   private
 
   def handle_authorize
-    # need this until migration updated and all developers have newly migrated data
+    # TODO: need this until migration updated and all developers have newly migrated data
     if @record.owner
       authorize @record
     else
