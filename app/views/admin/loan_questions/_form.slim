@@ -22,7 +22,6 @@
     label Required for which loan types?
 
     - if @loan_question.parent
-      .radio
         = f.collection_radio_buttons :override_associations,
           [[false, 'Inherits from parent'], [true, 'Overrides parent']], :first, :last
 

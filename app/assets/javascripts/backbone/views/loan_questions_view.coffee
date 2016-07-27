@@ -26,6 +26,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
+    'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
@@ -125,3 +126,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Ensure at least one
     if @tree.find('.new-item').size() == 0
       @tree.find('ul').append(@$('.new-item-block').html())
+
+  showHideAssociations: (e) ->
+    overrideParent = e.currentTarget
+
+    if @$(overrideParent).val() == "true"
+      @$('.loan-types-container').removeClass('hidden')
+    else
+      @$('.loan-types-container').addClass('hidden')
