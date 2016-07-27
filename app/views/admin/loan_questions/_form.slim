@@ -21,11 +21,14 @@
 
     label Required for which loan types?
 
-    .radio
-      = f.collection_radio_buttons :override_associations,
-        [[false, 'Inherits from parent'], [true, 'Overrides parent']], :first, :last
+    - if @loan_question.parent
+      .radio
+        = f.collection_radio_buttons :override_associations,
+          [[false, 'Inherits from parent'], [true, 'Overrides parent']], :first, :last
 
-    = f.input_field :loan_types, collection: @loan_type_options, multiple: true, class: 'loan-types'
+    .loan-types-container class="#{'hidden' if @loan_question.parent}"
+      = f.input_field :loan_types, collection: @loan_type_options, multiple: true,
+        class: "loan-types"
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
