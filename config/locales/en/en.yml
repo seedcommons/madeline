@@ -252,6 +252,7 @@ en:
     summary: "Summary"
     updated: "Updated"
     website: "Website"
+    id: "ID"
 
   loan:
     criteria: "Criteria"
