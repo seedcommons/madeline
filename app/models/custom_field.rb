@@ -70,6 +70,7 @@ class CustomField < ActiveRecord::Base
       { internal_name: field_set })
   end
 
+  # Note: Not chainable; intended to be called on a subset
   def self.sort_by_required(loan)
     all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
   end
@@ -93,6 +94,7 @@ class CustomField < ActiveRecord::Base
   # end
 
   # Temporary stub to demonstrate functionality
+  # Note: don't forget to reinstate tests in custom_field_spec.rb when removing
   def required_for?(loan)
     id % 2 == 1
   end
