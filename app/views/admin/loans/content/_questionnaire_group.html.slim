@@ -1,3 +1,5 @@
+  / Note: the grouping of optional questions that happens here and in LoanQuestionnairesView
+  / should probably be refactored someday to happen in the model
   div
     - optional_encountered = false
     - optionals_exist = group.children.any? { |i| !i.required_for?(@loan) }
