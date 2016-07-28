@@ -34,7 +34,7 @@ describe CustomField, :type => :model do
       override_associations: true) }
 
     let!(:f4) { create(:custom_field, custom_field_set: set, internal_name: "f4", data_type: "text",
-      loan_types: [lt1,lt2]) }
+      parent: f1, loan_types: [lt1,lt2]) }
 
     it 'not required by default' do
       expect(f1.required_for?(loan1)).to be_falsey
@@ -73,7 +73,7 @@ describe CustomField, :type => :model do
       expect(f333.required_for?(loan1)).to be_falsey
     end
 
-    it 'not required when override false even when association is present' do
+    it 'not required on child when override false even when association is present' do
       expect(f4.required_for?(loan1)).to be_falsey
     end
 
