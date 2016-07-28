@@ -26,7 +26,8 @@
         [[false, 'Inherits from parent'], [true, 'Overrides parent']], :first, :last,
         item_wrapper_class: 'radio'
 
-    .loan-types-container class="#{'hidden' if @loan_question.parent}"
+    - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
+    .loan-types-container class="#{hideLoanTypes}"
       = f.input_field :loan_types, collection: @loan_type_options, multiple: true,
         class: "loan-types"
 
