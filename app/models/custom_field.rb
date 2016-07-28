@@ -78,10 +78,11 @@ class CustomField < ActiveRecord::Base
   #   and optional for all others
   # - If override is true and no records are present, all are optional
   # - If override is false, inherit from parent
+  # - Root nodes effectively have override always true
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required_for?(loan)
-    if override_associations
+    if override_associations || !parent_id
       loan_types.include?(loan.loan_type_option)
     else
       parent && parent.required_for?(loan)
