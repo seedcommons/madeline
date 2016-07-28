@@ -28,7 +28,7 @@
 
     - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
     .loan-types-container class="#{hideLoanTypes}"
-      = f.input_field :loan_types, collection: @loan_type_options, multiple: true,
+      = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
         class: "loan-types"
 
     = f.translatable_inputs do |l|
