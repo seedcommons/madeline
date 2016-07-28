@@ -1,34 +1,55 @@
+  / Note: the grouping of optional questions that happens here and in LoanQuestionnairesView
+  / should probably be refactored someday to happen in the model
   div
-    - group.children.each_with_index do |field, idx|
+    - optional_encountered = false
+    - optionals_exist = group.children.any? { |i| !i.required_for?(@loan) }
 
-      .question data-level=field.level data-type=field.data_type data-id=field.id
+    - group.children.sort_by_required(@loan).each_with_index do |field, idx|
+    
+      - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
+        / Close and reopen fieldset with new group/page
+        - if optional_encountered
+          </fieldset>
+          - reopen_fieldset = true
+          
+        / Page header for print view
+        .header
+          = @loan.division.name
+          br
+          = t("loan.print_header_title")
+          br
+          = @loan.organization.name
+          br
+          = I18n.l(Date.today, format: :long)
 
-        - value = value_set.custom_value(field.id)
+      - optional = !field.required_for?(@loan)
+      - if reopen_fieldset || (!optional_encountered && optionals_exist && optional && !value_set.tree_unanswered?(field))
+        - optional_encountered = true; reopen_fieldset = false
+        <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
+
+      - value = value_set.custom_value(field)
+      - css_class = optional ? 'optional' : 'required'
+
+      / Don't print unanswered questions or groups
+      - css_class += ' hidden-print' if value_set.tree_unanswered?(field)
+      
+      .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
 
         - if field.data_type == 'group'
-          - if !field.first_child?
-            .header
-              = @loan.division.name
-              br
-              = t("loan.print_header_title")
-              br
-              = @loan.organization.name
-              br
-              = I18n.l(Date.today, format: :long)
-
           - item_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
-          *item_tag
+          *item_tag class="tree-view"
             => index_str
             - if field.first_child?
               = field.label
             - else
               = (parents.map(&:label) + [field.label]).join(": ")
-        - else
-          .question-label = "#{index_str} #{field.label}"
 
-        - if !@print_view && field.explanation.present?
-          p.explanation = field.explanation
+        - else
+          .question-label.tree-view = "#{index_str} #{field.label}"
+
+        - if field.explanation.present?
+          p.help-block.hidden-print.tree-view = field.explanation
 
         / Recurse if group, else render
         - if field.data_type == 'group'
@@ -38,7 +59,7 @@
 
         - else
 
-          .answer-wrapper
+          .answer-wrapper.tree-view
 
             - if value.has_rating?
               - if value.rating.present?
@@ -80,3 +101,6 @@
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")
+
+    - if optional_encountered
+      </fieldset>

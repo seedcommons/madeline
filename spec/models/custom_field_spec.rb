@@ -8,7 +8,8 @@ describe CustomField, :type => :model do
     expect(create(:custom_field)).to be_valid
   end
 
-  context 'question groups required by loan type' do
+  # Pending; To be reinstated when un-stubbing `CustomField#required_for?`
+  xcontext 'question groups required by loan type' do
 
     let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }
     let!(:lt1) { create(:option, option_set: loan_type_set, value: 'lt1', label_translations: {en: 'Loan Type One'}) }

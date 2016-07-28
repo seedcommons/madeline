@@ -11,7 +11,6 @@ ul.jqtree-tree {
     color: $body;
   }
 
-
   li.jqtree_common {
     margin-bottom: 2px;
     padding-right: 2px;
@@ -21,17 +20,15 @@ ul.jqtree-tree {
 
     .jqtree-element {
       padding: 10px;
-      display: flex;
-
-      .jqtree-title {
-        margin: 0;
-        flex-grow: 100;
-      }
+      cursor: default;
+      .jqtree-title { margin: 0; }
     }
+
     .links {
       white-space: nowrap;
       .fa { margin-left: 10px; }
     }
+
     &.new-item {
       border-style: dashed;
 
@@ -46,21 +43,5 @@ ul.jqtree-tree {
         }
       }
     }
-  }
-}
-
-.loan-questions .filter-switch {
-  padding-bottom: 20px;
-}
-
-.questionnaires ul.jqtree-tree li.jqtree_common .jqtree-element {
-  display: block;
-
-  .explanation, .answer, .form-element {
-    margin: 10px 0 0 0;
-  }
-
-  .form-element {
-    display: block;
   }
 }

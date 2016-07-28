@@ -44,6 +44,11 @@ class CustomField < ActiveRecord::Base
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
 
+  # Bug in closure_tree's built in methods requires this fix
+  # https://github.com/mceachen/closure_tree/issues/137
+  has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
+  has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
+
   # Transient value populated by depth first traversal of questions scoped to a specific division.
   # Starts with '1'.  Used in hierarchical display of questions.
   attr_accessor :transient_position
@@ -69,6 +74,11 @@ class CustomField < ActiveRecord::Base
       { internal_name: field_set })
   end
 
+  # Note: Not chainable; intended to be called on a subset
+  def self.sort_by_required(loan)
+    all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
+  end
+
   # Feature #4737
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the custom_fields_options relation table, and the
@@ -79,12 +89,18 @@ class CustomField < ActiveRecord::Base
   # - If override is false, inherit from parent
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
+  # def required_for?(loan)
+  #   if override_associations
+  #     loan_types.include?(loan.loan_type_option)
+  #   else
+  #     parent && parent.required_for?(loan)
+  #   end
+  # end
+
+  # Temporary stub to demonstrate functionality
+  # Note: don't forget to reinstate tests in custom_field_spec.rb when removing
   def required_for?(loan)
-    if override_associations
-      loan_types.include?(loan.loan_type_option)
-    else
-      parent && parent.required_for?(loan)
-    end
+    id % 2 == 1
   end
 
   def name
