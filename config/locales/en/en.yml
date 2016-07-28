@@ -227,6 +227,7 @@ en:
   reply_yes: "Yes"
   save: "Save"
   status: "Status"
+  submit: "Submit"
   update: "Update"
   updated: "Updated"
 
@@ -295,6 +296,7 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
+
 
   menu:
     calendar: "Calendar"
