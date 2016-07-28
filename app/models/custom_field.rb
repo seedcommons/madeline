@@ -45,6 +45,11 @@ class CustomField < ActiveRecord::Base
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
 
+  # Bug in closure_tree's built in methods requires this fix
+  # https://github.com/mceachen/closure_tree/issues/137
+  has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
+  has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
+
   # Transient value populated by depth first traversal of questions scoped to a specific division.
   # Starts with '1'.  Used in hierarchical display of questions.
   attr_accessor :transient_position

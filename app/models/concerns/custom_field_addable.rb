@@ -124,10 +124,10 @@ module CustomFieldAddable
     self.class.custom_field?(field_identifier, model: self)
   end
 
-  def unanswered?(field_identifier)
-    value = custom_value(field_identifier)
-    field = custom_field(field_identifier)
-    value.blank? && field.descendants.all? { |i| custom_value(i.id).blank? }
+  def tree_unanswered?(root_identifier)
+    # Note: Raises error if field not found
+    field = custom_field_set.field(root_identifier)
+    field.self_and_descendants.all? { |i| custom_value(i.id).blank? }
   end
 
   #
