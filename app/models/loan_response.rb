@@ -69,6 +69,11 @@ class LoanResponse
     field_attributes.include?(:boolean)
   end
 
+  def blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? &&
+      (embeddable_media.blank? || embeddable_media.url.blank?)
+  end
+
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
     @custom_field.data_type == 'text' ? :text : :string

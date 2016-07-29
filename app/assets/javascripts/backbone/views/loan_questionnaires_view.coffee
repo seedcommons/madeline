@@ -5,37 +5,69 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @refreshContent()
+    @filterSwitchView = new MS.Views.FilterSwitchView()
 
   events:
     'ajax:error': 'submitError'
-    'click .filter-switch .btn': 'changeQuestionnaire'
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').empty()
-    $.get "/admin/loans/#{@loanId}/questionnaires", (html) =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
       MS.loadingIndicator.hide()
-      @$('.questionnaires-content').html(html)
-      @initTopButtons()
+      @initializeTree()
+      @filterSwitchView.filterInit()
 
   submitError: (e) ->
     e.stopPropagation()
     MS.errorModal.modal('show')
     MS.loadingIndicator.hide()
 
-  initTopButtons: ->
-    selected = URI(window.location.href).query(true)['selected'] || 'criteria'
-    @showQuestionnaire(selected)
-    @$('.filter-switch .btn').removeClass('active')
-    @$(".filter-switch .btn[data-attrib=#{selected}]").addClass('active')
+  initializeTree: ->
+    @tree = @$('.jqtree')
+    # Initialize the jqtree
+    @tree.tree
+      dragAndDrop: false
+      selectable: false
+      useContextMenu: false
+      # This is fired for each li element in the jqtree just after it's created.
+      # We pull pieces from the hidden questionnaire below and insert them.
+      # This runs during the loadData event below.
+      onCreateLi: (node, $li) =>
+        $question = @$(".question[data-id=#{node.id}]")
+        $li.attr('data-id', node.id)
+            .addClass($question.attr('class'))
 
-  changeQuestionnaire: (e) ->
-    selected = $(e.currentTarget).closest('.btn').data('attrib')
-    @showQuestionnaire(selected)
-    url = URI(window.location.href).setQuery('selected', selected).href()
-    history.pushState(null, "", url)
+        if node.id == 'optional_group'
+          $li.addClass('optional-group')
+        else
+          $li.find('.jqtree-title')
+              .html($question.children('.tree-view').clone())
 
-  showQuestionnaire: (attrib) ->
-    @$('.questionnaire').hide()
-    @$(".questionnaire[data-attrib=#{attrib}]").show()
+    # Load the data into each tree from its 'data-data' attribute.
+    @tree.each (index, tree) =>
+      data = @groupOptional($(tree).data 'data')
+      $(tree).tree 'loadData', data
 
+  # Note: the grouping of optional questions that happens here and in _questionnaire_group
+  # should probably be refactored someday to happen in the model
+  groupOptional: (nodes) ->
+    optionalGroupName = I18n.t('questionnaires.optional_questions')
+
+    # Recurse, depth first
+    for node in nodes
+      if node.children?.length
+        node.children = @groupOptional(node.children)
+
+    if nodes.some( (el) -> el.optional ) && !nodes.every( (el) -> el.optional )
+      # Add optional group to this level
+      nodes.push { id: 'optional_group', name: optionalGroupName, children: [] }
+      optionalGroup = nodes[nodes.length - 1]
+
+      for node in nodes
+        if node.optional
+          optionalGroup.children.push node
+
+      # Remove original copies of optional nodes
+      nodes = nodes.filter( (node) -> !node.optional )
+
+    nodes

@@ -52,6 +52,11 @@ module OptionSettable
           end
         end
 
+        define_method("#{attr_name}_option") do
+          value = self.send("#{attr_name}_value")
+          self.class.option_set_for(attr_name).option_by_value(value)
+        end
+
         define_method("#{attr_name}_label") do
           value = self.send("#{attr_name}_value")
           self.class.option_set_for(attr_name).translated_label_by_value(value)
