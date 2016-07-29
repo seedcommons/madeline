@@ -193,6 +193,7 @@ es:
   filter_by: "Filtrar por:"
   id: "ID"
   incomplete: "Incompleto"
+  less: "Menos"
   loans: "Préstamos"
   locked: "Bloqueado"
   login: "Iniciar sesión"
@@ -209,11 +210,13 @@ es:
   notice_batch_updated: '%{count} registro(s) actualizado(s) correctamente.'
   notice_batch_failures: '%{failure_count} registro(s) con fallas.'
   password: "Contraseña"
+  optional: "Opcional"
   print: "Imprimir"
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
   status: "Estado"
+  submit: "Enviar"
   update: "Actualizar"
   updated: "Actualizado"
   common:
@@ -235,6 +238,7 @@ es:
     summary: "Resumen"
     updated: "Actualizado"
     website: "Página web"
+    id: "ID"
   loan:
     criteria: "Criterios"
     details: "Detalles"
