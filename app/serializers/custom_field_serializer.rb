@@ -1,9 +1,9 @@
 class CustomFieldSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count, :optional
 
-  def initialize(*args, loan: nil)
+  def initialize(*args, loan: nil, **options)
     @loan = loan
-    super(*args)
+    super(*args, options)
   end
 
   def name
@@ -27,6 +27,6 @@ class CustomFieldSerializer < ActiveModel::Serializer
   end
 
   def optional
-    !object.required_for?(@loan)
+    @loan && !object.required_for?(@loan)
   end
 end

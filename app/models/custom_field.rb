@@ -91,18 +91,12 @@ class CustomField < ActiveRecord::Base
   # - Root nodes effectively have override always true
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
-  # def required_for?(loan)
-  #   if override_associations || root?
-  #     loan_types.include?(loan.loan_type_option)
-  #   else
-  #     parent && parent.required_for?(loan)
-  #   end
-  # end
-
-  # Temporary stub to demonstrate functionality
-  # Note: don't forget to reinstate tests in custom_field_spec.rb when removing
   def required_for?(loan)
-    id % 2 == 1
+    if override_associations || root?
+      loan_types.include?(loan.loan_type_option)
+    else
+      parent && parent.required_for?(loan)
+    end
   end
 
   def name
