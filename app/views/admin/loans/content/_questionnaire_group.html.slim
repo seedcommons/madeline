@@ -3,6 +3,7 @@
   div
     - optional_encountered = false
     - optionals_exist = group.children.any? { |i| !i.required_for?(@loan) }
+    - requireds_exist = group.children.any? { |i| i.required_for?(@loan) }
 
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
     
@@ -23,7 +24,8 @@
           = I18n.l(Date.today, format: :long)
 
       - optional = !field.required_for?(@loan)
-      - if reopen_fieldset || (!optional_encountered && optionals_exist && optional && !value_set.tree_unanswered?(field))
+      - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
+      - if reopen_fieldset || (start_of_optional_group && !value_set.tree_unanswered?(field))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
