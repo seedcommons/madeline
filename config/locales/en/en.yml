@@ -248,6 +248,7 @@ en:
     parent: "Parent"
     print: "Print"
     remove: "Remove"
+    save: "Save"
     street_address: "Street Address"
     summary: "Summary"
     updated: "Updated"
