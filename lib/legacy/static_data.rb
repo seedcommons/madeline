@@ -40,9 +40,12 @@ module Legacy
       loan_type = OptionSet.find_or_create_by(division: ::Division.root, model_type: ::Loan.name, model_attribute: 'loan_type')
       loan_type.options.destroy_all
 
-      # Note, there is currently no business logic dependency on these options, # so no need for a 'slug' style value.
+      # Note, there is currently no business logic dependency on these options, so no need for a 'slug' style value.
       # Instead the primary key will be used by default, and the legacy data will be matched up by migration_id.
       # If there is a need, then 'slug' style values can be introduced.
+      #
+      # As of 5/26/16, 'description' fields were added to the legacy system mysql database for loan types,
+      # but this data has not yet been included here.
       loan_type.options.create(migration_id: 1,
           label_translations: {en: 'Liquidity line of credit', es: 'Línea de crédito de efectivo'})
 

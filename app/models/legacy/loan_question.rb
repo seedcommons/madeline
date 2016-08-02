@@ -26,12 +26,14 @@ module Legacy
       ::CustomField.where("custom_field_set_id < 4").destroy_all
     end
 
-
     def migration_data
+      custom_field_set_id = active
+      # For now, map the 'due diligence' questions to the 'criteria' set
+      custom_field_set_id = 2 if custom_field_set_id == 4
       data = {
         id: id,
         internal_name: "field_#{id}",
-        custom_field_set_id: active,
+        custom_field_set_id: custom_field_set_id,
         position: orden,
         migration_position: orden,
         parent_id: grupo,

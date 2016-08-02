@@ -8,7 +8,7 @@ module LegacyModel
 
   included do
     # tell rails to look for table name in CamelCase instead of default under_score
-    self.table_name ||= self.table_name.camelize
+    self.table_name = self.table_name.camelize
 
     # default primary key
     self.primary_key = 'ID'

@@ -6,7 +6,8 @@ module Legacy
   class DueDiligencePerLoanType < ActiveRecord::Base
     establish_connection :legacy
 
-    # This new table didn't follow the pluralization convention used by the other mysql tables
+    # This new table didn't follow the pluralization convention used by the other mysql tables,
+    # so need to override here before the 'include LegacyModel'.
     self.table_name = 'DueDiligencePerLoanType'
     include LegacyModel
 

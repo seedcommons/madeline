@@ -39,9 +39,7 @@ module Legacy
         puts "response id: #{response.id} - question id: #{response.question_id}"
         field = CustomField.find_by(id: response.question_id)
         if field
-          puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}, attr: #{attribute_name}"
-          # model = new_loan.fetch_belongs_to_custom(attribute_name, field_set_name: field.custom_field_set.internal_name,
-          #                                          owner: new_loan.organization, autocreate: true)
+          puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}"
           model = new_loan.fetch_has_one_custom(field.custom_field_set.internal_name, autocreate: true)
           # note, could be optimized by building entire json blob and storing as a single operations, but this seems fast enough
           puts "update: #{field.id} -> #{response.value_hash}"
