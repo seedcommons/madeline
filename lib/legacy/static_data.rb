@@ -64,6 +64,14 @@ module Legacy
       loan_type.options.create(migration_id: 7,
           label_translations: {en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados'})
 
+      loan_type.options.create(migration_id: 9,
+          label_translations: {en: 'Pre-startup incubation', es: 'Pre-Startup incubacion'})
+
+      loan_type.options.create(migration_id: 10,
+          label_translations: {en: 'Conversion', es: 'Conversion'})
+
+      loan_type.options.create(migration_id: 11,
+          label_translations: {en: 'Startup', es: 'Startup'})
 
       project_type = OptionSet.find_or_create_by(
           division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
