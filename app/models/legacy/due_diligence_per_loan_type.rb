@@ -35,8 +35,7 @@ module Legacy
       data = {
           custom_field_id: due_diligence_id,
           option_id: option_id_for_loan_type(loan_type_id),
-          # amount: amount, #todo: confirm if needed
-          # level: level  #todo: confirm if needed
+          amount: amount
       }
       data
     end
