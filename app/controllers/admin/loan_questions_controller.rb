@@ -4,9 +4,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def index
     authorize CustomField
-    @questions = CustomField
-        .joins(:custom_field_set)
-        .where(custom_field_sets: {internal_name: ['loan_criteria', 'loan_post_analysis']})
+    @questions = CustomField.loan_questions
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 
@@ -15,11 +13,13 @@ class Admin::LoanQuestionsController < Admin::AdminController
     field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
     authorize @loan_question
-    render partial: 'form'
+    @loan_type_options = Loan.loan_type_options
+    render_form
   end
 
   def edit
-    render partial: 'form'
+    @loan_type_options = Loan.loan_type_options
+    render_form
   end
 
   def create
@@ -28,7 +28,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     if @loan_question.save
       render json: @loan_question.reload
     else
-      render partial: 'form', status: :unprocessable_entity
+      render_form(status: :unprocessable_entity)
     end
   end
 
@@ -36,7 +36,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     if @loan_question.update(loan_question_params)
       render json: @loan_question.reload
     else
-      render partial: 'form', status: :unprocessable_entity
+      render_form(status: :unprocessable_entity)
     end
   end
 
@@ -73,6 +73,18 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
       params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
-        :custom_field_set_id, :has_embeddable_media, *translation_params(:label, :explanation))
+        :custom_field_set_id, :has_embeddable_media, :override_associations,
+        *translation_params(:label, :explanation), loan_type_ids: [])
+    end
+
+    def render_form(status: nil)
+      @data_types = CustomField::DATA_TYPES.map do |i|
+        [I18n.t("simple_form.options.custom_field.data_type.#{i}"), i]
+      end.sort
+      if status
+        render partial: 'form', status: :status
+      else
+        render partial: 'form'
+      end
     end
 end

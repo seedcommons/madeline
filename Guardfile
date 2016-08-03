@@ -54,5 +54,6 @@ guard 'livereload' do
   watch(%r{app/controllers/.+\.rb})
   watch(%r{app/models/.+\.rb})
   watch(%r{app/policies/.+\.rb})
+  watch(%r{app/serializers/.+\.rb})
   watch(%r{config/locales/.+\.yml})
 end

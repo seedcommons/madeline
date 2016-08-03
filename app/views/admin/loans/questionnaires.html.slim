@@ -1,19 +1,18 @@
 / Note, this content is loaded via ajax when the loan's 'Questionnaires' tab is exposed.
 
+.text-right = link_to t('loan_questions.manage'), admin_custom_fields_path
+
 / Switch at top allowing toggling between criteria and post analysis
 .filter-switch.centered-text
-  .btn-group.button-group-radios data-toggle="buttons"
-    label.btn.btn-default data-attrib="criteria"
-      input type="radio" name="top_buttons" value="1"
-        = t("loan.criteria")
-    label.btn.btn-default data-attrib="post_analysis"
-      input type="radio" name="top_buttons" value="2"
-        = t("loan.post_analysis")
-
+  .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
+    label.btn.btn-default
+      input type="radio" name="fieldset" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
+    label.btn.btn-default
+      input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
 
 - @value_sets.each do |attrib, value_set|
 
-  div.questionnaire data-attrib=attrib
+  div.questionnaire.filterable data-attrib=attrib class=attrib
 
     section.block class=(value_set.persisted? && value_set.valid? ? 'show-view' : 'edit-view')
       .show-actions
@@ -35,11 +34,9 @@
 
       h2 = t("loan.#{attrib}")
 
-      = render "admin/loans/content/questionnaire_form", value_set: value_set
+      = render "admin/loans/content/questionnaire_form", value_set: value_set, attrib: attrib
 
     javascript:
       $(function() {
         new MS.Views.ShowEditView({ el: ".questionnaire[data-attrib=#{attrib}] .block" });
       });
-
-

@@ -8,16 +8,29 @@
       input_html: {class: 'form-element form-control'},
     },
   ) do |f|
-  
+
   .modal-header
     h4.modal-title = @loan_question.new_record? ? t('.new_item') : t('.edit_item')
   .modal-body
     = f.error_notification
 
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
-      collection: CustomField::DATA_TYPES
-      
+      collection: @data_types
+
     = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
+
+    label = t('loan_questions.required_loan_types')
+
+    - if @loan_question.parent
+      = f.collection_radio_buttons :override_associations,
+        [[false, t('loan_questions.inherit_parent')],
+        [true, t('loan_questions.override_parent')]], :first, :last,
+        item_wrapper_class: 'radio'
+
+    - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
+    .loan-types-container class="#{hideLoanTypes}"
+      = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
+        class: "loan-types"
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
@@ -28,7 +41,7 @@
         input_html: {data: {translatable: 'loan_questions.explanation'}},
         placeholder: I18n.t('loan_questions.explanation', locale: l),
         label: t('loan_questions.explanation', locale: l)
-    
+
     - if f.object.new_record?
       = f.input_field :parent_id, as: :hidden
       = f.input_field :custom_field_set_id, as: :hidden
@@ -36,5 +49,4 @@
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
-    = f.submit 'Save', class: 'submit-action btn btn-success'
-      
+    = f.submit t('common.save'), class: 'submit-action btn btn-success'

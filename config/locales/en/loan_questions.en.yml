@@ -10,7 +10,11 @@ en:
     delete_error: "The item could not be deleted due to an error"
     explanation: "Explanation"
     has_embeddable_media: "Allow files or links to be attached"
+    inherit_parent: "Inherits from parent"
+    manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
+    override_parent: "Overrides parent"
+    required_loan_types: "Required for which loan types?"
     text: "Title"
 
   admin:
@@ -28,11 +32,11 @@ en:
     options:
       custom_field:
         data_type:
-          string: String
-          text: Text
+          string: Short Answer
+          text: Paragraph
+          list: Multiple Choice
+          group: Group
+          translatable: Translatable
           number: Number
           range: Range
-          group: Group
-          boolean: Boolean
-          translatable: Translatable
-          list: List
+          boolean: Yes/No

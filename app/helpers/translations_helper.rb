@@ -39,8 +39,9 @@ module SimpleForm
           <input class="deleted-locales" name="#{object_name}[deleted_locales][]" type="hidden" />
       }.html_safe
       object.used_locales_or_current_locale.each do |l|
+        # .row is added to language-block to address styling problems
         out += %Q{
-          <div class="language-block" data-locale="#{l}">
+          <div class="language-block row" data-locale="#{l}">
             <a class="remove-language" href="#">#{I18n.t('common.remove')}</a>
         }.html_safe
         out += input :"locale_#{l}", label: false,

@@ -43,7 +43,7 @@ module CustomValueSetLinkable
       logger.debug "has_one_custom: #{attr_name}, field_set: #{field_set}"
       getter_name = attr_name.to_s.pluralize
       define_method(getter_name) do
-        fetch_has_many_custom(attr_name)
+        fetch_has_many_custom(attr_name, field_set_name: field_set)
       end
       define_method("create_#{attr_name}") { create_has_custom(attr_name, field_set_name: field_set) }
     end
@@ -55,7 +55,7 @@ module CustomValueSetLinkable
   # Find or create the value set instance associated with given field set name for this model instance
   def fetch_has_one_custom(attr_name, field_set_name: nil, autocreate: false)
 
-    result = custom_value_sets.where({ custom_value_set_linkable: self, linkable_attribute: attr_name }).first
+    result = custom_value_sets.where(linkable_attribute: field_set_name || attr_name).first
     if autocreate && !result
       result = create_has_custom(attr_name, field_set_name: field_set_name)
     end
@@ -63,15 +63,15 @@ module CustomValueSetLinkable
   end
 
 
-  def fetch_has_many_custom(attr_name)
-    custom_value_sets.where(linkable_attribute: attr_name)
+  def fetch_has_many_custom(attr_name, field_set_name: nil)
+    custom_value_sets.where(linkable_attribute: field_set_name || attr_name)
   end
 
 
   def create_has_custom(attr_name, field_set_name: nil)
     field_set_name ||= attr_name
     field_set = CustomFieldSet.resolve(field_set_name, model: self)
-    custom_value_sets.create(custom_field_set: field_set, linkable_attribute: attr_name)
+    custom_value_sets.create(custom_field_set: field_set, linkable_attribute: field_set_name)
   end
 
   # Note, the 'owner' param supports assigning a reference to an object which is 'owned' by a different object.

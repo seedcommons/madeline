@@ -3,7 +3,7 @@ div.panel-body class=('new-record' if step.new_record?)
   = simple_form_for([:admin, step],
     remote: true,
     html: { class: 'project-step-form' }) do |f|
-
+    
     / Need to pass these through to create but not update.
     - if step.new_record?
       = f.hidden_field(:project_id)
@@ -13,9 +13,6 @@ div.panel-body class=('new-record' if step.new_record?)
 
     = f.error_notification
     = f.translatable_inputs do |l|
-      = f.input "locale_#{l}".to_sym, label: false,
-        collection: locale_options,
-        wrapper: :step_form_left_2, input_html: {class: 'locale'}, include_blank: false
       = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12,
         input_html: {data: {translatable: 'common.summary'}},
         placeholder: I18n.t('common.summary', locale: l)

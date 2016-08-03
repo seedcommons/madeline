@@ -1,8 +1,4 @@
 section.questionnaires {
-  .filter-switch {
-    text-align: center;
-  }
-
   // Overriding this because it's nice for it to be floated right opposite h2
   .show-actions {
     float: right;
@@ -10,6 +6,55 @@ section.questionnaires {
 
   h2 {
     margin-top: 0;
+  }
+
+  li.jqtree_common {
+    border: none;
+    margin-bottom: 3px;
+    padding-bottom: 0.1px; // prevent margin collapse
+
+    &.jqtree-folder.jqtree-closed {
+      margin-bottom: 3px;
+    }
+
+    h3, h4, h5 { display: inline; }
+    h3 { font-size: 20px; }
+
+    ul.jqtree_common {
+      margin-left: 30px;
+    }
+
+    &.optional-group {
+      background-color: hsl(0,0%,96%);
+      margin-top: 12px;
+
+      > .jqtree-element > .jqtree-title {
+        font-style: italic;
+        font-weight: bold;
+        color: #888;
+      }
+    }
+
+    &.question.optional {
+      background-color: hsl(0,0%,96%);
+    }
+
+    .jqtree-element {
+      display: block;
+
+      .question-label {
+        display: inline;
+      }
+
+      .help-block, .answer, .form-element {
+        margin: 10px 0 0 0;
+        p:last-child { margin: 0; }
+      }
+
+      .form-element {
+        display: block;
+      }
+    }
   }
 }
 
@@ -22,10 +67,11 @@ section.questionnaires {
 
   .question-label {
     margin-bottom: 1em;
+    font-weight: bold;
   }
 
-  .explanation {
-    margin-top: -10px;
+  .help-block {
+    font-style: italic;
     font-size: 12px;
     color: #888;
   }
@@ -42,8 +88,18 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
+  .header {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+
   .answer {
-    font-weight: bold;
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+    &.blank {
+      font-style: italic;
+    }
   }
 
   .spreadsheet-links {
@@ -54,5 +110,27 @@ section.questionnaires {
     width: 100%;
     height: 500px;
     border: 1px solid #ccc;
+  }
+
+  fieldset {
+    padding: 15px;
+    border: 1px solid hsl(0,0%,75%);
+    margin: 15px 0 0;
+
+    legend {
+      font-size: 16px;
+      width: inherit;
+      border: none;
+      padding: 0 5px;
+      margin: 0;
+    }
+  }
+}
+
+@media print {
+  .questionnaire-form {
+    .header {
+      page-break-before: always;
+    }
   }
 }

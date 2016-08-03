@@ -65,7 +65,7 @@
         table.key-value
           tr
             th = t("project_step.labels.status")
-            td = step.admin_status ? t("project_step.status.#{step.admin_status}"): t("none")
+            td = step.admin_status || t("none")
 
           tr
             th
