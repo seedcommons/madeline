@@ -4,7 +4,7 @@ module ProgressCalculable
   extend ActiveSupport::Concern
 
   def progress
-    if progress_denominator == 0
+    @progress ||= if progress_denominator == 0
       0
     else
       progress_numerator.to_f / progress_denominator.to_f

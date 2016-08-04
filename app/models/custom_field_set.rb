@@ -139,6 +139,8 @@ class CustomFieldSet < ActiveRecord::Base
   # Recursive method to construct @children_by_parent.
   def build_parent_child_hash_for(tree)
     tree.each_pair do |field, subtree|
+      # Need to associate this copy of self with each descendant or performance will be poor.
+      field.custom_field_set = self
       @children_by_parent[field] = subtree.keys
       build_parent_child_hash_for(subtree)
     end
