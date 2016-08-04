@@ -10,8 +10,11 @@ en:
     delete_error: "The item could not be deleted due to an error"
     explanation: "Explanation"
     has_embeddable_media: "Allow files or links to be attached"
+    inherit_parent: "Inherits from parent"
     manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
+    override_parent: "Overrides parent"
+    required_loan_types: "Required for which loan types?"
     text: "Title"
 
   admin:

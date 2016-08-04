@@ -83,7 +83,13 @@ module CustomFieldAddable
       field_identifier = parts[0]
       nested_attribute = parts[1]
     end
-    field = custom_field(field_identifier)
+
+    if field_identifier.is_a? CustomField
+      field = field_identifier
+    else
+      field = custom_field(field_identifier)
+    end
+
     raw_value = ensured_custom_data[field.json_key]
     # 4301 Todo: '< 200' implies LoanResponse field.  Need to either add something to custom field
     # schema to drive this marshalling or do a wider refactor to be less generic.
@@ -116,6 +122,12 @@ module CustomFieldAddable
   # Returns true if the referenced attribute name corresponds to a custom field for the current object
   def custom_field?(field_identifier)
     self.class.custom_field?(field_identifier, model: self)
+  end
+
+  def tree_unanswered?(root_identifier)
+    # Note: Raises error if field not found
+    field = custom_field_set.field(root_identifier)
+    field.self_and_descendants.all? { |i| custom_value(i.id).blank? }
   end
 
   #

@@ -8,6 +8,7 @@ describe CustomField, :type => :model do
     expect(create(:custom_field)).to be_valid
   end
 
+  # Pending; To be reinstated when un-stubbing `CustomField#required_for?`
   context 'question groups required by loan type' do
 
     let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }
@@ -34,7 +35,7 @@ describe CustomField, :type => :model do
       override_associations: true) }
 
     let!(:f4) { create(:custom_field, custom_field_set: set, internal_name: "f4", data_type: "text",
-      loan_types: [lt1,lt2]) }
+      parent: f1, loan_types: [lt1,lt2]) }
 
     it 'not required by default' do
       expect(f1.required_for?(loan1)).to be_falsey
@@ -73,7 +74,7 @@ describe CustomField, :type => :model do
       expect(f333.required_for?(loan1)).to be_falsey
     end
 
-    it 'not required when override false even when association is present' do
+    it 'not required on child when override false even when association is present' do
       expect(f4.required_for?(loan1)).to be_falsey
     end
 

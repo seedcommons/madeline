@@ -204,6 +204,7 @@ en:
   filter_by: "Filter by:"
   id: "ID"
   incomplete: "Incomplete"
+  less: "Less"
   loans: "Loans"
   locked: "Locked"
   login: "Login"
@@ -221,11 +222,13 @@ en:
   notice_batch_updated: '%{count} record(s) successfully updated.'
   notice_batch_failures: '%{failure_count} record(s) with failures.'
   password: "Password"
+  optional: "Optional"
   print: "Print"
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
   status: "Status"
+  submit: "Submit"
   update: "Update"
   updated: "Updated"
 
@@ -247,10 +250,12 @@ en:
     parent: "Parent"
     print: "Print"
     remove: "Remove"
+    save: "Save"
     street_address: "Street Address"
     summary: "Summary"
     updated: "Updated"
     website: "Website"
+    id: "ID"
 
   loan:
     criteria: "Criteria"
@@ -293,6 +298,7 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
+
 
   menu:
     calendar: "Calendar"

@@ -7,6 +7,55 @@ section.questionnaires {
   h2 {
     margin-top: 0;
   }
+
+  li.jqtree_common {
+    border: none;
+    margin-bottom: 3px;
+    padding-bottom: 0.1px; // prevent margin collapse
+
+    &.jqtree-folder.jqtree-closed {
+      margin-bottom: 3px;
+    }
+
+    h3, h4, h5 { display: inline; }
+    h3 { font-size: 20px; }
+
+    ul.jqtree_common {
+      margin-left: 30px;
+    }
+
+    &.optional-group {
+      background-color: hsl(0,0%,96%);
+      margin-top: 12px;
+
+      > .jqtree-element > .jqtree-title {
+        font-style: italic;
+        font-weight: bold;
+        color: #888;
+      }
+    }
+
+    &.question.optional {
+      background-color: hsl(0,0%,96%);
+    }
+
+    .jqtree-element {
+      display: block;
+
+      .question-label {
+        display: inline;
+      }
+
+      .help-block, .answer, .form-element {
+        margin: 10px 0 0 0;
+        p:last-child { margin: 0; }
+      }
+
+      .form-element {
+        display: block;
+      }
+    }
+  }
 }
 
 // This is scoped separately because it can appear inside the print view.
@@ -21,11 +70,7 @@ section.questionnaires {
     font-weight: bold;
   }
 
-  .jqtree-title {
-    font-weight: bold;
-  }
-
-  .explanation {
+  .help-block {
     font-style: italic;
     font-size: 12px;
     color: #888;
@@ -72,13 +117,26 @@ section.questionnaires {
     height: 500px;
     border: 1px solid #ccc;
   }
+
+  fieldset {
+    padding: 15px;
+    border: 1px solid hsl(0,0%,75%);
+    margin: 15px 0 0;
+
+    legend {
+      font-size: 16px;
+      width: inherit;
+      border: none;
+      padding: 0 5px;
+      margin: 0;
+    }
+  }
 }
 
 @media print {
   .questionnaire-form {
-    .question[data-type=group] {
+    .header {
       page-break-before: always;
-      page-break-after: always;
     }
   }
 }
