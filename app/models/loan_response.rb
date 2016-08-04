@@ -3,38 +3,31 @@
 # to a its own db table
 
 class LoanResponse
+  include ProgressCalculable
 
   attr_accessor :custom_field
+  attr_accessor :custom_value_set
   attr_accessor :text
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
   attr_accessor :embeddable_media_id
 
-  def initialize(field, hash)
-    @hash = HashWithIndifferentAccess.new(hash || {})
-    @custom_field = field
-    @text = @hash[:text]
-    @number = @hash[:number]
-    @boolean = @hash[:boolean]
-    @rating = @hash[:rating]
-    @embeddable_media_id = @hash[:embeddable_media_id]
+  delegate :group?, :required?, to: :custom_field
+
+  def initialize(custom_field:, custom_value_set:, data:)
+    data = (data || {}).with_indifferent_access
+    @custom_field = custom_field
+    @custom_value_set = custom_value_set
+    @text = data[:text]
+    @number = data[:number]
+    @boolean = data[:boolean]
+    @rating = data[:rating]
+    @embeddable_media_id = data[:embeddable_media_id]
   end
 
   def model_name
     'LoanResponse'
-  end
-
-  def original_hash
-    @hash.to_json
-  end
-
-  def hash_data
-    result = {}
-    field_attributes.each do |attr|
-      result[attr] = self.send(:attr)
-    end
-    result
   end
 
   def embeddable_media
@@ -46,7 +39,7 @@ class LoanResponse
   end
 
   def field_attributes
-    @field_attributes ||= @custom_field.value_types
+    @field_attributes ||= custom_field.value_types
   end
 
   def has_text?
@@ -74,9 +67,21 @@ class LoanResponse
       (embeddable_media.blank? || embeddable_media.url.blank?)
   end
 
-  # Allows for one line string field to also be presented for 'rating' typed fields
-  def text_form_field_type
-    @custom_field.data_type == 'text' ? :text : :string
+  def answered?
+    !blank?
   end
 
+  # Allows for one line string field to also be presented for 'rating' typed fields
+  def text_form_field_type
+    custom_field.data_type == 'text' ? :text : :string
+  end
+
+  private
+
+  # Gets child responses of this response by asking CustomValueSet.
+  # Assumes CustomValueSet's implementation will be super fast (not hitting DB everytime), else
+  # performance will be horrible in recursive methods.
+  def children
+    @children ||= custom_value_set.children_of(self)
+  end
 end

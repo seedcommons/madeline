@@ -93,7 +93,12 @@ module CustomFieldAddable
     raw_value = ensured_custom_data[field.json_key]
     # 4301 Todo: '< 200' implies LoanResponse field.  Need to either add something to custom field
     # schema to drive this marshalling or do a wider refactor to be less generic.
-    value = wrap_as_loan_response? ? LoanResponse.new(field, raw_value) : raw_value
+    value = if wrap_as_loan_response?
+      LoanResponse.new(custom_field: field, custom_value_set: self, data: raw_value)
+    else
+      raw_value
+    end
+
     if nested_attribute
       value.send(nested_attribute)
     else

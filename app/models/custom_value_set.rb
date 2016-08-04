@@ -32,7 +32,7 @@
 #
 
 class CustomValueSet < ActiveRecord::Base
-  include CustomFieldAddable
+  include CustomFieldAddable, ProgressCalculable
 
 
   belongs_to :custom_value_set_linkable, polymorphic: true
@@ -62,6 +62,41 @@ class CustomValueSet < ActiveRecord::Base
     EmbeddableMedia.find(emb_ids).map(&:url)
   end
 
+  # Gets LoanResponses whose CustomFields are children of the CustomField of the given LoanResponse.
+  # CustomValueSet knows about response data, while CustomField knows about field hierarchy, so placing
+  # this responsibility in CustomValueSet seemed reasonable.
+  # Uses the `kids` method in CustomField that reduces number of database calls.
+  # Returns [] if no children found.
+  def children_of(response)
+    parent = response.custom_field
+    parent.kids.map { |f| custom_value(f) }
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  # A CustomValueSet is never required to be fully answered. Requiredness is determined by children.
+  def required?
+    false
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  # A CustomValueSet behaves as a group.
+  def group?
+    true
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  # A CustomValueSet behaves as a group so can never be answered.
+  def answered?
+    false
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  # Returns the LoanResponses for the top level questions in the set.
+  def children
+    top_level_fields = custom_field_set.children
+    top_level_fields.map { |f| custom_value(f) }
+  end
+
   private
 
   def custom_fields_valid
@@ -85,5 +120,4 @@ class CustomValueSet < ActiveRecord::Base
   def is_number_or_blank?(object)
     true if object.blank? || Float(object) rescue false
   end
-
 end

@@ -2,18 +2,17 @@
 #
 # Table name: custom_fields
 #
-#  created_at            :datetime         not null
-#  custom_field_set_id   :integer
-#  data_type             :string
-#  has_embeddable_media  :boolean          default(FALSE), not null
-#  id                    :integer          not null, primary key
-#  internal_name         :string
-#  migration_position    :integer
-#  override_associations :boolean          default(FALSE), not null
-#  parent_id             :integer
-#  position              :integer
-#  required              :boolean          default(FALSE), not null
-#  updated_at            :datetime         not null
+#  created_at           :datetime         not null
+#  custom_field_set_id  :integer
+#  data_type            :string
+#  has_embeddable_media :boolean          default(FALSE), not null
+#  id                   :integer          not null, primary key
+#  internal_name        :string
+#  migration_position   :integer
+#  parent_id            :integer
+#  position             :integer
+#  required             :boolean          default(FALSE), not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
@@ -107,8 +106,19 @@ class CustomField < ActiveRecord::Base
     internal_name.to_sym
   end
 
+  # Alternative to children method from closure_tree that uses the children_for_parent method of
+  # the associated CustomFieldSet, which loads the entire tree in a small number of DB queries.
+  # Returns [] if this CustomField has no children.
+  def kids
+    custom_field_set.children_for_parent(self)
+  end
+
+  def group?
+    data_type == 'group'
+  end
+
   def child_groups
-    children.select { |c| c.data_type == 'group' }
+    children.select(&:group?)
   end
 
   def first_child?
