@@ -83,6 +83,7 @@ class CustomField < ActiveRecord::Base
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the custom_fields_options relation table, and the
   # 'override_associations' flag.
+  # - If the required flag is non-null, use that.
   # - If override is true and join records are present, question is required for those loan types
   #   and optional for all others
   # - If override is true and no records are present, all are optional
