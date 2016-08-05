@@ -11,6 +11,14 @@ module ProgressCalculable
     end
   end
 
+  def progress_pct
+    @progress_pct ||= (progress * 100).round
+  end
+
+  def progress_type
+    required? ? "normal" : "optional"
+  end
+
   protected
 
   # If this is a required node, the numerator is the number of answered, required child questions,

@@ -22,7 +22,7 @@ class CustomFieldSet < ActiveRecord::Base
 
   belongs_to :division
 
-  has_many :custom_fields, -> { order(:position) }
+  has_many :custom_fields, -> { order(:position) }, inverse_of: :custom_field_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
@@ -34,6 +34,7 @@ class CustomFieldSet < ActiveRecord::Base
   def children
     custom_fields.where(parent: nil)
   end
+  alias_method :kids, :children
 
   def child_groups
     children.select(&:group?)
@@ -65,7 +66,7 @@ class CustomFieldSet < ActiveRecord::Base
   # Requires only N+1 database queries where N is the number of top level CustomFields.
   # Uses the closure_tree method of the same name.
   def hash_tree
-    children.map { |c| [c, c.hash_tree[c]] }.to_h
+    @hash_tree ||= children.map { |c| [c, c.hash_tree[c]] }.to_h
   end
 
   # Builds and memoizes a hash mapping CustomFields to their children for all CustomFields in this set.

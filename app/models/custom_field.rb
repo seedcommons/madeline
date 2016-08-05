@@ -31,7 +31,7 @@
 class CustomField < ActiveRecord::Base
   include Translatable
 
-  belongs_to :custom_field_set
+  belongs_to :custom_field_set, inverse_of: :custom_fields
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.

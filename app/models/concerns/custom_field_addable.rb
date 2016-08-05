@@ -94,7 +94,12 @@ module CustomFieldAddable
     # 4301 Todo: '< 200' implies LoanResponse field.  Need to either add something to custom field
     # schema to drive this marshalling or do a wider refactor to be less generic.
     value = if wrap_as_loan_response?
-      LoanResponse.new(custom_field: field, custom_value_set: self, data: raw_value)
+      LoanResponse.new(
+        loan: custom_value_set_linkable,
+        custom_field: field,
+        custom_value_set: self,
+        data: raw_value
+      )
     else
       raw_value
     end

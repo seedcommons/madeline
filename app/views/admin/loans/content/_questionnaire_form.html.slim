@@ -26,9 +26,9 @@
       = f.submit submit_label, class: 'update-action btn btn-success'
     .clearfix
 
-  / Render form fields outside form so they don't get double submitted after being 
+  / Render form fields outside form so they don't get double submitted after being
   / copied into the jqtree
-  = simple_fields_for(value_set, 
+  = simple_fields_for(value_set,
       defaults: { \
         input_html: {class: 'form-element form-control'},
       },

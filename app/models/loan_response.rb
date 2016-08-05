@@ -5,6 +5,7 @@
 class LoanResponse
   include ProgressCalculable
 
+  attr_accessor :loan
   attr_accessor :custom_field
   attr_accessor :custom_value_set
   attr_accessor :text
@@ -13,10 +14,11 @@ class LoanResponse
   attr_accessor :rating
   attr_accessor :embeddable_media_id
 
-  delegate :group?, :required?, to: :custom_field
+  delegate :group?, to: :custom_field
 
-  def initialize(custom_field:, custom_value_set:, data:)
+  def initialize(loan:, custom_field:, custom_value_set:, data:)
     data = (data || {}).with_indifferent_access
+    @loan = loan
     @custom_field = custom_field
     @custom_value_set = custom_value_set
     @text = data[:text]
@@ -74,6 +76,10 @@ class LoanResponse
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
     custom_field.data_type == 'text' ? :text : :string
+  end
+
+  def required?
+    @required ||= custom_field.required_for?(loan)
   end
 
   private
