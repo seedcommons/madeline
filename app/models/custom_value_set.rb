@@ -67,7 +67,7 @@ class CustomValueSet < ActiveRecord::Base
   # this responsibility in CustomValueSet seemed reasonable.
   # Uses the `kids` method in CustomField that reduces number of database calls.
   # Returns [] if no children found.
-  def children_of(response)
+  def kids_of(response)
     parent = response.custom_field
     parent.kids.map { |f| custom_value(f) }
   end
@@ -92,8 +92,8 @@ class CustomValueSet < ActiveRecord::Base
 
   # Needed to satisfy the ProgressCalculable duck type.
   # Returns the LoanResponses for the top level questions in the set.
-  def children
-    top_level_fields = custom_field_set.children
+  def kids
+    top_level_fields = custom_field_set.kids
     top_level_fields.map { |f| custom_value(f) }
   end
 

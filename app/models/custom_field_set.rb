@@ -72,12 +72,12 @@ class CustomFieldSet < ActiveRecord::Base
   # Builds and memoizes a hash mapping CustomFields to their children for all CustomFields in this set.
   # Requires no further database calls beyond those needed for `hash_tree`.
   # Uses the hash to return the children of the given parent.
-  def children_for_parent(parent)
-    if @children_by_parent.nil?
-      @children_by_parent = {}
-      build_parent_child_hash_for(hash_tree)
+  def kids_for_parent(parent)
+    if @kids_by_parent.nil?
+      @kids_by_parent = {}
+      build_parent_kid_hash_for(hash_tree)
     end
-    @children_by_parent[parent]
+    @kids_by_parent[parent]
   end
 
   def depth_first_fields
@@ -137,13 +137,13 @@ class CustomFieldSet < ActiveRecord::Base
 
   private
 
-  # Recursive method to construct @children_by_parent.
-  def build_parent_child_hash_for(tree)
+  # Recursive method to construct @kids_by_parent.
+  def build_parent_kid_hash_for(tree)
     tree.each_pair do |field, subtree|
       # Need to associate this copy of self with each descendant or performance will be poor.
       field.custom_field_set = self
-      @children_by_parent[field] = subtree.keys
-      build_parent_child_hash_for(subtree)
+      @kids_by_parent[field] = subtree.keys
+      build_parent_kid_hash_for(subtree)
     end
   end
 end

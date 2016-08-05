@@ -87,7 +87,7 @@ class LoanResponse
   # Gets child responses of this response by asking CustomValueSet.
   # Assumes CustomValueSet's implementation will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
-  def children
-    @children ||= custom_value_set.children_of(self)
+  def kids
+    @kids ||= custom_value_set.kids_of(self)
   end
 end
