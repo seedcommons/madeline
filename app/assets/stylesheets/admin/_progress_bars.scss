@@ -1,5 +1,6 @@
+// General progress bar styles.
 .progress-wrapper {
-  // Important flags below are needed to override an overly inclusive
+  // !important flags for width directives below are needed to override an overly inclusive
   // print style setting widths of all divs to 6in. Should refactor later.
   width: 250px !important;
 
@@ -10,9 +11,38 @@
     vertical-align: top;
   }
 
+  .progress-bar {
+    // Force colors for printing.
+    -webkit-print-color-adjust: exact;
+    background-color: #337ab7 !important;
+  }
+
   .progress {
     width: 200px !important;
     display: inline-block;
     margin-bottom: 0;
+
+    // Force colors for printing.
+    -webkit-print-color-adjust: exact;
+    background-color: #f5f5f5 !important;
+  }
+}
+
+// Additional styles specific to the questionnaire screen and print views.
+.questionnaire-form {
+  .progress-wrapper {
+    float: right;
+
+    .progress-pct {
+      text-align: right;
+      color: gray;
+    }
+
+    .progress-bar {
+      &.progress-optional {
+        // !important is added to force color for printing.
+        background-color: gray !important;
+      }
+    }
   }
 }

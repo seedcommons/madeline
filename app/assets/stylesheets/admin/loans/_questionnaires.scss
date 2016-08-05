@@ -8,21 +8,6 @@ section.questionnaires {
     margin-top: 0;
   }
 
-  .progress-wrapper {
-    float: right;
-
-    .progress-pct {
-      text-align: right;
-      color: gray;
-    }
-
-    .progress-bar {
-      &.progress-optional {
-        background-color: gray;
-      }
-    }
-  }
-
   li.jqtree_common {
     border: none;
     margin-bottom: 3px;
