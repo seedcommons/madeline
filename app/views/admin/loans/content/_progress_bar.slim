@@ -1,0 +1,12 @@
+/ Progress bar
+.progress-wrapper
+  .progress-pct
+    = "#{object.progress_pct}%"
+  .progress
+    div(
+      class="progress-bar progress-#{object.progress_type}"
+      role="progressbar"
+      aria-valuenow=object.progress_pct
+      aria-valuemin="0"
+      aria-valuemax="100"
+      style="width: #{object.progress_pct}%;")

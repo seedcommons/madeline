@@ -1,0 +1,18 @@
+.progress-wrapper {
+  // Important flags below are needed to override an overly inclusive
+  // print style setting widths of all divs to 6in. Should refactor later.
+  width: 250px !important;
+
+  .progress-pct {
+    width: 35px !important; // This line shouldn't be necessary at all after refactor.
+    display: inline-block;
+    padding-right: 5px;
+    vertical-align: top;
+  }
+
+  .progress {
+    width: 200px !important;
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}

@@ -40,19 +40,7 @@
 
         span.tree-view
           - if !field.leaf?
-            / Progress bar
-            .progress-wrapper
-              .progress-pct
-                = "#{value.progress_pct}%"
-              .progress
-                div(
-                  class="progress-bar progress-#{value.progress_type}"
-                  role="progressbar"
-                  aria-valuenow=value.progress_pct
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  style="width: #{value.progress_pct}%;")
-
+            = render "admin/loans/content/progress_bar", object: value
 
           - if field.data_type == 'group'
             - header_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
