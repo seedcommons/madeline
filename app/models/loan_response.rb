@@ -7,7 +7,7 @@ class LoanResponse
 
   attr_accessor :loan
   attr_accessor :custom_field
-  attr_accessor :custom_value_set
+  attr_accessor :loan_response_set
   attr_accessor :text
   attr_accessor :number
   attr_accessor :boolean
@@ -16,11 +16,11 @@ class LoanResponse
 
   delegate :group?, to: :custom_field
 
-  def initialize(loan:, custom_field:, custom_value_set:, data:)
+  def initialize(loan:, custom_field:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @custom_field = custom_field
-    @custom_value_set = custom_value_set
+    @loan_response_set = loan_response_set
     @text = data[:text]
     @number = data[:number]
     @boolean = data[:boolean]
@@ -84,10 +84,10 @@ class LoanResponse
 
   private
 
-  # Gets child responses of this response by asking CustomValueSet.
-  # Assumes CustomValueSet's implementation will be super fast (not hitting DB everytime), else
+  # Gets child responses of this response by asking LoanResponseSet.
+  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
   def kids
-    @kids ||= custom_value_set.kids_of(self)
+    @kids ||= loan_response_set.kids_of(self)
   end
 end

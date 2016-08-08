@@ -30,7 +30,7 @@ module Legacy
       self.all.each &:migrate
       ::EmbeddableMedia.recalibrate_sequence(gap: 100)
 
-      # todo: wire into loan responses (CustomValueSets) once 3738 branch is merged down
+      # todo: wire into loan responses (LoanResponseSets) once 3738 branch is merged down
     end
 
     def self.purge_migrated

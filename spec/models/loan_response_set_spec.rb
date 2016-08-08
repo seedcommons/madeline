@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 
-describe CustomValueSet, :type => :model do
+describe LoanResponseSet, :type => :model do
 
   it 'has a valid factory' do
-    expect(create(:custom_value_set)).to be_valid
+    expect(create(:loan_response_set)).to be_valid
   end
 
   it 'can autocreate dynamic attribute' do
     create(:custom_field_set, :loan_criteria)
-    expect(create(:loan).criteria(autocreate: true)).to be_kind_of CustomValueSet
+    expect(create(:loan).criteria(autocreate: true)).to be_kind_of LoanResponseSet
   end
 
   it 'can suppress autocreation' do

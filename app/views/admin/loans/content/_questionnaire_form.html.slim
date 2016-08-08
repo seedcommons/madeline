@@ -11,10 +11,8 @@
 
     = f.error_notification
 
-    = f.hidden_field(:custom_value_set_linkable_type)
-    = f.hidden_field(:custom_value_set_linkable_id)
-    = f.hidden_field(:custom_field_set_id)
-    = f.hidden_field(:linkable_attribute)
+    = f.hidden_field(:loan_id)
+    = f.hidden_field(:kind)
 
     - unless @print_view
       .jqtree data-data=@questions_json[attrib] class=attrib

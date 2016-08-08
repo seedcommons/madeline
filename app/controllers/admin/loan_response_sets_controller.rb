@@ -1,20 +1,20 @@
-class Admin::CustomValueSetsController < Admin::AdminController
+class Admin::LoanResponseSetsController < Admin::AdminController
   def create
-    @record = CustomValueSet.new(record_params)
+    @record = LoanResponseSet.new(record_params)
     authorize @record
     @record.save!
     redirect_to display_path, notice: I18n.t(:notice_created)
   end
 
   def update
-    @record = CustomValueSet.find(params[:id])
+    @record = LoanResponseSet.find(params[:id])
     authorize @record
     @record.update!(record_params)
     redirect_to display_path, notice: I18n.t(:notice_updated)
   end
 
   def destroy
-    @record = CustomValueSet.find(params[:id])
+    @record = LoanResponseSet.find(params[:id])
     authorize @record
     @record.destroy!
     redirect_to display_path, notice: I18n.t(:notice_deleted)
@@ -27,12 +27,10 @@ class Admin::CustomValueSetsController < Admin::AdminController
   end
 
   def record_params
-    params.require(:custom_value_set).permit!
+    params.require(:loan_response_set).permit!
   end
 
   def display_path
-    admin_loan_path(@record.custom_value_set_linkable,
-      filter: @record.linkable_attribute.sub(/^loan_/, ''),
-      anchor: "questions")
+    admin_loan_path(@record.loan, filter: @record.kind, anchor: "questions")
   end
 end
