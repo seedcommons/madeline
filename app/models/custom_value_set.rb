@@ -58,8 +58,7 @@ class CustomValueSet < ActiveRecord::Base
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
     return [] if custom_data.blank?
-    emb_ids = custom_data.values.map { |v| v["embeddable_media_id"] }.compact
-    EmbeddableMedia.find(emb_ids).map(&:url)
+    custom_data.values.map { |v| v["url"] }.compact
   end
 
   private

@@ -64,7 +64,7 @@ module Legacy
         # when a record with invalid data is first loaded (i.e. loan 1043 post analysis).
         # The simple form automatic numeric field handler will automatically strip the invalid
         # numeric data so that the record can still be simply re-saved.
-        m.save!(:validate => false)
+        m.save(:validate => false)
       end
       LoanResponseSet.where("ResponseSetID = ? and ResponseSetID <> LoanID", response_set_id).pluck('LoanID').each do |linked_loan_id|
         puts "related loan: #{linked_loan_id}"
