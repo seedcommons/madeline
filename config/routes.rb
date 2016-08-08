@@ -16,7 +16,6 @@ Rails.application.routes.draw do
         post :select
       end
     end
-    resources :embeddable_media
     resources :loans do
       member do
         get :steps
