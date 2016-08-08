@@ -35,10 +35,9 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
-      Legacy::LoanResponsesIFrame.migrate_all
+      # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
     end
-
 
     def self.purge_migrated
       Legacy::LoanQuestion.purge_migrated
@@ -51,12 +50,10 @@ module Legacy
       Legacy::Division.purge_migrated
     end
 
-
     # def malformed_date_clause(field)
     #   " not (#{field} is not null and dayofmonth(#{field}) = 0 and month(#{field}) > 0)"
     # end
 
   end
-
 
 end

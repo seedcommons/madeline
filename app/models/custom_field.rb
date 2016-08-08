@@ -129,7 +129,7 @@ class CustomField < ActiveRecord::Base
 
     if has_embeddable_media
       if result
-        result << :embeddable_media
+        result << :url
       else
         raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
       end

@@ -51,19 +51,7 @@ module Legacy
             models[field.custom_field_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"
-
           value_hash = response.value_hash
-          embeddable_media_id = value_hash.delete(:embeddable_media_id)
-          if embeddable_media_id
-            puts "updating owner of embeddable media: #{embeddable_media_id} to cvs #{model.id}"
-            embeddable_media = EmbeddableMedia.find_safe(embeddable_media_id)
-            if embeddable_media
-              embeddable_media.update!(owner: model, owner_attribute: field.id)
-            else
-              puts "**** warning, dangling embeddable media ref: #{embeddable_media_id} by cvs: #{model.id}"
-            end
-          end
-
           model.custom_data[field.id.to_s] = value_hash
         else
           puts "WARNING - custom field not found for id: #{response.question_id}"

@@ -9,7 +9,9 @@ class LoanResponse
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
-  attr_accessor :embeddable_media_id
+  attr_accessor :url
+  attr_accessor :start_cell
+  attr_accessor :end_cell
   attr_accessor :owner
 
   def initialize(field, hash, owner)
@@ -19,7 +21,9 @@ class LoanResponse
     @number = @hash[:number]
     @boolean = @hash[:boolean]
     @rating = @hash[:rating]
-    @embeddable_media_id = @hash[:embeddable_media_id]
+    @url = @hash[:url]
+    @start_cell = @hash[:start_cell]
+    @end_cell = @hash[:end_cell]
     @owner = owner
   end
 
@@ -39,19 +43,12 @@ class LoanResponse
     result
   end
 
-  def embeddable_media
-    if embeddable_media_id.present?
-      result = EmbeddableMedia.find_safe(embeddable_media_id)
+  def linked_document
+    if url.present?
+      LinkedDocument.new(url, start_cell: start_cell, end_cell: end_cell)
+    else
+      nil
     end
-    unless result
-      result = EmbeddableMedia.where(owner_id: @owner.id, owner_type: @owner.class.name,
-        owner_attribute: @custom_field.id).first
-    end
-    result
-  end
-
-  def embeddable_media=(record)
-    @embeddable_media_id = record.try(:id)
   end
 
   def field_attributes
@@ -70,8 +67,8 @@ class LoanResponse
     field_attributes.include?(:rating)
   end
 
-  def has_sheet?
-    field_attributes.include?(:embeddable_media)
+  def has_linked_document?
+    field_attributes.include?(:url)
   end
 
   def has_boolean?
@@ -79,8 +76,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? &&
-      (embeddable_media.blank? || embeddable_media.url.blank?)
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
   end
 
   # Allows for one line string field to also be presented for 'rating' typed fields
