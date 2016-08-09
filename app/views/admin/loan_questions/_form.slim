@@ -38,9 +38,9 @@
         - @loan_type_options.each do |loan_type|
             .form-group
               .loan-type.col-sm-9
-                input type="checkbox" name='custom_field_loan_type_ids' value== loan_type[1]
+                input type="checkbox" name='custom_field_loan_type_ids' data-loan-type='' value== loan_type[1]
                 label for="custom_field_loan_type_ids" = loan_type[0]
-              input.col-sm-3 type="text" name== "custom_field_loan_type_#{loan_type[1]}_amount"
+              input.col-sm-3.hidden type="text" name== "custom_field_loan_type_#{loan_type[1]}_amount" data-loan-amount=''
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
