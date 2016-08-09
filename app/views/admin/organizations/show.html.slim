@@ -33,7 +33,7 @@ section.coop.details
     .header-with-links
       h1 = t('common.notes')
       button.btn.btn-default.new-button = t("notes.new")
-    = render @org.notes
+    = render @org.notes.order(updated_at: :desc)
     
     .hidden
       .new-note

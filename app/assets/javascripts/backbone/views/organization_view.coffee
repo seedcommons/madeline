@@ -9,4 +9,4 @@ class MS.Views.OrganizationView extends Backbone.View
     'click .notes .new-button': 'newNote'
 
   newNote: (e) ->
-    @$('.new-note').clone().appendTo(@$('.notes'))
+    @$('.note').first().before(@$('.new-note').clone())
