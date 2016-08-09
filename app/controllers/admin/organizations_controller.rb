@@ -29,9 +29,9 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize @org
     prep_form_vars
 
-    # @new_note = Note.new(notable: @org)
-    @new_note = @org.notes.build
-    authorize @new_note, :new?
+    @new_note = Note.new(notable: @org)
+    # @new_note = @org.notes.build
+    # authorize @new_note, :new?
   end
 
   def new

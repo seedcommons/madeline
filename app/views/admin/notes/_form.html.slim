@@ -14,7 +14,7 @@
   = f.input :text, as: :text
   
   = f.input :notable_id, as: :hidden
-  = f.input :notable_class, as: :hidden, input_html: { value: f.object.notable.class }
+  = f.input :notable_type, as: :hidden
 
   button.btn.btn-default.cancel type="button" = t :cancel
   = f.submit 'Save', class: 'submit btn btn-success'

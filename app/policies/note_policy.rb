@@ -5,4 +5,7 @@ class NotePolicy < ApplicationPolicy
   #   policy_class = "#{@record.notable_class}Policy".constantize
   #   policy_class.new(@user, notable).update?
   # end
+  def create?
+    Pundit.policy(@user, @record.notable)
+  end
 end

@@ -1,4 +1,4 @@
-.note data-id=note.id
+.note data-id=(note.id || 'new')
   .form-block style="display: none"
     = render partial: "admin/notes/form", locals: { note: note }
 
@@ -9,7 +9,7 @@
   javascript:
     $(function() {
       new MS.Views.NoteView({
-        el: $('.note[data-id=#{note.id}]'),
+        el: '.note[data-id=#{note.id || "new"}]',
         new_record: #{json note.new_record?},
       });
     });

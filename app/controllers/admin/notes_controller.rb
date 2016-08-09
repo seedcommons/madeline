@@ -6,7 +6,7 @@ class Admin::NotesController < Admin::AdminController
   #   authorize @note
   #   render partial: 'note', locals: { mode: :form }
   # end
-  #
+
   def create
     @note = Note.new(note_params, author: current_user)
     authorize @note
@@ -20,7 +20,7 @@ class Admin::NotesController < Admin::AdminController
 
   def update
     if @note.update(note_params)
-      render partial: 'note', locals: { note: @note.reload }
+      render partial: 'show', locals: { note: @note.reload }
     else
       render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end
@@ -41,6 +41,6 @@ class Admin::NotesController < Admin::AdminController
     end
 
     def note_params
-      params.require(:note).permit(:text, :notable_id)
+      params.require(:note).permit(:text, :notable_id, :notable_type)
     end
 end
