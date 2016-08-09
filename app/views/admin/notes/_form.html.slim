@@ -1,7 +1,7 @@
 = simple_form_for([:admin, note],
     remote: true,
     html: { \
-      class: 'note-form ' + (note.new_record? ? 'new-form' : 'edit-form'),
+      class: 'note-form',
       data: { id: note.id },
     },
     defaults: { \

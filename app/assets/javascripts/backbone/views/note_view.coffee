@@ -7,8 +7,7 @@ class MS.Views.NoteView extends Backbone.View
   events:
     'click a.edit-action': 'editView'
     'click .cancel': 'showView'
-    'submit .edit-form': 'update'
-    'submit .new-form': 'create'
+    'submit .note-form': 'update'
 
   editView: (e) ->
     e.preventDefault()
@@ -35,18 +34,6 @@ class MS.Views.NoteView extends Backbone.View
         @$('.form-block').hide()
       .fail (response) =>
         @$('.form-block').html(response)
-
-    # Prevent form from being submitted again
-    return false
-
-  create: (e) ->
-    $form = @$(e.target).closest('form')
-    # We send form data via ajax so we can capture the response from server
-    $.post($form.attr('action'), $form.serialize())
-      .done (response) =>
-        @$el.html(response)
-      .fail (response) =>
-        @$el.html(response)
 
     # Prevent form from being submitted again
     return false
