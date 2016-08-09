@@ -33,13 +33,14 @@
       /   class: "loan-types"
     
       input type="hidden" name='custom_field[loan_type_ids][]'
-        
-      - @loan_type_options.each do |loan_type|
-        .form-horizontal
-          .form-group
-            input.col-sm-1 type="checkbox" name='custom_field_loan_type_ids' value== loan_type[1]
-            label.col-sm-8 for="custom_field_loan_type_ids" = loan_type[0]
-            input.col-sm-3 type="text" name== "custom_field_loan_type_#{loan_type[1]}_amount"
+      
+      .form-horizontal
+        - @loan_type_options.each do |loan_type|
+            .form-group
+              .loan-type.col-sm-9
+                input type="checkbox" name='custom_field_loan_type_ids' value== loan_type[1]
+                label for="custom_field_loan_type_ids" = loan_type[0]
+              input.col-sm-3 type="text" name== "custom_field_loan_type_#{loan_type[1]}_amount"
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,

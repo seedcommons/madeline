@@ -134,3 +134,36 @@ section.questionnaires {
     }
   }
 }
+
+.loan-questions {
+  .modal {
+    .loan-types-container {
+      border: 1px solid $gray4;
+      padding: 15px;
+
+      .form-group {
+        border: 1px solid $gray4;
+        vertical-align: middle;
+        line-height: 1.4;
+        margin: 15px 0;
+
+        &:first-of-type, &:last-of-type {
+          margin: 0;
+        }
+      }
+
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+
+      input[type="text"] {
+        border: 1px solid $body;
+      }
+
+      label {
+        font-weight: normal;
+        margin: 0;
+      }
+    }
+  }
+}
