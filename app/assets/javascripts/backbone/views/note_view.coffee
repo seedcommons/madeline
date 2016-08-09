@@ -1,22 +1,22 @@
 class MS.Views.NoteView extends Backbone.View
 
   initialize: (params) ->
-    @new_record = params.new_record
     new MS.Views.AutoLoadingIndicatorView()
+    @showView() unless @$el.data('id') == 'new'
 
   events:
-    'click a.edit-action': 'showForm'
-    'click .cancel': 'cancel'
+    'click a.edit-action': 'editView'
+    'click .cancel': 'showView'
     'submit .edit-form': 'update'
     'submit .new-form': 'create'
 
-  showForm: (e) ->
+  editView: (e) ->
     e.preventDefault()
     @$('.view-block').hide()
     @$('.form-block').show()
 
-  cancel: (e) ->
-    e.preventDefault()
+  showView: (e) ->
+    e.preventDefault() if e
     @$('.view-block').show()
     @$('.form-block').hide()
     # if @new_record
