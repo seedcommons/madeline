@@ -6,13 +6,13 @@
     - requireds_exist = group.children.any? { |i| i.required_for?(@loan) }
 
     - group.children.sort_by_required(@loan).each_with_index do |field, idx|
-    
+
       - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
         / Close and reopen fieldset with new group/page
         - if optional_encountered
           </fieldset>
           - reopen_fieldset = true
-          
+
         / Page header for print view
         .header
           = @loan.division.name
@@ -34,7 +34,7 @@
 
       / Don't print unanswered questions or groups
       - css_class += ' hidden-print' if value_set.tree_unanswered?(field)
-      
+
       .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
 
@@ -102,6 +102,17 @@
                 | End Cell:
                 = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string
               - document = value.linked_document
+              .form-element.form-horizontal
+                p Linked document
+                .form-group
+                  label.control-label.col-md-2 URL
+                  = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string, class: 'col-md-8'
+                .form-group
+                  label.control-label.col-md-2 Start Cell
+                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string, class: 'col-md-4'
+                .form-group
+                  label.control-label.col-md-2 End Cell
+                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string, class: 'col-md-4'
               .spreadsheet-links
                 - if document
                   .view-element.doc-actions
