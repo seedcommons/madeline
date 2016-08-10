@@ -93,24 +93,26 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
             - if value.has_linked_document?
-              .form-element.form-horizontal.linked-document
+              .linked-document.form-element.form-inline
                 h5 Linked document
-
+                
+                .form-group.full-width-group
+                  label URL
+                  = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
+                    class: 'form-control'
                 .form-group
-                  label.control-label.col-md-2 URL
-                  = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string, class: 'col-md-8'
+                  label Start Cell
+                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
+                    class: 'form-control'
                 .form-group
-                  label.control-label.col-md-2 Start Cell
-                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string, class: 'col-md-1'
-                .form-group
-                  label.control-label.col-md-2 End Cell
-                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string, class: 'col-md-1'
+                  label End Cell
+                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
+                    class: 'form-control'
               - document = value.linked_document
               .spreadsheet-links
                 - if document
                   .view-element.doc-actions
                     - if document.display_url.present?
-                      / Beware, the display_height value doesn't not seem to be honored
                       a[href="#" data-expands="iframe-#{field.attribute_sym}"
                         data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
                         i.fa.fa-eye.fa-large>

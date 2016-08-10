@@ -13,13 +13,24 @@
 }
 
 .linked-document {
-  h6 {
-    font-size: 1rem;
+  .form-group {
+    margin: .5em 2em .5em 0;
   }
 
-  label.control-label {
+  .full-width-group {
+    margin: .5em 0;
+
+    width: 100%;
+
+    input {
+      width: calc(100% - 6em);
+    }
+  }
+
+  label {
     font-weight: normal;
     text-align: left;
     font-size: .9em;
+    width: 6em;
   }
 }
