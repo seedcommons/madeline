@@ -93,26 +93,19 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
             - if value.has_linked_document?
-              .form-element
-                / Todo: let somebody else decide how to handle the field labels and layout
-                | URL:
-                = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string
-                | Start Cell:
-                = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string
-                | End Cell:
-                = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string
-              - document = value.linked_document
-              .form-element.form-horizontal
-                p Linked document
+              .form-element.form-horizontal.linked-document
+                h5 Linked document
+
                 .form-group
                   label.control-label.col-md-2 URL
                   = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string, class: 'col-md-8'
                 .form-group
                   label.control-label.col-md-2 Start Cell
-                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string, class: 'col-md-4'
+                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string, class: 'col-md-1'
                 .form-group
                   label.control-label.col-md-2 End Cell
-                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string, class: 'col-md-4'
+                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string, class: 'col-md-1'
+              - document = value.linked_document
               .spreadsheet-links
                 - if document
                   .view-element.doc-actions
