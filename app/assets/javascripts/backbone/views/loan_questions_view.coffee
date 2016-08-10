@@ -144,3 +144,30 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       @$(textbox).removeClass('hidden')
     else
       @$(textbox).addClass('hidden')
+
+    this.adjustLoanTypeIds(checkbox)
+
+  adjustLoanTypeIds: (checkbox) ->
+    ids_container = @$(checkbox).closest('.form-horizontal').find('[data-loan-ids]')
+    ids = @$(ids_container).val();
+
+    if ids
+      ids = ids.split(',');
+    else
+      ids = new Array();
+    console.log(ids)
+    console.log($.type(ids))
+
+    loan_type_id = @$(checkbox).val()
+    console.log(loan_type_id)
+
+    if @$(checkbox).is(':checked')
+      if ids.length > 0
+        console.log('attempted push')
+        ids.push(loan_type_id)
+      else
+        ids = loan_type_id
+
+    @$(ids_container).val(ids)
+
+    console.log(ids)
