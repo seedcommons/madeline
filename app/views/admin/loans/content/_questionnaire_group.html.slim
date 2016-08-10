@@ -94,18 +94,18 @@
 
             - if value.has_linked_document?
               .linked-document.form-element.form-inline
-                h5 Linked document
+                h5 = t("loan.linked_document")
                 
                 .form-group.full-width-group
-                  label URL
+                  label for="#{field.attribute_sym}__url" = t("loan.url")
                   = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
                     class: 'form-control'
                 .form-group
-                  label Start Cell
+                  label for="#{field.attribute_sym}__start_cell" = t("loan.cell_start")
                   = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
                     class: 'form-control'
                 .form-group
-                  label End Cell
+                  label for="#{field.attribute_sym}__end_cell" = t("loan.cell_end")
                   = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
                     class: 'form-control'
               - document = value.linked_document
