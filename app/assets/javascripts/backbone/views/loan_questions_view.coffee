@@ -155,19 +155,14 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       ids = ids.split(',');
     else
       ids = new Array();
-    console.log(ids)
-    console.log($.type(ids))
 
     loan_type_id = @$(checkbox).val()
-    console.log(loan_type_id)
 
     if @$(checkbox).is(':checked')
-      if ids.length > 0
-        console.log('attempted push')
         ids.push(loan_type_id)
-      else
-        ids = loan_type_id
+    else
+      position = ids.indexOf(loan_type_id);
+      if position > -1
+        ids.splice(position, 1);
 
     @$(ids_container).val(ids)
-
-    console.log(ids)
