@@ -13,17 +13,29 @@
 }
 
 .linked-document {
-  .form-group {
-    margin: .5em 2em .5em 0;
+  padding-top: 1em;
+
+  .ld-container {
+    margin-left: 1em;
   }
 
-  .full-width-group {
-    width: 100%;
-    margin: .5em 0;
+  .form-group {
+    margin: .5em 2em .25em 0;
+  }
 
-    input {
-      width: calc(100% - 6em);
+  @media (min-width: 768px) {
+    .full-width-group {
+      width: 100%;
+      margin: .5em 0 .5em 0;
+
+      input {
+        width: calc(100% - 5.5em);
+      }
     }
+  }
+
+  .help-block {
+
   }
 
   label {
@@ -32,4 +44,9 @@
     font-weight: normal;
     text-align: left;
   }
+}
+
+section.questionnaires li.jqtree_common .jqtree-element
+.linked-document .help-block {
+  margin: .25em 0;
 }

@@ -10,8 +10,6 @@ en:
     details: "Details"
     calendar: "Calendar"
     cancel_edit: "Cancel Edit"
-    cell_start: "Start Cell"
-    cell_end: "End Cell"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
     confirm_response_deletion: "WARNING: Are you sure you want to permanently delete these responses?"
     criteria: "Criteria"
@@ -23,7 +21,6 @@ en:
     finalize: "Finalize"
     forward: "+ forward"
     length: "Length"
-    linked_document: "Linked Document"
     loan_type: "Loan Type"
     media: "Loan Media"
     months: "%{number} mo."
@@ -54,7 +51,6 @@ en:
     toc: "Table of Contents"
     shared:
       new: "New Loan"
-    url: "URL"
   loans:
     index:
       title: "Loans"

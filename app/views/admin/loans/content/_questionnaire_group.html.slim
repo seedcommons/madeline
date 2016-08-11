@@ -99,20 +99,23 @@
 
             - if value.has_linked_document?
               .linked-document.form-element.form-inline
-                h5 = t("loan.linked_document")
+                h5 = t("linked_document.linked_document")
 
-                .form-group.full-width-group
-                  label for="#{field.attribute_sym}__url" = t("loan.url")
-                  = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
-                    class: 'form-control'
-                .form-group
-                  label for="#{field.attribute_sym}__start_cell" = t("loan.cell_start")
-                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
-                  class: 'form-control'
-                .form-group
-                  label for="#{field.attribute_sym}__end_cell" = t("loan.cell_end")
-                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
-                  class: 'form-control'
+                .ld-container
+                  .form-group.full-width-group
+                    label for="#{field.attribute_sym}__url" = t("linked_document.url")
+                    = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
+                      class: 'form-control', placeholder: t("linked_document.link")
+                  .help-block
+                    span = t("linked_document.range_of_cells")
+                  .form-group
+                    label for="#{field.attribute_sym}__start_cell" = t("linked_document.cell_start")
+                    = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
+                    class: 'form-control', placeholder: t("linked_document.cell_start_hint")
+                  .form-group
+                    label for="#{field.attribute_sym}__end_cell" = t("linked_document.cell_end")
+                    = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
+                    class: 'form-control', placeholder: t("linked_document.cell_end_hint")
 
               - document = value.linked_document
               .spreadsheet-links
