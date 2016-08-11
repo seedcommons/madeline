@@ -118,9 +118,9 @@
                     class: 'form-control', placeholder: t("linked_document.cell_end_hint")
 
               - document = value.linked_document
-              .spreadsheet-links
+              .spreadsheet-links.view-element
                 - if document
-                  .view-element.doc-actions
+                  .doc-actions
                     - if document.display_url.present?
                       / Beware, the display_height value doesn't not seem to be honored
                       a[href="#" data-expands="iframe-#{field.attribute_sym}"
@@ -133,7 +133,7 @@
                       = link_to document.url, target: '_blank'
                         i.fa.fa-external-link.fa-large>
                         = t("loan.spreadsheet_new_tab")
-                div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+                .spreadsheet data-expandable="iframe-#{field.attribute_sym}"
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")
