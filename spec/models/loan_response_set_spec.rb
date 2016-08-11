@@ -7,7 +7,8 @@ describe LoanResponseSet, :type => :model do
     expect(create(:loan_response_set)).to be_valid
   end
 
-  it 'can autocreate dynamic attribute' do
+  # Note, the 'autocreate' behavior was part of CustomValueLinkable which has now been removed
+  xit 'can autocreate dynamic attribute' do
     create(:custom_field_set, :loan_criteria)
     expect(create(:loan).criteria(autocreate: true)).to be_kind_of LoanResponseSet
   end
