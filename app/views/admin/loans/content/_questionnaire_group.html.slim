@@ -121,7 +121,12 @@
                     - if document
                       - if document.display_url.present?
                         .doc-actions
-                          a data-action="delete" = t("linked_document.delete")
+                          a [data-action="delete"
+                            data-confirm== t("linked_document.delete_confirmation")
+                            data-confirm-cancel== t(:cancel)
+                            data-confirm-proceed== t(:confirm)
+                            data-confirm-title== t("linked_document.linked_document")]
+                            = t("linked_document.delete")
 
                 .spreadsheet-links.view-element
                   - if document
