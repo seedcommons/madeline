@@ -11,6 +11,9 @@
       }
 
       div {
+        // TODO: This is much too general and messes with the progress bar that I added.
+        // Furthermore, I don't think this should be needed at all to achieve a good print layout.
+        // Should be refactored.
         width: 6in;
       }
     }

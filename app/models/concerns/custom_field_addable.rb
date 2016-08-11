@@ -4,45 +4,23 @@
 # Assumes that a JSON db column named 'custom_data' exists.  (future: allow this column name to be customized)
 #
 
-
+# REFACTOR: move into LoanResponseSet
 module CustomFieldAddable
   extend ActiveSupport::Concern
 
-  # todo: confirm if there are any negative consequences of potential duplicate includes of the Translatable module
+  # REFACTOR: remove
   include Translatable
 
   module ClassMethods
 
+    # REFACTOR: remove
     # Resolve the custom field set matching our model type defined at the closest ancestor level.
     # Note, if division is provided that takes precedence over the model param.  i
     # If no division provided, the model's division is used.  If neither provided, then the root division is used.
-    # This method is overridden for CustomValueSet which has its field set explicitly assigned based on the link context
+    # This method is overridden for LoanResponseSet which has its field set explicitly assigned based on the link context
     def resolve_custom_field_set(division: nil, model: nil, required: true)
       CustomFieldSet.resolve(self.name, division: division, model: model, required: required)
     end
-
-
-    # Filter against a custom value
-    # Optionally specify a base relation to chain from.
-    # future: expand our filter API as needs are more clear
-    def where_custom_value(field_identifier, value, base_relation: nil, division: nil)
-      base_relation ||= self
-      field = resolve_custom_field_set(division: division).field(field_identifier)
-      base_relation.where("custom_data->>? = ?", field.json_key, value)
-    end
-
-    # Returns true if the referenced attribute name corresponds to a custom field for the given division/model object.
-    def custom_field?(field_identifier, division: nil, model: nil)
-      field_set = resolve_custom_field_set(division: division, model: model, required: false)
-      field_set && field_set.field(field_identifier, required: false).present?
-    end
-
-  end
-
-
-  def ensured_custom_data
-    self.custom_data ||= {}
-    self.custom_data  # this explicit return value is important!
   end
 
   # Change/assign custom field value and immediate persist
@@ -63,16 +41,16 @@ module CustomFieldAddable
     if field.translatable?
       set_translation(field.json_key, value)
     else
-      data = ensured_custom_data
+      self.custom_data ||= {}
       # future: value manipulation depending on field data type
       if nested_attribute
-        hash = data[field.json_key] || {}
+        hash = custom_data[field.json_key] || {}
         hash[nested_attribute] = value
-        data[field.json_key] = hash
+        custom_data[field.json_key] = hash
       else
-        data[field.json_key] = value
+        custom_data[field.json_key] = value
       end
-      data
+      custom_data
     end
   end
 
@@ -90,21 +68,10 @@ module CustomFieldAddable
       field = custom_field(field_identifier)
     end
 
-    raw_value = ensured_custom_data[field.json_key]
-    # 4301 Todo: '< 200' implies LoanResponse field.  Need to either add something to custom field
-    # schema to drive this marshalling or do a wider refactor to be less generic.
-    value = wrap_as_loan_response? ? LoanResponse.new(field, raw_value, self) : raw_value
-    if nested_attribute
-      value.send(nested_attribute)
-    else
-      value
-    end
+    raw_value = (custom_data || {})[field.json_key]
+    response = LoanResponse.new(loan: loan, custom_field: field, loan_response_set: self, data: raw_value)
+    nested_attribute ? response.send(nested_attribute) : response
   end
-
-  # def custom_value_hash(field_identifier)
-  #   field = custom_field(field_identifier)
-  #   value_hash = ensured_custom_data[field.json_key]
-  # end
 
   # Determines and returns which custom field set definition corresponds to this object instance, based on the owning division
   # Raises an exception if no custom field set definition is found.
@@ -119,18 +86,13 @@ module CustomFieldAddable
     field_set.field(field_identifier, required: required)  if field_set
   end
 
-  # Returns true if the referenced attribute name corresponds to a custom field for the current object
-  def custom_field?(field_identifier)
-    self.class.custom_field?(field_identifier, model: self)
-  end
-
   def tree_unanswered?(root_identifier)
     # Note: Raises error if field not found
     field = custom_field_set.field(root_identifier)
     field.self_and_descendants.all? { |i| custom_value(i.id).blank? }
   end
 
-  #
+  # REFACTOR: remove
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
   # awareness of translatable custom fields.
   #
@@ -253,13 +215,4 @@ module CustomFieldAddable
       nil
     end
   end
-
-  private
-
-  def wrap_as_loan_response?
-    # Beware, this assumes CustomValueSet records are always loan response records.  If that changes
-    # then a wider refactor will be needed.
-    self.class == CustomValueSet
-  end
-
 end

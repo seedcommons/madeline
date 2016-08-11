@@ -32,7 +32,7 @@
 class CustomField < ActiveRecord::Base
   include Translatable
 
-  belongs_to :custom_field_set
+  belongs_to :custom_field_set, inverse_of: :custom_fields
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
@@ -107,8 +107,19 @@ class CustomField < ActiveRecord::Base
     internal_name.to_sym
   end
 
+  # Alternative to children method from closure_tree that uses the kids_for_parent method of
+  # the associated CustomFieldSet, which loads the entire tree in a small number of DB queries.
+  # Returns [] if this CustomField has no children.
+  def kids
+    custom_field_set.kids_for_parent(self)
+  end
+
+  def group?
+    data_type == 'group'
+  end
+
   def child_groups
-    children.select { |c| c.data_type == 'group' }
+    children.select(&:group?)
   end
 
   def first_child?

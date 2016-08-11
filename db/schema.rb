@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721225722) do
+ActiveRecord::Schema.define(version: 20160811061305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20160721225722) do
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_requirements", force: :cascade do |t|
+    t.decimal "amount", default: 0.0, null: false
     t.integer "custom_field_id"
     t.integer "option_id"
   end
@@ -71,19 +72,6 @@ ActiveRecord::Schema.define(version: 20160721225722) do
 
   add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
 
-  create_table "custom_value_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.json     "custom_data"
-    t.integer  "custom_field_set_id", null: false
-    t.integer  "custom_value_set_linkable_id", null: false
-    t.string   "custom_value_set_linkable_type", null: false
-    t.string   "linkable_attribute"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_value_sets", ["custom_field_set_id"], name: "index_custom_value_sets_on_custom_field_set_id", using: :btree
-  add_index "custom_value_sets", ["custom_value_set_linkable_type", "custom_value_set_linkable_id"], name: "custom_value_sets_on_linkable", using: :btree
-
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
     t.integer "descendant_id", null: false
@@ -108,24 +96,13 @@ ActiveRecord::Schema.define(version: 20160721225722) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
-  create_table "embeddable_media", force: :cascade do |t|
+  create_table "loan_response_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string   "document_key"
-    t.string   "end_cell"
-    t.integer  "height"
-    t.text     "html"
-    t.string   "original_url"
-    t.string   "owner_attribute"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "sheet_number"
-    t.string   "start_cell"
+    t.json     "custom_data"
+    t.string   "kind"
+    t.integer  "loan_id", null: false
     t.datetime "updated_at", null: false
-    t.string   "url"
-    t.integer  "width"
   end
-
-  add_index "embeddable_media", ["owner_type", "owner_id"], name: "index_embeddable_media_on_owner_type_and_owner_id", using: :btree
 
   create_table "loans", force: :cascade do |t|
     t.decimal  "amount"
@@ -231,6 +208,7 @@ ActiveRecord::Schema.define(version: 20160721225722) do
     t.string   "email"
     t.string   "fax"
     t.string   "industry"
+    t.boolean  "is_recovered"
     t.string   "last_name"
     t.string   "legal_name"
     t.string   "name"
@@ -363,7 +341,6 @@ ActiveRecord::Schema.define(version: 20160721225722) do
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "custom_field_sets", "divisions"
   add_foreign_key "custom_fields", "custom_field_sets"
-  add_foreign_key "custom_value_sets", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loans", "currencies"
