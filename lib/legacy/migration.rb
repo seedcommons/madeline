@@ -13,8 +13,8 @@ module Legacy
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
       Legacy::DueDiligencePerLoanType.migrate_all
+      # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
-      Legacy::LoanResponsesIFrame.migrate_all
     end
 
     # the core data which can be quickly migrated
@@ -36,8 +36,8 @@ module Legacy
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
       Legacy::DueDiligencePerLoanType.migrate_all
+      # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
-      Legacy::LoanResponsesIFrame.migrate_all
     end
 
     def self.purge_migrated
@@ -57,6 +57,5 @@ module Legacy
     # end
 
   end
-
 
 end

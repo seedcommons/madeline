@@ -121,10 +121,6 @@ module Legacy
 
       # need to leave room for migrated loan questions
       CustomField.recalibrate_sequence(id: 200)
-
-      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
-      org_field_set.custom_fields.destroy_all
-      org_field_set.custom_fields.create!(internal_name: 'is_recovered', data_type: 'boolean')
     end
 
 

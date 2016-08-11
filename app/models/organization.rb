@@ -13,6 +13,7 @@
 #  fax                      :string
 #  id                       :integer          not null, primary key
 #  industry                 :string
+#  is_recovered             :boolean
 #  last_name                :string
 #  legal_name               :string
 #  name                     :string
@@ -45,12 +46,6 @@ class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
-  include CustomFieldAddable  # allows setting dynamic fields like 'is_recovered', potentially customizable per division
-
-  # provides 'ownership' relation with loan questionnaire responses.  note multiple loans may share the same
-  # loan_criteria or loan_post_analysis, so they are 'owned' by the org/co-op and referenced by the loan
-  include CustomValueSetLinkable
-
 
   belongs_to :division
   belongs_to :country
