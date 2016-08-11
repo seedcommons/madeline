@@ -98,6 +98,8 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
             - if value.has_linked_document?
+              - document = value.linked_document
+
               .linked-document.form-element.form-inline
                 h5 = t("linked_document.linked_document")
 
@@ -116,8 +118,11 @@
                     label for="#{field.attribute_sym}__end_cell" = t("linked_document.cell_end")
                     = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
                     class: 'form-control', placeholder: t("linked_document.cell_end_hint")
+                  - if document
+                    - if document.display_url.present?
+                      .doc-actions
+                        a data-action="delete" = t("linked_document.delete")
 
-              - document = value.linked_document
               .spreadsheet-links.view-element
                 - if document
                   .doc-actions

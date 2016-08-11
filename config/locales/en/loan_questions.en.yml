@@ -22,6 +22,8 @@ en:
     cell_end_hint: Z26
     cell_start: Start Cell
     cell_start_hint: A1
+    delete: Delete Document
+    delete_confirmation: Are you sure you want to remove this linked document?
     link: "Link to file (such as a Google spreadsheet or document)"
     linked_document: Linked Document
     range_of_cells: Optional range of spreadsheet cells
