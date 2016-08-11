@@ -9,7 +9,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   events:
     'ajax:error': 'submitError'
-    'click .linked-document .doc-actions a': 'removeLinkedDocument'
+    'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
 
   refreshContent: ->
     MS.loadingIndicator.show()
