@@ -12,7 +12,10 @@ class LoanResponse
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
-  attr_accessor :embeddable_media_id
+  attr_accessor :url
+  attr_accessor :start_cell
+  attr_accessor :end_cell
+  attr_accessor :owner
 
   delegate :group?, to: :custom_field
 
@@ -25,19 +28,21 @@ class LoanResponse
     @number = data[:number]
     @boolean = data[:boolean]
     @rating = data[:rating]
-    @embeddable_media_id = data[:embeddable_media_id]
+    @url = data[:url]
+    @start_cell = data[:start_cell]
+    @end_cell = data[:end_cell]
   end
 
   def model_name
     'LoanResponse'
   end
 
-  def embeddable_media
-    embeddable_media_id.present? ? EmbeddableMedia.find(embeddable_media_id) : nil
-  end
-
-  def embeddable_media=(record)
-    @embeddable_media_id = record.try(:id)
+  def linked_document
+    if url.present?
+      LinkedDocument.new(url, start_cell: start_cell, end_cell: end_cell)
+    else
+      nil
+    end
   end
 
   def field_attributes
@@ -56,8 +61,8 @@ class LoanResponse
     field_attributes.include?(:rating)
   end
 
-  def has_sheet?
-    field_attributes.include?(:embeddable_media)
+  def has_linked_document?
+    field_attributes.include?(:url)
   end
 
   def has_boolean?
@@ -65,8 +70,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? &&
-      (embeddable_media.blank? || embeddable_media.url.blank?)
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
   end
 
   def answered?

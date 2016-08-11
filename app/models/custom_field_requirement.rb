@@ -2,7 +2,6 @@
 #
 # Table name: custom_field_requirements
 #
-#  amount          :decimal(, )      default(0.0), not null
 #  custom_field_id :integer
 #  id              :integer          not null, primary key
 #  option_id       :integer
