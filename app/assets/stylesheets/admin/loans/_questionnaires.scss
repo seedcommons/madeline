@@ -105,7 +105,13 @@ section.questionnaires {
   }
 
   .spreadsheet-links {
-    font-size: 12px;
+    margin-top: 15px;
+
+    .doc-actions {
+      a {
+        margin-right: 15px;
+      }
+    }
   }
 
   .spreadsheet iframe {
@@ -134,6 +140,13 @@ section.questionnaires {
     .header {
       page-break-before: always;
     }
+  }
+}
+
+.admin-embeddable_media {
+  #embeddable_media_start_cell,
+  #embeddable_media_end_cell {
+    width: auto;
   }
 }
 

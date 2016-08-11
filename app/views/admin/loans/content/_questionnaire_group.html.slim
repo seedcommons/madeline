@@ -67,6 +67,12 @@
         - else
 
           .answer-wrapper.tree-view
+            / It's very useful to be able to temporarily expose this block for debugging.
+            / Please don't remove.
+            /= "field id: #{field.id}"
+            /br
+            /= "raw data: #{value_set.custom_data[field.id.to_s]}"
+            /br
 
             - if value.has_rating?
               - if value.rating.present?
@@ -91,20 +97,32 @@
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
-            - if value.has_sheet?
-              - sheet = value.embeddable_media || EmbeddableMedia.new
-              .view-element
-                - if sheet.url
-                  p.spreadsheet-links
-                    a[href="#" data-expands="iframe-#{field.attribute_sym}"
-                      data-content="<iframe src='#{sheet.url}'>"]
-                      = t("loan.spreadsheet_inline")
-                    a href="#" data-hides="iframe-#{field.attribute_sym}"
-                      = t("loan.spreadsheet_hide")
-                    = ' - '
-                    = link_to t("loan.spreadsheet_new_tab"), sheet.url, {target: '_blank'}
-
-                  div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+            - if value.has_linked_document?
+              .form-element
+                / Todo: let somebody else decide how to handle the field labels and layout
+                | URL:
+                = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string
+                | Start Cell:
+                = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string
+                | End Cell:
+                = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string
+              - document = value.linked_document
+              .spreadsheet-links
+                - if document
+                  .view-element.doc-actions
+                    - if document.display_url.present?
+                      / Beware, the display_height value doesn't not seem to be honored
+                      a[href="#" data-expands="iframe-#{field.attribute_sym}"
+                        data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
+                        i.fa.fa-eye.fa-large>
+                        = t("loan.spreadsheet_inline")
+                      a href="#" data-hides="iframe-#{field.attribute_sym}"
+                        i.fa.fa-eye-slash.fa-large>
+                        = t("loan.spreadsheet_hide")
+                      = link_to document.url, target: '_blank'
+                        i.fa.fa-external-link.fa-large>
+                        = t("loan.spreadsheet_new_tab")
+                div.spreadsheet data-expandable="iframe-#{field.attribute_sym}"
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")

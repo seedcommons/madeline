@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808025907) do
+ActiveRecord::Schema.define(version: 20160811061305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,25 +95,6 @@ ActiveRecord::Schema.define(version: 20160808025907) do
 
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
-
-  create_table "embeddable_media", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string   "document_key"
-    t.string   "end_cell"
-    t.integer  "height"
-    t.text     "html"
-    t.string   "original_url"
-    t.string   "owner_attribute"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "sheet_number"
-    t.string   "start_cell"
-    t.datetime "updated_at", null: false
-    t.string   "url"
-    t.integer  "width"
-  end
-
-  add_index "embeddable_media", ["owner_type", "owner_id"], name: "index_embeddable_media_on_owner_type_and_owner_id", using: :btree
 
   create_table "loan_response_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
