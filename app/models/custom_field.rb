@@ -37,6 +37,7 @@ class CustomField < ActiveRecord::Base
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :custom_field_requirements, dependent: :destroy
+  accepts_nested_attributes_for :custom_field_requirements, allow_destroy: true
 
   # has_many :options, through: :custom_field_requirements
   # alias_method :loan_types, :options

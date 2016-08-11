@@ -55,4 +55,7 @@ Rails.application.configure do
 
   # Auto reload browser
   config.middleware.insert_before Rack::Lock, Rack::LiveReload if ENV['LIVE_RELOAD']
+
+  # Raise error on unpermitted strong params
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end

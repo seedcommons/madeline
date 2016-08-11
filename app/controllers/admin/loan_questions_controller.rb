@@ -13,12 +13,12 @@ class Admin::LoanQuestionsController < Admin::AdminController
     field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
     authorize @loan_question
-    @loan_type_options = Loan.loan_type_options
+    @loan_type_options = Loan.loan_type_option_set.options
     render_form
   end
 
   def edit
-    @loan_type_options = Loan.loan_type_options
+    @loan_type_options = Loan.loan_type_option_set.options
     render_form
   end
 
@@ -74,7 +74,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
     def loan_question_params
       params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
         :custom_field_set_id, :has_embeddable_media, :override_associations,
-        *translation_params(:label, :explanation), loan_type_ids: [])
+        # :custom_field_requirements, :locale_en, :locale_es,
+        *translation_params(:label, :explanation))
     end
 
     def render_form(status: nil)

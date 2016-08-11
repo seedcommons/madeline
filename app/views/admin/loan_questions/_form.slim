@@ -27,25 +27,26 @@
         [true, t('loan_questions.override_parent')]], :first, :last,
         item_wrapper_class: 'radio'
 
-    - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
-    .loan-types-container class="#{hideLoanTypes}"
-      / = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
-      /   class: "loan-types"
+    - if @loan_question.override_associations || !@loan_question.parent
+      .loan-types-container
+        / = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
+        /   class: "loan-types"
 
-      / = @loan_question.custom_field_requirements[0].amount
-      / = @loan_question.loan_type_ids
-      / = @loan_question.loan_types.inspect
+        / = @loan_question.custom_field_requirements[0].amount
+        / = @loan_question.loan_type_ids
+        / = @loan_question.loan_types.inspect
 
-      .form-horizontal
-        input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
-        - @loan_type_options.each do |loan_type|
-            - loan_type_id = loan_type[1]
-            - loan_type_name = loan_type[0]
-            .form-group
-              .loan-type.col-sm-9
-                input type="checkbox" name='custom_field_loan_type_ids' data-loan-type='' value== loan_type_id
-                label for="custom_field_loan_type_ids" = loan_type_name
-              input.col-sm-3.hidden type="text" name== "custom_field[loan_type][#{loan_type_id}][custom_field_requirement][amount]" data-loan-amount=''
+        .form-horizontal
+          / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
+          - @loan_type_options.each do |loan_type|
+            = f.simple_fields_for :custom_field_requirements, loan_type do |sf|
+              .form-group.row
+                .loan-type.col-sm-9
+                  / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
+                  = sf.input_field :_destroy, as: :boolean, value: 0, class: "destroy_#{loan_type.id}"
+                  label for="custom_field_loan_type_ids" = loan_type.label
+                / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
+                = sf.input_field :amount, class: 'amount col-sm-3'
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,

@@ -138,7 +138,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   showHideLoanAmount: (e) ->
     checkbox = e.currentTarget
-    textbox = @$(checkbox).closest('.form-group').find('[data-loan-amount]')
+    textbox = @$(checkbox).closest('.form-group').find('.amount')
 
     if @$(checkbox).is(':checked')
       @$(textbox).removeClass('hidden')
