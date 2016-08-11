@@ -1,8 +1,6 @@
 # Represents a link to an online document, usually a google spreadsheet from a
 # LoanResponse.
 # Supercedes concept of 'EmbeddableMedia'
-#
-# Todo: create migration to drop obsolete embeddable_media table after merged to develop.
 
 class LinkedDocument
 
