@@ -98,14 +98,22 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
             - if value.has_linked_document?
-              .form-element
-                / Todo: let somebody else decide how to handle the field labels and layout
-                | URL:
-                = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string
-                | Start Cell:
-                = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string
-                | End Cell:
-                = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string
+              .linked-document.form-element.form-inline
+                h5 = t("loan.linked_document")
+
+                .form-group.full-width-group
+                  label for="#{field.attribute_sym}__url" = t("loan.url")
+                  = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
+                    class: 'form-control'
+                .form-group
+                  label for="#{field.attribute_sym}__start_cell" = t("loan.cell_start")
+                  = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
+                  class: 'form-control'
+                .form-group
+                  label for="#{field.attribute_sym}__end_cell" = t("loan.cell_end")
+                  = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
+                  class: 'form-control'
+
               - document = value.linked_document
               .spreadsheet-links
                 - if document
