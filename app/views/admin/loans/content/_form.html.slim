@@ -19,16 +19,19 @@
   = f.input :name
     .view-element = @loan.name
     = f.input_field :name
-    
+
   = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.division.try(:name)
-  
+
   = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.organization.try(:name)
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
+
+  = f.input :criteria_progress
+    .view-element = render "admin/loans/content/progress_bar", object: @loan.criteria
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)

@@ -1,0 +1,12 @@
+- pct = object.try(:progress_pct) || 0
+.progress-wrapper
+  .progress-pct
+    = "#{pct}%"
+  .progress
+    div(
+      class="progress-bar progress-#{object.try(:progress_type) || 'normal'}"
+      role="progressbar"
+      aria-valuenow=pct
+      aria-valuemin="0"
+      aria-valuemax="100"
+      style="width: #{pct}%;")

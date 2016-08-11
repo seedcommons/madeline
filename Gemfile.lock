@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/sassafrastech/closure_tree.git
+  revision: 02689da3f186b7412adf648d298afc0614123631
+  specs:
+    closure_tree (6.1.0)
+      activerecord (>= 4.1.0)
+      with_advisory_lock (>= 3.0.0)
+
+GIT
   remote: git://github.com/sassafrastech/wice_grid.git
   revision: 8d5c4b53b2a05afb818d67034865e6617a9605ba
   branch: rails3
@@ -103,9 +111,6 @@ GEM
       mime-types (>= 1.16)
     choice (0.2.0)
     chronic (0.10.2)
-    closure_tree (6.0.0)
-      activerecord (>= 4.1.0)
-      with_advisory_lock (>= 3.0.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -205,7 +210,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.1)
     mini_magick (4.5.0)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minitest (5.9.0)
     momentjs-rails (2.11.0)
       railties (>= 3.1)
@@ -215,8 +220,9 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.0)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     notiffany (0.1.0)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -224,6 +230,7 @@ GEM
     parser (2.3.0.6)
       ast (~> 2.2)
     pg (0.18.4)
+    pkg-config (1.1.7)
     powerpack (0.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -398,7 +405,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.1)
   capybara
   carrierwave
-  closure_tree
+  closure_tree!
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise

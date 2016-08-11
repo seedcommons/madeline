@@ -65,11 +65,7 @@ class Admin::LoansController < Admin::AdminController
 
       # If existing set not found, build a blank one with which to render the form.
       unless @value_sets[attrib]
-        @value_sets[attrib] = CustomValueSet.new(
-          custom_value_set_linkable: @loan,
-          custom_field_set: CustomFieldSet.find_by(internal_name: "loan_#{attrib}"),
-          linkable_attribute: "loan_#{attrib}"
-        )
+        @value_sets[attrib] = LoanResponseSet.new(kind: attrib, loan: @loan)
       end
 
       root_questions = CustomField.loan_questions(attrib).roots.sort_by_required(@loan)

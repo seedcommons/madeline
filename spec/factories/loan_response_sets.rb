@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: custom_value_sets
+# Table name: loan_response_sets
 #
 #  id                         :integer          not null, primary key
 #  custom_field_addable_id   :integer
@@ -11,13 +11,13 @@
 #
 # Indexes
 #
-#  custom_value_sets_on_settable                   (custom_field_addable_type,custom_field_addable_id)
-#  index_custom_value_sets_on_custom_field_set_id  (custom_field_set_id)
+#  loan_response_sets_on_settable                   (custom_field_addable_type,custom_field_addable_id)
+#  index_loan_response_sets_on_custom_field_set_id  (custom_field_set_id)
 #
 
 FactoryGirl.define do
-  factory :custom_value_set do
-    association :custom_value_set_linkable, factory: :loan
+  factory :loan_response_set do
+    loan
     custom_field_set
     transient_division
   end

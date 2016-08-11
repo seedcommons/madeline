@@ -3,8 +3,11 @@
 # to a its own db table
 
 class LoanResponse
+  include ProgressCalculable
 
+  attr_accessor :loan
   attr_accessor :custom_field
+  attr_accessor :loan_response_set
   attr_accessor :text
   attr_accessor :number
   attr_accessor :boolean
@@ -14,33 +17,24 @@ class LoanResponse
   attr_accessor :end_cell
   attr_accessor :owner
 
-  def initialize(field, hash, owner)
-    @hash = HashWithIndifferentAccess.new(hash || {})
-    @custom_field = field
-    @text = @hash[:text]
-    @number = @hash[:number]
-    @boolean = @hash[:boolean]
-    @rating = @hash[:rating]
-    @url = @hash[:url]
-    @start_cell = @hash[:start_cell]
-    @end_cell = @hash[:end_cell]
-    @owner = owner
+  delegate :group?, to: :custom_field
+
+  def initialize(loan:, custom_field:, loan_response_set:, data:)
+    data = (data || {}).with_indifferent_access
+    @loan = loan
+    @custom_field = custom_field
+    @loan_response_set = loan_response_set
+    @text = data[:text]
+    @number = data[:number]
+    @boolean = data[:boolean]
+    @rating = data[:rating]
+    @url = data[:url]
+    @start_cell = data[:start_cell]
+    @end_cell = data[:end_cell]
   end
 
   def model_name
     'LoanResponse'
-  end
-
-  def original_hash
-    @hash.to_json
-  end
-
-  def hash_data
-    result = {}
-    field_attributes.each do |attr|
-      result[attr] = self.send(:attr)
-    end
-    result
   end
 
   def linked_document
@@ -52,7 +46,7 @@ class LoanResponse
   end
 
   def field_attributes
-    @field_attributes ||= @custom_field.value_types
+    @field_attributes ||= custom_field.value_types
   end
 
   def has_text?
@@ -79,9 +73,25 @@ class LoanResponse
     text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
   end
 
-  # Allows for one line string field to also be presented for 'rating' typed fields
-  def text_form_field_type
-    @custom_field.data_type == 'text' ? :text : :string
+  def answered?
+    !blank?
   end
 
+  # Allows for one line string field to also be presented for 'rating' typed fields
+  def text_form_field_type
+    custom_field.data_type == 'text' ? :text : :string
+  end
+
+  def required?
+    @required ||= custom_field.required_for?(loan)
+  end
+
+  private
+
+  # Gets child responses of this response by asking LoanResponseSet.
+  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
+  # performance will be horrible in recursive methods.
+  def kids
+    @kids ||= loan_response_set.kids_of(self)
+  end
 end
