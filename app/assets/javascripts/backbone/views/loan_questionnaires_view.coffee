@@ -9,6 +9,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   events:
     'ajax:error': 'submitError'
+    'click .linked-document .doc-actions a': 'removeLinkedDocument'
 
   refreshContent: ->
     MS.loadingIndicator.show()
@@ -16,6 +17,13 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       MS.loadingIndicator.hide()
       @initializeTree()
       @filterSwitchView.filterInit()
+
+  removeLinkedDocument: (e) ->
+    e.preventDefault()
+    item = e.currentTarget
+    container = @$(item).closest('.linked-document')
+    @$(container).find('input[type="text"]').val('')
+    @$(item).addClass('hidden')
 
   submitError: (e) ->
     e.stopPropagation()
