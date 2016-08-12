@@ -12,6 +12,7 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
+      Legacy::DueDiligencePerLoanType.migrate_all
       # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
     end
@@ -34,11 +35,13 @@ module Legacy
       Legacy::ProjectLog.migrate_all
       Legacy::Note.migrate_all
       Legacy::LoanQuestion.migrate_all
+      Legacy::DueDiligencePerLoanType.migrate_all
       # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
     end
 
     def self.purge_migrated
+      Legacy::DueDiligencePerLoanType.purge_migrated
       Legacy::LoanQuestion.purge_migrated
       Legacy::Note.purge_migrated
       Legacy::ProjectLog.purge_migrated
