@@ -3,50 +3,50 @@
 # to a its own db table
 
 class LoanResponse
+  include ProgressCalculable
 
+  attr_accessor :loan
   attr_accessor :custom_field
+  attr_accessor :loan_response_set
   attr_accessor :text
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
-  attr_accessor :embeddable_media_id
+  attr_accessor :url
+  attr_accessor :start_cell
+  attr_accessor :end_cell
+  attr_accessor :owner
 
-  def initialize(field, hash)
-    @hash = HashWithIndifferentAccess.new(hash || {})
-    @custom_field = field
-    @text = @hash[:text]
-    @number = @hash[:number]
-    @boolean = @hash[:boolean]
-    @rating = @hash[:rating]
-    @embeddable_media_id = @hash[:embeddable_media_id]
+  delegate :group?, to: :custom_field
+
+  def initialize(loan:, custom_field:, loan_response_set:, data:)
+    data = (data || {}).with_indifferent_access
+    @loan = loan
+    @custom_field = custom_field
+    @loan_response_set = loan_response_set
+    @text = data[:text]
+    @number = data[:number]
+    @boolean = data[:boolean]
+    @rating = data[:rating]
+    @url = data[:url]
+    @start_cell = data[:start_cell]
+    @end_cell = data[:end_cell]
   end
 
   def model_name
     'LoanResponse'
   end
 
-  def original_hash
-    @hash.to_json
-  end
-
-  def hash_data
-    result = {}
-    field_attributes.each do |attr|
-      result[attr] = self.send(:attr)
+  def linked_document
+    if url.present?
+      LinkedDocument.new(url, start_cell: start_cell, end_cell: end_cell)
+    else
+      nil
     end
-    result
-  end
-
-  def embeddable_media
-    embeddable_media_id.present? ? EmbeddableMedia.find(embeddable_media_id) : nil
-  end
-
-  def embeddable_media=(record)
-    @embeddable_media_id = record.try(:id)
   end
 
   def field_attributes
-    @field_attributes ||= @custom_field.value_types
+    @field_attributes ||= custom_field.value_types
   end
 
   def has_text?
@@ -61,8 +61,8 @@ class LoanResponse
     field_attributes.include?(:rating)
   end
 
-  def has_sheet?
-    field_attributes.include?(:embeddable_media)
+  def has_linked_document?
+    field_attributes.include?(:url)
   end
 
   def has_boolean?
@@ -70,13 +70,28 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? &&
-      (embeddable_media.blank? || embeddable_media.url.blank?)
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
+  end
+
+  def answered?
+    !blank?
   end
 
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
-    @custom_field.data_type == 'text' ? :text : :string
+    custom_field.data_type == 'text' ? :text : :string
   end
 
+  def required?
+    @required ||= custom_field.required_for?(loan)
+  end
+
+  private
+
+  # Gets child responses of this response by asking LoanResponseSet.
+  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
+  # performance will be horrible in recursive methods.
+  def kids
+    @kids ||= loan_response_set.kids_of(self)
+  end
 end

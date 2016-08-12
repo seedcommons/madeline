@@ -24,6 +24,7 @@ en:
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
+        criteria_progress: "Criteria"
         amount: "Amount"
         currency: "Currency"
         primary_agent: "Point Person"

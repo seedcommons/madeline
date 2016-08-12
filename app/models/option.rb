@@ -34,6 +34,10 @@ class Option < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
 
+  # As of 5/26/16, 'description' fields were added to the legacy system mysql database for loan types,
+  # but this data has not yet been added to the StaticData population of loan types Options
+  #attr_translatable :description
+
   after_create :ensure_value_assigned
 
   def ensure_value_assigned

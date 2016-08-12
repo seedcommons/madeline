@@ -27,7 +27,6 @@ class Cooperative < ActiveRecord::Base
         #todo: figure out why this bombs, perhaps because source column is already lower case
         #website: web,
         alias: self.alias.try(:strip),
-        ##todo: is_recovered: recuperada, - once custom fields are implemented
         sector: sector.try(:strip),
         industry: industry.try(:strip),
         referral_source: source.try(:strip),

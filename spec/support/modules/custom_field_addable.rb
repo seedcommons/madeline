@@ -15,17 +15,6 @@ shared_examples_for 'custom_field_set_addable' do
     expect(fetched.custom_value('a_boolean')).to be true
   end
 
-  it 'can filter by custom value' do
-    root_division
-    create(:custom_field_set, :generic_fields, internal_name: described_class.name)
-    model_instance.update_custom_value('a_boolean', true)
-    expect(described_class.where_custom_value('a_boolean', 'true').count).to be 1
-    expect(described_class.where_custom_value('a_boolean', 'false').count).to be 0
-    model_instance.update_custom_value('a_boolean', false)
-    expect(described_class.where_custom_value('a_boolean', 'true').count).to be 0
-    expect(described_class.where_custom_value('a_boolean', 'false').count).to be 1
-  end
-
   # beware this code assumes described model has a directly assignable division
   # if that assumption becomes invalid, then this test needs to be further adapted
   it 'should handle inherited custom field sets' do

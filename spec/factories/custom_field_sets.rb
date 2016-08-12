@@ -48,15 +48,5 @@ FactoryGirl.define do
         create(:custom_field, custom_field_set: model, internal_name: 'total_loan_amount', data_type: 'number')
       end
     end
-
-    trait :organization_fields do
-      internal_name Organization.name
-      after(:create) do |model|
-        create(:custom_field, custom_field_set: model, internal_name: 'is_recovered', data_type: 'boolean')
-      end
-    end
-
-
   end
-
 end
