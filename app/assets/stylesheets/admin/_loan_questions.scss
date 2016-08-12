@@ -11,3 +11,42 @@
     }
   }
 }
+
+.linked-document {
+  padding-top: 1em;
+
+  .ld-container {
+    margin-left: 1em;
+  }
+
+  .form-group {
+    margin: .5em 2em .25em 0;
+  }
+
+  @media (min-width: 768px) {
+    .full-width-group {
+      width: 100%;
+      margin: .5em 0 .5em 0;
+
+      input {
+        width: calc(100% - 5.5em);
+      }
+    }
+  }
+
+  label {
+    width: 6em;
+    font-size: .9em;
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .doc-actions {
+    margin: .5em 0;
+  }
+}
+
+section.questionnaires li.jqtree_common .jqtree-element
+.linked-document .help-block {
+  margin: .25em 0;
+}
