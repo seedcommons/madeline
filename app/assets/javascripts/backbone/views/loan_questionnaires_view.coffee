@@ -20,10 +20,10 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
-    item = e.currentTarget
-    container = @$(item).closest('.linked-document')
-    @$(container).find('input[type="text"]').val('')
-    @$(item).addClass('hidden')
+    $item = @$(e.currentTarget)
+    $container = $item.closest('.linked-document')
+    $container.find('input[type="text"]').val('')
+    $item.hide()
 
   submitError: (e) ->
     e.stopPropagation()
