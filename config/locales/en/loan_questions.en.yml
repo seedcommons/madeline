@@ -26,7 +26,7 @@ en:
     delete_confirmation: Are you sure you want to remove this link?
     link: "Link to file (such as a Google spreadsheet or document)"
     linked_document: Linked Document
-    range_of_cells: Optional range for Google spreadsheet
+    range_of_cells: Optional cells for Google spreadsheet
     url: URL
 
   admin:
