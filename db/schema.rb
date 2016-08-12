@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20160811061305) do
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_requirements", force: :cascade do |t|
+    t.decimal "amount", default: 0.0, null: false
     t.integer "custom_field_id"
     t.integer "option_id"
   end

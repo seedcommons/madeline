@@ -15,8 +15,8 @@ module Legacy
 
     def self.purge_migrated
       # note, not complete, but sufficient for purpose
-      puts "CustomModel.delete_all"
-      ::ProjectLog.delete_all
+      puts "LoanResponseSet.delete_all"
+      ::LoanResponseSet.delete_all
     end
 
 
@@ -47,7 +47,11 @@ module Legacy
           puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}"
           model = models[field.custom_field_set.internal_name]
           unless model
-            model = new_loan.fetch_has_one_custom(field.custom_field_set.internal_name, autocreate: true)
+#            model = new_loan.fetch_has_one_custom(field.custom_field_set.internal_name, autocreate: true)
+            match = /loan_(.*)/.match(field.custom_field_set.internal_name)
+            raise "unexpected custom field set name: #{field.custom_field_set.internal_name}" unless match
+            attrib = match[1]
+            model = new_loan.send(attrib) || ::LoanResponseSet.new(kind: attrib, loan: new_loan, custom_data: {})
             models[field.custom_field_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"
