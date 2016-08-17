@@ -28,6 +28,10 @@ module Legacy
 
 
     def migration_data
+      custom_field_set_id = active
+      # Do _not_ map the 'due diligence' questions to the 'criteria' set until we figure out
+      # how to propertly handle the due ciligence 'cross-linking' of child questions
+      #custom_field_set_id = 2 if custom_field_set_id == 4
       data = {
         id: id,
         internal_name: "field_#{id}",
