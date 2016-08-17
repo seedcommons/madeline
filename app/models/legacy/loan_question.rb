@@ -22,6 +22,8 @@ module Legacy
       # ignore some random cruft from lastest prod db
       connection.execute("UPDATE LoanQuestions set Active = 0 where Type = ''")
 
+      # create some test data for the 'inactive' state
+      connection.execute("update LoanQuestions set NewGroup = Grupo where active = 2 and id > 100")
     end
 
     def self.migrate_all
@@ -43,21 +45,20 @@ module Legacy
       ::CustomField.where("custom_field_set_id <= 4").destroy_all
     end
 
-    # Can probably just ignore the old orden and grupo once production data is sanitized,
-    # but honor for now as a fallback if run without any db cleanup.
     def parent_id
-      new_group || grupo
+      new_group
     end
 
     def position
-      new_order || orden
+      new_order
     end
 
     def migration_data
-      is_active = true
+      status = :active
       custom_field_set_id = active
       # question question sets 1 & 2 will now be considered 'inactive'
-      is_active = false if active <= 2
+      status = :inactive if active <= 2
+      status = :retired if new_group.blank? || new_group == 0
       # questions sets 1,2 & 4 will all map now to 'criteria'
       custom_field_set_id = (active == 3) ? 3 : 2
 
@@ -65,7 +66,7 @@ module Legacy
         id: id,
         internal_name: "field_#{id}",
         custom_field_set_id: custom_field_set_id,
-        is_active: is_active,
+        status: status,
         position: position,
         migration_position: position,
         parent_id: parent_id,

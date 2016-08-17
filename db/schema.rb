@@ -62,12 +62,12 @@ ActiveRecord::Schema.define(version: 20160812181652) do
     t.string   "data_type"
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
-    t.boolean  "is_active", default: true, null: false
     t.integer  "migration_position"
     t.boolean  "override_associations", default: false, null: false
     t.integer  "parent_id"
     t.integer  "position"
     t.boolean  "required", default: false, null: false
+    t.string   "status", default: "active", null: false
     t.datetime "updated_at", null: false
   end
 
