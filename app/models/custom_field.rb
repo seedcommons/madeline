@@ -190,6 +190,15 @@ class CustomField < ActiveRecord::Base
     false
   end
 
+  # For table of loan types on loan question edit. Returns a complete set of requirement
+  # objects, one for each loan type, whether it already exists or not.
+  def build_complete_requirements
+    (Loan.loan_type_option_set.options - custom_field_requirements.map(&:loan_type)).each do |lt|
+      custom_field_requirements.build(loan_type: lt)
+    end
+    # custom_field_requirements.sort_by { |i| i.loan_type.label.text }
+  end
+
   private
 
     def ensure_internal_name

@@ -13,12 +13,12 @@ class Admin::LoanQuestionsController < Admin::AdminController
     field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
     authorize @loan_question
-    @loan_type_options = Loan.loan_type_option_set.options
+    @loan_question.build_complete_requirements
     render_form
   end
 
   def edit
-    @loan_type_options = Loan.loan_type_option_set.options
+    @loan_question.build_complete_requirements
     render_form
   end
 

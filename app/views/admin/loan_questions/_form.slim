@@ -38,15 +38,16 @@
 
         .form-horizontal
           / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
-          - @loan_type_options.each do |loan_type|
-            = f.simple_fields_for :custom_field_requirements, loan_type do |sf|
-              .form-group.row
-                .loan-type.col-sm-9
-                  / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
-                  = sf.input_field :_destroy, as: :boolean, value: 0, class: "destroy_#{loan_type.id}"
-                  label for="custom_field_loan_type_ids" = loan_type.label
-                / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
-                = sf.input_field :amount, class: 'amount col-sm-3'
+          / - @loan_type_options.each do |loan_type|
+          = f.simple_fields_for :custom_field_requirements do |sf|
+            .form-group.row
+              .loan-type.col-sm-9
+                / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
+                = sf.input_field :_destroy, as: :boolean, value: 0
+                label = sf.object.loan_type.label
+                / = sf.input :loan_type
+              / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
+              = sf.input_field :amount, class: 'amount col-sm-3'
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
