@@ -39,7 +39,8 @@
         .form-horizontal
           / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
           / - @loan_type_options.each do |loan_type|
-          = f.simple_fields_for :custom_field_requirements do |sf|
+          - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
+          = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
             .form-group.row
               .loan-type.col-sm-9
                 / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
