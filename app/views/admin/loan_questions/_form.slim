@@ -44,8 +44,10 @@
             .form-group.row
               .loan-type.col-sm-9
                 / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
-                = sf.input_field :_destroy, as: :boolean, value: 0
-                label = sf.object.loan_type.label
+                label
+                  = sf.input_field :_destroy, as: :boolean, value: 0
+                  = sf.object.loan_type.label
+                = sf.input :option_id, as: :hidden
                 / = sf.input :loan_type
               / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
               = sf.input_field :amount, class: 'amount col-sm-3'
