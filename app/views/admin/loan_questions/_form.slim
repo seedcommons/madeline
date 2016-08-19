@@ -43,9 +43,9 @@
           = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
             .form-group.row
               .loan-type.col-sm-9
-                / input type="checkbox" data-toggle="destroy_#{loan_type_id}"
                 label
-                  = sf.input_field :_destroy, as: :boolean, value: 0
+                  input type="checkbox" checked=!sf.object.new_record?
+                  = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?
                   = sf.object.loan_type.label
                 = sf.input :option_id, as: :hidden
                 / = sf.input :loan_type
