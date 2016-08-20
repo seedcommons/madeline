@@ -28,6 +28,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'confirm:complete .delete-action': 'deleteNode'
     'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
     'change [data-loan-type]': 'showHideLoanAmount'
+    'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
@@ -166,3 +167,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         ids.splice(position, 1);
 
     @$(ids_container).val(ids)
+
+  changeRequireCheckbox: (e) ->
+    destroyField = $(e.target).closest('.loan-type').find('.destroy-field')[0]
+    destroyField.value = !e.target.checked

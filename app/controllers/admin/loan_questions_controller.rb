@@ -76,7 +76,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
         :label, :data_type, :parent_id, :position,
         :custom_field_set_id, :has_embeddable_media, :override_associations,
         *translation_params(:label, :explanation),
-        custom_field_requirements_attributes: [:amount, :option_id, :_destroy]
+        custom_field_requirements_attributes: [:id, :amount, :option_id, :_destroy]
       )
     end
 
