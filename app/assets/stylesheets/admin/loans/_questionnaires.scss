@@ -171,13 +171,14 @@ section.questionnaires {
         margin-right: 10px;
       }
 
-      input[type="text"] {
-        border: 1px solid $body;
+      input[type="number"] {
+        line-height: 20px;
       }
 
       label {
         margin: 0;
         font-weight: normal;
+        line-height: 25px;
       }
     }
   }

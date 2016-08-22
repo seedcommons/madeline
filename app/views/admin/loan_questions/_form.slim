@@ -42,7 +42,7 @@
 
     div data-expandable='loan-types'
       p This question will be required in the loan questionnaire for the types of loans you select below.
-      p Additionally, you can specificy at which loan amount, if any, this question becomes required.
+      p Additionally, you can specificy at which loan amounts, if any, this question becomes required.
 
       - if @loan_question.parent
         = f.collection_radio_buttons :override_associations,
