@@ -42,7 +42,7 @@
           - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
           = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
             .form-group.row
-              .loan-type.col-sm-9
+              .loan-type.col-sm-8
                 label
                   input.require-checkbox type="checkbox" checked=!sf.object.new_record?
                   = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
@@ -50,7 +50,7 @@
                 = sf.input :option_id, as: :hidden
                 / = sf.input :loan_type
               / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
-              = sf.input_field :amount, class: 'amount col-sm-3'
+              = sf.input_field :amount, placeholder: 'Optional amount', class: 'amount hidden col-sm-4'
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
