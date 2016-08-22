@@ -39,9 +39,9 @@ es:
     save_responses: "Guardar Respuestas"
     signing_date: "Fecha de Firma"
     sign_date: "Fecha de Firma"
-    spreadsheet_new_tab: "Abrir planilla de cálculo en otra pestaña"
-    spreadsheet_inline: "Mostrar planilla de cálculo incorporada"
-    spreadsheet_hide: "Ocultar planilla de cálculo"
+    spreadsheet_new_tab: "Abrir documento en pestaña nueva"
+    spreadsheet_inline: "Mostrar documento insertándolo"
+    spreadsheet_hide: "Ocultar documento"
     status:
       active: "Activo"
       completed: "Completo"

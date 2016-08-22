@@ -10,8 +10,23 @@ es:
     delete_error: "El ítem no pudo ser borrado debido a un error"
     explanation: "Explicación"
     has_embeddable_media: "Permitir adjuntar archivos o links"
+    inherit_parent: "Hereda de pregunta padre"
+    manage: "Manejar Preguntas del Préstamo"
     move_error: "El ítem no pudo moverse debido a un error"
+    override_parent: "Modifica pregunta padre"
+    required_loan_types: "¿Para qué Tipos de Préstamos se requiere?"
     text: "Título"
+  linked_document:
+    cell_end: Celda Final
+    cell_end_hint: Z26
+    cell_start: Celda Inicial
+    cell_start_hint: A1
+    delete: Borrar Link
+    delete_confirmation: ¿Seguro que quieres borrar este link?
+    link: "Link al archivo (como una planilla o documento Google)"
+    linked_document: Documento Vinculado
+    range_of_cells: Celdas opcionales para planilla Google
+    url: URL
   admin:
     loan_questions:
       index:
