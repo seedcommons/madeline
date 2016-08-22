@@ -19,41 +19,6 @@
 
     = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
 
-    label = t('loan_questions.required_loan_types')
-    p At what loan amount, if any, does this question become required?
-
-    - if @loan_question.parent
-      = f.collection_radio_buttons :override_associations,
-        [[false, t('loan_questions.inherit_parent')],
-        [true, t('loan_questions.override_parent')]], :first, :last,
-        item_wrapper_class: 'radio'
-
-    - if @loan_question.override_associations || !@loan_question.parent
-      .loan-types-container
-        / = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
-        /   class: "loan-types"
-
-        / = @loan_question.custom_field_requirements[0].amount
-        / = @loan_question.loan_type_ids
-        / = @loan_question.loan_types.inspect
-
-        .form-horizontal
-          / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
-          / - @loan_type_options.each do |loan_type|
-          - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
-          = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
-            .form-group.row
-              .loan-type.col-sm-8
-                label
-                  input.require-checkbox type="checkbox" checked=!sf.object.new_record?
-                  = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
-                  = sf.object.loan_type.label
-                = sf.input :option_id, as: :hidden
-                / = sf.input :loan_type
-              / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
-              = sf.input_field :amount, placeholder: 'Optional amount',
-                class: "amount col-sm-4 #{sf.object.new_record? ? 'hidden' : ''}"
-
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
         input_html: {data: {translatable: 'loan_questions.text'}},
@@ -68,6 +33,48 @@
       = f.input_field :parent_id, as: :hidden
       = f.input_field :custom_field_set_id, as: :hidden
       = f.input_field :fieldset, value: params[:fieldset], as: :hidden
+
+
+    label = t('loan_questions.required_loan_types')
+    .actions
+      a[data-expands='loan-types']: i.fa.fa-eye.fa-large =" Show"
+      a[data-hides='loan-types']: i.fa.fa-eye-slash =" Hide"
+
+    div data-expandable='loan-types'
+      p This question will be required in the loan questionnaire for the types of loans you select below.
+      p Additionally, you can specificy at which loan amount, if any, this question becomes required.
+
+      - if @loan_question.parent
+        = f.collection_radio_buttons :override_associations,
+          [[false, t('loan_questions.inherit_parent')],
+          [true, t('loan_questions.override_parent')]], :first, :last,
+          item_wrapper_class: 'radio'
+
+      - if @loan_question.override_associations || !@loan_question.parent
+        .loan-types-container
+          / = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
+          /   class: "loan-types"
+
+          / = @loan_question.custom_field_requirements[0].amount
+          / = @loan_question.loan_type_ids
+          / = @loan_question.loan_types.inspect
+
+          .form-horizontal
+            / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
+            / - @loan_type_options.each do |loan_type|
+            - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
+            = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
+              .form-group.row
+                .loan-type.col-sm-8
+                  label
+                    input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+                    = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
+                    = sf.object.loan_type.label
+                  = sf.input :option_id, as: :hidden
+                  / = sf.input :loan_type
+                / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
+                = sf.input_field :amount, placeholder: 'Optional amount',
+                  class: "amount col-sm-4 #{sf.object.new_record? ? 'hidden' : ''}"
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
