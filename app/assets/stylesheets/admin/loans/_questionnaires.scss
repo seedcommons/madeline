@@ -160,10 +160,30 @@ section.questionnaires {
         margin: 15px 0;
         line-height: 1.4;
         vertical-align: middle;
-        border: 1px solid $gray4;
 
         &:first-of-type, &:last-of-type {
           margin: 0;
+        }
+      }
+
+      .loan-type {
+        border: 1px solid $gray4;
+        border-right: none;
+        height: 28px;
+      }
+
+      .amount {
+        border: 1px solid $body;
+        height: 28px;
+
+        &.hidden-special {
+          display: block;
+          border-left: none;
+          border-color: $gray4;
+
+          input[type="number"] {
+            visibility: hidden;
+          }
         }
       }
 
@@ -172,8 +192,11 @@ section.questionnaires {
       }
 
       input[type="number"] {
-        border: 1px solid $body;
-        line-height: 23px;
+        border: none;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       label {

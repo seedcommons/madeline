@@ -142,9 +142,9 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     textbox = @$(checkbox).closest('.form-group').find('.amount')
 
     if @$(checkbox).is(':checked')
-      @$(textbox).removeClass('hidden')
+      @$(textbox).removeClass('hidden-special')
     else
-      @$(textbox).addClass('hidden')
+      @$(textbox).addClass('hidden-special')
 
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('.loan-type').find('.destroy-field')[0]

@@ -73,8 +73,8 @@
                   = sf.input :option_id, as: :hidden
                   / = sf.input :loan_type
                 / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
-                = sf.input_field :amount, placeholder: 'Optional amount',
-                  class: "amount col-sm-4 #{sf.object.new_record? ? 'hidden' : ''}"
+                .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
+                  = sf.input_field :amount, placeholder: 'Optional amount'
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
