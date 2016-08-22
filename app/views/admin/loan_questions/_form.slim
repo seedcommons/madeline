@@ -20,6 +20,7 @@
     = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
 
     label = t('loan_questions.required_loan_types')
+    p At what loan amount, if any, does this question become required?
 
     - if @loan_question.parent
       = f.collection_radio_buttons :override_associations,
