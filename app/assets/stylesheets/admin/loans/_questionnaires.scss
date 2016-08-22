@@ -172,13 +172,14 @@ section.questionnaires {
       }
 
       input[type="number"] {
-        line-height: 20px;
+        border: 1px solid $body;
+        line-height: 23px;
       }
 
       label {
         margin: 0;
         font-weight: normal;
-        line-height: 25px;
+        line-height: 26px;
       }
     }
   }
