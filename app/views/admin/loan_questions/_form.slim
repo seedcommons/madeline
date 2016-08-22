@@ -52,16 +52,7 @@
 
       - if @loan_question.override_associations || !@loan_question.parent
         .loan-types-container
-          / = f.input_field :loan_type_ids, collection: @loan_type_options, multiple: true,
-          /   class: "loan-types"
-
-          / = @loan_question.custom_field_requirements[0].amount
-          / = @loan_question.loan_type_ids
-          / = @loan_question.loan_types.inspect
-
           .form-horizontal
-            / input type="hidden" name='custom_field[loan_type_ids][]' data-loan-ids=''
-            / - @loan_type_options.each do |loan_type|
             - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
             = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
               .form-group.row
@@ -71,10 +62,9 @@
                     = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
                     = sf.object.loan_type.label
                   = sf.input :option_id, as: :hidden
-                  / = sf.input :loan_type
-                / input.col-sm-3.hidden type="text" name="custom_field_requirements[#{loan_type.id}][amount]" data-loan-amount=''
                 .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
-                  = sf.input_field :amount, placeholder: 'Optional amount', step: '100',
+                  / TODO: Account for currency: number_to_currency(sf.object.amount, precision: 2)
+                  = sf.input_field :amount, placeholder: 'Optional amount', step: '100', min: 0,
                     value: number_with_precision(sf.object.amount, precision: 2)
 
   .modal-footer
