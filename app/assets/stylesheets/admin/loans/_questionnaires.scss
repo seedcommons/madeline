@@ -156,7 +156,6 @@ section.questionnaires {
       border: 1px solid $gray4;
 
       .form-group {
-        height: 25px;
         margin: 15px 0;
         line-height: 1.4;
         vertical-align: middle;
@@ -169,12 +168,12 @@ section.questionnaires {
       .loan-type {
         border: 1px solid $gray4;
         border-right: none;
-        height: 28px;
+        padding: 15px;
       }
 
       .amount {
         border: 1px solid $body;
-        height: 28px;
+        padding: 15px;
 
         &.hidden-special {
           display: block;
@@ -192,18 +191,26 @@ section.questionnaires {
       }
 
       input[type="number"] {
-        border: none;
-        height: 100%;
         width: 100%;
-        border-radius: 0;
-        box-shadow: none;
+        height: auto;
+        padding: 0;
+        border: none;
+        font-size: 14px;
+        line-height: 1.4;
         text-align: right;
+        box-shadow: none;
       }
 
       label {
         margin: 0;
         font-weight: normal;
-        line-height: 26px;
+        line-height: 1.4;
+
+        input {
+          margin: 0;
+          padding: 0;
+          line-height: 1.4;
+        }
       }
     }
   }
