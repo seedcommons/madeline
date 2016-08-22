@@ -63,7 +63,6 @@
                     = sf.object.loan_type.label
                   = sf.input :option_id, as: :hidden
                 .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
-                  / TODO: Account for currency: number_to_currency(sf.object.amount, precision: 2)
                   = sf.input_field :amount, placeholder: 'Optional amount', step: '100', min: 0,
                     value: number_with_precision(sf.object.amount, precision: 2)
 
