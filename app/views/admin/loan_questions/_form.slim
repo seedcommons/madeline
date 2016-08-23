@@ -64,7 +64,10 @@
                   = sf.input :option_id, as: :hidden
                 .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
                   = sf.input_field :amount, placeholder: 'Optional amount', step: '100', min: 0,
-                    value: number_with_precision(sf.object.amount, precision: 2)
+                    value: number_with_precision(sf.object.amount, precision: 2),
+                    class: "input-amount #{sf.object.new_record? ? '' : 'hidden'}"
+                  - unless sf.object.new_record?
+                    span.display-amount = number_with_delimiter(number_with_precision(sf.object.amount, precision: 2))
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
