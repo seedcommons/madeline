@@ -39,14 +39,14 @@
     .actions
       a[data-expands='loan-types']
         i.fa.fa-eye.fa-large
-        span = 'Show'
+        span = t('common.show')
       a[data-hides='loan-types']
         i.fa.fa-eye-slash
-        span = 'Hide'
+        span = t('common.hide')
 
     div data-expandable='loan-types'
-      p This question will be required in the loan questionnaire for the types of loans you select below.
-      p Additionally, you can specificy at which loan amounts, if any, this question becomes required.
+      p = t('loan_questions.loan_types.description')
+      p = t('loan_questions.loan_amounts.description')
 
       - if @loan_question.parent
         = f.collection_radio_buttons :override_associations,
@@ -67,7 +67,8 @@
                     = sf.object.loan_type.label
                   = sf.input :option_id, as: :hidden
                 .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
-                  = sf.input_field :amount, placeholder: 'Optional amount', step: '100', min: 0,
+                  = sf.input_field :amount, step: '100', min: 0,
+                    placeholder: t('loan_questions.loan_amounts.placeholder'),
                     value: number_with_precision(sf.object.amount, precision: 2),
                     class: "input-amount #{sf.object.amount.blank? ? '' : 'hidden'}"
                   span.display-amount class="#{sf.object.amount.blank? ? 'hidden' : ''}"
