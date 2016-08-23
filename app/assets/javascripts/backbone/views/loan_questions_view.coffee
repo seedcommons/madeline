@@ -159,19 +159,24 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $inputAmount = @$(e.currentTarget)
     $amountContainer = $inputAmount.closest('.amount')
     $displayAmount = $amountContainer.find('.display-amount')
-
     value = parseFloat($inputAmount.val())
-    value = value.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2})
-    $displayAmount.html(value)
+
+    if value > 0
+      value = value.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2})
+      $displayAmount.html(value)
+    else
+      $displayAmount.html('')
 
   showAmount: (e) ->
     item = e.currentTarget
     $displayAmount = @$(item).find('.display-amount')
     $inputAmount = @$(item).find('.input-amount')
 
-    if $inputAmount.val()
+    if $inputAmount.val() > 0
       $displayAmount.removeClass('hidden')
       $inputAmount.addClass('hidden')
+    else
+      $inputAmount.val('')
 
   # When the amount field has focus, hide styled amount and show input
   editAmount: (e) ->
@@ -180,7 +185,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $displayAmount = @$(item).find('.display-amount')
     $inputAmount = @$(item).find('.input-amount')
 
-    if $displayAmount
-      $displayAmount.addClass('hidden')
-      $inputAmount.removeClass('hidden')
-      $inputAmount.focus()
+    $displayAmount.addClass('hidden')
+    $inputAmount.removeClass('hidden')
+    $inputAmount.focus()

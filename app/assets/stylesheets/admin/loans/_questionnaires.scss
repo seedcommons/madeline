@@ -173,7 +173,7 @@ section.questionnaires {
 
       .amount {
         border: 1px solid $body;
-        padding: 15px;
+        padding: 0;
 
         &.hidden-special {
           display: block;
@@ -182,7 +182,15 @@ section.questionnaires {
 
           input[type="number"] {
             visibility: hidden;
+            width: 100%;
           }
+        }
+
+        .display-amount {
+          text-align: right;
+          padding: 15px;
+          display: inline-block;
+          width: 95%;
         }
       }
 
@@ -193,7 +201,7 @@ section.questionnaires {
       input[type="number"] {
         width: 100%;
         height: auto;
-        padding: 0;
+        padding: 15px;
         border: none;
         font-size: 14px;
         line-height: 1.4;
