@@ -151,6 +151,12 @@ section.questionnaires {
 
 .loan-questions {
   .modal {
+    .actions {
+      i {
+        margin-right: 5px;
+      }
+    }
+
     .loan-types-container {
       padding: 15px;
       border: 1px solid $gray4;

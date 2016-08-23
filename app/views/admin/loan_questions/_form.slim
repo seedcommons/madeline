@@ -37,8 +37,12 @@
 
     label = t('loan_questions.required_loan_types')
     .actions
-      a[data-expands='loan-types']: i.fa.fa-eye.fa-large =" Show"
-      a[data-hides='loan-types']: i.fa.fa-eye-slash =" Hide"
+      a[data-expands='loan-types']
+        i.fa.fa-eye.fa-large
+        span = 'Show'
+      a[data-hides='loan-types']
+        i.fa.fa-eye-slash
+        span = 'Hide'
 
     div data-expandable='loan-types'
       p This question will be required in the loan questionnaire for the types of loans you select below.
