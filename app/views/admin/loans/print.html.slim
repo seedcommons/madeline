@@ -22,3 +22,9 @@ section data-container="loan"
         = render "admin/loans/content/charts"
       - else
         = t('loan.criteria_not_entered')
+
+
+javascript:
+  $(function() {
+    new MS.Views.LoanChartsView({revenue_and_costs: #{json @revenue_costs}});
+  });
