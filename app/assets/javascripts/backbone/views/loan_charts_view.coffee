@@ -23,7 +23,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     }
     data = new google.visualization.DataTable(data);
     chart = new google.visualization.PieChart(document.getElementById('revenue-chart'));
-    chart.draw(data, {width: 400, height: 240});
+    chart.draw(data, {width: 400, height: 240, title: "Revenue by Product"});
 
   loadCharts: () ->
       google.charts.load('current', {'packages':['corechart']});
