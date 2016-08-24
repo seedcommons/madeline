@@ -1,3 +1,58 @@
 h1 Revenue and Cost Test Table
 
 = @revenue_costs
+
+table
+  / Revenue
+  tr
+    th Revenue
+    
+  tr
+    th Product Name
+    th Quantity
+    th Amount
+    th Total
+
+  tr
+    td p
+    td q
+    td a
+    td t
+  
+  = @revenue_costs[:revenue].each do |item|
+    tr
+      td = item[:name]
+      td = item[:quantity]
+      td = item[:amount]
+      td = item[:total]
+    
+  tr
+    th  Total Revenue
+    th  = @revenue_costs[:total_revenue]
+    
+  / Cost of Goods Sold
+  tr
+    th Cost of Goods Sold
+    
+  tr
+    th Product Name
+    th Quantity
+    th Amount
+    th Total
+
+  tr
+    td p
+    td q
+    td a
+    td t
+  
+  = @revenue_costs[:cogs].each do |item|
+    tr
+      td = item[:name]
+      td = item[:quantity]
+      td = item[:amount]
+      td = item[:total]
+    
+  tr
+    th  Total Revenue
+    th  = @revenue_costs[:total_cogs]
