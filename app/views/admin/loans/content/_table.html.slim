@@ -2,8 +2,6 @@
 
   h1 Revenue and Cost Test Table
 
-  = @revenue_costs
-
   table.table
     tbody
 
@@ -17,7 +15,7 @@
         td Price
         td Total
 
-      = @revenue_costs[:revenue].each do |item|
+      - @revenue_costs[:revenue].each do |item|
         tr
           td = item[:name]
           td = item[:quantity]
@@ -38,7 +36,7 @@
         td Amount
         td Total
 
-      = @revenue_costs[:cogs].each do |item|
+      - @revenue_costs[:cogs].each do |item|
         tr
           td = item[:name]
           td = item[:quantity]
@@ -48,3 +46,30 @@
       tr.group-summary.active
         td colspan="3" Total Cost of Goods Sold
         td  = @revenue_costs[:total_cogs]
+
+      / Gross Margin
+      tr.group-summary.active
+        td colspan="3" Gross Margin
+        td  = @revenue_costs[:gross_margin]
+
+      / Fixed Costs
+      tr.group-title
+        td colspan="4" Fixed Costs
+
+      tr.group-columns
+        td Cost
+        td Total
+
+      - @revenue_costs[:fixed_costs].each do |item|
+        tr
+          td colspan="3" = item[:name]
+          td = item[:amount]
+
+      tr.group-summary.active
+        td colspan="3" Total Fixed Costs
+        td  = @revenue_costs[:total_fixed_costs]
+
+      / Net Margin
+      tr.group-summary.active
+        td colspan="3" Net Margin
+        td  = @revenue_costs[:net_margin]
