@@ -19,5 +19,6 @@ section data-container="loan"
         = render "admin/loans/content/questionnaire_toc", group: @loan.criteria.custom_field_set
         = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
         = render "admin/loans/content/table"
+        = render "admin/loans/content/charts"
       - else
         = t('loan.criteria_not_entered')
