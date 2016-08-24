@@ -1,58 +1,50 @@
-h1 Revenue and Cost Test Table
+.summary-table
 
-= @revenue_costs
+  h1 Revenue and Cost Test Table
 
-table
-  / Revenue
-  tr
-    th Revenue
-    
-  tr
-    th Product Name
-    th Quantity
-    th Amount
-    th Total
+  = @revenue_costs
 
-  tr
-    td p
-    td q
-    td a
-    td t
-  
-  = @revenue_costs[:revenue].each do |item|
-    tr
-      td = item[:name]
-      td = item[:quantity]
-      td = item[:amount]
-      td = item[:total]
-    
-  tr
-    th  Total Revenue
-    th  = @revenue_costs[:total_revenue]
-    
-  / Cost of Goods Sold
-  tr
-    th Cost of Goods Sold
-    
-  tr
-    th Product Name
-    th Quantity
-    th Amount
-    th Total
+  table.table
+    tbody
 
-  tr
-    td p
-    td q
-    td a
-    td t
-  
-  = @revenue_costs[:cogs].each do |item|
-    tr
-      td = item[:name]
-      td = item[:quantity]
-      td = item[:amount]
-      td = item[:total]
-    
-  tr
-    th  Total Revenue
-    th  = @revenue_costs[:total_cogs]
+      / Revenue
+      tr.group-title
+        td colspan="4" Revenue
+
+      tr.group-columns
+        td Product Name
+        td Quantity
+        td Price
+        td Total
+
+      = @revenue_costs[:revenue].each do |item|
+        tr
+          td = item[:name]
+          td = item[:quantity]
+          td = item[:amount]
+          td = item[:total]
+
+      tr.group-summary.active
+        td colspan="3" Total Revenue
+        td  = @revenue_costs[:total_revenue]
+
+      / Cost of Goods Sold
+      tr.group-title
+        td colspan="4" Cost of Goods Sold
+
+      tr.group-columns
+        td Product Name
+        td Quantity
+        td Amount
+        td Total
+
+      = @revenue_costs[:cogs].each do |item|
+        tr
+          td = item[:name]
+          td = item[:quantity]
+          td = item[:amount]
+          td = item[:total]
+
+      tr.group-summary.active
+        td colspan="3" Total Cost of Goods Sold
+        td  = @revenue_costs[:total_cogs]
