@@ -1,12 +1,13 @@
 .summary-table
 
-  h1 Revenue and Cost Test Table
-
   table.table
-    tbody
+    thead
+      tr.table-title
+        th colspan="4" Break-even Financial Model
 
+    tbody
       / Revenue
-      tr.group-title
+      tr.group-title.success
         td colspan="4" Revenue
 
       tr.group-columns
@@ -22,9 +23,12 @@
           td = item[:amount]
           td = item[:total]
 
-      tr.group-summary.active
+      tr.group-summary.success
         td colspan="3" Total Revenue
         td  = @revenue_costs[:total_revenue]
+
+      tr
+        td colspan="4" &nbsp;
 
       / Cost of Goods Sold
       tr.group-title
@@ -33,7 +37,7 @@
       tr.group-columns
         td Product Name
         td Quantity
-        td Amount
+        td Cost
         td Total
 
       - @revenue_costs[:cogs].each do |item|
@@ -43,21 +47,27 @@
           td = item[:amount]
           td = item[:total]
 
-      tr.group-summary.active
+      tr.group-summary.warning
         td colspan="3" Total Cost of Goods Sold
         td  = @revenue_costs[:total_cogs]
 
+      tr
+        td colspan="4" &nbsp;
+
       / Gross Margin
-      tr.group-summary.active
+      tr.group-summary.info
         td colspan="3" Gross Margin
         td  = @revenue_costs[:gross_margin]
+
+      tr
+        td colspan="4" &nbsp;
 
       / Fixed Costs
       tr.group-title
         td colspan="4" Fixed Costs
 
       tr.group-columns
-        td Cost
+        td colspan="3" Cost
         td Total
 
       - @revenue_costs[:fixed_costs].each do |item|
@@ -65,11 +75,18 @@
           td colspan="3" = item[:name]
           td = item[:amount]
 
-      tr.group-summary.active
+      tr.group-summary.danger
         td colspan="3" Total Fixed Costs
         td  = @revenue_costs[:total_fixed_costs]
 
+
+      tr
+        td colspan="4" &nbsp;
+
       / Net Margin
-      tr.group-summary.active
+      tr.group-summary.info
         td colspan="3" Net Margin
         td  = @revenue_costs[:net_margin]
+
+      tr
+        td colspan="4" &nbsp;
