@@ -1,16 +1,21 @@
 div
   nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
     .container-fluid
-
       .row
         / Brand and toggle get grouped for better mobile display
-        .navbar-header.col-sm-3
+        .navbar-header.col-sm-4
           button.navbar-toggle.collapsed aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand href="/"  Madeline System
+          div.ftc-triple-spiral
+          .division-logo
+            - if selected_division.present?
+              - if selected_division.logo.present?
+                = image_tag selected_division.logo.url(:banner)
+              - else
+                = selected_division.name
 
         / Collect the nav links, forms, and other content for toggling
         #navbar-menu.collapse.navbar-collapse
@@ -18,19 +23,24 @@ div
             = render "layouts/admin/site_menu"
             hr
 
-          .division.centered-box.nav.navbar-nav.col-sm-6
-            span> Division:
-            span = form_tag(select_admin_divisions_path, id: 'select_division_form') do
-              = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
+          div.ftc-triple-spiral
+
+          .col-sm-4
+            = link_to(t("divisions.shared.change"), "#", :"data-expands" => "division-dropdown")
+            = form_tag(select_admin_divisions_path, id: 'select_division_form') do
+              = select_tag(:division_id,
+                options_for_select(division_select_options, selected_division_id),
+                class: 'form-control',
+                :'data-expandable' => "division-dropdown")
               = hidden_field_tag(:redisplay_url)
 
-          ul.user.centered-box.nav.navbar-nav.navbar-right.col-sm-3
-            li.dropdown
-              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-                => current_user.try(:name) || 'User'
-                span.caret
-              ul.dropdown-menu
-                = render "layouts/admin/user_menu"
+            | |
+
+            = link_to admin_person_path(current_user.profile), class: "profile-link"
+              i.fa.fa-user>
+              = current_user.try(:name) || t("common.user")
+            = link_to destroy_user_session_path, method: :delete
+              i.fa.fa-sign-out
 
   .sidemenu.container-fluid
     .row

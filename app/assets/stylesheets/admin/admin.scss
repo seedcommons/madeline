@@ -7,22 +7,23 @@
 @import "fullcalendar";
 @import "jqtree";
 
-@import "general";
-@import "menu";
-@import "index_table";
-@import "tree";
-@import "divisions";
-@import "forms/*";
 @import "calendar/*";
-@import "loans/*";
-@import "logs/*";
-@import "project_steps/*";
-@import "media/*";
+@import "divisions";
+@import "fontastic";
+@import "forms/*";
+@import "general";
+@import "index_table";
 @import "language_block";
-@import "project_step_moves";
+@import "loans/*";
 @import "loan_questions";
+@import "logs/*";
+@import "media/*";
+@import "menu";
 @import "print";
 @import "progress_bars";
+@import "project_steps/*";
+@import "project_step_moves";
+@import "tree";
 
 // Page title and New button
 @media (min-width: 768px) {

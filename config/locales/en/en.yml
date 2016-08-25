@@ -258,6 +258,7 @@ en:
     updated: "Updated"
     website: "Website"
     id: "ID"
+    user: "User"
 
   loan:
     criteria: "Criteria"
