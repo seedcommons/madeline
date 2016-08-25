@@ -27,9 +27,6 @@
         td colspan="3" Total Revenue
         td  = @revenue_costs[:total_revenue]
 
-      tr
-        td colspan="4" &nbsp;
-
       / Cost of Goods Sold
       tr.group-title
         td colspan="4" Cost of Goods Sold
@@ -51,16 +48,10 @@
         td colspan="3" Total Cost of Goods Sold
         td  = @revenue_costs[:total_cogs]
 
-      tr
-        td colspan="4" &nbsp;
-
       / Gross Margin
-      tr.group-title
+      tr.group-title.total
         td colspan="3" Gross Margin
         td  = @revenue_costs[:gross_margin]
-
-      tr
-        td colspan="4" &nbsp;
 
       / Fixed Costs
       tr.group-title
@@ -79,13 +70,7 @@
         td colspan="3" Total Fixed Costs
         td  = @revenue_costs[:total_fixed_costs]
 
-      tr
-        td colspan="4" &nbsp;
-
       / Net Margin
-      tr.group-title
+      tr.group-title.total
         td colspan="3" Net Margin
         td  = @revenue_costs[:net_margin]
-
-      tr
-        td colspan="4" &nbsp;

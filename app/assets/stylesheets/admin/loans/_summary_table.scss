@@ -10,18 +10,33 @@
   }
 
   .group-columns {
-    border-bottom: 1px solid gray;
+    td {
+      border-top: none;
+      border-bottom: 2px solid $gray4;
+    }
   }
 
   .group-summary {
-    border-top: 2px solid gray;
+    td {
+      border-top: 2px solid $gray3;
+      border-bottom: none;
+    }
   }
 
   .group-title {
     font-size: 1.25em;
+    td {
+      border-top-width: 2px;
+    }
   }
 
   .table-title {
     font-size: 1.5em;
+  }
+
+  .total {
+    td {
+      border-top: 2px solid $black;
+    }
   }
 }
