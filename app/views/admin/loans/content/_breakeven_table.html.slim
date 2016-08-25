@@ -1,9 +1,8 @@
-.summary-table
-
+.summary-table.breakeven-table
   table.table
     thead
       tr.table-title
-        th colspan="4" Break-even Financial Model
+        th colspan="4" Breakeven Financial Model
 
     tbody
       / Revenue
@@ -16,7 +15,7 @@
         td.text-right Price
         td.text-right Total
 
-      - @revenue_costs[:revenue].each do |item|
+      - @breakeven_data[:revenue].each do |item|
         tr.group-content
           td = item[:name]
           td.text-right = item[:quantity]
@@ -25,7 +24,7 @@
 
       tr.group-summary
         td colspan="3" Total Revenue
-        td.text-right = number_to_currency(@revenue_costs[:total_revenue])
+        td.text-right = number_to_currency(@breakeven_data[:total_revenue])
 
       / Cost of Goods Sold
       tr.group-title
@@ -37,7 +36,7 @@
         td.text-right Cost
         td.text-right Total
 
-      - @revenue_costs[:cogs].each do |item|
+      - @breakeven_data[:cogs].each do |item|
         tr.group-content
           td = item[:name]
           td.text-right = item[:quantity]
@@ -46,12 +45,12 @@
 
       tr.group-summary
         td colspan="3" Total Cost of Goods Sold
-        td.text-right = number_to_currency(@revenue_costs[:total_cogs])
+        td.text-right = number_to_currency([:total_cogs])
 
       / Gross Margin
       tr.group-title.total
         td colspan="3" Gross Margin
-        td.text-right = number_to_currency(@revenue_costs[:gross_margin])
+        td.text-right = number_to_currency(@breakeven_data[:gross_margin])
 
       / Fixed Costs
       tr.group-title
@@ -61,16 +60,16 @@
         td colspan="3" Cost
         td.text-right Total
 
-      - @revenue_costs[:fixed_costs].each do |item|
+      - @breakeven_data[:fixed_costs].each do |item|
         tr.group-content
           td colspan="3" = item[:name]
           td.text-right = number_to_currency(item[:amount])
 
       tr.group-summary
         td colspan="3" Total Fixed Costs
-        td.text-right = number_to_currency(@revenue_costs[:total_fixed_costs])
+        td.text-right = number_to_currency(@breakeven_data[:total_fixed_costs])
 
       / Net Margin
       tr.group-title.total
         td colspan="3" Net Margin
-        td.text-right = number_to_currency(@revenue_costs[:net_margin])
+        td.text-right = number_to_currency(@breakeven_data[:net_margin])
