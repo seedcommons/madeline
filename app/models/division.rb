@@ -2,16 +2,20 @@
 #
 # Table name: divisions
 #
-#  created_at      :datetime         not null
-#  currency_id     :integer
-#  custom_data     :json
-#  description     :text
-#  id              :integer          not null, primary key
-#  internal_name   :string
-#  name            :string
-#  organization_id :integer
-#  parent_id       :integer
-#  updated_at      :datetime         not null
+#  created_at        :datetime         not null
+#  currency_id       :integer
+#  custom_data       :json
+#  description       :text
+#  id                :integer          not null, primary key
+#  internal_name     :string
+#  logo_content_type :string
+#  logo_file_name    :string
+#  logo_file_size    :integer
+#  logo_updated_at   :datetime
+#  name              :string
+#  organization_id   :integer
+#  parent_id         :integer
+#  updated_at        :datetime         not null
 #
 # Indexes
 #
@@ -48,6 +52,11 @@ class Division < ActiveRecord::Base
   alias_attribute :default_currency_id, :currency_id
 
   belongs_to :organization  # the organization which represents this loan agent division
+
+  # Logo will be resized to 50px height on screen, but for higher pixel density devices we don't want to
+  # go below 150 height. Wide logos are acceptable, hence the large allowable width.
+  has_attached_file :logo, styles: { banner: "900x150>" }
+  validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }

@@ -22,6 +22,14 @@
     .view-element = @division.default_currency.try(:name)
     = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
 
+  = f.input :logo
+    .view-element
+      - if @division.logo.present?
+        = image_tag @division.logo.url(:banner)
+      - else
+        = t("none")
+    = f.input_field :logo, as: :file
+
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
     = f.input :parent

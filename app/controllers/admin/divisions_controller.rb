@@ -92,7 +92,7 @@ class Admin::DivisionsController < Admin::AdminController
   private
 
   def division_params
-    params.require(:division).permit(:name, :description, :default_currency_id, :parent_id)
+    params.require(:division).permit(:name, :description, :logo, :default_currency_id, :parent_id)
   end
 
   def set_selected_division_id(id)
