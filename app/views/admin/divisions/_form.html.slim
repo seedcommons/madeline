@@ -30,6 +30,14 @@
         = t("none")
     = f.input_field :logo, as: :file
 
+  = f.input :banner_fg_color
+    .view-element = @division.banner_fg_color
+    = f.input_field :banner_fg_color
+
+  = f.input :banner_bg_color
+    .view-element = @division.banner_bg_color
+    = f.input_field :banner_bg_color
+
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
     = f.input :parent

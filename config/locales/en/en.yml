@@ -19,6 +19,8 @@ en:
         name: "Name"
         parent: "Parent Division"
         logo: "Logo"
+        banner_fg_color: "Banner FG Color"
+        banner_bg_color: "Banner BG Color"
       loan:
         division: "Division"
         organization: "Co-op"

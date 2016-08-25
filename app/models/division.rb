@@ -2,6 +2,8 @@
 #
 # Table name: divisions
 #
+#  banner_bg_color   :string
+#  banner_fg_color   :string
 #  created_at        :datetime         not null
 #  currency_id       :integer
 #  custom_data       :json

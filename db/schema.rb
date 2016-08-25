@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825005753) do
+ActiveRecord::Schema.define(version: 20160825131254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 20160825005753) do
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
+    t.string   "banner_bg_color"
+    t.string   "banner_fg_color"
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.json     "custom_data"
