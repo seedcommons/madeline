@@ -127,7 +127,7 @@ class Admin::LoansController < Admin::AdminController
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
     prep_attached_links if @mode != "details-only"
-    @revenue_costs = test_data
+    @breakeven_data = breakeven_data_stub
   end
 
   private
@@ -173,7 +173,8 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
-  def test_data
+  # TODO: Remove when breakeven model data exists
+  def breakeven_data_stub
     {
       revenue: [
         { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
