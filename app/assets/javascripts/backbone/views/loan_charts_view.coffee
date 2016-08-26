@@ -25,18 +25,26 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(data, {width: 400, height: 240, title: "Revenue by Product"});
 
   breakevenRevenueChart: () ->
-    # console.log(@breakevenData)
     @breakevenRevenue = @breakevenData["revenue"]
-    # console.log(@breakevenRevenue)
+
+    chartData = {}
+    columns = [
+      {"id":"","label":"Product","pattern":"","type":"string"},
+      {"id":"","label":"Revenue","pattern":"","type":"number"}
+    ]
 
     rows = []
-
     for key,product of @breakevenRevenue
       name = product.name
       total = product.total
       rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
 
-    console.log(rows)
+    chartData = {"columns": columns, "rows": rows}
+    console.log(chartData)
+
+    data = new google.visualization.DataTable(data);
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
+    chart.draw(data, {width: 400, height: 240, title: "Revenue by Product"});
 
   loadCharts: () ->
     console.log(@breakevenData)
