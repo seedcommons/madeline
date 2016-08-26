@@ -19,7 +19,6 @@
         item_wrapper_class: 'radio'
 
     - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
-    /- if @loan_question.override_associations || !@loan_question.parent
     .loan-types-container class="#{hideLoanTypes}"
       .form-horizontal
         - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
