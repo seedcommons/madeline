@@ -3,13 +3,12 @@ class MS.Views.LoanChartsView extends Backbone.View
   el: '.summary-chart'
 
   initialize: (params) ->
-    @revenueAndCosts = params.revenue_and_costs
+    @breakevenData = params.breakeven_data
+    # console.log(@breakevenData)
     @loadCharts()
+    @breakevenRevenueChart()
 
   revenueChart: () ->
-    # @revenueData = @revenueAndCosts['revenue']
-    # console.log(@revenueData)
-
     data = {
       "cols": [
         {"id":"","label":"Product","pattern":"","type":"string"},
@@ -25,6 +24,21 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('revenue-chart'));
     chart.draw(data, {width: 400, height: 240, title: "Revenue by Product"});
 
+  breakevenRevenueChart: () ->
+    # console.log(@breakevenData)
+    @breakevenRevenue = @breakevenData["revenue"]
+    # console.log(@breakevenRevenue)
+
+    rows = []
+
+    for key,product of @breakevenRevenue
+      name = product.name
+      total = product.total
+      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+
+    console.log(rows)
+
   loadCharts: () ->
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(@revenueChart);
+    console.log(@breakevenData)
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(@revenueChart);

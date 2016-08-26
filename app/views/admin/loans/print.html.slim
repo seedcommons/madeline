@@ -24,10 +24,3 @@ section data-container="loan"
           = render "admin/loans/content/breakeven_charts"
       - else
         = t('loan.criteria_not_entered')
-
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-javascript:
-  $(function() {
-    new MS.Views.LoanChartsView({revenue_and_costs: #{json @revenue_costs}});
-  });

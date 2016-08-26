@@ -9,3 +9,11 @@
   .chart data-id='fixed-cost'
 
   .chart data-id='profit'
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+javascript:
+  $(function() {
+    new MS.Views.LoanChartsView({breakeven_data: #{json @breakeven_data}});
+  });
