@@ -6,6 +6,26 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenData = params.breakeven_data
     @loadCharts()
 
+  breakevenFixedCostsChart: () ->
+    @breakevenFixedCosts = @breakevenData["fixed_costs"]
+
+    chartData = {}
+    columns = [
+      {"id":"","label":"Fixed Cost","pattern":"","type":"string"},
+      {"id":"","label":"Amount","pattern":"","type":"number"}
+    ]
+
+    rows = []
+    for key,cost of @breakevenFixedCosts
+      name = cost.name
+      total = cost.amount
+      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+
+    chartData = {"cols": columns, "rows": rows}
+    chartData = new google.visualization.DataTable(chartData);
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'));
+    chart.draw(chartData, {width: 400, height: 240, title: "Fixed Costs"});
+
   breakevenProductionCostsChart: () ->
     @breakevenProductionCosts = @breakevenData["cogs"]
 
@@ -51,6 +71,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     # google.charts.setOnLoadCallback @revenueChart.bind @
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
+    google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
 
   # TODO: Remove static data chart when all other charts loaded
   revenueChart: () ->
