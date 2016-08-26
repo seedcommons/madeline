@@ -21,7 +21,7 @@ section data-container="loan"
         
         - if @breakeven_data
           = render "admin/loans/content/breakeven_table"
-          = render "admin/loans/content/charts"
+          = render "admin/loans/content/breakeven_charts"
       - else
         = t('loan.criteria_not_entered')
 
