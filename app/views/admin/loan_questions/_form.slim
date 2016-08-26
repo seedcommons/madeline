@@ -17,6 +17,8 @@
     = f.input :data_type, as: :select, label: t('loan_questions.data_type'),
       collection: @data_types
 
+    = render "loan_types", f: f
+
     = f.input :has_embeddable_media, label: t('loan_questions.has_embeddable_media')
 
     = f.translatable_inputs do |l|
@@ -33,46 +35,6 @@
       = f.input_field :parent_id, as: :hidden
       = f.input_field :custom_field_set_id, as: :hidden
       = f.input_field :fieldset, value: params[:fieldset], as: :hidden
-
-
-    label = t('loan_questions.required_loan_types')
-    .actions
-      a[data-expands='loan-types']
-        i.fa.fa-eye.fa-large
-        span = t('common.show')
-      a[data-hides='loan-types']
-        i.fa.fa-eye-slash
-        span = t('common.hide')
-
-    div data-expandable='loan-types'
-      p = t('loan_questions.loan_types.description')
-      p = t('loan_questions.loan_amounts.description')
-
-      - if @loan_question.parent
-        = f.collection_radio_buttons :override_associations,
-          [[false, t('loan_questions.inherit_parent')],
-          [true, t('loan_questions.override_parent')]], :first, :last,
-          item_wrapper_class: 'radio'
-
-      - if @loan_question.override_associations || !@loan_question.parent
-        .loan-types-container
-          .form-horizontal
-            - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
-            = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
-              .form-group.row
-                .loan-type.col-sm-8
-                  label
-                    input.require-checkbox type="checkbox" checked=!sf.object.new_record?
-                    = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
-                    = sf.object.loan_type.label
-                  = sf.input :option_id, as: :hidden
-                .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
-                  = sf.input_field :amount, step: '100', min: 0,
-                    placeholder: t('loan_questions.loan_amounts.placeholder'),
-                    value: number_with_precision(sf.object.amount, precision: 2),
-                    class: "input-amount #{sf.object.amount.blank? ? '' : 'hidden'}"
-                  span.display-amount class="#{sf.object.amount.blank? ? 'hidden' : ''}"
-                    = number_with_delimiter(number_with_precision(sf.object.amount, precision: 2))
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
