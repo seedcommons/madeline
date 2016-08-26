@@ -27,5 +27,4 @@ module DivisionSelectable
   def selected_division_id
     session[:selected_division_id]
   end
-
 end

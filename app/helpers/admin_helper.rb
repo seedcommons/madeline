@@ -1,4 +1,7 @@
 module AdminHelper
+  DEFAULT_BANNER_FG_COLOR = 'white'
+  DEFAULT_BANNER_BG_COLOR = 'black'
+
   def division_select_options
     # Todo: Confirm desired sort order.
     [['All', nil]].concat(current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
@@ -26,5 +29,13 @@ module AdminHelper
       may_edit: !model_field || policy.show?,
       classes: classes
     }
+  end
+
+  def admin_banner_fg_color
+    selected_division && selected_division.banner_fg_color || DEFAULT_BANNER_FG_COLOR
+  end
+
+  def admin_banner_bg_color
+    selected_division && selected_division.banner_bg_color || DEFAULT_BANNER_BG_COLOR
   end
 end

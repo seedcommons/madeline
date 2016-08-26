@@ -19,6 +19,11 @@ html lang="en-US"
     - if admin_controller?
       = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Asap:700i|Open+Sans", media: "all"
       = stylesheet_link_tag "admin/admin", media: "all"
+      style type="text/css"
+        | nav.navbar, nav.navbar a {
+            color: #{admin_banner_fg_color};
+            background-color: #{admin_banner_bg_color};
+          }
 
   body class="#{params[:controller].gsub('/', '-')}
               action-#{params[:action]}

@@ -3,14 +3,14 @@ div
     .container-fluid
       .row
         / Brand and toggle get grouped for better mobile display
-        .navbar-header.col-sm-4
+        .navbar-header.col-sm-8
           button.navbar-toggle.collapsed aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          div.ftc-triple-spiral
-          .division-logo
+          .ftc-triple-spiral.col-sm-6
+          .division-logo.col-sm-6
             - if selected_division.present?
               - if selected_division.logo.present?
                 = image_tag selected_division.logo.url(:banner)
@@ -23,9 +23,7 @@ div
             = render "layouts/admin/site_menu"
             hr
 
-          div.ftc-triple-spiral
-
-          .col-sm-4
+          .col-sm-4.user-div-info
             = link_to(t("divisions.shared.change"), "#", :"data-expands" => "division-dropdown")
             = form_tag(select_admin_divisions_path, id: 'select_division_form') do
               = select_tag(:division_id,
