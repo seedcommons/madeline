@@ -4,11 +4,14 @@ class MS.Views.LoanChartsView extends Backbone.View
 
   initialize: (params) ->
     @breakevenData = params.breakeven_data
+    @breakevenFixedCosts = @breakevenData["fixed_costs"]
+    @breakevenProductionCosts = @breakevenData["cogs"]
+    @breakevenRevenue = @breakevenData["revenue"]
+
     @loadCharts()
+    @breakevenProductProfit()
 
   breakevenFixedCostsChart: () ->
-    @breakevenFixedCosts = @breakevenData["fixed_costs"]
-
     chartData = {}
     columns = [
       {"id":"","label":"Fixed Cost","pattern":"","type":"string"},
@@ -27,8 +30,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(chartData, {width: 400, height: 240, title: "Fixed Costs"});
 
   breakevenProductionCostsChart: () ->
-    @breakevenProductionCosts = @breakevenData["cogs"]
-
     chartData = {}
     columns = [
       {"id":"","label":"Product","pattern":"","type":"string"},
@@ -46,9 +47,39 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'));
     chart.draw(chartData, {width: 400, height: 240, title: "Production Cost by Product"});
 
-  breakevenRevenueChart: () ->
-    @breakevenRevenue = @breakevenData["revenue"]
+  breakevenProductProfitChart: () ->
+    # chartData = {}
+    # columns = [
+    #   {"id":"","label":"Product","pattern":"","type":"string"},
+    #   {"id":"","label":"Profit","pattern":"","type":"number"}
+    # ]
+    #
+    # rows = []
+    # for key,product of @breakevenProductionCosts
+    #   name = product.name
+    #   total = product.total
+    #   rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+    #
+    # chartData = {"cols": columns, "rows": rows}
+    # chartData = new google.visualization.DataTable(chartData);
+    # chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
+    # chart.draw(chartData, {width: 400, height: 240, title: "Profit per Product"});
 
+  breakevenProductProfit: () ->
+    # TODO: Calculate
+    console.log(@breakevenProductionCosts)
+    console.log(@breakevenRevenue)
+
+    profitData = []
+
+    for key,product of @breakevenProductionCosts
+      name = product.name
+      revenue = product.total
+
+      profitData.push({ "#{name}" : {revenue: revenue}})
+    console.log(profitData)
+
+  breakevenRevenueChart: () ->
     chartData = {}
     columns = [
       {"id":"","label":"Product","pattern":"","type":"string"},
