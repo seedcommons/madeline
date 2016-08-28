@@ -34,7 +34,7 @@ module Legacy
     end
 
     def self.migrate_set(set_id)
-      where("Active = :set_id and NewGroup is null", {set_id: set_id}).
+      where("Active = :set_id and NewGroup is null", {set_id: set_id}).  # Root nodes
         order('NewOrder').each do |record|
         record.migrate
       end
