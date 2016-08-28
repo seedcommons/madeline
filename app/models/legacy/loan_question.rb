@@ -13,17 +13,18 @@ module Legacy
       connection.execute("UPDATE LoanQuestions set NewGroup = Grupo where active = 3")
       connection.execute("UPDATE LoanQuestions set NewOrder = Orden where active = 3")
 
-      # tweak so that cross-linked children will be marked as 'is_active'
-      connection.execute("UPDATE LoanQuestions set Active = 4 where Active = 2 and NewGroup is not null")
-
-      # filter out questions which seemed to be ignored by old system.
-      connection.execute("UPDATE LoanQuestions set Active = 0 where NewOrder = 0")
-      connection.execute("UPDATE LoanQuestions set Active = 0 where NewGroup is null and Type != 'Grupo'")
-      # ignore some random cruft from lastest prod db
-      connection.execute("UPDATE LoanQuestions set Active = 0 where Type = ''")
-
-      # create some test data for the 'inactive' state
-      connection.execute("update LoanQuestions set NewGroup = Grupo where active = 2 and id > 100")
+      # Further, updates which may be useful to run against a local clone of # the production database
+      # # tweak so that cross-linked children will be marked as 'is_active'
+      # connection.execute("UPDATE LoanQuestions set Active = 4 where Active = 2 and NewGroup is not null")
+      #
+      # # filter out questions which seemed to be ignored by old system.
+      # connection.execute("UPDATE LoanQuestions set Active = 0 where NewOrder = 0")
+      # connection.execute("UPDATE LoanQuestions set Active = 0 where NewGroup is null and Type != 'Grupo'")
+      # # ignore some random cruft from lastest prod db
+      # connection.execute("UPDATE LoanQuestions set Active = 0 where Type = ''")
+      #
+      # # create some test data for the 'inactive' state
+      # connection.execute("update LoanQuestions set NewGroup = Grupo where active = 2 and id > 100")
     end
 
     def self.migrate_all
