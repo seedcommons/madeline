@@ -9,9 +9,6 @@
       span = t('common.hide')
 
   div data-expandable='loan-types'
-    p = t('loan_questions.loan_types.description')
-    p = t('loan_questions.loan_amounts.description')
-
     - if @loan_question.parent
       = f.collection_radio_buttons :override_associations,
         [[false, t('loan_questions.inherit_parent')],
@@ -19,6 +16,8 @@
         item_wrapper_class: 'radio'
 
     - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
+    p.loan-types-description = t('loan_questions.loan_types.description')
+    p.loan-types-description = t('loan_questions.loan_amounts.description')
     .loan-types-container class="#{hideLoanTypes}"
       .form-horizontal
         - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }

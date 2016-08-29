@@ -134,8 +134,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     if @$(overrideParent).val() == "true"
       @$('.loan-types-container').removeClass('hidden')
+      @$('.loan-types-description').removeClass('hidden')
     else
       @$('.loan-types-container').addClass('hidden')
+      @$('.loan-types-description').addClass('hidden')
 
   showHideLoanAmount: (e) ->
     checkbox = e.currentTarget
