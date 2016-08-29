@@ -9,7 +9,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenRevenue = @breakevenData["revenue"]
 
     @loadCharts()
-    @breakevenProductProfit()
 
   breakevenFixedCostsChart: () ->
     chartData = {}
@@ -48,36 +47,40 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(chartData, {width: 400, height: 240, title: "Production Cost by Product"});
 
   breakevenProductProfitChart: () ->
-    # chartData = {}
-    # columns = [
-    #   {"id":"","label":"Product","pattern":"","type":"string"},
-    #   {"id":"","label":"Profit","pattern":"","type":"number"}
-    # ]
-    #
-    # rows = []
-    # for key,product of @breakevenProductionCosts
-    #   name = product.name
-    #   total = product.total
-    #   rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
-    #
-    # chartData = {"cols": columns, "rows": rows}
-    # chartData = new google.visualization.DataTable(chartData);
-    # chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
-    # chart.draw(chartData, {width: 400, height: 240, title: "Profit per Product"});
+    chartData = {}
+    columns = [
+      {"id":"","label":"Product","pattern":"","type":"string"},
+      {"id":"","label":"Profit","pattern":"","type":"number"}
+    ]
+
+    rows = []
+    for key,product of @breakevenProductProfit()
+      name = key
+      total = product.profit
+      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+
+    chartData = {"cols": columns, "rows": rows}
+    chartData = new google.visualization.DataTable(chartData);
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
+    chart.draw(chartData, {width: 400, height: 240, title: "Profit per Product"});
 
   breakevenProductProfit: () ->
-    # TODO: Calculate
-    console.log(@breakevenProductionCosts)
-    console.log(@breakevenRevenue)
+    profitData = {}
 
-    profitData = []
-
-    for key,product of @breakevenProductionCosts
+    for key,product of @breakevenRevenue
       name = product.name
       revenue = product.total
 
-      profitData.push({ "#{name}" : {revenue: revenue}})
-    console.log(profitData)
+      profitData[name] = {revenue: revenue}
+
+    for key,product of @breakevenProductionCosts
+      name = product.name
+      cost = product.total
+
+      profitData[name]['cost'] = cost
+      profitData[name]['profit'] = profitData[name]['revenue'] - cost
+
+    return profitData
 
   breakevenRevenueChart: () ->
     chartData = {}
@@ -103,6 +106,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
+    google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
 
   # TODO: Remove static data chart when all other charts loaded
   revenueChart: () ->
