@@ -29,9 +29,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
     'change .loan-types-container .require-checkbox': 'showHideLoanAmount'
     'change .require-checkbox': 'changeRequireCheckbox'
-    'click .amount': 'editAmount'
-    'focusout .amount': 'showAmount'
-    'change .input-amount': 'adjustAmount'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
@@ -152,39 +149,3 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('.loan-type').find('.destroy-field')[0]
     destroyField.value = !e.target.checked
-
-  # When the amount field moves out of focus, display a styled version of the user's input
-  adjustAmount: (e) ->
-    e.preventDefault()
-    $inputAmount = @$(e.currentTarget)
-    $amountContainer = $inputAmount.closest('.amount')
-    $displayAmount = $amountContainer.find('.display-amount')
-    value = parseFloat($inputAmount.val())
-
-    if value > 0
-      value = value.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2})
-      $displayAmount.html(value)
-    else
-      $displayAmount.html('')
-
-  showAmount: (e) ->
-    item = e.currentTarget
-    $displayAmount = @$(item).find('.display-amount')
-    $inputAmount = @$(item).find('.input-amount')
-
-    if $inputAmount.val() > 0
-      $displayAmount.removeClass('hidden')
-      $inputAmount.addClass('hidden')
-    else
-      $inputAmount.val('')
-
-  # When the amount field has focus, hide styled amount and show input
-  editAmount: (e) ->
-    e.preventDefault()
-    item = e.currentTarget
-    $displayAmount = @$(item).find('.display-amount')
-    $inputAmount = @$(item).find('.input-amount')
-
-    $displayAmount.addClass('hidden')
-    $inputAmount.removeClass('hidden')
-    $inputAmount.focus()

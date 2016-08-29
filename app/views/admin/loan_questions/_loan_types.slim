@@ -33,7 +33,4 @@
             .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
               = sf.input_field :amount, step: '100', min: 0,
                 placeholder: t('loan_questions.loan_amounts.placeholder'),
-                value: number_with_precision(sf.object.amount, precision: 2),
-                class: "input-amount #{sf.object.amount.blank? ? '' : 'hidden'}"
-              span.display-amount class="#{sf.object.amount.blank? ? 'hidden' : ''}"
-                = number_with_delimiter(number_with_precision(sf.object.amount, precision: 2))
+                class: "input-amount", value: sf.object.amount.to_i
