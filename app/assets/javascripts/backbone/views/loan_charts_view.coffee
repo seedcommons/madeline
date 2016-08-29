@@ -122,18 +122,30 @@ class MS.Views.LoanChartsView extends Backbone.View
     options = {width: 400, height: 240, title: "Total Costs"}
     slices = {}
 
+    # Color is adjusted per item based on total items in a specific group
+    # Fixed costs have a different base color than product costs
     productionCostLength = @breakevenProductionCosts.length
-    row = rows.length
+    fixedCostLength = rows.length - productionCostLength
+    productionIncrement = parseInt(255/productionCostLength)
+    fixedCostIncrement = parseInt(255/fixedCostLength)
 
+    i = 0
     for key,row of rows
       if key < productionCostLength
-        slices[parseInt(key)] = {offset: 0.1, color: 'red'}
+        slices[parseInt(key)] = {color:
+          "rgb(#{0 + (productionIncrement * parseInt(key))},
+          #{0 + (productionIncrement * parseInt(key))},
+          255)"
+        }
       else
-        slices[parseInt(key)] = {color: 'blue'}
+        slices[parseInt(key)] = {color:
+          "rgb(255,
+          #{0 + (fixedCostIncrement * i)},
+          #{0 + (fixedCostIncrement * i)})"
+        }
+        ++i
 
     options.slices = slices
-    console.log(options)
-
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData)
     chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'))
