@@ -119,10 +119,25 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = cost.amount
       rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
 
+    options = {width: 400, height: 240, title: "Total Costs"}
+    slices = {}
+
+    productionCostLength = @breakevenProductionCosts.length
+    row = rows.length
+
+    for key,row of rows
+      if key < productionCostLength
+        slices[parseInt(key)] = {offset: 0.1, color: 'red'}
+      else
+        slices[parseInt(key)] = {color: 'blue'}
+
+    options.slices = slices
+    console.log(options)
+
     chartData = {"cols": columns, "rows": rows}
-    chartData = new google.visualization.DataTable(chartData);
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'));
-    chart.draw(chartData, {width: 400, height: 240, title: "Total Costs"});
+    chartData = new google.visualization.DataTable(chartData)
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'))
+    chart.draw(chartData, options);
 
   loadCharts: () ->
     google.charts.load('current', {'packages':['corechart']});
