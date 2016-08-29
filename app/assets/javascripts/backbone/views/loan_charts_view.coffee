@@ -100,6 +100,30 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
     chart.draw(chartData, {width: 400, height: 240, title: "Revenue by Product"});
 
+  breakevenTotalCostsChart: () ->
+    chartData = {}
+    columns = [
+      {"id":"","label":"Item","pattern":"","type":"string"},
+      {"id":"","label":"Cost","pattern":"","type":"number"}
+    ]
+
+    rows = []
+
+    for key,product of @breakevenProductionCosts
+      name = product.name
+      total = product.total
+      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+
+    for key,cost of @breakevenFixedCosts
+      name = cost.name
+      total = cost.amount
+      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+
+    chartData = {"cols": columns, "rows": rows}
+    chartData = new google.visualization.DataTable(chartData);
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'));
+    chart.draw(chartData, {width: 400, height: 240, title: "Total Costs"});
+
   loadCharts: () ->
     google.charts.load('current', {'packages':['corechart']});
     # TODO: Remove static data chart when all other charts loaded
@@ -108,6 +132,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
+    google.charts.setOnLoadCallback @breakevenTotalCostsChart.bind @
 
   # TODO: Remove static data chart when all other charts loaded
   revenueChart: () ->
