@@ -3,8 +3,8 @@ module AdminHelper
   DEFAULT_BANNER_BG_COLOR = 'black'
 
   def division_select_options
-    # Todo: Confirm desired sort order.
-    [['All', nil]].concat(current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
+    [[I18n.t("divisions.shared.all"), nil]].concat(
+      current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
   end
 
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,

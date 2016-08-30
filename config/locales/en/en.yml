@@ -265,6 +265,8 @@ en:
   # Strings used in general template stuff like header.
   template:
     profile: "Profile"
+    change_division: "Change Division"
+    select_division: "Select Division"
 
   loan:
     criteria: "Criteria"
