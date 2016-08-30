@@ -262,6 +262,10 @@ en:
     id: "ID"
     user: "User"
 
+  # Strings used in general template stuff like header.
+  template:
+    profile: "Profile"
+
   loan:
     criteria: "Criteria"
     details: "Details"

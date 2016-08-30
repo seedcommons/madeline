@@ -15,7 +15,9 @@ div
 
         / This is the division menu, user profile link and logout button.
         .user-div-info.col-sm-4
-          = link_to(t("divisions.shared.change"), "#", :"data-expands" => "division-dropdown")
+          = link_to "#", :"data-expands" => "division-dropdown"
+            i.fa.fa-retweet>
+            = t("divisions.shared.change")
           = form_tag(select_admin_divisions_path, id: 'select_division_form') do
             = select_tag(:division_id,
               options_for_select(division_select_options, selected_division_id),
@@ -23,12 +25,12 @@ div
               :'data-expandable' => "division-dropdown")
             = hidden_field_tag(:redisplay_url)
 
-          | |
-
-          = link_to admin_person_path(current_user.profile), class: "profile-link"
+          = link_to admin_person_path(current_user.profile), class: "profile-link",
+            title: t("template.profile")
             i.fa.fa-user>
             = current_user.try(:name) || t("common.user")
-          = link_to destroy_user_session_path, method: :delete
+
+          = link_to destroy_user_session_path, method: :delete, title: t("logout")
             i.fa.fa-sign-out
 
     / Navbar for xs devices (767px and below)
