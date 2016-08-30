@@ -55,9 +55,9 @@ class Division < ActiveRecord::Base
 
   belongs_to :organization  # the organization which represents this loan agent division
 
-  # Logo will be resized to 50px height on screen, but for higher pixel density devices we don't want to
-  # go below 150 height. Wide logos are acceptable, hence the large allowable width.
-  has_attached_file :logo, styles: { banner: "900x150>" }
+  # Logo will be resized to 65px height on screen, but for higher pixel density devices we don't want to
+  # go below 3x that. Wide logos are acceptable, up to about 280px logical.
+  has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
   validates :name, presence: true

@@ -1,11 +1,12 @@
-$navbar-height: 90px;
+$navbar-height: 85px;
+$navbar-padding: 10px;
 
 body {
   padding-top: $navbar-height;
 }
 
 .mainmenu {
-  padding: 10px;
+  padding: $navbar-padding;
   height: $navbar-height;
 
   .ftc-triple-spiral {
@@ -15,7 +16,7 @@ body {
 
   .division-logo {
     img {
-      height: 50px;
+      height: $navbar-height - 2 * $navbar-padding;
     }
   }
 
