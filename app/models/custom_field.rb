@@ -13,6 +13,7 @@
 #  parent_id             :integer
 #  position              :integer
 #  required              :boolean          default(FALSE), not null
+#  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
