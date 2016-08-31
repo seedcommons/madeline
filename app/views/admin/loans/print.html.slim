@@ -18,6 +18,7 @@ section data-container="loan"
         h3 = t('loan.toc')
         = render "admin/loans/content/questionnaire_toc", group: @loan.criteria.custom_field_set
         = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
+        // TODO: Remove breakeven items once they are part of the questionnaire
         - if @breakeven_data
           = render "admin/loans/content/breakeven_table"
       - else
