@@ -13,8 +13,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenFixedCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":"Fixed Cost","pattern":"","type":"string"},
-      {"id":"","label":"Amount","pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan_report.breakeven_table.fixed_costs', count: 1),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan_report.breakeven_table.amount'),"pattern":"","type":"number"}
     ]
 
     rows = []
@@ -23,10 +23,15 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = cost.amount
       rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
 
+    options = {
+      width: 400,
+      height: 240,
+      title: I18n.t('loan_report.breakeven_table.fixed_costs', count: 2)
+    }
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'));
-    chart.draw(chartData, {width: 400, height: 240, title: "Fixed Costs"});
+    chart.draw(chartData, options);
 
   breakevenProductProfitChart: () ->
     chartData = {}
@@ -41,10 +46,15 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = product.profit
       rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
 
+    options = {
+      width: 400,
+      height: 240,
+      title: I18n.t('loan_report.breakeven_table.profit_by_product')
+    }
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
-    chart.draw(chartData, {width: 400, height: 240, title: "Profit per Product"});
+    chart.draw(chartData, {width: 400, height: 240});
 
   breakevenProductionCostsChart: () ->
     chartData = {}
@@ -106,7 +116,6 @@ class MS.Views.LoanChartsView extends Backbone.View
       {"id":"","label":"Item","pattern":"","type":"string"},
       {"id":"","label":"Cost","pattern":"","type":"number"}
     ]
-
     rows = []
 
     for key,product of @breakevenProductionCosts
@@ -153,28 +162,8 @@ class MS.Views.LoanChartsView extends Backbone.View
 
   loadCharts: () ->
     google.charts.load('current', {'packages':['corechart']});
-    # TODO: Remove static data chart when all other charts loaded
-    # google.charts.setOnLoadCallback @revenueChart.bind @
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
     google.charts.setOnLoadCallback @breakevenTotalCostsChart.bind @
-
-  # TODO: Remove static data chart when all other charts loaded
-  revenueChart: () ->
-    data = {
-      "cols": [
-        {"id":"","label":"Product","pattern":"","type":"string"},
-        {"id":"","label":"Revenue","pattern":"","type":"number"}
-      ],
-      "rows": [
-        {"c":[{"v":"Product 1","f":null},{"v":80000,"f":null}]},
-        {"c":[{"v":"Product 2","f":null},{"v":36000,"f":null}]},
-        {"c":[{"v":"Product 3","f":null},{"v":15000,"f":null}]}
-      ]
-    }
-
-    data = new google.visualization.DataTable(data);
-    chart = new google.visualization.PieChart(document.getElementById('revenue-chart'));
-    chart.draw(data, {width: 400, height: 240, title: "Revenue by Product"});
