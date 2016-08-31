@@ -36,8 +36,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenProductProfitChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":"Product","pattern":"","type":"string"},
-      {"id":"","label":"Profit","pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan.breakeven.profit'),"pattern":"","type":"number"}
     ]
 
     rows = []
@@ -54,14 +54,20 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
-    chart.draw(chartData, {width: 400, height: 240});
+    chart.draw(chartData, options);
 
   breakevenProductionCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":"Product","pattern":"","type":"string"},
-      {"id":"","label":"Production Cost","pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan.breakeven.production_cost'),"pattern":"","type":"number"}
     ]
+
+    options = {
+      width: 400,
+      height: 240,
+      title: I18n.t('loan.breakeven.production_cost_by_product')
+    }
 
     rows = []
     for key,product of @breakevenProductionCosts
@@ -72,7 +78,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'));
-    chart.draw(chartData, {width: 400, height: 240, title: "Production Cost by Product"});
+    chart.draw(chartData, options);
 
   breakevenProductProfit: () ->
     profitData = {}
@@ -95,10 +101,15 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenRevenueChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":"Product","pattern":"","type":"string"},
-      {"id":"","label":"Revenue","pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan.breakeven.revenue'),"pattern":"","type":"number"}
     ]
 
+    options = {
+      width: 400,
+      height: 240,
+      title: I18n.t('loan.breakeven.revenue_by_product')
+    }
     rows = []
     for key,product of @breakevenRevenue
       name = product.name
@@ -108,13 +119,13 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
-    chart.draw(chartData, {width: 400, height: 240, title: "Revenue by Product"});
+    chart.draw(chartData, options);
 
   breakevenTotalCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":"Item","pattern":"","type":"string"},
-      {"id":"","label":"Cost","pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan.breakeven.item'),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan.breakeven.cost'),"pattern":"","type":"number"}
     ]
     rows = []
 
@@ -128,7 +139,11 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = cost.amount
       rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
 
-    options = {width: 400, height: 240, title: "Total Costs"}
+    options = {
+      width: 400,
+      height: 240,
+      title: I18n.t('loan.breakeven.total_cost_breakdown')
+    }
     slices = {}
 
     # Color is adjusted per item based on total items in a specific group
