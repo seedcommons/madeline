@@ -6,6 +6,21 @@ en:
     back_to_loan: Back to Loan
     backward: "- backward"
     batch_actions: "Batch Actions"
+    breakeven:
+      cost: Cost
+      cost_of_goods: Cost of Goods Sold
+      fixed_costs: Fixed Costs
+      gross_margin: Gross Margin
+      net_margin: Net Margin
+      price: Price
+      product_name: Product Name
+      quantity: Quantity
+      revenue: Revenue
+      title: Breakeven Financial Model
+      total: Total
+      total_cost_of_goods: Total Cost of Goods Sold
+      total_fixed_costs: Total Fixed Costs
+      total_revenue: Total Revenue
     delete_selected: "Delete"
     details: "Details"
     calendar: "Calendar"
