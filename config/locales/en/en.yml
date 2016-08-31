@@ -21,6 +21,8 @@ en:
         logo: "Logo"
         banner_fg_color: "Banner FG Color"
         banner_bg_color: "Banner BG Color"
+        accent_main_color: "Accent Color"
+        accent_fg_color: "Accent FG Text Color"
       loan:
         division: "Division"
         organization: "Co-op"
@@ -95,6 +97,12 @@ en:
         progress_metric_value: "Status"
 
   simple_form:
+    hints:
+      division:
+        banner_fg_color: "For text in banner"
+        banner_bg_color: "Background color of site banner"
+        accent_main_color: "For links, buttons, etc. Defaults to banner BG color."
+        accent_fg_color: "For text on top of accent color. Defaults to banner FG color."
     labels:
       project_step_move:
         move_type: "Which Date?"

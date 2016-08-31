@@ -93,7 +93,7 @@ class Admin::DivisionsController < Admin::AdminController
 
   def division_params
     params.require(:division).permit(:name, :description, :logo, :default_currency_id, :parent_id,
-      :banner_fg_color, :banner_bg_color)
+      :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color)
   end
 
   def set_selected_division_id(id)

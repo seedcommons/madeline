@@ -2,6 +2,8 @@
 #
 # Table name: divisions
 #
+#  accent_fg_color   :string
+#  accent_main_color :string
 #  banner_bg_color   :string
 #  banner_fg_color   :string
 #  created_at        :datetime         not null
@@ -34,6 +36,8 @@ class Division < ActiveRecord::Base
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
+
+  normalize_attributes :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color
 
   has_many :loans, dependent: :restrict_with_exception
   has_many :people, dependent: :restrict_with_exception

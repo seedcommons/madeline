@@ -32,6 +32,9 @@ body {
   }
 
   .division-logo {
+    font-size: 30px;
+    font-weight: bold;
+
     img {
       height: $navbar-height - 2 * $navbar-padding;
     }
