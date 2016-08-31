@@ -72,12 +72,12 @@ div
 
   .sidemenu.container-fluid
     .row
-      #navbar.col-sm-3.col-md-2.sidebar
+      #navbar.sidebar
         ul.nav.nav-sidebar
           = render "layouts/admin/site_menu"
       #user-menu.user-menu-collapsed.user-menu
         = render "layouts/admin/user_menu"
-      .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+      .content-wrapper
         .alerts = render "application/alerts"
         section.content
           .page-header

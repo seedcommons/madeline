@@ -23,20 +23,3 @@
 @import "project_steps/*";
 @import "project_step_moves";
 @import "tree";
-
-// Page title and New button
-@media (min-width: 768px) {
-  .page-header {
-    display: table;
-    width: 100%;
-    .page-title {
-      display: table-cell;
-    }
-  }
-
-  .with-title {
-    display: table-cell;
-    text-align: right;
-    vertical-align: bottom;
-  }
-}
