@@ -29,27 +29,6 @@ en:
     range_of_cells: Optional cells for Google spreadsheet
     url: URL
 
-  loan_report:
-    breakeven_table:
-      amount: Amount
-      cost: Cost
-      cost_of_goods: Cost of Goods Sold
-      fixed_costs:
-        one: Fixed Cost
-        other: Fixed Costs
-      gross_margin: Gross Margin
-      net_margin: Net Margin
-      price: Price
-      product_name: Product Name
-      profit_by_product: Profit by Product
-      quantity: Quantity
-      revenue: Revenue
-      title: Breakeven Financial Model
-      total: Total
-      total_cost_of_goods: Total Cost of Goods Sold
-      total_fixed_costs: Total Fixed Costs
-      total_revenue: Total Revenue
-
   admin:
     loan_questions:
       index:

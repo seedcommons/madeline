@@ -13,8 +13,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenFixedCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan_report.breakeven_table.fixed_costs', count: 1),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan_report.breakeven_table.amount'),"pattern":"","type":"number"}
+      {"id":"","label":I18n.t('loan.breakeven.fixed_costs', count: 1),"pattern":"","type":"string"},
+      {"id":"","label":I18n.t('loan.breakeven.amount'),"pattern":"","type":"number"}
     ]
 
     rows = []
@@ -26,7 +26,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     options = {
       width: 400,
       height: 240,
-      title: I18n.t('loan_report.breakeven_table.fixed_costs', count: 2)
+      title: I18n.t('loan.breakeven.fixed_costs', count: 2)
     }
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
@@ -49,7 +49,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     options = {
       width: 400,
       height: 240,
-      title: I18n.t('loan_report.breakeven_table.profit_by_product')
+      title: I18n.t('loan.breakeven.profit_by_product')
     }
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
