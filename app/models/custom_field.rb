@@ -64,7 +64,7 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  DATA_TYPES = %i(string text number range group boolean)
+  DATA_TYPES = %i(string text number range group boolean breakeven)
 
   def self.loan_questions(field_set = nil)
     # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
@@ -135,6 +135,7 @@ class CustomField < ActiveRecord::Base
       when 'number' then [:number]
       when 'range' then [:rating, :text]
       when 'boolean' then [:boolean]
+      when 'breakeven' then [:breakeven]
       else []
       end
 
@@ -148,6 +149,7 @@ class CustomField < ActiveRecord::Base
     result
   end
 
+  # TODO: Not used anywhere? Remove?
   # Simple form type mapping
   def form_field_type
     case data_type

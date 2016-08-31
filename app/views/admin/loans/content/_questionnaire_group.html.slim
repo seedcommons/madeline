@@ -97,8 +97,7 @@
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
             
-            / Placeholder condition until breakeven data type is created
-            - if field.id == 90
+            - if value.has_breakeven_table?
               = render 'admin/loans/content/table_question', f: f, field: field
 
             - if value.has_linked_document?
