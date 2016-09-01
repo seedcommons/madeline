@@ -1,40 +1,59 @@
-form.table-responsive
-  table.table.table-condensed.editable-table data-table="fixed_costs"
-    thead
-      tr
-        td = t("loan.breakeven.products", count: 2)
-      tr
-        td = t("loan.breakeven.product_name")
-        td = t("loan.breakeven.description")
-        td = t("loan.breakeven.unit")
-        td = t("loan.breakeven.price")
-        td = t("loan.breakeven.cost")
-        td = t("loan.breakeven.quantity")
-        td Actions
-    tbody
-      - breakeven_data[:products].each do |product|
+form.table-responsive.editable-tables
+
+  .table-container
+    / TODO: Use button selector instead of div, may require adding preventDefault
+    / Note: Using preventDefault not straightforward due to nested view models
+    .actions
+      .btn.btn-default data-action="add" Add Product
+    table.table.table-condensed.editable-table data-table="products"
+      thead
+        tr
+          td = t("loan.breakeven.products", count: 2)
+        tr
+          td = t("loan.breakeven.product_name")
+          td = t("loan.breakeven.description")
+          td = t("loan.breakeven.unit")
+          td = t("loan.breakeven.price")
+          td = t("loan.breakeven.cost")
+          td = t("loan.breakeven.quantity")
+          td Actions
+      tbody
+        - breakeven_data[:products].each do |product|
+          tr.ui-state-default data-group="product"
+            td: input data-input="name" value== product[:name]
+            td: input data-input="description" value== product[:description]
+            td: input data-input="unit" value== product[:unit]
+            td: input data-input="price" value== product[:price]
+            td: input data-input="cost" value== product[:cost]
+            td: input data-input="quantity" value== product[:quantity]
+            td: .actions
+              a.delete data-action="delete": i.fa.fa-trash
+              a.move data-action="move": i.fa.fa-arrows-v
+
         tr.ui-state-default data-group="product"
-          td: input data-input="name" value== product[:name]
-          td: input data-input="description" value== product[:description]
-          td: input data-input="unit" value== product[:unit]
-          td: input data-input="price" value== product[:price]
-          td: input data-input="cost" value== product[:cost]
-          td: input data-input="quantity" value== product[:quantity]
+          td: input data-input="name"
+          td: input data-input="description"
+          td: input data-input="unit"
+          td: input data-input="price"
+          td: input data-input="cost"
+          td: input data-input="quantity"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
-            a.hand data-action="move": i.fa.fa-arrows-v
+            a.move data-action="move": i.fa.fa-arrows-v
 
-      tr.ui-state-default data-group="product"
-        td: input data-input="name"
-        td: input data-input="description"
-        td: input data-input="unit"
-        td: input data-input="price"
-        td: input data-input="cost"
-        td: input data-input="quantity"
-        td: .actions
-          a.delete data-action="delete": i.fa.fa-trash
-          a.hand data-action="move": i.fa.fa-arrows-v
+        tr.ui-state-default.hidden data-group="product"
+          td: input data-input="name"
+          td: input data-input="description"
+          td: input data-input="unit"
+          td: input data-input="price"
+          td: input data-input="cost"
+          td: input data-input="quantity"
+          td: .actions
+            a.delete data-action="delete": i.fa.fa-trash
+            a.move data-action="move": i.fa.fa-arrows-v
 
+  .table-container
+    .btn.btn-default data-action="add" Add Fixed Cost
     table.table.table-condensed.editable-table data-table="fixed_costs"
       thead
         tr
@@ -50,11 +69,18 @@ form.table-responsive
             td: input data-input="amount" value== cost[:amount]
             td: .actions
               a.delete data-action="delete": i.fa.fa-trash
-              a.hand data-action="move": i.fa.fa-arrows-v
+              a.move data-action="move": i.fa.fa-arrows-v
 
         tr.ui-state-default data-group="fixed_cost"
           td: input data-input="name"
           td: input data-input="amount"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
-            a.hand data-action="move": i.fa.fa-arrows-v
+            a.move data-action="move": i.fa.fa-arrows-v
+
+        tr.ui-state-default.hidden data-group="fixed_cost"
+          td: input data-input="name"
+          td: input data-input="amount"
+          td: .actions
+            a.delete data-action="delete": i.fa.fa-trash
+            a.move data-action="move": i.fa.fa-arrows-v
