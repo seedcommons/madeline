@@ -9,6 +9,14 @@ form.table-responsive
       td = t("loan.breakeven.price")
       td = t("loan.breakeven.cost")
       td = t("loan.breakeven.quantity")
+    - breakeven_data[:products].each do |product|
+      tr
+        td: input value== product[:name]
+        td: input value== product[:description]
+        td: input value== product[:unit]
+        td: input value== product[:price]
+        td: input value== product[:cost]
+        td: input value== product[:quantity]
     tr
       td: input
       td: input

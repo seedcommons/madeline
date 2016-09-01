@@ -48,18 +48,16 @@ class LoanResponse
   end
 
   def breakeven_data
-    %Q(
+    #%Q(
       {
         products: [
           { name: "Product 1", description: "Description", unit: "Widgets", price: 100, cost: 50, quantity: 800 },
-          ...
         ],
         fixed_costs: [
           { name: "Rent", amount: 15000 },
-          ...
         ]
       }
-    )
+    #)
   end
 
   def field_attributes

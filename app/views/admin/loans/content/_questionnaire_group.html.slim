@@ -99,7 +99,8 @@
             
             / Placeholder condition until breakeven data type is created
             - if field.id == (304 || 90)
-              = render 'admin/loans/content/table_question', f: f, field: field
+              = value.breakeven_data
+              = render 'admin/loans/content/table_question', f: f, field: field, breakeven_data: value.breakeven_data
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
