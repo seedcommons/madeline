@@ -1,14 +1,15 @@
 form.table-responsive
   table.table.table-condensed data-table="fixed_costs"
-    tr
-      td = t("loan.breakeven.products", count: 2)
-    tr
-      td = t("loan.breakeven.product_name")
-      td = t("loan.breakeven.description")
-      td = t("loan.breakeven.unit")
-      td = t("loan.breakeven.price")
-      td = t("loan.breakeven.cost")
-      td = t("loan.breakeven.quantity")
+    thead
+      tr
+        td = t("loan.breakeven.products", count: 2)
+      tr
+        td = t("loan.breakeven.product_name")
+        td = t("loan.breakeven.description")
+        td = t("loan.breakeven.unit")
+        td = t("loan.breakeven.price")
+        td = t("loan.breakeven.cost")
+        td = t("loan.breakeven.quantity")
     tbody
       - breakeven_data[:products].each do |product|
         tr data-group="product"
@@ -27,11 +28,12 @@ form.table-responsive
         td: input data-input="quantity"
 
     table.table.table-condensed data-table="fixed_costs"
-      tr
-        td = t("loan.breakeven.fixed_costs", count: 2)
-      tr
-        td = t("loan.breakeven.fixed_cost_name")
-        td = t("loan.breakeven.cost")
+      thead
+        tr
+          td = t("loan.breakeven.fixed_costs", count: 2)
+        tr
+          td = t("loan.breakeven.fixed_cost_name")
+          td = t("loan.breakeven.cost")
       tbody
         - breakeven_data[:fixed_costs].each do |cost|
           tr data-group="fixed_cost"
