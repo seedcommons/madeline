@@ -21,7 +21,7 @@
       - unless value_set.new_record?
         a.btn.btn-default.show-action = t(:cancel)
       - submit_label = t("loan.save_responses")
-      = f.submit submit_label, class: 'update-action btn btn-success'
+      = f.submit submit_label, class: 'update-action btn btn-primary'
     .clearfix
 
   / Render form fields outside form so they don't get double submitted after being

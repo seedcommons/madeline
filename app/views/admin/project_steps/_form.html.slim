@@ -3,7 +3,7 @@ div.panel-body class=('new-record' if step.new_record?)
   = simple_form_for([:admin, step],
     remote: true,
     html: { class: 'project-step-form' }) do |f|
-    
+
     / Need to pass these through to create but not update.
     - if step.new_record?
       = f.hidden_field(:project_id)
@@ -44,4 +44,4 @@ div.panel-body class=('new-record' if step.new_record?)
 
     .actions.form-step-block
       a.btn.btn-default.cancel = t(:cancel)
-      = f.submit class: 'update-action btn btn-success'
+      = f.submit class: 'update-action btn btn-primary'

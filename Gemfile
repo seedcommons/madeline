@@ -19,6 +19,7 @@ gem 'select2-rails'
 gem 'rails-backbone'
 gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
+gem 'paperclip', '~> 5.0.0'
 
 # Authentication / Authorization
 gem 'devise'
@@ -85,6 +86,12 @@ gem 'remotipart', '~> 1.2'
 
 # Eager loading
 gem 'goldiloader'
+
+# Color manipulation
+gem 'chroma'
+
+# For normalizing model attribs
+gem 'attribute_normalizer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

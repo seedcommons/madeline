@@ -2,16 +2,25 @@
 #
 # Table name: divisions
 #
-#  created_at      :datetime         not null
-#  currency_id     :integer
-#  custom_data     :json
-#  description     :text
-#  id              :integer          not null, primary key
-#  internal_name   :string
-#  name            :string
-#  organization_id :integer
-#  parent_id       :integer
-#  updated_at      :datetime         not null
+#  accent_fg_color   :string
+#  accent_main_color :string
+#  banner_bg_color   :string
+#  banner_fg_color   :string
+#  created_at        :datetime         not null
+#  currency_id       :integer
+#  custom_data       :json
+#  description       :text
+#  id                :integer          not null, primary key
+#  internal_name     :string
+#  logo_content_type :string
+#  logo_file_name    :string
+#  logo_file_size    :integer
+#  logo_text         :string
+#  logo_updated_at   :datetime
+#  name              :string
+#  organization_id   :integer
+#  parent_id         :integer
+#  updated_at        :datetime         not null
 #
 # Indexes
 #
@@ -28,6 +37,8 @@ class Division < ActiveRecord::Base
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
+
+  normalize_attributes :logo_text, :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color
 
   has_many :loans, dependent: :restrict_with_exception
   has_many :people, dependent: :restrict_with_exception
@@ -48,6 +59,11 @@ class Division < ActiveRecord::Base
   alias_attribute :default_currency_id, :currency_id
 
   belongs_to :organization  # the organization which represents this loan agent division
+
+  # Logo will be resized to 65px height on screen, but for higher pixel density devices we don't want to
+  # go below 3x that. Wide logos are acceptable, up to about 280px logical.
+  has_attached_file :logo, styles: { banner: "840x195>" }
+  validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
@@ -102,6 +118,10 @@ class Division < ActiveRecord::Base
   # interface compatibility with other models
   def division
     self
+  end
+
+  def has_logo_text?
+    logo_text.present?
   end
 
   def has_noncascading_dependents?
