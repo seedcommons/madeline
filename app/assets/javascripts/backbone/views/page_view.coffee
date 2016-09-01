@@ -1,6 +1,6 @@
 class MS.Views.PageView extends Backbone.View
 
-  el: "#select_division_form"
+  el: ".select_division_form"
 
   events: (params) ->
     'change select': 'selectDivision'

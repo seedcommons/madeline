@@ -101,6 +101,19 @@ body.admin {
       .navbar-toggle {
         margin: 0;
       }
+
+      // This is the slide-down menu for mobile.
+      #navbar-menu {
+        border-top: 1px solid #eee;
+
+        hr {
+          margin: 0;
+        }
+
+        .select_division_form {
+          margin: 0 15px;
+        }
+      }
     }
   }
 
