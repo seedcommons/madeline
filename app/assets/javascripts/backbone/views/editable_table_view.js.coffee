@@ -23,4 +23,35 @@ class MS.Views.EditableTableView extends Backbone.View
   saveTable: (e) ->
     e.preventDefault()
     $table = $(e.currentTarget).closest('.table-container').find('table')
-    console.log($table)
+    tableKey = $table.data('table')
+    $rows = $table.find('tbody').find('tr')
+
+    tableData = []
+    for key,row of $rows
+      if !isNaN(key)
+        $row = $(row)
+
+        rowResponse = switch tableKey
+          when 'fixed_costs' then @formatFixedCostsInput($row)
+          # when 'products' then
+          # else
+
+        if rowResponse.rowData
+          # console.log(rowResponse.rowData)
+          tableData.push(rowResponse.rowData)
+
+    console.log(tableData)
+
+  formatFixedCostsInput: ($row) ->
+    name = $row.find('[data-input="name"]').val()
+    amount = $row.find('[data-input="amount"]').val()
+
+    # Only format rows that have a name and amount
+    if Boolean(name) && Boolean(amount)
+      rowData = {
+        name: name,
+        amount: amount
+      }
+      return {rowData: rowData}
+    else
+      return false
