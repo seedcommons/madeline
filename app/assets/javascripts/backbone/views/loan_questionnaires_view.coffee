@@ -6,6 +6,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @loanId = options.loanId
     @refreshContent()
     @filterSwitchView = new MS.Views.FilterSwitchView()
+    @editableTableView = new MS.Views.EditableTableView()
 
   events:
     'ajax:error': 'submitError'
@@ -17,6 +18,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       MS.loadingIndicator.hide()
       @initializeTree()
       @filterSwitchView.filterInit()
+      @editableTableView.editableTableInit()
 
   removeLinkedDocument: (e) ->
     e.preventDefault()

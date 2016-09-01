@@ -9,21 +9,22 @@ form.table-responsive
       td = t("loan.breakeven.price")
       td = t("loan.breakeven.cost")
       td = t("loan.breakeven.quantity")
-    - breakeven_data[:products].each do |product|
+    tbody
+      - breakeven_data[:products].each do |product|
+        tr data-group="product"
+          td: input data-input="name" value== product[:name]
+          td: input data-input="description" value== product[:description]
+          td: input data-input="unit" value== product[:unit]
+          td: input data-input="price" value== product[:price]
+          td: input data-input="cost" value== product[:cost]
+          td: input data-input="quantity" value== product[:quantity]
       tr data-group="product"
-        td: input data-input="name" value== product[:name]
-        td: input data-input="description" value== product[:description]
-        td: input data-input="unit" value== product[:unit]
-        td: input data-input="price" value== product[:price]
-        td: input data-input="cost" value== product[:cost]
-        td: input data-input="quantity" value== product[:quantity]
-    tr data-group="product"
-      td: input data-input="name"
-      td: input data-input="description"
-      td: input data-input="unit"
-      td: input data-input="price"
-      td: input data-input="cost"
-      td: input data-input="quantity"
+        td: input data-input="name"
+        td: input data-input="description"
+        td: input data-input="unit"
+        td: input data-input="price"
+        td: input data-input="cost"
+        td: input data-input="quantity"
 
     table.table.table-condensed data-table="fixed_costs"
       tr
@@ -31,11 +32,12 @@ form.table-responsive
       tr
         td = t("loan.breakeven.fixed_cost_name")
         td = t("loan.breakeven.cost")
-      - breakeven_data[:fixed_costs].each do |cost|
-        tr data-group="fixed_cost"
-          td: input data-input="name" value== cost[:name]
-          td: input data-input="amount" value== cost[:amount]
+      tbody
+        - breakeven_data[:fixed_costs].each do |cost|
+          tr data-group="fixed_cost"
+            td: input data-input="name" value== cost[:name]
+            td: input data-input="amount" value== cost[:amount]
 
-      tr data-group="fixed_cost"
-        td: input data-input="name"
-        td: input data-input="amount"
+        tr data-group="fixed_cost"
+          td: input data-input="name"
+          td: input data-input="amount"
