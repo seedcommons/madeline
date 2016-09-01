@@ -11,6 +11,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   events:
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
+    'click .editable-table tr [data-action="delete"]': 'tableDeleteRow'
 
   refreshContent: ->
     MS.loadingIndicator.show()
@@ -19,6 +20,9 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       @initializeTree()
       @filterSwitchView.filterInit()
       @editableTableView.editableTableInit()
+
+  tableDeleteRow: (e) ->
+    @editableTableView.removeRow(e)
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
