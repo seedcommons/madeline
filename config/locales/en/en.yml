@@ -19,6 +19,7 @@ en:
         name: "Name"
         parent: "Parent Division"
         logo: "Logo"
+        logo_text: "Logo Text"
         banner_fg_color: "Banner FG Color"
         banner_bg_color: "Banner BG Color"
         accent_main_color: "Accent Color"
@@ -99,10 +100,11 @@ en:
   simple_form:
     hints:
       division:
-        banner_fg_color: "For text in banner"
-        banner_bg_color: "Background color of site banner"
-        accent_main_color: "For links, buttons, etc. Defaults to banner BG color."
-        accent_fg_color: "For text on top of accent color. Defaults to banner FG color."
+        logo_text: "Optional text to show below the logo. Logo is shorter if text is entered."
+        banner_fg_color: "Color of text in banner. e.g. 'white' or '#eb9081'"
+        banner_bg_color: "Background color of site banner."
+        accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
+        accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
       project_step_move:
         move_type: "Which Date?"

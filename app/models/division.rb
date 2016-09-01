@@ -15,6 +15,7 @@
 #  logo_content_type :string
 #  logo_file_name    :string
 #  logo_file_size    :integer
+#  logo_text         :string
 #  logo_updated_at   :datetime
 #  name              :string
 #  organization_id   :integer
@@ -37,7 +38,7 @@ class Division < ActiveRecord::Base
   resourcify
   alias_attribute :super_division, :parent
 
-  normalize_attributes :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color
+  normalize_attributes :logo_text, :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color
 
   has_many :loans, dependent: :restrict_with_exception
   has_many :people, dependent: :restrict_with_exception
@@ -117,6 +118,10 @@ class Division < ActiveRecord::Base
   # interface compatibility with other models
   def division
     self
+  end
+
+  def has_logo_text?
+    logo_text.present?
   end
 
   def has_noncascading_dependents?

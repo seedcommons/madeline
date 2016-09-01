@@ -1,3 +1,4 @@
+- division = selected_division
 div
   nav.mainmenu.navbar-fixed-top
     / Navbar for sm devices (768px and above).
@@ -6,21 +7,24 @@ div
       .row
         .madeline-logo.col-sm-4
           .ftc-triple-spiral
-          - unless selected_division.present?
+          - unless division.present?
             .madeline Madeline
 
-        .division-logo.col-sm-4
-          - if selected_division.present?
-            - if selected_division.logo.present?
-              = image_tag selected_division.logo.url(:banner)
+        .division-brand.col-sm-4
+          - if division.present?
+            - if division.logo.present?
+              .with-logo class="#{division.try(:has_logo_text?) ? "with-text" : nil}"
+                = image_tag division.logo.url(:banner)
+                - if division.has_logo_text?
+                  .logo-text = division.logo_text
             - else
-              = selected_division.name
+              .without-logo = division.logo_text || division.name
 
         / This is the division menu, user profile link and logout button.
         .user-div-info.col-sm-4
           = link_to "#", :"data-expands" => "division-dropdown"
             i.fa.fa-retweet>
-            = t(selected_division.nil? ? "template.select_division" : "template.change_division")
+            = t(division.nil? ? "template.select_division" : "template.change_division")
           = form_tag(select_admin_divisions_path, id: 'select_division_form') do
             = select_tag(:division_id,
               options_for_select(division_select_options, selected_division_id),
@@ -57,7 +61,7 @@ div
     /     = link_to(t("divisions.shared.change"), "#", :"data-expands" => "division-dropdown")
     /     = form_tag(select_admin_divisions_path, id: 'select_division_form') do
     /       = select_tag(:division_id,
-    /         options_for_select(division_select_options, selected_division_id),
+    /         options_for_select(division_select_options, division_id),
     /         class: 'form-control',
     /         :'data-expandable' => "division-dropdown")
     /       = hidden_field_tag(:redisplay_url)

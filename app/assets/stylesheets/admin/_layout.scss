@@ -32,12 +32,26 @@ body {
     }
   }
 
-  .division-logo {
-    font-size: 30px;
-    font-weight: bold;
+  .division-brand {
+    .with-logo {
+      img {
+        height: $navbar-height - 2 * $navbar-padding;
+      }
 
-    img {
-      height: $navbar-height - 2 * $navbar-padding;
+      &.with-text {
+        img {
+          height: $navbar-height - 2 * $navbar-padding - 20px;
+        }
+
+        .logo-text {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .without-logo {
+      font-size: 30px;
+      font-weight: bold;
     }
   }
 
@@ -46,7 +60,7 @@ body {
       padding: 0; // Override bootstrap default.
     }
 
-    .division-logo {
+    .division-brand {
       text-align: center;
     }
 

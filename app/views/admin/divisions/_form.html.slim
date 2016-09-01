@@ -41,6 +41,10 @@
         = t("none")
     = f.input_field :logo, as: :file
 
+  = f.input :logo_text
+    .view-element = @division.logo_text
+    = f.input_field :logo_text
+
   = f.input :banner_bg_color
     .view-element = @division.banner_bg_color
     = f.input_field :banner_bg_color
