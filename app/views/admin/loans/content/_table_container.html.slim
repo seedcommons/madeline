@@ -10,6 +10,7 @@ form.table-responsive
         td = t("loan.breakeven.price")
         td = t("loan.breakeven.cost")
         td = t("loan.breakeven.quantity")
+        td Actions
     tbody
       - breakeven_data[:products].each do |product|
         tr data-group="product"
@@ -19,6 +20,9 @@ form.table-responsive
           td: input data-input="price" value== product[:price]
           td: input data-input="cost" value== product[:cost]
           td: input data-input="quantity" value== product[:quantity]
+          td
+            a: i.fa.fa-trash
+
       tr data-group="product"
         td: input data-input="name"
         td: input data-input="description"
@@ -26,6 +30,8 @@ form.table-responsive
         td: input data-input="price"
         td: input data-input="cost"
         td: input data-input="quantity"
+        td
+          a: i.fa.fa-trash
 
     table.table.table-condensed data-table="fixed_costs"
       thead
