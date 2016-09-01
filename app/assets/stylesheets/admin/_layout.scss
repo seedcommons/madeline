@@ -44,6 +44,7 @@ body.admin {
         .with-logo {
           img {
             height: $navbar-height - 2 * $navbar-padding;
+            max-width: 256px; // So that logo is not wider than its column at 768px.
           }
 
           &.with-text {
