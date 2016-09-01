@@ -1,45 +1,46 @@
+- division = selected_division
 div
-  nav.mainmenu.navbar.navbar-inverse.navbar-fixed-top
-    .container-fluid
+  nav.navbar-fixed-top
 
-      .row
-        / Brand and toggle get grouped for better mobile display
-        .navbar-header.col-sm-3
-          button.navbar-toggle.collapsed aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
+    / Navbar for sm devices (768px and above).
+    .nav-sm.container-fluid
+      .row.navbar-main
+        .madeline-logo.col-sm-4
+          .ftc-triple-spiral
+          - unless division.present?
+            .madeline Madeline
+
+        = render("layouts/admin/division_brand", size: "sm")
+
+        / This is the division menu, user profile link and logout button.
+        .user-div-info.col-sm-4
+          = render("layouts/admin/user_div_info", size: "sm")
+
+    / Navbar for xs devices (767px and below)
+    .nav-xs.container-fluid
+      .navbar-main.row
+        = render("layouts/admin/division_brand", size: "xs")
+        .col-xs-2
+          / Hamburger menu toggle.
+          button.navbar-toggle aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand href="/"  Madeline System
 
-        / Collect the nav links, forms, and other content for toggling
-        #navbar-menu.collapse.navbar-collapse
-          ul.nav.navbar-nav.visible-xs-block
-            = render "layouts/admin/site_menu"
-            hr
-
-          .division.centered-box.nav.navbar-nav.col-sm-6
-            span> Division:
-            span = form_tag(select_admin_divisions_path, id: 'select_division_form') do
-              = select_tag(:division_id, options_for_select(division_select_options, selected_division_id), class: 'form-control')
-              = hidden_field_tag(:redisplay_url)
-
-          ul.user.centered-box.nav.navbar-nav.navbar-right.col-sm-3
-            li.dropdown
-              a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-                => current_user.try(:name) || 'User'
-                span.caret
-              ul.dropdown-menu
-                = render "layouts/admin/user_menu"
+      / This is the menu toggled by the toggle above.
+      #navbar-menu.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          = render "layouts/admin/site_menu"
+          hr
+          = render("layouts/admin/user_div_info", size: "xs")
 
   .sidemenu.container-fluid
     .row
-      #navbar.col-sm-3.col-md-2.sidebar
+      #navbar.sidebar
         ul.nav.nav-sidebar
           = render "layouts/admin/site_menu"
-      #user-menu.user-menu-collapsed.user-menu
-        = render "layouts/admin/user_menu"
-      .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+      .content-wrapper
         .alerts = render "application/alerts"
         section.content
           .page-header

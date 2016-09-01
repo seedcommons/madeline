@@ -2,12 +2,12 @@ div.visible-print-preview
   = render "application/alerts"
 
 section.content
-  .visible-print-preview.text-right
-    .btn.btn-primary data-action="print" = t('common.print')
-  
+
   .page-header
     h1.page-title = yield :title
-    .with-title = yield :with_title
+    .with-title.visible-print-preview
+      .btn.btn-primary data-action="print" = t('common.print')
+
   = yield
 
 javascript:
