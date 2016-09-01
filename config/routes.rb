@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :loan_response_sets
-    resources :dashboard, only: [:index]
     resources :divisions do
       collection do
         post :select
@@ -70,5 +69,5 @@ Rails.application.routes.draw do
 
   get '/test' => 'static_pages#test'
 
-  root to: 'admin/dashboard#index'
+  root to: redirect('/admin/loans')
 end
