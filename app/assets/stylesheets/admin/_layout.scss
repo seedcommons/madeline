@@ -41,6 +41,10 @@ body.admin {
       }
 
       .division-brand {
+        // Deliberately not subtracting second padding so overflow is obvious.
+        height: $navbar-height - $navbar-padding;
+        overflow-y: hidden;
+
         .with-logo {
           img {
             height: $navbar-height - 2 * $navbar-padding;
@@ -59,8 +63,9 @@ body.admin {
         }
 
         .without-logo {
-          font-size: 30px;
+          font-size: 26px;
           font-weight: bold;
+          line-height: 1.2;
         }
       }
     }
