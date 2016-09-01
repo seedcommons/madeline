@@ -1,5 +1,5 @@
 form.table-responsive
-  table.table.table-condensed
+  table.table.table-condensed data-table="fixed_costs"
     tr
       td = t("loan.breakeven.products", count: 2)
     tr
@@ -10,32 +10,32 @@ form.table-responsive
       td = t("loan.breakeven.cost")
       td = t("loan.breakeven.quantity")
     - breakeven_data[:products].each do |product|
-      tr
-        td: input value== product[:name]
-        td: input value== product[:description]
-        td: input value== product[:unit]
-        td: input value== product[:price]
-        td: input value== product[:cost]
-        td: input value== product[:quantity]
-    tr
-      td: input
-      td: input
-      td: input
-      td: input
-      td: input
-      td: input
+      tr data-group="product"
+        td: input data-input="name" value== product[:name]
+        td: input data-input="description" value== product[:description]
+        td: input data-input="unit" value== product[:unit]
+        td: input data-input="price" value== product[:price]
+        td: input data-input="cost" value== product[:cost]
+        td: input data-input="quantity" value== product[:quantity]
+    tr data-group="product"
+      td: input data-input="name"
+      td: input data-input="description"
+      td: input data-input="unit"
+      td: input data-input="price"
+      td: input data-input="cost"
+      td: input data-input="quantity"
 
-    table.table.table-condensed
+    table.table.table-condensed data-table="fixed_costs"
       tr
         td = t("loan.breakeven.fixed_costs", count: 2)
       tr
         td = t("loan.breakeven.fixed_cost_name")
         td = t("loan.breakeven.cost")
       - breakeven_data[:fixed_costs].each do |cost|
-        tr
-          td: input value== cost[:name]
-          td: input value== cost[:amount]
+        tr data-group="fixed_cost"
+          td: input data-input="name" value== cost[:name]
+          td: input data-input="amount" value== cost[:amount]
 
-      tr
-        td: input
-        td: input
+      tr data-group="fixed_cost"
+        td: input data-input="name"
+        td: input data-input="amount"
