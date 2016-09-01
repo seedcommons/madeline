@@ -28,21 +28,21 @@ class MS.Views.EditableTableView extends Backbone.View
 
     tableData = []
     for key,row of $rows
+      # Only look at the child HTML elements of the jQuery HTML element, not the jQuery attributes
       if !isNaN(key)
         $row = $(row)
 
         rowResponse = switch tableKey
-          when 'fixed_costs' then @formatFixedCostsInput($row)
-          # when 'products' then
-          # else
+          when 'fixed-costs' then @formatFixedCostsInput($row)
+          when 'products' then @formatProductsInput($row)
 
         if rowResponse.rowData
           tableData.push(rowResponse.rowData)
 
     # Save generated table data to the master input used in form sent to server
     $masterInput = $table.closest('.editable-tables').find('[data-container]')
-    tableData = { "#{tableKey}": tableData}
-    $masterInput.data(tableKey, tableData)
+    tableData = {"#{tableKey}": tableData}
+    $masterInput.attr("data-#{tableKey}", JSON.stringify(tableData))
 
   formatFixedCostsInput: ($row) ->
     name = $row.find('[data-input="name"]').val()
@@ -53,6 +53,28 @@ class MS.Views.EditableTableView extends Backbone.View
       rowData = {
         name: name,
         amount: amount
+      }
+      return {rowData: rowData}
+    else
+      return false
+
+  formatProductsInput: ($row) ->
+    name = $row.find('[data-input="name"]').val()
+    description = $row.find('[data-input="description"]').val()
+    unit = $row.find('[data-input="unit"]').val()
+    price = $row.find('[data-input="price"]').val()
+    cost = $row.find('[data-input="cost"]').val()
+    quantity = $row.find('[data-input="quantity"]').val()
+
+    # Only format rows that have a product name, price, and cost
+    if Boolean(name) && Boolean(price) && Boolean(cost)
+      rowData = {
+        name: name,
+        description: description,
+        unit: unit,
+        price: price,
+        cost: cost,
+        quantity: quantity
       }
       return {rowData: rowData}
     else

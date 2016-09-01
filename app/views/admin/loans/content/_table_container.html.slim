@@ -1,4 +1,4 @@
-form.table-responsive.editable-tables
+.table-responsive.editable-tables
 
   input data-container="breakeven" data-fixed-costs="" data-products=""
 
@@ -59,7 +59,7 @@ form.table-responsive.editable-tables
     .actions
       .btn.btn-default data-action="add" Add Fixed Cost
       .btn.btn-default data-action="save" Save Fixed Costs
-    table.table.table-condensed.editable-table data-table="fixed_costs"
+    table.table.table-condensed.editable-table data-table="fixed-costs"
       thead
         tr
           td = t("loan.breakeven.fixed_costs", count: 2)
@@ -69,21 +69,21 @@ form.table-responsive.editable-tables
           td Actions
       tbody
         - breakeven_data[:fixed_costs].each do |cost|
-          tr.ui-state-default data-group="fixed_cost"
+          tr.ui-state-default data-group="fixed-cost"
             td: input data-input="name" value== cost[:name]
             td: input data-input="amount" value== cost[:amount]
             td: .actions
               a.delete data-action="delete": i.fa.fa-trash
               a.move data-action="move": i.fa.fa-arrows-v
 
-        tr.ui-state-default data-group="fixed_cost"
+        tr.ui-state-default data-group="fixed-cost"
           td: input data-input="name"
           td: input data-input="amount"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
             a.move data-action="move": i.fa.fa-arrows-v
 
-        tr.ui-state-default.hidden data-group="fixed_cost"
+        tr.ui-state-default.hidden data-group="fixed-cost"
           td: input data-input="name"
           td: input data-input="amount"
           td: .actions
