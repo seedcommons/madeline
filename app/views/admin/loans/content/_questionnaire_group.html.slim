@@ -98,7 +98,7 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
             
             / Placeholder condition until breakeven data type is created
-            - if field.id == 90
+            - if field.id == (304 || 90)
               = render 'admin/loans/content/table_question', f: f, field: field
 
             - if value.has_linked_document?
