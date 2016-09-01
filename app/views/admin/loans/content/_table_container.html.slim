@@ -31,6 +31,11 @@ form.table-responsive
       tr
         td = t("loan.breakeven.fixed_cost_name")
         td = t("loan.breakeven.cost")
+      - breakeven_data[:fixed_costs].each do |cost|
+        tr
+          td: input value== cost[:name]
+          td: input value== cost[:amount]
+
       tr
         td: input
         td: input
