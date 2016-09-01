@@ -21,7 +21,8 @@ html lang="en-US"
       = stylesheet_link_tag "admin/admin", media: "all"
       = render("layouts/admin/custom_colors")
 
-  body class="#{params[:controller].gsub('/', '-')}
+  body class="#{admin_controller? ? 'admin' : ''}
+              #{params[:controller].gsub('/', '-')}
               action-#{params[:action]}
               #{devise_controller? ? 'devise' : ''}
               #{@print_view ? 'print-view' : ''}"

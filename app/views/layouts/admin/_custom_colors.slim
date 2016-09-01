@@ -7,20 +7,22 @@
 - banner_bg = selected_division && selected_division.banner_bg_color || "#8C2426"
 - accent_main = selected_division && selected_division.accent_main_color || banner_bg
 - accent_fg_text = selected_division && selected_division.accent_fg_color || banner_fg
-- accent_darkened = accent_main.paint.darken(10)
+- accent_darkened = accent_main.paint.darken(5)
+- banner_fg_transp = banner_fg.paint.tap { |c| c.rgb.a = 0.3 }.to_rgb # Add alpha value
 
 style type="text/css"
-  | nav.mainmenu,
-    nav.mainmenu a {
+  | /* Navbar links */
+    nav, nav a {
       color: #{banner_fg};
       background-color: #{banner_bg};
     }
 
-    a,
-    .btn-link {
+    /* General links */
+    a, .btn-link {
       color: #{accent_main};
     }
 
+    /* General links on hover */
     a:hover,
     a:focus,
     .btn-link:hover,
@@ -28,7 +30,27 @@ style type="text/css"
       color: #{accent_darkened};
     }
 
-    /* Backgrounds w/ borders */
+    /* Navbar toggle button lines */
+    .navbar-toggle {
+      border-color: #{banner_fg};
+    }
+    .navbar-toggle:hover {
+      background-color: #{banner_fg_transp};
+    }
+    .navbar-toggle .icon-bar {
+      background-color: #{banner_fg};
+    }
+
+    /* Nav menu item background colors */
+    .nav-xs .nav {
+      background-color: #{banner_bg};
+    }
+    .nav > li > a:hover,
+    .nav > li > a:focus {
+      background-color: #{banner_fg_transp};
+    }
+
+    /* Progress bars, buttons, pagination */
     .progress-wrapper .progress-bar,
     .btn-primary,
     .table.rowlink .pagination > .active > a,
@@ -42,7 +64,7 @@ style type="text/css"
       border-color: #{accent_darkened};
     }
 
-    /* Active (on click) and hover styles */
+    /* Buttons on hover */
     .btn-primary:hover,
     .btn-primary:active,
     .btn-primary:active:hover,
@@ -57,4 +79,3 @@ style type="text/css"
       color: #{accent_fg_text};
       background-color: #{accent_darkened};
     }
-

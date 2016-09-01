@@ -1,24 +1,16 @@
 - division = selected_division
 div
-  nav.mainmenu.navbar-fixed-top
+  nav.navbar-fixed-top
+
     / Navbar for sm devices (768px and above).
     .nav-sm.container-fluid
-
-      .row
+      .row.navbar-main
         .madeline-logo.col-sm-4
           .ftc-triple-spiral
           - unless division.present?
             .madeline Madeline
 
-        .division-brand.col-sm-4
-          - if division.present?
-            - if division.logo.present?
-              .with-logo class="#{division.try(:has_logo_text?) ? "with-text" : nil}"
-                = image_tag division.logo.url(:banner)
-                - if division.has_logo_text?
-                  .logo-text = division.logo_text
-            - else
-              .without-logo = division.logo_text || division.name
+        = render("layouts/admin/division_brand", size: "sm")
 
         / This is the division menu, user profile link and logout button.
         .user-div-info.col-sm-4
@@ -41,46 +33,27 @@ div
             i.fa.fa-sign-out
 
     / Navbar for xs devices (767px and below)
+    .nav-xs.container-fluid
+      .navbar-main.row
+        = render("layouts/admin/division_brand", size: "xs")
+        .col-xs-2
+          / Hamburger menu toggle.
+          button.navbar-toggle aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
 
-    / / Hamburger menu.
-    / button.navbar-toggle.collapsed aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
-    /   span.sr-only Toggle navigation
-    /   span.icon-bar
-    /   span.icon-bar
-    /   span.icon-bar
-
-    / #navbar-menu.collapse.navbar-collapse
-    /
-    /   / This is the side menu, visible only on mobile.
-    /   ul.nav.navbar-nav.visible-xs-block
-    /     = render "layouts/admin/site_menu"
-    /     hr
-    /
-    /   / This is the division menu, user profile link and logout button.
-    /   .user-div-info
-    /     = link_to(t("divisions.shared.change"), "#", :"data-expands" => "division-dropdown")
-    /     = form_tag(select_admin_divisions_path, id: 'select_division_form') do
-    /       = select_tag(:division_id,
-    /         options_for_select(division_select_options, division_id),
-    /         class: 'form-control',
-    /         :'data-expandable' => "division-dropdown")
-    /       = hidden_field_tag(:redisplay_url)
-    /
-    /     | |
-    /
-    /     = link_to admin_person_path(current_user.profile), class: "profile-link"
-    /       i.fa.fa-user>
-    /       = current_user.try(:name) || t("common.user")
-    /     = link_to destroy_user_session_path, method: :delete
-    /       i.fa.fa-sign-out
+      / This is the menu toggled by the toggle above.
+      #navbar-menu.collapse.navbar-collapse
+        ul.nav.navbar-nav.visible-xs-block
+          = render "layouts/admin/site_menu"
 
   .sidemenu.container-fluid
     .row
       #navbar.sidebar
         ul.nav.nav-sidebar
           = render "layouts/admin/site_menu"
-      #user-menu.user-menu-collapsed.user-menu
-        = render "layouts/admin/user_menu"
       .content-wrapper
         .alerts = render "application/alerts"
         section.content
