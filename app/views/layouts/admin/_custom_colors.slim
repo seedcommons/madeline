@@ -1,0 +1,76 @@
+/ Custom colors defined per-division. These must be in a partial as if they are in a
+/ scss file they will get cached in production so changes won't take effect without a server restart.
+/ Most of the below are copied from Bootstrap by looking for things that are default color and copying
+/ the style rules from the inspector.
+
+- colors = admin_custom_colors # Helper method
+
+style type="text/css"
+  | /* Navbar and links */
+    nav, nav a, nav a:hover, nav a:focus {
+      color: #{colors[:banner_fg]};
+      background-color: #{colors[:banner_bg]};
+    }
+
+    /* General links */
+    a, .btn-link {
+      color: #{colors[:accent_main]};
+    }
+
+    /* General links on hover */
+    a:hover,
+    a:focus,
+    .btn-link:hover,
+    .btn-link:focus {
+      color: #{colors[:accent_darkened]};
+    }
+
+    /* Navbar toggle button lines */
+    .navbar-toggle {
+      border-color: #{colors[:banner_fg]};
+    }
+    .navbar-toggle:hover {
+      background-color: #{colors[:banner_fg_transp]};
+    }
+    .navbar-toggle .icon-bar {
+      background-color: #{colors[:banner_fg]};
+    }
+
+    /* Nav menu item background colors for mobile mode */
+    .nav-xs .nav {
+      background-color: #{colors[:banner_bg]};
+    }
+    .nav-xs .nav > li > a:hover,
+    .nav-xs .nav > li > a:focus {
+      background-color: #{colors[:banner_fg_transp]};
+    }
+
+    /* Progress bars, buttons, pagination */
+    .progress-wrapper .progress-bar,
+    .btn-primary,
+    .table.rowlink .pagination > .active > a,
+    .table.rowlink .pagination > .active > a:hover,
+    .table.rowlink .pagination > .active > a:focus,
+    .table.rowlink .pagination > .active > span,
+    .table.rowlink .pagination > .active > span:hover,
+    .table.rowlink .pagination > .active > span:focus {
+      color: #{colors[:accent_fg_text]};
+      background-color: #{colors[:accent_main]};
+      border-color: #{colors[:accent_darkened]};
+    }
+
+    /* Buttons on hover */
+    .btn-primary:hover,
+    .btn-primary:active,
+    .btn-primary:active:hover,
+    .btn-primary:active:focus,
+    .btn-primary:active.focus,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus,
+    .btn-primary.active.focus,
+    .open > .btn-primary.dropdown-toggle:hover,
+    .open > .btn-primary.dropdown-toggle:focus,
+    .open > .btn-primary.dropdown-toggle.focus {
+      color: #{colors[:accent_fg_text]};
+      background-color: #{colors[:accent_darkened]};
+    }
