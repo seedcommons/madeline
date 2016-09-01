@@ -37,10 +37,12 @@ class MS.Views.EditableTableView extends Backbone.View
           # else
 
         if rowResponse.rowData
-          # console.log(rowResponse.rowData)
           tableData.push(rowResponse.rowData)
 
-    console.log(tableData)
+    # Save generated table data to the master input used in form sent to server
+    $masterInput = $table.closest('.editable-tables').find('[data-container]')
+    tableData = { "#{tableKey}": tableData}
+    $masterInput.data(tableKey, tableData)
 
   formatFixedCostsInput: ($row) ->
     name = $row.find('[data-input="name"]').val()
