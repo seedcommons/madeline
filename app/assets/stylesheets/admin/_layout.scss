@@ -125,6 +125,12 @@ body.admin {
       #navbar-menu {
         border-top: 1px solid #eee;
 
+        ul.nav {
+          // Something somewhere is setting top margin to 7.5px, which messes things up.
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
         hr {
           margin: 0;
         }
