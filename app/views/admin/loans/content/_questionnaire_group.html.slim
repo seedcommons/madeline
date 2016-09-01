@@ -98,7 +98,7 @@
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
             
             - if value.has_breakeven_table?
-              = render 'admin/loans/content/table_question', f: f, field: field
+              = render 'admin/loans/content/table_question', f: f, field: field, report: value.breakeven_report
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
