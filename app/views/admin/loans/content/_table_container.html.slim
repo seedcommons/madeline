@@ -5,6 +5,7 @@ form.table-responsive.editable-tables
     / Note: Using preventDefault not straightforward due to nested view models
     .actions
       .btn.btn-default data-action="add" Add Product
+      .btn.btn-default data-action="save" Save Products
     table.table.table-condensed.editable-table data-table="products"
       thead
         tr
@@ -53,7 +54,9 @@ form.table-responsive.editable-tables
             a.move data-action="move": i.fa.fa-arrows-v
 
   .table-container
-    .btn.btn-default data-action="add" Add Fixed Cost
+    .actions
+      .btn.btn-default data-action="add" Add Fixed Cost
+      .btn.btn-default data-action="save" Save Fixed Costs
     table.table.table-condensed.editable-table data-table="fixed_costs"
       thead
         tr
