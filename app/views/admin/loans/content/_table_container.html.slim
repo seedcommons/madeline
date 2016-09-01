@@ -1,8 +1,17 @@
-form
-  table.table
+form.table-responsive
+  table.table.table-condensed
     tr
-      td
-        input value="Test item"
-      td
-        input value="Test Item" 
+      td = t("loan.breakeven.product_name")
+      td = t("loan.breakeven.description")
+      td = t("loan.breakeven.unit")
+      td = t("loan.breakeven.price")
+      td = t("loan.breakeven.cost")
+      td = t("loan.breakeven.quantity")
+    tr
+      td: input
+      td: input
+      td: input
+      td: input
+      td: input
+      td: input
   
