@@ -1,22 +1,25 @@
 / The user, division change, and logout links.
 / Used in both the right side of banner and in slide-down menu for mobile.
 - division = selected_division
-= link_to "#", :"data-expands" => "division-dropdown"
-  i.fa.fa-retweet>
-  = t(division.nil? ? "template.select_division" : "template.change_division")
-= form_tag(select_admin_divisions_path, class: 'select_division_form') do
-  = select_tag(:division_id,
-    options_for_select(division_select_options, selected_division_id),
-    class: 'form-control',
-    :'data-expandable' => "division-dropdown")
-  = hidden_field_tag(:redisplay_url)
+li
+  = link_to "#", :"data-expands" => "division-dropdown"
+    i.fa.fa-retweet>
+    = t(division.nil? ? "template.select_division" : "template.change_division")
+  = form_tag(select_admin_divisions_path, class: 'select_division_form') do
+    = select_tag(:division_id,
+      options_for_select(division_select_options, selected_division_id),
+      class: 'form-control',
+      :'data-expandable' => "division-dropdown")
+    = hidden_field_tag(:redisplay_url)
 
-= link_to admin_person_path(current_user.profile), class: "profile-link",
-  title: t("template.profile")
-  i.fa.fa-user>
-  = current_user.try(:name) || t("common.user")
+li
+  = link_to admin_person_path(current_user.profile), class: "profile-link",
+    title: t("template.profile")
+    i.fa.fa-user>
+    = current_user.try(:name) || t("common.user")
 
-= link_to destroy_user_session_path, method: :delete, title: t("logout")
-  i.fa.fa-sign-out>
-  - if size == "xs"
-    = t("logout")
+li
+  = link_to destroy_user_session_path, method: :delete, title: t("logout")
+    i.fa.fa-sign-out>
+    - if size == "xs"
+      = t("logout")

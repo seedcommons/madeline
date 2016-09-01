@@ -64,6 +64,11 @@ body.admin {
       }
     }
 
+    // This form appears both in the header and the slide-down menu.
+    .select_division_form select {
+      font-size: 12px;
+    }
+
     // Styles specific to sm size.
     @media (min-width: 768px) {
       .nav-xs {
@@ -77,9 +82,17 @@ body.admin {
       .user-div-info {
         text-align: right;
 
+        li {
+          list-style-type: none;
+          display: inline-block;
+        }
+
         form {
           display: inline-block;
-          width: auto;
+          select {
+            width: 200px;
+            margin-bottom: 10px;
+          }
         }
 
         i {
