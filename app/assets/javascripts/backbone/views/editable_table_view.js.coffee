@@ -8,7 +8,7 @@ class MS.Views.EditableTableView extends Backbone.View
     })
 
   addRow: (e) ->
-    e.preventDefault
+    e.preventDefault()
     $button = $(e.currentTarget)
     $table = $button.closest('.table-container').find("table")
     $new_row = $table.find('tr.hidden').clone()
@@ -19,3 +19,8 @@ class MS.Views.EditableTableView extends Backbone.View
     e.preventDefault()
     $row = $(e.currentTarget).closest('tr')
     $row.remove()
+
+  saveTable: (e) ->
+    e.preventDefault()
+    $table = $(e.currentTarget).closest('.table-container').find('table')
+    console.log($table)
