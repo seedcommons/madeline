@@ -47,6 +47,10 @@ class LoanResponse
     end
   end
 
+  def breakeven_report
+    @breakeven_report ||= BreakevenTableQuestion.new(breakeven_data).report
+  end
+
   def field_attributes
     @field_attributes ||= custom_field.value_types
   end
