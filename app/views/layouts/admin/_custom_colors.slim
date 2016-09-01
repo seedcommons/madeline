@@ -3,23 +3,18 @@
 / Most of the below are copied from Bootstrap by looking for things that are default color and copying
 / the style rules from the inspector.
 
-- banner_fg = selected_division && selected_division.banner_fg_color || "white"
-- banner_bg = selected_division && selected_division.banner_bg_color || "#8C2426"
-- accent_main = selected_division && selected_division.accent_main_color || banner_bg
-- accent_fg_text = selected_division && selected_division.accent_fg_color || banner_fg
-- accent_darkened = accent_main.paint.darken(5)
-- banner_fg_transp = banner_fg.paint.tap { |c| c.rgb.a = 0.3 }.to_rgb # Add alpha value
+- colors = admin_custom_colors # Helper method
 
 style type="text/css"
   | /* Navbar links */
     nav, nav a {
-      color: #{banner_fg};
-      background-color: #{banner_bg};
+      color: #{colors[:banner_fg]};
+      background-color: #{colors[:banner_bg]};
     }
 
     /* General links */
     a, .btn-link {
-      color: #{accent_main};
+      color: #{colors[:accent_main]};
     }
 
     /* General links on hover */
@@ -27,27 +22,27 @@ style type="text/css"
     a:focus,
     .btn-link:hover,
     .btn-link:focus {
-      color: #{accent_darkened};
+      color: #{colors[:accent_darkened]};
     }
 
     /* Navbar toggle button lines */
     .navbar-toggle {
-      border-color: #{banner_fg};
+      border-color: #{colors[:banner_fg]};
     }
     .navbar-toggle:hover {
-      background-color: #{banner_fg_transp};
+      background-color: #{colors[:banner_fg_transp]};
     }
     .navbar-toggle .icon-bar {
-      background-color: #{banner_fg};
+      background-color: #{colors[:banner_fg]};
     }
 
     /* Nav menu item background colors */
     .nav-xs .nav {
-      background-color: #{banner_bg};
+      background-color: #{colors[:banner_bg]};
     }
     .nav > li > a:hover,
     .nav > li > a:focus {
-      background-color: #{banner_fg_transp};
+      background-color: #{colors[:banner_fg_transp]};
     }
 
     /* Progress bars, buttons, pagination */
@@ -59,9 +54,9 @@ style type="text/css"
     .table.rowlink .pagination > .active > span,
     .table.rowlink .pagination > .active > span:hover,
     .table.rowlink .pagination > .active > span:focus {
-      color: #{accent_fg_text};
-      background-color: #{accent_main};
-      border-color: #{accent_darkened};
+      color: #{colors[:accent_fg_text]};
+      background-color: #{colors[:accent_main]};
+      border-color: #{colors[:accent_darkened]};
     }
 
     /* Buttons on hover */
@@ -76,6 +71,6 @@ style type="text/css"
     .open > .btn-primary.dropdown-toggle:hover,
     .open > .btn-primary.dropdown-toggle:focus,
     .open > .btn-primary.dropdown-toggle.focus {
-      color: #{accent_fg_text};
-      background-color: #{accent_darkened};
+      color: #{colors[:accent_fg_text]};
+      background-color: #{colors[:accent_darkened]};
     }
