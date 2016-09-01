@@ -1,6 +1,8 @@
 form.table-responsive
   table.table.table-condensed
     tr
+      td = t("loan.breakeven.products", count: 2)
+    tr
       td = t("loan.breakeven.product_name")
       td = t("loan.breakeven.description")
       td = t("loan.breakeven.unit")
@@ -14,4 +16,13 @@ form.table-responsive
       td: input
       td: input
       td: input
-  
+
+    table.table.table-condensed
+      tr
+        td = t("loan.breakeven.fixed_costs", count: 2)
+      tr
+        td = t("loan.breakeven.fixed_cost_name")
+        td = t("loan.breakeven.cost")
+      tr
+        td: input
+        td: input

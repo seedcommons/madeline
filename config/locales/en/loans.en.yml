@@ -10,10 +10,16 @@ en:
       cost: "Cost"
       cost_of_goods: "Cost of Goods Sold"
       description: "Description"
-      fixed_costs: "Fixed Costs"
+      fixed_costs:
+        one: "Fixed Cost"
+        other: "Fixed Costs"
+      fixed_cost_name: "Fixed Cost Name"
       gross_margin: "Gross Margin"
       net_margin: "Net Margin"
       price: "Price"
+      products:
+        one: "Product"
+        other: "Products"
       product_name: "Product Name"
       quantity: "Quantity"
       revenue: "Revenue"
