@@ -46,7 +46,7 @@ en:
   simple_form:
     labels:
       custom_field:
-        data_type: "Data type"
+        data_type: "Data Type"
         has_embeddable_media: "Allow files or links to be attached"
     options:
       custom_field:

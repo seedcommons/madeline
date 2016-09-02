@@ -20,8 +20,7 @@
     p.loan-types-description = t('loan_questions.loan_amounts.description')
     .loan-types-container class="#{hideLoanTypes}"
       .form-horizontal
-        - cfreqs = f.object.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
-        = f.simple_fields_for :custom_field_requirements, cfreqs do |sf|
+        = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
           .form-group.row
             .loan-type.col-sm-8
               label
