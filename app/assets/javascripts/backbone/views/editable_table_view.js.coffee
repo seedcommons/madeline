@@ -10,7 +10,7 @@ class MS.Views.EditableTableView extends Backbone.View
   addRow: (e) ->
     e.preventDefault()
     $button = $(e.currentTarget)
-    $table = $button.closest('.table-container').find("table")
+    $table = $button.closest('table')
     $new_row = $table.find('tr.hidden').clone()
     $new_row.removeClass('hidden')
     $table.append($new_row)
@@ -26,11 +26,12 @@ class MS.Views.EditableTableView extends Backbone.View
     $tables = $section.find('.editable-table')
     self = @
 
+    # Set the master input for the table data to empty
     $section.find('.editable-tables').find('[data-container]').each (index) ->
       $input = $(this)
       $input.val("{}")
 
-    # for index,object in $tables
+    # Save the new data to each master input
     $section.find('.editable-table').each (index) ->
       $table = $(this)
       tableKey = $table.data('table')
@@ -48,7 +49,7 @@ class MS.Views.EditableTableView extends Backbone.View
           if rowResponse.rowData
             tableData.push(rowResponse.rowData)
 
-      # Save generated table data to the master input used in form sent to server
+      # Save generated table data to the master input, whose value is sent to server
       $masterInput = $table.closest('.editable-tables').find('[data-container]')
       masterInputValue = JSON.parse($masterInput.val())
       masterInputValue["#{tableKey}"] = tableData
