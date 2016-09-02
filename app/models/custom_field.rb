@@ -13,6 +13,7 @@
 #  parent_id             :integer
 #  position              :integer
 #  required              :boolean          default(FALSE), not null
+#  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
@@ -147,25 +148,6 @@ class CustomField < ActiveRecord::Base
       end
     end
     result
-  end
-
-  # TODO: Not used anywhere? Remove?
-  # Simple form type mapping
-  def form_field_type
-    case data_type
-    when 'string'
-      :string
-    when 'text'
-      :text
-    when 'number'
-      :decimal
-    when 'range'
-      :select
-    when 'boolean'
-      :boolean
-    when 'group'
-      nil # group type fields are not expected to have rendered form fields
-    end
   end
 
   def traverse_depth_first(list)
