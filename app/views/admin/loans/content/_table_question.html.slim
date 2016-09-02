@@ -1,13 +1,9 @@
 .table-responsive.editable-tables
 
   / TODO: Convert input to expected input for loan question
-  input type="hidden" data-container="breakeven" data-fixed-costs="" data-products=""
+  input type="hidden" data-container="breakeven"
 
   .table-container
-    / TODO: These buttons can be removed
-    / .actions
-    /   .btn.btn-default data-action="add" Add Product
-    /   .btn.btn-default data-action="save" Save
     h3 = t("loan.breakeven.products", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
@@ -33,6 +29,7 @@
           td.narrow: .actions
             a.delete data-action="delete" title="Remove row": i.fa.fa-trash
             a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
+
         - breakeven_data[:products].each do |product|
           tr.ui-state-default data-group="product"
             td: textarea data-input="name" = product[:name]
@@ -57,9 +54,6 @@
             a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
 
   .table-container
-    / .actions
-    /   .btn.btn-default data-action="add" Add Fixed Cost
-    /   .btn.btn-default data-action="save" Save Fixed Costs
     h3 = t("loan.breakeven.fixed_costs", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed-costs"

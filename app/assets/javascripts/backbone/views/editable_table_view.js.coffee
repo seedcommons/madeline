@@ -24,12 +24,14 @@ class MS.Views.EditableTableView extends Backbone.View
     e.preventDefault()
     $section = $(e.currentTarget)
     $tables = $section.find('.editable-table')
-    console.log($tables)
     self = @
+
+    $section.find('.editable-tables').find('[data-container]').each (index) ->
+      $input = $(this)
+      $input.val("{}")
 
     # for index,object in $tables
     $section.find('.editable-table').each (index) ->
-      console.log(this)
       $table = $(this)
       tableKey = $table.data('table')
       $rows = $table.find('tbody').find('tr')
@@ -48,10 +50,9 @@ class MS.Views.EditableTableView extends Backbone.View
 
       # Save generated table data to the master input used in form sent to server
       $masterInput = $table.closest('.editable-tables').find('[data-container]')
-      tableData = {"#{tableKey}": tableData}
-      $masterInput.attr("data-#{tableKey}", JSON.stringify(tableData))
-      console.log(tableData)
-      console.log($masterInput)
+      masterInputValue = JSON.parse($masterInput.val())
+      masterInputValue["#{tableKey}"] = tableData
+      $masterInput.val(JSON.stringify(masterInputValue))
 
   formatFixedCostsInput: ($row) ->
     name = $row.find('[data-input="name"]').val()
