@@ -20,8 +20,7 @@ class MS.Views.EditableTableView extends Backbone.View
     $row = $(e.currentTarget).closest('tr')
     $row.remove()
 
-  saveTable: (e) ->
-    e.preventDefault()
+  saveTableData: (e) ->
     $section = $(e.currentTarget)
     $tables = $section.find('.editable-table')
     self = @

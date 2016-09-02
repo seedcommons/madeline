@@ -9,7 +9,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @editableTableView = new MS.Views.EditableTableView()
 
   events:
-    'submit': 'prepareData'
+    'submit form': 'prepareData'
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
     'click .editable-table tr [data-action="delete"]': 'tableDeleteRow'
@@ -42,7 +42,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @editableTableView.removeRow(e)
 
   prepareData: (e) ->
-    @editableTableView.saveTable(e)
+    @editableTableView.saveTableData(e)
 
   initializeTree: ->
     @tree = @$('.jqtree')
