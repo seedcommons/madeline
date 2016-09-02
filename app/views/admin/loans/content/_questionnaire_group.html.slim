@@ -99,7 +99,7 @@
 
             - if value.has_breakeven_table?
               .form-element
-                = render 'admin/loans/content/breakeven_table_input', f: f, field: field, data: value.breakeven_data_hash
+                = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
               .view-element
                 = render "admin/loans/content/breakeven_table_report", report: value.breakeven_report
 
