@@ -16,6 +16,7 @@ class LoanResponse
   attr_accessor :start_cell
   attr_accessor :end_cell
   attr_accessor :owner
+  attr_accessor :breakeven_data
 
   delegate :group?, to: :custom_field
 
@@ -31,6 +32,7 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
+    @breakeven_data = data[:breakeven_data]
   end
 
   def model_name
@@ -43,6 +45,10 @@ class LoanResponse
     else
       nil
     end
+  end
+
+  def breakeven_report
+    @breakeven_report ||= BreakevenTableQuestion.new(breakeven_data).report
   end
 
   def field_attributes
@@ -69,8 +75,13 @@ class LoanResponse
     field_attributes.include?(:boolean)
   end
 
+  def has_breakeven_table?
+    field_attributes.include?(:breakeven)
+  end
+
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
+    # `breakeven_data` will likely need a more sophisticated blank test
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_data.blank?
   end
 
   def answered?
