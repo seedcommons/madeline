@@ -7,6 +7,9 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenFixedCosts = @breakevenData["fixed_costs"]
     @breakevenProductionCosts = @breakevenData["cogs"]
     @breakevenRevenue = @breakevenData["revenue"]
+    @defaultChartOptions = {
+      width: "100%"
+    }
 
     @loadCharts()
 
@@ -105,11 +108,7 @@ class MS.Views.LoanChartsView extends Backbone.View
       {"id":"","label":I18n.t('loan.breakeven.revenue'),"pattern":"","type":"number"}
     ]
 
-    options = {
-      width: 400,
-      height: 240,
-      title: I18n.t('loan.breakeven.revenue_by_product')
-    }
+    options = @defaultChartOptions
     rows = []
     for key,product of @breakevenRevenue
       name = product.name

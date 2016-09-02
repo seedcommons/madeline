@@ -8,6 +8,7 @@ en:
     batch_actions: "Batch Actions"
     breakeven:
       amount: "Amount"
+      charts_title: "Breakeven Financial Model Charts"
       cost: "Cost"
       cost_of_goods: "Cost of Goods Sold"
       fixed_costs:

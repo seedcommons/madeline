@@ -1,6 +1,10 @@
 .summary-chart.breakeven-chart.row
-  .chart#breakeven-revenue-chart.col-lg-6.col-sm-12
-  .chart#breakeven-production-cost-chart.col-lg-6.col-sm-12
+  h3.col-sm-12 = t("loan.breakeven.charts_title")
+  .chart.col-lg-6.col-sm-12
+    h4 = t("loan.breakeven.revenue_by_product")
+    #breakeven-revenue-chart
+  .chart.col-lg-6.col-sm-12
+    #breakeven-production-cost-chart
   .chart#breakeven-product-profit.col-lg-6.col-sm-12
   .chart#breakeven-fixed-cost-chart.col-lg-6.col-sm-12
   .chart#breakeven-total-costs-chart.col-lg-6.col-sm-12
