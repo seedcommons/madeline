@@ -19,39 +19,12 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        tr.ui-state-default.hidden data-group="product"
-          td: textarea data-input="name" placeholder="Name of product"
-          td: textarea data-input="description" placeholder="Description"
-          td: textarea data-input="unit" placeholder="E.x.: pair of pants"
-          td: input data-input="price" type="number" placeholder="100"
-          td: input data-input="cost" type="number" placeholder="10"
-          td: input data-input="quantity" type="number"
-          td: .actions
-            a.delete data-action="delete" title="Remove row": i.fa.fa-trash
-            a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
+        = render 'admin/loans/content/breakeven_product_row', hidden: true
 
         - breakeven_data[:products].each do |product|
-          tr.ui-state-default data-group="product"
-            td: textarea data-input="name" = product[:name]
-            td: textarea data-input="description" = product[:description]
-            td: textarea data-input="unit" = product[:unit]
-            td: input data-input="price" value== product[:price] type="number"
-            td: input data-input="cost" value== product[:cost] type="number"
-            td: input data-input="quantity" value== product[:quantity] type="number"
-            td: .actions
-              a.delete data-action="delete": i.fa.fa-trash
-              a.move data-action="move": i.fa.fa-arrows-v
+          = render 'admin/loans/content/breakeven_product_row', product: product
 
-        tr.ui-state-default data-group="product"
-          td: textarea data-input="name" placeholder="Name of product"
-          td: textarea data-input="description" placeholder="Description"
-          td: textarea data-input="unit" placeholder="E.x.: pair of pants"
-          td: input data-input="price" type="number" placeholder="100"
-          td: input data-input="cost" type="number" placeholder="10"
-          td: input data-input="quantity" type="number"
-          td: .actions
-            a.delete data-action="delete" title="Remove row": i.fa.fa-trash
-            a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
+        = render 'admin/loans/content/breakeven_product_row'
 
   .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
@@ -60,30 +33,14 @@
       thead
         tr
           th = t("loan.breakeven.fixed_cost_name")
-          th = t("loan.breakeven.cost")
+          th.narrow = t("loan.breakeven.cost")
           th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-
-        tr.ui-state-default.hidden data-group="fixed-cost"
-          td: input data-input="name" placeholder="Name of fixed cost"
-          td: input type="number" data-input="amount" placeholder="500"
-          td: .actions
-            a.delete data-action="delete": i.fa.fa-trash
-            a.move data-action="move": i.fa.fa-arrows-v
+        = render 'admin/loans/content/breakeven_fixed_cost_row', hidden: true
 
         - breakeven_data[:fixed_costs].each do |cost|
-          tr.ui-state-default data-group="fixed-cost"
-            td: input data-input="name" placeholder="Name of fixed cost" value== cost[:name]
-            td: input type="number" placeholder="500" data-input="amount" value== cost[:amount]
-            td: .actions
-              a.delete data-action="delete": i.fa.fa-trash
-              a.move data-action="move": i.fa.fa-arrows-v
+          = render 'admin/loans/content/breakeven_fixed_cost_row', cost: cost
 
-        tr.ui-state-default data-group="fixed-cost"
-          td: input data-input="name" placeholder="Name of fixed cost"
-          td: input type="number" data-input="amount" placeholder="500"
-          td: .actions
-            a.delete data-action="delete": i.fa.fa-trash
-            a.move data-action="move": i.fa.fa-arrows-v
+        = render 'admin/loans/content/breakeven_fixed_cost_row'
