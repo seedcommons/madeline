@@ -6,10 +6,14 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @loanId = options.loanId
     @refreshContent()
     @filterSwitchView = new MS.Views.FilterSwitchView()
+    @editableTableView = new MS.Views.EditableTableView()
 
   events:
+    'submit form': 'prepareData'
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
+    'click .editable-table tr [data-action="delete"]': 'tableDeleteRow'
+    'click .table-container [data-action="add"]': 'tableAddRow'
 
   refreshContent: ->
     MS.loadingIndicator.show()
@@ -17,6 +21,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       MS.loadingIndicator.hide()
       @initializeTree()
       @filterSwitchView.filterInit()
+      @editableTableView.editableTableInit()
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
@@ -29,6 +34,15 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     e.stopPropagation()
     MS.errorModal.modal('show')
     MS.loadingIndicator.hide()
+
+  tableAddRow: (e) ->
+    @editableTableView.addRow(e)
+
+  tableDeleteRow: (e) ->
+    @editableTableView.removeRow(e)
+
+  prepareData: (e) ->
+    @editableTableView.saveTableData(e)
 
   initializeTree: ->
     @tree = @$('.jqtree')

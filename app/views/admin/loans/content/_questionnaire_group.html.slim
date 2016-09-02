@@ -96,9 +96,13 @@
               = f.input_field "#{field.attribute_sym}__boolean".to_sym,
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
-            
+
             - if value.has_breakeven_table?
-              = render 'admin/loans/content/table_question', f: f, field: field, report: value.breakeven_report
+              .form-element
+                = render 'admin/loans/content/table_question', f: f, field: field, breakeven_data: value.breakeven_report
+              .view-element
+                / TODO: Add breakeven financial model table and charts here
+                p "Test view element"
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document

@@ -36,6 +36,7 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
+    @breakeven_data = breakeven_data_stub
   end
 
   def new

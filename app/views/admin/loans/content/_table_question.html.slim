@@ -1,2 +1,46 @@
-/ Displaying report is a separate issue
-= report.inspect
+.table-responsive.editable-tables
+
+  / TODO: Convert input to expected input for loan question
+  input type="hidden" data-container="breakeven"
+
+  .table-container
+    h4.title = t("loan.breakeven.products", count: 2)
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
+      thead
+        tr
+          th = t("loan.breakeven.product_name")
+          th.wide = t("loan.breakeven.description")
+          th = t("loan.breakeven.unit")
+          th.narrow = t("loan.breakeven.price")
+          th.narrow = t("loan.breakeven.cost")
+          th.narrow = t("loan.breakeven.quantity")
+          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
+      tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+        = render 'admin/loans/content/breakeven_product_row', hidden: true
+
+        - breakeven_data[:products].each do |product|
+          = render 'admin/loans/content/breakeven_product_row', product: product
+
+        = render 'admin/loans/content/breakeven_product_row'
+
+  .table-container
+    h4.title = t("loan.breakeven.fixed_costs", count: 2)
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed-costs"
+      thead
+        tr
+          th = t("loan.breakeven.fixed_cost_name")
+          th.narrow = t("loan.breakeven.cost")
+          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
+      tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+        = render 'admin/loans/content/breakeven_fixed_cost_row', hidden: true
+
+        - breakeven_data[:fixed_costs].each do |cost|
+          = render 'admin/loans/content/breakeven_fixed_cost_row', cost: cost
+
+        = render 'admin/loans/content/breakeven_fixed_cost_row'
