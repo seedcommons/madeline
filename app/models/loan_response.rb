@@ -80,6 +80,7 @@ class LoanResponse
   end
 
   def blank?
+    # `breakeven_data` will likely need a more sophisticated blank test
     text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_data.blank?
   end
 

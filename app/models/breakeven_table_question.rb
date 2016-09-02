@@ -54,6 +54,7 @@ class BreakevenTableQuestion
     }
 
     @breakeven_data['products'].each do |product|
+      %w(quantity price cost).each { |key| product[key] = 0 if product[key].blank? }
       report[:revenue] << {
         name: product['name'],
         quantity: product['quantity'],

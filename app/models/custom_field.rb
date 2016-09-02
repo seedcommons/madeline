@@ -150,25 +150,6 @@ class CustomField < ActiveRecord::Base
     result
   end
 
-  # TODO: Not used anywhere? Remove?
-  # Simple form type mapping
-  def form_field_type
-    case data_type
-    when 'string'
-      :string
-    when 'text'
-      :text
-    when 'number'
-      :decimal
-    when 'range'
-      :select
-    when 'boolean'
-      :boolean
-    when 'group'
-      nil # group type fields are not expected to have rendered form fields
-    end
-  end
-
   def traverse_depth_first(list)
     list << self
     counter = 0
