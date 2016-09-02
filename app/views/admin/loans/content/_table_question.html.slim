@@ -7,67 +7,75 @@
     / TODO: These buttons can be removed
     / .actions
     /   .btn.btn-default data-action="add" Add Product
-    /   .btn.btn-default data-action="save" Save Products
-    table.table.table-condensed.editable-table data-table="products"
+    /   .btn.btn-default data-action="save" Save
+    h3 = t("loan.breakeven.products", count: 2)
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
       thead
         tr
-          td = t("loan.breakeven.products", count: 2)
-        tr
-          td = t("loan.breakeven.product_name")
-          td = t("loan.breakeven.description")
-          td = t("loan.breakeven.unit")
-          td = t("loan.breakeven.price")
-          td = t("loan.breakeven.cost")
-          td = t("loan.breakeven.quantity")
-          td: .actions: a data-action="add": i.fa.fa-plus-circle
+          th = t("loan.breakeven.product_name")
+          th.wide = t("loan.breakeven.description")
+          th = t("loan.breakeven.unit")
+          th.narrow = t("loan.breakeven.price")
+          th.narrow = t("loan.breakeven.cost")
+          th.narrow = t("loan.breakeven.quantity")
+          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+        tr.ui-state-default.hidden data-group="product"
+          td: textarea data-input="name" placeholder="Name of product"
+          td.wide: textarea data-input="description" placeholder="Description"
+          td: textarea data-input="unit" placeholder="E.x.: pair of pants"
+          td.narrow: input data-input="price" type="number" placeholder="100"
+          td.narrow: input data-input="cost" type="number" placeholder="10"
+          td.narrow: input data-input="quantity" type="number"
+          td.narrow: .actions
+            a.delete data-action="delete" title="Remove row": i.fa.fa-trash
+            a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
         - breakeven_data[:products].each do |product|
           tr.ui-state-default data-group="product"
-            td: input data-input="name" value== product[:name]
-            td: input data-input="description" value== product[:description]
-            td: input data-input="unit" value== product[:unit]
-            td: input data-input="price" value== product[:price]
-            td: input data-input="cost" value== product[:cost]
-            td: input data-input="quantity" value== product[:quantity]
-            td: .actions
+            td: textarea data-input="name" = product[:name]
+            td.wide: textarea data-input="description" = product[:description]
+            td: textarea data-input="unit" = product[:unit]
+            td.narrow: input data-input="price" value== product[:price]
+            td.narrow: input data-input="cost" value== product[:cost]
+            td.narrow: input data-input="quantity" value== product[:quantity]
+            td.narrow: .actions
               a.delete data-action="delete": i.fa.fa-trash
               a.move data-action="move": i.fa.fa-arrows-v
 
         tr.ui-state-default data-group="product"
-          td: input data-input="name"
-          td: input data-input="description"
-          td: input data-input="unit"
-          td: input data-input="price"
-          td: input data-input="cost"
-          td: input data-input="quantity"
-          td: .actions
-            a.delete data-action="delete": i.fa.fa-trash
-            a.move data-action="move": i.fa.fa-arrows-v
-
-        tr.ui-state-default.hidden data-group="product"
-          td: input data-input="name"
-          td: input data-input="description"
-          td: input data-input="unit"
-          td: input data-input="price"
-          td: input data-input="cost"
-          td: input data-input="quantity"
-          td: .actions
-            a.delete data-action="delete": i.fa.fa-trash
-            a.move data-action="move": i.fa.fa-arrows-v
+          td: textarea data-input="name" placeholder="Name of product"
+          td.wide: textarea data-input="description" placeholder="Description"
+          td: textarea data-input="unit" placeholder="E.x.: pair of pants"
+          td.narrow: input data-input="price" type="number" placeholder="100"
+          td.narrow: input data-input="cost" type="number" placeholder="10"
+          td.narrow: input data-input="quantity" type="number"
+          td.narrow: .actions
+            a.delete data-action="delete" title="Remove row": i.fa.fa-trash
+            a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
 
   .table-container
     / .actions
     /   .btn.btn-default data-action="add" Add Fixed Cost
     /   .btn.btn-default data-action="save" Save Fixed Costs
-    table.table.table-condensed.editable-table data-table="fixed-costs"
+    h3 = t("loan.breakeven.fixed_costs", count: 2)
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed-costs"
       thead
         tr
-          td = t("loan.breakeven.fixed_costs", count: 2)
-        tr
-          td = t("loan.breakeven.fixed_cost_name")
-          td = t("loan.breakeven.cost")
-          td: .actions: a data-action="add": i.fa.fa-plus-circle
+          th = t("loan.breakeven.fixed_cost_name")
+          th = t("loan.breakeven.cost")
+          th: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
+        tr.ui-state-default.hidden data-group="fixed-cost"
+          td: input data-input="name" placeholder="Name of fixed cost"
+          td: input data-input="amount" placeholder="500"
+          td: .actions
+            a.delete data-action="delete": i.fa.fa-trash
+            a.move data-action="move": i.fa.fa-arrows-v
+
         - breakeven_data[:fixed_costs].each do |cost|
           tr.ui-state-default data-group="fixed-cost"
             td: input data-input="name" value== cost[:name]
@@ -77,15 +85,8 @@
               a.move data-action="move": i.fa.fa-arrows-v
 
         tr.ui-state-default data-group="fixed-cost"
-          td: input data-input="name"
-          td: input data-input="amount"
-          td: .actions
-            a.delete data-action="delete": i.fa.fa-trash
-            a.move data-action="move": i.fa.fa-arrows-v
-
-        tr.ui-state-default.hidden data-group="fixed-cost"
-          td: input data-input="name"
-          td: input data-input="amount"
+          td: input data-input="name" placeholder="Name of fixed cost"
+          td: input data-input="amount" placeholder="500"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
             a.move data-action="move": i.fa.fa-arrows-v

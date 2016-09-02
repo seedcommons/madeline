@@ -1,0 +1,53 @@
+@import "../colors";
+
+.editable-table {
+  width: 100%;
+  background: white;
+  table-layout: fixed;
+  word-wrap: break-word;
+  // border: 1px solid $gray2;
+  // border-radius: 10px;
+  //
+  // td, th {
+  //   border: 1px solid $gray2;
+  // }
+
+  .title {
+    font-size: 1.25em;
+  }
+
+  thead {
+    tr {
+      background: $table-gray;
+    }
+  }
+
+  td, tr {
+    width: auto;
+    // &.small {
+    //   max-width: 5em;
+    // }
+    overflow-y: visible;
+  }
+  input, input[type="number"], textarea {
+    border: none;
+    background: none;
+    width: 100%;
+  }
+
+  input[type="number"] {
+    text-align: right;
+  }
+
+  textarea {
+    overflow-y: visible;
+    word-wrap: break-word;
+  }
+
+  .narrow {
+    width: 10%;
+  }
+  .wide {
+    width: 25%;
+  }
+}
