@@ -47,6 +47,10 @@ class LoanResponse
     end
   end
 
+  def breakeven_data_hash
+    JSON.parse(breakeven_data).deep_symbolize_keys
+  end
+
   def breakeven_report
     @breakeven_report ||= BreakevenTableQuestion.new(breakeven_data).report
   end

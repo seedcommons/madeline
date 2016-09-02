@@ -99,10 +99,9 @@
 
             - if value.has_breakeven_table?
               .form-element
-                = render 'admin/loans/content/table_question', f: f, field: field, report: value.breakeven_report
+                = render 'admin/loans/content/breakeven_table_input', f: f, field: field, data: value.breakeven_data_hash
               .view-element
-                / TODO: Add breakeven financial model table and charts here
-                p "Test view element"
+                = render "admin/loans/content/breakeven_table_report", report: value.breakeven_report
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
