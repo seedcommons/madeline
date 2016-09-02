@@ -132,22 +132,22 @@ class MS.Views.LoanChartsView extends Backbone.View
     # Fixed costs have a different base color than product costs
     productionCostLength = @breakevenProductionCosts.length
     fixedCostLength = rows.length - productionCostLength
-    productionIncrement = parseInt(255/productionCostLength)
-    fixedCostIncrement = parseInt(255/fixedCostLength)
+    productionIncrement = parseInt((255-102)/productionCostLength)
+    fixedCostIncrement = parseInt((255-57)/fixedCostLength)
 
     i = 0
     for key,row of rows
       if key < productionCostLength
         slices[parseInt(key)] = {color:
-          "rgb(#{0 + (productionIncrement * parseInt(key))},
-          #{0 + (productionIncrement * parseInt(key))},
-          255)"
+          "rgb(#{51 + (productionIncrement * parseInt(key))},
+          #{102 + (productionIncrement * parseInt(key))},
+          204)"
         }
       else
         slices[parseInt(key)] = {color:
-          "rgb(255,
-          #{0 + (fixedCostIncrement * i)},
-          #{0 + (fixedCostIncrement * i)})"
+          "rgb(220,
+          #{57 + (fixedCostIncrement * i)},
+          #{18 + (fixedCostIncrement * i)})"
         }
         ++i
 
