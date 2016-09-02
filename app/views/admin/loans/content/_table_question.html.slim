@@ -4,7 +4,7 @@
   input type="hidden" data-container="breakeven"
 
   .table-container
-    h3 = t("loan.breakeven.products", count: 2)
+    h4.title = t("loan.breakeven.products", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
       thead
@@ -21,66 +21,69 @@
         / Is at top instead of bottom to not affect striped rows
         tr.ui-state-default.hidden data-group="product"
           td: textarea data-input="name" placeholder="Name of product"
-          td.wide: textarea data-input="description" placeholder="Description"
+          td: textarea data-input="description" placeholder="Description"
           td: textarea data-input="unit" placeholder="E.x.: pair of pants"
-          td.narrow: input data-input="price" type="number" placeholder="100"
-          td.narrow: input data-input="cost" type="number" placeholder="10"
-          td.narrow: input data-input="quantity" type="number"
-          td.narrow: .actions
+          td: input data-input="price" type="number" placeholder="100"
+          td: input data-input="cost" type="number" placeholder="10"
+          td: input data-input="quantity" type="number"
+          td: .actions
             a.delete data-action="delete" title="Remove row": i.fa.fa-trash
             a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
 
         - breakeven_data[:products].each do |product|
           tr.ui-state-default data-group="product"
             td: textarea data-input="name" = product[:name]
-            td.wide: textarea data-input="description" = product[:description]
+            td: textarea data-input="description" = product[:description]
             td: textarea data-input="unit" = product[:unit]
-            td.narrow: input data-input="price" value== product[:price]
-            td.narrow: input data-input="cost" value== product[:cost]
-            td.narrow: input data-input="quantity" value== product[:quantity]
-            td.narrow: .actions
+            td: input data-input="price" value== product[:price] type="number"
+            td: input data-input="cost" value== product[:cost] type="number"
+            td: input data-input="quantity" value== product[:quantity] type="number"
+            td: .actions
               a.delete data-action="delete": i.fa.fa-trash
               a.move data-action="move": i.fa.fa-arrows-v
 
         tr.ui-state-default data-group="product"
           td: textarea data-input="name" placeholder="Name of product"
-          td.wide: textarea data-input="description" placeholder="Description"
+          td: textarea data-input="description" placeholder="Description"
           td: textarea data-input="unit" placeholder="E.x.: pair of pants"
-          td.narrow: input data-input="price" type="number" placeholder="100"
-          td.narrow: input data-input="cost" type="number" placeholder="10"
-          td.narrow: input data-input="quantity" type="number"
-          td.narrow: .actions
+          td: input data-input="price" type="number" placeholder="100"
+          td: input data-input="cost" type="number" placeholder="10"
+          td: input data-input="quantity" type="number"
+          td: .actions
             a.delete data-action="delete" title="Remove row": i.fa.fa-trash
             a.move data-action="move" title="Click to interact with row.": i.fa.fa-arrows-v
 
   .table-container
-    h3 = t("loan.breakeven.fixed_costs", count: 2)
+    h4.title = t("loan.breakeven.fixed_costs", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed-costs"
       thead
         tr
           th = t("loan.breakeven.fixed_cost_name")
           th = t("loan.breakeven.cost")
-          th: .actions: a data-action="add": i.fa.fa-plus-circle
+          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+
         tr.ui-state-default.hidden data-group="fixed-cost"
           td: input data-input="name" placeholder="Name of fixed cost"
-          td: input data-input="amount" placeholder="500"
+          td: input type="number" data-input="amount" placeholder="500"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
             a.move data-action="move": i.fa.fa-arrows-v
 
         - breakeven_data[:fixed_costs].each do |cost|
           tr.ui-state-default data-group="fixed-cost"
-            td: input data-input="name" value== cost[:name]
-            td: input data-input="amount" value== cost[:amount]
+            td: input data-input="name" placeholder="Name of fixed cost" value== cost[:name]
+            td: input type="number" placeholder="500" data-input="amount" value== cost[:amount]
             td: .actions
               a.delete data-action="delete": i.fa.fa-trash
               a.move data-action="move": i.fa.fa-arrows-v
 
         tr.ui-state-default data-group="fixed-cost"
           td: input data-input="name" placeholder="Name of fixed cost"
-          td: input data-input="amount" placeholder="500"
+          td: input type="number" data-input="amount" placeholder="500"
           td: .actions
             a.delete data-action="delete": i.fa.fa-trash
             a.move data-action="move": i.fa.fa-arrows-v

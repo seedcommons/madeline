@@ -1,20 +1,11 @@
 @import "../colors";
 
 .editable-table {
-  width: 100%;
-  background: white;
   table-layout: fixed;
+  width: 100%;
+  margin-top: 1em;
+  background: $white;
   word-wrap: break-word;
-  // border: 1px solid $gray2;
-  // border-radius: 10px;
-  //
-  // td, th {
-  //   border: 1px solid $gray2;
-  // }
-
-  .title {
-    font-size: 1.25em;
-  }
 
   thead {
     tr {
@@ -24,11 +15,9 @@
 
   td, tr {
     width: auto;
-    // &.small {
-    //   max-width: 5em;
-    // }
     overflow-y: visible;
   }
+
   input, input[type="number"], textarea {
     border: none;
     background: none;
@@ -47,6 +36,7 @@
   .narrow {
     width: 10%;
   }
+
   .wide {
     width: 25%;
   }
