@@ -1,6 +1,5 @@
-li = link_to t('menu.dashboard'), root_path
-li = link_to t('menu.coops'), admin_organizations_path
 li = link_to t('menu.loans'), admin_loans_path
+li = link_to t('menu.coops'), admin_organizations_path
 li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('menu.people'), admin_people_path

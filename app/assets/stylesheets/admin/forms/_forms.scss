@@ -1,3 +1,10 @@
+form {
+  .help-block {
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+}
+
 .form-group.row {
   min-height: 2em;
 }
@@ -70,6 +77,11 @@
   // Need to specially hide the label element that Rails inserts for checkboxes,
   // as it makes the element too tall in show mode.
   .form-group.boolean div label {
+    display: none;
+  }
+
+  // Hide hints in show view
+  .help-block {
     display: none;
   }
 }
