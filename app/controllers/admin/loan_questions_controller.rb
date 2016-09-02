@@ -72,7 +72,10 @@ class Admin::LoanQuestionsController < Admin::AdminController
     end
 
     def loan_question_params
-      params.require(:custom_field).delete_if { |k, v| k =~ /^locale_/ }.permit(
+      # This `delete_if` is required when raising an error on unpermitted params.
+      # However, it should be abstracted somehow so it applies to all controllers.
+      # params.require(:custom_field).delete_if { |k, v| k =~ /^locale_/ }.permit(
+      params.require(:custom_field).permit(
         :label, :data_type, :parent_id, :position,
         :custom_field_set_id, :has_embeddable_media, :override_associations,
         *translation_params(:label, :explanation),

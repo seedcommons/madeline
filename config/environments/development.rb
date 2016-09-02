@@ -57,5 +57,5 @@ Rails.application.configure do
   config.middleware.insert_before Rack::Lock, Rack::LiveReload if ENV['LIVE_RELOAD']
 
   # Raise error on unpermitted strong params
-  config.action_controller.action_on_unpermitted_parameters = :raise
+  # config.action_controller.action_on_unpermitted_parameters = :raise
 end
