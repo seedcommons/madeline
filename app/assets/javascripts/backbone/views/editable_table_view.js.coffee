@@ -22,27 +22,36 @@ class MS.Views.EditableTableView extends Backbone.View
 
   saveTable: (e) ->
     e.preventDefault()
-    $table = $(e.currentTarget).closest('.table-container').find('table')
-    tableKey = $table.data('table')
-    $rows = $table.find('tbody').find('tr')
+    $section = $(e.currentTarget)
+    $tables = $section.find('.editable-table')
+    console.log($tables)
+    self = @
 
-    tableData = []
-    for key,row of $rows
-      # Only look at the child HTML elements of the jQuery HTML element, not the jQuery attributes
-      if !isNaN(key)
-        $row = $(row)
+    # for index,object in $tables
+    $section.find('.editable-table').each (index) ->
+      console.log(this)
+      $table = $(this)
+      tableKey = $table.data('table')
+      $rows = $table.find('tbody').find('tr')
+      tableData = []
 
-        rowResponse = switch tableKey
-          when 'fixed-costs' then @formatFixedCostsInput($row)
-          when 'products' then @formatProductsInput($row)
+      for key,row of $rows
+        if !isNaN(key)
+          $row = $(row)
 
-        if rowResponse.rowData
-          tableData.push(rowResponse.rowData)
+          rowResponse = switch tableKey
+            when 'fixed-costs' then self.formatFixedCostsInput($row)
+            when 'products' then self.formatProductsInput($row)
 
-    # Save generated table data to the master input used in form sent to server
-    $masterInput = $table.closest('.editable-tables').find('[data-container]')
-    tableData = {"#{tableKey}": tableData}
-    $masterInput.attr("data-#{tableKey}", JSON.stringify(tableData))
+          if rowResponse.rowData
+            tableData.push(rowResponse.rowData)
+
+      # Save generated table data to the master input used in form sent to server
+      $masterInput = $table.closest('.editable-tables').find('[data-container]')
+      tableData = {"#{tableKey}": tableData}
+      $masterInput.attr("data-#{tableKey}", JSON.stringify(tableData))
+      console.log(tableData)
+      console.log($masterInput)
 
   formatFixedCostsInput: ($row) ->
     name = $row.find('[data-input="name"]').val()
