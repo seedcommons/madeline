@@ -16,7 +16,6 @@ class LoanResponse
   attr_accessor :start_cell
   attr_accessor :end_cell
   attr_accessor :owner
-  # attr_accessor :breakeven_data
 
   delegate :group?, to: :custom_field
 
@@ -32,7 +31,6 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
-    # @breakeven_data = data[:breakeven_data]
   end
 
   def model_name
@@ -48,16 +46,16 @@ class LoanResponse
   end
 
   def breakeven_data
-    #%Q(
-      {
-        products: [
-          { name: "Product 1", description: "Description", unit: "Widgets", price: 100, cost: 50, quantity: 800 },
-        ],
-        fixed_costs: [
-          { name: "Rent", amount: 15000 },
-        ]
-      }
-    #)
+    # This data is stubbed
+    # TODO: Replace stubbed data
+    {
+      products: [
+        { name: "Product 1", description: "Description", unit: "Widgets", price: 100, cost: 50, quantity: 800 },
+      ],
+      fixed_costs: [
+        { name: "Rent", amount: 15000 },
+      ]
+    }
   end
 
   def field_attributes
