@@ -77,23 +77,23 @@
             - if value.has_rating?
               - if value.rating.present?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"
-              = f.input_field "#{field.attribute_sym}__rating".to_sym,
+              = f.input_field :"#{field.attribute_sym}__rating",
                 collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
 
             - if value.has_number?
               - if value.number.present?
                 .view-element.answer = value.number
-              = f.input_field "#{field.attribute_sym}__number".to_sym, as: :decimal
+              = f.input_field :"#{field.attribute_sym}__number", as: :decimal
 
             - if value.has_text?
               - if value.text.present?
                 .view-element.answer = simple_format(value.text)
-              = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
+              = f.input_field :"#{field.attribute_sym}__text", as: value.text_form_field_type
 
             - if value.has_boolean?
               - if value.boolean.present?
                 .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
-              = f.input_field "#{field.attribute_sym}__boolean".to_sym,
+              = f.input_field :"#{field.attribute_sym}__boolean",
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 

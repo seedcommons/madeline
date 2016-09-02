@@ -36,7 +36,6 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
-    @breakeven_data = breakeven_data_stub
   end
 
   def new
@@ -128,7 +127,6 @@ class Admin::LoansController < Admin::AdminController
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
     prep_attached_links if @mode != "details-only"
-    @breakeven_data = breakeven_data_stub
   end
 
   private
@@ -174,32 +172,4 @@ class Admin::LoansController < Admin::AdminController
     end
   end
 
-  # TODO: Remove when breakeven model data exists
-  def breakeven_data_stub
-    {
-      revenue: [
-        { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
-        { name: 'Product 2', quantity: 300, amount: 120, total: 36_000 },
-        { name: 'Product 3', quantity: 100, amount: 150, total: 15_000 },
-      ],
-      total_revenue: 131_000,
-      cogs: [
-        { name: 'Product 1', quantity: 800, amount: 50, total: 40_000 },
-        { name: 'Product 2', quantity: 300, amount: 60, total: 18_000 },
-        { name: 'Product 3', quantity: 100, amount: 70, total: 7_000 },
-      ],
-      total_cogs: 65_000,
-      gross_margin: 66_000,
-      fixed_costs: [
-        { name: "Rent", amount: 15_000 },
-        { name: "Worker owners", amount: 28_000 },
-        { name: "Employees", amount: 10_000 },
-        { name: "Sales", amount: 10_000 },
-        { name: "Utilities", amount: 2_000 },
-        { name: "Insurance", amount: 1_000 },
-      ],
-      total_fixed_costs: 66_000,
-      net_margin: 0,
-    }
-  end
 end

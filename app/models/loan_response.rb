@@ -80,7 +80,7 @@ class LoanResponse
   end
 
   def has_breakeven_table?
-    field_attributes.include?(:breakeven)
+    field_attributes.include?(:breakeven_data)
   end
 
   def blank?

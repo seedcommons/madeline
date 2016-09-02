@@ -42,7 +42,7 @@ class MS.Views.EditableTableView extends Backbone.View
           $row = $(row)
 
           rowResponse = switch tableKey
-            when 'fixed-costs' then self.formatFixedCostsInput($row)
+            when 'fixed_costs' then self.formatFixedCostsInput($row)
             when 'products' then self.formatProductsInput($row)
 
           if rowResponse.rowData
@@ -59,10 +59,10 @@ class MS.Views.EditableTableView extends Backbone.View
     amount = $row.find('[data-input="amount"]').val()
 
     # Only format rows that have a name and amount
-    if Boolean(name) && Boolean(amount)
+    if name && amount
       rowData = {
         name: name,
-        amount: amount
+        amount: Number(amount)
       }
       return {rowData: rowData}
     else
@@ -77,14 +77,14 @@ class MS.Views.EditableTableView extends Backbone.View
     quantity = $row.find('[data-input="quantity"]').val()
 
     # Only format rows that have a product name, price, and cost
-    if Boolean(name) && Boolean(price) && Boolean(cost)
+    if name && price && cost
       rowData = {
         name: name,
         description: description,
         unit: unit,
-        price: price,
-        cost: cost,
-        quantity: quantity
+        price: Number(price),
+        cost: Number(cost),
+        quantity: Number(quantity)
       }
       return {rowData: rowData}
     else

@@ -1,7 +1,7 @@
 - hidden ||= false
 - cost ||= {}
 
-tr.ui-state-default data-group="fixed-cost" class=("hidden" if hidden)
+tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
   td: input data-input="name" value=cost[:name]
   td: input type="number" data-input="amount" value=cost[:amount]
   td: .actions
