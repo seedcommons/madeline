@@ -20,6 +20,6 @@ section data-container="loan"
         = render "admin/loans/content/questionnaire_form", value_set: @loan.criteria
         // TODO: Remove breakeven items once they are part of the questionnaire
         - if @breakeven_data
-          = render "admin/loans/content/breakeven_table"
+          = render "admin/loans/content/breakeven_table_report"
       - else
         = t('loan.criteria_not_entered')
