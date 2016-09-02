@@ -196,7 +196,6 @@ class CustomField < ActiveRecord::Base
     (Loan.loan_type_option_set.options - custom_field_requirements.map(&:loan_type)).each do |lt|
       custom_field_requirements.build(loan_type: lt)
     end
-    # custom_field_requirements.sort_by { |i| i.loan_type.label.text }
   end
 
   private

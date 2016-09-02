@@ -149,5 +149,5 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       @$(textbox).addClass('hidden-special')
 
   changeRequireCheckbox: (e) ->
-    destroyField = $(e.target).closest('.loan-type').find('.destroy-field')[0]
-    destroyField.value = !e.target.checked
+    destroyField = $(e.target).closest('.loan-type').find('.destroy-field')
+    destroyField.val(!e.target.checked)

@@ -70,7 +70,6 @@ class Admin::LoanQuestionsController < Admin::AdminController
       authorize @loan_question
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
       params.require(:custom_field).delete_if { |k, v| k =~ /^locale_/ }.permit(
         :label, :data_type, :parent_id, :position,
