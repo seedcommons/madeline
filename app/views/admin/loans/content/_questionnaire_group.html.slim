@@ -96,9 +96,9 @@
               = f.input_field "#{field.attribute_sym}__boolean".to_sym,
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
-            
+
             / Placeholder condition until breakeven data type is created
-            - if field.id == (304 || 90)
+            - if field.id == 110
               .form-element
                 = render 'admin/loans/content/table_question', f: f, field: field, breakeven_data: value.breakeven_data
               .view-element
