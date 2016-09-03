@@ -109,15 +109,17 @@ module Legacy
     end
 
     def migrate_children
-      LoanQuestion.where("Active = :active and NewGroup = :parent_id",
-        {active: active, parent_id: id}).order('NewOrder').each do |record|
+      LoanQuestion.where("NewGroup = :parent_id",
+        {parent_id: id}).order('NewOrder').each do |record|
         record.migrate
       end
     end
 
     def data_type
       #todo: how to best handle IFrame flag?
-      DATA_TYPE_MAP[type]
+      type_key = self.type
+      type_key = 'Texto Grande' if type_key.blank?
+      DATA_TYPE_MAP[type_key]
     end
 
     DATA_TYPE_MAP = {

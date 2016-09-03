@@ -40,6 +40,12 @@ module Legacy
       Legacy::LoanResponseSet.migrate_all
     end
 
+    def self.migrate_questions
+      Legacy::LoanQuestion.migrate_all
+      Legacy::DueDiligencePerLoanType.migrate_all
+      Legacy::LoanResponseSet.migrate_all
+    end
+
     def self.purge_migrated
       Legacy::DueDiligencePerLoanType.purge_migrated
       Legacy::LoanQuestion.purge_migrated
