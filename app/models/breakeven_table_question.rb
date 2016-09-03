@@ -42,6 +42,8 @@ class BreakevenTableQuestion
   #   net_margin: 0,
   # }
   def report
+    return if blank?
+
     report = {
       revenue: [],
       total_revenue: 0,
@@ -76,5 +78,10 @@ class BreakevenTableQuestion
     report[:net_margin] = report[:gross_margin] - report[:total_fixed_costs]
 
     report
+  end
+
+  def blank?
+    return true if !@breakeven_data
+    @breakeven_data['products'].blank? && @breakeven_data['fixed_costs'].blank?
   end
 end

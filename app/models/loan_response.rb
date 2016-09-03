@@ -48,7 +48,7 @@ class LoanResponse
   end
 
   def breakeven_data_hash
-    JSON.parse(breakeven_data).deep_symbolize_keys
+    JSON.parse(breakeven_data).deep_symbolize_keys if breakeven_data
   end
 
   def breakeven_report
@@ -84,8 +84,7 @@ class LoanResponse
   end
 
   def blank?
-    # `breakeven_data` will likely need a more sophisticated blank test
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_data.blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank?
   end
 
   def answered?

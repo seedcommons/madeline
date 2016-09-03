@@ -21,7 +21,7 @@
         / Is at top instead of bottom to not affect striped rows
         = render 'admin/loans/content/breakeven_product_row', hidden: true
         
-        - if data[:products]
+        - if data && data[:products]
           - data[:products].each do |product|
             = render 'admin/loans/content/breakeven_product_row', product: product
 
@@ -41,7 +41,7 @@
         / Is at top instead of bottom to not affect striped rows
         = render 'admin/loans/content/breakeven_fixed_cost_row', hidden: true
         
-        - if data[:fixed_costs]
+        - if data && data[:fixed_costs]
           - data[:fixed_costs].each do |cost|
             = render 'admin/loans/content/breakeven_fixed_cost_row', cost: cost
 
