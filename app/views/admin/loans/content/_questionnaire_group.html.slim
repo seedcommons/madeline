@@ -2,10 +2,10 @@
   / should probably be refactored someday to happen in the model
   div
     - optional_encountered = false
-    - optionals_exist = group.kids.any? { |i| !i.required_for?(@loan) }
-    - requireds_exist = group.kids.any? { |i| i.required_for?(@loan) }
+    - optionals_exist = roots.any? { |i| !i.required_for?(@loan) }
+    - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
 
-    - group.kids.sort_by { |i| [i.required_for?(@loan) ? 0 : 1, i.position] }.each_with_index do |field, idx|
+    - roots.sort_by { |i| [i.required_for?(@loan) ? 0 : 1, i.position] }.each_with_index do |field, idx|
 
       - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
         / Close and reopen fieldset with new group/page
@@ -43,7 +43,7 @@
             = render "admin/loans/content/progress_bar", object: value
 
           - if field.data_type == 'group'
-            - header_tag = {tag: %i(h3 h4 h5)[group.depth + 1] || :h5}
+            - header_tag = {tag: %i(h3 h4 h5)[field.depth] || :h5}
             *header_tag
               / Group title
               => index_str
@@ -62,7 +62,7 @@
         - if field.data_type == 'group'
 
           = render("admin/loans/content/questionnaire_group",
-            f: f, value_set: value_set, group: field, parents: parents + [field], indices: indices + [idx + 1])
+            f: f, value_set: value_set, roots: field.kids, parents: parents + [field], indices: indices + [idx + 1])
 
         - else
 

@@ -81,6 +81,10 @@ class CustomField < ActiveRecord::Base
     all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
   end
 
+  def self.prepare_for(loan)
+    where(status: :active).sort_by_required(loan)
+  end
+
   # Feature #4737
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the custom_fields_options relation table, and the
