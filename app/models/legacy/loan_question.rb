@@ -117,6 +117,7 @@ module Legacy
 
     def data_type
       #todo: how to best handle IFrame flag?
+      type = 'Texto Grande' if type.blank?
       DATA_TYPE_MAP[type]
     end
 
