@@ -81,8 +81,16 @@ class CustomField < ActiveRecord::Base
     all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
   end
 
-  def self.prepare_for(loan)
-    where(status: :active).sort_by_required(loan)
+  # Note: Not chainable; intended to be called on a subset
+  def self.filter_for(loan)
+    sort_by_required(loan).select { |i| i.status == 'active' || (i.status = 'inactive' && i.answered_for?(loan)) }
+  end
+
+  def answered_for?(loan)
+    kind = custom_field_set.internal_name.sub(/^loan_/, '')
+    response_set = loan.send(kind.to_sym)
+    return false if !response_set
+    !response_set.tree_unanswered?(self)
   end
 
   # Feature #4737

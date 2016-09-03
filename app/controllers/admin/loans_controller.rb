@@ -64,7 +64,7 @@ class Admin::LoansController < Admin::AdminController
       # If existing set not found, build a blank one with which to render the form.
       @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
 
-      @root_questions[attrib] = CustomField.loan_questions(attrib).roots.prepare_for(@loan)
+      @root_questions[attrib] = CustomField.loan_questions(attrib).roots.filter_for(@loan)
       @questions_json[attrib] = @root_questions[attrib].map { |i| CustomFieldSerializer.new(i, loan: @loan) }.to_json
     end
 
