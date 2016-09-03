@@ -1,0 +1,24 @@
+.summary-chart.breakeven-chart.row
+  h3.col-sm-12 = t("loan.breakeven.charts_title")
+  .chart.col-lg-6.col-sm-12
+    h4 = t("loan.breakeven.revenue_by_product")
+    #breakeven-revenue-chart
+  .chart.col-lg-6.col-sm-12
+    h4 = t("loan.breakeven.production_cost_by_product")
+    #breakeven-production-cost-chart
+  .chart.col-lg-6.col-sm-12
+    h4 = t("loan.breakeven.profit_by_product")
+    #breakeven-product-profit
+  .chart.col-lg-6.col-sm-12
+    h4 = t("loan.breakeven.fixed_costs", count: 2)
+    #breakeven-fixed-cost-chart
+  .chart.col-lg-6.col-sm-12
+    h4 = t('loan.breakeven.total_cost_breakdown')
+    #breakeven-total-costs-chart
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+javascript:
+  $(function() {
+    new MS.Views.LoanChartsView({breakeven_data: #{json @breakeven_data}});
+  });
