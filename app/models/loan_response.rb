@@ -16,6 +16,7 @@ class LoanResponse
   attr_accessor :start_cell
   attr_accessor :end_cell
   attr_accessor :owner
+  attr_accessor :breakeven_data
 
   delegate :group?, to: :custom_field
 
@@ -31,6 +32,7 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
+    @breakeven_data = data[:breakeven_data]
   end
 
   def model_name
@@ -43,6 +45,18 @@ class LoanResponse
     else
       nil
     end
+  end
+
+  def breakeven_table
+    @breakeven_table ||= BreakevenTableQuestion.new(breakeven_data)
+  end
+
+  def breakeven_data_hash
+    @breakeven_data_hash ||= breakeven_table.data_hash
+  end
+
+  def breakeven_report
+    @breakeven_report ||= breakeven_table.report
   end
 
   def field_attributes
@@ -69,8 +83,12 @@ class LoanResponse
     field_attributes.include?(:boolean)
   end
 
+  def has_breakeven_table?
+    field_attributes.include?(:breakeven_data)
+  end
+
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank?
   end
 
   def answered?

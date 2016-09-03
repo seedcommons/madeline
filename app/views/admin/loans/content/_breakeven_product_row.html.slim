@@ -1,0 +1,15 @@
+- hidden ||= false
+- product ||= {}
+
+tr.ui-state-default data-group="product" class=("hidden" if hidden)
+  td: textarea data-input="name" = product[:name]
+  td: textarea data-input="description" = product[:description]
+  td: textarea data-input="unit" placeholder=I18n.t('loan.breakeven.placeholders.unit') = product[:unit]
+  td: input data-input="price" type="number" value=product[:price]
+  td: input data-input="cost" type="number" value=product[:cost]
+  td: input data-input="quantity" type="number" value=product[:quantity]
+  td: .actions
+    a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
+      i.fa.fa-trash
+    a.move data-action="move" title=I18n.t('loan.breakeven.move_row')
+      i.fa.fa-arrows-v

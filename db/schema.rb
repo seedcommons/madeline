@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160811061305) do
+ActiveRecord::Schema.define(version: 20160901001101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160811061305) do
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_requirements", force: :cascade do |t|
-    t.decimal "amount", default: 0.0, null: false
+    t.decimal "amount"
     t.integer "custom_field_id"
     t.integer "option_id"
   end
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20160811061305) do
     t.integer  "parent_id"
     t.integer  "position"
     t.boolean  "required", default: false, null: false
+    t.string   "status", default: "active", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -82,11 +83,20 @@ ActiveRecord::Schema.define(version: 20160811061305) do
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
+    t.string   "accent_fg_color"
+    t.string   "accent_main_color"
+    t.string   "banner_bg_color"
+    t.string   "banner_fg_color"
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.json     "custom_data"
     t.text     "description"
     t.string   "internal_name"
+    t.string   "logo_content_type"
+    t.string   "logo_file_name"
+    t.integer  "logo_file_size"
+    t.string   "logo_text"
+    t.datetime "logo_updated_at"
     t.string   "name"
     t.integer  "organization_id"
     t.integer  "parent_id"

@@ -1,0 +1,11 @@
+- hidden ||= false
+- cost ||= {}
+
+tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
+  td: input data-input="name" value=cost[:name]
+  td: input type="number" data-input="amount" value=cost[:amount]
+  td: .actions
+    a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
+      i.fa.fa-trash
+    a.move data-action="move" title=I18n.t('loan.breakeven.move_row')
+      i.fa.fa-arrows-v

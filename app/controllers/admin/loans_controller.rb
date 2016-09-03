@@ -171,4 +171,5 @@ class Admin::LoansController < Admin::AdminController
       flash.now[:alert] = notice_text
     end
   end
+
 end

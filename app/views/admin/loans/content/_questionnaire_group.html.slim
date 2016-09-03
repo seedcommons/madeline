@@ -77,71 +77,36 @@
             - if value.has_rating?
               - if value.rating.present?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"
-              = f.input_field "#{field.attribute_sym}__rating".to_sym,
+              = f.input_field :"#{field.attribute_sym}__rating",
                 collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
 
             - if value.has_number?
               - if value.number.present?
                 .view-element.answer = value.number
-              = f.input_field "#{field.attribute_sym}__number".to_sym, as: :decimal
+              = f.input_field :"#{field.attribute_sym}__number", as: :decimal
 
             - if value.has_text?
               - if value.text.present?
                 .view-element.answer = simple_format(value.text)
-              = f.input_field "#{field.attribute_sym}__text".to_sym, as: value.text_form_field_type
+              = f.input_field :"#{field.attribute_sym}__text", as: value.text_form_field_type
 
             - if value.has_boolean?
               - if value.boolean.present?
                 .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
-              = f.input_field "#{field.attribute_sym}__boolean".to_sym,
+              = f.input_field :"#{field.attribute_sym}__boolean",
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
+            - if value.has_breakeven_table?
+              - if value.breakeven_report.present?
+                .view-element
+                  = render "admin/loans/content/breakeven_table_report", report: value.breakeven_report
+                  = render "admin/loans/content/breakeven_charts", report: value.breakeven_report
+              .form-element
+                = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
+
             - if value.has_linked_document?
-              - document = value.linked_document
-              .attached-document
-                .linked-document.form-element.form-inline
-                  h5 = t("linked_document.linked_document")
-
-                  .ld-container
-                    .form-group.full-width-group
-                      label for="#{field.attribute_sym}__url" = t("linked_document.url")
-                      = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
-                        class: 'form-control', placeholder: t("linked_document.link")
-                    .help-block
-                      span = t("linked_document.range_of_cells")
-                    .form-group
-                      label for="#{field.attribute_sym}__start_cell" = t("linked_document.cell_start")
-                      = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
-                      class: 'form-control', placeholder: t("linked_document.cell_start_hint")
-                    .form-group
-                      label for="#{field.attribute_sym}__end_cell" = t("linked_document.cell_end")
-                      = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
-                      class: 'form-control', placeholder: t("linked_document.cell_end_hint")
-                    - if document
-                      - if document.display_url.present?
-                        .doc-actions
-                          a [data-action="delete"
-                            data-confirm= t("linked_document.delete_confirmation")
-                            data-confirm-title= t("linked_document.linked_document")]
-                            = t("linked_document.delete")
-
-                .spreadsheet-links.view-element
-                  - if document
-                    .doc-actions
-                      - if document.display_url.present?
-                        / Beware, the display_height value doesn't not seem to be honored
-                        a[href="#" data-expands="iframe-#{field.attribute_sym}"
-                          data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
-                          i.fa.fa-eye.fa-large>
-                          = t("loan.spreadsheet_inline")
-                        a href="#" data-hides="iframe-#{field.attribute_sym}"
-                          i.fa.fa-eye-slash.fa-large>
-                          = t("loan.spreadsheet_hide")
-                        = link_to document.url, target: '_blank'
-                          i.fa.fa-external-link.fa-large>
-                          = t("loan.spreadsheet_new_tab")
-                  .spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+              = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")

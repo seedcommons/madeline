@@ -5,6 +5,8 @@ en:
     shared:
       new: "New Division"
       parent: "Parent Division"
+      all: "All Divisions"
+
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     divisions:
