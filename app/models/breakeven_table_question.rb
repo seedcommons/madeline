@@ -84,4 +84,8 @@ class BreakevenTableQuestion
     return true if !@breakeven_data
     @breakeven_data['products'].blank? && @breakeven_data['fixed_costs'].blank?
   end
+
+  def data_hash
+    @breakeven_data.deep_symbolize_keys if @breakeven_data
+  end
 end
