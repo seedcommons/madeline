@@ -58,8 +58,8 @@ class MS.Views.EditableTableView extends Backbone.View
     name = $row.find('[data-input="name"]').val()
     amount = $row.find('[data-input="amount"]').val()
 
-    # Only format rows that have a name and amount
-    if name && amount
+    # Only format rows that have a name or amount
+    if name || amount
       rowData = {
         name: name,
         amount: Number(amount)
@@ -76,8 +76,8 @@ class MS.Views.EditableTableView extends Backbone.View
     cost = $row.find('[data-input="cost"]').val()
     quantity = $row.find('[data-input="quantity"]').val()
 
-    # Only format rows that have a product name, price, and cost
-    if name && price && cost
+    # Only format rows that have a product name, price, or cost
+    if name || price || cost
       rowData = {
         name: name,
         description: description,
