@@ -101,6 +101,7 @@
               - if value.breakeven_report.present?
                 .view-element
                   = render "admin/loans/content/breakeven_table_report", report: value.breakeven_report
+                  = render "admin/loans/content/breakeven_charts", report: value.breakeven_report
               .form-element
                 = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
 
