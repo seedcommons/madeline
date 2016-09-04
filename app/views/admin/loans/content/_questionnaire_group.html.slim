@@ -5,7 +5,7 @@
     - optionals_exist = roots.any? { |i| !i.required_for?(@loan) }
     - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
 
-    - roots.sort_by { |i| [i.required_for?(@loan) ? 0 : 1, i.position] }.each_with_index do |field, idx|
+    - roots.each_with_index do |field, idx|
 
       - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
         / Close and reopen fieldset with new group/page
@@ -59,10 +59,10 @@
           p.help-block.hidden-print.tree-view = field.explanation
 
         / Recurse if group, else render
-        - if field.data_type == 'group'
-
+        - if field.data_type == 'group' && (filtered_children = field.children.filter_for(@loan)).present?
           = render("admin/loans/content/questionnaire_group",
-            f: f, value_set: value_set, roots: field.kids, parents: parents + [field], indices: indices + [idx + 1])
+            f: f, value_set: value_set, roots: filtered_children, 
+            parents: parents + [field], indices: indices + [idx + 1])
 
         - else
 

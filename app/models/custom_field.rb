@@ -83,7 +83,7 @@ class CustomField < ActiveRecord::Base
 
   # Note: Not chainable; intended to be called on a subset
   def self.filter_for(loan)
-    sort_by_required(loan).select { |i| i.status == 'active' || (i.status = 'inactive' && i.answered_for?(loan)) }
+    sort_by_required(loan).select { |i| i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan)) }
   end
 
   def answered_for?(loan)
