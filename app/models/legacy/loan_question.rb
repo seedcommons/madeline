@@ -59,7 +59,7 @@ module Legacy
       custom_field_set_id = active
       # question question sets 1 & 2 will now be considered 'inactive'
       status = :inactive if active <= 2
-      status = :retired if new_group.blank? || new_group == 0
+      status = :retired if new_order.blank? || new_order == 0
       # questions sets 1,2 & 4 will all map now to 'criteria'
       custom_field_set_id = (active == 3) ? 3 : 2
 
