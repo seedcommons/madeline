@@ -57,19 +57,15 @@ class Admin::LoansController < Admin::AdminController
 
     # Value sets are sets of answers to criteria and post analysis question sets.
     @value_sets = ActiveSupport::OrderedHash.new
+    @root_questions = {}
     @questions_json = {}
 
     Loan::QUESTION_SET_TYPES.each do |attrib|
-      # Attempt to retrieve existing value set from object
-      @value_sets[attrib] = @loan.send(attrib)
-
       # If existing set not found, build a blank one with which to render the form.
-      unless @value_sets[attrib]
-        @value_sets[attrib] = LoanResponseSet.new(kind: attrib, loan: @loan)
-      end
+      @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
 
-      root_questions = CustomField.loan_questions(attrib).roots.sort_by_required(@loan)
-      @questions_json[attrib] = root_questions.map { |i| CustomFieldSerializer.new(i, loan: @loan) }.to_json
+      @root_questions[attrib] = CustomField.loan_questions(attrib).roots.filter_for(@loan)
+      @questions_json[attrib] = @root_questions[attrib].map { |i| CustomFieldSerializer.new(i, loan: @loan) }.to_json
     end
 
     render layout: false
@@ -126,6 +122,7 @@ class Admin::LoansController < Admin::AdminController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
+    @root_questions = { criteria: CustomField.loan_questions(:criteria).roots.filter_for(@loan) }
     prep_attached_links if @mode != "details-only"
   end
 
@@ -171,4 +168,5 @@ class Admin::LoansController < Admin::AdminController
       flash.now[:alert] = notice_text
     end
   end
+
 end

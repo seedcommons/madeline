@@ -4,7 +4,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def index
     authorize CustomField
-    @questions = CustomField.loan_questions
+    # Hide retired questions for now
+    @questions = CustomField.loan_questions.where(status: [:active, :inactive])
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 

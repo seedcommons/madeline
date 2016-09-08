@@ -14,7 +14,7 @@ class CustomFieldSerializer < ActiveModel::Serializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node, loan: @loan) }
+      object.children.filter_for(@loan).map { |node| self.class.new(node, loan: @loan) }
     end
   end
 

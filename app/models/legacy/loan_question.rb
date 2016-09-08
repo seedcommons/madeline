@@ -59,7 +59,7 @@ module Legacy
       custom_field_set_id = active
       # question question sets 1 & 2 will now be considered 'inactive'
       status = :inactive if active <= 2
-      status = :retired if new_group.blank? || new_group == 0
+      status = :retired if new_order.blank? || new_order == 0
       # questions sets 1,2 & 4 will all map now to 'criteria'
       custom_field_set_id = (active == 3) ? 3 : 2
 
@@ -109,15 +109,17 @@ module Legacy
     end
 
     def migrate_children
-      LoanQuestion.where("Active = :active and NewGroup = :parent_id",
-        {active: active, parent_id: id}).order('NewOrder').each do |record|
+      LoanQuestion.where("NewGroup = :parent_id",
+        {parent_id: id}).order('NewOrder').each do |record|
         record.migrate
       end
     end
 
     def data_type
       #todo: how to best handle IFrame flag?
-      DATA_TYPE_MAP[type]
+      type_key = self.type
+      type_key = 'Texto Grande' if type_key.blank?
+      DATA_TYPE_MAP[type_key]
     end
 
     DATA_TYPE_MAP = {

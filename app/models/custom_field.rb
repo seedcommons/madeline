@@ -13,6 +13,7 @@
 #  parent_id             :integer
 #  position              :integer
 #  required              :boolean          default(FALSE), not null
+#  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
@@ -65,7 +66,7 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  DATA_TYPES = %i(string text number range group boolean)
+  DATA_TYPES = %i(string text number range group boolean breakeven_data)
 
   def self.loan_questions(field_set = nil)
     # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
@@ -79,6 +80,19 @@ class CustomField < ActiveRecord::Base
   # Note: Not chainable; intended to be called on a subset
   def self.sort_by_required(loan)
     all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
+  end
+
+  # Note: Not chainable; intended to be called on a subset
+  def self.filter_for(loan)
+    return all if !loan
+    sort_by_required(loan).select { |i| i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan)) }
+  end
+
+  def answered_for?(loan)
+    kind = custom_field_set.internal_name.sub(/^loan_/, '')
+    response_set = loan.send(kind.to_sym)
+    return false if !response_set
+    !response_set.tree_unanswered?(self)
   end
 
   # Feature #4737
@@ -136,6 +150,7 @@ class CustomField < ActiveRecord::Base
       when 'number' then [:number]
       when 'range' then [:rating, :text]
       when 'boolean' then [:boolean]
+      when 'breakeven_data' then [:breakeven_data]
       else []
       end
 
@@ -147,24 +162,6 @@ class CustomField < ActiveRecord::Base
       end
     end
     result
-  end
-
-  # Simple form type mapping
-  def form_field_type
-    case data_type
-    when 'string'
-      :string
-    when 'text'
-      :text
-    when 'number'
-      :decimal
-    when 'range'
-      :select
-    when 'boolean'
-      :boolean
-    when 'group'
-      nil # group type fields are not expected to have rendered form fields
-    end
   end
 
   def traverse_depth_first(list)

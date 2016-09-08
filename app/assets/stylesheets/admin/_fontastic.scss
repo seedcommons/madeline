@@ -1,0 +1,44 @@
+// Fontastic is a custom icon font generator. It is used here for the triple spiral logo.
+@charset "UTF-8";
+
+@font-face {
+  font-family: "fontastic";
+  src:font-url("fontastic.eot");
+  src:font-url("fontastic.eot?#iefix") format("embedded-opentype"),
+    font-url("fontastic.woff") format("woff"),
+    font-url("fontastic.ttf") format("truetype"),
+    font-url("fontastic.svg#fontastic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-ftc]:before {
+  font-family: "fontastic" !important;
+  content: attr(data-ftc);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="ftc-"]:before,
+[class*=" ftc-"]:before {
+  font-family: "fontastic" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ftc-triple-spiral:before {
+  content: "\61";
+}
