@@ -16,15 +16,15 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenFixedCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan.breakeven.fixed_costs', count: 1),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan.breakeven.amount'),"pattern":"","type":"number"}
+      {"label":I18n.t('loan.breakeven.fixed_costs', count: 1),"type":"string"},
+      {"label":I18n.t('loan.breakeven.amount'),"type":"number"}
     ]
 
     rows = []
     for key,cost of @breakevenFixedCosts
       name = cost.name
       total = cost.amount
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     options = @defaultChartOptions
     chartData = {"cols": columns, "rows": rows}
@@ -35,15 +35,15 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenProductProfitChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan.breakeven.profit'),"pattern":"","type":"number"}
+      {"label":I18n.t('loan.breakeven.product'),"type":"string"},
+      {"label":I18n.t('loan.breakeven.profit'),"type":"number"}
     ]
 
     rows = []
     for key,product of @breakevenProductProfit()
       name = key
       total = product.profit
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     options = @defaultChartOptions
     chartData = {"cols": columns, "rows": rows}
@@ -54,8 +54,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenProductionCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan.breakeven.production_cost'),"pattern":"","type":"number"}
+      {"label":I18n.t('loan.breakeven.product'),"type":"string"},
+      {"label":I18n.t('loan.breakeven.production_cost'),"type":"number"}
     ]
 
     options = @defaultChartOptions
@@ -63,7 +63,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     for key,product of @breakevenProductionCosts
       name = product.name
       total = product.total
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
@@ -91,8 +91,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenRevenueChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan.breakeven.product'),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan.breakeven.revenue'),"pattern":"","type":"number"}
+      {"label":I18n.t('loan.breakeven.product'),"type":"string"},
+      {"label":I18n.t('loan.breakeven.revenue'),"type":"number"}
     ]
 
     options = @defaultChartOptions
@@ -100,7 +100,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     for key,product of @breakevenRevenue
       name = product.name
       total = product.total
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
@@ -110,20 +110,20 @@ class MS.Views.LoanChartsView extends Backbone.View
   breakevenTotalCostsChart: () ->
     chartData = {}
     columns = [
-      {"id":"","label":I18n.t('loan.breakeven.item'),"pattern":"","type":"string"},
-      {"id":"","label":I18n.t('loan.breakeven.cost'),"pattern":"","type":"number"}
+      {"label":I18n.t('loan.breakeven.item'),"type":"string"},
+      {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
     ]
     rows = []
 
     for key,product of @breakevenProductionCosts
       name = product.name
       total = product.total
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     for key,cost of @breakevenFixedCosts
       name = cost.name
       total = cost.amount
-      rows.push({"c":[{"v": name, "f":null},{"v": total, "f":null}]})
+      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
 
     options = @defaultChartOptions
     slices = {}
