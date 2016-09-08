@@ -8,24 +8,25 @@
 #  date_changed_to       :date
 #  id                    :integer          not null, primary key
 #  progress_metric_value :string
-#  project_step_id       :integer
+#  timeline_entry_id     :integer
+#  timeline_entry_type   :string
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_project_logs_on_agent_id         (agent_id)
-#  index_project_logs_on_project_step_id  (project_step_id)
+#  index_project_logs_on_agent_id           (agent_id)
+#  index_project_logs_on_timeline_entry_id  (timeline_entry_id)
 #
 # Foreign Keys
 #
 #  fk_rails_54dbbbb1d4  (agent_id => people.id)
-#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
+#  fk_rails_7964cb2e36  (timeline_entry_id => timeline_entries.id)
 #
 
 class ProjectLog < ActiveRecord::Base
   include Translatable, MediaAttachable, OptionSettable
 
-  belongs_to :project_step
+  belongs_to :project_step, polymorphic: true, foreign_key: :timeline_entry_id, foreign_type: :timeline_entry_type
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project_step
@@ -35,7 +36,7 @@ class ProjectLog < ActiveRecord::Base
 
   attr_option_settable :progress_metric
 
-  validates :project_step_id, presence: true
+  validates :timeline_entry_id, presence: true
 
   def name
     # logger.debug "this: #{self.inspect}"

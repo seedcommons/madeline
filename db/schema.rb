@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901001101) do
+ActiveRecord::Schema.define(version: 20160905034718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160901001101) do
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_requirements", force: :cascade do |t|
-    t.decimal "amount"
+    t.decimal "amount", default: 0.0, null: false
     t.integer "custom_field_id"
     t.integer "option_id"
   end
@@ -273,30 +273,13 @@ ActiveRecord::Schema.define(version: 20160901001101) do
     t.date     "date"
     t.date     "date_changed_to"
     t.string   "progress_metric_value"
-    t.integer  "project_step_id"
+    t.integer  "timeline_entry_id"
+    t.string   "timeline_entry_type"
     t.datetime "updated_at", null: false
   end
 
   add_index "project_logs", ["agent_id"], name: "index_project_logs_on_agent_id", using: :btree
-  add_index "project_logs", ["project_step_id"], name: "index_project_logs_on_project_step_id", using: :btree
-
-  create_table "project_steps", force: :cascade do |t|
-    t.integer  "agent_id"
-    t.date     "completed_date"
-    t.datetime "created_at", null: false
-    t.integer  "date_change_count", default: 0, null: false
-    t.datetime "finalized_at"
-    t.boolean  "is_finalized"
-    t.date     "original_date"
-    t.integer  "project_id"
-    t.string   "project_type"
-    t.date     "scheduled_date"
-    t.string   "step_type_value"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "project_steps", ["agent_id"], name: "index_project_steps_on_agent_id", using: :btree
-  add_index "project_steps", ["project_type", "project_id"], name: "index_project_steps_on_project_type_and_project_id", using: :btree
+  add_index "project_logs", ["timeline_entry_id"], name: "index_project_logs_on_timeline_entry_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
@@ -308,6 +291,25 @@ ActiveRecord::Schema.define(version: 20160901001101) do
 
   add_index "roles", %w(name resource_type resource_id), name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true, using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "timeline_entries", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.date     "completed_date"
+    t.datetime "created_at", null: false
+    t.integer  "date_change_count", default: 0, null: false
+    t.datetime "finalized_at"
+    t.boolean  "is_finalized"
+    t.date     "original_date"
+    t.integer  "project_id"
+    t.string   "project_type"
+    t.date     "scheduled_date"
+    t.string   "step_type_value"
+    t.string   "type"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "timeline_entries", ["agent_id"], name: "index_timeline_entries_on_agent_id", using: :btree
+  add_index "timeline_entries", ["project_type", "project_id"], name: "index_timeline_entries_on_project_type_and_project_id", using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
@@ -369,8 +371,8 @@ ActiveRecord::Schema.define(version: 20160901001101) do
   add_foreign_key "people", "divisions"
   add_foreign_key "people", "organizations", column: "primary_organization_id"
   add_foreign_key "project_logs", "people", column: "agent_id"
-  add_foreign_key "project_logs", "project_steps"
-  add_foreign_key "project_steps", "people", column: "agent_id"
+  add_foreign_key "project_logs", "timeline_entries"
+  add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "users", "people", column: "profile_id"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"
