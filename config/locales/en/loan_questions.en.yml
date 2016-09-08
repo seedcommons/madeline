@@ -40,14 +40,14 @@ en:
         edit_item: "Edit Item"
         delete_item: "Delete Item"
       form:
-        edit_item: "Edit Question or Group"
-        new_item: "New Question or Group"
+        edit_item: Edit Question or Group
+        new_item: New Question or Group
 
   simple_form:
     labels:
       custom_field:
-        data_type: "Data type"
-        has_embeddable_media: "Allow files or links to be attached"
+        data_type: Data type
+        has_embeddable_media: Allow files or links to be attached
     options:
       custom_field:
         data_type:
