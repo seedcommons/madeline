@@ -13,6 +13,14 @@ class MS.Views.LoanChartsView extends Backbone.View
 
     @loadCharts()
 
+  loadCharts: ->
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
+    google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
+    google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
+    google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
+    google.charts.setOnLoadCallback @breakevenCostsChart.bind @
+
   breakevenFixedCostsChart: ->
     columns = [
       {"label":I18n.t('loan.breakeven.fixed_costs', count: 1),"type":"string"},
@@ -119,59 +127,55 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
     chart.draw(chartData, options);
 
-  breakevenTotalCostsChart: ->
-    columns = [
-      {"label":I18n.t('loan.breakeven.item'),"type":"string"},
-      {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
-    ]
-    rows = []
-
-    for key,product of @breakevenProductionCosts
-      name = product.name
-      total = product.total
-      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
-
-    for key,cost of @breakevenFixedCosts
-      name = cost.name
-      total = cost.amount
-      rows.push({"c":[{"v": name},{"v": total, "f":null}]})
-
-    options = @defaultChartOptions
-    slices = {}
-
-    # Color is adjusted per item based on total items in a specific group
-    # Fixed costs have a different base color than product costs
-    productionCostLength = @breakevenProductionCosts.length
-    fixedCostLength = rows.length - productionCostLength
-    productionIncrement = parseInt((255-102)/productionCostLength)
-    fixedCostIncrement = parseInt((255-57)/fixedCostLength)
-
-    i = 0
-    for key,row of rows
-      if key < productionCostLength
-        slices[parseInt(key)] = {color:
-          "rgb(#{51 + (productionIncrement * parseInt(key))},
-          #{102 + (productionIncrement * parseInt(key))},
-          204)"
-        }
-      else
-        slices[parseInt(key)] = {color:
-          "rgb(220,
-          #{57 + (fixedCostIncrement * i)},
-          #{18 + (fixedCostIncrement * i)})"
-        }
-        ++i
-
-    options.slices = slices
-    chartData = {"cols": columns, "rows": rows}
-    chartData = new google.visualization.DataTable(chartData)
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'))
-    chart.draw(chartData, options);
-
-  loadCharts: ->
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
-    google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
-    google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
-    google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
-    google.charts.setOnLoadCallback @breakevenCostsChart.bind @
+  # Note: Not included in Breakeven Financial Model in favor of a simple total costs chart
+  # Load each fixed and production cost as separate slices in a total costs chart
+  # All production costs are a shade of a base color
+  # All fixed costs are a shade of a different base color
+  # breakevenTotalCostsChart: ->
+  #   columns = [
+  #     {"label":I18n.t('loan.breakeven.item'),"type":"string"},
+  #     {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
+  #   ]
+  #   rows = []
+  #
+  #   for key,product of @breakevenProductionCosts
+  #     name = product.name
+  #     total = product.total
+  #     rows.push({"c":[{"v": name},{"v": total, "f":null}]})
+  #
+  #   for key,cost of @breakevenFixedCosts
+  #     name = cost.name
+  #     total = cost.amount
+  #     rows.push({"c":[{"v": name},{"v": total, "f":null}]})
+  #
+  #   options = @defaultChartOptions
+  #   slices = {}
+  #
+  #   # Color is adjusted per item based on total items in a specific group
+  #   # Fixed costs have a different base color than product costs
+  #   productionCostLength = @breakevenProductionCosts.length
+  #   fixedCostLength = rows.length - productionCostLength
+  #   productionIncrement = parseInt((255-102)/productionCostLength)
+  #   fixedCostIncrement = parseInt((255-57)/fixedCostLength)
+  #
+  #   i = 0
+  #   for key,row of rows
+  #     if key < productionCostLength
+  #       slices[parseInt(key)] = {color:
+  #         "rgb(#{51 + (productionIncrement * parseInt(key))},
+  #         #{102 + (productionIncrement * parseInt(key))},
+  #         204)"
+  #       }
+  #     else
+  #       slices[parseInt(key)] = {color:
+  #         "rgb(220,
+  #         #{57 + (fixedCostIncrement * i)},
+  #         #{18 + (fixedCostIncrement * i)})"
+  #       }
+  #       ++i
+  #
+  #   options.slices = slices
+  #   chartData = {"cols": columns, "rows": rows}
+  #   chartData = new google.visualization.DataTable(chartData)
+  #   chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'))
+  #   chart.draw(chartData, options);
