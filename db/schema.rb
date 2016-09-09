@@ -274,7 +274,6 @@ ActiveRecord::Schema.define(version: 20160905034718) do
     t.date     "date_changed_to"
     t.string   "progress_metric_value"
     t.integer  "timeline_entry_id"
-    t.string   "timeline_entry_type"
     t.datetime "updated_at", null: false
   end
 

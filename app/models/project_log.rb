@@ -9,7 +9,6 @@
 #  id                    :integer          not null, primary key
 #  progress_metric_value :string
 #  timeline_entry_id     :integer
-#  timeline_entry_type   :string
 #  updated_at            :datetime         not null
 #
 # Indexes
@@ -26,7 +25,7 @@
 class ProjectLog < ActiveRecord::Base
   include Translatable, MediaAttachable, OptionSettable
 
-  belongs_to :project_step, polymorphic: true, foreign_key: :timeline_entry_id, foreign_type: :timeline_entry_type
+  belongs_to :project_step, foreign_key: :timeline_entry_id
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project_step
