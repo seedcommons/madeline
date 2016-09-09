@@ -1,11 +1,9 @@
 = simple_form_for([:admin, @loan_question],
+    wrapper: :horizontal_form,
     remote: true,
     html: { \
-      class: (@loan_question.new_record? ? 'new-form' : 'update-form'),
+      class: "form-horizontal #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
       data: { id: @loan_question.id },
-    },
-    defaults: { \
-      input_html: {class: 'form-element form-control'},
     },
   ) do |f|
 
@@ -14,8 +12,7 @@
   .modal-body
     = f.error_notification
 
-    = f.input :data_type, as: :select,
-      collection: @data_types
+    = f.input :data_type, as: :select, collection: @data_types
 
     = render "loan_types", f: f
 
