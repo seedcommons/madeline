@@ -14,43 +14,27 @@ class MS.Views.LoanChartsView extends Backbone.View
         width: '100%'
       }
     }
-
     @loadCharts()
 
   loadCharts: ->
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
-    google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
+    google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
-  breakevenFixedCostsChart: ->
-    data = new google.visualization.DataTable();
-    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
-    data.addColumn 'number', I18n.t('loan.breakeven.amount')
-
-    for key,cost of @breakevenFixedCosts
-      name = cost.name
-      total = cost.amount
-      data.addRow [name, total]
-
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'))
-    @formatNumbers(data)
-    options = @defaultChartOptions
-    chart.draw(data, options)
-
-  breakevenProductProfitChart: ->
+  breakevenRevenueChart: ->
     data = new google.visualization.DataTable();
     data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.profit')
+    data.addColumn 'number', I18n.t('loan.breakeven.revenue')
 
-    for key,product of @breakevenProductProfit()
-      name = key
-      total = product.profit
+    for key,product of @breakevenRevenue
+      name = product.name
+      total = product.total
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
     @formatNumbers(data)
     options = @defaultChartOptions
     chart.draw(data, options)
@@ -70,35 +54,48 @@ class MS.Views.LoanChartsView extends Backbone.View
     options = @defaultChartOptions
     chart.draw(data, options)
 
+  breakevenProductProfitChart: ->
+    data = new google.visualization.DataTable();
+    data.addColumn 'string', I18n.t('loan.breakeven.product')
+    data.addColumn 'number', I18n.t('loan.breakeven.profit')
+
+    for key,product of @breakevenProductProfit()
+      name = key
+      total = product.profit
+      data.addRow [name, total]
+
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
+    @formatNumbers(data)
+    options = @defaultChartOptions
+    chart.draw(data, options)
+
   breakevenProductProfit: ->
     profitData = {}
 
     for key,product of @breakevenRevenue
       name = product.name
       revenue = product.total
-
       profitData[name] = {revenue: revenue}
 
     for key,product of @breakevenProductionCosts
       name = product.name
       cost = product.total
-
       profitData[name]['cost'] = cost
       profitData[name]['profit'] = profitData[name]['revenue'] - cost
 
     return profitData
 
-  breakevenRevenueChart: ->
+  breakevenFixedCostsChart: ->
     data = new google.visualization.DataTable();
-    data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.revenue')
+    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
+    data.addColumn 'number', I18n.t('loan.breakeven.amount')
 
-    for key,product of @breakevenRevenue
-      name = product.name
-      total = product.total
+    for key,cost of @breakevenFixedCosts
+      name = cost.name
+      total = cost.amount
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'))
     @formatNumbers(data)
     options = @defaultChartOptions
     chart.draw(data, options)
@@ -124,11 +121,12 @@ class MS.Views.LoanChartsView extends Backbone.View
       groupingSymbol: separator,
       fractionDigits: 0
     })
+
     # Format second column of data. Expects that data is set up as [name, amount].
     formatter.format(data, 1)
 
   # Note: Not included in Breakeven Financial Model in favor of a simple total costs chart
-  # Load each fixed and production cost as separate slices in a total costs chart
+  # Loads each fixed and production cost as separate slices in a total costs chart
   # All production costs are a shade of a base color
   # All fixed costs are a shade of a different base color
   # breakevenTotalCostsChart: ->
