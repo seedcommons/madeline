@@ -13,7 +13,7 @@ class MS.Views.LoanChartsView extends Backbone.View
 
     @loadCharts()
 
-  breakevenFixedCostsChart: () ->
+  breakevenFixedCostsChart: ->
     chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.fixed_costs', count: 1),"type":"string"},
@@ -32,7 +32,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'));
     chart.draw(chartData, options);
 
-  breakevenProductProfitChart: () ->
+  breakevenProductProfitChart: ->
     chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
@@ -51,7 +51,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
     chart.draw(chartData, options);
 
-  breakevenProductionCostsChart: () ->
+  breakevenProductionCostsChart: ->
     chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
@@ -70,7 +70,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'));
     chart.draw(chartData, options);
 
-  breakevenProductProfit: () ->
+  breakevenProductProfit: ->
     profitData = {}
 
     for key,product of @breakevenRevenue
@@ -88,7 +88,7 @@ class MS.Views.LoanChartsView extends Backbone.View
 
     return profitData
 
-  breakevenRevenueChart: () ->
+  breakevenRevenueChart: ->
     chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
@@ -107,7 +107,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
     chart.draw(chartData, options);
 
-  breakevenTotalCostsChart: () ->
+  breakevenTotalCostsChart: ->
     chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.item'),"type":"string"},
@@ -157,7 +157,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-total-costs-chart'))
     chart.draw(chartData, options);
 
-  loadCharts: () ->
+  loadCharts: ->
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
