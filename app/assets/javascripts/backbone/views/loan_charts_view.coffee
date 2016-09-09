@@ -41,6 +41,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'));
+    @formatNumbers(chartData)
     chart.draw(chartData, options);
 
   breakevenProductProfitChart: ->
@@ -59,6 +60,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'));
+    @formatNumbers(chartData)
     chart.draw(chartData, options);
 
   breakevenProductionCostsChart: ->
@@ -77,6 +79,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'));
+    @formatNumbers(chartData)
     chart.draw(chartData, options);
 
   breakevenProductProfit: ->
@@ -113,6 +116,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData);
     chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
+    @formatNumbers(chartData)
     chart.draw(chartData, options);
 
   breakevenCostsChart: ->
@@ -121,19 +125,27 @@ class MS.Views.LoanChartsView extends Backbone.View
       {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
     ]
     rows = []
-
-    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"], "f": @styleCurrency(@breakevenData["total_cogs"])}]})
-    rows.push({"c":[{"v": "Fixed Costs"},{"v": @breakevenData["total_fixed_costs"], "f":null}]})
+    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"]}]})
+    rows.push({"c":[{"v": "Fixed Costs"},{"v": @breakevenData["total_fixed_costs"]}]})
 
     options = @defaultChartOptions
     chartData = {"cols": columns, "rows": rows}
     chartData = new google.visualization.DataTable(chartData)
     chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
+    @formatNumbers(chartData)
     chart.draw(chartData, options);
 
-  styleCurrency: (number) ->
-    currency = "$"
-    return currency + number
+  # Style the number to currency with punctuation
+  formatNumbers: (data) ->
+    currency = '$'
+    separator = ','
+    formatter = new google.visualization.NumberFormat({
+      prefix: currency,
+      groupingSymbol: separator,
+      fractionDigits: 0
+    })
+    # Format second column of data. Expects that data is set up as [name, amount].
+    formatter.format(data, 1)
 
   # Note: Not included in Breakeven Financial Model in favor of a simple total costs chart
   # Load each fixed and production cost as separate slices in a total costs chart
