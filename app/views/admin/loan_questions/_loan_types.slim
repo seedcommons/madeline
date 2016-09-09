@@ -1,0 +1,34 @@
+.required-loan-types
+  label = t('loan_questions.required_loan_types')
+  .actions
+    a[data-expands='loan-types']
+      i.fa.fa-eye.fa-large
+      span = t('common.show')
+    a[data-hides='loan-types']
+      i.fa.fa-eye-slash
+      span = t('common.hide')
+
+  div data-expandable='loan-types'
+    - if @loan_question.parent
+      = f.collection_radio_buttons :override_associations,
+        [[false, t('loan_questions.inherit_parent')],
+        [true, t('loan_questions.override_parent')]], :first, :last,
+        item_wrapper_class: 'radio'
+
+    - hideLoanTypes = @loan_question.parent && !@loan_question.override_associations ? 'hidden': ''
+    p.loan-types-description = t('loan_questions.loan_types.description')
+    p.loan-types-description = t('loan_questions.loan_amounts.description')
+    .loan-types-container class="#{hideLoanTypes}"
+      .form-horizontal
+        = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
+          .form-group.row
+            .loan-type.col-sm-8
+              label
+                input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+                = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
+                = sf.object.loan_type.label
+              = sf.input :option_id, as: :hidden
+            .amount.col-sm-4 class="#{sf.object.new_record? ? 'hidden-special' : ''}"
+              = sf.input_field :amount, step: '100', min: 0,
+                placeholder: t('loan_questions.loan_amounts.placeholder'),
+                value: sf.object.amount.to_i

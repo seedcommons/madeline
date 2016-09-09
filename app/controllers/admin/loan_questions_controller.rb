@@ -14,12 +14,13 @@ class Admin::LoanQuestionsController < Admin::AdminController
     field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
     authorize @loan_question
-    @loan_type_options = Loan.loan_type_options
+    @loan_question.build_complete_requirements
     render_form
   end
 
   def edit
-    @loan_type_options = Loan.loan_type_options
+    @loan_question.build_complete_requirements
+    @requirements = @loan_question.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
     render_form
   end
 
@@ -71,11 +72,16 @@ class Admin::LoanQuestionsController < Admin::AdminController
       authorize @loan_question
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
-      params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
+      # This `delete_if` is required when raising an error on unpermitted params.
+      # However, it should be abstracted somehow so it applies to all controllers.
+      # params.require(:custom_field).delete_if { |k, v| k =~ /^locale_/ }.permit(
+      params.require(:custom_field).permit(
+        :label, :data_type, :parent_id, :position,
         :custom_field_set_id, :has_embeddable_media, :override_associations,
-        *translation_params(:label, :explanation), loan_type_ids: [])
+        *translation_params(:label, :explanation),
+        custom_field_requirements_attributes: [:id, :amount, :option_id, :_destroy]
+      )
     end
 
     def render_form(status: nil)
