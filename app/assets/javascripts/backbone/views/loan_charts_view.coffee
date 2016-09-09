@@ -120,20 +120,16 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(chartData, options);
 
   breakevenCostsChart: ->
-    columns = [
-      {"label":I18n.t('loan.breakeven.item'),"type":"string"},
-      {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
-    ]
-    rows = []
-    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"]}]})
-    rows.push({"c":[{"v": "Fixed Costs"},{"v": @breakevenData["total_fixed_costs"]}]})
+    data = new google.visualization.DataTable()
+    data.addColumn 'string', I18n.t('loan.breakeven.item')
+    data.addColumn 'number', I18n.t('loan.breakeven.cost')
+    data.addRow ["Cost of Good Sold", @breakevenData["total_cogs"]]
+    data.addRow ["Fixed Costs", @breakevenData["total_fixed_costs"]]
 
     options = @defaultChartOptions
-    chartData = {"cols": columns, "rows": rows}
-    chartData = new google.visualization.DataTable(chartData)
     chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
-    @formatNumbers(chartData)
-    chart.draw(chartData, options);
+    @formatNumbers(data)
+    chart.draw(data, options);
 
   # Style the number to currency with punctuation
   formatNumbers: (data) ->
