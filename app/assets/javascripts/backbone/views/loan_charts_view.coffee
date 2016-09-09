@@ -14,7 +14,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     @loadCharts()
 
   breakevenFixedCostsChart: ->
-    chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.fixed_costs', count: 1),"type":"string"},
       {"label":I18n.t('loan.breakeven.amount'),"type":"number"}
@@ -33,7 +32,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(chartData, options);
 
   breakevenProductProfitChart: ->
-    chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
       {"label":I18n.t('loan.breakeven.profit'),"type":"number"}
@@ -52,7 +50,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(chartData, options);
 
   breakevenProductionCostsChart: ->
-    chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
       {"label":I18n.t('loan.breakeven.production_cost'),"type":"number"}
@@ -89,7 +86,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     return profitData
 
   breakevenRevenueChart: ->
-    chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.product'),"type":"string"},
       {"label":I18n.t('loan.breakeven.revenue'),"type":"number"}
@@ -107,8 +103,23 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
     chart.draw(chartData, options);
 
+  breakevenCostsChart: ->
+    columns = [
+      {"label":I18n.t('loan.breakeven.item'),"type":"string"},
+      {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
+    ]
+    rows = []
+
+    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"], "f":null}]})
+    rows.push({"c":[{"v": "Fixed Costs"},{"v": @breakevenData["total_fixed_costs"], "f":null}]})
+
+    options = @defaultChartOptions
+    chartData = {"cols": columns, "rows": rows}
+    chartData = new google.visualization.DataTable(chartData)
+    chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
+    chart.draw(chartData, options);
+
   breakevenTotalCostsChart: ->
-    chartData = {}
     columns = [
       {"label":I18n.t('loan.breakeven.item'),"type":"string"},
       {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
@@ -163,4 +174,4 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
-    google.charts.setOnLoadCallback @breakevenTotalCostsChart.bind @
+    google.charts.setOnLoadCallback @breakevenCostsChart.bind @
