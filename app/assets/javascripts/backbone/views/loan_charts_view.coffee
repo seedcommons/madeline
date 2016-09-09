@@ -8,7 +8,11 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenProductionCosts = @breakevenData["cogs"]
     @breakevenRevenue = @breakevenData["revenue"]
     @defaultChartOptions = {
-      width: "100%"
+      width: '100%'',
+      backgroundColor: 'none',
+      chartArea: {
+        width: '100%'
+      }
     }
 
     @loadCharts()
@@ -118,7 +122,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     ]
     rows = []
 
-    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"], "f":null}]})
+    rows.push({"c":[{"v": "Cost of Good Sold"},{"v": @breakevenData["total_cogs"], "f": @styleCurrency(@breakevenData["total_cogs"])}]})
     rows.push({"c":[{"v": "Fixed Costs"},{"v": @breakevenData["total_fixed_costs"], "f":null}]})
 
     options = @defaultChartOptions
@@ -126,6 +130,10 @@ class MS.Views.LoanChartsView extends Backbone.View
     chartData = new google.visualization.DataTable(chartData)
     chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
     chart.draw(chartData, options);
+
+  styleCurrency: (number) ->
+    currency = "$"
+    return currency + number
 
   # Note: Not included in Breakeven Financial Model in favor of a simple total costs chart
   # Load each fixed and production cost as separate slices in a total costs chart
