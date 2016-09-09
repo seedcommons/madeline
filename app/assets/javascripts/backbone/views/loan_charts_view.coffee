@@ -9,10 +9,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenRevenue = @breakevenData["revenue"]
     @defaultChartOptions = {
       width: '100%',
-      backgroundColor: 'none',
-      chartArea: {
-        width: '100%'
-      }
+      backgroundColor: 'none'
     }
     @loadCharts()
 
