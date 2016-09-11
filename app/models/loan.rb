@@ -59,8 +59,13 @@ class Loan < ActiveRecord::Base
   belongs_to :representative, class_name: 'Person'
   belongs_to :organization_snapshot
 
-  has_many :project_steps, as: :project
-  has_many :project_logs, through: :project_steps
+  has_many :timeline_entries, as: :project
+  has_many :project_logs, through: :timeline_entries
+
+  # Do regular ruby select, to avoid issues with AR caching
+  def project_steps
+    timeline_entries.select{ |e| e.type == "ProjectStep" }
+  end
 
 
   # define accessor-like convenience methods for the fields stored in the Translations table
@@ -106,7 +111,8 @@ class Loan < ActiveRecord::Base
       # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
       # and it's nice to be able to log the operation.
       logger.info {"default step not found for loan[#{id}] - creating"}
-      step = project_steps.create
+
+      step = ProjectStep.new({project: self})
       step.update({summary: DEFAULT_STEP_NAME})
     end
     step
