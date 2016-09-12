@@ -10,6 +10,7 @@
 #  id                :integer          not null, primary key
 #  is_finalized      :boolean
 #  original_date     :date
+#  parent_id         :integer
 #  project_id        :integer
 #  project_type      :string
 #  scheduled_date    :date
@@ -24,12 +25,13 @@
 #
 # Foreign Keys
 #
-#  fk_rails_8589af42f8  (agent_id => people.id)
+#  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #
 
 class TimelineEntry < ActiveRecord::Base
-  # self.table_name = "project_steps"
   include Translatable, OptionSettable
+
+  has_closure_tree
 
   COLORS = {
     on_time: "hsl(120, 73%, 57%)",

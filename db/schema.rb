@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160905034718) do
+ActiveRecord::Schema.define(version: 20160911225922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160905034718) do
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
 
   create_table "custom_field_requirements", force: :cascade do |t|
-    t.decimal "amount", default: 0.0, null: false
+    t.decimal "amount"
     t.integer "custom_field_id"
     t.integer "option_id"
   end
@@ -299,6 +299,7 @@ ActiveRecord::Schema.define(version: 20160905034718) do
     t.datetime "finalized_at"
     t.boolean  "is_finalized"
     t.date     "original_date"
+    t.integer  "parent_id"
     t.integer  "project_id"
     t.string   "project_type"
     t.date     "scheduled_date"
@@ -309,6 +310,15 @@ ActiveRecord::Schema.define(version: 20160905034718) do
 
   add_index "timeline_entries", ["agent_id"], name: "index_timeline_entries_on_agent_id", using: :btree
   add_index "timeline_entries", ["project_type", "project_id"], name: "index_timeline_entries_on_project_type_and_project_id", using: :btree
+
+  create_table "timeline_entry_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+  end
+
+  add_index "timeline_entry_hierarchies", %w(ancestor_id descendant_id generations), name: "timeline_entry_anc_desc_idx", unique: true, using: :btree
+  add_index "timeline_entry_hierarchies", ["descendant_id"], name: "timeline_entry_desc_idx", using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"

@@ -29,10 +29,10 @@
 #
 
 require 'chronic'
-class ProjectStep < TimelineEntry
-  class NoChildrenAllowedError < StandardError; end
+class ProjectGroup < TimelineEntry
+  class DestroyWithChildrenError < StandardError; end
 
-  def add_child(_)
-    raise NoChildrenAllowedError
+  def destroy
+    raise DestroyWithChildrenError.new if children.present?
   end
 end
