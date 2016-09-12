@@ -59,6 +59,21 @@ class LoanResponse
     @breakeven_report ||= breakeven_table.report
   end
 
+  def business_model_data
+    JSON.parse %Q(
+      {
+        "key_partners": "Vinyl Supplier\\n\\nGlass Supplier",
+        "key_activities": "Organized, efficient production\\n\\nActive, personalized customer service",
+        "key_resources": "Skilled, dedicated floor workers",
+        "value_propositions": "High quality\\n\\nInexpensive",
+        "customer_relationships": "Dedicated personalized assistance\\n\\nAutomated systems",
+        "channels": "Through our key partners",
+        "customer_segments": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies",
+        "cost_structure": null
+      }
+    )
+  end
+
   def field_attributes
     @field_attributes ||= custom_field.value_types
   end

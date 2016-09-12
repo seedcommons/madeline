@@ -104,6 +104,9 @@
                   = render "admin/loans/content/breakeven_charts", report: value.breakeven_report
               .form-element
                 = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
+                
+            - if field.id == 221 # Temporary condition
+              = render 'admin/loans/content/business_model_table', f: f, field: field, data: value.business_model_data
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
