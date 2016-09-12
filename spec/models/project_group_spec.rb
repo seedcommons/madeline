@@ -36,7 +36,7 @@ describe ProjectGroup, :type => :model do
     expect(step[:original_date]).not_to be_nil
   end
 
-  context 'tree with no children' do
+  context 'without children' do
     subject(:group) { create(:project_group) }
 
     let(:step) { create(:project_step) }
@@ -53,7 +53,7 @@ describe ProjectGroup, :type => :model do
     end
   end
 
-  context 'tree with children' do
+  context 'with children' do
     let(:child_one) { create(:project_step) }
     let(:child_two) { create(:project_step) }
 
