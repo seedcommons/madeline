@@ -1,8 +1,9 @@
 /= @requirements.inspect
 
 = f.input "loan_types" do
-  / TODO: Use simple form yml to add contextual text for options
-  = f.input_field :override_associations, as: :select
+  - if @loan_question.parent
+    / TODO: Use simple form yml to add contextual text for options
+    = f.input_field :override_associations, as: :select
 
   table.table.loan-types-table
     thead
