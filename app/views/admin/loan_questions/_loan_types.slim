@@ -17,4 +17,6 @@
           td
             = sf.object.loan_type.label
           td
-            = sf.input_field :amount
+            = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
+              placeholder: t('loan_questions.loan_amounts.placeholder'),
+              value: sf.object.amount.to_i
