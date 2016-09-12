@@ -27,7 +27,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
     'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
-    'change .loan-types-container .require-checkbox': 'showHideLoanAmount'
+    # 'change .loan-types-container .require-checkbox': 'showHideLoanAmount'
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
