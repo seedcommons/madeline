@@ -4,16 +4,17 @@
   / TODO: Use simple form yml to add contextual text for options
   = f.input_field :override_associations, as: :select
 
-  table.table
+  table.table.loan-types-table
     thead
       tr
-        td Loan type
-        td Amount
+        th colspan="2" Loan type
+        th Threshold Amount
     tbody
       = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
         tr
           td
             input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+          td
             = sf.object.loan_type.label
           td
             = sf.input_field :amount
