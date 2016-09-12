@@ -132,11 +132,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     overrideParent = e.currentTarget
 
     if @$(overrideParent).val() == "true"
+      # TODO: Using show/hide preferred
       @$('.loan-types-container').removeClass('hidden')
-      @$('.loan-types-description').removeClass('hidden')
     else
       @$('.loan-types-container').addClass('hidden')
-      @$('.loan-types-description').addClass('hidden')
 
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('.loan-type').find('.destroy-field')

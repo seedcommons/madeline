@@ -1,77 +1,13 @@
 // Manage Loan Questions
-.loan-questions {
-  .modal {
-    .actions {
-      i {
-        margin-right: 5px;
-      }
-    }
 
-    .loan-types-container {
-      padding: 15px;
-      border: 1px solid $gray4;
-
-      .form-group {
-        margin: 15px 0;
-        line-height: 1.4;
-        vertical-align: middle;
-
-        &:first-of-type, &:last-of-type {
-          margin: 0;
-        }
-      }
-
-      .loan-type {
-        padding: 15px;
-        border: 1px solid $gray4;
-        border-right: none;
-      }
-
-      .amount {
-        padding: 0;
-        border: 1px solid $body;
-
-        &.hidden-special {
-          display: block;
-          border-left: none;
-          border-color: $gray4;
-
-          input[type="number"] {
-            visibility: hidden;
-          }
-        }
-      }
-
-      input[type="checkbox"] {
-        margin-right: 10px;
-      }
-
-      input[type="number"] {
-        width: 100%;
-        height: auto;
-        padding: 15px;
+.loan-types-table {
+  // Overfly specific to override Bootstrap defaults
+  tbody {
+    tr {
+      td {
         border: none;
-        font-size: 14px;
-        line-height: 1.4;
-        text-align: right;
-        box-shadow: none;
+        vertical-align: middle;
       }
-
-      label {
-        margin: 0;
-        font-weight: normal;
-        line-height: 1.4;
-
-        input {
-          margin: 0;
-          padding: 0;
-          line-height: 1.4;
-        }
-      }
-    }
-
-    .required-loan-types {
-      margin: 15px 0;
     }
   }
 }
