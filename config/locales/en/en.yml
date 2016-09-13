@@ -296,6 +296,15 @@ en:
     print_details: "Details Only"
     print_memo: "Print Loan Memo"
 
+  loan_type:
+    "9": "Liquidity Line of Credit"
+    "10": "Investment Line of Credit"
+    "11": "Investment Loan"
+    "12": "Evolving Loan"
+    "13": "Single Liquidity Line of Credit"
+    "14": "Working Capital Investment Loan"
+    "15": "Secured Asset Investment Loan"
+
   log:
     additional_notes: "Additional Notes"
     edit: "Edit Log"
@@ -321,7 +330,6 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
-
 
   menu:
     calendar: "Calendar"

@@ -256,6 +256,14 @@ es:
     print_criteria: "Solo Criterios"
     print_details: "Solo Detalles"
     print_memo: "Imprimir Memo de Préstamo"
+  loan_type:
+    9: "Línea de Crédito de Efectivo"
+    10: "Línea de Crédito de Inversión"
+    11: "Préstamo de Inversión"
+    12: "Préstamo de Evolución"
+    13: "Línea Puntual de Crédito de Efectivo"
+    14: "Préstamo de Inversión de Capital de Trabajo"
+    15: "Préstamo de Inversión de Bienes Asegurados"
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"
