@@ -20,7 +20,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def edit
     @loan_question.build_complete_requirements
-    @requirements = @loan_question.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
+    @requirements = @loan_question.custom_field_requirements
     render_form
   end
 
