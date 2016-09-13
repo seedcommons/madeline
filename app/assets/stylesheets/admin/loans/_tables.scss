@@ -71,9 +71,18 @@
     }
   }
 
+  h4 {
+    display: block;
+    margin: 0;
+  }
+
   // Using double class here to override specificity :'(
   .help-block.help-block {
     display: inherit;
     margin-top: 0;
+  }
+
+  .canvas-answer {
+    margin-top: 10px;
   }
 }

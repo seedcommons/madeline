@@ -103,7 +103,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank? #&& business_model_data.blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank? && custom_field.id != 221 #&& business_model_data.blank? #TODO temp condition
   end
 
   def answered?

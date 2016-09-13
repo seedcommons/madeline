@@ -59,10 +59,11 @@
           p.help-block.hidden-print.tree-view = field.explanation
 
         / Recurse if group, else render
-        - if field.data_type == 'group' && (filtered_children = field.children.filter_for(@loan)).present?
-          = render("admin/loans/content/questionnaire_group",
-            f: f, value_set: value_set, roots: filtered_children, 
-            parents: parents + [field], indices: indices + [idx + 1])
+        - if field.data_type == 'group'
+          - if (filtered_children = field.children.filter_for(@loan)).present?
+            = render("admin/loans/content/questionnaire_group",
+              f: f, value_set: value_set, roots: filtered_children, 
+              parents: parents + [field], indices: indices + [idx + 1])
 
         - else
 
