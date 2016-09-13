@@ -5,8 +5,7 @@ class ChangeProjectStepsToTimelineEntries < ActiveRecord::Migration
 
     add_column :timeline_entries, :type, :string
 
-    reversible do
-      execute "UPDATE timeline_entries SET type = 'ProjectStep'"
-    end
+    execute "UPDATE timeline_entries SET type = 'ProjectStep'"
+    execute "UPDATE translations SET translatable_type = 'TimelineEntry' WHERE translatable_type = 'ProjectStep'"
   end
 end
