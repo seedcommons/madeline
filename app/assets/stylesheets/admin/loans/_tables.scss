@@ -46,9 +46,12 @@
   border: 1px solid;
 
   .canvas-row {
-    display: flex;
-    align-items: stretch;
-    width: 100%;
+    @media (min-width: 768px) {
+      flex-wrap: wrap;
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+    }
   }
 
   .canvas-col {
@@ -62,6 +65,10 @@
     width: 100%;
     border: 1px solid;
     padding: 4px;
+
+    &.half-height {
+      min-height: 24em;
+    }
   }
 
   // Using double class here to override specificity :'(
