@@ -35,14 +35,22 @@
     }
   }
 
-  .business-model-canvas {
-    @media print { page-break-before: always; }
-    // transform: rotate(90deg);
-    // max-height: 8in;
-    // width: 10.5in;
+  .business-model-canvas-wrapper {
+    page-break-before: always;
+    page-break-after: always;
+    height: 10in;
+    width: 7.5in;
+    overflow: hidden;
+  }
 
-    .canvas-cell, .help-block { font-size: 80%; }
-    h4 { font-size: 120%; }
+  .business-model-canvas {
+    width: 10in;
+    transform: translate(7.5in,0) rotate(90deg);
+    transform-origin: 0 0;
+    display: inline-block;
+
+    // .canvas-cell, .help-block { font-size: 80%; }
+    // h4 { font-size: 120%; }
 
     .canvas-cell.half-height {
       min-height: inherit;
