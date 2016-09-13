@@ -46,11 +46,13 @@
   border: 1px solid;
 
   .canvas-row {
-    @media (min-width: 768px) {
-      flex-wrap: wrap;
-      display: flex;
-      align-items: stretch;
-      width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+
+    @media only screen and (max-width: 767px) {
+      display: block;
     }
   }
 

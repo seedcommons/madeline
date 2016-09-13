@@ -34,4 +34,18 @@
       display: none;
     }
   }
+
+  .business-model-canvas {
+    @media print { page-break-before: always; }
+    // transform: rotate(90deg);
+    // max-height: 8in;
+    // width: 10.5in;
+
+    .canvas-cell, .help-block { font-size: 80%; }
+    h4 { font-size: 120%; }
+
+    .canvas-cell.half-height {
+      min-height: inherit;
+    }
+  }
 }
