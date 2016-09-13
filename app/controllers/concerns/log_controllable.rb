@@ -16,7 +16,7 @@ module LogControllable
 
   def project_log_params
     params.require(:project_log).permit(*(
-      [:agent_id, :date, :project_step_id, :progress_metric_value] +
+      [:agent_id, :date, :timeline_entry_id, :progress_metric_value] +
       translation_params(:summary, :details, :additional_notes, :private_notes)))
   end
 
