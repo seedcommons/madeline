@@ -39,21 +39,3 @@ en:
       form:
         edit_item: Edit Question or Group
         new_item: New Question or Group
-
-  simple_form:
-    labels:
-      custom_field:
-        data_type: Data Type
-        has_embeddable_media: Allow files or links to be attached
-    options:
-      custom_field:
-        data_type:
-          string: Short Answer
-          text: Paragraph
-          list: Multiple Choice
-          group: Group
-          translatable: Translatable
-          number: Number
-          range: Range
-          boolean: Yes/No
-          breakeven_data: Breakeven Table
