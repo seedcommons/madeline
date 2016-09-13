@@ -41,3 +41,32 @@
     width: 25%;
   }
 }
+
+.business-model-canvas {
+  border: 1px solid;
+
+  .canvas-row {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+
+    .canvas-col {
+      // flex-grow: 1;
+      // flex-basis: 0;
+      flex: 1 1 0;
+
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .canvas-cell {
+      // height: 100%;
+      width: 100%;
+      border: 1px solid;
+
+      &.half-height {
+        // height: 50%;
+      }
+    }
+  }
+}

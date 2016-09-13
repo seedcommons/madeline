@@ -1,14 +1,23 @@
 .business-model-canvas
   .canvas-row
-    .canvas-col: h3 = t('loan.business_model.key_partners')
+    .canvas-col: .canvas-cell
+      h4 = t('loan.business_model.key_partners')
     .canvas-col
-      .canvas-cell: h3 = t('loan.business_model.key_activities')
-      .canvas-cell: h3 = t('loan.business_model.key_resources')
-    .canvas-col: h3 = t('loan.business_model.value_propositions')
+      .canvas-cell.half-height
+        h4 = t('loan.business_model.key_activities')
+      .canvas-cell.half-height
+        h4 = t('loan.business_model.key_resources')
+    .canvas-col: .canvas-cell
+      h4 = t('loan.business_model.value_propositions')
     .canvas-col
-      .canvas-cell: h3 = t('loan.business_model.customer_relationships')
-      .canvas-cell: h3 = t('loan.business_model.channels')
-    .canvas-col: h3 = t('loan.business_model.customer_segments')
+      .canvas-cell.half-height
+        h4 = t('loan.business_model.customer_relationships')
+      .canvas-cell.half-height
+        h4 = t('loan.business_model.channels')
+    .canvas-col: .canvas-cell
+      h4 = t('loan.business_model.customer_segments')
   .canvas-row
-    .canvas-col: h3 = t('loan.business_model.cost_structure')
-    .canvas-col: h3 = t('loan.business_model.revenue_streams')
+    .canvas-col: .canvas-cell
+      h4 = t('loan.business_model.cost_structure')
+    .canvas-col: .canvas-cell
+      h4 = t('loan.business_model.revenue_streams')
