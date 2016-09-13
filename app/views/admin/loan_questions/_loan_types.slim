@@ -10,12 +10,21 @@
         th Threshold Amount
     tbody
       = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
-        tr
-          td
-            input.require-checkbox type="checkbox" checked=!sf.object.new_record?
-          td
-            = sf.object.loan_type.inspect
-          td
-            = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
-              placeholder: t('loan_questions.loan_amounts.placeholder'),
-              value: sf.object.amount.to_i
+        / CustomFieldRequirement: sf.object
+        / Not all custom field requirements have option_ids
+        / It appears that those without are not loan types
+        / TODO: Move this logic to controller and remove any unneeded comments
+        - if sf.object.option_id
+          tr
+            td
+              input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+            td
+              / TODO: Load label for loan type. Simple form yml is preferred method.
+              / Option: sf.object.loan_type
+              / Translatable: These options have translations (inside database) which indicate the loan type
+              / Option Ids: 9, 10, 11, 12, 13, 14, 15
+              = t("loan_type.#{sf.object.option_id}")
+            td
+              = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
+                placeholder: t('loan_questions.loan_amounts.placeholder'),
+                value: sf.object.amount.to_i

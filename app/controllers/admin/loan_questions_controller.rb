@@ -20,6 +20,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def edit
     @loan_question.build_complete_requirements
+    # TODO: Make requirements filter the correct items
+    # Only custom field requirements with option ids refer to the loan types
     @requirements = @loan_question.custom_field_requirements
     render_form
   end
