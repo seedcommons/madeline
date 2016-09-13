@@ -52,8 +52,6 @@
   }
 
   .canvas-col {
-    // flex-grow: 1;
-    // flex-basis: 0;
     flex: 1 1 0;
 
     display: flex;
@@ -61,13 +59,9 @@
   }
 
   .canvas-cell {
-    // height: 100%;
     width: 100%;
     border: 1px solid;
-
-    &.half-height {
-      // height: 50%;
-    }
+    padding: 4px;
   }
 
   // Using double class here to override specificity :'(
