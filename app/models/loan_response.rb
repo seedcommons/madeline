@@ -60,7 +60,7 @@ class LoanResponse
   end
 
   def business_model_data
-    JSON.parse %Q(
+    JSON.parse(%Q(
       {
         "key_partners": "Vinyl Supplier\\n\\nGlass Supplier",
         "key_activities": "Organized, efficient production\\n\\nActive, personalized customer service",
@@ -71,7 +71,7 @@ class LoanResponse
         "customer_segments": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies",
         "cost_structure": null
       }
-    )
+    )).symbolize_keys
   end
 
   def field_attributes

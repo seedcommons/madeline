@@ -2,22 +2,40 @@
   .canvas-row
     .canvas-col: .canvas-cell
       h4 = t('loan.business_model.key_partners')
+      .help-block = simple_format t('loan.business_model.explanations.key_partners')
+      p.answer = simple_format data[:key_partners]
     .canvas-col
       .canvas-cell.half-height
         h4 = t('loan.business_model.key_activities')
+        .help-block = simple_format t('loan.business_model.explanations.key_activities')
+        p.answer = simple_format data[:key_activities]
       .canvas-cell.half-height
         h4 = t('loan.business_model.key_resources')
+        .help-block = simple_format t('loan.business_model.explanations.key_resources')
+        p.answer = simple_format data[:key_resources]
     .canvas-col: .canvas-cell
       h4 = t('loan.business_model.value_propositions')
+      .help-block = simple_format t('loan.business_model.explanations.value_propositions')
+      p.answer = simple_format data[:value_propositions]
     .canvas-col
       .canvas-cell.half-height
         h4 = t('loan.business_model.customer_relationships')
+        .help-block = simple_format t('loan.business_model.explanations.customer_relationships')
+        p.answer = simple_format data[:customer_relationships]
       .canvas-cell.half-height
         h4 = t('loan.business_model.channels')
+        .help-block = simple_format t('loan.business_model.explanations.channels')
+        p.answer = simple_format data[:channels]
     .canvas-col: .canvas-cell
       h4 = t('loan.business_model.customer_segments')
+      .help-block = simple_format t('loan.business_model.explanations.customer_segments')
+      p.answer = simple_format data[:customer_segments]
   .canvas-row
     .canvas-col: .canvas-cell
       h4 = t('loan.business_model.cost_structure')
+      .help-block = simple_format t('loan.business_model.explanations.cost_structure')
+      p.answer = simple_format data[:cost_structure]
     .canvas-col: .canvas-cell
       h4 = t('loan.business_model.revenue_streams')
+      .help-block = simple_format t('loan.business_model.explanations.revenue_streams')
+      p.answer = simple_format data[:revenue_streams]
