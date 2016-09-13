@@ -33,7 +33,7 @@
 class CustomField < ActiveRecord::Base
   include Translatable
 
-  OVERRIDE_ASSOCIATIONS_OPTIONS = %i(inherit override)
+  OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
 
   belongs_to :custom_field_set, inverse_of: :custom_fields
 
