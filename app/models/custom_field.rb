@@ -33,6 +33,8 @@
 class CustomField < ActiveRecord::Base
   include Translatable
 
+  OVERRIDE_ASSOCIATIONS_OPTIONS = %i(inherit override)
+
   belongs_to :custom_field_set, inverse_of: :custom_fields
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required

@@ -20,9 +20,11 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def edit
     @loan_question.build_complete_requirements
-    # TODO: Make requirements filter the correct items
-    # Only custom field requirements with option ids refer to the loan types
     @requirements = @loan_question.custom_field_requirements
+    # TODO: Restore @requirements to item similar to below
+    # Using this line results in the following error for the below line:
+      # undefined method `label' for nil:NilClass:
+    # @requirements = @loan_question.custom_field_requirements.sort_by { |i| i.loan_type.label.text }
     render_form
   end
 

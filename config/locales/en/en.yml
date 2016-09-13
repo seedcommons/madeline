@@ -110,6 +110,10 @@ en:
         move_type: "Which Date?"
         shift_subsequent: "Shift Others?"
     options:
+      custom_field:
+        override_associations:
+          inherit: "Inherit"
+          override: "Override"
       person:
         owning_division_role:
           admin: "Admin"
@@ -295,15 +299,6 @@ en:
     print_criteria: "Criteria Only"
     print_details: "Details Only"
     print_memo: "Print Loan Memo"
-
-  loan_type:
-    "9": "Liquidity Line of Credit"
-    "10": "Investment Line of Credit"
-    "11": "Investment Loan"
-    "12": "Evolving Loan"
-    "13": "Single Liquidity Line of Credit"
-    "14": "Working Capital Investment Loan"
-    "15": "Secured Asset Investment Loan"
 
   log:
     additional_notes: "Additional Notes"

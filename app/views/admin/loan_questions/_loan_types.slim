@@ -1,7 +1,7 @@
 = f.input "loan_types" do
   - if @loan_question.parent
-    / TODO: Use simple form yml to add contextual text for options
-    = f.input_field :override_associations, as: :select
+    / TODO: Style select, should be styled by default
+    = f.input_field :override_associations, collection: CustomField::OVERRIDE_ASSOCIATIONS_OPTIONS
 
   / TODO: Table should be hidden or shown when modal first opens based on override_associations
   table.table.loan-types-table
@@ -11,20 +11,14 @@
         th Threshold Amount
     tbody
       = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
-        / CustomFieldRequirement: sf.object
-        / Not all custom field requirements have option_ids
-        / It appears that those without are not loan types
-        / TODO: Move this logic to controller and remove any unneeded comments
         - if sf.object.option_id
           tr
             td
               input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+               = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
             td
-              / TODO: Load label for loan type. Simple form yml is preferred method.
-              / Option: sf.object.loan_type
-              / Translatable: These options have translations (inside database) which indicate the loan type
-              / Option Ids: 9, 10, 11, 12, 13, 14, 15
-              = t("loan_type.#{sf.object.option_id}")
+              = sf.object.loan_type.label
+
             td
               = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
                 placeholder: t('loan_questions.loan_amounts.placeholder'),
