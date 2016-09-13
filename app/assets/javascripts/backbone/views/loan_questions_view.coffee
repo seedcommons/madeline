@@ -26,7 +26,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
+    'change [name="custom_field[override_associations]"]': 'showHideAssociations'
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
@@ -131,11 +131,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   showHideAssociations: (e) ->
     overrideParent = e.currentTarget
 
+    # TODO: Using show/hide preferred, if possible
     if @$(overrideParent).val() == "true"
-      # TODO: Using show/hide preferred
-      @$('.loan-types-container').removeClass('hidden')
+      @$('.loan-types-table').removeClass('hidden')
     else
-      @$('.loan-types-container').addClass('hidden')
+      @$('.loan-types-table').addClass('hidden')
 
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('.loan-type').find('.destroy-field')
