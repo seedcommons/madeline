@@ -7,8 +7,8 @@
   table.table.loan-types-table
     thead
       tr
-        th colspan="2" Loan type
-        th Threshold Amount
+        th colspan="2" = t("loan.loan_type")
+        th = t("loan.threshold_amount")
     tbody
       = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
         - if sf.object.option_id
@@ -21,5 +21,4 @@
 
             td
               = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
-                placeholder: t('loan_questions.loan_amounts.placeholder'),
-                value: sf.object.amount.to_i
+                placeholder: t("loan.optional_amount"), value: sf.object.amount.to_i
