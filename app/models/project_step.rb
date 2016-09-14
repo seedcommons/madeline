@@ -15,7 +15,7 @@
 #  project_type      :string
 #  scheduled_date    :date
 #  step_type_value   :string
-#  type              :string
+#  type              :string           not null
 #  updated_at        :datetime         not null
 #
 # Indexes
@@ -26,6 +26,7 @@
 # Foreign Keys
 #
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
+#  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #
 
 require 'chronic'

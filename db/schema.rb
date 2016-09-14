@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 20160911225922) do
     t.string   "project_type"
     t.date     "scheduled_date"
     t.string   "step_type_value"
-    t.string   "type"
+    t.string   "type", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 20160911225922) do
   add_foreign_key "project_logs", "people", column: "agent_id"
   add_foreign_key "project_logs", "timeline_entries"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
+  add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
   add_foreign_key "users", "people", column: "profile_id"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"
