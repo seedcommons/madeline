@@ -54,15 +54,24 @@ class MS.Views.LoanChartsView extends Backbone.View
     data = new google.visualization.DataTable();
     data.addColumn 'string', I18n.t('loan.breakeven.product')
     data.addColumn 'number', I18n.t('loan.breakeven.profit')
+    options = @defaultChartOptions
 
+    negativeNums = false
     for key,product of @breakevenProductProfit()
       name = key
       total = product.profit
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
+      if total < 0
+        negativeNums = true
+
+    if negativeNums
+      chart = new google.visualization.BarChart(document.getElementById('breakeven-product-profit'))
+      options.legend = {position: 'top'}
+    else
+      chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
+
     @formatNumbers(data)
-    options = @defaultChartOptions
     chart.draw(data, options)
 
   breakevenProductProfit: ->
