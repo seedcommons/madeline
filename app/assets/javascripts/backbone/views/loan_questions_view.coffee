@@ -32,20 +32,20 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
     fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}", =>
       @$('#custom_field_parent_id').val(parent_id)
-      @$('.loan-types').select2()
-    )
+      @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('.loan-types').select2()
-    )
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/#{id}/edit", =>
+      @showModal()
+
+  showModal: ->
+    @$('#edit-modal').modal('show')
+    new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
+    # Use current value of override parent to determine if loan types are shown
+    @$('[name="custom_field[override_associations]"]').trigger('change')
 
   createNode: (e) ->
     $form = @$(e.target).closest('form')
@@ -131,11 +131,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   showHideAssociations: (e) ->
     overrideParent = e.currentTarget
 
-    # TODO: Using show/hide preferred, if possible
     if @$(overrideParent).val() == "true"
-      @$('.loan-types-table').removeClass('hidden')
+      @$('.loan-types-table').show()
     else
-      @$('.loan-types-table').addClass('hidden')
+      @$('.loan-types-table').hide()
 
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('.loan-type').find('.destroy-field')
