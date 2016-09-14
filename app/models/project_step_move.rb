@@ -48,7 +48,7 @@ class ProjectStepMove
 
   def do_shift
     date_before_move = @step.scheduled_date - days_shifted
-    subsequent = @step.project.project_steps.
+    subsequent = @step.project.timeline_entries.
       where("scheduled_date >= :date AND completed_date IS NULL AND id != :id",
         date: date_before_move, id: @step.id)
     subsequent.each { |s| s.update_attribute(:scheduled_date, s.scheduled_date + days_shifted) }
