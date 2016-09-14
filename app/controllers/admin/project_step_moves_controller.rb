@@ -11,12 +11,12 @@ class Admin::ProjectStepMovesController < Admin::AdminController
     )
 
     set_log_form_vars
-    @log = ProjectLog.new(timeline_entry_id: params[:step_id], date: Date.today)
+    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today)
     render layout: false
   end
 
   def create
-    @step = ProjectStep.find(params[:project_log][:timeline_entry_id])
+    @step = ProjectStep.find(params[:project_log][:project_step_id])
     authorize @step, :update?
     @log = ProjectLog.new(project_log_params)
     authorize @log, :create?
