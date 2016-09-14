@@ -79,7 +79,8 @@
   }
 
   // Using double class here to override specificity :'(
-  .help-block.help-block {
+  .canvas-help-block.canvas-help-block {
+    @extend .help-block;
     display: inherit;
     margin-top: 0;
   }

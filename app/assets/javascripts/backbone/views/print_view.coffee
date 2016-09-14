@@ -18,7 +18,7 @@ class MS.Views.PrintView extends Backbone.View
     window.open link, "_blank" for link in links
 
   resizeBusinessModelCanvas: ->
-    textSelector = '.canvas-cell-title, .canvas-answer, .business-model-canvas .help-block'
+    textSelector = '.canvas-cell-title, .canvas-answer, .canvas-help-block'
     _break = false
     while $('.business-model-canvas').height() > $('.business-model-canvas-wrapper').width() && !_break
       $(textSelector).each ->
