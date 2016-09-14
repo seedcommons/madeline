@@ -1,7 +1,9 @@
 // Manage Loan Questions
 
 .loan-types-table {
-  // Overfly specific to override Bootstrap defaults
+  margin-top: 1em;
+
+  // Specificity used to override Bootstrap defaults
   tbody {
     tr {
       td {
