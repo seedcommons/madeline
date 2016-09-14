@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ProjectStep, :type => :model do
+describe ProjectStep, type: :model do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'option_settable', ['step_type']
 
@@ -9,13 +9,13 @@ describe ProjectStep, :type => :model do
   end
 
   it 'can not be unfinalized after 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.now-25.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.now - 25.hours)
     step.is_finalized = false
     expect(step).to be_invalid
   end
 
   it 'can be unfinalized within 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.now-23.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.now - 23.hours)
     step.is_finalized = false
     expect(step).to be_valid
   end
@@ -36,4 +36,20 @@ describe ProjectStep, :type => :model do
     expect(step[:original_date]).not_to be_nil
   end
 
+  context 'groups' do
+    subject(:step) { create(:project_step) }
+
+    let(:new_step) { create(:project_step) }
+    let(:group) { create(:project_group) }
+
+    it 'cannot have child steps' do
+      expect { step.add_child(new_step) }.to raise_error(ProjectStep::NoChildrenAllowedError)
+    end
+
+    it 'can be added to a group' do
+      group.add_child(step)
+
+      expect(group.children.count).to eq 1
+    end
+  end
 end
