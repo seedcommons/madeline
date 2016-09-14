@@ -50,15 +50,3 @@ section.questionnaires li.jqtree_common .jqtree-element
 .linked-document .help-block {
   margin: .25em 0;
 }
-
-.loan-types-table {
-  // Overfly specific to override Bootstrap defaults
-  tbody {
-    tr {
-      td {
-        border: none;
-        vertical-align: middle;
-      }
-    }
-  }
-}
