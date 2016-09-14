@@ -1,5 +1,5 @@
 = f.input "loan_types" do
-  - if @loan_question.parent
+  - if (@loan_question.parent || @loan_question.new_record?)
     / TODO: Style select, should be styled by default
     = f.input_field :override_associations, collection: CustomField::OVERRIDE_ASSOCIATIONS_OPTIONS
 
