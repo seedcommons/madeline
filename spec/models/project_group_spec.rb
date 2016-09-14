@@ -1,10 +1,7 @@
 require 'rails_helper'
 
-describe ProjectGroup, :type => :model do
-  it_should_behave_like 'translatable', ['summary', 'details']
-  it_should_behave_like 'option_settable', ['step_type']
-
-  it_behaves_like 'timeline_entry'
+describe ProjectGroup, type: :model do
+  it_should_behave_like 'translatable', ['summary']
 
   it 'has a valid factory' do
     expect(create(:project_group)).to be_valid
@@ -17,6 +14,8 @@ describe ProjectGroup, :type => :model do
 
     it 'can be destroyed' do
       group.destroy
+
+      expect(group.destroyed?).to be_truthy
     end
 
     it 'can have child steps' do
@@ -40,8 +39,7 @@ describe ProjectGroup, :type => :model do
     end
 
     it 'can not be destroyed' do
-      expect{ group.destroy }.to raise_error ProjectGroup::DestroyWithChildrenError
+      expect { group.destroy }.to raise_error ProjectGroup::DestroyWithChildrenError
     end
   end
-
 end

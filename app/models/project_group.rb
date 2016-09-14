@@ -32,7 +32,11 @@ require 'chronic'
 class ProjectGroup < TimelineEntry
   class DestroyWithChildrenError < StandardError; end
 
-  def destroy
+  # Prepend required to work with has_closure_tree,
+  # otherwise children are deleted before we even get here.
+  before_destroy :validate_no_children, prepend: true
+
+  def validate_no_children
     raise DestroyWithChildrenError.new if children.present?
   end
 end

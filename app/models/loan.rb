@@ -64,9 +64,8 @@ class Loan < ActiveRecord::Base
 
   # Do regular ruby select, to avoid issues with AR caching
   def project_steps
-    timeline_entries.select{ |e| e.type == "ProjectStep" }
+    timeline_entries.select { |e| e.type == 'ProjectStep' }
   end
-
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
@@ -112,8 +111,8 @@ class Loan < ActiveRecord::Base
       # and it's nice to be able to log the operation.
       logger.info {"default step not found for loan[#{id}] - creating"}
 
-      step = ProjectStep.new({project: self})
-      step.update({summary: DEFAULT_STEP_NAME})
+      step = ProjectStep.new(project: self)
+      step.update(summary: DEFAULT_STEP_NAME)
     end
     step
   end
