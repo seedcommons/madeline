@@ -1,5 +1,19 @@
-.chart {
-  display: inline-block;
-  width: 48%;
-  text-align: center;
+.breakeven-chart {
+  margin: 2em .5em 1em;
+  page-break-before: always;
+
+  h3, h4 {
+    display: block !important;
+  }
+
+  .chart {
+    display: inline-block;
+    width: 48%;
+    text-align: center;
+    margin-top: 2em;
+
+    .chart-object {
+      width: 100%;
+    }
+  }
 }
