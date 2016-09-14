@@ -32,9 +32,14 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
     fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
-    @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}", =>
-      @$('#custom_field_parent_id').val(parent_id)
-      @showModal()
+
+    if parent_id
+      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}&parent_id=#{parent_id}", =>
+        @$('#custom_field_parent_id').val(parent_id)
+        @showModal()
+    else
+      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}", =>
+        @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')

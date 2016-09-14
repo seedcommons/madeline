@@ -1,24 +1,24 @@
-= f.input "loan_types" do
-  - if (@loan_question.parent || @loan_question.new_record?)
-    / TODO: Style select, should be styled by default
+- if (@loan_question.parent || @parent_id)
+  = f.input "loan_types" do
     = f.input_field :override_associations, collection: CustomField::OVERRIDE_ASSOCIATIONS_OPTIONS,
       class: 'form-control'
 
-  table.table.loan-types-table
-    thead
-      tr
-        th colspan="2" = t("loan.loan_type")
-        th = t("loan.threshold_amount")
-    tbody
-      = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
-        - if sf.object.option_id
-          tr
-            td
-              input.require-checkbox type="checkbox" checked=!sf.object.new_record?
-               = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?, class: 'destroy-field'
-            td
-              = sf.object.loan_type.label
+    table.table.loan-types-table
+      thead
+        tr
+          th colspan="2" = t("loan.loan_type")
+          th = t("loan.threshold_amount")
+      tbody
+        = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
+          - if sf.object.option_id
+            tr
+              td
+                input.require-checkbox type="checkbox" checked=!sf.object.new_record?
+                  = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?,
+                    class: 'destroy-field'
+              td
+                = sf.object.loan_type.label
 
-            td
-              = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
-                placeholder: t("loan.optional_amount"), value: sf.object.amount.to_i
+              td
+                = sf.input_field :amount, step: '100', min: 0, class: 'text-right',
+                  placeholder: t("loan.optional_amount"), value: sf.object.amount.to_i

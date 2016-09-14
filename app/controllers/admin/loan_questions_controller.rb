@@ -10,6 +10,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def new
+    @parent_id = params[:parent_id]
     field_set_name = params[:fieldset]
     field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
