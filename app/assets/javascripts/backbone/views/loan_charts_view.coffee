@@ -13,7 +13,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     @loadCharts()
 
   loadCharts: ->
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages':['corechart']})
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
@@ -21,7 +21,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
   breakevenRevenueChart: ->
-    data = new google.visualization.DataTable();
+    data = new google.visualization.DataTable()
     data.addColumn 'string', I18n.t('loan.breakeven.product')
     data.addColumn 'number', I18n.t('loan.breakeven.revenue')
 
@@ -36,7 +36,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(data, options)
 
   breakevenProductionCostsChart: ->
-    data = new google.visualization.DataTable();
+    data = new google.visualization.DataTable()
     data.addColumn 'string', I18n.t('loan.breakeven.product')
     data.addColumn 'number', I18n.t('loan.breakeven.production_cost')
 
@@ -51,7 +51,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     chart.draw(data, options)
 
   breakevenProductProfitChart: ->
-    data = new google.visualization.DataTable();
+    data = new google.visualization.DataTable()
     data.addColumn 'string', I18n.t('loan.breakeven.product')
     data.addColumn 'number', I18n.t('loan.breakeven.profit')
     options = @defaultChartOptions
@@ -91,7 +91,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     return profitData
 
   breakevenFixedCostsChart: ->
-    data = new google.visualization.DataTable();
+    data = new google.visualization.DataTable()
     data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
     data.addColumn 'number', I18n.t('loan.breakeven.amount')
 
