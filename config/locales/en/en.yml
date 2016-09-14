@@ -109,6 +109,7 @@ en:
       custom_field:
         data_type: Data Type
         has_embeddable_media: Allow files or links to be attached
+        loan_types: Loan Types Requirement
       project_step_move:
         move_type: "Which Date?"
         shift_subsequent: "Shift Others?"
