@@ -13,6 +13,7 @@
           - if sf.object.option_id
             tr
               td
+                = sf.hidden_field :option_id
                 input.require-checkbox type="checkbox" checked=!sf.object.new_record?
                   = sf.input_field :_destroy, as: :hidden, value: sf.object.new_record?,
                     class: 'destroy-field'
