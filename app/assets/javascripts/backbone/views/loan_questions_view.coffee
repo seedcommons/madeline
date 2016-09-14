@@ -132,7 +132,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     overrideParent = e.currentTarget
 
     # TODO: Using show/hide preferred, if possible
-    if @$(overrideParent).val() == "override"
+    if @$(overrideParent).val() == "true"
       @$('.loan-types-table').removeClass('hidden')
     else
       @$('.loan-types-table').addClass('hidden')
