@@ -2,41 +2,41 @@
   .business-model-canvas
     .canvas-row
       .canvas-col: .canvas-cell
-        h4 = t('loan.business_model.key_partners')
+        h4.canvas-cell-title = t('loan.business_model.key_partners')
         .help-block = simple_format t('loan.business_model.explanations.key_partners')
         .canvas-answer = simple_format data[:key_partners]
       .canvas-col
         .canvas-cell.half-height
-          h4 = t('loan.business_model.key_activities')
+          h4.canvas-cell-title = t('loan.business_model.key_activities')
           .help-block = simple_format t('loan.business_model.explanations.key_activities')
           .canvas-answer = simple_format data[:key_activities]
         .canvas-cell.half-height
-          h4 = t('loan.business_model.key_resources')
+          h4.canvas-cell-title = t('loan.business_model.key_resources')
           .help-block = simple_format t('loan.business_model.explanations.key_resources')
           .canvas-answer = simple_format data[:key_resources]
       .canvas-col: .canvas-cell
-        h4 = t('loan.business_model.value_propositions')
+        h4.canvas-cell-title = t('loan.business_model.value_propositions')
         .help-block = simple_format t('loan.business_model.explanations.value_propositions')
         .canvas-answer = simple_format data[:value_propositions]
       .canvas-col
         .canvas-cell.half-height
-          h4 = t('loan.business_model.customer_relationships')
+          h4.canvas-cell-title = t('loan.business_model.customer_relationships')
           .help-block = simple_format t('loan.business_model.explanations.customer_relationships')
           .canvas-answer = simple_format data[:customer_relationships]
         .canvas-cell.half-height
-          h4 = t('loan.business_model.channels')
+          h4.canvas-cell-title = t('loan.business_model.channels')
           .help-block = simple_format t('loan.business_model.explanations.channels')
           .canvas-answer = simple_format data[:channels]
       .canvas-col: .canvas-cell
-        h4 = t('loan.business_model.customer_segments')
+        h4.canvas-cell-title = t('loan.business_model.customer_segments')
         .help-block = simple_format t('loan.business_model.explanations.customer_segments')
         .canvas-answer = simple_format data[:customer_segments]
     .canvas-row
       .canvas-col: .canvas-cell
-        h4 = t('loan.business_model.cost_structure')
+        h4.canvas-cell-title = t('loan.business_model.cost_structure')
         .help-block = simple_format t('loan.business_model.explanations.cost_structure')
         .canvas-answer = simple_format data[:cost_structure]
       .canvas-col: .canvas-cell
-        h4 = t('loan.business_model.revenue_streams')
+        h4.canvas-cell-title = t('loan.business_model.revenue_streams')
         .help-block = simple_format t('loan.business_model.explanations.revenue_streams')
         .canvas-answer = simple_format data[:revenue_streams]

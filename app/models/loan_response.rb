@@ -69,7 +69,8 @@ class LoanResponse
         "customer_relationships": "Dedicated personalized assistance\\n\\nAutomated systems",
         "channels": "Through our key partners",
         "customer_segments": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies",
-        "cost_structure": null
+        "cost_structure": null,
+        "revenue_streams": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies"
       }
     )).symbolize_keys
   end

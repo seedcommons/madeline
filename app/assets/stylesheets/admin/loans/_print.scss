@@ -1,4 +1,7 @@
 .print-view {
+  // Just so it doesn't look so bad on the screen before printing
+  @media only screen { margin: 10px; }
+
   [data-container="loan"] {
     .form-group {
       label, div {
