@@ -273,12 +273,12 @@ ActiveRecord::Schema.define(version: 20160911225922) do
     t.date     "date"
     t.date     "date_changed_to"
     t.string   "progress_metric_value"
-    t.integer  "timeline_entry_id"
+    t.integer  "project_step_id"
     t.datetime "updated_at", null: false
   end
 
   add_index "project_logs", ["agent_id"], name: "index_project_logs_on_agent_id", using: :btree
-  add_index "project_logs", ["timeline_entry_id"], name: "index_project_logs_on_timeline_entry_id", using: :btree
+  add_index "project_logs", ["project_step_id"], name: "index_project_logs_on_project_step_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
@@ -380,7 +380,7 @@ ActiveRecord::Schema.define(version: 20160911225922) do
   add_foreign_key "people", "divisions"
   add_foreign_key "people", "organizations", column: "primary_organization_id"
   add_foreign_key "project_logs", "people", column: "agent_id"
-  add_foreign_key "project_logs", "timeline_entries"
+  add_foreign_key "project_logs", "timeline_entries", column: "project_step_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
   add_foreign_key "users", "people", column: "profile_id"
