@@ -63,8 +63,9 @@ class Loan < ActiveRecord::Base
   has_many :project_logs, through: :timeline_entries
 
   # Do regular ruby select, to avoid issues with AR caching
+  # Note, this means the method returns an array, not an AR::Relation
   def project_steps
-    timeline_entries.select { |e| e.type == 'ProjectStep' }
+    timeline_entries.order(:scheduled_date).select { |e| e.type == 'ProjectStep' }
   end
 
   # define accessor-like convenience methods for the fields stored in the Translations table

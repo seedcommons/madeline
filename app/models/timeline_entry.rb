@@ -34,8 +34,6 @@ class TimelineEntry < ActiveRecord::Base
 
   has_closure_tree
 
-  default_scope { order('scheduled_date') }
-
   attr_translatable :summary
 
   belongs_to :project, polymorphic: true
