@@ -14,9 +14,9 @@
 
     = f.input :data_type, as: :select, collection: @data_types
 
-    = render "loan_types", f: f
-
     = f.input :has_embeddable_media
+
+    = render "loan_types", f: f
 
     = f.translatable_inputs do |l|
       = f.input :"label_#{l}", as: :text,
