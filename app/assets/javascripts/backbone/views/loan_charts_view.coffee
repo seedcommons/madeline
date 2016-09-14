@@ -13,7 +13,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     @loadCharts()
 
   loadCharts: ->
-    google.charts.load('current', {'packages':['corechart']})
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
     google.charts.setOnLoadCallback @breakevenProductionCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
