@@ -303,7 +303,7 @@ ActiveRecord::Schema.define(version: 20160916204926) do
     t.integer  "project_id"
     t.string   "project_type"
     t.integer  "schedule_ancestor_id"
-    t.integer  "scheduled_duration_seconds", default: 0
+    t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
     t.string   "step_type_value"
     t.string   "type", null: false

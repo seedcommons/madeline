@@ -54,9 +54,11 @@ describe ProjectStep, type: :model do
   end
 
   context 'unlinked project_step' do
-    subject(:step) { create(:project_step) }
+    subject(:step) { create(:project_step, scheduled_start_date: start_date, scheduled_duration_days: duration) }
 
     let(:new_step) { create(:project_step) }
+    let(:start_date) { Date.civil(2016, 3, 4) }
+    let(:duration) { 2 }
 
     it 'can have schedule_ancestor' do
       step.schedule_ancestor = new_step
@@ -66,12 +68,16 @@ describe ProjectStep, type: :model do
       expect(step.schedule_ancestor_id).to eq new_step.id
     end
 
-    it 'can have schedule_decendant' do
-      step.schedule_decendant = new_step
-      new_step.reload
-
-      expect(new_step.schedule_ancestor_id).to eq step.id
+    it 'scheduled_end_date is correct' do
+      expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 6)
     end
+
+    # it 'can have schedule_decendants' do
+    #   step.schedule_decendant = new_step
+    #   new_step.reload
+    #
+    #   expect(new_step.schedule_ancestor_id).to eq step.id
+    # end
   end
 
   context 'linked project_step' do
@@ -87,13 +93,27 @@ describe ProjectStep, type: :model do
     end
 
     it 'inherits ancestor_start' do
-      expect(stp.scheduled_start_date).to eq ancestor_start
+      expect(step.scheduled_start_date).to eq ancestor_start
     end
 
-    it 'unsets scheduled_start_date attribute' do
-      expect(step.attributes[:scheduled_start_date]).to be_nil
+    it 'sets scheduled_start_date attribute' do
+      expect(step.attributes['scheduled_start_date']).to eq ancestor_start
     end
 
+    # context 'with scheduled_start_date' do
+    #   let(:start_date) { Date.civil(2016, 12, 25) }
+    #
+    #   subject(:step) { create(:project_step, scheduled_start_date: start_date) }
+    #
+    #   # Should this be an error, or just unset scheduled_start_date
+    #   it 'scheduled_start_date is unset when schedule_ancestor is set' do
+    #     expect(step.scheduled_start_date).to eq start_date
+    #
+    #     step.schedule_ancestor = ancestor_step
+    #
+    #     expect(step.scheduled_start_date).to eq ancestor_start
+    #   end
+    # end
   end
 
   # it 'should ensure duration when start date present'

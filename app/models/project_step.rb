@@ -2,23 +2,23 @@
 #
 # Table name: timeline_entries
 #
-#  agent_id                   :integer
-#  completed_date             :date
-#  created_at                 :datetime         not null
-#  date_change_count          :integer          default(0), not null
-#  finalized_at               :datetime
-#  id                         :integer          not null, primary key
-#  is_finalized               :boolean
-#  original_date              :date
-#  parent_id                  :integer
-#  project_id                 :integer
-#  project_type               :string
-#  schedule_ancestor_id       :integer
-#  scheduled_duration_seconds :integer          default(0)
-#  scheduled_start_date       :date
-#  step_type_value            :string
-#  type                       :string           not null
-#  updated_at                 :datetime         not null
+#  agent_id                :integer
+#  completed_date          :date
+#  created_at              :datetime         not null
+#  date_change_count       :integer          default(0), not null
+#  finalized_at            :datetime
+#  id                      :integer          not null, primary key
+#  is_finalized            :boolean
+#  original_date           :date
+#  parent_id               :integer
+#  project_id              :integer
+#  project_type            :string
+#  schedule_ancestor_id    :integer
+#  scheduled_duration_days :integer          default(0)
+#  scheduled_start_date    :date
+#  step_type_value         :string
+#  type                    :string           not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -45,8 +45,8 @@ class ProjectStep < TimelineEntry
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
 
-  belongs_to :schedule_ancestor, class_name: 'ProjectStep'
-  has_one    :schedule_decendant, class_name: 'ProjectStep', foreign_key: :schedule_ancestor_id
+  belongs_to :schedule_ancestor,   class_name: 'ProjectStep'
+  has_many   :schedule_decendants, class_name: 'ProjectStep', foreign_key: :schedule_ancestor_id
 
   has_many :project_logs, dependent: :destroy
 
@@ -73,13 +73,14 @@ class ProjectStep < TimelineEntry
     project_logs.count
   end
 
+  # Might be better as a filter
   def schedule_ancestor=(ancestor)
-    self[:scheduled_start_date] = nil
+    self[:scheduled_start_date] = ancestor.scheduled_start_date
     super(ancestor)
   end
 
-  def scheduled_start_date
-    super || schedule_ancestor.scheduled_start_date
+  def scheduled_end_date
+    scheduled_start_date + scheduled_duration_days
   end
 
   def set_completed!(date)
