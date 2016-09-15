@@ -64,7 +64,7 @@
   }
 
   .canvas-cell {
-    flex: 1;
+    flex: 1 1 auto;
     border: 1px solid;
     padding: 4px;
 
@@ -96,6 +96,6 @@
     background: none;
     width: 100%;
     min-height: 8em;
-    flex: 1;
+    flex: 1 1 auto;
   }
 }
