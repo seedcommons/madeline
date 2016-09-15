@@ -2,7 +2,8 @@ class AddFinalizedAtToProjectSteps < ActiveRecord::Migration
 
   def up
     add_column :project_steps, :finalized_at, :datetime
-    ProjectStep.where(is_finalized: true, finalized_at: nil).update_all("finalized_at = updated_at")
+
+    execute "UPDATE project_steps SET finalized_at = updated_at WHERE project_steps.is_finalized = 't' AND project_steps.finalized_at IS NULL"
   end
 
   def down

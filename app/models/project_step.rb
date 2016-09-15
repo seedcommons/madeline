@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: project_steps
+# Table name: timeline_entries
 #
 #  agent_id          :integer
 #  completed_date    :date
@@ -10,46 +10,41 @@
 #  id                :integer          not null, primary key
 #  is_finalized      :boolean
 #  original_date     :date
+#  parent_id         :integer
 #  project_id        :integer
 #  project_type      :string
 #  scheduled_date    :date
 #  step_type_value   :string
+#  type              :string           not null
 #  updated_at        :datetime         not null
 #
 # Indexes
 #
-#  index_project_steps_on_agent_id                     (agent_id)
-#  index_project_steps_on_project_type_and_project_id  (project_type,project_id)
+#  index_timeline_entries_on_agent_id                     (agent_id)
+#  index_timeline_entries_on_project_type_and_project_id  (project_type,project_id)
 #
 # Foreign Keys
 #
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
+#  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #
 
 require 'chronic'
-
-class ProjectStep < ActiveRecord::Base
-  include Translatable, OptionSettable
+class ProjectStep < TimelineEntry
+  class NoChildrenAllowedError < StandardError; end
 
   COLORS = {
-    on_time: "hsl(120, 73%, 57%)",
-    super_early: "hsl(120, 41%, 47%)",
-    barely_late: "hsl(56, 100%, 66%)",
-    super_late: "hsl(0, 74%, 54%)",
-  }
+    on_time: 'hsl(120, 73%, 57%)',
+    super_early: 'hsl(120, 41%, 47%)',
+    barely_late: 'hsl(56, 100%, 66%)',
+    super_late: 'hsl(0, 74%, 54%)',
+  }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
 
-  default_scope { order('scheduled_date') }
-
-  belongs_to :project, polymorphic: true
-  belongs_to :agent, class_name: 'Person'
-
-  delegate :division, :division=, to: :project
-
   has_many :project_logs, dependent: :destroy
 
-  attr_translatable :summary, :details
+  attr_translatable :details
 
   attr_option_settable :step_type
 
@@ -58,10 +53,6 @@ class ProjectStep < ActiveRecord::Base
 
   before_save :handle_original_date_logic
   before_save :handle_finalized_at
-
-  def division
-    project.try(:division)
-  end
 
   def name
     summary
@@ -128,29 +119,6 @@ class ProjectStep < ActiveRecord::Base
   def date_changed?
     original_date.present?
   end
-
-  private
-
-  def handle_original_date_logic
-    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
-    # the original scheduled date.
-    if scheduled_date_changed? && is_finalized?
-      if original_date.blank?
-        self.original_date = scheduled_date_was
-      end
-      self.date_change_count = self.date_change_count.to_i.succ
-    end
-  end
-
-  def handle_finalized_at
-    if is_finalized && !finalized_at
-      self.finalized_at = Time.now
-    elsif !is_finalized && finalized_at
-      self.finalized_at = nil
-    end
-  end
-
-  public
 
   # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
   # as finalized.  Note, should generally be avoided by front-end logic, but guards against edge
@@ -291,7 +259,30 @@ class ProjectStep < ActiveRecord::Base
     CalendarEvent.build_for(self)
   end
 
+  def add_child(_)
+    raise NoChildrenAllowedError
+  end
+
   private
+
+  def handle_original_date_logic
+    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
+    # the original scheduled date.
+    if scheduled_date_changed? && is_finalized?
+      if original_date.blank?
+        self.original_date = scheduled_date_was
+      end
+      self.date_change_count = self.date_change_count.to_i.succ
+    end
+  end
+
+  def handle_finalized_at
+    if is_finalized && !finalized_at
+      self.finalized_at = Time.now
+    elsif !is_finalized && finalized_at
+      self.finalized_at = nil
+    end
+  end
 
   # start and finish are each CSS color strings in hsl format
   def color_between(start, finish, fraction = 0.5)
