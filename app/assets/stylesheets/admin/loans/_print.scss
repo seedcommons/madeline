@@ -52,9 +52,14 @@
 
   .business-model-canvas {
     width: 10in;
-    transform: translate(7.5in,0) rotate(90deg);
-    transform-origin: 0 0;
     display: inline-block;
+
+    -ms-transform: translate(7.5in,0) rotate(90deg);
+    -webkit-transform: translate(7.5in,0) rotate(90deg);
+    transform: translate(7.5in,0) rotate(90deg);
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
 
     // .canvas-cell, .help-block { font-size: 80%; }
     // h4 { font-size: 120%; }
