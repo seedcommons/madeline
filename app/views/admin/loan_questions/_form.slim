@@ -2,7 +2,7 @@
     wrapper: :horizontal_form,
     remote: true,
     html: { \
-      class: "form-horizontal #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
+      class: "form-horizontal manage-question #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
       data: { id: @loan_question.id },
     },
   ) do |f|
@@ -12,9 +12,12 @@
   .modal-body
     = f.error_notification
 
-    = f.input :data_type, as: :select, collection: @data_types
+    = f.input "question_types" do
+      = f.input_field :data_type, collection: @data_types, class: 'form-control'
 
-    = f.input :has_embeddable_media
+      table.table.allow-attachments: tbody: tr
+        td.checkbox-only = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
+        td = f.label :has_embeddable_media
 
     = render "loan_types", f: f
 

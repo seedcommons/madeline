@@ -1,15 +1,31 @@
 // Manage Loan Questions
 
-.loan-types-table {
-  margin-top: 1em;
+.manage-question {
+  .allow-attachments {
+    .checkbox-only {
+      width: 12px;
+    }
 
-  // Specificity used to override Bootstrap defaults
-  tbody {
-    tr {
-      td {
-        border: none;
-        vertical-align: middle;
+    label {
+      margin: 0;
+    }
+  }
+
+  .allow-attachments, .loan-types-table {
+    margin: 0;
+
+    // Specificity used to override Bootstrap defaults
+    tbody {
+      tr {
+        td {
+          border: none;
+          vertical-align: middle;
+        }
       }
     }
+  }
+
+  .override-parent {
+    margin-bottom: 1em;
   }
 }

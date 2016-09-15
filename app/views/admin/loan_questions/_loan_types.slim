@@ -1,7 +1,7 @@
 = f.input "loan_types" do
   - if (@loan_question.parent || @parent_id)
     = f.input_field :override_associations, collection: CustomField::OVERRIDE_ASSOCIATIONS_OPTIONS,
-      class: 'form-control'
+      class: 'form-control override-parent'
 
   table.table.loan-types-table
     thead
