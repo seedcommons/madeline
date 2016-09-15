@@ -5,65 +5,56 @@
         h4.canvas-cell-title = t('loan.business_model.key_partners')
         .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.key_partners')
         .canvas-answer.view-element = simple_format data[:key_partners]
-        .form-element
-          textarea name=""
-            = data[:key_partners]
+        textarea.form-element name="#{field.attribute_sym}__breakeven_data[key_partners]"
+          = data[:key_partners]
       .canvas-col
         .canvas-cell.half-height
           h4.canvas-cell-title = t('loan.business_model.key_activities')
           .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.key_activities')
           .canvas-answer.view-element = simple_format data[:key_activities]
-          .form-element
-            textarea name=""
-              = data[:key_activities]
+          textarea.form-element name="#{field.attribute_sym}__breakeven_data[key_activities]"
+            = data[:key_activities]
         .canvas-cell.half-height
           h4.canvas-cell-title = t('loan.business_model.key_resources')
           .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.key_resources')
           .canvas-answer.view-element = simple_format data[:key_resources]
-          .form-element
-            textarea name=""
-              = data[:key_resources]
+          textarea.form-element name="#{field.attribute_sym}__breakeven_data[key_resources]"
+            = data[:key_resources]
       .canvas-col: .canvas-cell
         h4.canvas-cell-title = t('loan.business_model.value_propositions')
         .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.value_propositions')
         .canvas-answer.view-element = simple_format data[:value_propositions]
-        .form-element
-          textarea name=""
-            = data[:value_propositions]
+        textarea.form-element name="#{field.attribute_sym}__breakeven_data[value_propositions]"
+          = data[:value_propositions]
       .canvas-col
         .canvas-cell.half-height
           h4.canvas-cell-title = t('loan.business_model.customer_relationships')
           .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.customer_relationships')
           .canvas-answer.view-element = simple_format data[:customer_relationships]
-          .form-element
-            textarea name=""
-              = data[:customer_relationships]
+          textarea.form-element name="#{field.attribute_sym}__breakeven_data[customer_relationships]"
+            = data[:customer_relationships]
         .canvas-cell.half-height
           h4.canvas-cell-title = t('loan.business_model.channels')
           .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.channels')
           .canvas-answer.view-element = simple_format data[:channels]
-          .form-element
-            textarea name=""
-              = data[:channels]
+          textarea.form-element name="#{field.attribute_sym}__breakeven_data[channels]"
+            = data[:channels]
       .canvas-col: .canvas-cell
         h4.canvas-cell-title = t('loan.business_model.customer_segments')
         .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.customer_segments')
         .canvas-answer.view-element = simple_format data[:customer_segments]
-        .form-element
-          textarea name=""
-            = data[:customer_segments]
+        textarea.form-element name="#{field.attribute_sym}__breakeven_data[customer_segments]"
+          = data[:customer_segments]
     .canvas-row
       .canvas-col: .canvas-cell
         h4.canvas-cell-title = t('loan.business_model.cost_structure')
         .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.cost_structure')
         .canvas-answer.view-element = simple_format data[:cost_structure]
-        .form-element
-          textarea name=""
-            = data[:cost_structure]
+        textarea.form-element name="#{field.attribute_sym}__breakeven_data[cost_structure]"
+          = data[:cost_structure]
       .canvas-col: .canvas-cell
         h4.canvas-cell-title = t('loan.business_model.revenue_streams')
         .canvas-help-block.help-block = simple_format t('loan.business_model.explanations.revenue_streams')
         .canvas-answer.view-element = simple_format data[:revenue_streams]
-        .form-element
-          textarea name=""
-            = data[:revenue_streams]
+        textarea.form-element name="#{field.attribute_sym}__breakeven_data[revenue_streams]"
+          = data[:revenue_streams]
