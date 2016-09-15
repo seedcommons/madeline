@@ -75,7 +75,7 @@ class ProjectStep < TimelineEntry
 
   # Might be better as a filter
   def schedule_ancestor=(ancestor)
-    self[:scheduled_start_date] = ancestor.scheduled_start_date
+    self[:scheduled_start_date] = ancestor.scheduled_end_date
     super(ancestor)
   end
 

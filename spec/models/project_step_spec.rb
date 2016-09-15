@@ -85,19 +85,21 @@ describe ProjectStep, type: :model do
       create(:project_step, schedule_ancestor: ancestor_step)
     end
 
+    let(:ancestor_step) { create(:project_step, scheduled_start_date: ancestor_start, scheduled_duration_days: ancestor_duration) }
     let(:ancestor_start) { Date.civil(2014, 5, 8) }
-    let(:ancestor_step) { create(:project_step, scheduled_start_date: ancestor_start) }
+    let(:ancestor_end) { Date.civil(2014, 5, 13) }
+    let(:ancestor_duration) { 5 }
 
     it 'has schedule_ancestor_id' do
       expect(step.schedule_ancestor_id).to eq ancestor_step.id
     end
 
-    it 'inherits ancestor_start' do
-      expect(step.scheduled_start_date).to eq ancestor_start
+    it 'inherits ancestor_end' do
+      expect(step.scheduled_start_date).to eq ancestor_end
     end
 
     it 'sets scheduled_start_date attribute' do
-      expect(step.attributes['scheduled_start_date']).to eq ancestor_start
+      expect(step.attributes['scheduled_start_date']).to eq ancestor_end
     end
 
     # context 'with scheduled_start_date' do
