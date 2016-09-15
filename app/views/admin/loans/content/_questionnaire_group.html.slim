@@ -14,7 +14,7 @@
           - reopen_fieldset = true
 
         / Page header for print view
-        .header
+        .header.visible-print-block
           = @loan.division.name
           br
           = t("loan.print_header_title")
