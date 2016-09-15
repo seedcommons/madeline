@@ -52,4 +52,14 @@ module AdminHelper
 
     @admin_custom_colors = colors
   end
+
+  # Renders the contents of a cell in the business model canvas
+  def canvas_cell(section, field:)
+    '<h4 class="canvas-cell-title">' + t("loan.business_model.#{section.to_s}") + '</h4>' +
+    '<div class="canvas-help-block help-block">' +
+      simple_format(t("loan.business_model.explanations.#{section.to_s}")) + '</div>' +
+    '<div class="canvas-answer view-element">' + simple_format(data[section]) + '</div>' +
+    %Q{<textarea class="form-element" name="#{field.attribute_sym}__breakeven_data[#{section.to_s}]"} +
+      data[:key_partners] + '</textarea>'
+  end
 end
