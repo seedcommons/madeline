@@ -52,3 +52,4 @@ module AdminHelper
 
     @admin_custom_colors = colors
   end
+end
