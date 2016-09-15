@@ -1,5 +1,7 @@
 class MS.Views.EditableTableView extends Backbone.View
 
+  # This view may control multiple elements at once.
+  # The view is called from the loan questionnaires view.
   el: "table.editable-table"
 
   editableTableInit: (e) ->
@@ -26,35 +28,33 @@ class MS.Views.EditableTableView extends Backbone.View
     self = @
 
     # Set the master input for the table data to empty
-    $section.find('.editable-tables').find('[data-container]').each (index) ->
+    $section.find('.editable-tables').find('[data-container]').each ->
       $input = $(this)
       $input.val("{}")
 
     # Save the new data to each master input
-    $section.find('.editable-table').each (index) ->
+    $section.find('.editable-table').each ->
       $table = $(this)
       tableKey = $table.data('table')
       $rows = $table.find('tbody').find('tr')
       tableData = []
 
-      for key,row of $rows
-        if !isNaN(key)
-          $row = $(row)
+      $rows.each ->
+        $row = $(this)
 
-          rowResponse = switch tableKey
-            when 'fixed_costs' then self.formatFixedCostsInput($row)
-            when 'products' then self.formatProductsInput($row)
+        rowResponse = switch tableKey
+          when 'fixed_costs' then self.prepareFixedCostsData($row)
+          when 'products' then self.prepareProductsData($row)
 
-          if rowResponse.rowData
-            tableData.push(rowResponse.rowData)
+        if rowResponse.rowData
+          tableData.push(rowResponse.rowData)
 
-      # Save generated table data to the master input, whose value is sent to server
       $masterInput = $table.closest('.editable-tables').find('[data-container]')
       masterInputValue = JSON.parse($masterInput.val())
       masterInputValue["#{tableKey}"] = tableData
       $masterInput.val(JSON.stringify(masterInputValue))
 
-  formatFixedCostsInput: ($row) ->
+  prepareFixedCostsData: ($row) ->
     name = $row.find('[data-input="name"]').val()
     amount = $row.find('[data-input="amount"]').val()
 
@@ -68,7 +68,7 @@ class MS.Views.EditableTableView extends Backbone.View
     else
       return false
 
-  formatProductsInput: ($row) ->
+  prepareProductsData: ($row) ->
     name = $row.find('[data-input="name"]').val()
     description = $row.find('[data-input="description"]').val()
     unit = $row.find('[data-input="unit"]').val()
