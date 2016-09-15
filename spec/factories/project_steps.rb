@@ -42,6 +42,12 @@ FactoryGirl.define do
       scheduled_start_date { Faker::Date.forward }
     end
 
+    trait :with_ancestor do
+      before(:create) do |step|
+        step.schedule_ancestor = create :project_step
+      end
+    end
+
     trait :with_logs do
       after(:create) do |step|
         create_list(

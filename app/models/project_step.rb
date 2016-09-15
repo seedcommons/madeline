@@ -2,21 +2,23 @@
 #
 # Table name: timeline_entries
 #
-#  agent_id             :integer
-#  completed_date       :date
-#  created_at           :datetime         not null
-#  date_change_count    :integer          default(0), not null
-#  finalized_at         :datetime
-#  id                   :integer          not null, primary key
-#  is_finalized         :boolean
-#  original_date        :date
-#  parent_id            :integer
-#  project_id           :integer
-#  project_type         :string
-#  scheduled_start_date :date
-#  step_type_value      :string
-#  type                 :string           not null
-#  updated_at           :datetime         not null
+#  agent_id                   :integer
+#  completed_date             :date
+#  created_at                 :datetime         not null
+#  date_change_count          :integer          default(0), not null
+#  finalized_at               :datetime
+#  id                         :integer          not null, primary key
+#  is_finalized               :boolean
+#  original_date              :date
+#  parent_id                  :integer
+#  project_id                 :integer
+#  project_type               :string
+#  schedule_ancestor_id       :integer
+#  scheduled_duration_seconds :integer          default(0)
+#  scheduled_start_date       :date
+#  step_type_value            :string
+#  type                       :string           not null
+#  updated_at                 :datetime         not null
 #
 # Indexes
 #
@@ -25,6 +27,7 @@
 #
 # Foreign Keys
 #
+#  fk_rails_4007acd641  (schedule_ancestor_id => timeline_entries.id)
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #
@@ -41,6 +44,9 @@ class ProjectStep < TimelineEntry
   }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
+
+  belongs_to :schedule_ancestor, class_name: 'ProjectStep'
+  has_one    :schedule_decendant, class_name: 'ProjectStep', foreign_key: :schedule_ancestor_id
 
   has_many :project_logs, dependent: :destroy
 
@@ -65,6 +71,15 @@ class ProjectStep < TimelineEntry
 
   def logs_count
     project_logs.count
+  end
+
+  def schedule_ancestor=(ancestor)
+    self[:scheduled_start_date] = nil
+    super(ancestor)
+  end
+
+  def scheduled_start_date
+    super || schedule_ancestor.scheduled_start_date
   end
 
   def set_completed!(date)
