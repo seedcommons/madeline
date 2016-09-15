@@ -41,8 +41,8 @@ class MS.Views.EditableTableView extends Backbone.View
         $row = $(this)
 
         rowResponse = switch tableKey
-          when 'fixed_costs' then self.formatFixedCostsInput($row)
-          when 'products' then self.formatProductsInput($row)
+          when 'fixed_costs' then self.prepareFixedCostsData($row)
+          when 'products' then self.prepareProductsData($row)
 
         if rowResponse.rowData
           tableData.push(rowResponse.rowData)
@@ -52,7 +52,7 @@ class MS.Views.EditableTableView extends Backbone.View
       masterInputValue["#{tableKey}"] = tableData
       $masterInput.val(JSON.stringify(masterInputValue))
 
-  formatFixedCostsInput: ($row) ->
+  prepareFixedCostsData: ($row) ->
     name = $row.find('[data-input="name"]').val()
     amount = $row.find('[data-input="amount"]').val()
 
@@ -66,7 +66,7 @@ class MS.Views.EditableTableView extends Backbone.View
     else
       return false
 
-  formatProductsInput: ($row) ->
+  prepareProductsData: ($row) ->
     name = $row.find('[data-input="name"]').val()
     description = $row.find('[data-input="description"]').val()
     unit = $row.find('[data-input="unit"]').val()
