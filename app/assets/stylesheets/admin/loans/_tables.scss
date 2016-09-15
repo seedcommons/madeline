@@ -57,16 +57,19 @@
   }
 
   .canvas-col {
-    flex: 1 1 0;
+    flex: 1;
 
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   .canvas-cell {
-    width: 100%;
+    flex: 1;
     border: 1px solid;
     padding: 4px;
+
+    display: flex;
+    flex-direction: column;
 
     &.half-height {
       min-height: 24em;
@@ -86,5 +89,13 @@
 
   .canvas-answer {
     margin-top: 10px;
+  }
+
+  textarea {
+    border: none;
+    background: none;
+    width: 100%;
+    min-height: 8em;
+    flex: 1;
   }
 }
