@@ -65,13 +65,13 @@ en:
       explanations:
         key_partners: "Who are our Key Partners?\nWho are our key suppliers?\nWhich Key Resources are we acquiring from partners?\nWhich Key Activities do partners perform?"
         key_activities: "\nWhat Key Activities do our Value Propositions require?\nOur Distribution Channels? Customer Relationships? Revenue streams?"
-        key_resources: "\nWhat Key Resources do our Value Propositions require?\nOur Distribution Channels? Customer Relationships?\nRevenue Streams?"
-        value_propositions: "\nWhat value do we deliver to the customer? Which one of our customer’s problems are we helping to solve?\nWhat bundles of products and services are we offering to each Customer Segment?\nWhich customer needs are we satisfying?"
-        customer_relationships: "\nWhat type of relationship does each of our Customer Segments expect us to establish and maintain with them?\nWhich ones have we established?\nHow are they integrated with the rest of our business model?\nHow costly are they?"
-        channels: "\nThrough which Channels do our Customer Segments want to be reached?\nHow are we reaching them now?\nHow are our Channels integrated?\nWhich ones work best?\nWhich ones are most cost-efficient?\nHow are we integrating them with customer routines?"
-        customer_segments: "\nFor whom are we creating value?\nWho are our most important customers?"
-        cost_structure: "\nWhat are the most important costs inherent in our business model? Which Key Resources are most expensive?\nWhich Key Activities are most expensive?"
-        revenue_streams: "\nFor what value are our customers really willing to pay? For what do they currently pay?\nHow are they currently paying?\nHow would they prefer to pay?\nHow much does each Revenue Stream contribute to overall revenues?\n"
+        key_resources: "What Key Resources do our Value Propositions require?\nOur Distribution Channels? Customer Relationships?\nRevenue Streams?"
+        value_propositions: "What value do we deliver to the customer? Which one of our customer’s problems are we helping to solve?\nWhat bundles of products and services are we offering to each Customer Segment?\nWhich customer needs are we satisfying?"
+        customer_relationships: "What type of relationship does each of our Customer Segments expect us to establish and maintain with them?\nWhich ones have we established?\nHow are they integrated with the rest of our business model?\nHow costly are they?"
+        channels: "Through which Channels do our Customer Segments want to be reached?\nHow are we reaching them now?\nHow are our Channels integrated?\nWhich ones work best?\nWhich ones are most cost-efficient?\nHow are we integrating them with customer routines?"
+        customer_segments: "For whom are we creating value?\nWho are our most important customers?"
+        cost_structure: "What are the most important costs inherent in our business model? Which Key Resources are most expensive?\nWhich Key Activities are most expensive?"
+        revenue_streams: "For what value are our customers really willing to pay? For what do they currently pay?\nHow are they currently paying?\nHow would they prefer to pay?\nHow much does each Revenue Stream contribute to overall revenues?"
 
     breakeven:
       amount: "Amount"
