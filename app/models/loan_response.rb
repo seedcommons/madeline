@@ -33,7 +33,7 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
-    @breakeven_data = data[:breakeven_data]
+    @breakeven_data = remove_blanks data[:breakeven_data]
     @business_canvas_data = data[:business_canvas_data]
   end
 
@@ -122,5 +122,13 @@ class LoanResponse
   # performance will be horrible in recursive methods.
   def kids
     @kids ||= loan_response_set.kids_of(self)
+  end
+
+  def remove_blanks(data)
+    if data
+      data['products'].delete_if { |i| i.values.all?(&:blank?) }
+      data['fixed_costs'].delete_if { |i| i.values.all?(&:blank?) }
+    end
+    data
   end
 end
