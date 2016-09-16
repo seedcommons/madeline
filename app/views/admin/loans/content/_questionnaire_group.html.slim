@@ -107,7 +107,7 @@
                 = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
                 
             - if value.has_business_canvas?
-              .answer
+              .answer class=('form-element' if value.business_canvas_blank?)
                 = render 'admin/loans/content/business_model_canvas', f: f, field: field, data: value.business_canvas_data
 
             - if value.has_linked_document?

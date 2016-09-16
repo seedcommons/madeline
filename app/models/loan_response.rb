@@ -95,7 +95,11 @@ class LoanResponse
 
   def blank?
     text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
-      breakeven_report.blank? && business_canvas_data.blank?
+      breakeven_report.blank? && business_canvas_blank?
+  end
+
+  def business_canvas_blank?
+    business_canvas_data.blank? || business_canvas_data.values.all?(&:blank?)
   end
 
   def answered?
