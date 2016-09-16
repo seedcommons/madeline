@@ -17,6 +17,7 @@ class LoanResponse
   attr_accessor :end_cell
   attr_accessor :owner
   attr_accessor :breakeven_data
+  attr_accessor :business_canvas_data
 
   delegate :group?, to: :custom_field
 
@@ -33,6 +34,7 @@ class LoanResponse
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
     @breakeven_data = data[:breakeven_data]
+    @business_canvas_data = data[:business_canvas_data]
   end
 
   def model_name
@@ -57,22 +59,6 @@ class LoanResponse
 
   def breakeven_report
     @breakeven_report ||= breakeven_table.report
-  end
-
-  def business_model_data
-    JSON.parse(%Q(
-      {
-        "key_partners": "Vinyl Supplier\\n\\nGlass Supplier",
-        "key_activities": "Organized, efficient production\\n\\nActive, personalized customer service",
-        "key_resources": "Skilled, dedicated floor workers",
-        "value_propositions": "High quality\\n\\nInexpensive",
-        "customer_relationships": "Dedicated personalized assistance\\n\\nAutomated systems",
-        "channels": "Through our key partners",
-        "customer_segments": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies",
-        "cost_structure": null,
-        "revenue_streams": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies"
-      }
-    )).symbolize_keys
   end
 
   def field_attributes
@@ -103,8 +89,13 @@ class LoanResponse
     field_attributes.include?(:breakeven_data)
   end
 
+  def has_business_canvas?
+    field_attributes.include?(:business_canvas_data)
+  end
+
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank? && custom_field.id != 221 #&& business_model_data.blank? #TODO temp condition
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
+      breakeven_report.blank? && business_canvas_data.blank?
   end
 
   def answered?

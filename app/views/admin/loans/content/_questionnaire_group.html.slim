@@ -106,9 +106,9 @@
               .form-element
                 = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
                 
-            - if field.id == 363 # Temporary condition
+            - if value.has_business_canvas?
               .answer
-                = render 'admin/loans/content/business_model_canvas', f: f, field: field, data: value.business_model_data
+                = render 'admin/loans/content/business_model_canvas', f: f, field: field, data: value.business_canvas_data
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
