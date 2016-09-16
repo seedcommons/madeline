@@ -59,6 +59,7 @@ class ProjectStep < TimelineEntry
 
   before_save :handle_original_date_logic
   before_save :handle_finalized_at
+  before_save :handle_schedule_decendants
 
   def name
     summary
@@ -75,7 +76,7 @@ class ProjectStep < TimelineEntry
 
   # Might be better as a filter
   def schedule_ancestor=(ancestor)
-    self[:scheduled_start_date] = ancestor.scheduled_end_date
+    self.scheduled_start_date = ancestor.scheduled_end_date if ancestor
     super(ancestor)
   end
 
@@ -297,6 +298,16 @@ class ProjectStep < TimelineEntry
       self.finalized_at = Time.now
     elsif !is_finalized && finalized_at
       self.finalized_at = nil
+    end
+  end
+
+  # This is going to fire more callbacks. Can't think of a better way to do this.
+  def handle_schedule_decendants
+    return unless id && scheduled_start_date_changed? && schedule_decendants.present?
+
+    schedule_decendants.each do |step|
+      step.scheduled_start_date = scheduled_end_date
+      step.save
     end
   end
 

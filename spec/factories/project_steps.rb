@@ -29,6 +29,7 @@ FactoryGirl.define do
     transient_division
     summary { Faker::Hipster.paragraph }
     details { Faker::Hipster.paragraphs }
+    scheduled_duration_days { Faker::Number.between(0, 10) }
 
     trait :completed do
       completed_date { Faker::Date.between(scheduled_start_date, Date.today) }
@@ -45,6 +46,27 @@ FactoryGirl.define do
     trait :with_ancestor do
       before(:create) do |step|
         step.schedule_ancestor = create :project_step
+      end
+    end
+
+    trait :with_decendant_tree do
+      after(:create) do |step|
+        create_list(
+          :project_step,
+          3,
+          :with_decendants,
+          schedule_ancestor: step
+        )
+      end
+    end
+
+    trait :with_decendants do
+      after(:create) do |step|
+        create_list(
+          :project_step,
+          3,
+          schedule_ancestor: step
+        )
       end
     end
 

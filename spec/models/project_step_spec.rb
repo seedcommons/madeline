@@ -56,71 +56,112 @@ describe ProjectStep, type: :model do
   context 'unlinked project_step' do
     subject(:step) { create(:project_step, scheduled_start_date: start_date, scheduled_duration_days: duration) }
 
-    let(:new_step) { create(:project_step) }
+    let(:new_step)   { create(:project_step) }
     let(:start_date) { Date.civil(2016, 3, 4) }
-    let(:duration) { 2 }
+    let(:duration)   { 2 }
 
-    it 'can have schedule_ancestor' do
-      step.schedule_ancestor = new_step
-      step.save
-      step.reload
+    context 'when linked' do
+      before do
+        step.schedule_ancestor = new_step
+        step.save
+        step.reload
+      end
 
-      expect(step.schedule_ancestor_id).to eq new_step.id
+      it 'updates the scheduled_start_date' do
+        expect(step.scheduled_start_date).to eq new_step.scheduled_end_date
+      end
     end
 
     it 'scheduled_end_date is correct' do
       expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 6)
     end
-
-    # it 'can have schedule_decendants' do
-    #   step.schedule_decendant = new_step
-    #   new_step.reload
-    #
-    #   expect(new_step.schedule_ancestor_id).to eq step.id
-    # end
   end
 
-  context 'linked project_step' do
+  context 'with linked project_step' do
     subject(:step) do
-      create(:project_step, schedule_ancestor: ancestor_step)
+      create(:project_step, schedule_ancestor: ancestor_step, scheduled_duration_days: step_duration)
     end
 
-    let(:ancestor_step) { create(:project_step, scheduled_start_date: ancestor_start, scheduled_duration_days: ancestor_duration) }
-    let(:ancestor_start) { Date.civil(2014, 5, 8) }
-    let(:ancestor_end) { Date.civil(2014, 5, 13) }
+    let(:step_duration)     { 3 }
+    let(:ancestor_step)     { create(:project_step, scheduled_start_date: ancestor_start, scheduled_duration_days: ancestor_duration) }
+    let(:ancestor_start)    { Date.civil(2014, 5, 8) }
+    let(:ancestor_end)      { Date.civil(2014, 5, 13) }
     let(:ancestor_duration) { 5 }
 
     it 'has schedule_ancestor_id' do
       expect(step.schedule_ancestor_id).to eq ancestor_step.id
     end
 
-    it 'inherits ancestor_end' do
+    it 'inherits ancestor_end for scheduled_start_date' do
       expect(step.scheduled_start_date).to eq ancestor_end
     end
 
-    it 'sets scheduled_start_date attribute' do
-      expect(step.attributes['scheduled_start_date']).to eq ancestor_end
+    it 'updates scheduled_end_date' do
+      expect(step.scheduled_end_date).to eq ancestor_end + 3
     end
 
-    # context 'with scheduled_start_date' do
-    #   let(:start_date) { Date.civil(2016, 12, 25) }
-    #
-    #   subject(:step) { create(:project_step, scheduled_start_date: start_date) }
-    #
-    #   # Should this be an error, or just unset scheduled_start_date
-    #   it 'scheduled_start_date is unset when schedule_ancestor is set' do
-    #     expect(step.scheduled_start_date).to eq start_date
-    #
-    #     step.schedule_ancestor = ancestor_step
-    #
-    #     expect(step.scheduled_start_date).to eq ancestor_start
-    #   end
-    # end
+    context 'is unlinked' do
+      before do
+        step.schedule_ancestor = nil
+        step.save
+      end
+
+      it 'has no schedule_ancestor_id' do
+        expect(step.schedule_ancestor_id).to be_nil
+      end
+
+      it 'keeps scheduled_start_date' do
+        expect(step.scheduled_start_date).to eq ancestor_end
+      end
+
+      it 'keeps scheduled_end_date' do
+        expect(step.scheduled_end_date).to eq ancestor_end + step_duration
+      end
+    end
   end
 
-  # it 'should ensure duration when start date present'
-  it 'end date should be present based on the duration'
-  it 'removes ancestor when scheduled_start_date is set'
-  it 'raises error when ancestor assigned and scheduled_start_date is set'
-  it 'raises error when neither ancestor or scheduled_start_date is set'
+  context 'with linked project_step chain' do
+    subject(:step) { create(:project_step, :with_decendant_tree) }
+
+    let(:step_level_2) { step.schedule_decendants.first }
+    let(:step_level_3) { step_level_2.schedule_decendants.first }
+
+    it 'has decendants' do
+      expect(step.schedule_decendants.count).to eq 3
+    end
+
+    it 'level 2 descendants start matches level 1 start' do
+      expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
+    end
+
+    it 'level 3 descendants start matches level 2 start' do
+      expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+    end
+
+    context 'and level 1 scheduled_start_date is updated' do
+      let(:duration_offset) { 5 }
+      before do
+        @original_date = step.scheduled_start_date
+
+        step.scheduled_start_date += duration_offset
+        step.save
+
+        step.reload
+        step_level_2.reload
+        step_level_3.reload
+      end
+
+      it 'level 1 scheduled_start_date is updated' do
+        expect(step.scheduled_start_date).to eq @original_date + duration_offset
+      end
+
+      it 'level 2 descendants start matches level 1 start' do
+        expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
+      end
+
+      it 'level 3 dscendants start matches level 2 start' do
+        expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+      end
+    end
+  end
 end
