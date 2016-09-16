@@ -1,6 +1,6 @@
 - hidden ||= false
 - cost ||= {}
-- prefix = "loan_response_set[#{field.attribute_sym}__breakeven_data][fixed_costs][]"
+- prefix = "loan_response_set[#{field.attribute_sym}][breakeven][fixed_costs][]"
 
 tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
   td: input name="#{prefix}[name]" value=cost[:name]

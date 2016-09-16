@@ -11,8 +11,8 @@ class BreakevenTableQuestion
   #     { "name": "Stamps", "amount": 2.25 }
   #   ]
   # }
-  def initialize(breakeven_data)
-    @breakeven_data = breakeven_data
+  def initialize(breakeven)
+    @breakeven = breakeven
   end
 
   # Returns a ruby hash like this:
@@ -55,7 +55,7 @@ class BreakevenTableQuestion
       net_margin: 0,
     }
 
-    @breakeven_data['products'].each do |product|
+    @breakeven['products'].each do |product|
       %w(quantity price cost).each { |key| product[key] = product[key].to_f }
       report[:revenue] << {
         name: product['name'],
@@ -73,7 +73,7 @@ class BreakevenTableQuestion
     report[:total_revenue] = report[:revenue].map { |i| i[:total] }.sum
     report[:total_cogs] = report[:cogs].map { |i| i[:total] }.sum
     report[:gross_margin] = report[:total_revenue] - report[:total_cogs]
-    @breakeven_data['fixed_costs'].each do |cost|
+    @breakeven['fixed_costs'].each do |cost|
       report[:fixed_costs] << { name: cost['name'], amount: cost['amount'].to_f }
     end
     report[:total_fixed_costs] = report[:fixed_costs].map { |i| i[:amount] }.sum
@@ -83,11 +83,11 @@ class BreakevenTableQuestion
   end
 
   def blank?
-    return true if @breakeven_data.blank?
-    @breakeven_data['products'].blank? && @breakeven_data['fixed_costs'].blank?
+    return true if @breakeven.blank?
+    @breakeven['products'].blank? && @breakeven['fixed_costs'].blank?
   end
 
   def data_hash
-    @breakeven_data.deep_symbolize_keys if @breakeven_data
+    @breakeven.deep_symbolize_keys if @breakeven
   end
 end

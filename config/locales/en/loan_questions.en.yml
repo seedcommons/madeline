@@ -52,5 +52,5 @@ en:
           number: Number
           range: Range
           boolean: Yes/No
-          breakeven_data: Breakeven Table
+          breakeven: Breakeven Table
           business_canvas: Business Model Canvas

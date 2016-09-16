@@ -16,7 +16,7 @@ class LoanResponse
   attr_accessor :start_cell
   attr_accessor :end_cell
   attr_accessor :owner
-  attr_accessor :breakeven_data
+  attr_accessor :breakeven
   attr_accessor :business_canvas
 
   delegate :group?, to: :custom_field
@@ -33,7 +33,7 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
-    @breakeven_data = remove_blanks data[:breakeven_data]
+    @breakeven = remove_blanks data[:breakeven]
     @business_canvas = data[:business_canvas]
   end
 
@@ -50,11 +50,11 @@ class LoanResponse
   end
 
   def breakeven_table
-    @breakeven_table ||= BreakevenTableQuestion.new(breakeven_data)
+    @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
   end
 
-  def breakeven_data_hash
-    @breakeven_data_hash ||= breakeven_table.data_hash
+  def breakeven_hash
+    @breakeven_hash ||= breakeven_table.data_hash
   end
 
   def breakeven_report
@@ -86,7 +86,7 @@ class LoanResponse
   end
 
   def has_breakeven_table?
-    field_attributes.include?(:breakeven_data)
+    field_attributes.include?(:breakeven)
   end
 
   def has_business_canvas?

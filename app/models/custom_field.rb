@@ -65,7 +65,7 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  DATA_TYPES = %i(string text number range group boolean breakeven_data business_canvas)
+  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
   def self.loan_questions(field_set = nil)
     # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
@@ -142,7 +142,7 @@ class CustomField < ActiveRecord::Base
 
   # List of value keys for fields which have nested values
   def value_types
-    raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
+    # raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
     if data_type == 'range'
       result = [:rating, :text]
     else
