@@ -2,7 +2,7 @@
     wrapper: :horizontal_form,
     remote: true,
     html: { \
-      class: "form-horizontal manage-question #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
+      class: "form-horizontal loan-question #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
       data: { id: @loan_question.id },
     },
     defaults: { \
