@@ -142,17 +142,12 @@ class CustomField < ActiveRecord::Base
 
   # List of value keys for fields which have nested values
   def value_types
-    result =
-      case data_type
-      when 'string' then [:text]
-      when 'text' then [:text]
-      when 'number' then [:number]
-      when 'range' then [:rating, :text]
-      when 'boolean' then [:boolean]
-      when 'breakeven_data' then [:breakeven_data]
-      when 'business_canvas' then [:business_canvas_data]
-      else []
-      end
+    raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
+    if data_type == 'range'
+      result = [:rating, :text]
+    else
+      result = [data_type.to_sym]
+    end
 
     if has_embeddable_media
       if result

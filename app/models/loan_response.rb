@@ -17,7 +17,7 @@ class LoanResponse
   attr_accessor :end_cell
   attr_accessor :owner
   attr_accessor :breakeven_data
-  attr_accessor :business_canvas_data
+  attr_accessor :business_canvas
 
   delegate :group?, to: :custom_field
 
@@ -34,7 +34,7 @@ class LoanResponse
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
     @breakeven_data = remove_blanks data[:breakeven_data]
-    @business_canvas_data = data[:business_canvas_data]
+    @business_canvas = data[:business_canvas]
   end
 
   def model_name
@@ -90,7 +90,7 @@ class LoanResponse
   end
 
   def has_business_canvas?
-    field_attributes.include?(:business_canvas_data)
+    field_attributes.include?(:business_canvas)
   end
 
   def blank?
@@ -99,7 +99,7 @@ class LoanResponse
   end
 
   def business_canvas_blank?
-    business_canvas_data.blank? || business_canvas_data.values.all?(&:blank?)
+    business_canvas.blank? || business_canvas.values.all?(&:blank?)
   end
 
   def answered?
