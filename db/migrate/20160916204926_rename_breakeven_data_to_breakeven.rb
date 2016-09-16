@@ -1,3 +1,6 @@
+class CustomField < ActiveRecord::Base; end
+class LoanResponseSet < ActiveRecord::Base; end
+
 class RenameBreakevenDataToBreakeven < ActiveRecord::Migration
   def change
     cfs = CustomField.where(data_type: 'breakeven_data')

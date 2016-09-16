@@ -1,3 +1,6 @@
+class CustomField < ActiveRecord::Base; end
+class LoanResponseSet < ActiveRecord::Base; end
+
 class ParseDoubleEncodedJson < ActiveRecord::Migration
   def change
     ids = CustomField.where(data_type: 'breakeven_data').ids.map(&:to_s)
