@@ -5,6 +5,9 @@
       class: "form-horizontal manage-question #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
       data: { id: @loan_question.id },
     },
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
   ) do |f|
 
   .modal-header
@@ -13,7 +16,7 @@
     = f.error_notification
 
     = f.input "question_types" do
-      = f.input_field :data_type, collection: @data_types, class: 'form-control'
+      = f.input_field :data_type, collection: @data_types
 
       table.table.allow-attachments: tbody: tr
         td.checkbox-only = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
