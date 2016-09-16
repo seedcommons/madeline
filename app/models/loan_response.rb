@@ -108,7 +108,7 @@ class LoanResponse
 
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
-    custom_field.data_type == 'text' ? :text : :string
+    custom_field.data_type == 'text' ? 'text_area' : 'text_field'
   end
 
   def required?
