@@ -106,28 +106,10 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
-      custom_field:
-        data_type: Data Type
-        has_embeddable_media: Allow files or links to be attached
-        loan_types: Loan Types Requirement
       project_step_move:
         move_type: "Which Date?"
         shift_subsequent: "Shift Others?"
     options:
-      custom_field:
-        data_type:
-          string: Short Answer
-          text: Paragraph
-          list: Multiple Choice
-          group: Group
-          translatable: Translatable
-          number: Number
-          range: Range
-          boolean: Yes/No
-          breakeven_data: Breakeven Table
-        override_associations:
-          "false": "Inherits from Parent"
-          "true": "Overrides Parent"
       person:
         owning_division_role:
           admin: "Admin"
