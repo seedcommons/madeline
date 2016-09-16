@@ -13,7 +13,6 @@ class MS.Views.LoanChartsView extends Backbone.View
       chartArea: {
         left: 0,
         top: 10,
-        right: 0,
         width: '100%',
         height: '90%'
       },
