@@ -17,6 +17,12 @@ es:
         default_currency: "Moneda Predeterminada"
         name: "Nombre"
         parent: "División Principal"
+        logo: "Logo"
+        logo_text: "Texto del Logo"
+        banner_fg_color: "Color del Primer Plano del Banner "
+        banner_bg_color: "Color de Fondo del Banner "
+        accent_main_color: "Color de Acentos"
+        accent_fg_color: "Color del Texto del Primer Plano de Acentos"
       loan:
         division: "División"
         organization: "Cooperativa"
@@ -90,6 +96,13 @@ es:
         agent: "Miembro"
         progress_metric_value: "Estado"
   simple_form:
+    hints:
+      division:
+        logo_text: "Texto optativo para mostrar bajo el logo. El logo es más breve si se ingresa texto."
+        banner_bg_color: "Color de fondo del banner del sitio. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp'>this color picker</a>."
+        banner_fg_color: "Color del texto en el banner."
+        accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
+        accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
     labels:
       project_step_move:
         move_type: "¿Cuál Fecha?"
@@ -241,6 +254,11 @@ es:
     updated: "Actualizado"
     website: "Página web"
     id: "ID"
+    user: "Usuario"
+  template:
+    profile: "Perfil"
+    change_division: "Cambiar División"
+    select_division: "Seleccionar División"
   loan:
     criteria: "Criterios"
     details: "Detalles"

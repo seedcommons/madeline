@@ -19,7 +19,7 @@
 # Foreign Keys
 #
 #  fk_rails_54dbbbb1d4  (agent_id => people.id)
-#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
+#  fk_rails_67bf2c0e5e  (project_step_id => timeline_entries.id)
 #
 
 class ProjectLog < ActiveRecord::Base

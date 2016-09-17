@@ -1,5 +1,7 @@
 class MS.Views.EditableTableView extends Backbone.View
 
+  # This view may control multiple elements at once.
+  # The view is called from the loan questionnaires view.
   el: "table.editable-table"
 
   editableTableInit: (e) ->

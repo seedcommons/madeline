@@ -88,8 +88,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def answered_for?(loan)
-    kind = custom_field_set.internal_name.sub(/^loan_/, '')
-    response_set = loan.send(kind.to_sym)
+    response_set = loan.send(custom_field_set.kind)
     return false if !response_set
     !response_set.tree_unanswered?(self)
   end

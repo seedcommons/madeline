@@ -6,6 +6,7 @@
   margin-top: 1em;
   background: $white;
   word-wrap: break-word;
+  min-width: 60rem;
 
   thead {
     tr {
@@ -38,7 +39,7 @@
   }
 
   .wide {
-    width: 25%;
+    width: 20%;
   }
 }
 
