@@ -1,8 +1,5 @@
 .table-responsive.editable-tables
 
-  = f.input_field :"#{field.attribute_sym}__breakeven_data", as: :hidden,
-      class: 'breakeven_data_input', data: { container: 'breakeven' }
-
   .table-container
     h4.title = t("loan.breakeven.products", count: 2)
 
@@ -19,13 +16,13 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/content/breakeven_product_row', hidden: true
+        = render 'admin/loans/content/breakeven_product_row', hidden: true, field: field
         
         - if data && data[:products]
           - data[:products].each do |product|
-            = render 'admin/loans/content/breakeven_product_row', product: product
+            = render 'admin/loans/content/breakeven_product_row', product: product, field: field
 
-        = render 'admin/loans/content/breakeven_product_row'
+        = render 'admin/loans/content/breakeven_product_row', field: field
 
   .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
@@ -39,10 +36,10 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/content/breakeven_fixed_cost_row', hidden: true
+        = render 'admin/loans/content/breakeven_fixed_cost_row', hidden: true, field: field
         
         - if data && data[:fixed_costs]
           - data[:fixed_costs].each do |cost|
-            = render 'admin/loans/content/breakeven_fixed_cost_row', cost: cost
+            = render 'admin/loans/content/breakeven_fixed_cost_row', cost: cost, field: field
 
-        = render 'admin/loans/content/breakeven_fixed_cost_row'
+        = render 'admin/loans/content/breakeven_fixed_cost_row', field: field
