@@ -1,24 +1,22 @@
-- prefix = "loan_response_set[#{field.attribute_sym}]"
-
 .attached-document
   .linked-document.form-element.form-inline
     h5 = t("linked_document.linked_document")
 
     .ld-container
       .form-group.full-width-group
-        label for="#{prefix}[url]" = t("linked_document.url")
-        = text_field_tag "#{prefix}[url]", document.try(:url),
-          class: 'form-element form-control', placeholder: t("linked_document.link")
+        label for="#{field.attribute_sym}__url" = t("linked_document.url")
+        = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
+          class: 'form-control', placeholder: t("linked_document.link")
       .help-block
         span = t("linked_document.range_of_cells")
       .form-group
-        label for="#{prefix}[start_cell]" = t("linked_document.cell_start")
-        = text_field_tag "#{prefix}[start_cell]", document.try(:start_cell),
-        class: 'form-element form-control', placeholder: t("linked_document.cell_start_hint")
+        label for="#{field.attribute_sym}__start_cell" = t("linked_document.cell_start")
+        = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
+        class: 'form-control', placeholder: t("linked_document.cell_start_hint")
       .form-group
-        label for="#{prefix}[end_cell]" = t("linked_document.cell_end")
-        = text_field_tag "#{prefix}[end_cell]", document.try(:end_cell),
-        class: 'form-element form-control', placeholder: t("linked_document.cell_end_hint")
+        label for="#{field.attribute_sym}__end_cell" = t("linked_document.cell_end")
+        = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
+        class: 'form-control', placeholder: t("linked_document.cell_end_hint")
       - if document
         - if document.display_url.present?
           .doc-actions
