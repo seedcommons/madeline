@@ -59,10 +59,11 @@
           p.help-block.hidden-print.tree-view = field.explanation
 
         / Recurse if group, else render
-        - if field.data_type == 'group' && (filtered_children = field.children.filter_for(@loan)).present?
-          = render("admin/loans/content/questionnaire_group",
-            f: f, value_set: value_set, roots: filtered_children, 
-            parents: parents + [field], indices: indices + [idx + 1])
+        - if field.data_type == 'group'
+          - if (filtered_children = field.children.filter_for(@loan)).present?
+            = render("admin/loans/content/questionnaire_group",
+              f: f, value_set: value_set, roots: filtered_children, 
+              parents: parents + [field], indices: indices + [idx + 1])
 
         - else
 
@@ -104,6 +105,10 @@
                   = render "admin/loans/content/breakeven_charts", report: value.breakeven_report
               .form-element
                 = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_data_hash
+                
+            - if field.id == 363 # Temporary condition
+              .answer
+                = render 'admin/loans/content/business_model_canvas', f: f, field: field, data: value.business_model_data
 
             - if value.has_linked_document?
               = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document

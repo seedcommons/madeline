@@ -59,6 +59,22 @@ class LoanResponse
     @breakeven_report ||= breakeven_table.report
   end
 
+  def business_model_data
+    JSON.parse(%Q(
+      {
+        "key_partners": "Vinyl Supplier\\n\\nGlass Supplier",
+        "key_activities": "Organized, efficient production\\n\\nActive, personalized customer service",
+        "key_resources": "Skilled, dedicated floor workers",
+        "value_propositions": "High quality\\n\\nInexpensive",
+        "customer_relationships": "Dedicated personalized assistance\\n\\nAutomated systems",
+        "channels": "Through our key partners",
+        "customer_segments": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies",
+        "cost_structure": null,
+        "revenue_streams": "Wholesale\\n\\nWindow stores\\n\\nRemodeling companies"
+      }
+    )).symbolize_keys
+  end
+
   def field_attributes
     @field_attributes ||= custom_field.value_types
   end
@@ -88,7 +104,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank? && custom_field.id != 221 #&& business_model_data.blank? #TODO temp condition
   end
 
   def answered?

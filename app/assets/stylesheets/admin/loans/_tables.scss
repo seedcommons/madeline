@@ -42,3 +42,61 @@
     width: 20%;
   }
 }
+
+.business-model-canvas {
+  border: 1px solid;
+
+  .canvas-row {
+    flex-wrap: wrap;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+
+    @media only screen and (max-width: 767px) {
+      display: block;
+    }
+  }
+
+  .canvas-col {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .canvas-cell {
+    flex: 1 1 auto;
+    border: 1px solid;
+    padding: 4px;
+
+    display: flex;
+    flex-direction: column;
+
+    &.half-height {
+      min-height: 24em;
+    }
+  }
+
+  h4 {
+    display: block;
+    margin: 0;
+  }
+
+  // Both classes needed here to override specificity :'(
+  .canvas-help-block.help-block {
+    display: inherit;
+    margin-top: 0;
+  }
+
+  .canvas-answer {
+    margin-top: 10px;
+  }
+
+  textarea {
+    border: none;
+    background: none;
+    width: 100%;
+    min-height: 8em;
+    flex: 1 1 auto;
+  }
+}

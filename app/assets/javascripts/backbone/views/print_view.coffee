@@ -6,6 +6,9 @@ class MS.Views.PrintView extends Backbone.View
     'click [data-action="print"]': 'print'
     'click [data-action="open-links"]': 'openAttachedLinks'
 
+  initialize: ->
+    @resizeBusinessModelCanvas()
+
   print: ->
     window.print()
 
@@ -13,3 +16,12 @@ class MS.Views.PrintView extends Backbone.View
     e.preventDefault()
     links = @$(e.currentTarget).data('links')
     window.open link, "_blank" for link in links
+
+  resizeBusinessModelCanvas: ->
+    textSelector = '.canvas-cell-title, .canvas-answer, .canvas-help-block'
+    _break = false
+    while $('.business-model-canvas').height() > $('.business-model-canvas-wrapper').width() && !_break
+      $(textSelector).each ->
+        fontSize = parseFloat($(this).css('font-size'))
+        _break = true if fontSize <= 5 # can't use a real break statement inside each()
+        $(this).css 'font-size', "#{fontSize - .5}px"

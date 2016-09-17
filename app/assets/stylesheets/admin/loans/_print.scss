@@ -1,4 +1,7 @@
 .print-view {
+  // Just so it doesn't look so bad on the screen before printing
+  @media only screen { margin: 10px; }
+
   [data-container="loan"] {
     .form-group {
       label, div {
@@ -32,6 +35,37 @@
 
     .spreadsheet-links {
       display: none;
+    }
+  }
+
+  .progress-wrapper {
+    display: none;
+  }
+
+  .business-model-canvas-wrapper {
+    page-break-before: always;
+    page-break-after: always;
+    height: 10in;
+    width: 7.5in;
+    overflow: hidden;
+  }
+
+  .business-model-canvas {
+    width: 10in;
+    display: inline-block;
+
+    -ms-transform: translate(7.5in,0) rotate(90deg);
+    -webkit-transform: translate(7.5in,0) rotate(90deg);
+    transform: translate(7.5in,0) rotate(90deg);
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+
+    // .canvas-cell, .help-block { font-size: 80%; }
+    // h4 { font-size: 120%; }
+
+    .canvas-cell.half-height {
+      min-height: inherit;
     }
   }
 }
