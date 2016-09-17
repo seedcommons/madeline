@@ -17,6 +17,7 @@ class MS.Views.PrintView extends Backbone.View
     links = @$(e.currentTarget).data('links')
     window.open link, "_blank" for link in links
 
+  # Shrink text in business model canvas till it fits on the printed page
   resizeBusinessModelCanvas: ->
     textSelector = '.canvas-cell-title, .canvas-answer, .canvas-help-block'
     _break = false
