@@ -22,7 +22,7 @@ class LoanQuestionSet < ActiveRecord::Base
 
   belongs_to :division
 
-  has_many :custom_fields, -> { order(:position) }, inverse_of: :custom_field_set
+  has_many :loan_questions, -> { order(:position) }, inverse_of: :loan_question_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
@@ -36,7 +36,7 @@ class LoanQuestionSet < ActiveRecord::Base
   end
 
   def children
-    custom_fields.where(parent: nil)
+    loan_questions.where(parent: nil)
   end
   alias_method :kids, :children
 
@@ -87,7 +87,7 @@ class LoanQuestionSet < ActiveRecord::Base
   def depth_first_fields
     list = []
     counter = 0
-    custom_fields.where(parent: nil).each do |top_group|
+    loan_questions.where(parent: nil).each do |top_group|
       counter += 1
       top_group.transient_position = counter
       top_group.traverse_depth_first(list)
@@ -100,9 +100,9 @@ class LoanQuestionSet < ActiveRecord::Base
     if field_identifier.is_a?(LoanQuestion)
       field = field_identifier
     elsif field_identifier.is_a?(Integer)
-      field = custom_fields.find_by(id: field_identifier)
+      field = loan_questions.find_by(id: field_identifier)
     else
-      field = custom_fields.find_by(internal_name: field_identifier)
+      field = loan_questions.find_by(internal_name: field_identifier)
     end
     raise "LoanQuestion not found: #{field_identifier} for set: #{internal_name}"  if required && !field
     field
@@ -145,7 +145,7 @@ class LoanQuestionSet < ActiveRecord::Base
   def build_parent_kid_hash_for(tree)
     tree.each_pair do |field, subtree|
       # Need to associate this copy of self with each descendant or performance will be poor.
-      field.custom_field_set = self
+      field.loan_question_set = self
       @kids_by_parent[field] = subtree.keys
       build_parent_kid_hash_for(subtree)
     end

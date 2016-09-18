@@ -1,9 +1,9 @@
 # == Schema Information
 #
-# Table name: custom_fields
+# Table name: loan_questions
 #
 #  created_at            :datetime         not null
-#  custom_field_set_id   :integer
+#  loan_question_set_id   :integer
 #  data_type             :string
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
@@ -18,11 +18,11 @@
 #
 # Indexes
 #
-#  index_custom_fields_on_custom_field_set_id  (custom_field_set_id)
+#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_b30226ad05  (custom_field_set_id => custom_field_sets.id)
+#  fk_rails_b30226ad05  (loan_question_set_id => loan_question_sets.id)
 #
 
 # Full conceptual meaning of 'override_associations' boolean:
@@ -33,15 +33,15 @@
 class LoanQuestion < ActiveRecord::Base
   include Translatable
 
-  belongs_to :loan_question_set, inverse_of: :custom_fields
+  belongs_to :loan_question_set, inverse_of: :loan_questions
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
-  has_many :custom_field_requirements, dependent: :destroy
+  has_many :loan_question_requirements, dependent: :destroy
 
-  # has_many :options, through: :custom_field_requirements
+  # has_many :options, through: :loan_question_requirements
   # alias_method :loan_types, :options
-  has_many :loan_types, class_name: 'Option', through: :custom_field_requirements
+  has_many :loan_types, class_name: 'Option', through: :loan_question_requirements
 
   # note, the custom field form layout can be hierarchially nested
   has_closure_tree order: 'position', dependent: :destroy
@@ -59,7 +59,7 @@ class LoanQuestion < ActiveRecord::Base
   attr_translatable :label
   attr_translatable :explanation
 
-  delegate :division, :division=, to: :custom_field_set
+  delegate :division, :division=, to: :loan_question_set
 
   validates :data_type, presence: true
 
@@ -72,7 +72,7 @@ class LoanQuestion < ActiveRecord::Base
     # to be prepended for the database, and if it's not, it is set to both, to return all loan questions.
     field_set &&= "loan_#{field_set}"
     field_set ||= ['loan_criteria', 'loan_post_analysis']
-    joins(:custom_field_set).where(custom_field_sets:
+    joins(:loan_question_set).where(loan_question_sets:
       { internal_name: field_set })
   end
 
@@ -88,14 +88,14 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def answered_for?(loan)
-    response_set = loan.send(custom_field_set.kind)
+    response_set = loan.send(loan_question_set.kind)
     return false if !response_set
     !response_set.tree_unanswered?(self)
   end
 
   # Feature #4737
   # Resolves if this particular question is considered required for the provided loan, based on
-  # presence of association records in the custom_fields_options relation table, and the
+  # presence of association records in the loan_questions_options relation table, and the
   # 'override_associations' flag.
   # - If override is true and join records are present, question is required for those loan types
   #   and optional for all others
@@ -113,7 +113,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def name
-    "#{custom_field_set.internal_name}-#{internal_name}"
+    "#{loan_question_set.internal_name}-#{internal_name}"
   end
 
   def attribute_sym
@@ -124,7 +124,7 @@ class LoanQuestion < ActiveRecord::Base
   # the associated LoanQuestionSet, which loads the entire tree in a small number of DB queries.
   # Returns [] if this LoanQuestion has no children.
   def kids
-    custom_field_set.kids_for_parent(self)
+    loan_question_set.kids_for_parent(self)
   end
 
   def group?
@@ -175,7 +175,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   # We are deprecating this field type, due to lack of need and much added complexity,
-  # but this method is still used heavily in custom_field_addable.rb, so leaving this
+  # but this method is still used heavily in loan_question_addable.rb, so leaving this
   # here for now on the off chance that we end up needing this field type after all.
   def translatable?
     false

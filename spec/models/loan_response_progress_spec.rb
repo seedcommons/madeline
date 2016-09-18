@@ -4,7 +4,7 @@ describe "LoanResponse.progress" do
   let!(:loan_type_set) { create(:option_set, model_type: ::Loan.name, model_attribute: 'loan_type') }
   let!(:fun_loan_type) { create(:option, option_set: loan_type_set, value: 'fun') }
   let!(:loan) { create(:loan, loan_type_value: "fun")}
-  let!(:set) { create(:custom_field_set, internal_name: 'loan_criteria') }
+  let!(:set) { create(:loan_question_set, internal_name: 'loan_criteria') }
   let(:vals) { LoanResponseSet.new(loan: loan, kind: 'criteria') }
 
   context "with full LoanQuestionSet" do
@@ -92,8 +92,8 @@ describe "LoanResponse.progress" do
   end
 
   def create_field(parent: nil, name:, data_type:, required:)
-    field = create(:custom_field,
-      custom_field_set: set,
+    field = create(:loan_question,
+      loan_question_set: set,
       parent: parent,
       internal_name: name,
       data_type: data_type,

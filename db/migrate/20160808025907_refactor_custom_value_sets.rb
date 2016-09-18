@@ -5,7 +5,7 @@ class RefactorCustomValueSets < ActiveRecord::Migration
       WHERE linkable_attribute = 'loan_criteria'")
     execute("UPDATE custom_value_sets SET linkable_attribute = 'post_analysis'
       WHERE linkable_attribute = 'loan_post_analysis'")
-    remove_column :custom_value_sets, :custom_field_set_id
+    remove_column :custom_value_sets, :loan_question_set_id
     remove_column :custom_value_sets, :custom_value_set_linkable_type
     rename_column :custom_value_sets, :custom_value_set_linkable_id, :loan_id
     rename_column :custom_value_sets, :linkable_attribute, :kind

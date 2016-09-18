@@ -153,7 +153,7 @@ module Legacy
       step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
 
       org_field_set = LoanQuestionSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
-      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+      org_field_set.loan_questions.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
     end
 
   end

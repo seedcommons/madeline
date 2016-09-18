@@ -18,15 +18,15 @@ class LoanResponseSet < ActiveRecord::Base
 
   delegate :division, :division=, to: :loan
 
-  def custom_field_set
+  def loan_question_set
     LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   # Ducktype interface override of default LoanResponseSettable resolve logic.
   # Assumes linkable associated field set assigned when instance was created.
   # Allows leverage of rest of LoanResponseSettable implementation
-  def resolve_custom_field_set(required: true)
-    custom_field_set
+  def resolve_loan_question_set(required: true)
+    loan_question_set
   end
 
   # Fetches urls of all embeddable media in the whole custom value set
@@ -41,7 +41,7 @@ class LoanResponseSet < ActiveRecord::Base
   # Uses the `kids` method in LoanQuestion that reduces number of database calls.
   # Returns [] if no children found.
   def kids_of(response)
-    parent = response.custom_field
+    parent = response.loan_question
     parent.kids.map { |f| custom_value(f) }
   end
 
@@ -66,7 +66,7 @@ class LoanResponseSet < ActiveRecord::Base
   # Needed to satisfy the ProgressCalculable duck type.
   # Returns the LoanResponses for the top level questions in the set.
   def kids
-    top_level_fields = custom_field_set.kids
+    top_level_fields = loan_question_set.kids
     top_level_fields.map { |f| custom_value(f) }
   end
 

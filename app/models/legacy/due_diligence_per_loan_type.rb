@@ -33,7 +33,7 @@ module Legacy
 
     def migration_data
       data = {
-          custom_field_id: due_diligence_id,
+          loan_question_id: due_diligence_id,
           option_id: option_id_for_loan_type(loan_type_id),
           amount: amount
       }

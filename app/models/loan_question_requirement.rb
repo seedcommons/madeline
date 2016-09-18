@@ -3,7 +3,7 @@
 # Table name: loan_question_requirements
 #
 #  amount          :decimal(, )
-#  custom_field_id :integer
+#  loan_question_id :integer
 #  id              :integer          not null, primary key
 #  option_id       :integer
 #

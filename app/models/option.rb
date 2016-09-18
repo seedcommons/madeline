@@ -26,8 +26,8 @@ class Option < ActiveRecord::Base
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
-  has_many :custom_field_requirements, dependent: :destroy
-  has_many :custom_fields, through: :custom_field_requirements
+  has_many :loan_question_requirements, dependent: :destroy
+  has_many :loan_questions, through: :loan_question_requirements
 
   delegate :division, :division=, to: :option_set
 

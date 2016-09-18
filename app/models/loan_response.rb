@@ -6,7 +6,7 @@ class LoanResponse
   include ProgressCalculable
 
   attr_accessor :loan
-  attr_accessor :custom_field
+  attr_accessor :loan_question
   attr_accessor :loan_response_set
   attr_accessor :text
   attr_accessor :number
@@ -19,12 +19,12 @@ class LoanResponse
   attr_accessor :breakeven
   attr_accessor :business_canvas
 
-  delegate :group?, to: :custom_field
+  delegate :group?, to: :loan_question
 
-  def initialize(loan:, custom_field:, loan_response_set:, data:)
+  def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
-    @custom_field = custom_field
+    @loan_question = loan_question
     @loan_response_set = loan_response_set
     @text = data[:text]
     @number = data[:number]
@@ -62,7 +62,7 @@ class LoanResponse
   end
 
   def field_attributes
-    @field_attributes ||= custom_field.value_types
+    @field_attributes ||= loan_question.value_types
   end
 
   def has_text?
@@ -108,11 +108,11 @@ class LoanResponse
 
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
-    custom_field.data_type == 'text' ? :text : :string
+    loan_question.data_type == 'text' ? :text : :string
   end
 
   def required?
-    @required ||= custom_field.required_for?(loan)
+    @required ||= loan_question.required_for?(loan)
   end
 
   private

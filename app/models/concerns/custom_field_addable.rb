@@ -18,7 +18,7 @@ module CustomFieldAddable
     # Note, if division is provided that takes precedence over the model param.  i
     # If no division provided, the model's division is used.  If neither provided, then the root division is used.
     # This method is overridden for LoanResponseSet which has its field set explicitly assigned based on the link context
-    def resolve_custom_field_set(division: nil, model: nil, required: true)
+    def resolve_loan_question_set(division: nil, model: nil, required: true)
       LoanQuestionSet.resolve(self.name, division: division, model: model, required: required)
     end
   end
@@ -31,7 +31,7 @@ module CustomFieldAddable
 
   # Change/assign custom field value, but leave as tranient
   def set_custom_value(field_identifier, value)
-    field = custom_field(field_identifier)  # note, this is fatal if field not found
+    field = loan_question(field_identifier)  # note, this is fatal if field not found
     if field.translatable?
       set_translation(field.json_key, value)
     else
@@ -47,29 +47,29 @@ module CustomFieldAddable
     if field_identifier.is_a? LoanQuestion
       field = field_identifier
     else
-      field = custom_field(field_identifier)
+      field = loan_question(field_identifier)
     end
 
     raw_value = (custom_data || {})[field.json_key]
-    LoanResponse.new(loan: loan, custom_field: field, loan_response_set: self, data: raw_value)
+    LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
   end
 
   # Determines and returns which custom field set definition corresponds to this object instance, based on the owning division
   # Raises an exception if no custom field set definition is found.
   # todo: consider making 'required: false' the default
-  def resolve_custom_field_set(required: true)
-    self.class.resolve_custom_field_set(model: self, required: required)
+  def resolve_loan_question_set(required: true)
+    self.class.resolve_loan_question_set(model: self, required: required)
   end
 
   # Returns the LoanQuestion instance corresponding to the given attribute name for the current object
-  def custom_field(field_identifier, required: true)
-    field_set = resolve_custom_field_set(required: required)
+  def loan_question(field_identifier, required: true)
+    field_set = resolve_loan_question_set(required: required)
     field_set.field(field_identifier, required: required)  if field_set
   end
 
   def tree_unanswered?(root_identifier)
     # Note: Raises error if field not found
-    field = custom_field_set.field(root_identifier)
+    field = loan_question_set.field(root_identifier)
     field.self_and_descendants.all? { |i| custom_value(i.id).blank? }
   end
 
@@ -182,7 +182,7 @@ module CustomFieldAddable
       action = :get
     end
 
-    field = custom_field(attribute_name, required: false)
+    field = loan_question(attribute_name, required: false)
     if field
       [attribute_name, action, field]
     else

@@ -12,7 +12,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def new
     field_set_name = params[:fieldset]
     field_set = LoanQuestionSet.find_by(internal_name: 'loan_' + field_set_name)
-    @loan_question = field_set.custom_fields.build
+    @loan_question = field_set.loan_questions.build
     authorize @loan_question
     @loan_type_options = Loan.loan_type_options
     render_form
@@ -73,14 +73,14 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
-      params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
-        :custom_field_set_id, :has_embeddable_media, :override_associations,
+      params.require(:loan_question).permit(:label, :data_type, :parent_id, :position,
+        :loan_question_set_id, :has_embeddable_media, :override_associations,
         *translation_params(:label, :explanation), loan_type_ids: [])
     end
 
     def render_form(status: nil)
       @data_types = LoanQuestion::DATA_TYPES.map do |i|
-        [I18n.t("simple_form.options.custom_field.data_type.#{i}"), i]
+        [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
       end.sort
       if status
         render partial: 'form', status: :status

@@ -26,15 +26,15 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
+    'change input[name="loan_question[override_associations]"]': 'showHideAssociations'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
     fieldset = URI(window.location.href).query(true)['filter'] || 'criteria'
     @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('#custom_field_parent_id').val(parent_id)
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+      @$('#loan_question_parent_id').val(parent_id)
       @$('.loan-types').select2()
     )
 
@@ -42,7 +42,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
       @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
+      new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
       @$('.loan-types').select2()
     )
 

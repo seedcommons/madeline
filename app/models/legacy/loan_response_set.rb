@@ -44,15 +44,15 @@ module Legacy
         puts "response id: #{response.id} - question id: #{response.question_id}"
         field = LoanQuestion.find_by(id: response.question_id)
         if field
-          puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}"
-          model = models[field.custom_field_set.internal_name]
+          puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
+          model = models[field.loan_question_set.internal_name]
           unless model
-#            model = new_loan.fetch_has_one_custom(field.custom_field_set.internal_name, autocreate: true)
-            match = /loan_(.*)/.match(field.custom_field_set.internal_name)
-            raise "unexpected custom field set name: #{field.custom_field_set.internal_name}" unless match
+#            model = new_loan.fetch_has_one_custom(field.loan_question_set.internal_name, autocreate: true)
+            match = /loan_(.*)/.match(field.loan_question_set.internal_name)
+            raise "unexpected custom field set name: #{field.loan_question_set.internal_name}" unless match
             attrib = match[1]
             model = new_loan.send(attrib) || ::LoanResponseSet.new(kind: attrib, loan: new_loan, custom_data: {})
-            models[field.custom_field_set.internal_name] = model
+            models[field.loan_question_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"
           value_hash = response.value_hash

@@ -1,7 +1,7 @@
 class CreateCustomFieldRequirements < ActiveRecord::Migration
   def change
-    create_table :custom_field_requirements do |t|
-      t.integer :custom_field_id
+    create_table :loan_question_requirements do |t|
+      t.integer :loan_question_id
       t.integer :option_id
     end
   end
