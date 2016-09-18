@@ -112,15 +112,15 @@ module Legacy
       progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
       progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
 
-      # CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
-      CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
-      CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+      # LoanQuestionSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
+      LoanQuestionSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
+      LoanQuestionSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
       # Todo: Find out what this new question represents
-      # CustomFieldSet.find_or_create_by(id: 4, division: Division.root, internal_name: 'fourth_question_set').set_label('Fourth Question Set')
-      CustomFieldSet.recalibrate_sequence(gap: 10)
+      # LoanQuestionSet.find_or_create_by(id: 4, division: Division.root, internal_name: 'fourth_question_set').set_label('Fourth Question Set')
+      LoanQuestionSet.recalibrate_sequence(gap: 10)
 
       # need to leave room for migrated loan questions
-      CustomField.recalibrate_sequence(id: 200)
+      LoanQuestion.recalibrate_sequence(id: 200)
     end
 
 
@@ -152,7 +152,7 @@ module Legacy
                                     agent: person)
       step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
 
-      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
+      org_field_set = LoanQuestionSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
       org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
     end
 

@@ -7,7 +7,7 @@ describe "LoanResponse.progress" do
   let!(:set) { create(:custom_field_set, internal_name: 'loan_criteria') }
   let(:vals) { LoanResponseSet.new(loan: loan, kind: 'criteria') }
 
-  context "with full CustomFieldSet" do
+  context "with full LoanQuestionSet" do
     let!(:f1) { create_field(name: "f1", data_type: "text", required: false) }
     let!(:f2) { create_field(name: "f2", data_type: "number", required: true) }
 
@@ -85,7 +85,7 @@ describe "LoanResponse.progress" do
     end
   end
 
-  context "with empty CustomFieldSet" do
+  context "with empty LoanQuestionSet" do
     it "should be correct" do
       expect(vals.progress).to eq 0
     end

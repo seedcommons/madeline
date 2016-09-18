@@ -19,7 +19,7 @@ class LoanResponseSet < ActiveRecord::Base
   delegate :division, :division=, to: :loan
 
   def custom_field_set
-    CustomFieldSet.find_by(internal_name: "loan_#{kind}")
+    LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   # Ducktype interface override of default LoanResponseSettable resolve logic.
@@ -35,10 +35,10 @@ class LoanResponseSet < ActiveRecord::Base
     custom_data.values.map { |v| v["url"].presence }.compact
   end
 
-  # Gets LoanResponses whose CustomFields are children of the CustomField of the given LoanResponse.
-  # LoanResponseSet knows about response data, while CustomField knows about field hierarchy, so placing
+  # Gets LoanResponses whose CustomFields are children of the LoanQuestion of the given LoanResponse.
+  # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
   # this responsibility in LoanResponseSet seemed reasonable.
-  # Uses the `kids` method in CustomField that reduces number of database calls.
+  # Uses the `kids` method in LoanQuestion that reduces number of database calls.
   # Returns [] if no children found.
   def kids_of(response)
     parent = response.custom_field

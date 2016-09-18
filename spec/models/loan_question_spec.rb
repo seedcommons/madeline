@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CustomField, :type => :model do
+describe LoanQuestion, :type => :model do
 
   it_should_behave_like 'translatable', ['label']
 
@@ -8,7 +8,7 @@ describe CustomField, :type => :model do
     expect(create(:custom_field)).to be_valid
   end
 
-  # Pending; To be reinstated when un-stubbing `CustomField#required_for?`
+  # Pending; To be reinstated when un-stubbing `LoanQuestion#required_for?`
   context 'question groups required by loan type' do
 
     let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }

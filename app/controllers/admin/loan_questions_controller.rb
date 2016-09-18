@@ -3,15 +3,15 @@ class Admin::LoanQuestionsController < Admin::AdminController
   before_action :set_loan_question, only: [:show, :edit, :update, :destroy, :move]
 
   def index
-    authorize CustomField
+    authorize LoanQuestion
     # Hide retired questions for now
-    @questions = CustomField.loan_questions.where(status: [:active, :inactive])
+    @questions = LoanQuestion.loan_questions.where(status: [:active, :inactive])
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 
   def new
     field_set_name = params[:fieldset]
-    field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
+    field_set = LoanQuestionSet.find_by(internal_name: 'loan_' + field_set_name)
     @loan_question = field_set.custom_fields.build
     authorize @loan_question
     @loan_type_options = Loan.loan_type_options
@@ -24,7 +24,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def create
-    @loan_question = CustomField.new(loan_question_params)
+    @loan_question = LoanQuestion.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
       render json: @loan_question.reload
@@ -42,7 +42,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def move
-    target = CustomField.find(params[:target])
+    target = LoanQuestion.find(params[:target])
     method = case params[:relation]
       when 'before' then :prepend_sibling
       when 'after' then :append_sibling
@@ -67,7 +67,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
     def set_loan_question
-      @loan_question = CustomField.find(params[:id])
+      @loan_question = LoanQuestion.find(params[:id])
       authorize @loan_question
     end
 
@@ -79,7 +79,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     end
 
     def render_form(status: nil)
-      @data_types = CustomField::DATA_TYPES.map do |i|
+      @data_types = LoanQuestion::DATA_TYPES.map do |i|
         [I18n.t("simple_form.options.custom_field.data_type.#{i}"), i]
       end.sort
       if status

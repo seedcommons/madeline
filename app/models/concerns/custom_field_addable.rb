@@ -19,7 +19,7 @@ module CustomFieldAddable
     # If no division provided, the model's division is used.  If neither provided, then the root division is used.
     # This method is overridden for LoanResponseSet which has its field set explicitly assigned based on the link context
     def resolve_custom_field_set(division: nil, model: nil, required: true)
-      CustomFieldSet.resolve(self.name, division: division, model: model, required: required)
+      LoanQuestionSet.resolve(self.name, division: division, model: model, required: required)
     end
   end
 
@@ -44,7 +44,7 @@ module CustomFieldAddable
 
   # Fetches a custom value from the json field
   def custom_value(field_identifier)
-    if field_identifier.is_a? CustomField
+    if field_identifier.is_a? LoanQuestion
       field = field_identifier
     else
       field = custom_field(field_identifier)
@@ -61,7 +61,7 @@ module CustomFieldAddable
     self.class.resolve_custom_field_set(model: self, required: required)
   end
 
-  # Returns the CustomField instance corresponding to the given attribute name for the current object
+  # Returns the LoanQuestion instance corresponding to the given attribute name for the current object
   def custom_field(field_identifier, required: true)
     field_set = resolve_custom_field_set(required: required)
     field_set.field(field_identifier, required: required)  if field_set

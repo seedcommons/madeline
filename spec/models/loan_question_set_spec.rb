@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CustomFieldSet, :type => :model do
+describe LoanQuestionSet, :type => :model do
 
   it_should_behave_like 'translatable', ['label']
 

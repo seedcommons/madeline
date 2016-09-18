@@ -3,8 +3,8 @@ class LoanResponseSet < ActiveRecord::Base; end
 
 class ParseDoubleEncodedJson < ActiveRecord::Migration
   def change
-    ids = CustomField.where(data_type: 'breakeven_data').ids.map(&:to_s)
-    puts "CustomField ids: #{ids.inspect}"
+    ids = LoanQuestion.where(data_type: 'breakeven_data').ids.map(&:to_s)
+    puts "LoanQuestion ids: #{ids.inspect}"
     ids.each do |id|
       lrss = LoanResponseSet.select { |i| i.custom_data.keys.include? id }
       puts "LoanResponseSet ids: #{lrss.map(&:id).inspect}"

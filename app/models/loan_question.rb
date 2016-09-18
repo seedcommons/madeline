@@ -30,12 +30,12 @@
 # parent question"
 
 
-class CustomField < ActiveRecord::Base
+class LoanQuestion < ActiveRecord::Base
   include Translatable
 
-  belongs_to :custom_field_set, inverse_of: :custom_fields
+  belongs_to :loan_question_set, inverse_of: :custom_fields
 
-  # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
+  # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :custom_field_requirements, dependent: :destroy
 
@@ -121,8 +121,8 @@ class CustomField < ActiveRecord::Base
   end
 
   # Alternative to children method from closure_tree that uses the kids_for_parent method of
-  # the associated CustomFieldSet, which loads the entire tree in a small number of DB queries.
-  # Returns [] if this CustomField has no children.
+  # the associated LoanQuestionSet, which loads the entire tree in a small number of DB queries.
+  # Returns [] if this LoanQuestion has no children.
   def kids
     custom_field_set.kids_for_parent(self)
   end

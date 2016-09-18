@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916204926) do
+ActiveRecord::Schema.define(version: 20160918003341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,38 +40,6 @@ ActiveRecord::Schema.define(version: 20160916204926) do
 
   add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
   add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
-
-  create_table "custom_field_requirements", force: :cascade do |t|
-    t.decimal "amount"
-    t.integer "custom_field_id"
-    t.integer "option_id"
-  end
-
-  create_table "custom_field_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer  "division_id"
-    t.string   "internal_name"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_field_sets", ["division_id"], name: "index_custom_field_sets_on_division_id", using: :btree
-
-  create_table "custom_fields", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer  "custom_field_set_id"
-    t.string   "data_type"
-    t.boolean  "has_embeddable_media", default: false, null: false
-    t.string   "internal_name"
-    t.integer  "migration_position"
-    t.boolean  "override_associations", default: false, null: false
-    t.integer  "parent_id"
-    t.integer  "position"
-    t.boolean  "required", default: false, null: false
-    t.string   "status", default: "active", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -105,6 +73,38 @@ ActiveRecord::Schema.define(version: 20160916204926) do
 
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
+
+  create_table "loan_question_requirements", force: :cascade do |t|
+    t.decimal "amount"
+    t.integer "custom_field_id"
+    t.integer "option_id"
+  end
+
+  create_table "loan_question_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "division_id"
+    t.string   "internal_name"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "loan_question_sets", ["division_id"], name: "index_loan_question_sets_on_division_id", using: :btree
+
+  create_table "loan_questions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "custom_field_set_id"
+    t.string   "data_type"
+    t.boolean  "has_embeddable_media", default: false, null: false
+    t.string   "internal_name"
+    t.integer  "migration_position"
+    t.boolean  "override_associations", default: false, null: false
+    t.integer  "parent_id"
+    t.integer  "position"
+    t.boolean  "required", default: false, null: false
+    t.string   "status", default: "active", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "loan_questions", ["custom_field_set_id"], name: "index_loan_questions_on_custom_field_set_id", using: :btree
 
   create_table "loan_response_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -360,10 +360,10 @@ ActiveRecord::Schema.define(version: 20160916204926) do
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
 
   add_foreign_key "countries", "currencies", column: "default_currency_id"
-  add_foreign_key "custom_field_sets", "divisions"
-  add_foreign_key "custom_fields", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "loan_question_sets", "divisions"
+  add_foreign_key "loan_questions", "loan_question_sets", column: "custom_field_set_id"
   add_foreign_key "loans", "currencies"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"

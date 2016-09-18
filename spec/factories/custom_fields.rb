@@ -21,7 +21,7 @@ FactoryGirl.define do
   factory :custom_field do
     custom_field_set
     internal_name Faker::Lorem.words(2).join('_').downcase
-    data_type CustomField::DATA_TYPES.sample
+    data_type LoanQuestion::DATA_TYPES.sample
     position [1..10].sample
     parent nil
     transient_division

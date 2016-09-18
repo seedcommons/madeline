@@ -31,7 +31,7 @@ module Legacy
       puts "loan questions: #{ self.count }"
       (1..4).each{ |set_id| migrate_set(set_id) }
       # self.all.each &:migrate
-      ::CustomField.recalibrate_sequence(gap: 100)
+      ::LoanQuestion.recalibrate_sequence(gap: 100)
     end
 
     def self.migrate_set(set_id)
@@ -42,8 +42,8 @@ module Legacy
     end
 
     def self.purge_migrated
-      puts "CustomField.destroy_all"
-      ::CustomField.where("custom_field_set_id <= 4").destroy_all
+      puts "LoanQuestion.destroy_all"
+      ::LoanQuestion.where("custom_field_set_id <= 4").destroy_all
     end
 
     def parent_id
@@ -100,7 +100,7 @@ module Legacy
       puts "#{data[:id]}: #{data[:label_es]}"
       label_es = data.delete(:label_es)
       label_en = data.delete(:label_en)
-      model = ::CustomField.new(data)
+      model = ::LoanQuestion.new(data)
       model.set_translation(:label, label_es, locale: :es) if label_es.present?
       model.set_translation(:label, label_en, locale: :en) if label_en.present?
       model.save!

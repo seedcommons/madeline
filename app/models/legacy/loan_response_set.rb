@@ -42,7 +42,7 @@ module Legacy
       puts "responses count: #{responses.count}"
       responses.each do |response|
         puts "response id: #{response.id} - question id: #{response.question_id}"
-        field = CustomField.find_by(id: response.question_id)
+        field = LoanQuestion.find_by(id: response.question_id)
         if field
           puts "question_id: #{response.question_id} - set: #{field.custom_field_set.internal_name}"
           model = models[field.custom_field_set.internal_name]

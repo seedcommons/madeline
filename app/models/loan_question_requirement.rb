@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: custom_field_requirements
+# Table name: loan_question_requirements
 #
 #  amount          :decimal(, )
 #  custom_field_id :integer
@@ -8,11 +8,11 @@
 #  option_id       :integer
 #
 
-# Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
+# Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
 # question for a given loan type.
 
-class CustomFieldRequirement < ActiveRecord::Base
-  belongs_to :custom_field
+class LoanQuestionRequirement < ActiveRecord::Base
+  belongs_to :loan_question
   #belongs_to :option
   belongs_to :loan_type, class_name: 'Option', foreign_key: :option_id
 end
