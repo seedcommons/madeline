@@ -67,13 +67,13 @@ class LoanQuestionSet < ActiveRecord::Base
   # }
   # i.e. at each level, the tree elements are represented by hash keys and the children of each
   # element are the hash values.
-  # Requires only N+1 database queries where N is the number of top level CustomFields.
+  # Requires only N+1 database queries where N is the number of top level LoanQuestions.
   # Uses the closure_tree method of the same name.
   def hash_tree
     @hash_tree ||= children.map { |c| [c, c.hash_tree[c]] }.to_h
   end
 
-  # Builds and memoizes a hash mapping CustomFields to their children for all CustomFields in this set.
+  # Builds and memoizes a hash mapping LoanQuestions to their children for all LoanQuestions in this set.
   # Requires no further database calls beyond those needed for `hash_tree`.
   # Uses the hash to return the children of the given parent.
   def kids_for_parent(parent)

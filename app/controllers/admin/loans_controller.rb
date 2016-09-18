@@ -65,7 +65,7 @@ class Admin::LoansController < Admin::AdminController
       @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
 
       @root_questions[attrib] = LoanQuestion.loan_questions(attrib).roots.filter_for(@loan)
-      @questions_json[attrib] = @root_questions[attrib].map { |i| CustomFieldSerializer.new(i, loan: @loan) }.to_json
+      @questions_json[attrib] = @root_questions[attrib].map { |i| LoanQuestionSerializer.new(i, loan: @loan) }.to_json
     end
 
     render layout: false

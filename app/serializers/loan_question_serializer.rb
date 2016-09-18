@@ -1,4 +1,4 @@
-class CustomFieldSerializer < ActiveModel::Serializer
+class LoanQuestionSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count, :optional
 
   def initialize(*args, loan: nil, **options)

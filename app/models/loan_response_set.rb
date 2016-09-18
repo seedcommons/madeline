@@ -10,7 +10,7 @@
 #  updated_at  :datetime         not null
 #
 class LoanResponseSet < ActiveRecord::Base
-  include CustomFieldAddable, ProgressCalculable
+  include LoanQuestionAddable, ProgressCalculable
 
   belongs_to :loan
 
@@ -35,7 +35,7 @@ class LoanResponseSet < ActiveRecord::Base
     custom_data.values.map { |v| v["url"].presence }.compact
   end
 
-  # Gets LoanResponses whose CustomFields are children of the LoanQuestion of the given LoanResponse.
+  # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
   # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
   # this responsibility in LoanResponseSet seemed reasonable.
   # Uses the `kids` method in LoanQuestion that reduces number of database calls.

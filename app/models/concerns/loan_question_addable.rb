@@ -5,7 +5,7 @@
 #
 
 # REFACTOR: move into LoanResponseSet
-module CustomFieldAddable
+module LoanQuestionAddable
   extend ActiveSupport::Concern
 
   # REFACTOR: remove
