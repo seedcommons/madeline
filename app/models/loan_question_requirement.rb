@@ -2,10 +2,10 @@
 #
 # Table name: loan_question_requirements
 #
-#  amount          :decimal(, )
+#  amount           :decimal(, )
+#  id               :integer          not null, primary key
 #  loan_question_id :integer
-#  id              :integer          not null, primary key
-#  option_id       :integer
+#  option_id        :integer
 #
 
 # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required

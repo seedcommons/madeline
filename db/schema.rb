@@ -32,15 +32,6 @@ ActiveRecord::Schema.define(version: 20160918003341) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id", null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations", null: false
-  end
-
-  add_index "loan_question_hierarchies", %w(ancestor_id descendant_id generations), name: "loan_question_anc_desc_idx", unique: true, using: :btree
-  add_index "loan_question_hierarchies", ["descendant_id"], name: "loan_question_desc_idx", using: :btree
-
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
     t.integer "descendant_id", null: false
@@ -74,6 +65,15 @@ ActiveRecord::Schema.define(version: 20160918003341) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
+  create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+  end
+
+  add_index "loan_question_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "loan_question_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
+
   create_table "loan_question_requirements", force: :cascade do |t|
     t.decimal "amount"
     t.integer "loan_question_id"
@@ -91,10 +91,10 @@ ActiveRecord::Schema.define(version: 20160918003341) do
 
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "loan_question_set_id"
     t.string   "data_type"
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
+    t.integer  "loan_question_set_id"
     t.integer  "migration_position"
     t.boolean  "override_associations", default: false, null: false
     t.integer  "parent_id"
@@ -363,7 +363,7 @@ ActiveRecord::Schema.define(version: 20160918003341) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_question_sets", "divisions"
-  add_foreign_key "loan_questions", "loan_question_sets", column: "loan_question_set_id"
+  add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "loans", "currencies"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"
