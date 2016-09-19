@@ -13,7 +13,7 @@
 #  parent_id               :integer
 #  project_id              :integer
 #  project_type            :string
-#  schedule_ancestor_id    :integer
+#  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
 #  step_type_value         :string
@@ -27,9 +27,9 @@
 #
 # Foreign Keys
 #
-#  fk_rails_4007acd641  (schedule_ancestor_id => timeline_entries.id)
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
+#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'chronic'

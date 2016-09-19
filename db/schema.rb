@@ -302,7 +302,7 @@ ActiveRecord::Schema.define(version: 20160916204926) do
     t.integer  "parent_id"
     t.integer  "project_id"
     t.string   "project_type"
-    t.integer  "schedule_ancestor_id"
+    t.integer  "schedule_parent_id"
     t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
     t.string   "step_type_value"
@@ -385,7 +385,7 @@ ActiveRecord::Schema.define(version: 20160916204926) do
   add_foreign_key "project_logs", "timeline_entries", column: "project_step_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
-  add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_ancestor_id"
+  add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_parent_id"
   add_foreign_key "users", "people", column: "profile_id"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"

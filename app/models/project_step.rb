@@ -13,7 +13,7 @@
 #  parent_id               :integer
 #  project_id              :integer
 #  project_type            :string
-#  schedule_ancestor_id    :integer
+#  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
 #  step_type_value         :string
@@ -27,9 +27,9 @@
 #
 # Foreign Keys
 #
-#  fk_rails_4007acd641  (schedule_ancestor_id => timeline_entries.id)
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
+#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'chronic'
@@ -45,8 +45,8 @@ class ProjectStep < TimelineEntry
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
 
-  belongs_to :schedule_ancestor,   class_name: 'ProjectStep'
-  has_many   :schedule_decendants, class_name: 'ProjectStep', foreign_key: :schedule_ancestor_id
+  belongs_to :schedule_parent, class_name: 'ProjectStep'
+  has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id
 
   has_many :project_logs, dependent: :destroy
 
@@ -59,7 +59,7 @@ class ProjectStep < TimelineEntry
 
   before_save :handle_original_date_logic
   before_save :handle_finalized_at
-  before_save :handle_schedule_decendants
+  before_save :handle_schedule_children
 
   def name
     summary
@@ -75,9 +75,9 @@ class ProjectStep < TimelineEntry
   end
 
   # Might be better as a filter
-  def schedule_ancestor=(ancestor)
-    self.scheduled_start_date = ancestor.scheduled_end_date if ancestor
-    super(ancestor)
+  def schedule_parent=(parent)
+    self.scheduled_start_date = parent.scheduled_end_date if parent
+    super(parent)
   end
 
   def scheduled_end_date
@@ -302,10 +302,10 @@ class ProjectStep < TimelineEntry
   end
 
   # This is going to fire more callbacks. Can't think of a better way to do this.
-  def handle_schedule_decendants
-    return unless id && scheduled_start_date_changed? && schedule_decendants.present?
+  def handle_schedule_children
+    return unless id && scheduled_start_date_changed? && schedule_children.present?
 
-    schedule_decendants.each do |step|
+    schedule_children.each do |step|
       step.scheduled_start_date = scheduled_end_date
       step.save
     end

@@ -60,7 +60,7 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :timeline_entries, as: :project
-  has_many :project_logs, through: :timeline_entries
+  has_many :project_logs, through: :timeline_entries, source: :project, source_type: 'ProjectStep'
 
   # Do regular ruby select, to avoid issues with AR caching
   # Note, this means the method returns an array, not an AR::Relation

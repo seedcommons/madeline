@@ -62,7 +62,7 @@ describe ProjectStep, type: :model do
 
     context 'when linked' do
       before do
-        step.schedule_ancestor = new_step
+        step.schedule_parent = new_step
         step.save
         step.reload
       end
@@ -79,62 +79,62 @@ describe ProjectStep, type: :model do
 
   context 'with linked project_step' do
     subject(:step) do
-      create(:project_step, schedule_ancestor: ancestor_step, scheduled_duration_days: step_duration)
+      create(:project_step, schedule_parent: parent_step, scheduled_duration_days: step_duration)
     end
 
-    let(:step_duration)     { 3 }
-    let(:ancestor_step)     { create(:project_step, scheduled_start_date: ancestor_start, scheduled_duration_days: ancestor_duration) }
-    let(:ancestor_start)    { Date.civil(2014, 5, 8) }
-    let(:ancestor_end)      { Date.civil(2014, 5, 13) }
-    let(:ancestor_duration) { 5 }
+    let(:step_duration) { 3 }
+    let(:parent_step) { create(:project_step, scheduled_start_date: parent_start, scheduled_duration_days: parent_duration) }
+    let(:parent_start) { Date.civil(2014, 5, 8) }
+    let(:parent_end) { Date.civil(2014, 5, 13) }
+    let(:parent_duration) { 5 }
 
-    it 'has schedule_ancestor_id' do
-      expect(step.schedule_ancestor_id).to eq ancestor_step.id
+    it 'has schedule_parent_id' do
+      expect(step.schedule_parent_id).to eq parent_step.id
     end
 
-    it 'inherits ancestor_end for scheduled_start_date' do
-      expect(step.scheduled_start_date).to eq ancestor_end
+    it 'inherits parent_end for scheduled_start_date' do
+      expect(step.scheduled_start_date).to eq parent_end
     end
 
     it 'updates scheduled_end_date' do
-      expect(step.scheduled_end_date).to eq ancestor_end + 3
+      expect(step.scheduled_end_date).to eq parent_end + 3
     end
 
     context 'is unlinked' do
       before do
-        step.schedule_ancestor = nil
+        step.schedule_parent = nil
         step.save
       end
 
-      it 'has no schedule_ancestor_id' do
-        expect(step.schedule_ancestor_id).to be_nil
+      it 'has no schedule_parent_id' do
+        expect(step.schedule_parent_id).to be_nil
       end
 
       it 'keeps scheduled_start_date' do
-        expect(step.scheduled_start_date).to eq ancestor_end
+        expect(step.scheduled_start_date).to eq parent_end
       end
 
       it 'keeps scheduled_end_date' do
-        expect(step.scheduled_end_date).to eq ancestor_end + step_duration
+        expect(step.scheduled_end_date).to eq parent_end + step_duration
       end
     end
   end
 
   context 'with linked project_step chain' do
-    subject(:step) { create(:project_step, :with_decendant_tree) }
+    subject(:step) { create(:project_step, :with_schedule_tree) }
 
-    let(:step_level_2) { step.schedule_decendants.first }
-    let(:step_level_3) { step_level_2.schedule_decendants.first }
+    let(:step_level_2) { step.schedule_children.first }
+    let(:step_level_3) { step_level_2.schedule_children.first }
 
-    it 'has decendants' do
-      expect(step.schedule_decendants.count).to eq 3
+    it 'has children' do
+      expect(step.schedule_children.count).to eq 3
     end
 
-    it 'level 2 descendants start matches level 1 start' do
+    it 'level 2 children start matches level 1 start' do
       expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
     end
 
-    it 'level 3 descendants start matches level 2 start' do
+    it 'level 3 children start matches level 2 start' do
       expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
     end
 
@@ -155,11 +155,11 @@ describe ProjectStep, type: :model do
         expect(step.scheduled_start_date).to eq @original_date + duration_offset
       end
 
-      it 'level 2 descendants start matches level 1 start' do
+      it 'level 2 children start matches level 1 start' do
         expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
       end
 
-      it 'level 3 dscendants start matches level 2 start' do
+      it 'level 3 children start matches level 2 start' do
         expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
       end
     end
