@@ -4,19 +4,19 @@
 
     .ld-container
       .form-group.full-width-group
-        label for="#{field.attribute_sym}__url" = t("linked_document.url")
-        = f.input_field "#{field.attribute_sym}__url".to_sym, as: :string,
+        label for="#{field.attribute_sym}[url]" = t("linked_document.url")
+        = f.input_field :"#{field.attribute_sym}[url]", as: :string, value: document.try(:url),
           class: 'form-control', placeholder: t("linked_document.link")
       .help-block
         span = t("linked_document.range_of_cells")
       .form-group
-        label for="#{field.attribute_sym}__start_cell" = t("linked_document.cell_start")
-        = f.input_field "#{field.attribute_sym}__start_cell".to_sym, as: :string,
-        class: 'form-control', placeholder: t("linked_document.cell_start_hint")
+        label for="#{field.attribute_sym}[start_cell]" = t("linked_document.cell_start")
+        = f.input_field :"#{field.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
+          class: 'form-control', placeholder: t("linked_document.cell_start_hint")
       .form-group
-        label for="#{field.attribute_sym}__end_cell" = t("linked_document.cell_end")
-        = f.input_field "#{field.attribute_sym}__end_cell".to_sym, as: :string,
-        class: 'form-control', placeholder: t("linked_document.cell_end_hint")
+        label for="#{field.attribute_sym}[end_cell]" = t("linked_document.cell_end")
+        = f.input_field :"#{field.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
+          class: 'form-control', placeholder: t("linked_document.cell_end_hint")
       - if document
         - if document.display_url.present?
           .doc-actions

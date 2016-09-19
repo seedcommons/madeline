@@ -16,7 +16,8 @@ class LoanResponse
   attr_accessor :start_cell
   attr_accessor :end_cell
   attr_accessor :owner
-  attr_accessor :breakeven_data
+  attr_accessor :breakeven
+  attr_accessor :business_canvas
 
   delegate :group?, to: :custom_field
 
@@ -32,7 +33,8 @@ class LoanResponse
     @url = data[:url]
     @start_cell = data[:start_cell]
     @end_cell = data[:end_cell]
-    @breakeven_data = data[:breakeven_data]
+    @breakeven = remove_blanks data[:breakeven]
+    @business_canvas = data[:business_canvas]
   end
 
   def model_name
@@ -48,11 +50,11 @@ class LoanResponse
   end
 
   def breakeven_table
-    @breakeven_table ||= BreakevenTableQuestion.new(breakeven_data)
+    @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
   end
 
-  def breakeven_data_hash
-    @breakeven_data_hash ||= breakeven_table.data_hash
+  def breakeven_hash
+    @breakeven_hash ||= breakeven_table.data_hash
   end
 
   def breakeven_report
@@ -84,11 +86,20 @@ class LoanResponse
   end
 
   def has_breakeven_table?
-    field_attributes.include?(:breakeven_data)
+    field_attributes.include?(:breakeven)
+  end
+
+  def has_business_canvas?
+    field_attributes.include?(:business_canvas)
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? && breakeven_report.blank?
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
+      breakeven_report.blank? && business_canvas_blank?
+  end
+
+  def business_canvas_blank?
+    business_canvas.blank? || business_canvas.values.all?(&:blank?)
   end
 
   def answered?
@@ -111,5 +122,13 @@ class LoanResponse
   # performance will be horrible in recursive methods.
   def kids
     @kids ||= loan_response_set.kids_of(self)
+  end
+
+  def remove_blanks(data)
+    if data
+      data['products'].delete_if { |i| i.values.all?(&:blank?) }
+      data['fixed_costs'].delete_if { |i| i.values.all?(&:blank?) }
+    end
+    data
   end
 end

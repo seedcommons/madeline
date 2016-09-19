@@ -30,7 +30,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
-    fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
+    fieldset = URI(window.location.href).query(true)['filter'] || 'criteria'
     @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
       @$('#edit-modal').modal('show')
       new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))

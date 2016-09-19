@@ -24,7 +24,7 @@ describe LoanResponseSet, :type => :model do
     model = loan.create_criteria
     value = 'this is a summary'
     # model.update_custom_value('summary', value)
-    model.summary__text = value
+    model.summary = { text: value }
     model.save
     fetched = Loan.find(loan.id).criteria
     # expect(fetched.custom_value('summary')).to eq value
@@ -34,4 +34,3 @@ describe LoanResponseSet, :type => :model do
   end
 
 end
-
