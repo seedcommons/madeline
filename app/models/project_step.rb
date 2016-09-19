@@ -130,7 +130,7 @@ class ProjectStep < TimelineEntry
   end
 
   def display_date
-    I18n.l (self.completed_date || self.scheduled_start_date), format: :long
+    I18n.l completed_date || scheduled_start_date, format: :long
   end
 
   def date_changed?
@@ -256,7 +256,7 @@ class ProjectStep < TimelineEntry
     end
 
     # If incomplete and scheduled date changed.
-    if !completed? && scheduled_start_date? && scheduled_start_date && scheduled_start_date
+    if !completed? && scheduled_start_date_changed? && scheduled_start_date_was && scheduled_start_date
       return (scheduled_start_date - scheduled_start_date_was).to_i
     end
 
@@ -303,7 +303,7 @@ class ProjectStep < TimelineEntry
 
   # This is going to fire more callbacks. Can't think of a better way to do this.
   def handle_schedule_children
-    return unless id && scheduled_start_date_changed? && schedule_children.present?
+    return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
 
     schedule_children.each do |step|
       step.scheduled_start_date = scheduled_end_date

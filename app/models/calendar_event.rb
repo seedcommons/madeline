@@ -72,13 +72,13 @@ class CalendarEvent
   def self.loan_date_filter(range, scope = Loan)
     # Seems like a nice 'OR' syntax won't be available until Rails 5.
     # Loan.where(signing_date: date_range).or(target_end_date: date_range)
-    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
+    scope.where("signing_date BETWEEN :first AND :last OR target_end_date between :first AND :last",
                 {first: range.first, last: range.last})
   end
 
   def self.project_step_date_filter(range, scope = ProjectStep)
-    scope.where("completed_date between :first and :last OR scheduled_start_date between :first and :last "\
-      "OR original_date between :first and :last", {first: range.first, last: range.last})
+    scope.where("completed_date BETWEEN :first AND :last OR scheduled_start_date BETWEEN :first AND :last "\
+      "OR original_date BETWEEN :first and :last", {first: range.first, last: range.last})
   end
 
   def initialize_project_step(step)

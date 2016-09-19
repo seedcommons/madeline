@@ -51,22 +51,13 @@ FactoryGirl.define do
 
     trait :with_schedule_tree do
       after(:create) do |step|
-        create_list(
-          :project_step,
-          3,
-          :with_children,
-          schedule_parent: step
-        )
+        create_list( :project_step, 3, :with_children, schedule_parent: step)
       end
     end
 
     trait :with_children do
       after(:create) do |step|
-        create_list(
-          :project_step,
-          3,
-          schedule_parent: step
-        )
+        create_list( :project_step, 3, schedule_parent: step)
       end
     end
 
