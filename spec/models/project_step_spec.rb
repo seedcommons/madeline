@@ -53,14 +53,14 @@ describe ProjectStep, type: :model do
     end
   end
 
-  context 'unlinked project_step' do
+  context 'with an orpan project_step' do
     subject(:step) { create(:project_step, scheduled_start_date: start_date, scheduled_duration_days: duration) }
 
     let(:new_step)   { create(:project_step) }
     let(:start_date) { Date.civil(2016, 3, 4) }
     let(:duration)   { 2 }
 
-    context 'when linked' do
+    context 'when parent is set' do
       before do
         step.schedule_parent = new_step
         step.save
@@ -77,7 +77,7 @@ describe ProjectStep, type: :model do
     end
   end
 
-  context 'with linked project_step' do
+  context 'with child project_step' do
     subject(:step) do
       create(:project_step, schedule_parent: parent_step, scheduled_duration_days: step_duration)
     end
@@ -100,7 +100,7 @@ describe ProjectStep, type: :model do
       expect(step.scheduled_end_date).to eq parent_end + 3
     end
 
-    context 'is unlinked' do
+    context 'is orphaned' do
       before do
         step.schedule_parent = nil
         step.save
@@ -120,14 +120,22 @@ describe ProjectStep, type: :model do
     end
   end
 
-  context 'with linked project_step chain' do
+  context 'with orphan project_step containing its children and grandchildren' do
     subject(:step) { create(:project_step, :with_schedule_tree) }
 
     let(:step_level_2) { step.schedule_children.first }
     let(:step_level_3) { step_level_2.schedule_children.first }
 
+    it 'has no parent' do
+      expect(step.schedule_parent).to be_nil
+    end
+
     it 'has children' do
       expect(step.schedule_children.count).to eq 3
+    end
+
+    it 'has grand children' do
+      expect(step.schedule_children.reduce(0) { |count, gc| count + gc.schedule_children.count }).to eq 9
     end
 
     it 'level 2 children start matches level 1 start' do
