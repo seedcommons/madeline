@@ -76,9 +76,11 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def batch_destroy
     step_ids = params[:'step-ids']
-    project_id, notice = batch_operation(step_ids, notice_key: :notice_batch_deleted) do |step|
-      step.destroy
-    end
+    project_id, notice = Timeline::BatchDestroy.new(current_user, step_ids, notice_key: :notice_batch_deleted).perform
+
+    # Auth is done in BatchDestroy, but controller doesn't realize
+    skip_authorization
+
     display_timeline(project_id, notice)
   end
 
@@ -87,19 +89,13 @@ class Admin::ProjectStepsController < Admin::AdminController
     time_direction = params[:time_direction]
     num_of_days = params[:num_of_days].to_i
 
-    sign = case time_direction
-       when 'forward'
-         1
-       when 'backward'
-         -1
-       else
-         raise "adjust_dates - unexpected or missing time_direction: #{time_direction}"
-     end
-    days_adjustment = sign * num_of_days
+    project_id, notice = Timeline::DateAdjustment.new(current_user,
+                                                      step_ids,
+                                                      time_direction: time_direction,
+                                                      num_of_days: num_of_days).perform
+    # Auth is done in DateAdjustment, but controller doesn't realize
+    skip_authorization
 
-    project_id, notice = batch_operation(step_ids) do |step|
-      step.adjust_scheduled_date(days_adjustment)
-    end
     display_timeline(project_id, notice)
   end
 
@@ -112,42 +108,6 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   private
-
-  # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
-  # the timeline.
-  # 'step_ids' may either be an array of integer or comma separated string
-  def batch_operation(step_ids, notice_key: :notice_batch_updated)
-    success_count = 0
-    failure_count = 0
-    project_id = nil
-    raise_error = true
-    step_ids = step_ids.split(',') if step_ids.is_a?(String)
-    step_ids.each do |step_id|
-      begin
-        step = ProjectStep.find(step_id)
-        authorize step
-        project_id ||= step.project_id
-
-        # If the block returns false, this indicates no change and this record should be left out of
-        # both success and failure counts.
-        if yield(step)
-          success_count += 1
-        end
-        raise_error = false
-      rescue => e
-        Rails.logger.error("project step: #{step_id} - batch operation error: #{e}")
-        raise e if raise_error
-        failure_count += 1
-      end
-    end
-
-    notice = I18n.t(notice_key, count: success_count)
-    if failure_count > 0
-      notice = [notice, I18n.t(:notice_batch_failures, failure_count: failure_count)].join(" ")
-    end
-
-    [project_id, notice]
-  end
 
   def project_step_params
     params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :completed_date, :step_type_value,

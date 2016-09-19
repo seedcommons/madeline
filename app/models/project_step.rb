@@ -221,16 +221,6 @@ class ProjectStep < TimelineEntry
     @duplication ||= Timeline::StepDuplication.new(self)
   end
 
-  def adjust_scheduled_date(days_adjustment)
-    if scheduled_start_date && days_adjustment != 0
-      new_date = scheduled_start_date + days_adjustment.days
-      # note, original_date will be assigned if needed by the before_save logic
-      update!(scheduled_start_date: new_date)
-    else
-      false
-    end
-  end
-
   # Note, "is_finalized" means a step is no longer a draft, and future changes should remember the
   # original scheduled date.
   def finalize
