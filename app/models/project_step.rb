@@ -218,7 +218,7 @@ class ProjectStep < TimelineEntry
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
   # submit handling.
   def duplication
-    @duplication ||= ProjectStepDuplication.new(self)
+    @duplication ||= Timeline::StepDuplication.new(self)
   end
 
   def adjust_scheduled_date(days_adjustment)
