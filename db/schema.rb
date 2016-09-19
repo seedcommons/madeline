@@ -302,7 +302,7 @@ ActiveRecord::Schema.define(version: 20160916204926) do
     t.integer  "parent_id"
     t.integer  "project_id"
     t.string   "project_type"
-    t.date     "scheduled_date"
+    t.date     "scheduled_start_date"
     t.string   "step_type_value"
     t.string   "type", null: false
     t.datetime "updated_at", null: false

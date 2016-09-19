@@ -20,7 +20,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-    @step = ProjectStep.new(project: @loan, scheduled_date: params[:date])
+    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
     authorize @step
     params[:context] = "timeline" unless params[:context]
     render_step_partial(:form)
@@ -150,7 +150,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def project_step_params
-    params.require(:project_step).permit(*([:is_finalized, :scheduled_date, :completed_date, :step_type_value,
+    params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :completed_date, :step_type_value,
       :project_type, :project_id] + translation_params(:summary, :details)))
   end
 

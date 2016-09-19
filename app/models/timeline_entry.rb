@@ -2,21 +2,21 @@
 #
 # Table name: timeline_entries
 #
-#  agent_id          :integer
-#  completed_date    :date
-#  created_at        :datetime         not null
-#  date_change_count :integer          default(0), not null
-#  finalized_at      :datetime
-#  id                :integer          not null, primary key
-#  is_finalized      :boolean
-#  original_date     :date
-#  parent_id         :integer
-#  project_id        :integer
-#  project_type      :string
-#  scheduled_date    :date
-#  step_type_value   :string
-#  type              :string           not null
-#  updated_at        :datetime         not null
+#  agent_id             :integer
+#  completed_date       :date
+#  created_at           :datetime         not null
+#  date_change_count    :integer          default(0), not null
+#  finalized_at         :datetime
+#  id                   :integer          not null, primary key
+#  is_finalized         :boolean
+#  original_date        :date
+#  parent_id            :integer
+#  project_id           :integer
+#  project_type         :string
+#  scheduled_start_date :date
+#  step_type_value      :string
+#  type                 :string           not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #

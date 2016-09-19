@@ -2,21 +2,21 @@
 #
 # Table name: timeline_entries
 #
-#  agent_id          :integer
-#  completed_date    :date
-#  created_at        :datetime         not null
-#  date_change_count :integer          default(0), not null
-#  finalized_at      :datetime
-#  id                :integer          not null, primary key
-#  is_finalized      :boolean
-#  original_date     :date
-#  parent_id         :integer
-#  project_id        :integer
-#  project_type      :string
-#  scheduled_date    :date
-#  step_type_value   :string
-#  type              :string           not null
-#  updated_at        :datetime         not null
+#  agent_id             :integer
+#  completed_date       :date
+#  created_at           :datetime         not null
+#  date_change_count    :integer          default(0), not null
+#  finalized_at         :datetime
+#  id                   :integer          not null, primary key
+#  is_finalized         :boolean
+#  original_date        :date
+#  parent_id            :integer
+#  project_id           :integer
+#  project_type         :string
+#  scheduled_start_date :date
+#  step_type_value      :string
+#  type                 :string           not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
@@ -113,7 +113,7 @@ class ProjectStep < TimelineEntry
   end
 
   def display_date
-    I18n.l (self.completed_date || self.scheduled_date), format: :long
+    I18n.l (self.completed_date || self.scheduled_start_date), format: :long
   end
 
   def date_changed?
@@ -135,15 +135,15 @@ class ProjectStep < TimelineEntry
 
   # The date to use when calculating days_late.
   def on_time_date
-    original_date || scheduled_date
+    original_date || scheduled_start_date
   end
 
   def days_late
-    if scheduled_date
+    if scheduled_start_date
       if completed?
         (completed_date - on_time_date).to_i
       else
-        ([scheduled_date, Date.today].max - on_time_date).to_i
+        ([scheduled_start_date, Date.today].max - on_time_date).to_i
       end
     end
   end
@@ -194,8 +194,8 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def scheduled_day
-    scheduled_date.day
+  def scheduled_start_day
+    scheduled_start_date.day
   end
 
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
@@ -205,10 +205,10 @@ class ProjectStep < TimelineEntry
   end
 
   def adjust_scheduled_date(days_adjustment)
-    if scheduled_date && days_adjustment != 0
-      new_date = scheduled_date + days_adjustment.days
+    if scheduled_start_date && days_adjustment != 0
+      new_date = scheduled_start_date + days_adjustment.days
       # note, original_date will be assigned if needed by the before_save logic
-      update!(scheduled_date: new_date)
+      update!(scheduled_start_date: new_date)
     else
       false
     end
@@ -225,7 +225,7 @@ class ProjectStep < TimelineEntry
   end
 
   # Returns number of days that the step's calendar date is about to be shifted.
-  # - If step is incomplete, returns number of days the scheduled date has been shifted.
+  # - If step is incomplete, returns number of days the scheduled start date has been shifted.
   # - If step is about to be set as complete, returns number of days late or early (negative).
   # - If step was already complete, returns number of days completed date has been shifted.
   # Assumes that record has pending changes assigned, but not yet saved.
@@ -233,14 +233,14 @@ class ProjectStep < TimelineEntry
     return 0 unless is_finalized?
 
     # If completed date just got set.
-    if scheduled_date && completed_date && completed_date_changed? &&
-      completed_date_was.blank? && completed_date > scheduled_date
-      return (completed_date - scheduled_date).to_i
+    if scheduled_start_date && completed_date && completed_date_changed? &&
+      completed_date_was.blank? && completed_date > scheduled_start_date
+      return (completed_date - scheduled_start_date).to_i
     end
 
     # If incomplete and scheduled date changed.
-    if !completed? && scheduled_date_changed? && scheduled_date_was && scheduled_date
-      return (scheduled_date - scheduled_date_was).to_i
+    if !completed? && scheduled_start_date? && scheduled_start_date && scheduled_start_date
+      return (scheduled_start_date - scheduled_start_date_was).to_i
     end
 
     # If complete and completed date changed.
@@ -252,7 +252,7 @@ class ProjectStep < TimelineEntry
   end
 
   def calendar_date
-    completed? ? completed_date : scheduled_date
+    completed? ? completed_date : scheduled_start_date
   end
 
   def calendar_events
@@ -268,9 +268,9 @@ class ProjectStep < TimelineEntry
   def handle_original_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_date_changed? && is_finalized?
+    if scheduled_start_date_changed? && is_finalized?
       if original_date.blank?
-        self.original_date = scheduled_date_was
+        self.original_date = scheduled_start_date_was
       end
       self.date_change_count = self.date_change_count.to_i.succ
     end

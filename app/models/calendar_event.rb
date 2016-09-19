@@ -77,7 +77,7 @@ class CalendarEvent
   end
 
   def self.project_step_date_filter(range, scope = ProjectStep)
-    scope.where("completed_date between :first and :last OR scheduled_date between :first and :last "\
+    scope.where("completed_date between :first and :last OR scheduled_start_date between :first and :last "\
       "OR original_date between :first and :last", {first: range.first, last: range.last})
   end
 

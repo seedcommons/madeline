@@ -28,9 +28,9 @@ describe ProjectStep, type: :model do
   end
 
   it 'has original_date automatically assigned' do
-    step = create(:project_step, scheduled_date: Date.today, is_finalized: true)
+    step = create(:project_step, scheduled_start_date: Date.today, is_finalized: true)
     expect(step[:original_date]).to be_nil
-    step.update(scheduled_date: Date.today + 2.days)
+    step.update(scheduled_start_date: Date.today + 2.days)
     # Beware, the 'orginal_date' method will automatically returned scheduled date even when the
     # raw value is nil, so need to directly check the attribute
     expect(step[:original_date]).not_to be_nil
@@ -52,4 +52,8 @@ describe ProjectStep, type: :model do
       expect(group.children.count).to eq 1
     end
   end
+
+  it 'should ensure duration when start date present'
+  it 'end date should be present based on the duration'
+  it 'removes ancestor when scheduled_start_date is set'
 end

@@ -27,7 +27,7 @@ div.panel-body class=('new-record' if step.new_record?)
         include_blank: '---',
         wrapper_html: {class: 'clearfix'},
         input_html: {class: 'type'}
-      = f.input :scheduled_date, label: 'Scheduled', as: :date_picker, wrapper_html: {class: 'clearfix'},
+      = f.input :scheduled_start_date, label: 'Scheduled', as: :date_picker, wrapper_html: {class: 'clearfix'},
         wrapper: :step_form_right_9
       = f.input :completed_date, label: 'Completed', as: :date_picker, wrapper_html: {class: 'clearfix'},
         wrapper: :step_form_right_9

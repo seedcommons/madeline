@@ -71,7 +71,7 @@
             th
               = t("project_step.labels.scheduled")
             td style="background: #{step.scheduled_bg}"
-              = step.scheduled_date ? l(step.scheduled_date) : ''
+              = step.scheduled_start_date ? l(step.scheduled_start_date) : ''
 
           - if step.original_date
             tr

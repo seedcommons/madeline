@@ -13,7 +13,7 @@ class ProjectStepDuplication
 
   def initialize(step)
     @step = step
-    @basis_date = step.scheduled_date || Date.today
+    @basis_date = step.scheduled_start_date || Date.today
   end
 
   def perform(params)
@@ -73,12 +73,12 @@ class ProjectStepDuplication
 
   def duplicate(date = nil, should_persist: true, allow_error: true)
     begin
-      date ||= step.scheduled_date
+      date ||= step.scheduled_start_date
       new_step = ProjectStep.new(
         project: step.project,
         agent: step.agent,
         step_type_value: step.step_type_value,
-        scheduled_date: date,
+        scheduled_start_date: date,
         original_date: nil,
         completed_date: nil,
         is_finalized: false,
