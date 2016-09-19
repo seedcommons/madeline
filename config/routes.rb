@@ -40,7 +40,9 @@ Rails.application.routes.draw do
         patch :shift_subsequent
       end
     end
-    resources :project_step_moves
+
+    # Does it make sense to surround in separate namespace?
+    resources :timeline_step_moves
 
     scope '/:attachable_type/:attachable_id' do
       resources :media

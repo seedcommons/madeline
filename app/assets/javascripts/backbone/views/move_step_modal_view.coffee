@@ -14,7 +14,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
     @stepId = stepId
     @deferred = jQuery.Deferred()
     params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}"
-    $.get "/admin/project_step_moves/new?#{params}", (html) => @replaceContent(html)
+    $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html)
     @deferred.promise()
 
   replaceContent: (html) ->
