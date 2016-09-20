@@ -76,8 +76,8 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def batch_destroy
     project_id, notice = Timeline::BatchDestroy.new(current_user,
-                                                    params['step-ids'],
-                                                    notice_key: :notice_batch_deleted).perform
+      params['step-ids'],
+      notice_key: :notice_batch_deleted).perform
 
     # Auth is done in BatchDestroy, but controller doesn't realize
     skip_authorization
@@ -87,9 +87,10 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def adjust_dates
     project_id, notice = Timeline::DateAdjustment.new(current_user,
-                                                      params['step-ids'],
-                                                      time_direction: params[:time_direction],
-                                                      num_of_days: params[:num_of_days].to_i).perform
+      params['step-ids'],
+      time_direction: params[:time_direction],
+      num_of_days: params[:num_of_days].to_i).perform
+
     # Auth is done in DateAdjustment, but controller doesn't realize
     skip_authorization
 

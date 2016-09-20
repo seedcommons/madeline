@@ -296,7 +296,6 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  # This is going to fire more callbacks. Can't think of a better way to do this.
   def handle_schedule_children
     return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
 

@@ -10,10 +10,6 @@ module Timeline
       @notice_key = notice_key
     end
 
-    def authorization_key
-      raise NotImplementedError.new('Abstract class, please override #authorization_key')
-    end
-
     # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
     # the timeline.
     # 'step_ids' may either be an array of integer or comma separated string
@@ -51,6 +47,10 @@ module Timeline
     end
 
     protected
+
+    def authorization_key
+      raise NotImplementedError.new('Abstract class, please override #authorization_key')
+    end
 
     def batch_operation(user, step)
       raise NotImplementedError.new('Abstract class, please override #perform')

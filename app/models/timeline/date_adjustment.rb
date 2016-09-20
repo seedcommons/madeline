@@ -1,5 +1,4 @@
 module Timeline
-
   # Timeline::StepMove could probably use this as well.
   # There is a bunch of duplications between these classes
   class DateAdjustment < BatchOp
@@ -9,24 +8,22 @@ module Timeline
       @num_of_days = num_of_days
     end
 
+    protected
+
     def authorization_key
       :adjust_dates?
     end
 
-    private
     def batch_operation(user, step)
       adjust_scheduled_date(step, days_adjustment)
     end
 
     def days_adjustment
       sign = case @time_direction
-             when 'forward'
-               1
-             when 'backward'
-               -1
-             else
-               raise "adjust_dates - unexpected or missing time_direction: #{time_direction}"
-             end
+      when 'forward' then 1
+      when 'backward' then -1
+      else raise "adjust_dates - unexpected or missing time_direction: #{time_direction}"
+      end
       sign * @num_of_days
     end
 
