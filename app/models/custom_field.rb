@@ -68,7 +68,7 @@ class CustomField < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  DATA_TYPES = %i(string text number range group boolean breakeven_data)
+  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
   def self.loan_questions(field_set = nil)
     # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
@@ -91,8 +91,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def answered_for?(loan)
-    kind = custom_field_set.internal_name.sub(/^loan_/, '')
-    response_set = loan.send(kind.to_sym)
+    response_set = loan.send(custom_field_set.kind)
     return false if !response_set
     !response_set.tree_unanswered?(self)
   end
@@ -145,16 +144,12 @@ class CustomField < ActiveRecord::Base
 
   # List of value keys for fields which have nested values
   def value_types
-    result =
-      case data_type
-      when 'string' then [:text]
-      when 'text' then [:text]
-      when 'number' then [:number]
-      when 'range' then [:rating, :text]
-      when 'boolean' then [:boolean]
-      when 'breakeven_data' then [:breakeven_data]
-      else []
-      end
+    # raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
+    if data_type == 'range'
+      result = [:rating, :text]
+    else
+      result = [data_type.to_sym]
+    end
 
     if has_embeddable_media
       if result

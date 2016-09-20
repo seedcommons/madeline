@@ -31,37 +31,19 @@ module CustomFieldAddable
 
   # Change/assign custom field value, but leave as tranient
   def set_custom_value(field_identifier, value)
-    if (field_identifier.is_a? String) && field_identifier.include?('__')
-      parts = field_identifier.split('__')
-      field_identifier = parts[0]
-      nested_attribute = parts[1]
-    end
-
     field = custom_field(field_identifier)  # note, this is fatal if field not found
     if field.translatable?
       set_translation(field.json_key, value)
     else
       self.custom_data ||= {}
       # future: value manipulation depending on field data type
-      if nested_attribute
-        hash = custom_data[field.json_key] || {}
-        hash[nested_attribute] = value
-        custom_data[field.json_key] = hash
-      else
-        custom_data[field.json_key] = value
-      end
+      custom_data[field.json_key] = value
       custom_data
     end
   end
 
   # Fetches a custom value from the json field
   def custom_value(field_identifier)
-    if (field_identifier.is_a? String) && field_identifier.include?('__')
-      parts = field_identifier.split('__')
-      field_identifier = parts[0]
-      nested_attribute = parts[1]
-    end
-
     if field_identifier.is_a? CustomField
       field = field_identifier
     else
@@ -69,8 +51,7 @@ module CustomFieldAddable
     end
 
     raw_value = (custom_data || {})[field.json_key]
-    response = LoanResponse.new(loan: loan, custom_field: field, loan_response_set: self, data: raw_value)
-    nested_attribute ? response.send(nested_attribute) : response
+    LoanResponse.new(loan: loan, custom_field: field, loan_response_set: self, data: raw_value)
   end
 
   # Determines and returns which custom field set definition corresponds to this object instance, based on the owning division
@@ -201,14 +182,7 @@ module CustomFieldAddable
       action = :get
     end
 
-    if attribute_name.include?('__')
-      parts = attribute_name.split('__')
-      field_name = parts[0]
-    else
-      field_name = attribute_name
-    end
-
-    field = custom_field(field_name, required: false)
+    field = custom_field(attribute_name, required: false)
     if field
       [attribute_name, action, field]
     else

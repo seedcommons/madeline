@@ -52,7 +52,9 @@ en:
           number: Number
           range: Range
           boolean: Yes/No
+          breakeven: Breakeven Table
           breakeven_data: Breakeven Table
+          business_canvas: Business Model Canvas
         override_associations:
           "false": "Inherits from Parent"
           "true": "Overrides Parent"

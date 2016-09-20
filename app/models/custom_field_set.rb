@@ -31,6 +31,10 @@ class CustomFieldSet < ActiveRecord::Base
     label
   end
 
+  def kind
+    internal_name.sub(/^loan_/, '').to_sym
+  end
+
   def children
     custom_fields.where(parent: nil)
   end
