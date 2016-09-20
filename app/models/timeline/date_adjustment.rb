@@ -9,12 +9,15 @@ module Timeline
       @num_of_days = num_of_days
     end
 
-    def batch_operation(user, step)
-      Pundit.authorize user, step, :adjust_dates?
-      adjust_scheduled_date(step, days_adjustment)
+    def authorization_key
+      :adjust_dates?
     end
 
     private
+    def batch_operation(user, step)
+      adjust_scheduled_date(step, days_adjustment)
+    end
+
     def days_adjustment
       sign = case @time_direction
              when 'forward'

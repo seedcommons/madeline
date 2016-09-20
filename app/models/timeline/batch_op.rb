@@ -10,6 +10,10 @@ module Timeline
       @notice_key = notice_key
     end
 
+    def authorization_key
+      raise NotImplementedError.new('Abstract class, please override #authorization_key')
+    end
+
     # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
     # the timeline.
     # 'step_ids' may either be an array of integer or comma separated string
@@ -22,7 +26,7 @@ module Timeline
       @step_ids.each do |step_id|
         begin
           step = ProjectStep.find(step_id)
-          # authorize step
+          Pundit.authorize @user, step, authorization_key
           project_id ||= step.project_id
 
           # If the block returns false, this indicates no change and this record should be left out of
