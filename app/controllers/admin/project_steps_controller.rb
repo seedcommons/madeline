@@ -101,9 +101,11 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def finalize
     step_ids = params[:'step-ids']
-    project_id, notice = batch_operation(step_ids) do |step|
-      step.finalize
-    end
+    project_id, notice = Timeline::BatchFinalize.new(current_user, step_ids).perform
+
+    # Auth is done in BatchFinalize, but controller doesn't realize
+    skip_authorization
+
     display_timeline(project_id, notice)
   end
 
