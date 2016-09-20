@@ -19,7 +19,7 @@
       = f.input_field :data_type, collection: @data_types
 
       table.table.allow-attachments: tbody: tr
-        td.checkbox-only = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
+        td = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
         td = f.label :has_embeddable_media
 
     = render "loan_types", f: f
