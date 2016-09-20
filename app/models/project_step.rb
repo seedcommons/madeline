@@ -80,6 +80,11 @@ class ProjectStep < TimelineEntry
     super(parent)
   end
 
+  def scheduled_start_date=(date)
+    raise ArgumentError if date.blank?
+    super(date)
+  end
+
   def scheduled_end_date
     scheduled_start_date + scheduled_duration_days
   end

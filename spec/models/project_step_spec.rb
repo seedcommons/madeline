@@ -60,7 +60,7 @@ describe ProjectStep, type: :model do
     let(:start_date) { Date.civil(2016, 3, 4) }
     let(:duration)   { 2 }
 
-    context 'when parent is set' do
+    context 'when parent is set to orphan step' do
       before do
         step.schedule_parent = new_step
         step.save
@@ -74,6 +74,12 @@ describe ProjectStep, type: :model do
 
     it 'scheduled_end_date is correct' do
       expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 6)
+    end
+
+    context 'when scheduled_start_date is set to nil' do
+      it 'should raise an error' do
+        expect { step.scheduled_start_date = nil }.to raise_error(ArgumentError)
+      end
     end
   end
 
