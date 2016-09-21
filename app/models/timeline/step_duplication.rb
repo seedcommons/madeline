@@ -80,6 +80,7 @@ module Timeline
           agent: step.agent,
           step_type_value: step.step_type_value,
           scheduled_start_date: date,
+          scheduled_duration_days: step.scheduled_duration_days,
           original_date: nil,
           completed_date: nil,
           is_finalized: false,
