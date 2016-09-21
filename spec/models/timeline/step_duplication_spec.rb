@@ -1,5 +1,37 @@
 require 'rails_helper'
 
+shared_examples_for 'a duplicated step' do |params|
+  date_offset = params[:date_offset]
+
+  it 'has original project' do
+    expect(subject.project).to eq original.project
+  end
+  it 'has original agent' do
+    expect(subject.agent).to eq original.agent
+  end
+  it 'has original step_type_value' do
+    expect(subject.step_type_value).to eq original.step_type_value
+  end
+  it 'has original scheduled_start_date' do
+    expect(subject.scheduled_start_date).to eq original.scheduled_start_date + date_offset
+  end
+  it "scheduled_duration_days is date_offset by #{date_offset} sec" do
+    expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days
+  end
+  it 'original_date is nil' do
+    expect(subject.original_date).to be_nil
+  end
+  it 'completed_date is nil' do
+    expect(subject.completed_date).to be_nil
+  end
+  it 'is_finalize is false' do
+    expect(subject.is_finalized).to eq false
+  end
+  it 'schedule_parent is nil' do
+    expect(subject.schedule_parent).to be_nil
+  end
+end
+
 RSpec.describe Timeline::StepDuplication, type: :model do
   let(:repeat_duration) { 'custom_repeat' }
   let(:time_unit_frequency) { '1' }
@@ -19,15 +51,7 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     let(:duplicate) { Timeline::StepDuplication.new(original).perform(repeat_duration: 'once') }
     subject { duplicate.first }
 
-    it { expect(subject.project).to eq original.project }
-    it { expect(subject.agent).to eq original.agent }
-    it { expect(subject.step_type_value).to eq original.step_type_value }
-    it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date }
-    it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-    it { expect(subject.original_date).to be_nil }
-    it { expect(subject.completed_date).to be_nil }
-    it { expect(subject.is_finalized).to eq false }
-    it { expect(subject.schedule_parent).to be_nil }
+    it_should_behave_like 'a duplicated step', date_offset: 0.days
   end
 
   context 'when duplicated once daily' do
@@ -38,15 +62,7 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     end
     subject { duplicate.first }
 
-    it { expect(subject.project).to eq original.project }
-    it { expect(subject.agent).to eq original.agent }
-    it { expect(subject.step_type_value).to eq original.step_type_value }
-    it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1 }
-    it { expect(subject.original_date).to be_nil }
-    it { expect(subject.completed_date).to be_nil }
-    it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-    it { expect(subject.is_finalized).to eq false }
-    it { expect(subject.schedule_parent).to be_nil }
+    it_should_behave_like 'a duplicated step', date_offset: 1.day
   end
 
   context 'when duplicated twice daily' do
@@ -64,29 +80,13 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     context 'with first step' do
       subject { duplicate.first }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1 }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 1.day
     end
 
     context 'with second step' do
       subject { duplicate[1] }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 2 }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 2.days
     end
   end
 
@@ -106,29 +106,13 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     context 'with first step' do
       subject { duplicate.first }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1.week }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 1.week
     end
 
     context 'with second step' do
       subject { duplicate[1] }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 2.weeks }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 2.weeks
     end
   end
 
@@ -148,29 +132,13 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     context 'with first step' do
       subject { duplicate.first }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1.month }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 1.month
     end
 
     context 'with second step' do
       subject { duplicate[1] }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 2.months }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 2.months
     end
   end
 
@@ -191,29 +159,13 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     context 'with first step' do
       subject { duplicate.first }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1.month }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 1.month
     end
 
     context 'with second step' do
       subject { duplicate[1] }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 2.months }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 2.months
     end
   end
 
@@ -234,29 +186,13 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     context 'with first step' do
       subject { duplicate.first }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 1.day }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 1.day
     end
 
     context 'with second step' do
       subject { duplicate[1] }
 
-      it { expect(subject.project).to eq original.project }
-      it { expect(subject.agent).to eq original.agent }
-      it { expect(subject.step_type_value).to eq original.step_type_value }
-      it { expect(subject.scheduled_start_date).to eq original.scheduled_start_date + 2.days }
-      it { expect(subject.original_date).to be_nil }
-      it { expect(subject.completed_date).to be_nil }
-      it { expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days }
-      it { expect(subject.is_finalized).to eq false }
-      it { expect(subject.schedule_parent).to be_nil }
+      it_should_behave_like 'a duplicated step', date_offset: 2.days
     end
   end
 end
