@@ -1,29 +1,32 @@
-# == Schema Information
-#
-# Table name: project_steps
-#
-#  id              :integer          not null, primary key
-#  project_id      :integer
-#  project_type    :string
-#  agent_id        :integer
-#  scheduled_date  :date
-#  completed_date  :date
-#  is_finalized    :boolean
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  step_type_value :string
-#
-# Indexes
-#
-#  index_project_steps_on_agent_id                     (agent_id)
-#  index_project_steps_on_project_type_and_project_id  (project_type,project_id)
-#
-
 FactoryGirl.define do
   factory :project_group do
     association :project, factory: :loan
     association :agent, factory: :person
     transient_division
-    summary { Faker::Hipster.paragraph }
+    summary { Faker::Lorem.sentence(3, false, 1).chomp(".") }
+
+    factory :root_project_group do
+      summary nil
+
+      factory :root_project_group_with_descendants do
+
+        after(:create) do |root|
+          create_group = ->(attribs = {}) do
+            create(:project_group, attribs.merge(project: root.project, division: root.division))
+          end
+
+          # Create 3 top level groups, each with 2-4 subgroups, each with 1-4 child steps
+          3.times { root.children << create_group.call }
+          root.children.each do |child|
+            rand(2..4).times { child.children << create_group.call }
+            child.children.each do |grandchild|
+              rand(1..4).times do
+                grandchild.children << create(:project_step, project: root.project, division: root.division)
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end

@@ -60,8 +60,18 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :timeline_entries, as: :project
-  has_many :project_logs, through: :timeline_entries
+  has_many :project_logs, through: :timeline_entries, source: :project, source_type: 'ProjectStep'
 
+  # The Loan's timeline entries should be accessed via this root node.
+  # Timeline steps are organzed as a tree. The tree has a blank root node (ProjectGroup) that is not shown
+  # to the user, but makes it easier to do computations over the tree (instead of each top level group
+  # being the root of its own separate tree).
+  # May return nil if there are no groups or steps in the loan thus far.
+  def root_timeline_entry
+    @root_timeline_entry ||= timeline_entries.where(parent_id: nil).first
+  end
+
+  # DEPRECATED - This should not be necessary once we transition to tabular format.
   # Do regular ruby select, to avoid issues with AR caching
   # Note, this means the method returns an array, not an AR::Relation
   def project_steps

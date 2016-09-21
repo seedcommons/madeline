@@ -53,9 +53,7 @@ FactoryGirl.define do
     end
 
     trait :admin do
-      transient do
-        division { create(:division) }
-      end
+      profile { create(:person, :with_admin_access, :with_password) }
 
       after(:create) do |user, evaluator|
         user.add_role :admin, evaluator.division if evaluator.division.present?
