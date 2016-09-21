@@ -40,5 +40,4 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project, allow_nil: true
-
 end

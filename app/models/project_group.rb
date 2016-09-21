@@ -37,6 +37,16 @@ class ProjectGroup < TimelineEntry
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
 
+  # Gets the total number of steps beneath this group.
+  # Currently this will recursively traverse the tree and fire a whole bunch of queries,
+  # one for each ProjectGroup. Should be some way to eager load but not seeing it.
+  # Performance shouldn't be too bad though as there shouldn't be that many groups.
+  def descendant_step_count
+    children.to_a.sum do |c|
+      c.is_a?(ProjectStep) ? 1 : c.descendant_step_count
+    end
+  end
+
   def validate_no_children
     raise DestroyWithChildrenError.new if children.present?
   end
