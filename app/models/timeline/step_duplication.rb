@@ -45,13 +45,45 @@ module Timeline
       result
     end
 
+    # These seem to be helpers for the date dialog. They could probably
+    # be extracted into a helper method or class
+    def basis_day
+      basis_date.day
+    end
+
+    def basis_weekday
+      Date::DAYNAMES[basis_date.wday]
+    end
+
+    def basis_weekday_key
+      basis_week.to_s + "_" + basis_weekday.downcase
+    end
+
+    # Returns which week within a given month the scheduled date (or current date if absent) occurs.
+    def basis_week
+      day = basis_day.to_i
+
+      if (day < 8)
+        1
+      elsif (8 <= day) && (day < 15)
+        2
+      elsif (15 <= day) && (day < 22)
+        3
+      elsif (22 <= day) && (day < 29)
+        4
+      else
+        5
+      end
+    end
+
+    private
+
     def duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date)
       results = []
       allow_error = true
       last_date = basis_date
       (num_of_occurrences || DUPLICATION_RECORD_LIMIT).times do
         next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
-        puts "next date: #{next_date}"
         break if end_date && next_date > end_date
         results << duplicate(next_date, should_persist: true, allow_error: allow_error)
         last_date = next_date
@@ -97,35 +129,6 @@ module Timeline
         nil  # Partial failures will be stripped from result list.
       end
 
-    end
-
-    def basis_day
-      basis_date.day
-    end
-
-    def basis_weekday
-      Date::DAYNAMES[basis_date.wday]
-    end
-
-    def basis_weekday_key
-      basis_week.to_s + "_" + basis_weekday.downcase
-    end
-
-    # Returns which week within a given month the scheduled date (or current date if absent) occurs.
-    def basis_week
-      day = basis_day.to_i
-
-      if (day < 8)
-        1
-      elsif (8 <= day) && (day < 15)
-        2
-      elsif (15 <= day) && (day < 22)
-        3
-      elsif (22 <= day) && (day < 29)
-        4
-      else
-        5
-      end
     end
 
   end
