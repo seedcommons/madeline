@@ -36,6 +36,46 @@ describe ProjectStep, type: :model do
     expect(step[:original_date]).not_to be_nil
   end
 
+  context 'step not finalized' do
+    let(:step) { create(:project_step) }
+
+    it 'returns 0 for pending_days_shifted' do
+      expect(step.pending_days_shifted).to eq 0
+    end
+  end
+
+  context 'step incomplete and scheduled_start_date changed' do
+    let(:step) { create(:project_step, is_finalized: true, scheduled_start_date: Date.civil(2016, 5, 3)) }
+    before { step.scheduled_start_date = Date.civil(2016, 5, 21) }
+
+    it 'returns proper pending_days_shifted' do
+      expect(step.pending_days_shifted).to eq 18
+    end
+  end
+
+  context 'step about to be completed' do
+    let(:step) { create(:project_step, is_finalized: true, scheduled_start_date: Date.civil(2016, 4, 19)) }
+    before { step.completed_date = Date.civil(2016, 4, 21) }
+
+    it 'returns proper pending_days_shifted' do
+      expect(step.pending_days_shifted).to eq 2
+    end
+  end
+
+  context 'completed step' do
+    let(:step) do
+      create(:project_step,
+        is_finalized: true,
+        scheduled_start_date: Date.civil(2016, 4, 19),
+        completed_date: Date.civil(2016, 6, 28))
+    end
+    before { step.completed_date = Date.civil(2016, 7, 2) }
+
+    it 'returns proper pending_days_shifted' do
+      expect(step.pending_days_shifted).to eq 4
+    end
+  end
+
   context 'groups' do
     subject(:step) { create(:project_step) }
 
