@@ -76,7 +76,7 @@ describe ProjectStep, type: :model do
     end
   end
 
-  context 'groups' do
+  context 'a group' do
     subject(:step) { create(:project_step) }
 
     let(:new_step) { create(:project_step) }
@@ -117,9 +117,17 @@ describe ProjectStep, type: :model do
     end
 
     context 'when scheduled_start_date is set to nil' do
-      it 'should raise an error' do
+      it 'raises an error' do
         expect { step.scheduled_start_date = nil }.to raise_error(ArgumentError)
       end
+    end
+
+    it 'scheduled_start_date can be changed' do
+      step.scheduled_start_date = Date.civil(2016, 9, 21)
+      step.save
+      step.reload
+
+      expect(step.scheduled_start_date).to eq Date.civil(2016, 9, 21)
     end
   end
 
@@ -146,6 +154,14 @@ describe ProjectStep, type: :model do
       expect(step.scheduled_end_date).to eq parent_end + 3
     end
 
+    it 'scheduled_start_date can be set to parent end' do
+      step.scheduled_start_date = parent_end
+      step.save
+      step.reload
+
+      expect(step.scheduled_start_date).to eq parent_end
+    end
+
     context 'is orphaned' do
       before do
         step.schedule_parent = nil
@@ -158,6 +174,10 @@ describe ProjectStep, type: :model do
 
       it 'keeps scheduled_start_date' do
         expect(step.scheduled_start_date).to eq parent_end
+      end
+
+      it 'keeps scheduled_duration_days' do
+        expect(step.scheduled_duration_days).to eq step_duration
       end
 
       it 'keeps scheduled_end_date' do
