@@ -21,13 +21,20 @@ if Rails.env.development?
       puts "Loaded default option sets"
 
       # Create some data
-      FactoryGirl.create_list(:loan, 2,
+      FactoryGirl.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_log_media,
         :with_loan_media,
         :with_coop_media,
         :with_timeline)
+      FactoryGirl.create(:loan,
+        :with_translations,
+        :with_foreign_translations,
+        :with_log_media,
+        :with_loan_media,
+        :with_coop_media,
+        :with_timeline_steps_only)
       FactoryGirl.create_list(:loan, 13)
       puts "Generated fake data"
     end
