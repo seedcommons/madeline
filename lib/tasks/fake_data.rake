@@ -34,7 +34,7 @@ if Rails.env.development?
         :with_log_media,
         :with_loan_media,
         :with_coop_media,
-        :with_timeline_steps_only)
+        :with_steps_only_timeline)
       FactoryGirl.create_list(:loan, 13)
       puts "Generated fake data"
     end
