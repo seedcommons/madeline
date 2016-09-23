@@ -129,8 +129,9 @@ en:
         edit: "Edit Responses"
         delete: "Delete All Responses"
       timeline:
-        timeline_header:
-          cancel_edit: "Cancel Edit"
-          edit_all: "Edit All"
-          new_step: "New Step"
-          save_all: "Save All"
+        list:
+          timeline_header:
+            cancel_edit: "Cancel Edit"
+            edit_all: "Edit All"
+            new_step: "New Step"
+            save_all: "Save All"
