@@ -16,7 +16,7 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
 
           .row
             - if @step_move.context == "calendar_drag" && !@step_move.step_completed?
-              = f.input :move_type, as: :radio_buttons, collection: StepMove::MOVE_TYPES
+              = f.input :move_type, as: :radio_buttons, collection: Timeline::StepMove::MOVE_TYPES
               .clearfix
 
             = f.input :shift_subsequent, as: :radio_buttons do
