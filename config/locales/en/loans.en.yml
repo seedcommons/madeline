@@ -30,6 +30,7 @@ en:
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     no_answer: "No answer given."
+    optional_amount: "Optional amount"
     post_analysis: "Post-Analysis"
     print_header_title: "Investment Profile and Credit Memo"
     questionnaires: "Questions"
@@ -47,6 +48,7 @@ en:
       completed: "Completed"
       frozen: "Frozen"
       liquidated: "Liquidated"
+    threshold_amount: "Threshold Amount"
     timeline: "Timeline"
     toc: "Table of Contents"
     shared:

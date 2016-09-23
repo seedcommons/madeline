@@ -33,11 +33,14 @@
 class CustomField < ActiveRecord::Base
   include Translatable
 
+  OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
+
   belongs_to :custom_field_set, inverse_of: :custom_fields
 
   # Used for Questions(CustomField) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :custom_field_requirements, dependent: :destroy
+  accepts_nested_attributes_for :custom_field_requirements, allow_destroy: true
 
   # has_many :options, through: :custom_field_requirements
   # alias_method :loan_types, :options
@@ -179,6 +182,14 @@ class CustomField < ActiveRecord::Base
   # here for now on the off chance that we end up needing this field type after all.
   def translatable?
     false
+  end
+
+  # For table of loan types on loan question edit. Returns a complete set of requirement
+  # objects, one for each loan type, whether it already exists or not.
+  def build_complete_requirements
+    (Loan.loan_type_option_set.options - custom_field_requirements.map(&:loan_type)).each do |lt|
+      custom_field_requirements.build(loan_type: lt)
+    end
   end
 
   private
