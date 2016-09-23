@@ -18,11 +18,11 @@ shared_examples_for 'a duplicated step' do |params|
   it "scheduled_duration_days is date_offset by #{date_offset} sec" do
     expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days
   end
-  it 'original_date is nil' do
-    expect(subject.original_date).to be_nil
+  it 'old_start_date is nil' do
+    expect(subject.old_start_date).to be_nil
   end
-  it 'completed_date is nil' do
-    expect(subject.completed_date).to be_nil
+  it 'actual_end_date is nil' do
+    expect(subject.actual_end_date).to be_nil
   end
   it 'is_finalize is false' do
     expect(subject.is_finalized).to eq false

@@ -73,20 +73,20 @@
             td style="background: #{step.scheduled_bg}"
               = step.scheduled_start_date ? l(step.scheduled_start_date) : ''
 
-          - if step.original_date
+          - if step.old_start_date
             tr
-              th = t("project_step.labels.original_date")
+              th = t("project_step.labels.old_start_date")
               td
                 p.tight-block
-                  => l(step.original_date)
-                  = "(#{step.original_date_statement})"
+                  => l(step.old_start_date)
+                  = "(#{step.old_start_date_statement})"
 
             - if step.completed?
               tr
                 th = t("project_step.labels.completed")
                 td style="background-color: #{step.background_color}"
                   p.tight-block
-                    => step.completed_date ? l(step.completed_date) : ''
+                    => step.actual_end_date ? l(step.actual_end_date) : ''
                     = "(#{step.date_status_statement})"
 
           tr

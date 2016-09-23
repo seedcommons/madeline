@@ -109,7 +109,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def project_step_params
-    params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :completed_date, :step_type_value,
+    params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :actual_end_date, :step_type_value,
       :project_type, :project_id] + translation_params(:summary, :details)))
   end
 

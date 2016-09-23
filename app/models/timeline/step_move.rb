@@ -38,12 +38,12 @@ module Timeline
     def adjust_dates
       if move_type == "change_date"
         if @step.completed?
-          @step.completed_date += days_shifted
+          @step.actual_end_date += days_shifted
         else
           @step.scheduled_start_date += days_shifted
         end
       else
-        @step.completed_date = @step.scheduled_start_date + days_shifted
+        @step.actual_end_date = @step.scheduled_start_date + days_shifted
       end
       @step.save(validate: false)
     end
@@ -51,7 +51,7 @@ module Timeline
     def do_shift
       date_before_move = @step.scheduled_start_date - days_shifted
       subsequent = @step.project.timeline_entries.
-          where("scheduled_start_date >= :date AND completed_date IS NULL AND id != :id",
+          where("scheduled_start_date >= :date AND actual_end_date IS NULL AND id != :id",
                 date: date_before_move, id: @step.id)
       subsequent.each { |s| s.update_attribute(:scheduled_start_date, s.scheduled_start_date + days_shifted) }
     end

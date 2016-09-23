@@ -7,7 +7,7 @@
 #  project_type    :string
 #  agent_id        :integer
 #  scheduled_date  :date
-#  completed_date  :date
+#  actual_end_date  :date
 #  is_finalized    :boolean
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

@@ -2,14 +2,15 @@
 #
 # Table name: timeline_entries
 #
+#  actual_end_date         :date
 #  agent_id                :integer
-#  completed_date          :date
 #  created_at              :datetime         not null
 #  date_change_count       :integer          default(0), not null
 #  finalized_at            :datetime
 #  id                      :integer          not null, primary key
 #  is_finalized            :boolean
-#  original_date           :date
+#  old_duration_days       :integer          default(0)
+#  old_start_date          :date
 #  parent_id               :integer
 #  project_id              :integer
 #  project_type            :string

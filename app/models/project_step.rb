@@ -2,14 +2,15 @@
 #
 # Table name: timeline_entries
 #
+#  actual_end_date         :date
 #  agent_id                :integer
-#  completed_date          :date
 #  created_at              :datetime         not null
 #  date_change_count       :integer          default(0), not null
 #  finalized_at            :datetime
 #  id                      :integer          not null, primary key
 #  is_finalized            :boolean
-#  original_date           :date
+#  old_duration_days       :integer          default(0)
+#  old_start_date          :date
 #  parent_id               :integer
 #  project_id              :integer
 #  project_type            :string
@@ -57,7 +58,7 @@ class ProjectStep < TimelineEntry
   validates :project_id, presence: true
   validate :unfinalize_allowed
 
-  before_save :handle_original_date_logic
+  before_save :handle_old_start_date_logic
   before_save :handle_finalized_at
   before_save :handle_schedule_children
 
@@ -96,12 +97,13 @@ class ProjectStep < TimelineEntry
     scheduled_start_date + scheduled_duration_days
   end
 
+  # TODO: Rethink the name of this method
   def set_completed!(date)
-    update_attribute(:completed_date, date)
+    update_attribute(:actual_end_date, date)
   end
 
   def completed?
-    completed_date.present?
+    actual_end_date.present?
   end
 
   def completed_or_not
@@ -142,11 +144,11 @@ class ProjectStep < TimelineEntry
   end
 
   def display_date
-    I18n.l completed_date || scheduled_start_date, format: :long
+    I18n.l actual_end_date || scheduled_start_date, format: :long
   end
 
   def date_changed?
-    original_date.present?
+    old_start_date.present?
   end
 
   # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
@@ -164,13 +166,13 @@ class ProjectStep < TimelineEntry
 
   # The date to use when calculating days_late.
   def on_time_date
-    original_date || scheduled_start_date
+    old_start_date || scheduled_start_date
   end
 
   def days_late
     if scheduled_start_date
       if completed?
-        (completed_date - on_time_date).to_i
+        (actual_end_date - on_time_date).to_i
       else
         ([scheduled_start_date, Date.today].max - on_time_date).to_i
       end
@@ -187,7 +189,7 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def original_date_statement
+  def old_start_date_statement
     I18n.t("project_step.status.changed_times", count: date_change_count)
   end
 
@@ -195,7 +197,7 @@ class ProjectStep < TimelineEntry
   def color
     # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
     # error here even though it should not have been able to reach that part of the expression
-    # when the completed_date was not present, so defensively adding the 'days_late' nil checks.
+    # when the actual_end_date was not present, so defensively adding the 'days_late' nil checks.
     if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
       color_between(COLORS[:on_time], COLORS[:super_early], fraction)
@@ -252,9 +254,9 @@ class ProjectStep < TimelineEntry
     return 0 unless is_finalized?
 
     # If completed date just got set.
-    if scheduled_start_date && completed_date && completed_date_changed? &&
-      completed_date_was.blank? && completed_date > scheduled_start_date
-      return (completed_date - scheduled_start_date).to_i
+    if scheduled_start_date && actual_end_date && actual_end_date_changed? &&
+      actual_end_date_was.blank? && actual_end_date > scheduled_start_date
+      return (actual_end_date - scheduled_start_date).to_i
     end
 
     # If incomplete and scheduled date changed.
@@ -263,15 +265,15 @@ class ProjectStep < TimelineEntry
     end
 
     # If complete and completed date changed.
-    if completed? && completed_date_changed? && completed_date_was && completed_date
-      return (completed_date - completed_date_was).to_i
+    if completed? && actual_end_date_changed? && actual_end_date_was && actual_end_date
+      return (actual_end_date - actual_end_date_was).to_i
     end
 
     0
   end
 
   def calendar_date
-    completed? ? completed_date : scheduled_start_date
+    completed? ? actual_end_date : scheduled_start_date
   end
 
   def calendar_events
@@ -284,12 +286,12 @@ class ProjectStep < TimelineEntry
 
   private
 
-  def handle_original_date_logic
+  def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
     if scheduled_start_date_changed? && is_finalized?
-      if original_date.blank?
-        self.original_date = scheduled_start_date_was
+      if old_start_date.blank?
+        self.old_start_date = scheduled_start_date_was
       end
       self.date_change_count = self.date_change_count.to_i.succ
     end

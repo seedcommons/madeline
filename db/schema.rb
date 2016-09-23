@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916204926) do
+ActiveRecord::Schema.define(version: 20160923050820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -292,13 +292,14 @@ ActiveRecord::Schema.define(version: 20160916204926) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "timeline_entries", force: :cascade do |t|
+    t.date     "actual_end_date"
     t.integer  "agent_id"
-    t.date     "completed_date"
     t.datetime "created_at", null: false
     t.integer  "date_change_count", default: 0, null: false
     t.datetime "finalized_at"
     t.boolean  "is_finalized"
-    t.date     "original_date"
+    t.integer  "old_duration_days", default: 0
+    t.date     "old_start_date"
     t.integer  "parent_id"
     t.integer  "project_id"
     t.string   "project_type"

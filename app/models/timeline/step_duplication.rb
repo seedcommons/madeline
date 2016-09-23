@@ -113,8 +113,8 @@ module Timeline
           step_type_value: step.step_type_value,
           scheduled_start_date: date,
           scheduled_duration_days: step.scheduled_duration_days,
-          original_date: nil,
-          completed_date: nil,
+          old_start_date: nil,
+          actual_end_date: nil,
           is_finalized: false,
         )
         # This will create transient copies of all of the source translatable attributes.

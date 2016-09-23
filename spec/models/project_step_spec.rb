@@ -27,13 +27,13 @@ describe ProjectStep, type: :model do
     expect(step.finalized_at).not_to be_nil
   end
 
-  it 'has original_date automatically assigned' do
+  it 'has old_start_date automatically assigned' do
     step = create(:project_step, scheduled_start_date: Date.today, is_finalized: true)
-    expect(step[:original_date]).to be_nil
+    expect(step[:old_start_date]).to be_nil
     step.update(scheduled_start_date: Date.today + 2.days)
     # Beware, the 'orginal_date' method will automatically returned scheduled date even when the
     # raw value is nil, so need to directly check the attribute
-    expect(step[:original_date]).not_to be_nil
+    expect(step[:old_start_date]).not_to be_nil
   end
 
   context 'step not finalized' do
@@ -55,7 +55,7 @@ describe ProjectStep, type: :model do
 
   context 'step about to be completed' do
     let(:step) { create(:project_step, is_finalized: true, scheduled_start_date: Date.civil(2016, 4, 19)) }
-    before { step.completed_date = Date.civil(2016, 4, 21) }
+    before { step.actual_end_date = Date.civil(2016, 4, 21) }
 
     it 'returns proper pending_days_shifted' do
       expect(step.pending_days_shifted).to eq 2
@@ -67,9 +67,9 @@ describe ProjectStep, type: :model do
       create(:project_step,
         is_finalized: true,
         scheduled_start_date: Date.civil(2016, 4, 19),
-        completed_date: Date.civil(2016, 6, 28))
+        actual_end_date: Date.civil(2016, 6, 28))
     end
-    before { step.completed_date = Date.civil(2016, 7, 2) }
+    before { step.actual_end_date = Date.civil(2016, 7, 2) }
 
     it 'returns proper pending_days_shifted' do
       expect(step.pending_days_shifted).to eq 4

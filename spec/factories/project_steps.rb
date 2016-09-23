@@ -7,7 +7,7 @@
 #  project_type    :string
 #  agent_id        :integer
 #  scheduled_date  :date
-#  completed_date  :date
+#  actual_end_date  :date
 #  is_finalized    :boolean
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -32,7 +32,7 @@ FactoryGirl.define do
     scheduled_duration_days { Faker::Number.between(0, 10) }
 
     trait :completed do
-      completed_date { Faker::Date.between(scheduled_start_date, Date.today) }
+      actual_end_date { Faker::Date.between(scheduled_start_date, Date.today) }
     end
 
     trait :past do
