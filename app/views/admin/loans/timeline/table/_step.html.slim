@@ -1,6 +1,6 @@
 - wrapper_tag = {tag: is_first ? 'div' : 'tr'}
 
 *wrapper_tag
-  - if max_depth != entry.depth
+  - if entry.depth == 1
     td colspan="#{max_depth - entry.depth}" = "Spacer Span #{max_depth - entry.depth} Columns"
   td = "Step #{entry.depth}: #{entry.summary}"
