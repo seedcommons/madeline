@@ -208,11 +208,11 @@ describe ProjectStep, type: :model do
       expect(step.schedule_children.reduce(0) { |count, gc| count + gc.schedule_children.count }).to eq 9
     end
 
-    it 'level 2 children start matches level 1 start' do
+    it 'level 2 children start matches level 1 end' do
       expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
     end
 
-    it 'level 3 children start matches level 2 start' do
+    it 'level 3 children start matches level 2 end' do
       expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
     end
 
@@ -233,11 +233,11 @@ describe ProjectStep, type: :model do
         expect(step.scheduled_start_date).to eq @original_date + duration_offset
       end
 
-      it 'level 2 children start matches level 1 start' do
+      it 'level 2 children start matches level 1 end' do
         expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
       end
 
-      it 'level 3 children start matches level 2 start' do
+      it 'level 3 children start matches level 2 end' do
         expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
       end
     end
