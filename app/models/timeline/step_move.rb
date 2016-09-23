@@ -57,7 +57,7 @@ module Timeline
     end
 
     def save_new_date_in_log
-      @log.date_changed_to = @step.calendar_date
+      @log.date_changed_to = @step.scheduled_start_date
     end
   end
 end

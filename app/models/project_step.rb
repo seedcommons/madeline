@@ -272,10 +272,6 @@ class ProjectStep < TimelineEntry
     0
   end
 
-  def calendar_date
-    completed? ? actual_end_date : scheduled_start_date
-  end
-
   def calendar_events
     CalendarEvent.build_for(self)
   end

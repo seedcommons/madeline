@@ -28,7 +28,7 @@ class CalendarEvent
   end
 
   def self.new_project_step(step)
-    step.calendar_date ? new.initialize_project_step(step) : nil
+    step.scheduled_start_date ? new.initialize_project_step(step) : nil
   end
 
   def self.new_ghost_step(step)
@@ -82,7 +82,7 @@ class CalendarEvent
   end
 
   def initialize_project_step(step)
-    @start = step.calendar_date
+    @start = step.scheduled_start_date
     @title = step.name.to_s
     @background_color = step.color
 
