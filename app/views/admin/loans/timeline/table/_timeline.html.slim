@@ -1,4 +1,7 @@
 .timeline-table
-  table.table
-    = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
-      max_depth: @loan.root_timeline_entry.max_descendant_depth
+  - if @loan.root_timeline_entry
+    table.table
+      = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
+        max_depth: @loan.root_timeline_entry.max_descendant_depth
+  - else
+    #no-steps-msg.alert.alert-warning = t("project_step.no_steps")
