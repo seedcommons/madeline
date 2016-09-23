@@ -46,8 +46,13 @@ class ProjectGroupFactoryHelper
   end
 
   def self.add_child_step(parent, root)
-    parent.children <<
-      (step = FactoryGirl.create(:project_step, project: root.project, division: root.division))
+    attribs = {}
+
+    # Randomly sometimes don't include dates.
+    attribs[:scheduled_date] = nil if rand(5) == 0
+
+    step = FactoryGirl.create(:project_step, attribs.merge(project: root.project, division: root.division))
+    parent.children << step
     step
   end
 
