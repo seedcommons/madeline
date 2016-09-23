@@ -47,6 +47,7 @@ class ProjectGroup < TimelineEntry
     end
   end
 
+  # Determine if the group's children are all steps or a mix of steps and groups.
   def descendants_only_steps?
     children.to_a.each do |c|
       if c.is_a?(ProjectGroup)
