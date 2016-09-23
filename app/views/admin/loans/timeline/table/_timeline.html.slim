@@ -1,7 +1,11 @@
 .timeline-table
   - if @loan.root_timeline_entry
-    table.table
-      = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
-        max_depth: @loan.root_timeline_entry.max_descendant_depth
+    - if @loan.root_timeline_entry.is_a?(ProjectGroup)
+      table.table
+        = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
+          max_depth: @loan.root_timeline_entry.max_descendant_depth
+    / If user has created a step through the timeline list, the timeline table is incompatible
+    - elsif @loan.root_timeline_entry.is_a?(ProjectStep)
+      #no-steps-msg.alert.alert-warning This loan is not yet compatible with the timeline table.
   - else
     #no-steps-msg.alert.alert-warning = t("project_step.no_steps")
