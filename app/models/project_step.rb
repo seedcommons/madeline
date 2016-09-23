@@ -59,6 +59,7 @@ class ProjectStep < TimelineEntry
   validate :unfinalize_allowed
 
   before_save :handle_old_start_date_logic
+  before_save :handle_old_duration_days_logic
   before_save :handle_finalized_at
   before_save :handle_schedule_children
 
@@ -82,13 +83,28 @@ class ProjectStep < TimelineEntry
   end
 
   def scheduled_start_date=(date)
-    raise ArgumentError if date.blank?
     raise ArgumentError if schedule_parent && schedule_parent.scheduled_end_date != date
     super(date)
   end
 
   def scheduled_end_date
     scheduled_start_date + scheduled_duration_days
+  end
+
+  def original_end_date
+    return unless scheduled_start_date.present?
+
+    if old_duration_days > 0
+      duration = old_duration_days
+    else
+      duration = scheduled_duration_days
+    end
+
+    (old_start_date || scheduled_start_date) + duration
+  end
+
+  def best_end_date
+    actual_end_date || scheduled_end_date
   end
 
   # TODO: Rethink the name of this method
@@ -279,12 +295,20 @@ class ProjectStep < TimelineEntry
   def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_start_date_changed? && is_finalized?
-      if old_start_date.blank?
-        self.old_start_date = scheduled_start_date_was
-      end
-      self.date_change_count = self.date_change_count.to_i.succ
+    return unless scheduled_start_date_changed? && is_finalized?
+
+    if old_start_date.blank?
+      self.old_start_date = scheduled_start_date_was
     end
+    self.date_change_count = self.date_change_count.to_i.succ
+  end
+
+  def handle_old_duration_days_logic
+    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
+    # the original scheduled date.
+    return unless persisted? && scheduled_duration_days_changed? && is_finalized?
+
+    self.old_duration_days = scheduled_duration_days_was
   end
 
   def handle_finalized_at

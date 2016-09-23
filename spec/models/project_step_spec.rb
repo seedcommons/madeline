@@ -27,17 +27,93 @@ describe ProjectStep, type: :model do
     expect(step.finalized_at).not_to be_nil
   end
 
-  it 'has old_start_date automatically assigned' do
-    step = create(:project_step, scheduled_start_date: Date.today, is_finalized: true)
-    expect(step[:old_start_date]).to be_nil
-    step.update(scheduled_start_date: Date.today + 2.days)
-    # Beware, the 'orginal_date' method will automatically returned scheduled date even when the
-    # raw value is nil, so need to directly check the attribute
-    expect(step[:old_start_date]).not_to be_nil
+  describe '#original_end_date' do
+    let(:default_start_date) { Date.civil(2012, 1, 4) }
+    let(:default_old_date) { Date.civil(2012, 1, 9) }
+    let(:default_params) { { scheduled_start_date: default_start_date, old_start_date: default_old_date, scheduled_duration_days: 0, old_duration_days: 0 } }
+
+    it 'is nil when scheduled_start_day and old_start_date is nil' do
+      step = create(:project_step, default_params.merge(scheduled_start_date: nil, old_start_date: nil))
+      expect(step.original_end_date).to be_nil
+    end
+    it 'returns scheduled_start_date if old_start_date is nil' do
+      step = create(:project_step, default_params.merge(old_start_date: nil))
+      expect(step.original_end_date).to eq default_start_date
+    end
+    it 'returns old_start_date if scheduled_start_date is present' do
+      step = create(:project_step, default_params)
+      expect(step.original_end_date).to eq default_old_date
+    end
+    it 'returns old_start_date if scheduled_start_date is nil' do
+      step = create(:project_step, default_params.merge(scheduled_start_date: nil))
+      expect(step.original_end_date).to be_nil
+    end
+    it 'scheduled_duration_days is added when old_duration_days is zero' do
+      step = create(:project_step, default_params.merge(scheduled_duration_days: 2))
+      expect(step.original_end_date).to eq default_old_date + 2
+    end
+    it 'old_duration_days is added when not zero' do
+      step = create(:project_step, default_params.merge(scheduled_duration_days: 2, old_duration_days: 5))
+      expect(step.original_end_date).to eq default_old_date + 5
+    end
   end
 
-  context 'step not finalized' do
-    let(:step) { create(:project_step) }
+  describe '#best_end_date' do
+    let(:default_start_date) { Date.civil(2014, 2, 6) }
+    let(:default_actual_end_date) { Date.civil(2014, 2, 13) }
+    let(:default_params) { { scheduled_start_date: default_start_date, actual_end_date: default_actual_end_date, scheduled_duration_days: 0 } }
+
+    it 'returns actual_end_date when set' do
+      step = create(:project_step, default_params)
+      expect(step.best_end_date).to eq default_actual_end_date
+    end
+    it 'returns scheduled_end_date if actual_end_date is nil' do
+      step = create(:project_step, default_params.merge(actual_end_date: nil))
+      expect(step.best_end_date).to eq default_start_date
+    end
+  end
+
+  context 'with finalized project_step' do
+    let(:duration) { 3 }
+    let(:step) { create(:project_step, scheduled_start_date: Time.zone.today, scheduled_duration_days: duration, is_finalized: true)}
+
+    it 'has old_start_date automatically assigned' do
+      expect(step.old_start_date).to be_nil
+      step.scheduled_start_date = Time.zone.today + 2.days
+      step.save
+
+      expect(step.old_start_date).not_to be_nil
+    end
+
+    it 'has old_duration_days automatically assigned' do
+      expect(step.old_duration_days).to eq 0
+
+      step.scheduled_duration_days = 5
+      step.save
+
+      expect(step.old_duration_days).to eq duration
+    end
+  end
+
+  context 'with unfinalized project_step' do
+    let(:step) { create(:project_step, scheduled_duration_days: 3, is_finalized: false) }
+
+    it 'old_start_date is not automatically assigned' do
+      expect(step.old_start_date).to be_nil
+      step.scheduled_start_date = Time.zone.today + 2.days
+      step.save
+
+      expect(step.old_start_date).to be_nil
+    end
+
+    it 'old_duration_days is not automatically assigned' do
+      expect(step.old_duration_days).to eq 0
+
+      step.scheduled_duration_days = 5
+      step.save
+
+      expect(step.old_duration_days).to eq 0
+    end
 
     it 'returns 0 for pending_days_shifted' do
       expect(step.pending_days_shifted).to eq 0
@@ -114,12 +190,6 @@ describe ProjectStep, type: :model do
 
     it 'scheduled_end_date is correct' do
       expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 6)
-    end
-
-    context 'when scheduled_start_date is set to nil' do
-      it 'raises an error' do
-        expect { step.scheduled_start_date = nil }.to raise_error(ArgumentError)
-      end
     end
 
     it 'scheduled_start_date can be changed' do
