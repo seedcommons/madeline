@@ -76,12 +76,19 @@ class ProjectStep < TimelineEntry
 
   # Might be better as a filter
   def schedule_parent=(parent)
-    self.scheduled_start_date = parent.scheduled_end_date if parent
+    schedule_parent_has_changed(parent) if parent
     super(parent)
+  end
+
+  # Since this is called from a before_save callback, we need the unsaved parent
+  # as child.schedule_parent will return the old date and fail in the schedule_start_date setter
+  def schedule_parent_has_changed(parent)
+    self[:scheduled_start_date] = parent.scheduled_end_date
   end
 
   def scheduled_start_date=(date)
     raise ArgumentError if date.blank?
+    raise ArgumentError if schedule_parent && schedule_parent.scheduled_end_date != date
     super(date)
   end
 
@@ -300,7 +307,7 @@ class ProjectStep < TimelineEntry
     return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
 
     schedule_children.each do |step|
-      step.scheduled_start_date = scheduled_end_date
+      step.schedule_parent_has_changed(self)
       step.save
     end
   end
