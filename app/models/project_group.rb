@@ -47,6 +47,15 @@ class ProjectGroup < TimelineEntry
     end
   end
 
+  def descendants_only_steps?
+    children.to_a.each do |c|
+      if c.is_a?(ProjectGroup)
+        return false
+      end
+    end
+    return true
+  end
+
   def validate_no_children
     raise DestroyWithChildrenError.new if children.present?
   end
