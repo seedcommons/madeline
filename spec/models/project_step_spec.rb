@@ -27,10 +27,38 @@ describe ProjectStep, type: :model do
     expect(step.finalized_at).not_to be_nil
   end
 
+  it 'scheduled_start_date is set to actual_end_date if nil' do
+    actual_end_date = Date.civil(2012, 1, 4)
+
+    step = create(:project_step, scheduled_start_date: nil, actual_end_date: nil)
+
+    expect(step.scheduled_start_date).to be_nil
+    expect(step.actual_end_date).to be_nil
+
+    step.actual_end_date = actual_end_date
+    step.save
+
+    expect(step.scheduled_start_date).to eq actual_end_date
+  end
+
+  it 'raises error if scheduled_end_date is nil and old_end_date is not nil' do
+    step = create(:project_step,
+      scheduled_start_date: nil,
+      old_start_date: Date.civil(2011, 1, 2),
+      actual_end_date: nil)
+
+    expect { step.save }.to raise_error(ArgumentError)
+  end
+
   describe '#original_end_date' do
     let(:default_start_date) { Date.civil(2012, 1, 4) }
     let(:default_old_date) { Date.civil(2012, 1, 9) }
-    let(:default_params) { { scheduled_start_date: default_start_date, old_start_date: default_old_date, scheduled_duration_days: 0, old_duration_days: 0 } }
+    let(:default_params) do
+      { scheduled_start_date: default_start_date,
+        old_start_date: default_old_date,
+        scheduled_duration_days: 0,
+        old_duration_days: 0 }
+    end
 
     it 'is nil when scheduled_start_day and old_start_date is nil' do
       step = create(:project_step, default_params.merge(scheduled_start_date: nil, old_start_date: nil))

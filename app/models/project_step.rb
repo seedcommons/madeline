@@ -62,6 +62,7 @@ class ProjectStep < TimelineEntry
   before_save :handle_old_duration_days_logic
   before_save :handle_finalized_at
   before_save :handle_schedule_children
+  before_save :handle_scheduled_start_date
 
   def name
     summary
@@ -328,6 +329,14 @@ class ProjectStep < TimelineEntry
       step.scheduled_start_date = scheduled_end_date
       step.save
     end
+  end
+
+  def handle_scheduled_start_date
+    return unless persisted?
+    raise ArgumentError if scheduled_start_date.blank? && old_start_date.present?
+    return unless actual_end_date && scheduled_start_date.blank?
+
+    self.scheduled_start_date = actual_end_date
   end
 
   # start and finish are each CSS color strings in hsl format
