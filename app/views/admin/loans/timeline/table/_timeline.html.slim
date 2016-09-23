@@ -1,2 +1,5 @@
 table.table
-  = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true
+  tr
+    td = "Max Descendant Depth: #{@loan.root_timeline_entry.max_descendant_depth}"
+  = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
+    max_depth: @loan.root_timeline_entry.max_descendant_depth
