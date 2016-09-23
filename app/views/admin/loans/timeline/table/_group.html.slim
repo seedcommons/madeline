@@ -4,11 +4,8 @@
 *wrapper_tag
   / The root group is not actually displayed
   - unless entry.root?
-    td rowspan="#{entry.descendant_step_count}" colspan="#{column_span}"
+    td rowspan="#{entry.descendant_step_count}" colspan="#{column_span}" data-item="group"
       = entry.summary
-      div
-        p = "Group Depth: #{entry.depth}"
-        p = "Children are only steps: #{entry.descendants_only_steps?}"
 
   - entry.children.each_with_index do |child, i|
     - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
