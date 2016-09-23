@@ -1,6 +1,8 @@
 - wrapper_tag = {tag: is_first ? 'div' : 'tr'}
 
 *wrapper_tag
-  - if entry.depth == 1
-    td colspan="#{max_depth - entry.depth}" = "Spacer Span #{max_depth - entry.depth} Columns"
+  / Add spacer for step that is child of root
+  / Add spacer for step who has a group as a sibling
+  - if entry.depth != max_depth && (entry.depth == 1 || !siblings_are_all_steps)
+      td colspan="#{max_depth - entry.depth}" = "Spacer Span #{max_depth - entry.depth} Columns"
   td = "Step #{entry.depth}: #{entry.summary}"
