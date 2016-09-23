@@ -154,10 +154,6 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def display_date
-    I18n.l actual_end_date || scheduled_start_date, format: :long
-  end
-
   def date_changed?
     old_start_date.present?
   end
