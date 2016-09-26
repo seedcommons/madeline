@@ -6,27 +6,35 @@ shared_examples_for 'a duplicated step' do |params|
   it 'has original project' do
     expect(subject.project).to eq original.project
   end
+
   it 'has original agent' do
     expect(subject.agent).to eq original.agent
   end
+
   it 'has original step_type_value' do
     expect(subject.step_type_value).to eq original.step_type_value
   end
+
   it 'has original scheduled_start_date' do
     expect(subject.scheduled_start_date).to eq original.scheduled_start_date + date_offset
   end
+
   it "scheduled_duration_days is date_offset by #{date_offset} sec" do
     expect(subject.scheduled_duration_days).to eq original.scheduled_duration_days
   end
+
   it 'old_start_date is nil' do
     expect(subject.old_start_date).to be_nil
   end
+
   it 'actual_end_date is nil' do
     expect(subject.actual_end_date).to be_nil
   end
+
   it 'is_finalize is false' do
     expect(subject.is_finalized).to eq false
   end
+
   it 'schedule_parent is nil' do
     expect(subject.schedule_parent).to be_nil
   end

@@ -64,22 +64,27 @@ describe ProjectStep, type: :model do
       step = create(:project_step, default_params.merge(scheduled_start_date: nil, old_start_date: nil))
       expect(step.original_end_date).to be_nil
     end
+
     it 'returns scheduled_start_date if old_start_date is nil' do
       step = create(:project_step, default_params.merge(old_start_date: nil))
       expect(step.original_end_date).to eq default_start_date
     end
+
     it 'returns old_start_date if scheduled_start_date is present' do
       step = create(:project_step, default_params)
       expect(step.original_end_date).to eq default_old_date
     end
+
     it 'returns old_start_date if scheduled_start_date is nil' do
       step = create(:project_step, default_params.merge(scheduled_start_date: nil))
       expect(step.original_end_date).to be_nil
     end
+
     it 'scheduled_duration_days is added when old_duration_days is zero' do
       step = create(:project_step, default_params.merge(scheduled_duration_days: 2))
       expect(step.original_end_date).to eq default_old_date + 2
     end
+
     it 'old_duration_days is added when not zero' do
       step = create(:project_step, default_params.merge(scheduled_duration_days: 2, old_duration_days: 5))
       expect(step.original_end_date).to eq default_old_date + 5
@@ -95,6 +100,7 @@ describe ProjectStep, type: :model do
       step = create(:project_step, default_params)
       expect(step.best_end_date).to eq default_actual_end_date
     end
+
     it 'returns scheduled_end_date if actual_end_date is nil' do
       step = create(:project_step, default_params.merge(actual_end_date: nil))
       expect(step.best_end_date).to eq default_start_date

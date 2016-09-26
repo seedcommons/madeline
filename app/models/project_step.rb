@@ -108,7 +108,6 @@ class ProjectStep < TimelineEntry
     actual_end_date || scheduled_end_date
   end
 
-  # TODO: Rethink the name of this method
   def set_completed!(date)
     update_attribute(:actual_end_date, date)
   end
@@ -252,10 +251,10 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  # Returns number of days that the step's calendar date is about to be shifted.
-  # - If step is incomplete, returns number of days the scheduled start date has been shifted.
-  # - If step is about to be set as complete, returns number of days late or early (negative).
-  # - If step was already complete, returns number of days completed date has been shifted.
+  # Returns number of days that the step's end date is about to be shifted.
+  # - If step is about to be set as complete, returns difference between actual_end_date and scheduled_end_date
+  # - If step is incomplete, returns number of days the scheduled_end_date has been shifted.
+  # - If step was already complete, returns number of days actual_end_date has been shifted.
   # Assumes that record has pending changes assigned, but not yet saved.
   def pending_days_shifted
     return 0 unless is_finalized?
@@ -292,7 +291,7 @@ class ProjectStep < TimelineEntry
   def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    return unless scheduled_start_date_changed? && is_finalized?
+    return unless persisted? && scheduled_start_date_changed? && is_finalized?
 
     if old_start_date.blank?
       self.old_start_date = scheduled_start_date_was
@@ -320,8 +319,6 @@ class ProjectStep < TimelineEntry
     return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
 
     schedule_children.each do |step|
-      # step.schedule_parent_has_changed(self)
-      # step.scheduled_start_date = scheduled_end_date
       step.scheduled_start_date = scheduled_end_date
       step.save
     end
