@@ -41,6 +41,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     # We initialize with project_step_params here to given enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
+    @step.parent = @step.project.root_timeline_entry
     valid = @step.save
     render_step_partial(valid ? :show : :form)
   end
