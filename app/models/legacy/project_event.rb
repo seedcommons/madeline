@@ -27,8 +27,8 @@ module Legacy
           project_type: project_table.singularize.capitalize,
           project_id: project_id,
           agent_id: agent_id,
-          scheduled_date: date,
-          completed_date: completed,
+          scheduled_start_date: date,
+          actual_end_date: completed,
           is_finalized: finalized,
           step_type_value: MIGRATION_TYPE_OPTIONS.value_for(type),
           # type_option_value: ::ProjectStep.step_type_option_set.value_for_migration_id(type)

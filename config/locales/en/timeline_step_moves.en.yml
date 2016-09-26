@@ -1,6 +1,6 @@
 en:
   admin:
-    project_step_moves:
+    timeline_step_moves:
       new:
         move: "Change Step Date"
         orig_date_remembered: "The original date for this step will be remembered."

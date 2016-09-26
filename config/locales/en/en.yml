@@ -366,7 +366,7 @@ en:
       finalized: "Finalized:"
       scheduled: "Scheduled:"
       status: "Status:"
-      original_date: "Original Date:"
+      old_start_date: "Old Start Date:"
     logs: "Logs"
     months: "Month(s)"
     move: "Move Step"

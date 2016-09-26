@@ -292,17 +292,20 @@ ActiveRecord::Schema.define(version: 20160926151251) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "timeline_entries", force: :cascade do |t|
+    t.date     "actual_end_date"
     t.integer  "agent_id"
-    t.date     "completed_date"
     t.datetime "created_at", null: false
     t.integer  "date_change_count", default: 0, null: false
     t.datetime "finalized_at"
     t.boolean  "is_finalized"
-    t.date     "original_date"
+    t.integer  "old_duration_days", default: 0
+    t.date     "old_start_date"
     t.integer  "parent_id"
     t.integer  "project_id"
     t.string   "project_type"
-    t.date     "scheduled_date"
+    t.integer  "schedule_parent_id"
+    t.integer  "scheduled_duration_days", default: 0
+    t.date     "scheduled_start_date"
     t.string   "step_type_value"
     t.string   "type", null: false
     t.datetime "updated_at", null: false
@@ -383,6 +386,7 @@ ActiveRecord::Schema.define(version: 20160926151251) do
   add_foreign_key "project_logs", "timeline_entries", column: "project_step_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
+  add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_parent_id"
   add_foreign_key "users", "people", column: "profile_id"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"
