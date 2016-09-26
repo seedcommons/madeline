@@ -1,7 +1,4 @@
 # Represents multi-value loan criteria or post analysis questionnaire response.
-# Currently a wrapper around LoanQuestionAddable data, but should perhaps refactor and promote
-# to a its own db table
-
 class LoanResponse
   include ProgressCalculable
 
