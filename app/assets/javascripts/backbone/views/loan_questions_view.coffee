@@ -26,7 +26,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change [name="custom_field[override_associations]"]': 'showHideAssociations'
+    'change [name="loan_question[override_associations]"]': 'showHideAssociations'
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
@@ -35,7 +35,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     if parent_id
       @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}&parent_id=#{parent_id}", =>
-        @$('#custom_field_parent_id').val(parent_id)
+        @$('#loan_question_parent_id').val(parent_id)
         @showModal()
     else
       @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}", =>
@@ -48,9 +48,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   showModal: ->
     @$('#edit-modal').modal('show')
-    new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
+    new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
     # Use current value of override parent to determine if loan types are shown
-    @$('[name="custom_field[override_associations]"]').trigger('change')
+    @$('[name="loan_question[override_associations]"]').trigger('change')
+
 
   createNode: (e) ->
     $form = @$(e.target).closest('form')

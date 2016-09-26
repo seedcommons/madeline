@@ -1,4 +1,4 @@
-class CustomFieldSerializer < ActiveModel::Serializer
+class LoanQuestionSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count, :optional
 
   def initialize(*args, loan: nil, **options)
@@ -19,7 +19,7 @@ class CustomFieldSerializer < ActiveModel::Serializer
   end
 
   def fieldset
-    object.custom_field_set.internal_name.sub('loan_', '')
+    object.loan_question_set.internal_name.sub('loan_', '')
   end
 
   def descendants_count

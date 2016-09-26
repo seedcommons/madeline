@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: custom_field_sets
+# Table name: loan_question_sets
 #
 #  id            :integer          not null, primary key
 #  division_id   :integer
@@ -11,11 +11,11 @@
 #
 # Indexes
 #
-#  index_custom_field_sets_on_division_id  (division_id)
+#  index_loan_question_sets_on_division_id  (division_id)
 #
 
 FactoryGirl.define do
-  factory :custom_field_set do
+  factory :loan_question_set do
     division { root_division }
     internal_name Faker::Lorem.words(2).join('_').downcase
 
@@ -25,9 +25,9 @@ FactoryGirl.define do
 
     trait :generic_fields do
       after(:create) do |model|
-        create(:custom_field, custom_field_set: model, internal_name: 'a_string', data_type: 'string')
-        create(:custom_field, custom_field_set: model, internal_name: 'a_number', data_type: 'number')
-        create(:custom_field, custom_field_set: model, internal_name: 'a_boolean', data_type: 'boolean')
+        create(:loan_question, loan_question_set: model, internal_name: 'a_string', data_type: 'string')
+        create(:loan_question, loan_question_set: model, internal_name: 'a_number', data_type: 'number')
+        create(:loan_question, loan_question_set: model, internal_name: 'a_boolean', data_type: 'boolean')
       end
     end
 
@@ -35,8 +35,8 @@ FactoryGirl.define do
       internal_name 'loan_criteria'
       after(:create) do |model|
         model.set_label('Loan Criteria Questionnaire')
-        create(:custom_field, custom_field_set: model, internal_name: 'summary', data_type: 'text')
-        create(:custom_field, custom_field_set: model, internal_name: 'workers', data_type: 'number')
+        create(:loan_question, loan_question_set: model, internal_name: 'summary', data_type: 'text')
+        create(:loan_question, loan_question_set: model, internal_name: 'workers', data_type: 'number')
       end
     end
 
@@ -44,8 +44,8 @@ FactoryGirl.define do
       internal_name 'loan_post_analysis'
       after(:create) do |model|
         model.set_label('Loan Post Analysis')
-        create(:custom_field, custom_field_set: model, internal_name: 'new_worker_knowledge', data_type: 'text')
-        create(:custom_field, custom_field_set: model, internal_name: 'total_loan_amount', data_type: 'number')
+        create(:loan_question, loan_question_set: model, internal_name: 'new_worker_knowledge', data_type: 'text')
+        create(:loan_question, loan_question_set: model, internal_name: 'total_loan_amount', data_type: 'number')
       end
     end
   end

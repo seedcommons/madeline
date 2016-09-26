@@ -23,7 +23,7 @@ Rails.application.routes.draw do
         get :print
       end
     end
-    resources :loan_questions, as: :custom_fields do
+    resources :loan_questions, as: :loan_questions do
       patch 'move', on: :member
     end
     resources :organizations
@@ -55,8 +55,8 @@ Rails.application.routes.draw do
       resources :project_steps
       resources :project_logs
       resources :notes
-      resources :custom_field_sets
-      resources :custom_fields
+      resources :loan_question_sets
+      resources :loan_questions
       resources :loan_response_sets
       post 'select_division', to: 'divisions#select'
     end

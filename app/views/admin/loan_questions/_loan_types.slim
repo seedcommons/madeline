@@ -1,6 +1,6 @@
 = f.input "loan_types" do
   - if (@loan_question.parent || @parent_id)
-    = f.input_field :override_associations, collection: CustomField::OVERRIDE_ASSOCIATIONS_OPTIONS
+    = f.input_field :override_associations, collection: LoanQuestion::OVERRIDE_ASSOCIATIONS_OPTIONS
 
   table.table.loan-types-table
     thead
@@ -8,7 +8,7 @@
         th colspan="2" = t("loan.loan_type")
         th = t("loan.threshold_amount")
     tbody
-      = f.simple_fields_for :custom_field_requirements, @requirements do |sf|
+      = f.simple_fields_for :loan_question_requirements, @requirements do |sf|
         tr
           td
             = sf.hidden_field :option_id

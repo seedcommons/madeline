@@ -37,12 +37,12 @@ en:
 
   simple_form:
     labels:
-      custom_field:
+      loan_question:
         data_type: Data Type
         has_embeddable_media: Allow files or links to be attached
         loan_types: Loan Types Requirement
     options:
-      custom_field:
+      loan_question:
         data_type:
           string: Short Answer
           text: Paragraph
