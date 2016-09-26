@@ -68,7 +68,7 @@ class Loan < ActiveRecord::Base
   # being the root of its own separate tree).
   # May return nil if there are no groups or steps in the loan thus far.
   def root_timeline_entry
-    @root_timeline_entry ||= timeline_entries.where(parent_id: nil).first
+    @root_timeline_entry ||= timeline_entries.find_or_create_by(parent_id: nil, type: "ProjectGroup")
   end
 
   # DEPRECATED - This should not be necessary once we transition to tabular format.
