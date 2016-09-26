@@ -95,7 +95,7 @@ class LoanQuestionSet < ActiveRecord::Base
     list
   end
 
-  # returns a field by either its id or internal_name
+  # Gets a LoanQeustion by its id, internal_name, or the LoanQuestion itself.
   def field(field_identifier, required: true)
     if field_identifier.is_a?(LoanQuestion)
       field = field_identifier

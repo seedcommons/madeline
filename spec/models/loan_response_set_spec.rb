@@ -23,7 +23,6 @@ describe LoanResponseSet, :type => :model do
     loan = create(:loan)
     model = loan.create_criteria
     value = 'this is a summary'
-    # model.update_custom_value('summary', value)
     model.summary = { text: value }
     model.save
     fetched = Loan.find(loan.id).criteria
