@@ -25,7 +25,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a9dc5eceeb  (agent_id => people.id)
+#  fk_rails_8589af42f8  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #
 
@@ -36,6 +36,26 @@ class ProjectGroup < TimelineEntry
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
+
+  # Gets the total number of steps beneath this group.
+  # Currently this will recursively traverse the tree and fire a whole bunch of queries,
+  # one for each ProjectGroup. Should be some way to eager load but not seeing it.
+  # Performance shouldn't be too bad though as there shouldn't be that many groups.
+  def descendant_step_count
+    children.to_a.sum do |c|
+      c.is_a?(ProjectStep) ? 1 : c.descendant_step_count
+    end
+  end
+
+  # Determine if the group's children are all steps or a mix of steps and groups.
+  def descendants_only_steps?
+    children.each do |c|
+      if c.is_a?(ProjectGroup)
+        return false
+      end
+    end
+    return true
+  end
 
   def validate_no_children
     raise DestroyWithChildrenError.new if children.present?

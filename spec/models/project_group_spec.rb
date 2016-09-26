@@ -42,4 +42,17 @@ describe ProjectGroup, type: :model do
       expect { group.destroy }.to raise_error ProjectGroup::DestroyWithChildrenError
     end
   end
+
+  describe "descendant_step_count" do
+    let(:root) { create(:root_project_group, :with_descendants) }
+
+    it "should be correct for root" do
+      expect(root.descendant_step_count).to eq root.project.timeline_entries.where(type: "ProjectStep").count
+    end
+
+    it "should be correct for interior node" do
+      group = root.children[0]
+      expect(group.descendant_step_count).to eq group.children.size
+    end
+  end
 end

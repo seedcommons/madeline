@@ -1,0 +1,7 @@
+- wrapper_tag = {tag: is_first ? 'div' : 'tr'}
+
+*wrapper_tag
+  / Add spacer for step who has a group as a sibling
+  - unless siblings_are_all_steps
+    td.spacer colspan="#{max_depth - entry.depth}"
+  td.project-step = entry.summary

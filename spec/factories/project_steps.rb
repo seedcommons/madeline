@@ -23,12 +23,12 @@ FactoryGirl.define do
   factory :project_step do
     association :project, factory: :loan
     association :agent, factory: :person
-    scheduled_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    is_finalized [true, false].sample
-    step_type_value { ["step", "milestone"] }
+    scheduled_date { Faker::Date.between(Date.civil(2014, 01, 01), Date.today) }
+    is_finalized { [true, false].sample }
+    step_type_value { ["step", "milestone"].sample }
     transient_division
-    summary { Faker::Hipster.paragraph }
-    details { Faker::Hipster.paragraphs }
+    summary { Faker::Hipster.sentence(4).chomp(".") }
+    details { Faker::Hipster.paragraph }
 
     trait :completed do
       completed_date { Faker::Date.between(scheduled_date, Date.today) }
