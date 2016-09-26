@@ -26,8 +26,8 @@ describe LoanResponseSet, :type => :model do
     model.summary = { text: value }
     model.save
     fetched = Loan.find(loan.id).criteria
-    # expect(fetched.custom_value('summary')).to eq value
-    fetched_summary_obj = fetched.custom_value('summary')
+    # expect(fetched.response('summary')).to eq value
+    fetched_summary_obj = fetched.response('summary')
     expect(fetched_summary_obj.class).to eq LoanResponse
     expect(fetched_summary_obj.text).to eq value
   end

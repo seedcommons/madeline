@@ -27,20 +27,20 @@ describe "LoanResponse.progress" do
     let!(:f43) { create_field(parent: f4, name: "f43", data_type: "string", required: false) }
 
     before do
-      vals.set_custom_value("f1", {"text" => "foo"})
-      vals.set_custom_value("f2", {"text" => ""}) # required
-      vals.set_custom_value("f31", {"text" => "junk"}) # required
-      vals.set_custom_value("f32", {"boolean" => "no"}) # required
-      vals.set_custom_value("f331", {"boolean" => "yes"})
-      vals.set_custom_value("f41", {"text" => ""})
-      vals.set_custom_value("f42", {"text" => "pants"}) # required
-      vals.set_custom_value("f43", {"text" => ""})
+      vals.set_response("f1", {"text" => "foo"})
+      vals.set_response("f2", {"text" => ""}) # required
+      vals.set_response("f31", {"text" => "junk"}) # required
+      vals.set_response("f32", {"boolean" => "no"}) # required
+      vals.set_response("f331", {"boolean" => "yes"})
+      vals.set_response("f41", {"text" => ""})
+      vals.set_response("f42", {"text" => "pants"}) # required
+      vals.set_response("f43", {"text" => ""})
     end
 
     it "should be correct for a required group" do
       # For required group, we want percentage of all required questions answered.
       # Group has 5 total questions, 3 required, and 2 of those have answers, so 2/3 == 66%
-      expect(vals.custom_value("f3").progress).to be_within(0.001).of(0.666)
+      expect(vals.response("f3").progress).to be_within(0.001).of(0.666)
     end
 
     it "should be correct for the full custom value set" do
@@ -49,13 +49,13 @@ describe "LoanResponse.progress" do
     end
 
     it "should be correct for required group with with no required questions" do
-      expect(vals.custom_value("f33").progress).to eq 0
+      expect(vals.response("f33").progress).to eq 0
     end
 
     it "should be correct for an optional group" do
       # For optional group, we want percentage of all questions answered, required or not.
       # Group has 3 total questions, and 1 of those has an answer, so 1/3 == 33%
-      expect(vals.custom_value("f4").progress).to be_within(0.001).of(0.333)
+      expect(vals.response("f4").progress).to be_within(0.001).of(0.333)
     end
   end
 
@@ -69,11 +69,11 @@ describe "LoanResponse.progress" do
     let!(:f32) { create_field(parent: f3, name: "f32", data_type: "boolean", required: false) }
 
     before do
-      vals.set_custom_value("f1", {"text" => "foo"})
-      vals.set_custom_value("f2", {"text" => ""}) # required
-      vals.set_custom_value("f3", {"text" => "stuff"}) # required
-      vals.set_custom_value("f31", {"text" => "junk"}) # required
-      vals.set_custom_value("f32", {"boolean" => "no"})
+      vals.set_response("f1", {"text" => "foo"})
+      vals.set_response("f2", {"text" => ""}) # required
+      vals.set_response("f3", {"text" => "stuff"}) # required
+      vals.set_response("f31", {"text" => "junk"}) # required
+      vals.set_response("f32", {"boolean" => "no"})
     end
 
 

@@ -174,13 +174,6 @@ class LoanQuestion < ActiveRecord::Base
     id.to_s
   end
 
-  # We are deprecating this field type, due to lack of need and much added complexity,
-  # but this method is still used heavily in loan_question_addable.rb, so leaving this
-  # here for now on the off chance that we end up needing this field type after all.
-  def translatable?
-    false
-  end
-
   private
 
     def ensure_internal_name
