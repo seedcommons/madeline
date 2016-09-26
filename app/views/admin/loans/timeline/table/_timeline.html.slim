@@ -6,6 +6,6 @@
           max_depth: @loan.root_timeline_entry.max_descendant_depth
     / If user has created a step through the timeline list, the timeline table is incompatible
     - elsif @loan.root_timeline_entry.is_a?(ProjectStep)
-      #no-steps-msg.alert.alert-warning This loan is not yet compatible with the timeline table.
+      p This loan is not yet compatible with the timeline table.
   - else
-    #no-steps-msg.alert.alert-warning = t("project_step.no_steps")
+    p = t("project_step.no_steps")

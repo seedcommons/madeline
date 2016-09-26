@@ -4,7 +4,7 @@
 *wrapper_tag
   / The root group is not actually displayed
   - unless entry.root?
-    td rowspan="#{entry.descendant_step_count}" colspan="#{column_span}" data-item="group"
+    td.project-group rowspan="#{entry.descendant_step_count}" colspan="#{column_span}"
       = entry.summary
 
   - entry.children.each_with_index do |child, i|

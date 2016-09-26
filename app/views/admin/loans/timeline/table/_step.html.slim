@@ -3,5 +3,5 @@
 *wrapper_tag
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
-      td colspan="#{max_depth - entry.depth}" data-item="spacer"
-  td data-item="step" = entry.summary
+    td.spacer colspan="#{max_depth - entry.depth}"
+  td.project-step = entry.summary
