@@ -22,13 +22,6 @@ class LoanResponseSet < ActiveRecord::Base
     LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
-  # Ducktype interface override of default LoanResponseSettable resolve logic.
-  # Assumes linkable associated field set assigned when instance was created.
-  # Allows leverage of rest of LoanResponseSettable implementation
-  def resolve_loan_question_set(required: true)
-    loan_question_set
-  end
-
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
     return [] if custom_data.blank?
