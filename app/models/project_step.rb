@@ -89,7 +89,11 @@ class ProjectStep < TimelineEntry
   end
 
   def scheduled_end_date
-    scheduled_start_date + scheduled_duration_days
+    if scheduled_start_date.present? && scheduled_duration_days.present?
+      scheduled_start_date + scheduled_duration_days
+    else
+      nil
+    end
   end
 
   def original_end_date
