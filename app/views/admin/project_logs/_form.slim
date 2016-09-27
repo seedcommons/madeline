@@ -4,21 +4,23 @@
 
     = f.hidden_field(:project_step_id)
 
-    = f.error_notification
+    .alert.alert-danger role="alert"
+      i.fa.fa-exclamation-circle>
+      = t("log.empty_log_error")
 
-    div.row
-      div.date.col-lg-9
-        = f.input :date, as: :date_picker
+    .row
+      .date.col-lg-9
+        = f.input :date, as: :date_picker, required: true
         - if @log.new_record? && context == :manual
           label.light
             = check_box_tag(:step_completed_on_date)
             = t('log.step_completed')
 
-      div.col-lg-6.col-md-6
+      .col-lg-6.col-md-6
         = f.association :agent, include_blank: true, collection: @people
         = f.input :progress_metric_value, as: :select, collection: @progress_metrics
 
-      div.col-lg-6.col-md-6.media-container
+      .col-lg-6.col-md-6.media-container
         - unless @log.new_record?
           = render 'admin/media/index', media: @log.media, owner: @log
 

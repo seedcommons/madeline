@@ -297,6 +297,7 @@ en:
   log:
     additional_notes: "Additional Notes"
     edit: "Edit Log"
+    empty_log_error: "Error: An empty log cannot be saved."
     delete: "Delete Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"

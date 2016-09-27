@@ -23,23 +23,27 @@ class MS.Views.LogModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
+    @$el.find('.alert').hide()
     @$('.modal').modal('show')
     MS.loadingIndicator.hide()
 
   submitForm: (e) ->
     e.preventDefault()
+    $form = @$('form')
+    formIsEmpty = true
 
     # Check to make sure summary is completed for at least one language
     # Only submit form if summary is present
-    $form = @$('form')
-    $modal = @$('.modal')
     $form.find("[data-translatable='common.summary']").each ->
       if ($.trim($(this).val()) != '')
         $form.submit()
         @submitted = true
-        $modal.modal('hide')
-      else
-        $(this).closest('.form-group').addClass('has-error')
+        formIsEmpty = false
+
+    if formIsEmpty
+      $form.find('.alert').show()
+    else
+      @$('.modal').modal('hide')
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
