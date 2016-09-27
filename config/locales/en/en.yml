@@ -109,6 +109,10 @@ en:
       project_step_move:
         move_type: "Which Date?"
         shift_subsequent: "Shift Others?"
+      project_step:
+        actual_end_date: "Completed Date"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
     options:
       person:
         owning_division_role:

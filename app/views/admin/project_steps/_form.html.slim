@@ -1,8 +1,13 @@
 div.panel-body class=('new-record' if step.new_record?)
 
   = simple_form_for([:admin, step],
+    wrapper: :horizontal_form,
     remote: true,
-    html: { class: 'project-step-form' }) do |f|
+    html: {class: 'form-horizontal project-step-form'},
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+    ) do |f|
 
     / Need to pass these through to create but not update.
     - if step.new_record?
@@ -20,24 +25,22 @@ div.panel-body class=('new-record' if step.new_record?)
         input_html: {rows: 3, data: {translatable: 'common.details'}},
         placeholder: I18n.t('common.details', locale: l)
 
-    .step_form_right.col-sm-4
-      = f.input :step_type_value, label: 'Type',
-        collection: ProjectStep.step_type_option_set.translated_list,
-        wrapper: :step_form_right_9,
-        include_blank: '---',
-        wrapper_html: {class: 'clearfix'},
-        input_html: {class: 'type'}
-      = f.input :scheduled_start_date, label: 'Scheduled Start Date', as: :date_picker, wrapper_html: {class: 'clearfix'}
-      = f.input :scheduled_duration_days, label: 'Scheduled Start Date'
-      = f.input :actual_end_date, label: 'Completed Date', as: :date_picker, wrapper_html: {class: 'clearfix'}
-      .form-group.date.optional.project_step_actual_end_date
-        = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
-        .col-sm-9
-          - if step.is_finalized_locked?
-            = step.is_finalized ? t("reply_yes") : t("reply_no")
-            =< "(#{t('locked')})"
-          - else
-            = f.check_box :is_finalized, class: "step_form_right_9 finalized"
+    = f.input :step_type_value, label: 'Type',
+      collection: ProjectStep.step_type_option_set.translated_list,
+      include_blank: '---',
+      input_html: {class: 'type'}
+    = f.input :scheduled_start_date, as: :date_picker
+    = f.input :scheduled_duration_days
+    = f.input :actual_end_date, as: :date_picker
+
+    .form-group.date.optional.project_step_actual_end_date
+      = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
+      .col-sm-9
+        - if step.is_finalized_locked?
+          = step.is_finalized ? t("reply_yes") : t("reply_no")
+          =< "(#{t('locked')})"
+        - else
+          = f.check_box :is_finalized, class: "step_form_right_9 finalized"
 
     .clearfix
 
