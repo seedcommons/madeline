@@ -27,10 +27,9 @@ div.panel-body class=('new-record' if step.new_record?)
         include_blank: '---',
         wrapper_html: {class: 'clearfix'},
         input_html: {class: 'type'}
-      = f.input :scheduled_start_date, label: 'Scheduled', as: :date_picker, wrapper_html: {class: 'clearfix'},
-        wrapper: :step_form_right_9
-      = f.input :actual_end_date, label: 'Completed', as: :date_picker, wrapper_html: {class: 'clearfix'},
-        wrapper: :step_form_right_9
+      = f.input :scheduled_start_date, label: 'Scheduled Start Date', as: :date_picker, wrapper_html: {class: 'clearfix'}
+      = f.input :scheduled_duration_days, label: 'Scheduled Start Date'
+      = f.input :actual_end_date, label: 'Completed Date', as: :date_picker, wrapper_html: {class: 'clearfix'}
       .form-group.date.optional.project_step_actual_end_date
         = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
         .col-sm-9
