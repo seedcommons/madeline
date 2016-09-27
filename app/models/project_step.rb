@@ -104,8 +104,32 @@ class ProjectStep < TimelineEntry
     (old_start_date || scheduled_start_date) + duration
   end
 
-  def best_end_date
+  # Gets the actual number of days the step too, based on actual end date and scheduled start date
+  def actual_duration_days
+    if actual_end_date.present? && scheduled_start_date.present?
+      actual_end_date - scheduled_start_date
+    else
+      nil
+    end
+  end
+
+  # Gets best known start date. Can be nil.
+  def display_start_date
+    scheduled_start_date
+  end
+
+  # Gets best known end date. Can be nil.
+  def display_end_date
     actual_end_date || scheduled_end_date
+  end
+
+  # Gets best known duration. nil if both start and end dates are nil.
+  def display_duration_days
+    if display_start_date.nil? && display_end_date.nil?
+      nil
+    else
+      actual_duration_days || scheduled_duration_days
+    end
   end
 
   def set_completed!(date)
