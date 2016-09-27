@@ -18,12 +18,14 @@ div.panel-body class=('new-record' if step.new_record?)
 
     = f.error_notification
     = f.translatable_inputs do |l|
-      = f.input "summary_#{l}".to_sym, wrapper: :step_form_left_12,
+      = f.input "summary_#{l}".to_sym,
         input_html: {data: {translatable: 'common.summary'}},
-        placeholder: I18n.t('common.summary', locale: l)
-      = f.input "details_#{l}".to_sym, as: :text, wrapper: :step_form_left_12,
+        placeholder: I18n.t('common.summary', locale: l),
+        label: I18n.t('common.summary', locale: l)
+      = f.input "details_#{l}".to_sym, as: :text,
         input_html: {rows: 3, data: {translatable: 'common.details'}},
-        placeholder: I18n.t('common.details', locale: l)
+        placeholder: I18n.t('common.details', locale: l),
+        label: I18n.t('common.details', locale: l)
 
     = f.input :step_type_value, label: 'Type',
       collection: ProjectStep.step_type_option_set.translated_list,
@@ -33,14 +35,12 @@ div.panel-body class=('new-record' if step.new_record?)
     = f.input :scheduled_duration_days
     = f.input :actual_end_date, as: :date_picker
 
-    .form-group.date.optional.project_step_actual_end_date
-      = label_tag :is_finalized, "Finalized", class: "date optional col-sm-3 checkbox-label"
-      .col-sm-9
-        - if step.is_finalized_locked?
-          = step.is_finalized ? t("reply_yes") : t("reply_no")
-          =< "(#{t('locked')})"
-        - else
-          = f.check_box :is_finalized, class: "step_form_right_9 finalized"
+    - if step.is_finalized_locked?
+      = f.input :is_finalized do
+        = step.is_finalized ? t("reply_yes") : t("reply_no")
+        =< "(#{t('locked')})"
+    - else
+      = f.input :is_finalized, class: "finalized"
 
     .clearfix
 
