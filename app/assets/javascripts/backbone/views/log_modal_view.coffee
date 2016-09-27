@@ -32,11 +32,12 @@ class MS.Views.LogModalView extends Backbone.View
     # Check to make sure summary is completed for at least one language
     # Only submit form if summary is present
     $form = @$('form')
+    $modal = @$('.modal')
     $form.find("[data-translatable='common.summary']").each ->
       if ($.trim($(this).val()) != '')
         $form.submit()
         @submitted = true
-        @$('.modal').modal('hide')
+        $modal.modal('hide')
       else
         $(this).closest('.form-group').addClass('has-error')
 
