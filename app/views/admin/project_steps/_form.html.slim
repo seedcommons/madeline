@@ -32,7 +32,9 @@ div.panel-body class=('new-record' if step.new_record?)
       include_blank: '---',
       input_html: {class: 'type'}
     = f.input :scheduled_start_date, as: :date_picker
-    = f.input :scheduled_duration_days
+    = f.input "duration" do
+      = f.input_field :scheduled_duration_days, input_html: {class: 'duration'}
+      = t("project_step.days")
     = f.input :actual_end_date, as: :date_picker
 
     - if step.is_finalized_locked?

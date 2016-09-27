@@ -1,4 +1,9 @@
-// .project-step-form {
+.project-step-form {
+  #project_step_scheduled_duration_days {
+    width: 6em;
+    display: inline-block;
+    margin-right: 1em;
+  }
 //   .error_notification {
 //     display: none;
 //   }
@@ -46,4 +51,4 @@
 //     margin-left: 0;
 //   }
 //
-// }
+}

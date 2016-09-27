@@ -111,6 +111,7 @@ en:
         shift_subsequent: "Shift Others?"
       project_step:
         actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
         is_finalized: "Finalized"
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
