@@ -36,8 +36,9 @@ class MS.Views.LogModalView extends Backbone.View
       if ($.trim($(this).val()) != '')
         $form.submit()
         @submitted = true
-
-    @$('.modal').modal('hide')
+        @$('.modal').modal('hide')
+      else
+        $(this).closest('.form-group').addClass('has-error')
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
