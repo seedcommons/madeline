@@ -242,7 +242,7 @@ class Loan < ActiveRecord::Base
   end
 
   def amount_formatted
-    currency_format(self.amount, self.currency)
+    ensure_currency.format_amount(amount)
   end
 
   def project_events(order_by="Completed IS NULL OR Completed = '0000-00-00', Completed, Date")

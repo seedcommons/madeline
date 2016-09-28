@@ -19,12 +19,15 @@
         tr.group-content
           td = item[:name]
           td.text-right = item[:quantity]
-          td.text-right = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
-          td.text-right = @loan.ensure_currency.format_amount(item[:total], tooltip: false)
+          td.text-right 
+            = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
+          td.text-right 
+            = @loan.ensure_currency.format_amount(item[:total], tooltip: false)
 
       tr.group-summary
         td colspan="3" = t("loan.breakeven.total_revenue")
-        td.text-right = @loan.ensure_currency.format_amount(report[:total_revenue], tooltip: false)
+        td.text-right 
+          = @loan.ensure_currency.format_amount(report[:total_revenue], tooltip: false)
 
       / Cost of Goods Sold
       tr.group-title
@@ -40,17 +43,21 @@
         tr.group-content
           td = item[:name]
           td.text-right = item[:quantity]
-          td.text-right = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
-          td.text-right = @loan.ensure_currency.format_amount(item[:total], tooltip: false)
+          td.text-right 
+            = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
+          td.text-right 
+            = @loan.ensure_currency.format_amount(item[:total], tooltip: false)
 
       tr.group-summary
         td colspan="3" = t("loan.breakeven.total_cost_of_goods")
-        td.text-right = @loan.ensure_currency.format_amount(report[:total_cogs], tooltip: false)
+        td.text-right 
+          = @loan.ensure_currency.format_amount(report[:total_cogs], tooltip: false)
 
       / Gross Margin
       tr.group-title.total
         td colspan="3" = t("loan.breakeven.gross_margin")
-        td.text-right = @loan.ensure_currency.format_amount(report[:gross_margin], tooltip: false)
+        td.text-right 
+          = @loan.ensure_currency.format_amount(report[:gross_margin], tooltip: false)
 
       / Fixed Costs
       tr.group-title
@@ -63,13 +70,16 @@
       - report[:fixed_costs].each do |item|
         tr.group-content
           td colspan="3" = item[:name]
-          td.text-right = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
+          td.text-right 
+            = @loan.ensure_currency.format_amount(item[:amount], tooltip: false)
 
       tr.group-summary
         td colspan="3" = t("loan.breakeven.total_fixed_costs", count: 2)
-        td.text-right = @loan.ensure_currency.format_amount(report[:total_fixed_costs], tooltip: false)
+        td.text-right 
+          = @loan.ensure_currency.format_amount(report[:total_fixed_costs], tooltip: false)
 
       / Net Margin
       tr.group-title.total
         td colspan="3" = t("loan.breakeven.net_margin")
-        td.text-right = @loan.ensure_currency.format_amount(report[:net_margin], tooltip: false)
+        td.text-right 
+          = @loan.ensure_currency.format_amount(report[:net_margin], tooltip: false)
