@@ -358,6 +358,7 @@ en:
       other: "Delete Steps"
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
+    duration_days: "%{duration}d"
     edit_step: "Edit Step"
     end: "End:"
     every: "Every:"

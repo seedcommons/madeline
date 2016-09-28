@@ -7,5 +7,7 @@
   td.project-step = entry.summary
   td = entry.try(:display_start_date)
   td = entry.try(:display_end_date)
-  td = entry.try(:display_duration_days)
+  td
+    - if entry.display_duration_days && entry.display_duration_days > 0
+      = t("project_step.duration_days", duration: entry.display_duration_days)
   td = entry.try(:admin_status)
