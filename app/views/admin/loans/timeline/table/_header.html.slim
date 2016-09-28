@@ -1,9 +1,9 @@
 thead
   tr
     - if max_depth > 1
-      td colspan="#{max_depth - 1}"
-    td Step
-    td Start
-    td End
-    td Duration
-    td Status
+      th colspan="#{max_depth - 1}"
+    th = t("project_step.timeline_table.step")
+    th = t("project_step.timeline_table.start")
+    th = t("project_step.timeline_table.end")
+    th = t("project_step.timeline_table.duration")
+    th = t("project_step.timeline_table.status")
