@@ -237,6 +237,10 @@ class Loan < ActiveRecord::Base
     else "/assets/ww-avatar-watermark.png" end
   end
 
+  def ensure_currency
+    currency || Currency.find_by(code: 'USD')
+  end
+
   def amount_formatted
     currency_format(self.amount, self.currency)
   end
