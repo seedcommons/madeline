@@ -10,7 +10,7 @@
 
     .row
       .date.col-lg-9
-        = f.input :date, as: :date_picker, required: true
+        = f.input :date, as: :date_picker
         - if @log.new_record? && context == :manual
           label.light
             = check_box_tag(:step_completed_on_date)
