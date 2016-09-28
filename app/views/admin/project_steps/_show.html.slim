@@ -73,13 +73,14 @@
             td style="background: #{step.scheduled_bg}"
               = step.display_start_date ? l(step.display_start_date) : ''
 
-          tr
-            th = t("project_step.labels.scheduled_duration")
-            td = step.try(:display_duration_days)
+          - if step.display_duration_days && step.display_duration_days > 0
+            tr
+              th = t("project_step.labels.scheduled_duration")
+              td = step.display_duration_days
 
-          tr
-            th = t("project_step.labels.scheduled_end")
-            td = step.display_end_date ? l(step.display_end_date) : ''
+            tr
+              th = t("project_step.labels.scheduled_end")
+              td = step.display_end_date ? l(step.display_end_date) : ''
 
           - if step.old_start_date
             tr
