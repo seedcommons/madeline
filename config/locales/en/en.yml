@@ -369,11 +369,10 @@ en:
       other: "Finalize Steps"
     labels:
       completed: "Completed:"
+      duration: "Duration:"
       finalized: "Finalized:"
       scheduled: "Scheduled:"
-      scheduled_start: "Scheduled Start:"
-      scheduled_end: "Scheduled End:"
-      scheduled_duration: "Scheduled Duration:"
+      start_date: "Start Date:"
       status: "Status:"
       old_start_date: "Old Start Date:"
     logs: "Logs"
