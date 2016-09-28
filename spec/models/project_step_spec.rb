@@ -41,6 +41,13 @@ describe ProjectStep, type: :model do
     expect(step.scheduled_start_date).to eq actual_end_date
   end
 
+  it 'scheduled_end_date is nil when scheduled_start_date is also nil' do
+    step = create(:project_step, scheduled_start_date: nil, actual_end_date: nil)
+
+    expect(step.scheduled_start_date).to be_nil
+    expect(step.scheduled_end_date).to be_nil
+  end
+
   it 'raises error if scheduled_end_date is nil and old_end_date is not nil' do
     step = create(:project_step,
       scheduled_start_date: nil,

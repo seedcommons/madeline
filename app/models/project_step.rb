@@ -89,6 +89,7 @@ class ProjectStep < TimelineEntry
   end
 
   def scheduled_end_date
+    return if scheduled_start_date.blank?
     scheduled_start_date + scheduled_duration_days
   end
 
