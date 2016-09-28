@@ -23,13 +23,13 @@ module Legacy
     def self.migrate(response_set_id)
       has_matching_loan = LoanResponseSet.where("ResponseSetID = #{response_set_id} and LoanID = #{response_set_id}").count
       unless has_matching_loan
-        puts "ERROR - matching loan unexpectedly missing for response set id: #{response_set_id}"
+        $stderr.puts "ERROR - matching loan unexpectedly missing for response set id: #{response_set_id}"
         raise "ERROR - matching loan unexpectedly missing for response set id: #{response_set_id}"
       end
       loan_id = response_set_id
       new_loan = ::Loan.find_by(id: loan_id)
       unless new_loan
-        puts "new loan not found for id: #{loan_id} - skipping"
+        $stderr.puts "new loan not found for id: #{loan_id} - skipping"
         return
       end
 
@@ -58,7 +58,7 @@ module Legacy
           value_hash = response.value_hash
           model.custom_data[field.id.to_s] = value_hash
         else
-          puts "WARNING - custom field not found for id: #{response.question_id}"
+          $stderr.puts "WARNING - custom field not found for id: #{response.question_id}"
         end
       end
 

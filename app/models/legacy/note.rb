@@ -25,7 +25,7 @@ module Legacy
         # need to save this as a second pass because it's translatable
         obj.update({text: note})
       rescue StandardError => e
-        puts "Note[#{id}] w/ noted: #{noted_table}:#{noted_id} - migrate error: #{e} - skipping"
+        $stderr.puts "Note[#{id}] w/ noted: #{noted_table}:#{noted_id} - migrate error: #{e} - skipping"
         #JE todo: log to a special migration_errors.log
       end
     end
