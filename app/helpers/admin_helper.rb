@@ -52,8 +52,4 @@ module AdminHelper
 
     @admin_custom_colors = colors
   end
-
-  def admin_currency_format(amount, loan)
-    loan.ensure_currency.format_amount(amount, tooltip: false)
-  end
 end
