@@ -27,7 +27,7 @@ div.panel-body class=('new-record' if step.new_record?)
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
 
-    = f.input :step_type_value, label: 'Type',
+    = f.input :step_type_value,
       collection: ProjectStep.step_type_option_set.translated_list,
       include_blank: '---',
       input_html: {class: 'type'}

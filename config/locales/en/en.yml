@@ -115,6 +115,7 @@ en:
         is_finalized: "Finalized"
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
+        step_type_value: "Type"
     options:
       person:
         owning_division_role:
