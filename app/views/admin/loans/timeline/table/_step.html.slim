@@ -5,8 +5,8 @@
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_depth - entry.depth}"
   td.project-step = entry.summary
-  td = entry.try(:display_start_date)
-  td = entry.try(:display_end_date)
+  td = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
+  td = entry.display_end_date ? l(entry.display_end_date, format: :short) : ''
   td
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
