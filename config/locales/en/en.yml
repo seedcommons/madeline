@@ -170,7 +170,6 @@ en:
   past_loans: Past Loans
   no_description_found: No description found.
   payment_schedule: Payment Schedule
-  status: Status
   due_date: Due Date
   first_loan: This is the first loan to this cooperative.
   all_loans: All Loans to this Co-op
@@ -247,7 +246,6 @@ en:
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
-  status: "Status"
   submit: "Submit"
   update: "Update"
   updated: "Updated"
@@ -391,6 +389,12 @@ en:
     repeat: "Repeat..."
     shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
+    timeline_table:
+      duration: "Duration"
+      end: "End"
+      start: "Start"
+      status: "Status"
+      step: "Step"
     status:
       completed: "Completed"
       early: "Early"
