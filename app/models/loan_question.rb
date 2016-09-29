@@ -161,16 +161,6 @@ class LoanQuestion < ActiveRecord::Base
     result
   end
 
-  def traverse_depth_first(list)
-    list << self
-    counter = 0
-    children.each do |child|
-      counter += 1
-      child.transient_position = counter
-      child.traverse_depth_first(list)
-    end
-  end
-
   # for now use a stringified primary key
   # todo: consider using the internal name when available - needs further discussion
   def json_key
