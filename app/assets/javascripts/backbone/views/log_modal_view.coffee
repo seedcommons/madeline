@@ -30,20 +30,19 @@ class MS.Views.LogModalView extends Backbone.View
   submitForm: (e) ->
     e.preventDefault()
     $form = @$('form')
-    formIsEmpty = true
+    submitted = @submitted
 
     # Check to make sure summary is completed for at least one language
-    # Only submit form if summary is present
     $form.find("[data-translatable='common.summary']").each ->
       if ($.trim($(this).val()) != '')
-        $form.submit()
-        @submitted = true
-        formIsEmpty = false
+        submitted = true
 
-    if formIsEmpty
-      $form.find('.alert').show()
-    else
+    if submitted
+      $form.submit()
       @$('.modal').modal('hide')
+      @submitted = submitted
+    else
+      $form.find('.alert').show()
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
