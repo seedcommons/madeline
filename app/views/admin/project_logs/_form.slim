@@ -8,20 +8,18 @@
       i.fa.fa-exclamation-circle>
       = t("log.empty_log_error")
 
-    .row
-      .date.col-lg-9
-        = f.input :date, as: :date_picker
-        - if @log.new_record? && context == :manual
-          label.light
-            = check_box_tag(:step_completed_on_date)
-            = t('log.step_completed')
+    .date
+      = f.input :date, as: :date_picker
+      - if @log.new_record? && context == :manual
+        label.light
+          = check_box_tag(:step_completed_on_date)
+          = t('log.step_completed')
 
-      .col-lg-6.col-md-6
-        = f.association :agent, include_blank: true, collection: @people
-        = f.input :progress_metric_value, as: :select, collection: @progress_metrics
+    = f.association :agent, include_blank: true, collection: @people
+    = f.input :progress_metric_value, as: :select, collection: @progress_metrics
 
-      .col-lg-6.col-md-6.media-container
-        - unless @log.new_record?
-          = render 'admin/media/index', media: @log.media, owner: @log
+    .media-container
+      - unless @log.new_record?
+        = render 'admin/media/index', media: @log.media, owner: @log
 
     = render 'admin/project_logs/translatable', log: @log, f: f
