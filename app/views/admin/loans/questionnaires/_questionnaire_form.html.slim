@@ -26,11 +26,7 @@
 
   / Render form fields outside form so they don't get double submitted after being
   / copied into the jqtree
-  = simple_fields_for(value_set,
-      defaults: { \
-        input_html: {class: 'form-element form-control'},
-      },
-    ) do |f|
+  = simple_fields_for(value_set, defaults: {input_html: {class: 'form-element form-control'}}) do |f|
 
     = render "admin/loans/questionnaires/questionnaire_group",
       f: f, value_set: value_set, roots: @root_questions[attrib], parents: [], indices: []
