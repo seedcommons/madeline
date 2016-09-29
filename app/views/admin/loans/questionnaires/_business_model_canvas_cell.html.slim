@@ -1,5 +1,5 @@
 h4.canvas-cell-title = t("loan.business_model.#{section}")
 .canvas-help-block.help-block = simple_format t("loan.business_model.explanations.#{section}")
 .canvas-answer.view-element = simple_format(data[section]) if data
-textarea.form-element name="loan_response_set[#{field.attribute_sym}][business_canvas][#{section}]"
+textarea.form-element name="loan_response_set[#{question.attribute_sym}][business_canvas][#{section}]"
   = (data[section]) if data
