@@ -27,11 +27,10 @@ div.panel-body class=('new-record' if step.new_record?)
 
     = f.input :step_type_value,
       collection: ProjectStep.step_type_option_set.translated_list,
-      include_blank: '---',
-      input_html: {class: 'type'}
+      include_blank: '---'
     = f.input :scheduled_start_date, as: :date_picker
     = f.input "duration" do
-      = f.input_field :scheduled_duration_days, input_html: {class: 'duration'}
+      = f.input_field :scheduled_duration_days
       = t("project_step.days")
     = f.input :actual_end_date, as: :date_picker
 
