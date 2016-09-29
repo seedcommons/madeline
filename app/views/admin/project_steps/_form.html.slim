@@ -3,10 +3,8 @@ div.panel-body class=('new-record' if step.new_record?)
   = simple_form_for([:admin, step],
     wrapper: :horizontal_form,
     remote: true,
-    html: {class: 'form-horizontal project-step-form'},
-    defaults: { \
-      input_html: {class: 'form-element form-control'},
-    },
+    html: {class: "form-horizontal project-step-form"},
+    defaults: {input_html: {class: "form-element form-control"}},
     ) do |f|
 
     / Need to pass these through to create but not update.
