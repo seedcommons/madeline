@@ -17,11 +17,11 @@ div.panel-body class=('new-record' if step.new_record?)
     = f.error_notification
     = f.translatable_inputs do |l|
       = f.input "summary_#{l}".to_sym,
-        input_html: {data: {translatable: 'common.summary'}},
+        input_html: {data: {translatable: 'summary'}},
         placeholder: I18n.t('common.summary', locale: l),
         label: I18n.t('common.summary', locale: l)
       = f.input "details_#{l}".to_sym, as: :text,
-        input_html: {rows: 3, data: {translatable: 'common.details'}},
+        input_html: {rows: 3, data: {translatable: 'details'}},
         placeholder: I18n.t('common.details', locale: l),
         label: I18n.t('common.details', locale: l)
 
