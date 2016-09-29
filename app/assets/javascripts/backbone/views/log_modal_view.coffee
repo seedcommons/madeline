@@ -40,7 +40,6 @@ class MS.Views.LogModalView extends Backbone.View
     if submitted
       $form.submit()
       @$('.modal').modal('hide')
-      @submitted = submitted
     else
       $form.find('.alert').show()
 
