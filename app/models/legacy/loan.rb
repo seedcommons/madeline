@@ -6,7 +6,11 @@ class Loan < ActiveRecord::Base
   include LegacyModel
 
   belongs_to :cooperative, :foreign_key => 'CooperativeID'
+  belongs_to :division, :foreign_key => 'SourceDivision'
 
+  def currency
+    @currency ||= division.ensure_country.default_currency
+  end
 
   # beware, there are a lot of invalid '0' foreign key refs in the legacy data
   def nil_if_zero(val)
@@ -28,6 +32,7 @@ class Loan < ActiveRecord::Base
         loan_type_value: loan_type_option_value,
         project_type_value: project_type_option_value,
         public_level_value: public_level_option_value,
+        currency_id: currency.id,
         amount: amount,
         rate: rate,
         length_months: length,
@@ -59,11 +64,13 @@ class Loan < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:amount]}"
+    puts "#{data[:id]}: #{data[:name]}"
     org_data = org_snapshot_data
-    snapshot = ::OrganizationSnapshot.create(org_data)
+    snapshot = ::OrganizationSnapshot.find_or_create_by(id: org_data[:id])
+    snapshot.update(org_data)
     data[:organization_snapshot_id] = snapshot.id
-    ::Loan.create(data)
+    loan = ::Loan.find_or_create_by(id: data[:id])
+    loan.update(data)
   end
 
   def name

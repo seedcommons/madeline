@@ -4,7 +4,7 @@
 #
 #  amount                      :decimal(, )
 #  created_at                  :datetime         not null
-#  currency_id                 :integer
+#  currency_id                 :integer          not null
 #  custom_data                 :json
 #  division_id                 :integer
 #  first_interest_payment_date :date
@@ -237,8 +237,12 @@ class Loan < ActiveRecord::Base
     else "/assets/ww-avatar-watermark.png" end
   end
 
+  def ensure_currency
+    currency || Currency.find_by(code: 'USD')
+  end
+
   def amount_formatted
-    currency_format(self.amount, self.currency)
+    ensure_currency.format_amount(amount)
   end
 
   def project_events(order_by="Completed IS NULL OR Completed = '0000-00-00', Completed, Date")

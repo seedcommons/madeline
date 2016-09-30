@@ -52,4 +52,13 @@ module AdminHelper
 
     @admin_custom_colors = colors
   end
+
+  def format_currency(amount, currency, tooltip: true)
+    display_symbol = currency.symbol.sub('$', ' $') # add space before $ (pretty)
+    if tooltip
+      display_symbol = %Q(<a href="#" onclick="return false" data-toggle="tooltip"
+        class="currency_symbol" title="#{currency.plural_name}">#{display_symbol}</a> ).html_safe
+    end
+    return number_to_currency(amount, unit: display_symbol)
+  end
 end

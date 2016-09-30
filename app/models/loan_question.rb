@@ -3,11 +3,11 @@
 # Table name: loan_questions
 #
 #  created_at            :datetime         not null
-#  loan_question_set_id   :integer
 #  data_type             :string
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
+#  loan_question_set_id  :integer
 #  migration_position    :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
