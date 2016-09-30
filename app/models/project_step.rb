@@ -195,17 +195,12 @@ class ProjectStep < TimelineEntry
     finalized_at && Time.now > finalized_at + 1.day
   end
 
-  # The date to use when calculating days_late.
-  def on_time_date
-    old_start_date || scheduled_start_date
-  end
-
   def days_late
     if scheduled_start_date
       if completed?
-        (actual_end_date - on_time_date).to_i
+        (actual_end_date - original_end_date).to_i
       else
-        ([scheduled_start_date, Date.today].max - on_time_date).to_i
+        ([scheduled_start_date, Date.today].max - original_end_date).to_i
       end
     end
   end
