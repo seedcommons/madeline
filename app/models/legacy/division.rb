@@ -35,7 +35,8 @@ module Legacy
     def migrate
       data = migration_data
       puts "#{data[:id]}: #{data[:name]}"
-      division = ::Division.new(data)
+      division = ::Division.find_or_create_by(id: data[:id])
+      division.assign_attributes(data)
       division.save(validate: false)
 
       # todo: confirm how we should assigned default locales to migrated divisions
@@ -50,9 +51,10 @@ module Legacy
     end
 
     def self.purge_migrated
-      puts "::Division.where('internal_name <> root').delete_all"
-      ::Division.where.not(internal_name: ::Division.root_internal_name).destroy_all
-
+      while ::Division.count > 1
+        puts "::Division.leaves.destroy_all"
+        ::Division.leaves.destroy_all
+      end
     end
 
   end
