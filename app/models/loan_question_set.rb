@@ -26,6 +26,31 @@ class LoanQuestionSet < ActiveRecord::Base
 
   attr_translatable :label
 
+  after_create :create_root_group!
+
+  # This is a temporary method that creates root groups for all question sets in the system.
+  # It is called from a Rails migration and from the old system migration.
+  # It should be removed once all the data are migrated and stable.
+  def self.create_root_groups!
+    LoanQuestionSet.all.each do |set|
+      old_roots = LoanQuestion.where(loan_question_set_id: set.id, parent: nil).to_a
+      new_root = set.create_root_group!
+      old_roots.each { |r| r.update_attributes!(parent: new_root) }
+    end
+  end
+
+  def create_root_group!
+    raise "Must be persisted" unless persisted?
+    LoanQuestion.create!(
+      loan_question_set_id: id,
+      parent: nil,
+      data_type: "group",
+      internal_name: "root_#{id}",
+      required: true,
+      position: 0
+    )
+  end
+
   def root_group
     return @root_group if @root_group
     roots = LoanQuestion.where(loan_question_set_id: id, parent: nil).to_a

@@ -12,6 +12,7 @@ module Legacy
       (1..4).each{ |set_id| migrate_set(set_id) }
       # self.all.each &:migrate
       ::LoanQuestion.recalibrate_sequence(gap: 100)
+      ::LoanQuestionSet.create_root_groups!
     end
 
     def self.migrate_set(set_id)
