@@ -22,7 +22,7 @@ class Cooperative < ActiveRecord::Base
         city: city.try(:strip),
         neighborhood: borough.try(:strip),
         state: state.try(:strip),
-        country_id: Country.id_from_name(self.country),
+        country_id: Country.find_by(name: self.country).id,
         tax_no: tax_id.try(:strip),
         #todo: figure out why this bombs, perhaps because source column is already lower case
         #website: web,

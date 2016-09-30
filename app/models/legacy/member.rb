@@ -16,7 +16,7 @@ class Member < ActiveRecord::Base
         primary_phone: phone,
         street_address: address.try(:strip),
         city: city.try(:strip),
-        country_id: Country.id_from_name(self.country.try(:strip)),
+        country_id: Country.find_by(name: self.country.try(:strip)).id,
         tax_no: national_id,
     }
     if access_status > 0 && password.present? && username.present?

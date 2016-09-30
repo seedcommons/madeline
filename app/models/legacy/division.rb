@@ -10,6 +10,12 @@ module Legacy
 
     include LegacyModel
 
+    def ensure_country
+      # In legacy DB, `country` is a string field containing a country name
+      # Sets country to US when not found
+      @country ||= Country.find_by(name: country) || Country.find_by(name: 'United States')
+    end
+
     def migration_data
       if id == super_division
         parent_id = ::Division.root_id
@@ -21,8 +27,7 @@ module Legacy
           parent_id: parent_id,
           name: name,
           description: description,
-          # note, no well defined division currency in current model (aside from the global AR$ default)
-          # currency_id:
+          currency_id: ensure_country.default_currency.id,
       }
       data
     end
