@@ -71,7 +71,7 @@ module Legacy
       ::ProjectStep.recalibrate_sequence(id: max + 1000)
 
       # note record 10155 has a malformed date (2013-12-00) which was causing low level barfage
-      step_events = self.where("Type = 'Paso' and #{malformed_date_clause('Completed')}")
+      step_events = self.where("Type = 'Paso' and #{malformed_date_clause('Completed')}").where(project_table: 'Loan')
 
       step_events.find_each &:migrate
       step_children = step_events.where.not(milestone_group: nil)
