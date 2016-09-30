@@ -131,7 +131,7 @@ class Admin::LoansController < Admin::AdminController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
-    @root_questions = { criteria: LoanQuestion.loan_questions(:criteria).roots.filter_for(@loan) }
+    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group }
     prep_attached_links if @mode != "details-only"
   end
 
