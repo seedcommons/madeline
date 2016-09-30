@@ -5,8 +5,10 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def index
     authorize LoanQuestion
     # Hide retired questions for now
-    @questions = LoanQuestion.loan_questions.where(status: [:active, :inactive])
-    @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
+    sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
+    @json = ActiveModel::Serializer::CollectionSerializer.new(
+      sets.map { |s| s.root_group.children.filter_for(nil) }.flatten
+    ).to_json
   end
 
   def new

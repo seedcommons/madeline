@@ -26,6 +26,12 @@ class LoanQuestionSet < ActiveRecord::Base
 
   attr_translatable :label
 
+  def root_group
+    return @root_group if @root_group
+    roots = LoanQuestion.where(loan_question_set_id: id, parent: nil).to_a
+    roots.first
+  end
+
   def name
     label
   end

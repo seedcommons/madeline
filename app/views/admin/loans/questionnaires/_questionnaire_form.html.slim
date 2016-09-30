@@ -29,4 +29,5 @@
   = simple_fields_for(value_set, defaults: {input_html: {class: 'form-element form-control'}}) do |f|
 
     = render "admin/loans/questionnaires/questionnaire_group",
-      f: f, value_set: value_set, roots: @root_questions[attrib], parents: [], indices: []
+      f: f, value_set: value_set, roots: @roots[attrib].children.filter_for(@loan),
+      parents: [], indices: []

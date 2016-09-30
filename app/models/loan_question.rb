@@ -86,8 +86,13 @@ class LoanQuestion < ActiveRecord::Base
 
   # Note: Not chainable; intended to be called on a subset
   def self.filter_for(loan)
-    return all if !loan
-    sort_by_required(loan).select { |i| i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan)) }
+    if loan
+      sort_by_required(loan).select do |i|
+        i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan))
+      end
+    else
+      all.select { |i| i.status != 'retired' }
+    end
   end
 
   def answered_for?(loan)
