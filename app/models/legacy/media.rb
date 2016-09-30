@@ -28,7 +28,7 @@ module Legacy
           ::Media.create!(data)
         end
       rescue StandardError => e
-        puts "Media[#{id}] #{media_path} - migrate error: #{e} - skipping"
+        $stderr.puts "Media[#{id}] #{media_path} - migrate error: #{e} - skipping"
       end
     end
 
