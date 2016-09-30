@@ -35,7 +35,7 @@ class LoanQuestion < ActiveRecord::Base
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
 
-  belongs_to :loan_question_set, inverse_of: :loan_questions
+  belongs_to :loan_question_set
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
@@ -69,15 +69,6 @@ class LoanQuestion < ActiveRecord::Base
   after_save :ensure_internal_name
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
-
-  def self.loan_questions(field_set = nil)
-    # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
-    # to be prepended for the database, and if it's not, it is set to both, to return all loan questions.
-    field_set &&= "loan_#{field_set}"
-    field_set ||= ['loan_criteria', 'loan_post_analysis']
-    joins(:loan_question_set).where(loan_question_sets:
-      { internal_name: field_set })
-  end
 
   # Note: Not chainable; intended to be called on a subset
   def self.sort_by_required(loan)

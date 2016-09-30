@@ -22,11 +22,10 @@ class LoanQuestionSet < ActiveRecord::Base
 
   belongs_to :division
 
-  has_many :loan_questions, -> { order(:position) }, inverse_of: :loan_question_set
-
   attr_translatable :label
 
   after_create :create_root_group!
+
 
   # This is a temporary method that creates root groups for all question sets in the system.
   # It is called from a Rails migration and from the old system migration.
@@ -114,15 +113,20 @@ class LoanQuestionSet < ActiveRecord::Base
     if question_identifier.is_a?(LoanQuestion)
       question = question_identifier
     elsif question_identifier.is_a?(Integer)
-      question = loan_questions.find_by(id: question_identifier)
+      # These DB lookups will be replaced by usage of the new hash structures
+      question = LoanQuestion.find_by(id: question_identifier)
     else
-      question = loan_questions.find_by(internal_name: question_identifier)
+      question = LoanQuestion.find_by(loan_question_set_id: id, internal_name: question_identifier)
     end
     raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}"  if required && !question
     question
   end
 
   private
+
+  # This is private because it is needed to allow the inverse association on LoanQuestion, but
+  # it should never be used directly. Access children via the root or by cache hashes.
+  has_many :loan_questions, inverse_of: :loan_question_set
 
   # Recursive method to construct @kids_by_parent.
   def build_parent_kid_hash_for(tree)

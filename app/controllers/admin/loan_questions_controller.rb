@@ -13,8 +13,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def new
     @parent_id = params[:parent_id]
-    question_set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
-    @loan_question = question_set.loan_questions.build
+    set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
+    @loan_question = LoanQuestion.new(loan_question_set_id: set.id)
     authorize @loan_question
     @loan_question.build_complete_requirements
     render_form
