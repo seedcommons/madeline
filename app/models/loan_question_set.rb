@@ -33,9 +33,9 @@ class LoanQuestionSet < ActiveRecord::Base
   # It should be removed once all the data are migrated and stable.
   def self.create_root_groups!
     LoanQuestionSet.all.each do |set|
-      old_roots = LoanQuestion.where(loan_question_set_id: set.id, parent: nil).to_a
-      new_root = set.create_root_group!
-      old_roots.each { |r| r.update_attributes!(parent: new_root) }
+      roots = LoanQuestion.where(loan_question_set_id: set.id, parent: nil).to_a
+      new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
+      (roots - [new_root]).each { |r| r.update_attributes!(parent: new_root) }
     end
   end
 
