@@ -69,9 +69,14 @@
 
           tr
             th
-              = t("project_step.labels.scheduled")
+              = t("project_step.labels.start_date")
             td style="background: #{step.scheduled_bg}"
-              = step.scheduled_start_date ? l(step.scheduled_start_date) : ''
+              = step.display_start_date ? l(step.display_start_date) : ''
+
+          - if step.display_duration_days && step.display_duration_days > 0
+            tr
+              th = t("project_step.labels.duration")
+              td = step.display_duration_days
 
           - if step.old_start_date
             tr
@@ -88,6 +93,7 @@
                   p.tight-block
                     => step.actual_end_date ? l(step.actual_end_date) : ''
                     = "(#{step.date_status_statement})"
+
 
           tr
             th = t("project_step.labels.finalized")

@@ -1,9 +1,12 @@
+- max_depth = @loan.root_timeline_entry.max_descendant_depth
 .timeline-table
   - if @loan.root_timeline_entry
     - if @loan.root_timeline_entry.is_a?(ProjectGroup)
       table.table
-        = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry, is_first: true,
-          max_depth: @loan.root_timeline_entry.max_descendant_depth
+        = render "admin/loans/timeline/table/header", max_depth: max_depth
+        tbody
+          = render "admin/loans/timeline/table/group", entry: @loan.root_timeline_entry,
+            is_first: true, max_depth: max_depth
     / If user has created a step through the timeline list, the timeline table is incompatible
     - elsif @loan.root_timeline_entry.is_a?(ProjectStep)
       p This loan is not yet compatible with the timeline table.
