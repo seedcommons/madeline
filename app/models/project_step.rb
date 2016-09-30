@@ -108,7 +108,7 @@ class ProjectStep < TimelineEntry
   # Gets the actual number of days the step too, based on actual end date and scheduled start date
   def actual_duration_days
     if actual_end_date.present? && scheduled_start_date.present?
-      actual_end_date - scheduled_start_date
+      (actual_end_date - scheduled_start_date).to_i
     else
       nil
     end
