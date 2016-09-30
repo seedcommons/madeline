@@ -65,13 +65,8 @@ class LoanQuestionSet < ActiveRecord::Base
     internal_name.sub(/^loan_/, '').to_sym
   end
 
-  def children
-    loan_questions.where(parent: nil)
-  end
-  alias_method :kids, :children
-
-  def child_groups
-    children.select(&:group?)
+  def kids
+    root_group.children
   end
 
   def depth
@@ -100,7 +95,7 @@ class LoanQuestionSet < ActiveRecord::Base
   # Requires only N+1 database queries where N is the number of top level LoanQuestions.
   # Uses the closure_tree method of the same name.
   def hash_tree
-    @hash_tree ||= children.map { |c| [c, c.hash_tree[c]] }.to_h
+    @hash_tree ||= kids.map { |c| [c, c.hash_tree[c]] }.to_h
   end
 
   # Builds and memoizes a hash mapping LoanQuestions to their children for all LoanQuestions in this set.
