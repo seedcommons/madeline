@@ -66,9 +66,11 @@ class Loan < ActiveRecord::Base
     data = migration_data
     puts "#{data[:id]}: #{data[:name]}"
     org_data = org_snapshot_data
-    snapshot = ::OrganizationSnapshot.create(org_data)
+    snapshot = ::OrganizationSnapshot.find_or_create_by(id: org_data[:id])
+    snapshot.update(org_data)
     data[:organization_snapshot_id] = snapshot.id
-    ::Loan.create(data)
+    loan = ::Loan.find_or_create_by(id: data[:id])
+    loan.update(data)
   end
 
   def name

@@ -22,7 +22,7 @@ class Cooperative < ActiveRecord::Base
         city: city.try(:strip),
         neighborhood: borough.try(:strip),
         state: state.try(:strip),
-        country_id: Country.find_by(name: self.country).id,
+        country_id: Country.find_by(name: self.country).try(:id),
         tax_no: tax_id.try(:strip),
         #todo: figure out why this bombs, perhaps because source column is already lower case
         #website: web,
@@ -38,12 +38,8 @@ class Cooperative < ActiveRecord::Base
   def migrate
     data = migration_data
     puts "#{data[:id]}: #{data[:name]}"
-    existing = Organization.find_by(id: data[:id])
-    if existing
-      existing.update(data)
-    else
-      ::Organization.create(data)
-    end
+    organization = ::Organization.find_or_create_by(id: data[:id])
+    organization.update(data)
   end
 
   def self.migrate_all
