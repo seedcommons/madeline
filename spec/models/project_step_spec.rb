@@ -98,12 +98,12 @@ describe ProjectStep, type: :model do
 
     it 'returns actual_end_date when set' do
       step = create(:project_step, default_params)
-      expect(step.best_end_date).to eq default_actual_end_date
+      expect(step.display_end_date).to eq default_actual_end_date
     end
 
     it 'returns scheduled_end_date if actual_end_date is nil' do
       step = create(:project_step, default_params.merge(actual_end_date: nil))
-      expect(step.best_end_date).to eq default_start_date
+      expect(step.display_end_date).to eq default_start_date
     end
   end
 

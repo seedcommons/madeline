@@ -109,6 +109,13 @@ en:
       project_step_move:
         move_type: "Which Date?"
         shift_subsequent: "Shift Others?"
+      project_step:
+        actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
+        is_finalized: "Finalized"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
+        step_type_value: "Type"
     options:
       person:
         owning_division_role:
@@ -164,7 +171,6 @@ en:
   past_loans: Past Loans
   no_description_found: No description found.
   payment_schedule: Payment Schedule
-  status: Status
   due_date: Due Date
   first_loan: This is the first loan to this cooperative.
   all_loans: All Loans to this Co-op
@@ -241,7 +247,6 @@ en:
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
-  status: "Status"
   submit: "Submit"
   update: "Update"
   updated: "Updated"
@@ -352,6 +357,7 @@ en:
       other: "Delete Steps"
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
+    duration_days: "%{duration}d"
     edit_step: "Edit Step"
     end: "End:"
     every: "Every:"
@@ -363,8 +369,10 @@ en:
       other: "Finalize Steps"
     labels:
       completed: "Completed:"
+      duration: "Duration:"
       finalized: "Finalized:"
       scheduled: "Scheduled:"
+      start_date: "Start Date:"
       status: "Status:"
       old_start_date: "Old Start Date:"
     logs: "Logs"
@@ -381,6 +389,12 @@ en:
     repeat: "Repeat..."
     shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
+    timeline_table:
+      duration: "Duration"
+      end: "End"
+      start: "Start"
+      status: "Status"
+      step: "Step"
     status:
       completed: "Completed"
       early: "Early"
