@@ -19,6 +19,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   replaceContent: (html) ->
     @$el.html(html)
+    @$el.find('.alert').hide()
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     @$('.modal').modal('show')
     MS.loadingIndicator.hide()
