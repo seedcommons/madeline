@@ -28,11 +28,11 @@ class CalendarEvent
   end
 
   def self.new_project_step(step)
-    step.calendar_date ? new.initialize_project_step(step) : nil
+    step.scheduled_start_date ? new.initialize_project_step(step) : nil
   end
 
   def self.new_ghost_step(step)
-    step.original_date ? new.initialize_ghost_step(step) : nil
+    step.old_start_date ? new.initialize_ghost_step(step) : nil
   end
 
   def self.new_loan_start(loan)
@@ -72,17 +72,17 @@ class CalendarEvent
   def self.loan_date_filter(range, scope = Loan)
     # Seems like a nice 'OR' syntax won't be available until Rails 5.
     # Loan.where(signing_date: date_range).or(target_end_date: date_range)
-    scope.where("signing_date between :first and :last OR target_end_date between :first and :last",
+    scope.where("signing_date BETWEEN :first AND :last OR target_end_date between :first AND :last",
                 {first: range.first, last: range.last})
   end
 
   def self.project_step_date_filter(range, scope = ProjectStep)
-    scope.where("completed_date between :first and :last OR scheduled_date between :first and :last "\
-      "OR original_date between :first and :last", {first: range.first, last: range.last})
+    scope.where("actual_end_date BETWEEN :first AND :last OR scheduled_start_date BETWEEN :first AND :last "\
+      "OR old_start_date BETWEEN :first and :last", {first: range.first, last: range.last})
   end
 
   def initialize_project_step(step)
-    @start = step.calendar_date
+    @start = step.scheduled_start_date
     @title = step.name.to_s
     @background_color = step.color
 
@@ -99,7 +99,7 @@ class CalendarEvent
   end
 
   def initialize_ghost_step(step)
-    @start = step.original_date
+    @start = step.old_start_date
     @title = step.name.to_s
     @event_type = "ghost_step"
     @num_of_logs = step.logs_count

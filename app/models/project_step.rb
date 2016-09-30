@@ -2,21 +2,24 @@
 #
 # Table name: timeline_entries
 #
-#  agent_id          :integer
-#  completed_date    :date
-#  created_at        :datetime         not null
-#  date_change_count :integer          default(0), not null
-#  finalized_at      :datetime
-#  id                :integer          not null, primary key
-#  is_finalized      :boolean
-#  original_date     :date
-#  parent_id         :integer
-#  project_id        :integer
-#  project_type      :string
-#  scheduled_date    :date
-#  step_type_value   :string
-#  type              :string           not null
-#  updated_at        :datetime         not null
+#  actual_end_date         :date
+#  agent_id                :integer
+#  created_at              :datetime         not null
+#  date_change_count       :integer          default(0), not null
+#  finalized_at            :datetime
+#  id                      :integer          not null, primary key
+#  is_finalized            :boolean
+#  old_duration_days       :integer          default(0)
+#  old_start_date          :date
+#  parent_id               :integer
+#  project_id              :integer
+#  project_type            :string
+#  schedule_parent_id      :integer
+#  scheduled_duration_days :integer          default(0)
+#  scheduled_start_date    :date
+#  step_type_value         :string
+#  type                    :string           not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -27,6 +30,7 @@
 #
 #  fk_rails_a9dc5eceeb  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
+#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'chronic'
@@ -42,6 +46,9 @@ class ProjectStep < TimelineEntry
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
 
+  belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
+  has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id, inverse_of: :schedule_parent
+
   has_many :project_logs, dependent: :destroy
 
   attr_translatable :details
@@ -51,8 +58,11 @@ class ProjectStep < TimelineEntry
   validates :project_id, presence: true
   validate :unfinalize_allowed
 
-  before_save :handle_original_date_logic
+  before_save :handle_old_start_date_logic
+  before_save :handle_old_duration_days_logic
   before_save :handle_finalized_at
+  before_save :handle_schedule_children
+  before_save :handle_scheduled_start_date
 
   def name
     summary
@@ -67,12 +77,69 @@ class ProjectStep < TimelineEntry
     project_logs.count
   end
 
+  # Might be better as a filter
+  def schedule_parent=(parent)
+    self.scheduled_start_date = parent.scheduled_end_date if parent
+    super(parent)
+  end
+
+  def scheduled_start_date=(date)
+    raise ArgumentError if schedule_parent && schedule_parent.scheduled_end_date != date
+    super(date)
+  end
+
+  def scheduled_end_date
+    return if scheduled_start_date.blank?
+    scheduled_start_date + scheduled_duration_days
+  end
+
+  def original_end_date
+    return unless scheduled_start_date.present?
+    return scheduled_start_date unless old_duration_days || scheduled_duration_days
+
+    if old_duration_days && old_duration_days > 0
+      duration = old_duration_days
+    else
+      duration = scheduled_duration_days
+    end
+
+    (old_start_date || scheduled_start_date) + duration
+  end
+
+  # Gets the actual number of days the step too, based on actual end date and scheduled start date
+  def actual_duration_days
+    if actual_end_date.present? && scheduled_start_date.present?
+      (actual_end_date - scheduled_start_date).to_i
+    else
+      nil
+    end
+  end
+
+  # Gets best known start date. Can be nil.
+  def display_start_date
+    scheduled_start_date
+  end
+
+  # Gets best known end date. Can be nil.
+  def display_end_date
+    actual_end_date || scheduled_end_date
+  end
+
+  # Gets best known duration. nil if both start and end dates are nil.
+  def display_duration_days
+    if display_start_date.nil? && display_end_date.nil?
+      nil
+    else
+      actual_duration_days || scheduled_duration_days
+    end
+  end
+
   def set_completed!(date)
-    update_attribute(:completed_date, date)
+    update_attribute(:actual_end_date, date)
   end
 
   def completed?
-    completed_date.present?
+    actual_end_date.present?
   end
 
   def completed_or_not
@@ -112,12 +179,8 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def display_date
-    I18n.l (self.completed_date || self.scheduled_date), format: :long
-  end
-
   def date_changed?
-    original_date.present?
+    old_start_date.present?
   end
 
   # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
@@ -133,17 +196,12 @@ class ProjectStep < TimelineEntry
     finalized_at && Time.now > finalized_at + 1.day
   end
 
-  # The date to use when calculating days_late.
-  def on_time_date
-    original_date || scheduled_date
-  end
-
   def days_late
-    if scheduled_date
+    if scheduled_start_date
       if completed?
-        (completed_date - on_time_date).to_i
+        (actual_end_date - original_end_date).to_i
       else
-        ([scheduled_date, Date.today].max - on_time_date).to_i
+        ([scheduled_start_date, Date.today].max - original_end_date).to_i
       end
     end
   end
@@ -158,7 +216,7 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def original_date_statement
+  def old_start_date_statement
     I18n.t("project_step.status.changed_times", count: date_change_count)
   end
 
@@ -166,7 +224,7 @@ class ProjectStep < TimelineEntry
   def color
     # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
     # error here even though it should not have been able to reach that part of the expression
-    # when the completed_date was not present, so defensively adding the 'days_late' nil checks.
+    # when the actual_end_date was not present, so defensively adding the 'days_late' nil checks.
     if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
       color_between(COLORS[:on_time], COLORS[:super_early], fraction)
@@ -194,24 +252,14 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def scheduled_day
-    scheduled_date.day
+  def scheduled_start_day
+    scheduled_start_date.day
   end
 
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
   # submit handling.
   def duplication
-    @duplication ||= ProjectStepDuplication.new(self)
-  end
-
-  def adjust_scheduled_date(days_adjustment)
-    if scheduled_date && days_adjustment != 0
-      new_date = scheduled_date + days_adjustment.days
-      # note, original_date will be assigned if needed by the before_save logic
-      update!(scheduled_date: new_date)
-    else
-      false
-    end
+    @duplication ||= Timeline::StepDuplication.new(self)
   end
 
   # Note, "is_finalized" means a step is no longer a draft, and future changes should remember the
@@ -224,35 +272,31 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  # Returns number of days that the step's calendar date is about to be shifted.
-  # - If step is incomplete, returns number of days the scheduled date has been shifted.
-  # - If step is about to be set as complete, returns number of days late or early (negative).
-  # - If step was already complete, returns number of days completed date has been shifted.
+  # Returns number of days that the step's end date is about to be shifted.
+  # - If step is about to be set as complete, returns difference between actual_end_date and scheduled_end_date
+  # - If step is incomplete, returns number of days the scheduled_end_date has been shifted.
+  # - If step was already complete, returns number of days actual_end_date has been shifted.
   # Assumes that record has pending changes assigned, but not yet saved.
   def pending_days_shifted
     return 0 unless is_finalized?
 
     # If completed date just got set.
-    if scheduled_date && completed_date && completed_date_changed? &&
-      completed_date_was.blank? && completed_date > scheduled_date
-      return (completed_date - scheduled_date).to_i
+    if scheduled_start_date && actual_end_date && actual_end_date_changed? &&
+      actual_end_date_was.blank? && actual_end_date > scheduled_start_date
+      return (actual_end_date - scheduled_start_date).to_i
     end
 
     # If incomplete and scheduled date changed.
-    if !completed? && scheduled_date_changed? && scheduled_date_was && scheduled_date
-      return (scheduled_date - scheduled_date_was).to_i
+    if !completed? && scheduled_start_date_changed? && scheduled_start_date_was && scheduled_start_date
+      return (scheduled_start_date - scheduled_start_date_was).to_i
     end
 
     # If complete and completed date changed.
-    if completed? && completed_date_changed? && completed_date_was && completed_date
-      return (completed_date - completed_date_was).to_i
+    if completed? && actual_end_date_changed? && actual_end_date_was && actual_end_date
+      return (actual_end_date - actual_end_date_was).to_i
     end
 
     0
-  end
-
-  def calendar_date
-    completed? ? completed_date : scheduled_date
   end
 
   def calendar_events
@@ -265,15 +309,23 @@ class ProjectStep < TimelineEntry
 
   private
 
-  def handle_original_date_logic
+  def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
-    if scheduled_date_changed? && is_finalized?
-      if original_date.blank?
-        self.original_date = scheduled_date_was
-      end
-      self.date_change_count = self.date_change_count.to_i.succ
+    return unless persisted? && scheduled_start_date_changed? && is_finalized?
+
+    if old_start_date.blank?
+      self.old_start_date = scheduled_start_date_was
     end
+    self.date_change_count = self.date_change_count.to_i.succ
+  end
+
+  def handle_old_duration_days_logic
+    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
+    # the original scheduled date.
+    return unless persisted? && scheduled_duration_days_changed? && is_finalized?
+
+    self.old_duration_days = scheduled_duration_days_was
   end
 
   def handle_finalized_at
@@ -282,6 +334,23 @@ class ProjectStep < TimelineEntry
     elsif !is_finalized && finalized_at
       self.finalized_at = nil
     end
+  end
+
+  def handle_schedule_children
+    return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
+
+    schedule_children.each do |step|
+      step.scheduled_start_date = scheduled_end_date
+      step.save
+    end
+  end
+
+  def handle_scheduled_start_date
+    return unless persisted?
+    raise ArgumentError if scheduled_start_date.blank? && old_start_date.present?
+    return unless actual_end_date && scheduled_start_date.blank?
+
+    self.scheduled_start_date = actual_end_date
   end
 
   # start and finish are each CSS color strings in hsl format

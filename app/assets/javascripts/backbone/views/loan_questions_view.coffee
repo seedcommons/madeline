@@ -26,25 +26,32 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
+    'change [name="loan_question[override_associations]"]': 'showHideAssociations'
+    'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id')
-    fieldset = URI(window.location.href).query(true)['filter'] || 'criteria'
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('#custom_field_parent_id').val(parent_id)
-      @$('.loan-types').select2()
-    )
+    fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
+
+    if parent_id
+      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}&parent_id=#{parent_id}", =>
+        @$('#loan_question_parent_id').val(parent_id)
+        @showModal()
+    else
+      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?fieldset=#{fieldset}", =>
+        @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('.loan-types').select2()
-    )
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/#{id}/edit", =>
+      @showModal()
+
+  showModal: ->
+    @$('#edit-modal').modal('show')
+    new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+    # Use current value of override parent to determine if loan types are shown
+    @$('[name="loan_question[override_associations]"]').trigger('change')
+
 
   createNode: (e) ->
     $form = @$(e.target).closest('form')
@@ -131,6 +138,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     overrideParent = e.currentTarget
 
     if @$(overrideParent).val() == "true"
-      @$('.loan-types-container').removeClass('hidden')
+      @$('.loan-types-table').show()
     else
-      @$('.loan-types-container').addClass('hidden')
+      @$('.loan-types-table').hide()
+
+  changeRequireCheckbox: (e) ->
+    destroyField = $(e.target).closest('tr').find('.destroy-field')
+    destroyField.val(!e.target.checked)

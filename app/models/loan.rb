@@ -4,7 +4,7 @@
 #
 #  amount                      :decimal(, )
 #  created_at                  :datetime         not null
-#  currency_id                 :integer
+#  currency_id                 :integer          not null
 #  custom_data                 :json
 #  division_id                 :integer
 #  first_interest_payment_date :date
@@ -60,12 +60,22 @@ class Loan < ActiveRecord::Base
   belongs_to :organization_snapshot
 
   has_many :timeline_entries, as: :project
-  has_many :project_logs, through: :timeline_entries
+  has_many :project_logs, through: :timeline_entries, source: :project, source_type: 'ProjectStep'
 
+  # The Loan's timeline entries should be accessed via this root node.
+  # Timeline steps are organzed as a tree. The tree has a blank root node (ProjectGroup) that is not shown
+  # to the user, but makes it easier to do computations over the tree (instead of each top level group
+  # being the root of its own separate tree).
+  # May return nil if there are no groups or steps in the loan thus far.
+  def root_timeline_entry
+    @root_timeline_entry ||= timeline_entries.find_or_create_by(parent_id: nil, type: "ProjectGroup")
+  end
+
+  # DEPRECATED - This should not be necessary once we transition to tabular format.
   # Do regular ruby select, to avoid issues with AR caching
   # Note, this means the method returns an array, not an AR::Relation
   def project_steps
-    timeline_entries.order(:scheduled_date).select { |e| e.type == 'ProjectStep' }
+    timeline_entries.order(:scheduled_start_date).select { |e| e.type == 'ProjectStep' }
   end
 
   # define accessor-like convenience methods for the fields stored in the Translations table
@@ -227,8 +237,12 @@ class Loan < ActiveRecord::Base
     else "/assets/ww-avatar-watermark.png" end
   end
 
+  def ensure_currency
+    currency || Currency.find_by(code: 'USD')
+  end
+
   def amount_formatted
-    currency_format(self.amount, self.currency)
+    ensure_currency.format_amount(amount)
   end
 
   def project_events(order_by="Completed IS NULL OR Completed = '0000-00-00', Completed, Date")

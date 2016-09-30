@@ -6,36 +6,39 @@ if Rails.env.development?
       Division.find_or_create_by(name: "Root", parent: nil)
 
       # Create admin user
-      password = admin_password
-      user = User.create(email: admin_user, password: password, password_confirmation: password)
+      user = FactoryGirl.create(:user, :admin,
+        email: "admin@example.com",
+        password: "xxxxxxxx",
+        password_confirmation: "xxxxxxxx"
+      )
       user.add_role :admin, Division.root
       puts "Created default admin user"
       puts "Login: #{user.email}"
-      puts "Password: #{password}"
+      puts "Password: xxxxxxxx"
 
       # Create default option sets
       load_option_sets
       puts "Loaded default option sets"
 
       # Create some data
-      FactoryGirl.create_list(:loan, 15,
+      FactoryGirl.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_log_media,
         :with_loan_media,
         :with_coop_media,
-        :with_project_steps)
+        :with_timeline)
+      FactoryGirl.create(:loan,
+        :with_translations,
+        :with_foreign_translations,
+        :with_log_media,
+        :with_loan_media,
+        :with_coop_media,
+        :with_steps_only_timeline)
+      FactoryGirl.create_list(:loan, 13)
       puts "Generated fake data"
     end
   end
-end
-
-def admin_password
-  Rails.application.secrets.admin_password || Faker::Internet.password
-end
-
-def admin_user
-  Rails.application.secrets.admin_user || Faker::Internet.email
 end
 
 def load_option_sets(file: Rails.root.join("db", "option_sets.yml"))

@@ -64,8 +64,8 @@ class Admin::LoansController < Admin::AdminController
       # If existing set not found, build a blank one with which to render the form.
       @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
 
-      @root_questions[attrib] = CustomField.loan_questions(attrib).roots.filter_for(@loan)
-      @questions_json[attrib] = @root_questions[attrib].map { |i| CustomFieldSerializer.new(i, loan: @loan) }.to_json
+      @root_questions[attrib] = LoanQuestion.loan_questions(attrib).roots.filter_for(@loan)
+      @questions_json[attrib] = @root_questions[attrib].map { |i| LoanQuestionSerializer.new(i, loan: @loan) }.to_json
     end
 
     render layout: false
@@ -122,7 +122,7 @@ class Admin::LoansController < Admin::AdminController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
-    @root_questions = { criteria: CustomField.loan_questions(:criteria).roots.filter_for(@loan) }
+    @root_questions = { criteria: LoanQuestion.loan_questions(:criteria).roots.filter_for(@loan) }
     prep_attached_links if @mode != "details-only"
   end
 

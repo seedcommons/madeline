@@ -3,28 +3,30 @@ class Admin::LoanQuestionsController < Admin::AdminController
   before_action :set_loan_question, only: [:show, :edit, :update, :destroy, :move]
 
   def index
-    authorize CustomField
+    authorize LoanQuestion
     # Hide retired questions for now
-    @questions = CustomField.loan_questions.where(status: [:active, :inactive])
+    @questions = LoanQuestion.loan_questions.where(status: [:active, :inactive])
     @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
   end
 
   def new
+    @parent_id = params[:parent_id]
     field_set_name = params[:fieldset]
-    field_set = CustomFieldSet.find_by(internal_name: 'loan_' + field_set_name)
-    @loan_question = field_set.custom_fields.build
+    field_set = LoanQuestionSet.find_by(internal_name: 'loan_' + field_set_name)
+    @loan_question = field_set.loan_questions.build
     authorize @loan_question
-    @loan_type_options = Loan.loan_type_options
+    @loan_question.build_complete_requirements
     render_form
   end
 
   def edit
-    @loan_type_options = Loan.loan_type_options
+    @loan_question.build_complete_requirements
+    @requirements = @loan_question.loan_question_requirements.sort_by { |i| i.loan_type.label.text }
     render_form
   end
 
   def create
-    @loan_question = CustomField.new(loan_question_params)
+    @loan_question = LoanQuestion.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
       render json: @loan_question.reload
@@ -42,7 +44,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def move
-    target = CustomField.find(params[:target])
+    target = LoanQuestion.find(params[:target])
     method = case params[:relation]
       when 'before' then :prepend_sibling
       when 'after' then :append_sibling
@@ -67,20 +69,25 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
     def set_loan_question
-      @loan_question = CustomField.find(params[:id])
+      @loan_question = LoanQuestion.find(params[:id])
       authorize @loan_question
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def loan_question_params
-      params.require(:custom_field).permit(:label, :data_type, :parent_id, :position,
-        :custom_field_set_id, :has_embeddable_media, :override_associations,
-        *translation_params(:label, :explanation), loan_type_ids: [])
+      # This `delete_if` is required when raising an error on unpermitted params.
+      # However, it should be abstracted somehow so it applies to all controllers.
+      # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
+      params.require(:loan_question).permit(
+        :label, :data_type, :parent_id, :position,
+        :loan_question_set_id, :has_embeddable_media, :override_associations,
+        *translation_params(:label, :explanation),
+        loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
+      )
     end
 
     def render_form(status: nil)
-      @data_types = CustomField::DATA_TYPES.map do |i|
-        [I18n.t("simple_form.options.custom_field.data_type.#{i}"), i]
+      @data_types = LoanQuestion::DATA_TYPES.map do |i|
+        [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
       end.sort
       if status
         render partial: 'form', status: :status

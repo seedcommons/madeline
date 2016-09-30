@@ -1,5 +1,5 @@
 #
-# Maps to CustomFieldRequirement in new schema
+# Maps to LoanQuestionRequirement in new schema
 
 # -*- SkipSchemaAnnotations
 module Legacy
@@ -17,8 +17,8 @@ module Legacy
     end
 
     def self.purge_migrated
-      puts "CustomFieldRequirement.destroy_all"
-      ::CustomFieldRequirement.destroy_all
+      puts "LoanQuestionRequirement.destroy_all"
+      ::LoanQuestionRequirement.destroy_all
     end
 
     def self.loan_type_option_set
@@ -28,12 +28,12 @@ module Legacy
     def migrate
       data = migration_data
       puts "#{data[:id]}: #{data[:url]}"
-      ::CustomFieldRequirement.create(data)
+      ::LoanQuestionRequirement.create(data)
     end
 
     def migration_data
       data = {
-          custom_field_id: due_diligence_id,
+          loan_question_id: due_diligence_id,
           option_id: option_id_for_loan_type(loan_type_id),
           amount: amount
       }

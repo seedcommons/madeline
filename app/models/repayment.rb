@@ -1,6 +1,4 @@
 class Repayment < ActiveRecord::Base
-  include TranslationModule
-
   belongs_to :loan, :foreign_key => 'LoanID'
 
   delegate :division, :division=, to: :loan
@@ -31,6 +29,6 @@ class Repayment < ActiveRecord::Base
     else
       amount = self.amount_due
     end
-    currency_format(amount, self.loan.currency)
+    loan.ensure_currency.format_amount(amount)
   end
 end

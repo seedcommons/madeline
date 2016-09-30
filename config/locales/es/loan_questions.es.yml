@@ -39,7 +39,7 @@ es:
         new_item: "Nueva Pregunta o Grupo"
   simple_form:
     options:
-      custom_field:
+      loan_question:
         data_type:
           string: Respuesta Corta
           text: Párrafo

@@ -43,9 +43,6 @@ module Legacy
       # Note, there is currently no business logic dependency on these options, so no need for a 'slug' style value.
       # Instead the primary key will be used by default, and the legacy data will be matched up by migration_id.
       # If there is a need, then 'slug' style values can be introduced.
-      #
-      # As of 5/26/16, 'description' fields were added to the legacy system mysql database for loan types,
-      # but this data has not yet been included here.
       loan_type.options.create(migration_id: 1,
           label_translations: {en: 'Liquidity line of credit', es: 'Línea de crédito de efectivo'})
 
@@ -67,14 +64,6 @@ module Legacy
       loan_type.options.create(migration_id: 7,
           label_translations: {en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados'})
 
-      loan_type.options.create(migration_id: 9,
-          label_translations: {en: 'Pre-startup incubation', es: 'Pre-Startup incubacion'})
-
-      loan_type.options.create(migration_id: 10,
-          label_translations: {en: 'Conversion', es: 'Conversion'})
-
-      loan_type.options.create(migration_id: 11,
-          label_translations: {en: 'Startup', es: 'Startup'})
 
       project_type = OptionSet.find_or_create_by(
           division: ::Division.root, model_type: ::Loan.name, model_attribute: 'project_type')
@@ -112,15 +101,15 @@ module Legacy
       progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
       progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
 
-      # CustomFieldSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
-      CustomFieldSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
-      CustomFieldSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+      # LoanQuestionSet.find_or_create_by(id: 1, division: Division.root, internal_name: 'old_loan_criteria').set_label('Old Loan Criteria Questionnaire')
+      LoanQuestionSet.find_or_create_by(id: 2, division: Division.root, internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
+      LoanQuestionSet.find_or_create_by(id: 3, division: Division.root, internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
       # Todo: Find out what this new question represents
-      # CustomFieldSet.find_or_create_by(id: 4, division: Division.root, internal_name: 'fourth_question_set').set_label('Fourth Question Set')
-      CustomFieldSet.recalibrate_sequence(gap: 10)
+      # LoanQuestionSet.find_or_create_by(id: 4, division: Division.root, internal_name: 'fourth_question_set').set_label('Fourth Question Set')
+      LoanQuestionSet.recalibrate_sequence(gap: 10)
 
       # need to leave room for migrated loan questions
-      CustomField.recalibrate_sequence(id: 200)
+      LoanQuestion.recalibrate_sequence(id: 200)
     end
 
 
@@ -152,8 +141,8 @@ module Legacy
                                     agent: person)
       step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
 
-      org_field_set = CustomFieldSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
-      org_field_set.custom_fields.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
+      org_field_set = LoanQuestionSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
+      org_field_set.loan_questions.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
     end
 
   end

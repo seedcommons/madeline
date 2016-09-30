@@ -1,49 +1,21 @@
 .project-step-form {
-  .error_notification {
-    display: none;
+  #project_step_scheduled_duration_days {
+    width: 6em;
+    display: inline-block;
+    margin-right: 1em;
   }
 
-  textarea {
-    resize: vertical;
+  .date_picker.form-control {
+    width: 10em;
+    display: inline-block;
   }
 
   .finalized {
-    margin-left: 5px;
+    margin-top: 7px;
   }
 
-  .control-label {
-    text-align: right;
-    font-weight: normal;
-    font-size: small;
-    padding-top: 8px;
+  #project_step_is_finalized {
+    margin: 12px 0 0;
+    width: auto;
   }
-
-  .control-label:after {
-    content: ":";
-  }
-
-  .checkbox-label {
-    text-align: right;
-    font-weight: normal;
-    font-size: small;
-    padding-top: 3px;
-  }
-
-  .checkbox-label:after {
-    content: ":";
-  }
-
-  .form-group {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  [class^="col-"],
-  [class*=" col-"] {
-    padding-right: 0;
-    padding-left: 0;
-    margin-right: 0;
-    margin-left: 0;
-  }
-
 }

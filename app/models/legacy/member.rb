@@ -16,13 +16,13 @@ class Member < ActiveRecord::Base
         primary_phone: phone,
         street_address: address.try(:strip),
         city: city.try(:strip),
-        country_id: Country.id_from_name(self.country.try(:strip)),
+        country_id: Country.find_by(name: self.country.try(:strip)).try(:id),
         tax_no: national_id,
     }
     if access_status > 0 && password.present? && username.present?
       email = "#{username.downcase}@theworkingworld.org"
       if Person.where(email: email).exists?
-        puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
+        $stderr.puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
       else
         data[:has_system_access] = true
         data[:email] = email
@@ -37,7 +37,8 @@ class Member < ActiveRecord::Base
   def migrate
     data = migration_data
     puts "#{data[:id]}: #{data[:name]}"
-    ::Person.create!(data)
+    person = ::Person.find_or_create_by!(id: data[:id])
+    person.update!(data)
   end
 
 
