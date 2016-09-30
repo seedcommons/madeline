@@ -19,12 +19,21 @@ module Legacy
       end
     end
 
+    def loan_id
+      if Loan.where(id: project_id).count < 1
+        $stderr.puts "ProjectEvent[#{id}] - Loan #{project_id} not found"
+        nil
+      else
+        project_id
+      end
+    end
+
 
     def migration_data
       data = {
           id: self.id,
           project_type: project_table.singularize.capitalize,
-          project_id: project_id,
+          project_id: loan_id,
           agent_id: agent_id,
           is_finalized: finalized,
           step_type_value: MIGRATION_TYPE_OPTIONS.value_for(type),
@@ -42,7 +51,6 @@ module Legacy
     end
 
     def migrate_step
-      # TODO: Make sure to check that the project exists before migration
       data = migration_step_data
       puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
       ::ProjectStep.create(data)
