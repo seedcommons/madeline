@@ -53,7 +53,9 @@ class LoanQuestionSet < ActiveRecord::Base
   def root_group
     return @root_group if @root_group
     roots = LoanQuestion.where(loan_question_set_id: id, parent: nil).to_a
-    roots.first
+    raise "LoanQuestionSet #{id} has multiple roots!" if roots.size > 1
+    raise "LoanQuestionSet #{id} has no root!" if roots.size < 1
+    @root_group = roots.first
   end
 
   def name
