@@ -49,7 +49,7 @@ module Legacy
       step.parent = TimelineEntry.find(milestone_group)
       step.save
     rescue StandardError => e
-      $stderr.puts "ProjectStep[#{id}] error migrating parent: #{e} - skipping"
+      $stderr.puts "#{step.class.name}[#{id}] error migrating parent: #{e} - skipping"
     end
 
     def migrate_schedule_parent
@@ -58,7 +58,7 @@ module Legacy
       step.schedule_parent = TimelineEntry.find(dependent_date)
       step.save
     rescue StandardError => e
-      $stderr.puts "ProjectStep[#{id}] error migrating schedule parent: #{e} - skipping"
+      $stderr.puts "#{step.class.name}[#{id}] error migrating schedule parent: #{e} - skipping"
     end
 
 
