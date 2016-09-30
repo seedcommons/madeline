@@ -95,8 +95,9 @@ class ProjectStep < TimelineEntry
 
   def original_end_date
     return unless scheduled_start_date.present?
+    return scheduled_start_date unless old_duration_days || scheduled_duration_days
 
-    if old_duration_days > 0
+    if old_duration_days && old_duration_days > 0
       duration = old_duration_days
     else
       duration = scheduled_duration_days
