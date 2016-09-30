@@ -86,6 +86,10 @@ class LoanQuestion < ActiveRecord::Base
     end
   end
 
+  def top_level?
+    parent.root?
+  end
+
   def answered_for?(loan)
     response_set = loan.send(loan_question_set.kind)
     return false if !response_set

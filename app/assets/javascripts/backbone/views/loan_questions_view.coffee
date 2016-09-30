@@ -30,16 +30,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
-    parent_id = @$(e.target).closest('li').parents('li').data('id')
+    parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
     set = URI(window.location.href).query(true)['filter'] || 'criteria'
-
-    if parent_id
-      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?set=#{set}&parent_id=#{parent_id}", =>
-        @$('#loan_question_parent_id').val(parent_id)
-        @showModal()
-    else
-      @$('#edit-modal .modal-content').load "/admin/loan_questions/new?set=#{set}", =>
-        @showModal()
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/new?set=#{set}&parent_id=#{parent_id}", =>
+      @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')
