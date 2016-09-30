@@ -119,33 +119,5 @@ module Legacy
       Currency.destroy_all rescue nil
       OptionSet.destroy_all rescue nil
     end
-
-
-    def self.handy_test_data
-      user = ::User.create!({email: 'john@doe.com', password: 'password', password_confirmation: 'password'})
-
-      # division = Division.create(name: 'Test Division', parent_id: Division.root_id)
-      # for now just use the root division
-      division = ::Division.root
-
-      org = ::Organization.create!(name: 'Test Co-op', division: division)
-      person = ::Person.create!(first_name: 'John', last_name: 'Doe', primary_organization: org, division: division)
-      loan = ::Loan.create!(organization: org,
-                          loan_type_value: ::Loan.loan_type_option_set.value_for_migration_id(6),
-                          status_value: :active, division: division)
-
-      step = ::ProjectStep.create!(project: loan, summary: "test step", step_type_value: :step)
-      step_log = ::ProjectLog.create!(project_step: step,
-                                    progress_metric_value: ::ProjectLog.progress_metric_option_set.value_for_migration_id(-1),
-                                    summary: 'test log summary', details: 'test log details',
-                                    agent: person)
-      step2 = ::ProjectStep.create!(project: loan, summary: "test milestone", step_type_value: :milestone)
-
-      org_field_set = LoanQuestionSet.find_or_create_by(division: Division.root, internal_name: 'Organization')
-      org_field_set.loan_questions.create!(internal_name: 'dynamic_translatable_test', data_type: 'translatable')
-    end
-
   end
-
-
 end
