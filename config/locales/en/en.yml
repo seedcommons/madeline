@@ -106,9 +106,6 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
-      project_step_move:
-        move_type: "Which Date?"
-        shift_subsequent: "Shift Others?"
       project_step:
         actual_end_date: "Completed Date"
         duration: "Scheduled Duration"
@@ -116,13 +113,16 @@ en:
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
+      timeline_step_move:
+        move_type: "Which Date?"
+        shift_subsequent: "Shift Others?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
-      project_step_move:
+      timeline_step_move:
         move_type:
           change_date: "Change step's scheduled date"
           mark_completed: "Mark step completed on this date"
