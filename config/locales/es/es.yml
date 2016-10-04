@@ -106,7 +106,6 @@ es:
     labels:
       project_step_move:
         move_type: "¿Cuál Fecha?"
-        shift_subsequent: "¿Cambiar Otros/as?"
       project_step:
         actual_end_date: "Fecha de Finalización"
         duration: "Duración Proyectada"

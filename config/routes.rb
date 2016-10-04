@@ -37,7 +37,6 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
-        patch :shift_subsequent
       end
     end
 
