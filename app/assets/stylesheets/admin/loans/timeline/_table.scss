@@ -8,4 +8,13 @@
   .date-col {
     min-width: 8rem;
   }
+
+  td {
+    border: 1px solid $table-border-color;
+
+    &.spacer {
+      background: $background-gray;
+      border: none;
+    }
+  }
 }
