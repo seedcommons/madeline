@@ -1,3 +1,5 @@
+# Handles clicks on the tabs on the loan page.
+# Initializes Views for each of the tabs where necessary, but only once they are clicked on.
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
