@@ -2,11 +2,23 @@
 
 .timeline-table {
   table {
-    background: $white;
+    background: none;
   }
 
   .date-col {
     min-width: 8rem;
+  }
+
+  // Specificity used to override Bootstrap defaults
+  .table thead:first-child tr {
+    th {
+      border: 1px solid $table-border-color;
+      border-bottom-width: 2px;
+    }
+  }
+
+  td, th {
+    background: $white;
   }
 
   td {
