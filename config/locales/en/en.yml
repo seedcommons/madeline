@@ -114,8 +114,7 @@ en:
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
       timeline_step_move:
-        move_type: "Which Date?"
-        shift_subsequent: "Shift Others?"
+        move_type: "Change Which Date?"
     options:
       person:
         owning_division_role:
