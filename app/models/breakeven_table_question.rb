@@ -6,6 +6,8 @@ class BreakevenTableQuestion
   #     { "name": "Product 1", "description": "Description", "unit": "Widgets", "price": 100, "cost": 50, "quantity": 800 },
   #     { "name": "Product 2", "description": "Description", "unit": "Stamp books", "price": 200, "cost": 75, "quantity": 1000 }
   #   ],
+  #   "periods": 4,
+  #   "unit": "months",
   #   "fixed_costs": [
   #     { "name": "Rent", "amount": 15000 },
   #     { "name": "Stamps", "amount": 2.25 }
@@ -18,6 +20,11 @@ class BreakevenTableQuestion
   # Returns a ruby hash like this:
   # {
   #   revenue: [
+  #     { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
+  #     { name: 'Product 2', quantity: 300, amount: 120, total: 36_000 },
+  #     { name: 'Product 3', quantity: 100, amount: 150, total: 15_000 },
+  #   ],
+  #   revenue_rampup: [
   #     { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
   #     { name: 'Product 2', quantity: 300, amount: 120, total: 36_000 },
   #     { name: 'Product 3', quantity: 100, amount: 150, total: 15_000 },
@@ -41,6 +48,9 @@ class BreakevenTableQuestion
   #   total_fixed_costs: 66_000,
   #   net_margin: 0,
   # }
+
+  # def rampup_report
+
   def report
     return if blank?
 
