@@ -65,7 +65,6 @@ class MS.Views.ProjectStepView extends Backbone.View
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form.project-step-form')
       MS.loadingIndicator.hide()
-
       if @context == 'timeline'
         @replaceWith(data)
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
@@ -74,7 +73,7 @@ class MS.Views.ProjectStepView extends Backbone.View
         MS.calendarView.refresh()
 
     else if $(e.target).is('a.action-delete')
-      MS.calendarView.refresh()
+      MS.calendarView.refresh() if @context == "calendar"
       @$el.remove()
 
   replaceWith: (html) ->

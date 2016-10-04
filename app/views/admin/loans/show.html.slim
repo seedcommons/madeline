@@ -6,6 +6,8 @@ section.loan.details
 = render "admin/media/modal"
 
 javascript:
+  // There is a lot of JS on this page -- tabs, questionnaires, calendar, timeline, etc.
+  // This view kicks it all off and sets up Views for the different tabs when they are clicked on.
   $(function() {
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
