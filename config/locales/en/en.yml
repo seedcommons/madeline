@@ -405,6 +405,9 @@ en:
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
 
+  project_group:
+    add: "New Group"
+
   user:
     account: "Account"
     change_password: "Change Password"
