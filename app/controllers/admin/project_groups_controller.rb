@@ -15,6 +15,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
     authorize @entry
 
     @loan = @entry.project
+    @entry.parent = @loan.root_timeline_entry
 
     if @entry.save
       render partial: "admin/loans/timeline/table/timeline_table", loan: @loan
