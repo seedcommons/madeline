@@ -19,7 +19,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refreshSteps: (callback) ->
     MS.loadingIndicator.show()
-    @$('.project-steps').empty()
+    @$('.timeline-table').empty()
     $.get "/admin/loans/#{@loanId}/timeline", (html) =>
       MS.loadingIndicator.hide()
       @$('.timeline-table').html(html)
