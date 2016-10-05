@@ -11,7 +11,7 @@ div.modal-body
       = f.hidden_field(:project_type)
 
     = f.error_notification
-    = render 'admin/timeline_entries/translatable', media: @entry, f: f
+    = render 'admin/project_groups/translatable', media: @entry, f: f
 
 div.modal-footer
   button.btn.btn-default.timeline-action.cancel type="button" = t(:cancel)

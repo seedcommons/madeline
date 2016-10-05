@@ -41,7 +41,6 @@ Rails.application.routes.draw do
         patch :shift_subsequent
       end
     end
-    resources :timeline_entries
     resources :project_groups
 
     # Does it make sense to surround in separate namespace?
