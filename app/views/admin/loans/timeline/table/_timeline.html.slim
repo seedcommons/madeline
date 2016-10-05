@@ -12,3 +12,12 @@
       p This loan is not yet compatible with the timeline table.
   - else
     p = t("project_step.no_steps")
+
+.dropdown
+  button.btn.btn-link.dropdown-toggle type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+    i.fa.fa-cog aria-hidden="true"
+  ul.dropdown-menu aria-labelledby="dropdownMenu1"
+    li: a href="#" data-action="add-child-group" Add Child Group
+    li: a href="#" data-action="add-child-step" Add Child Step
+    li: a href="#" data-action="edit" Edit
+    li: a href="#" data-action="delete" Delete
