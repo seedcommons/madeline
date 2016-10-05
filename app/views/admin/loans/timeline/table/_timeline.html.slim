@@ -1,11 +1,7 @@
-/ TODO: Why is this a section in timeline, but not here?
-.timeline-table
-    = render "admin/loans/timeline/table/timeline_table", loan: @loan
+section.timeline-table
+  = render "admin/loans/timeline/table/timeline_table", loan: @loan
 
-.dropdown
-  button.btn.btn-link.dropdown-toggle type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-    i.fa.fa-cog aria-hidden="true"
-  ul.dropdown-menu aria-labelledby="dropdownMenu1"
+  ul.dropdown-menu id="project-group-menu"
     li: a href="#" data-action="add-child-group" Add Child Group
     li: a href="#" data-action="add-child-step" Add Child Step
     li: a href="#" data-action="edit" Edit

@@ -6,7 +6,8 @@
   - unless entry.root?
     td.project-group rowspan="#{entry.descendant_step_count}" colspan="#{column_span}"
       = entry.summary
-      i.fa.fa-cog aria-hidden="true"
+      .dropdown
+        i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
   - entry.children.each_with_index do |child, i|
     - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"

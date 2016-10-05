@@ -16,6 +16,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     # 'click .media-action.delete': 'deleteItem'
     # 'confirm:complete .media-action.delete': 'deleteConfirm'
     # 'ajax:complete .media-action.proceed': 'deleteComplete'
+    'click .project-group .fa-cog': 'openGroupMenu'
 
   refreshSteps: (callback) ->
     MS.loadingIndicator.show()
@@ -50,6 +51,11 @@ class MS.Views.TimelineTableView extends Backbone.View
   hideMediaModal: (e) ->
     e.preventDefault()
     @$('.media-modal').modal('hide')
+
+  openGroupMenu: (e) ->
+    button = e.currentTarget
+    menu = $(button).closest('.timeline-table').find('#project-group-menu')
+    $(button).after(menu)
 
   showTimelineModal: (e) ->
     console.log 'opening modal'
