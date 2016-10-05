@@ -13,13 +13,12 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-modal .btn-primary': 'submitForm'
     'ajax:complete .timeline-modal form': 'submitComplete'
 
-  refreshSteps: (callback) ->
+  refresh: ->
     MS.loadingIndicator.show()
     @$('.timeline-table').empty()
     $.get "/admin/loans/#{@loanId}/timeline", (html) =>
       MS.loadingIndicator.hide()
       @$('.timeline-table').html(html)
-      callback()
 
   hideTimelineModal: (e) ->
     e.preventDefault()

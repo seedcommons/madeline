@@ -29,7 +29,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
   loadTimeline: ->
     if MS.timelineTableView
-      MS.timelineTableView.refreshSteps()
+      MS.timelineTableView.refresh()
     else
       MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId)
 

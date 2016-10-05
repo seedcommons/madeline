@@ -45,6 +45,7 @@ class Admin::LoansController < Admin::AdminController
     prep_form_vars
   end
 
+  # DEPRECATED - please use #timeline
   def steps
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
