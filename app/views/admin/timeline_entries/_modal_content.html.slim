@@ -5,9 +5,14 @@ div.modal-header
 
 div.modal-body
   = simple_form_for [:admin, @entry], url: @submit_url, remote: true do |f|
+
+    - if @entry.new_record?
+      = f.hidden_field(:project_id)
+      = f.hidden_field(:project_type)
+
     = f.error_notification
     = render 'admin/timeline_entries/translatable', media: @entry, f: f
 
 div.modal-footer
-  button.btn.btn-default.media-action.cancel type="button" = t(:cancel)
-  button.btn.btn-primary.media-action = t(:submit)
+  button.btn.btn-default.timeline-action.cancel type="button" = t(:cancel)
+  button.btn.btn-primary.timeline-action = t(:submit)

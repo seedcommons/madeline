@@ -1,36 +1,37 @@
 class Admin::TimelineEntriesController < Admin::AdminController
   include TranslationSaveable
 
-  before_action :find_timeline_entry, :authorize_timeline_entry
-
   def new
+    @loan = Loan.find(params[:loan_id])
+
+    @entry = ProjectGroup.find_or_initialize_by(id: params[:id], project: @loan)
+    authorize @entry
+
     render_modal_partial
   end
 
   def create
-    render_modal_partial
+    @entry = ProjectGroup.new(project_group_params)
+    authorize @entry
+
+    @loan = @entry.project
+
+    if @entry.save
+      render partial: "admin/loans/timeline/table/timeline_table", loan: @loan
+    else
+      render_modal_partial(status: 422)
+    end
   end
 
   private
 
-  def find_timeline_entry
-    @loan = Loan.find(params[:loan_id])
-
-    @entry = ProjectGroup.find_or_initialize_by(id: params[:id], project: @loan)
-  end
-
-  def authorize_timeline_entry
-    authorize @entry
-  end
-
   def render_modal_partial(status: 200)
-    # link_params = @entry.attributes
-    # @submit_url = @entry.new_record? ? admin_media_index_path(link_params) : admin_media_path(link_params)
-    @submit_url = ''
+    link_params = params.slice(:loan_id)
+    @submit_url = @entry.new_record? ? admin_timeline_entries_path(link_params) : edit_admin_timeline_entry_path(link_params)
     render partial: "admin/timeline_entries/modal_content", status: status
   end
-  #
-  # def project_step_move_params
-  #   params.require(:timeline_step_move).permit(:move_type, :shift_subsequent, :days_shifted, :context)
-  # end
+
+  def project_group_params
+    params.require(:project_group).permit([:project_id, :project_type] + translation_params(:summary))
+  end
 end
