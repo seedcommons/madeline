@@ -15,5 +15,9 @@
   td class="#{classes}"
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
-  td class="#{classes}"
-    = entry.is_finalized ? entry.try(:admin_status) : "Draft"
+
+  - if entry.is_finalized
+    td class="#{classes}" style="background: #{entry.background_color};"
+      = entry.try(:admin_status)
+  - else
+    td class="#{classes}" Draft
