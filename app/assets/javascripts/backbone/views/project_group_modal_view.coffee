@@ -4,6 +4,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
+    @success = params.success
     @loadContent()
 
   events:
@@ -29,6 +30,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
     MS.loadingIndicator.hide()
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @hide()
+      @success() if @success
     else
       @replaceContent(data.responseText)
 

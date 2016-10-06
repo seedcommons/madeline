@@ -17,7 +17,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
     @entry.parent = @loan.root_timeline_entry
 
     if @entry.save
-      render partial: "admin/loans/timeline/table/timeline_table", loan: @loan
+      render nothing: true
     else
       render_modal_partial(status: 422)
     end

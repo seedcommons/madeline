@@ -14,9 +14,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @$('.timeline-table').empty()
     $.get "/admin/loans/#{@loanId}/timeline", (html) =>
       MS.loadingIndicator.hide()
-      @$('.timeline-table').html(html)
+      @$el.html(html)
 
   newGroup: (e) ->
     e.preventDefault()
-    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId)
+    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
 
