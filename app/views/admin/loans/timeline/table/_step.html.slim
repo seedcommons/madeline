@@ -8,6 +8,9 @@
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_depth - entry.depth}"
+
+  td class="#{classes}"
+
   td class="#{classes}" = entry.summary
   td class="#{classes}"
     = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
@@ -21,3 +24,8 @@
       = entry.try(:admin_status)
   - else
     td class="#{classes}" Draft
+
+  td class="#{classes}"
+
+  td class="#{classes}"
+    i.fa.fa-cog aria-hidden="true"
