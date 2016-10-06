@@ -1,5 +1,5 @@
 div.modal-header
-  button type="button" class="timeline-action close cancel" aria-label== t(:cancel)
+  button type="button" class="close cancel" aria-label== t(:cancel)
     span aria-hidden="true" &times;
   h4.modal-title = t("project_group.#{@entry.new_record? ? 'add' : 'edit'}")
 
@@ -14,5 +14,5 @@ div.modal-body
     = render 'admin/project_groups/translatable', media: @entry, f: f
 
 div.modal-footer
-  button.btn.btn-default.timeline-action.cancel type="button" = t(:cancel)
-  button.btn.btn-primary.timeline-action = t(:submit)
+  button.btn.btn-default.cancel type="button" = t(:cancel)
+  button.btn.btn-primary = t(:submit)

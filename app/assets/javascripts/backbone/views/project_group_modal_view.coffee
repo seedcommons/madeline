@@ -8,7 +8,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
     @loadContent()
 
   events:
-    'click .cancel': 'hideModal'
+    'click .cancel': 'hide'
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
