@@ -27,7 +27,6 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def render_modal_partial(status: 200)
     link_params = params.slice(:loan_id)
-    @submit_url = @entry.new_record? ? admin_project_groups_path(link_params) : edit_admin_project_groups_path(link_params)
     render partial: "admin/project_groups/modal_content", status: status
   end
 
