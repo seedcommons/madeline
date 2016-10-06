@@ -5,6 +5,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
+    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
 
   events:
     'click .timeline-action.new': 'newGroup'
@@ -18,5 +19,5 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newGroup: (e) ->
     e.preventDefault()
-    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
+    @modal.show()
 
