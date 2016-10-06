@@ -9,6 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   events:
     'click .timeline-action.new': 'newGroup'
+    'click .project-group .fa-cog': 'openGroupMenu'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -21,3 +22,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     e.preventDefault()
     @modal.show()
 
+  openGroupMenu: (e) ->
+    button = e.currentTarget
+    menu = $(button).closest('.timeline-table').find('#project-group-menu')
+    $(button).after(menu)

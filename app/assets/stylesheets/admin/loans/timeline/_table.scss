@@ -18,4 +18,11 @@
       float: right;
     }
   }
+
+  .dropdown .fa-cog {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+    color: $gray4;
+  }
 }

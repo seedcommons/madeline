@@ -7,6 +7,9 @@
   - unless entry.root?
     td.project-group rowspan="#{row_span}" colspan="#{column_span}"
       = entry.summary
+      span.dropdown
+        i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
+
 
   - if entry.children.empty?
     td.spacer colspan="#{timeline_table_step_column_count}"

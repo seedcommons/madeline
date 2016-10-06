@@ -137,3 +137,6 @@ en:
           save_all: "Save All"
         top_controls:
           new_group: "Add Group"
+        main:
+          add_child_group: "Add Child Group"
+          add_child_step: "Add Child Step"
