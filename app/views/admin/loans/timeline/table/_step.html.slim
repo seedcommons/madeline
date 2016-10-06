@@ -10,4 +10,5 @@
   td
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
-  td = entry.try(:admin_status)
+  td
+    = entry.is_finalized ? entry.try(:admin_status) : "Draft"
