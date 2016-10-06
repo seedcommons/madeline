@@ -30,4 +30,14 @@
     color: $gray4;
     margin: 0 .25em;
   }
+
+  .timeline-header {
+    .item {
+      padding-bottom: 15px;
+    }
+
+    .top-actions {
+      float: right;
+    }
+  }
 }

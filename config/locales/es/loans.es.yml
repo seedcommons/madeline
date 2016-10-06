@@ -130,3 +130,6 @@ es:
             edit_all: "Editar Todo"
             new_step: "Nuevo Paso"
             save_all: "Guardar Todo"
+        table:
+          timeline_header:
+            new_group: "Translate me"
