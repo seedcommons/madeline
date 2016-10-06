@@ -31,7 +31,7 @@
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print'}
-    .view-element = render "admin/loans/content/progress_bar", object: @loan.criteria
+    .view-element = render "admin/loans/questionnaires/progress_bar", object: @loan.criteria
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
@@ -45,7 +45,7 @@
     .view-element = @loan.currency.try(:name)
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
-  = render 'admin/loans/content/translatable', loan: @loan, f: f
+  = render 'admin/loans/translatable', loan: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
     choices: @agent_choices, classes: 'hidden-print')

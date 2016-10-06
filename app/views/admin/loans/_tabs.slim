@@ -7,10 +7,11 @@ ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
 
 div class="tab-content"
   div role="tabpanel" class="tab-pane active flush" id="details"
-    = render "admin/loans/content/details", loan: @loan
+    = render "admin/loans/details", loan: @loan
 
   div role="tabpanel" class="tab-pane" id="questions"
-    = render "admin/loans/content/questionnaires", loan: @loan
+    section.questionnaires
+      div.questionnaires-content
 
   div role="tabpanel" class="tab-pane" id="timeline-table"
     = render "admin/loans/timeline/table/main", loan: @loan

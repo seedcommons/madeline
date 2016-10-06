@@ -126,8 +126,9 @@ en:
   admin:
     loans:
       questionnaires:
-        edit: "Edit Responses"
-        delete: "Delete All Responses"
+        main:
+          edit: "Edit Responses"
+          delete: "Delete All Responses"
       timeline:
         list:
           timeline_header:

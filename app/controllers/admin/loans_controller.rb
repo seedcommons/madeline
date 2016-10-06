@@ -75,7 +75,7 @@ class Admin::LoansController < Admin::AdminController
       @questions_json[attrib] = @root_questions[attrib].map { |i| LoanQuestionSerializer.new(i, loan: @loan) }.to_json
     end
 
-    render layout: false
+    render partial: "admin/loans/questionnaires/main"
   end
 
   def update

@@ -40,7 +40,7 @@
 
         span.tree-view
           - if !field.leaf?
-            = render "admin/loans/content/progress_bar", object: value
+            = render "admin/loans/questionnaires/progress_bar", object: value
 
           - if field.data_type == 'group'
             - header_tag = {tag: %i(h3 h4 h5)[field.depth] || :h5}
@@ -61,7 +61,7 @@
         / Recurse if group, else render
         - if field.data_type == 'group'
           - if (filtered_children = field.children.filter_for(@loan)).present?
-            = render("admin/loans/content/questionnaire_group",
+            = render("admin/loans/questionnaires/questionnaire_group",
               f: f, value_set: value_set, roots: filtered_children,
               parents: parents + [field], indices: indices + [idx + 1])
 
@@ -101,17 +101,17 @@
             - if value.has_breakeven_table?
               - if value.breakeven_report.present?
                 .view-element
-                  = render "admin/loans/content/breakeven_table_report", report: value.breakeven_report
-                  = render "admin/loans/content/breakeven_charts", report: value.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_table_report", report: value.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report
               .form-element
-                = render 'admin/loans/content/breakeven_table_question', f: f, field: field, data: value.breakeven_hash
+                = render 'admin/loans/questionnaires/breakeven_table_question', f: f, field: field, data: value.breakeven_hash
 
             - if value.has_business_canvas?
               .answer class=('form-element' if value.business_canvas_blank?)
-                = render 'admin/loans/content/business_model_canvas', f: f, field: field, data: value.business_canvas
+                = render 'admin/loans/questionnaires/business_model_canvas', f: f, field: field, data: value.business_canvas
 
             - if value.has_linked_document?
-              = render 'admin/loans/content/linked_document', f: f, field: field, document: value.linked_document
+              = render 'admin/loans/questionnaires/linked_document', f: f, field: field, document: value.linked_document
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")

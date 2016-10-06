@@ -30,7 +30,7 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
           'data-print': 'details', target: '_blank')
         li = link_to(t('loan.print_criteria'), print_admin_loan_path(@loan.id, mode: "criteria-only"),
           'data-print': 'criteria', target: '_blank')
-  = render "admin/loans/content/form", loan: @loan
+  = render "admin/loans/form", loan: @loan
 
 section.block data-container='media'
   h1 = t("loan.media")
