@@ -55,7 +55,7 @@ class Admin::LoansController < Admin::AdminController
   def timeline
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render layout: false
+    render partial: "admin/loans/timeline/table/main"
   end
 
   def questionnaires

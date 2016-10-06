@@ -136,5 +136,5 @@ en:
             new_step: "New Step"
             save_all: "Save All"
         table:
-          timeline_header:
+          top_controls:
             new_group: "Add Group"
