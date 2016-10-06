@@ -2,7 +2,7 @@ section.timeline-table
   = render "admin/loans/timeline/table/timeline_table", loan: @loan
 
   ul.dropdown-menu id="project-group-menu"
-    li: a href="#" data-action="add-child-group" Add Child Group
-    li: a href="#" data-action="add-child-step" Add Child Step
-    li: a href="#" data-action="edit" Edit
-    li: a href="#" data-action="delete" Delete
+    li: a href="#" data-action="add-child-group" = t(".add_child_group")
+    li: a href="#" data-action="add-child-step" = t(".add_child_step")
+    li: a href="#" data-action="edit" = t(:edit)
+    li: a href="#" data-action="delete" = t(:delete)

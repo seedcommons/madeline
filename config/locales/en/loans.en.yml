@@ -138,3 +138,6 @@ en:
         table:
           timeline_header:
             new_group: "Add Group"
+          timeline:
+            add_child_group: "Add Child Group"
+            add_child_step: "Add Child Step"
