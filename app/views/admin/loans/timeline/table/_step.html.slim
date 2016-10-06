@@ -10,6 +10,7 @@
     td.spacer colspan="#{max_depth - entry.depth}"
 
   td class="#{classes}"
+    input.select-step type="checkbox" class=(entry.completed? ? 'completed-item' : 'incomplete-item') data-id=entry.id
 
   td class="#{classes}"
     - if entry.milestone?
