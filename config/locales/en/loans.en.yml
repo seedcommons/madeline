@@ -130,12 +130,10 @@ en:
           edit: "Edit Responses"
           delete: "Delete All Responses"
       timeline:
-        list:
-          timeline_header:
-            cancel_edit: "Cancel Edit"
-            edit_all: "Edit All"
-            new_step: "New Step"
-            save_all: "Save All"
-        table:
-          top_controls:
-            new_group: "Add Group"
+        list_header:
+          cancel_edit: "Cancel Edit"
+          edit_all: "Edit All"
+          new_step: "New Step"
+          save_all: "Save All"
+        top_controls:
+          new_group: "Add Group"

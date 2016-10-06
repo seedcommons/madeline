@@ -49,13 +49,13 @@ class Admin::LoansController < Admin::AdminController
   def steps
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render layout: false
+    render partial: "admin/loans/timeline/list"
   end
 
   def timeline
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render partial: "admin/loans/timeline/table/main"
+    render partial: "admin/loans/timeline/main"
   end
 
   def questionnaires
