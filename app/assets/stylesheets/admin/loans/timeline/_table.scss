@@ -21,7 +21,7 @@
     border: 1px solid $table-border-color;
 
     &.spacer {
-      background: $background-gray;
+      background: $gray3;
       border: none;
     }
   }
@@ -29,5 +29,13 @@
   .fa-cog {
     color: $gray4;
     margin: 0 .25em;
+  }
+
+  .draft {
+    font-style: italic;
+  }
+
+  .completed {
+    background: $gray2;
   }
 }
