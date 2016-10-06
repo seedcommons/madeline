@@ -10,7 +10,8 @@ div.modal-body
       = f.hidden_field(:project_id)
       = f.hidden_field(:project_type)
 
-    = f.error_notification
+    = error_notification(f, dont_show_default: true)
+
     = render 'admin/project_groups/translatable', media: @entry, f: f
 
 div.modal-footer

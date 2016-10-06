@@ -96,6 +96,10 @@ en:
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+    errors:
+      models:
+        project_group:
+          no_summary: "Summary is required."
 
   simple_form:
     hints:
