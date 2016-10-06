@@ -1,0 +1,19 @@
+div.modal-header
+  button type="button" class="close cancel" aria-label== t(:cancel)
+    span aria-hidden="true" &times;
+  h4.modal-title = t("project_group.#{@entry.new_record? ? 'add' : 'edit'}")
+
+div.modal-body
+  = simple_form_for [:admin, @entry], remote: true do |f|
+
+    - if @entry.new_record?
+      = f.hidden_field(:project_id)
+      = f.hidden_field(:project_type)
+
+    = error_notification(f, dont_show_default: true)
+
+    = render 'admin/project_groups/translatable', media: @entry, f: f
+
+div.modal-footer
+  button.btn.btn-default.cancel type="button" = t(:cancel)
+  button.btn.btn-primary = t(:submit)

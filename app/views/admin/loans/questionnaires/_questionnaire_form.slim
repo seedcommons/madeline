@@ -1,0 +1,36 @@
+.questionnaire-form
+  = simple_form_for([:admin, value_set],
+      html: { \
+        class: 'form-horizontal',
+      },
+      wrapper: :horizontal_form_condensed,
+      defaults: { \
+        input_html: {class: 'form-element form-control'},
+      },
+    ) do |f|
+
+    = error_notification(f)
+
+    = f.hidden_field(:loan_id)
+    = f.hidden_field(:kind)
+
+    - unless @print_view
+      .jqtree data-data=@questions_json[attrib] class=attrib
+
+    .actions.form-element
+      - unless value_set.new_record?
+        a.btn.btn-default.show-action = t(:cancel)
+      - submit_label = t("loan.save_responses")
+      = f.submit submit_label, class: 'update-action btn btn-primary'
+    .clearfix
+
+  / Render form fields outside form so they don't get double submitted after being
+  / copied into the jqtree
+  = simple_fields_for(value_set,
+      defaults: { \
+        input_html: {class: 'form-element form-control'},
+      },
+    ) do |f|
+
+    = render "admin/loans/questionnaires/questionnaire_group",
+      f: f, value_set: value_set, roots: @root_questions[attrib], parents: [], indices: []

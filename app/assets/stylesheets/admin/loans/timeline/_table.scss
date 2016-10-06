@@ -26,9 +26,21 @@
     }
   }
 
-  .fa-cog {
+  .timeline-header {
+    .item {
+      padding-bottom: 15px;
+    }
+
+    .top-actions {
+      float: right;
+    }
+  }
+
+  .dropdown .fa-cog {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
     color: $gray4;
-    margin: 0 .25em;
   }
 
   .draft {
