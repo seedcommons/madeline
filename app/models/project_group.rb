@@ -76,7 +76,7 @@ class ProjectGroup < TimelineEntry
   private
 
   def has_summary
-    if summary.blank?
+    if !root? && summary.blank?
       errors.add(:base, :no_summary)
     end
   end
