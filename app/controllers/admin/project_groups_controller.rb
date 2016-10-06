@@ -3,8 +3,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-
-    @entry = ProjectGroup.find_or_initialize_by(id: params[:id], project: @loan)
+    @entry = ProjectGroup.new(project: @loan)
     authorize @entry
 
     render_modal_partial

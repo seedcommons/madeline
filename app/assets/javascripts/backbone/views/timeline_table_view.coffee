@@ -1,17 +1,13 @@
 # Controls the timeline modal (no more than one per page).
 class MS.Views.TimelineTableView extends Backbone.View
 
-  el: 'body'
+  el: 'section.timeline-table'
 
   initialize: (options) ->
     @loanId = options.loanId
 
   events:
-    'click .timeline-action.edit': 'showTimelineModal'
-    'click .timeline-action.new': 'showTimelineModal'
-    'click .timeline-action.cancel': 'hideTimelineModal'
-    'click .timeline-modal .btn-primary': 'submitForm'
-    'ajax:complete .timeline-modal form': 'submitComplete'
+    'click .timeline-action.new': 'newGroup'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -20,29 +16,7 @@ class MS.Views.TimelineTableView extends Backbone.View
       MS.loadingIndicator.hide()
       @$('.timeline-table').html(html)
 
-  hideTimelineModal: (e) ->
+  newGroup: (e) ->
     e.preventDefault()
-    @$('.timeline-modal').modal('hide')
+    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId)
 
-  showTimelineModal: (e) ->
-    MS.loadingIndicator.show()
-    e.preventDefault()
-    link = e.currentTarget
-
-    $.get @$(link).attr('href'), (html) =>
-      @$('.timeline-modal .modal-content').html(html)
-      @$('.timeline-modal').modal('show')
-      new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_group"]'));
-      MS.loadingIndicator.hide()
-
-  submitComplete: (e, data) ->
-    MS.loadingIndicator.hide()
-    if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
-      @$('.timeline-modal').modal('hide')
-      @$('.timeline-table').html(data.responseText)
-    else
-      @$('.timeline-modal .modal-content').html(data.responseText)
-
-  submitForm: ->
-    MS.loadingIndicator.show()
-    @$('.timeline-modal form').submit()
