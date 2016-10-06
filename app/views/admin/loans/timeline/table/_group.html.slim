@@ -1,5 +1,6 @@
 - wrapper_tag = {tag: is_first ? 'div' : 'tr'}
 - column_span = entry.descendants_only_steps? ? max_depth - entry.depth : 1
+- num_step_columns = 5
 
 *wrapper_tag
   / The root group is not actually displayed
@@ -8,7 +9,10 @@
       = entry.summary
       i.fa.fa-cog aria-hidden="true"
 
-  - entry.children.each_with_index do |child, i|
-    - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
-    = render "admin/loans/timeline/table/#{entry_type}", entry: child, is_first: i == 0,
-      max_depth: max_depth, siblings_are_all_steps: entry.descendants_only_steps?
+  - if entry.children.length > 0
+    - entry.children.each_with_index do |child, i|
+      - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
+      = render "admin/loans/timeline/table/#{entry_type}", entry: child, is_first: i == 0,
+        max_depth: max_depth, siblings_are_all_steps: entry.descendants_only_steps?
+  - else
+    td.spacer colspan="#{num_step_columns}"
