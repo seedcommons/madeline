@@ -52,6 +52,7 @@ class ProjectGroup < TimelineEntry
   end
 
   # Determine if the group's children are all steps or a mix of steps and groups.
+  # Also returns true if no children.
   def descendants_only_steps?
     children.each do |c|
       if c.is_a?(ProjectGroup)
@@ -59,6 +60,11 @@ class ProjectGroup < TimelineEntry
       end
     end
     return true
+  end
+
+  # Gets the maximum depth of any group-type descendant of this node.
+  def max_descendant_group_depth
+    leaf? ? depth : children.to_a.map(&:max_descendant_group_depth).max
   end
 
   def validate_no_children

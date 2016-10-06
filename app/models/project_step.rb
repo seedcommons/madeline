@@ -307,6 +307,11 @@ class ProjectStep < TimelineEntry
     raise NoChildrenAllowedError
   end
 
+  # Needed to satisfy a duck type.
+  def max_descendant_group_depth
+    parent.depth
+  end
+
   private
 
   def handle_old_start_date_logic

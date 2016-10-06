@@ -1,13 +1,18 @@
 - wrapper_tag = {tag: is_first ? 'div' : 'tr'}
-- column_span = entry.descendants_only_steps? ? max_depth - entry.depth : 1
+- row_span = [1, entry.descendant_step_count].max
+- column_span = entry.descendants_only_steps? ? max_group_depth - entry.depth + 1 : 1
 
 *wrapper_tag
   / The root group is not actually displayed
   - unless entry.root?
-    td.project-group rowspan="#{entry.descendant_step_count}" colspan="#{column_span}"
+    td.project-group rowspan="#{row_span}" colspan="#{column_span}"
       = entry.summary
 
-  - entry.children.each_with_index do |child, i|
-    - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
-    = render "admin/loans/timeline/table/#{entry_type}", entry: child, is_first: i == 0,
-      max_depth: max_depth, siblings_are_all_steps: entry.descendants_only_steps?
+  - if entry.children.empty?
+    td.spacer colspan="#{timeline_table_step_column_count}"
+  - else
+    - entry.children.each_with_index do |child, i|
+      - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
+      = render "admin/loans/timeline/table/#{entry_type}", entry: child, is_first: i == 0,
+        max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?
+
