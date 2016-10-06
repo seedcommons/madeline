@@ -1,12 +1,12 @@
 thead
   tr
     - if max_depth > 1
-      th colspan="#{max_depth - 1}"
+      th colspan="#{max_depth - 1}" = t("project_step.timeline_table.group")
     th
     th = t("project_step.timeline_table.step")
     th.date-col = t("project_step.timeline_table.start")
     th.date-col = t("project_step.timeline_table.end")
     th = t("project_step.timeline_table.duration")
     th = t("project_step.timeline_table.status")
-    th Logs
+    th = t("project_step.timeline_table.logs")
     th

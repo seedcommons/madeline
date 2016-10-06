@@ -388,6 +388,8 @@ en:
     timeline_table:
       duration: "Duration"
       end: "End"
+      group: "Group"
+      logs: "Logs"
       start: "Start"
       status: "Status"
       step: "Step"
