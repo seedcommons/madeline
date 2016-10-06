@@ -96,6 +96,10 @@ en:
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+    errors:
+      models:
+        project_group:
+          no_summary: "Summary is required."
 
   simple_form:
     hints:
@@ -404,6 +408,9 @@ en:
         other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
+
+  project_group:
+    add: "New Group"
 
   user:
     account: "Account"

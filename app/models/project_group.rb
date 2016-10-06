@@ -37,6 +37,8 @@ require 'chronic'
 class ProjectGroup < TimelineEntry
   class DestroyWithChildrenError < StandardError; end
 
+  validate :has_summary
+
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
@@ -52,6 +54,7 @@ class ProjectGroup < TimelineEntry
   end
 
   # Determine if the group's children are all steps or a mix of steps and groups.
+  # Also returns true if no children.
   def descendants_only_steps?
     children.each do |c|
       if c.is_a?(ProjectGroup)
@@ -61,7 +64,20 @@ class ProjectGroup < TimelineEntry
     return true
   end
 
+  # Gets the maximum depth of any group-type descendant of this node.
+  def max_descendant_group_depth
+    leaf? ? depth : children.to_a.map(&:max_descendant_group_depth).max
+  end
+
   def validate_no_children
     raise DestroyWithChildrenError.new if children.present?
+  end
+
+  private
+
+  def has_summary
+    if !root? && summary.blank?
+      errors.add(:base, :no_summary)
+    end
   end
 end

@@ -13,7 +13,7 @@
   .modal-header
     h4.modal-title = @loan_question.new_record? ? t('.new_item') : t('.edit_item')
   .modal-body
-    = f.error_notification
+    = error_notification(f)
 
     = f.input "question_types" do
       = f.input_field :data_type, collection: @data_types

@@ -1,0 +1,15 @@
+- wrapper_tag = {tag: is_first ? 'div' : 'tr'}
+
+*wrapper_tag
+  / Add spacer for step who has a group as a sibling
+  - unless siblings_are_all_steps
+    td.spacer colspan="#{max_group_depth - entry.depth + 1}"
+  td = entry.summary
+  td = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
+  td = entry.display_end_date ? l(entry.display_end_date, format: :short) : ''
+  td
+    - if entry.display_duration_days && entry.display_duration_days > 0
+      = t("project_step.duration_days", duration: entry.display_duration_days)
+  td = entry.try(:admin_status)
+
+  / Please update timeline_table_step_column_count in TimelineHelper if adding/removing columns here.

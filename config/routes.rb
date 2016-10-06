@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         get :questionnaires
         patch :change_date
         get :print
+        get :timeline
       end
     end
     resources :loan_questions, as: :loan_questions do
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
         post :duplicate
       end
     end
+    resources :project_groups
 
     # Does it make sense to surround in separate namespace?
     resources :timeline_step_moves
