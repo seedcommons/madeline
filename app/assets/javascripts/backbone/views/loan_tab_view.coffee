@@ -6,7 +6,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
     @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
     @loadSteps() if @$('.timeline-tab').closest('li').hasClass('active')
-    @loadTimeline() if @$('.timeline-table-tab').closest('li').hasClass('active')
+    @loadTimelineTable() if @$('.timeline-table-tab').closest('li').hasClass('active')
     @loadQuestionnaires() if @$('.questions-tab').closest('li').hasClass('active')
 
   events: ->
@@ -27,7 +27,7 @@ class MS.Views.LoanTabView extends Backbone.View
     else
       MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
 
-  loadTimeline: ->
+  loadTimelineTable: ->
     if MS.timelineTableView
       MS.timelineTableView.refresh()
     else
