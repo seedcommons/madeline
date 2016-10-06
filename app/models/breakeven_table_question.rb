@@ -65,26 +65,26 @@ class BreakevenTableQuestion
       net_margin: 0,
     }
 
-    @breakeven['products'].each do |product|
-      %w(quantity price cost).each { |key| product[key] = product[key].to_f }
+    data_hash[:products].each do |product|
+      [:quantity, :price, :cost].each { |key| product[key] = product[key].to_f }
       report[:revenue] << {
-        name: product['name'],
-        quantity: product['quantity'],
-        amount: product['price'],
-        total: product['price'] * product['quantity'],
+        name: product[:name],
+        quantity: product[:quantity],
+        amount: product[:price],
+        total: product[:price] * product[:quantity],
       }
       report[:cogs] << {
-        name: product['name'],
-        quantity: product['quantity'],
-        amount: product['cost'],
-        total: product['cost'] * product['quantity'],
+        name: product[:name],
+        quantity: product[:quantity],
+        amount: product[:cost],
+        total: product[:cost] * product[:quantity],
       }
     end
     report[:total_revenue] = report[:revenue].map { |i| i[:total] }.sum
     report[:total_cogs] = report[:cogs].map { |i| i[:total] }.sum
     report[:gross_margin] = report[:total_revenue] - report[:total_cogs]
-    @breakeven['fixed_costs'].each do |cost|
-      report[:fixed_costs] << { name: cost['name'], amount: cost['amount'].to_f }
+    data_hash[:fixed_costs].each do |cost|
+      report[:fixed_costs] << { name: cost[:name], amount: cost[:amount].to_f }
     end
     report[:total_fixed_costs] = report[:fixed_costs].map { |i| i[:amount] }.sum
     report[:net_margin] = report[:gross_margin] - report[:total_fixed_costs]
@@ -94,7 +94,7 @@ class BreakevenTableQuestion
 
   def blank?
     return true if @breakeven.blank?
-    @breakeven['products'].blank? && @breakeven['fixed_costs'].blank?
+    data_hash[:products].blank? && data_hash[:fixed_costs].blank?
   end
 
   def data_hash
