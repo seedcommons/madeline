@@ -11,7 +11,12 @@
 
   td class="#{classes}"
 
-  td class="#{classes}" = entry.summary
+  td class="#{classes}"
+    - if entry.milestone?
+      i.fa.fa-fw.fa-flag-o
+    - else
+      i.fa.fa-fw.fa-calendar
+    = entry.summary
   td class="#{classes}"
     = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
   td class="#{classes}" = entry.display_end_date ? l(entry.display_end_date, format: :short) : ''
