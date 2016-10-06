@@ -13,11 +13,12 @@
     input.select-step type="checkbox" class=(entry.completed? ? 'completed-item' : 'incomplete-item') data-id=entry.id
 
   td class="#{classes}"
-    - if entry.milestone?
-      i.fa.fa-fw.fa-flag-o
-    - else
-      i.fa.fa-fw.fa-calendar
-    = entry.summary
+    .icon
+      - if entry.milestone?
+        i.fa.fa-fw.fa-flag-o
+      - else
+        i.fa.fa-fw.fa-calendar
+    .summary = entry.summary
   td class="#{classes}"
     = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
   td class="#{classes}" = entry.display_end_date ? l(entry.display_end_date, format: :short) : ''

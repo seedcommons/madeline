@@ -40,7 +40,23 @@
     background: $gray2;
   }
 
-  .fa-fw {
-    margin-right: .5em;
+  .icon, .summary {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1;
+  }
+
+  .icon {
+    width: 1.5em;
+    margin-right: .25em;
+  }
+
+  .summary {
+    width: calc(100% - 2.5em);
+  }
+
+  .select-step {
+    margin: .1em 0;
+    vertical-align: top;
   }
 }
