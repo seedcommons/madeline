@@ -390,6 +390,7 @@ en:
     repeat: "Repeat..."
     timeline: "Timeline"
     timeline_table:
+      draft: "Draft"
       duration: "Duration"
       end: "End"
       group: "Group"

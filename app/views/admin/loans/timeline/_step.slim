@@ -31,7 +31,7 @@
     td class="#{classes}" style="background: #{entry.timeline_background_color};"
       = entry.try(:admin_status)
   - else
-    td class="#{classes}" Draft
+    td class="#{classes}" = t("project_step.timeline_table.draft")
 
   td class="#{classes}"
 
