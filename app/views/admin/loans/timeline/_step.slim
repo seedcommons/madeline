@@ -28,7 +28,7 @@
       = t("project_step.duration_days", duration: entry.display_duration_days)
 
   - if entry.is_finalized
-    td class="#{classes}" style="background: #{entry.background_color};"
+    td class="#{classes}" style="background: #{entry.timeline_background_color};"
       = entry.try(:admin_status)
   - else
     td class="#{classes}" Draft
