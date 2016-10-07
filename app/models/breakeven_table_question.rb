@@ -63,6 +63,8 @@ class BreakevenTableQuestion
       fixed_costs: [],
       total_fixed_costs: 0,
       net_margin: 0,
+      periods: 0,
+      units: ''
     }
 
     data_hash[:products].each do |product|
@@ -88,6 +90,8 @@ class BreakevenTableQuestion
     end
     report[:total_fixed_costs] = report[:fixed_costs].map { |i| i[:amount] }.sum
     report[:net_margin] = report[:gross_margin] - report[:total_fixed_costs]
+    report[:periods] = data_hash[:periods]
+    report[:units] = data_hash[:units]
 
     report
   end

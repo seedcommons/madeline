@@ -15,7 +15,9 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         { 'name': 'Sales', 'amount': 10_000 },
         { 'name': 'Utilities', 'amount': 2_000.0 },
         { 'name': 'Insurance', 'amount': 1_000.0 },
-      ]
+      ],
+      'periods': 4,
+      'units': 'Months',
     }
   end
 
@@ -44,6 +46,8 @@ RSpec.describe BreakevenTableQuestion, type: :model do
       ],
       total_fixed_costs: 66_000,
       net_margin: 0,
+      periods: 4,
+      units: 'Months'
     }
   end
 
@@ -53,7 +57,18 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     expect(subject.report).to eq results
   end
 
-  [:revenue, :total_revenue, :cogs, :total_cogs, :gross_margin, :fixed_costs, :total_fixed_costs, :net_margin].each do |row|
+  [
+    :revenue,
+    :total_revenue,
+    :cogs,
+    :total_cogs,
+    :gross_margin,
+    :fixed_costs,
+    :total_fixed_costs,
+    :net_margin,
+    :periods,
+    :units,
+  ].each do |row|
     it "calculates #{row}" do
       expect(subject.report[row]).to eq results[row]
     end
