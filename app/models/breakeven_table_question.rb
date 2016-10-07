@@ -55,43 +55,17 @@ class BreakevenTableQuestion
     return if blank?
 
     report = {
-      revenue: [],
-      total_revenue: 0,
-      cogs: [],
-      total_cogs: 0,
-      gross_margin: 0,
-      fixed_costs: [],
-      total_fixed_costs: 0,
-      net_margin: 0,
-      periods: 0,
-      units: ''
+      revenue: revenue,
+      total_revenue: total_revenue,
+      cogs: cogs,
+      total_cogs: total_cogs,
+      gross_margin: gross_margin,
+      fixed_costs: fixed_costs,
+      total_fixed_costs: total_fixed_costs,
+      net_margin: net_margin,
+      periods: periods,
+      units: units,
     }
-
-    data_hash[:products].each do |product|
-      [:quantity, :price, :cost].each { |key| product[key] = product[key].to_f }
-      report[:revenue] << {
-        name: product[:name],
-        quantity: product[:quantity],
-        amount: product[:price],
-        total: product[:price] * product[:quantity],
-      }
-      report[:cogs] << {
-        name: product[:name],
-        quantity: product[:quantity],
-        amount: product[:cost],
-        total: product[:cost] * product[:quantity],
-      }
-    end
-    report[:total_revenue] = report[:revenue].map { |i| i[:total] }.sum
-    report[:total_cogs] = report[:cogs].map { |i| i[:total] }.sum
-    report[:gross_margin] = report[:total_revenue] - report[:total_cogs]
-    data_hash[:fixed_costs].each do |cost|
-      report[:fixed_costs] << { name: cost[:name], amount: cost[:amount].to_f }
-    end
-    report[:total_fixed_costs] = report[:fixed_costs].map { |i| i[:amount] }.sum
-    report[:net_margin] = report[:gross_margin] - report[:total_fixed_costs]
-    report[:periods] = data_hash[:periods]
-    report[:units] = data_hash[:units]
 
     report
   end
@@ -101,7 +75,65 @@ class BreakevenTableQuestion
     data_hash[:products].blank? && data_hash[:fixed_costs].blank?
   end
 
+  def revenue
+    data_hash[:products].map do |product|
+      [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
+        {
+          name: product[:name],
+          quantity: product[:quantity],
+          amount: product[:price],
+          total: product[:price] * product[:quantity],
+        }
+    end
+  end
+
+  def total_revenue
+    revenue.map { |i| i[:total] }.sum
+  end
+
+  def cogs
+    data_hash[:products].map do |product|
+      [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
+        {
+          name: product[:name],
+          quantity: product[:quantity],
+          amount: product[:cost],
+          total: product[:cost] * product[:quantity],
+        }
+    end
+  end
+
+  def total_cogs
+    cogs.map { |i| i[:total] }.sum
+  end
+
+  def gross_margin
+    total_revenue - total_cogs
+  end
+
+  def fixed_costs
+    data_hash[:fixed_costs].map do |cost|
+      { name: cost[:name], amount: cost[:amount].to_f }
+    end
+  end
+
+  def total_fixed_costs
+    fixed_costs.map { |i| i[:amount] }.sum
+  end
+
+  def net_margin
+    gross_margin - total_fixed_costs
+  end
+
   def data_hash
     @breakeven.deep_symbolize_keys if @breakeven
+  end
+
+  def periods
+    data_hash[:periods]
+  end
+
+  def units
+    data_hash[:units]
   end
 end
