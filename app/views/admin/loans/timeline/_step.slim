@@ -1,7 +1,7 @@
-- wrapper_tag = {tag: is_first ? 'div' : 'tr'}
+- wrapper_tag = {tag: is_first ? "div" : "tr"}
 
-- draft = entry.is_finalized ? '' : 'draft'
-- completed = entry.completed? ? 'completed' : ''
+- draft = entry.is_finalized ? "" : "draft"
+- completed = entry.completed? ? "completed" : ""
 - classes = "#{completed} #{draft}"
 
 *wrapper_tag
@@ -10,7 +10,7 @@
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
   td class="#{classes}"
-    input.select-step type="checkbox" class=(entry.completed? ? 'completed-item' : 'incomplete-item') data-id=entry.id
+    input.select-step type="checkbox" class=(entry.completed? ? "completed-item" : "incomplete-item") data-id=entry.id
 
   td class="#{classes}"
     .icon
@@ -20,9 +20,9 @@
         i.fa.fa-fw.fa-calendar
     .summary = entry.summary
   td class="#{classes}"
-    = entry.display_start_date ? l(entry.display_start_date, format: :short) : ''
+    = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
   td class="#{classes}"
-    = entry.display_end_date ? l(entry.display_end_date, format: :short) : ''
+    = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
   td class="#{classes}"
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
