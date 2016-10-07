@@ -83,6 +83,7 @@ class BreakevenTableQuestion
           quantity: product[:quantity],
           amount: product[:price],
           total: product[:price] * product[:quantity],
+          rampup: rampup(product[:quantity], product[:price])
         }
     end
   end
@@ -135,5 +136,15 @@ class BreakevenTableQuestion
 
   def units
     data_hash[:units]
+  end
+
+  def rampup(total_quantity, price)
+    (1..periods).map do |period|
+      base_quantity = total_quantity / periods
+      quantity = (base_quantity * period)
+      total = quantity * price
+
+      { quantity: quantity, total: total }
+    end
   end
 end
