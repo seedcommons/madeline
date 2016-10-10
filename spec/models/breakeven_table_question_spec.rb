@@ -66,6 +66,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
       ],
       total_cogs: 65_000,
       gross_margin: 66_000,
+      gross_margin_rampup: [16_500, 33_000, 49_500, 66_000],
       fixed_costs: [
         { name: 'Rent', amount: 15_000.0 },
         { name: 'Worker owners', amount: 28_000.0 },
@@ -93,6 +94,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     :cogs,
     :total_cogs,
     :gross_margin,
+    :gross_margin_rampup,
     :fixed_costs,
     :total_fixed_costs,
     :net_margin,

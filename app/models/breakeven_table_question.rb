@@ -60,6 +60,7 @@ class BreakevenTableQuestion
       cogs: cogs,
       total_cogs: total_cogs,
       gross_margin: gross_margin,
+      gross_margin_rampup: gross_margin_rampup,
       fixed_costs: fixed_costs,
       total_fixed_costs: total_fixed_costs,
       net_margin: net_margin,
@@ -111,6 +112,12 @@ class BreakevenTableQuestion
 
   def gross_margin
     total_revenue - total_cogs
+  end
+
+  def gross_margin_rampup
+    (1..periods).map do |period|
+      (gross_margin/periods) * period
+    end
   end
 
   def fixed_costs
