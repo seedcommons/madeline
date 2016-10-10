@@ -100,6 +100,7 @@ class BreakevenTableQuestion
           quantity: product[:quantity],
           amount: product[:cost],
           total: product[:cost] * product[:quantity],
+          rampup: rampup(product[:quantity], product[:cost])
         }
     end
   end
