@@ -44,6 +44,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         ] },
       ],
       total_revenue: 131_000,
+      total_revenue_rampup: [3_2750, 65_500, 98_250, 131_000],
       cogs: [
         { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, rampup: [
           { quantity: 200.0, total: 10_000.0 },
@@ -65,6 +66,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         ] },
       ],
       total_cogs: 65_000,
+      total_cogs_rampup: [16_250, 32_500, 48_750, 65_000],
       gross_margin: 66_000,
       gross_margin_rampup: [16_500, 33_000, 49_500, 66_000],
       fixed_costs: [
@@ -92,12 +94,15 @@ RSpec.describe BreakevenTableQuestion, type: :model do
   [
     :revenue,
     :total_revenue,
+    :total_revenue_rampup,
     :cogs,
     :total_cogs,
+    :total_cogs_rampup,
     :gross_margin,
     :gross_margin_rampup,
     :fixed_costs,
     :total_fixed_costs,
+    :total_fixed_costs_rampup,
     :net_margin,
     :periods,
     :units,

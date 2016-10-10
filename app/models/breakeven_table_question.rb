@@ -57,8 +57,10 @@ class BreakevenTableQuestion
     report = {
       revenue: revenue,
       total_revenue: total_revenue,
+      total_revenue_rampup: total_revenue_rampup,
       cogs: cogs,
       total_cogs: total_cogs,
+      total_cogs_rampup: total_cogs_rampup,
       gross_margin: gross_margin,
       gross_margin_rampup: gross_margin_rampup,
       fixed_costs: fixed_costs,
@@ -94,6 +96,12 @@ class BreakevenTableQuestion
     revenue.map { |i| i[:total] }.sum
   end
 
+  def total_revenue_rampup
+    (1..periods).map do |period|
+      (total_revenue/periods) * period
+    end
+  end
+
   def cogs
     data_hash[:products].map do |product|
       [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
@@ -109,6 +117,12 @@ class BreakevenTableQuestion
 
   def total_cogs
     cogs.map { |i| i[:total] }.sum
+  end
+
+  def total_cogs_rampup
+    (1..periods).map do |period|
+      (total_cogs/periods) * period
+    end
   end
 
   def gross_margin
