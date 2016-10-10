@@ -76,6 +76,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         { name: 'Insurance', amount: 1_000.0 },
       ],
       total_fixed_costs: 66_000,
+      total_fixed_costs_rampup: [66_000, 66_000, 66_000, 66_000],
       net_margin: 0,
       periods: 4,
       units: 'Months'

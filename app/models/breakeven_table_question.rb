@@ -63,6 +63,7 @@ class BreakevenTableQuestion
       gross_margin_rampup: gross_margin_rampup,
       fixed_costs: fixed_costs,
       total_fixed_costs: total_fixed_costs,
+      total_fixed_costs_rampup: total_fixed_costs_rampup,
       net_margin: net_margin,
       periods: periods,
       units: units,
@@ -128,6 +129,12 @@ class BreakevenTableQuestion
 
   def total_fixed_costs
     fixed_costs.map { |i| i[:amount] }.sum
+  end
+
+  def total_fixed_costs_rampup
+    (1..periods).map do |period|
+      total_fixed_costs
+    end
   end
 
   def net_margin
