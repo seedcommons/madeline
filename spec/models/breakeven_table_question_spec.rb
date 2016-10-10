@@ -80,6 +80,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
       total_fixed_costs: 66_000,
       total_fixed_costs_rampup: [66_000, 66_000, 66_000, 66_000],
       net_margin: 0,
+      net_margin_rampup: [-49_500, -33_000, -16_500, 0],
       periods: 4,
       units: 'Months'
     }
@@ -104,6 +105,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     :total_fixed_costs,
     :total_fixed_costs_rampup,
     :net_margin,
+    :net_margin_rampup,
     :periods,
     :units,
   ].each do |row|
