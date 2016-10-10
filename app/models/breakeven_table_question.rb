@@ -81,7 +81,7 @@ class BreakevenTableQuestion
   end
 
   def revenue
-    data_hash[:products].map do |product|
+    @revenue ||= data_hash[:products].map do |product|
       [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
         {
           name: product[:name],
@@ -94,17 +94,17 @@ class BreakevenTableQuestion
   end
 
   def total_revenue
-    revenue.map { |i| i[:total] }.sum
+    @total_revenue ||= revenue.map { |i| i[:total] }.sum
   end
 
   def total_revenue_rampup
-    (1..periods).map do |period|
+    @total_revenue_rampup ||= (1..periods).map do |period|
       (total_revenue/periods) * period
     end
   end
 
   def cogs
-    data_hash[:products].map do |product|
+    @cogs ||= data_hash[:products].map do |product|
       [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
         {
           name: product[:name],
@@ -117,11 +117,11 @@ class BreakevenTableQuestion
   end
 
   def total_cogs
-    cogs.map { |i| i[:total] }.sum
+    @total_cogs ||= cogs.map { |i| i[:total] }.sum
   end
 
   def total_cogs_rampup
-    (1..periods).map do |period|
+    @total_cogs_rampup ||= (1..periods).map do |period|
       (total_cogs/periods) * period
     end
   end
@@ -131,19 +131,19 @@ class BreakevenTableQuestion
   end
 
   def gross_margin_rampup
-    (1..periods).map do |period|
+    @gross_margin_rampup ||= (1..periods).map do |period|
       (gross_margin/periods) * period
     end
   end
 
   def fixed_costs
-    data_hash[:fixed_costs].map do |cost|
+    @fixed_costs ||= data_hash[:fixed_costs].map do |cost|
       { name: cost[:name], amount: cost[:amount].to_f }
     end
   end
 
   def total_fixed_costs
-    fixed_costs.map { |i| i[:amount] }.sum
+    @total_fixed_costs ||= fixed_costs.map { |i| i[:amount] }.sum
   end
 
   def total_fixed_costs_rampup
