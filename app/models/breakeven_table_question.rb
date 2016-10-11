@@ -57,22 +57,26 @@ class BreakevenTableQuestion
     report = {
       revenue: revenue,
       total_revenue: total_revenue,
-      total_revenue_rampup: total_revenue_rampup,
       cogs: cogs,
       total_cogs: total_cogs,
-      total_cogs_rampup: total_cogs_rampup,
       gross_margin: gross_margin,
-      gross_margin_rampup: gross_margin_rampup,
       fixed_costs: fixed_costs,
       total_fixed_costs: total_fixed_costs,
-      total_fixed_costs_rampup: total_fixed_costs_rampup,
       net_margin: net_margin,
-      net_margin_rampup: net_margin_rampup,
       periods: periods,
       units: units,
     }
 
-    report
+    rampup = {
+      total_revenue_rampup: total_revenue_rampup,
+      total_cogs_rampup: total_cogs_rampup,
+      gross_margin_rampup: gross_margin_rampup,
+      total_fixed_costs_rampup: total_fixed_costs_rampup,
+      net_margin_rampup: net_margin_rampup,
+    }
+
+    return report unless periods > 1
+    report.merge(rampup)
   end
 
   def blank?
@@ -88,8 +92,7 @@ class BreakevenTableQuestion
           quantity: product[:quantity],
           amount: product[:price],
           total: product[:price] * product[:quantity],
-          rampup: rampup(product[:quantity], product[:price])
-        }
+        }.merge( rampup(product[:quantity], product[:price]) )
     end
   end
 
@@ -111,8 +114,7 @@ class BreakevenTableQuestion
           quantity: product[:quantity],
           amount: product[:cost],
           total: product[:cost] * product[:quantity],
-          rampup: rampup(product[:quantity], product[:cost])
-        }
+        }.merge( rampup(product[:quantity], product[:cost]) )
     end
   end
 
@@ -167,20 +169,24 @@ class BreakevenTableQuestion
   end
 
   def periods
-    data_hash[:periods]
+    data_hash[:periods] || 1
   end
 
   def units
-    data_hash[:units]
+    data_hash[:units] || 'None'
   end
 
   def rampup(total_quantity, price)
-    (1..periods).map do |period|
+    return {} unless periods > 1
+
+    rampup = (1..periods).map do |period|
       base_quantity = total_quantity / periods
       quantity = (base_quantity * period)
       total = quantity * price
 
       { quantity: quantity, total: total }
     end
+
+    { rampup: rampup }
   end
 end
