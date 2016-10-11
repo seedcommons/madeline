@@ -3,7 +3,9 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
+    @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id]
     @entry = ProjectGroup.new(project: @loan)
+    @entry.parent = @parent_group
     authorize @entry
 
     render_modal_partial
@@ -14,7 +16,12 @@ class Admin::ProjectGroupsController < Admin::AdminController
     authorize @entry
 
     @loan = @entry.project
-    @entry.parent = @loan.root_timeline_entry
+
+    if project_group_params[:parent_id] && project_group_params[:parent_id].present?
+      @entry.parent = ProjectGroup.find(project_group_params[:parent_id])
+    else
+      @entry.parent = @loan.root_timeline_entry
+    end
 
     if @entry.save
       render nothing: true
@@ -46,11 +53,11 @@ class Admin::ProjectGroupsController < Admin::AdminController
   private
 
   def render_modal_partial(status: 200)
-    link_params = params.slice(:loan_id)
+    link_params = params.slice(:loan_id, :parent_id)
     render partial: "admin/project_groups/modal_content", status: status
   end
 
   def project_group_params
-    params.require(:project_group).permit([:project_id, :project_type] + translation_params(:summary))
+    params.require(:project_group).permit([:project_id, :project_type, :parent_id] + translation_params(:summary))
   end
 end

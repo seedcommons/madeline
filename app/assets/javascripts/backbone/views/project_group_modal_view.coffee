@@ -11,9 +11,14 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
-  show: ->
+  show: (project_group_id)->
     MS.loadingIndicator.show()
-    $.get "/admin/project_groups/new?loan_id=#{@loanId}", (html) =>
+
+    dialog_url =  "/admin/project_groups/new?loan_id=#{@loanId}"
+    if project_group_id
+      dialog_url += "&parent_id=#{project_group_id}"
+
+    $.get dialog_url, (html) =>
       MS.loadingIndicator.hide()
       @replaceContent(html)
       @$el.modal('show')
