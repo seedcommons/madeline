@@ -2,16 +2,21 @@
 class BreakevenTableQuestion
   # Expects JSON input like this:
   # {
-  #   "products": [
-  #     { "name": "Product 1", "description": "Description", "unit": "Widgets", "price": 100, "cost": 50, "quantity": 800 },
-  #     { "name": "Product 2", "description": "Description", "unit": "Stamp books", "price": 200, "cost": 75, "quantity": 1000 }
+  #   'products': [
+  #     { 'name': 'Product 1', 'description': 'Description', 'unit': 'Widgets', 'price': 100, 'cost': 50, 'quantity': 800 },
+  #     { 'name': 'Product 2', 'description': 'Description', 'unit': 'Stamp books', 'price': 120, 'cost': 60, 'quantity': 300 },
+  #     { 'name': 'Product 3', 'description': 'Description', 'unit': 'Flin Flons', 'price': 150, 'cost': 70, 'quantity': 100 },
   #   ],
-  #   "periods": 4,
-  #   "unit": "months",
-  #   "fixed_costs": [
-  #     { "name": "Rent", "amount": 15000 },
-  #     { "name": "Stamps", "amount": 2.25 }
-  #   ]
+  #   'fixed_costs': [
+  #     { 'name': 'Rent', 'amount': 1_5000 },
+  #     { 'name': 'Worker owners', 'amount': 28_000.0 },
+  #     { 'name': 'Employees', 'amount': 10_000.0 },
+  #     { 'name': 'Sales', 'amount': 10_000 },
+  #     { 'name': 'Utilities', 'amount': 2_000.0 },
+  #     { 'name': 'Insurance', 'amount': 1_000.0 },
+  #   ],
+  #   'periods': 4,
+  #   'units': 'Months',
   # }
   def initialize(breakeven)
     @breakeven = breakeven
@@ -20,37 +25,66 @@ class BreakevenTableQuestion
   # Returns a ruby hash like this:
   # {
   #   revenue: [
-  #     { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
-  #     { name: 'Product 2', quantity: 300, amount: 120, total: 36_000 },
-  #     { name: 'Product 3', quantity: 100, amount: 150, total: 15_000 },
-  #   ],
-  #   revenue_rampup: [
-  #     { name: 'Product 1', quantity: 800, amount: 100, total: 80_000 },
-  #     { name: 'Product 2', quantity: 300, amount: 120, total: 36_000 },
-  #     { name: 'Product 3', quantity: 100, amount: 150, total: 15_000 },
+  #     { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, rampup: [
+  #       { quantity: 200.0, total: 20_000.0 },
+  #       { quantity: 400.0, total: 40_000.0 },
+  #       { quantity: 600.0, total: 60_000.0 },
+  #       { quantity: 800.0, total: 80_000.0 },
+  #     ] },
+  #     { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0, rampup: [
+  #       { quantity: 75.0, total: 9_000.0 },
+  #       { quantity: 150.0, total: 18_000.0 },
+  #       { quantity: 225.0, total: 27_000.0 },
+  #       { quantity: 300.0, total: 36_000.0 },
+  #     ] },
+  #     { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0, rampup: [
+  #       { quantity: 25.0, total: 3_750.0 },
+  #       { quantity: 50.0, total: 7_500.0 },
+  #       { quantity: 75.0, total: 11_250.0 },
+  #       { quantity: 100.0, total: 15_000.0 },
+  #     ] },
   #   ],
   #   total_revenue: 131_000,
+  #   total_revenue_rampup: [3_2750, 65_500, 98_250, 131_000],
   #   cogs: [
-  #     { name: 'Product 1', quantity: 800, amount: 50, total: 40_000 },
-  #     { name: 'Product 2', quantity: 300, amount: 60, total: 18_000 },
-  #     { name: 'Product 3', quantity: 100, amount: 70, total: 7_000 },
+  #     { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, rampup: [
+  #       { quantity: 200.0, total: 10_000.0 },
+  #       { quantity: 400.0, total: 20_000.0 },
+  #       { quantity: 600.0, total: 30_000.0 },
+  #       { quantity: 800.0, total: 40_000.0 },
+  #     ] },
+  #     { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0, rampup: [
+  #       { quantity: 75.0, total: 4_500.0 },
+  #       { quantity: 150.0, total: 9_000.0 },
+  #       { quantity: 225.0, total: 13_500.0 },
+  #       { quantity: 300.0, total: 18_000.0 },
+  #     ] },
+  #     { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0, rampup: [
+  #       { quantity: 25.0, total: 1_750.0 },
+  #       { quantity: 50.0, total: 3_500.0 },
+  #       { quantity: 75.0, total: 5_250.0 },
+  #       { quantity: 100.0, total: 7_000.0 },
+  #     ] },
   #   ],
   #   total_cogs: 65_000,
+  #   total_cogs_rampup: [16_250, 32_500, 48_750, 65_000],
   #   gross_margin: 66_000,
+  #   gross_margin_rampup: [16_500, 33_000, 49_500, 66_000],
   #   fixed_costs: [
-  #     { name: "Rent", amount: 15_000 },
-  #     { name: "Worker owners", amount: 28_000 },
-  #     { name: "Employees", amount: 10_000 },
-  #     { name: "Sales", amount: 10_000 },
-  #     { name: "Utilities", amount: 2_000 },
-  #     { name: "Insurance", amount: 1_000 },
+  #     { name: 'Rent', amount: 15_000.0 },
+  #     { name: 'Worker owners', amount: 28_000.0 },
+  #     { name: 'Employees', amount: 10_000.0 },
+  #     { name: 'Sales', amount: 10_000 },
+  #     { name: 'Utilities', amount: 2_000.0 },
+  #     { name: 'Insurance', amount: 1_000.0 },
   #   ],
   #   total_fixed_costs: 66_000,
+  #   total_fixed_costs_rampup: [66_000, 66_000, 66_000, 66_000],
   #   net_margin: 0,
+  #   net_margin_rampup: [-49_500, -33_000, -16_500, 0],
+  #   periods: 4,
+  #   units: 'Months'
   # }
-
-  # def rampup_report
-
   def report
     return if blank?
 
