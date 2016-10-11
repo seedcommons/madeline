@@ -9,6 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   events:
     'click .timeline-action.new': 'newGroup'
+    'click #project-group-menu [data-action="edit"]': 'editGroup'
     'click .project-group .fa-cog': 'openGroupMenu'
 
   refresh: ->
@@ -21,6 +22,13 @@ class MS.Views.TimelineTableView extends Backbone.View
   newGroup: (e) ->
     e.preventDefault()
     @modal.show()
+
+  editGroup: (e) ->
+    e.preventDefault()
+
+    $project_group = $(e.target).closest(".project-group")
+    project_group_id = $project_group.data("action-key")
+    @modal.edit(project_group_id)
 
   openGroupMenu: (e) ->
     button = e.currentTarget

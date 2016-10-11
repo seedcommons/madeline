@@ -389,6 +389,7 @@ es:
 
   project_group:
     add: "Translate Me"
+    edit: "Translate Me"
 
   user:
     account: "Cuenta"

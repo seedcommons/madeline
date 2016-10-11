@@ -5,7 +5,7 @@
 *wrapper_tag
   / The root group is not actually displayed
   - unless entry.root?
-    td.project-group rowspan="#{row_span}" colspan="#{column_span}"
+    td.project-group data-action-key=entry.id rowspan="#{row_span}" colspan="#{column_span}"
       = entry.summary
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"

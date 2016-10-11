@@ -23,6 +23,26 @@ class Admin::ProjectGroupsController < Admin::AdminController
     end
   end
 
+  def update
+    @entry = ProjectGroup.find(params[:id])
+    authorize @entry
+
+    @entry.update(project_group_params)
+
+    if @entry.save
+      render nothing: true
+    else
+      render_modal_partial(status: 422)
+    end
+  end
+
+  def edit
+    @entry = ProjectGroup.find(params[:id])
+    authorize @entry
+
+    render_modal_partial
+  end
+
   private
 
   def render_modal_partial(status: 200)

@@ -18,6 +18,13 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
       @replaceContent(html)
       @$el.modal('show')
 
+  edit: (project_group_id)->
+    MS.loadingIndicator.show()
+    $.get "/admin/project_groups/#{project_group_id}/edit", (html) =>
+      MS.loadingIndicator.hide()
+      @replaceContent(html)
+      @$el.modal('show')
+
   close: ->
     @$el.modal('hide')
 
