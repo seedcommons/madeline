@@ -14,7 +14,7 @@ class MS.Views.LoanTabView extends Backbone.View
   events: ->
     'shown.bs.tab .calendar-tab': 'openCalendar'
     'shown.bs.tab .timeline-tab': 'loadSteps'
-    'shown.bs.tab .timeline-table-tab': 'loadTimeline'
+    'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
     'shown.bs.tab .questions-tab': 'loadQuestionnaires'
 
   openCalendar: (e) ->
