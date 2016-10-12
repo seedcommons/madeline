@@ -1,9 +1,12 @@
 class Admin::ProjectGroupsController < Admin::AdminController
   include TranslationSaveable
 
+  before_action :find_timeline_entry, only: [:edit, :update]
+
   def new
     @loan = Loan.find(params[:loan_id])
     @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id]
+
     @entry = ProjectGroup.new(project: @loan)
     @entry.parent = @parent_group
     authorize @entry
@@ -17,8 +20,9 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
     @loan = @entry.project
 
-    if project_group_params[:parent_id] && project_group_params[:parent_id].present?
-      @entry.parent = ProjectGroup.find(project_group_params[:parent_id])
+    parent_id = project_group_params[:parent_id]
+    if parent_id && parent_id.present?
+      @entry.parent = ProjectGroup.find(parent_id)
     else
       @entry.parent = @loan.root_timeline_entry
     end
@@ -31,12 +35,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
   end
 
   def update
-    @entry = ProjectGroup.find(params[:id])
-    authorize @entry
-
-    @entry.update(project_group_params)
-
-    if @entry.save
+    if @entry.update(project_group_params)
       render nothing: true
     else
       render_modal_partial(status: 422)
@@ -44,9 +43,6 @@ class Admin::ProjectGroupsController < Admin::AdminController
   end
 
   def edit
-    @entry = ProjectGroup.find(params[:id])
-    authorize @entry
-
     render_modal_partial
   end
 
@@ -60,4 +56,10 @@ class Admin::ProjectGroupsController < Admin::AdminController
   def project_group_params
     params.require(:project_group).permit([:project_id, :project_type, :parent_id] + translation_params(:summary))
   end
+
+  def find_timeline_entry
+    @entry = ProjectGroup.find(params[:id])
+    authorize @entry
+  end
+
 end
