@@ -8,5 +8,7 @@ header.timeline-header
     .item.top-actions
       = link_to t(".new_group"), new_admin_project_group_path(link_params),
         class: 'btn btn-default timeline-action new'
+      = link_to t(".new_step"), new_admin_project_step_path(link_params),
+        class: 'btn btn-default timeline-action'
 
     .clearfix
