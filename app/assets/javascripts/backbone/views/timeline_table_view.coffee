@@ -5,10 +5,11 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
-    @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
+    @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
 
   events:
-    'click .timeline-action.new': 'newGroup'
+    'click .timeline-action[data-action="new-group"]': 'newGroup'
+    # 'click .timeline-action[data-action="new-step"]': 'newStep'
     'click .project-group .fa-cog': 'openGroupMenu'
 
   refresh: ->
@@ -20,7 +21,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newGroup: (e) ->
     e.preventDefault()
-    @modal.show()
+    @groupModal.show()
 
   openGroupMenu: (e) ->
     button = e.currentTarget
