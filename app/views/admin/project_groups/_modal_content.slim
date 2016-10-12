@@ -13,6 +13,9 @@ div.modal-body
 
     = error_notification(f, dont_show_default: true)
 
+    - if @entry.parent.present?
+      = f.association :parent, label_method: :summary, disabled: true
+
     = render 'admin/project_groups/translatable', media: @entry, f: f
 
 div.modal-footer
