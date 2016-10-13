@@ -11,6 +11,6 @@
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
   td = entry.try(:admin_status)
-  td: span.dropdown: i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
+  td: span.dropdown data-menu="step": i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
   / Please update timeline_table_step_column_count in LoansHelper if adding/removing columns here.
