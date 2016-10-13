@@ -27,12 +27,13 @@
   }
 
   .timeline-header {
-    .item {
-      padding-bottom: 15px;
-    }
-
     .top-actions {
       float: right;
+      padding-bottom: 15px;
+
+      a {
+        margin-left: .75em;
+      }
     }
   }
 
