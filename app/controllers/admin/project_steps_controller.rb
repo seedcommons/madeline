@@ -22,8 +22,12 @@ class Admin::ProjectStepsController < Admin::AdminController
     @loan = Loan.find(params[:loan_id])
     @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
     authorize @step
-    params[:context] = "timeline" unless params[:context]
-    render_step_partial(:form)
+    if params[:context] == "timeline_table"
+      render_step_form(:form)
+    else
+      params[:context] = "timeline" unless params[:context]
+      render_step_partial(:form)
+    end
   end
 
   def show
@@ -123,6 +127,14 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def render_step_partial(mode)
     render partial: "/admin/project_steps/project_step", locals: {
+      step: @step,
+      mode: mode,
+      context: params[:context]
+    }
+  end
+
+  def render_step_form(mode)
+    render partial: "/admin/project_steps/form", locals: {
       step: @step,
       mode: mode,
       context: params[:context]
