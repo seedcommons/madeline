@@ -19,12 +19,16 @@ module Legacy
       end
     end
 
+    def loan
+      @loan ||= Loan.where(id: project_id).first
+    end
+
     def loan_id
-      if Loan.where(id: project_id).count < 1
+      if loan.blank?
         $stderr.puts "ProjectEvent[#{id}] - Loan #{project_id} not found"
         nil
       else
-        project_id
+        loan.id
       end
     end
 
@@ -62,9 +66,8 @@ module Legacy
     end
 
     def find_or_create_parent_group
-      data = migration_data
-      return unless Loan.where(id: data[:project_id]).count > 0
-      ProjectGroup.find_or_create_by(project_type: "Loan", project_id: data[:project_id])
+      return unless loan
+      ProjectGroup.find_or_create_by(project_type: "Loan", project_id: loan.id)
     end
 
     def migrate_group
