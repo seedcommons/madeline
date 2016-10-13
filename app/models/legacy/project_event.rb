@@ -53,7 +53,18 @@ module Legacy
     def migrate_step
       data = migration_step_data
       puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
-      ::ProjectStep.create(data)
+      step = ::ProjectStep.create(data)
+      step.parent = find_or_create_parent_group
+      step.save!
+      step
+    rescue StandardError => e
+      $stderr.puts "#{step.class.name}[#{id}] error migrating step, could not find loan #{data[:project_id]}: #{e} - skipping"
+    end
+
+    def find_or_create_parent_group
+      data = migration_data
+      return unless Loan.where(id: data[:project_id]).count > 0
+      ProjectGroup.find_or_create_by(project_type: "Loan", project_id: data[:project_id])
     end
 
     def migrate_group
