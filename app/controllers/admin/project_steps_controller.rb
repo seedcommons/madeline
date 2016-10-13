@@ -23,7 +23,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
     authorize @step
     if params[:context] == "timeline_table"
-      render_step_form(:form)
+      render_step_form
     else
       params[:context] = "timeline" unless params[:context]
       render_step_partial(:form)
@@ -133,10 +133,9 @@ class Admin::ProjectStepsController < Admin::AdminController
     }
   end
 
-  def render_step_form(mode)
+  def render_step_form
     render partial: "/admin/project_steps/form", locals: {
       step: @step,
-      mode: mode,
       context: params[:context]
     }
   end
