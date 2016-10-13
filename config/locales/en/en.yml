@@ -412,6 +412,8 @@ en:
   project_group:
     add: "New Group"
     edit: "Edit Group"
+    delete: "Delete Group"
+    delete_confirmation: Are you sure you want to remove this group?
 
   user:
     account: "Account"

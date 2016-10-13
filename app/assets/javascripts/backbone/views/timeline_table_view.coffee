@@ -12,6 +12,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click .project-group .fa-cog': 'openGroupMenu'
+    'confirm:complete': 'deleteConfirm'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -42,3 +43,15 @@ class MS.Views.TimelineTableView extends Backbone.View
     button = e.currentTarget
     menu = $(button).closest('.timeline-table').find('#project-group-menu')
     $(button).after(menu)
+
+  deleteConfirm: (e, response) ->
+    e.preventDefault()
+
+    $project_group = $(e.target).closest(".project-group")
+    project_group_id = $project_group.data("action-key")
+    url = "/admin/project_groups/#{project_group_id}"
+
+    MS.loadingIndicator.show()
+    $.post url, {'_method': 'DELETE'}, (html) =>
+      MS.loadingIndicator.hide()
+      @refresh()

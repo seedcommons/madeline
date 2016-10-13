@@ -1,7 +1,7 @@
 class Admin::ProjectGroupsController < Admin::AdminController
   include TranslationSaveable
 
-  before_action :find_timeline_entry, only: [:edit, :update]
+  before_action :find_timeline_entry, only: [:edit, :update, :destroy]
 
   def new
     @loan = Loan.find(params[:loan_id])
@@ -44,6 +44,14 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def edit
     render_modal_partial
+  end
+
+  def destroy
+    if @entry.destroy
+      render nothing: true
+    else
+      render_modal_partial(status: 422)
+    end
   end
 
   private
