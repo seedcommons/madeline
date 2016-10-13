@@ -20,3 +20,11 @@ section.timeline-table
     li: a href="#" data-action="add-child-step" = t(".add_child_step")
     li: a href="#" data-action="edit" = t(:edit)
     li: a href="#" data-action="delete" = t(:delete)
+
+  ul.dropdown-menu id="project-step-menu"
+    li: a href="#" data-action="edit" = t(:edit)
+    li: a href="#" data-action="duplicate" Duplicate
+    li: a href="#" data-action="delete" = t(:delete)
+    li: a href="#" data-action="add-dependent-step" Add Dependent Step
+    li: a href="#" Add Log
+    li: a href="#" View Logs
