@@ -5,7 +5,7 @@ class MS.Views.TimelineView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
 
-    new MS.Views.TimelineSelectStepsView()
+    new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
     new MS.Views.TimelineBatchActionsView()
     new MS.Views.TimelineHeaderView()
 

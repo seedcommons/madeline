@@ -6,6 +6,7 @@ class MS.Views.TimelineTableView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @modal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
+    new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
 
   events:
     'click .timeline-action.new': 'newGroup'

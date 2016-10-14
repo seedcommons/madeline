@@ -1,6 +1,6 @@
 class MS.Views.TimelineSelectStepsView extends Backbone.View
 
-  el: 'body'
+  el: '#timeline-header'
 
   events: (params) ->
     'change .select-step': 'rememberChecked'
@@ -9,10 +9,9 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
     'click #uncheck-all-ctrl': 'uncheckAll'
     'click #check-completed-ctrl': 'checkCompleted'
     'click #check-incomplete-ctrl': 'checkIncomplete'
- 
+
   checkAll: (e) ->
-    $control = $(e.currentTarget)
-    $inputs = $control.closest('.timeline').find('.select-step')
+    $inputs = @$el.find('.select-step')
     @.checkItems($inputs)
 
     $masterCheckbox = $('#choose-all')
@@ -21,8 +20,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
     @.rememberChecked(e)
 
   uncheckAll: (e) ->
-    $control = $(e.currentTarget)
-    $inputs = $control.closest('.timeline').find('.select-step')
+    $inputs = @$el.find('.select-step')
     @.uncheckItems($inputs)
 
     $masterCheckbox = $('#choose-all')
@@ -33,8 +31,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   checkCompleted: (e) ->
     @.uncheckAll(e)
 
-    $control = $(e.currentTarget)
-    $inputs = $control.closest('.timeline').find('.completed-item')
+    $inputs = @$el.find('.completed-item')
     @.checkItems($inputs)
 
     @.rememberChecked(e)
@@ -42,8 +39,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   checkIncomplete: (e) ->
     @.uncheckAll(e)
 
-    $control = $(e.currentTarget)
-    $inputs = $control.closest('.timeline').find('.incomplete-item')
+    $inputs = @$el.find('.incomplete-item')
     @.checkItems($inputs)
 
     @.rememberChecked(e)
@@ -57,7 +53,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   # Check or uncheck all items with master checkbox
   controlAll: (e) ->
     control = e.currentTarget
-    $inputs = $(control).closest('.timeline').find('.select-step')
+    $inputs = @$el.find('.select-step')
 
     if (control.checked)
       @.checkItems($inputs)
