@@ -45,5 +45,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     stepId = $(item).closest('.dropdown').attr('data-step-id')
     $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
     .done =>
+      @refresh()
     .fail (response) ->
       MS.alert(response.responseText)
