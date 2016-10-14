@@ -13,6 +13,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click .project-group .fa-cog': 'openGroupMenu'
     'click [data-menu="step"] .fa-cog': 'openStepMenu'
+    'click #project-step-menu [data-action="delete"]': 'deleteStep'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -38,3 +39,11 @@ class MS.Views.TimelineTableView extends Backbone.View
     button = e.currentTarget
     menu = $(button).closest('.timeline-table').find('#project-step-menu')
     $(button).after(menu)
+
+  deleteStep: (e) ->
+    item = e.currentTarget
+    stepId = $(item).closest('.dropdown').attr('data-step-id')
+    $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
+    .done =>
+    .fail (response) ->
+      MS.alert(response.responseText)
