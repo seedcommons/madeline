@@ -13,7 +13,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click .project-group .fa-cog': 'openGroupMenu'
     'click [data-menu="step"] .fa-cog': 'openStepMenu'
-    'click #project-step-menu [data-action="delete"]': 'deleteStep'
+    'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
 
   refresh: ->
     MS.loadingIndicator.show()
