@@ -12,6 +12,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click .project-group .fa-cog': 'openGroupMenu'
+    'click .project-group .disabled a': 'disableDeleteLink'
+    'click .project-group a[data-action="delete"]': 'disableDeleteLink'
     'confirm:complete': 'deleteConfirm'
 
   refresh: ->
@@ -55,3 +57,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $.post url, {'_method': 'DELETE'}, (html) =>
       MS.loadingIndicator.hide()
       @refresh()
+
+  # Disable the links to prevent clearing of the filter
+  disableDeleteLink: (e) ->
+    e.preventDefault()
