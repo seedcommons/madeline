@@ -22,7 +22,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
 
   checkIncomplete: () ->
     $inputs = @$el.find('.incomplete-item')
-    @.toggleSubset(false, $inputs)
+    @.toggleSubset(true, $inputs)
 
   toggleAll: (isChecked) ->
     $inputs = @$el.find('.select-step')
@@ -34,7 +34,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   toggleSubset: (isChecked, $inputs) ->
     @.uncheckAll()
 
-    @.toggle($inputs)
+    @.toggle(isChecked, $inputs)
 
   toggle: (isChecked, $inputs) ->
     if (isChecked)
