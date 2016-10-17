@@ -11,36 +11,36 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
     'click #check-incomplete-ctrl': 'checkIncomplete'
 
   checkAll: (e) ->
-    $inputs = @$el.find('.select-step')
-    @.checkItems($inputs)
-
-    $masterCheckbox = $('#choose-all')
-    @.checkItems($masterCheckbox)
-
-    @.rememberChecked(e)
+    @.toggleAll(e, true)
 
   uncheckAll: (e) ->
-    $inputs = @$el.find('.select-step')
-    @.uncheckItems($inputs)
-
-    $masterCheckbox = $('#choose-all')
-    @.uncheckItems($masterCheckbox)
-
-    @.rememberChecked(e)
+    @.toggleAll(e, false)
 
   checkCompleted: (e) ->
-    @.uncheckAll(e)
-
     $inputs = @$el.find('.completed-item')
-    @.checkItems($inputs)
-
-    @.rememberChecked(e)
+    @.toggleSubset(e, true, $inputs)
 
   checkIncomplete: (e) ->
+    $inputs = @$el.find('.incomplete-item')
+    @.toggleSubset(e, false, $inputs)
+
+  toggleAll: (e, isChecked) ->
+    $inputs = @$el.find('.select-step')
+    @.toggle(e, isChecked, $inputs)
+
+    $masterCheckbox = @$el.find('#choose-all')
+    @.toggle(e, isChecked, $masterCheckbox)
+
+  toggleSubset: (e, isChecked, $inputs) ->
     @.uncheckAll(e)
 
-    $inputs = @$el.find('.incomplete-item')
-    @.checkItems($inputs)
+    @.toggle(e, $inputs)
+
+  toggle: (e, isChecked, $inputs) ->
+    if (isChecked)
+      @.checkItems($inputs)
+    else
+      @.uncheckItems($inputs)
 
     @.rememberChecked(e)
 
@@ -55,12 +55,7 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
     control = e.currentTarget
     $inputs = @$el.find('.select-step')
 
-    if (control.checked)
-      @.checkItems($inputs)
-    else
-      @.uncheckItems($inputs)
-
-    @.rememberChecked(e)
+    @.toggle(e, control.checked, $inputs)
 
   rememberChecked: (e) ->
     ids = []
