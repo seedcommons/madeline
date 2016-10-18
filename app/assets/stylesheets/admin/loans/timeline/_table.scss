@@ -48,12 +48,20 @@
   }
 
   .draft {
-    font-style: italic;
-    color: $gray3;
+    td {
+      font-style: italic;
+      color: $gray3;
+    }
   }
 
   .completed {
-    background: $gray2;
+    td {
+      background: $gray2;
+    }
+
+    .spacer {
+      background: $white;
+    }
   }
 
   .icon, .summary {

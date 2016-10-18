@@ -4,38 +4,34 @@
 - completed = entry.completed? ? "completed" : ""
 - classes = "#{completed} #{draft}"
 
-*wrapper_tag
+*wrapper_tag class== classes
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
-  td class="#{classes}"
-    input.select-step type="checkbox" class=(entry.completed? ? "completed-item" : "incomplete-item") data-id=entry.id
+  td: input.select-step type="checkbox" class==completed data-id=entry.id
 
-  td class="#{classes}"
+  td
     .icon
       - if entry.milestone?
         i.fa.fa-fw.fa-flag-o
       - else
         i.fa.fa-fw.fa-calendar
     .summary = entry.summary
-  td class="#{classes}"
-    = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
-  td class="#{classes}"
-    = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
-  td class="#{classes}"
+
+  td = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
+  td = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
+
+  td
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
 
   - if entry.is_finalized
-    td class="#{classes}" style="background: #{entry.timeline_background_color};"
-      = entry.try(:admin_status)
+    td style="background: #{entry.timeline_background_color};" = entry.try(:admin_status)
   - else
-    td class="#{classes}" = t("project_step.timeline_table.draft")
+    td = t("project_step.timeline_table.draft")
 
-  td class="#{classes}"
-
-  td class="#{classes}"
-    i.fa.fa-cog aria-hidden="true"
+  td
+  td: i.fa.fa-cog aria-hidden="true"
 
   / Please update timeline_table_step_column_count in TimelineHelper if adding/removing columns here.
