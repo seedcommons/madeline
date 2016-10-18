@@ -120,45 +120,43 @@ class BreakevenTableQuestion
 
   def revenue
     @revenue ||= data_hash[:products].map do |product|
-      [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
-        {
-          name: product[:name],
-          quantity: product[:quantity],
-          amount: product[:price],
-          total: product[:price] * product[:quantity],
-        }.merge( rampup(product[:quantity], product[:price]) )
+      {
+        name: product[:name],
+        quantity: product[:quantity],
+        amount: product[:price],
+        total: product[:price] * product[:quantity],
+      }.merge(rampup(product[:quantity], product[:price]))
     end
   end
 
   def total_revenue
-    @total_revenue ||= revenue.map { |i| i[:total] }.sum
+    @total_revenue ||= revenue.sum { |i| i[:total] }
   end
 
   def total_revenue_rampup
     @total_revenue_rampup ||= (1..periods).map do |period|
-      (total_revenue/periods) * period
+      (total_revenue / periods) * period
     end
   end
 
   def cogs
     @cogs ||= data_hash[:products].map do |product|
-      [:quantity, :price, :cost].map { |key| product[key] = product[key].to_f }
-        {
-          name: product[:name],
-          quantity: product[:quantity],
-          amount: product[:cost],
-          total: product[:cost] * product[:quantity],
-        }.merge( rampup(product[:quantity], product[:cost]) )
+      {
+        name: product[:name],
+        quantity: product[:quantity],
+        amount: product[:cost],
+        total: product[:cost] * product[:quantity],
+      }.merge(rampup(product[:quantity], product[:cost]))
     end
   end
 
   def total_cogs
-    @total_cogs ||= cogs.map { |i| i[:total] }.sum
+    @total_cogs ||= cogs.sum { |i| i[:total] }
   end
 
   def total_cogs_rampup
     @total_cogs_rampup ||= (1..periods).map do |period|
-      (total_cogs/periods) * period
+      (total_cogs / periods) * period
     end
   end
 
@@ -168,7 +166,7 @@ class BreakevenTableQuestion
 
   def gross_margin_rampup
     @gross_margin_rampup ||= (1..periods).map do |period|
-      (gross_margin/periods) * period
+      (gross_margin / periods) * period
     end
   end
 
@@ -179,13 +177,11 @@ class BreakevenTableQuestion
   end
 
   def total_fixed_costs
-    @total_fixed_costs ||= fixed_costs.map { |i| i[:amount] }.sum
+    @total_fixed_costs ||= fixed_costs.sum { |i| i[:amount] }
   end
 
   def total_fixed_costs_rampup
-    (1..periods).map do |period|
-      total_fixed_costs
-    end
+    [total_fixed_costs] * periods
   end
 
   def net_margin
@@ -194,7 +190,7 @@ class BreakevenTableQuestion
 
   def net_margin_rampup
     (1..periods).map do |period|
-      gross_margin_rampup[period-1] - total_fixed_costs
+      gross_margin_rampup[period - 1] - total_fixed_costs
     end
   end
 
@@ -215,7 +211,7 @@ class BreakevenTableQuestion
 
     rampup = (1..periods).map do |period|
       base_quantity = total_quantity / periods
-      quantity = (base_quantity * period)
+      quantity = base_quantity * period
       total = quantity * price
 
       { quantity: quantity, total: total }
