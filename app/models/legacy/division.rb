@@ -10,6 +10,18 @@ module Legacy
 
     include LegacyModel
 
+    # Find division by country - manual mapping from values in Cooperatives table
+    def self.from_country(country)
+      case country
+      when "Argentina" then find(2)
+      when "Nicaragua" then find(7)
+      when "United States" then find(11)
+      when "USA" then find(11)
+      when "WORCs" then find(14)
+      else raise "Coop with unexpected country value: #{country}"
+      end
+    end
+
     def ensure_country
       # In legacy DB, `country` is a string field containing a country name
       # Sets country to US when not found
