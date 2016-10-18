@@ -88,7 +88,19 @@ class BreakevenTableQuestion
   def report
     return if blank?
 
-    report = {
+    return report_hash unless periods > 1
+    report_hash.merge(rampup_hash)
+  end
+
+  def blank?
+    return true if @breakeven.blank?
+    data_hash[:products].blank? && data_hash[:fixed_costs].blank?
+  end
+
+  private
+
+  def report_hash
+    {
       revenue: revenue,
       total_revenue: total_revenue,
       cogs: cogs,
@@ -100,14 +112,16 @@ class BreakevenTableQuestion
       periods: periods,
       units: units,
     }
-
-    return report unless periods > 1
-    report.merge(rampup_report)
   end
 
-  def blank?
-    return true if @breakeven.blank?
-    data_hash[:products].blank? && data_hash[:fixed_costs].blank?
+  def rampup_hash
+    {
+      total_revenue_rampup: total_revenue_rampup,
+      total_cogs_rampup: total_cogs_rampup,
+      gross_margin_rampup: gross_margin_rampup,
+      total_fixed_costs_rampup: total_fixed_costs_rampup,
+      net_margin_rampup: net_margin_rampup,
+    }
   end
 
   def revenue
@@ -119,18 +133,6 @@ class BreakevenTableQuestion
         total: product[:price] * product[:quantity],
       }.merge(rampup(product[:quantity], product[:price]))
     end
-  end
-
-  private
-
-  def rampup_report
-    {
-      total_revenue_rampup: total_revenue_rampup,
-      total_cogs_rampup: total_cogs_rampup,
-      gross_margin_rampup: gross_margin_rampup,
-      total_fixed_costs_rampup: total_fixed_costs_rampup,
-      net_margin_rampup: net_margin_rampup,
-    }
   end
 
   def total_revenue
