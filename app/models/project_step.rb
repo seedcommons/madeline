@@ -221,16 +221,16 @@ class ProjectStep < TimelineEntry
   end
 
   # Generate a CSS color based on the status and lateness of the step
-  def color
+  def color(opacity = 1)
     # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
     # error here even though it should not have been able to reach that part of the expression
     # when the actual_end_date was not present, so defensively adding the 'days_late' nil checks.
     if completed? && days_late && days_late <= 0
       fraction = -days_late / SUPER_EARLY_PERIOD
-      color_between(COLORS[:on_time], COLORS[:super_early], fraction)
+      color_between(COLORS[:on_time], COLORS[:super_early], fraction, opacity)
     elsif days_late && days_late > 0
       fraction = days_late / SUPER_LATE_PERIOD
-      color_between(COLORS[:barely_late], COLORS[:super_late], fraction)
+      color_between(COLORS[:barely_late], COLORS[:super_late], fraction, opacity)
     else # incomplete and not late (use default color)
       nil
     end
@@ -242,6 +242,10 @@ class ProjectStep < TimelineEntry
 
   def background_color
     color
+  end
+
+  def timeline_background_color
+    color(0.5)
   end
 
   def scheduled_bg
@@ -359,7 +363,7 @@ class ProjectStep < TimelineEntry
   end
 
   # start and finish are each CSS color strings in hsl format
-  def color_between(start, finish, fraction = 0.5)
+  def color_between(start, finish, fraction = 0.5, opacity = 1)
     # hsl to array
     start = start.scan(/\d+/).map(&:to_f)
     finish = finish.scan(/\d+/).map(&:to_f)
@@ -368,6 +372,6 @@ class ProjectStep < TimelineEntry
     fraction = 1 if fraction > 1
 
     r = start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
-    "hsl(#{r[0]}, #{r[1]}%, #{r[2]}%)"
+    "hsla(#{r[0]}, #{r[1]}%, #{r[2]}%, #{opacity})"
   end
 end
