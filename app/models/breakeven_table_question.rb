@@ -101,16 +101,8 @@ class BreakevenTableQuestion
       units: units,
     }
 
-    rampup = {
-      total_revenue_rampup: total_revenue_rampup,
-      total_cogs_rampup: total_cogs_rampup,
-      gross_margin_rampup: gross_margin_rampup,
-      total_fixed_costs_rampup: total_fixed_costs_rampup,
-      net_margin_rampup: net_margin_rampup,
-    }
-
     return report unless periods > 1
-    report.merge(rampup)
+    report.merge(rampup_report)
   end
 
   def blank?
@@ -127,6 +119,18 @@ class BreakevenTableQuestion
         total: product[:price] * product[:quantity],
       }.merge(rampup(product[:quantity], product[:price]))
     end
+  end
+
+  private
+
+  def rampup_report
+    {
+      total_revenue_rampup: total_revenue_rampup,
+      total_cogs_rampup: total_cogs_rampup,
+      gross_margin_rampup: gross_margin_rampup,
+      total_fixed_costs_rampup: total_fixed_costs_rampup,
+      net_margin_rampup: net_margin_rampup,
+    }
   end
 
   def total_revenue
