@@ -29,23 +29,20 @@ class MS.Views.TimelineTableView extends Backbone.View
   newChildGroup: (e) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest('.project-group')
-    project_group_id = $project_group.data('action-key')
-    @modal.show(project_group_id)
+    id = $(e.target).closest('.project-group').data('id')
+    @modal.show(id)
 
   editGroup: (e) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest('.project-group')
-    project_group_id = $project_group.data('action-key')
-    @modal.edit(project_group_id)
+    id = $(e.target).closest('.project-group').data('id')
+    @modal.edit(id)
 
   openGroupMenu: (e) ->
     $menu = $(e.currentTarget).closest('.timeline-table').find('#project-group-menu')
-    $project_group = $(e.currentTarget).closest('.project-group')
     $delete_button = $('#project-group-menu a[data-action="delete"]').closest('li')
 
-    has_children = $project_group.hasClass('with-children')
+    has_children = $(e.currentTarget).closest('.project-group').hasClass('with-children')
     if (has_children)
       $delete_button.addClass('disabled')
     else
@@ -56,12 +53,10 @@ class MS.Views.TimelineTableView extends Backbone.View
   deleteConfirm: (e, response) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest('.project-group')
-    project_group_id = $project_group.data('action-key')
-    url = "/admin/project_groups/#{project_group_id}"
+    id = $(e.target).closest('.project-group').data('id')
 
     MS.loadingIndicator.show()
-    $.post url, {'_method': 'DELETE'}, (html) =>
+    $.post  "/admin/project_groups/#{id}", {'_method': 'DELETE'}, (html) =>
       MS.loadingIndicator.hide()
       @refresh()
 
