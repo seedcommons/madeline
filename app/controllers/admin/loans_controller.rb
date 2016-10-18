@@ -45,10 +45,17 @@ class Admin::LoansController < Admin::AdminController
     prep_form_vars
   end
 
+  # DEPRECATED - please use #timeline
   def steps
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render layout: false
+    render partial: "admin/loans/timeline/list"
+  end
+
+  def timeline
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
+    render partial: "admin/loans/timeline/main"
   end
 
   def questionnaires
@@ -68,7 +75,7 @@ class Admin::LoansController < Admin::AdminController
       @questions_json[attrib] = @root_questions[attrib].map { |i| LoanQuestionSerializer.new(i, loan: @loan) }.to_json
     end
 
-    render layout: false
+    render partial: "admin/loans/questionnaires/main"
   end
 
   def update

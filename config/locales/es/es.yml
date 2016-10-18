@@ -106,7 +106,13 @@ es:
     labels:
       project_step_move:
         move_type: "¿Cuál Fecha?"
-        shift_subsequent: "¿Cambiar Otros/as?"
+      project_step:
+        actual_end_date: "Fecha de Finalización"
+        duration: "Duración Proyectada"
+        is_finalized: "Finalizado"
+        scheduled_duration_days: "Duración Proyectada"
+        scheduled_start_date: "Fecha Proyectada de Inicio"
+        step_type_value: "Tipo"
     options:
       person:
         owning_division_role:
@@ -146,6 +152,7 @@ es:
   project_id: "Projecto %{id}"
   back_to_loans: Regresar a Lista de Préstamos
   about_this_project: Sobre Este Proyecto
+  status: Estado
   amount: Monto
   location: Ubicación
   signing_date: Fecha de Firma
@@ -229,7 +236,6 @@ es:
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
-  status: "Estado"
   submit: "Enviar"
   update: "Actualizar"
   updated: "Actualizado"
@@ -277,6 +283,7 @@ es:
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"
+    empty_log_error: "Error: Un apunte vacío no puede ser guardado. Por favor, agregar un resumen."
     delete: "Borrar Log"
     hide_logs: "Ocultar Apuntes"
     hide_logs_n: "Ocultar (%{n}) Apuntes"
@@ -328,6 +335,7 @@ es:
       other: "Borrar Pasos"
     duplicate: "Duplicar"
     duplicate_step: "Duplicar Paso"
+    duration_days: "%{duration}d"
     edit_step: "Editar Paso"
     end: "Fin:"
     every: "Cada:"
@@ -339,10 +347,12 @@ es:
       other: "Finalizar Pasos"
     labels:
       completed: "Completado:"
+      duration: "Duración:"
       finalized: "Finalizado:"
       scheduled: "Previsto:"
+      start_date: "Fecha de Inicio:"
       status: "Estado:"
-      original_date: "Fecha Original:"
+      old_start_date: "Fecha de Inicio Anterior:"
     logs: "Apuntes"
     months: "Mes(es)"
     move: "Mover Paso"
@@ -357,6 +367,12 @@ es:
     repeat: "Repetir..."
     shift_subsequent: "¿Mover las siguientes Fechas de Completado?"
     timeline: "Línea de Tiempo"
+    timeline_table:
+      duration: "Duración"
+      end: "Fin"
+      start: "Inicio"
+      status: "Estado"
+      step: "Paso"
     status:
       completed: "Completado"
       early: "Adelantado"
@@ -370,6 +386,10 @@ es:
         other: "Cambiado %{count} veces"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
     weeks: "Semana(s)"
+
+  project_group:
+    add: "Translate Me"
+
   user:
     account: "Cuenta"
     change_password: "Cambiar Contraseña"

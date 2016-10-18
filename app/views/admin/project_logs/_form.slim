@@ -1,10 +1,9 @@
-// Using a separate div here with explicit class in case form_for becomes fields_for later.
 .log-form
   = simple_fields_for(@log) do |f|
 
     = f.hidden_field(:project_step_id)
 
-    .alert.alert-danger role="alert"
+    .alert.alert-danger.hidden.empty-log-error role="alert"
       i.fa.fa-exclamation-circle>
       = t("log.empty_log_error")
 

@@ -8,24 +8,20 @@ module Timeline
 
     MOVE_TYPES = %i(change_date mark_completed)
 
-    attr_reader :step, :log, :move_type, :shift_subsequent, :days_shifted, :context
+    attr_reader :step, :log, :move_type, :days_shifted, :context
 
     delegate :completed?, to: :step, prefix: true
-
-    alias_method :shift_subsequent?, :shift_subsequent
 
     def initialize(params = {})
       @step = params[:step]
       @log = params[:log]
       @move_type = params[:move_type] || "change_date"
-      @shift_subsequent = params[:shift_subsequent] == "1"
       @days_shifted = params[:days_shifted].to_i
       @context = params[:context]
     end
 
     def execute!
       adjust_dates if context == "calendar_drag" # Adjust already happened if context is edit date
-      do_shift if shift_subsequent?
       save_new_date_in_log
     end
 
@@ -46,14 +42,6 @@ module Timeline
         @step.actual_end_date = @step.scheduled_start_date + days_shifted
       end
       @step.save(validate: false)
-    end
-
-    def do_shift
-      date_before_move = @step.scheduled_start_date - days_shifted
-      subsequent = @step.project.timeline_entries.
-          where("scheduled_start_date >= :date AND actual_end_date IS NULL AND id != :id",
-                date: date_before_move, id: @step.id)
-      subsequent.each { |s| s.update_attribute(:scheduled_start_date, s.scheduled_start_date + days_shifted) }
     end
 
     def save_new_date_in_log

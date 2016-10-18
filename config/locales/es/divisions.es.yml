@@ -3,6 +3,7 @@ es:
     shared:
       new: "Nueva División"
       parent: "División Principal"
+      all: "Todas las Divisiones"
   admin:
     divisions:
       show:

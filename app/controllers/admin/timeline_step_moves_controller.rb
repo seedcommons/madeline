@@ -30,6 +30,6 @@ class Admin::TimelineStepMovesController < Admin::AdminController
   private
 
   def project_step_move_params
-    params.require(:timeline_step_move).permit(:move_type, :shift_subsequent, :days_shifted, :context)
+    params.require(:timeline_step_move).permit(:move_type, :days_shifted, :context)
   end
 end

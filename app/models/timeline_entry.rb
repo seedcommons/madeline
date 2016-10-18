@@ -44,9 +44,4 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project, allow_nil: true
-
-  # Gets the maximum depth of any descendant of this node.
-  def max_descendant_depth
-    leaf? ? depth : children.to_a.map(&:max_descendant_depth).max
-  end
 end
