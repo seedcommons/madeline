@@ -13,7 +13,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click .project-group .fa-cog': 'openGroupMenu'
     'click .project-group .disabled a': 'disableDeleteLink'
-    'click .project-group a[data-action="delete"]': 'disableDeleteLink'
     'confirm:complete': 'deleteConfirm'
 
   refresh: ->
@@ -30,27 +29,35 @@ class MS.Views.TimelineTableView extends Backbone.View
   newChildGroup: (e) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest(".project-group")
-    project_group_id = $project_group.data("action-key")
+    $project_group = $(e.target).closest('.project-group')
+    project_group_id = $project_group.data('action-key')
     @modal.show(project_group_id)
 
   editGroup: (e) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest(".project-group")
-    project_group_id = $project_group.data("action-key")
+    $project_group = $(e.target).closest('.project-group')
+    project_group_id = $project_group.data('action-key')
     @modal.edit(project_group_id)
 
   openGroupMenu: (e) ->
-    button = e.currentTarget
-    menu = $(button).closest('.timeline-table').find('#project-group-menu')
-    $(button).after(menu)
+    $menu = $(e.currentTarget).closest('.timeline-table').find('#project-group-menu')
+    $project_group = $(e.currentTarget).closest('.project-group')
+    $delete_button = $('#project-group-menu a[data-action="delete"]').closest('li')
+
+    has_children = $project_group.hasClass('with-children')
+    if (has_children)
+      $delete_button.addClass('disabled')
+    else
+      $delete_button.removeClass('disabled')
+
+    $(e.currentTarget).after($menu)
 
   deleteConfirm: (e, response) ->
     e.preventDefault()
 
-    $project_group = $(e.target).closest(".project-group")
-    project_group_id = $project_group.data("action-key")
+    $project_group = $(e.target).closest('.project-group')
+    project_group_id = $project_group.data('action-key')
     url = "/admin/project_groups/#{project_group_id}"
 
     MS.loadingIndicator.show()
@@ -58,6 +65,7 @@ class MS.Views.TimelineTableView extends Backbone.View
       MS.loadingIndicator.hide()
       @refresh()
 
-  # Disable the links to prevent clearing of the filter
+  # Disable the link and prevent confirm dialog
+  # when li is set to disabled.
   disableDeleteLink: (e) ->
-    e.preventDefault()
+    e.stopPropagation()

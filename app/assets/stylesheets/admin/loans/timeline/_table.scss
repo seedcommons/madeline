@@ -42,26 +42,4 @@
     margin-left: 10px;
     color: $gray4;
   }
-
-  // Delete button enabled
-  .project-group .dropdown-menu {
-    .disabled{
-      display: none;
-    }
-
-    a[data-action="delete"]{
-      display: block;
-    }
-  }
-
-  // Delete button disabled
-  .project-group.with-children .dropdown-menu {
-    .disabled{
-      display: block;
-    }
-
-    a[data-action="delete"]{
-      display: none;
-    }
-  }
 }
