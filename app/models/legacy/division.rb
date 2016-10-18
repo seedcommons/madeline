@@ -19,6 +19,8 @@ module Legacy
     def migration_data
       if id == super_division
         parent_id = ::Division.root_id
+      elsif id == 14 # WORCs division workaround
+        parent_id = 11 # La Base US
       else
         parent_id = super_division
       end
@@ -46,7 +48,10 @@ module Legacy
 
     def self.migrate_all
       puts {"divisions: #{self.count}"}
-      self.all.each &:migrate
+      # self.all.each &:migrate
+
+      # Only migrate divisions with loans (for now)
+      self.where(id: [2, 4, 7, 11, 13, 14]).each &:migrate
       ::Division.recalibrate_sequence(gap: 1)
     end
 
