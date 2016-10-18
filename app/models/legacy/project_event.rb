@@ -58,7 +58,11 @@ module Legacy
       data = migration_step_data
       puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
       step = ::ProjectStep.create(data)
+
+      # Set all step parents to root group initially. This will be overwritten at
+      # a later point, if an explicit parent is given.
       step.parent = find_or_create_parent_group
+
       step.save!
       step
     rescue StandardError => e
