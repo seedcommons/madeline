@@ -13,7 +13,7 @@ class Cooperative < ActiveRecord::Base
   def migration_data
     data = {
         id: self.id,
-        division_id: ::Division.root_id,
+        division_id: Legacy::Division.from_country(self.country).id,
         name: name.try(:strip),
         legal_name: nombre_legal_completo.try(:strip),
         primary_phone: telephone.try(:strip),
@@ -45,8 +45,7 @@ class Cooperative < ActiveRecord::Base
   def self.migrate_all
     puts "cooperatives: #{ self.count }"
     self.all.each &:migrate
-    # add 1000 to create space between legacy data and new data
-    ::Organization.recalibrate_sequence(gap: 1000)
+    ::Organization.recalibrate_sequence
   end
 
   def self.purge_migrated
