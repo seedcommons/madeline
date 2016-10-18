@@ -221,7 +221,7 @@ class ProjectStep < TimelineEntry
   end
 
   # Generate a CSS color based on the status and lateness of the step
-  def color(opacity)
+  def color(opacity = 1)
     # JE: Note, I'm not why it could happen, but I was seeing an 'undefined method `<=' for nil'
     # error here even though it should not have been able to reach that part of the expression
     # when the actual_end_date was not present, so defensively adding the 'days_late' nil checks.
@@ -237,11 +237,11 @@ class ProjectStep < TimelineEntry
   end
 
   def border_color
-    color(1)
+    color
   end
 
   def background_color
-    color(1)
+    color
   end
 
   def timeline_background_color
@@ -252,7 +252,7 @@ class ProjectStep < TimelineEntry
     if completed?
       "inherit"
     else
-      color(1)
+      color
     end
   end
 
@@ -363,7 +363,7 @@ class ProjectStep < TimelineEntry
   end
 
   # start and finish are each CSS color strings in hsl format
-  def color_between(start, finish, fraction = 0.5, opacity)
+  def color_between(start, finish, fraction = 0.5, opacity = 1)
     # hsl to array
     start = start.scan(/\d+/).map(&:to_f)
     finish = finish.scan(/\d+/).map(&:to_f)
