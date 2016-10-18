@@ -40,13 +40,12 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   openGroupMenu: (e) ->
     $menu = $(e.currentTarget).closest('.timeline-table').find('#project-group-menu')
-    $delete_button = $('#project-group-menu a[data-action="delete"]').closest('li')
+    $delete_link = $('#project-group-menu a[data-action="delete"]').closest('li')
 
-    has_children = $(e.currentTarget).closest('.project-group').hasClass('with-children')
-    if (has_children)
-      $delete_button.addClass('disabled')
+    if $(e.currentTarget).closest('.project-group').hasClass('with-children')
+      $delete_link.addClass('disabled')
     else
-      $delete_button.removeClass('disabled')
+      $delete_link.removeClass('disabled')
 
     $(e.currentTarget).after($menu)
 
