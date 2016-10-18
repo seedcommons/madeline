@@ -10,7 +10,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
           { 'name': 'Product 3', 'description': 'Description', 'unit': 'Flin Flons', 'price': 150, 'cost': 70, 'quantity': 100 },
         ],
         'fixed_costs': [
-          { 'name': 'Rent', 'amount': 1_5000 },
+          { 'name': 'Rent', 'amount': 15_000 },
           { 'name': 'Worker owners', 'amount': 28_000.0 },
           { 'name': 'Employees', 'amount': 10_000.0 },
           { 'name': 'Sales', 'amount': 10_000 },
@@ -89,11 +89,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
 
     subject { BreakevenTableQuestion.new(json) }
 
-    it 'calculates entire report properly' do
-      expect(subject.report).to eq results
-    end
-
-    [
+    report_headings = [
       :revenue,
       :total_revenue,
       :total_revenue_rampup,
@@ -109,7 +105,13 @@ RSpec.describe BreakevenTableQuestion, type: :model do
       :net_margin_rampup,
       :periods,
       :units,
-    ].each do |row|
+    ]
+
+    it 'does not include extra report headings' do
+      expect(subject.report.keys).to match_array report_headings
+    end
+
+    report_headings.each do |row|
       it "calculates #{row}" do
         expect(subject.report[row]).to eq results[row]
       end
@@ -124,7 +126,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
 
         let(:expected_product) { results[:revenue].find { |p| p[:name] == "Product #{product_number}" } }
 
-        it "revenue rampup" do
+        it 'revenue rampup' do
           expect(subject[:rampup]).to eq expected_product[:rampup]
         end
       end
