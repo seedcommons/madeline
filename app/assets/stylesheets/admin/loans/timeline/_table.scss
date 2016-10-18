@@ -47,14 +47,14 @@
     color: $gray4;
   }
 
-  .draft {
+  tr.draft, div.draft {
     td {
       font-style: italic;
       color: $gray3;
     }
   }
 
-  .completed {
+  tr.completed, div.completed {
     td {
       background: $gray2;
     }
