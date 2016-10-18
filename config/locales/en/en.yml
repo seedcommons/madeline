@@ -414,6 +414,8 @@ en:
     edit: "Edit Group"
     delete: "Delete Group"
     delete_confirmation: Are you sure you want to remove this group?
+  project_groups:
+    delete_error: "The group could not be deleted due to an error"
 
   user:
     account: "Account"
