@@ -10,6 +10,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .cancel': 'close'
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
+    'confirm:complete a.delete-action': 'delete'
 
   show: (id, done) ->
     @done = done
@@ -24,6 +25,12 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   edit: (id, done) ->
     @done = done
     @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
+
+  delete: (e) ->
+    id = @$(e.currentTarget).closest('[data-id]').data('id')
+    $.post "/admin/project_steps/#{id}", {'_method': 'DELETE'}, =>
+      @close()
+      @runAndResetDoneCallback()
 
   loadContent: (url) ->
     $.get url, (html) =>

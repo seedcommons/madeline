@@ -1,5 +1,5 @@
 / This section tag is out here so that show-view/edit-view classes affect the modal header, body, and footer
-section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view')
+section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view') data-id=@step.id
   div.modal-header
     button type="button" class="close cancel" aria-label== t(:cancel)
       span aria-hidden="true" &times;
@@ -16,8 +16,17 @@ section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view')
           i.fa.fa-pencil.fa-large>
           = t("project_step.edit")
         a.show-action.form-element
+          i.fa.fa-close.fa-large>
           = t("cancel_edit")
-
+        - if @step.persisted?
+          a.delete-action [
+              data-confirm=t("project_step.confirm_deletion")
+              data-confirm-title=t("project_step.delete", count: 1)
+              data-confirm-cancel=t(:cancel)
+              data-confirm-proceed=t(:confirm)
+            ]
+            i.fa.fa-trash.fa-large>
+            = t("project_step.delete", count: 1)
       javascript:
         $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
