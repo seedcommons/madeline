@@ -21,7 +21,7 @@
     border: 1px solid $table-border-color;
 
     &.spacer {
-      background: $background-gray;
+      background: $white;
       border: none;
     }
   }
@@ -45,5 +45,46 @@
     cursor: pointer;
     margin-left: 10px;
     color: $gray4;
+  }
+
+  .fa-cog {
+    color: $gray4;
+  }
+
+  tr.draft, div.draft {
+    td {
+      font-style: italic;
+      color: $gray3;
+    }
+  }
+
+  tr.completed, div.completed {
+    td {
+      background: $gray2;
+    }
+
+    .spacer {
+      background: $white;
+    }
+  }
+
+  .icon, .summary {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1;
+  }
+
+  .icon {
+    width: 1.5em;
+    margin-right: .25em;
+  }
+
+  .summary {
+    width: calc(100% - 2.5em);
+  }
+
+  .select-step {
+    margin: .1em 0;
+    vertical-align: top;
   }
 }
