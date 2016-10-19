@@ -24,8 +24,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    if request.xhr?
-      render_step_partial(:show)
+    if params[:context] == "calendar"
+      render_modal_content
     else
       display_timeline(@step.project_id)
     end
@@ -58,7 +58,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
-    if params[:context] == "timeline_table"
+    if %w(timeline_table calendar).include?(params[:context])
       valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
     else
       render partial: "/admin/project_steps/project_step", locals: {
@@ -148,6 +148,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def render_modal_content(status = 200)
+    @mode = params[:action] == "show" ? :show : :form
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
     }

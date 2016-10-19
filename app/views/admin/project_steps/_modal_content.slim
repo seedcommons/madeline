@@ -1,17 +1,24 @@
 div.modal-header
   button type="button" class="close cancel" aria-label== t(:cancel)
     span aria-hidden="true" &times;
-  h4.modal-title = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
+  h4.modal-title
+    - if @mode == :show
+      = t("activerecord.models.project_step") << ": " << @step.name_or_none
+    - else
+      = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 
 div.modal-body
-  section.step-fields class=(@step.valid? ? 'show-view' : 'edit-view')
-    .show-actions
-      - if @step.valid?
+  section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view')
+    - if @mode == :show
+      .show-actions
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
           = t("project_step.edit")
         a.show-action.form-element
           = t("cancel_edit")
+
+      javascript:
+        $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
     = simple_form_for([:admin, @step],
       wrapper: :horizontal_form,
@@ -75,9 +82,6 @@ div.modal-body
         - else
           .view-element = @step.is_finalized ? t("reply_yes") : t("reply_no")
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
-
-  javascript:
-    $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
 div.modal-footer
   button.btn.btn-default.cancel type="button" = t(:cancel)

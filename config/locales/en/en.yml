@@ -267,6 +267,7 @@ en:
     division: "Division"
     divisions: "Divisions"
     name: "Name"
+    no_name: "No Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"

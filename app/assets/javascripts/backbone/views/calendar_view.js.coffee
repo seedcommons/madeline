@@ -5,6 +5,7 @@ class MS.Views.CalendarView extends Backbone.View
   initialize: (params) ->
     # Initialize calendar
     @$calendar = @$('#calendar')
+    @stepModal = params.stepModal
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
@@ -82,7 +83,4 @@ class MS.Views.CalendarView extends Backbone.View
     @$calendar.fullCalendar('refetchEvents')
 
   showStepModal: (e) ->
-    calStep = e.currentTarget
-    id = @$(calStep).data('step-id')
-    new MS.Views.CalendarStepModalView(id: id, context: 'calendar')
-    MS.loadingIndicator.show()
+    @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))

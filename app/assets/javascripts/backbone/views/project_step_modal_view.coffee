@@ -4,17 +4,24 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
-    @success = params.success || (->) # Empty function
+    @done = (->) # Empty function
 
   events:
     'click .cancel': 'close'
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
-  new: (loanId) ->
+  show: (id, done) ->
+    @done = done
+    # The show method is only used by the calendar. Hopefully contexts can go away later.
+    @loadContent("/admin/project_steps/#{id}?context=calendar")
+
+  new: (loanId, done) ->
+    @done = done
     @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table")
 
-  edit: (id) ->
+  edit: (id, done) ->
+    @done = done
     @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
 
   loadContent: (url) ->
@@ -35,7 +42,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       if json.days_shifted
         @showMoveStepModal(json.id, json.days_shifted)
       else
-        @success()
+        @runAndResetDoneCallback()
     else
       @replaceContent(data.responseText)
 
@@ -48,5 +55,10 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @moveStepModalView = new MS.Views.MoveStepModalView
         el: $('<div>').insertAfter(@$el)
         context: 'edit_date'
-    @moveStepModalView.show(id, daysShifted).done => @success()
+    @moveStepModalView.show(id, daysShifted).done => @runAndResetDoneCallback()
+
+  runAndResetDoneCallback: ->
+    @done() if @done
+    @done = (->) # Reset to empty function.
+
 
