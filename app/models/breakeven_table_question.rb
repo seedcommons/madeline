@@ -124,15 +124,20 @@ class BreakevenTableQuestion
     }
   end
 
-  def revenue
-    @revenue ||= data_hash[:products].map do |product|
+  def calculate_line_item_totals(total_key)
+    data_hash[:products].map do |product|
+      next unless product.present? && product[:name].present?
       {
         name: product[:name],
-        quantity: product[:quantity],
-        amount: product[:price],
-        total: product[:price] * product[:quantity],
-      }.merge(rampup(product[:quantity], product[:price]))
-    end
+        quantity: product.fetch(:quantity, 0),
+        amount: product.fetch(total_key, 0),
+        total: product.fetch(total_key, 0) * product.fetch(:quantity, 0),
+      }.merge(rampup(product[:quantity], product[total_key]))
+    end.compact
+  end
+
+  def revenue
+    @revenue ||= calculate_line_item_totals(:price)
   end
 
   def total_revenue
@@ -146,14 +151,7 @@ class BreakevenTableQuestion
   end
 
   def cogs
-    @cogs ||= data_hash[:products].map do |product|
-      {
-        name: product[:name],
-        quantity: product[:quantity],
-        amount: product[:cost],
-        total: product[:cost] * product[:quantity],
-      }.merge(rampup(product[:quantity], product[:cost]))
-    end
+    @cogs ||= calculate_line_item_totals(:cost)
   end
 
   def total_cogs
@@ -179,8 +177,9 @@ class BreakevenTableQuestion
   def fixed_costs
     return [] unless data_hash[:fixed_costs]
     @fixed_costs ||= data_hash[:fixed_costs].map do |cost|
+      next unless cost.present? && cost[:name].present?
       { name: cost[:name], amount: cost[:amount].to_f }
-    end
+    end.compact
   end
 
   def total_fixed_costs

@@ -204,6 +204,55 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     end
   end
 
+  context 'and a products and fixed_costs are incorrectly formatted' do
+    let(:json) do
+      {
+        'products': [
+          { 'name': 'Product 1', 'description': 'Description', 'unit': 'Widgets', 'cost': 50, 'quantity': 800 },
+          { 'name': 'Product 2', 'description': 'Description' },
+          {},
+        ],
+        'fixed_costs': [
+          { 'name': 'Rent', 'amount': 15_000 },
+          { 'name': 'Worker owners' },
+          {},
+        ],
+      }
+    end
+
+    let(:results) do
+      {
+        revenue: [
+          { name: 'Product 1', quantity: 800.0, amount: 0, total: 0 },
+          { name: 'Product 2', quantity: 0, amount: 0, total: 0 },
+        ],
+        total_revenue: 0,
+        cogs: [
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0 },
+          { name: 'Product 2', quantity: 0, amount: 0, total: 0 },
+        ],
+        total_cogs: 40_000.0,
+        gross_margin: -40_000.0,
+        fixed_costs: [
+          { name: 'Rent', amount: 15_000.0 },
+          { name: 'Worker owners', amount: 0 },
+        ],
+        total_fixed_costs: 15_000,
+        net_margin: -55_000.0,
+        periods: 1,
+        units: 'None'
+      }
+    end
+
+    subject { BreakevenTableQuestion.new(json) }
+
+    report_headings.each do |row|
+      it "calculates #{row}" do
+        expect(subject.report[row]).to eq results[row]
+      end
+    end
+  end
+
   context 'without fixed_costs' do
     let(:json) do
       {
