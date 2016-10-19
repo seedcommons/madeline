@@ -177,6 +177,7 @@ class BreakevenTableQuestion
   end
 
   def fixed_costs
+    return [] unless data_hash[:fixed_costs]
     @fixed_costs ||= data_hash[:fixed_costs].map do |cost|
       { name: cost[:name], amount: cost[:amount].to_f }
     end
