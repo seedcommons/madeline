@@ -52,9 +52,6 @@ module Legacy
       division = ::Division.find_or_create_by(id: data[:id])
       division.assign_attributes(data)
       division.save(validate: false)
-
-      # todo: confirm how we should assigned default locales to migrated divisions
-
     end
 
 
