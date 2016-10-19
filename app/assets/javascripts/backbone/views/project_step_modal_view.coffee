@@ -16,9 +16,10 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     # The show method is only used by the calendar. Hopefully contexts can go away later.
     @loadContent("/admin/project_steps/#{id}?context=calendar")
 
-  new: (loanId, done) ->
+  new: (loanId, done, options = {}) ->
     @done = done
-    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table")
+    date = options.date || ''
+    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table&date=#{date}")
 
   edit: (id, done) ->
     @done = done

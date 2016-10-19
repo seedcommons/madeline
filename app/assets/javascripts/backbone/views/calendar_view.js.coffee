@@ -27,17 +27,12 @@ class MS.Views.CalendarView extends Backbone.View
     @renderLegend()
 
   events:
-    'click .cal-step': 'showStepModal'
+    'click .cal-step': 'editStep'
 
   dayClick: (date) ->
     if @$el.find('.loan-calendar').length
-      loanId = @$el.find('.loan-calendar').data('loan-id')
-      new MS.Views.CalendarStepModalView(
-        context: 'calendar',
-        loanId: loanId,
-        date: date.format('YYYY-MM-DD')
-      )
-      MS.loadingIndicator.show()
+      @stepModal.new(@$el.find('.loan-calendar').data('loan-id'), @refresh.bind(@),
+        date: date.format('YYYY-MM-DD'))
 
   eventRender: (calEvent) -> calEvent.html
 
@@ -82,5 +77,5 @@ class MS.Views.CalendarView extends Backbone.View
   refresh: (e) ->
     @$calendar.fullCalendar('refetchEvents')
 
-  showStepModal: (e) ->
+  editStep: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
