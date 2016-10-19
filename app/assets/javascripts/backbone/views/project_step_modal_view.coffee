@@ -32,11 +32,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @close()
       @runAndResetDoneCallback()
 
-  loadContent: (url) ->
-    $.get url, (html) =>
-      @replaceContent(html)
-      @$el.modal('show')
-
   close: ->
     @$el.modal('hide')
 
@@ -54,16 +49,20 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     else
       @replaceContent(data.responseText)
 
+  loadContent: (url) ->
+    $.get url, (html) =>
+      @replaceContent(html)
+      @$el.modal('show')
+
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
 
   showMoveStepModal: (id, daysShifted) ->
-    unless @moveStepModalView
-      @moveStepModalView = new MS.Views.MoveStepModalView
-        el: $('<div>').insertAfter(@$el)
-        context: 'edit_date'
-    @moveStepModalView.show(id, daysShifted).done => @runAndResetDoneCallback()
+    unless @moveStepModal
+      el = $('<div>').insertAfter(@$el)
+      @moveStepModal = new MS.Views.MoveStepModalView(el: el, context: 'edit_date')
+    @moveStepModal.show(id, daysShifted).done => @runAndResetDoneCallback()
 
   runAndResetDoneCallback: ->
     @done() if @done
