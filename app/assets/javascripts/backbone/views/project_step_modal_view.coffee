@@ -5,7 +5,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @loanId = params.loanId
-    @success = params.success
+    @success = params.success || (->) # Empty function
 
   events:
     'click .cancel': 'close'
@@ -32,10 +32,22 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   submitComplete: (e, data) ->
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @close()
-      @success() if @success
+      json = data.responseJSON || {}
+      if json.days_shifted
+        @showMoveStepModal(json.id, json.days_shifted)
+      else
+        @success()
     else
       @replaceContent(data.responseText)
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
+
+  showMoveStepModal: (id, daysShifted) ->
+    unless @moveStepModalView
+      @moveStepModalView = new MS.Views.MoveStepModalView
+        el: $('<div>').insertAfter(@$el)
+        context: 'edit_date'
+    @moveStepModalView.show(id, daysShifted).done => @success()
+

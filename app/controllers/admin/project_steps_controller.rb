@@ -59,7 +59,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     days_shifted = 0 unless valid
 
     if params[:context] == "timeline_table"
-      valid ? render(nothing: true) : render_modal_content(422)
+      valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
     else
       render partial: "/admin/project_steps/project_step", locals: {
         step: @step,
