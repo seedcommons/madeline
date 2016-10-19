@@ -77,7 +77,7 @@ module Legacy
       # end
 
       data = migration_data
-      puts "#{data[:id]}: #{data[:label_es]}"
+      # puts "#{data[:id]}: #{data[:label_es]}"
       label_es = data.delete(:label_es)
       label_en = data.delete(:label_en)
       model = ::LoanQuestion.new(data)

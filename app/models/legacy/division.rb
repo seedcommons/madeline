@@ -48,7 +48,7 @@ module Legacy
 
     def migrate
       data = migration_data
-      puts "#{data[:id]}: #{data[:name]}"
+      # puts "#{data[:id]}: #{data[:name]}"
       division = ::Division.find_or_create_by(id: data[:id])
       division.assign_attributes(data)
       division.save(validate: false)

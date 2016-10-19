@@ -27,7 +27,7 @@ module Legacy
 
     def migrate
       data = migration_data
-      puts "#{data[:id]}: #{data[:url]}"
+      # puts "#{data[:id]}: #{data[:url]}"
       ::LoanQuestionRequirement.create(data)
     end
 

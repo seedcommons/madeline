@@ -56,7 +56,7 @@ module Legacy
 
     def migrate_step
       data = migration_step_data
-      puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
+      # puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
       step = ::ProjectStep.create(data)
 
       # Set all step parents to root group initially. This will be overwritten at
@@ -76,7 +76,7 @@ module Legacy
 
     def migrate_group
       data = migration_data
-      puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
+      # puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
       ::ProjectGroup.create(data)
     end
 

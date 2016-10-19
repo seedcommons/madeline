@@ -37,7 +37,7 @@ class Cooperative < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
+    # puts "#{data[:id]}: #{data[:name]}"
     organization = ::Organization.find_or_create_by(id: data[:id])
     organization.update(data)
   end

@@ -20,7 +20,7 @@ module Legacy
     def migrate
       begin
         data = migration_data
-        puts "#{data[:id]}: #{data[:notable_id]}"
+        # puts "#{data[:id]}: #{data[:notable_id]}"
         obj = ::Note.create(data)
         # need to save this as a second pass because it's translatable
         obj.update({text: note})
