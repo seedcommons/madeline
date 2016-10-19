@@ -3,6 +3,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   el: '#project-step-modal'
 
   initialize: (params) ->
+    new MS.Views.AutoLoadingIndicatorView()
     @loanId = params.loanId
     @success = params.success
 
@@ -18,9 +19,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
 
   loadContent: (url) ->
-    MS.loadingIndicator.show()
     $.get url, (html) =>
-      MS.loadingIndicator.hide()
       @replaceContent(html)
       @$el.modal('show')
 
@@ -28,11 +27,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @$el.modal('hide')
 
   submitForm: ->
-    MS.loadingIndicator.show()
     @$('form').submit()
 
   submitComplete: (e, data) ->
-    MS.loadingIndicator.hide()
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @close()
       @success() if @success
