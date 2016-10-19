@@ -8,7 +8,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   events:
     'click .cancel': 'close'
-    'click .btn-primary': 'submitForm'
+    'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
   show: (id, done) ->

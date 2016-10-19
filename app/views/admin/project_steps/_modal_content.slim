@@ -1,14 +1,15 @@
-div.modal-header
-  button type="button" class="close cancel" aria-label== t(:cancel)
-    span aria-hidden="true" &times;
-  h4.modal-title
-    - if @mode == :show
-      = @step.name_or_none
-    - else
-      = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
+/ This section tag is out here so that show-view/edit-view classes affect the modal header, body, and footer
+section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view')
+  div.modal-header
+    button type="button" class="close cancel" aria-label== t(:cancel)
+      span aria-hidden="true" &times;
+    h4.modal-title
+      .view-element
+        = @step.name_or_none
+      .form-element
+        = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 
-div.modal-body
-  section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view')
+  div.modal-body
     - if @mode == :show
       .show-actions
         a.edit-action.view-element
@@ -83,6 +84,9 @@ div.modal-body
           .view-element = @step.is_finalized ? t("reply_yes") : t("reply_no")
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
-div.modal-footer
-  button.btn.btn-default.cancel type="button" = t(:cancel)
-  button.btn.btn-primary = t(:submit)
+  div.modal-footer
+    .view-element
+      button.btn.btn-primary.cancel type="button" = t(:close)
+    .form-element
+      button.btn.btn-default.cancel type="button" = t(:cancel)
+      button.btn.btn-primary.submit = t(:submit)
