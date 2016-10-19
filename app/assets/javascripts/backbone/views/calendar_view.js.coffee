@@ -12,7 +12,7 @@ class MS.Views.CalendarView extends Backbone.View
       eventRender: @eventRender.bind(this)
       eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
-      events: params.calendar_events_url
+      events: params.calendarEventsUrl
       height: 'auto'
       customButtons:
         legend:
