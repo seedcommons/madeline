@@ -4,7 +4,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
-    @loanId = params.loanId
     @success = params.success || (->) # Empty function
 
   events:
@@ -12,8 +11,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
-  new: ->
-    @loadContent("/admin/project_steps/new?loan_id=#{@loanId}&context=timeline_table")
+  new: (loanId) ->
+    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table")
 
   edit: (id) ->
     @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
