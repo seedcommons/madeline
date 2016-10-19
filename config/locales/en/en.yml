@@ -396,6 +396,9 @@ en:
       start: "Start"
       status: "Status"
       step: "Step"
+    types:
+      milestone: "Milestone"
+      checkin: "Check-In"
     status:
       completed: "Completed"
       early: "Early"

@@ -79,21 +79,22 @@ section.details {
     margin-top: 0;
     font-size: 1.5em;
   }
+}
 
-  .show-actions {
-    margin-bottom: 5px;
-    text-align: right;
+// These are the show/edit links at the top of show views/forms.
+.show-actions {
+  margin-bottom: 5px;
+  text-align: right;
 
+  a {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .dropdown-menu {
     a {
-      display: inline-block;
-      margin-left: 10px;
-    }
-
-    .dropdown-menu {
-      a {
-        display: block;
-        margin: 0;
-      }
+      display: block;
+      margin: 0;
     }
   }
 }

@@ -4,47 +4,80 @@ div.modal-header
   h4.modal-title = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 
 div.modal-body
-  = simple_form_for([:admin, @step],
-    wrapper: :horizontal_form,
-    remote: true,
-    html: {class: "form-horizontal project-step-form"},
-    defaults: {input_html: {class: "form-element form-control"}},
-    ) do |f|
+  section.step-fields class=(@step.valid? ? 'show-view' : 'edit-view')
+    .show-actions
+      - if @step.valid?
+        a.edit-action.view-element
+          i.fa.fa-pencil.fa-large>
+          = t("project_step.edit")
+        a.show-action.form-element
+          = t("cancel_edit")
 
-    / Need to pass these through to create but not update.
-    - if @step.new_record?
-      = f.hidden_field(:project_id)
-      = f.hidden_field(:project_type)
+    = simple_form_for([:admin, @step],
+      wrapper: :horizontal_form,
+      remote: true,
+      html: {class: "form-horizontal project-step-form"},
+      defaults: {input_html: {class: "form-element form-control"}},
+      ) do |f|
 
-    = hidden_field_tag(:context, context)
+      / Need to pass these through to create but not update.
+      - if @step.new_record?
+        = f.hidden_field(:project_id)
+        = f.hidden_field(:project_type)
 
-    = error_notification(f)
-    = f.translatable_inputs do |l|
-      = f.input "summary_#{l}".to_sym,
-        input_html: {data: {translatable: 'summary'}},
-        placeholder: I18n.t('common.summary', locale: l),
-        label: I18n.t('common.summary', locale: l)
-      = f.input "details_#{l}".to_sym, as: :text,
-        input_html: {rows: 3, data: {translatable: 'details'}},
-        placeholder: I18n.t('common.details', locale: l),
-        label: I18n.t('common.details', locale: l)
+      = hidden_field_tag(:context, context)
 
-    = f.input :step_type_value,
-      collection: ProjectStep.step_type_option_set.translated_list,
-      include_blank: '---'
-    = f.input :scheduled_start_date, as: :date_picker
-    = f.input "duration" do
-      = f.input_field :scheduled_duration_days
-      = t("project_step.days")
-    = f.input :actual_end_date, as: :date_picker
+      = error_notification(f)
 
-    - if @step.is_finalized_locked?
-      = f.input :is_finalized do
-        .finalized
-          = @step.is_finalized ? t("reply_yes") : t("reply_no")
-          =< "(#{t('locked')})"
-    - else
-      = f.input :is_finalized, as: :boolean, boolean_style: :inline
+      / Summary & details
+      .view-element
+        = f.input :summary, wrapper_html: {class: 'hidden-print'}
+          = @step.summary
+        = f.input :details
+          = @step.details
+      .form-element
+        = f.translatable_inputs do |l|
+          = f.input "summary_#{l}".to_sym,
+            input_html: {data: {translatable: 'summary'}},
+            placeholder: I18n.t('common.summary', locale: l),
+            label: I18n.t('common.summary', locale: l)
+          = f.input "details_#{l}".to_sym, as: :text,
+            input_html: {rows: 3, data: {translatable: 'details'}},
+            placeholder: I18n.t('common.details', locale: l),
+            label: I18n.t('common.details', locale: l)
+
+      = f.input :step_type_value
+        .view-element
+          = @step.step_type_value.present? ? t("project_step.types.#{@step.step_type_value}") : ""
+        = f.input_field :step_type_value,
+          collection: ProjectStep.step_type_option_set.translated_list,
+          include_blank: '---'
+
+      = f.input :scheduled_start_date
+        .view-element = ldate(@step.scheduled_start_date)
+        = f.input_field :scheduled_start_date, as: :date_picker
+
+      = f.input "duration"
+        .view-element = @step.scheduled_duration_days
+        .form-element
+          = f.input_field :scheduled_duration_days
+          = t("project_step.days")
+
+      = f.input :actual_end_date
+        .view-element = ldate(@step.actual_end_date)
+        = f.input_field :actual_end_date, as: :date_picker
+
+      = f.input :is_finalized
+        - if @step.is_finalized_locked?
+          .static-text-as-field
+            = @step.is_finalized ? t("reply_yes") : t("reply_no")
+            =< "(#{t('locked')})"
+        - else
+          .view-element = @step.is_finalized ? t("reply_yes") : t("reply_no")
+          = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
+
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
 div.modal-footer
   button.btn.btn-default.cancel type="button" = t(:cancel)
