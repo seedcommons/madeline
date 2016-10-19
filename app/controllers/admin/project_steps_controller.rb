@@ -149,7 +149,6 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def render_modal_content(status = 200)
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
-      step: @step,
       context: params[:context]
     }
   end
