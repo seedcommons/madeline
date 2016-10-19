@@ -1,0 +1,51 @@
+div.modal-header
+  button type="button" class="close cancel" aria-label== t(:cancel)
+    span aria-hidden="true" &times;
+  h4.modal-title = t("project_step.#{step.new_record? ? 'add' : 'edit'}")
+
+div.modal-body
+  = simple_form_for([:admin, step],
+    wrapper: :horizontal_form,
+    remote: true,
+    html: {class: "form-horizontal project-step-form"},
+    defaults: {input_html: {class: "form-element form-control"}},
+    ) do |f|
+
+    / Need to pass these through to create but not update.
+    - if step.new_record?
+      = f.hidden_field(:project_id)
+      = f.hidden_field(:project_type)
+
+    = hidden_field_tag(:context, context)
+
+    = error_notification(f)
+    = f.translatable_inputs do |l|
+      = f.input "summary_#{l}".to_sym,
+        input_html: {data: {translatable: 'summary'}},
+        placeholder: I18n.t('common.summary', locale: l),
+        label: I18n.t('common.summary', locale: l)
+      = f.input "details_#{l}".to_sym, as: :text,
+        input_html: {rows: 3, data: {translatable: 'details'}},
+        placeholder: I18n.t('common.details', locale: l),
+        label: I18n.t('common.details', locale: l)
+
+    = f.input :step_type_value,
+      collection: ProjectStep.step_type_option_set.translated_list,
+      include_blank: '---'
+    = f.input :scheduled_start_date, as: :date_picker
+    = f.input "duration" do
+      = f.input_field :scheduled_duration_days
+      = t("project_step.days")
+    = f.input :actual_end_date, as: :date_picker
+
+    - if step.is_finalized_locked?
+      = f.input :is_finalized do
+        .finalized
+          = step.is_finalized ? t("reply_yes") : t("reply_no")
+          =< "(#{t('locked')})"
+    - else
+      = f.input :is_finalized, as: :boolean, boolean_style: :inline
+
+div.modal-footer
+  button.btn.btn-default.cancel type="button" = t(:cancel)
+  button.btn.btn-primary = t(:submit)

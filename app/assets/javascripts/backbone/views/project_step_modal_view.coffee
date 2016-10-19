@@ -23,6 +23,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   submitForm: ->
     MS.loadingIndicator.show()
+    @$('form').submit()
 
   submitComplete: (e, data) ->
     MS.loadingIndicator.hide()

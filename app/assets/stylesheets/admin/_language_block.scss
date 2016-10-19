@@ -8,6 +8,10 @@
   // Added to resolve styling problems
   margin: 15px 0;
 
+  &:first-of-type {
+    margin-top: 0px;
+  }
+
   &:last-of-type {
     margin-bottom: 10px;
   }
