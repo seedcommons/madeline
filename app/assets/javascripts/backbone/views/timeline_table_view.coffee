@@ -12,6 +12,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-group"]': 'newGroup'
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click .project-group .fa-cog': 'openGroupMenu'
+    'click .step-menu-col .fa-cog': 'openStepMenu'
+    'click #project-step-menu a[data-action=edit]': 'editStep'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -26,9 +28,19 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newStep: (e) ->
     e.preventDefault()
-    @stepModal.show()
+    @stepModal.new()
+
+  editStep: (e) ->
+    e.preventDefault()
+    @stepModal.edit(@$(e.currentTarget).closest('[data-id]').data('id'))
 
   openGroupMenu: (e) ->
-    button = e.currentTarget
-    menu = $(button).closest('.timeline-table').find('#project-group-menu')
-    $(button).after(menu)
+    @openMenu(e, 'group')
+
+  openStepMenu: (e) ->
+    @openMenu(e, 'step')
+
+  openMenu: (e, which) ->
+    link = e.currentTarget
+    menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
+    $(link).after(menu)

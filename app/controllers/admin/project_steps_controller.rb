@@ -2,22 +2,6 @@ class Admin::ProjectStepsController < Admin::AdminController
   include TranslationSaveable
   helper TimeLanguageHelper
 
-  def destroy
-    @step = ProjectStep.find(params[:id])
-    authorize @step
-
-    if request.xhr?
-      @step.destroy
-      render nothing: true
-    else
-      if @step.destroy
-        display_timeline(@step.project_id, I18n.t(:notice_deleted))
-      else
-        display_timeline(@step.project_id)
-      end
-    end
-  end
-
   def new
     @loan = Loan.find(params[:loan_id])
     @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
@@ -28,6 +12,12 @@ class Admin::ProjectStepsController < Admin::AdminController
       params[:context] = "timeline" unless params[:context]
       render_step_partial(:form)
     end
+  end
+
+  def edit
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+    render_modal_content
   end
 
   def show
@@ -68,12 +58,32 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
-    render partial: "/admin/project_steps/project_step", locals: {
-      step: @step,
-      mode: valid ? :show : :edit,
-      days_shifted: days_shifted,
-      context: params[:context]
-    }
+    if params[:context] == "timeline_table"
+      valid ? render(nothing: true) : render_modal_content(422)
+    else
+      render partial: "/admin/project_steps/project_step", locals: {
+        step: @step,
+        mode: valid ? :show : :edit,
+        days_shifted: days_shifted,
+        context: params[:context]
+      }
+    end
+  end
+
+  def destroy
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+
+    if request.xhr?
+      @step.destroy
+      render nothing: true
+    else
+      if @step.destroy
+        display_timeline(@step.project_id, I18n.t(:notice_deleted))
+      else
+        display_timeline(@step.project_id)
+      end
+    end
   end
 
   def duplicate

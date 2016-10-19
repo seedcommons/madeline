@@ -11,9 +11,15 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
-  show: ->
+  new: ->
+    @loadContent("/admin/project_steps/new?loan_id=#{@loanId}&context=timeline_table")
+
+  edit: (id) ->
+    @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
+
+  loadContent: (url) ->
     MS.loadingIndicator.show()
-    $.get "/admin/project_steps/new?loan_id=#{@loanId}&context=timeline_table", (html) =>
+    $.get url, (html) =>
       MS.loadingIndicator.hide()
       @replaceContent(html)
       @$el.modal('show')

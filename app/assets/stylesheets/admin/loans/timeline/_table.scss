@@ -24,6 +24,10 @@
       background: $background-gray;
       border: none;
     }
+
+    &.step-menu-col {
+      width: 20px;
+    }
   }
 
   .timeline-header {
@@ -40,7 +44,10 @@
   .dropdown .fa-cog {
     display: inline-block;
     cursor: pointer;
-    margin-left: 10px;
     color: $gray4;
+  }
+
+  .project-group .dropdown .fa-cog {
+    margin-left: 10px;
   }
 }
