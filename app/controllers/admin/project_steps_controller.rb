@@ -148,7 +148,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def render_modal_content(status = 200)
-    @mode = params[:action] == "show" ? :show : :form
+    @mode = params[:action] == "show" ? :show_and_form : :form_only
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
     }

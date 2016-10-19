@@ -1,5 +1,6 @@
 / This section tag is out here so that show-view/edit-view classes affect the modal header, body, and footer
-section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view') data-id=@step.id
+/ mode == :show_and_form means we are starting out in show mode and allowing the user to switch to edit
+section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') data-id=@step.id
   div.modal-header
     button type="button" class="close cancel" aria-label== t(:cancel)
       span aria-hidden="true" &times;
@@ -10,7 +11,7 @@ section.step-fields class=(@mode == :show ? 'show-view' : 'edit-view') data-id=@
         = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 
   div.modal-body
-    - if @mode == :show
+    - if @mode == :show_and_form
       .show-actions
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
