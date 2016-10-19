@@ -47,7 +47,11 @@ class Admin::ProjectStepsController < Admin::AdminController
     authorize @step
     @step.parent = @step.project.root_timeline_entry
     valid = @step.save
-    render_step_partial(valid ? :show : :form)
+    if params[:context] == "timeline_table"
+      valid ? render(nothing: true) : render_modal_content(422)
+    else
+      render_step_partial(valid ? :show : :form)
+    end
   end
 
   def update
@@ -133,8 +137,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     }
   end
 
-  def render_modal_content
-    render partial: "/admin/project_steps/modal_content", locals: {
+  def render_modal_content(status = 200)
+    render partial: "/admin/project_steps/modal_content", status: status, locals: {
       step: @step,
       context: params[:context]
     }
