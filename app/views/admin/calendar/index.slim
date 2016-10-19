@@ -6,11 +6,12 @@ section.calendar
 
   div#calendar.main-calendar
 
-  = render "admin/calendar/step_modal"
+  = render "admin/project_steps/modal"
 
 javascript:
   $(function(){
     MS.calendarView = new MS.Views.CalendarView({
-      calendarEventsUrl: #{json @calendar_events_url}
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView()
     });
   });

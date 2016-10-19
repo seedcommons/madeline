@@ -3,7 +3,7 @@ div.modal-header
     span aria-hidden="true" &times;
   h4.modal-title
     - if @mode == :show
-      = t("activerecord.models.project_step") << ": " << @step.name_or_none
+      = @step.name_or_none
     - else
       = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 

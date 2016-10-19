@@ -4,6 +4,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
+    @calendarEventsUrl = params.calendarEventsUrl
 
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
@@ -24,7 +25,7 @@ class MS.Views.LoanTabView extends Backbone.View
       MS.calendarView.refresh()
     else
       MS.calendarView = new MS.Views.CalendarView(
-        calendarEventsUrl: params.calendarEventsUrl,
+        calendarEventsUrl: @calendarEventsUrl,
         stepModal: @stepModal
       )
 
