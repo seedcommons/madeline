@@ -35,4 +35,4 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
-    new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_group"]'));
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_group"]'))
