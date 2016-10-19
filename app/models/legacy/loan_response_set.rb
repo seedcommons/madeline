@@ -5,7 +5,6 @@ module Legacy
     establish_connection :legacy
     include LegacyModel
 
-
     def self.migrate_all
       puts "loan response sets: #{self.count}"
       all.each(&:migrate)
@@ -17,21 +16,17 @@ module Legacy
       ::LoanResponseSet.delete_all
     end
 
-
     def migrate
-      loan_id = id
       loan = ::Loan.find_by(id: loan_id)
       unless loan
-        $stderr.puts "loan not found for id: #{id} - skipping"
+        $stderr.puts "loan not found for id: #{response_set_id} - skipping"
         return
       end
 
-      # criteria = loan.fetch_has_one_custom('loan_criteria', autocreate: true)
-      # post_analysis = loan.fetch_has_one_custom('loan_post_analysis', autocreate: true)
       # Cache of criteria and post_analysis value sets.
       models = {}
 
-      responses = LoanResponse.where("ResponseSetID = ?", id)
+      responses = LoanResponse.where("ResponseSetID = ?", response_set_id)
       puts "responses count: #{responses.count}"
       responses.each do |response|
         # puts "response id: #{response.id} - question id: #{response.question_id}"
@@ -61,9 +56,6 @@ module Legacy
         # The simple form automatic numeric field handler will automatically strip the invalid
         # numeric data so that the record can still be simply re-saved.
         m.save(:validate => false)
-      end
-      LoanResponseSet.where("ResponseSetID = ? and ResponseSetID <> LoanID", id).pluck('LoanID').each do |linked_loan_id|
-        # todo: clone cross-linked response sets
       end
 
     end
