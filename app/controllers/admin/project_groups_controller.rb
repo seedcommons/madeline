@@ -1,7 +1,7 @@
 class Admin::ProjectGroupsController < Admin::AdminController
   include TranslationSaveable
 
-  before_action :find_timeline_entry, only: [:edit, :update]
+  before_action :find_timeline_entry, only: [:edit, :update, :destroy]
 
   def new
     @loan = Loan.find(params[:loan_id])
@@ -40,6 +40,14 @@ class Admin::ProjectGroupsController < Admin::AdminController
     else
       render_modal_partial(status: 422)
     end
+  end
+
+  def destroy
+    @entry.destroy!
+    head :no_content
+  rescue
+    flash.now[:error] = I18n.t('project_groups.delete_error') + ": " + $!.to_s
+    render partial: 'application/alerts', status: :unprocessable_entity
   end
 
   private

@@ -19,4 +19,8 @@ section.timeline-table
     li: a href="#" data-action="add-child-group" = t(".add_child_group")
     li: a href="#" data-action="add-child-step" = t(".add_child_step")
     li: a href="#" data-action="edit" = t(:edit)
-    li: a href="#" data-action="delete" = t(:delete)
+    li: a [href="javascript:"
+      data-action="delete"
+      data-confirm= t("project_group.delete_confirmation")
+      data-confirm-title= t("project_group.delete")]
+      = t(:delete)

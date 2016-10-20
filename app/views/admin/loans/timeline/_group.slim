@@ -1,11 +1,12 @@
 - wrapper_tag = {tag: is_first ? 'div' : 'tr'}
 - row_span = [1, entry.descendant_step_count].max
 - column_span = entry.descendants_only_steps? ? max_group_depth - entry.depth + 1 : 1
+- has_children_class = entry.children.empty? ? '' : 'with-children'
 
 *wrapper_tag
   / The root group is not actually displayed
   - unless entry.root?
-    td.project-group data-action-key=entry.id rowspan="#{row_span}" colspan="#{column_span}"
+    td.project-group class=has_children_class data-id=entry.id rowspan="#{row_span}" colspan="#{column_span}"
       = entry.summary
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
