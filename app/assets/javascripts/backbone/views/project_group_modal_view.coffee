@@ -26,8 +26,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
     @show(dialogUrl)
 
   edit: (id) ->
-    dialogUrl = "/admin/project_groups/#{id}/edit"
-    @show(dialogUrl)
+    @show("/admin/project_groups/#{id}/edit")
 
   close: ->
     @$el.modal('hide')
