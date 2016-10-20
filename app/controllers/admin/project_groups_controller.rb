@@ -5,7 +5,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-    @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id]
+    @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id].present?
 
     @entry = ProjectGroup.new(project: @loan)
     @entry.parent = @parent_group
@@ -65,5 +65,4 @@ class Admin::ProjectGroupsController < Admin::AdminController
     @entry = ProjectGroup.find(params[:id])
     authorize @entry
   end
-
 end

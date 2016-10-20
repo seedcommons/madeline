@@ -24,22 +24,26 @@
       background: $white;
       border: none;
     }
+
+    &.step-menu-col {
+      width: 20px;
+    }
   }
 
   .timeline-header {
-    .item {
-      padding-bottom: 15px;
-    }
-
     .top-actions {
       float: right;
+      padding-bottom: 15px;
+
+      a {
+        margin-left: .75em;
+      }
     }
   }
 
   .dropdown .fa-cog {
     display: inline-block;
     cursor: pointer;
-    margin-left: 10px;
     color: $gray4;
   }
 
@@ -82,5 +86,9 @@
   .select-step {
     margin: .1em 0;
     vertical-align: top;
+  }
+
+  .project-group .dropdown .fa-cog {
+    margin-left: 10px;
   }
 }

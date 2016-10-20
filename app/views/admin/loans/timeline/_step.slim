@@ -32,6 +32,8 @@
     td = t("project_step.timeline_table.draft")
 
   td
-  td: i.fa.fa-cog aria-hidden="true"
+  td.step-menu-col data-id=entry.id
+    span.dropdown
+      i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
-  / Please update timeline_table_step_column_count in TimelineHelper if adding/removing columns here.
+  / Please update timeline_table_step_column_count in LoansHelper if adding/removing columns here.
