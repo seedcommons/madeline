@@ -41,10 +41,10 @@ module Legacy
       responses = LoanResponse.where("ResponseSetID = ?", response_set_id)
       puts "responses count: #{responses.count}"
       responses.each do |response|
-        puts "response id: #{response.id} - question id: #{response.question_id}"
-        field = LoanQuestion.find_by(id: response.question_id)
+        # puts "response id: #{response.id} - question id: #{response.question_id}"
+        field = ::LoanQuestion.find_by(id: response.question_id)
         if field
-          puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
+          # puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
           model = models[field.loan_question_set.internal_name]
           unless model
 #            model = new_loan.fetch_has_one_custom(field.loan_question_set.internal_name, autocreate: true)

@@ -10,6 +10,18 @@ module Legacy
 
     include LegacyModel
 
+    # Find division by country - manual mapping from values in Cooperatives table
+    def self.from_country(country)
+      case country
+      when "Argentina" then find(2)
+      when "Nicaragua" then find(7)
+      when "United States" then find(11)
+      when "USA" then find(11)
+      when "WORCs" then find(14)
+      else raise "Coop with unexpected country value: #{country}"
+      end
+    end
+
     def ensure_country
       # In legacy DB, `country` is a string field containing a country name
       # Sets country to US when not found
@@ -19,6 +31,8 @@ module Legacy
     def migration_data
       if id == super_division
         parent_id = ::Division.root_id
+      elsif id == 14 # WORCs division workaround
+        parent_id = 11 # La Base US
       else
         parent_id = super_division
       end
@@ -34,7 +48,7 @@ module Legacy
 
     def migrate
       data = migration_data
-      puts "#{data[:id]}: #{data[:name]}"
+      # puts "#{data[:id]}: #{data[:name]}"
       division = ::Division.find_or_create_by(id: data[:id])
       division.assign_attributes(data)
       division.save(validate: false)
@@ -46,7 +60,10 @@ module Legacy
 
     def self.migrate_all
       puts {"divisions: #{self.count}"}
-      self.all.each &:migrate
+      # self.all.each &:migrate
+
+      # Only migrate divisions with loans (for now)
+      self.where(id: [2, 4, 7, 11, 13, 14]).each &:migrate
       ::Division.recalibrate_sequence(gap: 1)
     end
 
