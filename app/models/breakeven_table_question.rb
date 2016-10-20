@@ -97,6 +97,10 @@ class BreakevenTableQuestion
     data_hash[:products].blank? && data_hash[:fixed_costs].blank?
   end
 
+  def data_hash
+    @breakeven.deep_symbolize_keys if @breakeven
+  end
+
   private
 
   def report_hash
@@ -198,10 +202,6 @@ class BreakevenTableQuestion
     (1..periods).map do |period|
       gross_margin_rampup[period - 1] - total_fixed_costs
     end
-  end
-
-  def data_hash
-    @breakeven.deep_symbolize_keys if @breakeven
   end
 
   def periods
