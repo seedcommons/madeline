@@ -22,23 +22,18 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newGroup: (e) ->
     e.preventDefault()
-    @modal.show()
+    @modal.new()
 
   newChildGroup: (e) ->
     e.preventDefault()
-
-    $project_group = $(e.target).closest(".project-group")
-    project_group_id = $project_group.data("action-key")
-    @modal.show(project_group_id)
+    @modal.new(@parentId(e))
 
   editGroup: (e) ->
     e.preventDefault()
-
-    $project_group = $(e.target).closest(".project-group")
-    project_group_id = $project_group.data("action-key")
-    @modal.edit(project_group_id)
+    @modal.edit(@parentId(e))
 
   openGroupMenu: (e) ->
-    button = e.currentTarget
-    menu = $(button).closest('.timeline-table').find('#project-group-menu')
-    $(button).after(menu)
+    @$(e.currentTarget).after(@$('#project-group-menu'))
+
+  parentId: (e) ->
+    @$(e.target).closest(".project-group").data("action-key")

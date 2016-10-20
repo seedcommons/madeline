@@ -14,6 +14,10 @@ class Admin::ProjectGroupsController < Admin::AdminController
     render_modal_partial
   end
 
+  def edit
+    render_modal_partial
+  end
+
   def create
     @entry = ProjectGroup.new(project_group_params)
     authorize @entry
@@ -21,11 +25,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
     @loan = @entry.project
 
     parent_id = project_group_params[:parent_id]
-    if parent_id && parent_id.present?
-      @entry.parent = ProjectGroup.find(parent_id)
-    else
-      @entry.parent = @loan.root_timeline_entry
-    end
+    @entry.parent = parent_id.present? ? ProjectGroup.find(parent_id) : @loan.root_timeline_entry
 
     if @entry.save
       render nothing: true
@@ -40,10 +40,6 @@ class Admin::ProjectGroupsController < Admin::AdminController
     else
       render_modal_partial(status: 422)
     end
-  end
-
-  def edit
-    render_modal_partial
   end
 
   private
