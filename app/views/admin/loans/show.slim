@@ -5,6 +5,7 @@ section.loan.details
 
 = render "admin/media/modal"
 = render "admin/project_groups/modal"
+= render "admin/project_steps/modal"
 
 javascript:
   // There is a lot of JS on this page -- tabs, questionnaires, calendar, timeline, etc.
@@ -12,7 +13,7 @@ javascript:
   $(function() {
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
-      calendar_events_url: #{json @calendar_events_url},
+      calendarEventsUrl: #{json @calendar_events_url},
       loanId: #{json @loan.id}
     });
   });

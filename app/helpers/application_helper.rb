@@ -22,6 +22,10 @@ module ApplicationHelper
     %Q{<span title="#{full}">#{display}</span>}.html_safe
   end
 
+  def ldate(date, format: nil)
+    date ? l(date, format: format) : ""
+  end
+
   # Converts given object/value to json and runs through html_safe.
   # In Rails 4, this is necessary and sufficient to guard against XSS in JSON.
   def json(obj)

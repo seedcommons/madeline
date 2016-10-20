@@ -3,6 +3,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
   el: '#project-group-modal'
 
   initialize: (params) ->
+    new MS.Views.AutoLoadingIndicatorView()
     @loanId = params.loanId
     @success = params.success
 
@@ -11,22 +12,25 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
 
-  show: ->
-    MS.loadingIndicator.show()
-    $.get "/admin/project_groups/new?loan_id=#{@loanId}", (html) =>
-      MS.loadingIndicator.hide()
+  show: (dialogUrl) ->
+    $.get dialogUrl, (html) =>
       @replaceContent(html)
       @$el.modal('show')
+
+  new: (parentId) ->
+    parentId = parentId || ''
+    @show("/admin/project_groups/new?loan_id=#{@loanId}&parent_id=#{parentId}")
+
+  edit: (id) ->
+    @show("/admin/project_groups/#{id}/edit")
 
   close: ->
     @$el.modal('hide')
 
   submitForm: ->
-    MS.loadingIndicator.show()
     @$('form').submit()
 
   submitComplete: (e, data) ->
-    MS.loadingIndicator.hide()
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @close()
       @success() if @success
@@ -35,4 +39,4 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
 
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
-    new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_group"]'));
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_group"]'))

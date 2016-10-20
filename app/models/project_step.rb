@@ -68,6 +68,10 @@ class ProjectStep < TimelineEntry
     summary
   end
 
+  def name_or_none
+    summary.blank? ? "[#{I18n.t("common.no_name")}]" : summary.to_s
+  end
+
   # For use in views if record not yet saved.
   def id_or_temp_id
     @id_or_temp_id ||= id || "tempid#{rand(1000000)}"

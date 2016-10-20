@@ -373,12 +373,15 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.7.6)
+    term-ansicolor (1.3.0)
+      tins (~> 1.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
+    tins (1.6.0)
     twitter-bootstrap-rails-confirm (1.0.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -460,6 +463,7 @@ DEPENDENCIES
   simplecov
   slim
   sql_queries_count
+  term-ansicolor (~> 1.3.0)
   therubyracer
   twitter-bootstrap-rails-confirm
   uglifier (>= 1.3.0)

@@ -5,8 +5,25 @@ header.timeline-header
     input name="_method" type="hidden"
     = hidden_field_tag :authenticity_token, form_authenticity_token
 
+    .item.batch-actions
+      .btn-group role="group" aria-label="Select"
+        label.btn.btn-default
+          input type="checkbox" name="choose-all" id="choose-all"
+
+        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          span.caret
+          span.sr-only = t(:dropdown_toggle)
+
+        ul.dropdown-menu
+          li: a id="check-all-ctrl" = t(:all)
+          li: a id="uncheck-all-ctrl" = t(:none)
+          li: a id="check-completed-ctrl" = t(:completed)
+          li: a id="check-incomplete-ctrl" = t(:incomplete)
+
+        input type="hidden" name="step-ids" id="step-ids"
+
     .item.top-actions
-      = link_to t(".new_group"), new_admin_project_group_path(link_params),
-        class: 'btn btn-default timeline-action new'
+      a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")
+      a.btn.btn-primary.timeline-action data-action="new-step" href="#" = t(".new_step")
 
     .clearfix
