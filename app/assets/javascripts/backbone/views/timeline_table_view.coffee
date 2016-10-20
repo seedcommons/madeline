@@ -8,6 +8,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @loanId = options.loanId
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
+    new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
 
   events:
     'click .project-group .fa-cog': 'openGroupMenu'
