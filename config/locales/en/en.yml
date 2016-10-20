@@ -414,6 +414,7 @@ en:
 
   project_group:
     add: "New Group"
+    edit: "Edit Group"
 
   user:
     account: "Account"
