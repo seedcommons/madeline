@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/sassafrastech/closure_tree.git
-  revision: 02689da3f186b7412adf648d298afc0614123631
-  specs:
-    closure_tree (6.1.0)
-      activerecord (>= 4.1.0)
-      with_advisory_lock (>= 3.0.0)
-
-GIT
   remote: git://github.com/sassafrastech/wice_grid.git
   revision: 8d5c4b53b2a05afb818d67034865e6617a9605ba
   branch: rails3
@@ -115,6 +107,9 @@ GEM
     chronic (0.10.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    closure_tree (6.2.0)
+      activerecord (>= 4.1.0)
+      with_advisory_lock (>= 3.0.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.1)
@@ -218,7 +213,7 @@ GEM
     mimemagic (0.3.2)
     mini_magick (4.5.0)
     mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    minitest (5.9.1)
     momentjs-rails (2.11.0)
       railties (>= 3.1)
     multi_json (1.11.2)
@@ -423,7 +418,7 @@ DEPENDENCIES
   capybara
   carrierwave
   chroma
-  closure_tree!
+  closure_tree (~> 6.2)
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise

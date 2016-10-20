@@ -52,8 +52,7 @@ gem "i18n-js", ">= 3.0.0.rc11"
 gem 'route_translator'
 
 # Model hierarchical data
-# There is a bug the hash_tree method, see https://github.com/mceachen/closure_tree/issues/228
-gem 'closure_tree', github: 'sassafrastech/closure_tree'
+gem 'closure_tree', '~> 6.2'
 
 # File attachments
 gem 'carrierwave'
