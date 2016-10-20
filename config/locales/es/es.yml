@@ -387,10 +387,6 @@ es:
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
     weeks: "Semana(s)"
 
-  project_group:
-    add: "Translate Me"
-    edit: "Translate Me"
-
   user:
     account: "Cuenta"
     change_password: "Cambiar Contraseña"

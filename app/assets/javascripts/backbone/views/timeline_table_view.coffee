@@ -24,41 +24,37 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newGroup: (e) ->
     e.preventDefault()
-    @modal.show()
+    @modal.new()
 
   newChildGroup: (e) ->
     e.preventDefault()
-
-    id = $(e.target).closest('.project-group').data('id')
-    @modal.show(id)
+    @modal.new(@parentId(e))
 
   editGroup: (e) ->
     e.preventDefault()
-
-    id = $(e.target).closest('.project-group').data('id')
-    @modal.edit(id)
-
-  openGroupMenu: (e) ->
-    $menu = $(e.currentTarget).closest('.timeline-table').find('#project-group-menu')
-    $delete_link = $('#project-group-menu a[data-action="delete"]').closest('li')
-
-    if $(e.currentTarget).closest('.project-group').hasClass('with-children')
-      $delete_link.addClass('disabled')
-    else
-      $delete_link.removeClass('disabled')
-
-    $(e.currentTarget).after($menu)
+    @modal.edit(@parentId(e))
 
   deleteConfirm: (e, response) ->
     e.preventDefault()
 
-    id = $(e.target).closest('.project-group').data('id')
-
-    $.post("/admin/project_groups/#{id}", {'_method': 'DELETE'})
+    $.post("/admin/project_groups/#{@parentId(e)}", {'_method': 'DELETE'})
     .done () =>
       @refresh()
     .fail (response) =>
       MS.alert(response.responseText)
+
+  openGroupMenu: (e) ->
+    $delete_link = @$('#project-group-menu a[data-action="delete"]').closest('li')
+
+    if @$(e.currentTarget).closest('.project-group').hasClass('with-children')
+      $delete_link.addClass('disabled')
+    else
+      $delete_link.removeClass('disabled')
+
+    @$(e.currentTarget).after(@$('#project-group-menu'))
+
+  parentId: (e) ->
+    @$(e.target).closest(".project-group").data("id")
 
   # Disable the link and prevent confirm dialog
   # when li is set to disabled.
