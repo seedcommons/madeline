@@ -71,8 +71,8 @@ class Admin::LoansController < Admin::AdminController
       # If existing set not found, build a blank one with which to render the form.
       @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
 
-      @roots[kind] = @response_sets[kind].loan_question_set.root_group
-      @questions_json[kind] = @roots[kind].children.filter_for(@loan).map do |i|
+      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
+      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
         LoanQuestionSerializer.new(i, loan: @loan)
       end.to_json
     end
@@ -131,7 +131,7 @@ class Admin::LoansController < Admin::AdminController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
-    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group }
+    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded }
     prep_attached_links if @mode != "details-only"
   end
 

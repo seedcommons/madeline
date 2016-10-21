@@ -70,20 +70,19 @@ class LoanQuestion < ActiveRecord::Base
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
-  # Note: Not chainable; intended to be called on a subset
-  def self.sort_by_required(loan)
-    all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
+  def children_sorted_by_required(loan)
+    children.sort_by { |c| [c.required_for?(loan) ? 0 : 1, c.position] }
   end
 
   # Selects only those questions that are applicable to the given loan.
-  # Returns an array of loan questions.
-  def self.filter_for(loan)
-    if loan
-      sort_by_required(loan).select do |i|
-        i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan))
+  def children_applicable_to(loan)
+    @children_applicable_to ||= {}
+    @children_applicable_to[loan] ||= if loan
+      children_sorted_by_required(loan).select do |c|
+        c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
       end
     else
-      all.select { |i| i.status != 'retired' }
+      children.select { |c| c.status != 'retired' }
     end
   end
 

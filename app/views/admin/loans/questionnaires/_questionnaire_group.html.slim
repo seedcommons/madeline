@@ -60,7 +60,7 @@
 
         / Recurse if group, else render
         - if question.data_type == 'group'
-          - if (filtered_children = question.children.filter_for(@loan)).present?
+          - if (filtered_children = question.children_applicable_to(@loan)).present?
             = render("admin/loans/questionnaires/questionnaire_group",
               f: f, calendarEventsUrl: calendarEventsUrl, roots: filtered_children,
               parents: parents + [question], indices: indices + [idx + 1])

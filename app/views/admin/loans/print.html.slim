@@ -17,7 +17,7 @@ section data-container="loan"
       - if @loan.criteria
         h3 = t('loan.toc')
         = render "admin/loans/questionnaires/questionnaire_toc",
-          group: @loan.criteria.loan_question_set.root_group
+          group: @loan.criteria.loan_question_set.root_group_preloaded
         = render "admin/loans/questionnaires/questionnaire_form",
           calendarEventsUrl: @loan.criteria, attrib: :criteria
       - else
