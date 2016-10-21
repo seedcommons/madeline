@@ -123,13 +123,6 @@ class LoanQuestion < ActiveRecord::Base
     internal_name.to_sym
   end
 
-  # Alternative to children method from closure_tree that uses the kids_for_parent method of
-  # the associated LoanQuestionSet, which loads the entire tree in a small number of DB queries.
-  # Returns [] if this LoanQuestion has no children.
-  def kids
-    loan_question_set.kids_for_parent(self)
-  end
-
   def group?
     data_type == 'group'
   end
