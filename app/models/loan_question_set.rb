@@ -51,7 +51,8 @@ class LoanQuestionSet < ActiveRecord::Base
   end
 
   def root_group_preloaded
-    @root_group_preloaded ||= root_group_including_tree(loan_question_requirements: :loan_type)
+    @root_group_preloaded ||=
+      root_group_including_tree(loan_types: :translations, loan_question_requirements: :loan_type)
   end
 
   def name
