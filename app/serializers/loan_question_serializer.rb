@@ -1,5 +1,5 @@
 class LoanQuestionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count, :optional
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional
 
   def initialize(*args, loan: nil, **options)
     @loan = loan
@@ -20,10 +20,6 @@ class LoanQuestionSerializer < ActiveModel::Serializer
 
   def fieldset
     object.loan_question_set.internal_name.sub('loan_', '')
-  end
-
-  def descendants_count
-    object.descendants.count
   end
 
   def optional

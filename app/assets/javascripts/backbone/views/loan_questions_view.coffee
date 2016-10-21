@@ -105,7 +105,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
     @$(e.target).closest('a').attr('data-confirm',
-      I18n.t("loan_questions.confirm_deletion_descendants", count: node.descendants_count))
+      I18n.t("loan_questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
 
   deleteNode: (e) ->
     id = @$(e.target).closest('li').data('id')
