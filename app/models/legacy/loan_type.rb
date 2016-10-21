@@ -30,7 +30,7 @@ module Legacy
     def migration_data
       data = {
         migration_id: id,
-        option_set_id: 2, # loan_type
+        option_set_id: option_set.id,
         translations: {
           label_en: english_name,
           label_es: spanish_name,
@@ -41,8 +41,8 @@ module Legacy
       data
     end
 
-    def option_id_for_loan_type(loan_type_id)
-      DueDiligencePerLoanType.loan_type_option_set.value_for_migration_id(loan_type_id)
+    def option_set
+      @option_set ||= OptionSet.find_by!(model_attribute: 'loan_type')
     end
 
   end
