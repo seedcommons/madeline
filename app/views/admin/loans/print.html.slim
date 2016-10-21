@@ -19,6 +19,6 @@ section data-container="loan"
         = render "admin/loans/questionnaires/questionnaire_toc",
           group: @loan.criteria.loan_question_set.root_group_preloaded
         = render "admin/loans/questionnaires/questionnaire_form",
-          calendarEventsUrl: @loan.criteria, attrib: :criteria
+          response_set: @loan.criteria, attrib: :criteria
       - else
         = t('loan.criteria_not_entered')

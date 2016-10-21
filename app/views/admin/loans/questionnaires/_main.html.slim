@@ -10,19 +10,19 @@
     label.btn.btn-default
       input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
 
-- @response_sets.each do |attrib, calendarEventsUrl|
+- @response_sets.each do |attrib, response_set|
 
   div.questionnaire.filterable data-attrib=attrib class=attrib
 
-    section.block class=(calendarEventsUrl.persisted? && calendarEventsUrl.valid? ? 'show-view' : 'edit-view')
+    section.block class=(response_set.persisted? && response_set.valid? ? 'show-view' : 'edit-view')
       .show-actions
-        - if policy(@loan).update? && calendarEventsUrl.persisted?
+        - if policy(@loan).update? && response_set.persisted?
           a.edit-action.view-element
             i.fa.fa-pencil.fa-large>
             = t(".edit")
           a.show-action.form-element
             = t("cancel_edit")
-          = link_to [:admin, calendarEventsUrl], method: :delete,
+          = link_to [:admin, response_set], method: :delete,
             data: { \
               confirm: t("loan.confirm_response_deletion"),
               "confirm-cancel": t(:cancel),
@@ -34,7 +34,7 @@
 
       h2 = t("loan.#{attrib}")
 
-      = render "admin/loans/questionnaires/questionnaire_form", calendarEventsUrl: calendarEventsUrl, attrib: attrib
+      = render "admin/loans/questionnaires/questionnaire_form", response_set: response_set, attrib: attrib
 
     javascript:
       $(function() {
