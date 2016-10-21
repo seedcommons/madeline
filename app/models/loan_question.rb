@@ -90,6 +90,11 @@ class LoanQuestion < ActiveRecord::Base
     parent.root?
   end
 
+  # Overriding this method because the closure_tree implementation causes a DB query.
+  def depth
+    @depth ||= root? ? 0 : parent.depth + 1
+  end
+
   def answered_for?(loan)
     response_set = loan.send(loan_question_set.kind)
     return false if !response_set
@@ -131,7 +136,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def first_child?
-    parent && siblings_before.empty?
+    @first_child ||= parent && parent.children.none?{ |q| q.position < position }
   end
 
   # List of value keys for fields which have nested values

@@ -35,7 +35,7 @@
       / Don't print unanswered questions or groups
       - css_class += ' hidden-print' if response_set.tree_unanswered?(question)
 
-      .question data-level=question.level data-type=question.data_type data-id=question.id class=css_class
+      .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
 
         span.tree-view
