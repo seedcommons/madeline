@@ -96,7 +96,6 @@ class LoanQuestion < ActiveRecord::Base
     !response_set.tree_unanswered?(self)
   end
 
-  # Feature #4737
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the loan_questions_options relation table, and the
   # 'override_associations' flag.
