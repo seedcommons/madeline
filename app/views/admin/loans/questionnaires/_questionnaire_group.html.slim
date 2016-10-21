@@ -9,7 +9,7 @@
 
       - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
         / Close and reopen fieldset with new group/page
-        - if optional_encountered
+        - if optional_encountered && @print_view
           </fieldset>
           - reopen_fieldset = true
 
@@ -25,7 +25,7 @@
 
       - optional = !field.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if reopen_fieldset || (start_of_optional_group && !value_set.tree_unanswered?(field))
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && !value_set.tree_unanswered?(field)))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
@@ -116,5 +116,5 @@
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")
 
-    - if optional_encountered
+    - if optional_encountered && @print_view
       </fieldset>
