@@ -4,7 +4,7 @@
 #
 #  amount                      :decimal(, )
 #  created_at                  :datetime         not null
-#  currency_id                 :integer
+#  currency_id                 :integer          not null
 #  custom_data                 :json
 #  division_id                 :integer
 #  first_interest_payment_date :date
