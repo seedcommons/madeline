@@ -7,7 +7,7 @@
 
     - roots.each_with_index do |question, idx|
 
-      - if question.data_type == 'group' && !question.first_child? && !value_set.tree_unanswered?(question)
+      - if question.data_type == 'group' && !question.first_child? && !calendarEventsUrl.tree_unanswered?(question)
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -25,15 +25,15 @@
 
       - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if @print_view && (reopen_fieldset || (start_of_optional_group && !value_set.tree_unanswered?(question)))
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response_set.tree_unanswered?(question)))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - value = value_set.response(question)
+      - value = calendarEventsUrl.response(question)
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
-      - css_class += ' hidden-print' if value_set.tree_unanswered?(question)
+      - css_class += ' hidden-print' if calendarEventsUrl.tree_unanswered?(question)
 
       .question data-level=question.level data-type=question.data_type data-id=question.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
@@ -62,7 +62,7 @@
         - if question.data_type == 'group'
           - if (filtered_children = question.children.filter_for(@loan)).present?
             = render("admin/loans/questionnaires/questionnaire_group",
-              f: f, value_set: value_set, roots: filtered_children,
+              f: f, calendarEventsUrl: calendarEventsUrl, roots: filtered_children,
               parents: parents + [question], indices: indices + [idx + 1])
 
         - else

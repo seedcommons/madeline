@@ -63,16 +63,16 @@ class Admin::LoansController < Admin::AdminController
     authorize @loan, :show?
 
     # Value sets are sets of answers to criteria and post analysis question sets.
-    @value_sets = ActiveSupport::OrderedHash.new
+    @response_sets = ActiveSupport::OrderedHash.new
     @roots = {}
     @questions_json = {}
 
-    Loan::QUESTION_SET_TYPES.each do |attrib|
+    Loan::QUESTION_SET_TYPES.each do |kind|
       # If existing set not found, build a blank one with which to render the form.
-      @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
+      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
 
-      @roots[attrib] = @value_sets[attrib].loan_question_set.root_group
-      @questions_json[attrib] = @roots[attrib].children.filter_for(@loan).map do |i|
+      @roots[kind] = @response_sets[kind].loan_question_set.root_group
+      @questions_json[kind] = @roots[kind].children.filter_for(@loan).map do |i|
         LoanQuestionSerializer.new(i, loan: @loan)
       end.to_json
     end

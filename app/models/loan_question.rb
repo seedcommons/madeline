@@ -75,7 +75,8 @@ class LoanQuestion < ActiveRecord::Base
     all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
   end
 
-  # Note: Not chainable; intended to be called on a subset
+  # Selects only those questions that are applicable to the given loan.
+  # Returns an array of loan questions.
   def self.filter_for(loan)
     if loan
       sort_by_required(loan).select do |i|
