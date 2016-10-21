@@ -135,7 +135,7 @@ class BreakevenTableQuestion
         name: product[:name],
         quantity: product.fetch(:quantity, 0),
         amount: product.fetch(total_key, 0),
-        total: product.fetch(total_key, 0) * product.fetch(:quantity, 0),
+        total: product.fetch(total_key, 0).to_f * product.fetch(:quantity, 0).to_f,
       }.merge(rampup(product[:quantity], product[total_key]))
     end.compact
   end
