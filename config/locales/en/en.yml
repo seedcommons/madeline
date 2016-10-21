@@ -96,6 +96,10 @@ en:
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+    errors:
+      models:
+        project_group:
+          no_summary: "Summary is required."
 
   simple_form:
     hints:
@@ -106,9 +110,6 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
-      project_step_move:
-        move_type: "Which Date?"
-        shift_subsequent: "Shift Others?"
       project_step:
         actual_end_date: "Completed Date"
         duration: "Scheduled Duration"
@@ -116,13 +117,15 @@ en:
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
+      timeline_step_move:
+        move_type: "Change Which Date?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
-      project_step_move:
+      timeline_step_move:
         move_type:
           change_date: "Change step's scheduled date"
           mark_completed: "Mark step completed on this date"
@@ -264,6 +267,7 @@ en:
     division: "Division"
     divisions: "Divisions"
     name: "Name"
+    no_name: "No Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     parent: "Parent"
@@ -347,11 +351,9 @@ en:
     the_day: "The %{day}"
 
   project_step:
+    add: "Add Step"
     after: "After"
     confirm_deletion: "Are you sure you want to delete this project step?"
-    confirm_shift_subsequent:
-      one: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the subsequent step date back by %{days} days?"
-      other: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the %{count} subsequent step dates back by %{days} days?"
     days: "Day(s)"
     delete:
       one: "Delete Step"
@@ -359,7 +361,7 @@ en:
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
     duration_days: "%{duration}d"
-    edit_step: "Edit Step"
+    edit: "Edit Step"
     end: "End:"
     every: "Every:"
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
@@ -388,14 +390,19 @@ en:
       one: "project step"
       other: "project steps"
     repeat: "Repeat..."
-    shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
     timeline_table:
+      draft: "Draft"
       duration: "Duration"
       end: "End"
+      group: "Group"
+      logs: "Logs"
       start: "Start"
       status: "Status"
       step: "Step"
+    types:
+      milestone: "Milestone"
+      checkin: "Check-In"
     status:
       completed: "Completed"
       early: "Early"
@@ -409,6 +416,14 @@ en:
         other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     weeks: "Week(s)"
+
+  project_group:
+    add: "New Group"
+    edit: "Edit Group"
+    delete: "Delete Group"
+    delete_confirmation: Are you sure you want to remove this group?
+  project_groups:
+    delete_error: "The group could not be deleted due to an error"
 
   user:
     account: "Account"

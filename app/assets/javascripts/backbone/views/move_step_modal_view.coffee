@@ -19,7 +19,6 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   replaceContent: (html) ->
     @$el.html(html)
-    @$el.find('.alert').hide()
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     @$('.modal').modal('show')
     MS.loadingIndicator.hide()
@@ -39,7 +38,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
       MS.loadingIndicator.show()
       @$('.modal').modal('hide') # Form will be submitted when this is finished. See below.
     else
-      $form.find('.alert').show()
+      $form.find('.empty-log-error').removeClass('hidden')
 
   modalHidden: ->
     # If the form has been submitted, we need to wait for the modal to finish hiding before

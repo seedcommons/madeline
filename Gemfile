@@ -137,6 +137,8 @@ group :development do
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'rack-livereload'
+
+  gem 'term-ansicolor', '~> 1.3.0'
 end
 
 group :development, :doc do

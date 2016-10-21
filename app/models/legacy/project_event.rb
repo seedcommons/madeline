@@ -19,12 +19,16 @@ module Legacy
       end
     end
 
+    def loan
+      @loan ||= Loan.where(id: project_id).first
+    end
+
     def loan_id
-      if Loan.where(id: project_id).count < 1
+      if loan.blank?
         $stderr.puts "ProjectEvent[#{id}] - Loan #{project_id} not found"
         nil
       else
-        project_id
+        loan.id
       end
     end
 
@@ -52,13 +56,27 @@ module Legacy
 
     def migrate_step
       data = migration_step_data
-      puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
-      ::ProjectStep.create(data)
+      # puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
+      step = ::ProjectStep.create(data)
+
+      # Set all step parents to root group initially. This will be overwritten at
+      # a later point, if an explicit parent is given.
+      step.parent = find_or_create_parent_group
+
+      step.save!
+      step
+    rescue StandardError => e
+      $stderr.puts "#{step.class.name}[#{id}] error migrating step, could not find loan #{data[:project_id]}: #{e} - skipping"
+    end
+
+    def find_or_create_parent_group
+      return unless loan
+      ProjectGroup.find_or_create_by(project_type: "Loan", project_id: loan.id)
     end
 
     def migrate_group
       data = migration_data
-      puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
+      # puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
       ::ProjectGroup.create(data)
     end
 

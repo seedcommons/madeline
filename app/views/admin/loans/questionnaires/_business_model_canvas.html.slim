@@ -1,0 +1,33 @@
+.business-model-canvas-wrapper
+  .business-model-canvas
+    .canvas-row
+      .canvas-col: .canvas-cell
+        = render 'admin/loans/questionnaires/business_model_canvas_cell',
+            section: :key_partners, field: field, data: data
+      .canvas-col
+        .canvas-cell.half-height
+          = render 'admin/loans/questionnaires/business_model_canvas_cell',
+              section: :key_activities, field: field, data: data
+        .canvas-cell.half-height
+          = render 'admin/loans/questionnaires/business_model_canvas_cell',
+              section: :key_resources, field: field, data: data
+      .canvas-col: .canvas-cell
+        = render 'admin/loans/questionnaires/business_model_canvas_cell',
+            section: :value_propositions, field: field, data: data
+      .canvas-col
+        .canvas-cell.half-height
+          = render 'admin/loans/questionnaires/business_model_canvas_cell',
+              section: :customer_relationships, field: field, data: data
+        .canvas-cell.half-height
+          = render 'admin/loans/questionnaires/business_model_canvas_cell',
+              section: :channels, field: field, data: data
+      .canvas-col: .canvas-cell
+        = render 'admin/loans/questionnaires/business_model_canvas_cell',
+            section: :customer_segments, field: field, data: data
+    .canvas-row
+      .canvas-col: .canvas-cell
+        = render 'admin/loans/questionnaires/business_model_canvas_cell',
+            section: :cost_structure, field: field, data: data
+      .canvas-col: .canvas-cell
+        = render 'admin/loans/questionnaires/business_model_canvas_cell',
+            section: :revenue_streams, field: field, data: data

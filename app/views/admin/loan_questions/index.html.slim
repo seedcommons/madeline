@@ -7,7 +7,7 @@
         input type="radio" name="filter" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
       label.btn.btn-default
         input type="radio" name="filter" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
-  
+
   .jqtree data-data=@json
 
   .hidden
@@ -22,20 +22,20 @@
               "confirm-title": t(:delete_record),
             },
             title: t('.delete_item')
-            
+
           i.fa.fa-trash
-    
+
     .new-item-block
       / This is added after each last child
       li.jqtree_common.new-item
         .jqtree_common.jqtree-element
-          span.jqtree_common.jqtree-title 
+          span.jqtree_common.jqtree-title
             a.new-action href="#" = t '.add_item'
         .clearfix
-    
-  #edit-modal.modal.fade tabindex="-1" role="dialog"
+
+  #edit-modal.modal.wider.fade tabindex="-1" role="dialog"
     .modal-dialog
-      .modal-content            
+      .modal-content
 
 javascript:
   $(function(){

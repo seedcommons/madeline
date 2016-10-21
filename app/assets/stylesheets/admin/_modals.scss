@@ -1,0 +1,8 @@
+// Most modal styles are used unmodified from Bootstrap. Place any overrides or tweaks here.
+
+// Wider modal option.
+@media (min-width: 768px) {
+  .modal.wider .modal-dialog {
+    width: 800px;
+  }
+}

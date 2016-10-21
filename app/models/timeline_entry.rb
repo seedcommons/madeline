@@ -28,7 +28,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a9dc5eceeb  (agent_id => people.id)
+#  fk_rails_8589af42f8  (agent_id => people.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
@@ -44,9 +44,4 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project, allow_nil: true
-
-  # Gets the maximum depth of any descendant of this node.
-  def max_descendant_depth
-    leaf? ? depth : children.to_a.map(&:max_descendant_depth).max
-  end
 end

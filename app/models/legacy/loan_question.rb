@@ -7,26 +7,6 @@ module Legacy
 
     remove_method :id, :question
 
-    # Helper method to sanitize local mysql db until we have cleaned up production data.
-    def self.clean_up_legacy_db
-      # mirror new group and order fields for post analysis questions
-      connection.execute("UPDATE LoanQuestions set NewGroup = Grupo where active = 3")
-      connection.execute("UPDATE LoanQuestions set NewOrder = Orden where active = 3")
-
-      # Further, updates which may be useful to run against a local clone of # the production database
-      # # tweak so that cross-linked children will be marked as 'is_active'
-      # connection.execute("UPDATE LoanQuestions set Active = 4 where Active = 2 and NewGroup is not null")
-      #
-      # # filter out questions which seemed to be ignored by old system.
-      # connection.execute("UPDATE LoanQuestions set Active = 0 where NewOrder = 0")
-      # connection.execute("UPDATE LoanQuestions set Active = 0 where NewGroup is null and Type != 'Grupo'")
-      # # ignore some random cruft from lastest prod db
-      # connection.execute("UPDATE LoanQuestions set Active = 0 where Type = ''")
-      #
-      # # create some test data for the 'inactive' state
-      # connection.execute("update LoanQuestions set NewGroup = Grupo where active = 2 and id > 100")
-    end
-
     def self.migrate_all
       puts "loan questions: #{ self.count }"
       (1..4).each{ |set_id| migrate_set(set_id) }
@@ -97,7 +77,7 @@ module Legacy
       # end
 
       data = migration_data
-      puts "#{data[:id]}: #{data[:label_es]}"
+      # puts "#{data[:id]}: #{data[:label_es]}"
       label_es = data.delete(:label_es)
       label_en = data.delete(:label_en)
       model = ::LoanQuestion.new(data)

@@ -64,7 +64,7 @@ class Loan < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
+    # puts "#{data[:id]}: #{data[:name]}"
     org_data = org_snapshot_data
     snapshot = ::OrganizationSnapshot.find_or_create_by(id: org_data[:id])
     snapshot.update(org_data)

@@ -69,7 +69,7 @@ module Legacy
     def migrate
       data = migration_data
       if data
-        puts "#{data[:id]}: step id: #{data[:project_step_id]}"
+        # puts "#{data[:id]}: step id: #{data[:project_step_id]}"
         ::ProjectLog.create(data)
       end
     end

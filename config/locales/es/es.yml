@@ -95,6 +95,10 @@ es:
         date: "Fecha del Apunte"
         agent: "Miembro"
         progress_metric_value: "Estado"
+    errors:
+      models:
+        project_group:
+          no_summary: "Se requiere un resumen."
   simple_form:
     hints:
       division:
@@ -104,16 +108,22 @@ es:
         accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
         accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
     labels:
-      project_step_move:
-        move_type: "¿Cuál Fecha?"
-        shift_subsequent: "¿Cambiar Otros/as?"
+      project_step:
+        actual_end_date: "Fecha de Finalización"
+        duration: "Duración Proyectada"
+        is_finalized: "Finalizado"
+        scheduled_duration_days: "Duración Proyectada"
+        scheduled_start_date: "Fecha Proyectada de Inicio"
+        step_type_value: "Tipo"
+      timeline_step_move:
+        move_type: "¿Cambiar Cuál Fecha?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Miembro"
           none: "Ninguno"
-      project_step_move:
+      timeline_step_move:
         move_type:
           change_date: "Cambiar la fecha prevista del paso"
           mark_completed: "Marcar al paso como completo en esta fecha"
@@ -146,6 +156,7 @@ es:
   project_id: "Projecto %{id}"
   back_to_loans: Regresar a Lista de Préstamos
   about_this_project: Sobre Este Proyecto
+  status: Estado
   amount: Monto
   location: Ubicación
   signing_date: Fecha de Firma
@@ -229,7 +240,6 @@ es:
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
-  status: "Estado"
   submit: "Enviar"
   update: "Actualizar"
   updated: "Actualizado"
@@ -243,6 +253,7 @@ es:
     division: "División"
     divisions: "Divisiones"
     name: "Nombre"
+    no_name: "Sin Nombre"
     no_records: "No se encontraron registros."
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
     parent: "Principal"
@@ -277,6 +288,7 @@ es:
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"
+    empty_log_error: "Error: Un apunte vacío no puede ser guardado. Por favor, agregar un resumen."
     delete: "Borrar Log"
     hide_logs: "Ocultar Apuntes"
     hide_logs_n: "Ocultar (%{n}) Apuntes"
@@ -317,18 +329,17 @@ es:
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
   project_step:
+    add: "Agregar Paso"
     after: "Después de"
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
-    confirm_shift_subsequent:
-      one: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover la siguiente fecha de paso hacia atrás %{days} días?"
-      other: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover las siguientes %{count} fechas de paso hacia atrás %{days} días?"
     days: "Día(s)"
     delete:
       one: "Borraro Paso"
       other: "Borrar Pasos"
     duplicate: "Duplicar"
     duplicate_step: "Duplicar Paso"
-    edit_step: "Editar Paso"
+    duration_days: "%{duration}d"
+    edit: "Editar Paso"
     end: "Fin:"
     every: "Cada:"
     batch_delete_confirm: "¿Realmente quieres borrar estos pasos de proyecto?"
@@ -339,10 +350,12 @@ es:
       other: "Finalizar Pasos"
     labels:
       completed: "Completado:"
+      duration: "Duración:"
       finalized: "Finalizado:"
       scheduled: "Previsto:"
+      start_date: "Fecha de Inicio:"
       status: "Estado:"
-      original_date: "Fecha Original:"
+      old_start_date: "Fecha de Inicio Anterior:"
     logs: "Apuntes"
     months: "Mes(es)"
     move: "Mover Paso"
@@ -355,8 +368,19 @@ es:
       one: "paso del proyecto"
       other: "pasos del proyecto"
     repeat: "Repetir..."
-    shift_subsequent: "¿Mover las siguientes Fechas de Completado?"
     timeline: "Línea de Tiempo"
+    timeline_table:
+      draft: "Borrador"
+      duration: "Duración"
+      end: "Fin"
+      group: "Grupo"
+      logs: "Apuntes"
+      start: "Inicio"
+      status: "Estado"
+      step: "Paso"
+    types:
+      milestone: "Hito"
+      checkin: "Check-In"
     status:
       completed: "Completado"
       early: "Adelantado"
@@ -370,6 +394,13 @@ es:
         other: "Cambiado %{count} veces"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
     weeks: "Semana(s)"
+  project_group:
+    add: "Nuevo Grupo"
+    edit: "Editar Grupo"
+    delete: "Borrar Grupo"
+    delete_confirmation: ¿Realmente quieres borrar este grupo?
+  project_groups:
+    delete_error: "No se pudo borrar el grupo por un error."
   user:
     account: "Cuenta"
     change_password: "Cambiar Contraseña"

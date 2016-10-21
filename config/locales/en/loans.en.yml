@@ -126,12 +126,18 @@ en:
   admin:
     loans:
       questionnaires:
-        edit: "Edit Responses"
-        delete: "Delete All Responses"
+        main:
+          edit: "Edit Responses"
+          delete: "Delete All Responses"
       timeline:
-        list:
-          timeline_header:
-            cancel_edit: "Cancel Edit"
-            edit_all: "Edit All"
-            new_step: "New Step"
-            save_all: "Save All"
+        list_header:
+          cancel_edit: "Cancel Edit"
+          edit_all: "Edit All"
+          new_step: "New Step"
+          save_all: "Save All"
+        top_controls:
+          new_group: "Add Group"
+          new_step: "Add Step"
+        main:
+          add_child_group: "Add Child Group"
+          add_child_step: "Add Child Step"

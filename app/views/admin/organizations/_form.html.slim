@@ -8,7 +8,7 @@
     },
   ) do |f|
 
-  = f.error_notification
+  = error_notification(f)
 
   = f.input :division
     - if policy(@org).reassign_division?

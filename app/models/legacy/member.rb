@@ -36,8 +36,8 @@ class Member < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
-    person = ::Person.find_or_create_by!(id: data[:id])
+    # puts "#{data[:id]}: #{data[:name]}"
+    person = ::Person.find_or_create_by(id: data[:id])
     person.update!(data)
   end
 

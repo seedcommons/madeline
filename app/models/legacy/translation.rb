@@ -8,7 +8,7 @@ class Translation < ActiveRecord::Base
   def migration_data
     new_model_name = Translation.map_model_name(remote_table)
     new_attribute_name = map_attribute_name(new_model_name, remote_column_name)
-    puts "Translation[#{self.id}]"
+    # puts "Translation[#{self.id}]"
     data = {
         # note, no need to maintain ids from legacy translation table
         # id: self.id,
@@ -25,7 +25,7 @@ class Translation < ActiveRecord::Base
   def migrate
     if [1,2,3].include?(language)
       data = migration_data
-      puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
+      # puts "#{data[:id]}: #{data[:translatable_type]}[#{data[:translatable_id]}].#{data[:translatable_attribute]}"
       ::Translation.create(data)
     else
       # note, there is a lot of orphaned translation data in the current production db

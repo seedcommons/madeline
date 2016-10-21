@@ -14,7 +14,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a3c049608b  (division_id => divisions.id)
+#  fk_rails_13da1a92b4  (division_id => divisions.id)
 #
 
 class LoanQuestionSet < ActiveRecord::Base

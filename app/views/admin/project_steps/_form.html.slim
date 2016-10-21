@@ -14,7 +14,7 @@ div.panel-body class=('new-record' if step.new_record?)
 
     = hidden_field_tag(:context, context)
 
-    = f.error_notification
+    = error_notification(f)
     = f.translatable_inputs do |l|
       = f.input "summary_#{l}".to_sym,
         input_html: {data: {translatable: 'summary'}},
