@@ -40,6 +40,8 @@ class Translation < ActiveRecord::Base
         'ProjectStep'
       when 'Cooperatives'
         'Organization'
+      when 'LoanTypes'
+        'Option'
       else
         old_table.singularize
     end
