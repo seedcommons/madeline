@@ -1,6 +1,0 @@
-  ol
-    - group.child_groups.each do |field|
-      li data-level=field.level data-type=field.data_type
-        = field.label
-        - if field.data_type == 'group'
-          = render("admin/loans/questionnaires/questionnaire_toc", group: field)

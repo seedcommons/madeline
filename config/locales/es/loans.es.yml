@@ -121,15 +121,18 @@ es:
   admin:
     loans:
       questionnaires:
-        edit: "Editar Respuestas"
-        delete: "Borrar Todas las Respuestas"
+        main:
+          edit: "Editar Respuestas"
+          delete: "Borrar Todas las Respuestas"
       timeline:
-        list:
-          timeline_header:
-            cancel_edit: "Cancelar Edición"
-            edit_all: "Editar Todo"
-            new_step: "Nuevo Paso"
-            save_all: "Guardar Todo"
-        table:
-          timeline_header:
-            new_group: "Translate me"
+        list_header:
+          cancel_edit: "Cancelar Edición"
+          edit_all: "Editar Todo"
+          new_step: "Nuevo Paso"
+          save_all: "Guardar Todo"
+        top_controls:
+          new_group: "Agregar Grupo"
+          new_step: "Agregar Paso"
+        main:
+          add_child_group: "Agregar Grupo Infantil"
+          add_child_step: "Agregar Paso Infantil"

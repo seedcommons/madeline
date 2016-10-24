@@ -24,7 +24,7 @@ module Legacy
       begin
         data = migration_data
         if data
-          puts "#{data[:id]}: #{media_path}"
+          # puts "#{data[:id]}: #{media_path}"
           ::Media.create!(data)
         end
       rescue StandardError => e

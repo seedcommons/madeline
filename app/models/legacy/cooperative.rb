@@ -13,7 +13,7 @@ class Cooperative < ActiveRecord::Base
   def migration_data
     data = {
         id: self.id,
-        division_id: ::Division.root_id,
+        division_id: Legacy::Division.from_country(self.country).id,
         name: name.try(:strip),
         legal_name: nombre_legal_completo.try(:strip),
         primary_phone: telephone.try(:strip),
@@ -24,8 +24,7 @@ class Cooperative < ActiveRecord::Base
         state: state.try(:strip),
         country_id: Country.find_by(name: self.country).try(:id),
         tax_no: tax_id.try(:strip),
-        #todo: figure out why this bombs, perhaps because source column is already lower case
-        #website: web,
+        website: self[:web],
         alias: self.alias.try(:strip),
         sector: sector.try(:strip),
         industry: industry.try(:strip),
@@ -37,7 +36,7 @@ class Cooperative < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
+    # puts "#{data[:id]}: #{data[:name]}"
     organization = ::Organization.find_or_create_by(id: data[:id])
     organization.update(data)
   end
@@ -45,8 +44,7 @@ class Cooperative < ActiveRecord::Base
   def self.migrate_all
     puts "cooperatives: #{ self.count }"
     self.all.each &:migrate
-    # add 1000 to create space between legacy data and new data
-    ::Organization.recalibrate_sequence(gap: 1000)
+    ::Organization.recalibrate_sequence
   end
 
   def self.purge_migrated

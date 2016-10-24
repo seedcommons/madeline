@@ -52,6 +52,12 @@ form {
   .view-element {
     display: none !important;
   }
+
+  // Form controls are generally tall, so if some text is being displayed where a
+  // form control normally is, we need to add some padding.
+  .form-horizontal .static-text-as-field {
+    padding-top: 7px;
+  }
 }
 
 .show-view {
@@ -66,6 +72,8 @@ form {
     display: none !important;
   }
 
+  // Bootstrap puts a 7px padding-top on labels, which looks good when there are big fat form controls
+  // to their right, but not so when we're just showing a bunch of text. So we override it here.
   .form-horizontal .control-label {
     padding-top: 0;
   }

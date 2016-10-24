@@ -11,7 +11,7 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     )
 
     set_log_form_vars
-    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today)
+    @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today, agent: current_user.profile)
     render layout: false
   end
 

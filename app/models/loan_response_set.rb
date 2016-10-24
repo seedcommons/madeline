@@ -32,11 +32,9 @@ class LoanResponseSet < ActiveRecord::Base
   # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
   # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
   # this responsibility in LoanResponseSet seemed reasonable.
-  # Uses the `kids` method in LoanQuestion that reduces number of database calls.
-  # Returns [] if no children found.
-  def kids_of(response)
-    parent = response.loan_question
-    parent.kids.map { |f| response(f) }
+  # Uses the `question` method to efficiently retreive the question.
+  def children_of(response)
+    question(response.loan_question.id).children.map { |q| response(q) }
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
@@ -59,9 +57,15 @@ class LoanResponseSet < ActiveRecord::Base
 
   # Needed to satisfy the ProgressCalculable duck type.
   # Returns the LoanResponses for the top level questions in the set.
-  def kids
-    top_level_fields = loan_question_set.kids
-    top_level_fields.map { |f| response(f) }
+  def children
+    question(:root).children.map { |f| response(f) }
+  end
+
+  # Fetches a custom value from the json field. `question_identifier` can be the same
+  def response(question_identifier)
+    field = question(question_identifier)
+    raw_value = (custom_data || {})[field.json_key]
+    LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.
@@ -70,13 +74,6 @@ class LoanResponseSet < ActiveRecord::Base
     self.custom_data ||= {}
     custom_data[field.json_key] = value
     custom_data
-  end
-
-  # Fetches a custom value from the json field. `question_identifier` can be the same
-  def response(question_identifier)
-    field = question(question_identifier)
-    raw_value = (custom_data || {})[field.json_key]
-    LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
   end
 
   def tree_unanswered?(root_identifier)

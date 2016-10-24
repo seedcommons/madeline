@@ -13,7 +13,7 @@ javascript:
   $(function() {
     new MS.Views.LoanTabView({
       el: '.nav-tabs',
-      calendar_events_url: #{json @calendar_events_url},
+      calendarEventsUrl: #{json @calendar_events_url},
       loanId: #{json @loan.id}
     });
   });

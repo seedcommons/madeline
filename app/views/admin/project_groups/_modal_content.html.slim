@@ -9,8 +9,12 @@ div.modal-body
     - if @entry.new_record?
       = f.hidden_field(:project_id)
       = f.hidden_field(:project_type)
+      = f.hidden_field(:parent_id)
 
     = error_notification(f, dont_show_default: true)
+
+    - if @entry.parent.present?
+      = f.input :parent_id, collection: [@entry.parent], label_method: :summary, disabled: true
 
     = render 'admin/project_groups/translatable', media: @entry, f: f
 

@@ -5,15 +5,17 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def index
     authorize LoanQuestion
     # Hide retired questions for now
-    @questions = LoanQuestion.loan_questions.where(status: [:active, :inactive])
-    @json = ActiveModel::Serializer::CollectionSerializer.new(@questions.roots).to_json
+    sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
+    @json = ActiveModel::Serializer::CollectionSerializer.new(
+      sets.map { |s| s.root_group_preloaded.children_applicable_to(nil) }.flatten
+    ).to_json
   end
 
   def new
     @parent_id = params[:parent_id]
-    field_set_name = params[:fieldset]
-    field_set = LoanQuestionSet.find_by(internal_name: 'loan_' + field_set_name)
-    @loan_question = field_set.loan_questions.build
+    set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
+    parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
+    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent)
     authorize @loan_question
     @loan_question.build_complete_requirements
     render_form

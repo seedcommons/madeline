@@ -1,5 +1,5 @@
 # Methods for calculating progress towards completion of LoanResponseSets.
-# Assumes including classes implement required?, :group?, :answered?, and kids.
+# Assumes including classes implement required?, :group?, :answered?, and children.
 module ProgressCalculable
   extend ActiveSupport::Concern
 
@@ -29,8 +29,8 @@ module ProgressCalculable
     return @progress_numerator if @progress_numerator
     properties = {answered: true, group: false}
     properties[:required] = true if required?
-    @progress_numerator = kids.sum do |k|
-      (k.has_properties?(properties) ? 1 : 0) + k.progress_numerator
+    @progress_numerator = children.sum do |c|
+      (c.has_properties?(properties) ? 1 : 0) + c.progress_numerator
     end
   end
 
@@ -43,8 +43,8 @@ module ProgressCalculable
     properties = {group: false}
     properties[:required] = true if required?
 
-    @progress_denominator = kids.sum do |k|
-      (k.has_properties?(properties) ? 1 : 0) + k.progress_denominator
+    @progress_denominator = children.sum do |c|
+      (c.has_properties?(properties) ? 1 : 0) + c.progress_denominator
     end
   end
 
