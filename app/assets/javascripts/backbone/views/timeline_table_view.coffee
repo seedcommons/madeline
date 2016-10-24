@@ -54,6 +54,15 @@ class MS.Views.TimelineTableView extends Backbone.View
     e.preventDefault()
     @stepModal.edit(@$(e.currentTarget).closest('[data-id]').data('id'), @refresh.bind(@))
 
+  deleteStep: (e) ->
+    item = e.currentTarget
+    stepId = $(item).closest('.step-menu-col').data('id')
+    $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
+    .done =>
+      @refresh()
+    .fail (response) ->
+      MS.alert(response.responseText)
+
   parentId: (e) ->
     @$(e.target).closest(".project-group").data("id")
 
@@ -78,12 +87,3 @@ class MS.Views.TimelineTableView extends Backbone.View
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
     e.stopPropagation()
-
-  deleteStep: (e) ->
-    item = e.currentTarget
-    stepId = $(item).closest('.step-menu-col').data('id')
-    $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
-    .done =>
-      @refresh()
-    .fail (response) ->
-      MS.alert(response.responseText)
