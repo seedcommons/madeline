@@ -138,6 +138,9 @@ group :development do
   gem 'rack-livereload'
 
   gem 'term-ansicolor', '~> 1.3.0'
+
+  # Mask password at command line
+  gem 'highline'
 end
 
 group :development, :doc do

@@ -7,6 +7,7 @@ module Legacy
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all
+      Legacy::LoanType.migrate_all
       Legacy::Loan.migrate_all
       Legacy::ProjectEvent.migrate_all
       Legacy::ProjectLog.migrate_all

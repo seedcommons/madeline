@@ -24,8 +24,7 @@ class Cooperative < ActiveRecord::Base
         state: state.try(:strip),
         country_id: Country.find_by(name: self.country).try(:id),
         tax_no: tax_id.try(:strip),
-        #todo: figure out why this bombs, perhaps because source column is already lower case
-        #website: web,
+        website: self[:web],
         alias: self.alias.try(:strip),
         sector: sector.try(:strip),
         industry: industry.try(:strip),
