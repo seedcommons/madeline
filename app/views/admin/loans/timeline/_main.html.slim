@@ -27,12 +27,12 @@ section.timeline-table
 
   ul.dropdown-menu.dropdown-menu-right id="project-step-menu"
     li: a href="#" data-action="edit" = t(:edit)
-    li: a href="#" data-action="duplicate" Duplicate
+    li: a href="#" data-action="duplicate" = t("project_step.duplicate")
     li
       a [href="#" data-action="delete"
-        data-confirm="Are you sure you want to delete this step?"
-        data-confirm-title="Delete Step?"]
+        data-confirm== t("project_step.confirm_deletion")
+        data-confirm-title== t("project_step.delete", count: 1)]
         = t(:delete)
-    li: a href="#" data-action="add-dependent-step" Add Dependent Step
-    li: a href="#" Add Log
-    li: a href="#" View Logs
+    li: a href="#" data-action="add-dependent-step" = t("project_step.add_dependent_step")
+    li: a href="#" = t("project_step.add_log")
+    li: a href="#" = t("project_step.view_logs")

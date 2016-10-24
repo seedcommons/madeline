@@ -352,6 +352,8 @@ en:
 
   project_step:
     add: "Add Step"
+    add_dependent_step: "Add Dependent Step"
+    add_log: "Add Log"
     after: "After"
     confirm_deletion: "Are you sure you want to delete this project step?"
     days: "Day(s)"
@@ -415,6 +417,7 @@ en:
         one: "Changed once"
         other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
+    view_logs: "View Logs"
     weeks: "Week(s)"
 
   project_group:
