@@ -81,7 +81,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   deleteStep: (e) ->
     item = e.currentTarget
-    stepId = $(item).closest('.dropdown').attr('data-step-id')
+    stepId = $(item).closest('.step-menu-col').data('id')
     $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
     .done =>
       @refresh()
