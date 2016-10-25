@@ -13,7 +13,7 @@
     emacs config/database.yml
     cp config/secrets.yml.example config/secrets.yml
     emacs config/secrets.yml
-    rake db:schema:load # destroys all data!
+    rake db:setup
     rake dev:fake_data
     rails s
 
@@ -40,9 +40,9 @@ On server:
 
 ### Media Migration
 
-1.  Get the latest media files onto server at `/var/www/rails/madeline/staging/shared/legacymedia`. 
+1.  Get the latest media files onto server at `/var/www/rails/madeline/staging/shared/legacymedia`.
 
-    1.  The old media files can be found on `cofunder.theworkingworld.org` at `/var/www/internal.labase.org/linkedMedia`. 
+    1.  The old media files can be found on `cofunder.theworkingworld.org` at `/var/www/internal.labase.org/linkedMedia`.
 
     2.  Use the following command on the old server to sync the latest media changes:
 
@@ -50,7 +50,7 @@ On server:
         rsync -hrv /var/www/internal.labase.org/linkedMedia deploy@ms-staging.theworkingworld.org:/var/www/rails/madeline/staging/shared/legacymedia
         ```
 
-2.  Run `df -h` to check the free space on the server. The media files take up about 9GB. You'll probably have to delete the previously migrated files (in `shared/public/uploads`) before running the media migration command below. 
+2.  Run `df -h` to check the free space on the server. The media files take up about 9GB. You'll probably have to delete the previously migrated files (in `shared/public/uploads`) before running the media migration command below.
 
 3.  ```shell
     sudo -u deploy RAILS_ENV=staging LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/staging/shared/legacymedia rake tww:migrate_media
