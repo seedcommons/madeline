@@ -25,7 +25,7 @@ It's better to run the main data migration on a local machine to preserve scarce
 
 1. Get latest dump from `base` on `cofunder.theworkingworld.org`
 2. Extract into local MySQL db specified in `legacy` connection in `database.yml`
-3. `rake db:reset` – destroys all data!
+3. `rake db:schema:load` – destroys all data!
 4. `rake tww:migrate_all` (takes about half an hour)
 
 To copy to server:
@@ -36,10 +36,12 @@ To copy to server:
 On server:
 
 1.  `cd /var/www/rails/madeline/staging/current`
-2.  `export RAILS_ENV=staging`
-3.  `rake db:schema:load` – destroys all data!
-4.  `rails db`
-5.  `\i /path/to/dumpfile.sql`
+2.  `export RAILS_ENV=staging` (or `production`)
+3.  `rake db:create`  if db doesn't exist
+4.  `rake db:schema:load` – destroys all data!
+5.  `rails db`
+6.  `\i /path/to/dumpfile.sql`
+7.  Then run media migration below on server
 
 ### Media Migration
 
