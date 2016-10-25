@@ -141,6 +141,84 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     end
   end
 
+  context 'with 4 periods and string data' do
+    let(:json) do
+      {
+        'products': [
+          { 'name': 'Product 1', 'description': 'Description', 'unit': 'Widgets', 'price': '100', 'cost': '50', 'quantity': '800' },
+        ],
+        'fixed_costs': [
+          { 'name': 'Rent', 'amount': '15000' },
+        ],
+        'periods': '4',
+        'units': 'Months',
+      }
+    end
+
+    let(:results) do
+      {
+        revenue: [
+          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, rampup: [
+            { quantity: 200.0, total: 20_000.0 },
+            { quantity: 400.0, total: 40_000.0 },
+            { quantity: 600.0, total: 60_000.0 },
+            { quantity: 800.0, total: 80_000.0 },
+          ] },
+        ],
+        total_revenue: 80_000,
+        total_revenue_rampup: [20000.0, 40000.0, 60000.0, 80000.0],
+        cogs: [
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, rampup: [
+            { quantity: 200.0, total: 10_000.0 },
+            { quantity: 400.0, total: 20_000.0 },
+            { quantity: 600.0, total: 30_000.0 },
+            { quantity: 800.0, total: 40_000.0 },
+          ] },
+        ],
+        total_cogs: 40_000,
+        total_cogs_rampup: [10000.0, 20000.0, 30000.0, 40000.0],
+        gross_margin: 40_000,
+        gross_margin_rampup: [10000.0, 20000.0, 30000.0, 40000.0],
+        fixed_costs: [
+          { name: 'Rent', amount: 15_000.0 },
+        ],
+        total_fixed_costs: 15_000,
+        total_fixed_costs_rampup: [15000.0, 15000.0, 15000.0, 15000.0],
+        net_margin: 25_000,
+        net_margin_rampup: [-5000.0, 5000.0, 15000.0, 25000.0],
+        periods: 4,
+        units: 'Months'
+      }
+    end
+
+    subject { BreakevenTableQuestion.new(json) }
+
+    it 'does not include extra report headings' do
+      expect(subject.report.keys).to match_array report_headings
+    end
+
+    report_headings.each do |row|
+      it "calculates #{row}" do
+        expect(subject.report[row]).to eq results[row]
+      end
+    end
+
+    [1].each do |product_number|
+      context "with Product #{product_number}" do
+        subject do
+          question = BreakevenTableQuestion.new(json)
+          question.report[:revenue].find { |p| p[:name] == "Product #{product_number}" }
+        end
+
+        let(:expected_product) { results[:revenue].find { |p| p[:name] == "Product #{product_number}" } }
+
+        it 'revenue rampup' do
+          expect(subject[:rampup]).to eq expected_product[:rampup]
+        end
+      end
+    end
+  end
+
   context 'without periods' do
     let(:json) do
       {

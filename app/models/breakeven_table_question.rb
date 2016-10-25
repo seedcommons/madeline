@@ -133,10 +133,10 @@ class BreakevenTableQuestion
       next unless product.present? && product[:name].present?
       {
         name: product[:name],
-        quantity: product.fetch(:quantity, 0),
-        amount: product.fetch(total_key, 0),
+        quantity: product.fetch(:quantity, 0).to_f,
+        amount: product.fetch(total_key, 0).to_f,
         total: product.fetch(total_key, 0).to_f * product.fetch(:quantity, 0).to_f,
-      }.merge(rampup(product[:quantity], product[total_key]))
+      }.merge(rampup(product[:quantity].to_f, product[total_key].to_f))
     end.compact
   end
 
@@ -205,7 +205,8 @@ class BreakevenTableQuestion
   end
 
   def periods
-    data_hash[:periods] || 1
+    return data_hash[:periods].to_i if data_hash[:periods].present?
+    1
   end
 
   def units
