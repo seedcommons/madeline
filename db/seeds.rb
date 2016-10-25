@@ -36,8 +36,26 @@ loan_status.options.create(value: 'relationship',
 loan_status.options.create(value: 'relationship_active',
     label_translations: {en: 'Relationship Active', es: 'Relacion Activo'})
 
-OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name, model_attribute: 'loan_type')
-# Fuzzy to add options here.
+loan_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name, model_attribute: 'loan_type')
+loan_type.options.destroy_all
+
+# Note, there is currently no business logic dependency on these options, so no need for a 'slug' style value.
+# Instead the primary key will be used by default, and the legacy data will be matched up by migration_id.
+# If there is a need, then 'slug' style values can be introduced.
+loan_type.options.create(migration_id: 1,
+    label_translations: {en: 'Liquidity line of credit', es: 'Línea de crédito de efectivo'})
+loan_type.options.create(migration_id: 2,
+    label_translations: {en: 'Investment line of credit', es: 'Línea de crédito de inversión'})
+loan_type.options.create(migration_id: 3,
+    label_translations: {en: 'Investment Loans', es: 'Préstamo de Inversión'})
+loan_type.options.create(migration_id: 4,
+    label_translations: {en: 'Evolving loan', es: 'Préstamo de evolución'})
+loan_type.options.create(migration_id: 5,
+    label_translations: {en: 'Single Liquidity line of credit', es: 'Línea puntual de crédito de efectivo'})
+loan_type.options.create(migration_id: 6,
+    label_translations: {en: 'Working Capital Investment Loan', es: 'Préstamo de Inversión de Capital de Trabajo'})
+loan_type.options.create(migration_id: 7,
+    label_translations: {en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados'})
 
 project_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
   model_attribute: 'project_type')

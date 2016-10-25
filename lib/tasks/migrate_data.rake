@@ -1,18 +1,5 @@
 namespace :tww do
 
-  desc "populate db with static migrated data like Currency's and Country's"
-  task :populate_static_data => :environment do
-    Legacy::StaticData.populate
-  end
-
-  # useful when updating and rerunning the populate_static_data task
-  desc "remove populated static data"
-  task :purge_static_data => :environment do
-    Country.destroy_all rescue nil
-    Currency.destroy_all rescue nil
-    OptionSet.destroy_all rescue nil
-  end
-
   desc "migrate TWW data from legacy mysql to new postgres db"
   task :migrate_all => :environment do
     Legacy::Migration.migrate_all
