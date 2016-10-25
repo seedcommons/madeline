@@ -87,12 +87,12 @@ progress_metric.options.create(migration_id: -1, label_translations: {en: 'behin
 progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
 progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
 
+# Need to leave room for migrated loan questions
+# Can remove this line once migration is over with.
+LoanQuestion.recalibrate_sequence(id: 300)
+
 LoanQuestionSet.find_or_create_by(id: 2, division: Division.root,
   internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
 LoanQuestionSet.find_or_create_by(id: 3, division: Division.root,
   internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
 LoanQuestionSet.recalibrate_sequence(gap: 10)
-
-# Need to leave room for migrated loan questions
-# Can remove this line once migration is overwith.
-LoanQuestion.recalibrate_sequence(id: 200)
