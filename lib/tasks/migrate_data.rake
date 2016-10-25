@@ -8,7 +8,9 @@ namespace :tww do
   # useful when updating and rerunning the populate_static_data task
   desc "remove populated static data"
   task :purge_static_data => :environment do
-    Legacy::StaticData.purge
+    Country.destroy_all rescue nil
+    Currency.destroy_all rescue nil
+    OptionSet.destroy_all rescue nil
   end
 
   desc "migrate TWW data from legacy mysql to new postgres db"
