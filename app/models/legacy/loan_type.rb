@@ -6,6 +6,7 @@ module Legacy
 
     def self.migrate_all
       puts "LoanTypes: #{ self.count }"
+      ::OptionSet.find_by!(model_attribute: :loan_type).options.destroy_all
       self.all.each &:migrate
     end
 

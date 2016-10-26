@@ -65,8 +65,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
             label: I18n.t('common.details', locale: l)
 
       = f.input :step_type_value
-        .view-element
-          = @step.step_type_label
+        .view-element = @step.step_type_label
         = f.input_field :step_type_value,
           collection: ProjectStep.step_type_option_set.translated_list,
           include_blank: '---'
