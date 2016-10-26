@@ -1,0 +1,32 @@
+.summary-table.breakeven-table
+  table.table
+    thead
+      tr.table-title
+        th colspan="4" = t("loan.breakeven_rampup.title")
+
+    tbody
+      = render "admin/loans/questionnaires/breakeven_rampup/rampup_table",
+        title: t("loan.breakeven_rampup.revenue"),
+        rampup: report[:revenue],
+        total_rampup: report[:total_revenue_rampup],
+        periods: report[:periods],
+        units: report[:units]
+
+      = render "admin/loans/questionnaires/breakeven_rampup/rampup_table",
+        title: t("loan.breakeven_rampup.cost_of_goods"),
+        rampup: report[:cogs],
+        total_rampup: report[:total_cogs_rampup],
+        periods: report[:periods],
+        units: report[:units]
+
+      = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
+        title: t("loan.breakeven_rampup.total_gross_margin"),
+        rampup: report[:gross_margin_rampup]
+
+      = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
+        title: t("loan.breakeven_rampup.total_fixed_costs", count: 2),
+        rampup: report[:total_cogs_rampup]
+
+      = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
+        title: t("loan.breakeven_rampup.total_net_margin"),
+        rampup: report[:net_margin_rampup]
