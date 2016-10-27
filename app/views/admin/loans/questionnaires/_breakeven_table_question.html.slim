@@ -45,7 +45,7 @@
         = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', question: question
 
   .table-container
-    h4.title = t("loan.breakeven.rampup", count: 2)
+    h4.title = t("loan.breakeven.rampup")
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="rampup"
       thead
@@ -56,9 +56,5 @@
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
         = render 'admin/loans/questionnaires/breakeven_rampup_row', hidden: true, question: question
-        /
-        /- if data && data[:fixed_costs]
-        /  - data[:fixed_costs].each do |cost|
-        /    = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', cost: cost, question: question
 
         = render 'admin/loans/questionnaires/breakeven_rampup_row', periods: data[:periods], units: data[:units], question: question

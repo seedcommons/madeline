@@ -1,7 +1,6 @@
 - hidden ||= false
-- cost ||= {}
 - prefix = "loan_response_set[#{question.attribute_sym}][breakeven]"
 
 tr.ui-state-default data-group="rampup" class=("hidden" if hidden)
-  td: input name="#{prefix}[periods]" value=cost[:name]
-  td: input name="#{prefix}[units]" type="number" value=cost[:amount]
+  td: input name="#{prefix}[periods]" value=(periods unless hidden)
+  td: input name="#{prefix}[units]" value=(units unless hidden)
