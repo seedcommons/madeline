@@ -11,6 +11,10 @@
     }
   }
 
+  tr:nth-child(odd).group-content {
+    border-top: 2px solid $gray4;
+  }
+
   .group-columns {
     td {
       border-top: none;
@@ -19,9 +23,7 @@
   }
 
   .group-row-headings {
-    border-top: none;
-    border-bottom: 1px solid $gray4;
-    border-right: 1px solid $gray4;
+    border-top: 2px solid $gray4;
   }
 
   .group-summary {

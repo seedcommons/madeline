@@ -12,6 +12,9 @@
         periods: report[:periods],
         units: report[:units]
 
+.rampup-table.breakeven-table
+  table.table
+    tbody
       = render "admin/loans/questionnaires/breakeven_rampup/rampup_table",
         title: t("loan.breakeven_rampup.cost_of_goods"),
         rampup: report[:cogs],
@@ -19,6 +22,9 @@
         periods: report[:periods],
         units: report[:units]
 
+.rampup-table.breakeven-table
+  table.table
+    tbody
       = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
         title: t("loan.breakeven_rampup.total_gross_margin"),
         rampup: report[:gross_margin_rampup]
