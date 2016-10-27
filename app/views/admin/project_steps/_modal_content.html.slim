@@ -54,7 +54,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         = f.input :details
           = @step.details
       .form-element
-        = f.input :parent_id
+        = f.input :parent_id, collection: @parents, label_method: :summary
 
         = f.translatable_inputs do |l|
           = f.input "summary_#{l}".to_sym,
