@@ -36,7 +36,11 @@ class Admin::ProjectStepsController < Admin::AdminController
     # We initialize with project_step_params here to given enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
-    @step.parent = @step.project.root_timeline_entry
+    if @step.parent_id
+      @step.parent = ProjectGroup.find(@step.parent_id)
+    else
+      @step.parent = @step.project.root_timeline_entry
+    end
     valid = @step.save
     if params[:context] == "timeline_table"
       valid ? render(nothing: true) : render_modal_content(422)
@@ -131,7 +135,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def project_step_params
     params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :actual_end_date,
       :scheduled_duration_days, :step_type_value, :project_type,
-      :project_id] + translation_params(:summary, :details)))
+      :project_id, :parent_id] + translation_params(:summary, :details)))
   end
 
   def display_timeline(project_id, notice = nil)
