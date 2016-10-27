@@ -36,9 +36,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     # We initialize with project_step_params here to given enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
-    if @step.parent_id
-      @step.parent = ProjectGroup.find(@step.parent_id)
-    else
+    unless @step.parent_id
       @step.parent = @step.project.root_timeline_entry
     end
     valid = @step.save
@@ -155,7 +153,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def render_modal_content(status = 200)
     @mode = params[:action] == "show" ? :show_and_form : :form_only
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
-      context: params[:context], parent_id: params[:parent_id]
+      context: params[:context]
     }
   end
 end
