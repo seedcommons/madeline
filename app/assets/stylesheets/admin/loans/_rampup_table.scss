@@ -1,0 +1,50 @@
+@import '../colors';
+
+.rampup-table {
+  .group-columns, .group-summary, .group-title {
+    font-weight: bold;
+  }
+
+  .group-columns, .group-content, .group-summary {
+    td:first-child {
+      padding-left: 2em;
+    }
+  }
+
+  .group-columns {
+    td {
+      border-top: none;
+      border-bottom: 2px solid $gray4;
+    }
+  }
+
+  .group-row-headings {
+    border-top: none;
+    border-bottom: 1px solid $gray4;
+    border-right: 1px solid $gray4;
+  }
+
+  .group-summary {
+    td {
+      border-top: 2px solid $gray3;
+      border-bottom: none;
+    }
+  }
+
+  .group-title {
+    font-size: 1.25em;
+    td {
+      border-top-width: 2px;
+    }
+  }
+
+  .table-title {
+    font-size: 1.5em;
+  }
+
+  .total {
+    td {
+      border-top: 2px solid $black;
+    }
+  }
+}
