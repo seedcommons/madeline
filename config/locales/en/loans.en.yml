@@ -110,6 +110,9 @@ en:
       total_fixed_costs: "Total Fixed Costs"
       total_revenue: "Total Revenue"
       unit: "Unit of Sale"
+      rampup: "Rampup"
+      units: "Units"
+      periods: "Periods"
 
   loans:
     index:
