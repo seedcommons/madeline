@@ -1,4 +1,4 @@
-tr
+tr.group-content
   td
     td.text-center colspan=periods
       = units
@@ -12,12 +12,11 @@ tr.group-columns
 
 - rampup.each do |item|
   tr.group-content
-    td.group-row-headings rowspan=2 style="vertical-align: middle" =item[:name]
-    - item[:rampup].each do |rampup|
-      td.text-right = number_to_human(rampup[:quantity], precision: 0)
-  tr.group-content
+    td.group-row-headings =item[:name]
     - item[:rampup].each do |rampup|
       td.text-right
+        = number_to_human(rampup[:quantity], precision: 0)
+        br
         = format_currency(rampup[:total], @loan.ensure_currency, tooltip: false)
 
 tr.group-summary

@@ -5,13 +5,7 @@
     font-weight: bold;
   }
 
-  .group-columns, .group-content, .group-summary {
-    td:first-child {
-      padding-left: 2em;
-    }
-  }
-
-  tr:nth-child(odd).group-content {
+  .group-content {
     border-top: 2px solid $gray4;
   }
 

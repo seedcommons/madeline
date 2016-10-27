@@ -210,7 +210,7 @@ class BreakevenTableQuestion
   end
 
   def units
-    data_hash[:units] || 'No Units Defined'
+    data_hash[:units] || 'Periods'
   end
 
   def rampup(total_quantity, price)

@@ -264,7 +264,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         total_fixed_costs: 66_000.0,
         net_margin: 0.0,
         periods: 1,
-        units: 'None'
+        units: 'Periods'
       }
     end
 
@@ -318,7 +318,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         total_fixed_costs: 15_000,
         net_margin: -55_000.0,
         periods: 1,
-        units: 'None'
+        units: 'Periods'
       }
     end
 
@@ -362,7 +362,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         total_fixed_costs: 0,
         net_margin: 66_000.0,
         periods: 1,
-        units: 'None'
+        units: 'Periods'
       }
     end
 
