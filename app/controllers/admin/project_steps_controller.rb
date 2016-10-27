@@ -4,7 +4,8 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
+    @parent_id = params[:parent_id]
+    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date], parent_id: @parent_id)
     authorize @step
     if params[:context] == "timeline_table"
       render_modal_content
@@ -150,7 +151,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def render_modal_content(status = 200)
     @mode = params[:action] == "show" ? :show_and_form : :form_only
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
-      context: params[:context]
+      context: params[:context], parent_id: params[:parent_id]
     }
   end
 end
