@@ -25,6 +25,21 @@
         = render 'admin/loans/questionnaires/breakeven_product_row', question: question
 
   .table-container
+    h4.title = t("loan.breakeven.rampup")
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="rampup"
+      thead
+        tr
+          th = t("loan.breakeven.periods")
+          th = t("loan.breakeven.units")
+      tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+        tr.ui-state-default data-group="rampup" class="hidden"
+
+        = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, periods: data[:periods], units: data[:units], question: question
+
+  .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed_costs"
@@ -43,18 +58,3 @@
             = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', cost: cost, question: question
 
         = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', question: question
-
-  .table-container
-    h4.title = t("loan.breakeven.rampup")
-
-    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="rampup"
-      thead
-        tr
-          th = t("loan.breakeven.periods")
-          th = t("loan.breakeven.units")
-      tbody
-        / Hidden row is used to generate new rows
-        / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/questionnaires/breakeven_rampup_row', hidden: true, question: question
-
-        = render 'admin/loans/questionnaires/breakeven_rampup_row', periods: data[:periods], units: data[:units], question: question

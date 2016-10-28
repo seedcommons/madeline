@@ -85,6 +85,15 @@ class BreakevenTableQuestion
   #   periods: 4,
   #   units: 'Months'
   # }
+
+  PERIOD_TYPES = %i(days weeks months quarters years).freeze
+
+  def self.period_type_names
+    PERIOD_TYPES.map do |period_name|
+      I18n.t("breakeven_table_question.#{period_name}")
+    end.sort
+  end
+
   def report
     return if blank?
 

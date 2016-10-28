@@ -1,6 +1,6 @@
-- hidden ||= false
 - prefix = "loan_response_set[#{question.attribute_sym}][breakeven]"
 
-tr.ui-state-default data-group="rampup" class=("hidden" if hidden)
-  td: input name="#{prefix}[periods]" value=(periods unless hidden)
-  td: input name="#{prefix}[units]" value=(units unless hidden)
+tr.ui-state-default data-group="rampup"
+  td: input.form-element.form-control name="#{prefix}[periods]" value=periods
+  td
+    = select_tag("#{prefix}[units]", options_for_select(BreakevenTableQuestion.period_type_names, units), class: "select form-element form-control")
