@@ -36,8 +36,11 @@
 require 'chronic'
 class ProjectGroup < TimelineEntry
   class DestroyWithChildrenError < StandardError; end
+  class MultipleRootError < StandardError; end
 
   validate :has_summary
+
+  before_create :ensure_single_root
 
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
@@ -78,6 +81,13 @@ class ProjectGroup < TimelineEntry
   def has_summary
     if !root? && summary.blank?
       errors.add(:base, :no_summary)
+    end
+  end
+
+  def ensure_single_root
+    if parent_id.nil?
+      roots = self.class.where(project_id: project_id, project_type: project_type, parent_id: nil).count
+      raise MultipleRootError.new("This project already has a root group") if roots > 0
     end
   end
 end
