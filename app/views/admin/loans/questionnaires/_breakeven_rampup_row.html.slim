@@ -1,6 +1,8 @@
 - prefix = "loan_response_set[#{question.attribute_sym}][breakeven]"
+- periods ||= ''
+- units ||= ''
 
 tr.ui-state-default data-group="rampup"
   td: input.form-element.form-control name="#{prefix}[periods]" value=periods
   td
-    = select_tag("#{prefix}[units]", options_for_select(BreakevenTableQuestion.period_type_names, units), class: "select form-element form-control")
+    = select_tag("#{prefix}[units]", options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), units), class: "select form-element form-control")

@@ -37,7 +37,10 @@
         / Is at top instead of bottom to not affect striped rows
         tr.ui-state-default data-group="rampup" class="hidden"
 
-        = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, periods: data[:periods], units: data[:units], question: question
+        - if data
+          = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, periods: data[:periods], units: data[:units], question: question
+        - else
+          = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, question: question
 
   .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
