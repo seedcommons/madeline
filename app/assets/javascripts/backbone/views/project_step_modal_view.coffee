@@ -20,7 +20,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   new: (loanId, done, options = {}) ->
     @done = done
     date = options.date || ''
-    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table&date=#{date}")
+    parentId = options.parentId if options.parentId
+    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}")
 
   edit: (id, done) ->
     @done = done
@@ -67,5 +68,3 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   runAndResetDoneCallback: ->
     @done() if @done
     @done = (->) # Reset to empty function.
-
-

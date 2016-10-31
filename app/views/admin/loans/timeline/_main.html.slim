@@ -1,6 +1,6 @@
 - max_group_depth = @loan.root_timeline_entry.max_descendant_group_depth
 
-section.timeline-table
+section.timeline-table data-loan-id== @loan.id
   = render "admin/loans/timeline/top_controls"
   - if @loan.root_timeline_entry
     - if @loan.root_timeline_entry.is_a?(ProjectGroup)
