@@ -46,6 +46,10 @@ class ProjectGroup < TimelineEntry
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
 
+  def summary_or_none
+    summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
+  end
+
   # Gets the total number of steps beneath this group.
   # Currently this will recursively traverse the tree and fire a whole bunch of queries,
   # one for each ProjectGroup. Should be some way to eager load but not seeing it.

@@ -68,7 +68,7 @@ class ProjectStep < TimelineEntry
     summary
   end
 
-  def name_or_none
+  def summary_or_none
     summary.blank? ? "[#{I18n.t("common.no_name")}]" : summary.to_s
   end
 
