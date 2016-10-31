@@ -1,5 +1,20 @@
 @import "../colors";
 
+
+table.breakeven-table-rampup {
+  width: auto;
+  min-width: 0;
+
+  th {
+    min-width: 11em;
+  }
+
+  tbody>tr>td {
+    text-align: center;
+    vertical-align: top;
+  }
+}
+
 .editable-table {
   table-layout: fixed;
   width: 100%;
