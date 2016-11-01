@@ -55,7 +55,7 @@ class Translation < ActiveRecord::Base
 
   ATTRIBUTE_MAP = {
       'Loan' => {'ShortDescription' => 'summary', 'Description' => 'details'},
-      'ProjectStep' => {'Summary' => 'summary', 'Details' => 'details'},
+      'TimelineEntry' => {'Summary' => 'summary', 'Details' => 'details'},
       'ProjectLog' => {
         'Explanation' => 'summary', 'DetailedExplanation' => 'details',
         'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes',

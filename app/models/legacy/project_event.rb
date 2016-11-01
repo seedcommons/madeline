@@ -39,7 +39,7 @@ module Legacy
           project_type: project_table.singularize.capitalize,
           project_id: loan_id,
           agent_id: agent_id,
-          is_finalized: finalized,
+          is_finalized: (finalized == 1),
           step_type_value: MIGRATION_TYPE_OPTIONS.value_for(type),
           # type_option_value: ::ProjectStep.step_type_option_set.value_for_migration_id(type)
       }
@@ -154,6 +154,8 @@ module Legacy
 
       step_children = step_events.where.not(milestone_group: nil)
       parent_ids = step_children.pluck(:milestone_group)
+
+      ProjectGroup.skip_callback(:create, :before, :ensure_single_root)
 
       step_events.find_each do |event|
         if parent_ids.include? event.id
