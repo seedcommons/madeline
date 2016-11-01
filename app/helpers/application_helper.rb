@@ -53,4 +53,16 @@ module ApplicationHelper
     no_records = grid.current_page_records.length < 1
     render "admin/common/grid", no_records: no_records, grid: grid
   end
+
+  def labase_new_disbursment_url(loan:)
+    "http://internal.labase.org/transactionManager.php?Preset=true&TransactionType=12&Loan=#{loan.id}"
+  end
+
+  def labase_new_repayment_url(loan:)
+    "http://internal.labase.org/transactionManager.php?Preset=true&TransactionType=57&Loan=#{loan.id}"
+  end
+
+  def labase_schedule_url(loan:)
+    "http://internal.labase.org/LoanSchedule.php?&LoanID=#{loan.id}"
+  end
 end
