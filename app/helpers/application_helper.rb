@@ -54,15 +54,48 @@ module ApplicationHelper
     render "admin/common/grid", no_records: no_records, grid: grid
   end
 
+  # Returns the new disbursment url, as well as addtional loan and org information.
+  # This information maybe be required, if the loan does not exist in the old system.
   def labase_new_disbursment_url(loan:)
-    "http://internal.labase.org/transactionManager.php?Preset=true&TransactionType=12&Loan=#{loan.id}"
+    disbursment_transaction_type = 12
+    labase_url('transactionManager.php', loan,
+      'Preset': true, 'TransactionType': disbursment_transaction_type, 'Loan': loan.id)
   end
 
+  # Returns the new repayment url, as well as addtional loan and org information.
+  # This information maybe be required, if the loan does not exist in the old system.
   def labase_new_repayment_url(loan:)
-    "http://internal.labase.org/transactionManager.php?Preset=true&TransactionType=57&Loan=#{loan.id}"
+    repayment_transaction_type = 57
+    labase_url('transactionManager.php', loan,
+      'Preset': true, 'TransactionType': repayment_transaction_type, 'Loan': loan.id)
   end
 
+  # Returns the schedule url, as well as addtional loan and org information.
+  # This information maybe be required, if the loan does not exist in the old system.
   def labase_schedule_url(loan:)
-    "http://internal.labase.org/LoanSchedule.php?&LoanID=#{loan.id}"
+    labase_url('LoanSchedule.php', loan, 'LoanID': loan.id)
+  end
+
+  # Takes the page_url merges labase values, with loan values, and returns properly formatted URI
+  def labase_url(page_url, loan, labase_query_values)
+    base_uri = 'http://internal.labase.org/'
+    uri = Addressable::URI.parse(base_uri + page_url)
+    uri.query_values = labase_query_values.merge(to_query_values(loan)).merge(to_query_values(loan.organization))
+    uri.to_s
+  end
+
+  # Returns serializable attribs as rails standard post data
+  #
+  # to_query_values(loan)
+  # =>
+  # {"loan[id]"=>1364,
+  #  "loan[amount]"=>#<BigDecimal:7feb498d5658,'0.1E5',9(18)>,
+  #  "loan[currency_id]"=>2 ... }
+  def to_query_values(object)
+    allowed_attribs = object.attributes.select do |_key, value|
+      [Fixnum, String, BigDecimal].any? { |type| value.is_a?(type) }
+    end
+
+    allowed_attribs.inject({}) { |acc, (key, value)| acc.update("#{object.class.to_s.downcase}[#{key}]" => value) }
   end
 end
