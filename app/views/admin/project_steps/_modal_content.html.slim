@@ -6,7 +6,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       span aria-hidden="true" &times;
     h4.modal-title
       .view-element
-        = @step.name_or_none
+        = @step.summary_or_none
       .form-element
         = t("project_step.#{@step.new_record? ? 'add' : 'edit'}")
 
@@ -65,11 +65,13 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
             label: I18n.t('common.details', locale: l)
 
       = f.input :step_type_value
-        .view-element
-          = @step.step_type_value.present? ? t("project_step.types.#{@step.step_type_value}") : ""
+        .view-element = @step.step_type_label
         = f.input_field :step_type_value,
           collection: ProjectStep.step_type_option_set.translated_list,
           include_blank: '---'
+
+      = f.input :parent_id, collection: @parents, label_method: :summary_or_none,
+        label: t("project_step.timeline_table.group"), include_blank: false
 
       = f.input :scheduled_start_date
         .view-element = ldate(@step.scheduled_start_date)

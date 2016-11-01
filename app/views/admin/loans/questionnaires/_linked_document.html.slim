@@ -4,18 +4,18 @@
 
     .ld-container
       .form-group.full-width-group
-        label for="#{field.attribute_sym}[url]" = t("linked_document.url")
-        = f.input_field :"#{field.attribute_sym}[url]", as: :string, value: document.try(:url),
+        label for="#{question.attribute_sym}[url]" = t("linked_document.url")
+        = f.input_field :"#{question.attribute_sym}[url]", as: :string, value: document.try(:url),
           class: 'form-control', placeholder: t("linked_document.link")
       .help-block
         span = t("linked_document.range_of_cells")
       .form-group
-        label for="#{field.attribute_sym}[start_cell]" = t("linked_document.cell_start")
-        = f.input_field :"#{field.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
+        label for="#{question.attribute_sym}[start_cell]" = t("linked_document.cell_start")
+        = f.input_field :"#{question.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
           class: 'form-control', placeholder: t("linked_document.cell_start_hint")
       .form-group
-        label for="#{field.attribute_sym}[end_cell]" = t("linked_document.cell_end")
-        = f.input_field :"#{field.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
+        label for="#{question.attribute_sym}[end_cell]" = t("linked_document.cell_end")
+        = f.input_field :"#{question.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
           class: 'form-control', placeholder: t("linked_document.cell_end_hint")
       - if document
         - if document.display_url.present?
@@ -30,14 +30,14 @@
       .doc-actions
         - if document.display_url.present?
           / Beware, the display_height value doesn't not seem to be honored
-          a[href="#" data-expands="iframe-#{field.attribute_sym}"
+          a[href="#" data-expands="iframe-#{question.attribute_sym}"
             data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
             i.fa.fa-eye.fa-large>
             = t("loan.spreadsheet_inline")
-          a href="#" data-hides="iframe-#{field.attribute_sym}"
+          a href="#" data-hides="iframe-#{question.attribute_sym}"
             i.fa.fa-eye-slash.fa-large>
             = t("loan.spreadsheet_hide")
           = link_to document.url, target: '_blank'
             i.fa.fa-external-link.fa-large>
             = t("loan.spreadsheet_new_tab")
-    .spreadsheet data-expandable="iframe-#{field.attribute_sym}"
+    .spreadsheet data-expandable="iframe-#{question.attribute_sym}"

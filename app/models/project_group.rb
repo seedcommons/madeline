@@ -36,12 +36,19 @@
 require 'chronic'
 class ProjectGroup < TimelineEntry
   class DestroyWithChildrenError < StandardError; end
+  class MultipleRootError < StandardError; end
 
   validate :has_summary
+
+  before_create :ensure_single_root
 
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
+
+  def summary_or_none
+    summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
+  end
 
   # Gets the total number of steps beneath this group.
   # Currently this will recursively traverse the tree and fire a whole bunch of queries,
@@ -78,6 +85,13 @@ class ProjectGroup < TimelineEntry
   def has_summary
     if !root? && summary.blank?
       errors.add(:base, :no_summary)
+    end
+  end
+
+  def ensure_single_root
+    if parent_id.nil?
+      roots = self.class.where(project_id: project_id, project_type: project_type, parent_id: nil).count
+      raise MultipleRootError.new("This project already has a root group") if roots > 0
     end
   end
 end

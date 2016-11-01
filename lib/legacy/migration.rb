@@ -3,7 +3,7 @@ module Legacy
   class Migration
 
     def self.migrate_all
-      Legacy::StaticData.populate
+      OptionSet.find_by(model_attribute: :loan_type) || raise("Run rake db:seed first.")
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all
@@ -20,7 +20,7 @@ module Legacy
 
     # the core data which can be quickly migrated
     def self.migrate_core
-      Legacy::StaticData.populate
+      OptionSet.find_by(model_attribute: :loan_type) || raise("Run rake db:seed first.")
       Legacy::Division.migrate_all
       Legacy::Cooperative.migrate_all
       Legacy::Member.migrate_all

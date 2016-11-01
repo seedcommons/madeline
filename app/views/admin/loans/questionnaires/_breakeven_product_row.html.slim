@@ -1,6 +1,6 @@
 - hidden ||= false
 - product ||= {}
-- prefix = "loan_response_set[#{field.attribute_sym}][breakeven][products][]"
+- prefix = "loan_response_set[#{question.attribute_sym}][breakeven][products][]"
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td: textarea name="#{prefix}[name]" = product[:name]

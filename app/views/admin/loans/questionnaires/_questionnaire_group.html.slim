@@ -5,9 +5,9 @@
     - optionals_exist = roots.any? { |i| !i.required_for?(@loan) }
     - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
 
-    - roots.each_with_index do |field, idx|
+    - roots.each_with_index do |question, idx|
 
-      - if field.data_type == 'group' && !field.first_child? && !value_set.tree_unanswered?(field)
+      - if question.data_type == 'group' && !question.first_child? && !response_set.tree_unanswered?(question)
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -23,78 +23,71 @@
           br
           = I18n.l(Date.today, format: :long)
 
-      - optional = !field.required_for?(@loan)
+      - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if @print_view && (reopen_fieldset || (start_of_optional_group && !value_set.tree_unanswered?(field)))
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response_set.tree_unanswered?(question)))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - value = value_set.response(field)
+      - value = response_set.response(question)
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
-      - css_class += ' hidden-print' if value_set.tree_unanswered?(field)
+      - css_class += ' hidden-print' if response_set.tree_unanswered?(question)
 
-      .question data-level=field.level data-type=field.data_type data-id=field.id class=css_class
+      .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
         - index_str = (indices + [idx + 1]).join(".")
 
         span.tree-view
-          - if !field.leaf?
+          - if !question.leaf?
             = render "admin/loans/questionnaires/progress_bar", object: value
 
-          - if field.data_type == 'group'
-            - header_tag = {tag: %i(h3 h4 h5)[field.depth] || :h5}
+          - if question.data_type == 'group'
+            - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
             *header_tag
               / Group title
               => index_str
-              - if field.first_child?
-                = field.label
+              - if question.first_child?
+                = question.label
               - else
-                = (parents.map(&:label) + [field.label]).join(": ")
+                = (parents.map(&:label) + [question.label]).join(": ")
 
           - else
-            .question-label = "#{index_str} #{field.label}"
+            .question-label = "#{index_str} #{question.label}"
 
-        - if field.explanation.present?
-          p.help-block.hidden-print.tree-view = field.explanation
+        - if question.explanation.present?
+          p.help-block.hidden-print.tree-view = question.explanation
 
         / Recurse if group, else render
-        - if field.data_type == 'group'
-          - if (filtered_children = field.children.filter_for(@loan)).present?
+        - if question.data_type == 'group'
+          - if (filtered_children = question.children_applicable_to(@loan)).present?
             = render("admin/loans/questionnaires/questionnaire_group",
-              f: f, value_set: value_set, roots: filtered_children,
-              parents: parents + [field], indices: indices + [idx + 1])
+              f: f, response_set: response_set, roots: filtered_children,
+              parents: parents + [question], indices: indices + [idx + 1])
 
         - else
-
           .answer-wrapper.tree-view
-            / It's very useful to be able to temporarily expose this block for debugging.
-            / Please don't remove.
-            /= "field id: #{field.id}"
-            /br
-            /= "raw data: #{value_set.custom_data[field.id.to_s]}"
-            /br
-
             - if value.has_rating?
               - if value.rating.present?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"
-              = f.input_field :"#{field.attribute_sym}[rating]", as: :select, selected: value.rating,
+              = f.input_field :"#{question.attribute_sym}[rating]", as: :select, selected: value.rating,
                 collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
 
             - if value.has_number?
               - if value.number.present?
                 .view-element.answer = value.number
-              = f.input_field :"#{field.attribute_sym}[number]", as: :decimal, value: value.number
+              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal, value: value.number
 
             - if value.has_text?
               - if value.text.present?
                 .view-element.answer = simple_format(value.text)
-              = f.input_field :"#{field.attribute_sym}[text]", as: value.text_form_field_type, value: value.text
+              = f.input_field :"#{question.attribute_sym}[text]", as: value.text_form_field_type,
+                value: value.text
 
             - if value.has_boolean?
               - if value.boolean.present?
                 .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
-              = f.input_field :"#{field.attribute_sym}[boolean]", as: :select, selected: value.boolean,
+              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: value.boolean,
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
@@ -104,17 +97,21 @@
                   = render "admin/loans/questionnaires/breakeven_table_report", report: value.breakeven_report
                   = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report
               .form-element
-                = render 'admin/loans/questionnaires/breakeven_table_question', f: f, field: field, data: value.breakeven_hash
+                = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+                  question: question, data: value.breakeven_hash
 
             - if value.has_business_canvas?
               .answer class=('form-element' if value.business_canvas_blank?)
-                = render 'admin/loans/questionnaires/business_model_canvas', f: f, field: field, data: value.business_canvas
+                = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+                  question: question, data: value.business_canvas
 
             - if value.has_linked_document?
-              = render 'admin/loans/questionnaires/linked_document', f: f, field: field, document: value.linked_document
+              = render 'admin/loans/questionnaires/linked_document', f: f,
+                question: question, document: value.linked_document
 
             - if value.blank?
               .view-element.answer.blank = t("loan.no_answer")
+
 
     - if optional_encountered && @print_view
       </fieldset>
