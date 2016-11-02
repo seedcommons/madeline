@@ -91,6 +91,10 @@ progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead'
 # Can remove this line once migration is over with.
 LoanQuestion.recalibrate_sequence(id: 300)
 
+# Without these resets we were getting a strange closure_tree error.
+LoanQuestionSet.connection.schema_cache.clear!
+LoanQuestionSet.reset_column_information
+
 LoanQuestionSet.find_or_create_by(id: 2, division: Division.root,
   internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
 LoanQuestionSet.find_or_create_by(id: 3, division: Division.root,
