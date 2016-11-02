@@ -92,6 +92,10 @@
     min-width: 15em;
   }
 
+  [data-action="view-logs"] {
+    margin: 0 0 0 1em;
+  }
+
   .select-step {
     margin: .1em 0;
     vertical-align: top;

@@ -32,8 +32,12 @@
     td = t("project_step.timeline_table.draft")
 
   td.recent-logs class="#{entry.project_logs.length > 0 ? 'has-logs' : '' }"
-    - entry.project_logs.each do |log|
-      p = log.summary
+    - entry.project_logs.each_with_index do |log, index|
+      p
+        = log.summary
+        - if (index == entry.project_logs.length - 1)
+          = link_to "More...", "#", data: {action: 'view-logs'}
+
   td.step-menu-col data-id=entry.id
     span.dropdown
       i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
