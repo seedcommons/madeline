@@ -38,7 +38,8 @@ class ProjectGroup < TimelineEntry
   class DestroyWithChildrenError < StandardError; end
   class MultipleRootError < StandardError; end
 
-  validate :has_summary
+  # Causing migration problems. Is this really necessary? ~Fuzzy
+  # validate :has_summary
 
   before_create :ensure_single_root
 

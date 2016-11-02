@@ -8,7 +8,7 @@ module Legacy
     # note, legacy data includes 11 references to a '0' member_id
     def agent_id
       if member_id == 0
-        $stderr.puts "ProjectEvent[#{id}] - mapping 0 MemberId ref to null"
+        # $stderr.puts "ProjectEvent[#{id}] - mapping 0 MemberId ref to null"
         nil
       else
         if Person.where(id: member_id).count > 0
