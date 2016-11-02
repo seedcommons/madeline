@@ -87,20 +87,15 @@
     width: calc(100% - 2.5em);
   }
 
-  // If logs are present, allow space for log summaries
   .has-logs {
-    min-width: 15em;
+    max-width: 16em;
 
-    p {
+    .log-summary {
+      width: 100%;
       text-overflow: ellipsis;
-      width: 95%;
       white-space: nowrap;
       overflow: hidden;
     }
-  }
-
-  [data-action="view-logs"] {
-    margin: 0 0 0 1em;
   }
 
   .select-step {
