@@ -87,6 +87,11 @@
     width: calc(100% - 2.5em);
   }
 
+  // If logs are present, allow space for log summaries
+  .has-logs {
+    min-width: 15em;
+  }
+
   .select-step {
     margin: .1em 0;
     vertical-align: top;
