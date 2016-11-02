@@ -5,6 +5,10 @@
     min-width: 8rem;
   }
 
+  .step-name-col {
+    min-width: 12em;
+  }
+
   // Specificity used to override Bootstrap defaults
   .table thead:first-child tr {
     th {
