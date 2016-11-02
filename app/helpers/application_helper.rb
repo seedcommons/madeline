@@ -93,9 +93,9 @@ module ApplicationHelper
   #  "loan[currency_id]"=>2 ... }
   def to_query_values(object)
     allowed_attribs = object.attributes.select do |_key, value|
-      [Fixnum, String, BigDecimal].any? { |type| value.is_a?(type) }
+      [Fixnum, String, BigDecimal, Date].any? { |type| value.is_a?(type) }
     end
 
-    allowed_attribs.inject({}) { |acc, (key, value)| acc.update("#{object.class.to_s.downcase}[#{key}]" => value) }
+    allowed_attribs.inject({}) { |acc, (key, value)| acc.update("#{object.class.to_s.downcase}[#{key}]" => value.to_s) }
   end
 end
