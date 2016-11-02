@@ -36,7 +36,7 @@
       p.log-summary = log.summary
 
       - if (index == entry.latest_logs.length - 1)
-        div = link_to "More...", "#", data: {action: 'view-logs'}
+        div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
 
   td.step-menu-col data-id=entry.id
     span.dropdown
