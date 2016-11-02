@@ -90,6 +90,13 @@
   // If logs are present, allow space for log summaries
   .has-logs {
     min-width: 15em;
+
+    p {
+      text-overflow: ellipsis;
+      width: 95%;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 
   [data-action="view-logs"] {

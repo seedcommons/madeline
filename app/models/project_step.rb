@@ -81,6 +81,10 @@ class ProjectStep < TimelineEntry
     project_logs.count
   end
 
+  def latest_logs(limit = 3)
+    project_logs.order(date: :desc, updated_at: :desc).limit(limit)
+  end
+
   # Might be better as a filter
   def schedule_parent=(parent)
     self.scheduled_start_date = parent.scheduled_end_date if parent
