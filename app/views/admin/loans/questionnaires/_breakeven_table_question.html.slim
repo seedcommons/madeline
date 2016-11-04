@@ -37,10 +37,12 @@
         / Is at top instead of bottom to not affect striped rows
         tr.ui-state-default data-group="rampup" class="hidden"
 
-        - if data
-          = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, periods: data[:periods], units: data[:units], question: question
-        - else
-          = render 'admin/loans/questionnaires/breakeven_rampup_row', f: f, question: question
+        tr.ui-state-default data-group="rampup"
+          td: input name="loan_response_set[#{question.attribute_sym}][breakeven][periods]" value=data[:periods]
+          td
+            = select_tag("loan_response_set[#{question.attribute_sym}][breakeven][units]",
+              options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),
+              class: "select form-element form-control")
 
   .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
