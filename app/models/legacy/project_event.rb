@@ -56,12 +56,10 @@ module Legacy
 
     def migrate_step
       data = migration_step_data
-      # puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
+      puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
       step = ::ProjectStep.create(data)
 
-      # Set all step parents to root group initially. This will be overwritten at
-      # a later point, if an explicit parent is given.
-      step.parent = find_or_create_parent_group
+      step.parent = find_parent_group
 
       step.save!
       step
@@ -69,22 +67,24 @@ module Legacy
       $stderr.puts "#{step.class.name}[#{id}] error migrating step, could not find loan #{data[:project_id]}: #{e} - skipping"
     end
 
-    def find_or_create_parent_group
+    def find_parent_group
       return unless loan
-      ProjectGroup.find_or_create_by(project_type: "Loan", project_id: loan.id)
+      ProjectGroup.find_by(project_type: "Loan", project_id: loan.id)
     end
 
     def migrate_group
       data = migration_data
-      # puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
-      ::ProjectGroup.create(data)
+      puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
+      ::ProjectGroup.create!(data)
+    rescue StandardError => e
+      $stderr.puts "#{step.class.name}[#{id}] error migrating group: #{e} - skipping"
     end
 
     def migrate_parent
       puts "setting #{id}: with parent #{milestone_group}"
       step = TimelineEntry.find(id)
       step.parent = TimelineEntry.find(milestone_group)
-      step.save
+      step.save!
     rescue StandardError => e
       $stderr.puts "#{step.class.name}[#{id}] error migrating parent: #{e} - skipping"
     end
@@ -99,7 +99,7 @@ module Legacy
         puts "schedule parent is a group, copying date instead"
         step.scheduled_start_date = find_dependent_date(dependent_date)
       end
-      step.save
+      step.save!
     rescue StandardError => e
       $stderr.puts "#{step.class.name}[#{id}] error migrating schedule parent: #{e} - skipping"
     end
@@ -114,6 +114,8 @@ module Legacy
       else
         $stderr.puts "ProjectGroup[#{id}]: Missing Date, DependentDate[#{dependent_date}]"
       end
+    rescue StandardError => e
+      $stderr.puts "#{step.class.name}[#{id}] error copying date from group to step: #{e} - skipping"
     end
 
     def set_date_on_step(step_id, date)
@@ -122,7 +124,7 @@ module Legacy
         if step.is_a?(ProjectStep) && step.scheduled_start_date.blank?
           puts "#{step.class.name}[#{step_id}] Setting #{step_id} to #{date}"
           step.scheduled_start_date = date
-          step.save
+          step.save!
         else
           puts "#{step.class.name}[#{step_id}] skipping"
         end
@@ -156,7 +158,6 @@ module Legacy
       parent_ids = step_children.pluck(:milestone_group)
 
       ProjectGroup.skip_callback(:create, :before, :ensure_single_root)
-
       step_events.find_each do |event|
         if parent_ids.include? event.id
           event.migrate_group
@@ -172,6 +173,16 @@ module Legacy
           event.copy_date_from_group_to_step
         else
           event.migrate_schedule_parent if event.dependent_date
+        end
+      end
+
+      loan_ids_with_multiple_roots = ProjectGroup.where(parent_id: nil).select(:project_id, :project_type).group(:project_id, :project_type).having("count(*) > 1").pluck(:project_id)
+      loan_ids_with_multiple_roots.each do |loan_id|
+        puts "Creating new root ProjectGroup for Loan #{loan_id}"
+        root = ProjectGroup.create(project_type: "Loan", project_id: loan_id)
+        TimelineEntry.where(project_type: "Loan", project_id: loan_id, parent_id: nil).each do |step|
+          step.parent = root
+          step.save
         end
       end
 
