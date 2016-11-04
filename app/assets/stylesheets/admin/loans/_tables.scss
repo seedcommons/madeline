@@ -13,6 +13,10 @@ table.breakeven-table-rampup {
     text-align: center;
     vertical-align: top;
   }
+
+  .form-element {
+    margin: 0;
+  }
 }
 
 .editable-table {
@@ -38,6 +42,7 @@ table.breakeven-table-rampup {
     border: none;
     background: none;
     width: 100%;
+    height: 100%;
   }
 
   input[type="number"] {
