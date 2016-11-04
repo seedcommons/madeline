@@ -4,7 +4,8 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date])
+    @parent_id = params[:parent_id]
+    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date], parent_id: @parent_id)
     authorize @step
     if params[:context] == "timeline_table"
       render_modal_content
@@ -35,7 +36,9 @@ class Admin::ProjectStepsController < Admin::AdminController
     # We initialize with project_step_params here to given enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
-    @step.parent = @step.project.root_timeline_entry
+    unless @step.parent_id
+      @step.parent = @step.project.root_timeline_entry
+    end
     valid = @step.save
     if params[:context] == "timeline_table"
       valid ? render(nothing: true) : render_modal_content(422)
@@ -130,7 +133,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def project_step_params
     params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :actual_end_date,
       :scheduled_duration_days, :step_type_value, :project_type,
-      :project_id] + translation_params(:summary, :details)))
+      :project_id, :parent_id] + translation_params(:summary, :details)))
   end
 
   def display_timeline(project_id, notice = nil)
@@ -149,6 +152,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def render_modal_content(status = 200)
     @mode = params[:action] == "show" ? :show_and_form : :form_only
+    @parents = @step.project.timeline_entries.where(type: "ProjectGroup")
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
     }

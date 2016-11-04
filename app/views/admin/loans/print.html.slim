@@ -16,7 +16,9 @@ section data-container="loan"
 
       - if @loan.criteria
         h3 = t('loan.toc')
-        = render "admin/loans/questionnaires/questionnaire_toc", group: @loan.criteria.loan_question_set
-        = render "admin/loans/questionnaires/questionnaire_form", value_set: @loan.criteria, attrib: :criteria
+        = render "admin/loans/questionnaires/questionnaire_toc",
+          group: @loan.criteria.loan_question_set.root_group_preloaded
+        = render "admin/loans/questionnaires/questionnaire_form",
+          response_set: @loan.criteria, attrib: :criteria
       - else
         = t('loan.criteria_not_entered')

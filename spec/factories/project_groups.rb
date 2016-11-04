@@ -62,7 +62,11 @@ end
 class ProjectGroupFactoryHelper
   def self.add_child_group(parent, root)
     parent.children <<
-      (group = FactoryGirl.create(:project_group, project: root.project, division: root.division))
+      (group = FactoryGirl.create(:project_group,
+        project: root.project,
+        division: root.division,
+        parent_id: parent.id)
+      )
     group
   end
 

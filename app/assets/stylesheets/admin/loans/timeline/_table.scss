@@ -5,6 +5,10 @@
     min-width: 8rem;
   }
 
+  .step-name-col {
+    min-width: 12em;
+  }
+
   // Specificity used to override Bootstrap defaults
   .table thead:first-child tr {
     th {
@@ -59,6 +63,10 @@
     td {
       font-style: italic;
       color: $gray3;
+
+      &.step-menu-col {
+        font-style: normal;
+      }
     }
   }
 
@@ -85,6 +93,17 @@
 
   .summary {
     width: calc(100% - 2.5em);
+  }
+
+  .has-logs {
+    max-width: 16em;
+
+    .log-summary {
+      width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 
   .select-step {

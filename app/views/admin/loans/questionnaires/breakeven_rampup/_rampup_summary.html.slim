@@ -1,0 +1,6 @@
+/ Gross Margin
+tr.group-title.total
+  td = title
+  - rampup.each do |item|
+    td.text-right
+      = format_currency(item, @loan.ensure_currency, tooltip: false)

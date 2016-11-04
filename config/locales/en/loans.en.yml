@@ -110,6 +110,27 @@ en:
       total_fixed_costs: "Total Fixed Costs"
       total_revenue: "Total Revenue"
       unit: "Unit of Sale"
+      rampup: "Rampup"
+      units: "Unit of Periods"
+      periods: "Periods to Breakeven"
+
+    breakeven_rampup:
+      cost_of_goods: "Cost of Goods Sold"
+      price: "Price"
+      quantity: "Quantity"
+      revenue: "Revenue"
+      title: "Breakeven Rampup"
+      total: "Total"
+      total_gross_margin: "Total Gross Margin"
+      total_net_margin: "Total Net Margin"
+      total_fixed_costs: "Total Fixed Costs"
+
+  breakeven_table_question:
+    days: "Days"
+    weeks: "Weeks"
+    months: "Months"
+    years: "Years"
+    quarters: "Quarters"
 
   loans:
     index:

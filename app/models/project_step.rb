@@ -68,7 +68,7 @@ class ProjectStep < TimelineEntry
     summary
   end
 
-  def name_or_none
+  def summary_or_none
     summary.blank? ? "[#{I18n.t("common.no_name")}]" : summary.to_s
   end
 
@@ -79,6 +79,10 @@ class ProjectStep < TimelineEntry
 
   def logs_count
     project_logs.count
+  end
+
+  def latest_logs(limit = 3)
+    project_logs.order(date: :desc, updated_at: :desc).limit(limit)
   end
 
   # Might be better as a filter

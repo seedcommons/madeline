@@ -43,8 +43,8 @@ FactoryGirl.define do
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
-    project_type_value { ["conversion", "expansion", "startup"] }
-    public_level_value { ["featured", "hidden"] }
+    project_type_value { ["conversion", "expansion", "startup"].sample }
+    public_level_value { ["featured", "hidden"].sample }
     amount { rand(5000..50000) }
     currency
     rate 0.15
@@ -93,15 +93,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_log_media do
-      with_timeline
-      after(:create) do |loan|
-        loan.logs.each do |log|
-          create_list(:media, rand(1..3), media_attachable: log)
-        end
-      end
-    end
-
     trait :with_one_project_step do
       after(:create) do |loan|
         create(:project_step, :with_logs, project: loan)
@@ -117,6 +108,15 @@ FactoryGirl.define do
     trait :with_steps_only_timeline do
       after(:create) do |loan|
         create(:root_project_group, :with_only_step_descendants, project: loan)
+      end
+    end
+
+    # Will only work if the loan has steps.
+    trait :with_log_media do
+      after(:create) do |loan|
+        loan.logs.each do |log|
+          create_list(:media, rand(1..3), media_attachable: log)
+        end
       end
     end
 

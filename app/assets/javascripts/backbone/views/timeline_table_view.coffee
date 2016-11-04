@@ -15,7 +15,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .step-menu-col .fa-cog': 'openStepMenu'
     'click .timeline-action[data-action="new-group"]': 'newGroup'
     'click .timeline-action[data-action="new-step"]': 'newStep'
+    'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
+    'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
@@ -35,6 +37,10 @@ class MS.Views.TimelineTableView extends Backbone.View
     e.preventDefault()
     @groupModal.new(@parentId(e))
 
+  newChildStep: (e) ->
+    e.preventDefault()
+    @stepModal.new(@$(e.currentTarget).closest('[data-loan-id]').data('loan-id'), @refresh.bind(@), {parentId: @parentId(e)})
+
   editGroup: (e) ->
     e.preventDefault()
     @groupModal.edit(@parentId(e))
@@ -52,6 +58,15 @@ class MS.Views.TimelineTableView extends Backbone.View
   editStep: (e) ->
     e.preventDefault()
     @stepModal.edit(@$(e.currentTarget).closest('[data-id]').data('id'), @refresh.bind(@))
+
+  deleteStep: (e) ->
+    item = e.currentTarget
+    stepId = $(item).closest('.step-menu-col').data('id')
+    $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
+    .done =>
+      @refresh()
+    .fail (response) ->
+      MS.alert(response.responseText)
 
   parentId: (e) ->
     @$(e.target).closest(".project-group").data("id")

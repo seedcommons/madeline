@@ -1,5 +1,5 @@
 class LoanQuestionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :descendants_count, :optional
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional
 
   def initialize(*args, loan: nil, **options)
     @loan = loan
@@ -14,16 +14,12 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.filter_for(@loan).map { |node| self.class.new(node, loan: @loan) }
+      object.children_applicable_to(@loan).map { |node| self.class.new(node, loan: @loan) }
     end
   end
 
   def fieldset
     object.loan_question_set.internal_name.sub('loan_', '')
-  end
-
-  def descendants_count
-    object.descendants.count
   end
 
   def optional

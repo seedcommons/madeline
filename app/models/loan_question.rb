@@ -35,7 +35,7 @@ class LoanQuestion < ActiveRecord::Base
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
 
-  belongs_to :loan_question_set, inverse_of: :loan_questions
+  belongs_to :loan_question_set
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
@@ -70,24 +70,29 @@ class LoanQuestion < ActiveRecord::Base
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
-  def self.loan_questions(field_set = nil)
-    # field_set is a string, either 'criteria' or 'post_analysis', or nil. If it's given, it needs
-    # to be prepended for the database, and if it's not, it is set to both, to return all loan questions.
-    field_set &&= "loan_#{field_set}"
-    field_set ||= ['loan_criteria', 'loan_post_analysis']
-    joins(:loan_question_set).where(loan_question_sets:
-      { internal_name: field_set })
+  def children_sorted_by_required(loan)
+    children.sort_by { |c| [c.required_for?(loan) ? 0 : 1, c.position] }
   end
 
-  # Note: Not chainable; intended to be called on a subset
-  def self.sort_by_required(loan)
-    all.sort_by { |i| [i.required_for?(loan) ? 0 : 1, i.position] }
+  # Selects only those questions that are applicable to the given loan.
+  def children_applicable_to(loan)
+    @children_applicable_to ||= {}
+    @children_applicable_to[loan] ||= if loan
+      children_sorted_by_required(loan).select do |c|
+        c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
+      end
+    else
+      children.select { |c| c.status != 'retired' }
+    end
   end
 
-  # Note: Not chainable; intended to be called on a subset
-  def self.filter_for(loan)
-    return all if !loan
-    sort_by_required(loan).select { |i| i.status == 'active' || (i.status == 'inactive' && i.answered_for?(loan)) }
+  def top_level?
+    parent.root?
+  end
+
+  # Overriding this method because the closure_tree implementation causes a DB query.
+  def depth
+    @depth ||= root? ? 0 : parent.depth + 1
   end
 
   def answered_for?(loan)
@@ -96,7 +101,6 @@ class LoanQuestion < ActiveRecord::Base
     !response_set.tree_unanswered?(self)
   end
 
-  # Feature #4737
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the loan_questions_options relation table, and the
   # 'override_associations' flag.
@@ -123,13 +127,6 @@ class LoanQuestion < ActiveRecord::Base
     internal_name.to_sym
   end
 
-  # Alternative to children method from closure_tree that uses the kids_for_parent method of
-  # the associated LoanQuestionSet, which loads the entire tree in a small number of DB queries.
-  # Returns [] if this LoanQuestion has no children.
-  def kids
-    loan_question_set.kids_for_parent(self)
-  end
-
   def group?
     data_type == 'group'
   end
@@ -139,7 +136,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def first_child?
-    parent && siblings_before.empty?
+    @first_child ||= parent && parent.children.none?{ |q| q.position < position }
   end
 
   # List of value keys for fields which have nested values
@@ -159,16 +156,6 @@ class LoanQuestion < ActiveRecord::Base
       end
     end
     result
-  end
-
-  def traverse_depth_first(list)
-    list << self
-    counter = 0
-    children.each do |child|
-      counter += 1
-      child.transient_position = counter
-      child.traverse_depth_first(list)
-    end
   end
 
   # for now use a stringified primary key
