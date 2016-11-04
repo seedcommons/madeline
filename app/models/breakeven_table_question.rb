@@ -107,7 +107,7 @@ class BreakevenTableQuestion
   end
 
   def data_hash
-    @breakeven.deep_symbolize_keys if @breakeven
+    @breakeven.try(:deep_symbolize_keys) || {}
   end
 
   private
