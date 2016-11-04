@@ -114,13 +114,6 @@ en:
       units: "Unit of Periods"
       periods: "Periods to Breakeven"
 
-  breakeven_table_question:
-    days: "Days"
-    weeks: "Weeks"
-    months: "Months"
-    years: "Years"
-    quarters: "Quarters"
-
     breakeven_rampup:
       cost_of_goods: "Cost of Goods Sold"
       price: "Price"
@@ -131,6 +124,13 @@ en:
       total_gross_margin: "Total Gross Margin"
       total_net_margin: "Total Net Margin"
       total_fixed_costs: "Total Fixed Costs"
+
+  breakeven_table_question:
+    days: "Days"
+    weeks: "Weeks"
+    months: "Months"
+    years: "Years"
+    quarters: "Quarters"
 
   loans:
     index:
