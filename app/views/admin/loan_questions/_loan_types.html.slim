@@ -1,5 +1,5 @@
 = f.input "loan_types" do
-  - if (@loan_question.parent || @parent_id)
+  - unless @loan_question.top_level?
     = f.input_field :override_associations, collection: LoanQuestion::OVERRIDE_ASSOCIATIONS_OPTIONS
 
   table.table.loan-types-table

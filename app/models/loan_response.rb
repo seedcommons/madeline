@@ -117,8 +117,8 @@ class LoanResponse
   # Gets child responses of this response by asking LoanResponseSet.
   # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
-  def kids
-    @kids ||= loan_response_set.kids_of(self)
+  def children
+    loan_response_set.children_of(self)
   end
 
   def remove_blanks(data)

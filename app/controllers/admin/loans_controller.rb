@@ -63,16 +63,18 @@ class Admin::LoansController < Admin::AdminController
     authorize @loan, :show?
 
     # Value sets are sets of answers to criteria and post analysis question sets.
-    @value_sets = ActiveSupport::OrderedHash.new
-    @root_questions = {}
+    @response_sets = ActiveSupport::OrderedHash.new
+    @roots = {}
     @questions_json = {}
 
-    Loan::QUESTION_SET_TYPES.each do |attrib|
+    Loan::QUESTION_SET_TYPES.each do |kind|
       # If existing set not found, build a blank one with which to render the form.
-      @value_sets[attrib] = @loan.send(attrib) || LoanResponseSet.new(kind: attrib, loan: @loan)
+      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
 
-      @root_questions[attrib] = LoanQuestion.loan_questions(attrib).roots.filter_for(@loan)
-      @questions_json[attrib] = @root_questions[attrib].map { |i| LoanQuestionSerializer.new(i, loan: @loan) }.to_json
+      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
+      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
+        LoanQuestionSerializer.new(i, loan: @loan)
+      end.to_json
     end
 
     render partial: "admin/loans/questionnaires/main"
@@ -129,7 +131,7 @@ class Admin::LoansController < Admin::AdminController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind == 'image'}
-    @root_questions = { criteria: LoanQuestion.loan_questions(:criteria).roots.filter_for(@loan) }
+    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded }
     prep_attached_links if @mode != "details-only"
   end
 
