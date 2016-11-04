@@ -63,6 +63,10 @@
     td {
       font-style: italic;
       color: $gray3;
+
+      &.step-menu-col {
+        font-style: normal;
+      }
     }
   }
 
