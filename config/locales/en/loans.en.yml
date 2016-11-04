@@ -110,6 +110,16 @@ en:
       total_fixed_costs: "Total Fixed Costs"
       total_revenue: "Total Revenue"
       unit: "Unit of Sale"
+      rampup: "Rampup"
+      units: "Unit of Periods"
+      periods: "Periods to Breakeven"
+
+  breakeven_table_question:
+    days: "Days"
+    weeks: "Weeks"
+    months: "Months"
+    years: "Years"
+    quarters: "Quarters"
 
   loans:
     index:

@@ -25,6 +25,26 @@
         = render 'admin/loans/questionnaires/breakeven_product_row', question: question
 
   .table-container
+    h4.title = t("loan.breakeven.rampup")
+
+    table.table.table-condensed.table-striped.table-bordered.editable-table.breakeven-table-rampup data-table="rampup"
+      thead
+        tr
+          th = t("loan.breakeven.periods")
+          th = t("loan.breakeven.units")
+      tbody
+        / Hidden row is used to generate new rows
+        / Is at top instead of bottom to not affect striped rows
+        tr.ui-state-default data-group="rampup" class="hidden"
+
+        tr.ui-state-default data-group="rampup"
+          td: input name="loan_response_set[#{question.attribute_sym}][breakeven][periods]" value=data[:periods]
+          td
+            = select_tag("loan_response_set[#{question.attribute_sym}][breakeven][units]",
+              options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),
+              class: "select form-element form-control")
+
+  .table-container
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed_costs"
