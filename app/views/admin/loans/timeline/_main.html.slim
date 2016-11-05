@@ -1,6 +1,6 @@
 - max_group_depth = @loan.root_timeline_entry.max_descendant_group_depth
 
-section.timeline-table data-loan-id== @loan.id
+section.timeline-table data-loan-id= @loan.id
   = render "admin/loans/timeline/top_controls"
   - if @loan.root_timeline_entry
     - if @loan.root_timeline_entry.is_a?(ProjectGroup)
@@ -27,3 +27,12 @@ section.timeline-table data-loan-id== @loan.id
 
   ul.dropdown-menu.dropdown-menu-right id="project-step-menu"
     li: a href="#" data-action="edit" = t(:edit)
+    li: a href="#" data-action="duplicate" = t("project_step.duplicate")
+    li
+      a [href="#" data-action="delete"
+        data-confirm= t("project_step.confirm_deletion")
+        data-confirm-title= t("project_step.delete", count: 1)]
+        = t(:delete)
+    li: a href="#" data-action="add-dependent-step" = t("project_step.add_dependent_step")
+    li: a href="#" = t("project_step.add_log")
+    li: a href="#" = t("project_step.view_logs")
