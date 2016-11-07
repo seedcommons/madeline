@@ -1,0 +1,19 @@
+.madeline-logo {
+  font-family: asap;
+  font-size: 30px;
+  font-weight: bold;
+
+  div {
+    display: inline-block;
+  }
+
+  .ftc-triple-spiral {
+    font-size: 36px;
+    margin-top: -4px; // Corrects for a little space above.
+  }
+
+  .madeline {
+    vertical-align: top;
+    margin-top: -5px;
+  }
+}
