@@ -54,5 +54,5 @@ en:
           breakeven_data: Breakeven Table
           business_canvas: Business Model Canvas
         override_associations:
-          "false": "Inherits from Parent"
-          "true": "Overrides Parent"
+          "false": "Inherits from Group"
+          "true": "Overrides Group"
