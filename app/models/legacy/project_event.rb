@@ -156,8 +156,8 @@ module Legacy
 
     def self.migratable
       # note record 10155 has a malformed date (2013-12-00) which was causing low level barfage
-      # migratable = self.where("Type = 'Paso' and #{malformed_date_clause('Completed')}")
-      where("Type = 'Paso' and #{malformed_date_clause('Completed')}").where(project_table: 'Loans')
+      # Don't migrate Finalized = -1 per Brendan 11/9/16
+      where("Type = 'Paso' and Finalized > -1 and #{malformed_date_clause('Completed')}").where(project_table: 'Loans')
     end
 
     def self.step_children
