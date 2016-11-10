@@ -16,6 +16,7 @@ module Legacy
       Legacy::DueDiligencePerLoanType.migrate_all
       # Note, LoanResponseSet logic now pulls in LoanResponsesIFrame data
       Legacy::LoanResponseSet.migrate_all
+      Legacy::OrgSnapshotData.migrate_all
     end
 
     # the core data which can be quickly migrated
