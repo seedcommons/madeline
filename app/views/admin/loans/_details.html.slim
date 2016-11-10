@@ -24,10 +24,10 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
         => t('loan.transactions')
         span.caret
       ul.dropdown-menu.dropdown-menu-right
-        li = link_to(t('loan.transaction_new_disbursment'), labase_new_disbursment_url(loan: @loan), target: '_blank')
-        li = link_to(t('loan.transaction_new_repayment'), labase_new_repayment_url(loan: @loan), target: '_blank')
+        li = link_to(t('loan.transaction_new_disbursment'), old_system_new_disbursment_url(loan: @loan), target: '_blank')
+        li = link_to(t('loan.transaction_new_repayment'), old_system_new_repayment_url(loan: @loan), target: '_blank')
         li.divider role="separator"
-        li = link_to(t('loan.transaction_schedule'), labase_schedule_url(loan: @loan), target: '_blank')
+        li = link_to(t('loan.transaction_schedule'), old_system_schedule_url(loan: @loan), target: '_blank')
 
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
