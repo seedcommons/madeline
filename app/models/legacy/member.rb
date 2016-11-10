@@ -5,10 +5,12 @@ class Member < ActiveRecord::Base
   establish_connection :legacy
   include LegacyModel
 
+  belongs_to :cooperative, foreign_key: 'CooperativeID'
+
   def migration_data
     data = {
         id: self.id,
-        division_id: ::Division.root_id,
+        division_id: cooperative ? cooperative.division.id : ::Division.root_id,
         primary_organization_id: cooperative_id,
         first_name: first_name.try(:strip),
         last_name: last_name.try(:strip),

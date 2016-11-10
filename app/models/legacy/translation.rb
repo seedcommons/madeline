@@ -37,7 +37,7 @@ class Translation < ActiveRecord::Base
   def self.map_model_name(old_table)
     case old_table
       when 'ProjectEvents'
-        'ProjectStep'
+        'TimelineEntry'
       when 'Cooperatives'
         'Organization'
       when 'LoanTypes'
@@ -55,7 +55,7 @@ class Translation < ActiveRecord::Base
 
   ATTRIBUTE_MAP = {
       'Loan' => {'ShortDescription' => 'summary', 'Description' => 'details'},
-      'ProjectStep' => {'Summary' => 'summary', 'Details' => 'details'},
+      'TimelineEntry' => {'Summary' => 'summary', 'Details' => 'details'},
       'ProjectLog' => {
         'Explanation' => 'summary', 'DetailedExplanation' => 'details',
         'AdditionalNotes' => 'additional_notes', 'NotasPrivadas' => 'private_notes',
