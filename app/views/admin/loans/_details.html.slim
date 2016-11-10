@@ -18,6 +18,17 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
       }
       i.fa.fa-trash.fa-large>
       = t("loan.delete")
+
+    span.dropdown
+      a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+        => t('loan.transactions')
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right
+        li = link_to(t('loan.transaction_new_disbursement'), old_system_new_disbursement_url(loan: @loan), target: '_blank')
+        li = link_to(t('loan.transaction_new_repayment'), old_system_new_repayment_url(loan: @loan), target: '_blank')
+        li.divider role="separator"
+        li = link_to(t('loan.transaction_schedule'), old_system_schedule_url(loan: @loan), target: '_blank')
+
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
         => t('loan.print')
@@ -30,6 +41,7 @@ section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-v
           'data-print': 'details', target: '_blank')
         li = link_to(t('loan.print_criteria'), print_admin_loan_path(@loan.id, mode: "criteria-only"),
           'data-print': 'criteria', target: '_blank')
+
   = render "admin/loans/form", loan: @loan
 
 section.block data-container='media'
