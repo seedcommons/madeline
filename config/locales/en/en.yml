@@ -303,7 +303,7 @@ en:
     print_details: "Details Only"
     print_memo: "Print Loan Memo"
     transactions: "Transactions"
-    transaction_new_disbursment: "New Disbursement"
+    transaction_new_disbursement: "New Disbursement"
     transaction_new_repayment: "New Repayment"
     transaction_schedule: "Schedule"
 

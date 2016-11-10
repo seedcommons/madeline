@@ -1,10 +1,10 @@
 module OldSystemHelper
-  # Returns the new disbursment url, as well as addtional loan and org information.
+  # Returns the new disbursement url, as well as addtional loan and org information.
   # This information maybe be required, if the loan does not exist in the old system.
-  def old_system_new_disbursment_url(loan:)
-    disbursment_transaction_type = 12
+  def old_system_new_disbursement_url(loan:)
+    disbursement_transaction_type = 12
     old_system_url('transactionManager.php', loan,
-      'Preset': true, 'TransactionType': disbursment_transaction_type, 'Loan': loan.id)
+      'Preset': true, 'TransactionType': disbursement_transaction_type, 'Loan': loan.id)
   end
 
   # Returns the new repayment url, as well as addtional loan and org information.
