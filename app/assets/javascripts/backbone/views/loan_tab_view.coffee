@@ -9,16 +9,24 @@ class MS.Views.LoanTabView extends Backbone.View
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
 
+    @openDetails() if @$('.edit-tab').closest('li').hasClass('active')
     @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
     @loadSteps() if @$('.timeline-tab').closest('li').hasClass('active')
     @loadTimelineTable() if @$('.timeline-table-tab').closest('li').hasClass('active')
     @loadQuestionnaires() if @$('.questions-tab').closest('li').hasClass('active')
 
   events: ->
+    'shown.bs.tab .edit-tab': 'openDetails'
     'shown.bs.tab .calendar-tab': 'openCalendar'
     'shown.bs.tab .timeline-tab': 'loadSteps'
     'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
     'shown.bs.tab .questions-tab': 'loadQuestionnaires'
+
+  openDetails: (e) ->
+    if MS.detailsView
+      MS.detailsView.refresh()
+    else
+      MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
   openCalendar: (e) ->
     if MS.calendarView
