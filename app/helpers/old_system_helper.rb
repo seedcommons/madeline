@@ -1,18 +1,21 @@
 module OldSystemHelper
+  DISBURSEMENT_TRANSACTION_TYPE = 12
+  REPAYMENT_TRANSACTION_TYPE = 57
+
+  BASE_URI = 'http://internal.labase.org/'.freeze
+
   # Returns the new disbursement url, as well as addtional loan and org information.
   # This information maybe be required, if the loan does not exist in the old system.
   def old_system_new_disbursement_url(loan:)
-    disbursement_transaction_type = 12
     old_system_url('transactionManager.php', loan,
-      'Preset': true, 'TransactionType': disbursement_transaction_type, 'Loan': loan.id)
+      'Preset': true, 'TransactionType': DISBURSEMENT_TRANSACTION_TYPE, 'Loan': loan.id)
   end
 
   # Returns the new repayment url, as well as addtional loan and org information.
   # This information maybe be required, if the loan does not exist in the old system.
   def old_system_new_repayment_url(loan:)
-    repayment_transaction_type = 57
     old_system_url('transactionManager.php', loan,
-      'Preset': true, 'TransactionType': repayment_transaction_type, 'Loan': loan.id)
+      'Preset': true, 'TransactionType': REPAYMENT_TRANSACTION_TYPE, 'Loan': loan.id)
   end
 
   # Returns the schedule url, as well as addtional loan and org information.
@@ -23,8 +26,7 @@ module OldSystemHelper
 
   # Takes the page_url merges old_system values, with loan values, and returns properly formatted URI
   def old_system_url(page_url, loan, old_system_query_values)
-    base_uri = 'http://internal.labase.org/'
-    uri = Addressable::URI.parse(base_uri + page_url)
+    uri = Addressable::URI.parse(BASE_URI + page_url)
     uri.query_values = old_system_query_values.merge(to_query_values(loan)).merge(to_query_values(loan.organization))
     uri.to_s
   end
