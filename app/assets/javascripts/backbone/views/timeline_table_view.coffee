@@ -86,7 +86,8 @@ class MS.Views.TimelineTableView extends Backbone.View
   openStepMenu: (e) ->
     button = e.currentTarget
     @stepId = @$(button).closest('.step-menu-col').data('id')
-    # @projectStep
+    # Instantiate Project Step View when each step menu is opened, replaces previously opened step
+    @projectStepView = new MS.Views.ProjectStepView(stepId: @stepId, context: 'timeline-table', timelineView: this)
     @openMenu(e, 'step')
 
   openMenu: (e, which) ->
@@ -100,6 +101,6 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   addLog: (e) ->
     # console.log('Initiated add log from TimelineTableView')
-    # @projectStepView.showLogModal(e)
-    @logModalView = new MS.Views.LogModalView(el: '.log-modal', timelineView: this)
-    @logModalView.showNew(@stepId)
+    @projectStepView.showLogModal(e)
+    # @logModalView = new MS.Views.LogModalView(el: '.log-modal', timelineView: this)
+    # @logModalView.showNew(@stepId)
