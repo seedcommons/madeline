@@ -3,6 +3,7 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
+    Backbone.history.start({pushState: true})
     @loanId = params.loanId
     @calendarEventsUrl = params.calendarEventsUrl
 
@@ -21,14 +22,32 @@ class MS.Views.LoanTabView extends Backbone.View
     'shown.bs.tab .timeline-tab': 'loadSteps'
     'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
     'shown.bs.tab .questions-tab': 'loadQuestionnaires'
+    'shown.bs.tab a[data-toggle="tab"]': 'changeActiveTab'
 
-  openDetails: (e) ->
+  changeActiveTab: (e) ->
+    $tab = @$(e.target)
+    href = $tab.attr("href")
+
+    # This check if the tab is active
+    if $tab.parent().hasClass('active')
+      console.log('the tab with the content id ' + href + ' is visible')
+    else
+      console.log('the tab with the content id ' + href + ' is NOT visible')
+
+    $('.tab-pane').toggleClass('active', false)
+    $("##{href}").toggleClass('active', true)
+
+    Backbone.history.navigate("/admin/loans/#{@loanId}/#{href}", {replace: true, trigger: true} )
+    e.preventDefault()
+    e.stopPropagation()
+
+  openDetails: ->
     if MS.detailsView
       MS.detailsView.refresh()
     else
       MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
-  openCalendar: (e) ->
+  openCalendar: ->
     if MS.calendarView
       MS.calendarView.refresh()
     else
