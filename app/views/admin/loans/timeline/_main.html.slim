@@ -34,5 +34,5 @@ section.timeline-table data-loan-id= @loan.id
         data-confirm-title= t("project_step.delete", count: 1)]
         = t(:delete)
     li: a href="#" data-action="add-dependent-step" = t("project_step.add_dependent_step")
-    li: a href="#" = t("project_step.add_log")
+    li: a href="#" data-action="add-log" = t("project_step.add_log")
     li: a href="#" = t("project_step.view_logs")

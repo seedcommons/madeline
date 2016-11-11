@@ -1,8 +1,10 @@
 class MS.Views.LogModalView extends Backbone.View
 
   initialize: (options) ->
+    # TODO: Remove @parentView stuff once old timeline goes away
     @parentView = options.parentView
     @submitted = false
+    @done = (->) # Empty function
 
   events:
     'click [data-action="submit"]': 'submitForm'
@@ -14,9 +16,10 @@ class MS.Views.LogModalView extends Backbone.View
     $.get "/admin/project_logs/#{logId}/edit", (html) =>
       @replaceContent(html)
 
-  showNew: (stepId) ->
+  showNew: (stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
+    @done = done
     $.get '/admin/project_logs/new', step_id: @stepId, (html) =>
       @replaceContent(html)
 
@@ -45,4 +48,8 @@ class MS.Views.LogModalView extends Backbone.View
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
-    @parentView.replaceWith(data)
+    if @parentView # TODO: Remove once old timeline goes away
+      @parentView.replaceWith(data)
+    else
+      @done()
+      @done = (->) # Reset to empty function.
