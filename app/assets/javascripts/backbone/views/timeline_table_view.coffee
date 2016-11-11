@@ -84,10 +84,9 @@ class MS.Views.TimelineTableView extends Backbone.View
   openStepMenu: (e) ->
     button = e.currentTarget
     @stepId = @$(button).closest('.step-menu-col').data('id')
-
-    # Replaces any existing ProjectStepViews each time step menu is opened
-    @projectStepView = new MS.Views.ProjectStepView(
-      el: '#project-step-menu', stepId: @stepId, timelineTableView: this)
+    unless @projectStepView && @stepId == @projectStepView.stepId
+      @projectStepView = new MS.Views.ProjectStepView(
+        el: '#project-step-menu', stepId: @stepId, timelineTableView: this)
     @openMenu(e, 'step')
 
   openMenu: (e, which) ->
