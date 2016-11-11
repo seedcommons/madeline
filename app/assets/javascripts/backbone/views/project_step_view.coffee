@@ -9,7 +9,9 @@ class MS.Views.ProjectStepView extends Backbone.View
     @initTypeSelect()
     @persisted = params.persisted
     @duplicate = params.duplicate
-    @context = @$el.data('context')
+    @timelineTableView = params.timelineTableView
+    unless @timelineTableView
+      @context = @$el.data('context')
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
@@ -84,13 +86,21 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
+    if @timelineTableView
+      stepId = @stepId
+    else
+      stepId = @$(link).data('parent-step-id')
+
     unless @logModalView
-      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+      if @timelineTableView
+        @logModalView = new MS.Views.LogModalView(el: $('.timeline-table .log-modal'), timelineTableView: @timelineTableView)
+      else
+        @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logModalView.showEdit(@$(link).data('log-id'), stepId)
     else
-      @logModalView.showNew(@$(link).data('parent-step-id'))
+      @logModalView.showNew(stepId)
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)

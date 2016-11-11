@@ -2,6 +2,7 @@ class MS.Views.LogModalView extends Backbone.View
 
   initialize: (options) ->
     @parentView = options.parentView
+    @timelineTableView = options.timelineTableView
     @submitted = false
 
   events:
@@ -45,4 +46,7 @@ class MS.Views.LogModalView extends Backbone.View
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
-    @parentView.replaceWith(data)
+    if @timelineTableView
+      @timelineTableView.refresh()
+    else
+      @parentView.replaceWith(data)
