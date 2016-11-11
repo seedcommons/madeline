@@ -36,6 +36,7 @@ class Admin::LoansController < Admin::AdminController
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
+    @active_tab = params[:tab].presence || "details"
 
     render partial: 'admin/loans/details' if request.xhr?
   end
