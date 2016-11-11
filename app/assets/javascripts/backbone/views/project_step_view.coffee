@@ -45,10 +45,10 @@ class MS.Views.ProjectStepView extends Backbone.View
   showDuplicateModal: (e) ->
     e.preventDefault()
     if @timelineTableView
-      # $('.timeline-table .duplicate-step').modal('show')
       MS.loadingIndicator.show()
       $.get "/admin/project_steps/#{@stepId}/show_duplicate", (html) =>
-        console.log(html)
+        $('.timeline-table .modal.duplicate-step').replaceWith(html)
+        $('.timeline-table .modal.duplicate-step').modal('show')
     else
       @$('.duplicate-step').modal('show')
 
