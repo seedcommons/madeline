@@ -20,6 +20,7 @@ class MS.Views.ProjectStepView extends Backbone.View
   events:
     'click a.edit-step-action': 'showForm'
     'click a.duplicate-step-action': 'showDuplicateModal'
+    'click [data-action="duplicate-step"]': 'showDuplicateModal'
     'click a.cancel': 'cancel'
     'submit form.project-step-form': 'onSubmit'
     'ajax:success': 'ajaxSuccess'
@@ -43,7 +44,13 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   showDuplicateModal: (e) ->
     e.preventDefault()
-    @$('.duplicate-step').modal('show')
+    if @timelineTableView
+      # $('.timeline-table .duplicate-step').modal('show')
+      MS.loadingIndicator.show()
+      $.get "/admin/project_steps/#{@stepId}/show_duplicate", (html) =>
+        console.log(html)
+    else
+      @$('.duplicate-step').modal('show')
 
   # Select 2 is used to show the pretty icons.
   initTypeSelect: ->
