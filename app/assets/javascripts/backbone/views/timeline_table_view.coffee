@@ -8,6 +8,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @loanId = options.loanId
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
+    # @projectStep = new MS.Views.ProjectStepView(stepId: @stepId)
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
 
   events:
@@ -21,6 +22,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
+    'click #project-step-menu [data-action="add-log"]': 'addLog'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
 
   refresh: ->
@@ -82,6 +84,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @openMenu(e, 'group')
 
   openStepMenu: (e) ->
+    button = e.currentTarget
+    @stepId = @$(button).closest('.step-menu-col').data('id')
+    # @projectStep
     @openMenu(e, 'step')
 
   openMenu: (e, which) ->
@@ -92,3 +97,9 @@ class MS.Views.TimelineTableView extends Backbone.View
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
     e.stopPropagation()
+
+  addLog: (e) ->
+    # console.log('Initiated add log from TimelineTableView')
+    # @projectStepView.showLogModal(e)
+    @logModalView = new MS.Views.LogModalView(el: '.log-modal', timelineView: this)
+    @logModalView.showNew(@stepId)
