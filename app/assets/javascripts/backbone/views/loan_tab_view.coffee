@@ -3,7 +3,8 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    Backbone.history.start({pushState: true})
+    # Backbone.history.start({pushState: true})
+    @listenTo(Backbone, 'popstate', @popstate)
     @loanId = params.loanId
     @calendarEventsUrl = params.calendarEventsUrl
 
@@ -22,9 +23,20 @@ class MS.Views.LoanTabView extends Backbone.View
     'shown.bs.tab .timeline-tab': 'loadSteps'
     'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
     'shown.bs.tab .questions-tab': 'loadQuestionnaires'
-    'shown.bs.tab a[data-toggle="tab"]': 'changeActiveTab'
+    'shown.bs.tab a[data-toggle="tab"]': 'updateState'
+    # 'click a[data-toggle="tab"]': 'clickLink'
 
-  changeActiveTab: (e) ->
+  clickLink: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+
+  popstate: (e) ->
+    console.log(window.location.href)
+    uri = URI(window.location.href).filename()
+    console.log(uri)
+    @changeActiveTab(uri)
+
+  updateState: (e) ->
     $tab = @$(e.target)
     href = $tab.attr("href")
 
@@ -34,12 +46,13 @@ class MS.Views.LoanTabView extends Backbone.View
     else
       console.log('the tab with the content id ' + href + ' is NOT visible')
 
-    $('.tab-pane').toggleClass('active', false)
-    $("##{href}").toggleClass('active', true)
+    # We use replaceState because by default, bootstrap adds an anchor to the URL, and we want to replace that
+    history.replaceState(null, "", "/admin/loans/#{@loanId}/#{href}")
+    @changeActiveTab(href)
 
-    Backbone.history.navigate("/admin/loans/#{@loanId}/#{href}", {replace: true, trigger: true} )
-    e.preventDefault()
-    e.stopPropagation()
+  changeActiveTab: (tabName) ->
+    $('.tab-pane').toggleClass('active', false)
+    $("##{tabName}").toggleClass('active', true)
 
   openDetails: ->
     if MS.detailsView
