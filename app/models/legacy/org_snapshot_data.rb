@@ -14,19 +14,9 @@ module Legacy
     end
 
     def self.migrate_all
+      puts "organization snapshot data: #{Loan.migratable.count}"
       create_loan_questions
-
-      Loan.migratable.each do |loan|
-        # Find or create response sets for each loan that has data in these fields
-        data = loan.org_snapshot_data
-        if data.values.any?(&:present?)
-
-        end
-      end
-    end
-
-    def migrate
-
+      Loan.migratable.each(&:migrate)
     end
 
   end

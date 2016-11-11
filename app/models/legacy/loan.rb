@@ -42,16 +42,13 @@ class Loan < ActiveRecord::Base
         first_payment_date: first_payment_date,
         target_end_date: fecha_de_finalizacion,
         projected_return: projected_return,
-        # organization_size: cooperative_members,
-        # poc_ownership_percent: poc_ownership,
-        # women_ownership_percent: women_ownership,
-        # environmental_impact_score: environmental_impact
     }
     data
   end
 
   def org_snapshot_data
     data = {
+      id: self.id,
       cooperative_members: cooperative_members,
       poc_ownership_percent: poc_ownership,
       women_ownership_percent: women_ownership,
@@ -63,12 +60,24 @@ class Loan < ActiveRecord::Base
   def migrate
     data = migration_data
     # puts "#{data[:id]}: #{data[:name]}"
-    org_data = org_snapshot_data
-    snapshot = ::OrganizationSnapshot.find_or_create_by(id: org_data[:id])
-    snapshot.update(org_data)
-    data[:organization_snapshot_id] = snapshot.id
     loan = ::Loan.find_or_create_by(id: data[:id])
-    loan.update(data)
+    loan.update!(data)
+  rescue StandardError => e
+    $stderr.puts "#{self.class.name}[#{id}] error migrating loan: #{e} - skipping"
+  end
+
+  def migrate_snapshot_data
+    data = org_snapshot_data
+    new_record = ::Loan.find(data[:id])
+    if data.values.any?(&:present?)
+      new_record.create_criteria unless new_record.criteria
+      data.each do |key, val|
+        new_record.criteria.set_response(key.to_s, val)
+      end
+      new_record.criteria.save!
+    end
+  rescue StandardError => e
+    $stderr.puts "#{self.class.name}[#{id}] error migrating organization snapshot data: #{e} - skipping"
   end
 
   def name
