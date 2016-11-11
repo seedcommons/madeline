@@ -52,12 +52,10 @@ class Loan < ActiveRecord::Base
 
   def org_snapshot_data
     data = {
-        date: signing_date,
-        organization_id: nil_if_zero(cooperative_id),
-        organization_size: cooperative_members,
-        poc_ownership_percent: poc_ownership,
-        women_ownership_percent: women_ownership,
-        environmental_impact_score: environmental_impact
+      cooperative_members: cooperative_members,
+      poc_ownership_percent: poc_ownership,
+      women_ownership_percent: women_ownership,
+      environmental_impact_score: environmental_impact
     }
     data
   end
@@ -83,10 +81,13 @@ class Loan < ActiveRecord::Base
     end
   end
 
+  def self.migratable
+    all
+  end
 
   def self.migrate_all
     puts "loans: #{self.count}"
-    self.all.each &:migrate
+    migratable.each &:migrate
     ::Loan.recalibrate_sequence(gap: 1000)
 
     puts "loan translations: #{ Legacy::Translation.where('RemoteTable' => 'Loans').count }"
