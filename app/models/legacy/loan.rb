@@ -48,7 +48,6 @@ class Loan < ActiveRecord::Base
 
   def org_snapshot_data
     data = {
-      id: self.id,
       cooperative_members: cooperative_members,
       poc_ownership_percent: poc_ownership,
       women_ownership_percent: women_ownership,
@@ -68,11 +67,11 @@ class Loan < ActiveRecord::Base
 
   def migrate_snapshot_data
     data = org_snapshot_data
-    new_record = ::Loan.find(data[:id])
+    new_record = ::Loan.find(migration_data[:id])
     if data.values.any?(&:present?)
       new_record.create_criteria unless new_record.criteria
       data.each do |key, val|
-        new_record.criteria.set_response(key.to_s, val)
+        new_record.criteria.set_response(key.to_s, number: val)
       end
       new_record.criteria.save!
     end
