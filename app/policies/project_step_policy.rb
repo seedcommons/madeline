@@ -6,6 +6,10 @@ class ProjectStepPolicy < ApplicationPolicy
     create? && persisted?
   end
 
+  def show_duplicate?
+    true
+  end
+
   def batch_destroy?
     destroy?
   end
