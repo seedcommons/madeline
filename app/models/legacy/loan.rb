@@ -105,8 +105,6 @@ class Loan < ActiveRecord::Base
   def self.purge_migrated
     puts "::Loan.delete_all"
     ::Loan.delete_all
-    puts "::OrganizationSnapshot.delete_all"
-    ::OrganizationSnapshot.delete_all
   end
 
 
