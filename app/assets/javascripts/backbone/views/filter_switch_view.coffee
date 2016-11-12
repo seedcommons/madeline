@@ -17,7 +17,7 @@ class MS.Views.FilterSwitchView extends Backbone.View
     selected = $(e.currentTarget).find('input')[0].value
     @doFilter(selected)
     url = URI(window.location.href).setQuery('filter', selected).href()
-    history.pushState(null, "", url)
+    history.replaceState(null, "", url)
 
   filterInit: ->
     # Select first button if no default filter given
