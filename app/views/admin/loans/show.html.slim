@@ -12,7 +12,7 @@ javascript:
   // This view kicks it all off and sets up Views for the different tabs when they are clicked on.
   $(function() {
     new MS.Views.LoanTabView({
-      el: '.nav-tabs',
+      el: '.loan-content',
       calendarEventsUrl: #{json @calendar_events_url},
       loanId: #{json @loan.id}
     });

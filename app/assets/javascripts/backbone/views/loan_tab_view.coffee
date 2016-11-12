@@ -3,13 +3,13 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    # Backbone.history.start({pushState: true})
-    @listenTo(Backbone, 'popstate', @popstate)
     @loanId = params.loanId
     @calendarEventsUrl = params.calendarEventsUrl
 
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
+
+    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
 
     @openDetails() if @$('.edit-tab').closest('li').hasClass('active')
     @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
@@ -17,42 +17,12 @@ class MS.Views.LoanTabView extends Backbone.View
     @loadTimelineTable() if @$('.timeline-table-tab').closest('li').hasClass('active')
     @loadQuestionnaires() if @$('.questions-tab').closest('li').hasClass('active')
 
-  events: ->
+  events:
     'shown.bs.tab .edit-tab': 'openDetails'
     'shown.bs.tab .calendar-tab': 'openCalendar'
     'shown.bs.tab .timeline-tab': 'loadSteps'
     'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
     'shown.bs.tab .questions-tab': 'loadQuestionnaires'
-    'shown.bs.tab a[data-toggle="tab"]': 'updateState'
-    # 'click a[data-toggle="tab"]': 'clickLink'
-
-  clickLink: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-
-  popstate: (e) ->
-    console.log(window.location.href)
-    uri = URI(window.location.href).filename()
-    console.log(uri)
-    @changeActiveTab(uri)
-
-  updateState: (e) ->
-    $tab = @$(e.target)
-    href = $tab.attr("href")
-
-    # This check if the tab is active
-    if $tab.parent().hasClass('active')
-      console.log('the tab with the content id ' + href + ' is visible')
-    else
-      console.log('the tab with the content id ' + href + ' is NOT visible')
-
-    # We use replaceState because by default, bootstrap adds an anchor to the URL, and we want to replace that
-    history.replaceState(null, "", "/admin/loans/#{@loanId}/#{href}")
-    @changeActiveTab(href)
-
-  changeActiveTab: (tabName) ->
-    $('.tab-pane').toggleClass('active', false)
-    $("##{tabName}").toggleClass('active', true)
 
   openDetails: ->
     if MS.detailsView
