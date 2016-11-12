@@ -14,7 +14,7 @@ class MS.Views.TabHistoryManager extends Backbone.View
 
   popstate: (e) ->
     @$("a[role=tab]").blur()
-    @$("[data-tab-id='#{@tabNameFromUrl()}']").tab('show')
+    @showTab(@tabNameFromUrl())
 
   tabClicked: (e) ->
     tabName = @$(e.target).data('tab-id')
