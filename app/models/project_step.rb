@@ -1,3 +1,4 @@
+
 # == Schema Information
 #
 # Table name: timeline_entries
@@ -155,7 +156,11 @@ class ProjectStep < TimelineEntry
   end
 
   def milestone?
-    self.step_type_value == "milestone" ? true : false
+    step_type_value == "milestone"
+  end
+
+  def checkin?
+    step_type_value == "checkin"
   end
 
   def last_log_status

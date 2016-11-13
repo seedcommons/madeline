@@ -15,7 +15,7 @@
     .icon
       - if entry.milestone?
         i.fa.fa-fw.fa-flag-o
-      - else
+      - elsif entry.checkin?
         i.fa.fa-fw.fa-calendar
     .summary = entry.summary
 
