@@ -1,9 +1,9 @@
 ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
-  = render "admin/loans/tab", identifier: "details", label: t("loan.details"), link_class: "edit-tab"
-  = render "admin/loans/tab", identifier: "questions", label: t("loan.questions"), link_class: "questions-tab"
-  = render "admin/loans/tab", identifier: "timeline-table", label: "Timeline - Table", link_class: "timeline-table-tab"
-  = render "admin/loans/tab", identifier: "timeline-list", label: "Timeline - List", link_class: "timeline-tab"
-  = render "admin/loans/tab", identifier: "loan-calendar", label: t(:calendar), link_class: "calendar-tab"
+  = render "admin/loans/tab", identifier: "details", label: t("loan.details")
+  = render "admin/loans/tab", identifier: "questions", label: t("loan.questions")
+  = render "admin/loans/tab", identifier: "timeline-table", label: "Timeline - Table"
+  = render "admin/loans/tab", identifier: "timeline-list", label: "Timeline - List"
+  = render "admin/loans/tab", identifier: "loan-calendar", label: t(:calendar)
 
 div class="tab-content"
   div role="tabpanel" class="tab-pane flush" id="details"

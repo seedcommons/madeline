@@ -54,6 +54,7 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
+  # Copies filters down through all descendant groups and resets memoization of filtered_children.
   def filters=(filters)
     @filters = filters
     @filtered_children = nil # Undo memoization
