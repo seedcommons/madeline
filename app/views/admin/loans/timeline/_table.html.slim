@@ -6,8 +6,8 @@ table.table
     = render "admin/loans/timeline/group", entry: @loan.root_timeline_entry,
       first_in_row: true, max_group_depth: max_group_depth
 
-/ These menus need to be in this partial because they get moved within the table and thus when the
-/ table is overwritten, so are they.
+/ These menus need to be in this partial because they get moved within the table and thus if the
+/ table is overwritten without including these, we lose them altogether.
 ul.dropdown-menu id="project-group-menu"
   li: a href="#" data-action="add-child-group" = t(".add_child_group")
   li: a href="#" data-action="add-child-step" = t(".add_child_step")
