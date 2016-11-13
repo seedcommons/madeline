@@ -10,7 +10,6 @@ class MS.Views.TabHistoryManager extends Backbone.View
 
   events:
     'click a[role=tab]': 'tabClicked'
-    'shown.bs.tab a[role=tab]': 'tabShown'
 
   popstate: (e) ->
     @$("a[role=tab]").blur()
@@ -23,16 +22,19 @@ class MS.Views.TabHistoryManager extends Backbone.View
     @showTab(tabName)
 
   showTab: (tabName) ->
-    @$('[role=tabpanel]').hide()
-    @$("##{tabName}[role=tabpanel]").show()
-    @$("[data-tab-id=#{tabName}]").tab('show')
+    @showPanel(tabName)
+    @updateUrl(tabName)
+    @$("[data-tab-id=#{tabName}]").tab('show').trigger('shown.ms.tab')
 
-  tabShown: (e) ->
-    tabName = @$(e.target).data('tab-id')
+  updateUrl: (tabName) ->
     tabNameWithSlash = if tabName == @firstTab then '' else "/#{tabName}"
     tabPath = "#{@basePath}#{tabNameWithSlash}"
     if (URI(window.location.href).path() != tabPath)
       history.pushState(null, "", tabPath)
+
+  showPanel: (tabName) ->
+    @$('[role=tabpanel]').hide()
+    @$("##{tabName}[role=tabpanel]").show()
 
   tabNameFromUrl: ->
     URI(window.location.href).path().match(///#{@basePath}\/?(.*)///)[1] || @firstTab

@@ -11,48 +11,42 @@ class MS.Views.LoanTabView extends Backbone.View
 
     new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
 
-    @openDetails() if @$('.edit-tab').closest('li').hasClass('active')
-    @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
-    @loadSteps() if @$('.timeline-tab').closest('li').hasClass('active')
-    @loadTimelineTable() if @$('.timeline-table-tab').closest('li').hasClass('active')
-    @loadQuestionnaires() if @$('.questions-tab').closest('li').hasClass('active')
-
   events:
-    'shown.bs.tab .edit-tab': 'openDetails'
-    'shown.bs.tab .calendar-tab': 'openCalendar'
-    'shown.bs.tab .timeline-tab': 'loadSteps'
-    'shown.bs.tab .timeline-table-tab': 'loadTimelineTable'
-    'shown.bs.tab .questions-tab': 'loadQuestionnaires'
+    'shown.ms.tab': 'tabShown'
 
-  openDetails: ->
-    if MS.detailsView
-      MS.detailsView.refresh()
-    else
-      MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
+  tabShown: (e) ->
+    tabName = @$(e.target).data('tab-id')
+    switch tabName
+      when 'details'
+        if MS.detailsView
+          MS.detailsView.refresh()
+        else
+          MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
-  openCalendar: ->
-    if MS.calendarView
-      MS.calendarView.refresh()
-    else
-      MS.calendarView = new MS.Views.CalendarView(
-        calendarEventsUrl: @calendarEventsUrl,
-        stepModal: @stepModal
-      )
+      when 'questions'
+        if MS.loanQuestionnairesView
+          MS.loanQuestionnairesView.refreshContent()
+        else
+          MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
 
-  loadSteps: ->
-    if MS.timelineView
-      MS.timelineView.refreshSteps()
-    else
-      MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
+      when 'timeline-list'
+        if MS.timelineView
+          MS.timelineView.refreshSteps()
+        else
+          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
 
-  loadTimelineTable: ->
-    if MS.timelineTableView
-      MS.timelineTableView.refresh()
-    else
-      MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
+      when 'timeline-table'
+        if MS.timelineTableView
+          MS.timelineTableView.refresh()
+        else
+          MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
 
-  loadQuestionnaires: ->
-    if MS.loanQuestionnairesView
-      MS.loanQuestionnairesView.refreshContent()
-    else
-      MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+      when 'loan-calendar'
+        if MS.calendarView
+          MS.calendarView.refresh()
+        else
+          MS.calendarView = new MS.Views.CalendarView(
+            calendarEventsUrl: @calendarEventsUrl,
+            stepModal: @stepModal
+          )
+
