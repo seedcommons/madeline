@@ -9,6 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
+    new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
     'click .project-group .fa-cog': 'openGroupMenu'
@@ -23,6 +24,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=edit]': 'editStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
+    'change form.filters': 'refresh'
 
   refresh: ->
     MS.loadingIndicator.show()

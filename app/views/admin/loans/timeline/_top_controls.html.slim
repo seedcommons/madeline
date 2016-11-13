@@ -22,8 +22,14 @@ header.timeline-header
 
         input type="hidden" name="step-ids" id="step-ids"
 
-    .item.top-actions
-      a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")
-      a.btn.btn-primary.timeline-action data-action="new-step" href="#" = t(".new_step")
+  form.form-inline.filters
+    = select_tag :type,
+      options_for_select(ProjectStep.step_type_option_set.translated_list),
+      include_blank: I18n.t("project_step.all_types"),
+      class: "form-control"
 
-    .clearfix
+  .item.top-actions
+    a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")
+    a.btn.btn-primary.timeline-action data-action="new-step" href="#" = t(".new_step")
+
+  .clearfix
