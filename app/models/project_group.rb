@@ -51,6 +51,13 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
+  def filtered_children(filters)
+    children.reject do |child|
+      child.is_a?(ProjectStep) &&
+        filters[:type] && child.step_type_value != filters[:type]
+    end
+  end
+
   # Gets the total number of steps beneath this group.
   # Currently this will recursively traverse the tree and fire a whole bunch of queries,
   # one for each ProjectGroup. Should be some way to eager load but not seeing it.

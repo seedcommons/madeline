@@ -163,7 +163,8 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def prep_timeline
-    @selected_type = params[:type]
+    @filters = {}
+    @filters[:type] = params[:type] if params[:type].present?
     @type_options = ProjectStep.step_type_option_set.translated_list
   end
 

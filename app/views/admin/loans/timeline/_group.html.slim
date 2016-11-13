@@ -11,11 +11,11 @@
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
-
-  - if entry.children.empty?
+  - children = entry.filtered_children(@filters)
+  - if children.empty?
     td.spacer colspan="#{timeline_table_step_column_count}"
   - else
-    - entry.children.each_with_index do |child, i|
+    - children.each_with_index do |child, i|
       - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
       = render "admin/loans/timeline/#{entry_type}", entry: child, is_first: i == 0,
         max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?
