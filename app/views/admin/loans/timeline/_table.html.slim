@@ -4,4 +4,4 @@ table.table
   = render "admin/loans/timeline/header", max_group_depth: max_group_depth
   tbody
     = render "admin/loans/timeline/group", entry: @loan.root_timeline_entry,
-      is_first: true, max_group_depth: max_group_depth
+      first_in_row: true, max_group_depth: max_group_depth

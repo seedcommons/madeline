@@ -33,11 +33,11 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
+    prep_timeline
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
     @active_tab = params[:tab].presence || "details"
-    prep_timeline if @active_tab == "timeline-table"
 
     render partial: 'admin/loans/details' if request.xhr?
   end
@@ -163,8 +163,9 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def prep_timeline
-    @filters = {}
-    @filters[:type] = params[:type] if params[:type].present?
+    filters = {}
+    filters[:type] = params[:type] if params[:type].present?
+    @loan.root_timeline_entry.filters = filters
     @type_options = ProjectStep.step_type_option_set.translated_list
   end
 

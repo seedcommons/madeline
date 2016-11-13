@@ -1,10 +1,8 @@
-- wrapper_tag = {tag: is_first ? "div" : "tr"}
-
 - draft = entry.is_finalized ? "" : "draft"
 - completed = entry.completed? ? "completed" : ""
 - classes = "#{completed} #{draft}"
 
-*wrapper_tag class== classes
+= content_tag_if(first_in_row, :tr)
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
