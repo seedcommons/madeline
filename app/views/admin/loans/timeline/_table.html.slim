@@ -1,0 +1,7 @@
+- max_group_depth = @loan.root_timeline_entry.max_descendant_group_depth
+
+table.table
+  = render "admin/loans/timeline/header", max_group_depth: max_group_depth
+  tbody
+    = render "admin/loans/timeline/group", entry: @loan.root_timeline_entry,
+      is_first: true, max_group_depth: max_group_depth

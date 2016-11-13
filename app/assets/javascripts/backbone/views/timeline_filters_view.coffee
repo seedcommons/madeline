@@ -1,5 +1,11 @@
 # Controls the type and status filter selects.
 class MS.Views.TimelineFiltersView extends Backbone.View
+  FILTERS: ['type']
+
+  initialize: ->
+    uri = URI(window.location.href)
+    @FILTERS.forEach (filter) =>
+      @$("select[name=#{filter}]").val(uri.query(true)[filter])
 
   events:
     'submit': 'cancelSubmit'

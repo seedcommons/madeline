@@ -28,9 +28,9 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refresh: ->
     MS.loadingIndicator.show()
-    $.get "/admin/loans/#{@loanId}/timeline", (html) =>
+    $.get "/admin/loans/#{@loanId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
-      @$el.html(html)
+      @$('table.table').replaceWith(html)
 
   newGroup: (e) ->
     e.preventDefault()
