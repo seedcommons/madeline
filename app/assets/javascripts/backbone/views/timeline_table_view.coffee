@@ -30,7 +30,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     MS.loadingIndicator.show()
     $.get "/admin/loans/#{@loanId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
-      @$('table.table').replaceWith(html)
+      @$('.table-wrapper').html(html)
 
   newGroup: (e) ->
     e.preventDefault()
