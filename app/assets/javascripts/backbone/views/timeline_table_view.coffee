@@ -21,6 +21,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
+    'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
 
   refresh: ->
@@ -57,7 +58,13 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   editStep: (e) ->
     e.preventDefault()
-    @stepModal.edit(@$(e.currentTarget).closest('[data-id]').data('id'), @refresh.bind(@))
+    @stepModal.edit(@stepIdFromEvent(e), @refresh.bind(@))
+
+  addLog: (e) ->
+    e.preventDefault()
+    unless @logModalView
+      @logModalView = new MS.Views.LogModalView(el: $("<div>").insertAfter(@$el))
+    @logModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
 
   deleteStep: (e) ->
     item = e.currentTarget
@@ -92,3 +99,6 @@ class MS.Views.TimelineTableView extends Backbone.View
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
     e.stopPropagation()
+
+  stepIdFromEvent: (e) ->
+    @$(e.currentTarget).closest('[data-id]').data('id')

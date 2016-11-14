@@ -66,5 +66,5 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @moveStepModal.show(id, daysShifted).done => @runAndResetDoneCallback()
 
   runAndResetDoneCallback: ->
-    @done() if @done
+    @done()
     @done = (->) # Reset to empty function.
