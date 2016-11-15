@@ -23,6 +23,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
+    'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
 
@@ -110,3 +111,8 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   stepIdFromEvent: (e) ->
     @$(e.currentTarget).closest('[data-id]').data('id')
+
+  duplicateStep: (e) ->
+    console.log("Duplicate Step in Timeline Table View")
+    @projectStepView = new MS.Views.ProjectStepView(stepId: @stepIdFromEvent(e))
+    @projectStepView.showDuplicateModal(e)

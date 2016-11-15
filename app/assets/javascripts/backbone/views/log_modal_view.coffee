@@ -3,7 +3,6 @@ class MS.Views.LogModalView extends Backbone.View
   initialize: (options) ->
     # TODO: Remove @parentView stuff once old timeline goes away
     @parentView = options.parentView
-    # @timelineTableView = options.timelineTableView
     @submitted = false
     @done = (->) # Empty function
 
@@ -49,9 +48,6 @@ class MS.Views.LogModalView extends Backbone.View
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
-    # if @timelineTableView
-    #   @timelineTableView.refresh()
-
     if @parentView # TODO: Remove once old timeline goes away
       @parentView.replaceWith(data)
     else
