@@ -1,11 +1,9 @@
 # Helper class to ProjectStep and ProjectStepsController to encapsulate handling of the
 # duplication feature modal rendering and execution
-
 require 'chronic'
 
 module Timeline
   class StepDuplication
-
     # maximum allowed number of records to create when doing a 'duplicate with repeat' operation
     DUPLICATION_RECORD_LIMIT = 60
 
@@ -37,8 +35,7 @@ module Timeline
           end
           result = duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date).compact
         when 'once'
-          new_step = duplicate(should_persist: false)
-          result = [new_step]
+          result = [duplicate]
         else
           raise "unexpected repeat duration: #{params[:repeat_duration]}"
       end
@@ -85,7 +82,7 @@ module Timeline
       (num_of_occurrences || DUPLICATION_RECORD_LIMIT).times do
         next_date = apply_time_interval(last_date, frequency, time_unit, month_repeat_on)
         break if end_date && next_date > end_date
-        results << duplicate(next_date, should_persist: true, allow_error: allow_error)
+        results << duplicate(next_date, allow_error: allow_error)
         last_date = next_date
         allow_error = false  # only throw exception if the first record fails
       end
@@ -104,7 +101,7 @@ module Timeline
       end
     end
 
-    def duplicate(date = nil, should_persist: true, allow_error: true)
+    def duplicate(date = nil, allow_error: true)
       begin
         date ||= step.scheduled_start_date
         new_step = ProjectStep.new(
@@ -117,19 +114,14 @@ module Timeline
           actual_end_date: nil,
           is_finalized: false,
         )
-        # This will create transient copies of all of the source translatable attributes.
         step.clone_translations(new_step)
-        new_step.save if should_persist
+        new_step.save
         new_step
-        # Note, would likely want to also copy custom fields at the point in time which we expect
-        # those to be used on ProjectSteps.
       rescue => e
         Rails.logger.error("create_duplicate error: #{e}")
         raise e if allow_error
-        nil  # Partial failures will be stripped from result list.
+        nil # Partial failures will be stripped from result list.
       end
-
     end
-
   end
 end
