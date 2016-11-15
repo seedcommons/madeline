@@ -15,7 +15,7 @@
     td.spacer colspan="#{timeline_table_step_column_count}"
   - else
     - children.each_with_index do |child, i|
-      - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
+      - entry_type = child.group? ? "group" : "step"
       = render "admin/loans/timeline/#{entry_type}", entry: child, first_in_row: i != 0,
         max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?
 

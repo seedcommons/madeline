@@ -98,7 +98,7 @@ module Legacy
       puts "setting #{id}: with schedule parent #{dependent_date}"
       step = TimelineEntry.find(id)
       schedule_parent = TimelineEntry.find(dependent_date)
-      if schedule_parent.is_a?(ProjectStep)
+      if schedule_parent.step?
         step.schedule_parent = schedule_parent
       else
         puts "schedule parent is a group, copying date instead"
@@ -126,7 +126,7 @@ module Legacy
     def set_date_on_step(step_id, date)
       step = TimelineEntry.where(id: step_id).first
       if step
-        if step.is_a?(ProjectStep) && step.scheduled_start_date.blank?
+        if step.step? && step.scheduled_start_date.blank?
           puts "#{step.class.name}[#{step_id}] Setting #{step_id} to #{date}"
           step.scheduled_start_date = date
           step.save!

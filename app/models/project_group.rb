@@ -58,12 +58,12 @@ class ProjectGroup < TimelineEntry
   def filters=(filters)
     @filters = filters
     @filtered_children = nil # Undo memoization
-    children.each { |child| child.filters = filters if child.is_a?(ProjectGroup) }
+    children.each { |child| child.filters = filters if child.group? }
   end
 
   def filtered_children
     @filtered_children ||= children.reject do |child|
-      filters.present? && child.is_a?(ProjectStep) &&
+      filters.present? && child.step? &&
         filters[:type] && child.step_type_value != filters[:type]
     end
   end
@@ -74,7 +74,7 @@ class ProjectGroup < TimelineEntry
   # Performance shouldn't be too bad though as there shouldn't be that many groups.
   def descendant_leaf_count
     filtered_children.to_a.sum do |c|
-      if c.is_a?(ProjectStep) || c.filtered_children.empty?
+      if c.step? || c.filtered_children.empty?
         1
       else
         c.descendant_leaf_count
@@ -86,7 +86,7 @@ class ProjectGroup < TimelineEntry
   # Also returns true if no children.
   def descendants_only_steps?
     filtered_children.each do |c|
-      return false if c.is_a?(ProjectGroup)
+      return false if c.group?
     end
     true
   end
