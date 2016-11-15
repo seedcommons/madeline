@@ -12,7 +12,7 @@ class MS.Views.TabHistoryManager extends Backbone.View
     'click a[role=tab]': 'tabClicked'
 
   popstate: (e) ->
-    @$("a[role=tab]").blur()
+    @$("a[role=tab]").blur() # Otherwise the old tab stays active with gray BG
     @showTab(@tabNameFromUrl())
 
   tabClicked: (e) ->
