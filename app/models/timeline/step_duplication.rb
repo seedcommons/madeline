@@ -106,6 +106,7 @@ module Timeline
         date ||= step.scheduled_start_date
         new_step = ProjectStep.new(
           project: step.project,
+          parent: step.parent,
           agent: step.agent,
           step_type_value: step.step_type_value,
           scheduled_start_date: date,

@@ -39,6 +39,10 @@ shared_examples_for 'a duplicated step' do |params|
     expect(subject.is_finalized).to eq false
   end
 
+  it 'has same parent as original' do
+    expect(subject.parent).to eq original.parent
+  end
+
   it 'schedule_parent is nil' do
     expect(subject.schedule_parent).to be_nil
   end
@@ -66,6 +70,12 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     subject { duplicate.first }
 
     it_should_behave_like 'a duplicated step', date_offset: 0.days
+
+    context 'with a non-root parent' do
+      let(:original) { create(:project_step, :with_non_root_parent) }
+
+      it_should_behave_like 'a duplicated step', date_offset: 0.days
+    end
   end
 
   context 'when duplicated once daily' do
