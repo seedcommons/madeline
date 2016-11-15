@@ -9,6 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
+    @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
     'click .project-group .fa-cog': 'openGroupMenu'
@@ -21,13 +22,16 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
+    'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
+    'change form.filters': 'refresh'
 
   refresh: ->
     MS.loadingIndicator.show()
-    $.get "/admin/loans/#{@loanId}/timeline", (html) =>
+    $.get "/admin/loans/#{@loanId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
-      @$el.html(html)
+      @$('.table-wrapper').html(html)
+      @timelineFilters.resetFilterDropdowns()
 
   newGroup: (e) ->
     e.preventDefault()
@@ -57,7 +61,13 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   editStep: (e) ->
     e.preventDefault()
-    @stepModal.edit(@$(e.currentTarget).closest('[data-id]').data('id'), @refresh.bind(@))
+    @stepModal.edit(@stepIdFromEvent(e), @refresh.bind(@))
+
+  addLog: (e) ->
+    e.preventDefault()
+    unless @logModalView
+      @logModalView = new MS.Views.LogModalView(el: $("<div>").insertAfter(@$el))
+    @logModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
 
   deleteStep: (e) ->
     item = e.currentTarget
@@ -97,3 +107,6 @@ class MS.Views.TimelineTableView extends Backbone.View
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
     e.stopPropagation()
+
+  stepIdFromEvent: (e) ->
+    @$(e.currentTarget).closest('[data-id]').data('id')

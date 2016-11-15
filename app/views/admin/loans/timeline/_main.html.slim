@@ -1,41 +1,11 @@
-- max_group_depth = @loan.root_timeline_entry.max_descendant_group_depth
-
 section.timeline-table data-loan-id= @loan.id
   = render "admin/loans/timeline/top_controls"
   - if @loan.root_timeline_entry
-    - if @loan.root_timeline_entry.is_a?(ProjectGroup)
-      table.table
-        = render "admin/loans/timeline/header", max_group_depth: max_group_depth
-        tbody
-          = render "admin/loans/timeline/group", entry: @loan.root_timeline_entry,
-            is_first: true, max_group_depth: max_group_depth
+    - if @loan.root_timeline_entry.group?
+      .table-wrapper
+        = render("admin/loans/timeline/table")
     / If user has created a step through the timeline list, the timeline table is incompatible
-    - elsif @loan.root_timeline_entry.is_a?(ProjectStep)
+    - elsif @loan.root_timeline_entry.step?
       p This loan is not yet compatible with the timeline table.
   - else
     p = t("project_step.no_steps")
-
-  ul.dropdown-menu id="project-group-menu"
-    li: a href="#" data-action="add-child-group" = t(".add_child_group")
-    li: a href="#" data-action="add-child-step" = t(".add_child_step")
-    li: a href="#" data-action="edit" = t(:edit)
-    li: a [href="javascript:"
-      data-action="delete"
-      data-confirm= t("project_group.delete_confirmation")
-      data-confirm-title= t("project_group.delete")]
-      = t(:delete)
-
-  ul.dropdown-menu.dropdown-menu-right id="project-step-menu"
-    li: a href="#" data-action="edit" = t(:edit)
-    li: a href="#" data-action="duplicate-step" = t("project_step.duplicate")
-    li
-      a [href="#" data-action="delete"
-        data-confirm= t("project_step.confirm_deletion")
-        data-confirm-title= t("project_step.delete", count: 1)]
-        = t(:delete)
-    li: a href="#" data-action="add-dependent-step" = t("project_step.add_dependent_step")
-    li: a href="#" data-action="add-log" = t("project_step.add_log")
-    li: a href="#" = t("project_step.view_logs")
-
-  .log-modal
-  .modal.duplicate-step

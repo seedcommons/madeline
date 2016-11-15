@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930194617) do
+ActiveRecord::Schema.define(version: 20161111211147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "loan_type_value"
     t.string   "name"
     t.integer  "organization_id"
-    t.integer  "organization_snapshot_id"
     t.integer  "primary_agent_id"
     t.string   "project_type_value"
     t.decimal  "projected_return"
@@ -143,7 +142,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
   add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
   add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
-  add_index "loans", ["organization_snapshot_id"], name: "index_loans_on_organization_snapshot_id", using: :btree
 
   create_table "media", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -194,19 +192,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
 
   add_index "options", ["option_set_id"], name: "index_options_on_option_set_id", using: :btree
 
-  create_table "organization_snapshots", force: :cascade do |t|
-    t.datetime "created_at"
-    t.date     "date"
-    t.integer  "environmental_impact_score"
-    t.integer  "organization_id"
-    t.integer  "organization_size"
-    t.integer  "poc_ownership_percent"
-    t.datetime "updated_at"
-    t.integer  "women_ownership_percent"
-  end
-
-  add_index "organization_snapshots", ["organization_id"], name: "index_organization_snapshots_on_organization_id", using: :btree
-
   create_table "organizations", force: :cascade do |t|
     t.string   "alias"
     t.string   "city"
@@ -223,7 +208,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "legal_name"
     t.string   "name"
     t.string   "neighborhood"
-    t.integer  "organization_snapshot_id"
     t.string   "postal_code"
     t.integer  "primary_contact_id"
     t.string   "primary_phone"

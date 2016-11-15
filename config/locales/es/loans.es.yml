@@ -133,6 +133,6 @@ es:
         top_controls:
           new_group: "Agregar Grupo"
           new_step: "Agregar Paso"
-        main:
+        table:
           add_child_group: "Agregar Grupo Infantil"
           add_child_step: "Agregar Paso Infantil"
