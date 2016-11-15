@@ -30,6 +30,11 @@ header.timeline-header.row
         include_blank: I18n.t("project_step.all_types"),
         class: "form-control"
 
+      = select_tag :status,
+        options_for_select(@status_options),
+        include_blank: "All Statuses",
+        class: "form-control"
+
   .col-sm-4
     .item.top-actions
       a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")

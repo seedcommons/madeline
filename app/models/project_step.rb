@@ -151,8 +151,9 @@ class ProjectStep < TimelineEntry
     actual_end_date.present?
   end
 
-  def completed_or_not
-    completed? ? 'completed' : 'incomplete'
+  def completion_status
+    return 'completed' if completed?
+    is_finalized? ? 'finalized' : 'incomplete'
   end
 
   def milestone?

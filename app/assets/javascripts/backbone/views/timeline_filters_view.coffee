@@ -1,6 +1,6 @@
 # Controls the type and status filter selects.
 class MS.Views.TimelineFiltersView extends Backbone.View
-  FILTERS: ['type']
+  FILTERS: ['type', 'status']
 
   initialize: ->
     @resetFilterDropdowns

@@ -1,7 +1,7 @@
 .timeline
   ul.loan-feed
     - @loan.project_events.each do |paso|
-      li class="paso paso-#{paso.id} well #{paso.completed_or_not}"
+      li class="paso paso-#{paso.id} well #{paso.completion_status}"
         .paso-summary
           - if !paso.summary.try(:content).blank?
             = render_translation paso.summary
