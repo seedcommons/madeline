@@ -54,7 +54,6 @@ Rails.application.routes.draw do
       resources :loans
       resources :organizations
       resources :people
-      resources :organization_snapshots
       resources :project_steps
       resources :project_logs
       resources :notes
