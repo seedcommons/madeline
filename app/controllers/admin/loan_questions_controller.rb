@@ -12,7 +12,6 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def new
-    @parent_id = params[:parent_id]
     set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
     @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent)
