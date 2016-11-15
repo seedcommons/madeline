@@ -9,7 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
-    new MS.Views.TimelineFiltersView(el: @$('form.filters'))
+    @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
     'click .project-group .fa-cog': 'openGroupMenu'
@@ -31,6 +31,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $.get "/admin/loans/#{@loanId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)
+      @timelineFilters.resetFilterDropdowns()
 
   newGroup: (e) ->
     e.preventDefault()
