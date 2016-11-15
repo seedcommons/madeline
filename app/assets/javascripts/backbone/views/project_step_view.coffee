@@ -9,9 +9,7 @@ class MS.Views.ProjectStepView extends Backbone.View
     @initTypeSelect()
     @persisted = params.persisted
     @duplicate = params.duplicate
-    @timelineTableView = params.timelineTableView
-    unless @timelineTableView
-      @context = @$el.data('context')
+    @context = @$el.data('context')
     @daysShifted = params.daysShifted
     @stepId = params.stepId
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
@@ -43,14 +41,7 @@ class MS.Views.ProjectStepView extends Backbone.View
 
   showDuplicateModal: (e) ->
     e.preventDefault()
-    MS.loadingIndicator.show()
-
-    # TODO: Add conditional to only do this in timeline table context
-    $.get "/admin/project_steps/#{@stepId}/show_duplicate", (html) =>
-      $('.timeline-table .modal.duplicate-step').replaceWith(html)
-      $('.timeline-table .modal.duplicate-step').modal('show')
-    # else
-    #   @$('.duplicate-step').modal('show')
+    @$('.duplicate-step').modal('show')
 
   # Select 2 is used to show the pretty icons.
   initTypeSelect: ->
@@ -93,21 +84,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    if @timelineTableView
-      stepId = @stepId
-    else
-      stepId = @$(link).data('parent-step-id')
-
     unless @logModalView
-      if @timelineTableView
-        @logModalView = new MS.Views.LogModalView(el: $('.timeline-table .log-modal'), timelineTableView: @timelineTableView)
-      else
-        @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      @logModalView.showEdit(@$(link).data('log-id'), stepId)
+      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
     else
-      @logModalView.showNew(stepId)
+      @logModalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)
