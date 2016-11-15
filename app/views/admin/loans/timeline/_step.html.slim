@@ -1,45 +1,50 @@
-- wrapper_tag = {tag: is_first ? "div" : "tr"}
-
 - draft = entry.is_finalized ? "" : "draft"
 - completed = entry.completed? ? "completed" : ""
+
+/ Note that we have to repeat these classes on all td tags because we don't always have access to the tr tag
 - classes = "#{completed} #{draft}"
 
-*wrapper_tag class== classes
+= content_tag_if(first_in_row, :tr)
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
-  td: input.select-step type="checkbox" class==completed data-id=entry.id
+  td class=classes
+    input.select-step type="checkbox" class==completed data-id=entry.id
 
-  td
+  td class=classes
     .icon
       - if entry.milestone?
         i.fa.fa-fw.fa-flag-o
-      - else
+      - elsif entry.checkin?
         i.fa.fa-fw.fa-calendar
     .summary = entry.summary
 
-  td = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
-  td = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
+  td class=classes
+    = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
+  td class=classes
+    = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
 
-  td
+  td class=classes
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
 
   - if entry.is_finalized
-    td style="background: #{entry.timeline_background_color};" = entry.try(:admin_status)
+    td class=classes style="background: #{entry.timeline_background_color};"
+      = entry.try(:admin_status)
   - else
-    td = t("project_step.timeline_table.draft")
+    td class=classes
+      = t("project_step.timeline_table.draft")
 
   - latest_logs = entry.latest_logs
-  td.recent-logs class="#{latest_logs.length > 0 ? 'has-logs' : '' }"
+  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }"
     - latest_logs.each_with_index do |log, index|
       p.log-summary = log.summary
 
-      - if (index == latest_logs.length - 1)
+      - if index == latest_logs.length - 1
         div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
 
-  td.step-menu-col data-id=entry.id
+  td.step-menu-col class=classes data-id=entry.id
     span.dropdown
       i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 

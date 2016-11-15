@@ -159,6 +159,6 @@ en:
         top_controls:
           new_group: "Add Group"
           new_step: "Add Step"
-        main:
+        table:
           add_child_group: "Add Child Group"
           add_child_step: "Add Child Step"

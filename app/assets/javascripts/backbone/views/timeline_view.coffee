@@ -16,7 +16,7 @@ class MS.Views.TimelineView extends Backbone.View
     'click #new-step': 'addBlankStep'
     'ajax:error': 'submitError'
 
-  refreshSteps: (callback) ->
+  refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
     @$('.project-steps').empty()
     $.get "/admin/loans/#{@loanId}/steps", (html) =>

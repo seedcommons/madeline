@@ -1,9 +1,9 @@
-- wrapper_tag = {tag: is_first ? 'div' : 'tr'}
-- row_span = [1, entry.descendant_step_count].max
+- row_span = [1, entry.descendant_leaf_count].max
 - column_span = entry.descendants_only_steps? ? max_group_depth - entry.depth + 1 : 1
-- has_children_class = entry.children.empty? ? '' : 'with-children'
+- children = entry.filtered_children
+- has_children_class = children.empty? ? '' : 'with-children'
 
-*wrapper_tag
+= content_tag_if(first_in_row, :tr)
   / The root group is not actually displayed
   - unless entry.root?
     td.project-group class=has_children_class data-id=entry.id rowspan="#{row_span}" colspan="#{column_span}"
@@ -11,12 +11,11 @@
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
-
-  - if entry.children.empty?
+  - if children.empty?
     td.spacer colspan="#{timeline_table_step_column_count}"
   - else
-    - entry.children.each_with_index do |child, i|
-      - entry_type = child.is_a?(ProjectGroup) ? "group" : "step"
-      = render "admin/loans/timeline/#{entry_type}", entry: child, is_first: i == 0,
+    - children.each_with_index do |child, i|
+      - entry_type = child.group? ? "group" : "step"
+      = render "admin/loans/timeline/#{entry_type}", entry: child, first_in_row: i != 0,
         max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?
 

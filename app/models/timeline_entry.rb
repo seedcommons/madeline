@@ -44,4 +44,12 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project, allow_nil: true
+
+  def step?
+    is_a?(ProjectStep)
+  end
+
+  def group?
+    is_a?(ProjectGroup)
+  end
 end

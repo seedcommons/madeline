@@ -43,16 +43,18 @@ describe ProjectGroup, type: :model do
     end
   end
 
-  describe "descendant_step_count" do
+  describe "descendant_leaf_count" do
     let(:root) { create(:root_project_group, :with_descendants) }
 
     it "should be correct for root" do
-      expect(root.descendant_step_count).to eq root.project.timeline_entries.where(type: "ProjectStep").count
+      expect(root.descendant_leaf_count).to eq(
+        # There is one childless group that should be counted in addition to all the steps.
+        root.project.timeline_entries.where(type: "ProjectStep").count + 1)
     end
 
     it "should be correct for interior node" do
       group = root.children[0]
-      expect(group.descendant_step_count).to eq group.children.size
+      expect(group.descendant_leaf_count).to eq group.children.size
     end
   end
 end
