@@ -97,7 +97,14 @@ module Timeline
         # Note, Chronic doesn't seem to support 'this month' in this context, so need to subtract
         # a month and use 'next month'.
         reference_date = date.beginning_of_month + interval - 1.month
-        Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
+        first_try = Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
+
+        # Sometimes 5th weekday of month doesn't exist
+        if first_try.nil? && month_repeat_on =~ /\A5th/
+          Chronic.parse("#{month_repeat_on.sub('5th', '4th')} of next month", now: reference_date)
+        else
+          first_try
+        end
       end
     end
 

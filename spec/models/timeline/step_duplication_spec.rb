@@ -173,19 +173,19 @@ RSpec.describe Timeline::StepDuplication, type: :model do
     let(:num_of_occurrences) { '2' }
     let(:time_unit) { 'months' }
 
-    shared_examples_for 'duplicated twice monthly' do
+    shared_examples_for 'duplicated twice monthly' do |offsets = []|
       it 'should create 2 duplicates' do
         expect(duplicate.count).to eq 2
       end
 
       context 'with first step' do
         subject { duplicate.first }
-        it_should_behave_like 'a duplicated step', date_offset: 1.month
+        it_should_behave_like 'a duplicated step', date_offset: offsets[0] || 1.month
       end
 
       context 'with second step' do
         subject { duplicate[1] }
-        it_should_behave_like 'a duplicated step', date_offset: 2.months
+        it_should_behave_like 'a duplicated step', date_offset: offsets[1] || 2.months
       end
     end
 
@@ -208,6 +208,16 @@ RSpec.describe Timeline::StepDuplication, type: :model do
       end
 
       it_behaves_like 'duplicated twice monthly'
+    end
+
+    context "when duplicated monthly with month_repeat_on that sometimes doesn't exist" do
+      let(:original) { create(:project_step, scheduled_start_date: Date.civil(2016, 11, 30)) }
+      let(:duplicate) do
+        duplication = Timeline::StepDuplication.new(original)
+        duplication.perform(default_params.merge(month_repeat_on: '5th Wednesday'))
+      end
+
+      it_behaves_like 'duplicated twice monthly', [28.days, 56.days]
     end
   end
 end
