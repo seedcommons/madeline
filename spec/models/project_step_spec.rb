@@ -219,7 +219,7 @@ describe ProjectStep, type: :model do
 
     context 'when parent is set to orphan step' do
       before do
-        step.schedule_parent = new_step
+        step.schedule_parent_id = new_step.id
         step.save
         step.reload
       end
@@ -244,7 +244,7 @@ describe ProjectStep, type: :model do
 
   context 'with child project_step' do
     subject(:step) do
-      create(:project_step, schedule_parent: parent_step, scheduled_duration_days: step_duration)
+      create(:project_step, schedule_parent_id: parent_step.id, scheduled_duration_days: step_duration)
     end
 
     let(:step_duration) { 3 }
@@ -279,7 +279,7 @@ describe ProjectStep, type: :model do
 
     context 'is orphaned' do
       before do
-        step.schedule_parent = nil
+        step.schedule_parent_id = nil
         step.save
       end
 
