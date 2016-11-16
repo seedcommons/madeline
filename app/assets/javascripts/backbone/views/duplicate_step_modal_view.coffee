@@ -38,8 +38,8 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
 
   submitComplete: (e, data) ->
     e.stopPropagation()
+    @close()
     if parseInt(data.status) == 200
-      @close()
       @runAndResetDoneCallback()
     else
       console.log(data)
