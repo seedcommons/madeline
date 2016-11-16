@@ -23,6 +23,14 @@ header.timeline-header.row
 
           input.step-ids type="hidden" name="step-ids"
 
+        .btn-group role="group" aria-label="Batch Actions"
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            => t("loan.batch_actions")
+            span.caret
+            span.sr-only = t(:dropdown_toggle)
+
+          = render "admin/loans/timeline/batch_actions"
+
   .col-sm-4
     form.form-inline.filters
       = select_tag :type,

@@ -9,6 +9,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
+    new MS.Views.TimelineBatchActionsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
