@@ -1,0 +1,4 @@
+en:
+  notification_mailer:
+    new_log:
+      subject: "Test"

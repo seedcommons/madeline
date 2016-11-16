@@ -6,8 +6,6 @@ class NotificationMailer < ApplicationMailer
   #   en.notification_mailer.new_log.subject
   #
   def new_log
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+    mail to: 'adam@theworkingworld.org'
   end
 end
