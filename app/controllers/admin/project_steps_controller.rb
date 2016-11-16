@@ -137,7 +137,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def display_timeline(project_id, notice = nil)
-    redirect_to admin_loan_path(project_id, anchor: 'timeline'), notice: notice
+    redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
   end
 
   private
