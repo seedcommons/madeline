@@ -27,10 +27,10 @@ div.modal.fade.duplicate-step tabindex="-1" aria-labelledby="duplicate-step-labe
         button.btn.btn-default type="button" data-dismiss="modal"
           = t(:cancel)
 
-        button.btn.btn-primary type="button"
+        button.btn.btn-primary.submit type="button"
           = t("project_step.duplicate")
 
-- unless timeline_table
+- unless context == "timeline_table"
   javascript:
 
     $(function() {

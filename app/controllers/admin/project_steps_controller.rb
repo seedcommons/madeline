@@ -166,7 +166,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def render_duplicate_modal_content(status = 200)
     render partial: "/admin/project_steps/duplicate_step_modal", status: status, locals: {
-      step: @step, timeline_table: true
+      step: @step, context: params[:context]
     }
   end
 end
