@@ -1,4 +1,5 @@
-#duplicate-step-modal {
+// Second selector applies to old timeline
+#duplicate-step-modal, [id^="duplicate-step-modal"] {
   .form-group {
     &.row {
       margin: 1em 0;
