@@ -112,4 +112,4 @@ class MS.Views.TimelineTableView extends Backbone.View
     e.preventDefault()
     e.stopPropagation()
     stepId = @stepIdFromEvent(e)
-    @duplicateStepModal.show(e, stepId)
+    @duplicateStepModal.show(e, stepId, @refresh.bind(@))
