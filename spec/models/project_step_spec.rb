@@ -327,29 +327,46 @@ describe ProjectStep, type: :model do
       expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
     end
 
-    context 'and level 1 scheduled_start_date is updated' do
+    describe 'cascading date adjustment' do
       let(:duration_offset) { 5 }
-      before do
-        @original_date = step.scheduled_start_date
+      let!(:original_end_date) { step.scheduled_end_date }
 
-        step.scheduled_start_date += duration_offset
-        step.save
+      shared_examples_for "children dates adjusted" do
+        it 'level 1 scheduled_end_date is updated' do
+          expect(step.scheduled_end_date).to eq original_end_date + duration_offset
+        end
 
-        step.reload
-        step_level_2.reload
-        step_level_3.reload
+        it 'level 2 children start matches level 1 end' do
+          expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
+        end
+
+        it 'level 3 children start matches level 2 end' do
+          expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+        end
       end
 
-      it 'level 1 scheduled_start_date is updated' do
-        expect(step.scheduled_start_date).to eq @original_date + duration_offset
+      context 'level 1 scheduled_start_date is updated' do
+        before do
+          step.scheduled_start_date += duration_offset
+          step.save
+          step.reload
+          step_level_2.reload
+          step_level_3.reload
+        end
+
+        it_behaves_like "children dates adjusted"
       end
 
-      it 'level 2 children start matches level 1 end' do
-        expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
-      end
+      context 'level 1 duration is updated' do
+        before do
+          step.scheduled_duration_days += duration_offset
+          step.save
+          step.reload
+          step_level_2.reload
+          step_level_3.reload
+        end
 
-      it 'level 3 children start matches level 2 end' do
-        expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+        it_behaves_like "children dates adjusted"
       end
     end
   end

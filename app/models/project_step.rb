@@ -370,7 +370,8 @@ class ProjectStep < TimelineEntry
   end
 
   def handle_schedule_children
-    return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
+    return unless persisted? && schedule_children.present? &&
+      (scheduled_start_date_changed? || scheduled_duration_days_changed?)
 
     schedule_children.each do |step|
       step.scheduled_start_date = scheduled_end_date
