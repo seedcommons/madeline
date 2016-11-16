@@ -1,5 +1,5 @@
-div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledby="duplicate-step-label"
-
+div.modal.fade.duplicate-step tabindex="-1" aria-labelledby="duplicate-step-label"
+  // TODO: Set id if no timeline_table, id="duplicate-step-modal-#{step.id}"
   div.modal-dialog
     div.modal-content
       div.modal-header
@@ -30,7 +30,9 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
         button.btn.btn-primary type="button"
           = t("project_step.duplicate")
 
+- unless timeline_table
   javascript:
+
     $(function() {
       new MS.Views.DuplicateStepView({ el: "#duplicate-step-modal-#{step.id}" });
     });

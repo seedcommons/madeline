@@ -8,6 +8,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @loanId = options.loanId
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
+    @duplicateStepModal = new MS.Views.DuplicateStepModalView()
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
@@ -93,11 +94,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     @openMenu(e, 'group')
 
   openStepMenu: (e) ->
-    button = e.currentTarget
-    @stepId = @$(button).closest('.step-menu-col').data('id')
-    unless @projectStepView && @stepId == @projectStepView.stepId
-      @projectStepView = new MS.Views.ProjectStepView(
-        el: '#project-step-menu', stepId: @stepId, timelineTableView: this)
     @openMenu(e, 'step')
 
   openMenu: (e, which) ->
@@ -113,6 +109,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @$(e.currentTarget).closest('[data-id]').data('id')
 
   duplicateStep: (e) ->
-    console.log("Duplicate Step in Timeline Table View")
-    @projectStepView = new MS.Views.ProjectStepView(stepId: @stepIdFromEvent(e))
-    @projectStepView.showDuplicateModal(e)
+    e.preventDefault()
+    e.stopPropagation()
+    stepId = @stepIdFromEvent(e)
+    @duplicateStepModal.show(e, stepId)
