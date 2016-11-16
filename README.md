@@ -20,6 +20,15 @@
 ### Creating a test user from the rails console
     Person.create(division_id: 99, email: 'test@theworkingworld.org', first_name: 'Test', has_system_access: true, password: 'test1234', password_confirmation: 'test1234', owning_division_role: 'admin')
 
+### Testing mailers
+
+To test sending mail, install and run mailcatcher:
+
+```
+gem install mailcatcher
+mailcatcher
+```
+
 ## Data migration
 It's better to run the main data migration on a local machine to preserve scarce CPU time on the server. If we use too much CPU, we get severely throttled.
 
