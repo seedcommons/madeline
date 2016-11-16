@@ -39,6 +39,7 @@ gem 'slim'
 # Cron jobs
 gem 'whenever', require: false
 gem 'delayed_job_active_record'
+gem 'daemons'
 
 # note, for now just using chronic, which was already included
 # if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube

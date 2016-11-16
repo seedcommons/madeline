@@ -22,14 +22,16 @@
 
 ### Testing mailers
 
-To test sending mail, install and run mailcatcher:
+To test sending mail, install and run mailcatcher, then run delayed_job:
 
 ```
 gem install mailcatcher
 mailcatcher
+bin/delayed_job start
 ```
 
 ## Data migration
+
 It's better to run the main data migration on a local machine to preserve scarce CPU time on the server. If we use too much CPU, we get severely throttled.
 
 1. Get latest dump from `base` on `cofunder.theworkingworld.org`
