@@ -405,6 +405,7 @@ en:
       end: "End"
       group: "Group"
       logs: "Logs"
+      preceding_step: "Preceding Step"
       start: "Start"
       status: "Status"
       step: "Step"
