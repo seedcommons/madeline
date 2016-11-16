@@ -16,8 +16,7 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
     'click .date-end-of-occurrences': 'checkRadio'
 
   show: (e, id, done) ->
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault() # Prevents timeline from reloading
     @done = done
     @stepId = id
     @loadContent("/admin/project_steps/#{@stepId}/show_duplicate?context=timeline_table")
@@ -37,12 +36,8 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
     @$('form').submit()
 
   submitComplete: (e, data) ->
-    e.stopPropagation()
     @close()
-    if parseInt(data.status) == 200
-      @runAndResetDoneCallback()
-    else
-      console.log(data)
+    @runAndResetDoneCallback()
 
   runAndResetDoneCallback: ->
     @done()

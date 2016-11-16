@@ -109,7 +109,5 @@ class MS.Views.TimelineTableView extends Backbone.View
     @$(e.currentTarget).closest('[data-id]').data('id')
 
   duplicateStep: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
     stepId = @stepIdFromEvent(e)
     @duplicateStepModal.show(e, stepId, @refresh.bind(@))
