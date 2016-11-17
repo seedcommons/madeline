@@ -1,1 +1,15 @@
-Test2
+A new log has been created on <%= @log.project.name %> by <%= @log.agent.name %>:
+
+<%= t :step %>: <%= @log.project_step.summary %>
+
+<%= t :status %>: <%= @log.progress_metric %>
+
+<%= t :summary %>: <%= @log.summary -%>
+
+<%- if @log.details.present? -%>
+
+<%= t :details %>:
+<%= @log.details %>
+<%- end %>
+
+<%= admin_loan_url(@log.project) %>/timeline-table

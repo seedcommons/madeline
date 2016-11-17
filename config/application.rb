@@ -36,6 +36,10 @@ module MadelineSystem
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.action_mailer.default_url_options = {
+      host: ENV['MADELINE_HOSTNAME'] || 'ms.theworkingworld.org'
+    }
   end
 end
 

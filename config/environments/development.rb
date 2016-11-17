@@ -50,9 +50,6 @@ Rails.application.configure do
 
   Slim::Engine.set_options pretty: true, sort_attrs: false
 
-  # Sends email notifications, viewable on the server log
-  config.action_mailer.default_url_options = { :host => 'localhost' }
-
   # Auto reload browser
   config.middleware.insert_before Rack::Lock, Rack::LiveReload if ENV['LIVE_RELOAD']
 

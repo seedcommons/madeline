@@ -91,4 +91,8 @@ class Division < ActiveRecord::Base
       Loan.where(division: self).present?  ||
       Person.where(division: self).present?
   end
+
+  def users
+    people.where(has_system_access: true)
+  end
 end
