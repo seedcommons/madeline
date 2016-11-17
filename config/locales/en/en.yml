@@ -18,6 +18,7 @@ en:
         default_currency: "Default Currency"
         name: "Name"
         parent: "Parent Division"
+        notify_on_new_logs: "Notify on New Logs"
         logo: "Logo"
         logo_text: "Logo Text"
         banner_fg_color: "Banner FG Color"
@@ -450,3 +451,7 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  boolean:
+    'true': 'Yes'
+    'false': 'No'

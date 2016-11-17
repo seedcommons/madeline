@@ -10,7 +10,6 @@
 #  id                     :integer          not null, primary key
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :inet
-#  notify_on_new_logs     :boolean
 #  profile_id             :integer
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime

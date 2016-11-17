@@ -2,26 +2,25 @@
 #
 # Table name: divisions
 #
-#  accent_fg_color    :string
-#  accent_main_color  :string
-#  banner_bg_color    :string
-#  banner_fg_color    :string
-#  created_at         :datetime         not null
-#  currency_id        :integer
-#  custom_data        :json
-#  description        :text
-#  id                 :integer          not null, primary key
-#  internal_name      :string
-#  logo_content_type  :string
-#  logo_file_name     :string
-#  logo_file_size     :integer
-#  logo_text          :string
-#  logo_updated_at    :datetime
-#  name               :string
-#  notify_on_new_logs :boolean
-#  organization_id    :integer
-#  parent_id          :integer
-#  updated_at         :datetime         not null
+#  accent_fg_color   :string
+#  accent_main_color :string
+#  banner_bg_color   :string
+#  banner_fg_color   :string
+#  created_at        :datetime         not null
+#  currency_id       :integer
+#  custom_data       :json
+#  description       :text
+#  id                :integer          not null, primary key
+#  internal_name     :string
+#  logo_content_type :string
+#  logo_file_name    :string
+#  logo_file_size    :integer
+#  logo_text         :string
+#  logo_updated_at   :datetime
+#  name              :string
+#  organization_id   :integer
+#  parent_id         :integer
+#  updated_at        :datetime         not null
 #
 # Indexes
 #
