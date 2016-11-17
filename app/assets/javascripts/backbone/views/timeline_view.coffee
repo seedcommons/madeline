@@ -6,7 +6,7 @@ class MS.Views.TimelineView extends Backbone.View
     @loanId = options.loanId
 
     new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
-    new MS.Views.TimelineBatchActionsView(el: '#timeline-list')
+    @batchActionsModal = new MS.Views.TimelineBatchActionsView()
     new MS.Views.TimelineHeaderView()
 
     @refreshSteps ->
@@ -15,6 +15,7 @@ class MS.Views.TimelineView extends Backbone.View
   events:
     'click #new-step': 'addBlankStep'
     'ajax:error': 'submitError'
+    'click .adjust-dates': 'openAdjustDatesModal'
 
   refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
@@ -58,3 +59,8 @@ class MS.Views.TimelineView extends Backbone.View
 
   stepCount: ->
     @$('.step').not('.new-record').length
+
+  openAdjustDatesModal: ->
+    $stepIds = @$('.step-ids')
+    $form = $stepIds.closest('form')
+    @batchActionsModal.show(stepIds: $stepIds.val(), form: $form)
