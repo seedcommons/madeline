@@ -22,3 +22,7 @@
         = render 'admin/media/index', media: @log.media, owner: @log
 
     = render 'admin/project_logs/translatable', log: @log, f: f
+
+    .notify.text-right
+      => check_box_tag(:notify)
+      label for="notify" = t('log.notify')

@@ -319,6 +319,7 @@ en:
     logs: "Logs"
     new: "New Log"
     no_logs: "No Logs"
+    notify: "Send notifications"
     private_notes: "Private Notes"
     save: "Save Log"
     show_logs: "Show Logs"
