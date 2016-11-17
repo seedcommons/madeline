@@ -22,7 +22,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = done
     date = options.date || ''
     parentId = options.parentId if options.parentId
-    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}")
+    precedingStepId = options.precedingStepId if options.precedingStepId
+    urlParams = "?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}&schedule_parent_id=#{precedingStepId}"
+    @loadContent("/admin/project_steps/new#{urlParams}")
 
   edit: (id, done) ->
     @done = done

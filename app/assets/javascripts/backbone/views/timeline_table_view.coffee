@@ -23,6 +23,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click #project-step-menu a[data-action=edit]': 'editStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
+    'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
 
@@ -77,6 +78,10 @@ class MS.Views.TimelineTableView extends Backbone.View
       @refresh()
     .fail (response) ->
       MS.alert(response.responseText)
+
+  addDependentStep: (e) ->
+    e.preventDefault()
+    @stepModal.new(@loanId, @refresh.bind(@), {precedingStepId: @stepIdFromEvent(e)})
 
   parentId: (e) ->
     @$(e.target).closest(".project-group").data("id")
