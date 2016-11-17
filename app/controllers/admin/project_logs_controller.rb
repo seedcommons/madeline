@@ -26,7 +26,9 @@ class Admin::ProjectLogsController < Admin::AdminController
     @step = @log.project_step
     authorize @log
     save_and_render_partial
-    NotificationMailer.new_log(@log).deliver_later
+    if params[:notify]
+      NotificationMailer.new_log(@log).deliver_later
+    end
   end
 
   def update
