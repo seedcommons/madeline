@@ -6,7 +6,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
     let(:log) { build(:project_log) }
 
     context "with division set to notify" do
-      before { log.division.update(custom_data: { notify_on_new_logs: true }) }
+      before { log.division.update(notify_on_new_logs: true) }
 
       context "with notify checked" do
         let(:notify) { true }
