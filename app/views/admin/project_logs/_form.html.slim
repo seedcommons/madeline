@@ -24,5 +24,5 @@
     = render 'admin/project_logs/translatable', log: @log, f: f
 
     .notify.text-right
-      => check_box_tag(:notify)
+      => check_box_tag(:notify, 1, @log.new_record?)
       label for="notify" = t('log.notify')
