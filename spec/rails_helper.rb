@@ -102,3 +102,7 @@ end
 def record_class(record_type)
   record_type.to_s.camelize.constantize
 end
+
+def sign_in_admin
+  sign_in(create(:person, :with_admin_access).user)
+end

@@ -5,7 +5,7 @@ class NotificationMailer < ApplicationMailer
   #
   #   en.notification_mailer.new_log.subject
   #
-  def new_log
+  def new_log(log)
     mail to: 'adam@theworkingworld.org'
   end
 end
