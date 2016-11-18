@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
+        get :show_duplicate
       end
     end
     resources :project_groups

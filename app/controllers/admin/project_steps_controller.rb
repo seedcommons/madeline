@@ -89,6 +89,15 @@ class Admin::ProjectStepsController < Admin::AdminController
     end
   end
 
+  def show_duplicate
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+    render partial: "/admin/project_steps/duplicate_step_modal", locals: {
+      step: @step,
+      context: params[:context]
+    }
+  end
+
   def duplicate
     step = ProjectStep.find(params[:id])
     authorize step
