@@ -25,8 +25,7 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
     @$el.find('.modal').modal('hide')
 
   loadContent: (url) ->
-    $.get url, (html) =>
-      @replaceContent(html)
+    $.get url, (html) => @replaceContent(html)
 
   replaceContent: (html) ->
     @$el.html(html)
@@ -47,7 +46,7 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
     $item = $(e.currentTarget)
     $repeatOptions = $item.closest('form').find('.repeat-options')
 
-    if ($item.val() == 'custom_repeat')
+    if $item.val() == 'custom_repeat'
       $repeatOptions.removeClass('hidden')
     else
       $repeatOptions.addClass('hidden')
@@ -59,7 +58,7 @@ class MS.Views.DuplicateStepModalView extends Backbone.View
 
     $monthOptions = $item.closest('form').find('.month-options')
 
-    if (value == 'months')
+    if value == 'months'
       $monthOptions.removeClass('hidden')
     else
       $monthOptions.addClass('hidden')
