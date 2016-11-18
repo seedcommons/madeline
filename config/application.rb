@@ -37,9 +37,7 @@ module MadelineSystem
 
     config.active_job.queue_adapter = :delayed_job
 
-    config.action_mailer.default_url_options = {
-      host: ENV['MADELINE_HOSTNAME'] || 'ms.theworkingworld.org'
-    }
+    config.action_mailer.default_url_options = { host: ENV['MADELINE_HOSTNAME'] }
   end
 end
 

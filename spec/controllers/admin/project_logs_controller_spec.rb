@@ -15,7 +15,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
       context "with notify checked" do
         let(:notify) { true }
 
-        it "enqueues and sends notification email", focus: true do
+        it "enqueues and sends notification email" do
           expect do
             post :create, project_log: log.attributes, notify: notify
           end.to change { Delayed::Job.count }.by(2)
@@ -32,8 +32,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
         it "doesn't send email" do
           expect do
             post :create, project_log: log.attributes, notify: notify
-            Delayed::Worker.new.work_off
-          end.to change { ActionMailer::Base.deliveries.size }.by(0)
+          end.to change { Delayed::Job.count }.by(0)
         end
       end
     end
@@ -42,8 +41,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
       it "doesn't send email" do
         expect do
           post :create, project_log: log.attributes, notify: true
-          Delayed::Worker.new.work_off
-        end.to change { ActionMailer::Base.deliveries.size }.by(0)
+        end.to change { Delayed::Job.count }.by(0)
       end
     end
   end
