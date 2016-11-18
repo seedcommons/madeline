@@ -11,6 +11,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'confirm:complete a.delete-action': 'delete'
+    'change #project_step_schedule_parent_id': 'showHideStartDate'
 
   show: (id, done) ->
     @done = done
@@ -21,7 +22,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = done
     date = options.date || ''
     parentId = options.parentId if options.parentId
-    @loadContent("/admin/project_steps/new?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}")
+    precedentId = options.precedentId if options.precedentId
+    urlParams = "?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}&schedule_parent_id=#{precedentId}"
+    @loadContent("/admin/project_steps/new#{urlParams}")
 
   edit: (id, done) ->
     @done = done
@@ -58,6 +61,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
+    @showHideStartDate()
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
@@ -66,5 +70,12 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @moveStepModal.show(id, daysShifted).done => @runAndResetDoneCallback()
 
   runAndResetDoneCallback: ->
-    @done() if @done
+    @done()
     @done = (->) # Reset to empty function.
+
+  showHideStartDate: ->
+    @precedentId = @$('#project_step_schedule_parent_id').val()
+    if @precedentId
+      @$('.form-group.project_step_scheduled_start_date').hide()
+    else
+      @$('.form-group.project_step_scheduled_start_date').show()

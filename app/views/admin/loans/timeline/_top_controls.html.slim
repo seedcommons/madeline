@@ -1,29 +1,50 @@
 - link_params = { loan_id: @loan.id }
 
-header.timeline-header
-  form accept-charset="UTF-8" method="post"
-    input name="_method" type="hidden"
-    = hidden_field_tag :authenticity_token, form_authenticity_token
+header.timeline-header.row
+  .col-sm-4
+    form accept-charset="UTF-8" method="post"
+      input name="_method" type="hidden"
+      = hidden_field_tag :authenticity_token, form_authenticity_token
 
-    .item.batch-actions
-      .btn-group role="group" aria-label="Select"
-        label.btn.btn-default
-          input type="checkbox" name="choose-all" id="choose-all"
+      .item.batch-actions
+        .btn-group role="group" aria-label="Select"
+          label.btn.btn-default
+            input type="checkbox" name="choose-all" id="choose-all"
 
-        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          span.caret
-          span.sr-only = t(:dropdown_toggle)
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            span.caret
+            span.sr-only = t(:dropdown_toggle)
 
-        ul.dropdown-menu
-          li: a id="check-all-ctrl" = t(:all)
-          li: a id="uncheck-all-ctrl" = t(:none)
-          li: a id="check-completed-ctrl" = t(:completed)
-          li: a id="check-incomplete-ctrl" = t(:incomplete)
+          ul.dropdown-menu
+            li: a id="check-all-ctrl" = t(:all)
+            li: a id="uncheck-all-ctrl" = t(:none)
+            li: a id="check-completed-ctrl" = t(:completed)
+            li: a id="check-incomplete-ctrl" = t(:incomplete)
 
-        input type="hidden" name="step-ids" id="step-ids"
+          input.step-ids type="hidden" name="step-ids"
 
+        .btn-group role="group" aria-label="Batch Actions"
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            => t("loan.batch_actions")
+            span.caret
+            span.sr-only = t(:dropdown_toggle)
+
+          / Once the old timeline list goes away, the modal_id can be removed.
+          = render "admin/loans/timeline/batch_actions", modal_id: 'adjust-dates-modal'
+
+  .col-sm-4
+    form.form-inline.filters
+      = select_tag :type,
+        options_for_select(@type_options),
+        include_blank: I18n.t("project_step.all_types"),
+        class: "form-control"
+
+      = select_tag :status,
+        options_for_select(@status_options),
+        include_blank: I18n.t("project_step.all_completion_statuses"),
+        class: "form-control"
+
+  .col-sm-4
     .item.top-actions
       a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")
       a.btn.btn-primary.timeline-action data-action="new-step" href="#" = t(".new_step")
-
-    .clearfix

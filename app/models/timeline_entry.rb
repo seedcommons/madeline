@@ -44,4 +44,14 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :agent, class_name: 'Person'
 
   delegate :division, :division=, to: :project, allow_nil: true
+
+  scope :by_date, -> { order(:scheduled_start_date) }
+
+  def step?
+    is_a?(ProjectStep)
+  end
+
+  def group?
+    is_a?(ProjectGroup)
+  end
 end

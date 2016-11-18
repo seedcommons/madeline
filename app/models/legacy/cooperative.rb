@@ -10,10 +10,14 @@ class Cooperative < ActiveRecord::Base
   #   @verbose_name ||= (self.name =~ /#{I18n.t :cooperative}/i) ? self.name : I18n.t(:cooperative_name, name: self.name)
   # end
 
+  def division
+    Legacy::Division.from_country(self.country)
+  end
+
   def migration_data
     data = {
         id: self.id,
-        division_id: Legacy::Division.from_country(self.country).id,
+        division_id: division.id,
         name: name.try(:strip),
         legal_name: nombre_legal_completo.try(:strip),
         primary_phone: telephone.try(:strip),

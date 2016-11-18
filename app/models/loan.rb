@@ -14,7 +14,6 @@
 #  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
-#  organization_snapshot_id    :integer
 #  primary_agent_id            :integer
 #  project_type_value          :string
 #  projected_return            :decimal(, )
@@ -29,10 +28,9 @@
 #
 # Indexes
 #
-#  index_loans_on_currency_id               (currency_id)
-#  index_loans_on_division_id               (division_id)
-#  index_loans_on_organization_id           (organization_id)
-#  index_loans_on_organization_snapshot_id  (organization_snapshot_id)
+#  index_loans_on_currency_id      (currency_id)
+#  index_loans_on_division_id      (division_id)
+#  index_loans_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #
@@ -60,7 +58,6 @@ class Loan < ActiveRecord::Base
   belongs_to :secondary_agent, class_name: 'Person'
   belongs_to :currency
   belongs_to :representative, class_name: 'Person'
-  belongs_to :organization_snapshot
   has_many :timeline_entries, as: :project
   has_many :project_logs, through: :timeline_entries, source: :project, source_type: 'ProjectStep'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"

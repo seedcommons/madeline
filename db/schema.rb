@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930194617) do
+ActiveRecord::Schema.define(version: 20161117202224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,22 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "symbol"
     t.datetime "updated_at", null: false
   end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "attempts", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "failed_at"
+    t.text     "handler", null: false
+    t.text     "last_error"
+    t.datetime "locked_at"
+    t.string   "locked_by"
+    t.integer  "priority", default: 0, null: false
+    t.string   "queue"
+    t.datetime "run_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -57,6 +73,7 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "logo_text"
     t.datetime "logo_updated_at"
     t.string   "name"
+    t.boolean  "notify_on_new_logs", default: false
     t.integer  "organization_id"
     t.integer  "parent_id"
     t.datetime "updated_at", null: false
@@ -126,7 +143,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "loan_type_value"
     t.string   "name"
     t.integer  "organization_id"
-    t.integer  "organization_snapshot_id"
     t.integer  "primary_agent_id"
     t.string   "project_type_value"
     t.decimal  "projected_return"
@@ -143,7 +159,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
   add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
   add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
-  add_index "loans", ["organization_snapshot_id"], name: "index_loans_on_organization_snapshot_id", using: :btree
 
   create_table "media", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -194,19 +209,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
 
   add_index "options", ["option_set_id"], name: "index_options_on_option_set_id", using: :btree
 
-  create_table "organization_snapshots", force: :cascade do |t|
-    t.datetime "created_at"
-    t.date     "date"
-    t.integer  "environmental_impact_score"
-    t.integer  "organization_id"
-    t.integer  "organization_size"
-    t.integer  "poc_ownership_percent"
-    t.datetime "updated_at"
-    t.integer  "women_ownership_percent"
-  end
-
-  add_index "organization_snapshots", ["organization_id"], name: "index_organization_snapshots_on_organization_id", using: :btree
-
   create_table "organizations", force: :cascade do |t|
     t.string   "alias"
     t.string   "city"
@@ -223,7 +225,6 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "legal_name"
     t.string   "name"
     t.string   "neighborhood"
-    t.integer  "organization_snapshot_id"
     t.string   "postal_code"
     t.integer  "primary_contact_id"
     t.string   "primary_phone"
@@ -343,6 +344,7 @@ ActiveRecord::Schema.define(version: 20160930194617) do
     t.string   "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet     "last_sign_in_ip"
+    t.boolean  "notify_on_new_logs", default: true
     t.integer  "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"

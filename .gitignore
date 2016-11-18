@@ -30,3 +30,4 @@ config/initializers/local_config.rb
 coverage/
 /app/views/layouts/embedded/*
 .byebug_history
+.env

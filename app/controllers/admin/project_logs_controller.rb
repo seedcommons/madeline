@@ -26,6 +26,12 @@ class Admin::ProjectLogsController < Admin::AdminController
     @step = @log.project_step
     authorize @log
     save_and_render_partial
+
+    if params[:notify] && @log.division.notify_on_new_logs?
+      @log.division.users.each do |user|
+        NotificationMailer.new_log(@log, user).deliver_later
+      end
+    end
   end
 
   def update

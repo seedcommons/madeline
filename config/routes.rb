@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
+        get :show_duplicate
       end
     end
     resources :project_groups
@@ -54,7 +55,6 @@ Rails.application.routes.draw do
       resources :loans
       resources :organizations
       resources :people
-      resources :organization_snapshots
       resources :project_steps
       resources :project_logs
       resources :notes
@@ -63,6 +63,8 @@ Rails.application.routes.draw do
       resources :loan_response_sets
       post 'select_division', to: 'divisions#select'
     end
+
+    get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 
   localized do

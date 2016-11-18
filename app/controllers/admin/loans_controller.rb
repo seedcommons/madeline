@@ -33,9 +33,13 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
+    prep_timeline
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
+    @active_tab = params[:tab].presence || "details"
+
+    render partial: 'admin/loans/details' if request.xhr?
   end
 
   def new
@@ -55,7 +59,8 @@ class Admin::LoansController < Admin::AdminController
   def timeline
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render partial: "admin/loans/timeline/main"
+    prep_timeline
+    render partial: "admin/loans/timeline/table"
   end
 
   def questionnaires
@@ -155,6 +160,17 @@ class Admin::LoansController < Admin::AdminController
     @agent_choices = person_policy_scope(Person.where(has_system_access: true)).order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
+  end
+
+  def prep_timeline
+    filters = {}
+    filters[:type] = params[:type] if params[:type].present?
+    filters[:status] = params[:status] if params[:status].present?
+    @loan.root_timeline_entry.filters = filters
+    @type_options = ProjectStep.step_type_option_set.translated_list
+    @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
+      [I18n.t("project_step.completion_status.#{status}"), status]
+    end
   end
 
   def representative_choices

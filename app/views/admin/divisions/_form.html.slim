@@ -33,6 +33,10 @@
             = link_to @division.parent.name, admin_division_path(@division.parent)
       = f.input_field :parent_id, collection: @parent_choices, include_blank: false
 
+  = f.input :notify_on_new_logs
+    .view-element = t "boolean.#{@division.notify_on_new_logs}"
+    = f.input_field :notify_on_new_logs, inline_label: t('.notify_on_new_logs')
+
   = f.input :logo
     .view-element
       - if @division.logo.present?

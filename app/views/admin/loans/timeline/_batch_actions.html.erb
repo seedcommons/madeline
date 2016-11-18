@@ -1,6 +1,6 @@
 <ul class="dropdown-menu batch-actions">
   <li>
-    <a id="delete-selected" data-method-key="PATCH"
+    <a data-method-key="PATCH"
       data-action-key="/admin/project_steps/batch_destroy"
       data-confirm="<%= t("project_step.batch_delete_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
@@ -12,14 +12,15 @@
   </li>
 
   <li>
-    <a id="adjust-dates" class="action" data-toggle="modal"
-      data-target="#adjust-dates-modal">
+    <a class="action adjust-dates" data-toggle="modal"
+      <%# Once the old timeline list goes away, this can be put back to a hard coded value. %>
+      data-target="#<%= modal_id %>"> 
       <%= t("loan.adjust_dates") %>
     </a>
   </li>
 
   <li>
-    <a id="finalize" data-method-key="PATCH"
+    <a data-method-key="PATCH"
       data-action-key="/admin/project_steps/finalize"
       data-confirm="<%= t("project_step.batch_finalize_confirm") %>"
       data-confirm-cancel="<%= t(:cancel) %>"
@@ -31,4 +32,5 @@
   </li>
 </ul>
 
-<%= render "admin/loans/timeline/adjust_dates_modal" %>
+<%# Once the old timeline list goes away, the modal_id can be removed. %>
+<%= render "admin/loans/timeline/adjust_dates_modal", modal_id: modal_id %>

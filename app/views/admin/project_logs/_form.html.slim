@@ -3,7 +3,8 @@
 
     = f.hidden_field(:project_step_id)
 
-    .alert.alert-danger.hidden.empty-log-error role="alert"
+    // The hide/show for this alert is in LogModalView. Do not use .hidden here.
+    .alert.alert-danger.empty-log-error role="alert"
       i.fa.fa-exclamation-circle>
       = t("log.empty_log_error")
 
@@ -22,3 +23,8 @@
         = render 'admin/media/index', media: @log.media, owner: @log
 
     = render 'admin/project_logs/translatable', log: @log, f: f
+
+    - if @log.new_record? && @log.division.notify_on_new_logs?
+      .notify.text-right
+        => check_box_tag(:notify, 1, true)
+        label for="notify" = t('log.notify')
