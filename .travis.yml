@@ -21,5 +21,6 @@ branches:
   only:
     - develop
 env:
-  - MADELINE_EMAIL_FROM=madeline@theworkingworld.org
-  - MADELINE_HOSTNAME=madeline.theworkingworld.org
+  global:
+    - MADELINE_EMAIL_FROM=madeline@theworkingworld.org
+    - MADELINE_HOSTNAME=madeline.theworkingworld.org
