@@ -6,7 +6,7 @@ class MS.Views.TimelineView extends Backbone.View
     @loanId = options.loanId
 
     new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
-    new MS.Views.TimelineBatchActionsView()
+    new MS.Views.TimelineBatchActionsView(el: '#timeline-list')
     new MS.Views.TimelineHeaderView()
 
     @refreshSteps ->

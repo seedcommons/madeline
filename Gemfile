@@ -94,6 +94,9 @@ gem 'chroma'
 # For normalizing model attribs
 gem 'attribute_normalizer'
 
+# Send email on errors
+gem 'exception_notification'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'

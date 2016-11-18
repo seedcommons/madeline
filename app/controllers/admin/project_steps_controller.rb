@@ -4,8 +4,8 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def new
     @loan = Loan.find(params[:loan_id])
-    @parent_id = params[:parent_id]
-    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date], parent_id: @parent_id)
+    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date],
+      parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id])
     authorize @step
     if params[:context] == "timeline_table"
       render_modal_content
@@ -33,7 +33,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def create
-    # We initialize with project_step_params here to given enough info for authorize to work
+    # We initialize with project_step_params here to give enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
     unless @step.parent_id
@@ -89,6 +89,15 @@ class Admin::ProjectStepsController < Admin::AdminController
     end
   end
 
+  def show_duplicate
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+    render partial: "/admin/project_steps/duplicate_step_modal", locals: {
+      step: @step,
+      context: params[:context]
+    }
+  end
+
   def duplicate
     step = ProjectStep.find(params[:id])
     authorize step
@@ -131,13 +140,18 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def project_step_params
-    params.require(:project_step).permit(*([:is_finalized, :scheduled_start_date, :actual_end_date,
-      :scheduled_duration_days, :step_type_value, :project_type,
-      :project_id, :parent_id] + translation_params(:summary, :details)))
+    permitted = params.require(:project_step).permit(*([:is_finalized,
+      :scheduled_start_date, :actual_end_date, :scheduled_duration_days, :step_type_value, :project_type,
+      :schedule_parent_id, :project_id, :parent_id] + translation_params(:summary, :details)))
+
+    # If schedule_parent_id is set, scheduled_start_date should be ignored.
+    permitted.delete(:scheduled_start_date) if permitted[:schedule_parent_id].present?
+
+    permitted
   end
 
   def display_timeline(project_id, notice = nil)
-    redirect_to admin_loan_path(project_id, anchor: 'timeline'), notice: notice
+    redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
   end
 
   private
@@ -153,6 +167,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def render_modal_content(status = 200)
     @mode = params[:action] == "show" ? :show_and_form : :form_only
     @parents = @step.project.timeline_entries.where(type: "ProjectGroup")
+    @precedents = @step.project.timeline_entries.where("type = 'ProjectStep' AND id != ?", @step.id || 0).by_date
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
     }

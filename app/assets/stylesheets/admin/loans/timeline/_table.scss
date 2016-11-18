@@ -46,10 +46,18 @@
 
     .batch-actions {
       float: left;
+
+      .btn-group {
+        margin-right: .75em;
+      }
     }
 
     form.filters {
       text-align: center;
+
+      select {
+        margin-left: .75em;
+      }
     }
   }
 

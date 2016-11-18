@@ -46,6 +46,7 @@ class ProjectStep < TimelineEntry
   }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
+  COMPLETION_STATUSES = [ 'draft', 'incomplete', 'complete' ].freeze
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id, inverse_of: :schedule_parent
@@ -87,13 +88,20 @@ class ProjectStep < TimelineEntry
   end
 
   # Might be better as a filter
-  def schedule_parent=(parent)
-    self.scheduled_start_date = parent.scheduled_end_date if parent
-    super(parent)
+  def schedule_parent=(precedent)
+    super(precedent)
+    copy_schedule_parent_date
+  end
+
+  def schedule_parent_id=(precedent_id)
+    super(precedent_id)
+    copy_schedule_parent_date
   end
 
   def scheduled_start_date=(date)
-    raise ArgumentError if schedule_parent && schedule_parent.scheduled_end_date != date
+    if schedule_parent && schedule_parent.scheduled_end_date != date
+      raise ArgumentError, "start date must match precedent step end date"
+    end
     super(date)
   end
 
@@ -151,8 +159,9 @@ class ProjectStep < TimelineEntry
     actual_end_date.present?
   end
 
-  def completed_or_not
-    completed? ? 'completed' : 'incomplete'
+  def completion_status
+    return 'completed' if completed?
+    is_finalized? ? 'draft' : 'incomplete'
   end
 
   def milestone?
@@ -331,6 +340,10 @@ class ProjectStep < TimelineEntry
 
   private
 
+  def copy_schedule_parent_date
+    self.scheduled_start_date = schedule_parent.scheduled_end_date if schedule_parent
+  end
+
   def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
@@ -359,7 +372,8 @@ class ProjectStep < TimelineEntry
   end
 
   def handle_schedule_children
-    return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
+    return unless persisted? && schedule_children.present? &&
+      (scheduled_start_date_changed? || scheduled_duration_days_changed?)
 
     schedule_children.each do |step|
       step.scheduled_start_date = scheduled_end_date

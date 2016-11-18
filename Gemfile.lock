@@ -150,6 +150,9 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.2.0.1)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -437,6 +440,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   dotenv-rails
+  exception_notification
   factory_girl_rails
   faker
   fix-db-schema-conflicts

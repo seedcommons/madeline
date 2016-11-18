@@ -52,8 +52,8 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
   rememberChecked: ->
     ids = []
 
-    $('.select-step').each (index) ->
+    @$('.select-step').each (index) ->
       if @checked
         ids.push($(@).data('id'))
 
-    $('#step-ids').attr('value', ids)
+    @$('.step-ids').attr('value', ids)
