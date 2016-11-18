@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111211147) do
+ActiveRecord::Schema.define(version: 20161117202224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,22 @@ ActiveRecord::Schema.define(version: 20161111211147) do
     t.string   "symbol"
     t.datetime "updated_at", null: false
   end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "attempts", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "failed_at"
+    t.text     "handler", null: false
+    t.text     "last_error"
+    t.datetime "locked_at"
+    t.string   "locked_by"
+    t.integer  "priority", default: 0, null: false
+    t.string   "queue"
+    t.datetime "run_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -57,6 +73,7 @@ ActiveRecord::Schema.define(version: 20161111211147) do
     t.string   "logo_text"
     t.datetime "logo_updated_at"
     t.string   "name"
+    t.boolean  "notify_on_new_logs", default: false
     t.integer  "organization_id"
     t.integer  "parent_id"
     t.datetime "updated_at", null: false
@@ -327,6 +344,7 @@ ActiveRecord::Schema.define(version: 20161111211147) do
     t.string   "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet     "last_sign_in_ip"
+    t.boolean  "notify_on_new_logs", default: true
     t.integer  "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"

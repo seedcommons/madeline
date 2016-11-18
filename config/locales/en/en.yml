@@ -18,6 +18,7 @@ en:
         default_currency: "Default Currency"
         name: "Name"
         parent: "Parent Division"
+        notify_on_new_logs: "Notify on New Logs"
         logo: "Logo"
         logo_text: "Logo Text"
         banner_fg_color: "Banner FG Color"
@@ -250,6 +251,7 @@ en:
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
+  step: "Step"
   submit: "Submit"
   update: "Update"
   updated: "Updated"
@@ -318,6 +320,7 @@ en:
     logs: "Logs"
     new: "New Log"
     no_logs: "No Logs"
+    notify: "Send notifications"
     private_notes: "Private Notes"
     save: "Save Log"
     show_logs: "Show Logs"
@@ -454,3 +457,7 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  boolean:
+    'true': 'Yes'
+    'false': 'No'

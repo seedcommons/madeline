@@ -28,7 +28,7 @@ class ProjectLog < ActiveRecord::Base
   belongs_to :project_step
   belongs_to :agent, class_name: 'Person'
 
-  delegate :division, :division=, to: :project_step
+  delegate :division, :division=, :project, to: :project_step
   delegate :name, to: :agent, prefix: true, allow_nil: true
 
   attr_translatable :summary, :details, :additional_notes, :private_notes

@@ -38,6 +38,8 @@ gem 'slim'
 
 # Cron jobs
 gem 'whenever', require: false
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 # note, for now just using chronic, which was already included
 # if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
@@ -96,6 +98,9 @@ gem 'attribute_normalizer'
 gem 'exception_notification'
 
 group :development, :test do
+  # Load environment variables from .env file in development
+  gem 'dotenv-rails'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
@@ -132,6 +137,7 @@ group :development do
   gem 'fix-db-schema-conflicts'
 
   # Deployment
+  gem 'capistrano3-delayed-job', '~> 1.0'
   gem 'capistrano',  '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
