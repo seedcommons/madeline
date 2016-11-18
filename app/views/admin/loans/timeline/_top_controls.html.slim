@@ -32,7 +32,7 @@ header.timeline-header.row
 
       = select_tag :status,
         options_for_select(@status_options),
-        include_blank: "All Statuses",
+        include_blank: I18n.t("project_step.all_completion_statuses"),
         class: "form-control"
 
   .col-sm-4

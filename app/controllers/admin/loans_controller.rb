@@ -169,8 +169,8 @@ class Admin::LoansController < Admin::AdminController
     @loan.root_timeline_entry.filters = filters
     @type_options = ProjectStep.step_type_option_set.translated_list
     @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
-      [ I18n.t("project_step.completion_status.#{status}"), status ]
-    end.sort
+      [I18n.t("project_step.completion_status.#{status}"), status]
+    end
   end
 
   def representative_choices
