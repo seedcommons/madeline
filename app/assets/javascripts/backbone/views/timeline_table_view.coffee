@@ -8,6 +8,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @loanId = options.loanId
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
+    @duplicateStepModal = new MS.Views.DuplicateStepModalView()
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
@@ -24,6 +25,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=edit]': 'editStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
+    'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
 
@@ -110,3 +112,6 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   stepIdFromEvent: (e) ->
     @$(e.currentTarget).closest('[data-id]').data('id')
+
+  duplicateStep: (e) ->
+    @duplicateStepModal.show(e, @stepIdFromEvent(e), @refresh.bind(@))
