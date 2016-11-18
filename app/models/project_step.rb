@@ -47,7 +47,6 @@ class ProjectStep < TimelineEntry
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
 
-  belongs_to :project, class_name: 'Loan'
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id, inverse_of: :schedule_parent
 
