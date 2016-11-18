@@ -360,6 +360,7 @@ en:
     add_log: "Add Log"
     all_types: "All Types"
     all_statuses: "All Statuses"
+    all_completion_statuses: "All Statuses"
     after: "After"
     confirm_deletion: "Are you sure you want to delete this project step?"
     days: "Day(s)"
@@ -422,6 +423,10 @@ en:
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     view_logs: "View Logs"
     weeks: "Week(s)"
+    completion_status:
+      draft: 'Finalized'
+      complete: 'Complete'
+      incomplete: 'Incomplete'
 
   project_group:
     add: "New Group"
