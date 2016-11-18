@@ -66,4 +66,10 @@ class ProjectLog < ActiveRecord::Base
   def progress_continuous
     self.progress(true)
   end
+
+  def send_notifications
+    division.users.each do |user|
+      NotificationMailer.new_log(self, user).deliver_later
+    end
+  end
 end

@@ -5,10 +5,8 @@ class NotificationMailer < ApplicationMailer
   #
   #   en.notification_mailer.new_log.subject
   #
-  def new_log(log)
-    log.division.users.each do |user|
-      @log = log
-      mail to: user.email, subject: I18n.t('notification_mailer.new_log.subject', project: log.project.name)
-    end
+  def new_log(log, user)
+    @log = log
+    mail to: user.email, subject: I18n.t('notification_mailer.new_log.subject', project: log.project.name)
   end
 end

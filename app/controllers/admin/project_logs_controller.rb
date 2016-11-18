@@ -27,7 +27,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     authorize @log
     save_and_render_partial
     if params[:notify] && @log.division.notify_on_new_logs?
-      NotificationMailer.new_log(@log).deliver_later
+      @log.send_notifications
     end
   end
 

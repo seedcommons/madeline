@@ -18,11 +18,11 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
         it "enqueues and sends notification email", focus: true do
           expect do
             post :create, project_log: log.attributes, notify: notify
-          end.to change { Delayed::Job.count }.by(1)
+          end.to change { Delayed::Job.count }.by(2)
           expect do
             @dj_result = Delayed::Worker.new.work_off
           end.to change { ActionMailer::Base.deliveries.size }.by(2)
-          expect(@dj_result).to eq [1, 0] # successes, failures
+          expect(@dj_result).to eq [2, 0] # successes, failures
         end
       end
 
