@@ -10,6 +10,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal = options.stepModal
     @duplicateStepModal = new MS.Views.DuplicateStepModalView()
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
+    new MS.Views.TimelineBatchActionsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
