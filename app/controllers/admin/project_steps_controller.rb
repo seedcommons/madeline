@@ -92,7 +92,10 @@ class Admin::ProjectStepsController < Admin::AdminController
   def show_duplicate
     @step = ProjectStep.find(params[:id])
     authorize @step
-    render_duplicate_modal_content
+    render partial: "/admin/project_steps/duplicate_step_modal", locals: {
+      step: @step,
+      context: params[:context]
+    }
   end
 
   def duplicate
@@ -161,12 +164,6 @@ class Admin::ProjectStepsController < Admin::AdminController
     @parents = @step.project.timeline_entries.where(type: "ProjectGroup")
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
-    }
-  end
-
-  def render_duplicate_modal_content(status = 200)
-    render partial: "/admin/project_steps/duplicate_step_modal", status: status, locals: {
-      step: @step, context: params[:context]
     }
   end
 end
