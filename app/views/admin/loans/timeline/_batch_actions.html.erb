@@ -13,7 +13,8 @@
 
   <li>
     <a class="action adjust-dates" data-toggle="modal"
-      data-target="#<%= locals[:modal_id] %>">
+      <%# Once the old timeline list goes away, this can be put back to a hard coded value. %>
+      data-target="#<%= modal_id %>"> 
       <%= t("loan.adjust_dates") %>
     </a>
   </li>
@@ -31,4 +32,5 @@
   </li>
 </ul>
 
-<%= render "admin/loans/timeline/adjust_dates_modal", locals: { modal_id: locals[:modal_id] } %>
+<%# Once the old timeline list goes away, the modal_id can be removed. %>
+<%= render "admin/loans/timeline/adjust_dates_modal", modal_id: modal_id %>

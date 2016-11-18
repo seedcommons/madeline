@@ -26,7 +26,8 @@ header.timeline-header
           span.caret
           span.sr-only = t(:dropdown_toggle)
 
-        = render "admin/loans/timeline/batch_actions", locals: {modal_id: 'adjust-dates-modal-timeline-list'}
+        / Once the old timeline list goes away, the modal_id can be removed.
+        = render "admin/loans/timeline/batch_actions", modal_id: 'adjust-dates-modal-timeline-list'
 
     .item.top-actions
       a.btn.btn-default> id="edit-all" href="#"  = t('.edit_all')
