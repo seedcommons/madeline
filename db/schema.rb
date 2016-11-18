@@ -344,7 +344,7 @@ ActiveRecord::Schema.define(version: 20161117202224) do
     t.string   "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet     "last_sign_in_ip"
-    t.boolean  "notify_on_new_logs", default: false
+    t.boolean  "notify_on_new_logs", default: true
     t.integer  "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"

@@ -104,5 +104,7 @@ def record_class(record_type)
 end
 
 def sign_in_admin
-  sign_in(create(:person, :with_admin_access).user)
+  user = create(:person, :with_admin_access).user
+  sign_in(user)
+  user
 end
