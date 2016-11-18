@@ -92,6 +92,9 @@ gem 'chroma'
 # For normalizing model attribs
 gem 'attribute_normalizer'
 
+# Send email on errors
+gem 'exception_notification'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
