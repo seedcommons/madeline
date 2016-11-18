@@ -88,13 +88,20 @@ class ProjectStep < TimelineEntry
   end
 
   # Might be better as a filter
-  def schedule_parent=(parent)
-    self.scheduled_start_date = parent.scheduled_end_date if parent
-    super(parent)
+  def schedule_parent=(precedent)
+    super(precedent)
+    copy_schedule_parent_date
+  end
+
+  def schedule_parent_id=(precedent_id)
+    super(precedent_id)
+    copy_schedule_parent_date
   end
 
   def scheduled_start_date=(date)
-    raise ArgumentError if schedule_parent && schedule_parent.scheduled_end_date != date
+    if schedule_parent && schedule_parent.scheduled_end_date != date
+      raise ArgumentError, "start date must match precedent step end date"
+    end
     super(date)
   end
 
@@ -333,6 +340,10 @@ class ProjectStep < TimelineEntry
 
   private
 
+  def copy_schedule_parent_date
+    self.scheduled_start_date = schedule_parent.scheduled_end_date if schedule_parent
+  end
+
   def handle_old_start_date_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
@@ -361,7 +372,8 @@ class ProjectStep < TimelineEntry
   end
 
   def handle_schedule_children
-    return unless persisted? && scheduled_start_date_changed? && schedule_children.present?
+    return unless persisted? && schedule_children.present? &&
+      (scheduled_start_date_changed? || scheduled_duration_days_changed?)
 
     schedule_children.each do |step|
       step.scheduled_start_date = scheduled_end_date
