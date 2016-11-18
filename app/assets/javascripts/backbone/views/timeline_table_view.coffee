@@ -8,8 +8,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     @loanId = options.loanId
     @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
     @stepModal = options.stepModal
-    @batchActionsModal = options.batchActionsModal
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
+    new MS.Views.TimelineBatchActionsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
 
   events:
@@ -26,7 +26,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
-    'click .adjust-dates': 'openAdjustDatesModal'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -107,8 +106,3 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   stepIdFromEvent: (e) ->
     @$(e.currentTarget).closest('[data-id]').data('id')
-
-  openAdjustDatesModal: ->
-    $stepIds = @$('.step-ids')
-    $form = $stepIds.closest('form')
-    @batchActionsModal.show(stepIds: $stepIds.val(), form: $form)

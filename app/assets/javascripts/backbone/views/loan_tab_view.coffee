@@ -8,7 +8,6 @@ class MS.Views.LoanTabView extends Backbone.View
 
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
-    @batchActionsModal = new MS.Views.TimelineBatchActionsView()
 
     new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
 
@@ -34,17 +33,13 @@ class MS.Views.LoanTabView extends Backbone.View
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
-          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId, batchActionsModal: @batchActionsModal)
+          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
 
       when 'timeline-table'
         if MS.timelineTableView
           MS.timelineTableView.refresh()
         else
-          MS.timelineTableView = new MS.Views.TimelineTableView(
-            loanId: @loanId,
-            stepModal: @stepModal,
-            batchActionsModal: @batchActionsModal
-          )
+          MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
 
       when 'loan-calendar'
         if MS.calendarView
