@@ -22,8 +22,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = done
     date = options.date || ''
     parentId = options.parentId if options.parentId
-    precedingStepId = options.precedingStepId if options.precedingStepId
-    urlParams = "?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}&schedule_parent_id=#{precedingStepId}"
+    precedentId = options.precedentId if options.precedentId
+    urlParams = "?loan_id=#{loanId}&context=timeline_table&date=#{date}&parent_id=#{parentId}&schedule_parent_id=#{precedentId}"
     @loadContent("/admin/project_steps/new#{urlParams}")
 
   edit: (id, done) ->
@@ -74,8 +74,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = (->) # Reset to empty function.
 
   showHideStartDate: ->
-    @precedingStepId = @$('#project_step_schedule_parent_id').val()
-    if @precedingStepId
+    @precedentId = @$('#project_step_schedule_parent_id').val()
+    if @precedentId
       @$('.form-group.project_step_scheduled_start_date').hide()
     else
       @$('.form-group.project_step_scheduled_start_date').show()

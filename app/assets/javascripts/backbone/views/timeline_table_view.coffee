@@ -81,7 +81,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   addDependentStep: (e) ->
     e.preventDefault()
-    @stepModal.new(@loanId, @refresh.bind(@), {precedingStepId: @stepIdFromEvent(e)})
+    @stepModal.new(@loanId, @refresh.bind(@), precedentId: @stepIdFromEvent(e))
 
   parentId: (e) ->
     @$(e.target).closest(".project-group").data("id")
