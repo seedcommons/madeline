@@ -417,6 +417,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  addressable
   annotate
   attribute_normalizer
   awesome_print

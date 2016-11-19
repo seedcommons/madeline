@@ -97,6 +97,9 @@ gem 'attribute_normalizer'
 # Send email on errors
 gem 'exception_notification'
 
+# URL handling
+gem 'addressable'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
