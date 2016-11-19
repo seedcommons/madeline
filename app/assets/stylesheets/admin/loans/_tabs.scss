@@ -1,10 +1,14 @@
 @import "../colors";
 
+.tab-content {
+  background-color: $gray5;
+}
+
 .tab-pane {
   padding: 1em;
 
   &.active {
-    background: $gray1;
+    background: $background-gray;
   }
 
   &.flush {
@@ -16,7 +20,7 @@
 .nav-tabs > li {
   &.active {
     a, a:hover, a:active, a:focus {
-      background: $gray1;
+      background: $background-gray;
     }
   }
 }

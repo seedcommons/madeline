@@ -19,7 +19,7 @@
 # Foreign Keys
 #
 #  fk_rails_54dbbbb1d4  (agent_id => people.id)
-#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
+#  fk_rails_67bf2c0e5e  (project_step_id => timeline_entries.id)
 #
 
 class ProjectLog < ActiveRecord::Base
@@ -28,7 +28,7 @@ class ProjectLog < ActiveRecord::Base
   belongs_to :project_step
   belongs_to :agent, class_name: 'Person'
 
-  delegate :division, :division=, to: :project_step
+  delegate :division, :division=, :project, to: :project_step
   delegate :name, to: :agent, prefix: true, allow_nil: true
 
   attr_translatable :summary, :details, :additional_notes, :private_notes

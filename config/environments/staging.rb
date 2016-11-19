@@ -77,6 +77,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Send email on errors
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[Madeline Staging] ",
+      :sender_address => %{"Madeline" <devops@sassafras.coop>},
+      :exception_recipients => %w{devops@sassafras.coop}
+    }
+
   # For wordpress template
   config.x.wordpress_template = {
     division_urls: { # get division from request url

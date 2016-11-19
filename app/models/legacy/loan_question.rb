@@ -11,33 +11,47 @@ module Legacy
       puts "loan questions: #{ self.count }"
       (1..4).each{ |set_id| migrate_set(set_id) }
       # self.all.each &:migrate
-      ::CustomField.recalibrate_sequence(gap: 100)
+      ::LoanQuestion.recalibrate_sequence
+      ::LoanQuestionSet.create_root_groups!
     end
 
     def self.migrate_set(set_id)
-      where("Active = :set_id and Orden > 0 and Grupo is null", {set_id: set_id}).
-        order(:orden).each do |record|
+      where("Active = :set_id and NewGroup is null", {set_id: set_id}).  # Root nodes
+        order('NewOrder').each do |record|
         record.migrate
       end
     end
 
     def self.purge_migrated
-      puts "CustomField.destroy_all"
-      ::CustomField.where("custom_field_set_id < 4").destroy_all
+      puts "LoanQuestion.destroy_all"
+      ::LoanQuestion.where("loan_question_set_id <= 4").destroy_all
+    end
+
+    def parent_id
+      new_group
+    end
+
+    def position
+      new_order
     end
 
     def migration_data
-      custom_field_set_id = active
-      # Do _not_ map the 'due diligence' questions to the 'criteria' set until we figure out
-      # how to propertly handle the due ciligence 'cross-linking' of child questions
-      #custom_field_set_id = 2 if custom_field_set_id == 4
+      status = :active
+      loan_question_set_id = active
+      # question question sets 1 & 2 will now be considered 'inactive'
+      status = :inactive if active <= 2
+      status = :retired if new_order.blank? || new_order == 0
+      # questions sets 1,2 & 4 will all map now to 'criteria'
+      loan_question_set_id = (active == 3) ? 3 : 2
+
       data = {
         id: id,
         internal_name: "field_#{id}",
-        custom_field_set_id: custom_field_set_id,
-        position: orden,
-        migration_position: orden,
-        parent_id: grupo,
+        loan_question_set_id: loan_question_set_id,
+        status: status,
+        position: position,
+        migration_position: position,
+        parent_id: parent_id,
         required: (required == 1),
         data_type: data_type,
         has_embeddable_media: (i_frame == 1),
@@ -48,25 +62,26 @@ module Legacy
     end
 
     def migrate
-      if grupo.blank? && data_type != 'group'
-        puts "skipping loan question without parent but not a group type - id: #{id}"
-        return
-      end
-      if orden.blank? || orden == 0
-        puts "skipping loan question with 0 Orden - id: #{id}"
-        return
-      end
-      if LoanQuestion.where("Active = :active and Orden = :orden and Grupo = :grupo and id > :id",
-        {active: active, orden: orden, grupo: grupo, id: id}).exists?
-        puts "skipping loan question shadowed by same Orden value - id: #{id}"
-        return
-      end
+      # Assuming that source data will be manually cleaned up before final migration.
+      # if grupo.blank? && data_type != 'group'
+      #   puts "skipping loan question without parent but not a group type - id: #{id}"
+      #   return
+      # end
+      # if orden.blank? || orden == 0
+      #   puts "skipping loan question with 0 Orden - id: #{id}"
+      #   return
+      # end
+      # if LoanQuestion.where("Active = :active and Orden = :orden and Grupo = :grupo and id > :id",
+      #   {active: active, orden: orden, grupo: grupo, id: id}).exists?
+      #   puts "skipping loan question shadowed by same Orden value - id: #{id}"
+      #   return
+      # end
 
       data = migration_data
-      puts "#{data[:id]}: #{data[:label_es]}"
+      # puts "#{data[:id]}: #{data[:label_es]}"
       label_es = data.delete(:label_es)
       label_en = data.delete(:label_en)
-      model = ::CustomField.new(data)
+      model = ::LoanQuestion.new(data)
       model.set_translation(:label, label_es, locale: :es) if label_es.present?
       model.set_translation(:label, label_en, locale: :en) if label_en.present?
       model.save!
@@ -75,15 +90,17 @@ module Legacy
     end
 
     def migrate_children
-      LoanQuestion.where("Active = :active and Grupo = :grupo",
-        {active: active, grupo: id}).order(:orden).each do |record|
+      LoanQuestion.where("NewGroup = :parent_id",
+        {parent_id: id}).order('NewOrder').each do |record|
         record.migrate
       end
     end
 
     def data_type
       #todo: how to best handle IFrame flag?
-      DATA_TYPE_MAP[type]
+      type_key = self.type
+      type_key = 'Texto Grande' if type_key.blank?
+      DATA_TYPE_MAP[type_key]
     end
 
     DATA_TYPE_MAP = {

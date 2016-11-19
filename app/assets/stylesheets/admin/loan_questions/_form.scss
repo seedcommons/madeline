@@ -1,0 +1,29 @@
+.loan-question {
+  .allow-attachments {
+    input {
+      height: auto;
+    }
+
+    label {
+      margin: 0;
+    }
+  }
+
+  .allow-attachments, .loan-types-table {
+    margin: 0;
+
+    // Specificity used to override Bootstrap defaults
+    tbody {
+      tr {
+        td {
+          border: none;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  #loan_question_override_associations {
+    margin-bottom: 1.5rem;
+  }
+}

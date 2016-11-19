@@ -1,0 +1,6 @@
+  ol
+    - group.child_groups.each do |child|
+      li data-level=child.depth data-type=child.data_type
+        = child.label
+        - if child.data_type == 'group'
+          = render("admin/loans/questionnaires/questionnaire_toc", group: child)

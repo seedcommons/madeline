@@ -22,6 +22,10 @@ module ApplicationHelper
     %Q{<span title="#{full}">#{display}</span>}.html_safe
   end
 
+  def ldate(date, format: nil)
+    date ? l(date, format: format) : ""
+  end
+
   # Converts given object/value to json and runs through html_safe.
   # In Rails 4, this is necessary and sufficient to guard against XSS in JSON.
   def json(obj)
@@ -48,5 +52,14 @@ module ApplicationHelper
   def render_index_grid(grid)
     no_records = grid.current_page_records.length < 1
     render "admin/common/grid", no_records: no_records, grid: grid
+  end
+
+  # Returns content_tag if the given condition is true, else just whatever is given by block.
+  def content_tag_if(condition, *args, &block)
+    if condition
+      content_tag(*args, &block)
+    else
+      capture(&block)
+    end
   end
 end

@@ -14,7 +14,7 @@
   .progress-bar {
     // Force colors for printing.
     -webkit-print-color-adjust: exact;
-    background-color: #337ab7 !important;
+    // background-color is user configurable, defined in custom_colors partial
   }
 
   .progress {

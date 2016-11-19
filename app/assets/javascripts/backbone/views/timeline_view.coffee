@@ -5,8 +5,8 @@ class MS.Views.TimelineView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
 
-    new MS.Views.TimelineSelectStepsView()
-    new MS.Views.TimelineBatchActionsView()
+    new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
+    new MS.Views.TimelineBatchActionsView(el: '#timeline-list')
     new MS.Views.TimelineHeaderView()
 
     @refreshSteps ->
@@ -16,7 +16,7 @@ class MS.Views.TimelineView extends Backbone.View
     'click #new-step': 'addBlankStep'
     'ajax:error': 'submitError'
 
-  refreshSteps: (callback) ->
+  refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
     @$('.project-steps').empty()
     $.get "/admin/loans/#{@loanId}/steps", (html) =>

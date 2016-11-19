@@ -13,7 +13,7 @@ module DivisionSelectable
 
   # Represents the current division filter applied to index views.
   def selected_division
-    (id = selected_division_id) ? Division.find_safe(id) : nil
+    @selected_division ||= (id = selected_division_id) ? Division.find_safe(id) : nil
   end
 
   # Returns the index grid view conditions filter to be applied.  If a specific division is
@@ -27,5 +27,4 @@ module DivisionSelectable
   def selected_division_id
     session[:selected_division_id]
   end
-
 end

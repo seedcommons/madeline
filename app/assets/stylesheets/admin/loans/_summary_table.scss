@@ -1,0 +1,44 @@
+@import '../colors';
+
+.summary-table {
+  .group-columns, .group-summary, .group-title {
+    font-weight: bold;
+  }
+
+  .group-columns, .group-content, .group-summary {
+    td:first-child {
+      padding-left: 2em;
+    }
+  }
+
+  .group-columns {
+    td {
+      border-top: none;
+      border-bottom: 2px solid $gray4;
+    }
+  }
+
+  .group-summary {
+    td {
+      border-top: 2px solid $gray3;
+      border-bottom: none;
+    }
+  }
+
+  .group-title {
+    font-size: 1.25em;
+    td {
+      border-top-width: 2px;
+    }
+  }
+
+  .table-title {
+    font-size: 1.5em;
+  }
+
+  .total {
+    td {
+      border-top: 2px solid $black;
+    }
+  }
+}

@@ -5,10 +5,22 @@ class Member < ActiveRecord::Base
   establish_connection :legacy
   include LegacyModel
 
+  belongs_to :cooperative, foreign_key: 'CooperativeID'
+
+  def division
+    if username == 'brendan'
+      ::Division.root
+    elsif cooperative
+      cooperative.division
+    else
+      Legacy::Division.from_country(self.country)
+    end
+  end
+
   def migration_data
     data = {
         id: self.id,
-        division_id: ::Division.root_id,
+        division_id: division.id,
         primary_organization_id: cooperative_id,
         first_name: first_name.try(:strip),
         last_name: last_name.try(:strip),
@@ -16,13 +28,13 @@ class Member < ActiveRecord::Base
         primary_phone: phone,
         street_address: address.try(:strip),
         city: city.try(:strip),
-        country_id: Country.id_from_name(self.country.try(:strip)),
+        country_id: Country.find_by(name: self.country.try(:strip)).try(:id),
         tax_no: national_id,
     }
     if access_status > 0 && password.present? && username.present?
       email = "#{username.downcase}@theworkingworld.org"
       if Person.where(email: email).exists?
-        puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
+        $stderr.puts "skipping system access status for Person #{data[:id]} with non-unique email: #{email}"
       else
         data[:has_system_access] = true
         data[:email] = email
@@ -36,8 +48,9 @@ class Member < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
-    ::Person.create!(data)
+    # puts "#{data[:id]}: #{data[:name]}"
+    person = ::Person.find_or_create_by(id: data[:id])
+    person.update!(data)
   end
 
 

@@ -1,3 +1,5 @@
+@import "../colors";
+
 section.questionnaires {
   // Overriding this because it's nice for it to be floated right opposite h2
   .show-actions {
@@ -38,23 +40,23 @@ section.questionnaires {
     &.question.optional {
       background-color: hsl(0,0%,96%);
     }
+  }
 
-    .jqtree-element {
-      display: block;
+  .jqtree-element {
+    display: block;
 
-      .question-label {
-        display: inline;
-      }
-
-      .help-block, .answer, .form-element {
-        margin: 10px 0 0 0;
-        p:last-child { margin: 0; }
-      }
-
-      .form-element {
-        display: block;
-      }
+    .question-label {
+      display: inline;
     }
+
+    .form-element {
+      display: block;
+    }
+  }
+
+  .help-block, .answer, .form-element {
+    margin: 10px 0 0 0;
+    p:last-child { margin: 0; }
   }
 }
 

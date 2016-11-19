@@ -17,7 +17,7 @@ module Legacy
         result = ::Loan.find_safe(project_id)
         unless result
           #JE todo: send warnings also to separate log
-          puts "WARNING: ignoring ProjectLog[#{id}] pointing to invalid Loan ID: #{project_id}"
+          $stderr.puts "WARNING: ignoring ProjectLog[#{id}] pointing to invalid Loan ID: #{project_id}"
         end
       else
         puts "ignoring non-loan project reference"
@@ -29,13 +29,13 @@ module Legacy
     # note, legacy data includes 44 invalid references to a '0' member_id
     def agent_id
       if member_id == 0
-        puts "ProjectLog[#{id}] - mapping 0 MemberId ref to null"
+        $stderr.puts "ProjectLog[#{id}] - mapping 0 MemberId ref to null"
         nil
       else
         if Person.where(id: member_id).count > 0
           member_id
         else
-          puts "ProjectEvent[#{id}] - Person not found for MemberId: #{member_id}, mapping MemberId ref to null"
+          $stderr.puts "ProjectEvent[#{id}] - Person not found for MemberId: #{member_id}, mapping MemberId ref to null"
         end
       end
     end
@@ -69,7 +69,7 @@ module Legacy
     def migrate
       data = migration_data
       if data
-        puts "#{data[:id]}: step id: #{data[:project_step_id]}"
+        # puts "#{data[:id]}: step id: #{data[:project_step_id]}"
         ::ProjectLog.create(data)
       end
     end

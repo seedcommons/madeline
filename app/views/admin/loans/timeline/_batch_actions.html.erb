@@ -1,0 +1,36 @@
+<ul class="dropdown-menu batch-actions">
+  <li>
+    <a data-method-key="PATCH"
+      data-action-key="/admin/project_steps/batch_destroy"
+      data-confirm="<%= t("project_step.batch_delete_confirm") %>"
+      data-confirm-cancel="<%= t(:cancel) %>"
+      data-confirm-proceed="<%= t(:confirm) %>"
+      data-confirm-title="<%= t('project_step.delete', count: 2) %>"
+      class="action batch-action">
+      <%= t("loan.delete_selected") %>
+    </a>
+  </li>
+
+  <li>
+    <a class="action adjust-dates" data-toggle="modal"
+      <%# Once the old timeline list goes away, this can be put back to a hard coded value. %>
+      data-target="#<%= modal_id %>"> 
+      <%= t("loan.adjust_dates") %>
+    </a>
+  </li>
+
+  <li>
+    <a data-method-key="PATCH"
+      data-action-key="/admin/project_steps/finalize"
+      data-confirm="<%= t("project_step.batch_finalize_confirm") %>"
+      data-confirm-cancel="<%= t(:cancel) %>"
+      data-confirm-proceed="<%= t(:confirm) %>"
+      data-confirm-title="<%= t('project_step.finalize', count: 2) %>"
+      class="action batch-action">
+      <%= t("loan.finalize") %>
+    </a>
+  </li>
+</ul>
+
+<%# Once the old timeline list goes away, the modal_id can be removed. %>
+<%= render "admin/loans/timeline/adjust_dates_modal", modal_id: modal_id %>

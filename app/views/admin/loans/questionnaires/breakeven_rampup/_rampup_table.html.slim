@@ -1,0 +1,26 @@
+tr.group-columns-header
+  td
+  td.text-center colspan=periods
+    = units
+    br
+    = "#{t("loan.breakeven_rampup.quantity")} / #{t("loan.breakeven_rampup.price")}"
+
+tr.group-columns
+  td.group-title = title
+  - (1..periods).each do |period|
+    td.text-right = period
+
+- rampup.each do |item|
+  tr.group-content
+    td.group-row-headings =item[:name]
+    - item[:rampup].each do |rampup|
+      td.text-right
+        = number_to_human(rampup[:quantity], precision: 0)
+        br
+        = format_currency(rampup[:total], @loan.ensure_currency, tooltip: false)
+
+tr.group-summary
+  td =t("loan.breakeven_rampup.total")
+  - total_rampup.each do |item|
+    td.text-right
+      = format_currency(item, @loan.ensure_currency, tooltip: false)

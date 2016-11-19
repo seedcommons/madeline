@@ -14,7 +14,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
     @stepId = stepId
     @deferred = jQuery.Deferred()
     params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}"
-    $.get "/admin/project_step_moves/new?#{params}", (html) => @replaceContent(html)
+    $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html)
     @deferred.promise()
 
   replaceContent: (html) ->
@@ -25,9 +25,20 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   submitForm: (e) ->
     e.preventDefault()
-    MS.loadingIndicator.show()
-    @submitted = true
-    @$('.modal').modal('hide') # Form will be submitted when this is finished. See below.
+    $form = @$('form')
+    submitted = @submitted
+
+    # Summary must be added in at least one language
+    $form.find("[data-translatable='common.summary']").each ->
+      if ($.trim($(this).val()) != '')
+        submitted = true
+
+    if submitted
+      @submitted = submitted
+      MS.loadingIndicator.show()
+      @$('.modal').modal('hide') # Form will be submitted when this is finished. See below.
+    else
+      $form.find('.empty-log-error').removeClass('hidden')
 
   modalHidden: ->
     # If the form has been submitted, we need to wait for the modal to finish hiding before

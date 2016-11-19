@@ -1,8 +1,13 @@
+// This file is full of unnecessary form style overrides and should be refactored some day.
 .log-form {
   input[type='text'], select, textarea {
     display: inline-block;
     width: auto;
     margin-bottom: 0;
+  }
+
+  select {
+    width: 20em;
   }
 
   label.control-label {

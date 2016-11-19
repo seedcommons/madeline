@@ -1,0 +1,29 @@
+ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
+  = render "admin/loans/tab", identifier: "details", label: t("loan.details")
+  = render "admin/loans/tab", identifier: "questions", label: t("loan.questions")
+  = render "admin/loans/tab", identifier: "timeline-table", label: "Timeline - Table"
+  = render "admin/loans/tab", identifier: "timeline-list", label: "Timeline - List"
+  = render "admin/loans/tab", identifier: "loan-calendar", label: t(:calendar)
+
+div class="tab-content"
+  div role="tabpanel" class="tab-pane flush" id="details"
+    section.loan-fields
+      // Details are loaded dynamically by view
+
+  div role="tabpanel" class="tab-pane" id="questions"
+    section.questionnaires
+      div.questionnaires-content
+        // Questionnaires are loaded dynamically by view
+
+  div role="tabpanel" class="tab-pane" id="timeline-table"
+    = render "admin/loans/timeline/main", loan: @loan
+
+  div role="tabpanel" class="tab-pane" id="timeline-list"
+    section.timeline
+      h1.sr-only = t("loan.timeline")
+      = render "admin/loans/timeline/list_header"
+      div.project-steps
+        // Steps are loaded dynamically by TimelineView
+
+  div role="tabpanel" class="tab-pane" id="loan-calendar"
+    = render "admin/calendar/calendar", loan: @loan

@@ -1,0 +1,5 @@
+= f.translatable_inputs do |l|
+  = f.input :"summary_#{l}",
+    input_html: {data: {translatable: 'common.summary'}},
+    placeholder: I18n.t('common.summary', locale: l),
+    label: I18n.t('common.summary', locale: l)

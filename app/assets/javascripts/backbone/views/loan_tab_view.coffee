@@ -1,32 +1,52 @@
+# Handles clicks on the tabs on the loan page.
+# Initializes Views for each of the tabs where necessary, but only once they are clicked on.
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    @calendar_events_url = params.calendar_events_url
     @loanId = params.loanId
+    @calendarEventsUrl = params.calendarEventsUrl
 
-    @openCalendar() if @$('.calendar-tab').closest('li').hasClass('active')
-    @loadSteps() if @$('.timeline-tab').closest('li').hasClass('active')
-    @loadQuestionnaires() if @$('.questions-tab').closest('li').hasClass('active')
+    # This is shared among several tabs so we initialize it here.
+    @stepModal = new MS.Views.ProjectStepModalView()
 
-  events: ->
-    'shown.bs.tab .calendar-tab': 'openCalendar'
-    'shown.bs.tab .timeline-tab': 'loadSteps'
-    'shown.bs.tab .questions-tab': 'loadQuestionnaires'
+    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
 
-  openCalendar: (e) ->
-    if MS.calendarView
-      MS.calendarView.refresh()
-    else
-      MS.calendarView = new MS.Views.CalendarView(calendar_events_url: @calendar_events_url)
+  events:
+    'shown.ms.tab': 'tabShown'
 
-  loadSteps: ->
-    if MS.timelineView
-      MS.timelineView.refreshSteps()
-    else
-      MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
+  tabShown: (e) ->
+    tabName = @$(e.target).data('tab-id')
+    switch tabName
+      when 'details'
+        if MS.detailsView
+          MS.detailsView.refresh()
+        else
+          MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
-  loadQuestionnaires: ->
-    if MS.loanQuestionnairesView
-      MS.loanQuestionnairesView.refreshContent()
-    else
-      MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+      when 'questions'
+        if MS.loanQuestionnairesView
+          MS.loanQuestionnairesView.refreshContent()
+        else
+          MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+
+      when 'timeline-list'
+        if MS.timelineView
+          MS.timelineView.refreshSteps()
+        else
+          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
+
+      when 'timeline-table'
+        if MS.timelineTableView
+          MS.timelineTableView.refresh()
+        else
+          MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
+
+      when 'loan-calendar'
+        if MS.calendarView
+          MS.calendarView.refresh()
+        else
+          MS.calendarView = new MS.Views.CalendarView(
+            calendarEventsUrl: @calendarEventsUrl,
+            stepModal: @stepModal
+          )
+

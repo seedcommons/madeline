@@ -6,12 +6,22 @@ es:
       zero: "¿Realmente quieres borrar esto?"
       one: "<b>ATENCIÓN:</b> Éste ítem tiene <b>1 pregunta o grupo</b> que le pertenece, que <b>¡también será borrado!</b> ¿Realmente quieres borrar esto?"
       other: "<b>ATENCIÓN:</b> Este ítem tiene <b>%{count} preguntas o grupos</b> que le pertenecen, y que <b>¡también serán borrados!</b> <b>¿Realmente</b> quieres borrar esto?"
-    data_type: "Tipo de dato"
     delete_error: "El ítem no pudo ser borrado debido a un error"
     explanation: "Explicación"
-    has_embeddable_media: "Permitir adjuntar archivos o links"
+    manage: "Manejar Preguntas del Préstamo"
     move_error: "El ítem no pudo moverse debido a un error"
     text: "Título"
+  linked_document:
+    cell_end: Celda Final
+    cell_end_hint: Z26
+    cell_start: Celda Inicial
+    cell_start_hint: A1
+    delete: Borrar Link
+    delete_confirmation: ¿Seguro que quieres borrar este link?
+    link: "Link al archivo (como una planilla o documento Google)"
+    linked_document: Documento Vinculado
+    range_of_cells: Celdas opcionales para planilla Google
+    url: URL
   admin:
     loan_questions:
       index:
@@ -20,11 +30,16 @@ es:
         edit_item: "Editar ítem"
         delete_item: "Borrar ítem"
       form:
-        edit_item: "Editar Pregunta o Grupo"
-        new_item: "Nueva Pregunta o Grupo"
+        edit_item: Editar Pregunta o Grupo
+        new_item: Nueva Pregunta o Grupo
   simple_form:
+    labels:
+      loan_question:
+        data_type: Tipo de Dato
+        has_embeddable_media: Permitir adjuntar archivos o links
+        loan_types: Requerimientos de Tipos de Préstamos
     options:
-      custom_field:
+      loan_question:
         data_type:
           string: Respuesta Corta
           text: Párrafo
@@ -34,3 +49,9 @@ es:
           number: Número
           range: Rango
           boolean: Sí/No
+          breakeven: Tabla de Punto de Equilibrio
+          breakeven_data: Tabla de Punto de Equilibrio
+          business_canvas: Modelo de Negocios del Lienzo
+        override_associations:
+          'false': "Hereda de pregunta padre"
+          'true': "Modifica pregunta padre"

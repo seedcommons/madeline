@@ -1,0 +1,27 @@
+@import '../colors';
+
+.rampup-table.summary-table {
+
+  .group-columns, .group-content, .group-summary {
+    td:first-child {
+      padding-left: 8px;
+    }
+  }
+
+  .group-columns-header {
+    td {
+      padding-top: 16px;
+    }
+  }
+}
+
+.rampup-table {
+
+  .group-content {
+    border-top: 2px solid $gray4;
+  }
+
+  .group-row-headings {
+    border-top: 2px solid $gray4;
+  }
+}

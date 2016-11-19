@@ -54,6 +54,7 @@ FactoryGirl.define do
   trait :with_admin_access do
     has_system_access true
     owning_division_role :admin
+    with_password
   end
 
   trait :with_password do

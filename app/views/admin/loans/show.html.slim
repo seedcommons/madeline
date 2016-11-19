@@ -1,15 +1,19 @@
 - content_for(:title, @loan.name)
 section.loan.details
   div.loan-content
-    = render "admin/loans/tabs/tabs"
+    = render "admin/loans/tabs"
 
 = render "admin/media/modal"
+= render "admin/project_groups/modal"
+= render "admin/project_steps/modal"
 
 javascript:
+  // There is a lot of JS on this page -- tabs, questionnaires, calendar, timeline, etc.
+  // This view kicks it all off and sets up Views for the different tabs when they are clicked on.
   $(function() {
     new MS.Views.LoanTabView({
-      el: '.nav-tabs',
-      calendar_events_url: #{json @calendar_events_url},
+      el: '.loan-content',
+      calendarEventsUrl: #{json @calendar_events_url},
       loanId: #{json @loan.id}
     });
   });

@@ -1,0 +1,121 @@
+@import "../../colors";
+
+.timeline-table {
+  .date-col {
+    min-width: 8rem;
+  }
+
+  .step-name-col {
+    min-width: 12em;
+  }
+
+  // Specificity used to override Bootstrap defaults
+  .table thead:first-child tr {
+    th {
+      border: 1px solid $table-border-color;
+      border-bottom-width: 2px;
+    }
+  }
+
+  td, th {
+    background: $white;
+  }
+
+  td {
+    border: 1px solid $table-border-color;
+
+    &.spacer {
+      background: $white;
+      border: none;
+    }
+
+    &.step-menu-col {
+      width: 20px;
+    }
+  }
+
+  .timeline-header {
+    .top-actions {
+      float: right;
+      padding-bottom: 15px;
+
+      a {
+        margin-left: .75em;
+      }
+    }
+
+    .batch-actions {
+      float: left;
+
+      .btn-group {
+        margin-right: .75em;
+      }
+    }
+
+    form.filters {
+      text-align: center;
+
+      select {
+        margin-left: .75em;
+      }
+    }
+  }
+
+  .dropdown .fa-cog {
+    display: inline-block;
+    cursor: pointer;
+    color: $gray4;
+  }
+
+  .fa-cog {
+    color: $gray4;
+  }
+
+  td.draft {
+    font-style: italic;
+    color: $gray3;
+
+    &.step-menu-col {
+      font-style: normal;
+    }
+  }
+
+  td.completed {
+    background: $gray2;
+  }
+
+  .icon, .summary {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1;
+  }
+
+  .icon {
+    width: 1.5em;
+    margin-right: .25em;
+  }
+
+  .summary {
+    width: calc(100% - 2.5em);
+  }
+
+  .has-logs {
+    max-width: 16em;
+
+    .log-summary {
+      width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .select-step {
+    margin: .1em 0;
+    vertical-align: top;
+  }
+
+  .project-group .dropdown .fa-cog {
+    margin-left: 10px;
+  }
+}

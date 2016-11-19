@@ -1,0 +1,43 @@
+= simple_form_for([:admin, @loan_question],
+    wrapper: :horizontal_form,
+    remote: true,
+    html: { \
+      class: "form-horizontal loan-question #{(@loan_question.new_record? ? 'new-form' : 'update-form')}",
+      data: { id: @loan_question.id },
+    },
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  .modal-header
+    h4.modal-title = @loan_question.new_record? ? t('.new_item') : t('.edit_item')
+  .modal-body
+    = error_notification(f)
+
+    = f.input "question_types" do
+      = f.input_field :data_type, collection: @data_types
+
+      table.table.allow-attachments: tbody: tr
+        td = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
+        td = f.label :has_embeddable_media
+
+    = render "loan_types", f: f
+
+    = f.translatable_inputs do |l|
+      = f.input :"label_#{l}", as: :text,
+        input_html: {data: {translatable: 'loan_questions.text'}},
+        placeholder: I18n.t('loan_questions.text', locale: l),
+        label: t('loan_questions.text', locale: l)
+      = f.input :"explanation_#{l}", as: :text,
+        input_html: {data: {translatable: 'loan_questions.explanation'}},
+        placeholder: I18n.t('loan_questions.explanation', locale: l),
+        label: t('loan_questions.explanation', locale: l)
+
+    - if f.object.new_record?
+      = f.input_field :parent_id, as: :hidden
+      = f.input_field :loan_question_set_id, as: :hidden
+
+  .modal-footer
+    button.btn.btn-default type="button" data-dismiss="modal" = t :cancel
+    = f.submit t('common.save'), class: 'submit-action btn btn-primary'
