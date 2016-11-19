@@ -10,9 +10,11 @@
     cd madeline_system
     bundle install
     cp config/database.yml.example config/database.yml
-    emacs config/database.yml
+    nano config/database.yml
     cp config/secrets.yml.example config/secrets.yml
-    emacs config/secrets.yml
+    nano config/secrets.yml
+    cp .env.example .env
+    nano .env
     rake db:setup
     rake dev:fake_data
     rails s
@@ -46,13 +48,12 @@ To copy to server:
 
 On server:
 
-1.  `cd /var/www/rails/madeline/staging/current`
-2.  `export RAILS_ENV=staging` (or `production`)
+1.  `cd /var/www/rails/madeline/staging/current` or `cd /var/www/rails/madeline/production/current`
+2.  `export RAILS_ENV=staging` or `export RAILS_ENV=production`
 3.  `rake db:create`  if db doesn't exist
 4.  `rake db:schema:load` – destroys all data!
-5.  `rails db`
-6.  `\i /path/to/dumpfile.sql`
-7.  Then run media migration below on server
+5.  `rails db < /path/to/dumpfile.sql`
+6.  Then run media migration below on server
 
 ### Media Migration
 
@@ -62,12 +63,18 @@ On server:
 
     2.  Use the following command on the old server to sync the latest media changes:
 
-        ```shell
+        ```
         rsync -hrv /var/www/internal.labase.org/linkedMedia deploy@ms-staging.theworkingworld.org:/var/www/rails/madeline/staging/shared/legacymedia
+        ```
+
+        or for production:
+
+        ```
+        rsync -hrv /var/www/internal.labase.org/linkedMedia deploy@madeline.theworkingworld.org:/var/www/rails/madeline/production/shared/legacymedia
         ```
 
 2.  Run `df -h` to check the free space on the server. The media files take up about 9GB. You'll probably have to delete the previously migrated files (everything in `shared/public/uploads`) before running the media migration command below.
 
-3.  ```shell
+3.  ```
     sudo -u deploy RAILS_ENV=staging LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/staging/shared/legacymedia rake tww:migrate_media
     ```
