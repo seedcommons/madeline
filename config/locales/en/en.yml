@@ -106,7 +106,7 @@ en:
     hints:
       division:
         logo_text: "Optional text to show below the logo. Logo is shorter if text is entered."
-        banner_bg_color: "Background color of site banner. Use CSS color codes, e.g. 'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp'>this color picker</a>."
+        banner_bg_color: "Background color of site banner. Use CSS color codes, e.g. 'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
         banner_fg_color: "Color of text in banner."
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."

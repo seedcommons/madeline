@@ -78,3 +78,7 @@ On server:
 3.  ```
     sudo -u deploy RAILS_ENV=staging LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/staging/shared/legacymedia rake tww:migrate_media
     ```
+    or for production:
+    ```
+    sudo -u deploy RAILS_ENV=production LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/production/shared/legacymedia rake tww:migrate_media
+    ```
