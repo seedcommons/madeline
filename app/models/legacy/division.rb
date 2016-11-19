@@ -18,7 +18,11 @@ module Legacy
       when "United States" then find(11)
       when "USA" then find(11)
       when "WORCs" then find(14)
-      else raise "Coop with unexpected country value: #{country}"
+      when "" then ::Division.root
+      when nil then ::Division.root
+      else
+        $stderr.puts "No division for country \"#{country}\". Setting division to root."
+        ::Division.root
       end
     end
 

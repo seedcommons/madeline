@@ -7,10 +7,20 @@ class Member < ActiveRecord::Base
 
   belongs_to :cooperative, foreign_key: 'CooperativeID'
 
+  def division
+    if username == 'brendan'
+      ::Division.root
+    elsif cooperative
+      cooperative.division
+    else
+      Legacy::Division.from_country(self.country)
+    end
+  end
+
   def migration_data
     data = {
         id: self.id,
-        division_id: cooperative ? cooperative.division.id : ::Division.root_id,
+        division_id: division.id,
         primary_organization_id: cooperative_id,
         first_name: first_name.try(:strip),
         last_name: last_name.try(:strip),

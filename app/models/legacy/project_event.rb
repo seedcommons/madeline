@@ -56,7 +56,7 @@ module Legacy
 
     def migrate_step
       data = migration_step_data
-      puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
+      # puts "ProjectStep[#{data[:id]}] #{data[:project_id]}"
       step = ::ProjectStep.new(data)
 
       step.parent = find_or_create_parent_group
@@ -78,7 +78,7 @@ module Legacy
 
     def migrate_group
       data = migration_data
-      puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
+      # puts "ProjectGroup[#{data[:id]}] #{data[:project_id]}"
       ::ProjectGroup.create!(data)
       children.each(&:migrate)
     rescue StandardError => e
