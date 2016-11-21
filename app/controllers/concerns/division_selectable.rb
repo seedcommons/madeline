@@ -33,11 +33,16 @@ module DivisionSelectable
     class_name.where(division_id: selected_division_id)
   end
 
+  # Returns a hash that can be used as a filter for wice grid
+  # Expects a class name and a string
   def custom_filter_by_selected_division(class_name, filter)
-    items = filter_class_by_selected_division
-    # TODO: Map items using hash filter given inside the grid.
-    # For example, loans_grid line 17 will have:
-    # custom_filter: custom_filter_by_selected_division(Organization, :name)
-    # which will return an array of names only from the array returned by filter_class_by_selected_division
+    items = filter_class_by_selected_division(class_name)
+
+    custom_filter = []
+    items.each do |item|
+      custom_filter << item.send(filter)
+    end
+
+    custom_filter
   end
 end

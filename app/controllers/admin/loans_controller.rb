@@ -5,8 +5,12 @@ class Admin::LoansController < Admin::AdminController
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
     # selected_division is used for index filtering, and may be unassigned.
     authorize Loan
-    @test_filter = Organization.where(division_id: 2)
-    @test_filter = filter_class_by_selected_division(Organization)
+
+    # Defined filters, specifically filtered by division
+    # @test_filter = filter_class_by_selected_division(Organization)
+    # @test_filter_two = custom_filter_by_selected_division(Organization, 'name')
+    @organizations_filter = custom_filter_by_selected_division(Organization, 'name')
+
     @loans_grid = initialize_grid(
       policy_scope(Loan),
       include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative],
