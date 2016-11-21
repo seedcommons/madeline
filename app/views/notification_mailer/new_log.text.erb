@@ -12,4 +12,5 @@ A new log has been created on <%= @log.project.name %> by <%= @log.agent.name %>
 <%= @log.details %>
 <%- end %>
 
-<%= admin_loan_url(@log.project) %>/timeline-table
+<%= admin_loan_url(@log.project) %>/timeline-list
+<% #TODO: change above link to timeline-table when it can show all logs %>

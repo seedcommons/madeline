@@ -38,7 +38,7 @@ en:
       loan_question:
         data_type: Data Type
         has_embeddable_media: Allow files or links to be attached
-        loan_types: Loan Types Requirement
+        loan_types: Required for Loan Types
     options:
       loan_question:
         data_type:
