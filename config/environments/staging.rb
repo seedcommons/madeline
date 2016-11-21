@@ -78,6 +78,18 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Email settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'email-smtp.us-east-1.amazonaws.com',
+    port: 587,
+    domain: 'theworkingworld.org',
+    user_name: 'AKIAJBU4PIBWQLMQNXEA',
+    password: 'Atq51yRCeyF/QrlOYZ1IXvu7kwc7Vya8btqKTiRmrCnD',
+    authentication: 'login',
+    enable_starttls_auto: true,
+  }
+
   # Send email on errors
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     :email => {
