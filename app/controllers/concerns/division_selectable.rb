@@ -27,4 +27,17 @@ module DivisionSelectable
   def selected_division_id
     session[:selected_division_id]
   end
+
+  def filter_class_by_selected_division(class_name)
+    # item.class.name
+    class_name.where(division_id: selected_division_id)
+  end
+
+  def custom_filter_by_selected_division(class_name, filter)
+    items = filter_class_by_selected_division
+    # TODO: Map items using hash filter given inside the grid.
+    # For example, loans_grid line 17 will have:
+    # custom_filter: custom_filter_by_selected_division(Organization, :name)
+    # which will return an array of names only from the array returned by filter_class_by_selected_division
+  end
 end
