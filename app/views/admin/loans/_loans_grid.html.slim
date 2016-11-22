@@ -14,7 +14,7 @@
     - g.column name: t('activerecord.attributes.loan.division'), attribute: 'name',
       assoc: :division, custom_filter: :auto, detach_with_id: :division_filter
     - g.column name: t('activerecord.attributes.loan.organization'), attribute: 'organization_id',
-      custom_filter: Organization.filter_by_division(selected_division),
+      custom_filter: Organization.filter_in_division(selected_division),
       detach_with_id: :coop_filter do |loan|
       - loan.organization.name
     - g.column name: t('activerecord.attributes.loan.status'), attribute: 'status_value',
