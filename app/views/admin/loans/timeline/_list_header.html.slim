@@ -30,13 +30,15 @@ header.timeline-header
         = render "admin/loans/timeline/batch_actions", modal_id: 'adjust-dates-modal-timeline-list'
 
     .item.top-actions
+      a.btn.btn-default> id="show-all-logs" href="#"  = t('show_logs')
+      a.btn.btn-default> id="hide-all-logs" href="#"  = t('hide_logs')
       a.btn.btn-default> id="edit-all" href="#"  = t('.edit_all')
       a.btn.btn-default> id="edit-all-cancel" href="#"  = t('.cancel_edit')
       a.btn.btn-primary> id="save-all" href="#"  = t('.save_all')
       a.btn.btn-primary> id="new-step" href="#"  = t(".new_step")
 
     .item.filter-switch
-      .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
+      .btn-group.button-group-radios data-toggle="buttons" role="group" aria-label="Filter"
         label.btn.btn-default
           input type="radio" name="filter" value="all" id="filter-all"  = t(:all)
         label.btn.btn-default
