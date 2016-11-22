@@ -8,6 +8,9 @@
       i.fa.fa-exclamation-circle>
       = t("log.empty_log_error")
 
+    = f.input "step", label: t("log.step") do
+      = @step.summary
+
     .date
       = f.input :date, as: :date_picker
       - if @log.new_record? && context == :manual

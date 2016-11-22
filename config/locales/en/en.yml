@@ -328,6 +328,7 @@ en:
     status:
       behind: "Behind"
       on_time: "On time"
+    step: "Step"
     step_completed: "Step completed on this date"
 
   media:
