@@ -2,7 +2,9 @@ module DivisionBased
   extend ActiveSupport::Concern
 
   included do
-    scope :in_division, -> (division) { where(division: division.self_and_descendants) }
+    def self.in_division(division)
+      division ? where(division: division.self_and_descendants) : all
+    end
 
     # For wicegrid custom filters
     def self.filter_in_division(division, order: :name)
