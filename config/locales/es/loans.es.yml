@@ -65,6 +65,10 @@ es:
     timeline_list: "Missing Translation: Línea de Tiempo - List"
     timeline_table: "Missing Translation: Línea de Tiempo - Table"
     toc: "Índice de contenidos"
+    transactions: "Missing Translation: Transactions"
+    transaction_new_disbursement: "Missing Translation: New Disbursement"
+    transaction_new_repayment: "Missing Translation: New Repayment"
+    transaction_schedule: "Missing Translation: Schedule"
     shared:
       new: "Nuevo Préstamo"
     business_model:
