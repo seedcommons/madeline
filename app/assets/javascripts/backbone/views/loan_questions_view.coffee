@@ -14,6 +14,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
+            # TODO: Load in content. See prepareRequiredLoanTypes
+            .append("<div class='loan-type-required'>Loan Type</div><div class='loan-type-required'>Really long loan type</div>")
             .append($('.links-block').html())
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
@@ -139,3 +141,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
   changeRequireCheckbox: (e) ->
     destroyField = $(e.target).closest('tr').find('.destroy-field')
     destroyField.val(!e.target.checked)
+
+  prepareRequiredLoanTypes: (node) ->
+    # For each loan type required, add a conatiner with its label
+    # <div class='loan-type-required'>#{loan_type}</div>
+    # node.required_loan_types

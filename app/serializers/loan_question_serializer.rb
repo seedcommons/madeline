@@ -1,5 +1,5 @@
 class LoanQuestionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types
 
   def initialize(*args, loan: nil, **options)
     @loan = loan
@@ -24,5 +24,16 @@ class LoanQuestionSerializer < ActiveModel::Serializer
 
   def optional
     @loan && !object.required_for?(@loan)
+  end
+
+  def required_loan_types
+    # TODO: Compile list of loan_types and labels. At minimum an array of labels is needed.
+    loan_types = []
+
+    object.loan_question_requirements.each do |loan_type|
+      lt_id = loan_type.option_id
+      lt_label = Option.find(lt_id).label
+      loan_types << lt_label
+    end
   end
 end
