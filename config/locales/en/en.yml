@@ -289,25 +289,7 @@ en:
     change_division: "Change Division"
     select_division: "Select Division"
 
-  loan:
-    criteria: "Criteria"
-    details: "Details"
-    memo: "Loan Memo"
-    num_of_links:
-      one: "There is %{count} linked document."
-      other: "There are %{count} linked documents."
-    open_links:
-      one: "Click to open the document in a new tab."
-      other: "Click to open each document in a new tab."
-    popup_blocker: "You may need to disable your popup blocker or enable all popups from this site in order to view your documents."
-    print: "Print"
-    print_criteria: "Criteria Only"
-    print_details: "Details Only"
-    print_memo: "Print Loan Memo"
-    transactions: "Transactions"
-    transaction_new_disbursement: "New Disbursement"
-    transaction_new_repayment: "New Repayment"
-    transaction_schedule: "Schedule"
+  # For loan, see loans.{locale}.yml
 
   log:
     additional_notes: "Additional Notes"
