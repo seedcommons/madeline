@@ -10,6 +10,21 @@
       flex-grow: 100;
     }
   }
+
+  .loan-type-required {
+    max-width: 8em;
+    max-height: 2em;
+    margin: 0 .2em 0 0;
+    padding: .2em;
+    border: 1px solid $gray2;
+    border-radius: 4px;
+    color: $gray3;
+    font-size: .9em;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 .linked-document {
