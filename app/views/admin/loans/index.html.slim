@@ -3,9 +3,6 @@
 - content_for :with_title
   = link_to t("loan.shared.new"), new_admin_loan_path, class: 'btn btn-default new-button'
 
-/ = @test_filter.inspect
-/ = @test_filter_two.inspect
-
 = render "loans_grid"
 
 - unless @empty_list
