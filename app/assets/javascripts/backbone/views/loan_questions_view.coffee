@@ -14,7 +14,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
-            # TODO: Load in content. See prepareRequiredLoanTypes
             .append(@requiredLoanTypesHTML(node))
             .append($('.links-block').html())
     @filterSwitchView = new MS.Views.FilterSwitchView()
