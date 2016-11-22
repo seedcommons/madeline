@@ -6,10 +6,13 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     'click #edit-all': 'editAll'
     'click #edit-all-cancel': 'cancelEdit'
     'click #save-all': 'saveAll'
+    'click #show-all-logs': 'showAllLogs'
+    'click #hide-all-logs': 'hideAllLogs'
 
   initialize: ->
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
+    $('#hide-all-logs').hide()
 
   editAll: (e) ->
     e.preventDefault()
@@ -40,3 +43,15 @@ class MS.Views.TimelineHeaderView extends Backbone.View
     $('#new-step').show()
     $('#edit-all-cancel').hide()
     $('#save-all').hide()
+
+  showAllLogs: (e) ->
+    e.preventDefault()
+    $('.step-logs.expandable').addClass('expanded')
+    $('#show-all-logs').hide()
+    $('#hide-all-logs').show()
+
+  hideAllLogs: (e) ->
+    e.preventDefault()
+    $('.step-logs.expandable').removeClass('expanded')
+    $('#hide-all-logs').hide()
+    $('#show-all-logs').show()
