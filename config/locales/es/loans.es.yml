@@ -50,6 +50,8 @@ es:
       liquidated: "Liquidado"
     threshold_amount: "Monto Umbral"
     timeline: "Línea de Tiempo"
+    timeline_list: "Missing Translation: Línea de Tiempo - List"
+    timeline_table: "Missing Translation: Línea de Tiempo - Table"
     toc: "Índice de contenidos"
     shared:
       new: "Nuevo Préstamo"

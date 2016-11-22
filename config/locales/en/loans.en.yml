@@ -50,6 +50,8 @@ en:
       liquidated: "Liquidated"
     threshold_amount: "Threshold Amount"
     timeline: "Timeline"
+    timeline_list: "Timeline - List"
+    timeline_table: "Timeline - Table"
     toc: "Table of Contents"
     shared:
       new: "New Loan"
