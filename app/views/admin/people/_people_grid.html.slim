@@ -15,9 +15,9 @@
     - g.column name: t('common.name'), attribute: 'name', detach_with_id: :name_filter
 
     - g.column name: t('common.division'), attribute: 'name', assoc: :division, filter: false
-    - g.column name: t('activerecord.attributes.person.primary_organization'), attribute: 'name',
-      assoc: :primary_organization,
-      custom_filter: :auto, detach_with_id: :organization_filter do |person|
+    - g.column name: t('activerecord.attributes.person.primary_organization'), attribute: 'primary_organization_id',
+      custom_filter: Organization.filter_in_division(selected_division),
+      detach_with_id: :organization_filter do |person|
       - person.primary_organization.try(:name)
 
     - g.column name: t('activerecord.attributes.person.street_address'),

@@ -35,6 +35,8 @@
 #
 
 class Division < ActiveRecord::Base
+  include DivisionBased
+
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
@@ -75,6 +77,10 @@ class Division < ActiveRecord::Base
     result = root.try(:id)
     logger.info("division root.id: #{result}")
     result
+  end
+
+  def self.in_division(division)
+    division ? division.self_and_descendants : all
   end
 
   # interface compatibility with other models

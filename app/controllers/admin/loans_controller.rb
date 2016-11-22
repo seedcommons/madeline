@@ -5,6 +5,7 @@ class Admin::LoansController < Admin::AdminController
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
     # selected_division is used for index filtering, and may be unassigned.
     authorize Loan
+
     @loans_grid = initialize_grid(
       policy_scope(Loan),
       include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative],
@@ -12,9 +13,9 @@ class Admin::LoansController < Admin::AdminController
       order: 'loans.signing_date',
       order_direction: 'desc',
       custom_order: {
-        "divisions.name" => "LOWER(divisions.name)",
-        "organizations.name" => "LOWER(organizations.name)",
-        'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date'
+        'loans.division_id' => 'LOWER(divisions.name)',
+        'loans.organization_id' => 'LOWER(organizations.name)',
+        'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date',
       },
       per_page: 50,
       name: 'loans',
@@ -156,8 +157,8 @@ class Admin::LoansController < Admin::AdminController
 
   def prep_form_vars
     @division_choices = division_choices
-    @organization_choices = organization_policy_scope(Organization.all).order(:name)
-    @agent_choices = person_policy_scope(Person.where(has_system_access: true)).order(:name)
+    @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
+    @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
   end

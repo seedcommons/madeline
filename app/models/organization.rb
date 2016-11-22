@@ -45,6 +45,7 @@ class Organization < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
+  include DivisionBased
 
   belongs_to :division
   belongs_to :country
