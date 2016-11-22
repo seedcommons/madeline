@@ -4,6 +4,7 @@ module DivisionBased
   included do
     scope :in_division, -> (division) { where(division: division.self_and_descendants) }
 
+    # For wicegrid custom filters
     def self.filter_by_division(division)
       in_division(division).order(:name).map { |i| [i.name, i.id] }
     end
