@@ -204,7 +204,6 @@ en:
 
   ## Admin panel ##
   all: "All"
-  calendar: "Calendar"
   cancel: "Cancel"
   cancel_edit: "Cancel Edit"
   city: "City"
@@ -288,6 +287,10 @@ en:
     profile: "Profile"
     change_division: "Change Division"
     select_division: "Select Division"
+
+  calendar:
+    calendar: "Calendar"
+    legend: "Legend"
 
   # For 'loan', see loans.en.yml
 

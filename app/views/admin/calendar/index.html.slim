@@ -1,5 +1,5 @@
 - content_for :title
-  = t(:calendar)
+  = t("calendar.calendar")
 
 section.calendar
   = render "admin/calendar/legend"
@@ -12,6 +12,7 @@ javascript:
   $(function(){
     MS.calendarView = new MS.Views.CalendarView({
       response_set: #{json @calendar_events_url},
-      stepModal: new MS.Views.ProjectStepModalView()
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: "#{I18n.locale}"
     });
   });

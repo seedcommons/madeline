@@ -14,9 +14,10 @@ class MS.Views.CalendarView extends Backbone.View
       loading: @loading.bind(this)
       events: params.calendarEventsUrl
       height: 'auto'
+      lang: params.locale
       customButtons:
         legend:
-          text: 'Legend'
+          text: I18n.t('calendar.legend', locale: params.locale)
       header:
         left: 'prev,next today'
         center: 'title'

@@ -271,6 +271,10 @@ es:
     change_division: "Cambiar División"
     select_division: "Seleccionar División"
 
+  calendar:
+    calendar: "Missing Translation: Calendar"
+    legend: "Missing Translation: Legend"
+
   # Para 'loan', ver loans.es.yml
 
   log:

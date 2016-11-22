@@ -14,6 +14,7 @@ javascript:
     new MS.Views.LoanTabView({
       el: '.loan-content',
       calendarEventsUrl: #{json @calendar_events_url},
-      loanId: #{json @loan.id}
+      loanId: #{json @loan.id},
+      locale: "#{I18n.locale}"
     });
   });
