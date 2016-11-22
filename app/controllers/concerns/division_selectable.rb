@@ -29,7 +29,6 @@ module DivisionSelectable
   end
 
   def filter_class_by_selected_division(class_name)
-    # item.class.name
     class_name.where(division_id: selected_division_id)
   end
 
