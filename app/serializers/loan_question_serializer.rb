@@ -27,13 +27,6 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   end
 
   def required_loan_types
-    # TODO: Compile list of loan_types and labels. At minimum an array of labels is needed.
-    loan_types = []
-
-    object.loan_question_requirements.each do |loan_type|
-      lt_id = loan_type.option_id
-      lt_label = Option.find(lt_id).label
-      loan_types << lt_label
-    end
+    object.loan_question_requirements.map { |i| i.loan_type.label.to_s }
   end
 end
