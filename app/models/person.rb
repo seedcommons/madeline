@@ -51,6 +51,7 @@ class Person < ActiveRecord::Base
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
+  include DivisionBased
 
   VALID_DIVISION_ROLES = %i(member admin)
 

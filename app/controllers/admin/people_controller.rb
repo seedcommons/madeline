@@ -10,7 +10,7 @@ class Admin::PeopleController < Admin::AdminController
       custom_order: {
         "people.name" => "LOWER(people.name)",
         "people.city" => "LOWER(people.city)",
-        "organizations.name" => "LOWER(organizations.name)"
+        "people.primary_organization_id" => "LOWER(organizations.name)"
       },
       name: 'people',
       enable_export_to_csv: true
@@ -97,6 +97,6 @@ class Admin::PeopleController < Admin::AdminController
   end
 
   def organization_choices
-    organization_policy_scope(Organization.all).order(:name)
+    organization_policy_scope(Organization.in_division(selected_division)).order(:name)
   end
 end
