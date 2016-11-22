@@ -16,9 +16,9 @@
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
     choices: @organization_choices, include_blank_choice: false, classes: 'hidden-print')
 
-  = f.input :name
-    .view-element = @loan.name
-    = f.input_field :name
+  / = f.input :name
+  /   .view-element = @loan.name
+  /   = f.input_field :name
 
   = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.division.try(:name)
