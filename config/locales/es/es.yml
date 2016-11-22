@@ -270,21 +270,9 @@ es:
     profile: "Perfil"
     change_division: "Cambiar División"
     select_division: "Seleccionar División"
-  loan:
-    criteria: "Criterios"
-    details: "Detalles"
-    memo: "Memo del Préstamo"
-    num_of_links:
-      one: "Hay %{count} documento asociado."
-      other: "Hay %{count} documentos asociados."
-    open_links:
-      one: "Hacer click para abrir el documento en una pestaña nueva."
-      other: "Hacer click para abrir cada documento en una pestaña nueva."
-    popup_blocker: "Puede ser necesario desactivar tu bloqueador de popups o activar todos los popups de este sitio para poder ver tus documentos."
-    print: "Imprimir"
-    print_criteria: "Solo Criterios"
-    print_details: "Solo Detalles"
-    print_memo: "Imprimir Memo de Préstamo"
+
+  # Para 'loan', ver loans.es.yml
+
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"

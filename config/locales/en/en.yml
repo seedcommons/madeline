@@ -289,7 +289,7 @@ en:
     change_division: "Change Division"
     select_division: "Select Division"
 
-  # For loan, see loans.{locale}.yml
+  # For 'loan', see loans.en.yml
 
   log:
     additional_notes: "Additional Notes"
