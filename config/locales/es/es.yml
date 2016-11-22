@@ -333,6 +333,13 @@ es:
     add_dependent_step: "Missing Translation: Add Dependent Step"
     add_log: "Missing Translation: Add Log"
     after: "Después de"
+    all_types: "Missing Translation: All Types"
+    all_statuses: "Missing Translation: All Statuses"
+    all_completion_statuses: "Missing Translation: All Statuses"
+    completion_status:
+      draft: "Missing Translation: Finalized"
+      complete: "Completo"
+      incomplete: "Incompleto"
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
     days: "Día(s)"
     delete:
