@@ -44,7 +44,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def new
-    @loan = Loan.new(division: current_division)
+    @loan = Loan.new(division: current_division, currency: current_division.default_currency)
     @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
