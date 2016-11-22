@@ -194,7 +194,6 @@ es:
   close: "Cerrar"
   select_prompt: "Seleccionar..."
   all: "Todos"
-  calendar: "Calendario"
   cancel: "Cancelar"
   cancel_edit: "Cancelar Edición"
   city: "Ciudad"
@@ -272,7 +271,19 @@ es:
     select_division: "Seleccionar División"
 
   calendar:
-    calendar: "Missing Translation: Calendar"
+    calendar: "Calendario"
+    check_in: "Missing Translation: Check in"
+    legend: "Legend"
+    milestone: "Hito"
+    num_of_logs: "Missing Translation: Number of logs"
+    original_date: "Missing Translation: Original date"
+    status:
+      early: "Missing Translation: Completed Early"
+      incomplete: "Incompleto"
+      late: "Missing Translation: Late"
+      on_time: "Missing Translation: Completed on time"
+      super_late: "Missing Translation: Super late"
+      very_late: "Missing Translation: Very late"
     legend: "Missing Translation: Legend"
 
   # Para 'loan', ver loans.es.yml

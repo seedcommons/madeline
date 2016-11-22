@@ -290,7 +290,18 @@ en:
 
   calendar:
     calendar: "Calendar"
+    check_in: "Check in"
     legend: "Legend"
+    milestone: "Milestone"
+    num_of_logs: "Number of logs"
+    original_date: "Original date"
+    status:
+      early: "Completed Early"
+      incomplete: "Incomplete"
+      late: "Late"
+      on_time: "Completed on time"
+      super_late: "Super late"
+      very_late: "Very late"
 
   # For 'loan', see loans.en.yml
 
