@@ -318,6 +318,7 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
+    item: "Item"
 
   menu:
     calendar: "Calendar"

@@ -298,6 +298,7 @@ es:
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
+    item: "Missing Translation: Item"
   menu:
     calendar: "Calendario"
     coops: "Cooperativas"
