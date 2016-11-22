@@ -79,6 +79,10 @@ class Division < ActiveRecord::Base
     result
   end
 
+  def self.in_division(division)
+    division ? division.self_and_descendants : all
+  end
+
   # interface compatibility with other models
   def division
     self
