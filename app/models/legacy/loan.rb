@@ -83,9 +83,9 @@ class Loan < ActiveRecord::Base
     # if self.cooperative then I18n.t :project_with, name: self.cooperative.Name
     # else I18n.t :project_id, id: self.ID.to_s end
     if self.cooperative
-      return "Project with #{self.cooperative.Name}"
+      return I18n.t(:project_with, name: self.cooperative.Name)
     else
-      return "Project ID: #{self.ID}"
+      return I18n.t(:project_id, id: self.ID)
     end
   end
 
