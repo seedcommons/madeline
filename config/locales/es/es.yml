@@ -330,6 +330,8 @@ es:
     the_day: "El %{day}"
   project_step:
     add: "Agregar Paso"
+    add_dependent_step: "Missing Translation: Add Dependent Step"
+    add_log: "Missing Translation: Add Log"
     after: "Después de"
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
     days: "Día(s)"
@@ -392,6 +394,7 @@ es:
       changed_times:
         one: "Cambiado una vez"
         other: "Cambiado %{count} veces"
+    view_logs: "Missing Translation: View Logs"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
     weeks: "Semana(s)"
   project_group:
