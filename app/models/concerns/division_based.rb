@@ -5,8 +5,7 @@ module DivisionBased
     scope :in_division, -> (division) { where(division: division.self_and_descendants) }
 
     def self.filter_by_division(division)
-      # in_division(division).map { |i| [i.name, i.id] }
-      in_division(division).pluck(:name)
+      in_division(division).order(:name).map { |i| [i.name, i.id] }
     end
   end
 end
