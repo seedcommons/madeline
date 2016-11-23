@@ -8,7 +8,6 @@ describe LoanQuestion, :type => :model do
     expect(create(:loan_question)).to be_valid
   end
 
-  # Pending; To be reinstated when un-stubbing `LoanQuestion#required_for?`
   context 'question groups required by loan type' do
 
     let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }
@@ -19,12 +18,13 @@ describe LoanQuestion, :type => :model do
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
 
     let!(:set) { create(:loan_question_set) }
-    let!(:f1) { create(:loan_question, loan_question_set: set, internal_name: "f1", data_type: "text") }
+    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
+    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
 
-    let!(:f2) { create(:loan_question, loan_question_set: set, internal_name: "f4", data_type: "text",
+    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f4", data_type: "text",
       override_associations: true, loan_types: [lt1,lt2]) }
 
-    let!(:f3) { create(:loan_question, loan_question_set: set, internal_name: "f3", data_type: "group",
+    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group",
       override_associations: true, loan_types: [lt1]) }
     let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string") }
     let!(:f33) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f33", data_type: "group") }
@@ -34,8 +34,8 @@ describe LoanQuestion, :type => :model do
     let!(:f333) { create(:loan_question, loan_question_set: set, parent: f33, internal_name: "f333", data_type: "text",
       override_associations: true) }
 
-    let!(:f4) { create(:loan_question, loan_question_set: set, internal_name: "f4", data_type: "text",
-      parent: f1, loan_types: [lt1,lt2]) }
+    let!(:f4) { create(:loan_question, loan_question_set: set, parent: f1, internal_name: "f4", data_type: "text",
+      loan_types: [lt1,lt2]) }
 
     it 'not required by default' do
       expect(f1.required_for?(loan1)).to be_falsey
