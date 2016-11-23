@@ -108,11 +108,12 @@ class LoanQuestion < ActiveRecord::Base
   #   and optional for all others
   # - If override is true and no records are present, all are optional
   # - If override is false, inherit from parent
-  # - Root nodes effectively have override always true
+  # - Top level nodes (those with depth = 1 are direct children of the root) effectively have
+  #   override always true
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required_for?(loan)
-    if override_associations || root?
+    if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
       parent && parent.required_for?(loan)
