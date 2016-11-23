@@ -112,7 +112,7 @@ class LoanQuestion < ActiveRecord::Base
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required_for?(loan)
-    if override_associations || root?
+    if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
       parent && parent.required_for?(loan)
