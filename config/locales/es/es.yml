@@ -272,19 +272,10 @@ es:
 
   calendar:
     calendar: "Calendario"
-    check_in: "Missing Translation: Check in"
     legend: "Legend"
     milestone: "Hito"
-    num_of_logs: "Missing Translation: Number of logs"
-    original_date: "Missing Translation: Original date"
     status:
-      early: "Missing Translation: Completed Early"
       incomplete: "Incompleto"
-      late: "Missing Translation: Late"
-      on_time: "Missing Translation: Completed on time"
-      super_late: "Missing Translation: Super late"
-      very_late: "Missing Translation: Very late"
-    legend: "Missing Translation: Legend"
 
   # Para 'loan', ver loans.es.yml
 
@@ -313,7 +304,6 @@ es:
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
-    item: "Missing Translation: Item"
   menu:
     calendar: "Calendario"
     coops: "Cooperativas"
@@ -334,14 +324,8 @@ es:
     the_day: "El %{day}"
   project_step:
     add: "Agregar Paso"
-    add_dependent_step: "Missing Translation: Add Dependent Step"
-    add_log: "Missing Translation: Add Log"
     after: "Después de"
-    all_types: "Missing Translation: All Types"
-    all_statuses: "Missing Translation: All Statuses"
-    all_completion_statuses: "Missing Translation: All Statuses"
     completion_status:
-      draft: "Missing Translation: Finalized"
       complete: "Completo"
       incomplete: "Incompleto"
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
@@ -405,7 +389,6 @@ es:
       changed_times:
         one: "Cambiado una vez"
         other: "Cambiado %{count} veces"
-    view_logs: "Missing Translation: View Logs"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
     weeks: "Semana(s)"
   project_group:

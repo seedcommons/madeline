@@ -2,7 +2,6 @@ es:
   project_log:
     project_log: "Apunte de proyecto"
   project_logs:
-    more: "Missing Translation: More..."
     shared:
       confirm_deletion: "¿Realmente quieres borrar este apunte?"
       delete: "Borrar Apunte"
