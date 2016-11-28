@@ -40,6 +40,11 @@
         .filter-content.dates
           = grid_filter(@loans_grid, :signing_date_filter)
 
+      .filter
+        label = t("loan.target_end_date")
+        .filter-content.dates
+          = grid_filter(@loans_grid, :target_end_date_filter)
+
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="loans"
           = t("clear")
