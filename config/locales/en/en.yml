@@ -204,7 +204,6 @@ en:
 
   ## Admin panel ##
   all: "All"
-  calendar: "Calendar"
   cancel: "Cancel"
   cancel_edit: "Cancel Edit"
   city: "City"
@@ -289,25 +288,22 @@ en:
     change_division: "Change Division"
     select_division: "Select Division"
 
-  loan:
-    criteria: "Criteria"
-    details: "Details"
-    memo: "Loan Memo"
-    num_of_links:
-      one: "There is %{count} linked document."
-      other: "There are %{count} linked documents."
-    open_links:
-      one: "Click to open the document in a new tab."
-      other: "Click to open each document in a new tab."
-    popup_blocker: "You may need to disable your popup blocker or enable all popups from this site in order to view your documents."
-    print: "Print"
-    print_criteria: "Criteria Only"
-    print_details: "Details Only"
-    print_memo: "Print Loan Memo"
-    transactions: "Transactions"
-    transaction_new_disbursement: "New Disbursement"
-    transaction_new_repayment: "New Repayment"
-    transaction_schedule: "Schedule"
+  calendar:
+    calendar: "Calendar"
+    check_in: "Check in"
+    legend: "Legend"
+    milestone: "Milestone"
+    num_of_logs: "Number of logs"
+    original_date: "Original date"
+    status:
+      early: "Completed Early"
+      incomplete: "Incomplete"
+      late: "Late"
+      on_time: "Completed on time"
+      super_late: "Super late"
+      very_late: "Very late"
+
+  # For 'loan', see loans.en.yml
 
   log:
     additional_notes: "Additional Notes"
@@ -337,6 +333,7 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
+    item: "Item"
 
   menu:
     calendar: "Calendar"
@@ -366,6 +363,10 @@ en:
     all_statuses: "All Statuses"
     all_completion_statuses: "All Statuses"
     after: "After"
+    completion_status:
+      draft: 'Finalized'
+      complete: 'Complete'
+      incomplete: 'Incomplete'
     confirm_deletion: "Are you sure you want to delete this project step?"
     days: "Day(s)"
     delete:
@@ -428,10 +429,6 @@ en:
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
     view_logs: "View Logs"
     weeks: "Week(s)"
-    completion_status:
-      draft: 'Finalized'
-      complete: 'Complete'
-      incomplete: 'Incomplete'
 
   project_group:
     add: "New Group"
