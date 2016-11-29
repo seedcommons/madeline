@@ -8,3 +8,7 @@ en:
     shared:
       confirm_deletion: "Are you sure you want to delete this log?"
       delete: "Delete Log"
+  admin:
+    project_logs:
+      index:
+        title: "Logs"
