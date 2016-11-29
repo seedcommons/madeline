@@ -22,8 +22,8 @@ es:
     forward: "+ hacia adelante"
     length: "Duración"
     loan_type: "Tipo de Préstamo"
-    memo: "Memo del Préstamo"
     media: "Fotos del Préstamo"
+    memo: "Memo del Préstamo"
     months: "%{number} meses "
     move_date_confirm:
       title: "Mover Fecha?"
@@ -62,7 +62,13 @@ es:
       liquidated: "Liquidado"
     threshold_amount: "Monto Umbral"
     timeline: "Línea de Tiempo"
+    timeline_list: "Línea de Tiempo - Lista"
+    timeline_table: "Línea de Tiempo - Tabla"
     toc: "Índice de contenidos"
+    transactions: "Transacciones"
+    transaction_new_disbursement: "Nuevo Desembolso"
+    transaction_new_repayment: "Nueva Devolución"
+    transaction_schedule: "Movimientos"
     shared:
       new: "Nuevo Préstamo"
     business_model:
@@ -120,6 +126,25 @@ es:
       total_fixed_costs: "Costos Fijos Totales"
       total_revenue: "Ingresos Totales"
       unit: "Unidad de Venta"
+      rampup: "Período de Amortización"
+      units: "Unidad de los Períodos"
+      periods: "Períodos hasta el Punto de Equilibrio"
+    breakeven_rampup:
+      cost_of_goods: "Costo de los Bienes Vendidos"
+      price: "Precio"
+      quantity: "Cantidad"
+      revenue: "Ingresos"
+      title: "Aproximación al Punto de Equilibrio"
+      total: "Total"
+      total_gross_margin: "Total de Margen Bruto"
+      total_net_margin: "Total de Margen Neto"
+      total_fixed_costs: "Costos Fijos Totales"
+  breakeven_table_question:
+    days: "Días"
+    weeks: "Semanas"
+    months: "Meses"
+    years: "Años"
+    quarters: "Trimestres"
   loans:
     index:
       title: "Préstamos"
@@ -146,5 +171,5 @@ es:
           new_group: "Agregar Grupo"
           new_step: "Agregar Paso"
         table:
-          add_child_group: "Agregar Grupo Infantil"
-          add_child_step: "Agregar Paso Infantil"
+          add_child_group: "Agregar Grupo 'Hijo'"
+          add_child_step: "Agregar Paso 'Niño'"

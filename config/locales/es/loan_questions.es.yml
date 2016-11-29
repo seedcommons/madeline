@@ -2,10 +2,8 @@ es:
   loan_question: "Pregunta del préstamo"
   loan_questions:
     confirm_deletion: "<b>ATENCIÓN:</b> Si este ítem tiene preguntas o grupos que le pertenecen, <b>¡también serán borrados! </b>¿Realmente <b>Realmente</b> quieres borrar esto?"
-    confirm_deletion_descendants:
-      zero: "¿Realmente quieres borrar esto?"
-      one: "<b>ATENCIÓN:</b> Éste ítem tiene <b>1 pregunta o grupo</b> que le pertenece, que <b>¡también será borrado!</b> ¿Realmente quieres borrar esto?"
-      other: "<b>ATENCIÓN:</b> Este ítem tiene <b>%{count} preguntas o grupos</b> que le pertenecen, y que <b>¡también serán borrados!</b> <b>¿Realmente</b> quieres borrar esto?"
+    confirm_deletion_no_descendants: "¿Realmente quieres borrar esto?"
+    confirm_deletion_descendants: "<b>ADVERTENCIA:</b> Este ítem tiene preguntas o grupos relacionados, que <b>serán borrados también!</b> ¿Realmente  <b>quieres</b> borrar esto?"
     delete_error: "El ítem no pudo ser borrado debido a un error"
     explanation: "Explicación"
     manage: "Manejar Preguntas del Préstamo"
@@ -37,7 +35,7 @@ es:
       loan_question:
         data_type: Tipo de Dato
         has_embeddable_media: Permitir adjuntar archivos o links
-        loan_types: Requerimientos de Tipos de Préstamos
+        loan_types: Requerido para Tipos de Préstamos
     options:
       loan_question:
         data_type:
@@ -53,5 +51,5 @@ es:
           breakeven_data: Tabla de Punto de Equilibrio
           business_canvas: Modelo de Negocios del Lienzo
         override_associations:
-          'false': "Hereda de pregunta padre"
-          'true': "Modifica pregunta padre"
+          'false': "Hereda del Grupo"
+          'true': "Reemplaza al Grupo"
