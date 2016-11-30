@@ -1,0 +1,4 @@
+es:
+  notification_mailer:
+    new_log:
+      subject: "[Madeline] Nuevo apunte en %{project}"
