@@ -70,6 +70,10 @@
     margin: 0 0.5em;
   }
 
+  .summary {
+    margin: 0 .5em 0 0;
+  }
+
   header {
     color: #b3b3b3;
     font-size: 88%;
@@ -79,9 +83,7 @@
       margin-bottom: 5px;
       a {
         color: inherit;
-        &:hover {
-          text-decoration: none;
-        }
+        &:hover { text-decoration: none; }
       }
     }
 
@@ -89,16 +91,16 @@
       .item {
         display: inline-block;
         margin-right: 15px;
+        a {
+          color: inherit;
+          &:hover { text-decoration: none; }
+        }
       }
     }
   }
 }
 
 .log.expandable {
-  .summary {
-    margin: 0 .5em 0 0;
-  }
-
   .less.log-ctrl {
     display: none;
   }

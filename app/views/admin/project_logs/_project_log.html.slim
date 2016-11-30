@@ -19,7 +19,7 @@
         = log.progress_metric
 
   - if log.summary
-    .summary = simple_format log.summary.to_s
+    span.summary = log.summary
 
   - if log.details || log.additional_notes || log.private_notes
     a data-expands="more-#{log.id}" = t(:more)
