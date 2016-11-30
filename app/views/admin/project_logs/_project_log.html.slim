@@ -1,6 +1,11 @@
 - log = project_log
+- step = log.project_step
 
-.well
+.log.well
+  p.step-name 
+    => "Step:" 
+    a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") = step.summary
+
   - if log.summary
     .summary = simple_format log.summary.to_s
 
