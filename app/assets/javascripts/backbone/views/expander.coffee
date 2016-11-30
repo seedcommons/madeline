@@ -25,7 +25,7 @@ class MS.Views.Expander extends Backbone.View
 
   hide: (e) ->
     e.preventDefault()
-    target = @$(e.currentTarget).data('hides')
-    @$("[data-expandable='#{target}']").hide()
-    @$("[data-expands='#{target}']").show()
+    targetName = @$(e.currentTarget).data('hides')
+    @$("[data-expandable='#{targetName}']").hide()
+    @$("[data-expands='#{targetName}']").show()
     @$(e.currentTarget).hide()
