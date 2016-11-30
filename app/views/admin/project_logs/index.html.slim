@@ -3,4 +3,5 @@
 / - @logs.each do |log|
 /   = render 'admin/project_logs/show', log: log, step: log.project_step
 
-= render @logs
+.logs-index
+  = render @logs

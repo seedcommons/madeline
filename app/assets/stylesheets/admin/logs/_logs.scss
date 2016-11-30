@@ -63,7 +63,9 @@
   }
 
   .step-name {
-    font-weight: bold;
+    color: #b3b3b3;
+    font-size: 88%;
+
     a {
       color: inherit;
       &:hover {
@@ -171,5 +173,13 @@
   [data-action='edit-log'],
   .step-logs.expandable .add-log[data-action='add-log'] {
     display: none;
+  }
+}
+
+.logs-index {
+  .log {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #b3b3b3;
+    margin-bottom: 10px;
   }
 }
