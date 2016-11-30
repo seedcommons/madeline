@@ -15,7 +15,7 @@
     nano config/secrets.yml
     cp .env.example .env
     nano .env
-    rake db:setup
+    rake db:create && rake db:schema:load && rake db:seed  # db:setup fails for some reason, use this instead
     rake dev:fake_data
     rails s
 

@@ -47,11 +47,13 @@ class MS.Views.TimelineHeaderView extends Backbone.View
   showAllLogs: (e) ->
     e.preventDefault()
     $('.step-logs.expandable').addClass('expanded')
+    $('.log.expandable').addClass('expanded')
     $('#show-all-logs').hide()
     $('#hide-all-logs').show()
 
   hideAllLogs: (e) ->
     e.preventDefault()
     $('.step-logs.expandable').removeClass('expanded')
+    $('.log.expandable').removeClass('expanded')
     $('#hide-all-logs').hide()
     $('#show-all-logs').show()

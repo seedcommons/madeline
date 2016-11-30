@@ -35,7 +35,7 @@
               .icon: i.fa.fa-flag
             .title-text = step.try(:summary)
 
-        p = step.try(:details)
+        p = simple_format step.try(:details).to_s
 
     .col-md-2.col-md-push-4.action-items
       .completion-status
