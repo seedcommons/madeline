@@ -2,10 +2,21 @@
 - step = log.project_step
 
 .log
-  p.step-name 
-    a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
-      = project_step_icon(step)
-      = step.summary
+  header
+    .step-name 
+      a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
+        = project_step_icon(step)
+        = step.summary
+    .infos
+      .item
+        i.fa.fa-calendar-o>
+        = l log.date
+      .item
+        i.fa.fa-user>
+        a href=admin_person_path(log.agent) = log.agent_name
+      .item
+        i.fa.fa-commenting-o>
+        = log.progress_metric
 
   - if log.summary
     .summary = simple_format log.summary.to_s
