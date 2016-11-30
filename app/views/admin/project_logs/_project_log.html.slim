@@ -3,8 +3,9 @@
 
 .log.well
   p.step-name 
-    => "Step:" 
-    a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") = step.summary
+    a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
+      = project_step_icon(step)
+      = step.summary
 
   - if log.summary
     .summary = simple_format log.summary.to_s

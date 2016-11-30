@@ -2,10 +2,7 @@
   - if context == 'calendar'
     div.row
       h4.title.col-lg-8.col-md-8
-        - if step.step_type_value == 'checkin'
-          .icon: i.fa.fa-calendar-check-o
-        - elsif step.step_type_value == 'milestone'
-          .icon: i.fa.fa-flag
+        .icon = project_step_icon(step)
         .title-text = step.try(:summary)
 
       .actions.col-lg-4.col-md-4
@@ -29,10 +26,7 @@
       .main-details
         - if context == "timeline"
           h5.title
-            - if step.step_type_value == 'checkin'
-              .icon: i.fa.fa-calendar-check-o
-            - elsif step.step_type_value == 'milestone'
-              .icon: i.fa.fa-flag
+            .icon = project_step_icon(step)
             .title-text = step.try(:summary)
 
         p = simple_format step.try(:details).to_s
