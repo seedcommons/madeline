@@ -4,6 +4,6 @@
 /   a.expand-all href="#" = t('expand_all')
 
 .logs-index
-  = render @logs
+  = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
 = paginate @logs, outer_window: 2
