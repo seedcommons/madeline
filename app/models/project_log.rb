@@ -46,6 +46,14 @@ class ProjectLog < ActiveRecord::Base
     end
   end
 
+  def self.in_division(division)
+    if division
+      joins(project_step: :loan).where(loans: { division_id: division.self_and_descendants })
+    else
+      all
+    end
+  end
+
   #todo: confirm if we want the shorter alias accessor for the default translation.
   #if so, then generically implement through module
   def progress_metric
