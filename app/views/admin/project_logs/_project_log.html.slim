@@ -3,10 +3,6 @@
 
 .log
   header
-    .step-name 
-      a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
-        = project_step_icon(step)
-        = step.summary
     .infos
       .item
         i.fa.fa-calendar-o>
@@ -17,6 +13,10 @@
       .item
         i.fa.fa-commenting-o>
         = log.progress_metric
+    .step-name 
+      a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
+        = project_step_icon(step)
+        = step.summary
 
   - if log.summary
     span.summary = log.summary
