@@ -42,6 +42,7 @@
 
 //= require moment
 //= require fullcalendar
+//= require fullcalendar/lang-all.js
 
 //= require admin/admin
 

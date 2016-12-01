@@ -5,34 +5,34 @@ div#legend-content
         table.legend-block
           tr
             td: i.fa.fa-calendar-check-o
-            th Check in
+            th = t("calendar.check_in")
           tr
             td: span.milestone: i.fa.fa-flag
-            th Milestone
+            th = t("calendar.milestone")
           tr
             td
-            th.bold Incomplete
+            th.bold = t("calendar.status.incomplete")
           tr
             td: span.early: i.fa.fa-check
-            th Completed early
+            th = t("calendar.status.early")
           tr
             td: span.ontime: i.fa.fa-check
-            th Completed on time
+            th = t("calendar.status.on_time")
       
       div.column.col-lg-6
         table.legend-block
           tr
             td: span.late: i.fa.fa-clock-o
-            th Late
+            th = t("calendar.status.late")
           tr
             td: span.verylate: i.fa.fa-clock-o
-            th Very late
+            th = t("calendar.status.very_late")
           tr
             td: span.superlate: i.fa.fa-clock-o
-            th Super late
+            th = t("calendar.status.super_late")
           tr
             td: span: i.fa.fa-pencil-square-o
-            th Number of logs
+            th = t("calendar.num_of_logs")
           tr
             td: span.original-date
-            th Original date
+            th = t("calendar.original_date")

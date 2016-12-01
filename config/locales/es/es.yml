@@ -17,6 +17,7 @@ es:
         default_currency: "Moneda Predeterminada"
         name: "Nombre"
         parent: "División Principal"
+        notify_on_new_logs: "Notificar Nuevos Apuntes"
         logo: "Logo"
         logo_text: "Texto del Logo"
         banner_fg_color: "Color del Primer Plano del Banner "
@@ -103,7 +104,7 @@ es:
     hints:
       division:
         logo_text: "Texto optativo para mostrar bajo el logo. El logo es más breve si se ingresa texto."
-        banner_bg_color: "Color de fondo del banner del sitio. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_bg_color: "Color de fondo del banner de la página. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
         banner_fg_color: "Color del texto en el banner."
         accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
         accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
@@ -194,7 +195,6 @@ es:
   close: "Cerrar"
   select_prompt: "Seleccionar..."
   all: "Todos"
-  calendar: "Calendario"
   cancel: "Cancelar"
   cancel_edit: "Cancelar Edición"
   city: "Ciudad"
@@ -240,6 +240,7 @@ es:
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
+  step: "Paso"
   submit: "Enviar"
   update: "Actualizar"
   updated: "Actualizado"
@@ -270,21 +271,20 @@ es:
     profile: "Perfil"
     change_division: "Cambiar División"
     select_division: "Seleccionar División"
-  loan:
-    criteria: "Criterios"
-    details: "Detalles"
-    memo: "Memo del Préstamo"
-    num_of_links:
-      one: "Hay %{count} documento asociado."
-      other: "Hay %{count} documentos asociados."
-    open_links:
-      one: "Hacer click para abrir el documento en una pestaña nueva."
-      other: "Hacer click para abrir cada documento en una pestaña nueva."
-    popup_blocker: "Puede ser necesario desactivar tu bloqueador de popups o activar todos los popups de este sitio para poder ver tus documentos."
-    print: "Imprimir"
-    print_criteria: "Solo Criterios"
-    print_details: "Solo Detalles"
-    print_memo: "Imprimir Memo de Préstamo"
+  calendar:
+    calendar: "Calendario"
+    check_in: "Check in"
+    legend: "Leyenda"
+    milestone: "Hito"
+    num_of_logs: "Cantidad de apuntes"
+    original_date: "Fecha Original"
+    status:
+      early: "Completado Anticipadamente"
+      incomplete: "Incompleto"
+      late: "Atrasado"
+      on_time: "Completado a tiempo"
+      super_late: "Super atrasado"
+      very_late: "Muy atrasado"
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"
@@ -296,6 +296,7 @@ es:
     logs: "Apuntes"
     new: "Nuevo Apunte"
     no_logs: "No Hay Apuntes"
+    notify: "Enviar Notificaciones"
     private_notes: "Notas Privadas"
     save: "Guardar Apunte"
     show_logs: "Mostrar Apuntes"
@@ -303,6 +304,7 @@ es:
     status:
       behind: "Atrasado"
       on_time: "A Tiempo"
+    step: "Paso"
     step_completed: "Paso completado en esta fecha"
   media:
     confirm_deletion: "¿Realmente quieres borrar esta foto?"
@@ -310,6 +312,7 @@ es:
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
+    item: "Ítem"
   menu:
     calendar: "Calendario"
     coops: "Cooperativas"
@@ -330,7 +333,16 @@ es:
     the_day: "El %{day}"
   project_step:
     add: "Agregar Paso"
+    add_dependent_step: "Agregar Paso Dependiente"
+    add_log: "Agregar Apunte"
+    all_types: "Todos los Tipos"
+    all_statuses: "Todos los Estados"
+    all_completion_statuses: "Todos los Estados"
     after: "Después de"
+    completion_status:
+      draft: 'Finalizado'
+      complete: 'Completo'
+      incomplete: 'Incompleto'
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
     days: "Día(s)"
     delete:
@@ -375,12 +387,10 @@ es:
       end: "Fin"
       group: "Grupo"
       logs: "Apuntes"
+      preceding_step: "Pasos Precedentes"
       start: "Inicio"
       status: "Estado"
       step: "Paso"
-    types:
-      milestone: "Hito"
-      checkin: "Check-In"
     status:
       completed: "Completado"
       early: "Adelantado"
@@ -393,6 +403,7 @@ es:
         one: "Cambiado una vez"
         other: "Cambiado %{count} veces"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
+    view_logs: "Ver Apuntes"
     weeks: "Semana(s)"
   project_group:
     add: "Nuevo Grupo"
@@ -418,3 +429,6 @@ es:
     no_system_access: "El usuario no tiene acceso al sistema."
     send_instructions: "Enviar instrucciones"
     waiting_confirmation: "Esperando confirmación para: %{email}"
+  boolean:
+    'true': 'Sí'
+    'false': 'No'

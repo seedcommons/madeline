@@ -113,7 +113,7 @@ class Loan < ActiveRecord::Base
 
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name
-    "Project with #{organization.try(:name)}"
+    I18n.t(:project_with, name: organization.try(:name))
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
