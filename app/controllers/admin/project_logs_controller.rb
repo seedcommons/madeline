@@ -3,7 +3,9 @@ class Admin::ProjectLogsController < Admin::AdminController
 
   def index
     authorize ProjectLog
-    @logs = ProjectLog.in_division(selected_division).filter_by(params).order('date IS NULL, date DESC, created_at DESC').limit(5)
+    @org = Organization.find(params[:org]) if params[:org]
+    @logs = ProjectLog.in_division(selected_division).filter_by(params).
+        order('date IS NULL, date DESC, created_at DESC').limit(5)
   end
 
   def show

@@ -11,4 +11,5 @@ en:
   admin:
     project_logs:
       index:
-        title: "Logs"
+        title: "Recent Logs"
+        logs_for: "Recent Logs for %{thing}"

@@ -1,10 +1,7 @@
-- content_for :title, t(".title")
+- content_for :title, @org ? t(".logs_for", thing: @org.name) : t(".title")
 
 / - content_for :with_title do
 /   a.expand-all href="#" = t('expand_all')
-
-/ - @logs.each do |log|
-/   = render 'admin/project_logs/show', log: log, step: log.project_step
 
 .logs-index
   = render @logs
