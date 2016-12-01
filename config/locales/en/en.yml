@@ -281,6 +281,7 @@ en:
     website: "Website"
     id: "ID"
     user: "User"
+    view_logs: "View Logs"
 
   # Strings used in general template stuff like header.
   template:

@@ -3,7 +3,7 @@ class Admin::ProjectLogsController < Admin::AdminController
 
   def index
     authorize ProjectLog
-    @logs = ProjectLog.order('date IS NULL, date DESC, created_at DESC').limit(5)
+    @logs = ProjectLog.filter_by(params).order('date IS NULL, date DESC, created_at DESC').limit(5)
   end
 
   def show

@@ -37,19 +37,22 @@ class ProjectLog < ActiveRecord::Base
 
   validates :project_step_id, presence: true
 
-  def name
-    # logger.debug "this: #{self.inspect}"
-    "#{project_step.try(:name)} log"
+  def self.filter_by(params)
+    if params[:org].present?
+      # joins("
+      #   join project_steps p on project_step_id = p.id
+      #   join loans l on l.id
+      # ").where('loans.organization_id = ?', params[:org])
+      joins(project_step: :loan).where('loans.organization_id = ?', params[:org])
+    else
+      all
+    end
   end
 
   #todo: confirm if we want the shorter alias accessor for the default translation.
   #if so, then generically implement through module
   def progress_metric
     progress_metric_label
-  end
-
-  def project
-    project_step.try(:project)
   end
 
   def progress(continuous=false)

@@ -42,6 +42,8 @@ class TimelineEntry < ActiveRecord::Base
 
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
+  belongs_to :loan, -> { joins(:timeline_entries).where(timeline_entries: { project_type: 'Loan' }) },
+    foreign_key: 'project_id'
 
   delegate :division, :division=, to: :project, allow_nil: true
 
