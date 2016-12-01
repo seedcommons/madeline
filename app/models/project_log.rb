@@ -39,11 +39,8 @@ class ProjectLog < ActiveRecord::Base
 
   def self.filter_by(params)
     if params[:org].present?
-      # joins("
-      #   join project_steps p on project_step_id = p.id
-      #   join loans l on l.id
-      # ").where('loans.organization_id = ?', params[:org])
-      joins(project_step: :loan).where('loans.organization_id = ?', params[:org])
+      # TODO: this will have to be updated when BasicProjects are added
+      joins(project_step: :loan).where(loans: { organization_id: params[:org] })
     else
       all
     end
