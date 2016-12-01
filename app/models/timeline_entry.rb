@@ -42,6 +42,9 @@ class TimelineEntry < ActiveRecord::Base
 
   belongs_to :project, polymorphic: true
   belongs_to :agent, class_name: 'Person'
+
+  # This is necessary to allow joins across polymorphic associations. We will probably
+  # have to add another one for BasicProjects when we add those.
   belongs_to :loan, -> { where(timeline_entries: { project_type: 'Loan' }) },
     foreign_key: 'project_id'
 

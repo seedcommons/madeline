@@ -50,6 +50,9 @@
     border-bottom: 1px solid #b3b3b3;
     margin-bottom: 10px;
   }
+  .log-info {
+    margin-top: 10px;
+  }
 }
 
 .log {
@@ -83,7 +86,6 @@
       margin-top: 5px;
       a {
         color: inherit;
-        &:hover { text-decoration: none; }
       }
     }
 
@@ -93,7 +95,6 @@
         margin-right: 15px;
         a {
           color: inherit;
-          &:hover { text-decoration: none; }
         }
       }
     }
