@@ -43,12 +43,13 @@
       - secondary_name = loan.secondary_agent ? ", #{loan.secondary_agent.name}" : ""
       - primary_name + secondary_name
 
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
-      assoc: :primary_agent, filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.secondary_agent'), attribute: 'name',
-      assoc: :secondary_agent, filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.representative'), attribute: 'name',
-      assoc: :representative, filter: false, in_html: false
+    / These need use a custom format, otherwise they will confuse the :custom_agent_filter
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
+      - loan.primary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
+      - loan.secondary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.representative'), filter: false, in_html: false do |loan|
+      - loan.representative.try(:name)
 
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false, in_html: false
