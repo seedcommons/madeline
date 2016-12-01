@@ -345,7 +345,9 @@ en:
     loan_questions: "Loan Questions"
     manage: "Manage"
     people: "Members"
-    log: "log"
+    log: "Log"
+    loans: "Loans"
+    logs: "Logs"
 
   number:
     nth:
