@@ -39,9 +39,7 @@
 
     - g.column name: t('activerecord.attributes.loan.primary_agent'), in_csv: false, attribute: 'name', assoc: :primary_agent,
       filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
-      - primary_name = loan.primary_agent ? loan.primary_agent.name : ""
-      - secondary_name = loan.secondary_agent ? ", #{loan.secondary_agent.name}" : ""
-      - primary_name + secondary_name
+      - loan.agent_names.join(', ')
 
     / These need use a custom format, otherwise they will confuse the :custom_agent_filter
     - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
@@ -62,7 +60,7 @@
     - g.column name: t('activerecord.attributes.loan.target_end_date'),
       attribute: 'target_end_date', in_html: true,
       detach_with_id: :target_end_date_filter do |loan|
-      - loan.target_end_date ? l(loan.target_end_date) : ''
+      - ldate(loan.target_end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
   
