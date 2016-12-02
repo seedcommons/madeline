@@ -2,7 +2,7 @@
 - completed = entry.completed? ? "completed" : ""
 
 / Note that we have to repeat these classes on all td tags because we don't always have access to the tr tag
-- classes = "#{completed} #{draft}"
+- classes = "#{completed} #{draft} project-step"
 
 = content_tag_if(first_in_row, :tr)
   / Add spacer for step who has a group as a sibling
