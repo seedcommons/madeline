@@ -118,4 +118,10 @@
   .project-group .dropdown .fa-cog {
     margin-left: 10px;
   }
+
+  .step-start-date {
+    &:hover {
+      background: $projectHoverColor;
+    }
+  }
 }
