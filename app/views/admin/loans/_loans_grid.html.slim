@@ -24,7 +24,7 @@
       - loan.status
     - g.column name: t('activerecord.attributes.loan.signing_date'), attribute: 'signing_date',
       detach_with_id: :signing_date_filter do |loan|
-      - loan.signing_date ? l(loan.signing_date) : ''
+      - ldate(loan.signing_date)
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false do |loan|
       - t("loan.months", number: loan.length_months.to_s)
@@ -55,7 +55,7 @@
     - g.column name: t('activerecord.attributes.loan.target_end_date'),
       attribute: 'target_end_date', in_html: true,
       detach_with_id: :target_end_date_filter do |loan|
-      - loan.target_end_date ? l(loan.target_end_date) : ''
+      - ldate(loan.target_end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
   
