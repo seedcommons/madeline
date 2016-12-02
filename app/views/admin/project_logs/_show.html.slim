@@ -27,7 +27,7 @@
     - if log.summary
       span.summary = log.summary.to_s
 
-    - if [log.details, log.additional_notes, log.private_notes].any?(&:present?)
+    - if log.has_more?
       a.more.log-ctrl role='button' = t(:more)
       a.less.log-ctrl role='button' = t(:less)
 

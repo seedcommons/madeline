@@ -47,7 +47,7 @@
 .logs-index {
   .log {
     padding-bottom: 10px;
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid $gray6;
     margin-bottom: 10px;
   }
   .log-info {
@@ -78,19 +78,19 @@
   }
 
   header {
-    color: #b3b3b3;
-    font-size: 88%;
+    color: $gray6;
     margin-bottom: 10px;
 
     .step-name {
-      margin-top: 5px;
       a {
         color: inherit;
       }
     }
 
     .infos {
+      line-height: 1.9;
       .item {
+        line-height: normal;
         display: inline-block;
         margin-right: 15px;
         a {

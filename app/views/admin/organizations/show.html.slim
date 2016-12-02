@@ -5,7 +5,7 @@ section.coop.details
   section.block.coop-fields class=(@org.valid? ? 'show-view' : 'edit-view')
     .show-actions
       a href=admin_project_logs_path(org: @org.id)
-        = t 'common.view_logs'
+        = t('common.view_logs')
         
       - if @org.valid?
         a.edit-action.view-element

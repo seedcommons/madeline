@@ -6,4 +6,4 @@
 .logs-index
   = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-= paginate @logs, outer_window: 2
+= paginate @logs

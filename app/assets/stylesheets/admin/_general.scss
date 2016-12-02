@@ -111,7 +111,8 @@ a, input[type="checkbox"], input[type="radio"], select {
   text-align: center
 }
 
-.pagination > li > a,
-.pagination > li > a:hover {
-  color: inherit;
+.pagination > li {
+  > a, > a:hover {
+    color: inherit;
+  }
 }

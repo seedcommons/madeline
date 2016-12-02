@@ -48,7 +48,7 @@ class ProjectLog < ActiveRecord::Base
 
   def self.in_division(division)
     if division
-      joins(project_step: :loan).where(loans: { division_id: division.self_and_descendants })
+      joins(project_step: :loan).where(loans: { division_id: division.self_and_descendants.pluck(:id) })
     else
       all
     end
@@ -73,5 +73,9 @@ class ProjectLog < ActiveRecord::Base
 
   def progress_continuous
     self.progress(true)
+  end
+
+  def has_more?
+    [details, additional_notes, private_notes].any?(&:present?)
   end
 end
