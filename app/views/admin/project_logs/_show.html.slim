@@ -24,25 +24,24 @@
           = log.progress_metric_value ? log.progress_metric : ''
 
   .panel-body
-    p
-      - if log.summary
-        span.summary = log.summary.to_s
+    - if log.summary
+      span.summary = log.summary.to_s
 
-      - if log.details || log.additional_notes || log.private_notes
-        a.more.log-ctrl role='button' = t(:more)
-        a.less.log-ctrl role='button' = t(:less)
+    - if log.has_more?
+      a.more.log-ctrl role='button' = t(:more)
+      a.less.log-ctrl role='button' = t(:less)
 
   .panel-footer.more-info
-    - if log.details
-      p.log-info
+    - if log.details.present?
+      .log-info
         = simple_format log.details.to_s
 
     .log-info
-      - if log.additional_notes
+      - if log.additional_notes.present?
         span.bold = t('log.additional_notes')
         span = simple_format log.additional_notes.to_s
 
     .log-info
-      - if log.private_notes
+      - if log.private_notes.present?
         span.bold = t('log.private_notes')
         span = simple_format log.private_notes.to_s

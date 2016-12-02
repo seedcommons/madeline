@@ -13,14 +13,14 @@ class MS.Views.LogModalView extends Backbone.View
   showEdit: (logId, stepId) ->
     MS.loadingIndicator.show()
     @stepId = stepId
-    $.get "/admin/project_logs/#{logId}/edit", (html) =>
+    $.get "/admin/logs/#{logId}/edit", (html) =>
       @replaceContent(html)
 
   showNew: (stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
     @done = done
-    $.get '/admin/project_logs/new', step_id: @stepId, (html) =>
+    $.get '/admin/logs/new', step_id: @stepId, (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->

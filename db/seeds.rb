@@ -80,12 +80,12 @@ progress_metric = OptionSet.find_or_create_by(division: Division.root, model_typ
   model_attribute: 'progress_metric')
 progress_metric.options.destroy_all
 progress_metric.options.create(migration_id: -3, label_translations:
-  {en: 'in need of changing its whole plan', es: 'con necesidad de cambiar su plan completamente'})
+  {en: 'In need of changing its whole plan', es: 'Con necesidad de cambiar su plan completamente'})
 progress_metric.options.create(migration_id: -2, label_translations:
-  {en: 'in need of changing some events', es: 'con necesidad de cambiar algunos eventos'})
-progress_metric.options.create(migration_id: -1, label_translations: {en: 'behind', es: 'atrasado'})
-progress_metric.options.create(migration_id: 1, label_translations: {en: 'on time', es: 'a tiempo'})
-progress_metric.options.create(migration_id: 2, label_translations: {en: 'ahead', es: 'adelantado'})
+  {en: 'In need of changing some events', es: 'Con necesidad de cambiar algunos eventos'})
+progress_metric.options.create(migration_id: -1, label_translations: {en: 'Behind', es: 'Atrasado'})
+progress_metric.options.create(migration_id: 1, label_translations: {en: 'On time', es: 'A tiempo'})
+progress_metric.options.create(migration_id: 2, label_translations: {en: 'Ahead', es: 'Adelantado'})
 
 # Need to leave room for migrated loan questions
 # Can remove this line once migration is over with.

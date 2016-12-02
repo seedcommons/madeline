@@ -1,6 +1,13 @@
 class Admin::ProjectLogsController < Admin::AdminController
   include TranslationSaveable, LogControllable
 
+  def index
+    authorize ProjectLog
+    @org = Organization.find(params[:org]) if params[:org]
+    @logs = ProjectLog.in_division(selected_division).filter_by(params).
+        order('date IS NULL, date DESC, created_at DESC').page(params[:page])
+  end
+
   def show
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
