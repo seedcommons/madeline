@@ -126,7 +126,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table = $step.closest('tbody')
 
     $precedent = $table.find(".step-end-date[data-id=#{precedentId}]")
-    if $precedent.length > 0
+    if $precedent.length
       $precedent.addClass('highlighted')
       $step.addClass('highlighted')
 
@@ -136,7 +136,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table = $step.closest('tbody')
 
     $dependents = $table.find(".step-start-date[data-precedent-id=#{currentId}]")
-    if $dependents.length > 0
+    if $dependents.length
       $dependents.addClass('highlighted')
       $step.addClass('highlighted')
 
