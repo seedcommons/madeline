@@ -119,9 +119,7 @@
     margin-left: 10px;
   }
 
-  .step-start-date {
-    &:hover {
-      background: $projectHoverColor;
-    }
+  .highlighted {
+    background: $projectHoverColor;
   }
 }
