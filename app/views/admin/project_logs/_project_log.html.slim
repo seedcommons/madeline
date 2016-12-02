@@ -14,6 +14,11 @@
       .item
         i.fa.fa-commenting-o>
         = log.progress_metric || t('project_step.no_status')
+      - unless params[:org].present?
+        .item
+          a href=admin_organization_path(step.project.organization)
+            i.fa.fa-building-o>
+            = step.project.organization.name
       .item
         a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
           = project_step_icon(step)
