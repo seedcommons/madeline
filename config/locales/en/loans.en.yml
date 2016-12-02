@@ -52,6 +52,7 @@ en:
     save_responses: "Save Responses"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
+    target_end_date: "Target End Date"
     spreadsheet_new_tab: "Open document in new tab"
     spreadsheet_inline: "Display document inline"
     spreadsheet_hide: "Hide document"
