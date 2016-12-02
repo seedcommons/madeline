@@ -5,7 +5,7 @@
       - @empty_list = true
       - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |loan|
+    - g.column name: t('common.id'), attribute: 'id', filter: true, in_csv: false, detach_with_id: :id_filter do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name',
@@ -37,12 +37,17 @@
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
-      assoc: :primary_agent, filter: false
-    - g.column name: t('activerecord.attributes.loan.secondary_agent'), attribute: 'name',
-      assoc: :secondary_agent, filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.representative'), attribute: 'name',
-      assoc: :representative, filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), in_csv: false, attribute: 'name', assoc: :primary_agent,
+      filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
+      - loan.agent_names.join(', ')
+
+    / These need use a custom format, otherwise they will confuse the :custom_agent_filter
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
+      - loan.primary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
+      - loan.secondary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.representative'), filter: false, in_html: false do |loan|
+      - loan.representative.try(:name)
 
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false, in_html: false

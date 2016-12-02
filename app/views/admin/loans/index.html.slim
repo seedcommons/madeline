@@ -10,6 +10,11 @@
     .filters
       h4 = t("filter_by")
 
+      .filter.text-box
+        label = t('loan.id')
+        .filter-content
+          = grid_filter(@loans_grid, :id_filter)
+
       .filter
         label = t("coop")
         .filter-content
@@ -25,11 +30,6 @@
         .filter-content
           = grid_filter(@loans_grid, :division_filter)
 
-      / .filter.larger-text-box
-      /   label = t("name")
-      /   .filter-content
-      /     = grid_filter(@loans_grid, :name_filter)
-
       .filter
         label = t("loan.loan_type")
         .filter-content
@@ -44,6 +44,11 @@
         label = t("loan.target_end_date")
         .filter-content.dates
           = grid_filter(@loans_grid, :target_end_date_filter)
+
+      .filter.larger-text-box
+        label = t("loan.primary_agent")
+        .filter-content
+          = grid_filter(@loans_grid, :agent_filter)
 
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="loans"

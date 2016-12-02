@@ -111,6 +111,12 @@ class Loan < ActiveRecord::Base
     timeline_entries.order(:scheduled_start_date).select { |e| e.type == 'ProjectStep' }
   end
 
+  def agent_names
+    primary_name = primary_agent ? primary_agent.name : ''
+    secondary_name = secondary_agent ? secondary_agent.name : ''
+    [primary_name, secondary_name]
+  end
+
   # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name
     I18n.t(:project_with, name: organization.try(:name))
