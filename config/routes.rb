@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations] # Disallow registration
+  # Disallow registration, wire up custom devise sessions controller
+  devise_for :users, skip: [:registrations], controllers: { sessions: :sessions }
+
   devise_scope :user do
     # Manually re-creates routes for editing users
     get 'users/edit' => 'devise/registrations#edit', as: :edit_user_registration
