@@ -13,11 +13,11 @@
           = log.agent_name
       .item
         i.fa.fa-commenting-o>
-        = log.progress_metric
+        = log.progress_metric || t('project_step.no_status')
       .item
         a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
           = project_step_icon(step)
-          = step.summary
+          = step.summary.present? ? step.summary : t('log.untitled_step')
 
   - if log.summary
     span.summary = log.summary

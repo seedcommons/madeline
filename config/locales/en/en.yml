@@ -327,6 +327,7 @@ en:
       on_time: "On time"
     step: "Step"
     step_completed: "Step completed on this date"
+    untitled_step: "[Untitled step]"
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
@@ -399,6 +400,7 @@ en:
     logs: "Logs"
     months: "Month(s)"
     move: "Move Step"
+    no_status: "[No status]"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"
