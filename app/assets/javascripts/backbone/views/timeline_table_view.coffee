@@ -29,7 +29,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
-    'click .step-start-date': 'showRelatedSteps' # on mouse over or on mouse enter
+    'mouseenter .step-start-date': 'showRelatedSteps'
+    'mouseleave .step-start-date': 'hideRelatedSteps'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -125,6 +126,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table = $step.closest('tbody')
 
     $step.addClass('highlighted')
+    $step.closest('tr').find('.step-end-date').addClass('highlighted')
 
     # Highlight start date of dependent steps
     $table.find(".step-start-date[data-precedent-id=#{currentId}]").addClass('highlighted')
@@ -135,4 +137,4 @@ class MS.Views.TimelineTableView extends Backbone.View
   hideRelatedSteps: (e) ->
     $step = @$(e.currentTarget)
     $table = $step.closest('tbody')
-    $table.find(td).removeClass('highlighted')
+    $table.find('td').removeClass('highlighted')
