@@ -8,7 +8,7 @@ class SessionsController < Devise::SessionsController
 
   def set_to_default_division
     return unless default_division
-    #
+ 
     # Without this check, the headerbar logo will not render
     return if default_division.id == Division.root_id
 
