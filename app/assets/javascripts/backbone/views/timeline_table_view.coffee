@@ -124,19 +124,21 @@ class MS.Views.TimelineTableView extends Backbone.View
     $step = @$(e.currentTarget)
     precedentId = $step.data('precedent-id')
     $table = $step.closest('tbody')
-    $step.addClass('highlighted')
 
-    # Highlight end date of precedent step
-    $table.find(".step-end-date[data-id=#{precedentId}]").addClass('highlighted')
+    $precedent = $table.find(".step-end-date[data-id=#{precedentId}]")
+    if $precedent.length
+      $precedent.addClass('highlighted')
+      $step.addClass('highlighted')
 
   showDependentSteps: (e) ->
     $step = @$(e.currentTarget)
     currentId = $step.data('id')
     $table = $step.closest('tbody')
-    $step.addClass('highlighted')
 
-    # Highlight start date of dependent steps
-    $table.find(".step-start-date[data-precedent-id=#{currentId}]").addClass('highlighted')
+    $dependents = $table.find(".step-start-date[data-precedent-id=#{currentId}]")
+    if $dependents.length
+      $dependents.addClass('highlighted')
+      $step.addClass('highlighted')
 
   hideRelatedSteps: (e) ->
     $step = @$(e.currentTarget)
