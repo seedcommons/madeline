@@ -39,7 +39,7 @@ class ApplicationPolicy
   end
 
   def reassign_division?
-    division_admin
+    division_member_or_admin
   end
 
   def scope
