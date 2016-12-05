@@ -34,8 +34,9 @@ class ApplicationPolicy
 
   def destroy?
     # TODO: confirm what only admins should be allowed to delete
-    # division_admin
-    update?
+    # TEMP: temporarily re-enable restriction for testing
+    division_admin
+    # update?
   end
 
   def reassign_division?

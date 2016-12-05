@@ -5,7 +5,15 @@ class Admin::AdminController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   def admin_controller?
     true
+  end
+
+  # Should be overridden on ajax-type controllers
+  def user_not_authorized
+    flash[:error] = t('unauthorized_error')
+    redirect_to(request.referrer || root_path)
   end
 end

@@ -172,4 +172,9 @@ class Admin::ProjectStepsController < Admin::AdminController
       context: params[:context]
     }
   end
+
+  def user_not_authorized
+    flash.now[:error] = t('unauthorized_error')
+    # TODO: render something...
+  end
 end
