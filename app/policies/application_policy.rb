@@ -33,7 +33,9 @@ class ApplicationPolicy
   end
 
   def destroy?
-    division_admin
+    # TODO: confirm what only admins should be allowed to delete
+    # division_admin
+    update?
   end
 
   def reassign_division?
