@@ -1,5 +1,3 @@
-class Option < ActiveRecord::Base; end
-
 class CapitalizeLogStatuses < ActiveRecord::Migration
   def change
     Option.find_by(migration_id: -3).update(label_translations: {en: 'In need of changing its whole plan', es: 'Con necesidad de cambiar su plan completamente'})
