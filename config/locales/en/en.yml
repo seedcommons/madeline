@@ -252,6 +252,7 @@ en:
   save: "Save"
   step: "Step"
   submit: "Submit"
+  unauthorized_error: "You are not authorized to perform this action."
   update: "Update"
   updated: "Updated"
 

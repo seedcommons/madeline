@@ -14,7 +14,6 @@ class MS.Views.TimelineView extends Backbone.View
 
   events:
     'click #new-step': 'addBlankStep'
-    'ajax:error': 'submitError'
 
   refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
@@ -47,11 +46,6 @@ class MS.Views.TimelineView extends Backbone.View
     $.get "/admin/project_steps/new?loan_id=#{@loanId}", (html) =>
       MS.loadingIndicator.hide()
       @addSteps(html)
-
-  submitError: (e) ->
-    e.stopPropagation()
-    MS.errorModal.modal('show')
-    MS.loadingIndicator.hide()
 
   showHideNoStepsMsg: ->
     @$('#no-steps-msg')[if @stepCount() > 0 then 'hide' else 'show']()
