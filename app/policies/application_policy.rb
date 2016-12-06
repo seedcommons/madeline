@@ -34,6 +34,7 @@ class ApplicationPolicy
 
   def destroy?
     # TODO: confirm what only admins should be allowed to delete
+    # division_admin
     update?
   end
 
