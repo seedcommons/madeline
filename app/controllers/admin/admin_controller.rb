@@ -11,7 +11,6 @@ class Admin::AdminController < ApplicationController
     true
   end
 
-  # Should be overridden on ajax-type controllers
   def user_not_authorized
     if request.xhr?
       render nothing: true, status: 403
