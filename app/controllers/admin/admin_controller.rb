@@ -13,7 +13,11 @@ class Admin::AdminController < ApplicationController
 
   # Should be overridden on ajax-type controllers
   def user_not_authorized
-    flash[:error] = t('unauthorized_error')
-    redirect_to(request.referrer || root_path)
+    if request.xhr?
+      render nothing: true, status: 403
+    else
+      flash[:error] = t('unauthorized_error')
+      redirect_to(request.referrer || root_path)
+    end
   end
 end
