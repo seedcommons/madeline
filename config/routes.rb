@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations] # Disallow registration
+  # Disallow registration, wire up custom devise sessions controller
+  devise_for :users, skip: [:registrations], controllers: { sessions: :sessions }
+
   devise_scope :user do
     # Manually re-creates routes for editing users
     get 'users/edit' => 'devise/registrations#edit', as: :edit_user_registration
@@ -24,12 +26,12 @@ Rails.application.routes.draw do
         get :timeline
       end
     end
-    resources :loan_questions, as: :loan_questions do
+    resources :loan_questions do
       patch 'move', on: :member
     end
     resources :organizations
     resources :people
-    resources :project_logs
+    resources :project_logs, path: 'logs'
     resources :project_steps do
       collection do
         patch :batch_destroy

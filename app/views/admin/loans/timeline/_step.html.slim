@@ -20,9 +20,9 @@
         i.fa.fa-fw.fa-calendar
     .summary = entry.summary
 
-  td class=classes
+  td class="#{classes} step-date step-start-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
     = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
-  td class=classes
+  td class="#{classes} step-date step-end-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
     = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
 
   td class=classes

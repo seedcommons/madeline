@@ -19,13 +19,13 @@ class MS.Views.Expander extends Backbone.View
       link.data('inserted', true)
 
     # Show/hide target and links
-    target.show()
+    target.show('fast')
     @$("[data-hides='#{targetName}']").show()
     @$(e.currentTarget).hide()
 
   hide: (e) ->
     e.preventDefault()
-    target = @$(e.currentTarget).data('hides')
-    @$("[data-expandable='#{target}']").hide()
-    @$("[data-expands='#{target}']").show()
+    targetName = @$(e.currentTarget).data('hides')
+    @$("[data-expandable='#{targetName}']").hide('fast')
+    @$("[data-expands='#{targetName}']").show()
     @$(e.currentTarget).hide()

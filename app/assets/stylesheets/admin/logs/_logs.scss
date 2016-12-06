@@ -44,6 +44,17 @@
   text-align: left;
 }
 
+.logs-index {
+  .log {
+    padding-bottom: 10px;
+    border-bottom: 1px solid $gray6;
+    margin-bottom: 10px;
+  }
+  .log-info {
+    margin-top: 10px;
+  }
+}
+
 .log {
   &.panel {
     background: $background-gray;
@@ -57,27 +68,40 @@
     margin: 1em;
   }
 
-  .log-info {
-    padding: 0;
-    margin: 1em 0;
-  }
-
-  p {
-    margin: 0;
-    padding: 0;
-  }
-
   .actions-box {
     text-align: left;
     margin: 0 0.5em;
   }
-}
 
-.log.expandable {
   .summary {
     margin: 0 .5em 0 0;
   }
 
+  header {
+    color: $gray6;
+    margin-bottom: 10px;
+
+    .step-name {
+      a {
+        color: inherit;
+      }
+    }
+
+    .infos {
+      line-height: 1.9;
+      .item {
+        line-height: normal;
+        display: inline-block;
+        margin-right: 15px;
+        a {
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
+.log.expandable {
   .less.log-ctrl {
     display: none;
   }

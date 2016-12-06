@@ -110,3 +110,9 @@ a, input[type="checkbox"], input[type="radio"], select {
 .filter-switch {
   text-align: center
 }
+
+.pagination > li {
+  > a, > a:hover {
+    color: inherit;
+  }
+}

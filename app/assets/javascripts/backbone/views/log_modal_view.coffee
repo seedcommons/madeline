@@ -13,20 +13,20 @@ class MS.Views.LogModalView extends Backbone.View
   showEdit: (logId, stepId) ->
     MS.loadingIndicator.show()
     @stepId = stepId
-    $.get "/admin/project_logs/#{logId}/edit", (html) =>
+    $.get "/admin/logs/#{logId}/edit", (html) =>
       @replaceContent(html)
 
   showNew: (stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
     @done = done
-    $.get '/admin/project_logs/new', step_id: @stepId, (html) =>
+    $.get '/admin/logs/new', step_id: @stepId, (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->
     @$el.html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
-    @$el.find('.alert').hide()
+    @$el.find('.empty-log-error').hide()
     @$('.modal').modal('show')
     MS.loadingIndicator.hide()
 
@@ -44,7 +44,7 @@ class MS.Views.LogModalView extends Backbone.View
       $form.submit()
       @$('.modal').modal('hide')
     else
-      $form.find('.alert').show()
+      $form.find('.empty-log-error').show()
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()

@@ -5,7 +5,7 @@
       - @empty_list = true
       - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |loan|
+    - g.column name: t('common.id'), attribute: 'id', filter: true, in_csv: false, detach_with_id: :id_filter do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name',
@@ -24,7 +24,7 @@
       - loan.status
     - g.column name: t('activerecord.attributes.loan.signing_date'), attribute: 'signing_date',
       detach_with_id: :signing_date_filter do |loan|
-      - loan.signing_date ? l(loan.signing_date) : ''
+      - ldate(loan.signing_date)
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false do |loan|
       - t("loan.months", number: loan.length_months.to_s)
@@ -36,13 +36,18 @@
       - number_to_currency(loan.amount)
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
-    
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
-      assoc: :primary_agent, filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.secondary_agent'), attribute: 'name',
-      assoc: :secondary_agent, filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.representative'), attribute: 'name',
-      assoc: :representative, filter: false, in_html: false
+
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), in_csv: false, attribute: 'name', assoc: :primary_agent,
+      filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
+      - loan.agent_names.join(', ')
+
+    / These need use a custom format, otherwise they will confuse the :custom_agent_filter
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
+      - loan.primary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
+      - loan.secondary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.representative'), filter: false, in_html: false do |loan|
+      - loan.representative.try(:name)
 
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false, in_html: false
@@ -53,7 +58,9 @@
     - g.column name: t('activerecord.attributes.loan.first_interest_payment_date'),
       attribute: 'first_interest_payment_date', filter: false, in_html: false
     - g.column name: t('activerecord.attributes.loan.target_end_date'),
-      attribute: 'target_end_date', filter: false, in_html: false
+      attribute: 'target_end_date', in_html: true,
+      detach_with_id: :target_end_date_filter do |loan|
+      - ldate(loan.target_end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
   
@@ -70,10 +77,7 @@
     - g.column name: t('activerecord.attributes.loan.public_level'), filter: false,
       in_html: false do |loan|
       - loan.try(:public_level_label)
-    
-    - g.column name: t('common.created'), attribute: 'created_at', filter: false,
-      in_csv: false do |loan|
-      - fuzzy_time(loan.created_at)
+
     - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_html: false
     - g.column name: t('common.updated'), attribute: 'updated_at', filter: false,
       in_csv: false do |loan|

@@ -145,7 +145,7 @@ en:
   date:
     formats:
       default: '%b %e, %Y'
-      short: '%m-%d-%y'
+      short: '%m-%d-%Y'
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
@@ -252,6 +252,7 @@ en:
   save: "Save"
   step: "Step"
   submit: "Submit"
+  unauthorized_error: "You are not authorized to perform this action."
   update: "Update"
   updated: "Updated"
 
@@ -281,6 +282,7 @@ en:
     website: "Website"
     id: "ID"
     user: "User"
+    view_logs: "View Logs"
 
   # Strings used in general template stuff like header.
   template:
@@ -326,6 +328,7 @@ en:
       on_time: "On time"
     step: "Step"
     step_completed: "Step completed on this date"
+    untitled_step: "[Untitled step]"
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
@@ -344,6 +347,9 @@ en:
     loan_questions: "Loan Questions"
     manage: "Manage"
     people: "Members"
+    log: "Log"
+    loans: "Loans"
+    logs: "Logs"
 
   number:
     nth:
@@ -395,6 +401,7 @@ en:
     logs: "Logs"
     months: "Month(s)"
     move: "Move Step"
+    no_status: "[No status]"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"
