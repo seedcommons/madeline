@@ -16,7 +16,7 @@ shared_examples_for 'base_policy' do |record_type|
   context 'being a member of a parent division' do
     let(:user) { create(:user, :member, division: parent_division) }
 
-    permit_all_but_destroy
+    permit_all
   end
 
   context 'being an admin of a parent division' do
@@ -28,7 +28,7 @@ shared_examples_for 'base_policy' do |record_type|
   context 'being a member of the division' do
     let(:user) { create(:user, :member, division: division) }
 
-    permit_all_but_destroy
+    permit_all
   end
 
   context 'being an admin of the division' do
