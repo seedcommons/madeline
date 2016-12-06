@@ -26,7 +26,7 @@ class MS.Views.LogModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
-    @$el.find('.alert').hide()
+    @$el.find('.empty-log-error').hide()
     @$('.modal').modal('show')
     MS.loadingIndicator.hide()
 
@@ -44,7 +44,7 @@ class MS.Views.LogModalView extends Backbone.View
       $form.submit()
       @$('.modal').modal('hide')
     else
-      $form.find('.alert').show()
+      $form.find('.empty-log-error').show()
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
