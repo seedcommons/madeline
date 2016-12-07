@@ -41,6 +41,8 @@ class ProjectLog < ActiveRecord::Base
     if params[:org].present?
       # TODO: this will have to be updated when BasicProjects are added
       joins(project_step: :loan).where(loans: { organization_id: params[:org] })
+    elsif params[:loan].present?
+      joins(:project_step).where(timeline_entries: { project_type: 'Loan', project_id: params[:loan] })
     else
       all
     end

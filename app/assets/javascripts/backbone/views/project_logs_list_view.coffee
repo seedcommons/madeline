@@ -5,6 +5,6 @@ class MS.Views.ProjectLogsListView extends Backbone.View
     @refresh()
 
   refresh: ->
-    $.get "/admin/logs", (html) =>
+    $.get "/admin/logs?loan=#{@loanId}", (html) =>
       MS.loadingIndicator.hide()
       $('#project-logs-list').html(html)
