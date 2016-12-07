@@ -6,11 +6,21 @@ A new log has been created on <%= @log.project.name %> by <%= @log.agent.name %>
 
 <%= t :summary %>: <%= @log.summary -%>
 
-<%- if @log.details.present? -%>
+<% if @log.details.present? -%>
 
 <%= t :details %>:
 <%= @log.details %>
-<%- end %>
+<% end -%>
+<% if @log.additional_notes.present? -%>
+
+<%= t 'log.additional_notes' %>:
+<%= @log.additional_notes %>
+<% end -%>
+<% if @log.private_notes.present? -%>
+
+<%= t 'log.private_notes' %>:
+<%= @log.private_notes %>
+<% end -%>
 
 <%= admin_loan_url(@log.project) %>/timeline-list
 <% #TODO: change above link to timeline-table when it can show all logs %>
