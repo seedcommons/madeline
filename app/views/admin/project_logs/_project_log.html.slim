@@ -14,7 +14,7 @@
       .item
         i.fa.fa-commenting-o>
         = log.progress_metric || t('project_step.no_status')
-      - unless params[:org].present?
+      - unless params[:org].present? || params[:loan].present?
         .item
           a href=admin_organization_path(step.project.organization)
             i.fa.fa-building-o>
