@@ -22,6 +22,8 @@
     .view-element = @division.default_currency.try(:name)
     = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
 
+  = f.input :locales, as: :check_boxes, collection: [:en, :fr, :es]
+
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
     = f.input :parent
