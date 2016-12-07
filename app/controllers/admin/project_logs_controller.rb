@@ -6,6 +6,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     @org = Organization.find(params[:org]) if params[:org]
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').page(params[:page])
+    render layout: false if request.xhr?
   end
 
   def show
