@@ -11,6 +11,10 @@ class UserPolicy < ApplicationPolicy
     user_is_record? || super
   end
 
+  def destroy?
+    division_admin && !user_is_record?
+  end
+
   private
 
   def user_is_record?

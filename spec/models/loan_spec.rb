@@ -13,23 +13,6 @@ describe Loan, :type => :model do
   context 'model methods' do
     let(:loan) { create(:loan) }
 
-    describe '.name' do
-      context 'with cooperative' do
-        it 'uses cooperative name' do
-          expect(loan.name).to eq I18n.t :project_with, name: loan.organization.name
-        end
-      end
-
-      #JE todo: confirm if we still want to allow loans record creation w/o an org.
-      context 'without cooperative' do
-        let(:loan) { create(:loan, cooperative: nil) }
-        xit 'uses project id' do
-          pending('is not currently possible given DB constraints')
-          expect(loan.name).to eq I18n.t :project_id, id: loan.id.to_s
-        end
-      end
-    end
-
     describe '.country' do
       context 'with country' do
         before do
