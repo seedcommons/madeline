@@ -2,12 +2,11 @@
 
 - if @step
   h4
-    .icon
-      - if @step.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif @step.checkin?
-        i.fa.fa-fw.fa-calendar
-    .summary = @step.summary
+    - if @step.milestone?
+      i.fa.fa-fw.fa-flag-o
+    - elsif @step.checkin?
+      i.fa.fa-fw.fa-calendar
+    = @step.summary
 
 / - content_for :with_title do
 /   a.expand-all href="#" = t('expand_all')
