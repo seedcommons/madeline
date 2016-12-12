@@ -1,9 +1,7 @@
-class MS.Views.ProjectLogsListView extends Backbone.View
-
-  el: '.loan-content #logs'
+class MS.Views.LogsListView extends Backbone.View
 
   initialize: (options) ->
-    @loanId = options.loanId
+    @loanId = options.loanId if options.loanId
     @refresh()
 
   refresh: ->

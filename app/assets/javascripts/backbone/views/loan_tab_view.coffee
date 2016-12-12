@@ -53,7 +53,8 @@ class MS.Views.LoanTabView extends Backbone.View
           )
 
       when 'logs'
-        if MS.ProjectLogsListView
-          MS.ProjectLogsListView.refresh()
+        if MS.LogsListView
+          MS.LogsListView.refresh()
         else
-          MS.ProjectLogsListView = new MS.Views.ProjectLogsListView(loanId: @loanId)
+          MS.LogsListView = new MS.Views.LogsListView(loanId: @loanId, el: '.loan-content #logs')
+          MS.LogsListView.refresh()
