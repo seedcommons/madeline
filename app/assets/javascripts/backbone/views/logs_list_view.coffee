@@ -4,12 +4,12 @@ class MS.Views.LogsListView extends Backbone.View
     @loanId = options.loanId if options.loanId
     @stepId = options.stepId if options.stepId
 
-  refresh: ->
+  refresh: (done) ->
     if @stepId
       urlParams = "step=#{@stepId}"
     else
       urlParams = "loan=#{@loanId}"
 
-    $.get "/admin/logs?#{urlParams}&per_page=50", (html) =>
+    $.get "/admin/logs?#{urlParams}&per_page=50", (html, done) =>
       MS.loadingIndicator.hide()
       @$('.logs-list').html(html)

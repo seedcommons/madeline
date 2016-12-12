@@ -152,5 +152,4 @@ class MS.Views.TimelineTableView extends Backbone.View
     stepId = $link.data('id')
 
     MS.StepLogsListView = new MS.Views.LogsListView(stepId: stepId, el: '#logs-list-modal')
-    MS.StepLogsListView.refresh()
-    @$('#logs-list-modal .modal').modal('show')
+    MS.StepLogsListView.refresh(@$('#logs-list-modal .modal').modal('show'))
