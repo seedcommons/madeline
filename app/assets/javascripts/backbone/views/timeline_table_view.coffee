@@ -148,4 +148,9 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   openLogsList: (e) ->
     e.preventDefault()
+    $link = @$(e.currentTarget)
+    stepId = $link.data('id')
+
+    MS.StepLogsListView = new MS.Views.LogsListView(stepId: stepId, el: '#logs-list-modal')
+    MS.StepLogsListView.refresh()
     @$('#logs-list-modal .modal').modal('show')
