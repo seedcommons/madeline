@@ -2,21 +2,21 @@
   h3 = t("loan.breakeven.charts_title")
   .chart
     h4 = t("loan.breakeven.revenue_by_product")
-    #breakeven-revenue-chart
+    div id="breakeven-revenue-chart-#{id}"
   .chart
     h4 = t("loan.breakeven.production_cost_by_product")
-    #breakeven-production-cost-chart
+    div id="breakeven-production-cost-chart-#{id}"
   .chart
     h4 = t("loan.breakeven.profit_by_product")
-    #breakeven-product-profit
+    div id="breakeven-product-profit-#{id}"
   .chart
     h4 = t("loan.breakeven.fixed_costs", count: 2)
-    #breakeven-fixed-cost-chart
+    div id="breakeven-fixed-cost-chart-#{id}"
   .chart
     h4 = t('loan.breakeven.total_cost_breakdown')
-    #breakeven-costs-chart
+    div id="breakeven-costs-chart-#{id}"
 
 javascript:
   $(function() {
-    new MS.Views.LoanChartsView({breakeven_data: #{json report}});
+    new MS.Views.LoanChartsView({breakeven_data: #{json report}, id: "#{id}"});
   });

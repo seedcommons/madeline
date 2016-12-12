@@ -37,7 +37,7 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = product.total
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
+    chart = new google.visualization.PieChart(document.getElementById("breakeven-revenue-chart-#{@id}"))
     @formatNumbers(data)
     options = @defaultChartOptions
     chart.draw(data, options)
@@ -52,7 +52,7 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = product.total
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'))
+    chart = new google.visualization.PieChart(document.getElementById("breakeven-production-cost-chart-#{@id}"))
     @formatNumbers(data)
     options = @defaultChartOptions
     chart.draw(data, options)
@@ -68,7 +68,7 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = product.profit
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
+    chart = new google.visualization.PieChart(document.getElementById("breakeven-product-profit-#{@id}"))
     @formatNumbers(data)
     chart.draw(data, options)
 
@@ -98,7 +98,7 @@ class MS.Views.LoanChartsView extends Backbone.View
       total = cost.amount
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'))
+    chart = new google.visualization.PieChart(document.getElementById("breakeven-fixed-cost-chart-#{@id}"))
     @formatNumbers(data)
     options = @defaultChartOptions
     chart.draw(data, options)
@@ -111,7 +111,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     data.addRow ["Fixed Costs", @breakevenData["total_fixed_costs"]]
 
     options = @defaultChartOptions
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
+    chart = new google.visualization.PieChart(document.getElementById("breakeven-costs-chart-#{@id}"))
     @formatNumbers(data)
     chart.draw(data, options)
 
