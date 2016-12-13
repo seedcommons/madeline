@@ -23,6 +23,14 @@
         a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
           = project_step_icon(step)
           = step.summary.present? ? step.summary : t('log.untitled_step')
+      .item
+        a data-action="edit"
+          i.fa.fa-pencil>
+          = t(:edit)
+      .item
+        a data-action="delete"
+          i.fa.fa-trash>
+          = t(:delete)
 
   - if log.summary
     span.summary = log.summary
