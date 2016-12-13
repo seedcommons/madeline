@@ -4,6 +4,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   def index
     authorize ProjectLog
     @org = Organization.find(params[:org]) if params[:org]
+    @ajax = request.xhr? ? true : false
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').page(params[:page])
   end

@@ -7,3 +7,9 @@
   = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
 = paginate @logs
+
+- unless @ajax
+  javascript:
+    $(function() {
+      new MS.Views.LogsListView({el: $('.logs-index')});
+    });

@@ -1,5 +1,13 @@
 class MS.Views.LogsListView extends Backbone.View
 
-  initialize: (options) ->
-    # @loanId = options.loanId if options.loanId
-    # @stepId = options.stepId if options.stepId
+  events:
+    'click .log [data-action="edit"]': 'editLog'
+    'click .log [data-action="delete"]': 'deleteLog'
+
+  editLog: (e) ->
+    e.preventDefault()
+    console.log("Edit log clicked")
+
+  deleteLog: (e) ->
+    e.preventDefault()
+    console.log("Delete log clicked")
