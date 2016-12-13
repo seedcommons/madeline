@@ -95,7 +95,7 @@
               - if value.breakeven_report.present?
                 .view-element
                   = render "admin/loans/questionnaires/breakeven_table_report", report: value.breakeven_report
-                  = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report, id: value.loan_question.id
                   - if value.breakeven_report[:periods] > 1
                     = render "admin/loans/questionnaires/breakeven_rampup/main", report: value.breakeven_report
               .form-element
