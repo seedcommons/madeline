@@ -28,7 +28,6 @@
 //= require jasny-bootstrap
 //= require select2-full
 //= require URI
-//= require bootstrap-responsive-tabs
 //= require bootstrap-multi-modal-fix
 
 //= require jquery-ui
