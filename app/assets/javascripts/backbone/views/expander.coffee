@@ -34,8 +34,11 @@ class MS.Views.Expander extends Backbone.View
 
   expandAll: (e) ->
     e.preventDefault()
-    targetName = @$(e.currentTarget).data('expand-all')
-    console.log(targetName)
+    selector = @$(e.currentTarget).data('expand-all')
+    $container = @$(selector)
+    $container.find('[data-expandable]').show('fast')
+    $container.find('[data-hides]').show('fast')
+    $container.find('[data-expands]').hide('fast')
 
   hideAll: (e) ->
     e.preventDefault()
