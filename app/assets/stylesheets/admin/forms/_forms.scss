@@ -30,6 +30,13 @@ form {
   }
 }
 
+.checkbox {
+  .form-control {
+    height: inherit;
+    width: inherit;
+  }
+}
+
 .form-group textarea.text {
   height: 6em;
 }
@@ -68,7 +75,7 @@ form {
   // We need to list specific tag types here that need to override the default display: block above.
   a.view-element { display: inline; }
 
-  .form-element {
+  .form-element, .checkbox {
     display: none !important;
   }
 

@@ -103,4 +103,15 @@ class Division < ActiveRecord::Base
   def users
     people.where(has_system_access: true)
   end
+
+  def locales
+    return [] unless self[:locales].present?
+    self[:locales].sort.select(&:present?).map(&:to_sym)
+  end
+
+  def locale_names
+    locales.map do |locale|
+      I18n.t("locale_name.#{locale}", locale: locale)
+    end
+  end
 end
