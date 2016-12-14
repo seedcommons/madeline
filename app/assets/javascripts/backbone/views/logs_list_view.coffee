@@ -1,7 +1,12 @@
 class MS.Views.LogsListView extends Backbone.View
 
+  initialize: (options) ->
+    @submitted = false
+
   events:
     'click .log [data-action="edit"]': 'editLog'
+    'click [data-action="submit"]': 'submitForm'
+    'ajax:success': 'submitSuccess'
 
   editLog: (e) ->
     e.preventDefault()
@@ -17,4 +22,24 @@ class MS.Views.LogsListView extends Backbone.View
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     $modal.find('.empty-log-error').hide()
     $modal.modal('show').modal('show')
+    # MS.loadingIndicator.hide()
+
+  submitForm: (e) ->
+    e.preventDefault()
+    $form = @$('#project-log-modal form')
+    submitted = @submitted
+
+    # Check to make sure summary is completed for at least one language
+    $form.find("[data-translatable='common.summary']").each ->
+      if ($.trim($(this).val()) != '')
+        submitted = true
+
+    if submitted
+      $form.submit()
+      @$('#project-log-modal .modal').modal('hide')
+    else
+      $form.find('.empty-log-error').show()
+
+  submitSuccess: (e, data) ->
+    console.log(data)
     # MS.loadingIndicator.hide()

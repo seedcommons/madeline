@@ -47,7 +47,13 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log.assign_attributes(project_log_params)
     @step = @log.project_step
     authorize @log
-    save_and_render_partial
+
+    if params[:context] == 'timeline'
+      save_and_render_partial
+    else
+      @log.save
+      redirect_to action: :index
+    end
   end
 
   def destroy
