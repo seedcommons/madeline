@@ -5,4 +5,4 @@ class MS.Views.LogsListView extends Backbone.View
 
   editLog: (e) ->
     e.preventDefault()
-    console.log("Edit log clicked")
+    @$('#project-log-modal .modal').modal('show')
