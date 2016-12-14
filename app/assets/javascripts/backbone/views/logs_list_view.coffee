@@ -41,5 +41,7 @@ class MS.Views.LogsListView extends Backbone.View
       $form.find('.empty-log-error').show()
 
   submitSuccess: (e, data) ->
-    # console.log(data)
-    # MS.loadingIndicator.hide()
+    @reloadPage()
+
+  reloadPage: ->
+    window.location.reload(true)
