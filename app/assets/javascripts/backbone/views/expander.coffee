@@ -6,6 +6,8 @@ class MS.Views.Expander extends Backbone.View
   events:
     'click [data-expands]': 'expand'
     'click [data-hides]': 'hide'
+    'click [data-expand-all]': 'expandAll'
+    'click [data-hide-all]': 'hideAll'
 
   expand: (e) ->
     e.preventDefault()
@@ -29,3 +31,13 @@ class MS.Views.Expander extends Backbone.View
     @$("[data-expandable='#{targetName}']").hide('fast')
     @$("[data-expands='#{targetName}']").show()
     @$(e.currentTarget).hide()
+
+  expandAll: (e) ->
+    e.preventDefault()
+    targetName = @$(e.currentTarget).data('expand-all')
+    console.log(targetName)
+
+  hideAll: (e) ->
+    e.preventDefault()
+    targetName = @$(e.currentTarget).data('hide-all')
+    console.log(targetName)

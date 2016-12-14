@@ -4,8 +4,8 @@
 
 section.logs-list
   .show-actions.hidden-print
-    a.expand-all href="#" = t('common.expand_all')
-    a.condense-all href="#" = t('common.condense_all')
+    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
+    a data-hide-all=".logs-index" href="#" = t('common.condense_all')
 
   .logs-index
     = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
