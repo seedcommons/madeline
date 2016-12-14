@@ -52,7 +52,7 @@ class Admin::ProjectLogsController < Admin::AdminController
       save_and_render_partial
     else
       @log.save
-      redirect_to action: :index
+      head :ok
     end
   end
 
