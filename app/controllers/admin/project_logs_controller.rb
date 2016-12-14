@@ -54,6 +54,13 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
     authorize @log
-    destroy_and_render_partial
+
+    if params[:context] == 'timeline'
+      destroy_and_render_partial
+    else
+      if @log.destroy
+        redirect_to action: :index
+      end
+    end
   end
 end
