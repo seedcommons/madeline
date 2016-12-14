@@ -101,19 +101,9 @@ module Translatable
 
   delegate :locales, to: :division, prefix: true
 
-  # Returns all locales for which we have translations, or an array
+  # Returns locales that have been assigned to the division, or an array
   # containing only the current locale if there are no translations.
-  # Always includes current locale, orders additional locales by locale code
-  def used_locales_or_current_locale
-    locales = used_locales
-    if locales.include?(I18n.locale)
-      # Make sure default locale is displayed first if present
-      [I18n.locale] | locales
-    else
-      locales.presence || [I18n.locale]
-    end
-  end
-
+  # Orders additional locales by locale code
   def used_and_division_locales
     locales = ( used_locales + division_locales ).uniq
     if locales.include?(I18n.locale)
