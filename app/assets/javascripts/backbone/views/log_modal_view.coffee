@@ -9,6 +9,7 @@ class MS.Views.LogModalView extends Backbone.View
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:success': 'submitSuccess'
+    'ajax:complete': 'submitSuccess'
 
   showEdit: (logId, stepId, done) ->
     MS.loadingIndicator.show()
