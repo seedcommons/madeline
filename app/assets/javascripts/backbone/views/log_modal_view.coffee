@@ -10,9 +10,10 @@ class MS.Views.LogModalView extends Backbone.View
     'click [data-action="submit"]': 'submitForm'
     'ajax:success': 'submitSuccess'
 
-  showEdit: (logId, stepId) ->
+  showEdit: (logId, stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
+    @done = done
     $.get "/admin/logs/#{logId}/edit", (html) =>
       @replaceContent(html)
 

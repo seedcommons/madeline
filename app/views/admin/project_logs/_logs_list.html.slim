@@ -14,6 +14,9 @@ section.logs-list
   .logs-index
     = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
+  .log-modal
+    .modal
+
   javascript:
     $(function() {
       new MS.Views.LogsListView({

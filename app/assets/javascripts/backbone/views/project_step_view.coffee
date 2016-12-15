@@ -88,7 +88,7 @@ class MS.Views.ProjectStepView extends Backbone.View
       @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'), '')
     else
       @logModalView.showNew(@$(link).data('parent-step-id'))
 
