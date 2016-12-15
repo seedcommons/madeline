@@ -6,3 +6,8 @@ es:
     shared:
       confirm_deletion: "¿Realmente quieres borrar este apunte?"
       delete: "Borrar Apunte"
+  admin:
+    project_logs:
+      index:
+        title: "Apuntes"
+        logs_for: "Apuntes para %{thing}"
