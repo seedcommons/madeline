@@ -20,7 +20,7 @@
             i.fa.fa-building-o>
             = step.project.organization.name
       .item
-        a href=(admin_loan_path(step.project) + "/timeline-list#step-#{step.id}") 
+        a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}") 
           = project_step_icon(step)
           = step.summary.present? ? step.summary : t('log.untitled_step')
       .item
