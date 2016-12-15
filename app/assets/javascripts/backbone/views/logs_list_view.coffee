@@ -20,7 +20,7 @@ class MS.Views.LogsListView extends Backbone.View
   deleteLog: (e) ->
     e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
-    console.log(logId)
+    # console.log(logId)
 
     $.ajax(type: "DELETE", url: "/admin/logs/#{logId}")
     .done =>
@@ -32,6 +32,6 @@ class MS.Views.LogsListView extends Backbone.View
   refresh: () ->
     MS.loadingIndicator.show()
     $.get @refreshUrl, (html) =>
-      MS.loadingIndicator.hide()
-      console.log(html)
+      # console.log(html)
       @$el.replaceWith(html)
+      MS.loadingIndicator.hide()

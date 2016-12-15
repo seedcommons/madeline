@@ -3,9 +3,6 @@
 class MS.Views.Expander extends Backbone.View
   el: 'body'
 
-  initialize: ->
-    @$("[data-hide-all]").hide()
-
   events:
     'click [data-expands]': 'expand'
     'click [data-hides]': 'hide'
