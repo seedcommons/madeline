@@ -10,7 +10,7 @@ class Admin::ProjectLogsController < Admin::AdminController
         order('date IS NULL, date DESC, created_at DESC').
         page(params[:page]).per(params[:per_page])
     if @ajax
-      render partial: "admin/project_logs/logs_list"
+      render partial: "admin/project_logs/logs_list", locals: {refresh_url: request.fullpath}
     end
   end
 

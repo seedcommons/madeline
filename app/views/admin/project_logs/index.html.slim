@@ -1,14 +1,7 @@
 - content_for :title, @org ? t(".logs_for", thing: @org.name) : t(".title")
 
-/ - content_for :with_title do
-/   a.expand-all href="#" = t('expand_all')
-
-= render "admin/project_logs/logs_list";
+= render "admin/project_logs/logs_list", refresh_url: "/admin/logs"
+= paginate @logs
 
 #project-log-modal
   .modal
-
-javascript:
-  $(function() {
-    new MS.Views.LogsListView({el: $('body')});
-  });

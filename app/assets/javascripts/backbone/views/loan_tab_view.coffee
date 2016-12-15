@@ -57,7 +57,6 @@ class MS.Views.LoanTabView extends Backbone.View
           MS.LogsListView.refresh()
         else
           MS.LogsListView = new MS.Views.LogsListView({
-            loanId: @loanId,
-            el: '.loan-content .tab-pane#logs'
+            refreshUrl: "/admin/logs?loan=#{@loanId}"
           })
           MS.LogsListView.refresh()
