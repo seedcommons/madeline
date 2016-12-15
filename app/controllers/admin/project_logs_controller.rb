@@ -9,7 +9,9 @@ class Admin::ProjectLogsController < Admin::AdminController
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').
         page(params[:page]).per(params[:per_page])
-    render layout: false if @ajax
+    if @ajax
+      render partial: "admin/project_logs/logs_list"
+    end
   end
 
   def show

@@ -3,28 +3,12 @@
 / - content_for :with_title do
 /   a.expand-all href="#" = t('expand_all')
 
-section.logs-list
-  - if @step
-    h4
-      - if @step.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif @step.checkin?
-        i.fa.fa-fw.fa-calendar
-      = @step.summary
-    
-  .show-actions.hidden-print
-    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-    a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+= render "admin/project_logs/logs_list";
 
-  .logs-index
-    = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+#project-log-modal
+  .modal
 
-  = paginate @logs
-
-  #project-log-modal
-    .modal: div.modal-dialog.modal-lg: .modal-content Test
-
-  javascript:
-    $(function() {
-      new MS.Views.LogsListView({el: $('.logs-list')});
-    });
+javascript:
+  $(function() {
+    new MS.Views.LogsListView({el: $('body')});
+  });

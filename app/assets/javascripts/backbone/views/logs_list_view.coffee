@@ -42,17 +42,15 @@ class MS.Views.LogsListView extends Backbone.View
     else
       $form.find('.empty-log-error').show()
 
-  refresh: (data) ->
-    console.log(data)
-
+  refresh: ->
     urlParams = ""
 
     if @stepId
       urlParams = "&step=#{@stepId}"
-    else
+    else if @loanId
       urlParams = "&loan=#{@loanId}"
 
-    $.get "/admin/logs?per_page=50{urlParams}", (html) =>
+    $.get "/admin/logs?per_page=50#{urlParams}", (html) =>
       # MS.loadingIndicator.hide()
       console.log(html)
-      @$el.replaceWith(html)
+      @$('.logs-list').html(html)
