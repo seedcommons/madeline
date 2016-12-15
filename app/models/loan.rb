@@ -118,11 +118,8 @@ class Loan < ActiveRecord::Base
   end
 
   def name
-    if signing_date
-      "#{organization.name} &ndash; #{I18n.l signing_date}".html_safe
-    else
-      I18n.t(:project_with, name: organization.name)
-    end
+    date = signing_date || created_at.to_date
+    "#{organization.name} &ndash; #{I18n.l date}".html_safe
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
