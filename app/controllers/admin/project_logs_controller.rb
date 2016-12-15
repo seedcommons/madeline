@@ -9,7 +9,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').
         page(params[:page]).per(params[:per_page])
-    render layout: false if request.xhr?
+    render layout: false if @ajax
   end
 
   def show
@@ -68,7 +68,7 @@ class Admin::ProjectLogsController < Admin::AdminController
       destroy_and_render_partial
     else
       if @log.destroy
-        redirect_to action: :index
+        head :ok
       end
     end
   end

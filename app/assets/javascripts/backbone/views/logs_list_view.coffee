@@ -8,7 +8,7 @@ class MS.Views.LogsListView extends Backbone.View
   events:
     'click .log [data-action="edit"]': 'editLog'
     'click [data-action="submit"]': 'submitForm'
-    'ajax:success': 'submitSuccess'
+    'ajax:complete': 'refresh'
 
   editLog: (e) ->
     e.preventDefault()
@@ -42,18 +42,17 @@ class MS.Views.LogsListView extends Backbone.View
     else
       $form.find('.empty-log-error').show()
 
-  submitSuccess: (e, data) ->
-    @reloadPage()
+  refresh: (data) ->
+    console.log(data)
 
-  reloadPage: ->
-    window.location.reload(true)
+    urlParams = ""
 
-  refresh: (done) ->
     if @stepId
-      urlParams = "step=#{@stepId}"
+      urlParams = "&step=#{@stepId}"
     else
-      urlParams = "loan=#{@loanId}"
+      urlParams = "&loan=#{@loanId}"
 
-    $.get "/admin/logs?#{urlParams}&per_page=50", (html, done) =>
-      MS.loadingIndicator.hide()
-      @$('.logs-list').html(html)
+    $.get "/admin/logs?per_page=50{urlParams}", (html) =>
+      # MS.loadingIndicator.hide()
+      console.log(html)
+      @$el.replaceWith(html)
