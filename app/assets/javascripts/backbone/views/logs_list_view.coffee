@@ -8,7 +8,6 @@ class MS.Views.LogsListView extends Backbone.View
   events:
     'click .log [data-action="edit"]': 'openEditLog'
     'confirm:complete .log [data-action="delete"]': 'deleteLog'
-    'ajax:complete': 'refresh'
 
   openEditLog: (e) ->
     e.preventDefault()
@@ -19,13 +18,9 @@ class MS.Views.LogsListView extends Backbone.View
   deleteLog: (e) ->
     e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
-
-    $.ajax(type: "DELETE", url: "/admin/logs/#{logId}")
-    .done =>
-      @refresh()
-    .fail (response) ->
-      MS.alert(response.responseText)
-    return false
+    $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
+    .done => @refresh()
+    .fail (response) -> MS.alert(response.responseText)
 
   refresh: () ->
     MS.loadingIndicator.show()
