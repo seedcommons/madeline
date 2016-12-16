@@ -5,13 +5,11 @@ class Admin::ProjectLogsController < Admin::AdminController
     authorize ProjectLog
     @org = Organization.find(params[:org]) if params[:org]
     @step = ProjectStep.find(params[:step]) if params[:step]
-    @ajax = request.xhr? ? true : false
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').
         page(params[:page]).per(params[:per_page])
-    if @ajax
-      render partial: "admin/project_logs/log_list", locals: {refresh_url: request.fullpath}
-    end
+
+    render partial: "admin/project_logs/log_list" if request.xhr?
   end
 
   def show
