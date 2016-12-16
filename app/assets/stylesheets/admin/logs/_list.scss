@@ -1,0 +1,24 @@
+@import "../colors";
+
+#log-list-modal {
+  h5 {
+    margin-top: 0;
+  }
+
+  .show-actions {
+    float: right;
+  }
+}
+
+.logs-index {
+  background-color: white;
+
+  .log {
+    padding: 10px;
+    border-top: 1px solid $gray7;
+
+    &:last-of-type {
+      border-bottom: 1px solid $gray7;
+    }
+  }
+}

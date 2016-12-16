@@ -8,7 +8,8 @@ class Admin::ProjectLogsController < Admin::AdminController
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').
         page(params[:page]).per(params[:per_page])
-    render layout: false if request.xhr?
+
+    render partial: "admin/project_logs/log_list" if request.xhr?
   end
 
   def show
@@ -49,13 +50,26 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log.assign_attributes(project_log_params)
     @step = @log.project_step
     authorize @log
-    save_and_render_partial
+
+    if params[:context] == 'timeline'
+      save_and_render_partial
+    else
+      @log.save
+      head :ok
+    end
   end
 
   def destroy
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
     authorize @log
-    destroy_and_render_partial
+
+    if params[:context] == 'timeline'
+      destroy_and_render_partial
+    else
+      if @log.destroy
+        head :ok
+      end
+    end
   end
 end

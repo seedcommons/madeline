@@ -32,7 +32,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'mouseenter .step-start-date': 'showPrecedentStep'
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
-    'click .recent-logs [data-action="view-logs"]': 'openLogsList'
+    'click [data-action="view-logs"]': 'openLogList'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -73,9 +73,9 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   addLog: (e) ->
     e.preventDefault()
-    unless @logModalView
-      @logModalView = new MS.Views.LogModalView(el: $("<div>").insertAfter(@$el))
-    @logModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
+    unless @logFormModalView
+      @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
+    @logFormModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
 
   deleteStep: (e) ->
     item = e.currentTarget
@@ -146,10 +146,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table = $step.closest('tbody')
     $table.find('td').removeClass('highlighted')
 
-  openLogsList: (e) ->
+  openLogList: (e) ->
     e.preventDefault()
-    $link = @$(e.currentTarget)
-    stepId = $link.data('id')
-
-    MS.StepLogsListView = new MS.Views.LogsListView(stepId: stepId, el: '#logs-list-modal')
-    MS.StepLogsListView.refresh(@$('#logs-list-modal .modal').modal('show'))
+    stepId = @$(e.currentTarget).closest('td[data-id]').data('id')
+    unless @logListModalView
+      @logListModalView = new MS.Views.LogListModalView(el: @$('#log-list-modal'))
+    @logListModalView.show(stepId)

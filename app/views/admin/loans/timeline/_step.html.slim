@@ -37,12 +37,12 @@
       = t("project_step.timeline_table.draft")
 
   - latest_logs = entry.latest_logs
-  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }"
+  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
     - latest_logs.each_with_index do |log, index|
       p.log-summary = log.summary
 
       - if index == latest_logs.length - 1
-        div = link_to t("project_logs.more"), "#", data: {action: 'view-logs', id: entry.id}
+        div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
 
   td.step-menu-col class=classes data-id=entry.id
     span.dropdown
