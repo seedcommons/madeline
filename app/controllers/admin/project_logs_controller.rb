@@ -4,6 +4,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   def index
     authorize ProjectLog
     @org = Organization.find(params[:org]) if params[:org]
+    @ajax = request.xhr? ? true : false
     @logs = ProjectLog.in_division(selected_division).filter_by(params).
         order('date IS NULL, date DESC, created_at DESC').page(params[:page])
   end
@@ -46,13 +47,26 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log.assign_attributes(project_log_params)
     @step = @log.project_step
     authorize @log
-    save_and_render_partial
+
+    if params[:context] == 'timeline'
+      save_and_render_partial
+    else
+      @log.save
+      head :ok
+    end
   end
 
   def destroy
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
     authorize @log
-    destroy_and_render_partial
+
+    if params[:context] == 'timeline'
+      destroy_and_render_partial
+    else
+      if @log.destroy
+        redirect_to action: :index
+      end
+    end
   end
 end

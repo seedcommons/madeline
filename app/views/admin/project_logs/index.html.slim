@@ -1,9 +1,22 @@
 - content_for :title, @org ? t(".logs_for", thing: @org.name) : t(".title")
-
 / - content_for :with_title do
 /   a.expand-all href="#" = t('expand_all')
 
-.logs-index
-  = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+section.logs-list
+  .show-actions.hidden-print
+    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
+    a data-hide-all=".logs-index" href="#" = t('common.hide_all')
 
-= paginate @logs
+  .logs-index
+    = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+
+  = paginate @logs
+
+  #project-log-modal
+    .modal: div.modal-dialog.modal-lg: .modal-content Test
+
+- unless @ajax
+  javascript:
+    $(function() {
+      new MS.Views.LogsListView({el: $('.logs-list')});
+    });
