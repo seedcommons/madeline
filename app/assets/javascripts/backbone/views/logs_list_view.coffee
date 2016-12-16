@@ -3,6 +3,7 @@ class MS.Views.LogsListView extends Backbone.View
   el: '.logs-list'
 
   initialize: (options) ->
+    new MS.Views.AutoLoadingIndicatorView()
     @refreshUrl = options.refreshUrl
 
   events:
@@ -23,9 +24,7 @@ class MS.Views.LogsListView extends Backbone.View
     .fail (response) -> MS.alert(response.responseText)
 
   refresh: () ->
-    MS.loadingIndicator.show()
     $.get @refreshUrl, (html) =>
       @$el.replaceWith(html)
       # Fixes modal overlay bug in some logs list contexts
       $('.modal').modal('hide')
-      MS.loadingIndicator.hide()
