@@ -8,8 +8,9 @@ class MS.Views.LogListModalView extends Backbone.View
       logFormModalView: @logFormModalView
     )
 
-  show: (stepId) ->
+  show: (stepId, afterRefresh) ->
     MS.loadingIndicator.show()
     @$el.modal('show')
     @logListView.refreshUrl = "/admin/logs?step=#{stepId}"
     @logListView.refresh()
+    @logListView.afterRefresh = afterRefresh

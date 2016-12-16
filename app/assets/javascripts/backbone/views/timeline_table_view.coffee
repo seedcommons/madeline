@@ -151,4 +151,4 @@ class MS.Views.TimelineTableView extends Backbone.View
     stepId = @$(e.currentTarget).closest('td[data-id]').data('id')
     unless @logListModalView
       @logListModalView = new MS.Views.LogListModalView(el: @$('#log-list-modal'))
-    @logListModalView.show(stepId)
+    @logListModalView.show(stepId, @refresh.bind(@))

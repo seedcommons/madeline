@@ -25,3 +25,4 @@ class MS.Views.LogListView extends Backbone.View
   refresh: () ->
     $.get @refreshUrl, (html) =>
       @$el.html(html)
+      @afterRefresh() if @afterRefresh
