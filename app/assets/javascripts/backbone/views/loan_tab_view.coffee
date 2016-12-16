@@ -51,3 +51,9 @@ class MS.Views.LoanTabView extends Backbone.View
             stepModal: @stepModal,
             locale: @locale
           )
+
+      when 'logs'
+        if MS.ProjectLogsListView
+          MS.ProjectLogsListView.refresh()
+        else
+          MS.ProjectLogsListView = new MS.Views.ProjectLogsListView(loanId: @loanId)
