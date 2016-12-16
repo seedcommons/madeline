@@ -105,7 +105,7 @@ module Translatable
   # containing only the current locale if there are no translations.
   # Orders additional locales by locale code
   def used_and_division_locales
-    locales = ( used_locales + division_locales ).uniq
+    locales = (used_locales + division_locales).uniq
     if locales.include?(I18n.locale)
       # Make sure default locale is displayed first if present
       [I18n.locale] | locales
