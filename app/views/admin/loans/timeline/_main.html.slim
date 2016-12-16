@@ -12,3 +12,16 @@ section.timeline-table data-loan-id= @loan.id
 
   #duplicate-step-modal
     .modal
+
+  / This modal is used to display logs for a given step.
+  div.modal.fade tabindex="-1" role="dialog" aria-labelledby="" id="log-list-modal"
+    div.modal-dialog.modal-lg
+      div.modal-content
+        div.modal-header
+          button.close type="button" data-dismiss="modal" aria-label== t(:close)
+            span aria-hidden="true" &times;
+          h4.modal-title = t("log.logs")
+        div.modal-body
+          section.log-list
+        div.modal-footer
+          a.btn.btn-default data-dismiss="modal" = t(:close)
