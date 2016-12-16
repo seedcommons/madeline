@@ -1,10 +1,3 @@
-- if @step
-  h4
-    - if @step.milestone?
-      i.fa.fa-fw.fa-flag-o
-    - elsif @step.checkin?
-      i.fa.fa-fw.fa-calendar
-    = @step.summary
 
 - if @logs.empty?
   = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
@@ -12,6 +5,14 @@
   .show-actions.hidden-print
     a data-expand-all=".logs-index" href="#" = t('common.expand_all')
     a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+
+  - if @step
+    h5
+      - if @step.milestone?
+        i.fa.fa-fw.fa-flag-o
+      - elsif @step.checkin?
+        i.fa.fa-fw.fa-calendar
+      = @step.summary
 
   .logs-index
     - @logs.each do |log|
@@ -34,10 +35,11 @@
                 a href=admin_organization_path(step.project.organization)
                   i.fa.fa-building-o>
                   = step.project.organization.name
-            .item
-              a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
-                = project_step_icon(step)
-                = step.summary.present? ? step.summary : t('log.untitled_step')
+            - unless params[:step].present?
+              .item
+                a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                  = project_step_icon(step)
+                  = step.summary.present? ? step.summary : t('log.untitled_step')
             .item
               a data-action="edit"
                 i.fa.fa-pencil>
