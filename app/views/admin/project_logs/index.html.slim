@@ -1,8 +1,6 @@
 - content_for :title, @org ? t(".logs_for", thing: @org.name) : t(".title")
 
-- if @org
-  = render "admin/project_logs/logs_list", refresh_url: "/admin/logs?org=#{@org.id}"
-- else
-  = render "admin/project_logs/logs_list", refresh_url: "/admin/logs"
+- refresh_url = @org ? "/admin/logs?org=#{@org.id}" : "/admin/logs"
+= render "admin/project_logs/logs_list", refresh_url: refresh_url
 
 = paginate @logs
