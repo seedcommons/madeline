@@ -55,10 +55,6 @@ class MS.Views.LoanTabView extends Backbone.View
           )
 
       when 'logs'
-        if @logsListView
-          @logsListView.refresh()
-        else
-          @logsListView = new MS.Views.LogsListView({
-            refreshUrl: "/admin/logs?loan=#{@loanId}"
-          })
-          @logsListView.refresh()
+        unless @logsListView
+          @logsListView = new MS.Views.LogsListView(refreshUrl: "/admin/logs?loan=#{@loanId}")
+        @logsListView.refresh()
