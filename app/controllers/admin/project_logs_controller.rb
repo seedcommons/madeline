@@ -66,10 +66,8 @@ class Admin::ProjectLogsController < Admin::AdminController
 
     if params[:context] == 'timeline'
       destroy_and_render_partial
-    else
-      if @log.destroy
-        head :ok
-      end
+    elsif @log.destroy
+      head :ok
     end
   end
 end
