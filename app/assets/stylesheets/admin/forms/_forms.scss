@@ -18,16 +18,24 @@ form {
 
 // Booleans should not have fixed height/widths. A style from somewhere else is
 // trying to impose them on all .form-controls.
-.form-group.boolean {
+// The .form-group .checkbox selector is for collections with type: :check_boxes
+.form-group.boolean, .form-group .checkbox {
   .form-control {
     height: inherit;
     width: inherit;
-
-    &[type="checkbox"] {
-      display: inline-block;
-      margin-left: 10px;
-    }
   }
+}
+
+.form-group.boolean .form-control[type="checkbox"] {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+// For collections rendered as type: :check_boxes, the checkboxes and their labels are rendered inside
+// span.checkbox. This shows them all on one line.
+.form-group span.checkbox {
+  display: inline-block;
+  margin: 0 10px;
 }
 
 .form-group textarea.text {
@@ -68,7 +76,7 @@ form {
   // We need to list specific tag types here that need to override the default display: block above.
   a.view-element { display: inline; }
 
-  .form-element {
+  .form-element, .form-group .checkbox {
     display: none !important;
   }
 
