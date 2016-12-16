@@ -19,30 +19,32 @@ class MS.Views.LoanTabView extends Backbone.View
     tabName = @$(e.target).data('tab-id')
     switch tabName
       when 'details'
-        if MS.detailsView
-          MS.detailsView.refresh()
+        if @detailsView
+          @detailsView.refresh()
         else
-          MS.detailsView = new MS.Views.DetailsView(loanId: @loanId)
+          @detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
       when 'questions'
-        if MS.loanQuestionnairesView
-          MS.loanQuestionnairesView.refreshContent()
+        if @loanQuestionnairesView
+          @loanQuestionnairesView.refreshContent()
         else
-          MS.loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
 
       when 'timeline-list'
+        # TODO: Should try to get rid of this global when old timeline is gone.
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
           MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
 
       when 'timeline-table'
-        if MS.timelineTableView
-          MS.timelineTableView.refresh()
+        if @timelineTableView
+          @timelineTableView.refresh()
         else
-          MS.timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
+          @timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
 
       when 'loan-calendar'
+        # TODO: Should try to get rid of this global when old timeline is gone.
         if MS.calendarView
           MS.calendarView.refresh()
         else
@@ -53,10 +55,10 @@ class MS.Views.LoanTabView extends Backbone.View
           )
 
       when 'logs'
-        if MS.LogsListView
-          MS.LogsListView.refresh()
+        if @logsListView
+          @logsListView.refresh()
         else
-          MS.LogsListView = new MS.Views.LogsListView({
+          @logsListView = new MS.Views.LogsListView({
             refreshUrl: "/admin/logs?loan=#{@loanId}"
           })
-          MS.LogsListView.refresh()
+          @logsListView.refresh()
