@@ -38,7 +38,7 @@
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
   = f.input :amount
-    .view-element = number_to_currency(@loan.amount)
+    .view-element = format_currency(@loan.amount, @loan.currency, tooltip: false)
     = f.input_field :amount
 
   = f.input :currency
