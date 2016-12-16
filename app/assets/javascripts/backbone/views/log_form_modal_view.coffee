@@ -1,4 +1,5 @@
-class MS.Views.LogModalView extends Backbone.View
+# Handles the modal that allows creation/editing of ProjectLogs
+class MS.Views.LogFormModalView extends Backbone.View
 
   initialize: (options) ->
     # TODO: Remove @parentView stuff once old timeline goes away

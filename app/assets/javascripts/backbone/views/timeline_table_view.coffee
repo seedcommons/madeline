@@ -73,9 +73,9 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   addLog: (e) ->
     e.preventDefault()
-    unless @logModalView
-      @logModalView = new MS.Views.LogModalView(el: $("<div>").insertAfter(@$el))
-    @logModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
+    unless @logFormModalView
+      @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
+    @logFormModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
 
   deleteStep: (e) ->
     item = e.currentTarget
