@@ -4,9 +4,10 @@
 .log
   header.small
     .infos
-      .item
-        i.fa.fa-calendar-o>
-        = l log.date
+      - if log.date
+        .item
+          i.fa.fa-calendar-o>
+          = l log.date
       .item
         a href=admin_person_path(log.agent) 
           i.fa.fa-user>
