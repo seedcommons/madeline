@@ -32,7 +32,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'mouseenter .step-start-date': 'showPrecedentStep'
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
-    'click .recent-logs [data-action="view-logs"]': 'openLogsList'
+    'click .recent-logs [data-action="view-logs"]': 'openLogList'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -146,7 +146,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table = $step.closest('tbody')
     $table.find('td').removeClass('highlighted')
 
-  openLogsList: (e) ->
+  openLogList: (e) ->
     e.preventDefault()
     $link = @$(e.currentTarget)
     stepId = $link.data('id')

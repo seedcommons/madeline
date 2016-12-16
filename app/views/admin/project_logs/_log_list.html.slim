@@ -1,4 +1,4 @@
-section.logs-list
+section.log-list
   - if @step
     h4
       - if @step.milestone?
@@ -79,7 +79,7 @@ section.logs-list
 
   javascript:
     $(function() {
-      new MS.Views.LogsListView({
+      new MS.Views.LogListView({
         refreshUrl: #{json refresh_url}
       });
     });

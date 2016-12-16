@@ -22,6 +22,6 @@ div class=("step-logs expandable" << (@expand_logs ? " expanded" : ""))
               i.fa.fa-plus-circle
             span.text-right-of-icon = t("log.new")
 
-      div.logs-list
+      div.log-list
         - step.project_logs.each do |log|
           = render "admin/project_logs/show", step: step, log: log

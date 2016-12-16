@@ -56,5 +56,5 @@ class MS.Views.LoanTabView extends Backbone.View
 
       when 'logs'
         unless @logsListView
-          @logsListView = new MS.Views.LogsListView(refreshUrl: "/admin/logs?loan=#{@loanId}")
+          @logsListView = new MS.Views.LogListView(refreshUrl: "/admin/logs?loan=#{@loanId}")
         @logsListView.refresh()
