@@ -45,11 +45,17 @@
 }
 
 .logs-index {
+  background-color: white;
+
   .log {
-    padding-bottom: 10px;
-    border-bottom: 1px solid $gray6;
-    margin-bottom: 10px;
+    padding: 10px;
+    border-top: 1px solid $gray7;
+
+    &:last-of-type {
+      border-bottom: 1px solid $gray7;
+    }
   }
+
   .log-info {
     margin-top: 10px;
   }
