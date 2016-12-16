@@ -28,7 +28,7 @@ class MS.Views.Expander extends Backbone.View
   hide: (e) ->
     e.preventDefault()
     targetName = @$(e.currentTarget).data('hides')
-    @$("[data-expandable='#{targetName}']").hide()
+    @$("[data-expandable='#{targetName}']").hide('fast')
     @$("[data-expands='#{targetName}']").show()
     @$(e.currentTarget).hide()
 
@@ -40,7 +40,7 @@ class MS.Views.Expander extends Backbone.View
 
     $container = @$(selector)
     $container.find('[data-expandable]').show('fast')
-    $container.find('[data-hides]').show('fast')
+    $container.find('[data-hides]').show()
     $container.find('[data-expands]').hide()
 
   hideAll: (e) ->
@@ -50,6 +50,6 @@ class MS.Views.Expander extends Backbone.View
     @$("[data-expand-all='#{selector}']").show()
 
     $container = @$(selector)
-    $container.find('[data-expandable]').hide()
+    $container.find('[data-expandable]').hide('fast')
     $container.find('[data-hides]').hide()
-    $container.find('[data-expands]').show('fast')
+    $container.find('[data-expands]').show()
