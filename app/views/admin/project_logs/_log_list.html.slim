@@ -1,85 +1,77 @@
-section.log-list
-  - if @step
-    h4
-      - if @step.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif @step.checkin?
-        i.fa.fa-fw.fa-calendar
-      = @step.summary
-    
-  - if @logs.empty?
-    = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
-  - else
-    .show-actions.hidden-print
-      a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-      a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+- if @step
+  h4
+    - if @step.milestone?
+      i.fa.fa-fw.fa-flag-o
+    - elsif @step.checkin?
+      i.fa.fa-fw.fa-calendar
+    = @step.summary
 
-    .logs-index
-      - @logs.each do |log|
-        - step = log.project_step
-        .log data-id=log.id
-          header.small
-            .infos
+- if @logs.empty?
+  = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+- else
+  .show-actions.hidden-print
+    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
+    a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+
+  .logs-index
+    - @logs.each do |log|
+      - step = log.project_step
+      .log data-id=log.id
+        header.small
+          .infos
+            .item
+              i.fa.fa-calendar-o>
+              = l log.date
+            .item
+              a href=admin_person_path(log.agent)
+                i.fa.fa-user>
+                = log.agent_name
+            .item
+              i.fa.fa-commenting-o>
+              = log.progress_metric || t('project_step.no_status')
+            - unless params[:org].present? || params[:loan].present? || params[:step].present?
               .item
-                i.fa.fa-calendar-o>
-                = l log.date
-              .item
-                a href=admin_person_path(log.agent)
-                  i.fa.fa-user>
-                  = log.agent_name
-              .item
-                i.fa.fa-commenting-o>
-                = log.progress_metric || t('project_step.no_status')
-              - unless params[:org].present? || params[:loan].present? || params[:step].present?
-                .item
-                  a href=admin_organization_path(step.project.organization)
-                    i.fa.fa-building-o>
-                    = step.project.organization.name
-              .item
-                a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
-                  = project_step_icon(step)
-                  = step.summary.present? ? step.summary : t('log.untitled_step')
-              .item
-                a data-action="edit"
-                  i.fa.fa-pencil>
-                  = t(:edit)
-              .item
-                = link_to "#",
-                    data: { \
-                      action: "delete", \
-                      confirm: t('confirm_deletion', thing: t('project_log.project_log')), \
-                      'confirm-cancel': t(:cancel),
-                      'confirm-proceed': t(:confirm),
-                      'confirm-title': t('log.delete') \
-                    }
-                      i.fa.fa-trash>
-                      = t(:delete)
+                a href=admin_organization_path(step.project.organization)
+                  i.fa.fa-building-o>
+                  = step.project.organization.name
+            .item
+              a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                = project_step_icon(step)
+                = step.summary.present? ? step.summary : t('log.untitled_step')
+            .item
+              a data-action="edit"
+                i.fa.fa-pencil>
+                = t(:edit)
+            .item
+              = link_to "#",
+                  data: { \
+                    action: "delete", \
+                    confirm: t('confirm_deletion', thing: t('project_log.project_log')), \
+                    'confirm-cancel': t(:cancel),
+                    'confirm-proceed': t(:confirm),
+                    'confirm-title': t('log.delete') \
+                  }
+                    i.fa.fa-trash>
+                    = t(:delete)
 
-          - if log.summary
-            span.summary = log.summary
+        - if log.summary
+          span.summary = log.summary
 
-          - if log.has_more?
-            a data-expands="more-#{log.id}" = t(:more)
-            a data-hides="more-#{log.id}" = t(:less)
+        - if log.has_more?
+          a data-expands="more-#{log.id}" = t(:more)
+          a data-hides="more-#{log.id}" = t(:less)
 
-            div data-expandable="more-#{log.id}"
-              - if log.details.present?
-                .log-info
-                  = simple_format log.details.to_s
+          div data-expandable="more-#{log.id}"
+            - if log.details.present?
+              .log-info
+                = simple_format log.details.to_s
 
-              - if log.additional_notes.present?
-                .log-info
-                  .bold = t('log.additional_notes')
-                  = simple_format log.additional_notes.to_s
+            - if log.additional_notes.present?
+              .log-info
+                .bold = t('log.additional_notes')
+                = simple_format log.additional_notes.to_s
 
-              - if log.private_notes.present?
-                .log-info
-                  .bold = t('log.private_notes')
-                  = simple_format log.private_notes.to_s
-
-  javascript:
-    $(function() {
-      new MS.Views.LogListView({
-        refreshUrl: #{json refresh_url}
-      });
-    });
+            - if log.private_notes.present?
+              .log-info
+                .bold = t('log.private_notes')
+                = simple_format log.private_notes.to_s

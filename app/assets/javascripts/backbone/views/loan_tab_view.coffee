@@ -55,6 +55,10 @@ class MS.Views.LoanTabView extends Backbone.View
           )
 
       when 'logs'
-        unless @logsListView
-          @logsListView = new MS.Views.LogListView(refreshUrl: "/admin/logs?loan=#{@loanId}")
-        @logsListView.refresh()
+        unless @logListView
+          @logListView = new MS.Views.LogListView(
+            el: '.tab-pane#logs section.log-list',
+            refreshUrl: "/admin/logs?loan=#{@loanId}",
+            logFormModalView: new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
+          )
+        @logListView.refresh()
