@@ -20,7 +20,6 @@ class MS.Views.LogsListView extends Backbone.View
   deleteLog: (e) ->
     e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
-    # console.log(logId)
 
     $.ajax(type: "DELETE", url: "/admin/logs/#{logId}")
     .done =>
@@ -32,7 +31,6 @@ class MS.Views.LogsListView extends Backbone.View
   refresh: () ->
     MS.loadingIndicator.show()
     $.get @refreshUrl, (html) =>
-      console.log(html)
       @$el.replaceWith(html)
       # Fixes modal overlay bug in some logs list contexts
       $('.modal').modal('hide')
