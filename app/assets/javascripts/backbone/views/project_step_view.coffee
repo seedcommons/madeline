@@ -84,13 +84,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    unless @logModalView
-      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+    unless @logFormModalView
+      @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logFormModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'), '')
     else
-      @logModalView.showNew(@$(link).data('parent-step-id'))
+      @logFormModalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)

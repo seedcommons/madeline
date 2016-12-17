@@ -1,4 +1,5 @@
-class MS.Views.LogModalView extends Backbone.View
+# Handles the modal that allows creation/editing of ProjectLogs
+class MS.Views.LogFormModalView extends Backbone.View
 
   initialize: (options) ->
     # TODO: Remove @parentView stuff once old timeline goes away
@@ -9,10 +10,12 @@ class MS.Views.LogModalView extends Backbone.View
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:success': 'submitSuccess'
+    'ajax:complete': 'submitSuccess'
 
-  showEdit: (logId, stepId) ->
+  showEdit: (logId, stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
+    @done = done
     $.get "/admin/logs/#{logId}/edit", (html) =>
       @replaceContent(html)
 

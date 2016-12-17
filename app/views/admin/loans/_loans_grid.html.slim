@@ -33,7 +33,7 @@
       - loan.loan_type
     - g.column name: t('activerecord.attributes.loan.amount'), attribute: 'amount',
       filter: false do |loan|
-      - number_to_currency(loan.amount)
+      - format_currency(loan.amount, loan.currency, tooltip: false)
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 

@@ -117,9 +117,9 @@ class Loan < ActiveRecord::Base
     [primary_name, secondary_name]
   end
 
-  # todo: proper handling needs to be defined, probably a pre-populated and editable display name
   def name
-    I18n.t(:project_with, name: organization.try(:name))
+    date = signing_date || created_at.to_date
+    "#{organization.name} &ndash; #{I18n.l date}".html_safe
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
