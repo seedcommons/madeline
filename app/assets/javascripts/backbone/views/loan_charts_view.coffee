@@ -1,7 +1,5 @@
 class MS.Views.LoanChartsView extends Backbone.View
 
-  el: '.summary-chart'
-
   initialize: (params) ->
     @breakevenData = params.breakeven_data
     @breakevenFixedCosts = @breakevenData["fixed_costs"]
@@ -28,49 +26,36 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
   breakevenRevenueChart: ->
-    data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.revenue')
-
-    for key,product of @breakevenRevenue
-      name = product.name
-      total = product.total
-      data.addRow [name, total]
-
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-revenue-chart'));
-    @formatNumbers(data)
-    options = @defaultChartOptions
-    chart.draw(data, options)
+    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product'), I18n.t('loan.breakeven.revenue'), @breakevenRevenue)
+    @drawPieChartIntoElement('.breakeven-revenue-chart', chartTable)
 
   breakevenProductionCostsChart: ->
-    data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.production_cost')
-
-    for key,product of @breakevenProductionCosts
-      name = product.name
-      total = product.total
-      data.addRow [name, total]
-
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-production-cost-chart'))
-    @formatNumbers(data)
-    options = @defaultChartOptions
-    chart.draw(data, options)
+    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product'), I18n.t('loan.breakeven.production_cost'), @breakevenProductionCosts)
+    @drawPieChartIntoElement('.breakeven-production-cost-chart', chartTable)
 
   breakevenProductProfitChart: ->
-    data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.profit')
-    options = @defaultChartOptions
+    @drawPieChartIntoElement('.breakeven-product-profit-chart', @breakevenProductProfit())
 
-    for key,product of @breakevenProductProfit()
-      name = key
-      total = product.profit
+  breakevenFixedCostsChart: ->
+    data = new google.visualization.DataTable()
+    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
+    data.addColumn 'number', I18n.t('loan.breakeven.amount')
+
+    for key,cost of @breakevenFixedCosts
+      name = cost.name
+      total = cost.amount
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-product-profit'))
-    @formatNumbers(data)
-    chart.draw(data, options)
+    @drawPieChartIntoElement('.breakeven-fixed-cost-chart', data)
+
+  breakevenCostsChart: ->
+    data = new google.visualization.DataTable()
+    data.addColumn 'string', I18n.t('loan.breakeven.item')
+    data.addColumn 'number', I18n.t('loan.breakeven.cost')
+    data.addRow ["Cost of Good Sold", @breakevenData["total_cogs"]]
+    data.addRow ["Fixed Costs", @breakevenData["total_fixed_costs"]]
+
+    @drawPieChartIntoElement('.breakeven-costs-chart', data)
 
   breakevenProductProfit: ->
     profitData = {}
@@ -86,34 +71,33 @@ class MS.Views.LoanChartsView extends Backbone.View
       profitData[name]['cost'] = cost
       profitData[name]['profit'] = profitData[name]['revenue'] - cost
 
-    return profitData
-
-  breakevenFixedCostsChart: ->
     data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
-    data.addColumn 'number', I18n.t('loan.breakeven.amount')
+    data.addColumn 'string', I18n.t('loan.breakeven.product')
+    data.addColumn 'number', I18n.t('loan.breakeven.profit')
 
-    for key,cost of @breakevenFixedCosts
-      name = cost.name
-      total = cost.amount
+    for key,product of profitData
+      name = key
+      total = product.profit
       data.addRow [name, total]
 
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-fixed-cost-chart'))
-    @formatNumbers(data)
-    options = @defaultChartOptions
-    chart.draw(data, options)
+    data
 
-  breakevenCostsChart: ->
+  drawPieChartIntoElement: (elementSelector, chartTable) ->
+    chart = new google.visualization.PieChart(@$(elementSelector)[0])
+    @formatNumbers(chartTable)
+    chart.draw(chartTable, @defaultChartOptions)
+
+  defaultChartTable: (productLabel, revenueLabel, chartData) ->
     data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.item')
-    data.addColumn 'number', I18n.t('loan.breakeven.cost')
-    data.addRow ["Cost of Good Sold", @breakevenData["total_cogs"]]
-    data.addRow ["Fixed Costs", @breakevenData["total_fixed_costs"]]
+    data.addColumn 'string', productLabel
+    data.addColumn 'number', revenueLabel
 
-    options = @defaultChartOptions
-    chart = new google.visualization.PieChart(document.getElementById('breakeven-costs-chart'))
-    @formatNumbers(data)
-    chart.draw(data, options)
+    for key,product of chartData
+      name = product.name
+      total = product.total
+      data.addRow [name, total]
+
+    data
 
   # Style the number as currency with punctuation
   formatNumbers: (data) ->

@@ -116,3 +116,7 @@ a, input[type="checkbox"], input[type="radio"], select {
     color: inherit;
   }
 }
+
+[data-hide-all], .show-actions [data-hide-all] {
+  display: none;
+}

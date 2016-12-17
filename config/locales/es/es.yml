@@ -141,7 +141,7 @@ es:
   date:
     formats:
       default: '%b %e, %Y'
-      short: '%m-%d-%y'
+      short: '%-m-%-d-%Y'
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
@@ -242,6 +242,7 @@ es:
   save: "Guardar"
   step: "Paso"
   submit: "Enviar"
+  unauthorized_error: "No tienes autorización para realizar esta acción."
   update: "Actualizar"
   updated: "Actualizado"
   common:
@@ -267,6 +268,7 @@ es:
     website: "Página web"
     id: "ID"
     user: "Usuario"
+    view_logs: "Ver Apuntes"
   template:
     profile: "Perfil"
     change_division: "Cambiar División"
@@ -306,6 +308,7 @@ es:
       on_time: "A Tiempo"
     step: "Paso"
     step_completed: "Paso completado en esta fecha"
+    untitled_step: "[Paso sin nombre]"
   media:
     confirm_deletion: "¿Realmente quieres borrar esta foto?"
     caption: "Epígrafe para %{locale_name} "
@@ -318,10 +321,12 @@ es:
     coops: "Cooperativas"
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
-    loans: "Préstamos"
     loan_questions: "Preguntas de Préstamos"
     manage: "Manejar"
     people: "Miembros"
+    log: "Apunte"
+    loans: "Préstamos"
+    logs: "Apuntes"
   number:
     nth:
       num_1: "primero"
@@ -371,6 +376,7 @@ es:
     logs: "Apuntes"
     months: "Mes(es)"
     move: "Mover Paso"
+    no_status: "[No status]"
     no_steps: "No hay pasos de la línea de tiempo que mostrar."
     occurrences: "ocurrencia(s)"
     once: "Una vez"

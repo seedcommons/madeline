@@ -3,6 +3,7 @@ ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
   = render "admin/loans/tab", identifier: "questions", label: t("loan.questions")
   = render "admin/loans/tab", identifier: "timeline-table", label: t("loan.timeline_table")
   = render "admin/loans/tab", identifier: "timeline-list", label: t("loan.timeline_list")
+  = render "admin/loans/tab", identifier: "logs", label: t("log.logs")
   = render "admin/loans/tab", identifier: "loan-calendar", label: t("calendar.calendar")
 
 div class="tab-content"
@@ -24,6 +25,10 @@ div class="tab-content"
       = render "admin/loans/timeline/list_header"
       div.project-steps
         // Steps are loaded dynamically by TimelineView
+
+  div role="tabpanel" class="tab-pane" id="logs"
+    section.log-list
+      // Logs list is dynamically loaded by view
 
   div role="tabpanel" class="tab-pane" id="loan-calendar"
     = render "admin/calendar/calendar", loan: @loan

@@ -1,9 +1,21 @@
 - content_for :title, @org ? t(".logs_for", thing: @org.name) : t(".title")
 
-/ - content_for :with_title do
-/   a.expand-all href="#" = t('expand_all')
+- refresh_url = @org ? "/admin/logs?org=#{@org.id}" : "/admin/logs"
 
-.logs-index
-  = render(@logs) || content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+section.log-list
+  = render "admin/project_logs/log_list"
+
+div#log-form-modal
+
+javascript:
+  $(function() {
+
+    new MS.Views.LogListView({
+      el: 'section.log-list',
+      refreshUrl: #{json refresh_url},
+      logFormModalView: new MS.Views.LogFormModalView(el: $('#log-form-modal'))
+    });
+  });
+
 
 = paginate @logs

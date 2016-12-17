@@ -37,7 +37,7 @@
       = t("project_step.timeline_table.draft")
 
   - latest_logs = entry.latest_logs
-  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }"
+  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
     - latest_logs.each_with_index do |log, index|
       p.log-summary = log.summary
 
