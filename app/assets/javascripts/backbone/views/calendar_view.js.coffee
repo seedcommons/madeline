@@ -41,7 +41,7 @@ class MS.Views.CalendarView extends Backbone.View
   eventRender: (calEvent) -> calEvent.html
 
   eventDrop: (event, delta, revertFunc) ->
-    if event.model_type == 'ProjectStep' && event.is_finalized
+    if event.model_type == 'ProjectStep'
       unless @moveStepModalView
         @moveStepModalView = new MS.Views.MoveStepModalView
           el: $("<div>").appendTo(@$el)
