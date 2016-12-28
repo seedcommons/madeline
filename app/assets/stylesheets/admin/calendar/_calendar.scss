@@ -98,12 +98,26 @@
         cursor: pointer;
       }
     }
+
+    .cal-step {
+      &.has-precedent {
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
   }
 
   .main-calendar .fc-body {
     .cal-step {
       &:hover {
         cursor: pointer;
+      }
+
+      &.has-precedent {
+        &:hover {
+          cursor: default;
+        }
       }
     }
   }
