@@ -41,15 +41,18 @@ class MS.Views.CalendarView extends Backbone.View
   eventRender: (calEvent) -> calEvent.html
 
   eventDrop: (event, delta, revertFunc) ->
-    if event.model_type == 'ProjectStep' && event.is_finalized
-      unless @moveStepModalView
-        @moveStepModalView = new MS.Views.MoveStepModalView
-          el: $("<div>").appendTo(@$el)
-          context: 'calendar_drag'
+    if event.model_type == 'ProjectStep'
+      if event.is_finalized
+        unless @moveStepModalView
+          @moveStepModalView = new MS.Views.MoveStepModalView
+            el: $("<div>").appendTo(@$el)
+            context: 'calendar_drag'
 
-      @moveStepModalView.show(event.model_id, delta.days())
-      .done => @refresh()
-      .fail => revertFunc()
+        @moveStepModalView.show(event.model_id, delta.days())
+        .done => @refresh()
+        .fail => revertFunc()
+      else
+        console.log('Unfinalized project step dropped')
 
     else if event.model_type == 'Loan'
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
