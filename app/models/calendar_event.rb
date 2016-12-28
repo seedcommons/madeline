@@ -95,7 +95,7 @@ class CalendarEvent
     @step_type = step.step_type_value
     @completion_status = step.completion_status
     @time_status = step.days_late && step.days_late > 0 ? "late" : "on_time"
-    @has_precedent = step.schedule_parent_id ? "has-precedent" : ""
+    @has_precedent = step.schedule_parent_id ? true : false
     self
   end
 
