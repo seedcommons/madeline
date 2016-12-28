@@ -295,6 +295,7 @@ en:
   calendar:
     calendar: "Calendar"
     check_in: "Check in"
+    has_precedent: "Depends on another step"
     legend: "Legend"
     milestone: "Milestone"
     num_of_logs: "Number of logs"
