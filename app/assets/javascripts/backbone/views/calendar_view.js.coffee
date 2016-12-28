@@ -53,9 +53,10 @@ class MS.Views.CalendarView extends Backbone.View
         .fail => revertFunc()
       else
         stepId = event.model_id
-        $.post "/admin/timeline_step_moves/#{stepId}/simple_move",
+        $.post("/admin/timeline_step_moves/#{stepId}/simple_move",
           _method: "PATCH"
-          scheduled_start_date: event.start.format('YYYY-MM-DD')
+          scheduled_start_date: event.start.format('YYYY-MM-DD'))
+          .done => @refresh()
 
     else if event.model_type == 'Loan'
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
