@@ -52,7 +52,10 @@ class MS.Views.CalendarView extends Backbone.View
         .done => @refresh()
         .fail => revertFunc()
       else
-        console.log('Unfinalized project step dropped')
+        stepId = event.model_id
+        $.post "/admin/timeline_step_moves/#{stepId}/simple_move",
+          _method: "PATCH"
+          scheduled_start_date: event.start.format('YYYY-MM-DD')
 
     else if event.model_type == 'Loan'
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
