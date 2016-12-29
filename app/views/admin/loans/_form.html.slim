@@ -17,7 +17,7 @@
     choices: @organization_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = f.input :name
-    .view-element = @loan.display_name
+    .view-element = @loan.id ? @loan.display_name : ''
     = f.input_field :name
 
   = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
@@ -38,11 +38,11 @@
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
   = f.input :amount
-    .view-element = format_currency(@loan.amount, @loan.currency, tooltip: false)
+    .view-element = @loan.id ? format_currency(@loan.amount, @loan.currency, tooltip: false) : ''
     = f.input_field :amount
 
   = f.input :currency
-    .view-element = @loan.currency.try(:name)
+    .view-element = @loan.id ? @loan.currency.try(:name) : ''
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
   = render 'admin/loans/translatable', loan: @loan, f: f
