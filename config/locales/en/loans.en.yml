@@ -13,6 +13,7 @@ en:
     criteria: "Criteria"
     criteria_not_entered: "Criteria have not been entered yet."
     default_name_message: "If left blank, a name will be automatically generated for this loan."
+    default_loan_name: "%{org} - %{date}"
     delete: "Delete Loan"
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
