@@ -117,9 +117,13 @@ class Loan < ActiveRecord::Base
     [primary_name, secondary_name]
   end
 
-  def name
+  def default_name
     date = signing_date || created_at.to_date
     "#{organization.name} &ndash; #{I18n.l date}".html_safe
+  end
+
+  def display_name
+    name ? name : default_name
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
