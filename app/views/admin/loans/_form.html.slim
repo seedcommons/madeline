@@ -19,6 +19,7 @@
   = f.input :name
     .view-element = @loan.id ? @loan.display_name : ''
     = f.input_field :name
+    .form-element = t('loan.default_name_message')
 
   = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.division.try(:name)
