@@ -110,7 +110,7 @@ class CalendarEvent
 
   def initialize_loan_start(loan)
     @start = loan.signing_date
-    @title = "Start " + loan.name
+    @title = "Start " + loan.display_name
     @event_type = "loan_start"
     @model_type = 'Loan'
     @model = loan
@@ -119,7 +119,7 @@ class CalendarEvent
 
   def initialize_loan_end(loan)
     @start = loan.target_end_date
-    @title = "End " + loan.name
+    @title = "End " + loan.display_name
     @event_type = "loan_end"
     @model_type = 'Loan'
     @model = loan

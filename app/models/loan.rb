@@ -123,7 +123,9 @@ class Loan < ActiveRecord::Base
   end
 
   def display_name
-    name ? name : default_name
+    if self.name.blank?
+      self.default_name
+    else self.name end
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
