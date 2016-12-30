@@ -27,6 +27,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     if params[:context] == "calendar"
       @logs = @step.project_logs
+      @context = params[:context]
       render_modal_content
     else
       display_timeline(@step.project_id)

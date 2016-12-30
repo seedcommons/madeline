@@ -6,13 +6,14 @@
     a data-expand-all=".logs-index" href="#" = t('common.expand_all')
     a data-hide-all=".logs-index" href="#" = t('common.hide_all')
 
-  - if @step
-    h5
-      - if @step.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif @step.checkin?
-        i.fa.fa-fw.fa-calendar
-      = @step.summary
+  - unless @context && @context == "calendar"
+    - if @step
+      h5
+        - if @step.milestone?
+          i.fa.fa-fw.fa-flag-o
+        - elsif @step.checkin?
+          i.fa.fa-fw.fa-calendar
+        = @step.summary
 
   .logs-index
     - @logs.each do |log|
@@ -30,16 +31,19 @@
             .item
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
-            - unless params[:org].present? || params[:loan].present? || params[:step].present?
-              .item
-                a href=admin_organization_path(step.project.organization)
-                  i.fa.fa-building-o>
-                  = step.project.organization.name
-            - unless params[:step].present?
-              .item
-                a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
-                  = project_step_icon(step)
-                  = step.summary.present? ? step.summary : t('log.untitled_step')
+
+            - unless @context.present? && @context == "calendar"
+              - unless params[:org].present? || params[:loan].present? || params[:step].present?
+                .item
+                  a href=admin_organization_path(step.project.organization)
+                    i.fa.fa-building-o>
+                    = step.project.organization.name
+              - unless params[:step].present?
+                .item
+                  a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                    = project_step_icon(step)
+                    = step.summary.present? ? step.summary : t('log.untitled_step')
+
             .item
               a data-action="edit"
                 i.fa.fa-pencil>
