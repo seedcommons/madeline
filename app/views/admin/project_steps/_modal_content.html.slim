@@ -104,7 +104,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       a data-hides="step-logs-#{@step.id}" Hide Logs
 
       div data-expandable="step-logs-#{@step.id}"
-        p Logs will go here
+        = render "admin/project_logs/log_list"
 
   div.modal-footer
     .view-element
