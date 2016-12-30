@@ -11,7 +11,10 @@
           th = t("loan.breakeven.unit")
           th = t("loan.breakeven.price")
           th = t("loan.breakeven.cost")
+          th = t("loan.breakeven.percentage_of_sales")
           th = t("loan.breakeven.quantity")
+          th Net
+          th P * S
           th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
@@ -23,6 +26,8 @@
             = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question
 
         = render 'admin/loans/questionnaires/breakeven_product_row', question: question
+
+        /= render 'admin/loans/questionnaires/breakeven_product_totals', products: data[:products]
 
   .table-container
     h4.title = t("loan.breakeven.rampup")

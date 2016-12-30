@@ -3,12 +3,15 @@
 - prefix = "loan_response_set[#{question.attribute_sym}][breakeven][products][]"
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
-  td: textarea name="#{prefix}[name]" = product[:name]
+  td: textarea.name name="#{prefix}[name]" = product[:name]
   td: textarea name="#{prefix}[description]" = product[:description]
   td: textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit') = product[:unit]
-  td: input name="#{prefix}[price]" type="number" value=product[:price]
-  td: input name="#{prefix}[cost]" type="number" value=product[:cost]
-  td: input name="#{prefix}[quantity]" type="number" value=product[:quantity]
+  td: input.price name="#{prefix}[price]" type="number" value=product[:price]
+  td: input.cost name="#{prefix}[cost]" type="number" value=product[:cost]
+  td: input name="#{prefix}[percentage_of_sales]" type="number"
+  td: input.quantity name="#{prefix}[quantity]" type="number" value=product[:quantity]
+  td: input.net name="#{prefix}[net]" type="number"
+  td: input.percentsales name="#{prefix}[ps]" type="number"
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash
