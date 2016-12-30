@@ -19,6 +19,8 @@
       custom_filter: Organization.filter_in_division(selected_division),
       detach_with_id: :coop_filter do |loan|
       - loan.organization.name
+    - g.column name: "Name", attribute: 'name' do |loan|
+      - loan.display_name
     - g.column name: t('activerecord.attributes.loan.status'), attribute: 'status_value',
       custom_filter: Loan.status_options, detach_with_id: :status_filter do |loan|
       - loan.status
