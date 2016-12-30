@@ -11,9 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207211332) do
+ActiveRecord::Schema.define(version: 20161230053810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "basic_projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "division_id"
+    t.integer  "primary_agent_id"
+    t.string   "project_type_value"
+    t.integer  "secondary_agent_id"
+    t.date     "start_date"
+    t.string   "status_value"
+    t.date     "target_end_date"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "basic_projects", ["division_id"], name: "index_basic_projects_on_division_id", using: :btree
+  add_index "basic_projects", ["primary_agent_id"], name: "index_basic_projects_on_primary_agent_id", using: :btree
+  add_index "basic_projects", ["secondary_agent_id"], name: "index_basic_projects_on_secondary_agent_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -365,6 +381,9 @@ ActiveRecord::Schema.define(version: 20161207211332) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
 
+  add_foreign_key "basic_projects", "divisions"
+  add_foreign_key "basic_projects", "people", column: "primary_agent_id"
+  add_foreign_key "basic_projects", "people", column: "secondary_agent_id"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
