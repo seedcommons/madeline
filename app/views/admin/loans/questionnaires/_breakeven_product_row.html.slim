@@ -8,10 +8,10 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td: textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit') = product[:unit]
   td: input.price name="#{prefix}[price]" type="number" value=product[:price]
   td: input.cost name="#{prefix}[cost]" type="number" value=product[:cost]
-  td: input name="#{prefix}[percentage_of_sales]" type="number"
-  td: input.quantity name="#{prefix}[quantity]" type="number" value=product[:quantity]
-  td: input.net name="#{prefix}[net]" type="number"
-  td: input.percentsales name="#{prefix}[ps]" type="number"
+  td: input.percentage_of_sales name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+  td: input.quantity name="#{prefix}[quantity]" type="number" value=product[:quantity] disabled=true
+  td: input.net name="#{prefix}[net]" type="number" disabled=true
+  td: input.ps name="#{prefix}[ps]" type="number" disabled=true
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash

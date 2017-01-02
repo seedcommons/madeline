@@ -2,40 +2,57 @@ class MS.Views.BreakevenProductView extends Backbone.View
 
   # The view is called from the editiable table view.
 
-  # events:
-  #   'click tr [data-action="delete"]': 'removeRow'
-  #   'click .actions [data-action="add"]': 'addRow'
+  events:
+    'change input': 'updateDom'
 
   initialize: (options) ->
-    cost = @cost()
-    percentsales = @percentsales()
-    name = @name()
-    price = @price()
-    quantity = @quantity()
-    net = @net()
+    @total_fixed_costs = 20000
+    @Q = 222.22
 
-    console.log({name, quantity, price, cost, percentsales, net})
+    @updateDom()
+
+
+  updateDom: ->
+    @cost = @readFromDom('cost')
+    @percentage_of_sales = @getPercentageOfSales()
+    @price = @readFromDom('price')
+    @profit = @getProfit()
+    @quantity = @getQuantity()
+    @ps = @getPs()
+    @net = @getNet()
+
+    @writeToDom('net', @net)
+    @writeToDom('quantity', @quantity)
+    @writeToDom('ps', @ps)
+
+    console.log({@total_fixed_costs, @quantity, @price, @cost, @profit, @percentage_of_sales, @net, @ps})
     # console.log(@$el)
 
   name: ->
     @$('.name').val()
 
-  quantity: ->
-    @$('.quantity').val()
+  getProfit: ->
+    @price - @cost
 
-  price: ->
-    @$('.price').val()
+  getNet: ->
+    @profit * @quantity
 
-  cost: ->
-    @$('.cost').val()
+  getPs: ->
+    @profit * @percentage_of_sales
 
-  percentsales: ->
-    @$('.percentsales').val()
+  getQuantity: ->
+    @percentage_of_sales * @Q
 
-  net: ->
-    net = (@price() - @cost()) * @quantity()
-    @$('.net').val(net)
-    net
+  getPercentageOfSales: ->
+    @readFromDom('percentage_of_sales') / 100
+
+  readFromDom: (fieldName) ->
+    value = @$(".#{fieldName}").val()
+    parseFloat(value)
+
+  writeToDom: (fieldName, value) ->
+    @$(".#{fieldName}").val(value.toFixed())
+
 
   # addRow: (e) ->
   #   e.preventDefault()
