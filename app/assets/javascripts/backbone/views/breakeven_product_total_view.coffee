@@ -31,7 +31,7 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
 
   totalNet: ->
     sum = _.reduce(@products, (acc, product) =>
-      acc += product.getNet() if product.isValid()
+      acc += product.net() if product.isValid()
 
       return acc
     , 0)
@@ -41,10 +41,10 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
 
   totalPs: ->
     sum = _.reduce(@products, (acc, product) =>
-      acc += product.getPs() if product.isValid()
+      acc += product.ps() if product.isValid()
 
       return acc
-    , 0)
+    , 0.0)
 
     @$('.ps').val(sum)
     sum
@@ -52,7 +52,7 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
 
   totalPercentageOfSales: ->
     sum = _.reduce(@products, (acc, product) =>
-      acc += product.getPercentageOfSales() if product.isValid()
+      acc += product.percentageOfSales() if product.isValid()
 
       return acc
     , 0)

@@ -3,50 +3,51 @@ class MS.Views.BreakevenProductView extends Backbone.View
   # The view is called from the editiable table view.
 
   events:
-    'change input': 'changed'
+    'change input.price': 'changed'
+    'change input.cost': 'changed'
+    'change input.percentage_of_sales': 'changed'
 
-  initialize: (options) ->
-    @total_fixed_costs = 0
+  initialize: (options) =>
+    @total_fixed_costs = @readFromDom('total_fixed_costs')
     @Q = 0.0
 
     # Refactor to separate all calculations from Dom
     @cost = @readFromDom('cost')
-    @percentage_of_sales = @getPercentageOfSales()
     @price = @readFromDom('price')
-    @profit = @getProfit()
-    @quantity = @getQuantity()
-    @ps = @getPs()
-    @net = @getNet()
+    @_percentageOfSales = @readPercentageOfSalesFromDom()
 
     @updateDom()
 
   updateDom: ->
-    @writeToDom('net', @net)
-    @writeToDom('quantity', @quantity)
-    @writeToDom('ps', @ps)
+    @writeToDom('net', @net())
+    @writeToDom('quantity', @quantity())
+    @writeToDom('ps', @ps())
 
-    console.log({@total_fixed_costs, @quantity, @price, @cost, @profit, @percentage_of_sales, @net, @ps})
+    console.log({@total_fixed_costs, quantity: @quantity(), @price, @cost, profit: @profit(), percentageOfSales: @percentageOfSales(), net: @net(), ps: @ps()})
     # console.log(@$el)
 
-  isValid: ->
-    !isNaN(@getNet()) && !isNaN(@getPs())
+  isValid: =>
+    !isNaN(@net()) && !isNaN(@ps())
 
-  name: ->
+  name: =>
     @$('.name').val()
 
-  getProfit: ->
+  profit: =>
     @price - @cost
 
-  getNet: ->
-    @profit * @quantity
+  net: =>
+    @profit() * @quantity()
 
-  getPs: ->
-    @profit * @percentage_of_sales
+  ps: =>
+    @profit() * @percentageOfSales()
 
-  getQuantity: ->
-    @percentage_of_sales * @Q
+  quantity: =>
+    Math.round(@percentageOfSales() * @Q)
 
-  getPercentageOfSales: ->
+  percentageOfSales: =>
+    @_percentageOfSales
+
+  readPercentageOfSalesFromDom: ->
     @readFromDom('percentage_of_sales') / 100
 
   readFromDom: (fieldName) ->
@@ -54,7 +55,11 @@ class MS.Views.BreakevenProductView extends Backbone.View
     parseFloat(value)
 
   writeToDom: (fieldName, value) ->
-    @$(".#{fieldName}").val(value.toFixed())
+    if @isValid
+      @$(".#{fieldName}").val(value.toFixed())
+    else
+      @$(".#{fieldName}").val("N/A")
+
 
   totalsUpdated: (totals) ->
     @total_fixed_costs = totals.totalFixedCosts
@@ -63,9 +68,11 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @updateDom()
 
   changed: () ->
+    @price = @readFromDom('price')
+    @cost = @readFromDom('cost')
+    @_percentageOfSales = @readPercentageOfSalesFromDom()
     @updateDom()
     @trigger("product:changed", @)
-
 
   # addRow: (e) ->
   #   e.preventDefault()

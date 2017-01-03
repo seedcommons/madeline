@@ -19,15 +19,15 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question
+        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question, total_fixed_costs: 0
 
         - if data && data[:products]
           - data[:products].each do |product|
-            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question
+            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question, total_fixed_costs: total_fixed_costs
 
-        = render 'admin/loans/questionnaires/breakeven_product_row', question: question
+        = render 'admin/loans/questionnaires/breakeven_product_row', question: question, total_fixed_costs: 0
 
-        = render 'admin/loans/questionnaires/breakeven_product_totals', report: report, question: question
+        = render 'admin/loans/questionnaires/breakeven_product_totals', total_fixed_costs: total_fixed_costs, question: question
 
   .table-container
     h4.title = t("loan.breakeven.rampup")
