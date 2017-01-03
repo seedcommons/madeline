@@ -1,15 +1,15 @@
-li = link_to t('menu.dashboard'), root_path
-li = link_to t('menu.coops'), admin_organizations_path
 li = link_to t('menu.loans'), admin_loans_path
+li = link_to t('menu.logs'), admin_project_logs_path
+li = link_to t('menu.coops'), admin_organizations_path
 li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('menu.people'), admin_people_path
 
 li
-  a href="#" data-toggle="collapse" data-target=".submenu1" aria-expanded="false"
+  a data-toggle="collapse" data-target=".submenu1" aria-expanded="false"
     => t('menu.manage')
     span.caret
   ul.nav.collapse.submenu.submenu1 role="menu"
     - if policy(Division).index?
       li = link_to t('menu.divisions'), admin_divisions_path
-    li = link_to t('menu.loan_questions'), admin_custom_fields_path
+    li = link_to t('menu.loan_questions'), admin_loan_questions_path

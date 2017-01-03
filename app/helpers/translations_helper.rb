@@ -38,7 +38,7 @@ module SimpleForm
         <div class="languages" data-content-translatable="#{object_name}">
           <input class="deleted-locales" name="#{object_name}[deleted_locales][]" type="hidden" />
       }.html_safe
-      object.used_locales_or_current_locale.each do |l|
+      object.used_and_division_locales.each do |l|
         # .row is added to language-block to address styling problems
         out += %Q{
           <div class="language-block row" data-locale="#{l}">

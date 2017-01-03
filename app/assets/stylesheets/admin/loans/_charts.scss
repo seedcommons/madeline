@@ -1,0 +1,26 @@
+// Increased specificity for items loaded inside questionnaire tree
+section.questionnaires li.jqtree_common
+.breakeven-chart,
+.breakeven-chart {
+  margin: 2em .5em 1em;
+  page-break-before: always;
+
+  h3, h4 {
+    display: block;
+  }
+
+  h3 {
+    font-size: 1.5em;
+  }
+
+  h4 {
+    font-size: 1.35em;
+  }
+
+  .chart {
+    display: inline-block;
+    width: 48%;
+    margin: 2em auto 1em;
+    text-align: center;
+  }
+}

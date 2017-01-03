@@ -2,47 +2,49 @@ class Admin::ProjectStepsController < Admin::AdminController
   include TranslationSaveable
   helper TimeLanguageHelper
 
-  def destroy
-    @step = ProjectStep.find(params[:id])
+  def new
+    @loan = Loan.find(params[:loan_id])
+    @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date],
+      parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id])
     authorize @step
-
-    if request.xhr?
-      @step.destroy
-      render nothing: true
+    if params[:context] == "timeline_table"
+      render_modal_content
     else
-      if @step.destroy
-        display_timeline(@step.project_id, I18n.t(:notice_deleted))
-      else
-        display_timeline(@step.project_id)
-      end
+      params[:context] = "timeline" unless params[:context]
+      render_step_partial(:form)
     end
   end
 
-  def new
-    @loan = Loan.find(params[:loan_id])
-    @step = ProjectStep.new(project: @loan, scheduled_date: params[:date])
+  def edit
+    @step = ProjectStep.find(params[:id])
     authorize @step
-    params[:context] = "timeline" unless params[:context]
-    render_step_partial(:form)
+    render_modal_content
   end
 
   def show
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    if request.xhr?
-      render_step_partial(:show)
+    if params[:context] == "calendar"
+      render_modal_content
     else
       display_timeline(@step.project_id)
     end
   end
 
   def create
-    # We initialize with project_step_params here to given enough info for authorize to work
+    # We initialize with project_step_params here to give enough info for authorize to work
     @step = ProjectStep.new(project_step_params)
     authorize @step
+    unless @step.parent_id
+      @step.parent = @step.project.root_timeline_entry
+    end
     valid = @step.save
-    render_step_partial(valid ? :show : :form)
+    if params[:context] == "timeline_table"
+      valid ? render(nothing: true) : render_modal_content(422)
+    else
+      render_step_partial(valid ? :show : :form)
+    end
   end
 
   def update
@@ -59,10 +61,39 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
-    render partial: "/admin/project_steps/project_step", locals: {
+    if %w(timeline_table calendar).include?(params[:context])
+      valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
+    else
+      render partial: "/admin/project_steps/project_step", locals: {
+        step: @step,
+        mode: valid ? :show : :edit,
+        days_shifted: days_shifted,
+        context: params[:context]
+      }
+    end
+  end
+
+  def destroy
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+
+    if request.xhr?
+      @step.destroy
+      render nothing: true
+    else
+      if @step.destroy
+        display_timeline(@step.project_id, I18n.t(:notice_deleted))
+      else
+        display_timeline(@step.project_id)
+      end
+    end
+  end
+
+  def show_duplicate
+    @step = ProjectStep.find(params[:id])
+    authorize @step
+    render partial: "/admin/project_steps/duplicate_step_modal", locals: {
       step: @step,
-      mode: valid ? :show : :edit,
-      days_shifted: days_shifted,
       context: params[:context]
     }
   end
@@ -75,87 +106,52 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def batch_destroy
-    step_ids = params[:'step-ids']
-    project_id, notice = batch_operation(step_ids, notice_key: :notice_batch_deleted) do |step|
-      step.destroy
-    end
+    project_id, notice = Timeline::BatchDestroy.new(current_user,
+      params['step-ids'],
+      notice_key: :notice_batch_deleted).perform
+
+    # Auth is done in BatchDestroy, but controller doesn't realize
+    skip_authorization
+
     display_timeline(project_id, notice)
   end
 
   def adjust_dates
-    step_ids = params[:'step-ids']
-    time_direction = params[:time_direction]
-    num_of_days = params[:num_of_days].to_i
+    project_id, notice = Timeline::DateAdjustment.new(current_user,
+      params['step-ids'],
+      time_direction: params[:time_direction],
+      num_of_days: params[:num_of_days].to_i).perform
 
-    sign = case time_direction
-       when 'forward'
-         1
-       when 'backward'
-         -1
-       else
-         raise "adjust_dates - unexpected or missing time_direction: #{time_direction}"
-     end
-    days_adjustment = sign * num_of_days
+    # Auth is done in DateAdjustment, but controller doesn't realize
+    skip_authorization
 
-    project_id, notice = batch_operation(step_ids) do |step|
-      step.adjust_scheduled_date(days_adjustment)
-    end
     display_timeline(project_id, notice)
   end
 
   def finalize
-    step_ids = params[:'step-ids']
-    project_id, notice = batch_operation(step_ids) do |step|
-      step.finalize
-    end
+    project_id, notice = Timeline::BatchFinalize.new(current_user, params['step-ids']).perform
+
+    # Auth is done in BatchFinalize, but controller doesn't realize
+    skip_authorization
+
     display_timeline(project_id, notice)
   end
 
   private
 
-  # Returns the two values in an array, the project id, and a 'notice' string needed to redisplay
-  # the timeline.
-  # 'step_ids' may either be an array of integer or comma separated string
-  def batch_operation(step_ids, notice_key: :notice_batch_updated)
-    success_count = 0
-    failure_count = 0
-    project_id = nil
-    raise_error = true
-    step_ids = step_ids.split(',') if step_ids.is_a?(String)
-    step_ids.each do |step_id|
-      begin
-        step = ProjectStep.find(step_id)
-        authorize step
-        project_id ||= step.project_id
-
-        # If the block returns false, this indicates no change and this record should be left out of
-        # both success and failure counts.
-        if yield(step)
-          success_count += 1
-        end
-        raise_error = false
-      rescue => e
-        Rails.logger.error("project step: #{step_id} - batch operation error: #{e}")
-        raise e if raise_error
-        failure_count += 1
-      end
-    end
-
-    notice = I18n.t(notice_key, count: success_count)
-    if failure_count > 0
-      notice = [notice, I18n.t(:notice_batch_failures, failure_count: failure_count)].join(" ")
-    end
-
-    [project_id, notice]
-  end
-
   def project_step_params
-    params.require(:project_step).permit(*([:is_finalized, :scheduled_date, :completed_date, :step_type_value,
-      :project_type, :project_id] + translation_params(:summary, :details)))
+    permitted = params.require(:project_step).permit(*([:is_finalized,
+      :scheduled_start_date, :actual_end_date, :scheduled_duration_days, :step_type_value, :project_type,
+      :schedule_parent_id, :project_id, :parent_id] + translation_params(:summary, :details)))
+
+    # If schedule_parent_id is set, scheduled_start_date should be ignored.
+    permitted.delete(:scheduled_start_date) if permitted[:schedule_parent_id].present?
+
+    permitted
   end
 
   def display_timeline(project_id, notice = nil)
-    redirect_to admin_loan_path(project_id, anchor: 'timeline'), notice: notice
+    redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
   end
 
   private
@@ -164,6 +160,15 @@ class Admin::ProjectStepsController < Admin::AdminController
     render partial: "/admin/project_steps/project_step", locals: {
       step: @step,
       mode: mode,
+      context: params[:context]
+    }
+  end
+
+  def render_modal_content(status = 200)
+    @mode = params[:action] == "show" ? :show_and_form : :form_only
+    @parents = @step.project.timeline_entries.where(type: "ProjectGroup")
+    @precedents = @step.project.timeline_entries.where("type = 'ProjectStep' AND id != ?", @step.id || 0).by_date
+    render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]
     }
   end

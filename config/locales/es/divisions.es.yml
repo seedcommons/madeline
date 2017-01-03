@@ -3,9 +3,12 @@ es:
     shared:
       new: "Nueva División"
       parent: "División Principal"
+      all: "Todas las Divisiones"
   admin:
     divisions:
       show:
         confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar esta División para siempre? Si tiene campos personalizados u opciones preconfiguradas, ¡también se borrarán!"
         delete: "Borrar División"
         edit: "Editar División"
+      form:
+        notify_on_new_logs: "Notificar a los usuarios de esta división cuando se crea un nuevo apunte"

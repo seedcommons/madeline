@@ -1,10 +1,13 @@
 en:
-  # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
-  # style shortcuts.
   divisions:
+    # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+    # style shortcuts.
     shared:
       new: "New Division"
       parent: "Parent Division"
+      all: "All Divisions"
+
+
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     divisions:
@@ -12,3 +15,5 @@ en:
         confirm_deletion: "WARNING: Are you sure you want to permanently delete this Division? If it has any custom fields or option sets, they will also be deleted."
         delete: "Delete Division"
         edit: "Edit Division"
+      form:
+        notify_on_new_logs: "Notify users in this division when a new log is created"

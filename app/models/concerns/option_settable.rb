@@ -22,13 +22,7 @@ module OptionSettable
   extend ActiveSupport::Concern
 
   module ClassMethods
-
-    # future: support division specific versions of the option sets
     def option_set_for(attribute)
-      fetch_option_set(attribute)
-    end
-
-    def fetch_option_set(attribute)
       OptionSet.fetch(self, attribute)
     end
 
@@ -53,15 +47,24 @@ module OptionSettable
         end
 
         define_method("#{attr_name}_option") do
-          value = self.send("#{attr_name}_value")
-          self.class.option_set_for(attr_name).option_by_value(value)
+          @option_for ||= {}
+          @option_for[attr_name] ||=
+            option_set_for(attr_name).option_by_value(send("#{attr_name}_value"))
         end
 
         define_method("#{attr_name}_label") do
-          value = self.send("#{attr_name}_value")
-          self.class.option_set_for(attr_name).translated_label_by_value(value)
+          @option_label_for ||= {}
+          @option_label_for[attr_name] ||=
+            option_set_for(attr_name).translated_label_by_value(send("#{attr_name}_value"))
         end
       end
     end
+  end
+
+  # This version is an instance method and memoizes, unlike the class version.
+  def option_set_for(attribute)
+    @option_set_for ||= {}
+    @option_set_for[attribute] ||=
+      OptionSet.fetch(self.class, attribute)
   end
 end

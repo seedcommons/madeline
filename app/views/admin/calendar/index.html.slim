@@ -1,14 +1,18 @@
 - content_for :title
-  = t(:calendar)
+  = t("calendar.calendar")
 
 section.calendar
   = render "admin/calendar/legend"
 
   div#calendar.main-calendar
-  
-  = render "admin/calendar/step_modal"
+
+  = render "admin/project_steps/modal"
 
 javascript:
   $(function(){
-    MS.calendarView = new MS.Views.CalendarView({calendar_events_url: #{json @calendar_events_url}});
+    MS.calendarView = new MS.Views.CalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: "#{I18n.locale}"
+    });
   });

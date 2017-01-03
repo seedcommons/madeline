@@ -1,7 +1,11 @@
 // General, miscellaneous styles to be used throughout the admin area.
 // General styles forming a cohesive, non-trivially sized group should be moved into separate file.
 
-// @import "bootstrap/variables";
+@import "colors";
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 
 // A two-column table for key-value style data.
 table.key-value {
@@ -48,7 +52,7 @@ table.key-value {
 .content {
   // Gray blocks found throughout the admin interface.
   .block {
-    background: #eee;
+    background: $background-gray;
     margin: 1em 0;
     padding: 1em;
 
@@ -75,21 +79,22 @@ section.details {
     margin-top: 0;
     font-size: 1.5em;
   }
+}
 
-  .show-actions {
-    margin-bottom: 5px;
-    text-align: right;
+// These are the show/edit links at the top of show views/forms.
+.show-actions {
+  margin-bottom: 5px;
+  text-align: right;
 
+  a {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .dropdown-menu {
     a {
-      display: inline-block;
-      margin-left: 10px;
-    }
-
-    .dropdown-menu {
-      a {
-        display: block;
-        margin: 0;
-      }
+      display: block;
+      margin: 0;
     }
   }
 }
@@ -108,4 +113,14 @@ a, input[type="checkbox"], input[type="radio"], select {
 
 .filter-switch {
   text-align: center
+}
+
+.pagination > li {
+  > a, > a:hover {
+    color: inherit;
+  }
+}
+
+[data-hide-all], .show-actions [data-hide-all] {
+  display: none;
 }

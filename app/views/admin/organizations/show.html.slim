@@ -2,8 +2,11 @@
 
 section.coop.details
 
-  section.block.coop-fields  class=(@org.valid? ? 'show-view' : 'edit-view')
+  section.block.coop-fields class=(@org.valid? ? 'show-view' : 'edit-view')
     .show-actions
+      a href=admin_project_logs_path(org: @org.id)
+        = t('common.view_logs')
+        
       - if @org.valid?
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
@@ -12,7 +15,8 @@ section.coop.details
           = t("cancel_edit")
       - else
         a href=admin_organization_path(@org) = t("cancel_edit")
-      / TODO: Confirm and cancel should have defaults
+      
+      / TODO: Confirm and cancel should have defaults (already done?)
       = link_to [:admin, @org], method: :delete,
           data: { \
             confirm: t('organization.confirm_deletion'),

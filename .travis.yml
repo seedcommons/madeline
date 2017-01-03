@@ -20,3 +20,7 @@ rvm:
 branches:
   only:
     - develop
+env:
+  global:
+    - MADELINE_EMAIL_FROM=madeline@theworkingworld.org
+    - MADELINE_HOSTNAME=madeline.theworkingworld.org

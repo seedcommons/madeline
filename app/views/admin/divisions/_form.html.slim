@@ -8,7 +8,7 @@
     },
   ) do |f|
 
-  = f.error_notification
+  = error_notification(f)
 
   = f.input :name
     .view-element = @division.name
@@ -22,6 +22,10 @@
     .view-element = @division.default_currency.try(:name)
     = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
 
+  = f.input :locales
+    .view-element = @division.locale_names.join(', ')
+    = f.input_field :locales, as: :check_boxes, collection: locale_options, include_blank: true, checked: @division.locales
+
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
     = f.input :parent
@@ -33,11 +37,43 @@
             = link_to @division.parent.name, admin_division_path(@division.parent)
       = f.input_field :parent_id, collection: @parent_choices, include_blank: false
 
+  = f.input :notify_on_new_logs
+    .view-element = t "boolean.#{@division.notify_on_new_logs}"
+    = f.input_field :notify_on_new_logs, inline_label: t('.notify_on_new_logs')
+
+  = f.input :logo
+    .view-element
+      - if @division.logo.present?
+        = image_tag @division.logo.url(:banner)
+      - else
+        = t("none")
+    = f.input_field :logo, as: :file
+
+  = f.input :logo_text
+    .view-element = @division.logo_text
+    = f.input_field :logo_text
+
+  = f.input :banner_bg_color
+    .view-element = @division.banner_bg_color
+    = f.input_field :banner_bg_color
+
+  = f.input :banner_fg_color
+    .view-element = @division.banner_fg_color
+    = f.input_field :banner_fg_color
+
+  = f.input :accent_main_color
+    .view-element = @division.accent_main_color
+    = f.input_field :accent_main_color
+
+  = f.input :accent_fg_color
+    .view-element = @division.accent_fg_color
+    = f.input_field :accent_fg_color
+
   .actions.form-element
     - unless @division.new_record?
       - if @division.valid?
         a.btn.btn-default.show-action = t(:cancel)
       - else
         a.btn.btn-default href=admin_division_path(@division) = t(:cancel)
-    = f.submit class: 'update-action btn btn-success'
+    = f.submit class: 'update-action btn btn-primary'
   .clearfix

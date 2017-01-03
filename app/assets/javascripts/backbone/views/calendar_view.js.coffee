@@ -5,17 +5,19 @@ class MS.Views.CalendarView extends Backbone.View
   initialize: (params) ->
     # Initialize calendar
     @$calendar = @$('#calendar')
+    @stepModal = params.stepModal
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)
       eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
-      events: params.calendar_events_url
+      events: params.calendarEventsUrl
       height: 'auto'
+      lang: params.locale
       customButtons:
         legend:
-          text: 'Legend'
+          text: I18n.t('calendar.legend', locale: params.locale)
       header:
         left: 'prev,next today'
         center: 'title'
@@ -26,17 +28,15 @@ class MS.Views.CalendarView extends Backbone.View
     @renderLegend()
 
   events:
-    'click .cal-step': 'showStepModal'
+    'click .cal-step': 'stepClick'
+
+  stepClick: (e) ->
+    @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
   dayClick: (date) ->
     if @$el.find('.loan-calendar').length
-      loanId = @$el.find('.loan-calendar').data('loan-id')
-      new MS.Views.CalendarStepModalView(
-        context: 'calendar',
-        loanId: loanId,
-        date: date.format('YYYY-MM-DD')
-      )
-      MS.loadingIndicator.show()
+      @stepModal.new(@$el.find('.loan-calendar').data('loan-id'), @refresh.bind(@),
+        date: date.format('YYYY-MM-DD'))
 
   eventRender: (calEvent) -> calEvent.html
 
@@ -80,9 +80,3 @@ class MS.Views.CalendarView extends Backbone.View
 
   refresh: (e) ->
     @$calendar.fullCalendar('refetchEvents')
-
-  showStepModal: (e) ->
-    calStep = e.currentTarget
-    id = @$(calStep).data('step-id')
-    new MS.Views.CalendarStepModalView(id: id, context: 'calendar')
-    MS.loadingIndicator.show()

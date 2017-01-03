@@ -10,7 +10,10 @@
  *
  */
 
-// Bootstrap Sass
+// Bootstrap variable overrides
+// These need to come before the @import of bootstrap itself
+$headings-font-weight: 600;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "jasny-bootstrap";
@@ -19,10 +22,9 @@
 @import "bootstrap-datepicker3";
 @import "global-loading-indicator";
 @import "devise";
-
-// Vendor Styles
 @import "font-awesome";
-@import "bootstrap-responsive-tabs";
+@import "fontastic";
+@import "madeline_logo";
 
 body {
   color: #333435;

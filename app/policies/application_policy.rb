@@ -33,11 +33,13 @@ class ApplicationPolicy
   end
 
   def destroy?
-    division_admin
+    # TODO: confirm what only admins should be allowed to delete
+    # division_admin
+    update?
   end
 
   def reassign_division?
-    division_admin
+    division_member_or_admin
   end
 
   def scope

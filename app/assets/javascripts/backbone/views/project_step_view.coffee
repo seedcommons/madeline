@@ -65,7 +65,6 @@ class MS.Views.ProjectStepView extends Backbone.View
   ajaxSuccess: (e, data) ->
     if $(e.target).is('form.project-step-form')
       MS.loadingIndicator.hide()
-
       if @context == 'timeline'
         @replaceWith(data)
         MS.timelineView.addBlankStep() unless @persisted || @duplicate
@@ -74,7 +73,7 @@ class MS.Views.ProjectStepView extends Backbone.View
         MS.calendarView.refresh()
 
     else if $(e.target).is('a.action-delete')
-      MS.calendarView.refresh()
+      MS.calendarView.refresh() if @context == "calendar"
       @$el.remove()
 
   replaceWith: (html) ->
@@ -85,13 +84,13 @@ class MS.Views.ProjectStepView extends Backbone.View
     link = e.currentTarget
     action = @$(link).data('action')
 
-    unless @logModalView
-      @logModalView = new MS.Views.LogModalView(el: $("<div>").appendTo(@$el), parentView: this)
+    unless @logFormModalView
+      @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").appendTo(@$el), parentView: this)
 
     if action == "edit-log"
-      @logModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'))
+      @logFormModalView.showEdit(@$(link).data('log-id'), @$(link).data('parent-step-id'), '')
     else
-      @logModalView.showNew(@$(link).data('parent-step-id'))
+      @logFormModalView.showNew(@$(link).data('parent-step-id'))
 
   deleteLog: (e, response) ->
     $.post @$(e.target).attr('href'), {_method: 'DELETE'}, (data) => @replaceWith(data)

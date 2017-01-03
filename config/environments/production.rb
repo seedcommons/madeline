@@ -44,9 +44,9 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # The available log levels are: :debug, :info, :warn, :error, :fatal, and :unknown,
+  # corresponding to the log level numbers from 0 up to 5, respectively.
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -76,6 +76,27 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Email settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'theworkingworld.org',
+    user_name: 'madeline@theworkingworld.org',
+    password: 'w^9srUKPwq',
+    authentication: 'plain',
+    enable_starttls_auto: true,
+  }
+
+  # Send email on errors
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[Madeline] ",
+      :sender_address => %{"Madeline" <devops@sassafras.coop>},
+      :exception_recipients => %w{devops@sassafras.coop}
+    }
+
   # For wordpress template
   config.x.wordpress_template = {
     division_urls: { # get division from request url

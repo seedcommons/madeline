@@ -2,9 +2,10 @@
 
 div.panel.step.filterable [
   style="border-color: #{step.border_color}"
+  id="step-#{step.id_or_temp_id}"
   data-step-id="#{step.id_or_temp_id}"
   data-color="#{step.border_color}"
-  class="#{step.completed_or_not} #{'new-record' if step.new_record?}"
+  class="#{step.completion_status} #{'new-record' if step.new_record?}"
   data-context="#{context}"
   ]
 

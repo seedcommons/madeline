@@ -18,12 +18,20 @@ en:
         default_currency: "Default Currency"
         name: "Name"
         parent: "Parent Division"
+        notify_on_new_logs: "Notify on New Logs"
+        logo: "Logo"
+        logo_text: "Logo Text"
+        banner_fg_color: "Banner FG Color"
+        banner_bg_color: "Banner BG Color"
+        accent_main_color: "Accent Color"
+        accent_fg_color: "Accent FG Text Color"
       loan:
         division: "Division"
         organization: "Co-op"
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
+        criteria_progress: "Criteria"
         amount: "Amount"
         currency: "Currency"
         primary_agent: "Point Person"
@@ -89,19 +97,36 @@ en:
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+    errors:
+      models:
+        project_group:
+          no_summary: "Summary is required."
 
   simple_form:
+    hints:
+      division:
+        logo_text: "Optional text to show below the logo. Logo is shorter if text is entered."
+        banner_bg_color: "Background color of site banner. Use CSS color codes, e.g. 'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_fg_color: "Color of text in banner."
+        accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
+        accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
-      project_step_move:
-        move_type: "Which Date?"
-        shift_subsequent: "Shift Others?"
+      project_step:
+        actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
+        is_finalized: "Finalized"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
+        step_type_value: "Type"
+      timeline_step_move:
+        move_type: "Change Which Date?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Member"
           none: "None"
-      project_step_move:
+      timeline_step_move:
         move_type:
           change_date: "Change step's scheduled date"
           mark_completed: "Mark step completed on this date"
@@ -120,7 +145,7 @@ en:
   date:
     formats:
       default: '%b %e, %Y'
-      short: '%m-%d-%y'
+      short: '%-m-%-d-%Y'
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
@@ -150,7 +175,6 @@ en:
   past_loans: Past Loans
   no_description_found: No description found.
   payment_schedule: Payment Schedule
-  status: Status
   due_date: Due Date
   first_loan: This is the first loan to this cooperative.
   all_loans: All Loans to this Co-op
@@ -180,7 +204,6 @@ en:
 
   ## Admin panel ##
   all: "All"
-  calendar: "Calendar"
   cancel: "Cancel"
   cancel_edit: "Cancel Edit"
   city: "City"
@@ -226,8 +249,9 @@ en:
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
-  status: "Status"
+  step: "Step"
   submit: "Submit"
+  unauthorized_error: "You are not authorized to perform this action."
   update: "Update"
   updated: "Updated"
 
@@ -243,7 +267,10 @@ en:
     details: "Details"
     division: "Division"
     divisions: "Divisions"
+    expand_all: "Expand All"
+    hide_all: "Hide All"
     name: "Name"
+    no_name: "No Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     note: "Note"
@@ -257,26 +284,36 @@ en:
     updated: "Updated"
     website: "Website"
     id: "ID"
+    user: "User"
+    view_logs: "View Logs"
 
-  loan:
-    criteria: "Criteria"
-    details: "Details"
-    memo: "Loan Memo"
-    num_of_links:
-      one: "There is %{count} linked document."
-      other: "There are %{count} linked documents."
-    open_links:
-      one: "Click to open the document in a new tab."
-      other: "Click to open each document in a new tab."
-    popup_blocker: "You may need to disable your popup blocker or enable all popups from this site in order to view your documents."
-    print: "Print"
-    print_criteria: "Criteria Only"
-    print_details: "Details Only"
-    print_memo: "Print Loan Memo"
+  # Strings used in general template stuff like header.
+  template:
+    profile: "Profile"
+    change_division: "Change Division"
+    select_division: "Select Division"
+
+  calendar:
+    calendar: "Calendar"
+    check_in: "Check in"
+    legend: "Legend"
+    milestone: "Milestone"
+    num_of_logs: "Number of logs"
+    original_date: "Original date"
+    status:
+      early: "Completed Early"
+      incomplete: "Incomplete"
+      late: "Late"
+      on_time: "Completed on time"
+      super_late: "Super late"
+      very_late: "Very late"
+
+  # For 'loan', see loans.en.yml
 
   log:
     additional_notes: "Additional Notes"
     edit: "Edit Log"
+    empty_log_error: "Error: An empty log cannot be saved. Please add a summary."
     delete: "Delete Log"
     hide_logs: "Hide Logs"
     hide_logs_n: "Hide Logs (%{n})"
@@ -284,6 +321,7 @@ en:
     logs: "Logs"
     new: "New Log"
     no_logs: "No Logs"
+    notify: "Send notifications"
     private_notes: "Private Notes"
     save: "Save Log"
     show_logs: "Show Logs"
@@ -291,7 +329,9 @@ en:
     status:
       behind: "Behind"
       on_time: "On time"
+    step: "Step"
     step_completed: "Step completed on this date"
+    untitled_step: "[Untitled step]"
 
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
@@ -299,7 +339,7 @@ en:
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
-
+    item: "Item"
 
   menu:
     calendar: "Calendar"
@@ -310,6 +350,9 @@ en:
     loan_questions: "Loan Questions"
     manage: "Manage"
     people: "Members"
+    log: "Log"
+    loans: "Loans"
+    logs: "Logs"
 
   number:
     nth:
@@ -322,18 +365,26 @@ en:
     the_day: "The %{day}"
 
   project_step:
+    add: "Add Step"
+    add_dependent_step: "Add Dependent Step"
+    add_log: "Add Log"
+    all_types: "All Types"
+    all_statuses: "All Statuses"
+    all_completion_statuses: "All Statuses"
     after: "After"
+    completion_status:
+      draft: 'Finalized'
+      complete: 'Complete'
+      incomplete: 'Incomplete'
     confirm_deletion: "Are you sure you want to delete this project step?"
-    confirm_shift_subsequent:
-      one: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the subsequent step date back by %{days} days?"
-      other: "We detected that you just moved the scheduled date of a finalized step back %{days} days. Would you also like to shift the %{count} subsequent step dates back by %{days} days?"
     days: "Day(s)"
     delete:
       one: "Delete Step"
       other: "Delete Steps"
     duplicate: "Duplicate"
     duplicate_step: "Duplicate Step"
-    edit_step: "Edit Step"
+    duration_days: "%{duration}d"
+    edit: "Edit Step"
     end: "End:"
     every: "Every:"
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
@@ -344,13 +395,16 @@ en:
       other: "Finalize Steps"
     labels:
       completed: "Completed:"
+      duration: "Duration:"
       finalized: "Finalized:"
       scheduled: "Scheduled:"
+      start_date: "Start Date:"
       status: "Status:"
-      original_date: "Original Date:"
+      old_start_date: "Old Start Date:"
     logs: "Logs"
     months: "Month(s)"
     move: "Move Step"
+    no_status: "[No status]"
     no_steps: "No timeline steps to display."
     occurrences: "occurrence(s)"
     once: "Once"
@@ -360,8 +414,17 @@ en:
       one: "project step"
       other: "project steps"
     repeat: "Repeat..."
-    shift_subsequent: "Shift Subsequent Completion Dates?"
     timeline: "Timeline"
+    timeline_table:
+      draft: "Draft"
+      duration: "Duration"
+      end: "End"
+      group: "Group"
+      logs: "Logs"
+      preceding_step: "Preceding Step"
+      start: "Start"
+      status: "Status"
+      step: "Step"
     status:
       completed: "Completed"
       early: "Early"
@@ -374,7 +437,16 @@ en:
         one: "Changed once"
         other: "Changed %{count} times"
     unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
+    view_logs: "View Logs"
     weeks: "Week(s)"
+
+  project_group:
+    add: "New Group"
+    edit: "Edit Group"
+    delete: "Delete Group"
+    delete_confirmation: Are you sure you want to remove this group?
+  project_groups:
+    delete_error: "The group could not be deleted due to an error"
 
   user:
     account: "Account"
@@ -393,3 +465,7 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  boolean:
+    'true': 'Yes'
+    'false': 'No'

@@ -19,6 +19,7 @@ gem 'select2-rails'
 gem 'rails-backbone'
 gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
+gem 'paperclip', '~> 5.0.0'
 
 # Authentication / Authorization
 gem 'devise'
@@ -37,6 +38,8 @@ gem 'slim'
 
 # Cron jobs
 gem 'whenever', require: false
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 # note, for now just using chronic, which was already included
 # if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
@@ -51,7 +54,7 @@ gem "i18n-js", ">= 3.0.0.rc11"
 gem 'route_translator'
 
 # Model hierarchical data
-gem 'closure_tree'
+gem 'closure_tree', '~> 6.2'
 
 # File attachments
 gem 'carrierwave'
@@ -85,7 +88,22 @@ gem 'remotipart', '~> 1.2'
 # Eager loading
 gem 'goldiloader'
 
+# Color manipulation
+gem 'chroma'
+
+# For normalizing model attribs
+gem 'attribute_normalizer'
+
+# Send email on errors
+gem 'exception_notification'
+
+# URL handling
+gem 'addressable'
+
 group :development, :test do
+  # Load environment variables from .env file in development
+  gem 'dotenv-rails'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
@@ -122,6 +140,7 @@ group :development do
   gem 'fix-db-schema-conflicts'
 
   # Deployment
+  gem 'capistrano3-delayed-job', '~> 1.0'
   gem 'capistrano',  '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
@@ -129,6 +148,11 @@ group :development do
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'rack-livereload'
+
+  gem 'term-ansicolor', '~> 1.3.0'
+
+  # Mask password at command line
+  gem 'highline'
 end
 
 group :development, :doc do

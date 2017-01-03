@@ -10,10 +10,14 @@ class Cooperative < ActiveRecord::Base
   #   @verbose_name ||= (self.name =~ /#{I18n.t :cooperative}/i) ? self.name : I18n.t(:cooperative_name, name: self.name)
   # end
 
+  def division
+    Legacy::Division.from_country(self.country)
+  end
+
   def migration_data
     data = {
         id: self.id,
-        division_id: ::Division.root_id,
+        division_id: division.id,
         name: name.try(:strip),
         legal_name: nombre_legal_completo.try(:strip),
         primary_phone: telephone.try(:strip),
@@ -22,12 +26,10 @@ class Cooperative < ActiveRecord::Base
         city: city.try(:strip),
         neighborhood: borough.try(:strip),
         state: state.try(:strip),
-        country_id: Country.id_from_name(self.country),
+        country_id: Country.find_by(name: self.country).try(:id),
         tax_no: tax_id.try(:strip),
-        #todo: figure out why this bombs, perhaps because source column is already lower case
-        #website: web,
+        website: self[:web],
         alias: self.alias.try(:strip),
-        ##todo: is_recovered: recuperada, - once custom fields are implemented
         sector: sector.try(:strip),
         industry: industry.try(:strip),
         referral_source: source.try(:strip),
@@ -38,20 +40,15 @@ class Cooperative < ActiveRecord::Base
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:name]}"
-    existing = Organization.find_by(id: data[:id])
-    if existing
-      existing.update(data)
-    else
-      ::Organization.create(data)
-    end
+    # puts "#{data[:id]}: #{data[:name]}"
+    organization = ::Organization.find_or_create_by(id: data[:id])
+    organization.update(data)
   end
 
   def self.migrate_all
     puts "cooperatives: #{ self.count }"
     self.all.each &:migrate
-    # add 1000 to create space between legacy data and new data
-    ::Organization.recalibrate_sequence(gap: 1000)
+    ::Organization.recalibrate_sequence
   end
 
   def self.purge_migrated

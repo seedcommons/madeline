@@ -1,10 +1,15 @@
 @import "../colors";
+@import "bootstrap/variables";
+
+.tab-content {
+  background-color: $gray5;
+}
 
 .tab-pane {
   padding: 1em;
 
   &.active {
-    background: $gray1;
+    background: $background-gray;
   }
 
   &.flush {
@@ -16,7 +21,7 @@
 .nav-tabs > li {
   &.active {
     a, a:hover, a:active, a:focus {
-      background: $gray1;
+      background: $background-gray;
     }
   }
 }
@@ -25,6 +30,35 @@
   .block {
     &:first-of-type {
       margin: 0;
+    }
+  }
+}
+
+// Responsive tabs for small screens
+@media (max-width: $screen-xs-max) {
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 1px;
+
+    > li {
+      flex: auto;
+      text-align: center;
+      border: 1px solid $nav-tabs-border-color;
+      margin-right: -1px;
+
+      > a {
+        margin: 0;
+      }
+
+      &.active {
+        background: $background-gray;
+
+        > a, > a:hover, > a:focus {
+          border: none;
+          background: none;
+        }
+      }
     }
   }
 }

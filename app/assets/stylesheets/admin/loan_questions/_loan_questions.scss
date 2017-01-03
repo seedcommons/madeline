@@ -1,0 +1,69 @@
+@import "../colors";
+
+.loan-questions {
+  .filter-switch {
+    padding-bottom: 20px;
+  }
+
+  .jqtree-element {
+    display: flex;
+
+    .jqtree-title {
+      flex-grow: 100;
+    }
+  }
+
+  .loan-type-required {
+    max-width: 8em;
+    max-height: 2em;
+    margin: 0 .2em 0 0;
+    padding: .2em;
+    border: 1px solid $gray2;
+    border-radius: 4px;
+    color: $gray3;
+    font-size: .9em;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.linked-document {
+  padding-top: 1em;
+
+  .ld-container {
+    margin-left: 1em;
+  }
+
+  .form-group {
+    margin: .5em 2em .25em 0;
+  }
+
+  @media (min-width: 768px) {
+    .full-width-group {
+      width: 100%;
+      margin: .5em 0 .5em 0;
+
+      input {
+        width: calc(100% - 5.5em);
+      }
+    }
+  }
+
+  label {
+    width: 6em;
+    font-size: .9em;
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .doc-actions {
+    margin: .5em 0;
+  }
+}
+
+section.questionnaires li.jqtree_common .jqtree-element
+.linked-document .help-block {
+  margin: .25em 0;
+}

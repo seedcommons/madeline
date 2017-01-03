@@ -27,13 +27,12 @@ class OptionSet < ActiveRecord::Base
 
   validates :division_id, presence: true
 
-  # future: support division specific versions of the option sets
-  def self.fetch(clazz, attribute)
-    result = self.find_by(model_type: clazz.name, model_attribute: attribute)
+  def self.fetch(klass, attribute)
+    result = self.find_by(model_type: klass.name, model_attribute: attribute)
     # create root division owned instance on demand if not present
     unless result
-      result = OptionSet.create(division: Division.root, model_type: clazz.name, model_attribute: attribute)
-      Rails.logger.info "note, OptionSet not found for #{clazz.name}.#{attribute} - default instance auto created: #{result.id}"
+      result = OptionSet.create(division: Division.root, model_type: klass.name, model_attribute: attribute)
+      Rails.logger.info "note, OptionSet not found for #{klass.name}.#{attribute} - default instance auto created: #{result.id}"
     end
     result
   end

@@ -6,6 +6,8 @@ class MS.Views.Expander extends Backbone.View
   events:
     'click [data-expands]': 'expand'
     'click [data-hides]': 'hide'
+    'click [data-expand-all]': 'expandAll'
+    'click [data-hide-all]': 'hideAll'
 
   expand: (e) ->
     e.preventDefault()
@@ -19,13 +21,35 @@ class MS.Views.Expander extends Backbone.View
       link.data('inserted', true)
 
     # Show/hide target and links
-    target.show()
+    target.show('fast')
     @$("[data-hides='#{targetName}']").show()
     @$(e.currentTarget).hide()
 
   hide: (e) ->
     e.preventDefault()
-    target = @$(e.currentTarget).data('hides')
-    @$("[data-expandable='#{target}']").hide()
-    @$("[data-expands='#{target}']").show()
+    targetName = @$(e.currentTarget).data('hides')
+    @$("[data-expandable='#{targetName}']").hide('fast')
+    @$("[data-expands='#{targetName}']").show()
     @$(e.currentTarget).hide()
+
+  expandAll: (e) ->
+    e.preventDefault()
+    selector = @$(e.currentTarget).data('expand-all')
+    @$("[data-expand-all='#{selector}']").hide()
+    @$("[data-hide-all='#{selector}']").show()
+
+    $container = @$(selector)
+    $container.find('[data-expandable]').show('fast')
+    $container.find('[data-hides]').show()
+    $container.find('[data-expands]').hide()
+
+  hideAll: (e) ->
+    e.preventDefault()
+    selector = @$(e.currentTarget).data('hide-all')
+    @$("[data-hide-all='#{selector}']").hide()
+    @$("[data-expand-all='#{selector}']").show()
+
+    $container = @$(selector)
+    $container.find('[data-expandable]').hide('fast')
+    $container.find('[data-hides]').hide()
+    $container.find('[data-expands]').show()

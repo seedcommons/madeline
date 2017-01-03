@@ -5,10 +5,6 @@ describe Loan, :type => :model do
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'project_type', 'public_level']
-  it_should_behave_like 'custom_value_set_linkable', [
-    { attr_name: 'criteria', field_set_name: 'loan_criteria' },
-    { attr_name: 'post_analysis', field_set_name: 'loan_post_analysis' }
-  ]
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
@@ -16,23 +12,6 @@ describe Loan, :type => :model do
 
   context 'model methods' do
     let(:loan) { create(:loan) }
-
-    describe '.name' do
-      context 'with cooperative' do
-        it 'uses cooperative name' do
-          expect(loan.name).to eq I18n.t :project_with, name: loan.organization.name
-        end
-      end
-
-      #JE todo: confirm if we still want to allow loans record creation w/o an org.
-      context 'without cooperative' do
-        let(:loan) { create(:loan, cooperative: nil) }
-        xit 'uses project id' do
-          pending('is not currently possible given DB constraints')
-          expect(loan.name).to eq I18n.t :project_id, id: loan.id.to_s
-        end
-      end
-    end
 
     describe '.country' do
       context 'with country' do

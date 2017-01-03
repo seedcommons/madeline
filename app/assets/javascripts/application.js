@@ -28,7 +28,6 @@
 //= require jasny-bootstrap
 //= require select2-full
 //= require URI
-//= require bootstrap-responsive-tabs
 //= require bootstrap-multi-modal-fix
 
 //= require jquery-ui
@@ -42,6 +41,7 @@
 
 //= require moment
 //= require fullcalendar
+//= require fullcalendar/lang-all.js
 
 //= require admin/admin
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719165018) do
+ActiveRecord::Schema.define(version: 20161207211332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,57 +32,21 @@ ActiveRecord::Schema.define(version: 20160719165018) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "custom_field_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id", null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations", null: false
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "attempts", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "failed_at"
+    t.text     "handler", null: false
+    t.text     "last_error"
+    t.datetime "locked_at"
+    t.string   "locked_by"
+    t.integer  "priority", default: 0, null: false
+    t.string   "queue"
+    t.datetime "run_at"
+    t.datetime "updated_at"
   end
 
-  add_index "custom_field_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
-  add_index "custom_field_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
-
-  create_table "custom_field_requirements", force: :cascade do |t|
-    t.integer "custom_field_id"
-    t.integer "option_id"
-  end
-
-  create_table "custom_field_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer  "division_id"
-    t.string   "internal_name"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_field_sets", ["division_id"], name: "index_custom_field_sets_on_division_id", using: :btree
-
-  create_table "custom_fields", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer  "custom_field_set_id"
-    t.string   "data_type"
-    t.boolean  "has_embeddable_media", default: false, null: false
-    t.string   "internal_name"
-    t.integer  "migration_position"
-    t.boolean  "override_associations", default: false, null: false
-    t.integer  "parent_id"
-    t.integer  "position"
-    t.boolean  "required", default: false, null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_fields", ["custom_field_set_id"], name: "index_custom_fields_on_custom_field_set_id", using: :btree
-
-  create_table "custom_value_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.json     "custom_data"
-    t.integer  "custom_field_set_id", null: false
-    t.integer  "custom_value_set_linkable_id", null: false
-    t.string   "custom_value_set_linkable_type", null: false
-    t.string   "linkable_attribute"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "custom_value_sets", ["custom_field_set_id"], name: "index_custom_value_sets_on_custom_field_set_id", using: :btree
-  add_index "custom_value_sets", ["custom_value_set_linkable_type", "custom_value_set_linkable_id"], name: "custom_value_sets_on_linkable", using: :btree
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -94,12 +58,23 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_index "division_hierarchies", ["descendant_id"], name: "division_desc_idx", using: :btree
 
   create_table "divisions", force: :cascade do |t|
+    t.string   "accent_fg_color"
+    t.string   "accent_main_color"
+    t.string   "banner_bg_color"
+    t.string   "banner_fg_color"
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.json     "custom_data"
     t.text     "description"
     t.string   "internal_name"
+    t.json     "locales"
+    t.string   "logo_content_type"
+    t.string   "logo_file_name"
+    t.integer  "logo_file_size"
+    t.string   "logo_text"
+    t.datetime "logo_updated_at"
     t.string   "name"
+    t.boolean  "notify_on_new_logs", default: false
     t.integer  "organization_id"
     t.integer  "parent_id"
     t.datetime "updated_at", null: false
@@ -108,14 +83,53 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
 
-  create_table "embeddable_media", force: :cascade do |t|
+  create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+  end
+
+  add_index "loan_question_hierarchies", %w(ancestor_id descendant_id generations), name: "custom_field_anc_desc_idx", unique: true, using: :btree
+  add_index "loan_question_hierarchies", ["descendant_id"], name: "custom_field_desc_idx", using: :btree
+
+  create_table "loan_question_requirements", force: :cascade do |t|
+    t.decimal "amount"
+    t.integer "loan_question_id"
+    t.integer "option_id"
+  end
+
+  create_table "loan_question_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "height"
-    t.text     "html"
-    t.string   "original_url"
+    t.integer  "division_id"
+    t.string   "internal_name"
     t.datetime "updated_at", null: false
-    t.string   "url"
-    t.integer  "width"
+  end
+
+  add_index "loan_question_sets", ["division_id"], name: "index_loan_question_sets_on_division_id", using: :btree
+
+  create_table "loan_questions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string   "data_type"
+    t.boolean  "has_embeddable_media", default: false, null: false
+    t.string   "internal_name"
+    t.integer  "loan_question_set_id"
+    t.integer  "migration_position"
+    t.boolean  "override_associations", default: false, null: false
+    t.integer  "parent_id"
+    t.integer  "position"
+    t.boolean  "required", default: false, null: false
+    t.string   "status", default: "active", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "loan_questions", ["loan_question_set_id"], name: "index_loan_questions_on_loan_question_set_id", using: :btree
+
+  create_table "loan_response_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json     "custom_data"
+    t.string   "kind"
+    t.integer  "loan_id", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "loans", force: :cascade do |t|
@@ -130,7 +144,6 @@ ActiveRecord::Schema.define(version: 20160719165018) do
     t.string   "loan_type_value"
     t.string   "name"
     t.integer  "organization_id"
-    t.integer  "organization_snapshot_id"
     t.integer  "primary_agent_id"
     t.string   "project_type_value"
     t.decimal  "projected_return"
@@ -147,7 +160,6 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
   add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
   add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
-  add_index "loans", ["organization_snapshot_id"], name: "index_loans_on_organization_snapshot_id", using: :btree
 
   create_table "media", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -198,19 +210,6 @@ ActiveRecord::Schema.define(version: 20160719165018) do
 
   add_index "options", ["option_set_id"], name: "index_options_on_option_set_id", using: :btree
 
-  create_table "organization_snapshots", force: :cascade do |t|
-    t.datetime "created_at"
-    t.date     "date"
-    t.integer  "environmental_impact_score"
-    t.integer  "organization_id"
-    t.integer  "organization_size"
-    t.integer  "poc_ownership_percent"
-    t.datetime "updated_at"
-    t.integer  "women_ownership_percent"
-  end
-
-  add_index "organization_snapshots", ["organization_id"], name: "index_organization_snapshots_on_organization_id", using: :btree
-
   create_table "organizations", force: :cascade do |t|
     t.string   "alias"
     t.string   "city"
@@ -222,11 +221,11 @@ ActiveRecord::Schema.define(version: 20160719165018) do
     t.string   "email"
     t.string   "fax"
     t.string   "industry"
+    t.boolean  "is_recovered"
     t.string   "last_name"
     t.string   "legal_name"
     t.string   "name"
     t.string   "neighborhood"
-    t.integer  "organization_snapshot_id"
     t.string   "postal_code"
     t.integer  "primary_contact_id"
     t.string   "primary_phone"
@@ -283,24 +282,6 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_index "project_logs", ["agent_id"], name: "index_project_logs_on_agent_id", using: :btree
   add_index "project_logs", ["project_step_id"], name: "index_project_logs_on_project_step_id", using: :btree
 
-  create_table "project_steps", force: :cascade do |t|
-    t.integer  "agent_id"
-    t.date     "completed_date"
-    t.datetime "created_at", null: false
-    t.integer  "date_change_count", default: 0, null: false
-    t.datetime "finalized_at"
-    t.boolean  "is_finalized"
-    t.date     "original_date"
-    t.integer  "project_id"
-    t.string   "project_type"
-    t.date     "scheduled_date"
-    t.string   "step_type_value"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "project_steps", ["agent_id"], name: "index_project_steps_on_agent_id", using: :btree
-  add_index "project_steps", ["project_type", "project_id"], name: "index_project_steps_on_project_type_and_project_id", using: :btree
-
   create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
     t.string   "name", null: false
@@ -311,6 +292,38 @@ ActiveRecord::Schema.define(version: 20160719165018) do
 
   add_index "roles", %w(name resource_type resource_id), name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true, using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "timeline_entries", force: :cascade do |t|
+    t.date     "actual_end_date"
+    t.integer  "agent_id"
+    t.datetime "created_at", null: false
+    t.integer  "date_change_count", default: 0, null: false
+    t.datetime "finalized_at"
+    t.boolean  "is_finalized"
+    t.integer  "old_duration_days", default: 0
+    t.date     "old_start_date"
+    t.integer  "parent_id"
+    t.integer  "project_id"
+    t.string   "project_type"
+    t.integer  "schedule_parent_id"
+    t.integer  "scheduled_duration_days", default: 0
+    t.date     "scheduled_start_date"
+    t.string   "step_type_value"
+    t.string   "type", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "timeline_entries", ["agent_id"], name: "index_timeline_entries_on_agent_id", using: :btree
+  add_index "timeline_entries", ["project_type", "project_id"], name: "index_timeline_entries_on_project_type_and_project_id", using: :btree
+
+  create_table "timeline_entry_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+  end
+
+  add_index "timeline_entry_hierarchies", %w(ancestor_id descendant_id generations), name: "timeline_entry_anc_desc_idx", unique: true, using: :btree
+  add_index "timeline_entry_hierarchies", ["descendant_id"], name: "timeline_entry_desc_idx", using: :btree
 
   create_table "translations", force: :cascade do |t|
     t.datetime "created_at"
@@ -332,6 +345,7 @@ ActiveRecord::Schema.define(version: 20160719165018) do
     t.string   "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet     "last_sign_in_ip"
+    t.boolean  "notify_on_new_logs", default: true
     t.integer  "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
@@ -352,11 +366,10 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
 
   add_foreign_key "countries", "currencies", column: "default_currency_id"
-  add_foreign_key "custom_field_sets", "divisions"
-  add_foreign_key "custom_fields", "custom_field_sets"
-  add_foreign_key "custom_value_sets", "custom_field_sets"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "loan_question_sets", "divisions"
+  add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "loans", "currencies"
   add_foreign_key "loans", "divisions"
   add_foreign_key "loans", "organizations"
@@ -373,8 +386,10 @@ ActiveRecord::Schema.define(version: 20160719165018) do
   add_foreign_key "people", "divisions"
   add_foreign_key "people", "organizations", column: "primary_organization_id"
   add_foreign_key "project_logs", "people", column: "agent_id"
-  add_foreign_key "project_logs", "project_steps"
-  add_foreign_key "project_steps", "people", column: "agent_id"
+  add_foreign_key "project_logs", "timeline_entries", column: "project_step_id"
+  add_foreign_key "timeline_entries", "people", column: "agent_id"
+  add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
+  add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_parent_id"
   add_foreign_key "users", "people", column: "profile_id"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"

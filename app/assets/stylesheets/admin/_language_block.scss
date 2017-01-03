@@ -8,6 +8,10 @@
   // Added to resolve styling problems
   margin: 15px 0;
 
+  &:first-of-type {
+    margin-top: 0px;
+  }
+
   &:last-of-type {
     margin-bottom: 10px;
   }
@@ -20,17 +24,15 @@
   select.locale {
     width: auto;
   }
-}
 
-// For some reason the usual .form-group bottom margin doesn't work on this form
-// Consider refactoring later.
-.project-step-form .language-block .form-control {
-  margin-bottom: 10px;
+  div.form-group:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .languages {
   .add-language {
     display: block;
-    margin: 15px 0;
+    margin: 10px 0;
   }
 }

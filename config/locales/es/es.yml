@@ -17,12 +17,20 @@ es:
         default_currency: "Moneda Predeterminada"
         name: "Nombre"
         parent: "División Principal"
+        notify_on_new_logs: "Notificar Nuevos Apuntes"
+        logo: "Logo"
+        logo_text: "Texto del Logo"
+        banner_fg_color: "Color del Primer Plano del Banner "
+        banner_bg_color: "Color de Fondo del Banner "
+        accent_main_color: "Color de Acentos"
+        accent_fg_color: "Color del Texto del Primer Plano de Acentos"
       loan:
         division: "División"
         organization: "Cooperativa"
         name: "Nombre"
         loan_type: "Tipo de Préstamo"
         status: "Estado"
+        criteria_progress: "Criterios"
         amount: "Monto"
         currency: "Moneda"
         primary_agent: "Responsable"
@@ -88,18 +96,35 @@ es:
         date: "Fecha del Apunte"
         agent: "Miembro"
         progress_metric_value: "Estado"
+    errors:
+      models:
+        project_group:
+          no_summary: "Se requiere un resumen."
   simple_form:
+    hints:
+      division:
+        logo_text: "Texto optativo para mostrar bajo el logo. El logo es más breve si se ingresa texto."
+        banner_bg_color: "Color de fondo del banner de la página. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_fg_color: "Color del texto en el banner."
+        accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
+        accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
     labels:
-      project_step_move:
-        move_type: "¿Cuál Fecha?"
-        shift_subsequent: "¿Cambiar Otros/as?"
+      project_step:
+        actual_end_date: "Fecha de Finalización"
+        duration: "Duración Proyectada"
+        is_finalized: "Finalizado"
+        scheduled_duration_days: "Duración Proyectada"
+        scheduled_start_date: "Fecha Proyectada de Inicio"
+        step_type_value: "Tipo"
+      timeline_step_move:
+        move_type: "¿Cambiar Cuál Fecha?"
     options:
       person:
         owning_division_role:
           admin: "Admin"
           member: "Miembro"
           none: "Ninguno"
-      project_step_move:
+      timeline_step_move:
         move_type:
           change_date: "Cambiar la fecha prevista del paso"
           mark_completed: "Marcar al paso como completo en esta fecha"
@@ -116,7 +141,7 @@ es:
   date:
     formats:
       default: '%b %e, %Y'
-      short: '%m-%d-%y'
+      short: '%-m-%-d-%Y'
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
@@ -132,6 +157,7 @@ es:
   project_id: "Projecto %{id}"
   back_to_loans: Regresar a Lista de Préstamos
   about_this_project: Sobre Este Proyecto
+  status: Estado
   amount: Monto
   location: Ubicación
   signing_date: Fecha de Firma
@@ -169,7 +195,6 @@ es:
   close: "Cerrar"
   select_prompt: "Seleccionar..."
   all: "Todos"
-  calendar: "Calendario"
   cancel: "Cancelar"
   cancel_edit: "Cancelar Edición"
   city: "Ciudad"
@@ -215,8 +240,9 @@ es:
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
-  status: "Estado"
+  step: "Paso"
   submit: "Enviar"
+  unauthorized_error: "No tienes autorización para realizar esta acción."
   update: "Actualizar"
   updated: "Actualizado"
   common:
@@ -229,34 +255,42 @@ es:
     division: "División"
     divisions: "Divisiones"
     name: "Nombre"
+    no_name: "Sin Nombre"
     no_records: "No se encontraron registros."
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
     parent: "Principal"
     print: "Imprimir"
     remove: "Eliminar"
+    save: "Guardar"
     street_address: "Domicilio"
     summary: "Resumen"
     updated: "Actualizado"
     website: "Página web"
     id: "ID"
-  loan:
-    criteria: "Criterios"
-    details: "Detalles"
-    memo: "Memo del Préstamo"
-    num_of_links:
-      one: "Hay %{count} documento asociado."
-      other: "Hay %{count} documentos asociados."
-    open_links:
-      one: "Hacer click para abrir el documento en una pestaña nueva."
-      other: "Hacer click para abrir cada documento en una pestaña nueva."
-    popup_blocker: "Puede ser necesario desactivar tu bloqueador de popups o activar todos los popups de este sitio para poder ver tus documentos."
-    print: "Imprimir"
-    print_criteria: "Solo Criterios"
-    print_details: "Solo Detalles"
-    print_memo: "Imprimir Memo de Préstamo"
+    user: "Usuario"
+    view_logs: "Ver Apuntes"
+  template:
+    profile: "Perfil"
+    change_division: "Cambiar División"
+    select_division: "Seleccionar División"
+  calendar:
+    calendar: "Calendario"
+    check_in: "Check in"
+    legend: "Leyenda"
+    milestone: "Hito"
+    num_of_logs: "Cantidad de apuntes"
+    original_date: "Fecha Original"
+    status:
+      early: "Completado Anticipadamente"
+      incomplete: "Incompleto"
+      late: "Atrasado"
+      on_time: "Completado a tiempo"
+      super_late: "Super atrasado"
+      very_late: "Muy atrasado"
   log:
     additional_notes: "Notas adicionales"
     edit: "Editar Apunte"
+    empty_log_error: "Error: Un apunte vacío no puede ser guardado. Por favor, agregar un resumen."
     delete: "Borrar Log"
     hide_logs: "Ocultar Apuntes"
     hide_logs_n: "Ocultar (%{n}) Apuntes"
@@ -264,6 +298,7 @@ es:
     logs: "Apuntes"
     new: "Nuevo Apunte"
     no_logs: "No Hay Apuntes"
+    notify: "Enviar Notificaciones"
     private_notes: "Notas Privadas"
     save: "Guardar Apunte"
     show_logs: "Mostrar Apuntes"
@@ -271,22 +306,27 @@ es:
     status:
       behind: "Atrasado"
       on_time: "A Tiempo"
+    step: "Paso"
     step_completed: "Paso completado en esta fecha"
+    untitled_step: "[Paso sin nombre]"
   media:
     confirm_deletion: "¿Realmente quieres borrar esta foto?"
     caption: "Epígrafe para %{locale_name} "
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
+    item: "Ítem"
   menu:
     calendar: "Calendario"
     coops: "Cooperativas"
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
-    loans: "Préstamos"
     loan_questions: "Preguntas de Préstamos"
     manage: "Manejar"
     people: "Miembros"
+    log: "Apunte"
+    loans: "Préstamos"
+    logs: "Apuntes"
   number:
     nth:
       num_1: "primero"
@@ -297,18 +337,26 @@ es:
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
   project_step:
+    add: "Agregar Paso"
+    add_dependent_step: "Agregar Paso Dependiente"
+    add_log: "Agregar Apunte"
+    all_types: "Todos los Tipos"
+    all_statuses: "Todos los Estados"
+    all_completion_statuses: "Todos los Estados"
     after: "Después de"
+    completion_status:
+      draft: 'Finalizado'
+      complete: 'Completo'
+      incomplete: 'Incompleto'
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"
-    confirm_shift_subsequent:
-      one: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover la siguiente fecha de paso hacia atrás %{days} días?"
-      other: "Detectamos que acabas de mover la fecha prevista de un paso finalizado hacia atrás %{days} días. ¿Querrías también mover las siguientes %{count} fechas de paso hacia atrás %{days} días?"
     days: "Día(s)"
     delete:
       one: "Borraro Paso"
       other: "Borrar Pasos"
     duplicate: "Duplicar"
     duplicate_step: "Duplicar Paso"
-    edit_step: "Editar Paso"
+    duration_days: "%{duration}d"
+    edit: "Editar Paso"
     end: "Fin:"
     every: "Cada:"
     batch_delete_confirm: "¿Realmente quieres borrar estos pasos de proyecto?"
@@ -319,13 +367,16 @@ es:
       other: "Finalizar Pasos"
     labels:
       completed: "Completado:"
+      duration: "Duración:"
       finalized: "Finalizado:"
       scheduled: "Previsto:"
+      start_date: "Fecha de Inicio:"
       status: "Estado:"
-      original_date: "Fecha Original:"
+      old_start_date: "Fecha de Inicio Anterior:"
     logs: "Apuntes"
     months: "Mes(es)"
     move: "Mover Paso"
+    no_status: "[No status]"
     no_steps: "No hay pasos de la línea de tiempo que mostrar."
     occurrences: "ocurrencia(s)"
     once: "Una vez"
@@ -335,8 +386,17 @@ es:
       one: "paso del proyecto"
       other: "pasos del proyecto"
     repeat: "Repetir..."
-    shift_subsequent: "¿Mover las siguientes Fechas de Completado?"
     timeline: "Línea de Tiempo"
+    timeline_table:
+      draft: "Borrador"
+      duration: "Duración"
+      end: "Fin"
+      group: "Grupo"
+      logs: "Apuntes"
+      preceding_step: "Pasos Precedentes"
+      start: "Inicio"
+      status: "Estado"
+      step: "Paso"
     status:
       completed: "Completado"
       early: "Adelantado"
@@ -349,7 +409,15 @@ es:
         one: "Cambiado una vez"
         other: "Cambiado %{count} veces"
     unfinalize_disallowed: "No se permitió desfinalizar. Han pasado más de 24 horas desde que se finalizó."
+    view_logs: "Ver Apuntes"
     weeks: "Semana(s)"
+  project_group:
+    add: "Nuevo Grupo"
+    edit: "Editar Grupo"
+    delete: "Borrar Grupo"
+    delete_confirmation: ¿Realmente quieres borrar este grupo?
+  project_groups:
+    delete_error: "No se pudo borrar el grupo por un error."
   user:
     account: "Cuenta"
     change_password: "Cambiar Contraseña"
@@ -367,3 +435,6 @@ es:
     no_system_access: "El usuario no tiene acceso al sistema."
     send_instructions: "Enviar instrucciones"
     waiting_confirmation: "Esperando confirmación para: %{email}"
+  boolean:
+    'true': 'Sí'
+    'false': 'No'

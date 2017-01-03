@@ -19,7 +19,7 @@
 # Foreign Keys
 #
 #  fk_rails_54dbbbb1d4  (agent_id => people.id)
-#  fk_rails_67bf2c0e5e  (project_step_id => project_steps.id)
+#  fk_rails_67bf2c0e5e  (project_step_id => timeline_entries.id)
 #
 
 class ProjectLog < ActiveRecord::Base
@@ -28,7 +28,7 @@ class ProjectLog < ActiveRecord::Base
   belongs_to :project_step
   belongs_to :agent, class_name: 'Person'
 
-  delegate :division, :division=, to: :project_step
+  delegate :division, :division=, :project, to: :project_step
   delegate :name, to: :agent, prefix: true, allow_nil: true
 
   attr_translatable :summary, :details, :additional_notes, :private_notes
@@ -37,19 +37,31 @@ class ProjectLog < ActiveRecord::Base
 
   validates :project_step_id, presence: true
 
-  def name
-    # logger.debug "this: #{self.inspect}"
-    "#{project_step.try(:name)} log"
+  def self.filter_by(params)
+    if params[:step].present?
+      where(project_step_id: params[:step])
+    elsif params[:loan].present?
+      joins(:project_step).where(timeline_entries: {project_type: 'Loan', project_id: params[:loan]})
+    elsif params[:org].present?
+      # TODO: this will have to be updated when BasicProjects are added
+      joins(project_step: :loan).where(loans: {organization_id: params[:org]})
+    else
+      all
+    end
+  end
+
+  def self.in_division(division)
+    if division
+      joins(project_step: :loan).where(loans: {division_id: division.self_and_descendants.pluck(:id)})
+    else
+      all
+    end
   end
 
   #todo: confirm if we want the shorter alias accessor for the default translation.
   #if so, then generically implement through module
   def progress_metric
     progress_metric_label
-  end
-
-  def project
-    project_step.try(:project)
   end
 
   def progress(continuous=false)
@@ -65,5 +77,9 @@ class ProjectLog < ActiveRecord::Base
 
   def progress_continuous
     self.progress(true)
+  end
+
+  def has_more?
+    [details, additional_notes, private_notes].any?(&:present?)
   end
 end

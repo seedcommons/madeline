@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations] # Disallow registration
+  # Disallow registration, wire up custom devise sessions controller
+  devise_for :users, skip: [:registrations], controllers: { sessions: :sessions }
+
   devise_scope :user do
     # Manually re-creates routes for editing users
     get 'users/edit' => 'devise/registrations#edit', as: :edit_user_registration
@@ -9,8 +11,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :custom_value_sets
-    resources :dashboard, only: [:index]
+    resources :loan_response_sets
     resources :divisions do
       collection do
         post :select
@@ -22,15 +23,16 @@ Rails.application.routes.draw do
         get :questionnaires
         patch :change_date
         get :print
+        get :timeline
       end
     end
-    resources :loan_questions, as: :custom_fields do
+    resources :loan_questions do
       patch 'move', on: :member
     end
     resources :notes, only: [:create, :update, :destroy]
     resources :organizations
     resources :people
-    resources :project_logs
+    resources :project_logs, path: 'logs'
     resources :project_steps do
       collection do
         patch :batch_destroy
@@ -39,10 +41,13 @@ Rails.application.routes.draw do
       end
       member do
         post :duplicate
-        patch :shift_subsequent
+        get :show_duplicate
       end
     end
-    resources :project_step_moves
+    resources :project_groups
+
+    # Does it make sense to surround in separate namespace?
+    resources :timeline_step_moves
 
     scope '/:attachable_type/:attachable_id' do
       resources :media
@@ -53,15 +58,16 @@ Rails.application.routes.draw do
       resources :loans
       resources :organizations
       resources :people
-      resources :organization_snapshots
       resources :project_steps
       resources :project_logs
       resources :notes
-      resources :custom_field_sets
-      resources :custom_fields
-      resources :custom_value_sets
+      resources :loan_question_sets
+      resources :loan_questions
+      resources :loan_response_sets
       post 'select_division', to: 'divisions#select'
     end
+
+    get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 
   localized do
@@ -71,5 +77,5 @@ Rails.application.routes.draw do
 
   get '/test' => 'static_pages#test'
 
-  root to: 'admin/dashboard#index'
+  root to: redirect('/admin/loans')
 end

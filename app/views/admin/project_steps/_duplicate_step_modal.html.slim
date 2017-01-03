@@ -1,5 +1,5 @@
-div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1" aria-labelledby="duplicate-step-label"
-
+// Id is only used in the old timeline
+div.modal.fade.duplicate-step tabindex="-1" aria-labelledby="duplicate-step-label" id="duplicate-step-modal-#{step.id}"
   div.modal-dialog
     div.modal-content
       div.modal-header
@@ -27,10 +27,12 @@ div.modal.fade.duplicate-step id="duplicate-step-modal-#{step.id}" tabindex="-1"
         button.btn.btn-default type="button" data-dismiss="modal"
           = t(:cancel)
 
-        button.btn.btn-primary type="button"
+        button.btn.btn-primary.submit type="button"
           = t("project_step.duplicate")
 
+- unless context == "timeline_table"
   javascript:
+
     $(function() {
       new MS.Views.DuplicateStepView({ el: "#duplicate-step-modal-#{step.id}" });
     });

@@ -2,10 +2,7 @@
   - if context == 'calendar'
     div.row
       h4.title.col-lg-8.col-md-8
-        - if step.step_type_value == 'checkin'
-          .icon: i.fa.fa-calendar-check-o
-        - elsif step.step_type_value == 'milestone'
-          .icon: i.fa.fa-flag
+        .icon = project_step_icon(step)
         .title-text = step.try(:summary)
 
       .actions.col-lg-4.col-md-4
@@ -29,13 +26,10 @@
       .main-details
         - if context == "timeline"
           h5.title
-            - if step.step_type_value == 'checkin'
-              .icon: i.fa.fa-calendar-check-o
-            - elsif step.step_type_value == 'milestone'
-              .icon: i.fa.fa-flag
+            .icon = project_step_icon(step)
             .title-text = step.try(:summary)
 
-        p = step.try(:details)
+        p = simple_format step.try(:details).to_s
 
     .col-md-2.col-md-push-4.action-items
       .completion-status
@@ -69,28 +63,31 @@
 
           tr
             th
-              = t("project_step.labels.scheduled")
+              = t("project_step.labels.start_date")
             td style="background: #{step.scheduled_bg}"
-              = step.scheduled_date ? l(step.scheduled_date) : ''
+              = step.display_start_date ? l(step.display_start_date) : ''
 
-          - if step.original_date
+          - if step.display_duration_days && step.display_duration_days > 0
             tr
-              th = t("project_step.labels.original_date")
+              th = t("project_step.labels.duration")
+              td = step.display_duration_days
+
+          - if step.old_start_date
+            tr
+              th = t("project_step.labels.old_start_date")
               td
                 p.tight-block
-                  => l(step.original_date)
-                  = "(#{step.original_date_statement})"
+                  => l(step.old_start_date)
+                  = "(#{step.old_start_date_statement})"
 
-            - if step.completed?
-              tr
-                th = t("project_step.labels.completed")
-                td style="background-color: #{step.background_color}"
-                  p.tight-block
-                    => step.completed_date ? l(step.completed_date) : ''
-                    = "(#{step.date_status_statement})"
+          - if step.completed?
+            tr
+              th = t("project_step.labels.completed")
+              td style="background-color: #{step.background_color}"
+                p.tight-block
+                  => step.actual_end_date ? l(step.actual_end_date) : ''
+                  = "(#{step.date_status_statement})"
 
           tr
             th = t("project_step.labels.finalized")
             td = step.is_finalized ? t("reply_yes") : t("reply_no")
-
-  = render "admin/project_logs/step_logs", step: step, context: context

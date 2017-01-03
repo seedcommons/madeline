@@ -1,3 +1,10 @@
+form {
+  .help-block {
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+}
+
 .form-group.row {
   min-height: 2em;
 }
@@ -11,16 +18,24 @@
 
 // Booleans should not have fixed height/widths. A style from somewhere else is
 // trying to impose them on all .form-controls.
-.form-group.boolean {
+// The .form-group .checkbox selector is for collections with type: :check_boxes
+.form-group.boolean, .form-group .checkbox {
   .form-control {
     height: inherit;
     width: inherit;
-
-    &[type="checkbox"] {
-      display: inline-block;
-      margin-left: 10px;
-    }
   }
+}
+
+.form-group.boolean .form-control[type="checkbox"] {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+// For collections rendered as type: :check_boxes, the checkboxes and their labels are rendered inside
+// span.checkbox. This shows them all on one line.
+.form-group span.checkbox {
+  display: inline-block;
+  margin: 0 10px;
 }
 
 .form-group textarea.text {
@@ -45,6 +60,12 @@
   .view-element {
     display: none !important;
   }
+
+  // Form controls are generally tall, so if some text is being displayed where a
+  // form control normally is, we need to add some padding.
+  .form-horizontal .static-text-as-field {
+    padding-top: 7px;
+  }
 }
 
 .show-view {
@@ -55,10 +76,12 @@
   // We need to list specific tag types here that need to override the default display: block above.
   a.view-element { display: inline; }
 
-  .form-element {
+  .form-element, .form-group .checkbox {
     display: none !important;
   }
 
+  // Bootstrap puts a 7px padding-top on labels, which looks good when there are big fat form controls
+  // to their right, but not so when we're just showing a bunch of text. So we override it here.
   .form-horizontal .control-label {
     padding-top: 0;
   }
@@ -70,6 +93,11 @@
   // Need to specially hide the label element that Rails inserts for checkboxes,
   // as it makes the element too tall in show mode.
   .form-group.boolean div label {
+    display: none;
+  }
+
+  // Hide hints in show view
+  .help-block {
     display: none;
   }
 }

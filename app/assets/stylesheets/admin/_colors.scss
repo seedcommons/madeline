@@ -1,12 +1,14 @@
 $success1: rgb(92, 184, 92); // #5CB85C
 $success2: rgb(68, 157, 68); // #449D44
-$success3: rgb(60,118,61); // #3C763D
+$success3: rgb(60, 118, 61); // #3C763D
 
-$green1: rgb(115,200,100);
+$green1: rgb(115, 200, 100);
 $green2: rgb(20, 125, 0);
 
-$yellow1: rgb(205,205,0);
+$yellow1: rgb(205, 205, 0);
 $yellow2: yellow;
+
+$highlight: rgb(255, 255, 221);
 
 $orange1: rgb(220, 145, 50);
 $orange2: rgb(220, 125, 0);
@@ -17,12 +19,17 @@ $danger2: rgb(201, 48, 44);
 $red1: red;
 
 $white: white;
-$gray1: #eee;
-$gray2: rgb(230,230,230);
-$gray4: lightgrey;
-$gray3: gray;
-$black: black;
+$table-gray: rgb(249, 249, 249);
+$background-gray: rgb(243, 243, 243);
+$gray2: rgb(230, 230, 230);
+$table-border-color: rgb(221, 221, 221); // Bootstrap Table Border #ddd
+$gray4: lightgrey; // rgb(211, 211, 211)
+$gray3: gray; // rgb(128, 128, 128)
+$gray5: #f3f3f3;
+$gray6: #b3b3b3; // rgb(179, 179, 179)
+$gray7: #dddddd;
 $body: #333;
+$black: black;
 
 // Color values from project step model
 $onTime: hsl(120, 73%, 57%);

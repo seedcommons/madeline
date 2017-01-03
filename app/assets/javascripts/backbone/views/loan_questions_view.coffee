@@ -10,10 +10,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       dragAndDrop: true
       selectable: false
       useContextMenu: false
-      onCreateLi: (node, $li) ->
+      onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset}")
             .find('.jqtree-element')
+            .append(@requiredLoanTypesHTML(node))
             .append($('.links-block').html())
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
@@ -26,25 +27,26 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change input[name="custom_field[override_associations]"]': 'showHideAssociations'
+    'change [name="loan_question[override_associations]"]': 'showHideAssociations'
+    'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
-    parent_id = @$(e.target).closest('li').parents('li').data('id')
-    fieldset = URI(window.location.href).query(true)['fieldset'] || 'criteria'
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/new?fieldset=#{fieldset}", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('#custom_field_parent_id').val(parent_id)
-      @$('.loan-types').select2()
-    )
+    parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
+    set = URI(window.location.href).query(true)['filter'] || 'criteria'
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/new?set=#{set}&parent_id=#{parent_id}", =>
+      @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load("/admin/loan_questions/#{id}/edit", =>
-      @$('#edit-modal').modal('show')
-      new MS.Views.TranslationsView(el: $('[data-content-translatable="custom_field"]'))
-      @$('.loan-types').select2()
-    )
+    @$('#edit-modal .modal-content').load "/admin/loan_questions/#{id}/edit", =>
+      @showModal()
+
+  showModal: ->
+    @$('#edit-modal').modal('show')
+    new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+    # Use current value of override parent to determine if loan types are shown
+    @$('[name="loan_question[override_associations]"]').trigger('change')
+
 
   createNode: (e) ->
     $form = @$(e.target).closest('form')
@@ -104,7 +106,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
     @$(e.target).closest('a').attr('data-confirm',
-      I18n.t("loan_questions.confirm_deletion_descendants", count: node.descendants_count))
+      I18n.t("loan_questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
 
   deleteNode: (e) ->
     id = @$(e.target).closest('li').data('id')
@@ -131,6 +133,16 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     overrideParent = e.currentTarget
 
     if @$(overrideParent).val() == "true"
-      @$('.loan-types-container').removeClass('hidden')
+      @$('.loan-types-table').show()
     else
-      @$('.loan-types-container').addClass('hidden')
+      @$('.loan-types-table').hide()
+
+  changeRequireCheckbox: (e) ->
+    destroyField = $(e.target).closest('tr').find('.destroy-field')
+    destroyField.val(!e.target.checked)
+
+  requiredLoanTypesHTML: (node) ->
+    # For each loan type required, add a conatiner with its label
+    node.required_loan_types.map (loan_type) ->
+      "<div class='loan-type-required'>#{loan_type}</div>"
+    .join ' '

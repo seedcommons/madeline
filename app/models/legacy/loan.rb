@@ -6,7 +6,11 @@ class Loan < ActiveRecord::Base
   include LegacyModel
 
   belongs_to :cooperative, :foreign_key => 'CooperativeID'
+  belongs_to :division, :foreign_key => 'SourceDivision'
 
+  def currency
+    @currency ||= division.ensure_country.default_currency
+  end
 
   # beware, there are a lot of invalid '0' foreign key refs in the legacy data
   def nil_if_zero(val)
@@ -28,6 +32,7 @@ class Loan < ActiveRecord::Base
         loan_type_value: loan_type_option_value,
         project_type_value: project_type_option_value,
         public_level_value: public_level_option_value,
+        currency_id: currency.id,
         amount: amount,
         rate: rate,
         length_months: length,
@@ -37,49 +42,60 @@ class Loan < ActiveRecord::Base
         first_payment_date: first_payment_date,
         target_end_date: fecha_de_finalizacion,
         projected_return: projected_return,
-        # organization_size: cooperative_members,
-        # poc_ownership_percent: poc_ownership,
-        # women_ownership_percent: women_ownership,
-        # environmental_impact_score: environmental_impact
     }
     data
   end
 
   def org_snapshot_data
     data = {
-        date: signing_date,
-        organization_id: nil_if_zero(cooperative_id),
-        organization_size: cooperative_members,
-        poc_ownership_percent: poc_ownership,
-        women_ownership_percent: women_ownership,
-        environmental_impact_score: environmental_impact
+      cooperative_members: cooperative_members,
+      poc_ownership_percent: poc_ownership,
+      women_ownership_percent: women_ownership,
+      environmental_impact_score: environmental_impact
     }
     data
   end
 
   def migrate
     data = migration_data
-    puts "#{data[:id]}: #{data[:amount]}"
-    org_data = org_snapshot_data
-    snapshot = ::OrganizationSnapshot.create(org_data)
-    data[:organization_snapshot_id] = snapshot.id
-    ::Loan.create(data)
+    # puts "#{data[:id]}: #{data[:name]}"
+    loan = ::Loan.find_or_create_by(id: data[:id])
+    loan.update!(data)
+  rescue StandardError => e
+    $stderr.puts "#{self.class.name}[#{id}] error migrating loan: #{e} - skipping"
+  end
+
+  def migrate_snapshot_data
+    data = org_snapshot_data
+    new_record = ::Loan.find(migration_data[:id])
+    if data.values.any?(&:present?)
+      new_record.create_criteria unless new_record.criteria
+      data.each do |key, val|
+        new_record.criteria.set_response(key.to_s, number: val)
+      end
+      new_record.criteria.save!
+    end
+  rescue StandardError => e
+    $stderr.puts "#{self.class.name}[#{id}] error migrating organization snapshot data: #{e} - skipping"
   end
 
   def name
     # if self.cooperative then I18n.t :project_with, name: self.cooperative.Name
     # else I18n.t :project_id, id: self.ID.to_s end
     if self.cooperative
-      return "Project with #{self.cooperative.Name}"
+      return I18n.t(:project_with, name: self.cooperative.Name)
     else
-      return "Project ID: #{self.ID}"
+      return I18n.t(:project_id, id: self.ID)
     end
   end
 
+  def self.migratable
+    all
+  end
 
   def self.migrate_all
     puts "loans: #{self.count}"
-    self.all.each &:migrate
+    migratable.each &:migrate
     ::Loan.recalibrate_sequence(gap: 1000)
 
     puts "loan translations: #{ Legacy::Translation.where('RemoteTable' => 'Loans').count }"
@@ -89,8 +105,6 @@ class Loan < ActiveRecord::Base
   def self.purge_migrated
     puts "::Loan.delete_all"
     ::Loan.delete_all
-    puts "::OrganizationSnapshot.delete_all"
-    ::OrganizationSnapshot.delete_all
   end
 
 

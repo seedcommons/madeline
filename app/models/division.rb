@@ -2,16 +2,27 @@
 #
 # Table name: divisions
 #
-#  created_at      :datetime         not null
-#  currency_id     :integer
-#  custom_data     :json
-#  description     :text
-#  id              :integer          not null, primary key
-#  internal_name   :string
-#  name            :string
-#  organization_id :integer
-#  parent_id       :integer
-#  updated_at      :datetime         not null
+#  accent_fg_color    :string
+#  accent_main_color  :string
+#  banner_bg_color    :string
+#  banner_fg_color    :string
+#  created_at         :datetime         not null
+#  currency_id        :integer
+#  custom_data        :json
+#  description        :text
+#  id                 :integer          not null, primary key
+#  internal_name      :string
+#  locales            :json
+#  logo_content_type  :string
+#  logo_file_name     :string
+#  logo_file_size     :integer
+#  logo_text          :string
+#  logo_updated_at    :datetime
+#  name               :string
+#  notify_on_new_logs :boolean          default(FALSE)
+#  organization_id    :integer
+#  parent_id          :integer
+#  updated_at         :datetime         not null
 #
 # Indexes
 #
@@ -25,15 +36,19 @@
 #
 
 class Division < ActiveRecord::Base
+  include DivisionBased
+
   has_closure_tree dependent: :restrict_with_exception
   resourcify
   alias_attribute :super_division, :parent
+
+  normalize_attributes :logo_text, :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color
 
   has_many :loans, dependent: :restrict_with_exception
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :custom_field_sets, dependent: :destroy
+  has_many :loan_question_sets, dependent: :destroy
   has_many :option_sets, dependent: :destroy
 
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
@@ -49,49 +64,15 @@ class Division < ActiveRecord::Base
 
   belongs_to :organization  # the organization which represents this loan agent division
 
+  # Logo will be resized to 65px height on screen, but for higher pixel density devices we don't want to
+  # go below 3x that. Wide logos are acceptable, up to about 280px logical.
+  has_attached_file :logo, styles: { banner: "840x195>" }
+  validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
+
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
-
-  # Note: the closure_tree automatically provides a Division.root class method which returns the
-  # first Division with a null parent_id ordered by id.
-
-  # Note, this code is useful for debugging unit tests with elusive Division.root dependencies
-  #
-  # AUTOCREATE_ROOT = false
-  #
-  # def self.root
-  #   if AUTOCREATE_ROOT
-  #     ensured_root
-  #   else
-  #     # result = super.root
-  #     # how to directly call 'super' for modules?
-  #     result = roots.first
-  #     unless result
-  #       # puts caller
-  #       puts "unexpectedly missing root Division - failing"
-  #       raise "unexpectedly missing root Division"
-  #     end
-  #     result
-  #   end
-  # end
-  #
-  # # ensures that a root division exists and returns it
-  # def self.ensured_root
-  #   # create on demand if not present for convenience of blank db's and test cases
-  #   # Division.find_by(internal_name: root_internal_name) || Division.create(internal_name: root_internal_name, name:'Root Division')
-  #   fetched = roots  # closure_tree method
-  #   # todo: figure out best way to make sure Rails.logger is displayed from tests
-  #   puts "unexpectedly non-unique root Division - count: #{fetched.size}"  if fetched.size > 1
-  #   result = fetched.first
-  #   unless result
-  #     puts "unexpectedly missing root Division - autocreating"
-  #     puts caller
-  #     result = Division.create(name:'Root Division')
-  #   end
-  #   result
-  # end
 
   def self.root_id
     result = root.try(:id)
@@ -99,9 +80,17 @@ class Division < ActiveRecord::Base
     result
   end
 
+  def self.in_division(division)
+    division ? division.self_and_descendants : all
+  end
+
   # interface compatibility with other models
   def division
     self
+  end
+
+  def has_logo_text?
+    logo_text.present?
   end
 
   def has_noncascading_dependents?
@@ -109,5 +98,20 @@ class Division < ActiveRecord::Base
       Organization.where(division: self).present? ||
       Loan.where(division: self).present?  ||
       Person.where(division: self).present?
+  end
+
+  def users
+    people.where(has_system_access: true)
+  end
+
+  def locales
+    return [] unless self[:locales].present?
+    self[:locales].sort.select(&:present?).map(&:to_sym)
+  end
+
+  def locale_names
+    locales.map do |locale|
+      I18n.t("locale_name.#{locale}", locale: locale)
+    end
   end
 end

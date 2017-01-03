@@ -41,6 +41,8 @@ class ApplicationController < ActionController::Base
   end
 
   def locale_from_header
-    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    if !Rails.env.test? && (lang_header = request.env['HTTP_ACCEPT_LANGUAGE'])
+      lang_header.scan(/^[a-z]{2}/).first
+    end
   end
 end

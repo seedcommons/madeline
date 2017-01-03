@@ -1,0 +1,8 @@
+es:
+  admin:
+    timeline_step_moves:
+      new:
+        move: "Cambiar Fecha de Paso"
+        orig_date_remembered: "La fecha original de este paso será recordada."
+        please_log: "Por favor ingresar un apunte para este cambio antes de continuar."
+        add_log: "Agregar Apunte"

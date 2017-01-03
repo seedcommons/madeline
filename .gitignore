@@ -20,6 +20,7 @@ config/database.yml
 /public/uploads
 .DS_Store
 .idea
+.tags
 *.scratch
 *.swp
 *.swo
@@ -30,3 +31,4 @@ config/initializers/local_config.rb
 coverage/
 /app/views/layouts/embedded/*
 .byebug_history
+.env

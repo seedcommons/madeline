@@ -1,0 +1,34 @@
+.log-form
+  = simple_fields_for(@log) do |f|
+
+    = f.hidden_field(:project_step_id)
+
+    // The hide/show for this alert is in LogFormModalView and MoveStepModalView.
+    // Do not use .hidden here.
+    .alert.alert-danger.empty-log-error role="alert"
+      i.fa.fa-exclamation-circle>
+      = t("log.empty_log_error")
+
+    = f.input "step", label: t("log.step") do
+      = @step.summary
+
+    .date
+      = f.input :date, as: :date_picker
+      - if @log.new_record? && context == :manual
+        label.light
+          = check_box_tag(:step_completed_on_date)
+          = t('log.step_completed')
+
+    = f.association :agent, include_blank: true, collection: @people
+    = f.input :progress_metric_value, as: :select, collection: @progress_metrics
+
+    .media-container
+      - unless @log.new_record?
+        = render 'admin/media/index', media: @log.media, owner: @log
+
+    = render 'admin/project_logs/translatable', log: @log, f: f
+
+    - if @log.new_record? && @log.division.notify_on_new_logs?
+      .notify.text-right
+        => check_box_tag(:notify, 1, true)
+        label for="notify" = t('log.notify')

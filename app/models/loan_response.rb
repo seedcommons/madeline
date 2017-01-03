@@ -1,52 +1,65 @@
 # Represents multi-value loan criteria or post analysis questionnaire response.
-# Currently a wrapper around CustomFieldAddable data, but should perhaps refactor and promote
-# to a its own db table
-
 class LoanResponse
+  include ProgressCalculable
 
-  attr_accessor :custom_field
+  attr_accessor :loan
+  attr_accessor :loan_question
+  attr_accessor :loan_response_set
   attr_accessor :text
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
-  attr_accessor :embeddable_media_id
+  attr_accessor :url
+  attr_accessor :start_cell
+  attr_accessor :end_cell
+  attr_accessor :owner
+  attr_accessor :breakeven
+  attr_accessor :business_canvas
 
-  def initialize(field, hash)
-    @hash = HashWithIndifferentAccess.new(hash || {})
-    @custom_field = field
-    @text = @hash[:text]
-    @number = @hash[:number]
-    @boolean = @hash[:boolean]
-    @rating = @hash[:rating]
-    @embeddable_media_id = @hash[:embeddable_media_id]
+  delegate :group?, to: :loan_question
+
+  def initialize(loan:, loan_question:, loan_response_set:, data:)
+    data = (data || {}).with_indifferent_access
+    @loan = loan
+    @loan_question = loan_question
+    @loan_response_set = loan_response_set
+    @text = data[:text]
+    @number = data[:number]
+    @boolean = data[:boolean]
+    @rating = data[:rating]
+    @url = data[:url]
+    @start_cell = data[:start_cell]
+    @end_cell = data[:end_cell]
+    @breakeven = remove_blanks data[:breakeven]
+    @business_canvas = data[:business_canvas]
   end
 
   def model_name
     'LoanResponse'
   end
 
-  def original_hash
-    @hash.to_json
-  end
-
-  def hash_data
-    result = {}
-    field_attributes.each do |attr|
-      result[attr] = self.send(:attr)
+  def linked_document
+    if url.present?
+      LinkedDocument.new(url, start_cell: start_cell, end_cell: end_cell)
+    else
+      nil
     end
-    result
   end
 
-  def embeddable_media
-    embeddable_media_id.present? ? EmbeddableMedia.find(embeddable_media_id) : nil
+  def breakeven_table
+    @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
   end
 
-  def embeddable_media=(record)
-    @embeddable_media_id = record.try(:id)
+  def breakeven_hash
+    @breakeven_hash ||= breakeven_table.data_hash
+  end
+
+  def breakeven_report
+    @breakeven_report ||= breakeven_table.report
   end
 
   def field_attributes
-    @field_attributes ||= @custom_field.value_types
+    @field_attributes ||= loan_question.value_types
   end
 
   def has_text?
@@ -61,22 +74,58 @@ class LoanResponse
     field_attributes.include?(:rating)
   end
 
-  def has_sheet?
-    field_attributes.include?(:embeddable_media)
+  def has_linked_document?
+    field_attributes.include?(:url)
   end
 
   def has_boolean?
     field_attributes.include?(:boolean)
   end
 
+  def has_breakeven_table?
+    field_attributes.include?(:breakeven)
+  end
+
+  def has_business_canvas?
+    field_attributes.include?(:business_canvas)
+  end
+
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? &&
-      (embeddable_media.blank? || embeddable_media.url.blank?)
+    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
+      breakeven_report.blank? && business_canvas_blank?
+  end
+
+  def business_canvas_blank?
+    business_canvas.blank? || business_canvas.values.all?(&:blank?)
+  end
+
+  def answered?
+    !blank?
   end
 
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
-    @custom_field.data_type == 'text' ? :text : :string
+    loan_question.data_type == 'text' ? :text : :string
   end
 
+  def required?
+    @required ||= loan_question.required_for?(loan)
+  end
+
+  private
+
+  # Gets child responses of this response by asking LoanResponseSet.
+  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
+  # performance will be horrible in recursive methods.
+  def children
+    loan_response_set.children_of(self)
+  end
+
+  def remove_blanks(data)
+    if data
+      data['products'].delete_if { |i| i.values.all?(&:blank?) }
+      data['fixed_costs'].delete_if { |i| i.values.all?(&:blank?) }
+    end
+    data
+  end
 end

@@ -1,0 +1,43 @@
+@import "../colors";
+
+.log {
+  header {
+    color: $gray6;
+    margin-bottom: 10px;
+
+    .step-name {
+      a {
+        color: inherit;
+      }
+    }
+
+    .infos {
+      line-height: 1.9;
+      .item {
+        line-height: normal;
+        display: inline-block;
+        margin-right: 15px;
+        a {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .summary {
+    margin: 0 .5em 0 0;
+  }
+
+  .extra {
+    margin-top: 10px;
+
+    strong {
+      display: inline-block;
+      margin-right: 1em;
+    }
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

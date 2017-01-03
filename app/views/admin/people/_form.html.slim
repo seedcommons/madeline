@@ -8,7 +8,7 @@
     },
   ) do |f|
 
-  = f.error_notification
+  = error_notification(f)
 
   = f.input :division
     - if policy(@person).reassign_division?
@@ -118,5 +118,5 @@
         a.btn.btn-default.show-action = t(:cancel)
       - else
         a.btn.btn-default href=admin_person_path(@person) = t(:cancel)
-    = f.submit class: 'update-action btn btn-success'
+    = f.submit class: 'update-action btn btn-primary'
   .clearfix

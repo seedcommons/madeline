@@ -1,6 +1,6 @@
-.print-view {
+body.admin.print-view {
   width: 8in;
-  padding: .25in;
+  padding: 0; // Browser adds margins. No need for padding here.
 
   .content .block {
     background: none;
@@ -10,12 +10,16 @@
     display: none;
   }
 
-  .mainmenu, #navbar, #user-menu {
+  nav, #navbar, #user-menu {
     display: none;
   }
 
   .page-header {
     margin: 20px 0;
+
+    .with-title {
+      float: right;
+    }
   }
 
   .visible-print-block {
