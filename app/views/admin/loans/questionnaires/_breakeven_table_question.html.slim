@@ -27,7 +27,7 @@
 
         = render 'admin/loans/questionnaires/breakeven_product_row', question: question
 
-        /= render 'admin/loans/questionnaires/breakeven_product_totals', products: data[:products]
+        = render 'admin/loans/questionnaires/breakeven_product_totals', report: report, question: question
 
   .table-container
     h4.title = t("loan.breakeven.rampup")

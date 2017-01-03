@@ -100,7 +100,7 @@
                     = render "admin/loans/questionnaires/breakeven_rampup/main", report: value.breakeven_report
               .form-element
                 = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                  question: question, data: value.breakeven_hash
+                  question: question, data: value.breakeven_hash, report: value.breakeven_report
 
             - if value.has_business_canvas?
               .answer class=('form-element' if value.business_canvas_blank?)

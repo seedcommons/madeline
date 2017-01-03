@@ -9,16 +9,65 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
   initialize: (options) ->
     @products = options.products
 
-    # console.log({@products})
-    # console.log(@$el)
-    #
-    # totalNet = @totalNet()
-    # console.log({totalNet})
+    _.each @products, (product) =>
+      product.on "product:changed", () =>
+        @calculateTotals()
+
+    # Defer loading of totals until the dom is ready
+    $ =>
+      @calculateTotals()
+
+  calculateTotals: ->
+    totalNet = @totalNet()
+    totalPs = @totalPs()
+    totalPercentageOfSales = @totalPercentageOfSales()
+    totalFixedCosts = @totalFixedCosts()
+    Q = @Q()
+
+    totals = {totalNet, totalPs, totalPercentageOfSales, totalFixedCosts, Q}
+    console.log(totals)
+
+    @notifyProducts(totals)
 
   totalNet: ->
     sum = _.reduce(@products, (acc, product) =>
-      acc + product.net()
+      acc += product.getNet() if product.isValid()
+
+      return acc
     , 0)
 
     @$('.net').val(sum)
     sum
+
+  totalPs: ->
+    sum = _.reduce(@products, (acc, product) =>
+      acc += product.getPs() if product.isValid()
+
+      return acc
+    , 0)
+
+    @$('.ps').val(sum)
+    sum
+
+
+  totalPercentageOfSales: ->
+    sum = _.reduce(@products, (acc, product) =>
+      acc += product.getPercentageOfSales() if product.isValid()
+
+      return acc
+    , 0)
+
+    @$('.percentage_of_sales').val(sum)
+    sum
+
+
+  totalFixedCosts: ->
+    val = @$('.total_fixed_costs').val()
+    parseFloat(val)
+
+  Q: ->
+    @totalFixedCosts() / @totalPs()
+
+  notifyProducts: (totals) ->
+    _.each @products, (product) =>
+      product.totalsUpdated(totals)
