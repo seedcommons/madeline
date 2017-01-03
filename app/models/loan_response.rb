@@ -6,6 +6,7 @@ class LoanResponse
   attr_accessor :loan_question
   attr_accessor :loan_response_set
   attr_accessor :text
+  attr_accessor :string
   attr_accessor :number
   attr_accessor :boolean
   attr_accessor :rating
@@ -24,6 +25,7 @@ class LoanResponse
     @loan_question = loan_question
     @loan_response_set = loan_response_set
     @text = data[:text]
+    @string = data[:string]
     @number = data[:number]
     @boolean = data[:boolean]
     @rating = data[:rating]
@@ -66,6 +68,10 @@ class LoanResponse
     field_attributes.include?(:text)
   end
 
+  def has_string?
+    field_attributes.include?(:string)
+  end
+
   def has_number?
     field_attributes.include?(:number)
   end
@@ -91,7 +97,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
+    text.blank? && string.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
       breakeven_report.blank? && business_canvas_blank?
   end
 
