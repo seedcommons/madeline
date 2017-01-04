@@ -1,5 +1,5 @@
 - note_id = note.new_record? ? 'new' : note.id
-.note data-id=note_id
+.note.post data-id=note_id
   .form-block
     = render partial: "admin/notes/form", locals: { note: note }
 

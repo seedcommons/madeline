@@ -1,4 +1,3 @@
-
 - if @logs.empty?
   = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 - else
@@ -14,12 +13,12 @@
         i.fa.fa-fw.fa-calendar
       = @step.summary
 
-  .logs-index
+  .logs-index.post-list
     - @logs.each do |log|
       - step = log.project_step
-      .log data-id=log.id
+      .log.post data-id=log.id
         header.small
-          .infos
+          .post-info
             .item
               i.fa.fa-calendar-o>
               = l log.date

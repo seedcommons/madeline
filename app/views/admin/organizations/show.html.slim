@@ -33,12 +33,12 @@ section.coop.details
     h1 = t('organization.media')
     .row = render "admin/media/index", owner: @org
 
-  section.block.notes
+  section.block.notes.post-list
     header.header-with-links
       h1 = t('common.notes')
       button.btn.btn-default.new-button = t("notes.new")
     .notes-inner
-      = render @org.notes.order(created_at: :desc)
+      = render @notes
     
     .hidden
       .new-note

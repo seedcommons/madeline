@@ -29,8 +29,8 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize @org
     prep_form_vars
 
+    @notes = @org.notes.order(created_at: :desc)
     @new_note = Note.new(notable: @org)
-    # @new_note = @org.notes.build
     authorize @new_note, :new?
   end
 

@@ -1,14 +1,21 @@
-=> simple_format note.text.to_s
-| &mdash;
-= link_to note.author.name, admin_person_path(note.author)
-' ,
-=> l note.created_at.to_date
+header.small
+  .post-info
+    .item
+      i.fa.fa-calendar-o>
+      = l note.created_at.to_date
+    .item
+      a href=admin_person_path(note.author)
+        i.fa.fa-user>
+        = note.author.name
+    .item
+      a.edit-action href="#"
+        i.fa.fa-pencil>
+        = t(:edit)
+    .item
+      => link_to admin_note_path(note), method: :delete, class: 'delete-action',
+          data: { confirm: t('confirm_deletion', thing: t('common.note')) },
+          remote: true
+        i.fa.fa-trash>
+        = t(:delete)
 
-.links 
-  / => link_to edit_admin_note_path(note), remote: true, class: 'edit-action'
-  a.edit-action> href="#"
-    i.fa.fa-pencil
-  => link_to admin_note_path(note), method: :delete, class: 'delete-action',
-      data: { confirm: t('confirm_deletion', thing: t('common.note')) },
-      remote: true
-    i.fa.fa-trash
+=> simple_format note.text.to_s
