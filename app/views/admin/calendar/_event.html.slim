@@ -13,7 +13,7 @@
 
     div.calendar-event.cal-step [
       class="cal-step-#{cal_event.step_type} #{cal_event.time_status}
-        #{cal_event.has_precedent ? 'has-precedent': ''} "
+        #{cal_event.has_precedent? ? 'has-precedent': ''} "
       style="#{(c = cal_event.background_color) ? "background: #{c}" : ''}"
       data-step-id="#{cal_event.model_id}"]
 

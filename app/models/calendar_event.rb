@@ -14,7 +14,9 @@ class CalendarEvent
   attr_accessor :completion_status
   attr_accessor :time_status
   attr_accessor :num_of_logs
+
   attr_accessor :has_precedent
+  alias_method :has_precedent?, :has_precedent
 
   def self.build_for(model)
     puts "model: #{model.inspect}"
@@ -95,7 +97,7 @@ class CalendarEvent
     @step_type = step.step_type_value
     @completion_status = step.completion_status
     @time_status = step.days_late && step.days_late > 0 ? "late" : "on_time"
-    @has_precedent = step.schedule_parent_id ? true : false
+    @has_precedent = step.schedule_parent_id.present?
     self
   end
 

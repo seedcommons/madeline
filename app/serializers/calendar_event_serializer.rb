@@ -1,10 +1,9 @@
 class CalendarEventSerializer < ActiveModel::Serializer
   attributes :start, :html, :id, :model_id, :editable, :is_finalized, :completed, :model_type,
-    :event_type, :has_precedent
+    :event_type, :has_precedent?
 
   def editable
-    return false if object.event_type == "ghost_step"
-    return false if object.has_precedent
+    return false if (object.event_type == "ghost_step") || object.has_precedent?
     case object.model_type
     when "ProjectStep" then ProjectStepPolicy.new(scope, object.model).update?
     when "Loan" then LoanPolicy.new(scope, object.model).update?
