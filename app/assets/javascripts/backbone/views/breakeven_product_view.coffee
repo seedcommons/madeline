@@ -21,9 +21,10 @@ class MS.Views.BreakevenProductView extends Backbone.View
   updateDom: ->
     @writeToDom('net', @net())
     @writeToDom('quantity', @quantity())
+    @writeToDom('quantity_display_value', @quantity())
     @writeToDom('ps', @ps())
 
-    console.log({@total_fixed_costs, quantity: @quantity(), @price, @cost, profit: @profit(), percentageOfSales: @percentageOfSales(), net: @net(), ps: @ps()})
+    # console.log({@total_fixed_costs, quantity: @quantity(), @price, @cost, profit: @profit(), percentageOfSales: @percentageOfSales(), net: @net(), ps: @ps()})
     # console.log(@$el)
 
   isValid: =>
@@ -56,9 +57,10 @@ class MS.Views.BreakevenProductView extends Backbone.View
 
   writeToDom: (fieldName, value) ->
     if @isValid
-      @$(".#{fieldName}").val(value.toFixed())
+      # Write the value to input or span
+      @$(".#{fieldName}").val(value.toFixed()).text(value.toFixed())
     else
-      @$(".#{fieldName}").val("N/A")
+      @$(".#{fieldName}").val("N/A").text("N/A")
 
 
   totalsUpdated: (totals) ->

@@ -9,7 +9,9 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td: input.price name="#{prefix}[price]" type="number" value=product[:price]
   td: input.cost name="#{prefix}[cost]" type="number" value=product[:cost]
   td: input.percentage_of_sales name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
-  td: input.quantity name="#{prefix}[quantity]" value=product[:quantity] disabled=true
+  td
+    input.quantity type="number" value=product[:quantity] disabled=true
+    input.quantity_display_value name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
   td: input.net name="#{prefix}[net]" disabled=true
   td
     input.ps name="#{prefix}[ps]" disabled=true
