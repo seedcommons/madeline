@@ -46,21 +46,22 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            .item
-              a data-action="edit"
-                i.fa.fa-pencil>
-                = t(:edit)
-            .item
-              = link_to "#",
-                  data: { \
-                    action: "delete", \
-                    confirm: t('confirm_deletion', thing: t('project_log.project_log')), \
-                    'confirm-cancel': t(:cancel),
-                    'confirm-proceed': t(:confirm),
-                    'confirm-title': t('log.delete') \
-                  }
-                    i.fa.fa-trash>
-                    = t(:delete)
+            - unless @step && @context && @context == "calendar"
+              .item
+                a data-action="edit"
+                  i.fa.fa-pencil>
+                  = t(:edit)
+              .item
+                = link_to "#",
+                    data: { \
+                      action: "delete", \
+                      confirm: t('confirm_deletion', thing: t('project_log.project_log')), \
+                      'confirm-cancel': t(:cancel),
+                      'confirm-proceed': t(:confirm),
+                      'confirm-title': t('log.delete') \
+                    }
+                      i.fa.fa-trash>
+                      = t(:delete)
 
         - if log.summary
           span.summary = log.summary
