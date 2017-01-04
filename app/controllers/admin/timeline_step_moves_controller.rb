@@ -27,6 +27,7 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     render nothing: true
   end
 
+  # A change of date for a step that does not require a corresponding log
   def simple_move
     @step = ProjectStep.find(params[:id])
     authorize @step, :update?
