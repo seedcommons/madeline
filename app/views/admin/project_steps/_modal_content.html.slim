@@ -100,11 +100,12 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
     - if @logs.length > 0 && context == "calendar"
-      a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
-      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
+      .view-element
+        a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
+        a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
 
-      div data-expandable="step-logs-#{@step.id}"
-        = render "admin/project_logs/log_list"
+        div data-expandable="step-logs-#{@step.id}"
+          = render "admin/project_logs/log_list"
 
   div.modal-footer
     .view-element
