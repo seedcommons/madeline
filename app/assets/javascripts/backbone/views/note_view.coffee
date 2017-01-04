@@ -8,6 +8,7 @@ class MS.Views.NoteView extends Backbone.View
     'click a.edit-action': 'editView'
     'click .cancel': 'showView'
     'submit .note-form': 'update'
+    'ajax:success .delete-action': 'remove'
 
   editView: (e) ->
     e.preventDefault() if e
@@ -37,3 +38,6 @@ class MS.Views.NoteView extends Backbone.View
 
     # Prevent form from being submitted again
     return false
+
+  remove: (e) ->
+    @$el.hide('fast')
