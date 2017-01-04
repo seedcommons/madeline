@@ -12,7 +12,8 @@
   - when "project_step"
 
     div.calendar-event.cal-step [
-      class="cal-step-#{cal_event.step_type} #{cal_event.time_status}"
+      class="cal-step-#{cal_event.step_type} #{cal_event.time_status}
+        #{cal_event.has_precedent? ? 'has-precedent': ''} "
       style="#{(c = cal_event.background_color) ? "background: #{c}" : ''}"
       data-step-id="#{cal_event.model_id}"]
 
@@ -32,6 +33,8 @@
           - else
               i = " "
         div.align-bottom.bottom-info
+          - if cal_event.has_precedent
+              i.fa.fa-link
           - if cal_event.num_of_logs > 0
               i.fa.fa-pencil-square-o
               = cal_event.num_of_logs.to_s
