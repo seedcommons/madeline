@@ -35,7 +35,7 @@ class ProjectLog < ActiveRecord::Base
 
   attr_option_settable :progress_metric
 
-  validates :project_step_id, presence: true
+  validates :project_step_id, :date, presence: true
 
   def self.filter_by(params)
     if params[:step].present?
