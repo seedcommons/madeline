@@ -54,6 +54,15 @@ module ApplicationHelper
     render "admin/common/grid", no_records: no_records, grid: grid
   end
 
+  def render_loan_grid(grid)
+    if grid.all_pages_records.count == 1 && grid.filtered_by == ['id']
+      loan = grid.all_pages_records.first
+      controller.redirect_to [:admin, loan]
+    else
+      render_index_grid(grid)
+    end
+  end
+
   # Returns content_tag if the given condition is true, else just whatever is given by block.
   def content_tag_if(condition, *args, &block)
     if condition
