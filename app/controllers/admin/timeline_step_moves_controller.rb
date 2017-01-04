@@ -30,7 +30,7 @@ class Admin::TimelineStepMovesController < Admin::AdminController
   def simple_move
     @step = ProjectStep.find(params[:id])
     authorize @step, :update?
-    @step.update_attributes(:scheduled_start_date => params[:scheduled_start_date])
+    @step.update_attributes(scheduled_start_date: params[:scheduled_start_date])
     render nothing: true
   end
 
