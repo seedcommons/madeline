@@ -39,8 +39,22 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   close: ->
     @$el.modal('hide')
 
-  submitForm: ->
-    @$('form').submit()
+  submitForm: (e) ->
+    e.preventDefault()
+    $form = @$('form')
+    submitted = @submitted
+
+    # Check to make sure summary is completed for at least one language
+    $form.find("[data-translatable='summary']").each ->
+      if ($.trim($(this).val()) != '')
+        $form.find('.empty-step-error').hide()
+        submitted = true
+
+    if submitted
+      $form.submit()
+      @$('.modal').modal('hide')
+    else
+      $form.find('.empty-step-error').show()
 
   submitComplete: (e, data) ->
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
@@ -61,6 +75,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
+    @$el.find('.empty-step-error').hide()
+    @submitted = false
     @showHideStartDate()
 
   showMoveStepModal: (id, daysShifted) ->
