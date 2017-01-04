@@ -48,7 +48,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
   percentageOfSales: =>
     @_percentageOfSales
 
-  readPercentageOfSalesFromDom: ->
+  readPercentageOfSalesFromDom: =>
     @readFromDom('percentage_of_sales') / 100
 
   readFromDom: (fieldName) ->
@@ -56,11 +56,12 @@ class MS.Views.BreakevenProductView extends Backbone.View
     parseFloat(value)
 
   writeToDom: (fieldName, value) ->
-    if @isValid
-      # Write the value to input or span
-      @$(".#{fieldName}").val(value.toFixed()).text(value.toFixed())
-    else
-      @$(".#{fieldName}").val("N/A").text("N/A")
+    valueForDom = @getValueForDom(value)
+    @$(".#{fieldName}").val(valueForDom).text(valueForDom)
+
+  getValueForDom: (value) =>
+    return value.toFixed() if @isValid()
+    ""
 
 
   totalsUpdated: (totals) ->

@@ -101,9 +101,10 @@
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
                     question: question, data: value.breakeven_hash, total_fixed_costs: value.breakeven_report[:total_fixed_costs]
-              .form-element
-                = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                  question: question, data: value.breakeven_hash, total_fixed_costs: 0
+              - else
+                .form-element
+                  = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+                    question: question, data: value.breakeven_hash, total_fixed_costs: 0
 
             - if value.has_business_canvas?
               .answer class=('form-element' if value.business_canvas_blank?)
