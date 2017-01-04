@@ -3,8 +3,8 @@
   .form-block
     = render partial: "admin/notes/form", locals: { note: note }
 
-  - unless note.new_record?
-    .view-block
+  .view-block
+    - unless note.new_record?
       = render partial: "admin/notes/show", locals: { note: note }
 
   javascript:

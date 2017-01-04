@@ -31,7 +31,7 @@ class Admin::OrganizationsController < Admin::AdminController
 
     @new_note = Note.new(notable: @org)
     # @new_note = @org.notes.build
-    # authorize @new_note, :new?
+    authorize @new_note, :new?
   end
 
   def new

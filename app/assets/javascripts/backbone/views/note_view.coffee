@@ -2,7 +2,7 @@ class MS.Views.NoteView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
-    @showView() unless @$el.data('id') == 'new'
+    if @$el.find('.note').data('id') == 'new' then @editView() else @showView()
 
   events:
     'click a.edit-action': 'editView'
@@ -10,7 +10,7 @@ class MS.Views.NoteView extends Backbone.View
     'submit .note-form': 'update'
 
   editView: (e) ->
-    e.preventDefault()
+    e.preventDefault() if e
     @$('.view-block').hide()
     @$('.form-block').show()
 

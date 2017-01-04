@@ -8,7 +8,7 @@ class Admin::NotesController < Admin::AdminController
   # end
 
   def create
-    @note = Note.new(note_params, author: current_user)
+    @note = Note.new(note_params.merge author: current_user.profile)
     authorize @note
 
     if @note.save
