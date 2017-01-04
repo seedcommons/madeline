@@ -45,7 +45,6 @@ Rails.application.routes.draw do
     end
     resources :project_groups
 
-    # Does it make sense to surround in separate namespace?
     resources :timeline_step_moves do
       member do
         patch :simple_move
