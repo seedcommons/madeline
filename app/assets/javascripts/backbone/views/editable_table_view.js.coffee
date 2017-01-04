@@ -6,17 +6,32 @@ class MS.Views.EditableTableView extends Backbone.View
   events:
     'click tr [data-action="delete"]': 'removeRow'
     'click .actions [data-action="add"]': 'addRow'
+    'change .editable-table[data-table="fixed_costs"] input.amount': 'totalFixedCostsChanged'
 
   initialize: (e) ->
     @$el.find('tbody').sortable({
       handle: "[data-action='move']"
     })
+    @parent = e.parent
+
+    console.log({totalFixedCosts: @totalFixedCosts()})
 
     products = @$("tr[data-group='product']:not('.hidden')").map (index, productRow) =>
       new MS.Views.BreakevenProductView(el: productRow)
 
     @$("tr[data-group='product-total']").map (index, totalRow) =>
       new MS.Views.BreakevenProductTotalView(el: totalRow, products: products)
+
+  totalFixedCosts: =>
+    _.reduce(@parent.$('.editable-table[data-table="fixed_costs"] input.amount'), (acc, amount) =>
+      value = parseFloat($(amount).val())
+      acc += value unless isNaN(value)
+
+      return acc
+    , 0)
+
+  totalFixedCostsChanged: =>
+    console.log({totalFixedCosts: @totalFixedCosts()})
 
   addRow: (e) ->
     e.preventDefault()

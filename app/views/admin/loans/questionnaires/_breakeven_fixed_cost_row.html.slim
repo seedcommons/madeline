@@ -4,7 +4,7 @@
 
 tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
   td: input name="#{prefix}[name]" value=cost[:name]
-  td: input name="#{prefix}[amount]" type="number" value=cost[:amount]
+  td: input.amount name="#{prefix}[amount]" type="number" value=cost[:amount]
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash

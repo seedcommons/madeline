@@ -19,7 +19,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       @filterSwitchView.filterInit()
 
       @$(".editable-table").each (index, table) =>
-        new MS.Views.EditableTableView(el: table)
+        new MS.Views.EditableTableView(el: table, parent: @)
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
