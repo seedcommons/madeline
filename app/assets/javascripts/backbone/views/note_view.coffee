@@ -14,6 +14,7 @@ class MS.Views.NoteView extends Backbone.View
     e.preventDefault() if e
     @$('.view-block').hide()
     @$('.form-block').show()
+    @resizeTextareas()
 
   showView: (e) ->
     e.preventDefault() if e
@@ -41,3 +42,11 @@ class MS.Views.NoteView extends Backbone.View
 
   remove: (e) ->
     @$el.hide('fast')
+
+  # Sets textareas to the height of their content, and resizes them dynamically on edit
+  resizeTextareas: (e) ->
+    $('.note textarea').each ->
+      @setAttribute 'style', 'height:' + @scrollHeight + 'px;overflow-y:hidden;'
+    .on 'input', ->
+      @style.height = 'auto'
+      @style.height = @scrollHeight + 'px'
