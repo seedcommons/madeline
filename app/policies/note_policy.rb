@@ -11,10 +11,10 @@ class NotePolicy < ApplicationPolicy
   end
 
   def update?
-    user == record.author
+    user == record.author.user
   end
 
   def delete?
-    user == record.author || division_admin
+    user == record.author.user || division_admin
   end
 end

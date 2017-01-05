@@ -35,7 +35,10 @@ class MS.Views.NoteView extends Backbone.View
         @$('.view-block').show()
         @$('.form-block').hide()
       .fail (response) =>
-        @$('.form-block').html(response)
+        if response.status == 403
+          @showView()
+        else
+          @$('.form-block').html(response)
 
     # Prevent form from being submitted again
     return false
