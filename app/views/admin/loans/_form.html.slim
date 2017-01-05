@@ -39,11 +39,15 @@
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
 
   = f.input :amount
-    .view-element = @loan.currency && @loan.amount ? format_currency(@loan.amount, @loan.currency, tooltip: false) : ''
+    .view-element
+      - if @loan.amount && @loan.currency
+        = format_currency(@loan.amount, @loan.currency, tooltip: false)
+      - else
+        = @loan.amount
     = f.input_field :amount
 
   = f.input :currency
-    .view-element = @loan.currency ? @loan.currency.try(:name) : ''
+    .view-element = @loan.display_currency
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
   = render 'admin/loans/translatable', loan: @loan, f: f

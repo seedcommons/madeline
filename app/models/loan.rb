@@ -172,6 +172,10 @@ class Loan < ActiveRecord::Base
   #   @currency ||= self.country.default_currency
   # end
 
+  def display_currency
+    currency ? currency.try(:name) : ''
+  end
+
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name
