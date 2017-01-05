@@ -118,8 +118,10 @@ class Loan < ActiveRecord::Base
   end
 
   def default_name
-    date = signing_date || created_at.to_date
-    "#{organization.name} - #{I18n.l(date)}"
+    if organization
+      date = signing_date || created_at.to_date
+      "#{organization.name} - #{I18n.l(date)}"
+    end
   end
 
   def display_name
