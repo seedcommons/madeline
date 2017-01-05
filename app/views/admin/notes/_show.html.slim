@@ -12,7 +12,7 @@ header.small
         a.edit-action href="#"
           i.fa.fa-pencil>
           = t(:edit)
-    - if policy(note).delete?
+    - if policy(note).destroy?
       .item
         => link_to admin_note_path(note), method: :delete, class: 'delete-action',
             data: { confirm: t('confirm_deletion', thing: t('common.note')) },
