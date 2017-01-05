@@ -7,15 +7,17 @@ header.small
       a href=admin_person_path(note.author)
         i.fa.fa-user>
         = note.author.name
-    .item
-      a.edit-action href="#"
-        i.fa.fa-pencil>
-        = t(:edit)
-    .item
-      => link_to admin_note_path(note), method: :delete, class: 'delete-action',
-          data: { confirm: t('confirm_deletion', thing: t('common.note')) },
-          remote: true
-        i.fa.fa-trash>
-        = t(:delete)
+    - if policy(note).edit?
+      .item
+        a.edit-action href="#"
+          i.fa.fa-pencil>
+          = t(:edit)
+    - if policy(note).delete?
+      .item
+        => link_to admin_note_path(note), method: :delete, class: 'delete-action',
+            data: { confirm: t('confirm_deletion', thing: t('common.note')) },
+            remote: true
+          i.fa.fa-trash>
+          = t(:delete)
 
 => simple_format note.text.to_s
