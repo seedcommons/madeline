@@ -117,9 +117,15 @@ class Loan < ActiveRecord::Base
     [primary_name, secondary_name]
   end
 
-  def name
-    date = signing_date || created_at.to_date
-    "#{organization.name} &ndash; #{I18n.l date}".html_safe
+  def default_name
+    if organization
+      date = signing_date || created_at.to_date
+      "#{organization.name} - #{I18n.l(date)}"
+    end
+  end
+
+  def display_name
+    name.blank? ? default_name : name
   end
 
   # todo: shall we migrate the display usage to the more verbose version?
@@ -165,6 +171,10 @@ class Loan < ActiveRecord::Base
   #   # and this code currently precludes being able to update the currency from the edit form.
   #   @currency ||= self.country.default_currency
   # end
+
+  def display_currency
+    currency ? currency.try(:name) : ''
+  end
 
   def location
     if self.organization.try(:city).present?

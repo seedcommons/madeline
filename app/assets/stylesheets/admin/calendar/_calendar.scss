@@ -21,6 +21,10 @@
       vertical-align: top;
       font-size: 1em;
       line-height: 1.2em;
+
+      &.fa-link {
+        color: $gray3;
+      }
     }
 
     .event-title {
@@ -98,12 +102,26 @@
         cursor: pointer;
       }
     }
+
+    .cal-step {
+      &.has-precedent {
+        &:hover {
+          cursor: default;
+        }
+      }
+    }
   }
 
   .main-calendar .fc-body {
     .cal-step {
       &:hover {
         cursor: pointer;
+      }
+
+      &.has-precedent {
+        &:hover {
+          cursor: default;
+        }
       }
     }
   }
@@ -150,6 +168,10 @@
 
     .fa {
       padding: .2em;
+
+      &.fa-link {
+        color: $gray3;
+      }
     }
 
     .milestone {
