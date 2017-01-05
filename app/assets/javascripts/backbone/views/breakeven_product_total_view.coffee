@@ -66,8 +66,17 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     parseFloat(val)
 
   Q: ->
-    @totalFixedCosts() / @totalPs()
+    q = @totalFixedCosts() / @totalPs()
+
+    @$('.price').val(q)
+    q
 
   notifyProducts: (totals) ->
     _.each @products, (product) =>
       product.totalsUpdated(totals)
+
+  updated: (totals) ->
+    console.log totals
+    @$('.total_fixed_costs').val(totals.totalFixedCosts)
+
+    @calculateTotals()
