@@ -25,11 +25,12 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     totalPrice = @totalPrice()
     totalCost = @totalCost()
     totalQuantity = @totalQuantity()
-    totalPs = @totalPs()
+    totalRevenue = @totalRevenue()
     totalPercentageOfSales = @totalPercentageOfSales()
+    totalProductCost = @totalProductCost()
     Q = @Q()
 
-    totals = {totalPrice, totalCost, totalQuantity, totalPs, totalPercentageOfSales, @totalFixedCosts, Q}
+    totals = {totalPrice, totalCost, totalQuantity, totalRevenue, totalPercentageOfSales, totalProductCost, @totalFixedCosts, Q}
     @writeTotalsToDom(totals)
 
   totalPrice: ->
@@ -46,6 +47,13 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
       return acc
     , 0)
 
+  totalProductCost: ->
+    _.reduce(@products, (acc, product) =>
+      acc += product.totalCost() if product.isValid()
+
+      return acc
+    , 0)
+
   totalQuantity: ->
     _.reduce(@products, (acc, product) =>
       acc += product.quantity() if product.isValid()
@@ -56,6 +64,13 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
   totalPs: ->
     _.reduce(@products, (acc, product) =>
       acc += product.ps() if product.isValid()
+
+      return acc
+    , 0.0)
+
+  totalRevenue: ->
+    _.reduce(@products, (acc, product) =>
+      acc += product.revenue() if product.isValid()
 
       return acc
     , 0.0)
@@ -85,3 +100,5 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     @$('.price').val(totals.totalPrice.toFixed())
     @$('.cost').val(totals.totalCost.toFixed())
     @$('.quantity').val(totals.totalQuantity.toFixed())
+    @$('.revenue').val(totals.totalRevenue.toFixed())
+    @$('.total_cost').val(totals.totalProductCost.toFixed())

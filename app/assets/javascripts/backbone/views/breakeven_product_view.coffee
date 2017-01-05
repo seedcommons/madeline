@@ -19,13 +19,13 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @updateDom()
 
   updateDom: ->
-    @writeToDom('net', @net())
+    @writeToDom('revenue', @revenue())
     @writeToDom('quantity', @quantity())
     @writeToDom('quantity_display_value', @quantity())
-    @writeToDom('ps', @ps())
+    @writeToDom('total_cost', @totalCost())
 
   isValid: =>
-    !isNaN(@net()) && !isNaN(@ps())
+    !isNaN(@revenue()) && !isNaN(@ps())
 
   name: =>
     @$('.name').val()
@@ -39,8 +39,11 @@ class MS.Views.BreakevenProductView extends Backbone.View
   profit: =>
     @price() - @cost()
 
-  net: =>
+  revenue: =>
     @profit() * @quantity()
+
+  totalCost: =>
+    @cost() * @quantity()
 
   ps: =>
     @profit() * @percentageOfSales()

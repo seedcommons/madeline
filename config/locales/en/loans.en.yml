@@ -120,7 +120,7 @@ en:
       production_cost: "Production Cost"
       production_cost_by_product: "Production Cost by Product"
       profit_by_product: "Profit by Product"
-      quantity: "Quantity"
+      quantity: "Breakeven Quantity"
       remove_row: "Remove row"
       revenue: "Revenue"
       revenue_by_product: "Revenue by Product"
@@ -135,6 +135,7 @@ en:
       units: "Unit of Periods"
       periods: "Periods to Breakeven"
       percentage_of_sales: "% of Sales"
+      total_cost: "Total Cost"
 
     breakeven_rampup:
       cost_of_goods: "Cost of Goods Sold"
