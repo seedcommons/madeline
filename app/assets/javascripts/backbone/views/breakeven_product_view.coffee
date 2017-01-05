@@ -12,8 +12,8 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @Q = 0.0
 
     # Refactor to separate all calculations from Dom
-    @cost = @readFromDom('cost')
-    @price = @readFromDom('price')
+    @_cost = @readFromDom('cost')
+    @_price = @readFromDom('price')
     @_percentageOfSales = @readPercentageOfSalesFromDom()
 
     @updateDom()
@@ -24,17 +24,20 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @writeToDom('quantity_display_value', @quantity())
     @writeToDom('ps', @ps())
 
-    # console.log({@total_fixed_costs, quantity: @quantity(), @price, @cost, profit: @profit(), percentageOfSales: @percentageOfSales(), net: @net(), ps: @ps()})
-    # console.log(@$el)
-
   isValid: =>
     !isNaN(@net()) && !isNaN(@ps())
 
   name: =>
     @$('.name').val()
 
+  price: ->
+    @_price
+
+  cost: ->
+    @_cost
+
   profit: =>
-    @price - @cost
+    @price() - @cost()
 
   net: =>
     @profit() * @quantity()
@@ -63,7 +66,6 @@ class MS.Views.BreakevenProductView extends Backbone.View
     return value.toFixed() if @isValid()
     ""
 
-
   totalsUpdated: (totals) ->
     @total_fixed_costs = totals.totalFixedCosts
     @Q = totals.Q
@@ -71,21 +73,8 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @updateDom()
 
   changed: () ->
-    @price = @readFromDom('price')
-    @cost = @readFromDom('cost')
+    @_price = @readFromDom('price')
+    @_cost = @readFromDom('cost')
     @_percentageOfSales = @readPercentageOfSalesFromDom()
     @updateDom()
     @trigger("product:changed", @)
-
-  # addRow: (e) ->
-  #   e.preventDefault()
-  #   $button = @$(e.currentTarget)
-  #   $table = $button.closest('table')
-  #   $new_row = $table.find('tr.hidden').clone()
-  #   $new_row.removeClass('hidden')
-  #   $table.append($new_row)
-  #
-  # removeRow: (e) ->
-  #   e.preventDefault()
-  #   $row = @$(e.currentTarget).closest('tr')
-  #   $row.remove()

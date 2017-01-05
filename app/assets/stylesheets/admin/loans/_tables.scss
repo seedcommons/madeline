@@ -45,7 +45,7 @@ table.breakeven-table-rampup {
     height: 100%;
   }
 
-  input[type="number"] {
+  input[type="number"], input.percentage {
     text-align: right;
   }
 

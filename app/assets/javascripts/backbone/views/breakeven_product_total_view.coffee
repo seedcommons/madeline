@@ -9,6 +9,8 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
   initialize: (options) ->
     @products = options.products
 
+    @totalFixedCosts = parseFloat(@$('.total_fixed_costs').val())
+
     _.each @products, (product) =>
       product.on "product:changed", () =>
         @calculateTotals()
@@ -18,65 +20,68 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
       @calculateTotals()
 
   calculateTotals: ->
-    totalNet = @totalNet()
+    @notifyProducts()
+
+    totalPrice = @totalPrice()
+    totalCost = @totalCost()
+    totalQuantity = @totalQuantity()
     totalPs = @totalPs()
     totalPercentageOfSales = @totalPercentageOfSales()
-    totalFixedCosts = @totalFixedCosts()
     Q = @Q()
 
-    totals = {totalNet, totalPs, totalPercentageOfSales, totalFixedCosts, Q}
-    console.log(totals)
+    totals = {totalPrice, totalCost, totalQuantity, totalPs, totalPercentageOfSales, @totalFixedCosts, Q}
+    @writeTotalsToDom(totals)
 
-    @notifyProducts(totals)
-
-  totalNet: ->
-    sum = _.reduce(@products, (acc, product) =>
-      acc += product.net() if product.isValid()
+  totalPrice: ->
+    _.reduce(@products, (acc, product) =>
+      acc += product.price() if product.isValid()
 
       return acc
     , 0)
 
-    @$('.net').val(sum)
-    sum
+  totalCost: ->
+    _.reduce(@products, (acc, product) =>
+      acc += product.cost() if product.isValid()
+
+      return acc
+    , 0)
+
+  totalQuantity: ->
+    _.reduce(@products, (acc, product) =>
+      acc += product.quantity() if product.isValid()
+
+      return acc
+    , 0)
 
   totalPs: ->
-    sum = _.reduce(@products, (acc, product) =>
+    _.reduce(@products, (acc, product) =>
       acc += product.ps() if product.isValid()
 
       return acc
     , 0.0)
 
-    @$('.ps').val(sum)
-    sum
-
 
   totalPercentageOfSales: ->
-    sum = _.reduce(@products, (acc, product) =>
+    _.reduce(@products, (acc, product) =>
       acc += product.percentageOfSales() if product.isValid()
 
       return acc
     , 0)
 
-    @$('.percentage_of_sales').val(sum)
-    sum
-
-
-  totalFixedCosts: ->
-    val = @$('.total_fixed_costs').val()
-    parseFloat(val)
-
   Q: ->
-    q = @totalFixedCosts() / @totalPs()
+    @totalFixedCosts / @totalPs()
 
-    @$('.price').val(q)
-    q
-
-  notifyProducts: (totals) ->
+  notifyProducts: () ->
     _.each @products, (product) =>
-      product.totalsUpdated(totals)
+      product.totalsUpdated({@totalFixedCosts, Q: @Q()})
 
   updated: (totals) ->
-    console.log totals
-    @$('.total_fixed_costs').val(totals.totalFixedCosts)
+    @totalFixedCosts = totals.totalFixedCosts
 
     @calculateTotals()
+
+  writeTotalsToDom: (totals) ->
+    @$('.percentage_of_sales').val("#{totals.totalPercentageOfSales * 100} %")
+    @$('.price').val(totals.totalPrice.toFixed())
+    @$('.cost').val(totals.totalCost.toFixed())
+    @$('.quantity').val(totals.totalQuantity.toFixed())

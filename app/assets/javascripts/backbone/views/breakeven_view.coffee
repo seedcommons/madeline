@@ -6,8 +6,6 @@ class MS.Views.BreakevenView extends Backbone.View
     'change .editable-table[data-table="fixed_costs"] input.amount': 'totalFixedCostsChanged'
 
   initialize: (e) ->
-    console.log({totalFixedCosts: @totalFixedCosts()})
-
     @$(".editable-breakeven-table").each (index, table) =>
       new MS.Views.EditableBreakevenTableView(el: table)
 
@@ -33,7 +31,6 @@ class MS.Views.BreakevenView extends Backbone.View
     Q = @totalFixedCosts() / @total.totalPs()
 
     costs = {totalFixedCosts: @totalFixedCosts(), Q: Q}
-    console.log(costs)
     _.each @products, (product) =>
       product.totalsUpdated(costs)
 
