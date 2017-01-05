@@ -6,7 +6,7 @@
     a data-hide-all=".logs-index" href="#"
       = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
 
-  - unless @context && @context == "calendar"
+  - unless @context == "calendar"
     - if @step
       h5
         - if @step.milestone?
@@ -32,7 +32,7 @@
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
 
-            - unless @context.present? && @context == "calendar"
+            - unless @context == "calendar"
               - unless params[:org].present? || params[:loan].present? || params[:step].present?
                 .item
                   a href=admin_organization_path(step.project.organization)
@@ -44,7 +44,7 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            - unless @step && @context && @context == "calendar"
+            - unless @context == "calendar"
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
