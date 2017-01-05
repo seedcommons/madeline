@@ -1,5 +1,5 @@
 class Admin::NotesController < Admin::AdminController
-  before_action :set_note, only: [:show, :edit, :update, :destroy]
+  before_action :set_note, only: [:update, :destroy]
 
   def create
     @note = Note.new(note_params.merge author: current_user.profile)

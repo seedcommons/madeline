@@ -7,7 +7,7 @@ class NotePolicy < ApplicationPolicy
     user == record.author.user
   end
 
-  def delete?
+  def destroy?
     user == record.author.user || division_admin
   end
 end
