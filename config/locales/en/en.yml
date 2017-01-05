@@ -264,6 +264,7 @@ en:
     address_state: "State"
     created: "Created"
     caption: "Caption"
+    condense_all: "Condense All"
     description: "Description"
     details: "Details"
     division: "Division"
