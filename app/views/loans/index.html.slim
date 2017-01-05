@@ -30,7 +30,7 @@
                 .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
             td.loan_item_desc
               h5.coop_name
-                a href=(url_for loan) = loan.name
+                a href=(url_for loan) = loan.display_name
               p.about_coop = render_translation(loan.short_description)
               p.detail_link.pull-right
                 a.no_line href=(url_for loan)
