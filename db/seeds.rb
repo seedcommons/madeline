@@ -87,12 +87,6 @@ progress_metric.options.create(migration_id: -1, label_translations: {en: 'Behin
 progress_metric.options.create(migration_id: 1, label_translations: {en: 'On time', es: 'A tiempo'})
 progress_metric.options.create(migration_id: 2, label_translations: {en: 'Ahead', es: 'Adelantado'})
 
-project_type = OptionSet.find_or_create_by(division: Division.root, model_type: BasicProject.name, model_attribute: 'project_type')
-project_type.options.destroy_all
-project_type.options.create(value: 'conversion', label_translations: {en: 'Conversion', es: 'TODO'})
-project_type.options.create(value: 'expansion', label_translations: {en: 'Expansion', es: 'TODO'})
-project_type.options.create(value: 'startup', label_translations: {en: 'Start-up', es: 'TODO'})
-
 # Need to leave room for migrated loan questions
 # Can remove this line once migration is over with.
 LoanQuestion.recalibrate_sequence(id: 300)
