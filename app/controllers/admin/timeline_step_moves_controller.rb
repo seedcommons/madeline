@@ -27,6 +27,14 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     render nothing: true
   end
 
+  # A change of date for a step that does not require a corresponding log
+  def simple_move
+    @step = ProjectStep.find(params[:id])
+    authorize @step, :update?
+    @step.update_attributes(scheduled_start_date: params[:scheduled_start_date])
+    render nothing: true
+  end
+
   private
 
   def project_step_move_params

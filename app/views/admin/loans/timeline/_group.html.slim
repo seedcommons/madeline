@@ -6,7 +6,7 @@
 = content_tag_if(first_in_row, :tr)
   / The root group is not actually displayed
   - unless entry.root?
-    td.project-group class=has_children_class data-id=entry.id rowspan="#{row_span}" colspan="#{column_span}"
+    td.project-group class="dropup #{has_children_class}" data-id=entry.id rowspan="#{row_span}" colspan="#{column_span}"
       = entry.summary
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
@@ -18,4 +18,3 @@
       - entry_type = child.group? ? "group" : "step"
       = render "admin/loans/timeline/#{entry_type}", entry: child, first_in_row: i != 0,
         max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?
-
