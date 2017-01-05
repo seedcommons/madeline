@@ -1,12 +1,6 @@
 class Admin::NotesController < Admin::AdminController
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
-  # def new
-  #   @note = Note.new
-  #   authorize @note
-  #   render partial: 'note', locals: { mode: :form }
-  # end
-
   def create
     @note = Note.new(note_params.merge author: current_user.profile)
     authorize @note
