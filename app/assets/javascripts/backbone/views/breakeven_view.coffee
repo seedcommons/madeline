@@ -8,6 +8,9 @@ class MS.Views.BreakevenView extends Backbone.View
   initialize: (e) ->
     console.log({totalFixedCosts: @totalFixedCosts()})
 
+    @$(".editable-breakeven-table").each (index, table) =>
+      new MS.Views.EditableBreakevenTableView(el: table)
+
     @products = @$("tr[data-group='product']:not('.hidden')").map (index, productRow) =>
       new MS.Views.BreakevenProductView(el: productRow)
 
