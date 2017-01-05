@@ -54,10 +54,9 @@ module ApplicationHelper
     render "admin/common/grid", no_records: no_records, grid: grid
   end
 
-  def render_loan_grid(grid)
+  def render_index_grid_with_redirect_check(grid)
     if grid.all_pages_records.count == 1 && grid.filtered_by == ['id']
-      loan = grid.all_pages_records.first
-      controller.redirect_to [:admin, loan]
+      controller.redirect_to [:admin, grid.all_pages_records.first]
     else
       render_index_grid(grid)
     end
