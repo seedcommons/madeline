@@ -69,7 +69,7 @@ feature 'visit loan index page' do
 end
 
 def check_loan_content(loan)
-  expect(page).to have_link loan.name, loan_path(loan)
+  expect(page).to have_link loan.display_name, loan_path(loan)
   expect(page).to have_content loan.signing_date_long
   expect(page).to have_content loan.short_description
   expect(page).to have_content loan.location

@@ -1,4 +1,4 @@
-- content_for :title, @loan.name
+- content_for :title, @loan.display_name
 
 .loans.detail_page
   .row
@@ -11,7 +11,7 @@
   .row
     .col-md-7.main_content
       .detail_wrap
-        h2.section_title = @loan.name
+        h2.section_title = @loan.display_name
 
         / Carousel
         - if @pictures
