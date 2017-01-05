@@ -3,10 +3,8 @@
 - else
   .show-actions.hidden-print
     a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-    - if @step && @context && @context == "calendar"
-      a data-hide-all=".logs-index" href="#" = t('common.condense_all')
-    - else
-      a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+    a data-hide-all=".logs-index" href="#"
+      = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
 
   - unless @context && @context == "calendar"
     - if @step
