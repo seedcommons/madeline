@@ -56,6 +56,8 @@ module ApplicationHelper
 
   def render_index_grid_with_redirect_check(grid)
     if grid.all_pages_records.count == 1 && grid.filtered_by == ['id']
+      # The reason this is done in the helper is that wice_grid doesn't provide any obvious way
+      # to do it in the controller.
       controller.redirect_to [:admin, grid.all_pages_records.first]
     else
       render_index_grid(grid)
