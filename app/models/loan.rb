@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loans
+# Table name: projects
 #
 #  amount                      :decimal(, )
 #  created_at                  :datetime         not null
@@ -24,13 +24,14 @@
 #  signing_date                :date
 #  status_value                :string
 #  target_end_date             :date
+#  type                        :string           not null
 #  updated_at                  :datetime         not null
 #
 # Indexes
 #
-#  index_loans_on_currency_id      (currency_id)
-#  index_loans_on_division_id      (division_id)
-#  index_loans_on_organization_id  (organization_id)
+#  index_projects_on_currency_id      (currency_id)
+#  index_projects_on_division_id      (division_id)
+#  index_projects_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #
