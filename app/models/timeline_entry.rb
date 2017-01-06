@@ -43,6 +43,11 @@ class TimelineEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :agent, class_name: 'Person'
 
+  # Even though, logs can only be associated with steps, this ass'n is defined here so that
+  # Project can do has_many :project_logs, through: :timeline_entries
+  has_many :project_logs, dependent: :destroy, foreign_key: :project_step_id
+
+
   # This is necessary to allow joins across polymorphic associations. We will probably
   # have to add another one for BasicProjects when we add those.
   belongs_to :loan, -> { where(timeline_entries: { project_type: 'Loan' }) },
