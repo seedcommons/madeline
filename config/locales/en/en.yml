@@ -212,7 +212,6 @@ en:
   clear: "Clear"
   completed: "Completed"
   confirm: "Confirm"
-  confirm_deletion: 'Are you sure you want to delete this %{thing}?'
   coop: "Co-op"
   coops: "Co-ops"
   country: "Country"
@@ -237,7 +236,6 @@ en:
   media: "Media"
   more: "More"
   name: "Name"
-  new_thing: "New %{thing}"
   none: "None"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
@@ -356,8 +354,6 @@ en:
     log: "Log"
     loans: "Loans"
     logs: "Logs"
-  notes:
-    new: "New"
   number:
     nth:
       num_1: "first"
