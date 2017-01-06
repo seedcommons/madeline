@@ -44,4 +44,7 @@
 #
 
 class BasicProject < Project
+  def default_name
+    I18n.t("common.untitled")
+  end
 end

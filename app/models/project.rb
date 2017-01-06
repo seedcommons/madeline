@@ -57,4 +57,44 @@ class Project < ActiveRecord::Base
   attr_translatable :summary, :details
 
   validates :division_id, presence: true
+
+  alias_method :logs, :project_logs
+
+  # The Loan's timeline entries should be accessed via this root node.
+  # Timeline steps are organzed as a tree. The tree has a blank root node (ProjectGroup) that is not shown
+  # to the user, but makes it easier to do computations over the tree (instead of each top level group
+  # being the root of its own separate tree).
+  # May return nil if there are no groups or steps in the loan thus far.
+  def root_timeline_entry
+    @root_timeline_entry ||= timeline_entries.find_or_create_by(parent_id: nil, type: "ProjectGroup")
+  end
+
+  # DEPRECATED - This should not be necessary once we transition to tabular format.
+  # Do regular ruby select, to avoid issues with AR caching
+  # Note, this means the method returns an array, not an AR::Relation
+  def project_steps
+    timeline_entries.order(:scheduled_start_date).select { |e| e.type == 'ProjectStep' }
+  end
+
+  def display_name
+    name.blank? ? default_name : name
+  end
+
+  # creates / reuses a default step when migrating ProjectLogs without a proper owning step
+  # beware, not at all optimized, but sufficient for migration.
+  # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
+  # if not, can remove once we're past the production migration process
+  def default_step
+    step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
+    unless step
+      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
+      # and it's nice to be able to log the operation.
+      logger.info {"default step not found for loan[#{id}] - creating"}
+
+      step = ProjectStep.new(project: self)
+      step.update(summary: DEFAULT_STEP_NAME)
+    end
+    step
+  end
+
 end
