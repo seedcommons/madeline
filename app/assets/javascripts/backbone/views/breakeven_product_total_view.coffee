@@ -1,23 +1,16 @@
 class MS.Views.BreakevenProductTotalView extends Backbone.View
 
-  # The view is called from the editiable table view.
-
-  # events:
-  #   'click tr [data-action="delete"]': 'removeRow'
-  #   'click .actions [data-action="add"]': 'addRow'
+  # The view is called from the breakeven view.
 
   initialize: (options) ->
     @products = options.products
 
     @totalFixedCosts = parseFloat(@$('.total_fixed_costs').val())
 
-    _.each @products, (product) =>
-      product.on "product:changed", () =>
-        @calculateTotals()
+    @products.on 'product:changed', ->
+      @calculateTotals
 
-    # Defer loading of totals until the dom is ready
-    $ =>
-      @calculateTotals()
+    @calculateTotals()
 
   calculateTotals: ->
     @notifyProducts()
@@ -86,17 +79,16 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
   Q: ->
     @totalFixedCosts / @totalPs()
 
-  notifyProducts: () ->
+  notifyProducts: ->
     _.each @products, (product) =>
       product.totalsUpdated({@totalFixedCosts, Q: @Q()})
 
   updated: (totals) ->
     @totalFixedCosts = totals.totalFixedCosts
-
     @calculateTotals()
 
   writeTotalsToDom: (totals) ->
-    @$('.percentage_of_sales').val("#{totals.totalPercentageOfSales * 100} %")
+    @$('.percentage-of-sales').val("#{totals.totalPercentageOfSales * 100}%")
     @$('.price').val(totals.totalPrice.toFixed())
     @$('.cost').val(totals.totalCost.toFixed())
     @$('.quantity').val(totals.totalQuantity.toFixed())

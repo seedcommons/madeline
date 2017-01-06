@@ -5,10 +5,9 @@ class MS.Views.BreakevenProductView extends Backbone.View
   events:
     'change input.price': 'changed'
     'change input.cost': 'changed'
-    'change input.percentage_of_sales': 'changed'
+    'change input.percentage-of-sales': 'changed'
 
-  initialize: (options) =>
-    @total_fixed_costs = @readFromDom('total_fixed_costs')
+  initialize: (options) ->
     @Q = 0.0
 
     # Refactor to separate all calculations from Dom
@@ -24,11 +23,8 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @writeToDom('quantity_display_value', @quantity())
     @writeToDom('total_cost', @totalCost())
 
-  isValid: =>
+  isValid: ->
     !isNaN(@revenue()) && !isNaN(@ps())
-
-  name: =>
-    @$('.name').val()
 
   price: ->
     @_price
@@ -36,26 +32,26 @@ class MS.Views.BreakevenProductView extends Backbone.View
   cost: ->
     @_cost
 
-  profit: =>
+  profit: ->
     @price() - @cost()
 
-  revenue: =>
+  revenue: ->
     @profit() * @quantity()
 
-  totalCost: =>
+  totalCost: ->
     @cost() * @quantity()
 
-  ps: =>
+  ps: ->
     @profit() * @percentageOfSales()
 
-  quantity: =>
+  quantity: ->
     Math.round(@percentageOfSales() * @Q)
 
-  percentageOfSales: =>
+  percentageOfSales: ->
     @_percentageOfSales
 
-  readPercentageOfSalesFromDom: =>
-    @readFromDom('percentage_of_sales') / 100
+  readPercentageOfSalesFromDom: ->
+    @readFromDom('percentage-of-sales') / 100
 
   readFromDom: (fieldName) ->
     value = @$(".#{fieldName}").val()
@@ -65,12 +61,13 @@ class MS.Views.BreakevenProductView extends Backbone.View
     valueForDom = @getValueForDom(value)
     @$(".#{fieldName}").val(valueForDom).text(valueForDom)
 
-  getValueForDom: (value) =>
-    return value.toFixed() if @isValid()
-    ""
+  getValueForDom: (value) ->
+    if @isValid()
+      value.toFixed()
+    else
+      ''
 
   totalsUpdated: (totals) ->
-    @total_fixed_costs = totals.totalFixedCosts
     @Q = totals.Q
 
     @updateDom()
@@ -80,4 +77,4 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @_cost = @readFromDom('cost')
     @_percentageOfSales = @readPercentageOfSalesFromDom()
     @updateDom()
-    @trigger("product:changed", @)
+    @trigger('product:changed', @)
