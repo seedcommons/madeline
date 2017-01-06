@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: timeline_entries
@@ -14,7 +13,6 @@
 #  old_start_date          :date
 #  parent_id               :integer
 #  project_id              :integer
-#  project_type            :string
 #  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
@@ -24,12 +22,13 @@
 #
 # Indexes
 #
-#  index_timeline_entries_on_agent_id                     (agent_id)
-#  index_timeline_entries_on_project_type_and_project_id  (project_type,project_id)
+#  index_timeline_entries_on_agent_id    (agent_id)
+#  index_timeline_entries_on_project_id  (project_id)
 #
 # Foreign Keys
 #
 #  fk_rails_8589af42f8  (agent_id => people.id)
+#  fk_rails_af8b359300  (project_id => projects.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
@@ -50,8 +49,6 @@ class ProjectStep < TimelineEntry
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id, inverse_of: :schedule_parent
-
-  has_many :project_logs, dependent: :destroy
 
   attr_translatable :details
 

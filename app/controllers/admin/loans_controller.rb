@@ -10,7 +10,7 @@ class Admin::LoansController < Admin::AdminController
       policy_scope(Loan),
       include: [:division, :organization, :currency, :primary_agent, :secondary_agent, :representative],
       conditions: division_index_filter,
-      order: 'loans.signing_date',
+      order: 'projects.signing_date',
       order_direction: 'desc',
       custom_order: {
         'loans.division_id' => 'LOWER(divisions.name)',
