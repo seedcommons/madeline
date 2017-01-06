@@ -7,6 +7,6 @@ class NotificationMailer < ApplicationMailer
   #
   def new_log(log, user)
     @log = log
-    mail to: user.email, subject: I18n.t('notification_mailer.new_log.subject', project: log.project.name)
+    mail to: user.email, subject: I18n.t('notification_mailer.new_log.subject', project: log.project.display_name)
   end
 end

@@ -84,6 +84,11 @@
               = f.input_field :"#{question.attribute_sym}[text]", as: value.text_form_field_type,
                 value: value.text
 
+            - if value.has_string?
+              - if value.string.present?
+                .view-element.answer = simple_format(value.string)
+              = f.input_field :"#{question.attribute_sym}[string]", value: value.string
+
             - if value.has_boolean?
               - if value.boolean.present?
                 .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
