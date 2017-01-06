@@ -89,7 +89,10 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     @calculateTotals()
 
   writeTotalsToDom: (totals) ->
-    @$('.percentage-of-sales').val("#{totals.totalPercentageOfSales * 100}%")
+    # Silly JS numbers: Sometime you will see a number like 100.00000000001, hence the rounding
+    totalPercentageOfSales = Math.round(totals.totalPercentageOfSales * 100)
+
+    @$('.percentage-of-sales').val("#{totalPercentageOfSales}%")
     @$('.price').val(totals.totalPrice.toFixed())
     @$('.cost').val(totals.totalCost.toFixed())
     @$('.quantity').val(totals.totalQuantity.toFixed())
