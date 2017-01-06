@@ -48,6 +48,7 @@ en:
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
+  
       organization:
         active_loans: "Active Loans"
         additional_people: "Additional Members"
@@ -354,7 +355,8 @@ en:
     log: "Log"
     loans: "Loans"
     logs: "Logs"
-
+  notes:
+    new: "New"
   number:
     nth:
       num_1: "first"
