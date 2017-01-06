@@ -7,8 +7,9 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
 
     @totalFixedCosts = parseFloat(@$('.total_fixed_costs').val())
 
-    @products.on 'product:changed', ->
-      @calculateTotals
+    _.each @products, (product) =>
+      product.on "product:changed", () =>
+        @calculateTotals()
 
     @calculateTotals()
 
