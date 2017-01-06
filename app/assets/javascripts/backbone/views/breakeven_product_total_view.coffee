@@ -11,7 +11,9 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
       product.on "product:changed", () =>
         @calculateTotals()
 
-    @calculateTotals()
+    # Defer loading of totals until the dom is ready
+    $ =>
+      @calculateTotals()
 
   calculateTotals: ->
     @notifyProducts()
