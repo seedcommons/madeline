@@ -50,7 +50,7 @@ class MS.Views.NoteView extends Backbone.View
   # Sets textareas to the height of their content, and resizes them dynamically on edit
   resizeTextareas: (e) ->
     $('.note textarea').each ->
-      @setAttribute 'style', 'height:' + @scrollHeight + 'px;overflow-y:hidden;'
+      @setAttribute 'style', "height:#{@scrollHeight}px;overflow-y:hidden;"
     .on 'input', ->
       @style.height = 'auto'
       @style.height = @scrollHeight + 'px'

@@ -48,7 +48,8 @@ en:
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
-  
+      note:
+        text: "Note"
       organization:
         active_loans: "Active Loans"
         additional_people: "Additional Members"

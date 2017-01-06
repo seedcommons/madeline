@@ -11,4 +11,4 @@ class MS.Views.OrganizationView extends Backbone.View
   newNote: (e) ->
     newNote = @$('.new-note').children().clone()
     @$('.notes-inner').prepend(newNote)
-    new MS.Views.NoteView({ el: newNote })
+    new MS.Views.NoteView(el: newNote)

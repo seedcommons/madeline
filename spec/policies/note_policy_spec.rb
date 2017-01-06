@@ -10,11 +10,10 @@ describe NotePolicy do
   context "division member" do
     let(:user) { create(:user, :member, division: division) }
 
-    it { should permit_action(:create) }
+    it { should permit_new_and_create_actions }
 
     context "other's note" do
-      it { should forbid_action(:edit) }
-      it { should forbid_action(:update) }
+      it { should forbid_edit_and_update_actions }
       it { should forbid_action(:destroy) }
     end
 
@@ -33,8 +32,7 @@ describe NotePolicy do
     it { should permit_action(:create) }
 
     context "other's note" do
-      it { should forbid_action(:edit) }
-      it { should forbid_action(:update) }
+      it { should forbid_edit_and_update_actions }
       it { should permit_action(:destroy) }
     end
   end

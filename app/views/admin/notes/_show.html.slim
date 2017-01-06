@@ -6,7 +6,7 @@ header.small
     .item
       a href=admin_person_path(note.author)
         i.fa.fa-user>
-        = note.author.name
+        = note.author_name
     - if policy(note).edit?
       .item
         a.edit-action href="#"
