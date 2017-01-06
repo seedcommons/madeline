@@ -47,12 +47,6 @@ class TimelineEntry < ActiveRecord::Base
   # Project can do has_many :project_logs, through: :timeline_entries
   has_many :project_logs, dependent: :destroy, foreign_key: :project_step_id
 
-
-  # This is necessary to allow joins across polymorphic associations. We will probably
-  # have to add another one for BasicProjects when we add those.
-  belongs_to :loan, -> { where(timeline_entries: { project_type: 'Loan' }) },
-    foreign_key: 'project_id'
-
   delegate :division, :division=, to: :project, allow_nil: true
 
   scope :by_date, -> { order(:scheduled_start_date) }
