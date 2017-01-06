@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170105174806) do
+ActiveRecord::Schema.define(version: 20170106184839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -305,7 +305,6 @@ ActiveRecord::Schema.define(version: 20170105174806) do
     t.date     "old_start_date"
     t.integer  "parent_id"
     t.integer  "project_id"
-    t.string   "project_type"
     t.integer  "schedule_parent_id"
     t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
@@ -315,7 +314,7 @@ ActiveRecord::Schema.define(version: 20170105174806) do
   end
 
   add_index "timeline_entries", ["agent_id"], name: "index_timeline_entries_on_agent_id", using: :btree
-  add_index "timeline_entries", ["project_type", "project_id"], name: "index_timeline_entries_on_project_type_and_project_id", using: :btree
+  add_index "timeline_entries", ["project_id"], name: "index_timeline_entries_on_project_id", using: :btree
 
   create_table "timeline_entry_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -389,6 +388,7 @@ ActiveRecord::Schema.define(version: 20170105174806) do
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
+  add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
   add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_parent_id"
   add_foreign_key "users", "people", column: "profile_id"

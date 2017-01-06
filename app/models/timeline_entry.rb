@@ -13,7 +13,6 @@
 #  old_start_date          :date
 #  parent_id               :integer
 #  project_id              :integer
-#  project_type            :string
 #  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
@@ -23,12 +22,13 @@
 #
 # Indexes
 #
-#  index_timeline_entries_on_agent_id                     (agent_id)
-#  index_timeline_entries_on_project_type_and_project_id  (project_type,project_id)
+#  index_timeline_entries_on_agent_id    (agent_id)
+#  index_timeline_entries_on_project_id  (project_id)
 #
 # Foreign Keys
 #
 #  fk_rails_8589af42f8  (agent_id => people.id)
+#  fk_rails_af8b359300  (project_id => projects.id)
 #  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
 #  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
 #
@@ -40,7 +40,7 @@ class TimelineEntry < ActiveRecord::Base
 
   attr_translatable :summary
 
-  belongs_to :project, polymorphic: true
+  belongs_to :project
   belongs_to :agent, class_name: 'Person'
 
   # This is necessary to allow joins across polymorphic associations. We will probably

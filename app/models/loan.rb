@@ -54,7 +54,6 @@ class Loan < Project
   belongs_to :organization
   belongs_to :currency
   belongs_to :representative, class_name: 'Person'
-  has_many :timeline_entries, as: :project
   has_many :project_logs, through: :timeline_entries, source: :project, source_type: 'ProjectStep'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"
   has_one :post_analysis, -> { where("loan_response_sets.kind" => 'post_analysis') }, class_name: "LoanResponseSet"
