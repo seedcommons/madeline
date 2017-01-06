@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207211332) do
+ActiveRecord::Schema.define(version: 20170106184839) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -131,35 +131,6 @@ ActiveRecord::Schema.define(version: 20161207211332) do
     t.integer  "loan_id", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "loans", force: :cascade do |t|
-    t.decimal  "amount"
-    t.datetime "created_at", null: false
-    t.integer  "currency_id"
-    t.json     "custom_data"
-    t.integer  "division_id"
-    t.date     "first_interest_payment_date"
-    t.date     "first_payment_date"
-    t.integer  "length_months"
-    t.string   "loan_type_value"
-    t.string   "name"
-    t.integer  "organization_id"
-    t.integer  "primary_agent_id"
-    t.string   "project_type_value"
-    t.decimal  "projected_return"
-    t.string   "public_level_value"
-    t.decimal  "rate"
-    t.integer  "representative_id"
-    t.integer  "secondary_agent_id"
-    t.date     "signing_date"
-    t.string   "status_value"
-    t.date     "target_end_date"
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "loans", ["currency_id"], name: "index_loans_on_currency_id", using: :btree
-  add_index "loans", ["division_id"], name: "index_loans_on_division_id", using: :btree
-  add_index "loans", ["organization_id"], name: "index_loans_on_organization_id", using: :btree
 
   create_table "media", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -282,6 +253,36 @@ ActiveRecord::Schema.define(version: 20161207211332) do
   add_index "project_logs", ["agent_id"], name: "index_project_logs_on_agent_id", using: :btree
   add_index "project_logs", ["project_step_id"], name: "index_project_logs_on_project_step_id", using: :btree
 
+  create_table "projects", force: :cascade do |t|
+    t.decimal  "amount"
+    t.datetime "created_at", null: false
+    t.integer  "currency_id"
+    t.json     "custom_data"
+    t.integer  "division_id"
+    t.date     "first_interest_payment_date"
+    t.date     "first_payment_date"
+    t.integer  "length_months"
+    t.string   "loan_type_value"
+    t.string   "name"
+    t.integer  "organization_id"
+    t.integer  "primary_agent_id"
+    t.string   "project_type_value"
+    t.decimal  "projected_return"
+    t.string   "public_level_value"
+    t.decimal  "rate"
+    t.integer  "representative_id"
+    t.integer  "secondary_agent_id"
+    t.date     "signing_date"
+    t.string   "status_value"
+    t.date     "target_end_date"
+    t.string   "type", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "projects", ["currency_id"], name: "index_projects_on_currency_id", using: :btree
+  add_index "projects", ["division_id"], name: "index_projects_on_division_id", using: :btree
+  add_index "projects", ["organization_id"], name: "index_projects_on_organization_id", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
     t.string   "name", null: false
@@ -304,7 +305,6 @@ ActiveRecord::Schema.define(version: 20161207211332) do
     t.date     "old_start_date"
     t.integer  "parent_id"
     t.integer  "project_id"
-    t.string   "project_type"
     t.integer  "schedule_parent_id"
     t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
@@ -314,7 +314,7 @@ ActiveRecord::Schema.define(version: 20161207211332) do
   end
 
   add_index "timeline_entries", ["agent_id"], name: "index_timeline_entries_on_agent_id", using: :btree
-  add_index "timeline_entries", ["project_type", "project_id"], name: "index_timeline_entries_on_project_type_and_project_id", using: :btree
+  add_index "timeline_entries", ["project_id"], name: "index_timeline_entries_on_project_id", using: :btree
 
   create_table "timeline_entry_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -370,12 +370,6 @@ ActiveRecord::Schema.define(version: 20161207211332) do
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
-  add_foreign_key "loans", "currencies"
-  add_foreign_key "loans", "divisions"
-  add_foreign_key "loans", "organizations"
-  add_foreign_key "loans", "people", column: "primary_agent_id"
-  add_foreign_key "loans", "people", column: "representative_id"
-  add_foreign_key "loans", "people", column: "secondary_agent_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
@@ -387,7 +381,14 @@ ActiveRecord::Schema.define(version: 20161207211332) do
   add_foreign_key "people", "organizations", column: "primary_organization_id"
   add_foreign_key "project_logs", "people", column: "agent_id"
   add_foreign_key "project_logs", "timeline_entries", column: "project_step_id"
+  add_foreign_key "projects", "currencies"
+  add_foreign_key "projects", "divisions"
+  add_foreign_key "projects", "organizations"
+  add_foreign_key "projects", "people", column: "primary_agent_id"
+  add_foreign_key "projects", "people", column: "representative_id"
+  add_foreign_key "projects", "people", column: "secondary_agent_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
+  add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"
   add_foreign_key "timeline_entries", "timeline_entries", column: "schedule_parent_id"
   add_foreign_key "users", "people", column: "profile_id"

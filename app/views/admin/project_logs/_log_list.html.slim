@@ -3,15 +3,17 @@
 - else
   .show-actions.hidden-print
     a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-    a data-hide-all=".logs-index" href="#" = t('common.hide_all')
+    a data-hide-all=".logs-index" href="#"
+      = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
 
-  - if @step
-    h5
-      - if @step.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif @step.checkin?
-        i.fa.fa-fw.fa-calendar
-      = @step.summary
+  - unless @context == "calendar"
+    - if @step
+      h5
+        - if @step.milestone?
+          i.fa.fa-fw.fa-flag-o
+        - elsif @step.checkin?
+          i.fa.fa-fw.fa-calendar
+        = @step.summary
 
   .logs-index.post-list
     - @logs.each do |log|
@@ -29,31 +31,35 @@
             .item
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
-            - unless params[:org].present? || params[:loan].present? || params[:step].present?
+
+            - unless @context == "calendar"
+              - unless params[:org].present? || params[:loan].present? || params[:step].present?
+                .item
+                  a href=admin_organization_path(step.project.organization)
+                    i.fa.fa-building-o>
+                    = step.project.organization.name
+              - unless params[:step].present?
+                .item
+                  a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                    = project_step_icon(step)
+                    = step.summary.present? ? step.summary : t('log.untitled_step')
+
+            - unless @context == "calendar"
               .item
-                a href=admin_organization_path(step.project.organization)
-                  i.fa.fa-building-o>
-                  = step.project.organization.name
-            - unless params[:step].present?
+                a data-action="edit"
+                  i.fa.fa-pencil>
+                  = t(:edit)
               .item
-                a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
-                  = project_step_icon(step)
-                  = step.summary.present? ? step.summary : t('log.untitled_step')
-            .item
-              a data-action="edit"
-                i.fa.fa-pencil>
-                = t(:edit)
-            .item
-              = link_to "#",
-                  data: { \
-                    action: "delete", \
-                    confirm: t('project_logs.shared.confirm_deletion'), \
-                    'confirm-cancel': t(:cancel),
-                    'confirm-proceed': t(:confirm),
-                    'confirm-title': t('log.delete') \
-                  }
-                    i.fa.fa-trash>
-                    = t(:delete)
+                = link_to "#",
+                    data: { \
+                      action: "delete", \
+                      confirm: t('project_logs.shared.confirm_deletion'), \
+                      'confirm-cancel': t(:cancel),
+                      'confirm-proceed': t(:confirm),
+                      'confirm-title': t('log.delete') \
+                    }
+                      i.fa.fa-trash>
+                      = t(:delete)
 
         - if log.summary
           span.summary = log.summary

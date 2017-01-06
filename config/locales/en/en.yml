@@ -263,6 +263,7 @@ en:
     address_state: "State"
     created: "Created"
     caption: "Caption"
+    condense_all: "Condense All"
     description: "Description"
     details: "Details"
     division: "Division"
@@ -284,6 +285,7 @@ en:
     updated: "Updated"
     website: "Website"
     id: "ID"
+    untitled: "Untitled"
     user: "User"
     view_logs: "View Logs"
 
