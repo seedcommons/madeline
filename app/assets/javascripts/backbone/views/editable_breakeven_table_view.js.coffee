@@ -1,4 +1,4 @@
-class MS.Views.EditableTableView extends Backbone.View
+class MS.Views.EditableBreakevenTableView extends Backbone.View
 
   # The view is called from the loan questionnaires view.
 
@@ -17,7 +17,8 @@ class MS.Views.EditableTableView extends Backbone.View
     $table = $button.closest('table')
     $newRow = $table.find('tr.hidden').clone()
     $newRow.removeClass('hidden')
-    $table.append($newRow)
+    $table.find("tr[data-group='product-total']").before($newRow)
+    new MS.Views.BreakevenProductView(el: $newRow)
 
   removeRow: (e) ->
     e.preventDefault()

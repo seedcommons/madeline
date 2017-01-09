@@ -19,7 +19,7 @@ table.breakeven-table-rampup {
   }
 }
 
-.editable-table {
+.editable-table, .editable-breakeven-table {
   table-layout: fixed;
   width: 100%;
   margin-top: 1em;
@@ -45,8 +45,12 @@ table.breakeven-table-rampup {
     height: 100%;
   }
 
-  input[type="number"] {
+  input[type="number"], input.percentage {
     text-align: right;
+  }
+
+  input.quantity {
+    font-weight: bold;
   }
 
   textarea {

@@ -1,9 +1,9 @@
-.table-responsive.editable-tables
+.table-responsive.editable-tables.breakeven-tables
 
   .table-container
     h4.title = t("loan.breakeven.products", count: 2)
 
-    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
+    table.table.table-condensed.table-striped.table-bordered.editable-breakeven-table data-table="products"
       thead
         tr
           th = t("loan.breakeven.product_name")
@@ -11,18 +11,23 @@
           th = t("loan.breakeven.unit")
           th = t("loan.breakeven.price")
           th = t("loan.breakeven.cost")
+          th = t("loan.breakeven.percentage_of_sales")
           th = t("loan.breakeven.quantity")
+          th = t("loan.breakeven.revenue")
+          th = t("loan.breakeven.total_cost")
           th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question
+        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question, total_fixed_costs: 0
 
         - if data && data[:products]
           - data[:products].each do |product|
-            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question
+            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question, total_fixed_costs: total_fixed_costs
 
-        = render 'admin/loans/questionnaires/breakeven_product_row', question: question
+        = render 'admin/loans/questionnaires/breakeven_product_row', question: question, total_fixed_costs: 0
+
+        = render 'admin/loans/questionnaires/breakeven_product_totals', total_fixed_costs: total_fixed_costs, question: question
 
   .table-container
     h4.title = t("loan.breakeven.rampup")
