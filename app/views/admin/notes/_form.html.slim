@@ -1,0 +1,15 @@
+= simple_form_for([:admin, note],
+    remote: true,
+    html: { class: 'note-form', data: { id: note.id } },
+    defaults: { input_html: { class: 'form-element form-control' } },
+  ) do |f|
+  
+  = f.error_notification
+  
+  = f.input :text, as: :text
+  
+  = f.input :notable_id, as: :hidden
+  = f.input :notable_type, as: :hidden
+
+  button.btn.btn-default.cancel> type="button" = t :cancel
+  = f.submit t(:save), class: 'submit btn btn-success'

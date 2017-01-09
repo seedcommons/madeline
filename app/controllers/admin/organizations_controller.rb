@@ -28,6 +28,10 @@ class Admin::OrganizationsController < Admin::AdminController
     @org = Organization.find(params[:id])
     authorize @org
     prep_form_vars
+
+    @notes = @org.notes.order(created_at: :desc)
+    @new_note = Note.new(notable: @org)
+    authorize @new_note, :new?
   end
 
   def new

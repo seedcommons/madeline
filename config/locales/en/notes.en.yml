@@ -1,0 +1,10 @@
+en:
+  notes:
+    confirm_deletion: 'Are you sure you want to delete this note?'
+    delete: "Delete Note"
+    new: "New Note"
+  admin:
+    notes:
+      form:
+        edit_item: "Edit Note"
+        new_item: "New Note"

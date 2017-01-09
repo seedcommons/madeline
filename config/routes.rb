@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources :loan_questions do
       patch 'move', on: :member
     end
+    resources :notes, only: [:create, :update, :destroy]
     resources :organizations
     resources :people
     resources :project_logs, path: 'logs'

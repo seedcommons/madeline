@@ -15,12 +15,12 @@
           i.fa.fa-fw.fa-calendar
         = @step.summary
 
-  .logs-index
+  .logs-index.post-list
     - @logs.each do |log|
       - step = log.project_step
-      .log data-id=log.id
+      .log.post data-id=log.id
         header.small
-          .infos
+          .post-info
             .item
               i.fa.fa-calendar-o>
               = l log.date
@@ -53,7 +53,7 @@
                 = link_to "#",
                     data: { \
                       action: "delete", \
-                      confirm: t('confirm_deletion', thing: t('project_log.project_log')), \
+                      confirm: t('project_logs.shared.confirm_deletion'), \
                       'confirm-cancel': t(:cancel),
                       'confirm-proceed': t(:confirm),
                       'confirm-title': t('log.delete') \
