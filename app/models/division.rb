@@ -12,6 +12,7 @@
 #  description        :text
 #  id                 :integer          not null, primary key
 #  internal_name      :string
+#  locales            :json
 #  logo_content_type  :string
 #  logo_file_name     :string
 #  logo_file_size     :integer
