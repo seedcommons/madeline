@@ -14,6 +14,9 @@ class MS.Views.BreakevenView extends Backbone.View
 
     @total = new MS.Views.BreakevenProductTotalView(el: @$("tr[data-group='product-total']").first(), products: @products)
 
+    Backbone.on 'LoanQuestionnairesView:edit', ()=>
+      @totalFixedCostsChanged()
+
   totalFixedCosts: ->
     _.reduce(@$('.editable-table[data-table="fixed_costs"] input.amount'), (acc, amount) =>
       value = parseFloat($(amount).val())
