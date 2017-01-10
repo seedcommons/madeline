@@ -41,7 +41,6 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       / Need to pass these through to create but not update.
       - if @step.new_record?
         = f.hidden_field(:project_id)
-        = f.hidden_field(:project_type)
 
       = hidden_field_tag(:context, context)
 

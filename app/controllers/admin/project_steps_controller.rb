@@ -143,7 +143,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def project_step_params
     permitted = params.require(:project_step).permit(*([:is_finalized,
-      :scheduled_start_date, :actual_end_date, :scheduled_duration_days, :step_type_value, :project_type,
+      :scheduled_start_date, :actual_end_date, :scheduled_duration_days, :step_type_value,
       :schedule_parent_id, :project_id, :parent_id] + translation_params(:summary, :details)))
 
     # If schedule_parent_id is set, scheduled_start_date should be ignored.

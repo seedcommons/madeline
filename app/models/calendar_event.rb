@@ -64,7 +64,7 @@ class CalendarEvent
     project_step_date_filter(date_range, scope).
       # Would be nice to be able to use a join here, but this performs okay with the full migrated
       # data, and I'm not sure if it's possible without entirely hand crafted SQL
-      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).
+      where(project_id: Loan.where(loan_filter).pluck(:id)).
       map(&:calendar_events).flatten
   end
 

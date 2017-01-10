@@ -58,7 +58,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
   end
 
   def project_group_params
-    params.require(:project_group).permit([:project_id, :project_type, :parent_id] + translation_params(:summary))
+    params.require(:project_group).permit([:project_id, :parent_id] + translation_params(:summary))
   end
 
   def find_timeline_entry
