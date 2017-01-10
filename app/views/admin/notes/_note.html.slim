@@ -1,0 +1,15 @@
+- note_id = note.new_record? ? 'new' : note.id
+.note.post data-id=note_id
+  .form-block
+    = render partial: "admin/notes/form", locals: { note: note }
+
+  .view-block
+    - unless note.new_record?
+      = render partial: "admin/notes/show", locals: { note: note }
+
+  javascript:
+    $(function() {
+      new MS.Views.NoteView({
+        el: '.note[data-id=#{note_id}]',
+      });
+    });

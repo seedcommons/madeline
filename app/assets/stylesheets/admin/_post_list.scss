@@ -1,0 +1,29 @@
+@import "colors";
+
+// Generic styles for post-style lists, such as logs and notes
+.post-list {
+  .post {
+    padding: 10px 0;
+    border-top: 1px solid $gray7;
+    &:last-of-type {
+      border-bottom: 1px solid $gray7;
+    }
+
+    header {
+      color: $gray6;
+      margin-bottom: 10px;
+
+      .post-info {
+        line-height: 1.9;
+        .item {
+          line-height: normal;
+          display: inline-block;
+          margin-right: 15px;
+          a {
+            color: inherit;
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,11 +8,12 @@
     - g.column name: t('common.id'), attribute: 'id', filter: true, in_csv: false, detach_with_id: :id_filter do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
-    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name',
-      in_html: false, filter: false
+
+    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name' do |loan|
+      - loan.display_name
 
     - g.column name: t('activerecord.attributes.loan.division'), attribute: 'division_id',
-      custom_filter: Division.filter_in_division(selected_division), 
+      custom_filter: Division.filter_in_division(selected_division),
       detach_with_id: :division_filter do |loan|
       - loan.division.name
     - g.column name: t('activerecord.attributes.loan.organization'), attribute: 'organization_id',
@@ -32,8 +33,13 @@
       custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
       - loan.loan_type
     - g.column name: t('activerecord.attributes.loan.amount'), attribute: 'amount',
-      filter: false do |loan|
-      - format_currency(loan.amount, loan.currency, tooltip: false)
+      filter: false, in_csv: false do |loan|
+      - if loan.amount && loan.currency
+        - format_currency(loan.amount, loan.currency, tooltip: false)
+      - else
+        - loan.amount
+    - g.column name: t('activerecord.attributes.loan.amount'), attribute: 'amount',
+      filter: false, in_html: false
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 
@@ -63,7 +69,7 @@
       - ldate(loan.target_end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
-  
+
     - g.column name: t('activerecord.attributes.loan.summary'), filter: false,
       in_html: false do |loan|
         - loan.summary

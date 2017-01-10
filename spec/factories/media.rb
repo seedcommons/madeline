@@ -26,9 +26,5 @@ FactoryGirl.define do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the swing.jpg')) }
     caption { Faker::Hipster.paragraph(2) }
     transient_division
-
-    trait :random_image do
-      item { open(Faker::Avatar.image) }
-    end
   end
 end
