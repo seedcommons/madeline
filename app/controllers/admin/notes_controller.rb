@@ -6,7 +6,7 @@ class Admin::NotesController < Admin::AdminController
     authorize @note
 
     if @note.save
-      render partial: 'show', locals: { note: @note }
+      render partial: 'note', locals: { note: @note }
     else
       render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end
@@ -14,7 +14,7 @@ class Admin::NotesController < Admin::AdminController
 
   def update
     if @note.update(note_params)
-      render partial: 'show', locals: { note: @note }
+      render partial: 'note', locals: { note: @note }
     else
       render partial: 'form', status: :unprocessable_entity, locals: { note: @note }
     end

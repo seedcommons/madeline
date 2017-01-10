@@ -32,7 +32,7 @@ class MS.Views.NoteView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
       .done (response) =>
-        @$('.view-block').html(response)
+        @$el.replaceWith(response)
         @$('.view-block').show()
         @$('.form-block').hide()
 
