@@ -1,0 +1,26 @@
+header.small
+  .post-info
+    .item
+      i.fa.fa-calendar-o>
+      = l note.created_at.to_date
+    .item
+      a href=admin_person_path(note.author)
+        i.fa.fa-user>
+        = note.author_name
+    - if policy(note).edit?
+      .item
+        a.edit-action href="#"
+          i.fa.fa-pencil>
+          = t(:edit)
+    - if policy(note).destroy?
+      .item
+        => link_to admin_note_path(note), method: :delete, class: 'delete-action',
+            data: { \
+              confirm: t('notes.confirm_deletion'),
+              'confirm-title': t('notes.delete'),
+            },
+            remote: true
+          i.fa.fa-trash>
+          = t(:delete)
+
+=> simple_format note.text.to_s

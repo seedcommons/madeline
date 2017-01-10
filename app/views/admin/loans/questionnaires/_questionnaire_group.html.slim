@@ -84,6 +84,11 @@
               = f.input_field :"#{question.attribute_sym}[text]", as: value.text_form_field_type,
                 value: value.text
 
+            - if value.has_string?
+              - if value.string.present?
+                .view-element.answer = simple_format(value.string)
+              = f.input_field :"#{question.attribute_sym}[string]", value: value.string
+
             - if value.has_boolean?
               - if value.boolean.present?
                 .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
@@ -98,9 +103,13 @@
                   = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report, id: value.loan_question.id
                   - if value.breakeven_report[:periods] > 1
                     = render "admin/loans/questionnaires/breakeven_rampup/main", report: value.breakeven_report
-              .form-element
-                = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                  question: question, data: value.breakeven_hash
+                .form-element
+                  = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+                    question: question, data: value.breakeven_hash, total_fixed_costs: value.breakeven_report[:total_fixed_costs]
+              - else
+                .form-element
+                  = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+                    question: question, data: value.breakeven_hash, total_fixed_costs: 0
 
             - if value.has_business_canvas?
               .answer class=('form-element' if value.business_canvas_blank?)

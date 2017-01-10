@@ -3,12 +3,18 @@
 - prefix = "loan_response_set[#{question.attribute_sym}][breakeven][products][]"
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
-  td: textarea name="#{prefix}[name]" = product[:name]
+  td: textarea.name name="#{prefix}[name]" = product[:name]
   td: textarea name="#{prefix}[description]" = product[:description]
   td: textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit') = product[:unit]
-  td: input name="#{prefix}[price]" type="number" value=product[:price]
-  td: input name="#{prefix}[cost]" type="number" value=product[:cost]
-  td: input name="#{prefix}[quantity]" type="number" value=product[:quantity]
+  td: input.price name="#{prefix}[price]" type="number" value=product[:price]
+  td: input.cost name="#{prefix}[cost]" type="number" value=product[:cost]
+  td: input.percentage-of-sales name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+  td
+    input.quantity type="number" value=product[:quantity] disabled=true
+    input.quantity_display_value name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
+    input.total_fixed_costs type="hidden" value=total_fixed_costs
+  td: input.revenue type="number" name="#{prefix}[revenue]" disabled=true
+  td: input.total_cost type="number" name="#{prefix}[total_cost]" disabled=true
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash

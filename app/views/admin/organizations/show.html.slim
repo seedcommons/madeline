@@ -21,8 +21,6 @@ section.coop.details
           data: { \
             confirm: t('organization.confirm_deletion'),
             "confirm-title": t("organization.delete"),
-            "confirm-cancel": t(:cancel),
-            "confirm-proceed": t(:confirm) \
           }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
@@ -35,10 +33,21 @@ section.coop.details
     h1 = t('organization.media')
     .row = render "admin/media/index", owner: @org
 
-  section.block
-    h1 = t(:notes)
+  section.block.notes.post-list
+    header.header-with-links
+      h1 = t('common.notes')
+      button.btn.btn-default.new-button = t("notes.new")
+    .notes-inner
+      = render @notes
+    
+    .hidden
+      .new-note
+        = render partial: 'admin/notes/note', locals: { note: @new_note }
 
 = render "admin/media/modal"
 
 javascript:
-  $(function() { new MS.Views.ShowEditView({ el: '.coop-fields' }) });
+  $(function() { 
+    new MS.Views.OrganizationView();
+    new MS.Views.ShowEditView({ el: '.coop-fields' });
+  });

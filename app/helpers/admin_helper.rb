@@ -54,7 +54,7 @@ module AdminHelper
   end
 
   def format_currency(amount, currency, tooltip: true)
-    display_symbol = currency.symbol.sub('$', ' $') # add space before $ (pretty)
+    display_symbol = currency ? currency.symbol.sub('$', ' $') : '' # add space before $ (pretty)
     if tooltip
       display_symbol = %Q(<a href="#" onclick="return false" data-toggle="tooltip"
         class="currency_symbol" title="#{currency.plural_name}">#{display_symbol}</a> ).html_safe

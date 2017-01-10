@@ -13,14 +13,23 @@ div#legend-content
             td
             th.bold = t("calendar.status.incomplete")
           tr
+            td: span: i.fa.fa-pencil-square-o
+            th = t("calendar.num_of_logs")
+          tr
+            td: span.original-date
+            th = t("calendar.original_date")
+          tr
+            td: span: i.fa.fa-link
+            th = t("calendar.has_precedent")
+
+      div.column.col-lg-6
+        table.legend-block
+          tr
             td: span.early: i.fa.fa-check
             th = t("calendar.status.early")
           tr
             td: span.ontime: i.fa.fa-check
             th = t("calendar.status.on_time")
-      
-      div.column.col-lg-6
-        table.legend-block
           tr
             td: span.late: i.fa.fa-clock-o
             th = t("calendar.status.late")
@@ -30,9 +39,3 @@ div#legend-content
           tr
             td: span.superlate: i.fa.fa-clock-o
             th = t("calendar.status.super_late")
-          tr
-            td: span: i.fa.fa-pencil-square-o
-            th = t("calendar.num_of_logs")
-          tr
-            td: span.original-date
-            th = t("calendar.original_date")

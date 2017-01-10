@@ -48,6 +48,8 @@ en:
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
+      note:
+        text: "Note"
       organization:
         active_loans: "Active Loans"
         additional_people: "Additional Members"
@@ -210,7 +212,6 @@ en:
   clear: "Clear"
   completed: "Completed"
   confirm: "Confirm"
-  confirm_deletion: 'Are you sure you want to delete this %{thing}?'
   coop: "Co-op"
   coops: "Co-ops"
   country: "Country"
@@ -235,9 +236,7 @@ en:
   media: "Media"
   more: "More"
   name: "Name"
-  new_thing: "New %{thing}"
   none: "None"
-  notes: "Notes"
   notice_created: 'Record was successfully created.'
   notice_deleted: 'Record was successfully deleted.'
   notice_updated: 'Record was successfully updated.'
@@ -264,6 +263,7 @@ en:
     address_state: "State"
     created: "Created"
     caption: "Caption"
+    condense_all: "Condense All"
     description: "Description"
     details: "Details"
     division: "Division"
@@ -274,6 +274,8 @@ en:
     no_name: "No Name"
     no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
+    note: "Note"
+    notes: "Notes"
     parent: "Parent"
     print: "Print"
     remove: "Remove"
@@ -283,6 +285,7 @@ en:
     updated: "Updated"
     website: "Website"
     id: "ID"
+    untitled: "Untitled"
     user: "User"
     view_logs: "View Logs"
 
@@ -295,6 +298,7 @@ en:
   calendar:
     calendar: "Calendar"
     check_in: "Check in"
+    has_precedent: "Depends on another step"
     legend: "Legend"
     milestone: "Milestone"
     num_of_logs: "Number of logs"
@@ -352,7 +356,6 @@ en:
     log: "Log"
     loans: "Loans"
     logs: "Logs"
-
   number:
     nth:
       num_1: "first"

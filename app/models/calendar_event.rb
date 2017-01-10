@@ -15,6 +15,9 @@ class CalendarEvent
   attr_accessor :time_status
   attr_accessor :num_of_logs
 
+  attr_accessor :has_precedent
+  alias_method :has_precedent?, :has_precedent
+
   def self.build_for(model)
     puts "model: #{model.inspect}"
     case model
@@ -61,7 +64,7 @@ class CalendarEvent
     project_step_date_filter(date_range, scope).
       # Would be nice to be able to use a join here, but this performs okay with the full migrated
       # data, and I'm not sure if it's possible without entirely hand crafted SQL
-      where(project_type: 'Loan', project_id: Loan.where(loan_filter).pluck(:id)).
+      where(project_id: Loan.where(loan_filter).pluck(:id)).
       map(&:calendar_events).flatten
   end
 
@@ -94,6 +97,7 @@ class CalendarEvent
     @step_type = step.step_type_value
     @completion_status = step.completion_status
     @time_status = step.days_late && step.days_late > 0 ? "late" : "on_time"
+    @has_precedent = step.schedule_parent_id.present?
     self
   end
 
@@ -110,7 +114,7 @@ class CalendarEvent
 
   def initialize_loan_start(loan)
     @start = loan.signing_date
-    @title = "Start " + loan.name
+    @title = I18n.t("loan.start", name: loan.display_name)
     @event_type = "loan_start"
     @model_type = 'Loan'
     @model = loan
@@ -119,7 +123,7 @@ class CalendarEvent
 
   def initialize_loan_end(loan)
     @start = loan.target_end_date
-    @title = "End " + loan.name
+    @title = I18n.t("loan.end", name: loan.display_name)
     @event_type = "loan_end"
     @model_type = 'Loan'
     @model = loan

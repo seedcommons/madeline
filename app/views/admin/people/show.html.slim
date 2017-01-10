@@ -31,10 +31,9 @@ section.person.details
     .row = render "admin/media/index", media: @person.media, owner: @person
 
   section.block
-    h1 = t(:notes)
+    h1 = t('common.notes')
 
 = render "admin/media/modal"
 
 javascript:
   $(function() { new MS.Views.ShowEditView({ el: '.person-fields' }) });
-
