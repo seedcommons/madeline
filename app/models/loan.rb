@@ -87,9 +87,7 @@ class Loan < Project
   end
 
   def agent_names
-    primary_name = primary_agent ? primary_agent.name : ''
-    secondary_name = secondary_agent ? secondary_agent.name : ''
-    [primary_name, secondary_name]
+    [primary_agent.try(:name), secondary_agent.try(:name)].compact
   end
 
   def default_name
