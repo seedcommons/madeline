@@ -37,9 +37,9 @@ class MediaItemUploader < CarrierWave::Uploader::Base
     new_file.content_type =~ IMAGE_REGEX
   end
 
-  def video?(new_file)
-    new_file.content_type =~ VIDEO_REGEX
-  end
+  # document, contract
+  # make all files documents in migration
+  #
 
   def set_size_and_type_on_model
     model.item_content_type = file.content_type if file.content_type

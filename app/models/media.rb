@@ -29,27 +29,21 @@ class Media < ActiveRecord::Base
   include Translatable
 
   belongs_to :media_attachable, polymorphic: true
-  belongs_to :uploader, class_name: "Person"
+  belongs_to :uploader, class_name: 'Person'
 
   mount_uploader :item, MediaItemUploader
-  validates_presence_of :item
+  validates :item, :kind, presence: true
   attr_translatable :caption, :description
 
   delegate :division, :division=, to: :media_attachable
 
-  scope :media_type, ->(media_type) { where(kind: media_type) }
-  scope :images_only, -> { media_type('image') }
+  scope :images_only, -> { where(kind: 'image') }
 
   def alt
     self.try(:caption) || self.media_attachable.try(:name)
   end
 
   def thumbnail?
-    case kind
-    when "image"
-      true
-    else
-      false
-    end
+    kind == 'image'
   end
 end
