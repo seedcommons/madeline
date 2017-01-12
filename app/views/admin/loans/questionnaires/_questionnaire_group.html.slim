@@ -67,6 +67,7 @@
 
         - else
           .answer-wrapper.tree-view
+            / Error message here
             - if value.has_rating?
               - if value.rating.present?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"

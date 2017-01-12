@@ -31,6 +31,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def display_path
+    # redirect to proper path
     admin_loan_path(@record.loan, filter: @record.kind, anchor: "questions")
   end
 end
