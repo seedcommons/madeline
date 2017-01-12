@@ -6,16 +6,21 @@ class MS.Views.BreakevenView extends Backbone.View
     'change .editable-table[data-table="fixed_costs"] input.amount': 'totalFixedCostsChanged'
 
   initialize: (e) ->
-    @$('.editable-breakeven-table').each (index, table) =>
-      new MS.Views.EditableBreakevenTableView(el: table)
+    tables = @$('.editable-table').map (index, table) =>
+      new MS.Views.EditableTableView(el: table)
 
     @products = @$('tr[data-group="product"]:not(".hidden")').map (index, productRow) =>
       new MS.Views.BreakevenProductView(el: productRow)
 
-    @total = new MS.Views.BreakevenProductTotalView(el: @$("tr[data-group='product-total']").first(), products: @products)
+    @total = new MS.Views.BreakevenProductTotalView(el: @$("tr[data-group='totals']").first(), products: @products)
 
     Backbone.on 'LoanQuestionnairesView:edit', ()=>
       @totalFixedCostsChanged()
+
+    _.each tables, (table) =>
+      table.on 'EditableTableView:rowAdded', ($table, row) =>
+        tableName = $table.data('table')
+        @addProduct(row) if tableName == "products"
 
   totalFixedCosts: ->
     _.reduce(@$('.editable-table[data-table="fixed_costs"] input.amount'), (acc, amount) =>
@@ -33,3 +38,8 @@ class MS.Views.BreakevenView extends Backbone.View
 
     @total.updated(costs)
 
+
+  addProduct: (product) ->
+    @products.push(product)
+    @total.addProduct(product)
+    @totalFixedCostsChanged()

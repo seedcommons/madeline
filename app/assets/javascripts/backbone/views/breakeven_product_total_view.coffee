@@ -98,3 +98,12 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     @$('.quantity').val(totals.totalQuantity.toFixed())
     @$('.revenue').val(totals.totalRevenue.toFixed())
     @$('.total_cost').val(totals.totalProductCost.toFixed())
+
+  addProduct: (product) ->
+    # Don't need to add to products since it was passed by ref
+    # @products.push(product)
+
+    product.on "product:changed", () =>
+      @calculateTotals()
+
+    @calculateTotals()
