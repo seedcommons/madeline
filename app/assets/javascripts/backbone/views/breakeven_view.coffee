@@ -17,10 +17,15 @@ class MS.Views.BreakevenView extends Backbone.View
     Backbone.on 'LoanQuestionnairesView:edit', ()=>
       @totalFixedCostsChanged()
 
+    _.each @products, (product) =>
+      product.on "BreakevenProductView:removed", (product) =>
+        @removeProduct(product)
+
     _.each tables, (table) =>
-      table.on 'EditableTableView:rowAdded', ($table, row) =>
+      table.on 'EditableTableView:rowAdded', ($table, $row) =>
         tableName = $table.data('table')
-        @addProduct(row) if tableName == "products"
+        product = new MS.Views.BreakevenProductView(el: $row)
+        @addProduct(product) if tableName == "products"
 
   totalFixedCosts: ->
     _.reduce(@$('.editable-table[data-table="fixed_costs"] input.amount'), (acc, amount) =>
@@ -42,4 +47,13 @@ class MS.Views.BreakevenView extends Backbone.View
   addProduct: (product) ->
     @products.push(product)
     @total.addProduct(product)
+    product.on "BreakevenProductView:removed", (product) =>
+      @removeProduct(product)
+    @totalFixedCostsChanged()
+
+  removeProduct: (productToRemove) ->
+    _.each @products, (product, index) =>
+      if productToRemove == product
+        @products.splice(index,1)
+
     @totalFixedCostsChanged()
