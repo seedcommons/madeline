@@ -9,7 +9,7 @@
       - link_to(loan.id, admin_loan_path(loan.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
 
-    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name' do |loan|
+    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name', filter: false do |loan|
       - loan.display_name
 
     - g.column name: t('activerecord.attributes.loan.division'), attribute: 'division_id',
