@@ -13,11 +13,12 @@ class MS.Views.ErrorHandler extends Backbone.View
     MS.errorModal.modal('show')
 
   handleAjaxErrors: ->
-    $(document).ajaxError (e, jqXHR) =>
+    $(document).ajaxError (e, jqXHR, ajaxSettings, errorString) =>
       e.stopPropagation()
       $('.modal').modal('hide')
       MS.loadingIndicator.hide()
-      switch jqXHR.status
+      switch parseInt(jqXHR.status)
+        when 0, 200 then # do nothing - false alarm (no idea why ajaxError sometimes catches these)
         when 403
           @showErrorModal I18n.t('unauthorized_error')
         else
