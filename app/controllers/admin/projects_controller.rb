@@ -6,6 +6,7 @@ class Admin::ProjectsController < Admin::AdminController
 
     @projects_grid = initialize_grid(
       policy_scope(Project),
+      include: [:primary_agent, :secondary_agent],
       order_direction: 'desc',
       per_page: 50,
       name: 'projects',
