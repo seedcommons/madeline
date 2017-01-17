@@ -1,0 +1,9 @@
+= define_grid(@projects_grid, hide_csv_button: true,
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false
