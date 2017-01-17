@@ -11,5 +11,9 @@
       assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
       filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
       - project.agent_names.join(', ')
+    - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
+      filter: false do |project|
+        - if project.length_months
+          - t("loan.months", number: project.length_months.to_s)
     - g.column name: t('common.created'), attribute: 'created_at', filter: false
     - g.column name: t('common.updated'), attribute: 'updated_at', filter: false
