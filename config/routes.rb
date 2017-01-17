@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       end
     end
     resources :project_groups
+    resources :projects
 
     resources :timeline_step_moves do
       member do
