@@ -97,4 +97,8 @@ class Project < ActiveRecord::Base
     step
   end
 
+  def agent_names
+    [primary_agent.try(:name), secondary_agent.try(:name)].compact
+  end
+
 end
