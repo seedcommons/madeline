@@ -14,17 +14,17 @@
       detach_with_id: :status_filter do |project|
       - project.status
 
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
+    - g.column name: t('activerecord.attributes.basic_project.agents'), attribute: 'name',
       assoc: :primary_agent, in_html: true, in_csv: false, filter: false do |project|
       - project.display_agent_names
 
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false
+    - g.column name: t('activerecord.attributes.basic_project.primary_agent'), filter: false, in_html: false
       do |project|
       - project.primary_agent.try(:name)
-    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: true, in_html: false
+    - g.column name: t('activerecord.attributes.basic_project.secondary_agent'), filter: true, in_html: false
       do |project|
       - project.secondary_agent.try(:name)
-        
+
     - g.column name: t("activerecord.attributes.basic_project.start_date"),
       attribute: 'signing_date', filter: true, detach_with_id: :start_date_filter do |project|
       - ldate(project.start_date)
