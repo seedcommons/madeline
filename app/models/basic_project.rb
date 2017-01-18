@@ -45,7 +45,7 @@
 
 class BasicProject < Project
   # scope :status, ->(status) { where(status: status) }
-  # attr_option_settable :status
+  attr_option_settable :status
 
   def start_date
     signing_date
