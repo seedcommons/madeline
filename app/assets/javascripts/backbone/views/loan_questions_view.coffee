@@ -16,7 +16,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
             .find('.jqtree-element')
             .append(@requiredLoanTypesHTML(node))
             .append($('.links-block').html())
-    console.log(@tree.data('data'))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 
