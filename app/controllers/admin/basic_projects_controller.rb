@@ -9,7 +9,7 @@ class Admin::BasicProjectsController < Admin::AdminController
       include: [:primary_agent, :secondary_agent],
       order_direction: 'desc',
       per_page: 50,
-      name: 'projects',
+      name: 'basic_projects',
       enable_export_to_csv: true
     )
 

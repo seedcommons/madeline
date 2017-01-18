@@ -44,7 +44,15 @@
 #
 
 class BasicProject < Project
+  def start_date
+    signing_date
+  end
+
   def default_name
     I18n.t("common.untitled")
+  end
+
+  def display_name
+    name.defined? ? name: display_name
   end
 end

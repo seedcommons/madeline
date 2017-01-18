@@ -56,8 +56,8 @@ class Project < ActiveRecord::Base
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
-  # scope :status, ->(status) { where(status: status) }
-  # attr_option_settable :status
+  scope :status, ->(status) { where(status: status) }
+  attr_option_settable :status
 
   validates :division_id, presence: true
 

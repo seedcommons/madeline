@@ -13,6 +13,10 @@ en:
       person: "Member"
       project_step: "Project Step"
     attributes:
+      basic_project:
+        length_months: "Length (months)"
+        signing_date: "Start Date"
+        start_date: "Start Date"
       division:
         description: "Description"
         default_currency: "Default Currency"
