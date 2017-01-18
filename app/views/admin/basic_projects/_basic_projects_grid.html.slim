@@ -5,10 +5,13 @@
       - @empty_list = true
       - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
-    - g.column name: t('common.name'), attribute: 'name', filter: true, detach_with_id: :name_filter
+    - g.column name: t('common.name'), attribute: 'name', filter: true,
+      detach_with_id: :name_filter do |project|
+      - project.display_name
 
     - g.column name: t('activerecord.attributes.basic_project.status'), attribute: 'status_value',
-      filter: true, custom_filter: BasicProject.status_options, detach_with_id: :status_filter do |project|
+      filter: true, custom_filter: BasicProject.status_options,
+      detach_with_id: :status_filter do |project|
       - project.status
 
     - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
@@ -22,8 +25,8 @@
       do |project|
       - project.secondary_agent.try(:name)
         
-    - g.column name: t("activerecord.attributes.basic_project.start_date"), attribute: 'signing_date',
-      filter: true, detach_with_id: :start_date_filter do |project|
+    - g.column name: t("activerecord.attributes.basic_project.start_date"),
+      attribute: 'signing_date', filter: true, detach_with_id: :start_date_filter do |project|
       - ldate(project.start_date)
     - g.column name: t('activerecord.attributes.basic_project.length_months'),
       attribute: 'length_months', filter: false do |project|
