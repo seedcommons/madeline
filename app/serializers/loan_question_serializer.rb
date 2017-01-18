@@ -1,5 +1,5 @@
 class LoanQuestionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active
 
   def initialize(*args, loan: nil, **options)
     @loan = loan
@@ -28,5 +28,9 @@ class LoanQuestionSerializer < ActiveModel::Serializer
 
   def required_loan_types
     object.loan_question_requirements.map { |i| i.loan_type.label.to_s }
+  end
+
+  def active
+    object.status == "active"
   end
 end
