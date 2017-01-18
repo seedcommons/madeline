@@ -8,22 +8,22 @@
       h4 = t("filter_by")
 
       .larger-text-box.filter
-        label Name
+        label = t('activerecord.attributes.basic_project.name')
         .filter-content
           = grid_filter(@basic_projects_grid, :name_filter)
-      / 
+
       .filter
-        label =  t('activerecord.attributes.basic_project.status')
+        label = t('activerecord.attributes.basic_project.status')
         .filter-content
           = grid_filter(@basic_projects_grid, :status_filter)
-      / 
+
       / .filter.larger-text-box
       /   label = t("loan.primary_agent")
       /   .filter-content
       /     = grid_filter(@basic_projects_grid, :agent_filter)
 
       .filter
-        label = t("loan.signing_date")
+        label = t("activerecord.attributes.basic_project.start_date")
         .filter-content.dates
           = grid_filter(@basic_projects_grid, :start_date_filter)
 

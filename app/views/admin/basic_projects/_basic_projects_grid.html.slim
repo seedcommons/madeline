@@ -27,11 +27,11 @@
     - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: true do |project|
       - project.secondary_agent.try(:name)
         
-    - g.column name: t('activerecord.attributes.loan.signing_date'), attribute: 'signing_date',
+    - g.column name: t("activerecord.attributes.basic_project.start_date"), attribute: 'signing_date',
       filter: true, detach_with_id: :start_date_filter do |project|
       - ldate(project.start_date)
-    - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
-      filter: false do |project|
+    - g.column name: t('activerecord.attributes.basic_project.length_months'),
+      attribute: 'length_months', filter: false do |project|
         - if project.length_months
           - t("loan.months", number: project.length_months.to_s)
 
