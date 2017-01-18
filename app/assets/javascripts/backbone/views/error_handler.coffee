@@ -20,7 +20,6 @@ class MS.Views.ErrorHandler extends Backbone.View
       # 422 should be handled by specific View
       return if [0, 200, 422].indexOf(status) != -1
 
-      e.stopPropagation()
       $('.modal').modal('hide')
       MS.loadingIndicator.hide()
       switch status
