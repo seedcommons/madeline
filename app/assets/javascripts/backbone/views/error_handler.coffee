@@ -18,7 +18,7 @@ class MS.Views.ErrorHandler extends Backbone.View
 
       # ajaxError sometimes catches 0 and 200 erroneously
       # 422 should be handled by specific View
-      return if [0, 200, 422].indexOf(parseInt(status)) != -1
+      return if [0, 200, 422].indexOf(status) != -1
 
       e.stopPropagation()
       $('.modal').modal('hide')
