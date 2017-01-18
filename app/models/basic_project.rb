@@ -44,7 +44,6 @@
 #
 
 class BasicProject < Project
-  scope :status, ->(status) { where(status: status) }
   attr_option_settable :status
 
   def start_date
@@ -56,6 +55,10 @@ class BasicProject < Project
   end
 
   def display_name
-    name.defined? ? name: display_name
+    name.defined? ? name : default_name
+  end
+
+  def status
+    status_label
   end
 end
