@@ -13,6 +13,12 @@
     }
   }
 
+  .inactive {
+    .jqtree-title {
+      color: $gray3;
+    }
+  }
+
   .loan-type-required {
     max-width: 8em;
     max-height: 2em;
