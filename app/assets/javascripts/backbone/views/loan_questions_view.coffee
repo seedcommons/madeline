@@ -12,10 +12,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       useContextMenu: false
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
-            .addClass("filterable #{node.fieldset}")
+            .addClass("filterable #{node.fieldset} #{node.status}")
             .find('.jqtree-element')
             .append(@requiredLoanTypesHTML(node))
             .append($('.links-block').html())
+    console.log(@tree.data('data'))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 
