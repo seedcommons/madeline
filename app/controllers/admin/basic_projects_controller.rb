@@ -1,11 +1,11 @@
-class Admin::ProjectsController < Admin::AdminController
+class Admin::BasicProjectsController < Admin::AdminController
   include TranslationSaveable
 
   def index
-    authorize Project
+    authorize BasicProject
 
-    @projects_grid = initialize_grid(
-      policy_scope(Project),
+    @basic_projects_grid = initialize_grid(
+      policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
       order_direction: 'desc',
       per_page: 50,

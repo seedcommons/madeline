@@ -1,0 +1,37 @@
+= define_grid(@basic_projects_grid, hide_csv_button: true,
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+
+    - g.column name: t('common.name'), attribute: 'name', filter: true, detach_with_id: :name_filter
+
+    / - g.column name: "Status", attribute: 'status_value', filter: true,
+    /   custom_filter: BasicProject.status_options, detach_with_id: :status_filter do |project|
+    /   - project.status
+    - g.column name: "Status", attribute: 'status_value', filter: false
+
+    / - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
+    /   assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
+    /   filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
+    /   - project.agent_names.join(', ')
+    / - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
+    /   - project.primary_agent.try(:name)
+    / - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
+    /   - project.secondary_agent.try(:name)
+      
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: true do |project|
+      - project.primary_agent.try(:name)
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: true do |project|
+      - project.secondary_agent.try(:name)
+        
+    - g.column name: t('activerecord.attributes.loan.signing_date'), attribute: 'signing_date',
+      filter: true, detach_with_id: :signing_date_filter do |project|
+      - ldate(project.signing_date)
+    - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
+      filter: false do |project|
+        - if project.length_months
+          - t("loan.months", number: project.length_months.to_s)
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false

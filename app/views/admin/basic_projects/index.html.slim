@@ -1,6 +1,6 @@
 - content_for(:title, "Projects")
 
-= render "projects_grid"
+= render "basic_projects_grid"
 
 - unless @empty_list
   header.block.index-table
@@ -10,22 +10,22 @@
       .larger-text-box.filter
         label Name
         .filter-content
-          = grid_filter(@projects_grid, :name_filter)
-
-      .filter
-        label = t("status")
-        .filter-content
-          = grid_filter(@projects_grid, :status_filter)
-
-      .filter.larger-text-box
-        label = t("loan.primary_agent")
-        .filter-content
-          = grid_filter(@projects_grid, :agent_filter)
+          = grid_filter(@basic_projects_grid, :name_filter)
+      / 
+      / .filter
+      /   label = t("status")
+      /   .filter-content
+      /     = grid_filter(@basic_projects_grid, :status_filter)
+      / 
+      / .filter.larger-text-box
+      /   label = t("loan.primary_agent")
+      /   .filter-content
+      /     = grid_filter(@basic_projects_grid, :agent_filter)
 
       .filter
         label = t("loan.signing_date")
         .filter-content.dates
-          = grid_filter(@projects_grid, :signing_date_filter)
+          = grid_filter(@basic_projects_grid, :signing_date_filter)
 
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="projects"
@@ -35,4 +35,4 @@
           = t("filter")
       .clearfix
 
-= render_index_grid(@projects_grid)
+= render_index_grid(@basic_projects_grid)

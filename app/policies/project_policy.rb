@@ -1,2 +1,0 @@
-class ProjectPolicy < ApplicationPolicy
-end

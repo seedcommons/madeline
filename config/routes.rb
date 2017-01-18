@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :basic_projects, path: 'projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :loan_response_sets
@@ -45,7 +46,6 @@ Rails.application.routes.draw do
       end
     end
     resources :project_groups
-    resources :projects
 
     resources :timeline_step_moves do
       member do
