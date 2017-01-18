@@ -23,6 +23,19 @@
     .view-element = @project.name
     = f.input_field :name
 
+  = f.input :status_value
+    .view-element = @project.status_value
+    = f.input_field :status_value
+
+  = f.input :primary_agent
+    .view-element = @project.primary_agent.name
+    = f.input_field :primary_agent
+
+  = f.input :secondary_agent
+    .view-element = @project.secondary_agent.name
+    = f.input_field :secondary_agent
+
+
   / = f.input :primary_contact
   /   .view-element
   /     - if @project.primary_contact
