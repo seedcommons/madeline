@@ -15,8 +15,10 @@ en:
     attributes:
       basic_project:
         length_months: "Length (months)"
+        name: "Name"
         signing_date: "Start Date"
         start_date: "Start Date"
+        status: "Status"
       division:
         description: "Description"
         default_currency: "Default Currency"

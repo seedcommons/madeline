@@ -12,10 +12,10 @@
         .filter-content
           = grid_filter(@basic_projects_grid, :name_filter)
       / 
-      / .filter
-      /   label = t("status")
-      /   .filter-content
-      /     = grid_filter(@basic_projects_grid, :status_filter)
+      .filter
+        label =  t('activerecord.attributes.basic_project.status')
+        .filter-content
+          = grid_filter(@basic_projects_grid, :status_filter)
       / 
       / .filter.larger-text-box
       /   label = t("loan.primary_agent")
