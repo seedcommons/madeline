@@ -13,18 +13,15 @@
     - g.column name: t('activerecord.attributes.basic_project.status'), attribute: 'status_value',
       filter: true, detach_with_id: :status_filter
 
-    / - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
-    /   assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
-    /   filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
-    /   - project.agent_names.join(', ')
-    / - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
-    /   - project.primary_agent.try(:name)
-    / - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
-    /   - project.secondary_agent.try(:name)
-      
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: true do |project|
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), attribute: 'name',
+      assoc: :primary_agent, in_html: true, in_csv: false, filter: false do |project|
+      - project.display_agent_names
+
+    - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false
+      do |project|
       - project.primary_agent.try(:name)
-    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: true do |project|
+    - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: true, in_html: false
+      do |project|
       - project.secondary_agent.try(:name)
         
     - g.column name: t("activerecord.attributes.basic_project.start_date"), attribute: 'signing_date',
