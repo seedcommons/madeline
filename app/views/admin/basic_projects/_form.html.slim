@@ -27,14 +27,15 @@
     .view-element = @project.status_value
     = f.input_field :status_value
 
-  = f.input :primary_agent
-    .view-element = @project.primary_agent.name
-    = f.input_field :primary_agent
+  = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
+    choices: @agent_choices, classes: 'hidden-print')
+  = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'visible-print-block'}
+    span = @project.primary_agent.try(:name)
 
-  = f.input :secondary_agent
-    .view-element = @project.secondary_agent.name
-    = f.input_field :secondary_agent
-
+  = authorized_form_field(simple_form: f, model: @project, field_name: :secondary_agent,
+    choices: @agent_choices, classes: 'hidden-print')
+  = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
+      span = @project.secondary_agent.try(:name)
 
   / = f.input :primary_contact
   /   .view-element
@@ -45,15 +46,15 @@
   / = f.input :city
   /   .view-element = @org.city
   /   = f.input_field :city
-  / 
+  /
   / = f.input :state
   /   .view-element = @org.state
   /   = f.input_field :state
-  / 
+  /
   / = f.input :country
   /   .view-element = @org.country.try(:name)
   /   = f.input_field :country_id, collection: @countries, include_blank: true
-  
+
   / = f.input :people
   /   .view-element style=""
   /     - @project.people.each do |person|
