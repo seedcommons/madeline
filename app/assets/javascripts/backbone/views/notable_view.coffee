@@ -1,6 +1,4 @@
-class MS.Views.OrganizationView extends Backbone.View
-
-  el: '.coop'
+class MS.Views.NotableView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
