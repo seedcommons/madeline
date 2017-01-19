@@ -28,6 +28,7 @@ en:
       loan:
         division: "Division"
         organization: "Co-op"
+        id: "ID"
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
