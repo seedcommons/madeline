@@ -23,9 +23,9 @@
     .view-element = @project.name
     = f.input_field :name
 
-  = f.input :status_value
-    .view-element = @project.status_value
-    = f.input_field :status_value
+  = f.input :status, wrapper_html: {class: 'hidden-print'}
+    .view-element = @project.try(:status)
+    = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
   = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
     choices: @agent_choices, classes: 'hidden-print')
