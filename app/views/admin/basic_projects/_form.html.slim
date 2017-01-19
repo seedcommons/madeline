@@ -20,12 +20,12 @@
 
   = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
     choices: @agent_choices, classes: 'hidden-print')
-  = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'visible-print-block'}
+  = f.input t('activerecord.attributes.basic_project.primary_agent'), wrapper_html: {class: 'visible-print-block'}
     span = @project.primary_agent.try(:name)
 
   = authorized_form_field(simple_form: f, model: @project, field_name: :secondary_agent,
     choices: @agent_choices, classes: 'hidden-print')
-  = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
+  = f.input t('activerecord.attributes.basic_project.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
       span = @project.secondary_agent.try(:name)
 
   = f.input :signing_date, label: t("activerecord.attributes.basic_project.start_date")
@@ -33,7 +33,7 @@
     = f.input_field :signing_date, as: :date_picker
 
   = f.input :length_months
-    .view-element = t("loan.months", number: @project.length_months.to_s) if @project.length_months
+    .view-element = t("basic_project.months", number: @project.length_months.to_s) if @project.length_months
     = f.input_field :length_months
 
   .actions.form-element

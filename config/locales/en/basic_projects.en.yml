@@ -6,3 +6,6 @@ en:
         confirm_deletion: "WARNING: Are you sure you want to permanently delete this Project?"
         delete: "Delete Project"
         edit: "Edit Project"
+
+  basic_project:
+    months: "%{number} mo."
