@@ -76,6 +76,7 @@ class Project < ActiveRecord::Base
   end
 
   def display_name
+    return '' if new_record?
     name.blank? ? default_name : name
   end
 
