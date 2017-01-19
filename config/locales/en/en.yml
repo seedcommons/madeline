@@ -333,6 +333,7 @@ en:
     log: "project log"
     logs: "Logs"
     new: "New Log"
+    create: "New Log"
     no_logs: "No Logs"
     notify: "Send notifications"
     private_notes: "Private Notes"

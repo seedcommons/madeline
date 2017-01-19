@@ -31,7 +31,9 @@ module LogControllable
         mode: :show
       }
     else
-      render partial: 'admin/project_steps/form', status: :unprocessable_entity, locals: {
+      set_log_form_vars
+      # render "modal", layout: false
+      render partial: 'modal', status: :unprocessable_entity, layout: false, locals: {
         step: @step,
         context: 'timeline',
         mode: :show
