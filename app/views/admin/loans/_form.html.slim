@@ -102,10 +102,6 @@
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
     choices: @representative_choices, classes: 'hidden-print')
 
-  = f.input :project_type, wrapper_html: {class: 'hidden-print'}
-    .view-element = @loan.project_type_label
-    = f.input_field :project_type_value, collection: Loan.project_type_options, include_blank: true
-
   = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
     = f.input_field :public_level_value, collection: Loan.public_level_options, include_blank: true

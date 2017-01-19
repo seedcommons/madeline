@@ -69,13 +69,6 @@ loan_type.options.create(migration_id: 6,
 loan_type.options.create(migration_id: 7,
     label_translations: {en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados'})
 
-project_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
-  model_attribute: 'project_type')
-project_type.options.destroy_all
-project_type.options.create(value: 'conversion', label_translations: {en: 'Conversion', es: 'TODO'})
-project_type.options.create(value: 'expansion', label_translations: {en: 'Expansion', es: 'TODO'})
-project_type.options.create(value: 'startup', label_translations: {en: 'Start-up', es: 'TODO'})
-
 public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
   model_attribute: 'public_level')
 public_level.options.destroy_all

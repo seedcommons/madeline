@@ -16,7 +16,6 @@
 #  name                        :string
 #  organization_id             :integer
 #  primary_agent_id            :integer
-#  project_type_value          :string
 #  projected_return            :decimal(, )
 #  public_level_value          :string
 #  rate                        :decimal(, )

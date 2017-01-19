@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20170118185717) do
-=======
 ActiveRecord::Schema.define(version: 20170119072931) do
->>>>>>> 5636 change target_end_date to end_date
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -271,7 +267,6 @@ ActiveRecord::Schema.define(version: 20170119072931) do
     t.string   "name"
     t.integer  "organization_id"
     t.integer  "primary_agent_id"
-    t.string   "project_type_value"
     t.decimal  "projected_return"
     t.string   "public_level_value"
     t.decimal  "rate"
