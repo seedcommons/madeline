@@ -46,7 +46,7 @@
           = grid_filter(@loans_grid, :target_end_date_filter)
 
       .filter.larger-text-box
-        label Agents
+        label = t("loan.agents")
         .filter-content
           = grid_filter(@loans_grid, :agent_filter)
 
