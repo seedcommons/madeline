@@ -3,7 +3,7 @@
 - content_for :with_title
   = link_to t("divisions.shared.new"), new_admin_division_path, class: 'btn btn-default new-button'
 
-= render "divisions_grid"
+= render "divisions_grid_definition"
 
 - unless @empty_list
   header.block.index-table

@@ -3,7 +3,7 @@
 - content_for :with_title
   = link_to t("people.shared.new"), new_admin_person_path, class: 'btn btn-default new-button'
 
-= render "people_grid"
+= render "people_grid_definition"
 
 - unless @empty_list
   header.block.index-table
