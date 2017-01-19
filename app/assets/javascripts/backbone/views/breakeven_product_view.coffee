@@ -6,6 +6,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
     'change input.price': 'changed'
     'change input.cost': 'changed'
     'change input.percentage-of-sales': 'changed'
+    'click td [data-action="delete"]': 'removeRow'
 
   initialize: (options) ->
     @Q = 0.0
@@ -77,4 +78,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @_cost = @readFromDom('cost')
     @_percentageOfSales = @readPercentageOfSalesFromDom()
     @updateDom()
-    @trigger('product:changed', @)
+    @trigger('product.changed', @)
+
+  removeRow: () ->
+    @trigger 'breakevenProductView.removed', @

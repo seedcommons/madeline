@@ -17,8 +17,23 @@ class MS.Views.EditableTableView extends Backbone.View
     $table = $button.closest('table')
     $newRow = $table.find('tr.hidden').clone()
     $newRow.removeClass('hidden')
-    $table.append($newRow)
+    $row = @appendRowBeforeTotals($table, $newRow)
+    @rowAdded($table, $row)
+
+  appendRowBeforeTotals: ($table, $row) ->
+    $totalsRow = $table.find("tr[data-group='totals']")
+
+    if $totalsRow.length > 0
+      $totalsRow.before($row)
+    else
+      $table.append($row)
+
+    $row
 
   removeRow: (e) ->
     e.preventDefault()
     @$(e.currentTarget).closest('tr').remove()
+
+  rowAdded: ($table, $row) ->
+    @trigger('editableTableView:rowAdded', $table, $row, @)
+
