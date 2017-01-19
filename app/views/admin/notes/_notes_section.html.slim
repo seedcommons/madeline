@@ -2,7 +2,7 @@
   header.header-with-links
     h1 = t('common.notes')
     - if @new_note
-      button.btn.btn-default.new-button = t("notes.new")
+      a.new-link href="#" = t("notes.new")
   .notes-inner
     = render @notes
   
