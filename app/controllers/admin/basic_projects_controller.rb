@@ -39,12 +39,31 @@ class Admin::BasicProjectsController < Admin::AdminController
     end
   end
 
+  def update
+    @project = BasicProject.find(params[:id])
+    authorize @project
+    @project.assign_attributes(basic_project_params)
+
+    if @project.save
+      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_updated)
+    else
+      prep_form_vars
+      render :show
+    end
+  end
+
   private
 
   def prep_form_vars
-    @division_choices = division_choices
-    @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
     @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
-    @currency_choices = Currency.all.order(:name)
+  end
+
+  def basic_project_params
+    params.require(:basic_project).permit(*(
+      [
+        :length_months, :name, :primary_agent_id, :secondary_agent_id, :signing_date,
+        :status_value
+      ]
+    ))
   end
 end
