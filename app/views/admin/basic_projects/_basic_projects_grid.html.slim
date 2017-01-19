@@ -15,23 +15,24 @@
       - project.status
 
     - g.column name: t('activerecord.attributes.basic_project.agents'), attribute: 'name',
-      assoc: :primary_agent, in_html: true, in_csv: false, filter: false do |project|
+      assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
+      filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
       - project.display_agent_names
-
-    - g.column name: t('activerecord.attributes.basic_project.primary_agent'), filter: false, in_html: false
-      do |project|
+    - g.column name: t('activerecord.attributes.basic_project.primary_agent'), filter: false,
+      in_html: false do |project|
       - project.primary_agent.try(:name)
-    - g.column name: t('activerecord.attributes.basic_project.secondary_agent'), filter: true, in_html: false
-      do |project|
+    - g.column name: t('activerecord.attributes.basic_project.secondary_agent'), filter: true,
+      in_html: false do |project|
       - project.secondary_agent.try(:name)
 
     - g.column name: t("activerecord.attributes.basic_project.start_date"),
       attribute: 'signing_date', filter: true, detach_with_id: :start_date_filter do |project|
       - ldate(project.start_date)
+
     - g.column name: t('activerecord.attributes.basic_project.length_months'),
       attribute: 'length_months', filter: false do |project|
-        - if project.length_months
-          - t("loan.months", number: project.length_months.to_s)
+      - if project.length_months
+        - t("loan.months", number: project.length_months.to_s)
 
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
       in_csv: false do |project|

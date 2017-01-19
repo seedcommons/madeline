@@ -45,7 +45,7 @@
 
     - g.column name: t('activerecord.attributes.loan.primary_agent'), in_csv: false, attribute: 'name', assoc: :primary_agent,
       filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
-      - loan.agent_names.join(', ')
+      - loan.display_agent_names
 
     / These need use a custom format, otherwise they will confuse the :custom_agent_filter
     - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
