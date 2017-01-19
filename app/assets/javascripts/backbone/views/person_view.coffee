@@ -3,7 +3,7 @@ class MS.Views.PersonView extends Backbone.View
 
   initialize: ->
     @showHideUserFields()
-    new MS.Views.NotableView({ el: @el })
+    new MS.Views.NotableView(el: @el)
 
   events:
     'click #person_has_system_access': 'showHideUserFields'
