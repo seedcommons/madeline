@@ -42,7 +42,6 @@ es:
         projected_return: "Retorno Proyectado"
         representative: "Representante"
         details: "Detalles"
-        project_type: "Tipo de Proyecto"
         public_level: "Nivel Público"
         rate: "Tasa"
         signing_date: "Fecha de Firma"
