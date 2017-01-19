@@ -79,6 +79,8 @@ class Admin::ProjectLogsController < Admin::AdminController
       @expand_logs = true
       head :ok
     else
+      @progress_metrics = ProjectLog.progress_metric_options
+      @people = Person.by_name
       render partial: 'modal_content', status: :unprocessable_entity
     end
   end
