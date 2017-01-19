@@ -18,11 +18,11 @@ class MS.Views.BreakevenView extends Backbone.View
       @totalFixedCostsChanged()
 
     _.each @products, (product) =>
-      product.on "BreakevenProductView:removed", (product) =>
+      product.on 'breakevenProductView.removed', (product) =>
         @removeProduct(product)
 
     _.each tables, (table) =>
-      table.on 'EditableTableView:rowAdded', ($table, $row) =>
+      table.on 'editableTableView.rowAdded', ($table, $row) =>
         tableName = $table.data('table')
         product = new MS.Views.BreakevenProductView(el: $row)
         @addProduct(product) if tableName == "products"
@@ -47,7 +47,7 @@ class MS.Views.BreakevenView extends Backbone.View
   addProduct: (product) ->
     @products.push(product)
     @total.addProduct(product)
-    product.on "BreakevenProductView:removed", (product) =>
+    product.on 'breakevenProductView.removed', (product) =>
       @removeProduct(product)
     @totalFixedCostsChanged()
 

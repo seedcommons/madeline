@@ -8,7 +8,7 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     @totalFixedCosts = parseFloat(@$('.total_fixed_costs').val())
 
     _.each @products, (product) =>
-      product.on "product:changed", () =>
+      product.on 'product.changed', =>
         @calculateTotals()
 
     @calculateTotals()
@@ -100,10 +100,7 @@ class MS.Views.BreakevenProductTotalView extends Backbone.View
     @$('.total_cost').val(totals.totalProductCost.toFixed())
 
   addProduct: (product) ->
-    # Don't need to add to products since it was passed by ref
-    # @products.push(product)
-
-    product.on "product:changed", () =>
+    product.on 'product.changed', =>
       @calculateTotals()
 
     @calculateTotals()

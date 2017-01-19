@@ -35,5 +35,5 @@ class MS.Views.EditableTableView extends Backbone.View
     @$(e.currentTarget).closest('tr').remove()
 
   rowAdded: ($table, $row) ->
-    @trigger('EditableTableView:rowAdded', $table, $row, @)
+    @trigger('editableTableView:rowAdded', $table, $row, @)
 
