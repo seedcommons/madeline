@@ -1,8 +1,8 @@
-- content_for(:title, @project.name)
+- content_for(:title, @project.display_name)
 
 section.details
 
-  section.block. class=(@project.valid? ? 'show-view' : 'edit-view')
+  section.block.basic-project-fields class=(@project.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if policy(@project).update?
         - if @project.valid?
@@ -25,3 +25,8 @@ section.details
           = t(".delete")
 
     = render 'form'
+
+javascript:
+  $(function() {
+    new MS.Views.ShowEditView({ el: '.basic-project-fields' });
+  });
