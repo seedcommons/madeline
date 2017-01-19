@@ -9,6 +9,10 @@
       detach_with_id: :name_filter do |project|
       - project.display_name
 
+    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |project|
+      - link_to(project.id, admin_basic_project_path(project.id))
+    - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
+
     - g.column name: t('activerecord.attributes.basic_project.status'), attribute: 'status_value',
       filter: true, custom_filter: BasicProject.status_options,
       detach_with_id: :status_filter do |project|
