@@ -31,7 +31,7 @@ class Admin::OrganizationsController < Admin::AdminController
 
     @notes = @org.notes.order(created_at: :desc)
     @new_note = Note.new(notable: @org)
-    authorize @new_note, :new?
+    @new_note = nil unless Pundit.policy(current_user, @new_note).new?
   end
 
   def new
