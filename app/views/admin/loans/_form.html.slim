@@ -10,15 +10,16 @@
 
   = error_notification(f)
 
+  - unless f.object.new_record?
+    = f.attribute :id
+      .static-text-as-field
+        = @loan.id
+
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
     choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
     choices: @organization_choices, include_blank_choice: false, classes: 'hidden-print')
-
-  = f.attribute :id
-    .static-text-as-field
-      = @loan.id
 
   = f.input :name
     .view-element = @loan.display_name
