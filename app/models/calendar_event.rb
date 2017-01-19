@@ -43,7 +43,7 @@ class CalendarEvent
   end
 
   def self.new_loan_end(loan)
-    loan.target_end_date ? new.initialize_loan_end(loan) : nil
+    loan.end_date ? new.initialize_loan_end(loan) : nil
   end
 
   def self.filtered_events(date_range: nil, loan_filter: nil, loan_scope: Loan, step_scope: ProjectStep)
@@ -74,8 +74,8 @@ class CalendarEvent
 
   def self.loan_date_filter(range, scope = Loan)
     # Seems like a nice 'OR' syntax won't be available until Rails 5.
-    # Loan.where(signing_date: date_range).or(target_end_date: date_range)
-    scope.where("signing_date BETWEEN :first AND :last OR target_end_date between :first AND :last",
+    # Loan.where(signing_date: date_range).or(end_date: date_range)
+    scope.where("signing_date BETWEEN :first AND :last OR end_date between :first AND :last",
                 {first: range.first, last: range.last})
   end
 
@@ -122,7 +122,7 @@ class CalendarEvent
   end
 
   def initialize_loan_end(loan)
-    @start = loan.target_end_date
+    @start = loan.end_date
     @title = I18n.t("loan.end", name: loan.display_name)
     @event_type = "loan_end"
     @model_type = 'Loan'

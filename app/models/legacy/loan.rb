@@ -40,7 +40,7 @@ class Loan < ActiveRecord::Base
         signing_date: signing_date,
         first_interest_payment_date: first_interest_payment,
         first_payment_date: first_payment_date,
-        target_end_date: fecha_de_finalizacion,
+        end_date: fecha_de_finalizacion,
         projected_return: projected_return,
     }
     data
