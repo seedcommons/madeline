@@ -65,7 +65,7 @@ es:
       completed: "Completo"
       frozen: "Congelado"
       liquidated: "Liquidado"
-    target_end_date: "Fecha de Finalización Prevista"
+    end_date: "Fecha de Finalización Prevista"
     threshold_amount: "Monto Umbral"
     timeline: "Línea de Tiempo"
     timeline_list: "Línea de Tiempo - Lista"
