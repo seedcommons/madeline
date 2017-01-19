@@ -31,6 +31,6 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   end
 
   def status
-    object.status ? object.status : "active"
+    object.status.presence || "active"
   end
 end
