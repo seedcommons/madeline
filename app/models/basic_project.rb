@@ -55,7 +55,7 @@ class BasicProject < Project
   end
 
   def display_name
-    name.empty? ? default_name : name
+    name.blank? ? default_name : name
   end
 
   def status
