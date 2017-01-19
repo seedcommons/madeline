@@ -32,6 +32,10 @@
     .view-element = @project.try(:signing_date)
     = f.input_field :signing_date, as: :date_picker
 
+  = f.input :length_months
+    .view-element = t("loan.months", number: @project.length_months.to_s) if @project.length_months
+    = f.input_field :length_months
+
   .actions.form-element
     - unless @project.new_record?
       - if @project.valid?
