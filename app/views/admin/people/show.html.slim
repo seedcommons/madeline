@@ -30,8 +30,18 @@ section.person.details
     h1 = t('people.shared.media')
     .row = render "admin/media/index", media: @person.media, owner: @person
 
-  section.block
-    h1 = t('common.notes')
+  section.block.notes.post-list
+    header.header-with-links
+      h1 = t('common.notes')
+      - if @new_note
+        button.btn.btn-default.new-button = t("notes.new")
+    .notes-inner
+      = render @notes
+    
+    - if @new_note
+      .hidden
+        .new-note
+          = render partial: 'admin/notes/note', locals: { note: @new_note }
 
 = render "admin/media/modal"
 
