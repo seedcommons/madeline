@@ -10,20 +10,11 @@
 
   = error_notification(f)
 
-  / = f.input :division
-  /   - if policy(@org).reassign_division?
-  /     .view-element
-  /       - if @org.division
-  /         = link_to @org.division.name, admin_division_path(@org.division)
-  /     = f.input_field :division_id, collection: @division_choices, include_blank: false
-  /   - else
-  /     = @org.division.try(:name)
-
   = f.input :name
-    .view-element = @project.name
+    .view-element = @project.try(:name)
     = f.input_field :name
 
-  = f.input :status, wrapper_html: {class: 'hidden-print'}
+  = f.input :status
     .view-element = @project.try(:status)
     = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
@@ -37,31 +28,9 @@
   = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
       span = @project.secondary_agent.try(:name)
 
-  / = f.input :primary_contact
-  /   .view-element
-  /     - if @project.primary_contact
-  /       = link_to @project.primary_contact.name, admin_person_path(@project.primary_contact)
-  /   = f.input_field :primary_contact_id, collection: @contact_choices, include_blank: true
-
-  / = f.input :city
-  /   .view-element = @org.city
-  /   = f.input_field :city
-  /
-  / = f.input :state
-  /   .view-element = @org.state
-  /   = f.input_field :state
-  /
-  / = f.input :country
-  /   .view-element = @org.country.try(:name)
-  /   = f.input_field :country_id, collection: @countries, include_blank: true
-
-  / = f.input :people
-  /   .view-element style=""
-  /     - @project.people.each do |person|
-  /       = link_to person.name, admin_person_path(person)
-  /       br
-  /   .form-element
-  /     = f.association :people, label: false, collection: @people_choices, include_blank: true
+  = f.input :signing_date, label: t("activerecord.attributes.basic_project.start_date")
+    .view-element = @project.try(:signing_date)
+    = f.input_field :signing_date, as: :date_picker
 
   .actions.form-element
     - unless @project.new_record?
