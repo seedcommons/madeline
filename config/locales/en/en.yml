@@ -108,6 +108,8 @@ en:
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+      media:
+        kind_value: "Kind"
     errors:
       models:
         project_group:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119072931) do
+ActiveRecord::Schema.define(version: 20170120063016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20170119072931) do
     t.integer  "item_file_size"
     t.integer  "item_height"
     t.integer  "item_width"
-    t.string   "kind"
+    t.string   "kind_value"
     t.integer  "media_attachable_id"
     t.string   "media_attachable_type"
     t.integer  "sort_order"
