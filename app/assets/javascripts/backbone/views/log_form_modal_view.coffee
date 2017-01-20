@@ -36,7 +36,6 @@ class MS.Views.LogFormModalView extends Backbone.View
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     MS.loadingIndicator.hide()
 
-
   submitForm: ->
     MS.loadingIndicator.show()
     @$('form').submit()

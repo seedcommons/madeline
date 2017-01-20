@@ -92,7 +92,9 @@ module Translatable
   end
 
   def get_translations(attribute)
-    translations.where(translatable_attribute: attribute)
+    # Shouldn't use `where` here because it won't work if translations have just been assigned
+    # and object hasn't been saved.
+    translations.select { |t| t.translatable_attribute.to_s == attribute.to_s }
   end
 
   def used_locales
@@ -167,4 +169,13 @@ module Translatable
   #     translation
   #   end
   # end
+
+  class TranslationPresenceValidator < ActiveModel::EachValidator
+    def validate_each(record, attribute, value)
+      # Ensure each translation given is not blank.
+      record.send("#{attribute}_translations").each do |t|
+        record.errors.add("#{attribute}_#{t.locale}", :blank) if t.text.blank?
+      end
+    end
+  end
 end
