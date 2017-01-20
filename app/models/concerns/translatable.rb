@@ -99,7 +99,7 @@ module Translatable
 
   def used_locales
     # Shouldn't use scope here because it won't work if translations have just been assigned
-    translations.map(&:locale).sort
+    translations.map { |t| t.locale.to_sym }.sort
   end
 
   delegate :locales, to: :division, prefix: true
