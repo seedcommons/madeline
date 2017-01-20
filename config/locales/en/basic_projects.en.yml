@@ -8,4 +8,7 @@ en:
         edit: "Edit Project"
 
   basic_project:
+    agent:
+      one: "Agent"
+      other: "Agents"
     months: "%{number} mo."

@@ -18,7 +18,7 @@
       detach_with_id: :status_filter do |project|
       - project.status
 
-    - g.column name: t('activerecord.attributes.basic_project.agents'), attribute: 'name',
+    - g.column name: t('basic_project.agent', count: 2), attribute: 'name',
       assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
       filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
       - project.display_agent_names

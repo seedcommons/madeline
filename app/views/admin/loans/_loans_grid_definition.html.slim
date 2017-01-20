@@ -43,7 +43,7 @@
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 
-    - g.column name: t('loan.agents'), in_csv: false, attribute: 'name', assoc: :primary_agent,
+    - g.column name: t('loan.agent', count: 2), in_csv: false, attribute: 'name', assoc: :primary_agent,
       filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
       - loan.display_agent_names
 
