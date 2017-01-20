@@ -83,41 +83,6 @@ SimpleForm.setup do |config|
     end
   end
 
-  1.upto(12) do |col|
-    config.wrappers "step_form_left_#{col}", tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
-      b.use :html5
-      b.use :placeholder
-      b.optional :maxlength
-      b.optional :pattern
-      b.optional :min_max
-      b.optional :readonly
-
-      b.wrapper tag: 'div', class: "col-sm-#{col}" do |ba|
-        ba.use :input, class: 'form-control'
-        ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
-        ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
-      end
-    end
-  end
-
-  1.upto(11) do |col|
-    config.wrappers "step_form_right_#{col}", tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
-      b.use :html5
-      b.use :placeholder
-      b.optional :maxlength
-      b.optional :pattern
-      b.optional :min_max
-      b.optional :readonly
-      b.use :label, class: "col-sm-#{12-col} control-label"
-
-      b.wrapper tag: 'div', class: "col-sm-#{col}" do |ba|
-        ba.use :input, class: 'form-control'
-        ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
-        ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
-      end
-    end
-  end
-
   config.wrappers :horizontal_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
@@ -143,19 +108,6 @@ SimpleForm.setup do |config|
 
       wr.use :error, wrap_with: { tag: 'span', class: 'help-block' }
       wr.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
-    end
-  end
-
-  config.wrappers :horizontal_radio_and_checkboxes, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
-    b.use :html5
-    b.optional :readonly
-
-    b.use :label, class: 'col-sm-3 control-label'
-
-    b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
-      ba.use :input
-      ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
-      ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
     end
   end
 
@@ -188,7 +140,4 @@ SimpleForm.setup do |config|
   # to learn about the different styles for forms and inputs,
   # buttons and other elements.
   config.default_wrapper = :vertical_form
-  config.wrapper_mappings = {
-    radio_buttons: :horizontal_radio_and_checkboxes
-  }
 end

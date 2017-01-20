@@ -103,6 +103,7 @@ en:
         tax_no: "National ID"
         website: "Website"
       project_log:
+        step: "Step"
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
@@ -131,7 +132,7 @@ en:
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
       timeline_step_move:
-        move_type: "Change Which Date?"
+        move_type: "Which Date?"
     options:
       person:
         owning_division_role:
@@ -333,6 +334,7 @@ en:
     log: "project log"
     logs: "Logs"
     new: "New Log"
+    create: "New Log"
     no_logs: "No Logs"
     notify: "Send notifications"
     private_notes: "Private Notes"

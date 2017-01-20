@@ -5,7 +5,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'submit form': 'submitForm'
+    'ajax:complete': 'submitSuccess'
     'hidden.bs.modal': 'modalHidden'
 
   show: (stepId, daysShifted) ->
@@ -14,42 +14,33 @@ class MS.Views.MoveStepModalView extends Backbone.View
     @stepId = stepId
     @deferred = jQuery.Deferred()
     params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}"
-    $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html)
+    $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html, 'show')
     @deferred.promise()
 
-  replaceContent: (html) ->
-    @$el.html(html)
+  replaceContent: (html, event) ->
+    # Replace only the body if this is due to a validation fail
+    if event == 'validation'
+      @$('.modal-body').html($(html).find('.modal-body').html())
+    else
+      @$el.html(html)
+      @$('.modal').modal('show')
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
-    @$('.modal').modal('show')
-    @$el.find('.empty-log-error').hide()
     MS.loadingIndicator.hide()
 
   submitForm: (e) ->
-    e.preventDefault()
-    $form = @$('form')
-    submitted = @submitted
+    MS.loadingIndicator.show()
+    @$('form').submit()
 
-    # Summary must be added in at least one language
-    $form.find("[data-translatable='common.summary']").each ->
-      if ($.trim($(this).val()) != '')
-        submitted = true
+  submitSuccess: (e, data) ->
+    MS.loadingIndicator.hide()
 
-    if submitted
-      @submitted = submitted
-      MS.loadingIndicator.show()
-      @$('.modal').modal('hide') # Form will be submitted when this is finished. See below.
+    if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
+      @$('.modal').modal('hide')
+      @submitted = true
+      @deferred.resolve()
     else
-      $form.find('.empty-log-error').show()
+      @replaceContent(data.responseText, 'validation')
 
   modalHidden: ->
-    # If the form has been submitted, we need to wait for the modal to finish hiding before
-    # actually submitting the data, else the modal doesn't properly hide in some cases.
-    if @submitted
-      form = @$('form')
-      $.post(form.attr('action'), form.serialize()).done =>
-        MS.loadingIndicator.hide()
-        @deferred.resolve()
-
-    # Otherwise, it means the user has cancelled the process, so reject the deferred.
-    else
-      @deferred.reject()
+    # If not submitted, it means the user has cancelled the process, so reject the deferred.
+    @deferred.reject() unless @submitted

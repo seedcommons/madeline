@@ -36,7 +36,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log = ProjectLog.new(project_log_params)
     @step = @log.project_step
     authorize @log
-    save_and_render_partial
+    save_and_render
 
     if params[:notify] && @log.division.notify_on_new_logs?
       @log.division.users.each do |user|
@@ -54,8 +54,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     if params[:context] == 'timeline'
       save_and_render_partial
     else
-      @log.save
-      head :ok
+      save_and_render
     end
   end
 
@@ -68,6 +67,20 @@ class Admin::ProjectLogsController < Admin::AdminController
       destroy_and_render_partial
     elsif @log.destroy
       head :ok
+    end
+  end
+
+  private
+
+  def save_and_render
+    if @log.save
+      @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
+      @expand_logs = true
+      head :ok
+    else
+      @progress_metrics = ProjectLog.progress_metric_options
+      @people = Person.by_name
+      render partial: 'modal_content', status: :unprocessable_entity
     end
   end
 end

@@ -22,14 +22,23 @@ module LogControllable
 
   # Renders show partial on success, form partial on failure.
   def save_and_render_partial
-    @log.save
-    @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
-    @expand_logs = true
-    render partial: 'admin/project_steps/project_step', locals: {
-      step: @step,
-      context: 'timeline',
-      mode: :show
-    }
+    if @log.save
+      @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
+      @expand_logs = true
+      render partial: 'admin/project_steps/project_step', locals: {
+        step: @step,
+        context: 'timeline',
+        mode: :show
+      }
+    else
+      set_log_form_vars
+      # render "modal", layout: false
+      render partial: 'modal', status: :unprocessable_entity, layout: false, locals: {
+        step: @step,
+        context: 'timeline',
+        mode: :show
+      }
+    end
   end
 
   def destroy_and_render_partial
