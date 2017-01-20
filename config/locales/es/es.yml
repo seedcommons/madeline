@@ -118,7 +118,7 @@ es:
         scheduled_start_date: "Fecha Proyectada de Inicio"
         step_type_value: "Tipo"
       timeline_step_move:
-        move_type: "¿Cambiar Cuál Fecha?"
+        move_type: "¿Cuál Fecha?"
     options:
       person:
         owning_division_role:

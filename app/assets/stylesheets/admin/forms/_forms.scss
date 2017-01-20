@@ -38,6 +38,14 @@ form {
   margin: 0 10px;
 }
 
+.radio input[type=radio] {
+  width: inherit;
+  display: inline-block;
+  height: 14px;
+  margin-right: 10px;
+  position: relative;
+}
+
 .form-group textarea.text {
   height: 6em;
 }
