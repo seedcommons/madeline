@@ -1,0 +1,11 @@
+en:
+  # The admin top level group is used here to allow t(".edit") style shortcuts from views
+  admin:
+    basic_projects:
+      show:
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Project?"
+        delete: "Delete Project"
+        edit: "Edit Project"
+
+  basic_project:
+    months: "%{number} mo."
