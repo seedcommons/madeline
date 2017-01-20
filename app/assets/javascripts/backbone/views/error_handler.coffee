@@ -14,11 +14,16 @@ class MS.Views.ErrorHandler extends Backbone.View
 
   handleAjaxErrors: ->
     $(document).ajaxError (e, jqXHR, ajaxSettings, errorString) =>
+      status = parseInt(jqXHR.status) # status can sometimes be a string
+
+      # ajaxError sometimes catches 0 and 200 erroneously
+      # 422 should be handled by specific View
+      return if [0, 200, 422].indexOf(status) != -1
+
       e.stopPropagation()
       $('.modal').modal('hide')
       MS.loadingIndicator.hide()
-      switch parseInt(jqXHR.status)
-        when 0, 200 then # do nothing - false alarm (no idea why ajaxError sometimes catches these)
+      switch status
         when 403
           @showErrorModal I18n.t('unauthorized_error')
         else
