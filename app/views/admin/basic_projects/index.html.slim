@@ -18,7 +18,7 @@
           = grid_filter(@basic_projects_grid, :status_filter)
 
       .filter.larger-text-box
-        label = t('basic_project.agent')
+        label = t('basic_project.agent', count: 1)
         .filter-content
           = grid_filter(@basic_projects_grid, :agent_filter)
 

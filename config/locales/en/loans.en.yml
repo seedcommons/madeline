@@ -1,7 +1,8 @@
 en:
   loan:
-    agent: "Agent"
-    agents: "Agents"
+    agent:
+      one: "Agent"
+      other: "Agents"
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"

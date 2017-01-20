@@ -1,3 +1,5 @@
 en:
   basic_project:
-    agent: "Agent"
+    agent:
+      one: "Agent"
+      other: "Agents"
