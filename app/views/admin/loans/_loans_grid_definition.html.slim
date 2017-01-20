@@ -9,7 +9,7 @@
       - link_to(loan.id, admin_loan_path(loan.id))
     - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
 
-    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name' do |loan|
+    - g.column name: t('activerecord.attributes.loan.name'), attribute: 'name', filter: false do |loan|
       - loan.display_name
 
     - g.column name: t('activerecord.attributes.loan.division'), attribute: 'division_id',
@@ -43,9 +43,9 @@
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 
-    - g.column name: t('activerecord.attributes.loan.primary_agent'), in_csv: false, attribute: 'name', assoc: :primary_agent,
+    - g.column name: t('loan.agent', count: 2), in_csv: false, attribute: 'name', assoc: :primary_agent,
       filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
-      - loan.agent_names.join(', ')
+      - loan.display_agent_names
 
     / These need use a custom format, otherwise they will confuse the :custom_agent_filter
     - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|
@@ -63,10 +63,10 @@
       attribute: 'first_payment_date', filter: false, in_html: false
     - g.column name: t('activerecord.attributes.loan.first_interest_payment_date'),
       attribute: 'first_interest_payment_date', filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.target_end_date'),
-      attribute: 'target_end_date', in_html: true,
-      detach_with_id: :target_end_date_filter do |loan|
-      - ldate(loan.target_end_date)
+    - g.column name: t('activerecord.attributes.loan.end_date'),
+      attribute: 'end_date', in_html: true,
+      detach_with_id: :end_date_filter do |loan|
+      - ldate(loan.end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
 
@@ -77,9 +77,6 @@
       in_html: false do |loan|
         - loan.details
 
-    - g.column name: t('activerecord.attributes.loan.project_type'), filter: false,
-      in_html: false do |loan|
-      - loan.try(:project_type_label)
     - g.column name: t('activerecord.attributes.loan.public_level'), filter: false,
       in_html: false do |loan|
       - loan.try(:public_level_label)

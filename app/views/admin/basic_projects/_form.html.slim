@@ -1,0 +1,46 @@
+= simple_form_for([:admin, @project],
+    html: { \
+      class: 'form-horizontal organization-record',
+    },
+    wrapper: :horizontal_form_condensed,
+    defaults: { \
+      input_html: {class: 'form-element form-control'},
+    },
+  ) do |f|
+
+  = error_notification(f)
+
+  = f.input :name
+    .view-element = @project.try(:name)
+    = f.input_field :name
+
+  = f.input :status
+    .view-element = @project.try(:status)
+    = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
+
+  = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
+    choices: @agent_choices, classes: 'hidden-print')
+  = f.input :primary_agent, wrapper_html: {class: 'visible-print-block'}
+    span = @project.primary_agent.try(:name)
+
+  = authorized_form_field(simple_form: f, model: @project, field_name: :secondary_agent,
+    choices: @agent_choices, classes: 'hidden-print')
+  = f.input :secondary_agent, wrapper_html: {class: 'visible-print-block'}
+      span = @project.secondary_agent.try(:name)
+
+  = f.input :signing_date
+    .view-element = @project.try(:signing_date)
+    = f.input_field :signing_date, as: :date_picker
+
+  = f.input :length_months
+    .view-element = t("basic_project.months", number: @project.length_months) if @project.length_months
+    = f.input_field :length_months
+
+  .actions.form-element
+    - unless @project.new_record?
+      - if @project.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href=admin_basic_project_path(@project) = t(:cancel)
+    = f.submit class: 'update-action btn btn-primary'
+  .clearfix

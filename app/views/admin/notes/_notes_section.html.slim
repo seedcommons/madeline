@@ -1,0 +1,12 @@
+.notes.post-list
+  header.header-with-links
+    h1 = t('common.notes')
+    - if @new_note
+      a.new-link href="#" = t("notes.new")
+  .notes-inner
+    = render @notes
+  
+  - if @new_note
+    .hidden
+      .new-note
+        = render partial: 'admin/notes/note', locals: { note: @new_note }

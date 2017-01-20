@@ -6,27 +6,41 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
           span aria-hidden="true" &times;
         h4.modal-title = t(@step_move.context == "calendar_drag" ? ".move" : ".add_log")
       div.modal-body
-        = simple_form_for([:admin, @step_move]) do |f|
+        = simple_form_for([:admin, @step_move], remote: true,
+            html: { \
+              class: 'form-horizontal',
+            },
+            wrapper: :horizontal_form_condensed,
+            defaults: { \
+              input_html: {class: 'form-element form-control'},
+            },
+          ) do |f|
 
           = f.hidden_field :days_shifted
           = f.hidden_field :context
 
           - if @step_move.context == "calendar_drag" && !@step_move.step_completed?
-            .row
-              = f.input :move_type, as: :radio_buttons, collection: Timeline::StepMove::MOVE_TYPES
-              .clearfix
+            = f.input :move_type, as: :radio_buttons, collection: Timeline::StepMove::MOVE_TYPES
             hr
 
           .alert.alert-info
             => t(".orig_date_remembered")
             = t(".please_log")
 
-          = render "admin/project_logs/form", context: :step_move
+          = simple_fields_for(:project_log, @log,
+            html: { \
+              class: 'form-horizontal',
+            },
+            wrapper: :horizontal_form_condensed,
+            defaults: { \
+              input_html: {class: 'form-element form-control'},
+            }) do |log_f|
+            = render "admin/project_logs/fields", f: log_f, context: :step_move
 
       div.modal-footer
         // In other context, date change has already happened. So don't want to give
         // impression that it's cancellable.
         - if @step_move.context == "calendar_drag"
           a.btn.btn-default data-dismiss="modal" = t(:cancel)
-        a.btn.btn-primary.cancel data-action="submit"
+        a.btn.btn-primary data-action="submit"
           = t(@step_move.context == "calendar_drag" ? ".move" : ".add_log")

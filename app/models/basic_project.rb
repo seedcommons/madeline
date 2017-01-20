@@ -7,6 +7,7 @@
 #  currency_id                 :integer
 #  custom_data                 :json
 #  division_id                 :integer
+#  end_date                    :date
 #  first_interest_payment_date :date
 #  first_payment_date          :date
 #  id                          :integer          not null, primary key
@@ -15,7 +16,6 @@
 #  name                        :string
 #  organization_id             :integer
 #  primary_agent_id            :integer
-#  project_type_value          :string
 #  projected_return            :decimal(, )
 #  public_level_value          :string
 #  rate                        :decimal(, )
@@ -23,7 +23,6 @@
 #  secondary_agent_id          :integer
 #  signing_date                :date
 #  status_value                :string
-#  target_end_date             :date
 #  type                        :string           not null
 #  updated_at                  :datetime         not null
 #
@@ -44,7 +43,21 @@
 #
 
 class BasicProject < Project
+  attr_option_settable :status
+
+  def start_date
+    signing_date
+  end
+
   def default_name
     I18n.t("common.untitled")
+  end
+
+  def display_name
+    name.blank? ? default_name : name
+  end
+
+  def status
+    status_label
   end
 end

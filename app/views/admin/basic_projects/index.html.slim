@@ -1,0 +1,38 @@
+- content_for(:title, "Projects")
+
+= render "basic_projects_grid_definition"
+
+- unless @empty_list
+  header.block.index-table
+    .filters
+      h4 = t("filter_by")
+
+      .larger-text-box.filter
+        label = t('activerecord.attributes.basic_project.name')
+        .filter-content
+          = grid_filter(@basic_projects_grid, :name_filter)
+
+      .filter
+        label = t('activerecord.attributes.basic_project.status')
+        .filter-content
+          = grid_filter(@basic_projects_grid, :status_filter)
+
+      .filter.larger-text-box
+        label = t('basic_project.agent', count: 1)
+        .filter-content
+          = grid_filter(@basic_projects_grid, :agent_filter)
+
+      .filter
+        label = t("activerecord.attributes.basic_project.signing_date")
+        .filter-content.dates
+          = grid_filter(@basic_projects_grid, :start_date_filter)
+
+      .actions
+        button.btn.btn-link.wg-external-reset-button data-grid-name="basic_projects"
+          = t("clear")
+
+        button.btn.btn-primary.wg-external-submit-button.action data-grid-name="basic_projects"
+          = t("filter")
+      .clearfix
+
+= render_index_grid(@basic_projects_grid)

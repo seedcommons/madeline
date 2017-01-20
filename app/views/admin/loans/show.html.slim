@@ -1,4 +1,4 @@
-- content_for(:title, @loan.display_name)
+- content_for(:title, "##{@loan.id}: #{@loan.display_name}")
 section.loan.details
   div.loan-content
     = render "admin/loans/tabs"

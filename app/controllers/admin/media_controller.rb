@@ -53,6 +53,6 @@ class Admin::MediaController < Admin::AdminController
   end
 
   def media_params
-    params.require(:media).permit(*([:item] + translation_params(:caption, :description)))
+    params.require(:media).permit(*([:item, :kind_value] + translation_params(:caption, :description)))
   end
 end

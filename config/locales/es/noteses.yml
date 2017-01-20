@@ -1,0 +1,10 @@
+es:
+  notes:
+    confirm_deletion: '¿Realmente quieres borrar esta nota?'
+    delete: "Borrar nota"
+    new: "Nota Nueva"
+  admin:
+    notes:
+      form:
+        edit_item: "Editar Nota"
+        new_item: "Nota Nueva"

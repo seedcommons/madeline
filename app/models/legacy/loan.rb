@@ -30,7 +30,6 @@ class Loan < ActiveRecord::Base
         secondary_agent_id: nil_if_zero(second),
         status_value: status_option_value,
         loan_type_value: loan_type_option_value,
-        project_type_value: project_type_option_value,
         public_level_value: public_level_option_value,
         currency_id: currency.id,
         amount: amount,
@@ -40,7 +39,7 @@ class Loan < ActiveRecord::Base
         signing_date: signing_date,
         first_interest_payment_date: first_interest_payment,
         first_payment_date: first_payment_date,
-        target_end_date: fecha_de_finalizacion,
+        end_date: fecha_de_finalizacion,
         projected_return: projected_return,
     }
     data
@@ -116,10 +115,6 @@ class Loan < ActiveRecord::Base
     ::Loan.loan_type_option_set.value_for_migration_id(loan_type)
   end
 
-  def project_type_option_value
-    PROJECT_TYPE_OPTIONS.value_for(project_type)
-  end
-
   def public_level_option_value
     PUBLIC_LEVEL_OPTIONS.value_for(nivel_publico)
   end
@@ -135,12 +130,6 @@ class Loan < ActiveRecord::Base
         ['refinanced', 'Prestamo Refinanciado'],
         ['relationship', 'Relacion'],
         ['relationship_active', 'Relacion Activo']
-      ])
-
-  PROJECT_TYPE_OPTIONS = Legacy::TransientOptionSet.new(
-      [ ['conversion', 'Conversion'],
-        ['expansion', 'Expansion'],
-        ['startup', 'Start-up'],
       ])
 
   PUBLIC_LEVEL_OPTIONS = Legacy::TransientOptionSet.new(

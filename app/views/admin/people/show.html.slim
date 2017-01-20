@@ -31,7 +31,7 @@ section.person.details
     .row = render "admin/media/index", media: @person.media, owner: @person
 
   section.block
-    h1 = t('common.notes')
+    = render "admin/notes/notes_section"
 
 = render "admin/media/modal"
 

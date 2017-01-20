@@ -102,7 +102,7 @@ class Admin::LoansController < Admin::AdminController
   def change_date
     @loan = Loan.find(params[:id])
     authorize @loan, :update?
-    attrib = params[:which_date] == "loan_start" ? :signing_date : :target_end_date
+    attrib = params[:which_date] == "loan_start" ? :signing_date : :end_date
     @loan.update_attributes(attrib => params[:new_date])
     render nothing: true
   end
@@ -149,7 +149,7 @@ class Admin::LoansController < Admin::AdminController
         :division_id, :organization_id, :loan_type_value, :status_value, :name,
         :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
         :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
-        :target_end_date, :projected_return, :representative_id,
+        :end_date, :projected_return, :representative_id,
         :project_type_value, :public_level_value
       ] + translation_params(:summary, :details)
     ))

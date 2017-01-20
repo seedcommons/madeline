@@ -1,6 +1,7 @@
 en:
   loan_question: "Loan question"
   loan_questions:
+    active: "Active"
     confirm_deletion: "<b>WARNING:</b> If this item has any questions or groups belonging to it, <b>they will be deleted as well!</b> Are you <b>sure</b> you want to delete this?"
     confirm_deletion_no_descendants: "Are you sure you want to delete this?"
     confirm_deletion_descendants: "<b>WARNING:</b> This item has questions or groups belonging to it, which <b>will be deleted as well!</b> Are you <b>sure</b> you want to delete this?"

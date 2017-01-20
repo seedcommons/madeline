@@ -33,21 +33,13 @@ section.coop.details
     h1 = t('organization.media')
     .row = render "admin/media/index", owner: @org
 
-  section.block.notes.post-list
-    header.header-with-links
-      h1 = t('common.notes')
-      button.btn.btn-default.new-button = t("notes.new")
-    .notes-inner
-      = render @notes
-    
-    .hidden
-      .new-note
-        = render partial: 'admin/notes/note', locals: { note: @new_note }
+  section.block
+    = render "admin/notes/notes_section"
 
 = render "admin/media/modal"
 
 javascript:
   $(function() { 
-    new MS.Views.OrganizationView();
+    new MS.Views.NotableView({ el: '.coop' });
     new MS.Views.ShowEditView({ el: '.coop-fields' });
   });

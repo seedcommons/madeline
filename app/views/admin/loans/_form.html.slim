@@ -10,6 +10,11 @@
 
   = error_notification(f)
 
+  - unless f.object.new_record?
+    = f.attribute :id
+      .static-text-as-field
+        = @loan.id
+
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
     choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
 
@@ -87,9 +92,9 @@
     .view-element = @loan.first_interest_payment_date
     = f.input_field :first_interest_payment_date, as: :date_picker
 
-  = f.input :target_end_date, wrapper_html: {class: 'hidden-print'}
-    .view-element = @loan.target_end_date
-    = f.input_field :target_end_date, as: :date_picker
+  = f.input :end_date, wrapper_html: {class: 'hidden-print'}
+    .view-element = @loan.end_date
+    = f.input_field :end_date, as: :date_picker
 
   = f.input :projected_return, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.projected_return
@@ -97,10 +102,6 @@
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
     choices: @representative_choices, classes: 'hidden-print')
-
-  = f.input :project_type, wrapper_html: {class: 'hidden-print'}
-    .view-element = @loan.project_type_label
-    = f.input_field :project_type_value, collection: Loan.project_type_options, include_blank: true
 
   = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
