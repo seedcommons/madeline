@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118185717) do
+ActiveRecord::Schema.define(version: 20170119072931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(version: 20170118185717) do
     t.integer  "currency_id"
     t.json     "custom_data"
     t.integer  "division_id"
+    t.date     "end_date"
     t.date     "first_interest_payment_date"
     t.date     "first_payment_date"
     t.integer  "length_months"
@@ -266,7 +267,6 @@ ActiveRecord::Schema.define(version: 20170118185717) do
     t.string   "name"
     t.integer  "organization_id"
     t.integer  "primary_agent_id"
-    t.string   "project_type_value"
     t.decimal  "projected_return"
     t.string   "public_level_value"
     t.decimal  "rate"
@@ -274,7 +274,6 @@ ActiveRecord::Schema.define(version: 20170118185717) do
     t.integer  "secondary_agent_id"
     t.date     "signing_date"
     t.string   "status_value"
-    t.date     "target_end_date"
     t.string   "type", null: false
     t.datetime "updated_at", null: false
   end

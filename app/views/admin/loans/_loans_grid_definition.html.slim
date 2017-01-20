@@ -63,10 +63,10 @@
       attribute: 'first_payment_date', filter: false, in_html: false
     - g.column name: t('activerecord.attributes.loan.first_interest_payment_date'),
       attribute: 'first_interest_payment_date', filter: false, in_html: false
-    - g.column name: t('activerecord.attributes.loan.target_end_date'),
-      attribute: 'target_end_date', in_html: true,
-      detach_with_id: :target_end_date_filter do |loan|
-      - ldate(loan.target_end_date)
+    - g.column name: t('activerecord.attributes.loan.end_date'),
+      attribute: 'end_date', in_html: true,
+      detach_with_id: :end_date_filter do |loan|
+      - ldate(loan.end_date)
     - g.column name: t('activerecord.attributes.loan.projected_return'),
       attribute: 'projected_return', filter: false, in_html: false
 
@@ -77,9 +77,6 @@
       in_html: false do |loan|
         - loan.details
 
-    - g.column name: t('activerecord.attributes.loan.project_type'), filter: false,
-      in_html: false do |loan|
-      - loan.try(:project_type_label)
     - g.column name: t('activerecord.attributes.loan.public_level'), filter: false,
       in_html: false do |loan|
       - loan.try(:public_level_label)

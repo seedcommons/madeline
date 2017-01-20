@@ -43,7 +43,6 @@ FactoryGirl.define do
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
-    project_type_value { ["conversion", "expansion", "startup"].sample }
     public_level_value { ["featured", "hidden"].sample }
     amount { rand(5000..50000) }
     currency
@@ -53,7 +52,7 @@ FactoryGirl.define do
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     first_interest_payment_date { Faker::Date.between(signing_date, Date.today) }
     first_payment_date { Faker::Date.between(signing_date, Date.today) }
-    target_end_date { Faker::Date.between(first_payment_date, Date.today) }
+    end_date { Faker::Date.between(first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
 
