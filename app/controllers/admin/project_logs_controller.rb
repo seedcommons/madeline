@@ -54,8 +54,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     if params[:context] == 'timeline'
       save_and_render_partial
     else
-      @log.save
-      head :ok
+      save_and_render
     end
   end
 
@@ -84,5 +83,4 @@ class Admin::ProjectLogsController < Admin::AdminController
       render partial: 'modal_content', status: :unprocessable_entity
     end
   end
-
 end

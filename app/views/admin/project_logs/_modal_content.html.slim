@@ -1,7 +1,7 @@
 div.modal-header
   button.close type="button" data-dismiss="modal" aria-label== t(:close)
     span aria-hidden="true" &times;
-  h4.modal-title = t("log.#{params[:action]}")
+  h4.modal-title = t("log.#{@log.new_record? ? 'new' : 'edit'}")
 div.modal-body
   = simple_form_for([:admin, @log], remote: true,
       html: { \
