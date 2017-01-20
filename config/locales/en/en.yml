@@ -109,6 +109,7 @@ en:
         agent: "Member"
         progress_metric_value: "Status"
       media:
+        item: "Item"
         kind_value: "Kind"
     errors:
       models:

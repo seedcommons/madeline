@@ -6,12 +6,8 @@ div.modal-header
 div.modal-body
   = simple_form_for [:admin, @media], url: @submit_url, remote: true do |f|
     = error_notification(f)
-    = f.input :item, label: t("media.item")
-
-    = f.input :kind_value
-      .view-element
-      = f.input_field :kind_value, collection: Media.kind_options, include_blank: '---'
-
+    = f.input :item
+    = f.input :kind_value, collection: Media.kind_options, include_blank: true
     = render 'admin/media/translatable', media: @media, f: f
 
 div.modal-footer
