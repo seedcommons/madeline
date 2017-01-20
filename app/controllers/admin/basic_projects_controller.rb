@@ -59,11 +59,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def basic_project_params
-    params.require(:basic_project).permit(*(
-      [
-        :length_months, :name, :primary_agent_id, :secondary_agent_id, :signing_date,
-        :status_value
-      ]
-    ))
+    params.require(:basic_project).permit(:length_months, :name, :primary_agent_id,
+      :secondary_agent_id, :signing_date, :status_value)
   end
 end
