@@ -55,7 +55,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   private
 
   def prep_form_vars
-    @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
+    @agent_choices = policy_scope(Person).in_division(selected_division).where(has_system_access: true).order(:name)
   end
 
   def basic_project_params
