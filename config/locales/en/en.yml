@@ -13,6 +13,13 @@ en:
       person: "Member"
       project_step: "Project Step"
     attributes:
+      basic_project:
+        length_months: "Length (months)"
+        name: "Name"
+        primary_agent: "Primary Agent"
+        secondary_agent: "Secondary Agent"
+        signing_date: "Start Date"
+        status: "Status"
       division:
         description: "Description"
         default_currency: "Default Currency"
@@ -28,6 +35,7 @@ en:
       loan:
         division: "Division"
         organization: "Co-op"
+        id: "ID"
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
@@ -39,11 +47,10 @@ en:
         length_months: "Length (months)"
         first_payment_date: "First Pmt. Date"
         first_interest_payment_date: "First Int. Pmt. Date"
-        target_end_date: "Target End Date"
+        end_date: "End Date"
         projected_return: "Projected Return"
         representative: "Representative"
         details: "Details"
-        project_type: "Project Type"
         public_level: "Public Level"
         rate: "Rate"
         signing_date: "Signing Date"
@@ -96,9 +103,13 @@ en:
         tax_no: "National ID"
         website: "Website"
       project_log:
+        step: "Step"
         date: "Log Date"
         agent: "Member"
         progress_metric_value: "Status"
+      media:
+        item: "Item"
+        kind_value: "Kind"
     errors:
       models:
         project_group:
@@ -121,7 +132,7 @@ en:
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
       timeline_step_move:
-        move_type: "Change Which Date?"
+        move_type: "Which Date?"
     options:
       person:
         owning_division_role:
@@ -323,6 +334,7 @@ en:
     log: "project log"
     logs: "Logs"
     new: "New Log"
+    create: "New Log"
     no_logs: "No Logs"
     notify: "Send notifications"
     private_notes: "Private Notes"
@@ -345,6 +357,7 @@ en:
     item: "Item"
 
   menu:
+    basic_projects: "Projects"
     calendar: "Calendar"
     coops: "Co-ops"
     dashboard: "Dashboard"

@@ -72,6 +72,10 @@ section.questionnaires {
     font-weight: bold;
   }
 
+  .inactive {
+    color: $gray6;
+  }
+
   .help-block {
     font-style: italic;
     font-size: 12px;

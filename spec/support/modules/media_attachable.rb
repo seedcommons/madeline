@@ -20,7 +20,7 @@ shared_examples_for 'media_attachable' do
   context 'with non-image media' do
     before do
       create_list(:media, 3, media_attachable: owner_model)
-      create(:media, media_attachable: owner_model, kind: 'video')
+      create(:media, media_attachable: owner_model, kind_value: 'video')
     end
     it 'gets only images when flag is set to true' do
       media = owner_model.get_media(limit: 10, images_only: true)

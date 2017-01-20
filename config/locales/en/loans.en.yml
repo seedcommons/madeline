@@ -1,5 +1,8 @@
 en:
   loan:
+    agent:
+      one: "Agent"
+      other: "Agents"
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"
@@ -65,7 +68,7 @@ en:
       completed: "Completed"
       frozen: "Frozen"
       liquidated: "Liquidated"
-    target_end_date: "Target End Date"
+    end_date: "End Date"
     threshold_amount: "Threshold Amount"
     timeline: "Timeline"
     timeline_list: "Timeline - List"

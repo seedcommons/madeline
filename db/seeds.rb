@@ -36,6 +36,18 @@ loan_status.options.create(value: 'relationship',
 loan_status.options.create(value: 'relationship_active',
     label_translations: {en: 'Relationship Active', es: 'Relacion Activo'})
 
+basic_project_status = OptionSet.find_or_create_by(division: Division.root, model_type: BasicProject.name,
+  model_attribute: 'status')
+basic_project_status.options.destroy_all
+basic_project_status.options.create(value: 'active',
+  label_translations: {en: 'Active', es: 'Activo'})
+basic_project_status.options.create(value: 'completed',
+  label_translations: {en: 'Completed', es: 'Completo'})
+basic_project_status.options.create(value: 'changed',
+  label_translations: {en: 'Changed', es: 'Cambiado'})
+basic_project_status.options.create(value: 'possible',
+  label_translations: {en: 'Possible', es: 'Posible'})
+
 loan_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name, model_attribute: 'loan_type')
 loan_type.options.destroy_all
 
@@ -56,13 +68,6 @@ loan_type.options.create(migration_id: 6,
     label_translations: {en: 'Working Capital Investment Loan', es: 'Préstamo de Inversión de Capital de Trabajo'})
 loan_type.options.create(migration_id: 7,
     label_translations: {en: 'Secured Asset Investment Loan', es: 'Préstamo de Inversión de Bienes Asegurados'})
-
-project_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
-  model_attribute: 'project_type')
-project_type.options.destroy_all
-project_type.options.create(value: 'conversion', label_translations: {en: 'Conversion', es: 'TODO'})
-project_type.options.create(value: 'expansion', label_translations: {en: 'Expansion', es: 'TODO'})
-project_type.options.create(value: 'startup', label_translations: {en: 'Start-up', es: 'TODO'})
 
 public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
   model_attribute: 'public_level')
@@ -86,6 +91,14 @@ progress_metric.options.create(migration_id: -2, label_translations:
 progress_metric.options.create(migration_id: -1, label_translations: {en: 'Behind', es: 'Atrasado'})
 progress_metric.options.create(migration_id: 1, label_translations: {en: 'On time', es: 'A tiempo'})
 progress_metric.options.create(migration_id: 2, label_translations: {en: 'Ahead', es: 'Adelantado'})
+
+media_kind = OptionSet.find_or_create_by(division: Division.root, model_type: Media.name,
+  model_attribute: 'kind')
+media_kind.options.destroy_all
+media_kind.options.create(value: 'image', label_translations: {en: 'Image', es: 'Imagen'})
+media_kind.options.create(value: 'video', label_translations: {en: 'Video', es: 'Vídeo'})
+media_kind.options.create(value: 'document', label_translations: {en: 'Document', es: 'Documento'})
+media_kind.options.create(value: 'contract', label_translations: {en: 'Contract', es: 'Contrato'})
 
 # Need to leave room for migrated loan questions
 # Can remove this line once migration is over with.

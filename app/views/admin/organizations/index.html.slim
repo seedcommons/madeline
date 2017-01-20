@@ -3,7 +3,7 @@
 - content_for :with_title
   = link_to t("organization.new"), new_admin_organization_path, class: 'btn btn-default new-button'
 
-= render "organizations_grid"
+= render "organizations_grid_definition"
 
 - unless @empty_list
   header.block.index-table

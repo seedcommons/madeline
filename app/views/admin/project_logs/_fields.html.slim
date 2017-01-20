@@ -1,0 +1,25 @@
+.log-form
+  = error_notification(f)
+  = f.hidden_field(:project_step_id)
+  = f.input :step do
+    = @step.summary
+  = f.input :date
+    = f.input_field :date, as: :date_picker
+    - if @log.new_record? && context == :manual
+      label.light
+        => check_box_tag(:step_completed_on_date)
+        = t('log.step_completed')
+
+  = f.input :agent_id, include_blank: true, collection: @people
+  = f.input :progress_metric_value, collection: @progress_metrics
+
+  = render 'admin/project_logs/translatable', log: @log, f: f
+
+  .media-container.row
+    - unless @log.new_record?
+      = render 'admin/media/index', media: @log.media, owner: @log
+
+  - if @log.new_record? && @log.division.notify_on_new_logs?
+    .notify.text-right
+      => check_box_tag(:notify, 1, true)
+      label for="notify" = t('log.notify')

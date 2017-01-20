@@ -3,7 +3,7 @@
 - content_for :with_title
   = link_to t("loan.shared.new"), new_admin_loan_path, class: 'btn btn-default new-button'
 
-= render "loans_grid"
+= render "loans_grid_definition"
 
 - unless @empty_list
   header.block.index-table
@@ -41,12 +41,12 @@
           = grid_filter(@loans_grid, :signing_date_filter)
 
       .filter
-        label = t("loan.target_end_date")
+        label = t("loan.end_date")
         .filter-content.dates
-          = grid_filter(@loans_grid, :target_end_date_filter)
+          = grid_filter(@loans_grid, :end_date_filter)
 
       .filter.larger-text-box
-        label = t("loan.primary_agent")
+        label = t("loan.agent", count: 1)
         .filter-content
           = grid_filter(@loans_grid, :agent_filter)
 

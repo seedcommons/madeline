@@ -35,7 +35,8 @@ class ProjectLog < ActiveRecord::Base
 
   attr_option_settable :progress_metric
 
-  validates :project_step_id, presence: true
+  validates :project_step_id, :date, :agent_id, presence: true
+  validates :summary, translation_presence: true
 
   def self.filter_by(params)
     if params[:step].present?
@@ -43,7 +44,7 @@ class ProjectLog < ActiveRecord::Base
     elsif params[:loan].present?
       joins(:project_step).where(timeline_entries: {project_id: params[:loan]})
     elsif params[:org].present?
-      joins(project_step: :loan).where(projects: {organization_id: params[:org]})
+      joins(project_step: :project).where(projects: {organization_id: params[:org]})
     else
       all
     end
@@ -51,7 +52,7 @@ class ProjectLog < ActiveRecord::Base
 
   def self.in_division(division)
     if division
-      joins(project_step: :loan).where(loans: {division_id: division.self_and_descendants.pluck(:id)})
+      joins(project_step: :project).where(loans: {division_id: division.self_and_descendants.pluck(:id)})
     else
       all
     end

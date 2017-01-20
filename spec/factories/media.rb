@@ -24,6 +24,7 @@ require 'open-uri'
 FactoryGirl.define do
   factory :media do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the swing.jpg')) }
+    kind_value "image"
     caption { Faker::Hipster.paragraph(2) }
     transient_division
   end

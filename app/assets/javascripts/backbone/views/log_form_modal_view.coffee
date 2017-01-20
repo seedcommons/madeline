@@ -4,12 +4,10 @@ class MS.Views.LogFormModalView extends Backbone.View
   initialize: (options) ->
     # TODO: Remove @parentView stuff once old timeline goes away
     @parentView = options.parentView
-    @submitted = false
     @done = (->) # Empty function
 
   events:
     'click [data-action="submit"]': 'submitForm'
-    'ajax:success': 'submitSuccess'
     'ajax:complete': 'submitSuccess'
 
   showEdit: (logId, stepId, done) ->
@@ -17,42 +15,40 @@ class MS.Views.LogFormModalView extends Backbone.View
     @stepId = stepId
     @done = done
     $.get "/admin/logs/#{logId}/edit", (html) =>
-      @replaceContent(html)
+      @replaceModal(html)
 
   showNew: (stepId, done) ->
     MS.loadingIndicator.show()
     @stepId = stepId
     @done = done
     $.get '/admin/logs/new', step_id: @stepId, (html) =>
-      @replaceContent(html)
+      @replaceModal(html)
 
-  replaceContent: (html) ->
+  replaceModal: (html) ->
     @$el.html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     @$el.find('.empty-log-error').hide()
+    MS.loadingIndicator.hide()
     @$('.modal').modal('show')
+
+  replaceContent: (html) ->
+    @$el.find('.modal-content').html(html)
+    new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_log"]'))
     MS.loadingIndicator.hide()
 
-  submitForm: (e) ->
-    e.preventDefault()
-    $form = @$('form')
-    submitted = @submitted
-
-    # Check to make sure summary is completed for at least one language
-    $form.find("[data-translatable='common.summary']").each ->
-      if ($.trim($(this).val()) != '')
-        submitted = true
-
-    if submitted
-      $form.submit()
-      @$('.modal').modal('hide')
-    else
-      $form.find('.empty-log-error').show()
+  submitForm: ->
+    MS.loadingIndicator.show()
+    @$('form').submit()
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
+
     if @parentView # TODO: Remove once old timeline goes away
       @parentView.replaceWith(data)
     else
-      @done()
-      @done = (->) # Reset to empty function.
+      if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
+        @$('.modal').modal('hide')
+        @done()
+        @done = (->) # Reset to empty function.
+      else
+        @replaceContent(data.responseText)

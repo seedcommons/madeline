@@ -38,15 +38,16 @@ es:
         length_months: "Duración (meses)"
         first_payment_date: "Fecha de 1er Pago "
         first_interest_payment_date: "Fecha de 1er Pago de Interés"
-        target_end_date: "Fecha de Finalización Prevista"
+        end_date: "Fecha de Finalización Prevista"
         projected_return: "Retorno Proyectado"
         representative: "Representante"
         details: "Detalles"
-        project_type: "Tipo de Proyecto"
         public_level: "Nivel Público"
         rate: "Tasa"
         signing_date: "Fecha de Firma"
         summary: "Resumen"
+      note:
+        text: "Nota"
       organization:
         active_loans: "Préstamos Activos"
         additional_people: "Miembros Adicionales"
@@ -117,7 +118,7 @@ es:
         scheduled_start_date: "Fecha Proyectada de Inicio"
         step_type_value: "Tipo"
       timeline_step_move:
-        move_type: "¿Cambiar Cuál Fecha?"
+        move_type: "¿Cuál Fecha?"
     options:
       person:
         owning_division_role:
@@ -201,7 +202,6 @@ es:
   clear: "Quitar"
   completed: "Completo"
   confirm: "Confirmar"
-  confirm_deletion: '¿Realmente quieres borrar %{thing}?'
   coop: "Cooperativa"
   coops: "Cooperativas"
   country: "País"
@@ -225,9 +225,7 @@ es:
   logout: "Finalizar sesión"
   more: "Más"
   name: "Nombre"
-  new_thing: "Nuevo %{thing}"
   none: "Ninguno/a"
-  notes: "Notas"
   notice_created: 'El registro fue creado correctamente.'
   notice_deleted: 'El registro fue borrado correctamente.'
   notice_updated: 'El registro fue actualizado correctamente. '
@@ -250,14 +248,19 @@ es:
     address_state: "Estado"
     created: "Creado"
     caption: "Epígrafe"
+    condense_all: "Condensar Todo"
     description: "Descripción"
     details: "Detalles"
     division: "División"
     divisions: "Divisiones"
+    expand_all: "Expandir Todo"
+    hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
     no_records: "No se encontraron registros."
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
+    note: "Nota"
+    notes: "Notas"
     parent: "Principal"
     print: "Imprimir"
     remove: "Eliminar"
@@ -267,6 +270,7 @@ es:
     updated: "Actualizado"
     website: "Página web"
     id: "ID"
+    untitled: "Sin título"
     user: "Usuario"
     view_logs: "Ver Apuntes"
   template:
@@ -276,6 +280,7 @@ es:
   calendar:
     calendar: "Calendario"
     check_in: "Check in"
+    has_precedent: "Depende de otro paso"
     legend: "Leyenda"
     milestone: "Hito"
     num_of_logs: "Cantidad de apuntes"

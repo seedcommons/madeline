@@ -6,14 +6,11 @@ class MS.Views.ApplicationView extends Backbone.View
   el: 'body'
 
   initialize: ->
-    MS.loadingIndicator = @$('#glb-load-ind')
-    MS.errorModal = @$('#glb-error-modal')
-    @errorModalDefaultText = I18n.t('error_notification')
+    new MS.Views.ErrorHandler()
     new MS.Views.Expander()
     MS.alert = (html) ->
       $alert = $(html).hide()
       $alert.appendTo($('.alerts')).show('fast')
-    @handleAjaxErrors()
 
   events: ->
     'click .more': 'toggleExpanded'
@@ -32,18 +29,3 @@ class MS.Views.ApplicationView extends Backbone.View
         self.$('.ms-popover').popover('hide')
         self.$el.off 'click', hide # Unregister for performance reasons
     @$el.on 'click', hide
-
-  showErrorModal: (error = @errorModalDefaultText) ->
-    MS.errorModal.find('.modal-body').text(error)
-    MS.errorModal.modal('show')
-
-  handleAjaxErrors: ->
-    $(document).ajaxError (e, jqXHR) =>
-      e.stopPropagation()
-      $('.modal').modal('hide')
-      MS.loadingIndicator.hide()
-      switch jqXHR.status
-        when 403
-          @showErrorModal I18n.t('unauthorized_error')
-        else
-          @showErrorModal()

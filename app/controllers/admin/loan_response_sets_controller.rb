@@ -31,6 +31,6 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def display_path
-    admin_loan_path(@record.loan, filter: @record.kind, anchor: "questions")
+    admin_loan_path(@record.loan) + "/questions?filter=#{@record.kind}"
   end
 end
