@@ -99,7 +99,7 @@ class Admin::OrganizationsController < Admin::AdminController
 
     @loans_grid = initialize_grid(
       @org.active_loans,
-      order: 'loans.signing_date',
+      order: 'projects.signing_date',
       order_direction: 'desc',
       name: 'loans',
       per_page: 10
