@@ -48,7 +48,7 @@ class MS.Views.LogFormModalView extends Backbone.View
     else
       if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
         @$('.modal').modal('hide')
+        @done()
+        @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
-      @done()
-      @done = (->) # Reset to empty function.
