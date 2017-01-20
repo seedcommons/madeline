@@ -20,15 +20,15 @@
 
   = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
     choices: @agent_choices, classes: 'hidden-print')
-  = f.input t('activerecord.attributes.basic_project.primary_agent'), wrapper_html: {class: 'visible-print-block'}
+  = f.input :primary_agent, wrapper_html: {class: 'visible-print-block'}
     span = @project.primary_agent.try(:name)
 
   = authorized_form_field(simple_form: f, model: @project, field_name: :secondary_agent,
     choices: @agent_choices, classes: 'hidden-print')
-  = f.input t('activerecord.attributes.basic_project.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
+  = f.input :secondary_agent, wrapper_html: {class: 'visible-print-block'}
       span = @project.secondary_agent.try(:name)
 
-  = f.input :signing_date, label: t("activerecord.attributes.basic_project.start_date")
+  = f.input :signing_date
     .view-element = @project.try(:signing_date)
     = f.input_field :signing_date, as: :date_picker
 

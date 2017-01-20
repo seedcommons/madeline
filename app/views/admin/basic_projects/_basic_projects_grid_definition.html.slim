@@ -29,7 +29,7 @@
       in_html: false do |project|
       - project.secondary_agent.try(:name)
 
-    - g.column name: t("activerecord.attributes.basic_project.start_date"),
+    - g.column name: t("activerecord.attributes.basic_project.signing_date"),
       attribute: 'signing_date', filter: true, detach_with_id: :start_date_filter do |project|
       - ldate(project.start_date)
 
