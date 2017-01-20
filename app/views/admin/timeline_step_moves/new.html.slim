@@ -6,7 +6,7 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
           span aria-hidden="true" &times;
         h4.modal-title = t(@step_move.context == "calendar_drag" ? ".move" : ".add_log")
       div.modal-body
-        = simple_form_for([:admin, @step_move],
+        = simple_form_for([:admin, @step_move], remote: true,
             html: { \
               class: 'form-horizontal',
             },
@@ -42,5 +42,5 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
         // impression that it's cancellable.
         - if @step_move.context == "calendar_drag"
           a.btn.btn-default data-dismiss="modal" = t(:cancel)
-        a.btn.btn-primary.cancel data-action="submit"
+        a.btn.btn-primary data-action="submit"
           = t(@step_move.context == "calendar_drag" ? ".move" : ".add_log")

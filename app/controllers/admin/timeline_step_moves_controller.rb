@@ -22,9 +22,13 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     authorize @log, :create?
     @step_move = Timeline::StepMove.new(project_step_move_params.merge(step: @step, log: @log))
 
-    @step_move.execute!
-    @log.save!
-    render nothing: true
+    if @log.save
+      @step_move.execute!
+      render nothing: true
+    else
+      set_log_form_vars
+      render :new, layout: false, status: :unprocessable_entity
+    end
   end
 
   # A change of date for a step that does not require a corresponding log
