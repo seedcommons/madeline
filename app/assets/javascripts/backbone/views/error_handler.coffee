@@ -16,8 +16,13 @@ class MS.Views.ErrorHandler extends Backbone.View
     $(document).ajaxError (e, jqXHR, ajaxSettings, errorString) =>
       status = parseInt(jqXHR.status) # status can sometimes be a string
 
-      # ajaxError sometimes catches 0 and 200 erroneously
-      # 422 should be handled by specific View
+      # ajaxError sometimes called for status codes 0 and 200 erroneously
+      # In one case (0), the errorString is 'canceled'. This is thrown seemingly before the request
+      # is complete. It seems to have something to do with file uploads.
+      # In another case (200), this seems to be because jquery is trying to `eval` the response,
+      # but the response is HTML. We need to figure out how to get it to not do that.
+      # In the case of a 422, this should be handled by specific view and so we never want to handled
+      # it at this level.
       return if [0, 200, 422].indexOf(status) != -1
 
       $('.modal').modal('hide')
