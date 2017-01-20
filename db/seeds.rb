@@ -95,10 +95,10 @@ progress_metric.options.create(migration_id: 2, label_translations: {en: 'Ahead'
 step_type = OptionSet.find_or_create_by(division: Division.root, model_type: Media.name,
   model_attribute: 'kind')
 step_type.options.destroy_all
-step_type.options.create(value: 'image', label_translations: {en: 'Image', es: 'TODO'})
-step_type.options.create(value: 'video', label_translations: {en: 'Video', es: 'TODO'})
-step_type.options.create(value: 'document', label_translations: {en: 'Document', es: 'TODO'})
-step_type.options.create(value: 'contract', label_translations: {en: 'Contract', es: 'TODO'})
+step_type.options.create(value: 'image', label_translations: {en: 'Image', es: 'Imagen'})
+step_type.options.create(value: 'video', label_translations: {en: 'Video', es: 'Vídeo'})
+step_type.options.create(value: 'document', label_translations: {en: 'Document', es: 'Documento'})
+step_type.options.create(value: 'contract', label_translations: {en: 'Contract', es: 'Contrato'})
 
 # Need to leave room for migrated loan questions
 # Can remove this line once migration is over with.
