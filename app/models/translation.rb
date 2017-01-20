@@ -25,6 +25,10 @@ class Translation < ActiveRecord::Base
     text.blank?
   end
 
+  def locale
+    read_attribute(:locale).try(:to_sym)
+  end
+
   def to_s
     text
   end

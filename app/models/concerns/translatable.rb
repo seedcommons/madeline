@@ -92,13 +92,14 @@ module Translatable
   end
 
   def get_translations(attribute)
-    # Shouldn't use `where` here because it won't work if translations have just been assigned
+    # Shouldn't use scope here because it won't work if translations have just been assigned
     # and object hasn't been saved.
     translations.select { |t| t.translatable_attribute.to_s == attribute.to_s }
   end
 
   def used_locales
-    translations.order(:locale).map{ |t| t.locale.to_sym }.uniq
+    # Shouldn't use scope here because it won't work if translations have just been assigned
+    translations.map(&:locale).sort
   end
 
   delegate :locales, to: :division, prefix: true
