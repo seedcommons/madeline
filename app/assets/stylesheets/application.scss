@@ -31,6 +31,6 @@ body {
 }
 
 // Styles related to the Expander functionality.
-[data-expandable], [data-hides] {
+[data-expandable]:not([data-expandable=""]), [data-hides] {
   display: none;
 }
