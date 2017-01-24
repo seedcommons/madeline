@@ -27,6 +27,12 @@ class Admin::BasicProjectsController < Admin::AdminController
     prep_form_vars
   end
 
+  def new
+    @project = BasicProject.new(division: current_division)
+    authorize @project
+    prep_form_vars
+  end
+
   def update
     @project = BasicProject.find(params[:id])
     authorize @project
