@@ -69,7 +69,7 @@ class CalendarEvent
   end
 
   def self.test(loan_filter)
-    ProjectStep.joins(:loans).where(loans: loan_filter)
+    ProjectStep.joins(:projects).where(projects: loan_filter)
   end
 
   def self.loan_date_filter(range, scope = Loan)
