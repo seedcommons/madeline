@@ -46,6 +46,19 @@ class Admin::BasicProjectsController < Admin::AdminController
     end
   end
 
+  def create
+    @project = BasicProject.new(division: current_division)
+    authorize @project
+    @project.assign_attributes(basic_project_params)
+
+    if @project.save
+      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
+    else
+      prep_form_vars
+      render :new
+    end
+  end
+
   def destroy
     @project = BasicProject.find(params[:id])
     authorize @project
