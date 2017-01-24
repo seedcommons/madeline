@@ -1,5 +1,8 @@
 - content_for(:title, "Projects")
 
+- content_for :with_title
+  = link_to "New Project", new_admin_basic_project_path, class: 'btn btn-default new-button'
+
 = render "basic_projects_grid_definition"
 
 - unless @empty_list
