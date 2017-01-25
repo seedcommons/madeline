@@ -1,6 +1,6 @@
 - @project = @loan || @basic_project
 
-section.timeline-table data-loan-id= @project.id
+section.timeline-table data-project-id= @project.id
 
   = render "admin/timeline/top_controls"
   - if @project.root_timeline_entry
