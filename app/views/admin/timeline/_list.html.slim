@@ -1,5 +1,5 @@
-- if @loan.project_steps.empty?
+- if @project.project_steps.empty?
   #no-steps-msg.alert.alert-warning = t("project_step.no_steps")
 - else
-  - @loan.project_steps.each do |step|
+  - @project.project_steps.each do |step|
     = render "admin/project_steps/project_step", step: step, mode: :show, context: "timeline"
