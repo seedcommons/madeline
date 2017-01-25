@@ -25,19 +25,8 @@ $headings-font-weight: 600;
 @import "font-awesome";
 @import "fontastic";
 @import "madeline_logo";
+@import "expander";
 
 body {
   color: #333435;
-}
-
-// Styles related to the Expander functionality.
-[data-expandable]:not([data-expandable=""]),
-[data-hides], .show-actions [data-hides] {
-  display: none;
-}
-
-.nested-expander {
-  [data-expand-all], [data-hide-all] {
-    display: none;
-  }
 }
