@@ -12,7 +12,7 @@ class MS.Views.Expander extends Backbone.View
   expand: (e) ->
     e.preventDefault()
     $link = @$(e.currentTarget)
-    targetName = link.data('expands')
+    targetName = $link.data('expands')
     target = @$("[data-expandable='#{targetName}']")
 
     # Insert html in data-content if present

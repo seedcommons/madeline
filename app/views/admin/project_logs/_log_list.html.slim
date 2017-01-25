@@ -1,19 +1,13 @@
 - if @logs.empty? && @context != "calendar"
   = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 - else
-  .show-actions.hidden-print
+  .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
     - if @context == "calendar"
-      .nested-expander
-        a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
-        a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
-        a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-        a data-hide-all=".logs-index" href="#"
-          = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
-
-    - else
-      a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-      a data-hide-all=".logs-index" href="#"
-        = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
+      a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
+      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
+    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
+    a data-hide-all=".logs-index" href="#"
+      = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
 
   - unless @context == "calendar"
     - if @step
