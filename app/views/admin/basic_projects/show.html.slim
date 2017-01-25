@@ -1,7 +1,6 @@
 - content_for(:title, @project.display_name)
 
 section.details
-
   section.block.basic-project-fields class=(@project.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if policy(@project).update?
