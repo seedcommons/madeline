@@ -121,8 +121,8 @@ FactoryGirl.define do
 
     trait :with_repayments do
       after(:create) do |loan|
-        paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
-        unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
+        paid = create_list(:repayment, num_repayments = 2, :paid, project_id: loan.id)
+        unpaid = create_list(:repayment, num_repayments = 3, project_id: loan.id)
       end
     end
   end
