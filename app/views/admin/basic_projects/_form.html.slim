@@ -14,7 +14,7 @@
     .view-element = @project.try(:name)
     = f.input_field :name
 
-  = f.input :division_id
+  = f.input :division
     .view-element = @project.division.try(:name)
     = f.input_field :division_id, collection: @division_choices
 
@@ -22,11 +22,11 @@
     .view-element = @project.try(:status)
     = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
-  = f.input :primary_agent_id
+  = f.input :primary_agent
     .view-element = @project.primary_agent.try(:name)
     = f.input_field :primary_agent_id, collection: @agent_choices
 
-  = f.input :secondary_agent_id
+  = f.input :secondary_agent
     .view-element = @project.secondary_agent.try(:name)
     = f.input_field :secondary_agent_id, collection: @agent_choices
 

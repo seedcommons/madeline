@@ -12,3 +12,7 @@ en:
       one: "Agent"
       other: "Agents"
     months: "%{number} mo."
+    new: "New Project"
+    project:
+      one: "Project"
+      other: "Projects"
