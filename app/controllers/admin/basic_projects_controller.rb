@@ -47,9 +47,8 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def create
-    @project = BasicProject.new(division: current_division)
+    @project = BasicProject.new(basic_project_params)
     authorize @project
-    @project.assign_attributes(basic_project_params)
 
     if @project.save
       redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
@@ -78,7 +77,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def basic_project_params
-    params.require(:basic_project).permit(:length_months, :name, :primary_agent_id,
-      :secondary_agent_id, :signing_date, :status_value)
+    params.require(:basic_project).permit(:division_id, :length_months, :name, :primary_agent_id,
+      :secondary_agent_id, :signing_date, :status_value,)
   end
 end
