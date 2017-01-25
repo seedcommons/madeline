@@ -1,5 +1,17 @@
 en:
   admin:
+    timeline:
+      list_header:
+        cancel_edit: "Cancel Edit"
+        edit_all: "Edit All"
+        new_step: "New Step"
+        save_all: "Save All"
+      top_controls:
+        new_group: "Add Group"
+        new_step: "Add Step"
+      table:
+        add_child_group: "Add Child Group"
+        add_child_step: "Add Child Step"
     timeline_step_moves:
       new:
         move: "Change Step Date"
