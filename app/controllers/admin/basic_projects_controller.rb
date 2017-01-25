@@ -22,18 +22,18 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
     prep_form_vars
   end
 
   def update
-    @project = BasicProject.find(params[:id])
-    authorize @project
-    @project.assign_attributes(basic_project_params)
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+    @basic_project.assign_attributes(basic_project_params)
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_updated)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
@@ -41,10 +41,10 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def destroy
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
 
-    if @project.destroy
+    if @basic_project.destroy
       redirect_to admin_basic_projects_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars

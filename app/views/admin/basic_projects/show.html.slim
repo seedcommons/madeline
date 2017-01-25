@@ -1,10 +1,10 @@
-- content_for(:title, @project.display_name)
+- content_for(:title, @basic_project.display_name)
 
 section.details
-  section.block.basic-project-fields class=(@project.valid? ? 'show-view' : 'edit-view')
+  section.block.basic-project-fields class=(@basic_project.valid? ? 'show-view' : 'edit-view')
     .show-actions
-      - if policy(@project).update?
-        - if @project.valid?
+      - if policy(@basic_project).update?
+        - if @basic_project.valid?
           a.edit-action.view-element
             i.fa.fa-pencil.fa-large>
             = t(".edit")
@@ -12,8 +12,8 @@ section.details
             = t("cancel_edit")
         - else
           a href=admin_basic_project_path(@person) = t("cancel_edit")
-      - if policy(@project).destroy?
-        = link_to [:admin, @project], method: :delete,
+      - if policy(@basic_project).destroy?
+        = link_to [:admin, @basic_project], method: :delete,
             data: { \
               confirm: t('.confirm_deletion'),
               "confirm-title": t('.delete'),
