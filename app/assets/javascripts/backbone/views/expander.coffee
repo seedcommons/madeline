@@ -40,7 +40,7 @@ class MS.Views.Expander extends Backbone.View
     @$(e.currentTarget).hide()
     @$("[data-expands='#{targetName}']").show()
 
-    # If expand/hide all actions exists in same menu, hide the links
+    # If expand/hide all actions exist in same menu, hide the links
     $link.siblings('[data-expand-all]').hide()
     $link.siblings('[data-hide-all]').hide()
 
