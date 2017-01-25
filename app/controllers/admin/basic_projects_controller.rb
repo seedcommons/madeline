@@ -28,7 +28,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def update
-    @basic_project = BasicProject.find(params[:id])
+    @project = @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     @basic_project.assign_attributes(basic_project_params)
 
