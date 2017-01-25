@@ -61,4 +61,9 @@ module AdminHelper
     end
     return number_to_currency(amount, unit: display_symbol)
   end
+
+  # This should be updated whenever columns are added/removed to the timeline table
+  def timeline_table_step_column_count
+    8
+  end
 end
