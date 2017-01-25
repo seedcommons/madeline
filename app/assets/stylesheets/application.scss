@@ -35,3 +35,9 @@ body {
 [data-hides], .show-actions [data-hides] {
   display: none;
 }
+
+.nested-expander {
+  [data-expand-all], [data-hide-all] {
+    display: none;
+  }
+}

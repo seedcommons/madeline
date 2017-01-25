@@ -11,26 +11,38 @@ class MS.Views.Expander extends Backbone.View
 
   expand: (e) ->
     e.preventDefault()
-    link = @$(e.currentTarget)
+    $link = @$(e.currentTarget)
     targetName = link.data('expands')
     target = @$("[data-expandable='#{targetName}']")
 
     # Insert html in data-content if present
-    if link.data('content') && !link.data('inserted')
-      target.html(link.data('content'))
-      link.data('inserted', true)
+    if $link.data('content') && !$link.data('inserted')
+      target.html($link.data('content'))
+      $link.data('inserted', true)
 
     # Show/hide target and links
     target.show('fast')
     @$("[data-hides='#{targetName}']").show()
     @$(e.currentTarget).hide()
 
+    # If expand/hide all exists in same menu, show expand all link
+    $link.siblings('[data-expand-all]').show()
+
   hide: (e) ->
     e.preventDefault()
-    targetName = @$(e.currentTarget).data('hides')
+    $link = @$(e.currentTarget)
+    targetName = $link.data('hides')
+
+    # Hide content
     @$("[data-expandable='#{targetName}']").hide('fast')
-    @$("[data-expands='#{targetName}']").show()
+
+    # Hide self and show opposite link control
     @$(e.currentTarget).hide()
+    @$("[data-expands='#{targetName}']").show()
+
+    # If expand/hide all actions exists in same menu, hide the links
+    $link.siblings('[data-expand-all]').hide()
+    $link.siblings('[data-hide-all]').hide()
 
   expandAll: (e) ->
     e.preventDefault()
