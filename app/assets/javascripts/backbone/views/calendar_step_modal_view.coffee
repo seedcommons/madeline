@@ -8,7 +8,7 @@ class MS.Views.CalendarStepModalView extends Backbone.View
       @id = params.id
       @showStep()
     else
-      @loanId = params.loanId
+      @projectId = params.projectId
       @date = params.date
       @showNewStep()
 
@@ -21,7 +21,7 @@ class MS.Views.CalendarStepModalView extends Backbone.View
       @replaceContent(html)
 
   showNewStep: ->
-    $.get '/admin/project_steps/new', context: @context, loan_id: @loanId, date: @date, (html) =>
+    $.get '/admin/project_steps/new', context: @context, project_id: @projectId, date: @date, (html) =>
       @replaceContent(html)
 
   replaceContent: (html) ->

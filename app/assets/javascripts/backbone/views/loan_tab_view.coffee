@@ -3,14 +3,14 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    @loanId = params.loanId
+    @projectId = params.projectId
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
 
-    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
+    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@projectId}")
 
   events:
     'shown.ms.tab': 'tabShown'
@@ -22,26 +22,26 @@ class MS.Views.LoanTabView extends Backbone.View
         if @detailsView
           @detailsView.refresh()
         else
-          @detailsView = new MS.Views.DetailsView(loanId: @loanId)
+          @detailsView = new MS.Views.DetailsView(projectId: @projectId)
 
       when 'questions'
         if @loanQuestionnairesView
           @loanQuestionnairesView.refreshContent()
         else
-          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(projectId: @projectId)
 
       when 'timeline-list'
         # TODO: Should try to get rid of this global when old timeline is gone.
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
-          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
+          MS.timelineView = new MS.Views.TimelineView(projectId: @projectId)
 
       when 'timeline-table'
         if @timelineTableView
           @timelineTableView.refresh()
         else
-          @timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
+          @timelineTableView = new MS.Views.TimelineTableView(projectId: @projectId, stepModal: @stepModal)
 
       when 'loan-calendar'
         # TODO: Should try to get rid of this global when old timeline is gone.
@@ -58,7 +58,7 @@ class MS.Views.LoanTabView extends Backbone.View
         unless @logListView
           @logListView = new MS.Views.LogListView(
             el: '.tab-pane#logs section.log-list',
-            refreshUrl: "/admin/logs?loan=#{@loanId}",
+            refreshUrl: "/admin/logs?loan=#{@projectId}",
             logFormModalView: new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
           )
         @logListView.refresh()
