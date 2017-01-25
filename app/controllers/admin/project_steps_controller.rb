@@ -3,7 +3,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   helper TimeLanguageHelper
 
   def new
-    @loan = Loan.find(params[:loan_id])
+    @loan = Loan.find(params[:project_id])
     @step = ProjectStep.new(project: @loan, scheduled_start_date: params[:date],
       parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id])
     authorize @step

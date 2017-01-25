@@ -4,7 +4,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
   before_action :find_timeline_entry, only: [:edit, :update, :destroy]
 
   def new
-    @loan = Loan.find(params[:loan_id])
+    @loan = Loan.find(params[:project_id])
     @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id].present?
 
     @entry = ProjectGroup.new(project: @loan)
@@ -53,7 +53,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
   private
 
   def render_modal_partial(status: 200)
-    link_params = params.slice(:loan_id, :parent_id)
+    link_params = params.slice(:project_id, :parent_id)
     render partial: "admin/project_groups/modal_content", status: status
   end
 
