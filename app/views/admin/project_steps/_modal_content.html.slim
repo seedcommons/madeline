@@ -71,13 +71,11 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       = f.input :parent_id
         .view-element = @step.parent.summary_or_none if @step.parent.present?
-        = f.input_field :parent_id, collection: @parents, label_method: :summary_or_none,
-          label: t("activerecord.attributes.project_step.parent"), include_blank: false
+        = f.input_field :parent_id, collection: @parents, label_method: :summary_or_none, include_blank: false
 
       = f.input :schedule_parent_id
         .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
-        = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none,
-          label: t("activerecord.attributes.project_step.schedule_parent"), include_blank: true
+        = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
 
       = f.input :scheduled_start_date
         .view-element = ldate(@step.scheduled_start_date)
