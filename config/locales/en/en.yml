@@ -114,6 +114,10 @@ en:
       models:
         project_group:
           no_summary: "Summary is required."
+        organization:
+          attributes:
+            primary_contact:
+              invalid: 'Primary Contact needs to belong to organization'
 
   simple_form:
     hints:

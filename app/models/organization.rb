@@ -73,7 +73,7 @@ class Organization < ActiveRecord::Base
     return if primary_contact.blank?
     return if person_ids.include?(primary_contact_id)
 
-    errors.add(:primary_contact, I18n.t('organization.invalid_primary_contact'))
+    errors.add(:primary_contact, :invalid)
   end
 
 end
