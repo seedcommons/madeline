@@ -110,6 +110,9 @@ en:
       media:
         item: "Item"
         kind_value: "Kind"
+      project_step:
+        parent: "Group"
+        schedule_parent: "Preceding Step"
     errors:
       models:
         project_group:
