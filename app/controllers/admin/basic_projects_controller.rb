@@ -52,6 +52,13 @@ class Admin::BasicProjectsController < Admin::AdminController
     end
   end
 
+  def timeline
+    @project = @basicProject = BasicProject.find(params[:id])
+    authorize @project, :show?
+    prep_timeline
+    render partial: "admin/timeline/table"
+  end
+
   private
 
   def prep_form_vars
@@ -61,5 +68,16 @@ class Admin::BasicProjectsController < Admin::AdminController
   def basic_project_params
     params.require(:basic_project).permit(:length_months, :name, :primary_agent_id,
       :secondary_agent_id, :signing_date, :status_value)
+  end
+
+  def prep_timeline
+    filters = {}
+    filters[:type] = params[:type] if params[:type].present?
+    filters[:status] = params[:status] if params[:status].present?
+    @project.root_timeline_entry.filters = filters
+    @type_options = ProjectStep.step_type_option_set.translated_list
+    @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
+      [I18n.t("project_step.completion_status.#{status}"), status]
+    end
   end
 end

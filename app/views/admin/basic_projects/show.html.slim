@@ -25,7 +25,15 @@ section.details
 
     = render 'form'
 
+section id="timeline-table"
+  = render "admin/timeline/main"
+
 javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
+    var stepModal = new MS.Views.ProjectStepModalView();
+    new MS.Views.TimelineTableView({
+      projectId: #{json @project.id},
+      stepModal: stepModal
+    });
   });
