@@ -29,7 +29,6 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize @org
     prep_form_vars
 
-    @notes = @org.notes.order(created_at: :desc)
     @new_note = Note.new(notable: @org)
     @new_note = nil unless Pundit.policy(current_user, @new_note).new?
   end
@@ -96,6 +95,7 @@ class Admin::OrganizationsController < Admin::AdminController
     @division_choices = division_choices
     @contact_choices = @org.people.order(:name)
     @people_choices = person_policy_scope(Person.all).order(:name)
+    @notes = @org.notes.order(created_at: :desc)
 
     @loans_grid = initialize_grid(
       @org.active_loans,
