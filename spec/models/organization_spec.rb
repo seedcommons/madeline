@@ -7,13 +7,15 @@ describe Organization, type: :model do
 
   it_should_behave_like 'notable'
 
-  it 'errors when primary_contact does not belong to organization' do
-    contact = create(:person)
-    expect{ create(:organization, primary_contact: contact) }.to raise_error(ActiveRecord::RecordInvalid)
-  end
+  describe 'primary contact' do
+    let(:contact) { create(:person) }
 
-  it 'primary_contact can be added when also part of organization' do
-    contact = create(:person)
-    create(:organization, primary_contact: contact, people: [contact])
+    it 'errors when does not belong to organization' do
+      expect { create(:organization, primary_contact: contact) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'can be added when also part of organization' do
+      expect { create(:organization, primary_contact: contact, people: [contact]) }.to_not raise_error
+    end
   end
 end
