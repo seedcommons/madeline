@@ -57,12 +57,23 @@ class Organization < ActiveRecord::Base
   validates :name, presence: true
   validates :division_id, presence: true
 
+  validate :primary_contact_is_member
+
   def loans_count
     loans.size
   end
 
   def active_loans
     loans.where(status_value: Loan::STATUS_ACTIVE_VALUE)
+  end
+
+  private
+
+  def primary_contact_is_member
+    return if primary_contact.blank?
+    return if person_ids.include?(primary_contact_id)
+
+    errors.add(:primary_contact, I18n.t('organization.invalid_primary_contact'))
   end
 
 end

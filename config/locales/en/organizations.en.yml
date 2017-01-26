@@ -7,6 +7,7 @@ en:
     edit: "Edit Co-op"
     new: "New Co-op"
     people: "Members"
+    invalid_primary_contact: 'Primary Contact needs to belong to organization'
 
   # The admin top level group is used here to allow t(".xxx") style shortcuts from views
   admin:
