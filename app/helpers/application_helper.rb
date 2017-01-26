@@ -72,4 +72,20 @@ module ApplicationHelper
       capture(&block)
     end
   end
+
+  def admin_loans_path(*args)
+    # Default to active loans, unless overriden
+    options = { loans: { f: { status_value: ['active'] } } }
+    options = args.pop if args.last.is_a? Hash
+
+    super(args, options)
+  end
+
+  def admin_people_path(*args)
+    # Default to system users, unless overriden
+    options = { people: { f: { has_system_access: ['t'] } } }
+    options = args.pop if args.last.is_a? Hash
+
+    super(args, options)
+  end
 end

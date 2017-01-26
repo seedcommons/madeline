@@ -81,5 +81,5 @@ Rails.application.routes.draw do
 
   get '/test' => 'static_pages#test'
 
-  root to: redirect('/admin/loans')
+  root to: redirect(path: '/admin/loans', params: { loans: { f: { status_value: ['active'] } } })
 end
