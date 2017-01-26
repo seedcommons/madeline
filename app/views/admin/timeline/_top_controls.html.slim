@@ -34,15 +34,15 @@ header.timeline-header.row
 
   .col-sm-4
     form.form-inline.filters
-      / = select_tag :type,
-      /   options_for_select(@type_options),
-      /   include_blank: I18n.t("project_step.all_types"),
-      /   class: "form-control"
+      = select_tag :type,
+        options_for_select(@type_options),
+        include_blank: I18n.t("project_step.all_types"),
+        class: "form-control"
 
-      / = select_tag :status,
-      /   options_for_select(@status_options),
-      /   include_blank: I18n.t("project_step.all_completion_statuses"),
-      /   class: "form-control"
+      = select_tag :status,
+        options_for_select(@status_options),
+        include_blank: I18n.t("project_step.all_completion_statuses"),
+        class: "form-control"
 
   .col-sm-4
     .item.top-actions

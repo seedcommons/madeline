@@ -22,9 +22,10 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @basic_project = BasicProject.find(params[:id])
+    @project = @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     prep_form_vars
+    prep_timeline
   end
 
   def update
@@ -53,7 +54,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def timeline
-    @project = @basicProject = BasicProject.find(params[:id])
+    @project = @basic_project = BasicProject.find(params[:id])
     authorize @project, :show?
     prep_timeline
     render partial: "admin/timeline/table"
