@@ -15,6 +15,7 @@ javascript:
       el: '.loan-content',
       calendarEventsUrl: #{json @calendar_events_url},
       projectId: #{json @project.id},
-      locale: "#{I18n.locale}"
+      locale: "#{I18n.locale}",
+      urlComponent: "loans"
     });
   });

@@ -4,6 +4,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
     @projectId = params.projectId
+    @urlComponent = params.urlComponent
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
@@ -41,7 +42,11 @@ class MS.Views.LoanTabView extends Backbone.View
         if @timelineTableView
           @timelineTableView.refresh()
         else
-          @timelineTableView = new MS.Views.TimelineTableView(projectId: @projectId, stepModal: @stepModal)
+          @timelineTableView = new MS.Views.TimelineTableView({
+            projectId: @projectId,
+            stepModal: @stepModal,
+            urlComponent: @urlComponent
+          })
 
       when 'loan-calendar'
         # TODO: Should try to get rid of this global when old timeline is gone.

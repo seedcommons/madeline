@@ -4,10 +4,10 @@ class Admin::ProjectGroupsController < Admin::AdminController
   before_action :find_timeline_entry, only: [:edit, :update, :destroy]
 
   def new
-    @loan = Loan.find(params[:project_id])
+    @project = Project.find(params[:project_id])
     @parent_group = ProjectGroup.find(params[:parent_id]) if params[:parent_id].present?
 
-    @entry = ProjectGroup.new(project: @loan)
+    @entry = ProjectGroup.new(project: @project)
     @entry.parent = @parent_group
     authorize @entry
 
@@ -22,10 +22,10 @@ class Admin::ProjectGroupsController < Admin::AdminController
     @entry = ProjectGroup.new(project_group_params)
     authorize @entry
 
-    @loan = @entry.project
+    @project = @entry.project
 
     parent_id = project_group_params[:parent_id]
-    @entry.parent = parent_id.present? ? ProjectGroup.find(parent_id) : @loan.root_timeline_entry
+    @entry.parent = parent_id.present? ? ProjectGroup.find(parent_id) : @project.root_timeline_entry
 
     if @entry.save
       render nothing: true
