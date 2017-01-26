@@ -79,16 +79,12 @@ class Admin::OrganizationsController < Admin::AdminController
   private
 
   def organization_params
-    # Not sure why params.permit wasn't honoring this field for the native simple_form array
-    org_params = params.require(:organization).permit(
+    params.require(:organization).permit(
       :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
       :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
       :industry, :sector, :referral_source, :contact_notes,
-      :division_id, :primary_contact_id
+      :division_id, :primary_contact_id, person_ids: []
     )
-    org_params[:person_ids] = params[:organization][:person_ids]
-
-    org_params
   end
 
   def prep_form_vars
