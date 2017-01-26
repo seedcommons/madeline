@@ -28,6 +28,10 @@ section.details
 section id="timeline-table"
   = render "admin/timeline/main"
 
+= render "admin/media/modal"
+= render "admin/project_groups/modal"
+= render "admin/project_steps/modal"
+
 javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
