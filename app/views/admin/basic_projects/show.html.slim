@@ -4,7 +4,7 @@
   ul.nav.nav-tabs
     - @tabs.each do |tab|
       li role="presentation" class==("active" if tab == @tab)
-        = link_to tab, admin_basic_project_tab_path(@project.id, tab: tab)
+        = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@project.id, tab: tab)
 
   .block data-tab-content== @tab
     = render "admin/basic_projects/#{@tab}"

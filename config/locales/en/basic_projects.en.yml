@@ -7,3 +7,9 @@ en:
     months: "%{number} mo."
     delete: "Delete Project"
     edit: "Edit Project"
+    tabs:
+      calendar: "Calendar"
+      details: "Details"
+      logs: "Logs"
+      timeline_list: "Timeline - List"
+      timeline_table: "Timeline - Table"
