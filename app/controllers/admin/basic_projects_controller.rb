@@ -7,9 +7,9 @@ class Admin::BasicProjectsController < Admin::AdminController
     @basic_projects_grid = initialize_grid(
       policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
-      order_direction: 'desc',
+      order_direction: "desc",
       per_page: 50,
-      name: 'basic_projects',
+      name: "basic_projects",
       enable_export_to_csv: true
     )
 
@@ -25,10 +25,12 @@ class Admin::BasicProjectsController < Admin::AdminController
     @project = BasicProject.find(params[:id])
     authorize @project
 
-    case @tab = params[:tab] || 'details'
-    when 'details'
+    case @tab = params[:tab] || "details"
+    when "details"
       prep_form_vars
     end
+
+    @tabs = ["details", "timeline-table", "timeline-list", "logs", "calendar"]
   end
 
   def update
