@@ -1,3 +1,8 @@
 - content_for(:title, @project.display_name)
 
+ul.nav.nav-tabs
+  - @tabs.each do |tab|
+    li role="presentation" class==("active" if tab == @tab)
+      a href="#{tab}" = tab
+
 = render "admin/basic_projects/#{@tab}"
