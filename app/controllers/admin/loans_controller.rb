@@ -31,7 +31,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def show
-    @loan = Loan.find(params[:id])
+    @project = @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
     prep_timeline
@@ -100,7 +100,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def change_date
-    @loan = Loan.find(params[:id])
+    @project = @loan = Loan.find(params[:id])
     authorize @loan, :update?
     attrib = params[:which_date] == "loan_start" ? :signing_date : :end_date
     @loan.update_attributes(attrib => params[:new_date])
