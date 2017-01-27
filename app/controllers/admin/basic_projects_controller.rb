@@ -30,7 +30,7 @@ class Admin::BasicProjectsController < Admin::AdminController
       prep_form_vars
     end
 
-    @tabs = ["details", "timeline-table", "timeline-list", "logs", "calendar"]
+    @tabs = ["details", "timeline_table", "timeline_list", "logs", "calendar"]
   end
 
   def update
