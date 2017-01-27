@@ -4,6 +4,7 @@ class MS.Views.TimelineView extends Backbone.View
 
   initialize: (options) ->
     @projectId = options.projectId
+    @urlComponent = options.urlComponent
 
     new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
     new MS.Views.TimelineBatchActionsView(el: '#timeline-list')
@@ -18,7 +19,7 @@ class MS.Views.TimelineView extends Backbone.View
   refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
     @$('.project-steps').empty()
-    $.get "/admin/loans/#{@projectId}/steps", (html) =>
+    $.get "/admin/#{@urlComponent}/#{@projectId}/steps", (html) =>
       MS.loadingIndicator.hide()
       @$('.project-steps').html(html)
       @addBlankStep() if @stepCount() == 0

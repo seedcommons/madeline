@@ -60,6 +60,13 @@ class Admin::BasicProjectsController < Admin::AdminController
     render partial: "admin/timeline/table"
   end
 
+  # DEPRECATED - please use #timeline
+  def steps
+    @project = @basic_project = BasicProject.find(params[:id])
+    authorize @project, :show?
+    render partial: "admin/timeline/list"
+  end
+
   private
 
   def prep_form_vars

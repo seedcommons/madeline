@@ -29,6 +29,13 @@ section.block id="timeline-table"
   h3 Timeline - Table
   = render "admin/timeline/main"
 
+div role="tabpanel" class="tab-pane" id="timeline-list"
+  section.timeline
+    h1.sr-only = t("loan.timeline")
+    = render "admin/timeline/list_header"
+    div.project-steps
+      // Steps are loaded dynamically by TimelineView
+
 = render "admin/media/modal"
 = render "admin/project_groups/modal"
 = render "admin/project_steps/modal"
@@ -41,5 +48,9 @@ javascript:
       projectId: #{json @project.id},
       urlComponent: 'basic_projects',
       stepModal: stepModal
+    });
+    new MS.Views.TimelineView({
+      projectId: #{json @project.id},
+      urlComponent: 'basic_projects'
     });
   });
