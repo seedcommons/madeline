@@ -22,7 +22,7 @@ class Admin::CalendarEventsController < Admin::AdminController
   def render_for_project_filter(date_range, project_filter)
     # JE Todo: Should theoretically apply project_step_scope scope here, but won't change results
     events = CalendarEvent.filtered_events(date_range: date_range, project_filter: project_filter,
-      project_scope: project_policy_scope(Project), step_scope: ProjectStep)
+      project_scope: policy_scope(Project), step_scope: ProjectStep)
     events.each{ |event| event.html = render_event(event) }
     render json: events
   end
