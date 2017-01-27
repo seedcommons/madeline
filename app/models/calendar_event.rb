@@ -21,7 +21,9 @@ class CalendarEvent
   def self.build_for(model)
     puts "model: #{model.inspect}"
     case model
-    when Project
+    when BasicProject
+      [new_project_start(model), new_project_end(model)]
+    when Loan
       [new_project_start(model), new_project_end(model)]
     when ProjectStep
       [new_project_step(model), new_ghost_step(model)]
