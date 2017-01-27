@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::AdminController
-  include TranslationSaveable
+  include TranslationSaveable, ProjectConcern
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -97,14 +97,6 @@ class Admin::LoansController < Admin::AdminController
       prep_form_vars
       render :show
     end
-  end
-
-  def change_date
-    @project = @loan = Loan.find(params[:id])
-    authorize @project, :update?
-    attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
-    @project.update_attributes(attrib => params[:new_date])
-    render nothing: true
   end
 
   def create
