@@ -96,7 +96,7 @@
     }
   }
 
-  .loan-calendar .fc-body {
+  #calendar[data-project-id] .fc-body {
     .cal-step, td {
       &:hover {
         cursor: pointer;

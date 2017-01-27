@@ -51,7 +51,8 @@ class MS.Views.LoanTabView extends Backbone.View
           MS.calendarView = new MS.Views.CalendarView(
             calendarEventsUrl: @calendarEventsUrl,
             stepModal: @stepModal,
-            locale: @locale
+            locale: @locale,
+            urlComponent: 'loans'
           )
 
       when 'logs'

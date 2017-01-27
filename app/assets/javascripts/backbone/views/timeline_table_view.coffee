@@ -51,7 +51,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newChildStep: (e) ->
     e.preventDefault()
-    @stepModal.new(@$(e.currentTarget).closest('[data-loan-id]').data('loan-id'), @refresh.bind(@), {parentId: @parentId(e)})
+    @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
     e.preventDefault()

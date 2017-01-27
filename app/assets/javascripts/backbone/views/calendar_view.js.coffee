@@ -6,6 +6,7 @@ class MS.Views.CalendarView extends Backbone.View
     # Initialize calendar
     @$calendar = @$('#calendar')
     @stepModal = params.stepModal
+    @urlComponent = params.urlComponent
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
@@ -34,8 +35,8 @@ class MS.Views.CalendarView extends Backbone.View
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
   dayClick: (date) ->
-    if @$el.find('.loan-calendar').length
-      @stepModal.new(@$el.find('.loan-calendar').data('loan-id'), @refresh.bind(@),
+    if @$el.find('#calendar[data-project-id]').length
+      @stepModal.new(@$el.find('#calendar').data('project-id'), @refresh.bind(@),
         date: date.format('YYYY-MM-DD'))
 
   eventRender: (calEvent) -> calEvent.html
@@ -62,8 +63,8 @@ class MS.Views.CalendarView extends Backbone.View
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>
         if confirm(I18n.t("loan.move_date_confirm.body"))
-          loanId = @$el.find('.loan-calendar').data('loan-id')
-          $.post "/admin/loans/#{loanId}/change_date",
+          projectId = @$el.find('#calendar').data('project-id')
+          $.post "/admin/#{@urlComponent}/#{projectId}/change_date",
             _method: "PATCH"
             which_date: event.event_type
             new_date: event.start.format('YYYY-MM-DD')
