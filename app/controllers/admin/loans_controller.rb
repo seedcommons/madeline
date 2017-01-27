@@ -101,9 +101,9 @@ class Admin::LoansController < Admin::AdminController
 
   def change_date
     @project = @loan = Loan.find(params[:id])
-    authorize @loan, :update?
-    attrib = params[:which_date] == "loan_start" ? :signing_date : :end_date
-    @loan.update_attributes(attrib => params[:new_date])
+    authorize @project, :update?
+    attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
+    @project.update_attributes(attrib => params[:new_date])
     render nothing: true
   end
 
