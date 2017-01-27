@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :basic_projects
+    resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :loan_response_sets
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       post 'select_division', to: 'divisions#select'
     end
 
-    get '/basic_projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
+    get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 
