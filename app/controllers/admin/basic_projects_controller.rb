@@ -24,7 +24,11 @@ class Admin::BasicProjectsController < Admin::AdminController
   def show
     @project = BasicProject.find(params[:id])
     authorize @project
-    prep_form_vars
+
+    case @tab = params[:tab] || 'details'
+    when 'details'
+      prep_form_vars
+    end
   end
 
   def update
