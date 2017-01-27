@@ -1,4 +1,4 @@
-section.details class=(@project.valid? ? 'show-view' : ' edit-view')
+section.details class=(@project.valid? ? "show-view" : " edit-view")
   .show-actions
     - if policy(@project).update?
       - if @project.valid?
@@ -12,17 +12,17 @@ section.details class=(@project.valid? ? 'show-view' : ' edit-view')
     - if policy(@project).destroy?
       = link_to [:admin, @project], method: :delete,
           data: { \
-            confirm: t('basic_project.confirm_deletion'),
-            "confirm-title": t('basic_project.delete'),
+            confirm: t("basic_project.confirm_deletion"),
+            "confirm-title": t("basic_project.delete"),
             "confirm-cancel": t(:cancel),
             "confirm-proceed": t(:confirm)\
         }
         i.fa.fa-trash.fa-large>
         = t("basic_project.delete")
 
-  = render 'form'
+  = render "form"
 
 javascript:
   $(function() {
-    new MS.Views.ShowEditView({ el: '.details' });
+    new MS.Views.ShowEditView({ el: ".details" });
   });
