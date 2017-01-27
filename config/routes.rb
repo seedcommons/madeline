@@ -71,8 +71,8 @@ Rails.application.routes.draw do
       post 'select_division', to: 'divisions#select'
     end
 
-    get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
     get '/basic_projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
+    get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 
   localized do
