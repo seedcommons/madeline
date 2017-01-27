@@ -43,8 +43,9 @@ section.details
 
   javascript:
     $(function() {
+      // console.log(#{json @calendar_events_url})
       new MS.Views.CalendarView({
-        calendarEventsUrl: #{json @calendarEventsUrl},
+        calendarEventsUrl: #{json @calendar_events_url},
         stepModal: #{json @stepModal},
         locale: #{json @locale},
         urlComponent: "basic_projects"
