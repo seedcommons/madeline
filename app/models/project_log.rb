@@ -52,7 +52,7 @@ class ProjectLog < ActiveRecord::Base
 
   def self.in_division(division)
     if division
-      joins(project_step: :project).where(loans: {division_id: division.self_and_descendants.pluck(:id)})
+      joins(project_step: :project).where(projects: {division_id: division.self_and_descendants.pluck(:id)})
     else
       all
     end

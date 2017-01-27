@@ -13,9 +13,9 @@ class Admin::LoansController < Admin::AdminController
       order: 'projects.signing_date',
       order_direction: 'desc',
       custom_order: {
-        'loans.division_id' => 'LOWER(divisions.name)',
-        'loans.organization_id' => 'LOWER(organizations.name)',
-        'loans.signing_date' => 'loans.signing_date IS NULL, loans.signing_date',
+        'projects.division_id' => 'LOWER(divisions.name)',
+        'projects.organization_id' => 'LOWER(organizations.name)',
+        'projects.signing_date' => 'projects.signing_date IS NULL, projects.signing_date',
       },
       per_page: 50,
       name: 'loans',
