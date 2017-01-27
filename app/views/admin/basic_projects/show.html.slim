@@ -29,9 +29,9 @@ section.block id="timeline-table"
   h3 Timeline - Table
   = render "admin/timeline/main"
 
-div role="tabpanel" class="tab-pane" id="timeline-list"
-  section.timeline
-    h1.sr-only = t("loan.timeline")
+div id="timeline-list"
+  section.block.timeline
+    h3 Timeline - List
     = render "admin/timeline/list_header"
     div.project-steps
       // Steps are loaded dynamically by TimelineView

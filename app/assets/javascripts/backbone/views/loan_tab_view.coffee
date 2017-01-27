@@ -36,7 +36,10 @@ class MS.Views.LoanTabView extends Backbone.View
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
-          MS.timelineView = new MS.Views.TimelineView(projectId: @projectId)
+          MS.timelineView = new MS.Views.TimelineView({
+            projectId: @projectId,
+            urlComponent: @urlComponent
+          })
 
       when 'timeline-table'
         if @timelineTableView
