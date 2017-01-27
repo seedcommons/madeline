@@ -25,6 +25,8 @@ class Admin::BasicProjectsController < Admin::AdminController
     @project = BasicProject.find(params[:id])
     authorize @project
     prep_form_vars
+    @steps = @project.project_steps
+    @calendar_events_url = "/admin/calendar_events?project_id=#{@project.id}"
   end
 
   def update
@@ -50,6 +52,14 @@ class Admin::BasicProjectsController < Admin::AdminController
       prep_form_vars
       render :show
     end
+  end
+
+  def change_date
+    @project = @basic_project = BasicProject.find(params[:id])
+    authorize @project, :update?
+    attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
+    @project.update_attributes(attrib => params[:new_date])
+    render nothing: true
   end
 
   private

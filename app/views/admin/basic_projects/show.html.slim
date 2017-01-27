@@ -1,7 +1,6 @@
 - content_for(:title, @project.display_name)
 
 section.details
-
   section.block.basic-project-fields class=(@project.valid? ? 'show-view' : 'edit-view')
     .show-actions
       - if policy(@project).update?
@@ -26,7 +25,20 @@ section.details
 
     = render 'form'
 
-javascript:
-  $(function() {
-    new MS.Views.ShowEditView({ el: '.basic-project-fields' });
-  });
+  javascript:
+    $(function() {
+      new MS.Views.ShowEditView({ el: '.basic-project-fields' });
+    });
+
+.block
+  = render "calendar"
+
+  javascript:
+    $(function() {
+      new MS.Views.CalendarView({
+        calendarEventsUrl: #{json @calendarEventsUrl},
+        stepModal: #{json @stepModal},
+        locale: #{json @locale},
+        urlComponent: "basic_projects"
+      });
+    });

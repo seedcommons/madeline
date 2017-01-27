@@ -9,7 +9,14 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :basic_projects, path: 'projects'
+    resources :basic_projects do
+      member do
+        get :steps
+        patch :change_date
+        get :print
+        get :timeline
+      end
+    end
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :loan_response_sets
