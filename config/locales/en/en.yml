@@ -14,6 +14,7 @@ en:
       project_step: "Project Step"
     attributes:
       basic_project:
+        division: "Division"
         length_months: "Length (months)"
         name: "Name"
         primary_agent: "Primary Agent"
