@@ -31,6 +31,14 @@ section.details
     });
 
 .block
+  p Expect number of calendar events to equal to at least 1 more than amount of steps
+  p
+    = "#{@project.project_steps.length} Steps:"
+    = @project.project_steps.inspect
+  p
+    = "#{@project.calendar_events.length} Events:"
+    = @project.calendar_events.inspect
+
   = render "calendar"
 
   javascript:
