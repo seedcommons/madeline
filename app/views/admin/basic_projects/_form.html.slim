@@ -11,25 +11,27 @@
   = error_notification(f)
 
   = f.input :name
-    .view-element = @project.try(:name)
+    .view-element = @project.display_name
     = f.input_field :name
 
+  = f.input :division
+    .view-element = @project.division.try(:name)
+    = f.input_field :division_id, collection: @division_choices
+
   = f.input :status
-    .view-element = @project.try(:status)
+    .view-element = @project.status
     = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
-  = authorized_form_field(simple_form: f, model: @project, field_name: :primary_agent,
-    choices: @agent_choices, classes: 'hidden-print')
-  = f.input :primary_agent, wrapper_html: {class: 'visible-print-block'}
-    span = @project.primary_agent.try(:name)
+  = f.input :primary_agent
+    .view-element = @project.primary_agent.try(:name)
+    = f.input_field :primary_agent_id, collection: @agent_choices
 
-  = authorized_form_field(simple_form: f, model: @project, field_name: :secondary_agent,
-    choices: @agent_choices, classes: 'hidden-print')
-  = f.input :secondary_agent, wrapper_html: {class: 'visible-print-block'}
-      span = @project.secondary_agent.try(:name)
+  = f.input :secondary_agent
+    .view-element = @project.secondary_agent.try(:name)
+    = f.input_field :secondary_agent_id, collection: @agent_choices
 
   = f.input :signing_date
-    .view-element = @project.try(:signing_date)
+    .view-element = @project.signing_date
     = f.input_field :signing_date, as: :date_picker
 
   = f.input :length_months

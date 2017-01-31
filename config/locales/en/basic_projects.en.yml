@@ -4,9 +4,13 @@ en:
       one: "Agent"
       other: "Agents"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this Project?"
-    months: "%{number} mo."
     delete: "Delete Project"
     edit: "Edit Project"
+    months: "%{number} mo."
+    new: "New Project"
+    project:
+      one: "Project"
+      other: "Projects"
     tabs:
       calendar: "Calendar"
       details: "Details"

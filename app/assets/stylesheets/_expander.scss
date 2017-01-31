@@ -1,0 +1,14 @@
+// Styles related to the Expander functionality.
+
+[data-expandable]:not([data-expandable=""]),
+[data-hides], .show-actions [data-hides] {
+  display: none;
+}
+
+// Applies to places where expand/hide all and show/hide exist in the same menu
+// Expand all link should remain hidden until master show/hide is expanded
+.nested-expander {
+  [data-expand-all], [data-hide-all] {
+    display: none;
+  }
+}
