@@ -3,15 +3,14 @@
 class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
-    @projectId = params.projectId
-    @urlComponent = params.urlComponent
+    @loanId = params.loanId
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
 
-    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@projectId}")
+    new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
 
   events:
     'shown.ms.tab': 'tabShown'
@@ -23,13 +22,13 @@ class MS.Views.LoanTabView extends Backbone.View
         if @detailsView
           @detailsView.refresh()
         else
-          @detailsView = new MS.Views.DetailsView(projectId: @projectId)
+          @detailsView = new MS.Views.DetailsView(loanId: @loanId)
 
       when 'questions'
         if @loanQuestionnairesView
           @loanQuestionnairesView.refreshContent()
         else
-          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(projectId: @projectId)
+          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
 
       when 'timeline-list'
         # TODO: Should try to get rid of this global when old timeline is gone.
@@ -37,8 +36,8 @@ class MS.Views.LoanTabView extends Backbone.View
           MS.timelineView.refreshSteps()
         else
           MS.timelineView = new MS.Views.TimelineView({
-            projectId: @projectId,
-            urlComponent: @urlComponent
+            projectId: @loanId,
+            projectType: 'Loan'
           })
 
       when 'timeline-table'
@@ -46,9 +45,9 @@ class MS.Views.LoanTabView extends Backbone.View
           @timelineTableView.refresh()
         else
           @timelineTableView = new MS.Views.TimelineTableView({
-            projectId: @projectId,
-            stepModal: @stepModal,
-            urlComponent: @urlComponent
+            projectId: @loanId,
+            projectType: 'Loan',
+            stepModal: @stepModal
           })
 
       when 'loan-calendar'
@@ -66,7 +65,7 @@ class MS.Views.LoanTabView extends Backbone.View
         unless @logListView
           @logListView = new MS.Views.LogListView(
             el: '.tab-pane#logs section.log-list',
-            refreshUrl: "/admin/logs?loan=#{@projectId}",
+            refreshUrl: "/admin/logs?loan=#{@loanId}",
             logFormModalView: new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
           )
         @logListView.refresh()
