@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::AdminController
-  include TranslationSaveable
+  include TranslationSaveable, ProjectConcern
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -34,7 +34,7 @@ class Admin::LoansController < Admin::AdminController
     @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
-    prep_timeline
+    prep_timeline(@loan)
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
@@ -60,7 +60,7 @@ class Admin::LoansController < Admin::AdminController
   def timeline
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    prep_timeline
+    prep_timeline(@loan)
     render partial: "admin/timeline/table", locals: {project: @loan}
   end
 
@@ -161,17 +161,6 @@ class Admin::LoansController < Admin::AdminController
     @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
-  end
-
-  def prep_timeline
-    filters = {}
-    filters[:type] = params[:type] if params[:type].present?
-    filters[:status] = params[:status] if params[:status].present?
-    @loan.root_timeline_entry.filters = filters
-    @type_options = ProjectStep.step_type_option_set.translated_list
-    @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
-      [I18n.t("project_step.completion_status.#{status}"), status]
-    end
   end
 
   def representative_choices

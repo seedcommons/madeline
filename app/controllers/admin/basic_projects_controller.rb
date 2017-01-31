@@ -1,5 +1,5 @@
 class Admin::BasicProjectsController < Admin::AdminController
-  include TranslationSaveable
+  include TranslationSaveable, ProjectConcern
 
   def index
     authorize BasicProject
@@ -25,7 +25,7 @@ class Admin::BasicProjectsController < Admin::AdminController
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     prep_form_vars
-    prep_timeline
+    prep_timeline(@basic_project)
   end
 
   def new
@@ -74,7 +74,7 @@ class Admin::BasicProjectsController < Admin::AdminController
   def timeline
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project, :show?
-    prep_timeline
+    prep_timeline(@basic_project)
     render partial: "admin/timeline/table", locals: {project: @basic_project}
   end
 
@@ -95,16 +95,5 @@ class Admin::BasicProjectsController < Admin::AdminController
   def basic_project_params
     params.require(:basic_project).permit(:division_id, :length_months, :name, :primary_agent_id,
       :secondary_agent_id, :signing_date, :status_value)
-  end
-
-  def prep_timeline
-    filters = {}
-    filters[:type] = params[:type] if params[:type].present?
-    filters[:status] = params[:status] if params[:status].present?
-    @basic_project.root_timeline_entry.filters = filters
-    @type_options = ProjectStep.step_type_option_set.translated_list
-    @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
-      [I18n.t("project_step.completion_status.#{status}"), status]
-    end
   end
 end
