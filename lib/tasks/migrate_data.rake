@@ -29,9 +29,10 @@ namespace :tww do
 
   desc 'migrate legacy files from /tmp/madeline'
   task migrate_files: :environment do
+    root_path = '/tmp/madeline'
     Document = Struct.new(:full_path, :file_name, :document_name, :loan_id, :document_kind)
 
-    documents_path = '/tmp/documents/'
+    documents_path = File.join root_path, 'documents'
     documents = Dir.entries(documents_path)
       .reject { |f| File.directory?(f) || f[0].include?('.') }
       .map do |doc|
@@ -39,7 +40,7 @@ namespace :tww do
         Document.new(File.join(documents_path, doc), doc, arr[0], arr[1], :document)
       end
 
-    contracts_path = '/tmp/contracts/'
+    contracts_path = File.join root_path, 'contracts'
     contracts = Dir.entries(contracts_path)
       .reject { |f| File.directory?(f) || f[0].include?('.') }
       .map do |doc|
