@@ -35,7 +35,7 @@ class MS.Views.CalendarView extends Backbone.View
 
   dayClick: (date) ->
     if @$el.find('.loan-calendar').length
-      @stepModal.new(@$el.find('.loan-calendar').data('project-id'), @refresh.bind(@),
+      @stepModal.new(@$el.find('.loan-calendar').data('loan-id'), @refresh.bind(@),
         date: date.format('YYYY-MM-DD'))
 
   eventRender: (calEvent) -> calEvent.html
@@ -62,14 +62,15 @@ class MS.Views.CalendarView extends Backbone.View
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>
         if confirm(I18n.t("loan.move_date_confirm.body"))
-          projectId = @$el.find('.loan-calendar').data('project-id')
-          $.post "/admin/loans/#{projectId}/change_date",
+          loanId = @$el.find('.loan-calendar').data('loan-id')
+          $.post "/admin/loans/#{loanId}/change_date",
             _method: "PATCH"
             which_date: event.event_type
             new_date: event.start.format('YYYY-MM-DD')
         else
           revertFunc()
       ,1
+
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()
