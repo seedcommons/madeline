@@ -18,17 +18,17 @@ class CalendarEvent
   attr_accessor :has_precedent
   alias_method :has_precedent?, :has_precedent
 
-  def self.build_for(model)
-    puts "model: #{model.inspect}"
-    case model
+  def self.build_for(item)
+    puts "item: #{item.inspect}"
+    case item
     when BasicProject
-      [new_project_start(model), new_project_end(model)]
+      [new_project_start(item), new_project_end(item)]
     when Loan
-      [new_project_start(model), new_project_end(model)]
+      [new_project_start(item), new_project_end(item)]
     when ProjectStep
-      [new_project_step(model), new_ghost_step(model)]
+      [new_project_step(item), new_ghost_step(item)]
     else
-      raise "CalendarEvent.build_for - unexpected model class: #{model.class}"
+      raise "CalendarEvent.build_for - unexpected model class: #{item.class}"
     end.compact
   end
 
@@ -118,7 +118,7 @@ class CalendarEvent
     @start = project.signing_date
     @title = I18n.t("loan.start", name: project.display_name)
     @event_type = "project_start"
-    @model_type = "Project"
+    @model_type = project.type
     @model = project
     self
   end
@@ -127,7 +127,7 @@ class CalendarEvent
     @start = project.end_date
     @title = I18n.t("loan.end", name: project.display_name)
     @event_type = "project_end"
-    @model_type = "Project"
+    @model_type = project.type
     @model = project
     self
   end
