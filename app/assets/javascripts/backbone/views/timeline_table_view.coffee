@@ -7,7 +7,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     new MS.Views.AutoLoadingIndicatorView()
     @projectId = options.projectId
 
-    #@urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
     if options.projectType == 'BasicProject'
       @urlComponent = 'basic-projects'
     else
@@ -43,7 +42,6 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refresh: ->
     MS.loadingIndicator.show()
-    # console.log(@urlComponent)
     $.get "/admin/#{@urlComponent}/#{@projectId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)

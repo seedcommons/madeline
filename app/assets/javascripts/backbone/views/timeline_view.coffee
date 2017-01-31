@@ -5,8 +5,6 @@ class MS.Views.TimelineView extends Backbone.View
   initialize: (options) ->
     @projectId = options.projectId
 
-    # Written in this syntax because the below breaks
-    # @urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
     if options.projectType == 'BasicProject'
       @urlComponent = 'basic-projects'
     else
