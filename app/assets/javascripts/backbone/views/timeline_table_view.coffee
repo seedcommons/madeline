@@ -6,8 +6,8 @@ class MS.Views.TimelineTableView extends Backbone.View
   initialize: (options) ->
     new MS.Views.AutoLoadingIndicatorView()
     @projectId = options.projectId
-    #@urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
 
+    #@urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
     if options.projectType == 'BasicProject'
       @urlComponent = 'basic-projects'
     else
