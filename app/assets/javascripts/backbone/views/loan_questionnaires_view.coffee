@@ -3,7 +3,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   el: 'section.questionnaires'
 
   initialize: (options) ->
-    @projectId = options.projectId
+    @loanId = options.loanId
     @refreshContent()
     @filterSwitchView = new MS.Views.FilterSwitchView()
 
@@ -14,7 +14,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').load "/admin/loans/#{@projectId}/questionnaires", =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
       MS.loadingIndicator.hide()
       @initializeTree()
       @filterSwitchView.filterInit()
