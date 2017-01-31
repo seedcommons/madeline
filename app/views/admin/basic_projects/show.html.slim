@@ -46,7 +46,7 @@ javascript:
     var stepModal = new MS.Views.ProjectStepModalView();
     new MS.Views.TimelineTableView({
       projectId: #{json @basic_project.id},
-      urlComponent: 'basic-projects',
+      projectType: #{json @basic_project.type},
       stepModal: stepModal
     });
 

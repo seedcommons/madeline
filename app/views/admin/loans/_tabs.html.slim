@@ -17,7 +17,7 @@ div class="tab-content"
         // Questionnaires are loaded dynamically by view
 
   div role="tabpanel" class="tab-pane" id="timeline-table"
-    = render "admin/timeline/main"
+    = render "admin/timeline/main", project: @loan
 
   div role="tabpanel" class="tab-pane" id="timeline-list"
     section.timeline
