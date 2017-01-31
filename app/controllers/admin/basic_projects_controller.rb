@@ -22,26 +22,26 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
     prep_form_vars
-    @steps = @project.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@project.id}"
+    @steps = @basic_project.project_steps
+    @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
   end
 
   def new
-    @project = BasicProject.new(division: current_division)
-    authorize @project
+    @basic_project = BasicProject.new(division: current_division)
+    authorize @basic_project
     prep_form_vars
   end
 
   def update
-    @project = BasicProject.find(params[:id])
-    authorize @project
-    @project.assign_attributes(basic_project_params)
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+    @basic_project.assign_attributes(basic_project_params)
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_updated)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
@@ -49,11 +49,11 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def create
-    @project = BasicProject.new(basic_project_params)
-    authorize @project
+    @basic_project = BasicProject.new(basic_project_params)
+    authorize @basic_project
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
     else
       prep_form_vars
       render :new
@@ -61,10 +61,10 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def destroy
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
 
-    if @project.destroy
+    if @basic_project.destroy
       redirect_to admin_basic_projects_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
@@ -73,10 +73,10 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def change_date
-    @project = @basic_project = BasicProject.find(params[:id])
-    authorize @project, :update?
+    @basic_project = @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project, :update?
     attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
-    @project.update_attributes(attrib => params[:new_date])
+    @basic_project.update_attributes(attrib => params[:new_date])
     render nothing: true
   end
 
