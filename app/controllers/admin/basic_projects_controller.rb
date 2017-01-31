@@ -28,6 +28,12 @@ class Admin::BasicProjectsController < Admin::AdminController
     prep_timeline
   end
 
+  def new
+    @project = BasicProject.new(division: current_division)
+    authorize @project
+    prep_form_vars
+  end
+
   def update
     @project = @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
@@ -38,6 +44,18 @@ class Admin::BasicProjectsController < Admin::AdminController
     else
       prep_form_vars
       render :show
+    end
+  end
+
+  def create
+    @project = BasicProject.new(basic_project_params)
+    authorize @project
+
+    if @project.save
+      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
+    else
+      prep_form_vars
+      render :new
     end
   end
 
@@ -70,11 +88,12 @@ class Admin::BasicProjectsController < Admin::AdminController
   private
 
   def prep_form_vars
+    @division_choices = division_choices
     @agent_choices = policy_scope(Person).in_division(selected_division).where(has_system_access: true).order(:name)
   end
 
   def basic_project_params
-    params.require(:basic_project).permit(:length_months, :name, :primary_agent_id,
+    params.require(:basic_project).permit(:division_id, :length_months, :name, :primary_agent_id,
       :secondary_agent_id, :signing_date, :status_value)
   end
 
