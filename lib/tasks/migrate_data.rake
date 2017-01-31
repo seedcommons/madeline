@@ -27,7 +27,7 @@ namespace :tww do
     Legacy::Migration.purge_migrated
   end
 
-  desc 'migrate legacy files from /tmp/madeline'
+  desc 'migrate legacy files from /tmp/madeline{documents/contracts}'
   task migrate_files: :environment do
     root_path = '/tmp/madeline'
     Document = Struct.new(:full_path, :file_name, :document_name, :loan_id, :document_kind)
