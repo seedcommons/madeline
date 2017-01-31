@@ -30,7 +30,7 @@ class Admin::BasicProjectsController < Admin::AdminController
       prep_form_vars
     end
 
-    @tabs = ["details", "timeline", "timeline_list", "logs", "calendar"]
+    @tabs = %w(details timeline timeline_list logs calendar)
   end
 
   def new
