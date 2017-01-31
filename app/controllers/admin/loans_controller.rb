@@ -31,13 +31,13 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def show
-    @project = @loan = Loan.find(params[:id])
+    @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
     prep_timeline
     @form_action_url = admin_loan_path
-    @steps = @project.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@project.id}"
+    @steps = @loan.project_steps
+    @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     @active_tab = params[:tab].presence || "details"
 
     render partial: 'admin/loans/details' if request.xhr?
@@ -52,16 +52,16 @@ class Admin::LoansController < Admin::AdminController
 
   # DEPRECATED - please use #timeline
   def steps
-    @project = @loan = Loan.find(params[:id])
+    @loan = Loan.find(params[:id])
     authorize @loan, :show?
-    render partial: "admin/timeline/list"
+    render partial: "admin/timeline/list", project: @loan
   end
 
   def timeline
-    @project = @loan = Loan.find(params[:id])
-    authorize @project, :show?
+    @loan = Loan.find(params[:id])
+    authorize @loan, :show?
     prep_timeline
-    render partial: "admin/timeline/table"
+    render partial: "admin/timeline/table", project: @loan
   end
 
   def questionnaires
@@ -167,7 +167,7 @@ class Admin::LoansController < Admin::AdminController
     filters = {}
     filters[:type] = params[:type] if params[:type].present?
     filters[:status] = params[:status] if params[:status].present?
-    @project.root_timeline_entry.filters = filters
+    @loan.root_timeline_entry.filters = filters
     @type_options = ProjectStep.step_type_option_set.translated_list
     @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
       [I18n.t("project_step.completion_status.#{status}"), status]
