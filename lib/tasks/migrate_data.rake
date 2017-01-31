@@ -27,5 +27,53 @@ namespace :tww do
     Legacy::Migration.purge_migrated
   end
 
+  desc 'migrate legacy files from /tmp/madeline'
+  task migrate_files: :environment do
+    Document = Struct.new(:full_path, :file_name, :document_name, :loan_id, :document_kind)
 
+    documents_path = '/tmp/documents/'
+    documents = Dir.entries(documents_path)
+      .reject { |f| File.directory?(f) || f[0].include?('.') }
+      .map do |doc|
+        arr = doc.split('.')
+        Document.new(File.join(documents_path, doc), doc, arr[0], arr[1], :document)
+      end
+
+    contracts_path = '/tmp/contracts/'
+    contracts = Dir.entries(contracts_path)
+      .reject { |f| File.directory?(f) || f[0].include?('.') }
+      .map do |doc|
+        arr = doc.split('.')
+        Document.new(File.join(contracts_path, doc), doc, arr[0], arr[1], :contract)
+      end
+
+    files = [documents, contracts]
+      .flatten
+      .each_with_object({}) do |media_file, hash|
+        media_file.loan_id = media_file.loan_id.to_i
+        arr = hash[media_file.loan_id] || []
+        arr << media_file
+        hash[media_file.loan_id] = arr
+      end
+
+
+    files.each do |key, value|
+      begin
+        loan = Loan.find key
+
+        value.each do |file|
+          uploaded_file_name = file.file_name.tr(' ', '_') # Carrierwave will replace spaces with underscores
+          if loan.media.exists?(item: uploaded_file_name)
+            print '*'
+          else
+            print '.'
+            loan.media.create(item: File.open(file.full_path), kind_value: file.document_kind)
+          end
+        end
+        loan.save!
+      rescue
+        puts "\r\nCould not find loan #{key} for file #{value.first.file_name}"
+      end
+    end
+  end
 end
