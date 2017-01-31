@@ -31,7 +31,7 @@ class Admin::LoansController < Admin::AdminController
   end
 
   def show
-    @project = @loan = Loan.find(params[:id])
+    @loan = Loan.find(params[:id])
     authorize @loan
     prep_form_vars
     prep_timeline
