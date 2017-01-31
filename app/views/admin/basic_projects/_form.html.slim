@@ -15,7 +15,7 @@
     = f.input_field :name
 
   = f.input :division
-    .view-element = @project.division.try(:name)
+    .view-element = @basic_project.division.try(:name)
     = f.input_field :division_id, collection: @division_choices
 
   = f.input :status

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :basic_projects do
+    resources :basic_projects, path: 'basic-projects' do
       member do
         get :steps
         patch :change_date

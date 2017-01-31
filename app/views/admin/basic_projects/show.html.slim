@@ -27,12 +27,12 @@ section.details
 
 section.block id="timeline-table"
   h3 Timeline - Table
-  = render "admin/timeline/main"
+  = render "admin/timeline/main", project: @basic_project
 
 div id="timeline-list"
   section.block.timeline
     h3 Timeline - List
-    = render "admin/timeline/list_header"
+    = render "admin/timeline/list_header", project: @basic_project
     div.project-steps
       // Steps are loaded dynamically by TimelineView
 
@@ -45,12 +45,15 @@ javascript:
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
     var stepModal = new MS.Views.ProjectStepModalView();
     new MS.Views.TimelineTableView({
-      projectId: #{json @project.id},
-      urlComponent: 'basic_projects',
+      projectId: #{json @basic_project.id},
+      urlComponent: 'basic-projects',
       stepModal: stepModal
     });
+
+    /*
     new MS.Views.TimelineView({
-      projectId: #{json @project.id},
-      urlComponent: 'basic_projects'
+      projectId: #{json @basic_project.id},
+      urlComponent: 'basic-projects'
     });
+    */
   });
