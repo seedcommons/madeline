@@ -1,7 +1,10 @@
-- if @logs.empty?
+- if @logs.empty? && @context != "calendar"
   = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 - else
-  .show-actions.hidden-print
+  .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
+    - if @context == "calendar"
+      a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
+      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
     a data-expand-all=".logs-index" href="#" = t('common.expand_all')
     a data-hide-all=".logs-index" href="#"
       = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
@@ -15,7 +18,7 @@
           i.fa.fa-fw.fa-calendar
         = @step.summary
 
-  .logs-index.post-list
+  .logs-index.post-list data-expandable=(@context == "calendar" ? "step-logs-#{@step.id}" : "")
     - @logs.each do |log|
       - step = log.project_step
       .log.post data-id=log.id

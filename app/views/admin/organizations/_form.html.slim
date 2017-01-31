@@ -43,12 +43,6 @@
     .view-element = @org.email
     = f.input_field :email
 
-  = f.input :primary_contact
-    .view-element
-      - if @org.primary_contact
-        = link_to @org.primary_contact.name, admin_person_path(@org.primary_contact)
-    = f.input_field :primary_contact_id, collection: @contact_choices, include_blank: true
-
   = f.input :street_address
     .view-element = @org.street_address
     = f.input_field :street_address, as: :text
@@ -97,6 +91,12 @@
   = f.input :contact_notes
     .view-element = @org.contact_notes
     = f.input_field :contact_notes
+
+  = f.input :primary_contact
+    .view-element
+      - if @org.primary_contact
+        = link_to @org.primary_contact.name, admin_person_path(@org.primary_contact)
+    = f.input_field :primary_contact_id, collection: @people_choices, include_blank: true
 
   = f.input :people
     .view-element style=""
