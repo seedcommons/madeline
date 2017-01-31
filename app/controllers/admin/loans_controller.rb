@@ -37,7 +37,7 @@ class Admin::LoansController < Admin::AdminController
     prep_timeline(@loan)
     @form_action_url = admin_loan_path
     @steps = @loan.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
+    @calendar_events_url = "/admin/calendar_events?loan_id=#{@loan.id}"
     @active_tab = params[:tab].presence || "details"
 
     render partial: 'admin/loans/details' if request.xhr?

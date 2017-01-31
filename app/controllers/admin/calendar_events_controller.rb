@@ -1,11 +1,11 @@
 class Admin::CalendarEventsController < Admin::AdminController
 
   # 'start' and 'end' ISO8601 formatted date params and always expected.
-  # 'project_id' is optional and scopes to results to a single loan if provided, otherwise all loans
+  # 'loan_id' is optional and scopes to results to a single loan if provided, otherwise all loans
   # within the current top nav division selection are included..
   def index
-    if params[:project_id]
-      loan = Loan.find(params[:project_id])
+    if params[:loan_id]
+      loan = Loan.find(params[:loan_id])
       authorize loan, :show?
       loan_filter = {id: loan.id}
     else
