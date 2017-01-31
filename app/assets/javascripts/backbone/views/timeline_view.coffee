@@ -4,7 +4,7 @@ class MS.Views.TimelineView extends Backbone.View
 
   initialize: (options) ->
     @projectId = options.projectId
-    @urlComponent = options.projectType == 'BasicProject' ? 'basic-projects' : 'loans'
+    @urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
     new MS.Views.TimelineSelectStepsView(el: '#timeline-list')
     new MS.Views.TimelineBatchActionsView(el: '#timeline-list')
     new MS.Views.TimelineHeaderView()

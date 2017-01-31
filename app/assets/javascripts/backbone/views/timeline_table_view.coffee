@@ -6,7 +6,12 @@ class MS.Views.TimelineTableView extends Backbone.View
   initialize: (options) ->
     new MS.Views.AutoLoadingIndicatorView()
     @projectId = options.projectId
-    @urlComponent = options.projectType == 'BasicProject' ? 'basic-projects' : 'loans'
+    #@urlComponent = (options.projectType == 'BasicProject') ? 'basic-projects' : 'loans'
+
+    if options.projectType == 'BasicProject'
+      @urlComponent = 'basic-projects'
+    else
+      @urlComponent = 'loans'
 
     @groupModal = new MS.Views.ProjectGroupModalView(projectId: @projectId, success: @refresh.bind(@))
     @stepModal = options.stepModal
@@ -38,6 +43,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refresh: ->
     MS.loadingIndicator.show()
+    # console.log(@urlComponent)
     $.get "/admin/#{@urlComponent}/#{@projectId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)

@@ -75,14 +75,14 @@ class Admin::BasicProjectsController < Admin::AdminController
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project, :show?
     prep_timeline
-    render partial: "admin/timeline/table", project: @basic_project
+    render partial: "admin/timeline/table", locals: {project: @basic_project}
   end
 
   # DEPRECATED - please use #timeline
   def steps
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project, :show?
-    render partial: "admin/timeline/list", project: @basic_project
+    render partial: "admin/timeline/list", locals: {project: @basic_project}
   end
 
   private
