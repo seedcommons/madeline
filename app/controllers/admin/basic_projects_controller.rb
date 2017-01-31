@@ -22,20 +22,20 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @project = @basic_project = BasicProject.find(params[:id])
+    @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     prep_form_vars
     prep_timeline
   end
 
   def new
-    @project = BasicProject.new(division: current_division)
-    authorize @project
+    @basic_project = BasicProject.new(division: current_division)
+    authorize @basic_project
     prep_form_vars
   end
 
   def update
-    @project = @basic_project = BasicProject.find(params[:id])
+    @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     @basic_project.assign_attributes(basic_project_params)
 
@@ -48,11 +48,11 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def create
-    @project = BasicProject.new(basic_project_params)
-    authorize @project
+    @basic_project = BasicProject.new(basic_project_params)
+    authorize @basic_project
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
     else
       prep_form_vars
       render :new
@@ -72,17 +72,17 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def timeline
-    @project = @basic_project = BasicProject.find(params[:id])
-    authorize @project, :show?
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project, :show?
     prep_timeline
-    render partial: "admin/timeline/table"
+    render partial: "admin/timeline/table", project: @basic_project
   end
 
   # DEPRECATED - please use #timeline
   def steps
-    @project = @basic_project = BasicProject.find(params[:id])
-    authorize @project, :show?
-    render partial: "admin/timeline/list"
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project, :show?
+    render partial: "admin/timeline/list", project: @basic_project
   end
 
   private
@@ -101,7 +101,7 @@ class Admin::BasicProjectsController < Admin::AdminController
     filters = {}
     filters[:type] = params[:type] if params[:type].present?
     filters[:status] = params[:status] if params[:status].present?
-    @project.root_timeline_entry.filters = filters
+    @basic_project.root_timeline_entry.filters = filters
     @type_options = ProjectStep.step_type_option_set.translated_list
     @status_options = ProjectStep::COMPLETION_STATUSES.map do |status|
       [I18n.t("project_step.completion_status.#{status}"), status]
