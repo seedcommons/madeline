@@ -37,8 +37,10 @@ section.details
     $(function() {
       new MS.Views.CalendarView({
         calendarEventsUrl: #{json @calendar_events_url},
-        stepModal: #{json @stepModal},
+        stepModal: new MS.Views.ProjectStepModalView(),
         locale: #{json @locale},
         urlComponent: "basic-projects"
       });
     });
+
+= render "admin/project_steps/modal"
