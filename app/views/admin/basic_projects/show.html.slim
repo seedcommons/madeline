@@ -43,11 +43,10 @@ div id="timeline-list"
 javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
-    var stepModal = new MS.Views.ProjectStepModalView();
     new MS.Views.TimelineTableView({
       projectId: #{json @basic_project.id},
       projectType: #{json @basic_project.type},
-      stepModal: stepModal
+      stepModal: new MS.Views.ProjectStepModalView()
     });
 
     /*

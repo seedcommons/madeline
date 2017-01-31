@@ -100,7 +100,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           .view-element = @step.is_finalized ? t("reply_yes") : t("reply_no")
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
-    = render "admin/project_logs/log_list", context: context
+    = render "admin/project_logs/log_list", context: context if @logs
 
   div.modal-footer
     .view-element
