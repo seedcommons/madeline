@@ -67,7 +67,8 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = @step.step_type_label
         = f.input_field :step_type_value,
           collection: ProjectStep.step_type_option_set.translated_list,
-          include_blank: '---'
+          selected: f.object.step_type_value || 'checkin',
+          include_blank: false
 
       = f.input :parent_id
         .view-element = @step.parent.summary_or_none if @step.parent.present?
