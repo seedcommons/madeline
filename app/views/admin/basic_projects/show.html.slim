@@ -47,9 +47,11 @@ javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
 
+    stepModal = new MS.Views.ProjectStepModalView()
+
     new MS.Views.TimelineTableView({
       projectId: #{json @basic_project.id},
-      stepModal: new MS.Views.ProjectStepModalView()
+      stepModal: stepModal
     });
 
     new MS.Views.TimelineView({
@@ -58,7 +60,7 @@ javascript:
 
     new MS.Views.CalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
-      stepModal: new MS.Views.ProjectStepModalView(),
+      stepModal: stepModal,
       locale: #{json @locale}
     });
   });
