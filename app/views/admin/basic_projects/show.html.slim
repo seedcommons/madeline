@@ -25,22 +25,43 @@ section.details
 
     = render 'form'
 
-  javascript:
-    $(function() {
-      new MS.Views.ShowEditView({ el: '.basic-project-fields' });
-    });
-
 .block
   = render "admin/calendar/calendar", project: @basic_project
 
-  javascript:
-    $(function() {
-      new MS.Views.CalendarView({
-        calendarEventsUrl: #{json @calendar_events_url},
-        stepModal: new MS.Views.ProjectStepModalView(),
-        locale: #{json @locale},
-        urlComponent: "basic-projects"
-      });
+section.block id="timeline-table"
+  h3 Timeline - Table
+  = render "admin/timeline/main", project: @basic_project
+
+div id="timeline-list"
+  section.block.timeline
+    h3 Timeline - List
+    = render "admin/timeline/list_header", project: @basic_project
+    div.project-steps
+      // Steps are loaded dynamically by TimelineView
+
+= render "admin/media/modal"
+= render "admin/project_groups/modal"
+= render "admin/project_steps/modal"
+
+javascript:
+  $(function() {
+    new MS.Views.ShowEditView({ el: '.basic-project-fields' });
+    
+    new MS.Views.TimelineTableView({
+      projectId: #{json @basic_project.id},
+      projectType: #{json @basic_project.type},
+      stepModal: new MS.Views.ProjectStepModalView()
     });
 
-= render "admin/project_steps/modal"
+    new MS.Views.TimelineView({
+      projectId: #{json @basic_project.id},
+      projectType: #{json @basic_project.type}
+    });
+    
+    new MS.Views.CalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: #{json @locale},
+      urlComponent: "basic-projects"
+    });
+  });

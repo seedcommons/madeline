@@ -102,11 +102,11 @@ describe Loan, :type => :model do
       let!(:loan) { create(:loan) }
       let!(:project_steps) do
         project_steps = []
-        project_steps << create_list(:project_step, 2, :past, :completed, :with_logs, :for_loan, loan_id: loan.id)
-        project_steps << create_list(:project_step, 8, :past, :for_loan, loan_id: loan.id)
-        project_steps << create_list(:project_step, 2, :future, :for_loan, loan_id: loan.id)
-        project_steps << create_list(:project_step, 2, :past, :completed, :for_loan, loan_id: loan.id)
-        project_steps << create_list(:project_step, 2, :past, :with_logs, :for_loan, loan_id: loan.id)
+        project_steps << create_list(:project_step, 2, :past, :completed, :with_logs, :for_loan, project_id: loan.id)
+        project_steps << create_list(:project_step, 8, :past, :for_loan, project_id: loan.id)
+        project_steps << create_list(:project_step, 2, :future, :for_loan, project_id: loan.id)
+        project_steps << create_list(:project_step, 2, :past, :completed, :for_loan, project_id: loan.id)
+        project_steps << create_list(:project_step, 2, :past, :with_logs, :for_loan, project_id: loan.id)
         project_steps.flatten
       end
 

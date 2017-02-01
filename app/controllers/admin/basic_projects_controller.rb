@@ -27,6 +27,7 @@ class Admin::BasicProjectsController < Admin::AdminController
     prep_form_vars
     @steps = @basic_project.project_steps
     @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    prep_timeline(@basic_project)
   end
 
   def new
@@ -72,12 +73,18 @@ class Admin::BasicProjectsController < Admin::AdminController
     end
   end
 
-  def change_date
-    @basic_project = @basic_project = BasicProject.find(params[:id])
-    authorize @basic_project, :update?
-    attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
-    @basic_project.update_attributes(attrib => params[:new_date])
-    render nothing: true
+  def timeline
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project, :show?
+    prep_timeline(@basic_project)
+    render partial: "admin/timeline/table", locals: {project: @basic_project}
+  end
+
+  # DEPRECATED - please use #timeline
+  def steps
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project, :show?
+    render partial: "admin/timeline/list", locals: {project: @basic_project}
   end
 
   private

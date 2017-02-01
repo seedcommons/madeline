@@ -3,8 +3,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   helper TimeLanguageHelper
 
   def new
-    # When instances of loan_id are removed from other features, use Project and project_id only
-    @project = Project.find(params[:project_id]) || Loan.find(params[:loan_id])
+    @project = Project.find(params[:project_id])
     @step = ProjectStep.new(project: @project, scheduled_start_date: params[:date],
       parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id])
     authorize @step
@@ -154,7 +153,12 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def display_timeline(project_id, notice = nil)
-    redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
+    case Project.find(project_id).type
+    when 'Loan'
+      redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
+    when 'BasicProject'
+      redirect_to admin_basic_project_path(project_id), notice: notice
+    end
   end
 
   private

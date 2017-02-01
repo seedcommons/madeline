@@ -35,13 +35,20 @@ class MS.Views.LoanTabView extends Backbone.View
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
-          MS.timelineView = new MS.Views.TimelineView(loanId: @loanId)
+          MS.timelineView = new MS.Views.TimelineView({
+            projectId: @loanId,
+            projectType: 'Loan'
+          })
 
       when 'timeline-table'
         if @timelineTableView
           @timelineTableView.refresh()
         else
-          @timelineTableView = new MS.Views.TimelineTableView(loanId: @loanId, stepModal: @stepModal)
+          @timelineTableView = new MS.Views.TimelineTableView({
+            projectId: @loanId,
+            projectType: 'Loan',
+            stepModal: @stepModal
+          })
 
       when 'loan-calendar'
         # TODO: Should try to get rid of this global when old timeline is gone.

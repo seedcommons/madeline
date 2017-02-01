@@ -5,8 +5,14 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   initialize: (options) ->
     new MS.Views.AutoLoadingIndicatorView()
-    @loanId = options.loanId
-    @groupModal = new MS.Views.ProjectGroupModalView(loanId: @loanId, success: @refresh.bind(@))
+    @projectId = options.projectId
+
+    if options.projectType == 'BasicProject'
+      @urlComponent = 'basic-projects'
+    else
+      @urlComponent = 'loans'
+
+    @groupModal = new MS.Views.ProjectGroupModalView(projectId: @projectId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     @duplicateStepModal = new MS.Views.DuplicateStepModalView()
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
@@ -36,7 +42,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refresh: ->
     MS.loadingIndicator.show()
-    $.get "/admin/loans/#{@loanId}/timeline#{window.location.search}", (html) =>
+    $.get "/admin/#{@urlComponent}/#{@projectId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)
       @timelineFilters.resetFilterDropdowns()
@@ -65,7 +71,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   newStep: (e) ->
     e.preventDefault()
-    @stepModal.new(@loanId, @refresh.bind(@))
+    @stepModal.new(@projectId, @refresh.bind(@))
 
   editStep: (e) ->
     e.preventDefault()
@@ -88,7 +94,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   addDependentStep: (e) ->
     e.preventDefault()
-    @stepModal.new(@loanId, @refresh.bind(@), precedentId: @stepIdFromEvent(e))
+    @stepModal.new(@projectId, @refresh.bind(@), precedentId: @stepIdFromEvent(e))
 
   parentId: (e) ->
     @$(e.target).closest(".project-group").data("id")
