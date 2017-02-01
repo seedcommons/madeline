@@ -130,7 +130,7 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.1)
     daemons (1.2.4)
-    database_cleaner (1.5.1)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     delayed_job (4.1.2)
       activesupport (>= 3.0, < 5.1)
@@ -459,7 +459,7 @@ DEPENDENCIES
   closure_tree (~> 6.2)
   coffee-rails (~> 4.1.0)
   daemons
-  database_cleaner
+  database_cleaner (~> 1.5)
   delayed_job_active_record
   devise
   dotenv-rails

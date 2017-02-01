@@ -124,7 +124,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pundit-matchers'
   gem 'factory_girl_rails'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '~> 1.5'
   gem 'faker'
   gem 'capybara', '~> 2.0'
   gem 'capybara-screenshot', '~> 1.0'
