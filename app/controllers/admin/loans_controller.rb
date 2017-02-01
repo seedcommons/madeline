@@ -1,4 +1,4 @@
-class Admin::LoansController < Admin::AdminController
+class Admin::LoansController < Admin::ProjectsController
   include TranslationSaveable
 
   def index
@@ -48,20 +48,6 @@ class Admin::LoansController < Admin::AdminController
     @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
-  end
-
-  # DEPRECATED - please use #timeline
-  def steps
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    render partial: "admin/timeline/list", locals: {project: @loan}
-  end
-
-  def timeline
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-    prep_timeline(@loan)
-    render partial: "admin/timeline/table", locals: {project: @loan}
   end
 
   def questionnaires

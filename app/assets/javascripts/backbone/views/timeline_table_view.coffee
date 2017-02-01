@@ -42,7 +42,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   refresh: ->
     MS.loadingIndicator.show()
-    $.get "/admin/#{@urlComponent}/#{@projectId}/timeline#{window.location.search}", (html) =>
+    $.get "/admin/projects/#{@projectId}/timeline#{window.location.search}", (html) =>
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)
       @timelineFilters.resetFilterDropdowns()

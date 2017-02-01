@@ -23,7 +23,7 @@ class MS.Views.TimelineView extends Backbone.View
   refreshSteps: (callback = (->)) ->
     MS.loadingIndicator.show()
     @$('.project-steps').empty()
-    $.get "/admin/#{@urlComponent}/#{@projectId}/steps", (html) =>
+    $.get "/admin/projects/#{@projectId}/steps", (html) =>
       MS.loadingIndicator.hide()
       @$('.project-steps').html(html)
       @addBlankStep() if @stepCount() == 0

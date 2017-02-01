@@ -1,4 +1,4 @@
-class Admin::BasicProjectsController < Admin::AdminController
+class Admin::BasicProjectsController < Admin::ProjectsController
   include TranslationSaveable
 
   def index
@@ -71,20 +71,6 @@ class Admin::BasicProjectsController < Admin::AdminController
       prep_form_vars
       render :show
     end
-  end
-
-  def timeline
-    @basic_project = BasicProject.find(params[:id])
-    authorize @basic_project, :show?
-    prep_timeline(@basic_project)
-    render partial: "admin/timeline/table", locals: {project: @basic_project}
-  end
-
-  # DEPRECATED - please use #timeline
-  def steps
-    @basic_project = BasicProject.find(params[:id])
-    authorize @basic_project, :show?
-    render partial: "admin/timeline/list", locals: {project: @basic_project}
   end
 
   private

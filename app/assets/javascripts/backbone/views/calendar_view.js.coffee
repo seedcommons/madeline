@@ -64,7 +64,7 @@ class MS.Views.CalendarView extends Backbone.View
       setTimeout =>
         if confirm(I18n.t("loan.move_date_confirm.body"))
           projectId = @$el.find('#calendar').data('project-id')
-          $.post "/admin/#{@urlComponent}/#{projectId}/change_date",
+          $.post "/admin/projects/#{projectId}/change_date",
             _method: "PATCH"
             which_date: event.event_type
             new_date: event.start.format('YYYY-MM-DD')
