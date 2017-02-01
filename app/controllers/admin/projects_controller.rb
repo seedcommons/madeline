@@ -1,7 +1,5 @@
-module ProjectConcern
-  extend ActiveSupport::Concern
-
-  private
+class Admin::ProjectsController < Admin::AdminController
+  include TranslationSaveable
 
   def change_date(project)
     project = Project.find(params[:id])

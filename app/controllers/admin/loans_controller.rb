@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::AdminController
-  include TranslationSaveable, ProjectConcern
+  include TranslationSaveable
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
