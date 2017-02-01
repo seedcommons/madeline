@@ -7,6 +7,7 @@ class CalendarEventSerializer < ActiveModel::Serializer
     case object.model_type
     when "ProjectStep" then ProjectStepPolicy.new(scope, object.model).update?
     when "Loan" then LoanPolicy.new(scope, object.model).update?
+    when "BasicProject" then BasicProjectPolicy.new(scope, object.model).update?
     else false
     end
   end

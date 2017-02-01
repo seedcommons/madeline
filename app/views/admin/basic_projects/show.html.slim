@@ -25,6 +25,9 @@ section.details
 
     = render 'form'
 
+.block
+  = render "admin/calendar/calendar", project: @basic_project
+
 section.block id="timeline-table"
   h3 Timeline - Table
   = render "admin/timeline/main", project: @basic_project
@@ -43,14 +46,21 @@ div id="timeline-list"
 javascript:
   $(function() {
     new MS.Views.ShowEditView({ el: '.basic-project-fields' });
+
+    stepModal = new MS.Views.ProjectStepModalView()
+
     new MS.Views.TimelineTableView({
       projectId: #{json @basic_project.id},
-      projectType: #{json @basic_project.type},
-      stepModal: new MS.Views.ProjectStepModalView()
+      stepModal: stepModal
     });
 
     new MS.Views.TimelineView({
-      projectId: #{json @basic_project.id},
-      projectType: #{json @basic_project.type}
+      projectId: #{json @basic_project.id}
+    });
+
+    new MS.Views.CalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: stepModal,
+      locale: #{json @locale}
     });
   });

@@ -117,7 +117,7 @@ class ProjectStep < TimelineEntry
       duration = scheduled_duration_days
     end
 
-    (old_start_date || scheduled_start_date) + duration
+    (old_start_date || scheduled_start_date) + (duration || 0)
   end
 
   # Gets the actual number of days the step too, based on actual end date and scheduled start date

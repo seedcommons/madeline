@@ -1,5 +1,5 @@
-class Admin::BasicProjectsController < Admin::AdminController
-  include TranslationSaveable, ProjectConcern
+class Admin::BasicProjectsController < Admin::ProjectsController
+  include TranslationSaveable
 
   def index
     authorize BasicProject
@@ -25,6 +25,8 @@ class Admin::BasicProjectsController < Admin::AdminController
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
     prep_form_vars
+    @steps = @basic_project.project_steps
+    @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
     prep_timeline(@basic_project)
   end
 
@@ -69,20 +71,6 @@ class Admin::BasicProjectsController < Admin::AdminController
       prep_form_vars
       render :show
     end
-  end
-
-  def timeline
-    @basic_project = BasicProject.find(params[:id])
-    authorize @basic_project, :show?
-    prep_timeline(@basic_project)
-    render partial: "admin/timeline/table", locals: {project: @basic_project}
-  end
-
-  # DEPRECATED - please use #timeline
-  def steps
-    @basic_project = BasicProject.find(params[:id])
-    authorize @basic_project, :show?
-    render partial: "admin/timeline/list", locals: {project: @basic_project}
   end
 
   private
