@@ -23,7 +23,6 @@ class Admin::ProjectsController < Admin::AdminController
     render partial: "admin/timeline/table", locals: {project: @project}
   end
 
-
   protected
 
   def prep_timeline(project)

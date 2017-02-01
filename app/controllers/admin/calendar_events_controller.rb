@@ -1,7 +1,7 @@
 class Admin::CalendarEventsController < Admin::AdminController
 
   # 'start' and 'end' ISO8601 formatted date params and always expected.
-  # 'project_id' is optional and scopes to results to a single project if provided, otherwise all projects
+  # 'project_id' is optional and scopes to results for a single project if provided, otherwise all projects
   # within the current top nav division selection are included..
   def index
     if params[:project_id]
