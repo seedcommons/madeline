@@ -49,19 +49,16 @@ javascript:
     
     new MS.Views.TimelineTableView({
       projectId: #{json @basic_project.id},
-      projectType: #{json @basic_project.type},
       stepModal: new MS.Views.ProjectStepModalView()
     });
 
     new MS.Views.TimelineView({
-      projectId: #{json @basic_project.id},
-      projectType: #{json @basic_project.type}
+      projectId: #{json @basic_project.id}
     });
     
     new MS.Views.CalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
       stepModal: new MS.Views.ProjectStepModalView(),
-      locale: #{json @locale},
-      urlComponent: "basic-projects"
+      locale: #{json @locale}
     });
   });

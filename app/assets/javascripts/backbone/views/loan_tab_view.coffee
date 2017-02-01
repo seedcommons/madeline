@@ -35,10 +35,7 @@ class MS.Views.LoanTabView extends Backbone.View
         if MS.timelineView
           MS.timelineView.refreshSteps()
         else
-          MS.timelineView = new MS.Views.TimelineView({
-            projectId: @loanId,
-            projectType: 'Loan'
-          })
+          MS.timelineView = new MS.Views.TimelineView(projectId: @loanId)
 
       when 'timeline-table'
         if @timelineTableView
@@ -46,7 +43,6 @@ class MS.Views.LoanTabView extends Backbone.View
         else
           @timelineTableView = new MS.Views.TimelineTableView({
             projectId: @loanId,
-            projectType: 'Loan',
             stepModal: @stepModal
           })
 
@@ -59,7 +55,6 @@ class MS.Views.LoanTabView extends Backbone.View
             calendarEventsUrl: @calendarEventsUrl,
             stepModal: @stepModal,
             locale: @locale,
-            urlComponent: 'loans'
           )
 
       when 'logs'

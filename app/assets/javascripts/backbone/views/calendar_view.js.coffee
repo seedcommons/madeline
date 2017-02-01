@@ -6,7 +6,6 @@ class MS.Views.CalendarView extends Backbone.View
     # Initialize calendar
     @$calendar = @$('#calendar')
     @stepModal = params.stepModal
-    @urlComponent = params.urlComponent
 
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
