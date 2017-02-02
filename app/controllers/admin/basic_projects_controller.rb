@@ -28,14 +28,15 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     case @tab = params[:tab] || "details"
     when "details"
       prep_form_vars
+    when "timeline"
+      prep_timeline(@basic_project)
+    when "timeline_list"
+      @steps = @basic_project.project_steps
+    when "calendar"
+      @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
     end
 
     @tabs = %w(details timeline timeline_list logs calendar)
-
-    prep_form_vars
-    @steps = @basic_project.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
-    prep_timeline(@basic_project)
   end
 
   def new
