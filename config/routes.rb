@@ -20,11 +20,8 @@ Rails.application.routes.draw do
     end
     resources :loans do
       member do
-        get :steps
         get :questionnaires
-        patch :change_date
         get :print
-        get :timeline
       end
     end
     resources :loan_questions do
@@ -33,6 +30,13 @@ Rails.application.routes.draw do
     resources :notes, only: [:create, :update, :destroy]
     resources :organizations
     resources :people
+    resources :projects do
+      member do
+        get :steps
+        patch :change_date
+        get :timeline
+      end
+    end
     resources :project_logs, path: 'logs'
     resources :project_steps do
       collection do

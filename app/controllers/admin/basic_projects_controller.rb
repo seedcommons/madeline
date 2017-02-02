@@ -1,4 +1,4 @@
-class Admin::BasicProjectsController < Admin::AdminController
+class Admin::BasicProjectsController < Admin::ProjectsController
   include TranslationSaveable
 
   def index
@@ -22,8 +22,8 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
 
     case @tab = params[:tab] || "details"
     when "details"
@@ -31,21 +31,26 @@ class Admin::BasicProjectsController < Admin::AdminController
     end
 
     @tabs = %w(details timeline timeline_list logs calendar)
+
+    prep_form_vars
+    @steps = @basic_project.project_steps
+    @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    prep_timeline(@basic_project)
   end
 
   def new
-    @project = BasicProject.new(division: current_division)
-    authorize @project
+    @basic_project = BasicProject.new(division: current_division)
+    authorize @basic_project
     prep_form_vars
   end
 
   def update
-    @project = BasicProject.find(params[:id])
-    authorize @project
-    @project.assign_attributes(basic_project_params)
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+    @basic_project.assign_attributes(basic_project_params)
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_updated)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
@@ -53,11 +58,11 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def create
-    @project = BasicProject.new(basic_project_params)
-    authorize @project
+    @basic_project = BasicProject.new(basic_project_params)
+    authorize @basic_project
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_created)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
     else
       prep_form_vars
       render :new
@@ -65,10 +70,10 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def destroy
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
 
-    if @project.destroy
+    if @basic_project.destroy
       redirect_to admin_basic_projects_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars

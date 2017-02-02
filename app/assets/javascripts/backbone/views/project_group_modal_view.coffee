@@ -4,7 +4,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
-    @loanId = params.loanId
+    @projectId = params.projectId
     @success = params.success
 
   events:
@@ -19,7 +19,7 @@ class MS.Views.ProjectGroupModalView extends Backbone.View
 
   new: (parentId) ->
     parentId = parentId || ''
-    @show("/admin/project_groups/new?loan_id=#{@loanId}&parent_id=#{parentId}")
+    @show("/admin/project_groups/new?project_id=#{@projectId}&parent_id=#{parentId}")
 
   edit: (id) ->
     @show("/admin/project_groups/#{id}/edit")

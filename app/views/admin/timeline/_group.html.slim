@@ -16,5 +16,5 @@
   - else
     - children.each_with_index do |child, i|
       - entry_type = child.group? ? "group" : "step"
-      = render "admin/loans/timeline/#{entry_type}", entry: child, first_in_row: i != 0,
+      = render "admin/timeline/#{entry_type}", entry: child, first_in_row: i != 0,
         max_group_depth: max_group_depth, siblings_are_all_steps: entry.descendants_only_steps?

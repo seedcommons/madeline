@@ -1,11 +1,12 @@
-section.timeline-table data-loan-id= @loan.id
-  = render "admin/loans/timeline/top_controls"
-  - if @loan.root_timeline_entry
-    - if @loan.root_timeline_entry.group?
+section.timeline-table data-project-id= project.id
+
+  = render "admin/timeline/top_controls", project: project
+  - if project.root_timeline_entry
+    - if project.root_timeline_entry.group?
       .table-wrapper
-        = render("admin/loans/timeline/table")
+        = render "admin/timeline/table", project: project
     / If user has created a step through the timeline list, the timeline table is incompatible
-    - elsif @loan.root_timeline_entry.step?
+    - elsif project.root_timeline_entry.step?
       p This loan is not yet compatible with the timeline table.
   - else
     p = t("project_step.no_steps")
