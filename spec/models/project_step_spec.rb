@@ -48,6 +48,16 @@ describe ProjectStep, type: :model do
     expect(step.scheduled_end_date).to be_nil
   end
 
+  it 'scheduled_start_date can be set to blank string when scheduled_start_date of schedule_parent is nil' do
+    parent = create(:project_step, scheduled_start_date: nil)
+    step = create(:project_step, schedule_parent: parent)
+
+    step.scheduled_start_date = ''
+    step.save
+
+    expect(step.scheduled_start_date).to be_nil
+  end
+
   it 'raises error if scheduled_end_date is nil and old_end_date is not nil' do
     step = create(:project_step,
       scheduled_start_date: nil,

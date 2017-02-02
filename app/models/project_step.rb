@@ -96,6 +96,7 @@ class ProjectStep < TimelineEntry
   end
 
   def scheduled_start_date=(date)
+    date = nil if date.blank?
     if schedule_parent && schedule_parent.scheduled_end_date != date
       raise ArgumentError, "start date must match precedent step end date"
     end
