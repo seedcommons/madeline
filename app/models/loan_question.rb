@@ -132,6 +132,10 @@ class LoanQuestion < ActiveRecord::Base
     data_type == 'group'
   end
 
+  def active?
+    status == 'active'
+  end
+
   def child_groups
     children.select(&:group?)
   end
