@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       post 'select_division', to: 'divisions#select'
     end
 
+    get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 

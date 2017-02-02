@@ -7,9 +7,9 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     @basic_projects_grid = initialize_grid(
       policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
-      order_direction: 'desc',
+      order_direction: "desc",
       per_page: 50,
-      name: 'basic_projects',
+      name: "basic_projects",
       enable_export_to_csv: true
     )
 
@@ -24,10 +24,19 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   def show
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
-    prep_form_vars
-    @steps = @basic_project.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
-    prep_timeline(@basic_project)
+
+    case @tab = params[:tab] || "details"
+    when "details"
+      prep_form_vars
+    when "timeline"
+      prep_timeline(@basic_project)
+    when "timeline_list"
+      @steps = @basic_project.project_steps
+    when "calendar"
+      @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    end
+
+    @tabs = %w(details timeline timeline_list logs calendar)
   end
 
   def new
