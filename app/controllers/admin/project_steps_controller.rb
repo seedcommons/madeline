@@ -5,12 +5,13 @@ class Admin::ProjectStepsController < Admin::AdminController
   def new
     @project = Project.find(params[:project_id])
     @step = ProjectStep.new(project: @project, scheduled_start_date: params[:date],
-      parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id])
+      parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id],
+      step_type_value: 'checkin')
     authorize @step
-    if params[:context] == "timeline_table"
+    if params[:context] == 'timeline_table'
       render_modal_content
     else
-      params[:context] = "timeline" unless params[:context]
+      params[:context] = 'timeline' unless params[:context]
       render_step_partial(:form)
     end
   end
@@ -25,7 +26,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
-    if params[:context] == "calendar"
+    if params[:context] == 'calendar'
       @logs = @step.project_logs
       @context = params[:context]
       render_modal_content
@@ -42,7 +43,7 @@ class Admin::ProjectStepsController < Admin::AdminController
       @step.parent = @step.project.root_timeline_entry
     end
     valid = @step.save
-    if params[:context] == "timeline_table"
+    if params[:context] == 'timeline_table'
       valid ? render(nothing: true) : render_modal_content(422)
     else
       render_step_partial(valid ? :show : :form)
@@ -66,7 +67,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     if %w(timeline_table calendar).include?(params[:context])
       valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
     else
-      render partial: "/admin/project_steps/project_step", locals: {
+      render partial: '/admin/project_steps/project_step', locals: {
         step: @step,
         mode: valid ? :show : :edit,
         days_shifted: days_shifted,

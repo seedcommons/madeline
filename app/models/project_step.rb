@@ -54,7 +54,7 @@ class ProjectStep < TimelineEntry
 
   attr_option_settable :step_type
 
-  validates :project_id, presence: true
+  validates :project_id, :step_type_value, presence: true
   validate :unfinalize_allowed
 
   before_save :handle_old_start_date_logic
