@@ -57,7 +57,6 @@ namespace :tww do
         hash[media_file.loan_id] = arr
       end
 
-
     files.each do |key, value|
       begin
         loan = Loan.find key
@@ -72,7 +71,7 @@ namespace :tww do
           end
         end
         loan.save!
-      rescue
+      rescue ActiveRecord::RecordNotFound
         puts "\r\nCould not find loan #{key} for file #{value.first.file_name}"
       end
     end
