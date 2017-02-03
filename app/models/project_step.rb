@@ -48,7 +48,8 @@ class ProjectStep < TimelineEntry
   COMPLETION_STATUSES = [ 'draft', 'incomplete', 'complete' ].freeze
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
-  has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id, inverse_of: :schedule_parent
+  has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
+      inverse_of: :schedule_parent, dependent: :nullify
 
   attr_translatable :details
 
