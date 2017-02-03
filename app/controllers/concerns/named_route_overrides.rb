@@ -1,7 +1,9 @@
 # These functions exist solely for wice_grid.
 # wice_grid does not support default filter values. So instead we are overriding the
 # params passed to the routes using wice_grid
-module NamedRouteOverridesHelper
+module NamedRouteOverrides
+  extend ActiveSupport::Concern
+
   def admin_loans_path(*args)
     # Default to active loans, unless overriden
     options = HashWithIndifferentAccess.new loans: {f:{status_value: ['active']}}
