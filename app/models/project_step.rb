@@ -56,6 +56,7 @@ class ProjectStep < TimelineEntry
 
   validates :project_id, presence: true
   validate :unfinalize_allowed
+  validate :validate_scheduled_start_date
 
   before_save :handle_old_start_date_logic
   before_save :handle_old_duration_days_logic
@@ -93,14 +94,6 @@ class ProjectStep < TimelineEntry
   def schedule_parent_id=(precedent_id)
     super(precedent_id)
     copy_schedule_parent_date
-  end
-
-  def scheduled_start_date=(date)
-    date = nil if date.blank?
-    if schedule_parent && schedule_parent.scheduled_end_date != date
-      raise ArgumentError, "start date must match precedent step end date"
-    end
-    super(date)
   end
 
   def scheduled_end_date
@@ -214,6 +207,12 @@ class ProjectStep < TimelineEntry
 
   def is_finalized_locked?
     finalized_at && Time.now > finalized_at + 1.day
+  end
+
+  def validate_scheduled_start_date
+    if schedule_parent && schedule_parent.scheduled_end_date != scheduled_start_date
+      errors.add(:scheduled_start_date, "start date must match precedent step end date")
+    end
   end
 
   def days_late

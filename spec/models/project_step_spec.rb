@@ -294,7 +294,8 @@ describe ProjectStep, type: :model do
     end
 
     it 'scheduled_start_date must match parent end' do
-      expect { step.scheduled_start_date = parent_end + 29 }.to raise_error(ArgumentError)
+      step.scheduled_start_date = parent_end + 29
+      expect(step).to_not be_valid
     end
 
     context 'is orphaned' do
