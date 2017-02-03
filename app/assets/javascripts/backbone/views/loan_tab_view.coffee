@@ -62,6 +62,6 @@ class MS.Views.LoanTabView extends Backbone.View
           @logListView = new MS.Views.LogListView(
             el: '.tab-pane#logs section.log-list',
             refreshUrl: "/admin/logs?loan=#{@loanId}",
-            logFormModalView: new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
+            logFormModal: $("<div>").insertAfter(@$el)
           )
         @logListView.refresh()
