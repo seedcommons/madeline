@@ -189,17 +189,4 @@ class Loan < Project
   def amount_formatted
     ensure_currency.format_amount(amount)
   end
-
-  def project_events(order_by="Completed IS NULL OR Completed = '0000-00-00', Completed, Date")
-    @project_events ||= ProjectEvent.includes(project_logs: :progress_metric).
-      where("lower(ProjectTable) = 'loans' and ProjectID = ?", self.ID).order(order_by)
-    @project_events.reject do |p|
-      # Hide past uncompleted project events without logs (for now)
-      !p.completed && p.project_logs.empty? && p.date <= Date.today
-    end
-  end
-
-  def calendar_events
-    CalendarEvent.build_for(self)
-  end
 end

@@ -48,6 +48,26 @@ describe ProjectStep, type: :model do
     expect(step.scheduled_end_date).to be_nil
   end
 
+  it 'schedule_parent can be set to nil' do
+    parent = create(:project_step, scheduled_start_date: nil)
+    step = create(:project_step, schedule_parent: parent)
+
+    step.schedule_parent = nil
+    step.save!
+
+    expect(step.schedule_parent).to be_nil
+  end
+
+  it 'scheduled_start_date can be set to blank string when scheduled_start_date of schedule_parent is nil' do
+    parent = create(:project_step, scheduled_start_date: nil)
+    step = create(:project_step, schedule_parent: parent)
+
+    step.scheduled_start_date = ''
+    step.save!
+
+    expect(step.scheduled_start_date).to be_nil
+  end
+
   it 'raises error if scheduled_end_date is nil and old_end_date is not nil' do
     step = create(:project_step,
       scheduled_start_date: nil,
@@ -274,7 +294,8 @@ describe ProjectStep, type: :model do
     end
 
     it 'scheduled_start_date must match parent end' do
-      expect { step.scheduled_start_date = parent_end + 29 }.to raise_error(ArgumentError)
+      step.scheduled_start_date = parent_end + 29
+      expect(step).to_not be_valid
     end
 
     context 'is orphaned' do

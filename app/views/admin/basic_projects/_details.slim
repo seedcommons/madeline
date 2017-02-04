@@ -1,0 +1,28 @@
+section.details class=(@basic_project.valid? ? "show-view" : " edit-view")
+  .show-actions
+    - if policy(@basic_project).update?
+      - if @basic_project.valid?
+        a.edit-action.view-element
+          i.fa.fa-pencil.fa-large>
+          = t("basic_project.edit")
+        a.show-action.form-element
+          = t("cancel_edit")
+      - else
+        a href=admin_basic_project_path(@person) = t("cancel_edit")
+    - if policy(@basic_project).destroy?
+      = link_to [:admin, @basic_project], method: :delete,
+          data: { \
+            confirm: t("basic_project.confirm_deletion"),
+            "confirm-title": t("basic_project.delete"),
+            "confirm-cancel": t(:cancel),
+            "confirm-proceed": t(:confirm)\
+        }
+        i.fa.fa-trash.fa-large>
+        = t("basic_project.delete")
+
+  = render "form"
+
+javascript:
+  $(function() {
+    new MS.Views.ShowEditView({ el: ".details" });
+  });

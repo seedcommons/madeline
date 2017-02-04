@@ -1,32 +1,14 @@
-- content_for(:title, @project.display_name)
+- content_for(:title, @basic_project.display_name)
 
-section.details
+.basic-project
+  ul.nav.nav-tabs
+    - @tabs.each do |tab|
+      li role="presentation" class==("active" if tab == @tab)
+        = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
 
-  section.block.basic-project-fields class=(@project.valid? ? 'show-view' : 'edit-view')
-    .show-actions
-      - if policy(@project).update?
-        - if @project.valid?
-          a.edit-action.view-element
-            i.fa.fa-pencil.fa-large>
-            = t(".edit")
-          a.show-action.form-element
-            = t("cancel_edit")
-        - else
-          a href=admin_basic_project_path(@person) = t("cancel_edit")
-      - if policy(@project).destroy?
-        = link_to [:admin, @project], method: :delete,
-            data: { \
-              confirm: t('.confirm_deletion'),
-              "confirm-title": t('.delete'),
-              "confirm-cancel": t(:cancel),
-              "confirm-proceed": t(:confirm)\
-          }
-          i.fa.fa-trash.fa-large>
-          = t(".delete")
+  .block data-tab-content== @tab
+    = render "admin/basic_projects/#{@tab}"
 
-    = render 'form'
-
-javascript:
-  $(function() {
-    new MS.Views.ShowEditView({ el: '.basic-project-fields' });
-  });
+= render "admin/media/modal"
+= render "admin/project_groups/modal"
+= render "admin/project_steps/modal"

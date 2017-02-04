@@ -49,7 +49,7 @@ class Project < ActiveRecord::Base
   belongs_to :division
   belongs_to :primary_agent, class_name: 'Person'
   belongs_to :secondary_agent, class_name: 'Person'
-  has_many :timeline_entries
+  has_many :timeline_entries, dependent: :destroy
   has_many :project_logs, through: :timeline_entries
 
   # define accessor-like convenience methods for the fields stored in the Translations table
@@ -103,5 +103,18 @@ class Project < ActiveRecord::Base
 
   def display_agent_names
     agent_names.join(', ')
+  end
+
+  def calendar_events
+    CalendarEvent.build_for(self)
+  end
+
+  def project_events(order_by = "Completed IS NULL OR Completed = '0000-00-00', Completed, Date")
+    @project_events ||= ProjectEvent.includes(project_logs: :progress_metric).
+      where("lower(ProjectTable) = 'projects' and ProjectID = ?", self.ID).order(order_by)
+    @project_events.reject do |p|
+      # Hide past uncompleted project events without logs (for now)
+      !p.completed && p.project_logs.empty? && p.date <= Date.today
+    end
   end
 end

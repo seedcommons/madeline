@@ -1,4 +1,4 @@
-class Admin::BasicProjectsController < Admin::AdminController
+class Admin::BasicProjectsController < Admin::ProjectsController
   include TranslationSaveable
 
   def index
@@ -7,9 +7,9 @@ class Admin::BasicProjectsController < Admin::AdminController
     @basic_projects_grid = initialize_grid(
       policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
-      order_direction: 'desc',
+      order_direction: "desc",
       per_page: 50,
-      name: 'basic_projects',
+      name: "basic_projects",
       enable_export_to_csv: true
     )
 
@@ -22,29 +22,59 @@ class Admin::BasicProjectsController < Admin::AdminController
   end
 
   def show
-    @project = BasicProject.find(params[:id])
-    authorize @project
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+
+    case @tab = params[:tab] || "details"
+    when "details"
+      prep_form_vars
+    when "timeline"
+      prep_timeline(@basic_project)
+    when "timeline_list"
+      @steps = @basic_project.project_steps
+    when "calendar"
+      @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    end
+
+    @tabs = %w(details timeline timeline_list logs calendar)
+  end
+
+  def new
+    @basic_project = BasicProject.new(division: current_division)
+    authorize @basic_project
     prep_form_vars
   end
 
   def update
-    @project = BasicProject.find(params[:id])
-    authorize @project
-    @project.assign_attributes(basic_project_params)
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+    @basic_project.assign_attributes(basic_project_params)
 
-    if @project.save
-      redirect_to admin_basic_project_path(@project), notice: I18n.t(:notice_updated)
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
       render :show
     end
   end
 
-  def destroy
-    @project = BasicProject.find(params[:id])
-    authorize @project
+  def create
+    @basic_project = BasicProject.new(basic_project_params)
+    authorize @basic_project
 
-    if @project.destroy
+    if @basic_project.save
+      redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
+    else
+      prep_form_vars
+      render :new
+    end
+  end
+
+  def destroy
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+
+    if @basic_project.destroy
       redirect_to admin_basic_projects_path, notice: I18n.t(:notice_deleted)
     else
       prep_form_vars
@@ -55,11 +85,12 @@ class Admin::BasicProjectsController < Admin::AdminController
   private
 
   def prep_form_vars
+    @division_choices = division_choices
     @agent_choices = policy_scope(Person).in_division(selected_division).where(has_system_access: true).order(:name)
   end
 
   def basic_project_params
-    params.require(:basic_project).permit(:length_months, :name, :primary_agent_id,
+    params.require(:basic_project).permit(:division_id, :length_months, :name, :primary_agent_id,
       :secondary_agent_id, :signing_date, :status_value)
   end
 end

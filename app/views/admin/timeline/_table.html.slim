@@ -1,9 +1,9 @@
-- max_group_depth = @loan.root_timeline_entry.max_descendant_group_depth
+- max_group_depth = project.root_timeline_entry.max_descendant_group_depth
 
 table.table
-  = render "admin/loans/timeline/header", max_group_depth: max_group_depth
+  = render "admin/timeline/header", max_group_depth: max_group_depth
   tbody
-    = render "admin/loans/timeline/group", entry: @loan.root_timeline_entry,
+    = render "admin/timeline/group", entry: project.root_timeline_entry,
       first_in_row: true, max_group_depth: max_group_depth
 
 / These menus need to be in this partial because they get moved within the table and thus if the

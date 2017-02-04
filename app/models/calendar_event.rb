@@ -3,7 +3,7 @@ class CalendarEvent
 
   attr_accessor :start
   attr_accessor :title
-  attr_accessor :html  # transient value populated by controller and serialized as 'title'
+  attr_accessor :html  # transient value populated by controller and serialized as "title"
 
   attr_accessor :event_type
   attr_accessor :model
@@ -18,15 +18,17 @@ class CalendarEvent
   attr_accessor :has_precedent
   alias_method :has_precedent?, :has_precedent
 
-  def self.build_for(model)
-    puts "model: #{model.inspect}"
-    case model
+  def self.build_for(item)
+    puts "item: #{item.inspect}"
+    case item
+    when BasicProject
+      [new_project_start(item), new_project_end(item)]
     when Loan
-      [new_loan_start(model), new_loan_end(model)]
+      [new_project_start(item), new_project_end(item)]
     when ProjectStep
-      [new_project_step(model), new_ghost_step(model)]
+      [new_project_step(item), new_ghost_step(item)]
     else
-      raise "CalendarEvent.build_for - unexpected model class: #{model.class}"
+      raise "CalendarEvent.build_for - unexpected model class: #{item.class}"
     end.compact
   end
 
@@ -38,17 +40,17 @@ class CalendarEvent
     step.old_start_date ? new.initialize_ghost_step(step) : nil
   end
 
-  def self.new_loan_start(loan)
-    loan.signing_date ? new.initialize_loan_start(loan) : nil
+  def self.new_project_start(project)
+    project.signing_date ? new.initialize_project_start(project) : nil
   end
 
-  def self.new_loan_end(loan)
-    loan.end_date ? new.initialize_loan_end(loan) : nil
+  def self.new_project_end(project)
+    project.end_date ? new.initialize_project_end(project) : nil
   end
 
-  def self.filtered_events(date_range: nil, loan_filter: nil, loan_scope: Loan, step_scope: ProjectStep)
-    events = loan_events_by_date_loan_scope(date_range, loan_scope.where(loan_filter))
-    events += step_events_by_date_loan_filter(date_range: date_range, loan_filter: loan_filter,
+  def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project, step_scope: ProjectStep)
+    events = project_events_by_date_project_scope(date_range, project_scope.where(project_filter))
+    events += step_events_by_date_project_filter(date_range: date_range, project_filter: project_filter,
       scope: step_scope)
 
     # Filter out sibling events outside of our range
@@ -56,25 +58,25 @@ class CalendarEvent
     events
   end
 
-  def self.loan_events_by_date_loan_scope(range, scope = Loan)
-    loan_date_filter(range, scope).map(&:calendar_events).flatten
+  def self.project_events_by_date_project_scope(range, scope = Project)
+    project_date_filter(range, scope).map(&:calendar_events).flatten
   end
 
-  def self.step_events_by_date_loan_filter(date_range: nil, loan_filter: nil, scope: ProjectStep)
+  def self.step_events_by_date_project_filter(date_range: nil, project_filter: nil, scope: ProjectStep)
     project_step_date_filter(date_range, scope).
       # Would be nice to be able to use a join here, but this performs okay with the full migrated
       # data, and I'm not sure if it's possible without entirely hand crafted SQL
-      where(project_id: Loan.where(loan_filter).pluck(:id)).
+      where(project_id: Project.where(project_filter).pluck(:id)).
       map(&:calendar_events).flatten
   end
 
-  def self.test(loan_filter)
-    ProjectStep.joins(:projects).where(projects: loan_filter)
+  def self.test(project_filter)
+    ProjectStep.joins(:projects).where(projects: project_filter)
   end
 
-  def self.loan_date_filter(range, scope = Loan)
+  def self.project_date_filter(range, scope = Project)
     # Seems like a nice 'OR' syntax won't be available until Rails 5.
-    # Loan.where(signing_date: date_range).or(end_date: date_range)
+    # Project.where(signing_date: date_range).or(end_date: date_range)
     scope.where("signing_date BETWEEN :first AND :last OR end_date between :first AND :last",
                 {first: range.first, last: range.last})
   end
@@ -91,7 +93,7 @@ class CalendarEvent
 
     @event_type = "project_step"
     @num_of_logs = step.logs_count
-    @model_type = 'ProjectStep'
+    @model_type = "ProjectStep"
     @model = step
 
     @step_type = step.step_type_value
@@ -106,27 +108,27 @@ class CalendarEvent
     @title = step.name.to_s
     @event_type = "ghost_step"
     @num_of_logs = step.logs_count
-    @model_type = 'ProjectStep'
+    @model_type = "ProjectStep"
     @model = step
     @step_type = step.step_type_value
     self
   end
 
-  def initialize_loan_start(loan)
-    @start = loan.signing_date
-    @title = I18n.t("loan.start", name: loan.display_name)
-    @event_type = "loan_start"
-    @model_type = 'Loan'
-    @model = loan
+  def initialize_project_start(project)
+    @start = project.signing_date
+    @title = I18n.t("loan.start", name: project.display_name)
+    @event_type = "project_start"
+    @model_type = project.type
+    @model = project
     self
   end
 
-  def initialize_loan_end(loan)
-    @start = loan.end_date
-    @title = I18n.t("loan.end", name: loan.display_name)
-    @event_type = "loan_end"
-    @model_type = 'Loan'
-    @model = loan
+  def initialize_project_end(project)
+    @start = project.end_date
+    @title = I18n.t("loan.end", name: project.display_name)
+    @event_type = "project_end"
+    @model_type = project.type
+    @model = project
     self
   end
 

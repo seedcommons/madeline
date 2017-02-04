@@ -27,7 +27,7 @@ module ProgressCalculable
   # plus the numerators of any child groups.
   def progress_numerator
     return @progress_numerator if @progress_numerator
-    properties = {answered: true, group: false}
+    properties = {answered: true, group: false, active: true}
     properties[:required] = true if required?
     @progress_numerator = children.sum do |c|
       (c.has_properties?(properties) ? 1 : 0) + c.progress_numerator
@@ -40,7 +40,7 @@ module ProgressCalculable
   # plus the denominators of any child groups.
   def progress_denominator
     return @progress_denominator if @progress_denominator
-    properties = {group: false}
+    properties = {group: false, active: true}
     properties[:required] = true if required?
 
     @progress_denominator = children.sum do |c|
@@ -53,7 +53,8 @@ module ProgressCalculable
     tests = [
       properties.has_key?(:required) && properties[:required] != required?,
       properties.has_key?(:answered) && properties[:answered] != answered?,
-      properties.has_key?(:group) && properties[:group] != group?
+      properties.has_key?(:group) && properties[:group] != group?,
+      properties.has_key?(:active) && properties[:active] != active?
     ]
     !tests.any? { |t| t }
   end

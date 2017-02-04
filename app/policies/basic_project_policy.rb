@@ -1,2 +1,2 @@
-class BasicProjectPolicy < ApplicationPolicy
+class BasicProjectPolicy < ProjectPolicy
 end

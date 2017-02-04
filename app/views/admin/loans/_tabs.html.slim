@@ -17,12 +17,12 @@ div class="tab-content"
         // Questionnaires are loaded dynamically by view
 
   div role="tabpanel" class="tab-pane" id="timeline-table"
-    = render "admin/loans/timeline/main", loan: @loan
+    = render "admin/timeline/main", project: @loan
 
   div role="tabpanel" class="tab-pane" id="timeline-list"
     section.timeline
       h1.sr-only = t("loan.timeline")
-      = render "admin/loans/timeline/list_header"
+      = render "admin/timeline/list_header"
       div.project-steps
         // Steps are loaded dynamically by TimelineView
 
@@ -31,4 +31,4 @@ div class="tab-content"
       // Logs list is dynamically loaded by view
 
   div role="tabpanel" class="tab-pane" id="loan-calendar"
-    = render "admin/calendar/calendar", loan: @loan
+    = render "admin/calendar/calendar", project: @loan

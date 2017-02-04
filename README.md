@@ -53,32 +53,39 @@ On server:
 3.  `rake db:create`  if db doesn't exist
 4.  `rake db:schema:load` – destroys all data!
 5.  `rails db < /path/to/dumpfile.sql`
-6.  Then run media migration below on server
+6.  Then run media and document migration below on server
 
 ### Media Migration
 
-1.  Get the latest media files onto server at `/var/www/rails/madeline/staging/shared/legacymedia`.
+1.  Get the latest media files onto server at `/var/www/rails/madeline/shared/legacymedia`.
 
     1.  The old media files can be found on `cofunder.theworkingworld.org` at `/var/www/internal.labase.org/linkedMedia`.
 
-    2.  Use the following command on the old server to sync the latest media changes:
+    2.  Use the following command on the new server to sync the latest media changes:
 
         ```
-        rsync -hrv /var/www/internal.labase.org/linkedMedia deploy@ms-staging.theworkingworld.org:/var/www/rails/madeline/staging/shared/legacymedia
-        ```
-
-        or for production:
-
-        ```
-        rsync -hrv /var/www/internal.labase.org/linkedMedia deploy@madeline.theworkingworld.org:/var/www/rails/madeline/production/shared/legacymedia
+        rsync -hrv adamk@cofunder.theworkingworld.org:/var/www/internal.labase.org/linkedMedia /var/www/rails/madeline/shared/legacymedia
         ```
 
 2.  Run `df -h` to check the free space on the server. The media files take up about 9GB. You'll probably have to delete the previously migrated files (everything in `shared/public/uploads`) before running the media migration command below.
 
 3.  ```
-    sudo -u deploy RAILS_ENV=staging LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/staging/shared/legacymedia rake tww:migrate_media
+    sudo -u deploy RAILS_ENV={stage} LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/shared/legacymedia rake tww:migrate_media
     ```
-    or for production:
-    ```
-    sudo -u deploy RAILS_ENV=production LEGACY_MEDIA_BASE_PATH=/var/www/rails/madeline/production/shared/legacymedia rake tww:migrate_media
+
+### Document Migration
+
+1.  Get the latest document files onto server at `/var/www/rails/madeline/shared/legacymedia`.
+
+    1.  The old document files can be found on `cofunder.theworkingworld.org` at `/var/www/internal.labase.org/documents` and `/var/www/internal.labase.org/contracts`.
+
+    2.  Use the following commands on the new server to sync the latest changes:
+
+        ```
+        rsync -hrv adamk@cofunder.theworkingworld.org:/var/www/internal.labase.org/documents /var/www/rails/madeline/shared/legacymedia
+        rsync -hrv adamk@cofunder.theworkingworld.org:/var/www/internal.labase.org/contracts /var/www/rails/madeline/shared/legacymedia
+        ```
+
+2.  ```
+    sudo -u deploy RAILS_ENV={stage} LEGACY_DOCUMENT_BASE_PATH=/var/www/rails/madeline/shared/legacymedia rake tww:migrate_files
     ```

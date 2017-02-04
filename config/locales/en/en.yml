@@ -14,6 +14,7 @@ en:
       project_step: "Project Step"
     attributes:
       basic_project:
+        division: "Division"
         length_months: "Length (months)"
         name: "Name"
         primary_agent: "Primary Agent"
@@ -110,10 +111,23 @@ en:
       media:
         item: "Item"
         kind_value: "Kind"
+      project_step:
+        parent_id: "Group"
+        schedule_parent_id: "Preceding Step"
+        actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
+        is_finalized: "Finalized"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
+        step_type_value: "Type"
     errors:
       models:
         project_group:
           no_summary: "Summary is required."
+        organization:
+          attributes:
+            primary_contact:
+              invalid: 'Primary Contact needs to belong to organization'
 
   simple_form:
     hints:
@@ -124,13 +138,6 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
-      project_step:
-        actual_end_date: "Completed Date"
-        duration: "Scheduled Duration"
-        is_finalized: "Finalized"
-        scheduled_duration_days: "Scheduled Duration"
-        scheduled_start_date: "Scheduled Start Date"
-        step_type_value: "Type"
       timeline_step_move:
         move_type: "Which Date?"
     options:
