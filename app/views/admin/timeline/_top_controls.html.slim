@@ -1,4 +1,4 @@
-- link_params = { loan_id: @loan.id }
+- link_params = { project_id: project.id }
 
 header.timeline-header.row
   .col-sm-4
@@ -30,7 +30,7 @@ header.timeline-header.row
             span.sr-only = t(:dropdown_toggle)
 
           / Once the old timeline list goes away, the modal_id can be removed.
-          = render "admin/loans/timeline/batch_actions", modal_id: 'adjust-dates-modal'
+          = render "admin/timeline/batch_actions", modal_id: 'adjust-dates-modal'
 
   .col-sm-4
     form.form-inline.filters

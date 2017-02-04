@@ -67,13 +67,15 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = @step.step_type_label
         = f.input_field :step_type_value,
           collection: ProjectStep.step_type_option_set.translated_list,
-          include_blank: '---'
+          include_blank: false
 
-      = f.input :parent_id, collection: @parents, label_method: :summary_or_none,
-        label: t("project_step.timeline_table.group"), include_blank: false
+      = f.input :parent_id
+        .view-element = @step.parent.summary_or_none if @step.parent.present?
+        = f.input_field :parent_id, collection: @parents, label_method: :summary_or_none, include_blank: false
 
-      = f.input :schedule_parent_id, collection: @precedents, label_method: :summary_or_none,
-        label: t("project_step.timeline_table.preceding_step"), include_blank: true
+      = f.input :schedule_parent_id
+        .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
+        = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
 
       = f.input :scheduled_start_date
         .view-element = ldate(@step.scheduled_start_date)
@@ -98,13 +100,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           .view-element = @step.is_finalized ? t("reply_yes") : t("reply_no")
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
-    - if context == "calendar" && @logs.any?
-      .view-element
-        a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
-        a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
-
-        div data-expandable="step-logs-#{@step.id}"
-          = render "admin/project_logs/log_list"
+    = render "admin/project_logs/log_list", context: context if @logs
 
   div.modal-footer
     .view-element

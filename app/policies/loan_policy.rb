@@ -1,4 +1,2 @@
-class LoanPolicy < ApplicationPolicy
-  class Scope < DivisionOwnedScope
-  end
+class LoanPolicy < ProjectPolicy
 end

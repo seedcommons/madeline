@@ -2,10 +2,10 @@
 class MS.Views.LogListModalView extends Backbone.View
 
   initialize: ->
-    @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
+    @logFormModal = $("<div>").insertAfter(@$el)
     @logListView = view = new MS.Views.LogListView(
       el: @$('section.log-list'),
-      logFormModalView: @logFormModalView
+      logFormModal: @logFormModal
     )
 
   show: (stepId, afterRefresh) ->

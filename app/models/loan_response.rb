@@ -17,7 +17,7 @@ class LoanResponse
   attr_accessor :breakeven
   attr_accessor :business_canvas
 
-  delegate :group?, to: :loan_question
+  delegate :group?, :active?, to: :loan_question
 
   def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access

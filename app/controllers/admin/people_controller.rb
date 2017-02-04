@@ -30,7 +30,6 @@ class Admin::PeopleController < Admin::AdminController
     authorize @person
     prep_form_vars
 
-    @notes = @person.notes.order(created_at: :desc)
     @new_note = Note.new(notable: @person)
     @new_note = nil unless Pundit.policy(current_user, @new_note).new?
   end
@@ -94,6 +93,7 @@ class Admin::PeopleController < Admin::AdminController
     @organization_choices = organization_choices
     @division_choices = division_choices
     @roles_choices = role_choices
+    @notes = @person.notes.order(created_at: :desc)
   end
 
   def role_choices
