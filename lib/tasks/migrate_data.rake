@@ -29,7 +29,7 @@ namespace :tww do
 
   desc 'migrate legacy files from /tmp/madeline{documents/contracts}'
   task migrate_files: :environment do
-    root_path = '/tmp/madeline'
+    root_path = ENV['LEGACY_DOCUMENT_BASE_PATH'] || '/tmp/madeline'
     Document = Struct.new(:full_path, :file_name, :document_name, :loan_id, :document_kind)
 
     documents_path = File.join root_path, 'documents'
