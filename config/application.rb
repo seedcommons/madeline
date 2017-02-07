@@ -39,6 +39,9 @@ module MadelineSystem
 
     config.action_mailer.default_url_options = { host: ENV['MADELINE_HOSTNAME'] }
   end
+
+  ## beware, for now this seems to be required for proper rendering of all wice_grid views.  (without, view contents is all html escaped)
+  Slim::Engine.set_options pretty: true, sort_attrs: false
 end
 
 puts "Rails.env: #{Rails.env}"
