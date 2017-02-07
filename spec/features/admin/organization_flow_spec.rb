@@ -13,5 +13,19 @@ feature 'organization flow' do
   scenario 'should work', js: true do
     visit(admin_organizations_path)
     expect(page).to have_content(org1.name)
+
+    within('#organizations') do
+      click_link(org1.id)
+    end
+
+    expect(page).to have_content(org1.name)
+
+    find('.edit-action').click
+
+    fill_in('organization[name]', with: 'Changed Name')
+
+    click_button 'Update Organization'
+    expect(page).to have_content('Changed Name')
+    expect(page).to have_content('Record was successfully updated.')
   end
 end

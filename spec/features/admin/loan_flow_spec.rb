@@ -10,8 +10,25 @@ feature 'loan flow' do
     login_as(user, scope: :user)
   end
 
-  scenario 'should work', js: true do
+  scenario 'can view index', js: true do
     visit(admin_loans_path)
     expect(page).to have_content(loan.name)
+
+    within('#loans') do
+      click_link(loan.id)
+    end
+
+    expect(page).to have_content("##{loan.id}: #{loan.name}")
+
+    visit(admin_loan_path(id: loan.id))
+    expect(page).to have_content("##{loan.id}: #{loan.name}")
+
+    find('.edit-action').click
+
+    fill_in('loan[name]', with: 'Changed Loan Name')
+
+    click_button 'Update Loan'
+    expect(page).to have_content("##{loan.id}: Changed Loan Name")
+    expect(page).to have_content('Record was successfully updated.')
   end
 end
