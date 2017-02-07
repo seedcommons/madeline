@@ -13,6 +13,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/poltergeist'
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'devise'
 require 'pundit/rspec'
 require 'pundit/matchers'
