@@ -60,4 +60,8 @@ class BasicProject < Project
   def status
     status_label
   end
+
+  def organization
+    nil
+  end
 end
