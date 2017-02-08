@@ -10,4 +10,23 @@ module FeatureSpecHelpers
     find(".select2-search__field").set(value)
     find(".select2-results li", text: /#{value}/).click
   end
+
+  shared_examples :flow do
+    let(:field_to_change) { 'name' }
+
+    scenario 'should work', js: true do
+      visit(polymorphic_path([:admin, model_to_test.class]))
+      expect(page).to have_content(model_to_test.name)
+
+      find("##{model_to_test.model_name.plural}").click_link(model_to_test.id)
+      expect(page).to have_content(model_to_test.name)
+      expect(page).to have_content("Edit #{model_to_test.model_name.human}")
+
+      find('.edit-action').click
+      fill_in("#{model_to_test.model_name.element}[#{field_to_change}]", with: "Changed #{model_to_test.model_name.human} Name")
+      click_button "Update #{model_to_test.model_name.human}"
+      expect(page).to have_content("Changed #{model_to_test.model_name.human} Name")
+      expect(page).to have_content('Record was successfully updated.')
+    end
+  end
 end

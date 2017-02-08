@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'loan flow' do
-
   let(:division) { create(:division) }
   let(:user) { create(:person, :with_member_access, :with_password, division: division).user }
   let!(:loan) { create(:loan, division: division) }
@@ -22,9 +21,11 @@ feature 'loan flow' do
 
     visit(admin_loan_path(id: loan.id))
     expect(page).to have_content("##{loan.id}: #{loan.name}")
+    expect(page).to have_content('Edit Loan')
 
     find('.edit-action').click
 
+    expect(find('#loan_name')).to have_content(loan.name)
     fill_in('loan[name]', with: 'Changed Loan Name')
 
     click_button 'Update Loan'
