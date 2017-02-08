@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe ProjectGroup, type: :model do
-  it_should_behave_like 'translatable', ['summary']
-
   it 'has a valid factory' do
     expect(create(:project_group)).to be_valid
   end
