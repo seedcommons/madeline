@@ -100,6 +100,9 @@ gem 'exception_notification'
 # URL handling
 gem 'addressable'
 
+# Quickbooks
+gem 'quickbooks-ruby'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
