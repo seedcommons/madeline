@@ -25,7 +25,7 @@ feature 'loan flow' do
 
     find('.edit-action').click
 
-    expect(find('#loan_name')).to have_content(loan.name)
+    expect(page).to have_css('#loan_name', visible: true)
     fill_in('loan[name]', with: 'Changed Loan Name')
 
     click_button 'Update Loan'
