@@ -1,7 +1,6 @@
 - content_for(:title, 'Settings')
 
 
-div testing
 / somewhere in your document include the Javascript
 script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere-1.3.3.js"
 
@@ -9,5 +8,14 @@ script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intui
 javascript:
   intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_quickbooks_url}'});
 
-/ this will display a button that the user clicks to start the flow
-ipp:connectToIntuit
+section.block
+  .form-horizontal
+    .form-group
+      label.col-sm-2 Quickbooks Status:
+      .col-sm-10 Connected
+
+    .form-group
+      label.col-sm-2 Connect to Quickbooks:
+      .col-sm-10
+        / this will display a button that the user clicks to start the flow
+        ipp:connectToIntuit
