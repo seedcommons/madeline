@@ -1,0 +1,39 @@
+= define_grid(@recent_projects_grid, hide_csv_button: true,
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+
+    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |project|
+      - if project.type == "BasicProject"
+        - link_to(project.id, admin_basic_project_path(project.id))
+      - else
+        - link_to(project.id, admin_loan_path(project.id))
+    - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
+
+    - g.column name: t('common.name'), attribute: 'name', filter: false do |project|
+      - project.display_name
+
+    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
+      filter: false do |project|
+      - project.status
+
+    - g.column name: t("activerecord.attributes.project.signing_date"),
+      attribute: 'signing_date', filter: false do |project|
+      - ldate(project.signing_date)
+
+    - g.column name: t('activerecord.attributes.project.length_months'),
+      attribute: 'length_months', filter: false do |project|
+      - if project.length_months
+        - t("basic_project.months", number: project.length_months)
+
+    - g.column name: t('common.created'), attribute: 'created_at', filter: false,
+      in_csv: false do |project|
+      - fuzzy_time(project.created_at)
+    - g.column name: t('common.created'), attribute: 'created_at', in_html: false, filter: false
+
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false,
+      in_csv: false do |project|
+      - fuzzy_time(project.updated_at)
+    - g.column name: t('common.updated'), attribute: 'updated_at', in_html: false, filter: false

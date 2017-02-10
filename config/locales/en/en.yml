@@ -103,6 +103,13 @@ en:
         state: "State"
         tax_no: "National ID"
         website: "Website"
+      project:
+        length_months: "Length (months)"
+        name: "Name"
+        primary_agent: "Primary Agent"
+        secondary_agent: "Secondary Agent"
+        signing_date: "Start Date"
+        status: "Status"
       project_log:
         step: "Step"
         date: "Log Date"
