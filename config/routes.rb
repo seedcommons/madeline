@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :loan_response_sets
+
     resources :divisions do
       collection do
         post :select
@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :loan_questions do
       patch 'move', on: :member
     end
+    resources :loan_response_sets
     resources :notes, only: [:create, :update, :destroy]
     resources :organizations
     resources :people
@@ -76,6 +77,7 @@ Rails.application.routes.draw do
     end
 
     get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
+    get 'dashboard' => 'dashboard#dashboard', as: 'dashboard'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 
