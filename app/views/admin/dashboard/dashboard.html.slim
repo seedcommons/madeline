@@ -6,4 +6,7 @@ section
     
     ul
       - @recent_projects.each do |project|
-        li = project.name
+        li
+          div = "Name: #{project.name}"
+          div = "Created: #{project.created_at}"
+          div = "Updated: #{project.updated_at}"
