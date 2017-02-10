@@ -15,8 +15,25 @@ module FeatureSpecHelpers
     let(:field_to_change) { 'name' }
     let(:edit_button_name) { "Edit #{model_to_test.model_name.human}" }
 
-    scenario 'should work', js: true do
+    scenario 'can index/show/edit and change division', js: true do
       visit(polymorphic_path([:admin, model_to_test.class]))
+
+      # Make sure we can change divisions
+      expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
+
+      # Change to specific division, and ensure the page reloads properly
+      find('[data-expands="division-dropdown"]').click
+      find('.select_division_form').select(division.name)
+      expect(find('[data-expands="division-dropdown"]')).to have_content 'Change Division'
+      expect(find('.without-logo')).to have_content division.name
+
+      # Change back to all divisions, and ensure it reloads properly
+      find('[data-expands="division-dropdown"]').click
+      find('.select_division_form').select('All Divisions')
+      expect(find('.madeline')).to have_content 'Madeline'
+      expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
+
+      # Now test index/show/edit
       expect(page).to have_content(model_to_test.name)
 
       find("##{model_to_test.model_name.plural}").click_link(model_to_test.id)
