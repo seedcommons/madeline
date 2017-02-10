@@ -9,6 +9,11 @@ feature 'loan flow' do
     login_as(user, scope: :user)
   end
 
+  # This should work, but for some reason it fails a lot more often
+  # include_examples :flow do
+  #   let(:model_to_test) { loan }
+  # end
+
   scenario 'can view index', js: true do
     visit(admin_loans_path)
     expect(page).to have_content(loan.name)
