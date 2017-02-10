@@ -41,10 +41,12 @@ module FeatureSpecHelpers
       expect(page).to have_content(edit_button_name)
 
       find('.edit-action').click
+      expect(page).to have_css("##{model_to_test.model_name.element}_#{field_to_change}", visible: true)
       fill_in("#{model_to_test.model_name.element}[#{field_to_change}]", with: "Changed #{model_to_test.model_name.human} Name")
       click_button "Update #{model_to_test.model_name.human}"
       expect(page).to have_content("Changed #{model_to_test.model_name.human} Name")
       expect(page).to have_content('Record was successfully updated.')
+
     end
   end
 end
