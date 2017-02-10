@@ -28,6 +28,7 @@ feature 'loan flow' do
     expect(page).to have_css('#loan_name', visible: true)
     fill_in('loan[name]', with: 'Changed Loan Name')
 
+    expect(page).to have_css('.update-action', visible: true)
     click_button 'Update Loan'
     expect(page).to have_content("##{loan.id}: Changed Loan Name")
     expect(page).to have_content('Record was successfully updated.')
