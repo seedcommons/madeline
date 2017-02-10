@@ -1,0 +1,9 @@
+section
+  h1 = @person.name
+  
+  section
+    h2 My Projects
+    
+    ul
+      - @recent_projects.each do |project|
+        li = project.name
