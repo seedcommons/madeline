@@ -17,12 +17,16 @@ class Admin::QuickbooksController < Admin::AdminController
     session[:secret] = at.secret
     session[:realm_id] = params['realmId']
 
-    puts "token: #{at.token}"
-    puts "secrect: #{at.secret}"
-    puts "realmid: #{params['realmId']}"
-    # store the token, secret & RealmID somewhere for this user, you will need all 3 to work with Quickbooks-Ruby
+    Division.root.quickbooks_connect(request_token: at, params: params)
 
-   flash[:notice] = 'Your QuickBooks account has been successfully linked.'
+    flash[:notice] = 'Your QuickBooks account has been successfully linked.'
+  end
+
+  def disconnect
+    authorize :quickbooks, :disconnect?
+
+    Division.root.quickbooks_disconnect
+
+    redirect_to admin_settings_path, notice: 'Your QuickBooks account has been successfully disconnected.'
   end
 end
-

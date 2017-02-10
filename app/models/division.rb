@@ -114,4 +114,20 @@ class Division < ActiveRecord::Base
       I18n.t("locale_name.#{locale}", locale: locale)
     end
   end
+
+  def quickbooks_connected?
+    self.class.connector.connected?
+  end
+
+  def quickbooks_connect(request_token:, params:)
+    self.class.connector.connect(request_token: request_token, params: params)
+  end
+
+  def quickbooks_disconnect
+    self.class.connector.disconnect
+  end
+
+  def self.connector
+    @connector ||= Accounting::Quickbooks::Connector.new Division.root
+  end
 end

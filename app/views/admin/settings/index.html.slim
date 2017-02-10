@@ -12,10 +12,19 @@ section.block
   .form-horizontal
     .form-group
       label.col-sm-2 Quickbooks Status:
-      .col-sm-10 Connected
+      - if Division.root && Division.root.quickbooks_connected?
+        .col-sm-10 Connected
+      - else
+        .col-sm-10 Not Connected
 
-    .form-group
-      label.col-sm-2 Connect to Quickbooks:
-      .col-sm-10
-        / this will display a button that the user clicks to start the flow
-        ipp:connectToIntuit
+    - if Division.root && Division.root.quickbooks_connected?
+      .form-group
+        label.col-sm-2 Disconnect from  Quickbooks:
+        .col-sm-10 
+          a href="#{disconnect_admin_quickbooks_path}" Disconnect
+    - else
+      .form-group
+        label.col-sm-2 Connect to Quickbooks:
+        .col-sm-10
+          / this will display a button that the user clicks to start the flow
+          ipp:connectToIntuit
