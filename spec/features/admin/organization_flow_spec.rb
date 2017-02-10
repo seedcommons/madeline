@@ -12,5 +12,6 @@ feature 'organization flow' do
 
   include_examples :flow do
     let(:model_to_test) { org1 }
+    let(:edit_button_name) { 'Edit Co-op' }
   end
 end
