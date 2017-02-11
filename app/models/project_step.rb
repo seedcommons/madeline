@@ -64,6 +64,7 @@ class ProjectStep < TimelineEntry
   before_save :handle_finalized_at
   before_save :handle_schedule_children
   before_save :handle_scheduled_start_date
+  after_save :set_ancestors_dates
 
   def name
     summary
@@ -398,5 +399,11 @@ class ProjectStep < TimelineEntry
 
     r = start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
     "hsla(#{r[0]}, #{r[1]}%, #{r[2]}%, #{opacity})"
+  end
+
+  def set_ancestors_dates
+    if scheduled_start_date
+      ancestors.each(&:set_dates!)
+    end
   end
 end

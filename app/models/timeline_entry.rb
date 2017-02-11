@@ -49,7 +49,9 @@ class TimelineEntry < ActiveRecord::Base
 
   delegate :division, :division=, to: :project, allow_nil: true
 
-  scope :by_date, -> { order("scheduled_start_date is null desc, scheduled_start_date, scheduled_duration_days") }
+  def self.by_date
+    order("scheduled_start_date is null, scheduled_start_date, scheduled_duration_days")
+  end
 
   def step?
     is_a?(ProjectStep)
