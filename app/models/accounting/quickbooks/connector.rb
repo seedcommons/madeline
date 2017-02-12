@@ -1,21 +1,20 @@
 module Accounting
   module Quickbooks
     class Connector
-      def initialize(division)
-        @custom_data = division.custom_data if division
+      def initialize(custom_data = {})
+        @custom_data = custom_data
       end
 
       def connected?
-        token.present?
-      end
-
-      def connection_valid?
-        connected? && !expired?
+        !expired? &&
+          token.present? &&
+          secret.present? &&
+          realm_id.present?
       end
 
       def expired?
-        return token_expires_at < DateTime.now.utc if token_expires_at && connected?
-        true
+        return token_expires_at < DateTime.now.utc if token_expires_at
+        false
       end
 
       def renewable?
@@ -64,7 +63,7 @@ module Accounting
       end
 
       def token_expires_at
-        DateTime.parse.utc(data[:token_expires_at]) unless data.blank?
+        data[:token_expires_at] unless data.blank?
       end
     end
   end

@@ -128,6 +128,6 @@ class Division < ActiveRecord::Base
   end
 
   def self.connector
-    @connector ||= Accounting::Quickbooks::Connector.new Division.root
+    @connector ||= Accounting::Quickbooks::Connector.new Division.root.custom_data
   end
 end
