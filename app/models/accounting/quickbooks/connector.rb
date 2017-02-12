@@ -18,7 +18,8 @@ module Accounting
       end
 
       def renewable?
-        token_expires_at < 30.days.from_now.utc if token_expires_at && connected?
+        return token_expires_at < 30.days.from_now.utc if token_expires_at && connected?
+        false
       end
 
       def connect(request_token:, params:)
