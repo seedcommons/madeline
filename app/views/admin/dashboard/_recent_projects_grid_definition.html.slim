@@ -16,7 +16,7 @@
       - project.display_name
 
     - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
-      filter: false do |project|
+      detach_with_id: :status_filter do |project|
       - project.status
 
     - g.column name: t("activerecord.attributes.project.signing_date"),

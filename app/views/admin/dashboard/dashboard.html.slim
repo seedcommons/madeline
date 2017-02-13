@@ -1,10 +1,16 @@
-section
+section.
   h1 = @person.name
 
-  section
-    h2 My Projects
+  section.block
+    h2 = t("dashboard.my_projects")
 
-    ul
     = render "recent_projects_grid_definition"
+
+    .row.text-right
+      .filter
+        label.col-md-3.col-md-offset-6 Status
+        .filter-content.col-md-3
+          = grid_filter @recent_projects_grid, :status_filter
+
     - unless @empty_list
       = render_index_grid(@recent_projects_grid)
