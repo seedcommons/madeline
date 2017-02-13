@@ -26,7 +26,7 @@
     - g.column name: t('activerecord.attributes.project.length_months'),
       attribute: 'length_months', filter: false do |project|
       - if project.length_months
-        - t("basic_project.months", number: project.length_months)
+        - t("project.months", number: project.length_months)
 
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
       in_csv: false do |project|

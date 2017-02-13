@@ -8,9 +8,3 @@ section
     = render "recent_projects_grid_definition"
     - unless @empty_list
       = render_index_grid(@recent_projects_grid)
-
-    - @recent_projects.each do |project|
-      li
-        div = "Name: #{project.name}"
-        div = "Created: #{project.created_at}"
-        div = "Updated: #{project.updated_at}"
