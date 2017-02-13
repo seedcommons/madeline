@@ -9,6 +9,11 @@
     min-width: 12em;
   }
 
+  .table {
+    background: $white;
+    border: 1px solid $table-border-color;
+  }
+
   // Specificity used to override Bootstrap defaults
   .table thead:first-child tr {
     th {
@@ -17,15 +22,11 @@
     }
   }
 
-  td, th {
-    background: $white;
-  }
-
   td {
+    background: none;
     border: 1px solid $table-border-color;
 
     &.spacer {
-      background: $white;
       border: none;
     }
 
