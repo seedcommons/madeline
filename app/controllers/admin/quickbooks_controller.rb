@@ -25,7 +25,7 @@ class Admin::QuickbooksController < Admin::AdminController
   private
 
   def qb_oauth_consumer
-    Quickbooks.sandbox_mode = Rails.env == 'production'
+    Quickbooks.sandbox_mode = Rails.env.production?
 
     oauth_consumer_key = ENV.fetch('QB_OAUTH_CONSUMER_KEY')
     oauth_consumer_secret = ENV.fetch('QB_OAUTH_CONSUMER_SECRET')
