@@ -7,7 +7,7 @@ class Admin::QuickbooksController < Admin::AdminController
 
   def oauth_callback
     authorize :quickbooks, :oauth_callback?
-
+    @header_disabled = true
 
     Division.root.quickbooks_connect(access_token: qb_access_token, params: params)
 
