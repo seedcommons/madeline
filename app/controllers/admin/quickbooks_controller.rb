@@ -27,8 +27,8 @@ class Admin::QuickbooksController < Admin::AdminController
   def qb_oauth_consumer
     Quickbooks.sandbox_mode = Rails.env == 'production'
 
-    oauth_consumer_key = ENV.fetch('OAUTH_CONSUMER_KEY')
-    oauth_consumer_secret = ENV.fetch('OAUTH_CONSUMER_SECRET')
+    oauth_consumer_key = ENV.fetch('QB_OAUTH_CONSUMER_KEY')
+    oauth_consumer_secret = ENV.fetch('QB_OAUTH_CONSUMER_SECRET')
 
     OAuth::Consumer.new(oauth_consumer_key, oauth_consumer_secret,
       site: 'https://oauth.intuit.com',
