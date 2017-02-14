@@ -182,7 +182,7 @@ class ProjectStep < TimelineEntry
   end
 
   def admin_status
-    last_log_status || admin_date_status
+    admin_date_status
   end
 
   def status
