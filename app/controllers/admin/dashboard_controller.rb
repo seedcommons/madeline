@@ -13,13 +13,7 @@ class Admin::DashboardController < Admin::AdminController
       include: [:primary_agent, :secondary_agent],
       per_page: 15,
       name: "recent_projects",
-      enable_export_to_csv: true
+      enable_export_to_csv: false
     )
-
-    @csv_mode = true
-    export_grid_if_requested(recent_projects: "recent_projects_grid_definition") do
-      # The below only executes if CSV is not being returned
-      @csv_mode = false
-    end
   end
 end
