@@ -6,62 +6,59 @@
 - else
   - show_step = true
 
-
 - draft = entry.is_finalized ? "" : "draft"
 - completed = entry.completed? ? "completed" : ""
 
 / Note that we have to repeat these classes on all td tags because we don't always have access to the tr tag
 - classes = "#{completed} #{draft}"
 
-= content_tag_if(first_in_row, :tr)
-  / Add spacer for step who has a group as a sibling
-  - unless siblings_are_all_steps
-    td.spacer colspan="#{max_group_depth - entry.depth + 1}"
-
 - if show_step
-  td class=classes
-    input.select-step type="checkbox" class==completed data-id=entry.id
+  = content_tag_if(first_in_row, :tr)
+    / Add spacer for step who has a group as a sibling
+    - unless siblings_are_all_steps
+      td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
-  td class=classes
-    .icon
-      - if entry.milestone?
-        i.fa.fa-fw.fa-flag-o
-      - elsif entry.checkin?
-        i.fa.fa-fw.fa-calendar
-    .summary = entry.summary
-
-  td class="#{classes} step-date step-start-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
-    = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
-  td class="#{classes} step-date step-end-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
-    = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
-
-  td class=classes
-    - if entry.display_duration_days && entry.display_duration_days > 0
-      = t("project_step.duration_days", duration: entry.display_duration_days)
-
-  - if entry.is_finalized
-    td class=classes style="background: #{entry.timeline_background_color};"
-      = entry.try(:admin_status)
-      = entry.try(:timeline_status)
-      = entry.try(:timeline_status).include? @timeline_filters[:timeline_status]
-      = show_step
-  - else
     td class=classes
-      = t("project_step.timeline_table.draft")
-      = entry.try(:timeline_status)
-      = entry.try(:timeline_status).include? @timeline_filters[:timeline_status]
-      = show_step
+      input.select-step type="checkbox" class==completed data-id=entry.id
 
-  - latest_logs = entry.latest_logs
-  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
-    - latest_logs.each_with_index do |log, index|
-      p.log-summary = log.summary
+    td class=classes
+      .icon
+        - if entry.milestone?
+          i.fa.fa-fw.fa-flag-o
+        - elsif entry.checkin?
+          i.fa.fa-fw.fa-calendar
+      .summary = entry.summary
 
-      - if index == latest_logs.length - 1
-        div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
+    td class="#{classes} step-date step-start-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
+      = entry.display_start_date ? l(entry.display_start_date, format: :short) : ""
+    td class="#{classes} step-date step-end-date" data-id=entry.id data-precedent-id=entry.schedule_parent_id
+      = entry.display_end_date ? l(entry.display_end_date, format: :short) : ""
 
-  td.step-menu-col class="dropup #{classes}" data-id=entry.id
-    span.dropdown
-      i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
+    td class=classes
+      - if entry.display_duration_days && entry.display_duration_days > 0
+        = t("project_step.duration_days", duration: entry.display_duration_days)
 
-  / Please update timeline_table_step_column_count in AdminHelper if adding/removing columns here.
+    - if entry.is_finalized
+      td class=classes style="background: #{entry.timeline_background_color};"
+        = entry.try(:admin_status)
+    - else
+      td class=classes
+        = t("project_step.timeline_table.draft")
+
+    - latest_logs = entry.latest_logs
+    td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
+      - latest_logs.each_with_index do |log, index|
+        p.log-summary = log.summary
+
+        - if index == latest_logs.length - 1
+          div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
+
+    td.step-menu-col class="dropup #{classes}" data-id=entry.id
+      span.dropdown
+        i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
+
+    / Please update timeline_table_step_column_count in AdminHelper if adding/removing columns here.
+- else
+  / If step is not to be displayed, but is first step in array, load empty table row
+  = content_tag_if(first_in_row, :tr)
+    = ""
