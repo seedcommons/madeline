@@ -25,11 +25,7 @@ class Admin::QuickbooksController < Admin::AdminController
   private
 
   def qb_consumer
-    return @qb_consumer if @qb_consumer
-
-    Quickbooks.sandbox_mode = Rails.env.production?
-
-    @qb_consumer = Accounting::Quickbooks::Consumer.new
+    @qb_consumer ||= Accounting::Quickbooks::Consumer.new
   end
 
   def qb_request_token
