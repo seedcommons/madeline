@@ -1,13 +1,13 @@
 class QuickbooksPolicy < ApplicationPolicy
   def authenticate?
-    true
+    division_admin(division: Division.root)
   end
 
   def oauth_callback?
-    true
+    division_admin(division: Division.root)
   end
 
   def disconnect?
-    true
+    division_admin(division: Division.root)
   end
 end
