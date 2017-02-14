@@ -119,8 +119,8 @@ class Division < ActiveRecord::Base
     self.class.connector.connected?
   end
 
-  def quickbooks_connect(request_token:, params:)
-    self.class.connector.connect(request_token: request_token, params: params)
+  def quickbooks_connect(access_token:, params:)
+    self.class.connector.connect(access_token: access_token, params: params)
   end
 
   def quickbooks_disconnect

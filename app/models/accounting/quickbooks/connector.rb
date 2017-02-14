@@ -22,11 +22,11 @@ module Accounting
         false
       end
 
-      def connect(request_token:, params:)
+      def connect(access_token:, params:)
         root = Division.root
         root.custom_data = { quickbooks: {
-          token: request_token.token,
-          secret: request_token.secret,
+          token: access_token.token,
+          secret: access_token.secret,
           realm_id: params['realmId'],
           token_expires_at: 180.days.from_now.utc
         } }
