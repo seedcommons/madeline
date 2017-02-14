@@ -38,11 +38,16 @@ header.timeline-header.row
         options_for_select(@type_options),
         include_blank: I18n.t("project_step.all_types"),
         class: "form-control"
+      /= @type_options.inspect
 
       = select_tag :status,
         options_for_select(@status_options),
         include_blank: I18n.t("project_step.all_completion_statuses"),
         class: "form-control"
+
+      / = @status_options.inspect
+      / = @timeline_filters
+      / = @timeline_filters[:timeline_status
 
   .col-sm-4
     .item.top-actions

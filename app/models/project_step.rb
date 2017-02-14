@@ -45,7 +45,7 @@ class ProjectStep < TimelineEntry
   }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
-  COMPLETION_STATUSES = [ 'draft', 'incomplete', 'complete' ].freeze
+  COMPLETION_STATUSES = [ 'draft', 'finalized', 'incomplete', 'complete' ].freeze
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
@@ -191,6 +191,24 @@ class ProjectStep < TimelineEntry
     else
       last_log_status
     end
+  end
+
+  def timeline_status
+    values = []
+
+    if is_finalized?
+      values.push("finalized")
+    else
+      values.push("draft")
+    end
+
+    if completed?
+      values.push("complete")
+    else
+      values.push("incomplete")
+    end
+
+    return values
   end
 
   def date_changed?
