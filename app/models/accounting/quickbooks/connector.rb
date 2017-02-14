@@ -42,7 +42,7 @@ module Accounting
       end
 
       def access_token
-        OAuth::AccessToken.new(QB_OAUTH_CONSUMER, token, secret)
+        Consumer.new.access_token(token: token, secret: secret)
       end
 
       def realm_id

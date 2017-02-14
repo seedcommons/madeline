@@ -24,29 +24,23 @@ class Admin::QuickbooksController < Admin::AdminController
 
   private
 
-  def qb_oauth_consumer
+  def qb_consumer
+    return @qb_consumer if @qb_consumer
+
     Quickbooks.sandbox_mode = Rails.env.production?
 
-    oauth_consumer_key = ENV.fetch('QB_OAUTH_CONSUMER_KEY')
-    oauth_consumer_secret = ENV.fetch('QB_OAUTH_CONSUMER_SECRET')
-
-    OAuth::Consumer.new(oauth_consumer_key, oauth_consumer_secret,
-      site: 'https://oauth.intuit.com',
-      request_token_path: '/oauth/v1/get_request_token',
-      authorize_url: 'https://appcenter.intuit.com/Connect/Begin',
-      access_token_path: '/oauth/v1/get_access_token'
-    )
+    @qb_consumer = Accounting::Quickbooks::Consumer.new
   end
 
   def qb_request_token
     callback = oauth_callback_admin_quickbooks_url
-    request_token = qb_oauth_consumer.get_request_token(oauth_callback: callback)
-
+    request_token = qb_consumer.request_token(oauth_callback: callback)
     session[:qb_request_token] = Marshal.dump(request_token)
+
     request_token.token
   end
 
   def qb_access_token
-    Marshal.load(session[:qb_request_token]).get_access_token(oauth_verifier: params[:oauth_verifier])
+    qb_consumer.verify_access_token(qb_request_token: Marshal.load(session[:qb_request_token]), oauth_verifier: params[:oauth_verifier])
   end
 end
