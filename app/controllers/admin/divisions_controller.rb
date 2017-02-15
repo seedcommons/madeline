@@ -28,7 +28,7 @@ class Admin::DivisionsController < Admin::AdminController
     )
 
     @csv_mode = true
-    export_grid_if_requested do
+    export_grid_if_requested('divisions': 'divisions_grid_definition') do
       # This block only executes if CSV is not being returned.
       @csv_mode = false
     end
