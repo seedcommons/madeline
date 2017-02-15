@@ -11,5 +11,11 @@
         }
       }
     }
+
+    #calendar {
+      .fc-toolbar {
+        display: none;
+      }
+    }
   }
 }

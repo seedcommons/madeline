@@ -20,6 +20,7 @@ class MS.Views.DashboardCalendarView extends Backbone.View
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
       header:
+        # Show no buttons
         left: ''
         center: ''
         right: ''
