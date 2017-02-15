@@ -15,25 +15,14 @@
     - g.column name: t('common.name'), attribute: 'name', filter: false do |project|
       - project.display_name
 
-    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
-      detach_with_id: :status_filter do |project|
-      - project.status
-
     - g.column name: t("activerecord.attributes.project.signing_date"),
       attribute: 'signing_date', filter: false do |project|
       - ldate(project.signing_date)
 
-    - g.column name: t('activerecord.attributes.project.length_months'),
-      attribute: 'length_months', filter: false do |project|
-      - if project.length_months
-        - t("project.months", number: project.length_months)
+    - g.column name: t('activerecord.attributes.project.progress'), attribute: 'status_value',
+      detach_with_id: :status_filter do |project|
+      - project.status
 
-    - g.column name: t('common.created'), attribute: 'created_at', filter: false,
-      in_csv: false do |project|
-      - fuzzy_time(project.created_at)
-    - g.column name: t('common.created'), attribute: 'created_at', in_html: false, filter: false
-
-    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false,
-      in_csv: false do |project|
-      - fuzzy_time(project.updated_at)
-    - g.column name: t('common.updated'), attribute: 'updated_at', in_html: false, filter: false
+    / - g.column name: "Completed", attribute: 'completed?', in_html: false, in_csv: false,
+    /   detach_with_id: :completed_filter do |project|
+    /   - project.completed?

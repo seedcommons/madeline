@@ -107,6 +107,7 @@ en:
         length_months: "Length (months)"
         name: "Name"
         primary_agent: "Primary Agent"
+        progress: "Progress"
         secondary_agent: "Secondary Agent"
         signing_date: "Start Date"
         status: "Status"
