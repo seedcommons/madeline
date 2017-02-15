@@ -6,6 +6,9 @@ class MS.Views.DashboardCalendarView extends Backbone.View
     # Initialize calendar
     @$calendar = @$('#calendar')
 
+    # Get the numbered day of the week for 2 days before today
+    cal_start = moment(new Date()).subtract(2, 'days').day()
+
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)
@@ -21,6 +24,8 @@ class MS.Views.DashboardCalendarView extends Backbone.View
         center: ''
         right: ''
       allDayDefault: true
+      defaultView: 'basicWeek'
+      firstDay: cal_start
 
     @renderLegend()
 
