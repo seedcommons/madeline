@@ -1,5 +1,14 @@
-section.
+section.dashboard
   h1 = @person.name
 
-  section.block
-    h2 Section Heading
+  section.block.upcoming-events
+    h2 Upcoming Steps
+    div#calendar
+
+javascript:
+  $(function(){
+    MS.DashboardCalendarView = new MS.Views.DashboardCalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      locale: "#{I18n.locale}"
+    });
+  });
