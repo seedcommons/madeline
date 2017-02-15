@@ -11,5 +11,14 @@
         }
       }
     }
+
+    table {
+      background: $white;
+
+      // Hide pagination and pagination_status containers
+      tfoot {
+        display: none;
+      }
+    }
   }
 }
