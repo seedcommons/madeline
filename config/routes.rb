@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     end
 
     get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
+    get 'dashboard' => 'dashboard#dashboard', as: 'dashboard'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
   end
 

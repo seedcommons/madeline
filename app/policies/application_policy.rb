@@ -38,6 +38,10 @@ class ApplicationPolicy
     update?
   end
 
+  def dashboard?
+    index?
+  end
+
   def reassign_division?
     division_member_or_admin
   end
