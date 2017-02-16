@@ -6,9 +6,7 @@ feature 'loan flow' do
   let(:user) { create(:person, :with_member_access, :with_password, division: division).user }
   let!(:project_log) do
     # summary is added in an after create, we need to ensure it is saved first
-    log = create(:project_log, division: division)
-    log.save!
-    log
+    create(:project_log, division: division).tap(&:save!)
   end
 
   before do
