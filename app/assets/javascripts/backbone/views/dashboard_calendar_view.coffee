@@ -1,4 +1,4 @@
-class MS.Views.DashboardCalendarView extends Backbone.View
+class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
 
   el: '.upcoming-events'
 
@@ -27,23 +27,3 @@ class MS.Views.DashboardCalendarView extends Backbone.View
       allDayDefault: true
       defaultView: 'basicWeek'
       firstDay: cal_start
-
-    @renderLegend()
-
-  eventRender: (calEvent) -> calEvent.html
-
-  loading: (isLoading) ->
-    MS.loadingIndicator[if isLoading then 'show' else 'hide']()
-
-  renderLegend: (e) ->
-    # We use the .ms-popover class with trigger: manual. This is handled in ApplicationView.
-    @$('.fc-legend-button').addClass('ms-popover').popover
-      content: @$('#legend-content').html()
-      html: true
-      placement: 'left'
-      toggle: 'popover'
-      title: 'Legend'
-      trigger: 'manual'
-
-  refresh: (e) ->
-    @$calendar.fullCalendar('refetchEvents')
