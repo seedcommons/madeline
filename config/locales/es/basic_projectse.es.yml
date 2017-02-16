@@ -1,0 +1,19 @@
+es:
+  basic_project:
+    agent:
+      one: "Agente"
+      other: "Agentes"
+    confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este proyecto para siempre?"
+    delete: "Borrar Proyecto"
+    edit: "Editar Proyecto"
+    months: "%{number} meses "
+    new: "Nuevo Proyecto"
+    project:
+      one: "Proyecto"
+      other: "Proyectos"
+    tabs:
+      calendar: "Calendario"
+      details: "Detalles"
+      logs: "Apuntes"
+      timeline: "Línea de Tiempo - Tabla"
+      timeline_list: "Línea de Tiempo - Lista"
