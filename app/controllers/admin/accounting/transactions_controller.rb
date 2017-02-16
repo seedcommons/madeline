@@ -1,9 +1,6 @@
-class Admin::TransactionsController < Admin::AdminController
-
+class Admin::Accounting::TransactionsController < Admin::AdminController
   def index
-    authorize :transaction, :index?
-
-    auth_details = {access_token: Division.connector.access_token, company_id: Division.connector.realm_id}
+    authorize :'accounting/transaction', :index?
 
     # This is temporary code until the proper transaction wrappers are created.
     @transaction_list = %w(JournalEntry Deposit Purchase).map do |transaction_type|
@@ -18,5 +15,15 @@ class Admin::TransactionsController < Admin::AdminController
         }
       end
     end.flatten.sort_by{ |t| t[:txn_date] }
+  end
+
+  private
+
+  def auth_details
+    { access_token: qb_connection.access_token, company_id: qb_connection.realm_id }
+  end
+
+  def qb_connection
+    @qb_connection ||= Division.root.qb_connection
   end
 end

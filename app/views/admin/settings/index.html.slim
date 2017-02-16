@@ -3,7 +3,7 @@
 script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere-1.3.3.js"
 
 javascript:
-  intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_quickbooks_url}'});
+  intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_accounting_quickbooks_url}'});
 
 section.block
   .form-horizontal
@@ -18,7 +18,7 @@ section.block
       .form-group
         label.col-sm-2 Disconnect from Quickbooks:
         .col-sm-10 
-          a href="#{disconnect_admin_quickbooks_path}" Disconnect
+          a href="#{disconnect_admin_accounting_quickbooks_path}" Disconnect
     - else
       .form-group
         label.col-sm-2 Connect to Quickbooks:

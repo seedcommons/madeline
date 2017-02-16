@@ -1,12 +1,12 @@
-class Admin::QuickbooksController < Admin::AdminController
+class Admin::Accounting::QuickbooksController < Admin::AdminController
   def authenticate
-    authorize :quickbooks, :authenticate?
+    authorize :'accounting/quickbooks', :authenticate?
 
     redirect_to("https://appcenter.intuit.com/Connect/Begin?oauth_token=#{qb_request_token}")
   end
 
   def oauth_callback
-    authorize :quickbooks, :oauth_callback?
+    authorize :'accounting/quickbooks', :oauth_callback?
     @header_disabled = true
 
     Division.root.quickbooks_save(access_token: qb_access_token, params: params)
@@ -15,7 +15,7 @@ class Admin::QuickbooksController < Admin::AdminController
   end
 
   def disconnect
-    authorize :quickbooks, :disconnect?
+    authorize :'accounting/quickbooks', :disconnect?
 
     Division.root.quickbooks_forget
 
@@ -29,7 +29,7 @@ class Admin::QuickbooksController < Admin::AdminController
   end
 
   def qb_request_token
-    callback = oauth_callback_admin_quickbooks_url
+    callback = oauth_callback_admin_accounting_quickbooks_url
     request_token = qb_consumer.request_token(oauth_callback: callback)
     session[:qb_request_token] = Marshal.dump(request_token)
 
