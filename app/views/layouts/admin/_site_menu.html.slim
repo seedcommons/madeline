@@ -6,6 +6,8 @@ li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('menu.people'), admin_people_path
 li = link_to t('menu.basic_projects'), admin_basic_projects_path
+- if policy(:transaction).index?
+  li = link_to 'Transactions', admin_transactions_path
 
 li
   a data-toggle="collapse" data-target=".submenu1" aria-expanded="false"

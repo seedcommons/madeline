@@ -71,6 +71,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :transactions
+
     namespace :raw do
       resources :divisions
       resources :loans
