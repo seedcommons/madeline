@@ -3,6 +3,7 @@ class Admin::DashboardController < Admin::AdminController
     authorize Project
     authorize Person
     @person = Person.find(current_user.profile_id)
+    prep_calendar
   end
 
   private
