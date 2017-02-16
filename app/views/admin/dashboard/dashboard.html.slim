@@ -1,9 +1,8 @@
-section.dashboard
-  h1 = @person.name
+- content_for(:title, @person.name)
 
-  section.block.upcoming-events.calendar
-    h2 Upcoming Steps
-    div#calendar
+section.block.section.upcoming-events.calendar
+  h2 Upcoming Steps
+  div#calendar
 
 javascript:
   $(function(){
