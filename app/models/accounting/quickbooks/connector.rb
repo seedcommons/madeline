@@ -6,10 +6,7 @@ module Accounting
       end
 
       def connected?
-        !expired? &&
-          token.present? &&
-          secret.present? &&
-          realm_id.present?
+        !expired? && token.present? && secret.present? && realm_id.present?
       end
 
       def expired?
