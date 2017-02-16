@@ -108,8 +108,4 @@ Rails.application.configure do
       argentina: '/rails',
     },
   }
-
-  ## beware, for now this seems to be required for proper rendering of co-op view.  (without, view contents is all html escaped)
-  Slim::Engine.set_options pretty: true, sort_attrs: false
-
 end
