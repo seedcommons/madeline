@@ -9,7 +9,7 @@ class Admin::QuickbooksController < Admin::AdminController
     authorize :quickbooks, :oauth_callback?
     @header_disabled = true
 
-    Division.root.quickbooks_connect(access_token: qb_access_token, params: params)
+    Division.root.quickbooks_save(access_token: qb_access_token, params: params)
 
     flash[:notice] = 'Your QuickBooks account has been successfully linked.'
   end
@@ -17,7 +17,7 @@ class Admin::QuickbooksController < Admin::AdminController
   def disconnect
     authorize :quickbooks, :disconnect?
 
-    Division.root.quickbooks_disconnect
+    Division.root.quickbooks_forget
 
     redirect_to admin_settings_path, notice: 'Your QuickBooks account has been successfully disconnected.'
   end

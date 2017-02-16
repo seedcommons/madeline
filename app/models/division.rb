@@ -74,6 +74,8 @@ class Division < ActiveRecord::Base
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
 
+  delegate :connected?, :save, :forget, to: :qb_connection, prefix: :quickbooks
+
   def self.root_id
     result = root.try(:id)
     logger.info("division root.id: #{result}")
@@ -115,19 +117,7 @@ class Division < ActiveRecord::Base
     end
   end
 
-  def quickbooks_connected?
-    self.class.connector.connected?
-  end
-
-  def quickbooks_connect(access_token:, params:)
-    self.class.connector.connect(access_token: access_token, params: params)
-  end
-
-  def quickbooks_disconnect
-    self.class.connector.disconnect
-  end
-
-  def self.connector
-    @connector ||= Accounting::Quickbooks::Connector.new Division.root.custom_data
+  def qb_connection
+    @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.custom_data
   end
 end

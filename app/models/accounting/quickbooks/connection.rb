@@ -1,6 +1,6 @@
 module Accounting
   module Quickbooks
-    class Connector
+    class Connection
       def initialize(custom_data = {})
         @custom_data = custom_data
       end
@@ -19,7 +19,7 @@ module Accounting
         false
       end
 
-      def connect(access_token:, params:)
+      def save(access_token:, params:)
         root = Division.root
         root.custom_data = { quickbooks: {
           token: access_token.token,
@@ -31,7 +31,7 @@ module Accounting
         @custom_data = root.custom_data
       end
 
-      def disconnect
+      def forget
         root = Division.root
         root.custom_data = { quickbooks: {} }
         root.save!
