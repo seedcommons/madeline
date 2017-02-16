@@ -11,6 +11,6 @@ class Admin::DashboardController < Admin::AdminController
   def prep_calendar
     @division = current_division
     authorize @division
-    @calendar_events_url = "/admin/calendar_events"
+    @calendar_events_url = "/admin/calendar_events?person_id=#{@person.id}"
   end
 end

@@ -8,6 +8,16 @@ class Admin::CalendarEventsController < Admin::AdminController
       project = Project.find(params[:project_id])
       authorize project, :show?
       project_filter = {id: project.id}
+    elsif params[:person_id]
+      person = Person.find(params[:person_id])
+      authorize person
+      authorize Project
+
+      project_ids = []
+      person.agent_projects.each do |project|
+        project_ids.push(project.id)
+      end
+      project_filter = {id: project_ids}
     else
       skip_authorization
       # JE Todo: restore authorize when manage division branch merged
