@@ -1,0 +1,14 @@
+es:
+  admin:
+    timeline:
+      list_header:
+        cancel_edit: "Cancelar Edición"
+        edit_all: "Editar Todo"
+        new_step: "Paso Nuevo"
+        save_all: "Guardar Todo"
+      top_controls:
+        new_group: "Agregar Grupo"
+        new_step: "Agregar Paso"
+      table:
+        add_child_group: "Agregar Grupo 'Hijo'"
+        add_child_step: "Agregar Paso 'Hijo'"

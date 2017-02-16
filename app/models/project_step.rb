@@ -168,7 +168,8 @@ class ProjectStep < TimelineEntry
     project_logs.order(:date).last.try(:progress)
   end
 
-  def admin_date_status
+  # Step status to be shown in admin panel timeline
+  def admin_status
     days = days_late
     if days
       if days <= 0
@@ -179,10 +180,6 @@ class ProjectStep < TimelineEntry
     else
       I18n.t(:none)
     end
-  end
-
-  def admin_status
-    last_log_status || admin_date_status
   end
 
   def status
