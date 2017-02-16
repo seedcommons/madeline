@@ -14,12 +14,14 @@
       }
     }
 
-    table {
-      background: $white;
+    .recent-projects {
+      table {
+        background: $white;
 
-      // Hide pagination and pagination_status containers
-      tfoot {
-        display: none;
+        // Hide pagination and pagination_status containers
+        tfoot {
+          display: none;
+        }
       }
     }
   }
