@@ -1,4 +1,4 @@
-class MS.Views.CalendarView extends Backbone.View
+class MS.Views.TimelineCalendarView extends Backbone.View
 
   el: '.calendar'
 
