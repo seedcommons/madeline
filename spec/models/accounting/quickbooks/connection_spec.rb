@@ -22,7 +22,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with new token' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc })
+      Accounting::Quickbooks::Connection.new(token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc)
     end
 
     it 'should be connected' do
@@ -38,7 +38,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with expiring token' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 20.days.from_now.utc })
+      Accounting::Quickbooks::Connection.new(token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 20.days.from_now.utc)
     end
 
     it 'should be connected' do
@@ -54,7 +54,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with expired token' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 2.days.ago.utc })
+      Accounting::Quickbooks::Connection.new(token: valid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 2.days.ago.utc)
     end
     it 'should not be connected' do
       expect(connection.connected?).to be_falsey
@@ -75,7 +75,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with invalid token' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: invalid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc })
+      Accounting::Quickbooks::Connection.new(token: invalid_token, secret: valid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc)
     end
 
     it_behaves_like 'no token is present'
@@ -83,7 +83,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with invalid secret' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: valid_token, secret: invalid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc })
+      Accounting::Quickbooks::Connection.new(token: valid_token, secret: invalid_secret, realm_id: valid_realm_id, token_expires_at: 180.days.from_now.utc)
     end
 
     it_behaves_like 'no token is present'
@@ -91,7 +91,7 @@ RSpec.describe Accounting::Quickbooks::Connection, type: :model do
 
   context 'with invalid realm id' do
     subject(:connection) do
-      Accounting::Quickbooks::Connection.new(quickbooks: { token: valid_token, secret: valid_secret, realm_id: invalid_realm_id, token_expires_at: 180.days.from_now.utc })
+      Accounting::Quickbooks::Connection.new(token: valid_token, secret: valid_secret, realm_id: invalid_realm_id, token_expires_at: 180.days.from_now.utc)
     end
 
     it_behaves_like 'no token is present'
