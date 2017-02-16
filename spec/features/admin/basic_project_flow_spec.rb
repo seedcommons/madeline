@@ -11,7 +11,7 @@ feature 'basic project flow' do
   end
 
   include_examples :flow do
-    let(:model_to_test) { basic_project }
+    subject { basic_project }
     let(:edit_button_name) { 'Edit Project' }
   end
 end

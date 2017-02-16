@@ -10,6 +10,6 @@ feature 'division flow' do
   end
 
   include_examples :flow do
-    let(:model_to_test) { division }
+    subject { division }
   end
 end

@@ -11,7 +11,7 @@ feature 'people flow' do
   end
 
   include_examples :flow do
-    let(:model_to_test) { person }
+    subject { person }
     let(:field_to_change) { "first_name" }
   end
 end

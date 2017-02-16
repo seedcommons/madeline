@@ -11,7 +11,7 @@ feature 'loan flow' do
 
   # This should work, but for some reason it fails a lot more often
   include_examples :flow do
-    let(:model_to_test) { loan }
+    subject { loan }
   end
 
   # Keeping this code here for now. It tended to be more stable than the shared example.
