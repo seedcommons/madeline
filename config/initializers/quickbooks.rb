@@ -1,1 +1,1 @@
-Quickbooks.sandbox_mode = Rails.env.production?
+Quickbooks.sandbox_mode = !Rails.env.production?
