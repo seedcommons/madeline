@@ -4,11 +4,19 @@ section.
   section.block.recent-projects
     h2 = t("dashboard.my_projects")
 
-    = render "recent_projects_grid_definition"
+    .projects-grid
+      = render "recent_projects_grid_definition"
 
-    .row.text-right
-      .filter
-        .filter-content.col-md-3.col-md-offset-9
+      .row.text-right
+        .filter
+          .filter-content.col-md-3.col-md-offset-9
+            = form_tag do
+              = select_tag(:completion_status, options_for_select([["All", "all"], ["Active", "active"], ["Completed", "completed"]]))
 
-    - unless @empty_list
-      = render_index_grid(@recent_projects_grid)
+      - unless @empty_list
+        = render_index_grid(@recent_projects_grid)
+
+javascript:
+  $(function(){
+    new MS.Views.DashboardProjectsView();
+  });
