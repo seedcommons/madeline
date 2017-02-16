@@ -22,6 +22,7 @@
 #  notify_on_new_logs :boolean          default(FALSE)
 #  organization_id    :integer
 #  parent_id          :integer
+#  quickbooks_data    :json
 #  updated_at         :datetime         not null
 #
 # Indexes
@@ -118,6 +119,6 @@ class Division < ActiveRecord::Base
   end
 
   def qb_connection
-    @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.custom_data
+    @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.quickbooks_data
   end
 end

@@ -1,8 +1,8 @@
 module Accounting
   module Quickbooks
     class Connection
-      def initialize(custom_data = {})
-        @custom_data = custom_data
+      def initialize(quickbooks_data = {})
+        @quickbooks_data = quickbooks_data
       end
 
       def connected?
@@ -21,21 +21,21 @@ module Accounting
 
       def save(access_token:, params:)
         root = Division.root
-        root.custom_data = { quickbooks: {
+        root.quickbooks_data = {
           token: access_token.token,
           secret: access_token.secret,
           realm_id: params['realmId'],
           token_expires_at: 180.days.from_now.utc
-        } }
+        }
         root.save!
-        @custom_data = root.custom_data
+        @quickbooks_data = root.quickbooks_data
       end
 
       def forget
         root = Division.root
-        root.custom_data = { quickbooks: {} }
+        root.quickbooks_data = {}
         root.save!
-        @custom_data = root.custom_data
+        @quickbooks_data = root.quickbooks_data
       end
 
       def access_token
@@ -49,7 +49,7 @@ module Accounting
       private
 
       def data
-        @custom_data.with_indifferent_access[:quickbooks] unless @custom_data.blank?
+        @quickbooks_data.with_indifferent_access unless @quickbooks_data.blank?
       end
 
       def token
