@@ -3,8 +3,8 @@ require 'rails_helper'
 feature 'people flow' do
 
   let(:division) { create(:division) }
-  let(:person) { create(:person, :with_member_access, :with_password, division: division) }
-  let(:user) { person.user }
+  let(:user) { create_member(division) }
+  let(:person) { user.profile }
 
   before do
     login_as(user, scope: :user)

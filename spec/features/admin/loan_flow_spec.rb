@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'loan flow' do
   let(:division) { create(:division) }
-  let(:user) { create(:person, :with_member_access, :with_password, division: division).user }
+  let(:user) { create_member(division) }
   let!(:loan) { create(:loan, division: division) }
 
   before do

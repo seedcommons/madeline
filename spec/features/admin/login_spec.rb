@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'login' do
-  let(:user) { create(:person, :with_member_access, :with_password).user }
+  let(:user) { create_member(create(:division)) }
 
   scenario 'should work', js: true do
     visit('/users/sign_in')

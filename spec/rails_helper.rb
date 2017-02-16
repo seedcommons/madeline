@@ -98,6 +98,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
+  config.include FactorySpecHelpers
 
   Capybara.javascript_driver = :poltergeist
 end
