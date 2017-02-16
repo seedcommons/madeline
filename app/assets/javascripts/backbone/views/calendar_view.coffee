@@ -1,3 +1,4 @@
+# Common functions for calendars application-wide.
 class MS.Views.CalendarView extends Backbone.View
 
   stepClick: (e) ->

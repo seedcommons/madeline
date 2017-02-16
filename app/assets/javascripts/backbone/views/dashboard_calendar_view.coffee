@@ -1,3 +1,4 @@
+# This creates and controls a special calendar view for the dashboard.
 class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
 
   el: '.upcoming-events'

@@ -10,7 +10,7 @@ section.calendar
 
 javascript:
   $(function(){
-    MS.calendarView = new MS.Views.TimelineCalendarView({
+    MS.calendarView = new MS.Views.GeneralCalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
       stepModal: new MS.Views.ProjectStepModalView(),
       locale: "#{I18n.locale}"

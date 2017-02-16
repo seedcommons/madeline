@@ -51,7 +51,7 @@ class MS.Views.LoanTabView extends Backbone.View
         if MS.calendarView
           MS.calendarView.refresh()
         else
-          MS.calendarView = new MS.Views.TimelineCalendarView(
+          MS.calendarView = new MS.Views.GeneralCalendarView(
             calendarEventsUrl: @calendarEventsUrl,
             stepModal: @stepModal,
             locale: @locale

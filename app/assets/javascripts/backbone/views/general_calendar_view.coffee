@@ -1,4 +1,5 @@
-class MS.Views.TimelineCalendarView extends MS.Views.CalendarView
+# This creates and controls a standard calendar which displays a standard month and week view.
+class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
 
   el: '.calendar'
 
