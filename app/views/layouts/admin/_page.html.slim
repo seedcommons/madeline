@@ -1,39 +1,6 @@
-- division = selected_division
 div
-  nav.navbar-fixed-top
-
-    / Navbar for sm devices (768px and above).
-    .nav-sm.container-fluid
-      .row.navbar-main
-        .madeline-logo.col-sm-4
-          .ftc-triple-spiral
-          - unless division.present?
-            .madeline Madeline
-
-        = render("layouts/admin/division_brand", size: "sm")
-
-        / This is the division menu, user profile link and logout button.
-        .user-div-info.col-sm-4
-          = render("layouts/admin/user_div_info", size: "sm")
-
-    / Navbar for xs devices (767px and below)
-    .nav-xs.container-fluid
-      .navbar-main.row
-        = render("layouts/admin/division_brand", size: "xs")
-        .col-xs-2
-          / Hamburger menu toggle.
-          button.navbar-toggle aria-expanded="false" data-target="#navbar-menu" data-toggle="collapse" type="button"
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-
-      / This is the menu toggled by the toggle above.
-      #navbar-menu.collapse.navbar-collapse
-        ul.nav.navbar-nav
-          = render "layouts/admin/site_menu"
-          hr
-          = render("layouts/admin/user_div_info", size: "xs")
+  - unless @header_disabled
+    = render "layouts/admin/site_header"
 
   .sidemenu.container-fluid
     .row
