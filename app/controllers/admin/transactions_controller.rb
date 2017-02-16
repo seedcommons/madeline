@@ -5,6 +5,7 @@ class Admin::TransactionsController < Admin::AdminController
 
     auth_details = {access_token: Division.connector.access_token, company_id: Division.connector.realm_id}
 
+    # This is temporary code until the proper transaction wrappers are created.
     @transaction_list = %w(JournalEntry Deposit Purchase).map do |transaction_type|
       transactions = Quickbooks::Service.const_get(transaction_type).new(auth_details).query
       transactions.map do |t|
