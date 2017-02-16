@@ -9,7 +9,6 @@ section.
     .row.text-right
       .filter
         .filter-content.col-md-3.col-md-offset-9
-          /= grid_filter @recent_projects_grid, :completed_filter
 
     - unless @empty_list
       = render_index_grid(@recent_projects_grid)
