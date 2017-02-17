@@ -1,7 +1,8 @@
 class DashboardPolicy < ApplicationPolicy
   class Scope < DivisionOwnedScope
-    def dashboard?
-      true
-    end
+  end
+
+  def dashboard?
+    true
   end
 end
