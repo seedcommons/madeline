@@ -63,12 +63,16 @@ Rails.application.routes.draw do
 
     resources :settings
 
-    resources :quickbooks do
-      collection do
-        get :authenticate
-        get :oauth_callback
-        get :disconnect
+    namespace :accounting do
+      resources :quickbooks do
+        collection do
+          get :authenticate
+          get :oauth_callback
+          get :disconnect
+        end
       end
+
+      resources :transactions
     end
 
     namespace :raw do
