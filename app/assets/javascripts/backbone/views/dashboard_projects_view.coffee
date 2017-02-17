@@ -7,4 +7,21 @@ class MS.Views.DashboardProjectsView extends Backbone.View
   filterProjects: (e) ->
     e.preventDefault()
     $select = $(e.currentTarget)
-    console.log($select.val())
+    filter = $select.val()
+    console.log(filter)
+
+    if filter == 'all'
+      @showAllProjects()
+    else if filter == 'active'
+      @showActiveProjects()
+    else
+      @showCompletedProjects()
+
+  showAllProjects: ->
+    console.log("all projects")
+
+  showActiveProjects: ->
+    console.log("active projects")
+
+  showCompletedProjects: ->
+    console.log("completed projects")
