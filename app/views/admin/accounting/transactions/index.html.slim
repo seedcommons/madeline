@@ -1,0 +1,17 @@
+- content_for(:title, 'Transactions')
+
+table.table
+  tr
+    th Id
+    th Date
+    th Type
+    th Total
+    th Note
+  tbody
+    - @transaction_list.each do |transaction|
+      tr
+        td = transaction[:id]
+        td = transaction[:txn_date]
+        td = transaction[:type]
+        td = transaction[:total]
+        td = transaction[:private_note]
