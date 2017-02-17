@@ -1,0 +1,16 @@
+- content_for(:title, @person.name)
+
+section.block.section.upcoming-events.calendar
+  h2 = t("dashboard.upcoming_events")
+  div#calendar
+
+  = render "admin/project_steps/modal"
+
+javascript:
+  $(function(){
+    MS.DashboardCalendarView = new MS.Views.DashboardCalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: "#{I18n.locale}"
+    });
+  });

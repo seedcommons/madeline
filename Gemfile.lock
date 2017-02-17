@@ -54,7 +54,7 @@ GEM
     annotate (2.7.0)
       activerecord (>= 3.2, < 6.0)
       rake (~> 10.4)
-    arel (6.0.3)
+    arel (6.0.4)
     ast (2.2.0)
     attribute_normalizer (1.2.0)
     autoprefixer-rails (6.3.4)
@@ -73,7 +73,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     browser (2.0.2)
-    builder (3.2.2)
+    builder (3.2.3)
     bullet (5.0.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.9.0)
@@ -99,17 +99,23 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.14)
+      capybara (>= 1.0, < 3)
+      launchy
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    childprocess (0.6.1)
+      ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     chroma (0.1.0)
     chronic (0.10.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    closure_tree (6.2.0)
+    cliver (0.3.2)
+    closure_tree (6.3.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     cocaine (0.5.8)
@@ -124,7 +130,7 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.1)
     daemons (1.2.4)
-    database_cleaner (1.5.1)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     delayed_job (4.1.2)
       activesupport (>= 3.0, < 5.1)
@@ -201,7 +207,7 @@ GEM
     highline (1.7.8)
     hirb (0.7.3)
     http_parser.rb (0.6.0)
-    i18n (0.7.0)
+    i18n (0.8.0)
     i18n-js (3.0.0.rc12)
       i18n (~> 0.6, >= 0.6.6)
     jquery-rails (4.1.1)
@@ -210,10 +216,12 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.3)
+    json (1.8.6)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     libv8 (3.16.14.15)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -229,10 +237,11 @@ GEM
     mimemagic (0.3.2)
     mini_magick (4.5.0)
     mini_portile2 (2.1.0)
-    minitest (5.9.1)
+    minitest (5.10.1)
     momentjs-rails (2.11.0)
       railties (>= 3.1)
     multi_json (1.11.2)
+    multipart-post (2.0.0)
     mysql2 (0.4.4)
     nenv (0.3.0)
     net-scp (1.2.1)
@@ -243,6 +252,7 @@ GEM
     notiffany (0.1.0)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oauth (0.4.7)
     orm_adapter (0.5.0)
     paperclip (5.0.0)
       activemodel (>= 4.2.0)
@@ -253,6 +263,10 @@ GEM
     parser (2.3.0.6)
       ast (~> 2.2)
     pg (0.18.4)
+    poltergeist (1.13.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -263,6 +277,12 @@ GEM
     pundit-matchers (1.0.2)
       pundit (~> 1.0, >= 1.0.0)
       rspec-rails (>= 3.0.0)
+    quickbooks-ruby (0.4.6)
+      activemodel (< 5.0.0)
+      multipart-post
+      nokogiri
+      oauth (= 0.4.7)
+      roxml (= 3.3.1)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -321,6 +341,9 @@ GEM
     route_translator (4.3.0)
       actionpack (>= 3.2, < 5.0)
       activesupport (>= 3.2, < 5.0)
+    roxml (3.3.1)
+      activesupport (>= 2.3.0)
+      nokogiri (>= 1.3.3)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -347,6 +370,7 @@ GEM
     ruby-graphviz (1.2.2)
     ruby-progressbar (1.7.5)
     ruby_dep (1.3.1)
+    rubyzip (1.2.0)
     sass (3.4.21)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -356,6 +380,10 @@ GEM
       tilt (>= 1.1, < 3)
     select2-rails (4.0.1.1)
       thor (~> 0.14)
+    selenium-webdriver (2.53.4)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
     shellany (0.0.1)
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
@@ -404,6 +432,10 @@ GEM
       rails (>= 3.2.0)
     warden (1.2.6)
       rack (>= 1.0)
+    websocket (1.2.4)
+    websocket-driver (0.6.5)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     with_advisory_lock (3.0.0)
@@ -431,13 +463,14 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails (~> 1.1)
   capistrano3-delayed-job (~> 1.0)
-  capybara
+  capybara (~> 2.0)
+  capybara-screenshot (~> 1.0)
   carrierwave
   chroma
   closure_tree (~> 6.2)
   coffee-rails (~> 4.1.0)
   daemons
-  database_cleaner
+  database_cleaner (~> 1.5)
   delayed_job_active_record
   devise
   dotenv-rails
@@ -461,8 +494,10 @@ DEPENDENCIES
   mysql2
   paperclip (~> 5.0.0)
   pg (~> 0.15)
+  poltergeist (~> 1.0)
   pundit
   pundit-matchers
+  quickbooks-ruby
   quiet_assets
   rack-livereload
   rails (~> 4.2.5)
@@ -475,6 +510,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   select2-rails
+  selenium-webdriver (~> 2.0)
   simple_form
   simplecov
   slim
@@ -489,4 +525,4 @@ DEPENDENCIES
   wice_grid!
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

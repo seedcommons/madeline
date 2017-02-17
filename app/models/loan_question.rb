@@ -82,7 +82,7 @@ class LoanQuestion < ActiveRecord::Base
         c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
       end
     else
-      children.select { |c| c.status != 'retired' }
+      children.order(:position).select { |c| c.status != 'retired' }
     end
   end
 

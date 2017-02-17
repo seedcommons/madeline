@@ -1,3 +1,4 @@
+li = link_to t('menu.dashboard'), admin_dashboard_path
 li = link_to t('menu.loans'), admin_loans_path
 li = link_to t('menu.logs'), admin_project_logs_path
 li = link_to t('menu.coops'), admin_organizations_path
@@ -5,6 +6,8 @@ li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('menu.people'), admin_people_path
 li = link_to t('menu.basic_projects'), admin_basic_projects_path
+- if policy(:'accounting/transaction').index?
+  li = link_to 'Transactions', admin_accounting_transactions_path
 
 li
   a data-toggle="collapse" data-target=".submenu1" aria-expanded="false"
@@ -14,3 +17,5 @@ li
     - if policy(Division).index?
       li = link_to t('menu.divisions'), admin_divisions_path
     li = link_to t('menu.loan_questions'), admin_loan_questions_path
+    - if policy(:setting).index?
+      li = link_to 'Settings', admin_settings_path

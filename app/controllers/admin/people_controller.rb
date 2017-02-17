@@ -18,7 +18,7 @@ class Admin::PeopleController < Admin::AdminController
 
     @csv_mode = true
 
-    export_grid_if_requested do
+    export_grid_if_requested('people': 'people_grid_definition') do
       # This block only executes if CSV is not being returned
       @csv_mode = false
     end
