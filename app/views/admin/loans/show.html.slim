@@ -1,4 +1,7 @@
 - content_for(:title, "##{@loan.id}: #{@loan.display_name}")
+- content_for(:per_page_js) do
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+
 section.loan.details
   div.loan-content
     = render "admin/loans/tabs"

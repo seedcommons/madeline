@@ -38,5 +38,6 @@
 
     javascript:
       $(function() {
+        google.charts.load('current', {'packages':['corechart']});
         new MS.Views.ShowEditView({ el: ".questionnaire[data-attrib=#{attrib}] .block" });
       });
