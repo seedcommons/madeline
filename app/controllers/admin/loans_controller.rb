@@ -24,7 +24,7 @@ class Admin::LoansController < Admin::ProjectsController
 
     @csv_mode = true
 
-    export_grid_if_requested do
+    export_grid_if_requested('loans': 'loans_grid_definition') do
       # This block only executes if CSV is not being returned
       @csv_mode = false
     end
@@ -114,7 +114,7 @@ class Admin::LoansController < Admin::ProjectsController
     authorize @loan, :show?
     @print_view = true
     @mode = params[:mode]
-    @first_image = @loan.media.find {|item| item.kind == 'image'}
+    @first_image = @loan.media.find {|item| item.kind_value == 'image'}
     @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded }
     prep_attached_links if @mode != "details-only"
   end

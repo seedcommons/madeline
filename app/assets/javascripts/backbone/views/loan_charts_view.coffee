@@ -16,7 +16,9 @@ class MS.Views.LoanChartsView extends Backbone.View
       },
       backgroundColor: 'none'
     }
-    @loadCharts()
+    google.charts.load 'current',
+      packages: ['corechart']
+      callback: @loadCharts.bind @
 
   loadCharts: ->
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @

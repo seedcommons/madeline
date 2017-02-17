@@ -12,6 +12,14 @@ es:
       person: "Miembro"
       project_step: "Paso del Proyecto"
     attributes:
+      basic_project:
+        division: "División"
+        length_months: "Duración (meses)"
+        name: "Nombre"
+        primary_agent: "Agente Principal"
+        secondary_agent: "Agente Secundario"
+        signing_date: "Fecha de Inicio"
+        status: "Estado"
       division:
         description: "Descripción"
         default_currency: "Moneda Predeterminada"
@@ -27,6 +35,7 @@ es:
       loan:
         division: "División"
         organization: "Cooperativa"
+        id: "ID"
         name: "Nombre"
         loan_type: "Tipo de Préstamo"
         status: "Estado"
@@ -38,7 +47,7 @@ es:
         length_months: "Duración (meses)"
         first_payment_date: "Fecha de 1er Pago "
         first_interest_payment_date: "Fecha de 1er Pago de Interés"
-        end_date: "Fecha de Finalización Prevista"
+        end_date: "Fecha de Finalización "
         projected_return: "Retorno Proyectado"
         representative: "Representante"
         details: "Detalles"
@@ -94,13 +103,30 @@ es:
         tax_no: "Nro. de Documento"
         website: "Página Web"
       project_log:
+        step: "Paso"
         date: "Fecha del Apunte"
         agent: "Miembro"
         progress_metric_value: "Estado"
+      media:
+        item: "Ítem"
+        kind_value: "Tipo"
+      project_step:
+        parent_id: "Grupo"
+        schedule_parent_id: "Paso Precedente"
+        actual_end_date: "Fecha de Finalización"
+        duration: "Duración Proyectada"
+        is_finalized: "Finalizado"
+        scheduled_duration_days: "Duración Proyectada"
+        scheduled_start_date: "Fecha Proyectada de Inicio"
+        step_type_value: "Tipo"
     errors:
       models:
         project_group:
           no_summary: "Se requiere un resumen."
+        organization:
+          attributes:
+            primary_contact:
+              invalid: 'El Contacto Principal debe pertenecer a la organización'
   simple_form:
     hints:
       division:
@@ -110,13 +136,6 @@ es:
         accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
         accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
     labels:
-      project_step:
-        actual_end_date: "Fecha de Finalización"
-        duration: "Duración Proyectada"
-        is_finalized: "Finalizado"
-        scheduled_duration_days: "Duración Proyectada"
-        scheduled_start_date: "Fecha Proyectada de Inicio"
-        step_type_value: "Tipo"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
     options:
@@ -302,6 +321,7 @@ es:
     log: "apunte de proyecto"
     logs: "Apuntes"
     new: "Nuevo Apunte"
+    create: "Nuevo Apunte"
     no_logs: "No Hay Apuntes"
     notify: "Enviar Notificaciones"
     private_notes: "Notas Privadas"
@@ -322,6 +342,7 @@ es:
     delete: "Borrar Foto(s)"
     item: "Ítem"
   menu:
+    basic_projects: "Proyectos"
     calendar: "Calendario"
     coops: "Cooperativas"
     dashboard: "Tablero de mandos"
@@ -350,7 +371,7 @@ es:
     all_completion_statuses: "Todos los Estados"
     after: "Después de"
     completion_status:
-      draft: 'Finalizado'
+      finalized: 'Finalizado'
       complete: 'Completo'
       incomplete: 'Incompleto'
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"

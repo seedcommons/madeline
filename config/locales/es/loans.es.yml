@@ -1,5 +1,8 @@
 es:
   loan:
+    agent:
+      one: "Agente"
+      other: "Agentes"
     adjust_dates: "Modificar fechas"
     adjust_scheduled_dates: "Modificar Fechas Previstas"
     amount: "Monto"
@@ -65,7 +68,7 @@ es:
       completed: "Completo"
       frozen: "Congelado"
       liquidated: "Liquidado"
-    end_date: "Fecha de Finalización Prevista"
+    end_date: "Fecha de Finalización "
     threshold_amount: "Monto Umbral"
     timeline: "Línea de Tiempo"
     timeline_list: "Línea de Tiempo - Lista"
@@ -169,15 +172,3 @@ es:
         main:
           edit: "Editar Respuestas"
           delete: "Borrar Todas las Respuestas"
-      timeline:
-        list_header:
-          cancel_edit: "Cancelar Edición"
-          edit_all: "Editar Todo"
-          new_step: "Nuevo Paso"
-          save_all: "Guardar Todo"
-        top_controls:
-          new_group: "Agregar Grupo"
-          new_step: "Agregar Paso"
-        table:
-          add_child_group: "Agregar Grupo 'Hijo'"
-          add_child_step: "Agregar Paso 'Niño'"

@@ -22,6 +22,7 @@
 #  notify_on_new_logs :boolean          default(FALSE)
 #  organization_id    :integer
 #  parent_id          :integer
+#  quickbooks_data    :json
 #  updated_at         :datetime         not null
 #
 # Indexes
@@ -74,6 +75,8 @@ class Division < ActiveRecord::Base
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
 
+  delegate :connected?, :save, :forget, to: :qb_connection, prefix: :quickbooks
+
   def self.root_id
     result = root.try(:id)
     logger.info("division root.id: #{result}")
@@ -113,5 +116,9 @@ class Division < ActiveRecord::Base
     locales.map do |locale|
       I18n.t("locale_name.#{locale}", locale: locale)
     end
+  end
+
+  def qb_connection
+    @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.quickbooks_data
   end
 end

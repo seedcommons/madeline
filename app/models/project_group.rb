@@ -62,10 +62,13 @@ class ProjectGroup < TimelineEntry
   end
 
   def filtered_children
-    @filtered_children ||= children.reject do |child|
-      filters.present? && child.step? &&
-        (filters[:type] && child.step_type_value != filters[:type] ||
-        filters[:status] && child.completion_status != filters[:status])
+    @filtered_children ||= children.sort_by(&:sort_key).reject do |child|
+      filters.present? && child.step? && (
+        filters[:type].present? && child.step_type_value != filters[:type] ||
+        filters[:status] == 'finalized' && !child.is_finalized ||
+        filters[:status] == 'incomplete' && child.completed? ||
+        filters[:status] == 'complete' && !child.completed?
+      )
     end
   end
 

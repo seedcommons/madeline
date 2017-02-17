@@ -7,8 +7,6 @@ describe Person, type: :model do
     expect(create(:person)).to be_valid
   end
 
-  it_should_behave_like 'notable'
-
   context 'with system access' do
     let(:person) { create(:person, :with_member_access, :with_password) }
 

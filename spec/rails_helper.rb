@@ -11,7 +11,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/poltergeist'
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'devise'
 require 'pundit/rspec'
 require 'pundit/matchers'
@@ -35,12 +37,6 @@ ActiveRecord::Migration.maintain_test_schema!
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  # Use FeatureHelpers for feature specs
-  config.include FeatureHelpers, type: :feature
-
-  # Use devise heleprs in controller specs
-  config.include Devise::TestHelpers, type: :controller
-
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -97,14 +93,16 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.include Warden::Test::Helpers
+  config.include Devise::TestHelpers, type: :controller
+  config.include FeatureSpecHelpers, type: :feature
+  config.include FactoryGirl::Syntax::Methods
+  config.include FactorySpecHelpers
+
+  Capybara.javascript_driver = :poltergeist
 end
 
 def record_class(record_type)
   record_type.to_s.camelize.constantize
-end
-
-def sign_in_admin
-  user = create(:person, :with_admin_access).user
-  sign_in(user)
-  user
 end
