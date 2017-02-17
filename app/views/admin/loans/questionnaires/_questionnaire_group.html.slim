@@ -57,7 +57,7 @@
             .question-label = "#{index_str} #{question.label}"
 
         - if question.explanation.present?
-          p.help-block.hidden-print.tree-view = question.explanation
+          .help-block.hidden-print.tree-view = simple_format(question.explanation.to_s)
 
         / Recurse if group, else render
         - if question.data_type == 'group'

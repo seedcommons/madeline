@@ -24,7 +24,7 @@ class Admin::LoansController < Admin::ProjectsController
 
     @csv_mode = true
 
-    export_grid_if_requested do
+    export_grid_if_requested('loans': 'loans_grid_definition') do
       # This block only executes if CSV is not being returned
       @csv_mode = false
     end

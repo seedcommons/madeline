@@ -1,6 +1,7 @@
 es:
   loan_question: "Pregunta del préstamo"
   loan_questions:
+    active: "Activos"
     confirm_deletion: "<b>ATENCIÓN:</b> Si este ítem tiene preguntas o grupos que le pertenecen, <b>¡también serán borrados! </b>¿Realmente <b>Realmente</b> quieres borrar esto?"
     confirm_deletion_no_descendants: "¿Realmente quieres borrar esto?"
     confirm_deletion_descendants: "<b>ADVERTENCIA:</b> Este ítem tiene preguntas o grupos relacionados, que <b>serán borrados también!</b> ¿Realmente  <b>quieres</b> borrar esto?"

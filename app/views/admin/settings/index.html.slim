@@ -1,0 +1,27 @@
+- content_for(:title, 'Settings')
+
+script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere-1.3.3.js"
+
+javascript:
+  intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_quickbooks_url}'});
+
+section.block
+  .form-horizontal
+    .form-group
+      label.col-sm-2 Quickbooks Status:
+      - if Division.root && Division.root.quickbooks_connected?
+        .col-sm-10 Connected
+      - else
+        .col-sm-10 Not Connected
+
+    - if Division.root && Division.root.quickbooks_connected?
+      .form-group
+        label.col-sm-2 Disconnect from Quickbooks:
+        .col-sm-10 
+          a href="#{disconnect_admin_quickbooks_path}" Disconnect
+    - else
+      .form-group
+        label.col-sm-2 Connect to Quickbooks:
+        .col-sm-10
+          / this will display a button that the user clicks to start the flow
+          ipp:connectToIntuit

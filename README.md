@@ -4,6 +4,7 @@
 * ruby 2.2.x
 * postgresql
 * mysql (for migrating legacy data)
+* PhantomJS 2.1.x or higher
 
 ## Getting Started
     git clone git@github.com:sassafrastech/madeline_system.git

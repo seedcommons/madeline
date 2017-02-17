@@ -62,6 +62,16 @@ Rails.application.routes.draw do
       resources :media
     end
 
+    resources :settings
+
+    resources :quickbooks do
+      collection do
+        get :authenticate
+        get :oauth_callback
+        get :disconnect
+      end
+    end
+
     namespace :raw do
       resources :divisions
       resources :loans
