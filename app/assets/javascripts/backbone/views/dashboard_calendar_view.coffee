@@ -13,6 +13,7 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)
+      eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
       events: params.calendarEventsUrl
       height: 'auto'
