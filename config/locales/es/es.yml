@@ -371,7 +371,7 @@ es:
     all_completion_statuses: "Todos los Estados"
     after: "Después de"
     completion_status:
-      draft: 'Finalizado'
+      finalized: 'Finalizado'
       complete: 'Completo'
       incomplete: 'Incompleto'
     confirm_deletion: "¿Realmente quieres borrar este paso de proyecto?"

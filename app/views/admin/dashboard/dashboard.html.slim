@@ -1,8 +1,8 @@
 - content_for(:title, @person.name)
   
-section.block.recent-projects
+section.block.section.recent-projects
   h2 = t("dashboard.my_projects")
-
+  
   .projects-grid
     = render "recent_projects_grid_definition"
 
@@ -14,8 +14,19 @@ section.block.recent-projects
 
     - unless @empty_list
       = render_index_grid(@recent_projects_grid)
+      
+section.block.section.upcoming-events.calendar
+  h2 = t("dashboard.upcoming_events")
+  div#calendar
+
+  = render "admin/project_steps/modal"
 
 javascript:
   $(function(){
     new MS.Views.DashboardProjectsView();
+    new MS.Views.DashboardCalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: "#{I18n.locale}"
+    });
   });

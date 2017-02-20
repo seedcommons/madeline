@@ -6,9 +6,20 @@
       margin-bottom: 1em;
     }
 
+    h1, h2 {
+      margin: 0;
+    }
+
     .section {
       h2 {
         font-size: 1.5em;
+        margin-bottom: 1rem;
+      }
+    }
+
+    #calendar {
+      .fc-toolbar {
+        display: none;
       }
     }
 
