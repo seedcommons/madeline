@@ -10,6 +10,9 @@
   section.section.logs
     h2 = t("dashboard.logs")
 
+    section.log-list
+      = render "admin/project_logs/log_list"
+
 javascript:
   $(function(){
     MS.DashboardCalendarView = new MS.Views.DashboardCalendarView({
