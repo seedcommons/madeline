@@ -1,10 +1,14 @@
 - content_for(:title, @person.name)
 
-section.block.section.upcoming-events.calendar
-  h2 = t("dashboard.upcoming_events")
-  div#calendar
+.block
+  section.section.upcoming-events.calendar
+    h2 = t("dashboard.upcoming_events")
+    div#calendar
 
-  = render "admin/project_steps/modal"
+    = render "admin/project_steps/modal"
+
+  section.section.logs
+    h2 = t("dashboard.logs")
 
 javascript:
   $(function(){
