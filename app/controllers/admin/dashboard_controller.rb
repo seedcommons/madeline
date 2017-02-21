@@ -14,6 +14,7 @@ class Admin::DashboardController < Admin::AdminController
   end
 
   def prep_logs
+    @context = "dashboard"
     options = {}
     @logs = ProjectLog.in_division(selected_division).filter_by(options).
         order('date IS NULL, date DESC, created_at DESC').

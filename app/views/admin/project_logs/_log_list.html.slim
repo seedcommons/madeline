@@ -2,6 +2,8 @@
   = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 - else
   .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
+    - if @context == "dashboard"
+      = link_to t("dashboard.show_all_logs"), admin_project_logs_path
     - if @context == "calendar"
       a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
       a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
