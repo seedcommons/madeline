@@ -13,11 +13,19 @@
     section.log-list
       = render "admin/project_logs/log_list"
 
+    div#log-form-modal
+
 javascript:
   $(function(){
-    MS.DashboardCalendarView = new MS.Views.DashboardCalendarView({
+    new MS.Views.DashboardCalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
       stepModal: new MS.Views.ProjectStepModalView(),
       locale: "#{I18n.locale}"
+    });
+
+    new MS.Views.LogListView({
+      el: 'section.log-list',
+      refreshUrl: '/admin/logs?per_page=10',
+      logFormModal: $('#log-form-modal')
     });
   });
