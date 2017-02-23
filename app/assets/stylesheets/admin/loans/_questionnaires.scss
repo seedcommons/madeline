@@ -1,4 +1,5 @@
 @import "../colors";
+@import "../variables";
 
 section.questionnaires {
   // Overriding this because it's nice for it to be floated right opposite h2
@@ -139,11 +140,11 @@ section.questionnaires {
 
   .actions {
     position: fixed;
-    bottom: 0;
+    bottom: $content-wrapper-padding;
     background: gray;
     display: block;
     padding: 1em;
-    right: 0;
+    right: $content-wrapper-padding;
   }
 }
 

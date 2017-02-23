@@ -1,5 +1,7 @@
 // Styles for the overall admin template
 
+@import "variables";
+
 $navbar-height: 85px;
 $navbar-padding: 10px;
 $sidebar-width: 190px;
@@ -176,7 +178,7 @@ body.admin {
 
   .content-wrapper {
     margin-left: $sidebar-width;
-    padding: 20px;
+    padding: $content-wrapper-padding;
 
     @media (max-width: 767px) {
       margin-left: 0;
