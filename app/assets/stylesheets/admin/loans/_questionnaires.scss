@@ -136,6 +136,15 @@ section.questionnaires {
       margin: 0;
     }
   }
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+    background: gray;
+    display: block;
+    padding: 1em;
+    right: 0;
+  }
 }
 
 @media print {
