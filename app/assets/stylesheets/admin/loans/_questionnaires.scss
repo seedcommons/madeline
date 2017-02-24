@@ -138,13 +138,14 @@ section.questionnaires {
     }
   }
 
-  .actions {
+  .form-element.actions {
     position: fixed;
-    bottom: $content-wrapper-padding;
-    background: gray;
-    display: block;
-    padding: 1em;
+    bottom: 0;
     right: $content-wrapper-padding;
+    display: block;
+    margin: 0 0 $content-wrapper-padding;
+    padding: 1em;
+    background: $gray3;
   }
 }
 
