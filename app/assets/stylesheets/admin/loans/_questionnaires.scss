@@ -147,14 +147,20 @@ section.questionnaires {
     display: block;
     margin: 0 0 $content-wrapper-padding;
     padding: 1em;
+    // Use built-in Sass function and color fallback
     background: $gray2;
     background: rgba($gray2, 0.5);
+    text-align: right;
 
     $questionnaire-actions-offset: 2*#{$content-wrapper-padding};
     width: calc(100% - #{$questionnaire-actions-offset});
 
     @media (min-width: 768px) {
       width: calc(100% - (#{$sidebar-width} + #{$questionnaire-actions-offset}));
+    }
+
+    a {
+      float: none;
     }
   }
 }
