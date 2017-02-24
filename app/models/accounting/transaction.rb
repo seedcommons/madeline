@@ -19,15 +19,15 @@ class Accounting::Transaction < ActiveRecord::Base
     @qb_object
   end
 
-  def self.qb_where(**args)
-    transactions = where(args)
+  def self.where(**args)
+    transactions = super(args)
     return transactions if transactions.count < 1
 
     Accounting::Quickbooks::Fetcher.new(transactions).fetch
   end
 
-  def self.qb_all
-    transactions = all
+  def self.all
+    transactions = super
     return transactions if transactions.count < 1
 
     Accounting::Quickbooks::Fetcher.new(transactions).fetch
