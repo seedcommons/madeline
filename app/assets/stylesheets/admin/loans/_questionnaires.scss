@@ -147,7 +147,8 @@ section.questionnaires {
     display: block;
     margin: 0 0 $content-wrapper-padding;
     padding: 1em;
-    background: rgba(230, 230, 230, 0.5);
+    background: $gray2;
+    background: rgba($gray2, 0.5);
 
     $questionnaire-actions-offset: 2*#{$content-wrapper-padding};
     width: calc(100% - #{$questionnaire-actions-offset});
