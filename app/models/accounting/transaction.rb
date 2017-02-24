@@ -15,10 +15,11 @@ class Accounting::Transaction < ActiveRecord::Base
   delegate :txn_date, :total, :private_note, to: :qb_object
 
   def qb_object
-    raise 'qb_object not already set' if @qb_object.blank?
+    raise ArgumentError, 'qb_object not already set. Use where or all to have it populated for you.' if @qb_object.blank?
     @qb_object
   end
 
+  # We need to override where to ensure the qb_object data gets populated when queried.
   def self.where(**args)
     transactions = super(args)
     return transactions if transactions.count < 1
@@ -26,6 +27,7 @@ class Accounting::Transaction < ActiveRecord::Base
     Accounting::Quickbooks::Fetcher.new(transactions).fetch
   end
 
+  # We need to override where to ensure the qb_object data gets populated when queried.
   def self.all
     transactions = super
     return transactions if transactions.count < 1
