@@ -2,10 +2,6 @@
 
 .admin-dashboard {
   .content {
-    .row {
-      margin-bottom: 1em;
-    }
-
     h1, h2 {
       margin: 0;
     }
@@ -15,11 +11,12 @@
 
       h2 {
         font-size: 1.5em;
-        margin-bottom: 1rem;
       }
     }
 
     #calendar {
+      margin-top: .25em;
+
       .fc-toolbar {
         display: none;
       }
@@ -27,7 +24,11 @@
 
     .logs-index.post-list {
       .post {
-        padding: 10px;
+        padding: .25em .5em;
+
+        header {
+          margin-bottom: 0;
+        }
       }
     }
   }
