@@ -138,14 +138,23 @@ section.questionnaires {
     }
   }
 
+
   .form-element.actions {
+    // When position is fixed, the entire webpage/viewport is the parent element
     position: fixed;
     bottom: 0;
     right: $content-wrapper-padding;
     display: block;
     margin: 0 0 $content-wrapper-padding;
     padding: 1em;
-    background: $gray3;
+    background: rgba(230, 230, 230, 0.5);
+
+    $questionnaire-actions-offset: 2*#{$content-wrapper-padding};
+    width: calc(100% - #{$questionnaire-actions-offset});
+
+    @media (min-width: 768px) {
+      width: calc(100% - (#{$sidebar-width} + #{$questionnaire-actions-offset}));
+    }
   }
 }
 
