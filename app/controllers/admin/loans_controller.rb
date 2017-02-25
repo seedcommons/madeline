@@ -40,6 +40,26 @@ class Admin::LoansController < Admin::ProjectsController
     @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     @active_tab = params[:tab].presence || "details"
 
+    case @tab = params[:tab] || "details"
+    when "details"
+      # prep_form_vars
+    when "questions"
+      prep_questionnaires
+    when "timeline"
+      # prep_timeline(@basic_project)
+    when "timeline_list"
+      # @steps = @basic_project.project_steps
+    when "logs"
+      @org = Organization.find(params[:org]) if params[:org]
+      @step = ProjectStep.find(params[:step]) if params[:step]
+      @logs = ProjectLog.in_division(selected_division).filter_by(loan: @loan.id).
+          order('date IS NULL, date DESC, created_at DESC').
+          page(params[:page]).per(params[:per_page])
+    when "calendar"
+      # @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    end
+    @tabs = %w(details questions timeline timeline_list logs calendar)
+
     render partial: 'admin/loans/details' if request.xhr?
   end
 
@@ -48,28 +68,6 @@ class Admin::LoansController < Admin::ProjectsController
     @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
-  end
-
-  def questionnaires
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-
-    # Value sets are sets of answers to criteria and post analysis question sets.
-    @response_sets = ActiveSupport::OrderedHash.new
-    @roots = {}
-    @questions_json = {}
-
-    Loan::QUESTION_SET_TYPES.each do |kind|
-      # If existing set not found, build a blank one with which to render the form.
-      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
-
-      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
-      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
-        LoanQuestionSerializer.new(i, loan: @loan)
-      end.to_json
-    end
-
-    render partial: "admin/loans/questionnaires/main"
   end
 
   def update
@@ -159,6 +157,23 @@ class Admin::LoansController < Admin::ProjectsController
       notice_text << I18n.t('loan.num_of_links', count: @attached_links.length) << " " << open_link_text
       notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
       flash.now[:alert] = notice_text
+    end
+  end
+
+  def prep_questionnaires
+    # Value sets are sets of answers to criteria and post analysis question sets.
+    @response_sets = ActiveSupport::OrderedHash.new
+    @roots = {}
+    @questions_json = {}
+
+    Loan::QUESTION_SET_TYPES.each do |kind|
+      # If existing set not found, build a blank one with which to render the form.
+      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
+
+      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
+      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
+        LoanQuestionSerializer.new(i, loan: @loan)
+      end.to_json
     end
   end
 

@@ -7,9 +7,8 @@ ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
   = render "admin/loans/tab", identifier: "loan-calendar", label: t("calendar.calendar")
 
 div class="tab-content"
-  div role="tabpanel" class="tab-pane flush" id="details"
-    section.block.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' : 'edit-view')
-      // Details are loaded dynamically by view
+  div role="tabpanel" class="tab-pane" id="details"
+    = render "admin/loans/details", loan: @loan
 
   div role="tabpanel" class="tab-pane" id="questions"
     section.questionnaires

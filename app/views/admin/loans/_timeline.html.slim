@@ -1,0 +1,11 @@
+#timeline-table
+  = render "admin/timeline/main", project: @loan
+
+javascript:
+  $(function() {
+    new MS.Views.TimelineTableView({
+      projectId: #{json @loan.id},
+      stepModal: new MS.Views.ProjectStepModalView()
+    });
+  });
+

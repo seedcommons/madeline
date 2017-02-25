@@ -69,6 +69,13 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     end_date: "End Date"
+    tab:
+      details: "Details"
+      questions: "Questions"
+      timeline: "Timeline"
+      timeline_list: "Timeline - List"
+      logs: "Logs"
+      calendar: "Calendar"
     threshold_amount: "Threshold Amount"
     timeline: "Timeline"
     timeline_list: "Timeline - List"

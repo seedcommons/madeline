@@ -1,0 +1,19 @@
+- refresh_url = @org ? "/admin/logs?org=#{@org.id}" : "/admin/logs"
+
+section.log-list
+  = render "admin/project_logs/log_list"
+
+div#log-form-modal
+
+javascript:
+  $(function() {
+
+    new MS.Views.LogListView({
+      el: 'section.log-list',
+      refreshUrl: #{json refresh_url},
+      logFormModal: $('#log-form-modal')
+    });
+  });
+
+
+= paginate @logs
