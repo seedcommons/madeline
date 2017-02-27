@@ -1,14 +1,15 @@
 - content_for(:title, @person.name)
 
 section.block.section.recent-projects
-  h2 = t("dashboard.my_projects")
-
   .projects-grid
     = render "recent_projects_grid_definition"
 
-    .row.text-right
-      .filter
-        .filter-content.col-md-3.col-md-offset-9
+    .row
+      .col-md-9
+        h2 = t("dashboard.my_projects")
+
+      .filter.col-md-3.text-right
+        .filter-content
           = form_tag do
             = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
               class: "form-control")
