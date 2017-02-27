@@ -15,9 +15,7 @@ class Admin::DashboardController < Admin::AdminController
 
   def prep_logs
     @context = "dashboard"
-    @logs = ProjectLog.in_division(selected_division).
-        where(agent_id: @person.id).
-        order('date IS NULL, date DESC, created_at DESC').
-        page(1).per(10)
+    @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).
+      per(10)
   end
 end
