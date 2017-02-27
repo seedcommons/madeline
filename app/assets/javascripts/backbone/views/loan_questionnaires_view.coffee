@@ -86,3 +86,5 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   editDocument: (e) ->
     Backbone.trigger 'LoanQuestionnairesView:edit', @
+    @$form = @$(e.currentTarget).closest('.questionnaire').find('.questionnaire-form form')
+    @$form.dirtyForms({ debug: true })
