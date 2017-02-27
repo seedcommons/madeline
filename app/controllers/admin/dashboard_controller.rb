@@ -6,10 +6,6 @@ class Admin::DashboardController < Admin::AdminController
     authorize :dashboard
     @person = Person.find(current_user.profile_id)
 
-    # Projects belonging to the current user
-    # 15 most recent projects, sorted by created date, then updated date
-    @recent_projects = @person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15)
-
     prep_calendar
     prep_projects_grid
   end
@@ -22,6 +18,10 @@ class Admin::DashboardController < Admin::AdminController
   end
 
   def prep_projects_grid
+    # Projects belonging to the current user
+    # 15 most recent projects, sorted by created date, then updated date
+    @recent_projects = @person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15)
+
     @recent_projects_grid = initialize_grid(
       @recent_projects,
       include: [:primary_agent, :secondary_agent],
@@ -29,6 +29,7 @@ class Admin::DashboardController < Admin::AdminController
       name: "recent_projects",
       enable_export_to_csv: false
     )
+
     @status_filter_options = status_filter_options
   end
 
