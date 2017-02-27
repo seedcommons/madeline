@@ -96,10 +96,6 @@ class Person < ActiveRecord::Base
     I18n.t("simple_form.options.person.owning_division_role.#{label_key}")
   end
 
-  def agent_loans
-    Loan.where("primary_agent_id = ? OR secondary_agent_id = ?", id, id)
-  end
-
   def agent_projects
     Project.where("primary_agent_id = ? OR secondary_agent_id = ?", id, id)
   end
