@@ -20,11 +20,21 @@ class MS.Views.DashboardProjectsView extends Backbone.View
   showAllProjects: ->
     console.log("all projects")
     console.log(@$('.project-status').closest('tr'))
+    @$all_projects = @$('.project-status').closest('tr')
+    @$all_projects.show()
 
   showActiveProjects: ->
     console.log("active projects")
     console.log(@$('.project-status.active').closest('tr'))
+    @$active_projects = @$('.project-status.active').closest('tr')
+    @$completed_projects = @$('.project-status.completed').closest('tr')
+    @$active_projects.show()
+    @$completed_projects.hide()
 
   showCompletedProjects: ->
     console.log("completed projects")
     console.log(@$('.project-status.completed').closest('tr'))
+    @$active_projects = @$('.project-status.active').closest('tr')
+    @$completed_projects = @$('.project-status.completed').closest('tr')
+    @$completed_projects.show()
+    @$active_projects.hide()
