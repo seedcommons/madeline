@@ -2,3 +2,7 @@ en:
   dashboard:
     my_projects: "My Projects"
     upcoming_events: "Upcoming Steps"
+    status_options:
+      active: "Active"
+      all: "Active"
+      completed: "Completed"
