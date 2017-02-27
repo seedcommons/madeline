@@ -23,4 +23,5 @@
 
     - g.column name: t('activerecord.attributes.project.progress'), attribute: 'status_value',
       filter: false, ordering: false do |project|
-      - content_tag(:span, project.status, class: "#{project.end_date ? 'completed' : 'active'}")
+      - content_tag(:span, project.status,
+        class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
