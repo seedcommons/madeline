@@ -152,7 +152,7 @@ section.questionnaires {
     background: rgba($gray2, 0.5);
     text-align: right;
 
-    $questionnaire-actions-offset: 2*#{$content-wrapper-padding};
+    $questionnaire-actions-offset: 2 * $content-wrapper-padding;
     width: calc(100% - #{$questionnaire-actions-offset});
 
     @media (min-width: 768px) {
