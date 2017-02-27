@@ -10,8 +10,6 @@ class MS.Views.LoanTabView extends Backbone.View
     # This is shared among several tabs so we initialize it here.
     @stepModal = new MS.Views.ProjectStepModalView()
 
-    # new MS.Views.TabHistoryManager(el: @el, basePath: "/admin/loans/#{@loanId}")
-
   events:
     'shown.ms.tab': 'tabShown'
 
