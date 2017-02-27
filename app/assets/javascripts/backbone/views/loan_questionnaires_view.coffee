@@ -11,6 +11,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
     'click .edit-action': 'editDocument'
+    'focus .questionnaire-form form': 'monitorForm'
 
   refreshContent: ->
     MS.loadingIndicator.show()
@@ -86,5 +87,13 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   editDocument: (e) ->
     Backbone.trigger 'LoanQuestionnairesView:edit', @
-    @$form = @$(e.currentTarget).closest('.questionnaire').find('.questionnaire-form form')
+    @initializeDirtyForms(e)
+
+  initializeDirtyForms: (item) ->
+    @$form = @$(item.currentTarget).closest('.questionnaire').find('.questionnaire-form form')
     @$form.dirtyForms({ debug: true })
+
+  monitorForm: (e) ->
+    console.log("This form is being monitored")
+    console.log(e)
+    @initializeDirtyForms(e)
