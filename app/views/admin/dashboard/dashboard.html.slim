@@ -10,7 +10,7 @@ section.block.section.recent-projects
       .filter
         .filter-content.col-md-3.col-md-offset-9
           = form_tag do
-            = select_tag(:completion_status, options_for_select(@status_filter_options)
+            = select_tag(:completion_status, options_for_select(@status_filter_options, "all"))
 
     - unless @empty_list
       = render_index_grid(@recent_projects_grid)

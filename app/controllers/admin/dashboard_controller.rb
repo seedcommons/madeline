@@ -35,7 +35,7 @@ class Admin::DashboardController < Admin::AdminController
   def status_filter_options
     filter_options = []
     STATUS_FILTERS.each do |item|
-        filter_options.push([item, I18n.t("dashboard.status_options.#{item}")])
+        filter_options.push([I18n.t("dashboard.status_options.#{item}"), item])
     end
     return filter_options
   end

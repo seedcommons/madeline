@@ -4,5 +4,5 @@ en:
     upcoming_events: "Upcoming Steps"
     status_options:
       active: "Active"
-      all: "Active"
+      all: "All"
       completed: "Completed"
