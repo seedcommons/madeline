@@ -33,30 +33,22 @@ class Admin::LoansController < Admin::ProjectsController
   def show
     @loan = Loan.find(params[:id])
     authorize @loan
-    prep_form_vars
-    prep_timeline(@loan)
     @form_action_url = admin_loan_path
-    @steps = @loan.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
-    @active_tab = params[:tab].presence || "details"
+    @active_tab = params[:tab].presence || 'details'
 
-    case @tab = params[:tab] || "details"
-    when "details"
-      # prep_form_vars
-    when "questions"
+    case @tab = params[:tab] || 'details'
+    when 'details'
+      prep_form_vars
+    when 'questions'
       prep_questionnaires
-    when "timeline"
-      # prep_timeline(@basic_project)
-    when "timeline_list"
-      # @steps = @basic_project.project_steps
-    when "logs"
-      @org = Organization.find(params[:org]) if params[:org]
-      @step = ProjectStep.find(params[:step]) if params[:step]
-      @logs = ProjectLog.in_division(selected_division).filter_by(loan: @loan.id).
-          order('date IS NULL, date DESC, created_at DESC').
-          page(params[:page]).per(params[:per_page])
-    when "calendar"
-      # @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    when 'timeline'
+      prep_timeline(@loan)
+    when 'timeline_list'
+      @steps = @loan.project_steps
+    when 'logs'
+      prep_logs
+    when 'calendar'
+      @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
     @tabs = %w(details questions timeline timeline_list logs calendar)
 
@@ -175,6 +167,14 @@ class Admin::LoansController < Admin::ProjectsController
         LoanQuestionSerializer.new(i, loan: @loan)
       end.to_json
     end
+  end
+
+  def prep_logs
+    @org = Organization.find(params[:org]) if params[:org]
+    @step = ProjectStep.find(params[:step]) if params[:step]
+    @logs = ProjectLog.in_division(selected_division).filter_by(loan: @loan.id).
+        order('date IS NULL, date DESC, created_at DESC').
+        page(params[:page]).per(params[:per_page])
   end
 
 end
