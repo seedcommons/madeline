@@ -90,3 +90,18 @@ On server:
 2.  ```
     sudo -u deploy RAILS_ENV={stage} LEGACY_DOCUMENT_BASE_PATH=/var/www/rails/madeline/shared/legacymedia rake tww:migrate_files
     ```
+
+### Quickbooks configuration
+
+In order to test any of the quickbook features, you will need to create Intuit Developer account and sandbox.
+
+1. Visit https://developer.intuit.com
+2. Click "Sign In"
+3. Create an account, or sign in
+4. Click on "My Apps"
+5. Click on "Select APIs" under "Just start coding"
+6. Select "Accounting" and click "Create app"
+7. Click on "Keys"
+8. Copy the OAuth Key and Secret into your .env file. Use `.env.example` as a template.
+
+Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-version-3-api-part-1.html if any steps are missing..
