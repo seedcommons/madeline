@@ -86,6 +86,11 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = ldate(@step.scheduled_start_date)
         = f.input_field :scheduled_start_date, as: :date_picker
 
+      - if @step.old_duration_days > 0
+        = f.input :old_duration_days
+          .form-element
+            = @step.old_duration_days
+
       = f.input "duration"
         .view-element = @step.scheduled_duration_days
         .form-element
