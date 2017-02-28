@@ -77,7 +77,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
         = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
 
-      - if @step.old_start_date
+      - if @step.old_start_date && @step.is_finalized
         = f.input :old_start_date
           .static-text-as-field
             = @step.old_start_date
@@ -86,7 +86,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = ldate(@step.scheduled_start_date)
         = f.input_field :scheduled_start_date, as: :date_picker
 
-      - if @step.old_duration_days > 0
+      - if @step.old_duration_days > 0 && @step.is_finalized
         = f.input :old_duration_days
           .static-text-as-field
             = @step.old_duration_days
