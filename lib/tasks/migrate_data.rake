@@ -78,9 +78,9 @@ namespace :tww do
   end
 
   desc "migrate some test data from quickbooks"
-  task :migrate_test_qbo => :environment do
-  qb_connection = Division.root.qb_connection
-  auth_details = { access_token: qb_connection.access_token, company_id: qb_connection.realm_id }
+  task migrate_test_qbo: :environment do
+    qb_connection = Division.root.qb_connection
+    auth_details = { access_token: qb_connection.access_token, company_id: qb_connection.realm_id }
 
     %w(JournalEntry Deposit Purchase).each do |transaction_type|
       transactions = Quickbooks::Service.const_get(transaction_type).new(auth_details).query

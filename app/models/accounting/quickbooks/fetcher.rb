@@ -1,9 +1,18 @@
 module Accounting
   module Quickbooks
+    # This class is responsible for batching up Quickbooks API calls into separate types.
+    # The API does support batch requests for queries, but quickbooks-ruby does not.
     class Fetcher
       def initialize(relation)
         @relation = relation
       end
+
+      def fetch
+        qb_objects = query
+        populate(qb_objects)
+      end
+
+      private
 
       def query
         util = ::Quickbooks::Util::QueryBuilder.new
@@ -21,13 +30,6 @@ module Accounting
         end
         @relation
       end
-
-      def fetch
-        qb_objects = query
-        populate(qb_objects)
-      end
-
-      private
 
       def ids
         @relation.pluck(:qb_transaction_id)
