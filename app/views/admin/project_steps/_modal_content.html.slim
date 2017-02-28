@@ -79,7 +79,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       - if @step.old_start_date
         = f.input :old_start_date
-          .form-element
+          .static-text-as-field
             = @step.old_start_date
 
       = f.input :scheduled_start_date
@@ -88,7 +88,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       - if @step.old_duration_days > 0
         = f.input :old_duration_days
-          .form-element
+          .static-text-as-field
             = @step.old_duration_days
 
       = f.input "duration"
