@@ -11,7 +11,7 @@ section.loan.details
 
     div class="tab-content"
       div class="tab-pane active" id=@tab
-        = render "admin/loans/#{@tab}"
+        = render "admin/loans/#{@tab}", project: @loan
 
 = render "admin/media/modal"
 = render "admin/project_groups/modal"

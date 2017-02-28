@@ -5,15 +5,13 @@ section.log-list
 
 div#log-form-modal
 
+= paginate @logs
+
 javascript:
   $(function() {
-
     new MS.Views.LogListView({
       el: 'section.log-list',
       refreshUrl: #{json refresh_url},
       logFormModal: $('#log-form-modal')
     });
   });
-
-
-= paginate @logs
