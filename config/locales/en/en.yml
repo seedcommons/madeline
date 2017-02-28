@@ -117,6 +117,8 @@ en:
         actual_end_date: "Completed Date"
         duration: "Scheduled Duration"
         is_finalized: "Finalized"
+        old_duration_days: "Old Duration"
+        old_start_date: "Old Start Date"
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
