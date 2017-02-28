@@ -51,6 +51,8 @@ class Project < ActiveRecord::Base
   belongs_to :secondary_agent, class_name: 'Person'
   has_many :timeline_entries, dependent: :destroy
   has_many :project_logs, through: :timeline_entries
+  has_many :accounts, dependent: :destroy, class_name: 'Accounting::Account', source: :account
+  has_many :transactions, through: :accounts, class_name: 'Accounting::Transaction'
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details

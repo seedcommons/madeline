@@ -1,0 +1,13 @@
+section.transactions
+  .show-actions.hidden-print
+    a.btn.btn-primary data-action="new-transaction" href="#" = t(".new_transaction")
+
+  = grid(@transactions_grid) do |g|
+    - g.column name: 'Id', attribute: 'qb_transaction_id'
+    - g.column name: 'Date' do |transaction|
+      /- require 'pry' ; binding.pry
+      - transaction.txn_date
+    /- g.column name: 'Date', attribute: 'txn_date'
+    /- g.column name: 'Type', attribute: 'qb_transaction_type'
+    /- g.column name: 'Total', attribute: 'total'
+    /- g.column name: 'Note', attribute: 'private_note'
