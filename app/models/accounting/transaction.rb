@@ -16,6 +16,8 @@
 #
 
 class Accounting::Transaction < ActiveRecord::Base
+  TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
+
   attr_writer :qb_object
 
   delegate :txn_date, :total, :private_note, to: :qb_object

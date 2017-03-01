@@ -82,7 +82,7 @@ namespace :tww do
     qb_connection = Division.root.qb_connection
     auth_details = { access_token: qb_connection.access_token, company_id: qb_connection.realm_id }
 
-    %w(JournalEntry Deposit Purchase).each do |transaction_type|
+    Accounting::Transaction::TRANSACTION_TYPES.each do |transaction_type|
       transactions = Quickbooks::Service.const_get(transaction_type).new(auth_details).query
       transactions.each do |t|
         Accounting::Transaction.find_or_create_by qb_transaction_type: transaction_type, qb_transaction_id: t.id
