@@ -371,6 +371,7 @@ es:
     all_completion_statuses: "Todos los Estados"
     after: "Después de"
     completion_status:
+      draft: 'Borrador'
       finalized: 'Finalizado'
       complete: 'Completo'
       incomplete: 'Incompleto'
