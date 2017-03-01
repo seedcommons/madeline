@@ -395,7 +395,8 @@ en:
     all_completion_statuses: "All Statuses"
     after: "After"
     completion_status:
-      draft: 'Finalized'
+      draft: 'Draft'
+      finalized: 'Finalized'
       complete: 'Complete'
       incomplete: 'Incomplete'
     confirm_deletion: "Are you sure you want to delete this project step?"

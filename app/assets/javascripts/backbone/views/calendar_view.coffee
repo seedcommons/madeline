@@ -1,34 +1,5 @@
+# Common functions for calendars application-wide.
 class MS.Views.CalendarView extends Backbone.View
-
-  el: '.calendar'
-
-  initialize: (params) ->
-    # Initialize calendar
-    @$calendar = @$('#calendar')
-    @stepModal = params.stepModal
-
-    @$calendar.fullCalendar
-      # Changes the default event render to load in html rather than title only
-      eventRender: @eventRender.bind(this)
-      eventDrop: @eventDrop.bind(this)
-      loading: @loading.bind(this)
-      events: params.calendarEventsUrl
-      height: 'auto'
-      lang: params.locale
-      customButtons:
-        legend:
-          text: I18n.t('calendar.legend', locale: params.locale)
-      header:
-        left: 'prev,next today'
-        center: 'title'
-        right: 'month,basicWeek legend'
-      allDayDefault: true
-      dayClick: @dayClick.bind(this)
-
-    @renderLegend()
-
-  events:
-    'click .cal-step': 'stepClick'
 
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
@@ -70,7 +41,6 @@ class MS.Views.CalendarView extends Backbone.View
         else
           revertFunc()
       ,1
-
 
   loading: (isLoading) ->
     MS.loadingIndicator[if isLoading then 'show' else 'hide']()

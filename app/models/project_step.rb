@@ -45,7 +45,7 @@ class ProjectStep < TimelineEntry
   }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
-  COMPLETION_STATUSES = [ 'draft', 'incomplete', 'complete' ].freeze
+  COMPLETION_STATUSES = %w(draft incomplete complete).freeze
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
@@ -168,7 +168,8 @@ class ProjectStep < TimelineEntry
     project_logs.order(:date).last.try(:progress)
   end
 
-  def admin_date_status
+  # Step status to be shown in admin panel timeline
+  def admin_status
     days = days_late
     if days
       if days <= 0
@@ -179,10 +180,6 @@ class ProjectStep < TimelineEntry
     else
       I18n.t(:none)
     end
-  end
-
-  def admin_status
-    last_log_status || admin_date_status
   end
 
   def status

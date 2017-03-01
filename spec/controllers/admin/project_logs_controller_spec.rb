@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Admin::ProjectLogsController, type: :controller do
   describe "create" do
     before do
-      @user = sign_in_admin
+      @user = create(:person, :with_admin_access).user
+      sign_in(@user)
       @user.division.people << create(:person, :with_admin_access)
     end
 

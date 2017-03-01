@@ -100,6 +100,9 @@ gem 'exception_notification'
 # URL handling
 gem 'addressable'
 
+# Quickbooks
+gem 'quickbooks-ruby'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
@@ -124,9 +127,12 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pundit-matchers'
   gem 'factory_girl_rails'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '~> 1.5'
   gem 'faker'
-  gem 'capybara'
+  gem 'capybara', '~> 2.0'
+  gem 'capybara-screenshot', '~> 1.0'
+  gem 'selenium-webdriver', '~> 2.0'
+  gem 'poltergeist', '~> 1.0'
   gem 'simplecov'
   gem 'quiet_assets'
 end
