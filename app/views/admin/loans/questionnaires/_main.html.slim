@@ -13,7 +13,7 @@
       class: "btn btn-default", data: {filter: "post_analysis"}
 
 - @response_sets.each do |attrib, response_set|
-  - if @questionnaire_set.to_sym == attrib
+  - if @questionnaire_filter.to_sym == attrib
     div.questionnaire.filterable data-attrib=attrib class=attrib
 
       section.block class=(response_set.persisted? && response_set.valid? ? 'show-view' : 'edit-view')

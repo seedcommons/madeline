@@ -39,7 +39,7 @@ class Admin::LoansController < Admin::ProjectsController
     @steps = @loan.project_steps
     @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     @active_tab = params[:tab].presence || "details"
-    @questionnaire_set = params[:filter] || "criteria"
+    @questionnaire_filter = params[:filter] || "criteria"
 
     render partial: 'admin/loans/details' if request.xhr?
   end
@@ -53,7 +53,7 @@ class Admin::LoansController < Admin::ProjectsController
 
   def questionnaires
     @loan = Loan.find(params[:id])
-    @questionnaire_set = params[:filter] || "criteria"
+    @questionnaire_filter = params[:filter] || "criteria"
     authorize @loan, :show?
 
     # Value sets are sets of answers to criteria and post analysis question sets.

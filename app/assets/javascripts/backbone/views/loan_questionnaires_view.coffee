@@ -4,7 +4,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
-    @questionnaireSet = options.questionnaireSet
+    @questionnaireFilter = options.questionnaireFilter
     @refreshContent()
 
   events:
@@ -15,7 +15,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires?filter=#{@questionnaireSet}", =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires?filter=#{@questionnaireFilter}", =>
       MS.loadingIndicator.hide()
       @initializeTree()
 
@@ -96,4 +96,4 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   styleActiveButton: ->
     @$buttonGroup = @$('.filter-switch')
     @$buttonGroup.find('.btn').removeClass('active')
-    @$buttonGroup.find(".btn[data-filter=#{@questionnaireSet}]").addClass('active')
+    @$buttonGroup.find(".btn[data-filter=#{@questionnaireFilter}]").addClass('active')

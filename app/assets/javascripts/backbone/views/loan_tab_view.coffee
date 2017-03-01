@@ -4,7 +4,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
-    @questionnaireSet = params.questionnaireSet
+    @questionnaireFilter = params.questionnaireFilter
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
@@ -31,7 +31,7 @@ class MS.Views.LoanTabView extends Backbone.View
         else
           @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView({
             loanId: @loanId,
-            questionnaireSet: @questionnaireSet
+            questionnaireFilter: @questionnaireFilter
           })
 
       when 'timeline-list'
