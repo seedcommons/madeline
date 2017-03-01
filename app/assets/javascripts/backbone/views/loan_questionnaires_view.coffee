@@ -5,7 +5,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @refreshContent()
-    @filterSwitchView = new MS.Views.FilterSwitchView()
 
   events:
     'ajax:error': 'submitError'
@@ -18,7 +17,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
       MS.loadingIndicator.hide()
       @initializeTree()
-      @filterSwitchView.filterInit()
 
       @$('.breakeven-tables').map (index, breakeven) =>
         new MS.Views.BreakevenView(el: breakeven)
