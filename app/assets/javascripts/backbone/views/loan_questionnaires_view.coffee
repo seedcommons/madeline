@@ -22,6 +22,8 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
       @$('.breakeven-tables').map (index, breakeven) =>
         new MS.Views.BreakevenView(el: breakeven)
 
+      @styleActiveButton()
+
   removeLinkedDocument: (e) ->
     e.preventDefault()
     $item = @$(e.currentTarget)
@@ -90,3 +92,8 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   monitorForm: (e) ->
     @$form = @$(e.currentTarget).closest('.questionnaire').find('.questionnaire-form form')
     @$form.dirtyForms()
+
+  styleActiveButton: ->
+    @$buttonGroup = @$('.filter-switch')
+    @$buttonGroup.find('.btn').removeClass('active')
+    @$buttonGroup.find(".btn[data-filter=#{@questionnaireSet}]").addClass('active')

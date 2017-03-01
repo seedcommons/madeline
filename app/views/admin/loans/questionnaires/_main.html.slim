@@ -7,10 +7,10 @@
   .btn-group
     = link_to t('loan.criteria'),
       admin_loan_tab_path(@loan.id, filter: "criteria", tab: "questions"),
-      class: "btn btn-default"
+      class: "btn btn-default", data: {filter: "criteria"}
     = link_to t('loan.post_analysis'),
       admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
-      class: "btn btn-default"
+      class: "btn btn-default", data: {filter: "post_analysis"}
 
 - @response_sets.each do |attrib, response_set|
   - if @questionnaire_set.to_sym == attrib
