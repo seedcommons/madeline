@@ -4,6 +4,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
+    @questionnaireSet = options.questionnaireSet
     @refreshContent()
 
   events:
@@ -14,7 +15,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   refreshContent: ->
     MS.loadingIndicator.show()
-    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
+    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires?filter=#{@questionnaireSet}", =>
       MS.loadingIndicator.hide()
       @initializeTree()
 

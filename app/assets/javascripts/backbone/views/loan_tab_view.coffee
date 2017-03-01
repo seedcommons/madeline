@@ -4,6 +4,7 @@ class MS.Views.LoanTabView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
+    @questionnaireSet = params.questionnaireSet
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
@@ -28,7 +29,10 @@ class MS.Views.LoanTabView extends Backbone.View
         if @loanQuestionnairesView
           @loanQuestionnairesView.refreshContent()
         else
-          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView(loanId: @loanId)
+          @loanQuestionnairesView = new MS.Views.LoanQuestionnairesView({
+            loanId: @loanId,
+            questionnaireSet: @questionnaireSet
+          })
 
       when 'timeline-list'
         # TODO: Should try to get rid of this global when old timeline is gone.

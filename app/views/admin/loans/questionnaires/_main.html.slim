@@ -4,37 +4,39 @@
 
 / Switch at top allowing toggling between criteria and post analysis
 .filter-switch.centered-text
-  .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
-    label.btn.btn-default
-      input type="radio" name="fieldset" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
-    label.btn.btn-default
-      input type="radio" name="fieldset" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
+  .btn-group
+    = link_to t('loan.criteria'),
+      admin_loan_tab_path(@loan.id, filter: "criteria", tab: "questions"),
+      class: "btn btn-default"
+    = link_to t('loan.post_analysis'),
+      admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
+      class: "btn btn-default"
 
 - @response_sets.each do |attrib, response_set|
+  - if @questionnaire_set.to_sym == attrib
+    div.questionnaire.filterable data-attrib=attrib class=attrib
 
-  div.questionnaire.filterable data-attrib=attrib class=attrib
+      section.block class=(response_set.persisted? && response_set.valid? ? 'show-view' : 'edit-view')
+        .show-actions
+          - if policy(@loan).update? && response_set.persisted?
+            a.edit-action.view-element
+              i.fa.fa-pencil.fa-large>
+              = t(".edit")
+            a.show-action.form-element
+              = t("cancel_edit")
+            = link_to [:admin, response_set], method: :delete,
+              data: { \
+                confirm: t("loan.confirm_response_deletion"),
+                "confirm-cancel": t(:cancel),
+                "confirm-proceed": t(:confirm),
+                "confirm-title": t("loan.delete_responses") \
+              }
+              i.fa.fa-trash.fa-large>
+              = t(".delete")
 
-    section.block class=(response_set.persisted? && response_set.valid? ? 'show-view' : 'edit-view')
-      .show-actions
-        - if policy(@loan).update? && response_set.persisted?
-          a.edit-action.view-element
-            i.fa.fa-pencil.fa-large>
-            = t(".edit")
-          a.show-action.form-element
-            = t("cancel_edit")
-          = link_to [:admin, response_set], method: :delete,
-            data: { \
-              confirm: t("loan.confirm_response_deletion"),
-              "confirm-cancel": t(:cancel),
-              "confirm-proceed": t(:confirm),
-              "confirm-title": t("loan.delete_responses") \
-            }
-            i.fa.fa-trash.fa-large>
-            = t(".delete")
+        h2 = t("loan.#{attrib}")
 
-      h2 = t("loan.#{attrib}")
-
-      = render "admin/loans/questionnaires/questionnaire_form", response_set: response_set, attrib: attrib
+        = render "admin/loans/questionnaires/questionnaire_form", response_set: response_set, attrib: attrib
 
     javascript:
       $(function() {
