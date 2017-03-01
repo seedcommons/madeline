@@ -49,6 +49,7 @@ class TimelineEntry < ActiveRecord::Base
 
   delegate :division, :division=, to: :project, allow_nil: true
 
+  # NOTE: This will only work for steps, but must be defined here in the parent class
   scope :by_date, -> { order("scheduled_start_date is null desc, scheduled_start_date, scheduled_duration_days") }
 
   # Returns a value that can be used in sort operations. Should be analogous to the by_date scope above, but
