@@ -156,7 +156,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   def display_timeline(project_id, notice = nil)
     case Project.find(project_id).type
     when 'Loan'
-      redirect_to admin_loan_tab_path(project_id, tab: 'timeline-table'), notice: notice
+      redirect_to admin_loan_tab_path(project_id, tab: 'timeline'), notice: notice
     when 'BasicProject'
       redirect_to admin_basic_project_path(project_id), notice: notice
     end
