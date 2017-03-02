@@ -5,17 +5,9 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
 
   initialize: (params) ->
     @prepareVariables(params)
+    @prepareDefaultSettings(params, this)
 
-    # Initialize calendar
-    @$calendar.fullCalendar
-      # Changes the default event render to load in html rather than title only
-      eventRender: @eventRender.bind(this)
-      eventDrop: @eventDrop.bind(this)
-      loading: @loading.bind(this)
-      events: params.calendarEventsUrl
-      lang: params.locale
-      height: 'auto'
-      allDayDefault: true
+    @settings =
       customButtons:
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
@@ -25,4 +17,5 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
         right: 'month,basicWeek legend'
       dayClick: @dayClick.bind(this)
 
+    @initializeCalendar()
     @renderLegend()
