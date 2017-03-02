@@ -101,14 +101,15 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = ldate(@step.actual_end_date)
         = f.input_field :actual_end_date, as: :date_picker
 
-      = f.input :is_finalized?
+      // is_finalized? is not used because this input is used as a CSS selector
+      = f.input :is_finalized
         - if @step.is_finalized_locked?
           .static-text-as-field
             = @step.is_finalized? ? t("reply_yes") : t("reply_no")
             =< "(#{t('locked')})"
         - else
           .view-element = @step.is_finalized? ? t("reply_yes") : t("reply_no")
-          = f.input_field :is_finalized?, as: :boolean, boolean_style: :inline
+          = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
     = render "admin/project_logs/log_list", context: context if @logs
 

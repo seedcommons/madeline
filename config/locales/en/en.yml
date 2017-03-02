@@ -116,6 +116,7 @@ en:
         schedule_parent_id: "Preceding Step"
         actual_end_date: "Completed Date"
         duration: "Scheduled Duration"
+        is_finalized: "Finalized"
         is_finalized?: "Finalized"
         old_duration_days: "Original Duration"
         old_start_date: "Original Start Date"
