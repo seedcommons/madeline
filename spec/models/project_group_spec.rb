@@ -93,17 +93,6 @@ describe ProjectGroup, type: :model do
         expect(root2.filtered_children).to eq [g2, g6, g1, s2, g5, g3, g4, s1]
         expect(g1.filtered_children).to eq [g1_s4, g1_s2, g1_s1, g1_s3]
         expect(g6.filtered_children).to eq [g6_g2, g6_g1]
-
-        # root.children.select(&:group?).each do |group|
-        #   # Groups should be first
-        #   groups = group.children.select(&:group?)
-        #   expect(group.filtered_children[0...groups.size]).to eq groups
-        #
-        #   # Dates should be in order
-        #   dates = group.children.map(&:scheduled_start_date).compact
-        #   filtered_dates = group.filtered_children.map(&:scheduled_start_date).compact
-        #   expect(filtered_dates).to eq dates.sort
-        # end
       end
     end
   end

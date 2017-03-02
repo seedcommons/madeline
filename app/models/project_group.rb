@@ -77,7 +77,6 @@ class ProjectGroup < TimelineEntry
   end
 
   def filtered_children
-    # byebug
     @filtered_children ||= reload.children.sort_by(&:sort_key).reject do |child|
       filters.present? && child.step? && (
         filters[:type].present? && child.step_type_value != filters[:type] ||
