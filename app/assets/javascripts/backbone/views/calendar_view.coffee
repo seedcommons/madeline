@@ -11,12 +11,17 @@ class MS.Views.CalendarView extends Backbone.View
   prepareDefaultSettings: (params, context) ->
     @defaultCalendarSettings =
       # Changes the default event render to load in html rather than title only
-      events: params.calendarEventsUrl
-      lang: params.locale
+      eventRender: @eventRender.bind(context)
+      eventDrop: @eventDrop.bind(context)
+      loading: @loading.bind(context)
       events: params.calendarEventsUrl
       lang: params.locale
       height: 'auto'
       allDayDefault: true
+
+  initializeCalendar: ->
+    options = $.extend @defaultCalendarSettings, @settings
+    @$calendar.fullCalendar(options)
 
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
