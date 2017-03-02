@@ -2,9 +2,9 @@ class MS.Views.DashboardProjectsView extends Backbone.View
   el: '.projects-grid'
 
   initialize: ->
-    @$all_projects = @$('.project-status').closest('tr')
-    @$active_projects = @$('.project-status.active').closest('tr')
-    @$completed_projects = @$('.project-status.completed').closest('tr')
+    @$allProjects = @$('.project-status').closest('tr')
+    @$activeProjects = @$('.project-status.active').closest('tr')
+    @$completedProjects = @$('.project-status.completed').closest('tr')
 
   events:
     'change #completion_status': 'filterProjects'
@@ -22,12 +22,12 @@ class MS.Views.DashboardProjectsView extends Backbone.View
       @showCompletedProjects()
 
   showAllProjects: ->
-    @$all_projects.show()
+    @$allProjects.show()
 
   showActiveProjects: ->
-    @$active_projects.show()
-    @$completed_projects.hide()
+    @$activeProjects.show()
+    @$completedProjects.hide()
 
   showCompletedProjects: ->
-    @$completed_projects.show()
-    @$active_projects.hide()
+    @$completedProjects.show()
+    @$activeProjects.hide()
