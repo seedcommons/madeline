@@ -4,13 +4,12 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
   el: '.upcoming-events'
 
   initialize: (params) ->
-    # Initialize calendar
-    @$calendar = @$('#calendar')
-    @stepModal = params.stepModal
+    @prepareVariables(params)
 
     # Get the numbered day of the week for 2 days before today
     cal_start = moment(new Date()).subtract(2, 'days').day()
 
+    # Initialize calendar
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)

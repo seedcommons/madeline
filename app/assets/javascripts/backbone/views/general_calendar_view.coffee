@@ -4,10 +4,9 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
   el: '.calendar'
 
   initialize: (params) ->
-    # Initialize calendar
-    @$calendar = @$('#calendar')
-    @stepModal = params.stepModal
+    @prepareVariables(params)
 
+    # Initialize calendar
     @$calendar.fullCalendar
       # Changes the default event render to load in html rather than title only
       eventRender: @eventRender.bind(this)

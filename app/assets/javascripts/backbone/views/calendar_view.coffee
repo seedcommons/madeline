@@ -4,6 +4,10 @@ class MS.Views.CalendarView extends Backbone.View
   events:
     'click .cal-step': 'stepClick'
 
+  prepareVariables: (params) ->
+    @$calendar = @$('#calendar')
+    @stepModal = params.stepModal
+
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
