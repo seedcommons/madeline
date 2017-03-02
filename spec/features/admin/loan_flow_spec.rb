@@ -25,7 +25,7 @@ feature 'loan flow' do
       step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'Hito'})
     end
 
-    scenario "works", js: true do
+    scenario "works", js: true, focus: true do
       visit admin_loan_path(loan)
       click_on("Timeline")
       loan.timeline_entries.each do |te|

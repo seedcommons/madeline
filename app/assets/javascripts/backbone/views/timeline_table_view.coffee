@@ -8,7 +8,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @projectId = options.projectId
     console.log(this)
     console.log(this.refresh)
+    console.log(this.refresh.bind)
     @groupModal = new MS.Views.ProjectGroupModalView(projectId: @projectId, success: @refresh.bind(@))
+    console.log("HERE")
     @stepModal = options.stepModal
     @duplicateStepModal = new MS.Views.DuplicateStepModalView()
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
