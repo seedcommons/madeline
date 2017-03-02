@@ -1,34 +1,35 @@
 - content_for(:title, @person.name)
 
-section.block.section.recent-projects
-  .projects-grid
-    = render "recent_projects_grid_definition"
+.block
+  section.section.recent-projects
+    .projects-grid
+      = render "recent_projects_grid_definition"
 
-    .row
-      .col-md-9
-        h2 = t("dashboard.my_projects")
+      .row
+        .col-md-9
+          h2 = t("dashboard.my_projects")
 
-      .filter.col-md-3.text-right
-        .filter-content
-          = form_tag do
-            = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
-              class: "form-control")
+        .filter.col-md-3.text-right
+          .filter-content
+            = form_tag do
+              = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
+                class: "form-control")
 
-    - unless @empty_list
-      = render_index_grid(@recent_projects_grid)
+      - unless @empty_list
+        = render_index_grid(@recent_projects_grid)
 
-section.block.section.upcoming-events.calendar
-  h2 = t("dashboard.upcoming_events")
-  div#calendar
+  section.section.upcoming-events.calendar
+    h2 = t("dashboard.upcoming_events")
+    div#calendar
 
-  = render "admin/project_steps/modal"
+    = render "admin/project_steps/modal"
 
-javascript:
-  $(function(){
-    new MS.Views.DashboardProjectsView();
-    new MS.Views.DashboardCalendarView({
-      calendarEventsUrl: #{json @calendar_events_url},
-      stepModal: new MS.Views.ProjectStepModalView(),
-      locale: "#{I18n.locale}"
+  javascript:
+    $(function(){
+      new MS.Views.DashboardProjectsView();
+      new MS.Views.DashboardCalendarView({
+        calendarEventsUrl: #{json @calendar_events_url},
+        stepModal: new MS.Views.ProjectStepModalView(),
+        locale: "#{I18n.locale}"
+      });
     });
-  });
