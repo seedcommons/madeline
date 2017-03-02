@@ -6,6 +6,7 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
   initialize: (params) ->
     # Initialize calendar
     @$calendar = @$('#calendar')
+    @stepModal = params.stepModal
 
     # Get the numbered day of the week for 2 days before today
     cal_start = moment(new Date()).subtract(2, 'days').day()
@@ -29,3 +30,6 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
       allDayDefault: true
       defaultView: 'basicWeek'
       firstDay: cal_start
+
+  events:
+    'click .cal-step': 'stepClick'
