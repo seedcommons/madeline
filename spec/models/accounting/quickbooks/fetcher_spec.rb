@@ -27,8 +27,8 @@ RSpec.describe Accounting::Quickbooks::Fetcher, type: :model do
       ]
     end
     let(:transactions) do
-      create(:accounting_transaction, qb_transaction_id: 10, qb_transaction_type: "Deposit")
-      create(:accounting_transaction, qb_transaction_id: 35, qb_transaction_type: "Deposit")
+      create(:accounting_transaction, qb_transaction_id: 10, qb_transaction_type: 'Deposit')
+      create(:accounting_transaction, qb_transaction_id: 35, qb_transaction_type: 'Deposit')
       Accounting::Transaction.all
     end
 
@@ -47,14 +47,11 @@ RSpec.describe Accounting::Quickbooks::Fetcher, type: :model do
 
   context 'when multiple transaction types exist' do
     before do
-      d_service = instance_double(Quickbooks::Service::Deposit)
-      j_service = instance_double(Quickbooks::Service::JournalEntry)
+      d_service = instance_double(Quickbooks::Service::Deposit, query: deposits)
+      j_service = instance_double(Quickbooks::Service::JournalEntry, query: [instance_double(Quickbooks::Model::JournalEntry, id: 49)])
 
       allow(subject).to receive(:service).with('Deposit').and_return(d_service)
-      allow(d_service).to receive(:query).and_return(deposits)
-
       allow(subject).to receive(:service).with('JournalEntry').and_return(j_service)
-      allow(j_service).to receive(:query).and_return([instance_double(Quickbooks::Model::JournalEntry, id: 49)])
     end
 
     let(:deposits) do
@@ -71,7 +68,7 @@ RSpec.describe Accounting::Quickbooks::Fetcher, type: :model do
     end
 
     it 'should fetch 3 records' do
-      expect(subject.fetch.count).to eql 3
+      expect(subject.fetch.count).to eq 3
     end
 
     it 'should attach all qb_objects' do
