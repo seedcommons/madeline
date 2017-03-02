@@ -17,8 +17,9 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
       eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
       events: params.calendarEventsUrl
-      height: 'auto'
       lang: params.locale
+      height: 'auto'
+      allDayDefault: true
       customButtons:
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
@@ -27,6 +28,5 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
         left: ''
         center: ''
         right: ''
-      allDayDefault: true
       defaultView: 'basicWeek'
       firstDay: cal_start

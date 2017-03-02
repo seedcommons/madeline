@@ -14,8 +14,9 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
       eventDrop: @eventDrop.bind(this)
       loading: @loading.bind(this)
       events: params.calendarEventsUrl
-      height: 'auto'
       lang: params.locale
+      height: 'auto'
+      allDayDefault: true
       customButtons:
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
@@ -23,7 +24,6 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
         left: 'prev,next today'
         center: 'title'
         right: 'month,basicWeek legend'
-      allDayDefault: true
       dayClick: @dayClick.bind(this)
 
     @renderLegend()
