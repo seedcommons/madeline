@@ -27,6 +27,3 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
       dayClick: @dayClick.bind(this)
 
     @renderLegend()
-
-  events:
-    'click .cal-step': 'stepClick'

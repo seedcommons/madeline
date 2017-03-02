@@ -30,6 +30,3 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
       allDayDefault: true
       defaultView: 'basicWeek'
       firstDay: cal_start
-
-  events:
-    'click .cal-step': 'stepClick'

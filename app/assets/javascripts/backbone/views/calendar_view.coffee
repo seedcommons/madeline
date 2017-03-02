@@ -1,6 +1,9 @@
 # Common functions for calendars application-wide.
 class MS.Views.CalendarView extends Backbone.View
 
+  events:
+    'click .cal-step': 'stepClick'
+
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
