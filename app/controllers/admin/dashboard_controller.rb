@@ -1,6 +1,6 @@
 class Admin::DashboardController < Admin::AdminController
 
-  STATUS_FILTERS = ['all', 'active', 'completed']
+  STATUS_FILTERS = %w(all active completed)
 
   def dashboard
     authorize :dashboard
