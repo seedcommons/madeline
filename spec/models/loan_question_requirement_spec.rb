@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: loan_question_requirements
+#
+#  amount           :decimal(, )
+#  id               :integer          not null, primary key
+#  loan_question_id :integer
+#  option_id        :integer
+#
+
 require 'rails_helper'
 
 describe LoanQuestionRequirement, type: :model do
