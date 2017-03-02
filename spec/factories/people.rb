@@ -2,32 +2,40 @@
 #
 # Table name: people
 #
-#  id                      :integer          not null, primary key
-#  name                    :string
-#  primary_organization_id :integer
 #  birth_date              :date
+#  city                    :string
+#  contact_notes           :text
+#  country_id              :integer
 #  created_at              :datetime         not null
-#  updated_at              :datetime         not null
 #  division_id             :integer
+#  email                   :string
+#  fax                     :string
+#  first_name              :string
+#  has_system_access       :boolean          default(FALSE), not null
+#  id                      :integer          not null, primary key
+#  last_name               :string
 #  legal_name              :string
+#  name                    :string
+#  neighborhood            :string
+#  postal_code             :string
+#  primary_organization_id :integer
 #  primary_phone           :string
 #  secondary_phone         :string
-#  fax                     :string
-#  email                   :string
-#  street_address          :text
-#  city                    :string
-#  neighborhood            :string
 #  state                   :string
-#  country_id              :integer
+#  street_address          :text
 #  tax_no                  :string
+#  updated_at              :datetime         not null
 #  website                 :string
-#  contact_notes           :text
-#  first_name              :string
-#  last_name               :string
 #
 # Indexes
 #
 #  index_people_on_division_id  (division_id)
+#
+# Foreign Keys
+#
+#  fk_rails_20168ebb0e  (primary_organization_id => organizations.id)
+#  fk_rails_7aab1f72a5  (division_id => divisions.id)
+#  fk_rails_fdfb048ae6  (country_id => countries.id)
 #
 
 FactoryGirl.define do
