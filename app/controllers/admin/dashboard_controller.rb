@@ -30,14 +30,6 @@ class Admin::DashboardController < Admin::AdminController
       enable_export_to_csv: false
     )
 
-    @status_filter_options = status_filter_options
-  end
-
-  def status_filter_options
-    filter_options = []
-    STATUS_FILTERS.each do |item|
-        filter_options.push([I18n.t("dashboard.status_options.#{item}"), item])
-    end
-    return filter_options
+    @status_filter_options = STATUS_FILTERS.map { |f| [I18n.t("dashboard.status_options.#{f}"), f] }
   end
 end
