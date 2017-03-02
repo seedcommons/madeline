@@ -2,11 +2,11 @@
 #
 # Table name: notes
 #
+#  author_id    :integer
+#  created_at   :datetime         not null
 #  id           :integer          not null, primary key
 #  notable_id   :integer
 #  notable_type :string
-#  author_id    :integer
-#  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
 # Indexes

@@ -2,18 +2,16 @@
 #
 # Table name: countries
 #
+#  created_at          :datetime         not null
+#  default_currency_id :integer
 #  id                  :integer          not null, primary key
 #  iso_code            :string(2)
-#  default_currency_id :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
 #  name                :string
-#  default_language_id :integer
-#  language_id         :integer
+#  updated_at          :datetime         not null
 #
-# Indexes
+# Foreign Keys
 #
-#  index_countries_on_language_id  (language_id)
+#  fk_rails_cc2d004fbb  (default_currency_id => currencies.id)
 #
 
 FactoryGirl.define do

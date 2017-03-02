@@ -27,7 +27,7 @@ feature 'loan flow' do
 
     scenario "works", js: true do
       visit admin_loan_path(loan)
-      click_on("Timeline - Table")
+      click_on("Timeline")
       loan.timeline_entries.each do |te|
         expect(page).to have_content(te.summary) if te.is_a?(ProjectStep)
       end
