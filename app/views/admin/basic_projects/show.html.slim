@@ -7,7 +7,7 @@
         = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
 
   .block data-tab-content== @tab
-    = render "admin/basic_projects/#{@tab}"
+    = render "admin/basic_projects/#{@tab}", project: @basic_project
 
 = render "admin/media/modal"
 = render "admin/project_groups/modal"

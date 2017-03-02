@@ -4,23 +4,18 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
-    @refreshContent()
     @filterSwitchView = new MS.Views.FilterSwitchView()
+
+    @initializeTree()
+    @filterSwitchView.filterInit()
+
+    @$('.breakeven-tables').map (index, breakeven) =>
+      new MS.Views.BreakevenView(el: breakeven)
 
   events:
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
     'click .edit-action': 'editDocument'
-
-  refreshContent: ->
-    MS.loadingIndicator.show()
-    @$('.questionnaires-content').load "/admin/loans/#{@loanId}/questionnaires", =>
-      MS.loadingIndicator.hide()
-      @initializeTree()
-      @filterSwitchView.filterInit()
-
-      @$('.breakeven-tables').map (index, breakeven) =>
-        new MS.Views.BreakevenView(el: breakeven)
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
