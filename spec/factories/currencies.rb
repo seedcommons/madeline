@@ -2,13 +2,13 @@
 #
 # Table name: currencies
 #
-#  id           :integer          not null, primary key
 #  code         :string
-#  symbol       :string
-#  short_symbol :string
 #  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id           :integer          not null, primary key
 #  name         :string
+#  short_symbol :string
+#  symbol       :string
+#  updated_at   :datetime         not null
 #
 
 FactoryGirl.define do
