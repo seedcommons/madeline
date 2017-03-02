@@ -5,6 +5,7 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
 
   initialize: (params) ->
     @prepareVariables(params)
+    @prepareDefaultSettings(params, this)
 
     # Get the numbered day of the week for 2 days before today
     cal_start = moment(new Date()).subtract(2, 'days').day()
@@ -25,15 +26,6 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
         eventRender: @eventRender.bind(this)
         eventDrop: @eventDrop.bind(this)
         loading: @loading.bind(this)
-
-    @defaultCalendarSettings =
-      # Changes the default event render to load in html rather than title only
-      events: params.calendarEventsUrl
-      lang: params.locale
-      events: params.calendarEventsUrl
-      lang: params.locale
-      height: 'auto'
-      allDayDefault: true
 
     options = $.extend @defaultCalendarSettings, actions, settings
     console.log(options)
