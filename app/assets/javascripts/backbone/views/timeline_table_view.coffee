@@ -6,6 +6,8 @@ class MS.Views.TimelineTableView extends Backbone.View
   initialize: (options) ->
     new MS.Views.AutoLoadingIndicatorView()
     @projectId = options.projectId
+    console.log(this)
+    console.log(this.refresh)
     @groupModal = new MS.Views.ProjectGroupModalView(projectId: @projectId, success: @refresh.bind(@))
     @stepModal = options.stepModal
     @duplicateStepModal = new MS.Views.DuplicateStepModalView()
