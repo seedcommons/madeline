@@ -55,7 +55,7 @@ class TimelineEntry < ActiveRecord::Base
   # Returns a value that can be used in sort operations. Should be analogous to the by_date scope above, but
   # for use with in-memory sorts.
   def sort_key
-    @sort_key ||= [scheduled_start_date.nil? ? 1 : 0, scheduled_start_date, scheduled_duration_days]
+    @sort_key ||= [scheduled_start_date.nil? ? 1 : 0, scheduled_start_date || 0, scheduled_duration_days || 0, id]
   end
 
   def step?
