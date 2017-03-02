@@ -1,4 +1,4 @@
-# The Madeline System
+# Madeline
 
 ## Requirements
 * ruby 2.2.x
