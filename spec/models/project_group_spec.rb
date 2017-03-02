@@ -90,9 +90,9 @@ describe ProjectGroup, type: :model do
           s1 = create_dated_step(root2, nil, 0)
           s2 = create_dated_step(root2, "2017-02-28", 30)
 
-        expect(root2.filtered_children).to eq [g2, g6, g1, s2, g5, g3, g4, s1]
-        expect(g1.filtered_children).to eq [g1_s4, g1_s2, g1_s1, g1_s3]
-        expect(g6.filtered_children).to eq [g6_g2, g6_g1]
+        expect(root2.reload.filtered_children).to eq [g2, g6, g1, s2, g5, g3, g4, s1]
+        expect(g1.reload.filtered_children).to eq [g1_s4, g1_s2, g1_s1, g1_s3]
+        expect(g6.reload.filtered_children).to eq [g6_g2, g6_g1]
       end
     end
   end

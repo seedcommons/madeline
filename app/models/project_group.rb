@@ -56,12 +56,12 @@ class ProjectGroup < TimelineEntry
 
   def scheduled_start_date
     return @scheduled_start_date if defined?(@scheduled_start_date)
-    @scheduled_start_date = reload.children.map(&:scheduled_start_date).compact.min
+    @scheduled_start_date = children.map(&:scheduled_start_date).compact.min
   end
 
   def scheduled_end_date
     return @scheduled_end_date if defined?(@scheduled_end_date)
-    @scheduled_end_date = reload.children.map(&:scheduled_end_date).compact.max
+    @scheduled_end_date = children.map(&:scheduled_end_date).compact.max
   end
 
   def scheduled_duration_days
@@ -77,7 +77,7 @@ class ProjectGroup < TimelineEntry
   end
 
   def filtered_children
-    @filtered_children ||= reload.children.sort_by(&:sort_key).reject do |child|
+    @filtered_children ||= children.sort_by(&:sort_key).reject do |child|
       filters.present? && child.step? && (
         filters[:type].present? && child.step_type_value != filters[:type] ||
         filters[:status] == 'finalized' && !child.is_finalized ||
