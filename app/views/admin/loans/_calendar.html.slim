@@ -1,0 +1,10 @@
+= render "admin/calendar/calendar", project: @loan
+
+javascript:
+  $(function() {
+    new MS.Views.GeneralCalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: #{json @locale}
+    });
+  });

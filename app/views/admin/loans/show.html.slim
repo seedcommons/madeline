@@ -4,7 +4,14 @@
 
 section.loan.details
   div.loan-content
-    = render "admin/loans/tabs"
+    ul class="nav nav-tabs nav-tabs-responsive hidden-print" role="tablist"
+      - @tabs.each do |tab|
+        li role="presentation" class==("active" if tab == @tab)
+          = link_to t("loan.tab.#{tab}"), admin_loan_tab_path(@loan.id, tab: tab)
+
+    div class="tab-content"
+      div class="tab-pane active" id=@tab
+        = render "admin/loans/#{@tab}", project: @loan
 
 = render "admin/media/modal"
 = render "admin/project_groups/modal"
