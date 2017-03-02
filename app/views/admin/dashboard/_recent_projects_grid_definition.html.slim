@@ -11,7 +11,6 @@
         - link_to(project.id, admin_basic_project_path(project.id))
       - else
         - link_to(project.id, admin_loan_path(project.id))
-    - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
 
     - g.column name: t('common.name'), attribute: 'name', filter: false,
       ordering: false do |project|
