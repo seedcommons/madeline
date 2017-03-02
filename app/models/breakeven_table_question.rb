@@ -140,12 +140,14 @@ class BreakevenTableQuestion
   def calculate_line_item_totals(total_key)
     data_hash[:products].map do |product|
       next unless product.present? && product[:name].present?
-      {
+
+      unit = product[:unit].present? ? { unit: product[:unit] } : {}
+      unit.merge({
         name: product[:name],
         quantity: product.fetch(:quantity, 0).to_f,
         amount: product.fetch(total_key, 0).to_f,
         total: product.fetch(total_key, 0).to_f * product.fetch(:quantity, 0).to_f,
-      }.merge(rampup(product[:quantity].to_f, product[total_key].to_f))
+      }).merge(rampup(product[:quantity].to_f, product[total_key].to_f))
     end.compact
   end
 

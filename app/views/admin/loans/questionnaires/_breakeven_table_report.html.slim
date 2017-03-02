@@ -11,22 +11,22 @@
 
       tr.group-columns
         td = t("loan.breakeven.product_name")
-        td.text-right = t("loan.breakeven.quantity")
         td.text-right = t("loan.breakeven.price")
+        td.text-right = t("loan.breakeven.quantity")
         td.text-right = t("loan.breakeven.total")
 
       - report[:revenue].each do |item|
         tr.group-content
           td = item[:name]
-          td.text-right = item[:quantity]
-          td.text-right 
+          td.text-right
             = format_currency(item[:amount], @loan.ensure_currency, tooltip: false)
-          td.text-right 
+          td.text-right = "#{number_with_precision(item[:quantity], precision: 0)} #{item[:unit]}"
+          td.text-right
             = format_currency(item[:total], @loan.ensure_currency, tooltip: false)
 
       tr.group-summary
         td colspan="3" = t("loan.breakeven.total_revenue")
-        td.text-right 
+        td.text-right
           = format_currency(report[:total_revenue], @loan.ensure_currency, tooltip: false)
 
       / Cost of Goods Sold
@@ -35,17 +35,17 @@
 
       tr.group-columns
         td = t("loan.breakeven.product_name")
-        td.text-right = t("loan.breakeven.quantity")
         td.text-right = t("loan.breakeven.cost")
+        td.text-right = t("loan.breakeven.quantity")
         td.text-right = t("loan.breakeven.total")
 
       - report[:cogs].each do |item|
         tr.group-content
           td = item[:name]
-          td.text-right = item[:quantity]
-          td.text-right 
+          td.text-right
             = format_currency(item[:amount], @loan.ensure_currency, tooltip: false)
-          td.text-right 
+          td.text-right = "#{number_with_precision(item[:quantity], precision: 0)} #{item[:unit]}"
+          td.text-right
             = format_currency(item[:total], @loan.ensure_currency, tooltip: false)
 
       tr.group-summary
@@ -56,7 +56,7 @@
       / Gross Margin
       tr.group-title.total
         td colspan="3" = t("loan.breakeven.gross_margin")
-        td.text-right 
+        td.text-right
           = format_currency(report[:gross_margin], @loan.ensure_currency, tooltip: false)
 
       / Fixed Costs
