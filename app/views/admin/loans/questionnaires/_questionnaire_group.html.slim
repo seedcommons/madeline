@@ -92,7 +92,7 @@
 
             - if value.has_boolean?
               - if value.boolean.present?
-                .view-element.answer = t(value.boolean ? "reply_yes" : "reply_no")
+                .view-element.answer = t(value.boolean == "yes" ? "reply_yes" : "reply_no")
               = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: value.boolean,
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
