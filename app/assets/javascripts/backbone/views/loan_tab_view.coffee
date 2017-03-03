@@ -7,9 +7,6 @@ class MS.Views.LoanTabView extends Backbone.View
     @calendarEventsUrl = params.calendarEventsUrl
     @locale = params.locale
 
-    # This is shared among several tabs so we initialize it here.
-    @stepModal = new MS.Views.ProjectStepModalView()
-
   events:
     'shown.ms.tab': 'tabShown'
 
