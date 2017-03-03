@@ -4,10 +4,7 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
   el: '.calendar'
 
   initialize: (params) ->
-    @prepareVariables(params)
-    @prepareDefaultSettings(params, this)
-
-    @settings =
+    settings =
       customButtons:
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
@@ -17,5 +14,5 @@ class MS.Views.GeneralCalendarView extends MS.Views.CalendarView
         right: 'month,basicWeek legend'
       dayClick: @dayClick.bind(this)
 
-    @initializeCalendar()
+    @initializeCalendar(params, this, settings)
     @renderLegend()
