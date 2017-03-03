@@ -9,7 +9,6 @@ en:
     back_to_loan: "Back to Loan"
     backward: "- backward"
     batch_actions: "Batch Actions"
-    calendar: "Calendar"
     cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
     confirm_response_deletion: "WARNING: Are you sure you want to permanently delete these responses?"
@@ -20,7 +19,6 @@ en:
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
     description: "Description"
-    details: "Details"
     edit: "Edit Loan"
     end: "End %{name}"
     finalize: "Finalize"
@@ -54,7 +52,6 @@ en:
     print_memo: "Print Loan Memo"
     questionnaires: "Questions"
     questionnaire: "Questionnaire"
-    questions: "Questions"
     rating: "Score"
     save_responses: "Save Responses"
     signing_date: "Signing Date"
@@ -69,10 +66,14 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     end_date: "End Date"
+    tab:
+      details: "Details"
+      questions: "Questions"
+      timeline: "Timeline"
+      timeline_list: "Timeline - List"
+      logs: "Logs"
+      calendar: "Calendar"
     threshold_amount: "Threshold Amount"
-    timeline: "Timeline"
-    timeline_list: "Timeline - List"
-    timeline_table: "Timeline - Table"
     toc: "Table of Contents"
     transactions: "Transactions"
     transaction_new_disbursement: "New Disbursement"
@@ -175,7 +176,6 @@ en:
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
     loans:
-      questionnaires:
-        main:
-          edit: "Edit Responses"
-          delete: "Delete All Responses"
+      questions:
+        edit: "Edit Responses"
+        delete: "Delete All Responses"

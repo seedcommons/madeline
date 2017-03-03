@@ -1,0 +1,12 @@
+#timeline-list
+  section.timeline
+    = render "admin/timeline/list_header", project: @loan
+    div.project-steps
+      // Steps are loaded dynamically by TimelineView
+
+javascript:
+  $(function() {
+    new MS.Views.TimelineView({
+      projectId: #{json @loan.id}
+    });
+  });

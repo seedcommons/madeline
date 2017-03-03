@@ -7,6 +7,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     @basic_projects_grid = initialize_grid(
       policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
+      conditions: division_index_filter,
       order_direction: "desc",
       per_page: 50,
       name: "basic_projects",
@@ -32,6 +33,8 @@ class Admin::BasicProjectsController < Admin::ProjectsController
       prep_timeline(@basic_project)
     when "timeline_list"
       @steps = @basic_project.project_steps
+    when 'logs'
+      prep_logs(@basic_project)
     when "calendar"
       @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
     end

@@ -1,0 +1,26 @@
+= define_grid(@recent_projects_grid, hide_csv_button: true,
+    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+
+    - g.blank_slate do
+      - @empty_list = true
+      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+
+    - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
+      ordering: false do |project|
+      - if project.type == "BasicProject"
+        - link_to(project.id, admin_basic_project_path(project.id))
+      - else
+        - link_to(project.id, admin_loan_path(project.id))
+
+    - g.column name: t('common.name'), attribute: 'name', filter: false,
+      ordering: false do |project|
+      - project.display_name
+
+    - g.column name: t("activerecord.attributes.project.signing_date"),
+      attribute: 'signing_date', filter: false, ordering: false do |project|
+      - ldate(project.signing_date)
+
+    - g.column name: t('activerecord.attributes.project.progress'), attribute: 'status_value',
+      filter: false, ordering: false do |project|
+      - content_tag(:span, project.status,
+        class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
