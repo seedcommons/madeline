@@ -51,19 +51,19 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     let(:results) do
       {
         revenue: [
-          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, rampup: [
+          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, unit: 'Widgets', rampup: [
             { quantity: 200.0, total: 20_000.0 },
             { quantity: 400.0, total: 40_000.0 },
             { quantity: 600.0, total: 60_000.0 },
             { quantity: 800.0, total: 80_000.0 },
           ] },
-          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0, rampup: [
+          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0, unit: 'Stamp books', rampup: [
             { quantity: 75.0, total: 9_000.0 },
             { quantity: 150.0, total: 18_000.0 },
             { quantity: 225.0, total: 27_000.0 },
             { quantity: 300.0, total: 36_000.0 },
           ] },
-          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0, rampup: [
+          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0, unit: 'Flin Flons', rampup: [
             { quantity: 25.0, total: 3_750.0 },
             { quantity: 50.0, total: 7_500.0 },
             { quantity: 75.0, total: 11_250.0 },
@@ -73,19 +73,19 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         total_revenue: 131_000,
         total_revenue_rampup: [32_750, 65_500, 98_250, 131_000],
         cogs: [
-          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, rampup: [
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, unit: 'Widgets', rampup: [
             { quantity: 200.0, total: 10_000.0 },
             { quantity: 400.0, total: 20_000.0 },
             { quantity: 600.0, total: 30_000.0 },
             { quantity: 800.0, total: 40_000.0 },
           ] },
-          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0, rampup: [
+          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0, unit: 'Stamp books', rampup: [
             { quantity: 75.0, total: 4_500.0 },
             { quantity: 150.0, total: 9_000.0 },
             { quantity: 225.0, total: 13_500.0 },
             { quantity: 300.0, total: 18_000.0 },
           ] },
-          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0, rampup: [
+          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0, unit: 'Flin Flons', rampup: [
             { quantity: 25.0, total: 1_750.0 },
             { quantity: 50.0, total: 3_500.0 },
             { quantity: 75.0, total: 5_250.0 },
@@ -158,7 +158,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     let(:results) do
       {
         revenue: [
-          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, rampup: [
+          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, unit: 'Widgets', rampup: [
             { quantity: 200.0, total: 20_000.0 },
             { quantity: 400.0, total: 40_000.0 },
             { quantity: 600.0, total: 60_000.0 },
@@ -168,7 +168,7 @@ RSpec.describe BreakevenTableQuestion, type: :model do
         total_revenue: 80_000,
         total_revenue_rampup: [20000.0, 40000.0, 60000.0, 80000.0],
         cogs: [
-          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, rampup: [
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, unit: 'Widgets', rampup: [
             { quantity: 200.0, total: 10_000.0 },
             { quantity: 400.0, total: 20_000.0 },
             { quantity: 600.0, total: 30_000.0 },
@@ -241,15 +241,15 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     let(:results) do
       {
         revenue: [
-          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0 },
-          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0 },
-          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0 },
+          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, unit: 'Widgets' },
+          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0, unit: 'Stamp books' },
+          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0, unit: 'Flin Flons' },
         ],
         total_revenue: 131_000.0,
         cogs: [
-          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0 },
-          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0 },
-          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0 },
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, unit: 'Widgets' },
+          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0, unit: 'Stamp books' },
+          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0, unit: 'Flin Flons' },
         ],
         total_cogs: 65_000.0,
         gross_margin: 66_000.0,
@@ -301,12 +301,12 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     let(:results) do
       {
         revenue: [
-          { name: 'Product 1', quantity: 800.0, amount: 0, total: 0 },
+          { name: 'Product 1', quantity: 800.0, amount: 0, total: 0, unit: 'Widgets' },
           { name: 'Product 2', quantity: 0, amount: 0, total: 0 },
         ],
         total_revenue: 0,
         cogs: [
-          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0 },
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, unit: 'Widgets' },
           { name: 'Product 2', quantity: 0, amount: 0, total: 0 },
         ],
         total_cogs: 40_000.0,
@@ -345,15 +345,15 @@ RSpec.describe BreakevenTableQuestion, type: :model do
     let(:results) do
       {
         revenue: [
-          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0 },
-          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0 },
-          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0 },
+          { name: 'Product 1', quantity: 800.0, amount: 100.0, total: 80_000.0, unit: 'Widgets' },
+          { name: 'Product 2', quantity: 300.0, amount: 120.0, total: 36_000.0, unit: 'Stamp books' },
+          { name: 'Product 3', quantity: 100.0, amount: 150.0, total: 15_000.0, unit: 'Flin Flons' },
         ],
         total_revenue: 131_000.0,
         cogs: [
-          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0 },
-          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0 },
-          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0 },
+          { name: 'Product 1', quantity: 800.0, amount: 50.0, total: 40_000.0, unit: 'Widgets' },
+          { name: 'Product 2', quantity: 300.0, amount: 60.0, total: 18_000.0, unit: 'Stamp books' },
+          { name: 'Product 3', quantity: 100.0, amount: 70.0, total: 7_000.0, unit: 'Flin Flons' },
         ],
         total_cogs: 65_000.0,
         gross_margin: 66_000.0,

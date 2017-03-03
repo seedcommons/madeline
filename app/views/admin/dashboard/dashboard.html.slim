@@ -24,12 +24,20 @@
 
     = render "admin/project_steps/modal"
 
-  javascript:
-    $(function(){
-      new MS.Views.DashboardProjectsView();
-      new MS.Views.DashboardCalendarView({
-        calendarEventsUrl: #{json @calendar_events_url},
-        stepModal: new MS.Views.ProjectStepModalView(),
-        locale: "#{I18n.locale}"
-      });
+  section.section.logs
+    .row
+      h2.col-xs-6.col-md-9 = t("dashboard.logs")
+      .col-xs-6.col-md-3.text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
+
+    section.log-list
+      = render "admin/project_logs/log_list"
+
+javascript:
+  $(function(){
+    new MS.Views.DashboardProjectsView();
+    new MS.Views.DashboardCalendarView({
+      calendarEventsUrl: #{json @calendar_events_url},
+      stepModal: new MS.Views.ProjectStepModalView(),
+      locale: "#{I18n.locale}"
     });
+  });
