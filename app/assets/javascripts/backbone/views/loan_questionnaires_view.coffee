@@ -4,10 +4,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
-    @filterSwitchView = new MS.Views.FilterSwitchView()
-
     @initializeTree()
-    @filterSwitchView.filterInit()
 
     @$('.breakeven-tables').map (index, breakeven) =>
       new MS.Views.BreakevenView(el: breakeven)
@@ -16,6 +13,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'ajax:error': 'submitError'
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
     'click .edit-action': 'editDocument'
+    'focus .questionnaire-form form': 'setupDirtyForm'
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
@@ -81,3 +79,10 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   editDocument: (e) ->
     Backbone.trigger 'LoanQuestionnairesView:edit', @
+
+  # Sets up the dirtyForm plugin on the questionnaire form.
+  # We need to do this on a focus event because the form is not always visible when the page loads,
+  # and dirtyForms doesn't seem to work with a hidden form. The focus event can only be fired when the
+  # form is visible. Also, calling .dirtyForms() on each focus event doesn't seem to cause any issues.
+  setupDirtyForm: (e) ->
+    @$('.questionnaire-form form').dirtyForms()
