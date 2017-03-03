@@ -54,6 +54,25 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
+  def scheduled_start_date
+    return @scheduled_start_date if defined?(@scheduled_start_date)
+    @scheduled_start_date = children.map(&:scheduled_start_date).compact.min
+  end
+
+  def scheduled_end_date
+    return @scheduled_end_date if defined?(@scheduled_end_date)
+    @scheduled_end_date = children.map(&:scheduled_end_date).compact.max
+  end
+
+  def scheduled_duration_days
+    return @scheduled_duration_days if defined?(@scheduled_duration_days)
+    @scheduled_duration_days = if scheduled_end_date && scheduled_start_date
+      scheduled_end_date - scheduled_start_date
+    else
+      nil
+    end
+  end
+
   # Copies filters down through all descendant groups and resets memoization of filtered_children.
   def filters=(filters)
     @filters = filters

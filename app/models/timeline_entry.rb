@@ -49,12 +49,13 @@ class TimelineEntry < ActiveRecord::Base
 
   delegate :division, :division=, to: :project, allow_nil: true
 
-  scope :by_date, -> { order("scheduled_start_date is null desc, scheduled_start_date, scheduled_duration_days") }
+  # NOTE: This will only work for steps, but must be defined here in the parent class
+  scope :by_date, -> { order("scheduled_start_date is null, scheduled_start_date, scheduled_duration_days") }
 
   # Returns a value that can be used in sort operations. Should be analogous to the by_date scope above, but
   # for use with in-memory sorts.
   def sort_key
-    @sort_key ||= [scheduled_start_date.nil? ? 0 : 1, scheduled_start_date, scheduled_duration_days]
+    @sort_key ||= [scheduled_start_date.nil? ? 1 : 0, scheduled_start_date || 0, scheduled_duration_days || 0, id]
   end
 
   def step?

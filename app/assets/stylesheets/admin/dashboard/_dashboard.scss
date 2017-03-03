@@ -31,5 +31,22 @@
         }
       }
     }
+
+    .recent-projects {
+      #completion_status {
+        display: inline-block;
+        width: auto;
+        margin-bottom: .25em;
+      }
+
+      table {
+        background: $white;
+
+        // Hide pagination and pagination_status containers
+        tfoot {
+          display: none;
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,24 @@
 # Common functions for calendars application-wide.
 class MS.Views.CalendarView extends Backbone.View
 
+  events:
+    'click .cal-step': 'stepClick'
+
+  initializeCalendar: (params, context, settings) ->
+    @$calendar = @$('#calendar')
+    @stepModal = params.stepModal
+    defaultCalendarSettings =
+      # Changes the default event render to load in html rather than title only
+      eventRender: @eventRender.bind(context)
+      eventDrop: @eventDrop.bind(context)
+      loading: @loading.bind(context)
+      events: params.calendarEventsUrl
+      lang: params.locale
+      height: 'auto'
+      allDayDefault: true
+    options = $.extend defaultCalendarSettings, settings
+    @$calendar.fullCalendar(options)
+
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
@@ -23,8 +41,7 @@ class MS.Views.CalendarView extends Backbone.View
         .done => @refresh()
         .fail => revertFunc()
       else
-        stepId = event.model_id
-        $.post("/admin/timeline_step_moves/#{stepId}/simple_move",
+        $.post("/admin/timeline_step_moves/#{event.model_id}/simple_move",
           _method: "PATCH"
           scheduled_start_date: event.start.format('YYYY-MM-DD'))
           .done => @refresh()
@@ -33,8 +50,7 @@ class MS.Views.CalendarView extends Backbone.View
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>
         if confirm(I18n.t("loan.move_date_confirm.body"))
-          projectId = @$el.find('#calendar').data('project-id')
-          $.post "/admin/projects/#{projectId}/change_date",
+          $.post "/admin/projects/#{event.model_id}/change_date",
             _method: "PATCH"
             which_date: event.event_type
             new_date: event.start.format('YYYY-MM-DD')

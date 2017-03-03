@@ -16,15 +16,3 @@ section.loan.details
 = render "admin/media/modal"
 = render "admin/project_groups/modal"
 = render "admin/project_steps/modal"
-
-javascript:
-  // There is a lot of JS on this page -- tabs, questionnaires, calendar, timeline, etc.
-  // This view kicks it all off and sets up Views for the different tabs when they are clicked on.
-  $(function() {
-    new MS.Views.LoanTabView({
-      el: '.loan-content',
-      calendarEventsUrl: #{json @calendar_events_url},
-      loanId: #{json @loan.id},
-      locale: "#{I18n.locale}"
-    });
-  });
