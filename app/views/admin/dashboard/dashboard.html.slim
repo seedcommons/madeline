@@ -6,10 +6,10 @@
       = render "recent_projects_grid_definition"
 
       .row
-        .col-md-9
+        .col-md-10
           h2 = t("dashboard.my_projects")
 
-        .filter.col-md-3.text-right
+        .filter.col-md-2.text-right
           .filter-content
             = form_tag do
               = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),

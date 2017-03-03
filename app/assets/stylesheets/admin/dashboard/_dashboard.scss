@@ -33,6 +33,12 @@
     }
 
     .recent-projects {
+      #completion_status {
+        height: 2em;
+        margin-bottom: .25em;
+        padding: .25em;
+      }
+
       table {
         background: $white;
 
