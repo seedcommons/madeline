@@ -25,7 +25,6 @@ javascript:
       el: '.loan-content',
       calendarEventsUrl: #{json @calendar_events_url},
       loanId: #{json @loan.id},
-      locale: "#{I18n.locale}",
-      questionnaireFilter: #{json @questionnaire_filter}
+      locale: "#{I18n.locale}"
     });
   });
