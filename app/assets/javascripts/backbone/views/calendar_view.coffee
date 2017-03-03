@@ -23,8 +23,7 @@ class MS.Views.CalendarView extends Backbone.View
         .done => @refresh()
         .fail => revertFunc()
       else
-        stepId = event.model_id
-        $.post("/admin/timeline_step_moves/#{stepId}/simple_move",
+        $.post("/admin/timeline_step_moves/#{event.model_id}/simple_move",
           _method: "PATCH"
           scheduled_start_date: event.start.format('YYYY-MM-DD'))
           .done => @refresh()
