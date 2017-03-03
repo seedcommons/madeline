@@ -4,20 +4,7 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
   el: '.upcoming-events'
 
   initialize: (params) ->
-    # Initialize calendar
-    @$calendar = @$('#calendar')
-
-    # Get the numbered day of the week for 2 days before today
-    cal_start = moment(new Date()).subtract(2, 'days').day()
-
-    @$calendar.fullCalendar
-      # Changes the default event render to load in html rather than title only
-      eventRender: @eventRender.bind(this)
-      eventDrop: @eventDrop.bind(this)
-      loading: @loading.bind(this)
-      events: params.calendarEventsUrl
-      height: 'auto'
-      lang: params.locale
+    settings =
       customButtons:
         legend:
           text: I18n.t('calendar.legend', locale: params.locale)
@@ -26,6 +13,8 @@ class MS.Views.DashboardCalendarView extends MS.Views.CalendarView
         left: ''
         center: ''
         right: ''
-      allDayDefault: true
       defaultView: 'basicWeek'
-      firstDay: cal_start
+      # Get the numbered day of the week for 2 days before today
+      firstDay: moment(new Date()).subtract(2, 'days').day()
+
+    @initializeCalendar(params, this, settings)

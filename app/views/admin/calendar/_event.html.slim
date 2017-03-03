@@ -1,7 +1,8 @@
 - case cal_event.event_type
   - when "project_start", "project_end"
 
-    div.calendar-event class="#{cal_event.event_type == 'project_start' ? 'project-start' : 'project-end'}"
+    div.calendar-event class="#{cal_event.event_type.gsub('_', '-')}"
+
       span.event-title
         - if cal_event.event_type == "project_start"
             i.fa.fa-play-circle
