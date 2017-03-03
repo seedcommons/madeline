@@ -2,24 +2,50 @@
 
 .admin-dashboard {
   .content {
-    .row {
-      margin-bottom: 1em;
-    }
-
     h1, h2 {
       margin: 0;
     }
 
     .section {
+      padding: 1em;
+
       h2 {
         font-size: 1.5em;
-        margin-bottom: 1rem;
       }
     }
 
     #calendar {
+      margin-top: .25em;
+
       .fc-toolbar {
         display: none;
+      }
+    }
+
+    .logs-index.post-list {
+      .post {
+        padding: .25em .5em;
+
+        header {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .recent-projects {
+      #completion_status {
+        display: inline-block;
+        width: auto;
+        margin-bottom: .25em;
+      }
+
+      table {
+        background: $white;
+
+        // Hide pagination and pagination_status containers
+        tfoot {
+          display: none;
+        }
       }
     }
   }

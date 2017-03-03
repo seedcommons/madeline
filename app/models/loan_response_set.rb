@@ -9,6 +9,7 @@
 #  loan_id     :integer          not null
 #  updated_at  :datetime         not null
 #
+
 class LoanResponseSet < ActiveRecord::Base
   include ProgressCalculable
 

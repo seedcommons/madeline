@@ -41,8 +41,8 @@ class ProjectLog < ActiveRecord::Base
   def self.filter_by(params)
     if params[:step].present?
       where(project_step_id: params[:step])
-    elsif params[:loan].present?
-      joins(:project_step).where(timeline_entries: {project_id: params[:loan]})
+    elsif params[:project].present?
+      joins(:project_step).where(timeline_entries: {project_id: params[:project]})
     elsif params[:org].present?
       joins(project_step: :project).where(projects: {organization_id: params[:org]})
     else
@@ -56,6 +56,10 @@ class ProjectLog < ActiveRecord::Base
     else
       all
     end
+  end
+
+  def self.by_date
+    order('date IS NULL, date DESC, created_at DESC')
   end
 
   #todo: confirm if we want the shorter alias accessor for the default translation.

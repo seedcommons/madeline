@@ -5,9 +5,10 @@
     - if @context == "calendar"
       a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
       a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
-    a data-expand-all=".logs-index" href="#" = t('common.expand_all')
-    a data-hide-all=".logs-index" href="#"
-      = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
+    - unless @context == "dashboard"
+      a data-expand-all=".logs-index" href="#" = t('common.expand_all')
+      a data-hide-all=".logs-index" href="#"
+        = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
 
   - unless @context == "calendar"
     - if @step
@@ -36,18 +37,18 @@
               = log.progress_metric || t('project_step.no_status')
 
             - unless @context == "calendar"
-              - unless params[:org].present? || params[:loan].present? || params[:step].present? || !step.project.organization
+              - unless params[:org].present? || params[:project].present? || params[:step].present? || !step.project.organization
                 .item
                   a href=admin_organization_path(step.project.organization)
                     i.fa.fa-building-o>
                     = step.project.organization.name
               - unless params[:step].present?
                 .item
-                  a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                  a href=(admin_project_path(step.project) + "/timeline#step-#{step.id}")
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            - unless @context == "calendar"
+            - unless @context == "calendar" || @context == "dashboard"
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
@@ -67,7 +68,7 @@
         - if log.summary
           span.summary = log.summary
 
-        - if log.has_more?
+        - if log.has_more? && @context != "dashboard"
           a data-expands="more-#{log.id}" = t(:more)
           a data-hides="more-#{log.id}" = t(:less)
 

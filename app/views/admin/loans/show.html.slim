@@ -4,20 +4,15 @@
 
 section.loan.details
   div.loan-content
-    = render "admin/loans/tabs"
+    ul.nav.nav-tabs.nav-tabs-responsive.hidden-print role="tablist"
+      - @tabs.each do |tab|
+        li role="presentation" class==("active" if tab == @tab)
+          = link_to t("loan.tab.#{tab}"), admin_loan_tab_path(@loan.id, tab: tab)
+
+    .tab-content
+      .tab-pane.active id=@tab
+        = render "admin/loans/#{@tab}", project: @loan
 
 = render "admin/media/modal"
 = render "admin/project_groups/modal"
 = render "admin/project_steps/modal"
-
-javascript:
-  // There is a lot of JS on this page -- tabs, questionnaires, calendar, timeline, etc.
-  // This view kicks it all off and sets up Views for the different tabs when they are clicked on.
-  $(function() {
-    new MS.Views.LoanTabView({
-      el: '.loan-content',
-      calendarEventsUrl: #{json @calendar_events_url},
-      loanId: #{json @loan.id},
-      locale: "#{I18n.locale}"
-    });
-  });

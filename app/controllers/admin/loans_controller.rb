@@ -33,12 +33,24 @@ class Admin::LoansController < Admin::ProjectsController
   def show
     @loan = Loan.find(params[:id])
     authorize @loan
-    prep_form_vars
-    prep_timeline(@loan)
     @form_action_url = admin_loan_path
-    @steps = @loan.project_steps
-    @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
-    @active_tab = params[:tab].presence || "details"
+    @active_tab = params[:tab].presence || 'details'
+
+    case @tab = params[:tab] || 'details'
+    when 'details'
+      prep_form_vars
+    when 'questions'
+      prep_questionnaire
+    when 'timeline'
+      prep_timeline(@loan)
+    when 'timeline_list'
+      @steps = @loan.project_steps
+    when 'logs'
+      prep_logs(@loan)
+    when 'calendar'
+      @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
+    end
+    @tabs = %w(details questions timeline timeline_list logs calendar)
 
     render partial: 'admin/loans/details' if request.xhr?
   end
@@ -48,28 +60,6 @@ class Admin::LoansController < Admin::ProjectsController
     @loan.organization_id = params[:organization_id] if params[:organization_id]
     authorize @loan
     prep_form_vars
-  end
-
-  def questionnaires
-    @loan = Loan.find(params[:id])
-    authorize @loan, :show?
-
-    # Value sets are sets of answers to criteria and post analysis question sets.
-    @response_sets = ActiveSupport::OrderedHash.new
-    @roots = {}
-    @questions_json = {}
-
-    Loan::QUESTION_SET_TYPES.each do |kind|
-      # If existing set not found, build a blank one with which to render the form.
-      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
-
-      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
-      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
-        LoanQuestionSerializer.new(i, loan: @loan)
-      end.to_json
-    end
-
-    render partial: "admin/loans/questionnaires/main"
   end
 
   def update
@@ -115,7 +105,7 @@ class Admin::LoansController < Admin::ProjectsController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind_value == 'image'}
-    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded }
+    @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
     prep_attached_links if @mode != "details-only"
   end
 
@@ -162,4 +152,12 @@ class Admin::LoansController < Admin::ProjectsController
     end
   end
 
+  def prep_questionnaire
+    @attrib = params[:filter] || "criteria"
+    @response_set = @loan.send(@attrib) || LoanResponseSet.new(kind: @attrib, loan: @loan)
+    @roots = @response_set.loan_question_set.root_group_preloaded
+    @questions_json = @roots.children_applicable_to(@loan).map do |i|
+      LoanQuestionSerializer.new(i, loan: @loan)
+    end.to_json
+  end
 end
