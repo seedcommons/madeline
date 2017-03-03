@@ -19,8 +19,14 @@ class Admin::ProjectsController < Admin::AdminController
   def timeline
     @project = Project.find(params[:id])
     authorize @project, :show?
-    prep_timeline(@project)
-    render partial: "admin/timeline/table", locals: {project: @project}
+    if request.xhr?
+      prep_timeline(@project)
+      render partial: "admin/timeline/table", locals: {project: @project}
+    elsif @project.is_a? Loan
+      redirect_to admin_loan_tab_path(@project, tab: 'timeline')
+    elsif @project.is_a? BasicProject
+      redirect_to admin_basic_project_tab_path(@project, tab: 'timeline')
+    end
   end
 
   protected

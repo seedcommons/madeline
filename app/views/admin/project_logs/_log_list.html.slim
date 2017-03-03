@@ -44,7 +44,7 @@
                     = step.project.organization.name
               - unless params[:step].present?
                 .item
-                  a href=(admin_loan_path(step.project) + "/timeline-table#step-#{step.id}")
+                  a href=(admin_project_path(step.project) + "/timeline#step-#{step.id}")
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
