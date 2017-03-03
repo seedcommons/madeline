@@ -11,9 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216185906) do
+ActiveRecord::Schema.define(version: 20170221234419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounting_transactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string   "qb_transaction_id", null: false
+    t.string   "qb_transaction_type", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "accounting_transactions", ["qb_transaction_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype__unq_idx", unique: true, using: :btree
+  add_index "accounting_transactions", ["qb_transaction_id"], name: "index_accounting_transactions_on_qb_transaction_id", using: :btree
+  add_index "accounting_transactions", ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type", using: :btree
 
   create_table "countries", force: :cascade do |t|
     t.datetime "created_at", null: false
