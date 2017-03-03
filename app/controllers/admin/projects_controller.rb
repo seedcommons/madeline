@@ -19,8 +19,12 @@ class Admin::ProjectsController < Admin::AdminController
   def timeline
     @project = Project.find(params[:id])
     authorize @project, :show?
-    prep_timeline(@project)
-    render partial: "admin/timeline/table", locals: {project: @project}
+    if request.xhr?
+      prep_timeline(@project)
+      render partial: "admin/timeline/table", locals: {project: @project}
+    else
+      redirect_to send("admin_#{@project.model_name.singular}_tab_path", @project, tab: 'timeline')
+    end
   end
 
   protected
@@ -34,5 +38,13 @@ class Admin::ProjectsController < Admin::AdminController
     @status_options = %w(finalized incomplete complete).map do |status|
       [I18n.t("project_step.completion_status.#{status}"), status]
     end
+  end
+
+  def prep_logs(project)
+    @org = Organization.find(params[:org]) if params[:org]
+    @step = ProjectStep.find(params[:step]) if params[:step]
+    @logs = ProjectLog.in_division(selected_division).filter_by(project: project.id).
+        order('date IS NULL, date DESC, created_at DESC').
+        page(params[:page]).per(params[:per_page])
   end
 end
