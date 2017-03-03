@@ -1,5 +1,5 @@
 #timeline-list
-  section.block.timeline
+  section.timeline
     = render "admin/timeline/list_header", project: @loan
     div.project-steps
       // Steps are loaded dynamically by TimelineView
@@ -10,4 +10,3 @@ javascript:
       projectId: #{json @loan.id}
     });
   });
-

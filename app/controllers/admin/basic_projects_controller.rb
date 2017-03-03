@@ -7,6 +7,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     @basic_projects_grid = initialize_grid(
       policy_scope(BasicProject),
       include: [:primary_agent, :secondary_agent],
+      conditions: division_index_filter,
       order_direction: "desc",
       per_page: 50,
       name: "basic_projects",
