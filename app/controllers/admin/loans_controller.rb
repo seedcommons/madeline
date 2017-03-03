@@ -40,7 +40,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'details'
       prep_form_vars
     when 'questions'
-      prep_questionnaires
+      prep_questionnaire
     when 'timeline'
       prep_timeline(@loan)
     when 'timeline_list'
@@ -105,7 +105,7 @@ class Admin::LoansController < Admin::ProjectsController
     @print_view = true
     @mode = params[:mode]
     @first_image = @loan.media.find {|item| item.kind_value == 'image'}
-    @roots = { criteria: LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded }
+    @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
     prep_attached_links if @mode != "details-only"
   end
 
@@ -152,23 +152,13 @@ class Admin::LoansController < Admin::ProjectsController
     end
   end
 
-  def prep_questionnaires
-    @questionnaire_filter = params[:filter] || "criteria"
-
-    # Value sets are sets of answers to criteria and post analysis question sets.
-    @response_sets = ActiveSupport::OrderedHash.new
-    @roots = {}
-    @questions_json = {}
-
-    Loan::QUESTION_SET_TYPES.each do |kind|
-      # If existing set not found, build a blank one with which to render the form.
-      @response_sets[kind] = @loan.send(kind) || LoanResponseSet.new(kind: kind, loan: @loan)
-
-      @roots[kind] = @response_sets[kind].loan_question_set.root_group_preloaded
-      @questions_json[kind] = @roots[kind].children_applicable_to(@loan).map do |i|
-        LoanQuestionSerializer.new(i, loan: @loan)
-      end.to_json
-    end
+  def prep_questionnaire
+    @attrib = params[:filter] || "criteria"
+    @response_set = @loan.send(@attrib) || LoanResponseSet.new(kind: @attrib, loan: @loan)
+    @roots = @response_set.loan_question_set.root_group_preloaded
+    @questions_json = @roots.children_applicable_to(@loan).map do |i|
+      LoanQuestionSerializer.new(i, loan: @loan)
+    end.to_json
   end
 
   def prep_logs
