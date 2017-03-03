@@ -10,7 +10,7 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype__unq_idx                        (qb_transaction_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype_unq_idx                         (qb_transaction_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_qb_transaction_id    (qb_transaction_id)
 #  index_accounting_transactions_on_qb_transaction_type  (qb_transaction_type)
 #

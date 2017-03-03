@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170221234419) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "accounting_transactions", ["qb_transaction_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype__unq_idx", unique: true, using: :btree
+  add_index "accounting_transactions", ["qb_transaction_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
   add_index "accounting_transactions", ["qb_transaction_id"], name: "index_accounting_transactions_on_qb_transaction_id", using: :btree
   add_index "accounting_transactions", ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type", using: :btree
 
