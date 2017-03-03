@@ -33,8 +33,7 @@ class MS.Views.CalendarView extends Backbone.View
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>
         if confirm(I18n.t("loan.move_date_confirm.body"))
-          projectId = @$el.find('#calendar').data('project-id')
-          $.post "/admin/projects/#{projectId}/change_date",
+          $.post "/admin/projects/#{event.model_id}/change_date",
             _method: "PATCH"
             which_date: event.event_type
             new_date: event.start.format('YYYY-MM-DD')

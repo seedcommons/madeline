@@ -2,8 +2,7 @@
   - when "project_start", "project_end"
 
     div.calendar-event [
-      class="#{cal_event.event_type == 'project_start' ? 'project-start' : 'project-end'}"
-      data-project-id="#{cal_event.model_id}"]
+      class="#{cal_event.event_type == 'project_start' ? 'project-start' : 'project-end'}"]
 
       span.event-title
         - if cal_event.event_type == "project_start"
