@@ -1,5 +1,10 @@
 en:
   dashboard:
     logs: "Logs"
+    my_projects: "My Projects"
     show_all_logs: "Manage Logs"
     upcoming_events: "Upcoming Steps"
+    status_options:
+      active: "Active"
+      all: "All"
+      completed: "Completed"

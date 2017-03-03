@@ -1,6 +1,23 @@
 - content_for(:title, @person.name)
 
 .block
+  section.section.recent-projects
+    .projects-grid
+      = render "recent_projects_grid_definition"
+
+      .row
+        .col-md-10
+          h2 = t("dashboard.my_projects")
+
+        .filter.col-md-2.text-right
+          .filter-content
+            = form_tag do
+              = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
+                class: "form-control")
+
+      - unless @empty_list
+        = render_index_grid(@recent_projects_grid)
+
   section.section.upcoming-events.calendar
     h2 = t("dashboard.upcoming_events")
     div#calendar
@@ -17,6 +34,7 @@
 
 javascript:
   $(function(){
+    new MS.Views.DashboardProjectsView();
     new MS.Views.DashboardCalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
       stepModal: new MS.Views.ProjectStepModalView(),
