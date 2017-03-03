@@ -37,7 +37,7 @@
               = log.progress_metric || t('project_step.no_status')
 
             - unless @context == "calendar"
-              - unless params[:org].present? || params[:loan].present? || params[:step].present? || !step.project.organization
+              - unless params[:org].present? || params[:project].present? || params[:step].present? || !step.project.organization
                 .item
                   a href=admin_organization_path(step.project.organization)
                     i.fa.fa-building-o>

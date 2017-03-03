@@ -46,7 +46,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'timeline_list'
       @steps = @loan.project_steps
     when 'logs'
-      prep_logs
+      prep_logs(@loan)
     when 'calendar'
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
@@ -168,13 +168,4 @@ class Admin::LoansController < Admin::ProjectsController
       end.to_json
     end
   end
-
-  def prep_logs
-    @org = Organization.find(params[:org]) if params[:org]
-    @step = ProjectStep.find(params[:step]) if params[:step]
-    @logs = ProjectLog.in_division(selected_division).filter_by(loan: @loan.id).
-        order('date IS NULL, date DESC, created_at DESC').
-        page(params[:page]).per(params[:per_page])
-  end
-
 end

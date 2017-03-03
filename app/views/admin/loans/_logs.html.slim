@@ -1,5 +1,3 @@
-- refresh_url = @org ? "/admin/logs?org=#{@org.id}" : "/admin/logs"
-
 section.log-list
   = render "admin/project_logs/log_list"
 
@@ -11,7 +9,7 @@ javascript:
   $(function() {
     new MS.Views.LogListView({
       el: 'section.log-list',
-      refreshUrl: #{json refresh_url},
+      refreshUrl: #{json "/admin/logs?project=#{@loan.id}"},
       logFormModal: $('#log-form-modal')
     });
   });
