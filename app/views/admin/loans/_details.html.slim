@@ -3,7 +3,8 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
   .show-actions.hidden-print
     - if @loan.valid?
       a.edit-action.view-element
-        i.fa.fa-pencil.fa-large> = t("loan.edit")
+        i.fa.fa-pencil.fa-large> 
+        = t("loan.edit")
       a.show-action.form-element
         = t("cancel_edit")
     - else

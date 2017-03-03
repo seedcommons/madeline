@@ -1,6 +1,7 @@
 = content_tag(:div, class: "index-grid #{'no-records' if no_records}")
   = render_grid(grid)
-  .text-right
-    button.btn.btn-link.wg-external-csv-export-button data-grid-name="#{grid.name}"
-      = t("export_to_csv")
+  - if @enable_export_to_csv
+    .text-right
+      button.btn.btn-link.wg-external-csv-export-button data-grid-name="#{grid.name}"
+        = t("export_to_csv")
   = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
