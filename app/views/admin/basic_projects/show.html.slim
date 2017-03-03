@@ -6,7 +6,7 @@
       li role="presentation" class==("active" if tab == @tab)
         = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
 
-  .block data-tab-content== @tab
+  .block.tab-content data-tab-content=@tab
     = render "admin/basic_projects/#{@tab}", project: @basic_project
 
 = render "admin/media/modal"
