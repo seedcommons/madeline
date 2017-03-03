@@ -62,15 +62,6 @@ class Admin::LoansController < Admin::ProjectsController
     prep_form_vars
   end
 
-  def questionnaires
-    @loan = Loan.find(params[:id])
-    @questionnaire_filter = params[:filter] || "criteria"
-    authorize @loan, :show?
-
-    prep_questionnaires
-    render partial: "admin/loans/questionnaires/main"
-  end
-
   def update
     @loan = Loan.find(params[:id])
     authorize @loan
@@ -162,6 +153,8 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_questionnaires
+    @questionnaire_filter = params[:filter] || "criteria"
+
     # Value sets are sets of answers to criteria and post analysis question sets.
     @response_sets = ActiveSupport::OrderedHash.new
     @roots = {}
