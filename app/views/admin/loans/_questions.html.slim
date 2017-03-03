@@ -1,0 +1,8 @@
+section.questionnaires
+  div.questionnaires-content
+    = render partial: "admin/loans/questionnaires/main"
+
+javascript:
+  $(function() {
+    new MS.Views.LoanQuestionnairesView({loanId: #{@loan.id}})
+  });

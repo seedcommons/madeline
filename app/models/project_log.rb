@@ -58,6 +58,10 @@ class ProjectLog < ActiveRecord::Base
     end
   end
 
+  def self.by_date
+    order('date IS NULL, date DESC, created_at DESC')
+  end
+
   #todo: confirm if we want the shorter alias accessor for the default translation.
   #if so, then generically implement through module
   def progress_metric
