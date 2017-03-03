@@ -22,10 +22,8 @@ class Admin::ProjectsController < Admin::AdminController
     if request.xhr?
       prep_timeline(@project)
       render partial: "admin/timeline/table", locals: {project: @project}
-    elsif @project.is_a? Loan
-      redirect_to admin_loan_tab_path(@project, tab: 'timeline')
-    elsif @project.is_a? BasicProject
-      redirect_to admin_basic_project_tab_path(@project, tab: 'timeline')
+    else
+      redirect_to send("admin_#{@project.model_name.singular}_tab_path", @project, tab: 'timeline')
     end
   end
 
