@@ -1,7 +1,6 @@
 class MS.Views.LogListView extends Backbone.View
 
   initialize: (options) ->
-    console.log(@$el)
     new MS.Views.AutoLoadingIndicatorView()
     @refreshUrl = options.refreshUrl
     @logFormModalView = new MS.Views.LogFormModalView(el: options.logFormModal)
