@@ -33,11 +33,7 @@ module Timeline
 
     def adjust_dates
       if move_type == "change_date"
-        if @step.completed?
-          @step.actual_end_date += days_shifted
-        else
-          @step.scheduled_start_date += days_shifted
-        end
+        @step.scheduled_start_date += days_shifted
       else
         @step.actual_end_date = @step.scheduled_start_date + days_shifted
       end
