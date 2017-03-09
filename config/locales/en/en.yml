@@ -156,6 +156,8 @@ en:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        loan_response_set:
+          response_error: "There is an issue with one or more of the responses below."
 
   simple_form:
     hints:
