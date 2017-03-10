@@ -2,25 +2,23 @@ module Accounting
   module Quickbooks
     # This class is responsible for batching up Quickbooks API calls into separate types.
     # The API does support batch requests for queries, but quickbooks-ruby does not.
-    class Fetcher
-      def initialize(relation)
-        @relation = relation
-      end
-
+    class TransactionFetcher
       def fetch
-        qb_objects = query
-        populate(qb_objects)
+        # qb_objects = query
+        # populate(qb_objects)
+
+        types.each do |type|
+          service(type).all.each do |qb_object|
+            find_or_create_transaction(transaction_type: type, qb_object: qb_object)
+          end
+        end
       end
 
       private
 
-      def query
-        util = ::Quickbooks::Util::QueryBuilder.new
-
-        types.map do |type|
-          q = "select * from #{type} where #{util.clause('Id', 'in', ids)}"
-          service(type).query(q).entries
-        end.flatten
+      def find_or_create_transaction(transaction_type:, qb_object:)
+        acc_transaction = Accounting::Transaction.find_or_create_by qb_transaction_type: transaction_type, qb_id: qb_object.id
+        acc_transaction.update_attributes!(quickbooks_data: qb_object.as_json)
       end
 
       def populate(qb_objects)
@@ -36,7 +34,7 @@ module Accounting
       end
 
       def types
-        @relation.distinct(:qb_transaction_type).pluck(:qb_transaction_type)
+        Accounting::Transaction::TRANSACTION_TYPES
       end
 
       def service(type)

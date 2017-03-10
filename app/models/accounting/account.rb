@@ -2,21 +2,17 @@
 #
 # Table name: accounting_accounts
 #
-#  created_at    :datetime         not null
-#  id            :integer          not null, primary key
-#  name          :string           not null
-#  project_id    :integer
-#  qb_account_id :string           not null
-#  updated_at    :datetime         not null
+#  created_at                :datetime         not null
+#  id                        :integer          not null, primary key
+#  name                      :string           not null
+#  qb_account_classification :string
+#  qb_id                     :string           not null
+#  quickbooks_data           :json
+#  updated_at                :datetime         not null
 #
 # Indexes
 #
-#  index_accounting_accounts_on_project_id     (project_id)
-#  index_accounting_accounts_on_qb_account_id  (qb_account_id)
-#
-# Foreign Keys
-#
-#  fk_rails_225f9a7d43  (project_id => projects.id)
+#  index_accounting_accounts_on_qb_id  (qb_id)
 #
 
 class Accounting::Account < ActiveRecord::Base
