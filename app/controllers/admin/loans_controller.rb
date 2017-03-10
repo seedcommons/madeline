@@ -164,8 +164,7 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_transactions
-    @transactions = ::Accounting::Transaction.all.with_qb_objs
-    @transactions.update_qb_data
+    @transactions = ::Accounting::Transaction.all
 
     @transactions_grid = initialize_grid(@transactions)
   end

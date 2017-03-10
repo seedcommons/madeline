@@ -15,8 +15,8 @@
               = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
                 class: "form-control")
 
-      - unless @empty_list
-        = render_index_grid(@recent_projects_grid)
+      / - unless @empty_list
+      = render_index_grid(@recent_projects_grid)
 
   section.section.upcoming-events.calendar
     h2 = t("dashboard.upcoming_events")

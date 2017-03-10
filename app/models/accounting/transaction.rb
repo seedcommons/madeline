@@ -28,44 +28,24 @@
 class Accounting::Transaction < ActiveRecord::Base
   TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
 
-  attr_writer :qb_object
-
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
+  belongs_to :project, inverse_of: :transactions, foreign_key: :accounting_account_id
 
-  delegate :txn_date, :total, :private_note, to: :qb_object
+  delegate :txn_date, :total, :private_note, to: :quickbooks_data
 
-  # # We need to override where to ensure the qb_object data gets populated when queried.
-  # def self.where(*args)
-  #
-  #   puts '=' * 50
-  #   puts 'hello from where'
-  #   puts '=' * 50
-  #
-  #
-  #
-  #   transactions = super(*args)
-  #   return transactions if transactions.count < 1
-  #
-  #   Accounting::Quickbooks::Fetcher.new(transactions).fetch
-  # end
-  #
-  # # We need to override where to ensure the qb_object data gets populated when queried.
-  # def self.all
-  #   transactions = super
-  #   return transactions if transactions.count < 1
-  #
-  #   Accounting::Quickbooks::Fetcher.new(transactions).fetch
-  # end
-
-  def self.with_qb_objs
-    transactions = all
-    return transactions if transactions.count < 1
-
-    Accounting::Quickbooks::Fetcher.new(transactions).fetch
+  def txn_date
+    quickbooks_data[:txn_date]
   end
 
-  def qb_object
-    raise ArgumentError, 'qb_object not already set. Make sure to append #with_qb_objects at the end of an AR chain.' if @qb_object.blank?
-    @qb_object
+  def total
+    quickbooks_data[:total]
+  end
+
+  def private_note
+    quickbooks_data[:private_note]
+  end
+
+  def quickbooks_data
+    super.with_indifferent_access
   end
 end

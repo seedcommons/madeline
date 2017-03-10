@@ -2,7 +2,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def index
     authorize :'accounting/transaction', :index?
 
-    @transactions = Accounting::Transaction.all.with_qb_objects
+    @transactions = Accounting::Transaction.all
   end
 
   private

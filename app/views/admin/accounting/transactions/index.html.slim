@@ -10,7 +10,7 @@ table.table
   tbody
     - @transactions.each do |transaction|
       tr
-        td = transaction.qb_transaction_id
+        td = transaction.qb_id
         td = transaction.txn_date
         td = transaction.qb_transaction_type
         td = transaction.total
