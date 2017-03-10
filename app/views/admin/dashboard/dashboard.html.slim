@@ -32,6 +32,10 @@
     section.log-list
       = render "admin/project_logs/log_list"
 
+  section.section.people
+    / = @division.inspect
+    / = @people.inspect
+
 javascript:
   $(function(){
     new MS.Views.DashboardProjectsView();
