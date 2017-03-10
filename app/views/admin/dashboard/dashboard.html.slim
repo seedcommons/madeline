@@ -33,8 +33,9 @@
       = render "admin/project_logs/log_list"
 
   section.section.people
-    / = @division.inspect
-    / = @people.inspect
+    h2 Users
+    - @people.each do |person|
+      h3 = person.name
 
 javascript:
   $(function(){
