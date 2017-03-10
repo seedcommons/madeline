@@ -81,5 +81,30 @@ namespace :tww do
   task migrate_test_qbo: :environment do
     Accounting::Quickbooks::AccountFetcher.new.fetch
     Accounting::Quickbooks::TransactionFetcher.new.fetch
+
+    Accounting::Transaction.update_all(accounting_account_id: nil, project_id: nil)
+
+    account_classifications = %w(principal interest misc)
+    account_classifications.each do |classification|
+      Accounting::Account
+        .where(qb_account_classification: nil)
+        .sample
+        .update(qb_account_classification: classification)
+    end
+
+    classified_accounts = Accounting::Account.where.not(qb_account_classification: nil)
+    sample_loans = Loan.where(status_value: 'active').where.not(signing_date: nil).order(signing_date: :desc).limit(5)
+
+    puts "Assigning transactions to loans (#{sample_loans.pluck(:id).join(' ')})"
+
+    sample_loans.each do |loan|
+      sample_transactions = Accounting::Transaction.all.sample(3)
+      loan.transactions << sample_transactions
+      loan.save!
+
+      sample_transactions.each do |transaction|
+        transaction.update!(account: classified_accounts.sample)
+      end
+    end
   end
 end

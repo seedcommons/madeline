@@ -164,7 +164,7 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_transactions
-    @transactions = ::Accounting::Transaction.all
+    @transactions = ::Accounting::Transaction.where(project_id: @loan.id)
 
     @transactions_grid = initialize_grid(@transactions)
   end
