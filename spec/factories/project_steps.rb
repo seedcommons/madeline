@@ -18,6 +18,16 @@ FactoryGirl.define do
       scheduled_start_date { Faker::Date.backward }
     end
 
+    trait :past_due do
+      scheduled_start_date { Faker::Date.between(30.days.ago, 15.day.ago) }
+      scheduled_duration_days { rand(1..14) }
+    end
+
+    trait :open do
+      scheduled_start_date { Faker::Date.between(30.days.ago, 15.day.ago) }
+      scheduled_duration_days { nil }
+    end
+
     trait :future do
       scheduled_start_date { Faker::Date.forward }
     end
@@ -46,6 +56,18 @@ FactoryGirl.define do
     trait :with_logs do
       after(:create) do |step|
         create_list(:project_log, num_logs = 2, project_step: step)
+      end
+    end
+
+    trait :with_old_logs do
+      after(:create) do |step|
+        create_list(:project_log, num_logs = 2, :old, project_step: step)
+      end
+    end
+
+    trait :with_recent_logs do
+      after(:create) do |step|
+        create_list(:project_log, num_logs = 2, :recent, project_step: step)
       end
     end
   end

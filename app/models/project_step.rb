@@ -65,6 +65,9 @@ class ProjectStep < TimelineEntry
   before_update :handle_scheduled_start_date
   before_save :handle_finalized_at
 
+  # Scheduled end date is calculated
+  scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago) }
+
   def name
     summary
   end

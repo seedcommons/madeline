@@ -28,6 +28,10 @@ FactoryGirl.define do
       status_value :completed
     end
 
+    trait :prospective do
+      status_value :prospective
+    end
+
     trait :with_translations do
       after(:create) do |loan|
         create(:translation, translatable: loan, translatable_attribute: :summary)
@@ -50,6 +54,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_contract do
+      after(:create) do |loan|
+        create(:media, :contract, media_attachable: loan)
+      end
+    end
+
     trait :with_coop_media do
       after(:create) do |loan|
         create_list(:media, rand(1..5), media_attachable: loan.organization)
@@ -59,6 +69,18 @@ FactoryGirl.define do
     trait :with_one_project_step do
       after(:create) do |loan|
         create(:project_step, :with_logs, project: loan)
+      end
+    end
+
+    trait :with_past_due_project_step do
+      after(:create) do |loan|
+        create(:project_step, :past_due, :with_logs, project: loan)
+      end
+    end
+
+    trait :with_open_project_step do
+      after(:create) do |loan|
+        create(:project_step, :open, :with_logs, project: loan)
       end
     end
 
@@ -87,6 +109,18 @@ FactoryGirl.define do
       after(:create) do |loan|
         paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
         unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
+      end
+    end
+
+    trait :with_recent_logs do
+      after(:create) do |loan|
+        create(:project_step, :open, :with_recent_logs, project: loan)
+      end
+    end
+
+    trait :with_old_logs do
+      after(:create) do |loan|
+        create(:project_step, :open, :with_old_logs, project: loan)
       end
     end
   end

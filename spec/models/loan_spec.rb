@@ -197,5 +197,56 @@ describe Loan, :type => :model do
 
     end
 
+    describe '.healthy' do
+      subject{ loan.healthy? }
+
+      context 'with new loan' do
+        let(:loan) { create(:loan, :prospective) }
+
+          it { is_expected.to be true }
+      end
+
+      context 'with active loan' do
+        context 'and no contract' do
+          let(:loan) { create(:loan, :active) }
+
+          it { is_expected.to be false }
+        end
+
+        context 'and contract' do
+          context 'and no logs' do
+            let(:loan) { create(:loan, :active, :with_contract) }
+
+            it { is_expected.to be false }
+          end
+
+          context 'and no logs within 30 days' do
+            let(:loan) { create(:loan, :active, :with_contract, :with_old_logs) }
+
+            it { is_expected.to be false }
+          end
+
+          context 'and logs within 30 days' do
+            let(:loan) { create(:loan, :active, :with_contract, :with_recent_logs) }
+
+            it { is_expected.to be true }
+          end
+        end
+      end
+
+      context 'with an incomplete loan' do
+        context 'and no late steps' do
+          let(:loan) { create(:loan, :prospective, :with_open_project_step) }
+
+          it { is_expected.to be true }
+        end
+        context 'and a step more than one day late' do
+          let(:loan) { create(:loan, :prospective, :with_past_due_project_step) }
+
+          it { is_expected.to be false }
+        end
+      end
+    end
+
   end
 end

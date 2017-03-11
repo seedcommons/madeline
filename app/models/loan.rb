@@ -189,4 +189,29 @@ class Loan < Project
   def amount_formatted
     ensure_currency.format_amount(amount)
   end
+
+  def signed_contract?
+    media.where(kind_value: 'contract').count > 0
+  end
+
+  def active?
+    status_value == 'active'
+  end
+
+  def incomplete_steps?
+    timeline_entries.merge(ProjectStep.past_due).count > 0
+  end
+
+  def healthy?
+    return false if active? && !signed_contract?
+    return false if active? && most_recent_log_date < 30.days.ago
+    return false if incomplete_steps?
+    true
+  end
+
+  private
+
+  def most_recent_log_date
+    project_logs.maximum(:date) || Time.at(0)
+  end
 end
