@@ -197,13 +197,63 @@ describe Loan, :type => :model do
 
     end
 
+    describe '.progress_pct' do
+      subject{ loan.progress_pct }
+
+      context 'without criteria' do
+          it 'returns 0' do
+            expect(loan.progress_pct).to be 0
+          end
+      end
+
+      context 'with criteria' do
+        let(:progress) { 57 }
+        let(:loan) do
+          loan = create(:loan, :prospective)
+          loan.tap { allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: progress)) }
+        end
+
+        it 'matches criteria progress_pct' do
+          is_expected.to be progress
+        end
+      end
+    end
+
     describe '.healthy' do
       subject{ loan.healthy? }
 
       context 'with new loan' do
-        let(:loan) { create(:loan, :prospective) }
+        context 'and no steps at all' do
+          let(:loan) { create(:loan, :prospective) }
+
+          context 'no questions answered' do
+            it { is_expected.to be false }
+          end
+          context '79% of questions answered' do
+            before do
+              allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: 79))
+            end
+
+            it { is_expected.to be false }
+          end
+          context '80% of questions answered' do
+            before do
+              allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: 80))
+            end
+
+            it { is_expected.to be true }
+          end
+        end
+        context 'and no late steps' do
+          let(:loan) { create(:loan, :prospective, :with_open_project_step) }
 
           it { is_expected.to be true }
+        end
+        context 'and a step more than one day late' do
+          let(:loan) { create(:loan, :prospective, :with_past_due_project_step) }
+
+          it { is_expected.to be false }
+        end
       end
 
       context 'with active loan' do
@@ -234,18 +284,6 @@ describe Loan, :type => :model do
         end
       end
 
-      context 'with an incomplete loan' do
-        context 'and no late steps' do
-          let(:loan) { create(:loan, :prospective, :with_open_project_step) }
-
-          it { is_expected.to be true }
-        end
-        context 'and a step more than one day late' do
-          let(:loan) { create(:loan, :prospective, :with_past_due_project_step) }
-
-          it { is_expected.to be false }
-        end
-      end
     end
 
   end

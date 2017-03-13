@@ -202,10 +202,16 @@ class Loan < Project
     timeline_entries.merge(ProjectStep.past_due).count > 0
   end
 
+  def progress_pct
+    return 0 unless criteria
+    criteria.progress_pct
+  end
+
   def healthy?
     return false if active? && !signed_contract?
     return false if active? && most_recent_log_date < 30.days.ago
     return false if incomplete_steps?
+    return false if progress_pct < 80
     true
   end
 
