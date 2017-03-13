@@ -207,12 +207,17 @@ class Loan < Project
     criteria.progress_pct
   end
 
+  def health_warnings
+    warnings = []
+    warnings << :active_without_signed_contract if active? && !signed_contract?
+    warnings << :active_without_recent_logs if active? && most_recent_log_date < 30.days.ago
+    warnings << :past_due_steps if incomplete_steps?
+    warnings << :incomplete_loan_questions if progress_pct < 80
+    warnings
+  end
+
   def healthy?
-    return false if active? && !signed_contract?
-    return false if active? && most_recent_log_date < 30.days.ago
-    return false if incomplete_steps?
-    return false if progress_pct < 80
-    true
+    health_warnings.count < 1
   end
 
   private
