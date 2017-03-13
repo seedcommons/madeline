@@ -34,7 +34,7 @@
 
   section.section.people
     h2 Users
-    - @people.each do |person|
+    - @people_with_projects.each do |person|
       h3 = person.name
       - unless person.agent_projects.empty?
         .recent-projects

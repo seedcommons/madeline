@@ -39,9 +39,11 @@ class Admin::DashboardController < Admin::AdminController
   def prep_projects_grids
     @people = @division.people.where.not(id: @person.id).limit(5)
 
+    @people_with_projects = []
     @grids = {}
     @people.each do |person|
       if person.agent_projects.length > 0
+        @people_with_projects << person
         @grids["person_#{person.id}"] = initialize_grid(
           person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15),
           include: [:primary_agent, :secondary_agent],
