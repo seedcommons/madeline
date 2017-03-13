@@ -96,6 +96,16 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_a_number_of_project_steps do
+      transient do
+        step_count 5
+      end
+
+      after(:create) do |loan, evaluator|
+        create_list(:project_step, evaluator.step_count, :open, :with_logs, project: loan)
+      end
+    end
+
     # Will only work if the loan has steps.
     trait :with_log_media do
       after(:create) do |loan|

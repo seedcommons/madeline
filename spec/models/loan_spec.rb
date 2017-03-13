@@ -287,6 +287,32 @@ describe Loan, :type => :model do
 
           it { is_expected.to include :past_due_steps }
         end
+
+        context 'created 15 days ago' do
+          context 'with only 14 steps' do
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 14, signing_date: 16.days.ago, end_date: 1.day.ago) }
+
+            it { is_expected.to include :sporadic_loan_updates }
+          end
+          context 'with 15 steps' do
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 15, signing_date: 16.days.ago, end_date: 1.day.ago) }
+
+            it { is_expected.to_not include :sporadic_loan_updates }
+          end
+        end
+
+        context 'created 30+ days ago' do
+          context 'with only 29 recent steps' do
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 29) }
+
+            it { is_expected.to include :sporadic_loan_updates }
+          end
+          context 'with 30 recent steps' do
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 30) }
+
+            it { is_expected.to_not include :sporadic_loan_updates }
+          end
+        end
       end
 
       context 'with active loan' do

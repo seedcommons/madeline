@@ -202,6 +202,10 @@ class Loan < Project
     timeline_entries.merge(ProjectStep.past_due).count > 0
   end
 
+  def sporadic_loan_updates?
+    timeline_entries.count < [days_old, 30].min
+  end
+
   def progress_pct
     return 0 unless criteria
     criteria.progress_pct
@@ -213,11 +217,16 @@ class Loan < Project
     warnings << :active_without_recent_logs if active? && most_recent_log_date < 30.days.ago
     warnings << :past_due_steps if incomplete_steps?
     warnings << :incomplete_loan_questions if progress_pct < 80
+    warnings << :sporadic_loan_updates if sporadic_loan_updates?
     warnings
   end
 
   def healthy?
     health_warnings.count < 1
+  end
+
+  def days_old
+    (end_date.beginning_of_day - signing_date.beginning_of_day) / (24 * 60 * 60)
   end
 
   private
