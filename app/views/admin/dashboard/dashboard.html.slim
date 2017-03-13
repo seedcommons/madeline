@@ -36,6 +36,11 @@
     h2 Users
     - @people.each do |person|
       h3 = person.name
+      - unless person.agent_projects.empty?
+        .recent-projects
+          = render "recent_projects_grid_definition", grid: @grids["person_#{person.id}"]
+          - unless @empty_list
+            = render_index_grid(@grids["person_#{person.id}"])
 
 javascript:
   $(function(){

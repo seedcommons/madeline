@@ -37,18 +37,19 @@ class Admin::DashboardController < Admin::AdminController
 
   # Prepare grids for all users inside selected division
   def prep_projects_grids
-    @people = @division.people
+    @people = @division.people.limit(5)
 
+    @grids = {}
     @people.each do |person|
-      @projects_person_"#{person.id}" = person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15)
-
-      @projects_grid_person_"#{person.id}" = initialize_grid(
-        @projects_person_"#{person.id}",
-        include: [:primary_agent, :secondary_agent],
-        per_page: 15,
-        name: "projects_person_#{person.id}",
-        enable_export_to_csv: false
-      )
+      if person.agent_projects.length > 0
+        @grids["person_#{person.id}"] = initialize_grid(
+          person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15),
+          include: [:primary_agent, :secondary_agent],
+          per_page: 5,
+          name: "projects_person_#{person.id}",
+          enable_export_to_csv: false
+        )
+      end
     end
   end
 
