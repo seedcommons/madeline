@@ -1,31 +1,31 @@
 - content_for(:title, @person.name)
 
 .block
-  section.section.recent-projects
-    .projects-grid
-      = render "recent_projects_grid_definition"
+  section.section.recent-projects.projects-grid
+    = render "recent_projects_grid_definition"
 
-      .row
-        .col-md-10
-          h2 = t("dashboard.my_projects")
+    header.row
+      .col-md-10
+        h2 = t("dashboard.my_projects")
 
-        .filter.col-md-2.text-right
-          .filter-content
-            = form_tag do
-              = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
-                class: "form-control")
+      .filter.col-md-2.text-right
+        .filter-content
+          = form_tag do
+            = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
+              class: "form-control")
 
-      - unless @empty_list
-        = render_index_grid(@recent_projects_grid)
+    - unless @empty_list
+      = render_index_grid(@recent_projects_grid)
 
   section.section.upcoming-events.calendar
-    h2 = t("dashboard.upcoming_events")
-    div#calendar
+    header
+      h2 = t("dashboard.upcoming_events")
+    #calendar
 
     = render "admin/project_steps/modal"
 
   section.section.logs
-    .row
+    header.row
       h2.col-xs-6.col-md-9 = t("dashboard.logs")
       .col-xs-6.col-md-3.text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
 
