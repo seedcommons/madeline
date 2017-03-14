@@ -4,11 +4,10 @@
   section.section.recent-projects.projects-grid
     = render "recent_projects_grid_definition"
 
-    header.row
-      .col-md-10
-        h2 = t("dashboard.my_projects")
+    header
+      h2 = t("dashboard.my_projects")
 
-      .filter.col-md-2.text-right
+      .filter.text-right
         .filter-content
           = form_tag do
             = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
@@ -25,9 +24,9 @@
     = render "admin/project_steps/modal"
 
   section.section.logs
-    header.row
-      h2.col-xs-6.col-md-9 = t("dashboard.logs")
-      .col-xs-6.col-md-3.text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
+    header
+      h2 = t("dashboard.logs")
+      .text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
 
     section.log-list
       = render "admin/project_logs/log_list"

@@ -10,7 +10,10 @@
       padding: 1em;
 
       header {
+        display: flex;
         margin-bottom: .25em;
+        justify-content: space-between;
+        align-items: flex-end;
       }
 
       h2 {
@@ -40,7 +43,6 @@
       #completion_status {
         display: inline-block;
         width: auto;
-        margin-bottom: .25em;
       }
 
       table {
