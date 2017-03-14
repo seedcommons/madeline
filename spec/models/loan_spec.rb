@@ -290,12 +290,12 @@ describe Loan, :type => :model do
 
         context 'created 15 days ago' do
           context 'with only 14 steps' do
-            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 14, signing_date: 16.days.ago, end_date: 1.day.ago) }
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_recent_project_steps, step_count: 14, signing_date: 16.days.ago, end_date: 1.day.ago) }
 
             it { is_expected.to include :sporadic_loan_updates }
           end
           context 'with 15 steps' do
-            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 15, signing_date: 16.days.ago, end_date: 1.day.ago) }
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_recent_project_steps, step_count: 15, signing_date: 16.days.ago, end_date: 1.day.ago) }
 
             it { is_expected.to_not include :sporadic_loan_updates }
           end
@@ -303,12 +303,30 @@ describe Loan, :type => :model do
 
         context 'created 30+ days ago' do
           context 'with only 29 recent steps' do
-            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 29) }
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_recent_project_steps, step_count: 29) }
 
+            it 'has found 29 steps' do
+              expect(loan.timeline_entries.merge(ProjectStep.recent).count).to eq 29
+            end
+            it { is_expected.to include :sporadic_loan_updates }
+          end
+          context 'with only 29 recent steps and 5 old steps' do
+            let(:loan) do
+              create(:loan,
+                :prospective,
+                :with_a_number_of_recent_project_steps,
+                :with_a_number_of_old_project_steps,
+                step_count: 29,
+                old_step_count: 5)
+            end
+
+            it 'has found 29 steps' do
+              expect(loan.timeline_entries.merge(ProjectStep.recent).count).to eq 29
+            end
             it { is_expected.to include :sporadic_loan_updates }
           end
           context 'with 30 recent steps' do
-            let(:loan) { create(:loan, :prospective, :with_a_number_of_project_steps, step_count: 30) }
+            let(:loan) { create(:loan, :prospective, :with_a_number_of_recent_project_steps, step_count: 30) }
 
             it { is_expected.to_not include :sporadic_loan_updates }
           end

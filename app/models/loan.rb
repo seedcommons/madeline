@@ -203,7 +203,7 @@ class Loan < Project
   end
 
   def sporadic_loan_updates?
-    timeline_entries.count < [days_old, 30].min
+    timeline_entries.merge(ProjectStep.recent).count < [days_old, 30].min
   end
 
   def progress_pct

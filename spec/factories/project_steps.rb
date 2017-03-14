@@ -28,6 +28,16 @@ FactoryGirl.define do
       scheduled_duration_days { nil }
     end
 
+    trait :recent do
+      scheduled_start_date { Faker::Date.between(25.days.ago, 15.day.ago) }
+      scheduled_duration_days { rand(1..14) }
+    end
+
+    trait :old do
+      scheduled_start_date { Faker::Date.between(90.days.ago, 60.day.ago) }
+      scheduled_duration_days { rand(1..14) }
+    end
+
     trait :future do
       scheduled_start_date { Faker::Date.forward }
     end

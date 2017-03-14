@@ -96,13 +96,23 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_a_number_of_project_steps do
+    trait :with_a_number_of_recent_project_steps do
       transient do
         step_count 5
       end
 
       after(:create) do |loan, evaluator|
-        create_list(:project_step, evaluator.step_count, :open, :with_logs, project: loan)
+        create_list(:project_step, evaluator.step_count, :recent, :with_logs, project: loan)
+      end
+    end
+
+    trait :with_a_number_of_old_project_steps do
+      transient do
+        old_step_count 5
+      end
+
+      after(:create) do |loan, evaluator|
+        create_list(:project_step, evaluator.old_step_count, :old, :with_logs, project: loan)
       end
     end
 
