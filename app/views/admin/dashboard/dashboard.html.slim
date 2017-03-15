@@ -33,7 +33,7 @@
       = render "admin/project_logs/log_list"
 
   section.section.people
-    h2 Users
+    h2 = t("dashboard.users")
     - @people_with_projects.each do |person|
       h3 = person.name
       .recent-projects
