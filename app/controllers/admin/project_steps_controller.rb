@@ -59,18 +59,23 @@ class Admin::ProjectStepsController < Admin::AdminController
      # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
 
+    # Detect if duration was changed
+    logger.debug "DURATION CHANGED?: #{@step.scheduled_duration_days_changed?}"
+    duration_changed = @step.scheduled_duration_days_changed?
+
     valid = @step.save
 
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
     if %w(timeline_table calendar).include?(params[:context])
-      valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
+      valid ? render(json: {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}) : render_modal_content(422)
     else
       render partial: '/admin/project_steps/project_step', locals: {
         step: @step,
         mode: valid ? :show : :edit,
         days_shifted: days_shifted,
+        duration_changed: duration_changed,
         context: params[:context]
       }
     end
