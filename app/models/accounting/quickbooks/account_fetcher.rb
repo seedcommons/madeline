@@ -1,6 +1,12 @@
 module Accounting
   module Quickbooks
     class AccountFetcher
+      attr_reader :qb_connection
+
+      def initialize(qb_connection = Division.root.qb_connection)
+        @qb_connection = qb_connection
+      end
+
       def fetch
         service.all.each do |qb_object|
           find_or_create_account(qb_object: qb_object)
@@ -23,10 +29,6 @@ module Accounting
 
       def auth_details
         { access_token: qb_connection.access_token, company_id: qb_connection.realm_id }
-      end
-
-      def qb_connection
-        @qb_connection ||= Division.root.qb_connection
       end
     end
   end

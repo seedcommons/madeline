@@ -164,6 +164,13 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_transactions
+    begin
+      Accounting::Quickbooks::AccountFetcher.new.fetch
+      Accounting::Quickbooks::TransactionFetcher.new.fetch
+    rescue
+      flash.now[:error] = 'Error connecting to quickbooks'
+    end
+
     @transactions = ::Accounting::Transaction.where(project_id: @loan.id)
 
     @transactions_grid = initialize_grid(@transactions)
