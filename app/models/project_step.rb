@@ -353,9 +353,16 @@ class ProjectStep < TimelineEntry
   def handle_old_duration_days_logic
     # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
     # the original scheduled date.
+    # Set old duration days once only once an item is finalized
+    logger.debug "DURATION CHANGED?: #{scheduled_duration_days_changed?}"
+    logger.debug "OLD DURATION DAYS: #{old_duration_days}"
+    logger.debug "NEW DURATION DAYS: #{scheduled_duration_days}"
+
     return unless persisted? && scheduled_duration_days_changed? && is_finalized?
 
-    self.old_duration_days = scheduled_duration_days_was
+    unless old_duration_days > 0
+      self.old_duration_days = scheduled_duration_days_was
+    end
   end
 
   def handle_finalized_at
