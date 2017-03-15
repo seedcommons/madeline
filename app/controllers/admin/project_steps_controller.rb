@@ -67,8 +67,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
+    options = {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}
+
     if %w(timeline_table calendar).include?(params[:context])
-      valid ? render(json: {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}) : render_modal_content(422)
+      valid ? render(json: options) : render_modal_content(422)
     else
       render partial: '/admin/project_steps/project_step', locals: {
         step: @step,
