@@ -2,7 +2,8 @@
   section.timeline-table data-project-id= project.id
 
     = render "admin/timeline/top_controls", project: project
-    - if project.root_timeline_entry
+
+    - unless project.root_timeline_entry.children.empty?
       - if project.root_timeline_entry.group?
         .table-wrapper
           = render "admin/timeline/table", project: project
@@ -10,7 +11,7 @@
       - elsif project.root_timeline_entry.step?
         p This loan is not yet compatible with the timeline table.
     - else
-      p = t("project_step.no_steps")
+      .alert.alert-info = t("project_step.no_steps")
 
     #duplicate-step-modal
       .modal
