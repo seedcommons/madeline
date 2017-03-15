@@ -165,9 +165,11 @@ class Admin::LoansController < Admin::ProjectsController
 
   def prep_transactions
     begin
-      Accounting::Quickbooks::AccountFetcher.new.fetch
-      Accounting::Quickbooks::TransactionFetcher.new.fetch
-    rescue
+      ::Accounting::Quickbooks::AccountFetcher.new.fetch
+      ::Accounting::Quickbooks::TransactionFetcher.new.fetch
+    rescue Accounting::Quickbooks::FetchError => e
+      Rails.logger.error e
+      Rails.logger.error e.cause
       flash.now[:error] = 'Error connecting to quickbooks'
     end
 

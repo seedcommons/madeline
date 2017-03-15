@@ -31,8 +31,6 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :accounting_account_id
 
-  delegate :txn_date, :total, :private_note, to: :quickbooks_data
-
   def txn_date
     quickbooks_data[:txn_date]
   end
@@ -46,6 +44,6 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def quickbooks_data
-    super.with_indifferent_access
+    read_attribute(:quickbooks_data).with_indifferent_access
   end
 end
