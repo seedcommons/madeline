@@ -3,15 +3,11 @@
 
     = render "admin/timeline/top_controls", project: project
 
-    - unless project.root_timeline_entry.children.empty?
-      - if project.root_timeline_entry.group?
-        .table-wrapper
-          = render "admin/timeline/table", project: project
-      / If user has created a step through the timeline list, the timeline table is incompatible
-      - elsif project.root_timeline_entry.step?
-        p This loan is not yet compatible with the timeline table.
-    - else
+    - if project.root_timeline_entry.children.empty?
       .alert.alert-info = t("project_step.no_steps")
+    - else
+      .table-wrapper
+        = render "admin/timeline/table", project: project
 
     #duplicate-step-modal
       .modal
