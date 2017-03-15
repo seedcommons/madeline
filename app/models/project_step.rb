@@ -320,6 +320,10 @@ class ProjectStep < TimelineEntry
     0
   end
 
+  def pending_duration_change?
+    is_finalized? ? scheduled_duration_days_changed? : false
+  end
+
   def calendar_events
     CalendarEvent.build_for(self)
   end
@@ -351,15 +355,11 @@ class ProjectStep < TimelineEntry
   end
 
   def handle_old_duration_days_logic
-    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
-    # the original scheduled date.
-    # Set old duration days once only once an item is finalized
-    logger.debug "DURATION CHANGED?: #{scheduled_duration_days_changed?}"
-    logger.debug "OLD DURATION DAYS: #{old_duration_days}"
-    logger.debug "NEW DURATION DAYS: #{scheduled_duration_days}"
-
+    # Set old duration days once and only if the step is finalized (not a draft)
     return unless persisted? && scheduled_duration_days_changed? && is_finalized?
 
+    # By default, old_duration_days is set to 0.
+    # Only remember old duration if a duration has been set other than the default and then changed.
     unless old_duration_days > 0
       self.old_duration_days = scheduled_duration_days_was
     end

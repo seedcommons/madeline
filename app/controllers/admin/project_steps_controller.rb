@@ -60,8 +60,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     days_shifted = @step.pending_days_shifted
 
     # Detect if duration was changed
-    logger.debug "DURATION CHANGED?: #{@step.scheduled_duration_days_changed?}"
-    duration_changed = @step.scheduled_duration_days_changed?
+    duration_changed = @step.pending_duration_change?
 
     valid = @step.save
 
