@@ -2,7 +2,7 @@
   = error_notification(f)
   = f.hidden_field(:project_step_id)
   = f.input :step do
-    = @step.summary
+    .read-only = @step.summary
   = f.input :date
     = f.input_field :date, as: :date_picker
     - if @log.new_record? && context == :manual
