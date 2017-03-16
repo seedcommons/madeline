@@ -13,7 +13,8 @@ module Accounting
 
       def fetch
         types.each do |type|
-          service(type).all.each do |qb_object|
+          results = service(type).all || []
+          results.each do |qb_object|
             find_or_create_transaction(transaction_type: type, qb_object: qb_object)
           end
         end

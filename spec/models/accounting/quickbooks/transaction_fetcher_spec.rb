@@ -8,6 +8,12 @@ RSpec.describe Accounting::Quickbooks::TransactionFetcher, type: :model do
     allow(subject).to receive(:service).and_return(generic_service)
   end
 
+  it 'should work when a nil query result is returned' do
+    service = instance_double(Quickbooks::Service::Deposit, all: nil)
+    allow(subject).to receive(:service).with('Deposit').and_return(service)
+    expect { subject.fetch }.to_not raise_error
+  end
+
   it 'should fetch all records for Deposit' do
     service = instance_double(Quickbooks::Service::Deposit, all: [])
     allow(subject).to receive(:service).with('Deposit').and_return(service)
