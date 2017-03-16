@@ -72,6 +72,7 @@ en:
       timeline: "Timeline"
       timeline_list: "Timeline - List"
       logs: "Logs"
+      transactions: "Transactions"
       calendar: "Calendar"
     threshold_amount: "Threshold Amount"
     toc: "Table of Contents"
@@ -179,3 +180,5 @@ en:
       questions:
         edit: "Edit Responses"
         delete: "Delete All Responses"
+      transactions:
+        new_transaction: "Add Transaction"
