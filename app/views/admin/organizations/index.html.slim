@@ -5,7 +5,7 @@
 
 = render "organizations_grid_definition"
 
-- unless @empty_list
+- unless @no_records_at_all
   header.block.index-table
     .filters
       h4 = t("filter_by")

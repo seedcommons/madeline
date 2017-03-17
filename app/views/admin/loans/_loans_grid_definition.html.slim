@@ -2,7 +2,7 @@
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
     - g.blank_slate do
-      - @empty_list = true
+      - @no_records_at_all = true
       - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
 
     - g.column name: t('common.id'), attribute: 'id', filter: true, in_csv: false, detach_with_id: :id_filter do |loan|
