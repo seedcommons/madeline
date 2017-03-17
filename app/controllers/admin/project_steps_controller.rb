@@ -70,8 +70,12 @@ class Admin::ProjectStepsController < Admin::AdminController
     options = {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}
 
     if %w(timeline_table calendar).include?(params[:context])
+      # For timeline_table and calendar contexts, this action is being called
+      # from the ProjectStepModalView, which expects a hash of JSON data on success, or
+      # the re-rendered modal content on error.
       valid ? render(json: options) : render_modal_content(422)
     else
+      # Otherwise, the context is timeline list (deprecated), which always expects a rendered partial.
       render partial: '/admin/project_steps/project_step', locals: {
         step: @step,
         mode: valid ? :show : :edit,
