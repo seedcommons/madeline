@@ -4,7 +4,7 @@
     = render "admin/timeline/top_controls", project: project
 
     - if project.root_timeline_entry.children.empty?
-      .alert.alert-info = t("project_step.no_steps")
+      .no-records-msg = t("project_step.no_steps")
     - else
       .table-wrapper
         = render "admin/timeline/table", project: project
