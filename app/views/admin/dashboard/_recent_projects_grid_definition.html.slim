@@ -1,9 +1,7 @@
 = define_grid(@recent_projects_grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
-    - g.blank_slate do
-      - @no_records_at_all = true
-      - content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+    - g.blank_slate { set_no_grid_records_flag }
 
     - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
       ordering: false do |project|

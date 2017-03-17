@@ -1,7 +1,15 @@
-= content_tag(:div, class: "index-grid #{'no-records' if no_records}")
+/ Wice Grid doesn't let us specify a message if there are no matches, so we have to hack it.
+= content_tag(:div, class: "index-grid #{'no-records-match' if grid.current_page_records.length < 1}")
   = render_grid(grid)
-  - unless @no_records_at_all
+
+  / The grid spec called in the previous line will set this flag 
+  / if there are no records at all, not just no matches.
+  / In that case, we show a different 'no records' message than if there are just no matches.
+  - if @no_records_at_all
+    = content_tag(:div, t('common.no_records'), class: 'no-records-msg no-records-at-all-msg')
+  - else
+    / If there are records but no matches, we still want to allow CSV export.
     - if @enable_export_to_csv
       .text-right
         button.btn.btn-link.wg-external-csv-export-button data-grid-name="#{grid.name}" = t("export_to_csv")
-    = content_tag(:div, t('common.no_records_match'), class: 'alert alert-info no-records-match')
+    = content_tag(:div, t('common.no_records_match'), class: 'no-records-msg no-records-match-msg')
