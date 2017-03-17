@@ -19,6 +19,7 @@ en:
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
     description: "Description"
+    details: "Details"
     edit: "Edit Loan"
     end: "End %{name}"
     finalize: "Finalize"
