@@ -400,7 +400,7 @@ en:
       num_2: "second"
       num_3: "third"
       num_4: "fourth"
-      num_5: "fifth"
+      num_5: "last" # This reflects the actual behavior of the repeat function
     nth_weekday: "The %{nth} %{weekday}"
     the_day: "The %{day}"
 
