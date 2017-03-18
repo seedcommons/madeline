@@ -30,7 +30,7 @@ module Timeline
             num_of_occurrences = params[:num_of_occurrences].to_i
             end_date = nil
           else
-            end_date = params[:end_date]
+            end_date = params[:end_date].to_date
             num_of_occurrences = nil
           end
           result = duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date).compact
