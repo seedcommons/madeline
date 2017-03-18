@@ -59,18 +59,7 @@ module Timeline
     # Returns which week within a given month the scheduled date (or current date if absent) occurs.
     def basis_week
       day = basis_day.to_i
-
-      if (day < 8)
-        1
-      elsif (8 <= day) && (day < 15)
-        2
-      elsif (15 <= day) && (day < 22)
-        3
-      elsif (22 <= day) && (day < 29)
-        4
-      else
-        5
-      end
+      (day - 1).div(7) + 1
     end
 
     private
