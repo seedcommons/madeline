@@ -321,7 +321,7 @@ class ProjectStep < TimelineEntry
   end
 
   def pending_duration_change?
-    is_finalized? ? scheduled_duration_days_changed? : false
+    is_finalized? && schedule_duration_days_changed?
   end
 
   def calendar_events
