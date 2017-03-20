@@ -80,7 +80,6 @@ class Admin::ProjectStepsController < Admin::AdminController
         step: @step,
         mode: valid ? :show : :edit,
         days_shifted: days_shifted,
-        duration_changed: duration_changed,
         context: params[:context]
       }
     end
