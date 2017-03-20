@@ -59,14 +59,23 @@ class Admin::ProjectStepsController < Admin::AdminController
      # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
 
+    # Detect if duration was changed
+    duration_changed = @step.pending_duration_change?
+
     valid = @step.save
 
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
+    options = {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}
+
     if %w(timeline_table calendar).include?(params[:context])
-      valid ? render(json: {id: @step.id, days_shifted: days_shifted}) : render_modal_content(422)
+      # For timeline_table and calendar contexts, this action is being called
+      # from the ProjectStepModalView, which expects a hash of JSON data on success, or
+      # the re-rendered modal content on error.
+      valid ? render(json: options) : render_modal_content(422)
     else
+      # Otherwise, the context is timeline list (deprecated), which always expects a rendered partial.
       render partial: '/admin/project_steps/project_step', locals: {
         step: @step,
         mode: valid ? :show : :edit,
