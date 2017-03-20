@@ -1,43 +1,48 @@
 - content_for(:title, @person.name)
 
 .block
-  section.section.recent-projects
-    .projects-grid
-      = render "recent_projects_grid_definition", grid: @recent_projects_grid
+  section.section.recent-projects.projects-grid
+    = render "recent_projects_grid_definition", grid: @recent_projects_grid
 
-      .row
-        .col-md-10
-          h2 = t("dashboard.my_projects")
+    header
+      h2 = t("dashboard.my_projects")
 
-        .filter.col-md-2.text-right
-          .filter-content
-            = form_tag do
-              = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
-                class: "form-control")
+      .filter.text-right
+        .filter-content
+          = form_tag do
+            = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
+              class: "form-control")
 
+    - if @no_records_at_all
+      = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
+    - else
       = render_index_grid(@recent_projects_grid)
 
   section.section.upcoming-events.calendar
-    h2 = t("dashboard.upcoming_events")
-    div#calendar
+    header
+      h2 = t("dashboard.upcoming_events")
+    #calendar
 
     = render "admin/project_steps/modal"
 
   section.section.logs
-    .row
-      h2.col-xs-6.col-md-9 = t("dashboard.logs")
-      .col-xs-6.col-md-3.text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
+    header
+      h2 = t("dashboard.logs")
+      .text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
 
     section.log-list
       = render "admin/project_logs/log_list"
 
   section.section.people
     h2 = t("dashboard.users")
-    - @people.each do |person|
-      h3 = person.name
-      .recent-projects
-        = render "recent_projects_grid_definition", grid: @people_grids["#{person}"]
-        = render_index_grid(@people_grids["#{person}"])
+    - if @people.empty?
+      = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
+    - else
+      - @people.each do |person|
+        h3 = person.name
+        .recent-projects
+          = render "recent_projects_grid_definition", grid: @people_grids["#{person}"]
+          = render_index_grid(@people_grids["#{person}"])
 
 javascript:
   $(function(){
