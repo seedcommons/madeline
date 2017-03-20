@@ -44,7 +44,7 @@ class Admin::DashboardController < Admin::AdminController
     @all_people.each do |person|
       if person.agent_projects.length > 0
         @people << person
-        @people_grids["person_#{person.id}"] = initialize_grid(
+        @people_grids["#{person}"] = initialize_grid(
           person.agent_projects.order(created_at: :desc, updated_at: :desc),
           include: [:primary_agent, :secondary_agent],
           per_page: 5,

@@ -37,8 +37,8 @@
     - @people.each do |person|
       h3 = person.name
       .recent-projects
-        = render "recent_projects_grid_definition", grid: @people_grids["person_#{person.id}"]
-        = render_index_grid(@people_grids["person_#{person.id}"])
+        = render "recent_projects_grid_definition", grid: @people_grids["#{person}"]
+        = render_index_grid(@people_grids["#{person}"])
 
 javascript:
   $(function(){
