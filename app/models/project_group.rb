@@ -50,6 +50,14 @@ class ProjectGroup < TimelineEntry
   # otherwise children are deleted before we even get here.
   before_destroy :validate_no_children, prepend: true
 
+  def empty?
+    children.none?
+  end
+
+  def filtered_empty?
+    filtered_children.none?
+  end
+
   def summary_or_none
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
