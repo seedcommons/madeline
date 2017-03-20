@@ -8,9 +8,9 @@ class Admin::DashboardController < Admin::AdminController
     @division = current_division
 
     prep_calendar
-    prep_projects_grid
+    prep_projects_grid_for_current_user
     prep_logs
-    prep_projects_grids
+    prep_projects_grids_for_division_users
   end
 
   private
@@ -19,7 +19,7 @@ class Admin::DashboardController < Admin::AdminController
     @calendar_events_url = "/admin/calendar_events?person_id=#{@person.id}"
   end
 
-  def prep_projects_grid
+  def prep_projects_grid_for_current_user
     # Projects belonging to the current user
     # 15 most recent projects, sorted by created date, then updated date
     @recent_projects = @person.agent_projects.order(created_at: :desc, updated_at: :desc).limit(15)
@@ -36,7 +36,7 @@ class Admin::DashboardController < Admin::AdminController
   end
 
   # Prepare grids for all users inside selected division
-  def prep_projects_grids
+  def prep_projects_grids_for_division_users
     @people = @division.people.where(has_system_access: true).where.not(id: @person.id)
 
     @people_with_projects = []
