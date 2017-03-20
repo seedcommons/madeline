@@ -308,7 +308,7 @@ en:
     hide_all: "Hide All"
     name: "Name"
     no_name: "No Name"
-    no_records: "No records found."
+    no_records: "No records found"
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     note: "Note"
     notes: "Notes"
