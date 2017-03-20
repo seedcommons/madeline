@@ -41,6 +41,12 @@
     background: $white;
   }
 
+  .fc {
+    .fc-today {
+      background: none;
+    }
+  }
+
   .cal-ghost-step, .cal-step {
     min-height: 3em;
 
