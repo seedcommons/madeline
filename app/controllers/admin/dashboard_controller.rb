@@ -37,11 +37,11 @@ class Admin::DashboardController < Admin::AdminController
 
   # Prepare grids for all users inside selected division
   def prep_projects_grids_for_division_users
-    @all_people = @division.people.where(has_system_access: true).where.not(id: @person.id)
+    people = @division.people.where(has_system_access: true).where.not(id: @person.id)
 
     @people = []
     @people_grids = {}
-    @all_people.each do |person|
+    people.each do |person|
       if person.agent_projects.length > 0
         @people << person
         @people_grids["#{person}"] = initialize_grid(
