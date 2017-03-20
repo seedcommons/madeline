@@ -131,6 +131,13 @@ en:
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
+      accounting:
+        transaction:
+          qb_id: "Id"
+          qb_transaction_type: "Type"
+          txn_date: "Date"
+          total: "Total"
+          private_note: "Note"
     errors:
       models:
         project_group:
