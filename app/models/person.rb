@@ -86,7 +86,7 @@ class Person < ActiveRecord::Base
 
   scope :by_name, -> { order("LOWER(first_name), LOWER(last_name)") }
   scope :with_system_access, -> { where(has_system_access: true) }
-  scope :with_agent_projects, -> { where("EXISTS (SELECT * FROM projects WHERE primary_agent_id = users.id OR secondary_agent_id = users.id)") }
+  scope :with_agent_projects, -> { where("EXISTS (SELECT * FROM projects WHERE primary_agent_id = people.id OR secondary_agent_id = people.id)") }
 
   # Lazy evaluation getter
   def owning_division_role
