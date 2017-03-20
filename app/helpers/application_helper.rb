@@ -49,11 +49,6 @@ module ApplicationHelper
     PersonPolicy.new(current_user, record)
   end
 
-  def render_index_grid(grid)
-    no_records = grid.current_page_records.length < 1
-    render "admin/common/grid", no_records: no_records, grid: grid
-  end
-
   def render_index_grid_with_redirect_check(grid)
     if grid.all_pages_records.count == 1 && grid.filtered_by == ['id']
       # The reason this is done in the helper is that wice_grid doesn't provide any obvious way
