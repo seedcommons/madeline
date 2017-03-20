@@ -37,7 +37,7 @@ class Admin::DashboardController < Admin::AdminController
 
   # Prepare grids for all users inside selected division
   def prep_projects_grids_for_division_users
-    people = @division.people.where(has_system_access: true).where.not(id: @person.id)
+    people = @division.people.with_system_access.where.not(id: @person.id)
 
     @people = []
     @people_grids = {}
