@@ -3,7 +3,7 @@
 .block
   section.section.recent-projects
     .projects-grid
-      = render "recent_projects_grid_definition"
+      = render "recent_projects_grid_definition", grid: @recent_projects_grid
 
       .row
         .col-md-10
@@ -30,6 +30,14 @@
 
     section.log-list
       = render "admin/project_logs/log_list"
+
+  section.section.people
+    h2 = t("dashboard.users")
+    - @people.each do |person|
+      h3 = person.name
+      .recent-projects
+        = render "recent_projects_grid_definition", grid: @people_grids["#{person}"]
+        = render_index_grid(@people_grids["#{person}"])
 
 javascript:
   $(function(){
