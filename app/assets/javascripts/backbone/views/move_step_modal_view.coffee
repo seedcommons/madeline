@@ -13,8 +13,12 @@ class MS.Views.MoveStepModalView extends Backbone.View
     MS.loadingIndicator.show()
     @stepId = stepId
     @deferred = jQuery.Deferred()
+
+    # Fetch the content of the modal. We pass days_shifted and context as these are required attribs
+    # of the TimelineStepMove object.
     params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}"
     $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html, 'show')
+
     @deferred.promise()
 
   replaceContent: (html, event) ->

@@ -21,6 +21,12 @@ table.key-value {
   }
 }
 
+// Used when there are no results for an index view.
+.no-records-msg {
+  margin: 0.5em 0;
+  font-style: italic;
+}
+
 .distributed-container {
   display: flex;
   flex-flow: row wrap;

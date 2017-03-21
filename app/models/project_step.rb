@@ -59,11 +59,11 @@ class ProjectStep < TimelineEntry
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
 
-  before_save :handle_old_start_date_logic
-  before_save :handle_old_duration_days_logic
+  before_update :handle_old_start_date_logic
+  before_update :handle_old_duration_days_logic
+  before_update :handle_schedule_children
+  before_update :handle_scheduled_start_date
   before_save :handle_finalized_at
-  before_save :handle_schedule_children
-  before_save :handle_scheduled_start_date
 
   def name
     summary
@@ -293,10 +293,10 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  # Returns number of days that the step's end date is about to be shifted.
+  # Returns number of days that the step's date is about to be shifted.
   # - If step is about to be set as complete, returns difference between actual_end_date and scheduled_end_date
   # - If step is incomplete, returns number of days the scheduled_end_date has been shifted.
-  # - If step was already complete, returns number of days actual_end_date has been shifted.
+  # - If step is incomplete, returns number of days the scheduled_start_date has been shifted.
   # Assumes that record has pending changes assigned, but not yet saved.
   def pending_days_shifted
     return 0 unless is_finalized?
@@ -318,6 +318,10 @@ class ProjectStep < TimelineEntry
     end
 
     0
+  end
+
+  def pending_duration_change?
+    is_finalized? && scheduled_duration_days_changed?
   end
 
   def calendar_events
@@ -351,11 +355,14 @@ class ProjectStep < TimelineEntry
   end
 
   def handle_old_duration_days_logic
-    # Note, "is_finalized" means a step is no longer a draft, and future changes should remember
-    # the original scheduled date.
+    # Set old duration days once and only if the step is finalized (not a draft)
     return unless persisted? && scheduled_duration_days_changed? && is_finalized?
 
-    self.old_duration_days = scheduled_duration_days_was
+    # By default, old_duration_days is set to 0.
+    # Only remember old duration if a duration has been set other than the default and then changed.
+    unless old_duration_days > 0
+      self.old_duration_days = scheduled_duration_days_was
+    end
   end
 
   def handle_finalized_at

@@ -1,5 +1,5 @@
 - if @logs.blank? && @context != "calendar"
-  = content_tag(:div, t('common.no_records'), class: 'alert alert-info')
+  = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
   .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
     - if @context == "calendar"
