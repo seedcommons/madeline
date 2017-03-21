@@ -46,7 +46,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
       @close()
       json = data.responseJSON || {}
-      if json.days_shifted
+      # If the step date or duration changed as a result of the update,
+      # we need to show the step move modal, which prompts for a new log.
+      if json.days_shifted || json.duration_changed
         @showMoveStepModal(json.id, json.days_shifted)
       else
         @runAndResetDoneCallback()

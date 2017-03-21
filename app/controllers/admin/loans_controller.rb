@@ -47,10 +47,12 @@ class Admin::LoansController < Admin::ProjectsController
       @steps = @loan.project_steps
     when 'logs'
       prep_logs(@loan)
+    when 'transactions'
+      prep_transactions
     when 'calendar'
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
-    @tabs = %w(details questions timeline timeline_list logs calendar)
+    @tabs = %w(details questions timeline timeline_list logs transactions calendar)
 
     render partial: 'admin/loans/details' if request.xhr?
   end
@@ -126,7 +128,7 @@ class Admin::LoansController < Admin::ProjectsController
   def prep_form_vars
     @division_choices = division_choices
     @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
-    @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
+    @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
   end
@@ -159,5 +161,20 @@ class Admin::LoansController < Admin::ProjectsController
     @questions_json = @roots.children_applicable_to(@loan).map do |i|
       LoanQuestionSerializer.new(i, loan: @loan)
     end.to_json
+  end
+
+  def prep_transactions
+    begin
+      ::Accounting::Quickbooks::AccountFetcher.new.fetch
+      ::Accounting::Quickbooks::TransactionFetcher.new.fetch
+    rescue Accounting::Quickbooks::FetchError => e
+      Rails.logger.error e
+      Rails.logger.error e.cause
+      flash.now[:error] = 'Error connecting to quickbooks'
+    end
+
+    @transactions = ::Accounting::Transaction.where(project_id: @loan.id)
+
+    @transactions_grid = initialize_grid(@transactions)
   end
 end

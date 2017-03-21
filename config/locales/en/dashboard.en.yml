@@ -4,6 +4,7 @@ en:
     my_projects: "My Projects"
     show_all_logs: "Manage Logs"
     upcoming_events: "Upcoming Steps"
+    users: "Users"
     status_options:
       active: "Active"
       all: "All"

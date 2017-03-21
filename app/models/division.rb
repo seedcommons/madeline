@@ -104,7 +104,7 @@ class Division < ActiveRecord::Base
   end
 
   def users
-    people.where(has_system_access: true)
+    people.with_system_access
   end
 
   def locales

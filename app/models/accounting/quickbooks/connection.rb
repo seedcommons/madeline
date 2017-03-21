@@ -38,6 +38,10 @@ module Accounting
         @quickbooks_data = root.quickbooks_data
       end
 
+      def auth_details
+        {access_token: access_token, company_id: realm_id}
+      end
+
       def access_token
         Consumer.new.access_token(token: token, secret: secret)
       end
