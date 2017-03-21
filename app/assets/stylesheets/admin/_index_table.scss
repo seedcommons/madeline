@@ -46,17 +46,19 @@
 
 
 .index-grid {
-  .no-records-match {
+  .no-records-match-msg {
     display: none;
   }
 
-  &.no-records {
+  &.no-records-match {
+    // Don't show empty grid if no matches.
     .wice-grid-container {
       visibility: hidden;
       height: 0;
     }
 
-    .no-records-match {
+    // Show the 'no match' message instead.
+    .no-records-match-msg {
       display: block;
     }
 

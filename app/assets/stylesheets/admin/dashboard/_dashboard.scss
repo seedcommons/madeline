@@ -4,10 +4,18 @@
   .content {
     h1, h2 {
       margin: 0;
+      padding-bottom: .75em;
     }
 
     .section {
       padding: 1em;
+
+      header {
+        display: flex;
+        margin-bottom: .25em;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
 
       h2 {
         font-size: 1.5em;
@@ -19,20 +27,20 @@
     }
 
     #calendar {
-      margin-top: .25em;
-
       .fc-toolbar {
         display: none;
       }
     }
 
+    .log-list {
+      .show-actions {
+        margin: 0;
+      }
+    }
+
     .logs-index.post-list {
       .post {
-        padding: .25em .5em;
-
-        header {
-          margin-bottom: 0;
-        }
+        padding: 10px;
       }
     }
 
@@ -40,7 +48,6 @@
       #completion_status {
         display: inline-block;
         width: auto;
-        margin-bottom: .25em;
       }
 
       table {
