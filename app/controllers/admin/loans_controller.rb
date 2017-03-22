@@ -162,19 +162,4 @@ class Admin::LoansController < Admin::ProjectsController
       LoanQuestionSerializer.new(i, loan: @loan)
     end.to_json
   end
-
-  def prep_transactions
-    begin
-      ::Accounting::Quickbooks::AccountFetcher.new.fetch
-      ::Accounting::Quickbooks::TransactionFetcher.new.fetch
-    rescue Accounting::Quickbooks::FetchError => e
-      Rails.logger.error e
-      Rails.logger.error e.cause
-      flash.now[:error] = 'Error connecting to quickbooks'
-    end
-
-    @transactions = ::Accounting::Transaction.where(project_id: @loan.id)
-
-    @transactions_grid = initialize_grid(@transactions)
-  end
 end
