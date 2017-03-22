@@ -3,3 +3,4 @@ section.transactions
     a.btn.btn-primary data-action="new-transaction" href="#" = t(".new_transaction")
 
   = render "transactions_grid_definition"
+  = render_index_grid_with_redirect_check(@transactions_grid)
