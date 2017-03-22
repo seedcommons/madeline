@@ -1,7 +1,7 @@
 module TransactionListable
   extend ActiveSupport::Concern
 
-  def initialize_transactions_grid(project_id: nil)
+  def initialize_transactions_grid(project_id=nil)
     begin
       ::Accounting::Quickbooks::AccountFetcher.new.fetch
       ::Accounting::Quickbooks::TransactionFetcher.new.fetch

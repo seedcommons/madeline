@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TranslationSaveable
+  include TransactionListable, TranslationSaveable
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -48,7 +48,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'logs'
       prep_logs(@loan)
     when 'transactions'
-      prep_transactions
+      initialize_transactions_grid(@loan.id)
     when 'calendar'
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
