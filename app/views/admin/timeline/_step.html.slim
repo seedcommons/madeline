@@ -32,7 +32,7 @@
   - if entry.is_finalized
     td class=classes style="background: #{entry.timeline_background_color};"
       - if entry.completed?
-        = "Completed"
+        = entry.try(:admin_completed_status)
       - else
         = entry.try(:admin_status)
   - else

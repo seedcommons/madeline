@@ -182,6 +182,16 @@ class ProjectStep < TimelineEntry
     end
   end
 
+  def admin_completed_status
+    days = days_late
+
+    if days && days > 0
+      I18n.t('project_step.status.completed_late', days: days)
+    else
+      I18n.t('project_step.status.completed')
+    end
+  end
+
   def status
     if completed?
       I18n.t :log_completed
