@@ -31,7 +31,10 @@
 
   - if entry.is_finalized
     td class=classes style="background: #{entry.timeline_background_color};"
-      = entry.try(:admin_status)
+      - if entry.completed?
+        = "Completed"
+      - else
+        = entry.try(:admin_status)
   - else
     td class=classes
       = t("project_step.timeline_table.draft")
