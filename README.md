@@ -93,7 +93,7 @@ On server:
 
 ### Quickbooks configuration
 
-In order to test any of the quickbook features, you will need to create Intuit Developer account and sandbox.
+In order to test any of the Quickbooks features, you will need to create Intuit Developer account and sandbox.
 
 1. Visit https://developer.intuit.com
 2. Click "Sign In"
@@ -103,5 +103,9 @@ In order to test any of the quickbook features, you will need to create Intuit D
 6. Select "Accounting" and click "Create app"
 7. Click on "Keys"
 8. Copy the OAuth Key and Secret into your .env file. Use `.env.example` as a template.
+9. While logged into the application (Madeline site), visit Manage > Settings.
+10. Click on the button that says "Connect to Quickbooks."
+11. Sign in to the Quickbooks account for your developer account.
+12. Click authorize to connect your account data to Madeline.
 
 Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-version-3-api-part-1.html if any steps are missing..
