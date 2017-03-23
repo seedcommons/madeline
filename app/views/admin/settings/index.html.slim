@@ -29,8 +29,6 @@ section.block
 
 section.block
   h2 QuickBooks Accounts
-  - Accounting::Account.all.inspect
-  - accounts = Accounting::Transaction.where(qb_transaction_type: 'Account').map{|account| [account.quickbooks_data[:name], account.quickbooks_data[:id]] }
 
   = simple_form_for([:admin, @division],
       html: { \
@@ -44,6 +42,6 @@ section.block
 
     = error_notification(f)
     = f.simple_fields_for :account_settings do |accounts_form|
-      = accounts_form.input :loans_receiveable, collection: accounts
-      = accounts_form.input :interest_income, collection: accounts
-      = accounts_form.input :income_receiveable, collection: accounts
+      = accounts_form.input :loans_receiveable, collection: @accounts
+      = accounts_form.input :interest_income, collection: @accounts
+      = accounts_form.input :income_receiveable, collection: @accounts
