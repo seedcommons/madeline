@@ -7,7 +7,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     @transactions = Accounting::Transaction.all
   rescue
-    flash.now[:error] = 'Error connecting to quickbooks'
+    flash.now[:error] = "Error connecting to QuickBooks. Visit
+      #{view_context.link_to('Settings', admin_settings_path)}.".html_safe
     @transactions = []
   end
 end

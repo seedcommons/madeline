@@ -170,7 +170,8 @@ class Admin::LoansController < Admin::ProjectsController
     rescue Accounting::Quickbooks::FetchError => e
       Rails.logger.error e
       Rails.logger.error e.cause
-      flash.now[:error] = 'Error connecting to quickbooks'
+      flash.now[:error] = "Error connecting to QuickBooks. Visit
+        #{view_context.link_to('Settings', admin_settings_path)}.".html_safe
     end
 
     @transactions = ::Accounting::Transaction.where(project_id: @loan.id)
