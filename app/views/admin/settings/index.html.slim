@@ -6,9 +6,10 @@ javascript:
   intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_accounting_quickbooks_url}'});
 
 section.block
+  h2 QuickBooks Connection
   .form-horizontal
     .form-group
-      label.col-sm-2 Quickbooks Status:
+      label.col-sm-2 QuickBooks Status:
       - if Division.root && Division.root.quickbooks_connected?
         .col-sm-10 Connected
       - else
@@ -16,12 +17,33 @@ section.block
 
     - if Division.root && Division.root.quickbooks_connected?
       .form-group
-        label.col-sm-2 Disconnect from Quickbooks:
+        label.col-sm-2 Disconnect from QuickBooks:
         .col-sm-10 
           a href="#{disconnect_admin_accounting_quickbooks_path}" Disconnect
     - else
       .form-group
-        label.col-sm-2 Connect to Quickbooks:
+        label.col-sm-2 Connect to QuickBooks:
         .col-sm-10
           / this will display a button that the user clicks to start the flow
           ipp:connectToIntuit
+
+section.block
+  h2 QuickBooks Accounts
+  - Accounting::Account.all.inspect
+  - accounts = Accounting::Transaction.where(qb_transaction_type: 'Account').map{|account| [account.quickbooks_data[:name], account.quickbooks_data[:id]] }
+
+  = simple_form_for([:admin, @division],
+      html: { \
+        class: 'form-horizontal division-record',
+      },
+      wrapper: :horizontal_form_condensed,
+      defaults: { \
+        input_html: {class: 'form-element form-control'},
+      },
+    ) do |f|
+
+    = error_notification(f)
+    = f.simple_fields_for :account_settings do |accounts_form|
+      = accounts_form.input :loans_receiveable, collection: accounts
+      = accounts_form.input :interest_income, collection: accounts
+      = accounts_form.input :income_receiveable, collection: accounts
