@@ -34,4 +34,11 @@ RSpec.describe Accounting::Quickbooks::TransactionFetcher, type: :model do
     expect(service).to receive(:all)
     subject.fetch
   end
+
+  it 'should create Accounting::Transaction record' do
+    service = instance_double(Quickbooks::Service::Purchase, all: [instance_double(Quickbooks::Model::Purchase, id: 99)])
+    allow(subject).to receive(:service).with('Purchase').and_return(service)
+
+    expect{subject.fetch}.to change{Accounting::Transaction.all.count}.by(1)
+  end
 end
