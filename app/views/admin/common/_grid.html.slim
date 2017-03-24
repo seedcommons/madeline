@@ -2,6 +2,9 @@
 = content_tag(:div, class: "index-grid #{'no-records-match' if grid.current_page_records.length < 1}")
   = render_grid(grid)
 
+  .text-right
+    button.btn.btn-link.wg-external-csv-export-button data-grid-name="#{grid.name}" = t("export_to_csv")
+
   / The grid spec called in the previous line will set this flag 
   / if there are no records at all, not just no matches.
   / In that case, we show a different 'no records' message than if there are just no matches.
