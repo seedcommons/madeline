@@ -22,11 +22,7 @@ module TransactionListable
       name: 'transactions'
     )
 
-    @csv_mode = true
-
-    export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition') do
-      # This block only executes if CSV is not being returned
-      @csv_mode = false
-    end
+    @enable_export_to_csv = true
+    export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 end
