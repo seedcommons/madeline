@@ -1,5 +1,5 @@
 = define_grid(@transactions_grid, hide_csv_button: true,
-    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
   - g.column name: t('activerecord.attributes.accounting.transaction.qb_id'), attribute: 'qb_id',
     filter: false
