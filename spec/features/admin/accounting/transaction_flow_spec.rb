@@ -9,7 +9,7 @@ feature 'transaction flow' do
     allow(Accounting::Quickbooks::FetcherBase).to receive(:new).and_return(double(fetch: nil))
   end
 
-  scenario 'loads properly', js: true do
+  scenario 'loads properly' do
     visit "/admin/accounting/transactions"
     expect(page).to have_content(transactions[0].qb_transaction_type)
   end
