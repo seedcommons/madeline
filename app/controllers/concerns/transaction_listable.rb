@@ -17,12 +17,13 @@ module TransactionListable
       @transactions = ::Accounting::Transaction.all
     end
 
+    @enable_export_to_csv = true
+
     @transactions_grid = initialize_grid(@transactions,
-      enable_export_to_csv: true,
+      enable_export_to_csv: @enable_export_to_csv,
       name: 'transactions'
     )
 
-    @enable_export_to_csv = true
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 end
