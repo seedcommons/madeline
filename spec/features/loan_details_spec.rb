@@ -15,7 +15,7 @@ feature 'loan details' do
 
   context 'with past loans from same cooperative' do
     before do
-      cooperative = loan.cooperative
+      cooperative = loan.organization
       @past_loans = create_list(:loan, 3, cooperative: cooperative)
       visit loan_path(loan)
     end

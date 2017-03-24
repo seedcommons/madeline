@@ -180,7 +180,7 @@ describe Loan, :type => :model do
       describe 'sorting' do
         let!(:loan) { create(:loan, :with_one_project_step) }
         let!(:loan_pics) { create_list(:media, 2, context_table: 'Loans', context_id: loan.id).sort_by(&:media_path) }
-        let!(:coop_pics) { create_list(:media, 2, context_table: 'Cooperatives', context_id: loan.cooperative.id).sort_by(&:media_path) }
+        let!(:coop_pics) { create_list(:media, 2, context_table: 'Cooperatives', context_id: loan.organization.id).sort_by(&:media_path) }
         let!(:log_pics) do
           log_pics = []
           loan.logs.each do |log|

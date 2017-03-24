@@ -13,8 +13,8 @@
   - else
     #gallery-links
       - unless @coop_media.empty?
-        h2.section_title = t :images_of, name: @loan.cooperative.verbose_name
-        / = render @coop_media, locals: {alt: @loan.cooperative.name}
+        h2.section_title = t :images_of, name: @loan.organization.verbose_name
+        / = render @coop_media, locals: {alt: @loan.organization.name}
         = render partial: "media/gallery", locals: {media: @coop_media}
 
       - unless @loan_media.empty?

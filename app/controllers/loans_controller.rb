@@ -5,8 +5,8 @@ class LoansController < ApplicationController
   def index
     params[:division] = get_division_from_url
     @loans = Loan.filter_by_params(params).visible.
-      includes(:cooperative, division: :super_division).
-      paginate(:page => params[:pg], :per_page => 20).
+      includes(:organization, division: :parent).
+      page(params[:pg]).per(20).
       order('signing_date DESC')
     @countries = Country.order(:iso_code).pluck(:iso_code)
 
@@ -24,7 +24,7 @@ class LoansController < ApplicationController
   def show
     @loan = Loan.status('all').find(params[:id])
     @pictures = @loan.featured_pictures(5) # for slideshow
-    @other_loans = @loan.cooperative.loans.status('all').order("SigningDate DESC") if @loan.cooperative
+    @other_loans = @loan.organization.loans.status('all').order("SigningDate DESC") if @loan.organization
     @repayments = @loan.repayments.order('DateDue')
 
     respond_to do |format|
