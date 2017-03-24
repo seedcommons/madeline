@@ -15,7 +15,7 @@ module Accounting
         types.each do |type|
           results = service(type).all || []
           results.each do |qb_object|
-            find_or_create_transaction(transaction_type: type, qb_object: qb_object)
+            find_or_create(transaction_type: type, qb_object: qb_object)
           end
         end
       rescue StandardError
@@ -24,9 +24,8 @@ module Accounting
 
       private
 
-      def find_or_create_transaction(transaction_type:, qb_object:)
-        acc_transaction = Accounting::Transaction.find_or_create_by qb_transaction_type: transaction_type, qb_id: qb_object.id
-        acc_transaction.update_attributes!(quickbooks_data: qb_object.as_json)
+      def find_or_create(transaction_type:, qb_object:)
+        raise NotImplementedError
       end
 
       def populate(qb_objects)
