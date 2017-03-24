@@ -2,13 +2,5 @@ section.transactions
   .show-actions.hidden-print
     a.btn.btn-primary data-action="new-transaction" href="#" = t(".new_transaction")
 
-  = grid(@transactions_grid) do |g|
-    - g.column name: t('activerecord.attributes.accounting.transaction.qb_id') , attribute: 'qb_id'
-    - g.column name: t('activerecord.attributes.accounting.transaction.qb_transaction_type') do |transaction|
-      - transaction.qb_transaction_type
-    - g.column name: t('activerecord.attributes.accounting.transaction.txn_date') do |transaction|
-      - transaction.txn_date
-    - g.column name: t('activerecord.attributes.accounting.transaction.total') do |transaction|
-      - transaction.total
-    - g.column name: t('activerecord.attributes.accounting.transaction.private_note') do |transaction|
-      - transaction.private_note
+  = render "admin/transactions/transactions_grid_definition"
+  = render_index_grid_with_redirect_check(@transactions_grid)
