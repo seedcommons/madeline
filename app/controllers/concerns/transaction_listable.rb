@@ -10,7 +10,7 @@ module TransactionListable
       flash.now[:error] = t('quickbooks.service_unavailable')
     rescue Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      flash.now[:error] = t('quickbooks.authorization_failure')
+      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
     rescue Quickbooks::InvalidModelException,
       Quickbooks::Forbidden,
       Quickbooks::ThrottleExceeded,

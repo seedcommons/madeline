@@ -283,7 +283,7 @@ en:
   optional: "Optional"
   print: "Print"
   quickbooks:
-    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to Settings to connect."
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
     service_unavailable: "The system is temporarily unavailable. Please try again later."
     misc: "There was an error connecting you to Quickbooks. An administrator has been notified. Some data may be out of date."
   reply_no: "No"
@@ -398,6 +398,7 @@ en:
     log: "Log"
     loans: "Loans"
     logs: "Logs"
+    settings: "Settings"
   number:
     nth:
       num_1: "first"
