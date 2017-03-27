@@ -1,0 +1,11 @@
+es:
+  dashboard:
+    logs: "Apuntes"
+    my_projects: "Mis Proyectos"
+    show_all_logs: "Administrar Apuntes"
+    upcoming_events: "Pasos Siguientes"
+    users: "Usuarios"
+    status_options:
+      active: "Activo"
+      all: "Todos"
+      completed: "Completo"
