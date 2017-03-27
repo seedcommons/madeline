@@ -55,6 +55,7 @@ class Loan < Project
   belongs_to :representative, class_name: 'Person'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"
   has_one :post_analysis, -> { where("loan_response_sets.kind" => 'post_analysis') }, class_name: "LoanResponseSet"
+  has_one :loan_health_check, foreign_key: :project_id
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
@@ -190,48 +191,4 @@ class Loan < Project
     ensure_currency.format_amount(amount)
   end
 
-  def signed_contract?
-    media.where(kind_value: 'contract').count > 0
-  end
-
-  def active?
-    status_value == 'active'
-  end
-
-  def incomplete_steps?
-    timeline_entries.merge(ProjectStep.past_due).count > 0
-  end
-
-  def sporadic_loan_updates?
-    timeline_entries.merge(ProjectStep.recent).count < [days_old, 30].min
-  end
-
-  def progress_pct
-    return 0 unless criteria
-    criteria.progress_pct
-  end
-
-  def health_warnings
-    warnings = []
-    warnings << :active_without_signed_contract if active? && !signed_contract?
-    warnings << :active_without_recent_logs if active? && most_recent_log_date < 30.days.ago
-    warnings << :past_due_steps if incomplete_steps?
-    warnings << :incomplete_loan_questions if progress_pct < 80
-    warnings << :sporadic_loan_updates if sporadic_loan_updates?
-    warnings
-  end
-
-  def healthy?
-    health_warnings.count < 1
-  end
-
-  def days_old
-    (end_date.beginning_of_day - signing_date.beginning_of_day) / (24 * 60 * 60)
-  end
-
-  private
-
-  def most_recent_log_date
-    project_logs.maximum(:date) || Time.at(0)
-  end
 end
