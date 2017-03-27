@@ -1,17 +1,4 @@
 - content_for(:title, 'Transactions')
 
-table.table
-  tr
-    th Id
-    th Date
-    th Type
-    th Total
-    th Note
-  tbody
-    - @transactions.each do |transaction|
-      tr
-        td = transaction.qb_transaction_id
-        td = transaction.txn_date
-        td = transaction.qb_transaction_type
-        td = transaction.total
-        td = transaction.private_note
+= render "admin/transactions/transactions_grid_definition"
+= render_index_grid(@transactions_grid)

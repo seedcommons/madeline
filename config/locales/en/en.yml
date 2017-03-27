@@ -131,6 +131,13 @@ en:
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
         step_type_value: "Type"
+      accounting:
+        transaction:
+          qb_id: "Id"
+          qb_transaction_type: "Type"
+          txn_date: "Date"
+          total: "Total"
+          private_note: "Note"
     errors:
       models:
         project_group:
@@ -301,7 +308,7 @@ en:
     hide_all: "Hide All"
     name: "Name"
     no_name: "No Name"
-    no_records: "No records found."
+    no_records: "No records found"
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     note: "Note"
     notes: "Notes"
@@ -393,7 +400,7 @@ en:
       num_2: "second"
       num_3: "third"
       num_4: "fourth"
-      num_5: "fifth"
+      num_5: "last" # This reflects the actual behavior of the repeat function
     nth_weekday: "The %{nth} %{weekday}"
     the_day: "The %{day}"
 
@@ -439,7 +446,8 @@ en:
     months: "Month(s)"
     move: "Move Step"
     no_status: "[No status]"
-    no_steps: "No timeline steps to display."
+    no_steps: "This timeline has no steps yet."
+    no_steps_match: "No timeline steps match the filters above."
     occurrences: "occurrence(s)"
     once: "Once"
     on_label: "On:"

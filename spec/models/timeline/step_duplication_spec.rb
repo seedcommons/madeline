@@ -19,7 +19,7 @@ shared_examples_for 'a duplicated step' do |params|
     expect(subject.step_type_value).to eq original.step_type_value
   end
 
-  it 'has original scheduled_start_date' do
+  it 'has correct scheduled_start_date' do
     expect(subject.scheduled_start_date).to eq original.scheduled_start_date + date_offset
   end
 
@@ -199,7 +199,7 @@ RSpec.describe Timeline::StepDuplication, type: :model do
       it_behaves_like 'duplicated twice monthly'
     end
 
-    context 'when duplicated monthly into future' do
+    context 'when duplicated monthly' do
       let(:original) { create(:project_step, scheduled_start_date: Date.civil(2016, 3, 10)) }
       let(:end_occurrence_type) { 'date' }
       let(:duplicate) do
@@ -210,7 +210,7 @@ RSpec.describe Timeline::StepDuplication, type: :model do
       it_behaves_like 'duplicated twice monthly'
     end
 
-    context "when duplicated monthly with month_repeat_on that sometimes doesn't exist" do
+    context "with weekday month_repeat_on that sometimes doesn't exist" do
       let(:original) { create(:project_step, scheduled_start_date: Date.civil(2016, 11, 30)) }
       let(:duplicate) do
         duplication = Timeline::StepDuplication.new(original)
@@ -218,6 +218,16 @@ RSpec.describe Timeline::StepDuplication, type: :model do
       end
 
       it_behaves_like 'duplicated twice monthly', [28.days, 56.days]
+    end
+    
+    context "with day-of-month month_repeat_on that sometimes doesn't exist" do
+      let(:original) { create(:project_step, scheduled_start_date: Date.civil(2017, 1, 30)) }
+      let(:duplicate) do
+        duplication = Timeline::StepDuplication.new(original)
+        duplication.perform(default_params.merge(month_repeat_on: '30th day'))
+      end
+
+      it_behaves_like 'duplicated twice monthly', [29.days, 59.days]
     end
   end
 end

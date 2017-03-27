@@ -19,6 +19,7 @@ en:
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
     description: "Description"
+    details: "Details"
     edit: "Edit Loan"
     end: "End %{name}"
     finalize: "Finalize"
@@ -72,6 +73,7 @@ en:
       timeline: "Timeline"
       timeline_list: "Timeline - List"
       logs: "Logs"
+      transactions: "Transactions"
       calendar: "Calendar"
     threshold_amount: "Threshold Amount"
     toc: "Table of Contents"
@@ -179,3 +181,5 @@ en:
       questions:
         edit: "Edit Responses"
         delete: "Delete All Responses"
+      transactions:
+        new_transaction: "Add Transaction"

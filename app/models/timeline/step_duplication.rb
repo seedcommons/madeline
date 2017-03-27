@@ -30,7 +30,7 @@ module Timeline
             num_of_occurrences = params[:num_of_occurrences].to_i
             end_date = nil
           else
-            end_date = params[:end_date]
+            end_date = params[:end_date].to_date
             num_of_occurrences = nil
           end
           result = duplicate_series(frequency, time_unit, month_repeat_on, num_of_occurrences, end_date).compact
@@ -59,18 +59,7 @@ module Timeline
     # Returns which week within a given month the scheduled date (or current date if absent) occurs.
     def basis_week
       day = basis_day.to_i
-
-      if (day < 8)
-        1
-      elsif (8 <= day) && (day < 15)
-        2
-      elsif (15 <= day) && (day < 22)
-        3
-      elsif (22 <= day) && (day < 29)
-        4
-      else
-        5
-      end
+      (day - 1).div(7) + 1
     end
 
     private
@@ -99,9 +88,16 @@ module Timeline
         reference_date = date.beginning_of_month + interval - 1.month
         first_try = Chronic.parse("#{month_repeat_on} of next month", now: reference_date)
 
-        # Sometimes 5th weekday of month doesn't exist
-        if first_try.nil? && month_repeat_on =~ /\A5th/
-          Chronic.parse("#{month_repeat_on.sub('5th', '4th')} of next month", now: reference_date)
+        if first_try.nil?
+          # Sometimes 5th weekday of month doesn't exist
+          if month_repeat_on =~ /\A5th/
+            Chronic.parse("#{month_repeat_on.sub('5th', '4th')} of next month", now: reference_date)
+          # Error if day to repeat doesn't exist in some months
+          elsif month_repeat_on.to_i > 28
+            (date + interval).end_of_month
+          else
+            raise "Error parsing date string for monthly repeat"
+          end
         else
           first_try
         end

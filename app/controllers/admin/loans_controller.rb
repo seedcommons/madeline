@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TranslationSaveable
+  include TransactionListable, TranslationSaveable
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -47,10 +47,12 @@ class Admin::LoansController < Admin::ProjectsController
       @steps = @loan.project_steps
     when 'logs'
       prep_logs(@loan)
+    when 'transactions'
+      initialize_transactions_grid(@loan.id)
     when 'calendar'
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
-    @tabs = %w(details questions timeline timeline_list logs calendar)
+    @tabs = %w(details questions timeline timeline_list logs transactions calendar)
 
     render partial: 'admin/loans/details' if request.xhr?
   end
@@ -126,7 +128,7 @@ class Admin::LoansController < Admin::ProjectsController
   def prep_form_vars
     @division_choices = division_choices
     @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
-    @agent_choices = person_policy_scope(Person.in_division(selected_division).where(has_system_access: true)).order(:name)
+    @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
   end
