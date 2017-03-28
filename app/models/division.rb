@@ -134,7 +134,4 @@ class Division < ActiveRecord::Base
   def qb_connection
     @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.quickbooks_data
   end
-
-  def account_settings
-  end
 end
