@@ -36,14 +36,13 @@ section.block
       html: { \
         class: 'form-horizontal division-record',
       },
-      wrapper: :horizontal_form_condensed,
-      defaults: { \
-        input_html: {class: 'form-element form-control'},
-      },
+      wrapper: :horizontal_form_expanded,
     ) do |f|
 
     = error_notification(f)
     = f.input :principal_account_id, collection: @accounts
     = f.input :interest_receivable_account_id, collection: @accounts
     = f.input :interest_income_account_id, collection: @accounts
-    = f.submit "Save", class: "btn"
+
+    .text-right
+      = f.submit "Save", class: "btn btn-primary"
