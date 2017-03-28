@@ -1,0 +1,12 @@
+en:
+  settings:
+    settings: Settings
+  quickbooks:
+    connection:
+      connect_to_qb: Connect to QuickBooks
+      connected: Connected
+      connection: QuickBooks Connection
+      disconnect: Disconnect
+      disconnect_from_qb: Disconnect from QuickBooks
+      not_connected: Not Connected
+      status: QuickBooks Status

@@ -1,4 +1,4 @@
-- content_for(:title, 'Settings')
+- content_for(:title, t("settings.settings"))
 
 script type="text/javascript" src="https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere-1.3.3.js"
 
@@ -6,24 +6,24 @@ javascript:
   intuit.ipp.anywhere.setup({menuProxy: '/path/to/blue-dot', grantUrl: '#{authenticate_admin_accounting_quickbooks_url}'});
 
 section.block
-  h2 QuickBooks Connection
+  h2 = t("quickbooks.connection.connection")
   .form-horizontal
     .form-group
-      label.col-sm-2 QuickBooks Status:
+      label.col-sm-4.text-right = t("quickbooks.connection.status")
       - if Division.root && Division.root.quickbooks_connected?
-        .col-sm-10 Connected
+        .col-sm-6 = t("quickbooks.connection.connected")
       - else
-        .col-sm-10 Not Connected
+        .col-sm-6 = t("quickbooks.connection.not_connected")
 
     - if Division.root && Division.root.quickbooks_connected?
       .form-group
-        label.col-sm-2 Disconnect from QuickBooks:
-        .col-sm-10 
-          a href="#{disconnect_admin_accounting_quickbooks_path}" Disconnect
+        label.col-sm-4.text-right = t("quickbooks.connection.disconnect_from_qb")
+        .col-sm-6
+          a href="#{disconnect_admin_accounting_quickbooks_path}" = t("quickbooks.connection.disconnect")
     - else
       .form-group
-        label.col-sm-2 Connect to QuickBooks:
-        .col-sm-10
+        label.col-sm-4.text-right = t("quickbooks.connection.connect_to_qb")
+        .col-sm-6
           / this will display a button that the user clicks to start the flow
           ipp:connectToIntuit
 
