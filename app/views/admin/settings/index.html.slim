@@ -43,7 +43,7 @@ section.block
     ) do |f|
 
     = error_notification(f)
-    = f.simple_fields_for :account_settings do |accounts_form|
-      = accounts_form.input :loans_receiveable, collection: @accounts
-      = accounts_form.input :interest_income, collection: @accounts
-      = accounts_form.input :income_receiveable, collection: @accounts
+    = f.input :principal_account_id, collection: @accounts
+    = f.input :interest_receivable_account_id, collection: @accounts
+    = f.input :interest_income_account_id, collection: @accounts
+    = f.submit "Save", class: "btn"
