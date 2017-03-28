@@ -7,6 +7,7 @@ javascript:
 
 section.block
   h2 = t("quickbooks.connection.connection")
+
   .form-horizontal
     .form-group
       label.col-sm-4.text-right = t("quickbooks.connection.status")
@@ -29,13 +30,12 @@ section.block
 
 section.block
   h2 = t("quickbooks.accounts.accounts")
+  p.note = t("quickbooks.accounts.note")
 
   = simple_form_for([:admin, @division],
       url: admin_settings_path,
       method: 'patch',
-      html: { \
-        class: 'form-horizontal division-record',
-      },
+      html: {class: 'form-horizontal'},
       wrapper: :horizontal_form_expanded,
     ) do |f|
 
