@@ -1,12 +1,15 @@
 en:
   settings:
-    settings: Settings
+    settings: "Settings"
   quickbooks:
+    accounts:
+      accounts: "QuickBooks Accounts"
+      save: "Save"
     connection:
-      connect_to_qb: Connect to QuickBooks
-      connected: Connected
-      connection: QuickBooks Connection
-      disconnect: Disconnect
-      disconnect_from_qb: Disconnect from QuickBooks
-      not_connected: Not Connected
-      status: QuickBooks Status
+      connect_to_qb: "Connect to QuickBooks"
+      connected: "Connected"
+      connection: "QuickBooks Connection"
+      disconnect: "Disconnect"
+      disconnect_from_qb: "Disconnect from QuickBooks"
+      not_connected: "Not Connected"
+      status: "QuickBooks Status"

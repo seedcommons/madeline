@@ -28,7 +28,7 @@ section.block
           ipp:connectToIntuit
 
 section.block
-  h2 QuickBooks Accounts
+  h2 = t("quickbooks.accounts.accounts")
 
   = simple_form_for([:admin, @division],
       url: admin_settings_path,
@@ -45,4 +45,4 @@ section.block
     = f.input :interest_income_account_id, collection: @accounts
 
     .text-right
-      = f.submit "Save", class: "btn btn-primary"
+      = f.submit t(:save), class: "btn btn-primary"
