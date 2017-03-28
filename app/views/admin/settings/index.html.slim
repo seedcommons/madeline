@@ -31,6 +31,8 @@ section.block
   h2 QuickBooks Accounts
 
   = simple_form_for([:admin, @division],
+      url: admin_settings_path,
+      method: 'patch',
       html: { \
         class: 'form-horizontal division-record',
       },
