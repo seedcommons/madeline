@@ -62,6 +62,7 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
+  # For the "Group" dropdown in step edit form
   def option_label
     ("&nbsp; &nbsp; " * [depth - 1, 0].max).html_safe + summary_or_none
   end
@@ -102,7 +103,8 @@ class ProjectGroup < TimelineEntry
       )
     end
   end
-  
+
+  # Returns a flat array of the descendant groups, pre-ordered. For the "Group" dropdown in step edit form.
   def self_and_descendant_groups_preordered
     [self, filtered_children.select(&:group?).map(&:self_and_descendant_groups_preordered)].flatten
   end
