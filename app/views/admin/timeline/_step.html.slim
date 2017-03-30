@@ -36,6 +36,7 @@
         = entry.try(:admin_completed_status)
       - else
         = entry.try(:admin_status)
+      = project_step_status(entry)
   - else
     td class=classes
       = t("project_step.timeline_table.draft")
