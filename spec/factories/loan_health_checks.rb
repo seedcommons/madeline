@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :loan_health_check do
-    loan nil
+    loan
     missing_contract false
     progress_pct "9.99"
     last_log_date "2017-03-26"

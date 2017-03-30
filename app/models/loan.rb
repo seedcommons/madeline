@@ -69,6 +69,8 @@ class Loan < Project
 
   validates :organization_id, presence: true
 
+  before_create :build_loan_health_check
+
   def self.status_active_id
     status_option_set.id_for_value(STATUS_ACTIVE_VALUE)
   end
@@ -189,6 +191,19 @@ class Loan < Project
 
   def amount_formatted
     ensure_currency.format_amount(amount)
+  end
+
+  def active?
+    status_value == 'active'
+  end
+
+  def progress_pct
+    loan_health_check.progress_pct
+  end
+
+  def healthy?
+    return false unless loan_health_check
+    loan_health_check.healthy?
   end
 
 end
