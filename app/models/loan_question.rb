@@ -74,6 +74,10 @@ class LoanQuestion < ActiveRecord::Base
     children.sort_by { |c| [c.required_for?(loan) ? 0 : 1, c.position] }
   end
 
+  def children_sorted_by_position
+    children.sort_by(&:position)
+  end
+
   # Selects only those questions that are applicable to the given loan.
   def children_applicable_to(loan)
     @children_applicable_to ||= {}
@@ -82,7 +86,7 @@ class LoanQuestion < ActiveRecord::Base
         c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
       end
     else
-      children.order(:position).select { |c| c.status != 'retired' }
+      children_sorted_by_position.select { |c| c.status != 'retired' }
     end
   end
 
@@ -137,11 +141,11 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def child_groups
-    children.order(:position).select(&:group?)
+    children_sorted_by_position.select(&:group?)
   end
 
   def first_child?
-    @first_child ||= parent && parent.children.none?{ |q| q.position < position }
+    @first_child ||= parent && parent.children.none? { |q| q.position < position }
   end
 
   # List of value keys for fields which have nested values
