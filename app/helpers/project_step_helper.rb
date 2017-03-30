@@ -11,7 +11,9 @@ module ProjectStepHelper
   def project_step_status(step)
     days = step.days_late
 
-    if step.completed?
+    if !step.is_finalized
+      I18n.t("project_step.timeline_table.draft")
+    elsif step.completed?
       if days && days > 0
         sanitize "<i class='fa fa-check'></i> #{I18n.t('project_step.status.completed_late',
           days: days)}", tags: %w(i), attributes: %w(class)

@@ -34,7 +34,7 @@
       = project_step_status(entry)
   - else
     td class=classes
-      = t("project_step.timeline_table.draft")
+      = project_step_status(entry)
 
   - latest_logs = entry.latest_logs
   td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
