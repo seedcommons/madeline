@@ -62,6 +62,10 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
+  def option_label
+    ("&nbsp; &nbsp; " * [depth - 1, 0].max).html_safe + summary_or_none
+  end
+
   def scheduled_start_date
     return @scheduled_start_date if defined?(@scheduled_start_date)
     @scheduled_start_date = children.map(&:scheduled_start_date).compact.min
