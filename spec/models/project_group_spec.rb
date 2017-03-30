@@ -130,6 +130,12 @@ describe ProjectGroup, type: :model do
         expect(g6.reload.filtered_children).to eq [g6_g2, g6_g1]
       end
     end
+
+    describe "self_and_descendant_groups_preordered" do
+      it "should return flat pre-ordered array of groups" do
+        expect(root.self_and_descendant_groups_preordered).to eq [g1, g2, g2_1, g2_1_1, g2_1_2, g2_2, g4]
+      end
+    end
   end
 
   def create_dated_step(parent, scheduled_start_date, scheduled_duration_days)
