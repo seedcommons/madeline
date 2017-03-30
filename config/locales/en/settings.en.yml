@@ -4,7 +4,7 @@ en:
   quickbooks:
     accounts:
       accounts: "QuickBooks Accounts"
-      note: "Note: These account settings will only apply to transactions created in the future."
+      note: "Note: These account settings only apply to future transactions."
     connection:
       connect_to_qb: "Connect to QuickBooks"
       connected: "Connected"
