@@ -474,6 +474,7 @@ en:
       step: "Step"
     status:
       completed: "Completed"
+      completed_late: "Completed %{days}d late"
       early: "Early"
       late: "Late"
       not_completed: "Not yet completed"
