@@ -1,4 +1,6 @@
 - content_for(:title, @loan.display_name)
+- content_for(:per_page_js) do
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
 
 section data-container="loan"
 

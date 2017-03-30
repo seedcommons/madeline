@@ -18,8 +18,6 @@ module Accounting
             find_or_create(transaction_type: type, qb_object: qb_object)
           end
         end
-      rescue StandardError
-        raise FetchError, 'Problem fetching data from Quickbooks'
       end
 
       private

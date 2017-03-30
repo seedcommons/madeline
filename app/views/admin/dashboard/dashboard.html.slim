@@ -28,7 +28,8 @@
   section.section.logs
     header
       h2 = t("dashboard.logs")
-      .text-right = link_to t("dashboard.show_all_logs"), admin_project_logs_path
+      .text-right
+        = link_to t("dashboard.show_all_logs"), admin_project_logs_path unless @logs.empty?
 
     section.log-list
       = render "admin/project_logs/log_list"
