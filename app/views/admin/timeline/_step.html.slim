@@ -31,11 +31,6 @@
 
   - if entry.is_finalized
     td class=classes style="background: #{entry.timeline_background_color};"
-      - if entry.completed?
-        i.fa.fa-check>
-        = entry.try(:admin_completed_status)
-      - else
-        = entry.try(:admin_status)
       = project_step_status(entry)
   - else
     td class=classes
