@@ -2,9 +2,9 @@ module ProjectStepHelper
   def project_step_icon(step)
     case step.step_type_value
     when 'checkin'
-      '<i class="fa fa-calendar-check-o"></i> '.html_safe
+      sanitize "<i class='fa fa-calendar-check-o'></i> ", tags: %w(i), attributes: %w(class)
     when 'milestone'
-      '<i class="fa fa-flag"></i> '.html_safe
+      sanitize "<i class='fa fa-flag'></i> ", tags: %w(i), attributes: %w(class)
     end
   end
 
