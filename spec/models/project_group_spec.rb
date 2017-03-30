@@ -79,6 +79,29 @@ describe ProjectGroup, type: :model do
   context "with descendants" do
     let(:root) { create(:root_project_group, :with_descendants) }
 
+    before do
+      @root2 = create(:root_project_group)
+        @g1 = create(:project_group, parent: @root2)
+          @g1_s1 = create_dated_step(@g1, "2017-02-01", 5)
+          @g1_s2 = create_dated_step(@g1, "2017-02-01", 2)
+          @g1_s3 = create_dated_step(@g1, nil, nil)
+          @g1_s4 = create_dated_step(@g1, "2017-01-01", 10)
+        @g2 = create(:project_group, parent: @root2)
+          create_dated_step(@g2, "2017-01-01", 5)
+        @g3 = create(:project_group, parent: @root2)
+          create_dated_step(@g3, nil, 3)
+        @g4 = create(:project_group, parent: @root2)
+        @g5 = create(:project_group, parent: @root2)
+          create_dated_step(@g5, "2017-03-01", 0)
+        @g6 = create(:project_group, parent: @root2)
+          @g6_g1 = create(:project_group, parent: @g6)
+            create_dated_step(@g6_g1, "2017-01-10", 5)
+          @g6_g2 = create(:project_group, parent: @g6)
+            create_dated_step(@g6_g2, "2017-01-01", 5)
+        @s1 = create_dated_step(@root2, nil, 0)
+        @s2 = create_dated_step(@root2, "2017-02-28", 30)
+    end
+
     describe "descendant_leaf_count" do
       it "should be correct for root" do
         expect(root.descendant_leaf_count).to eq(
@@ -104,36 +127,15 @@ describe ProjectGroup, type: :model do
 
     describe "filtered_children" do
       it "should be sorted" do
-        root2 = create(:root_project_group)
-          g1 = create(:project_group, parent: root2)
-            g1_s1 = create_dated_step(g1, "2017-02-01", 5)
-            g1_s2 = create_dated_step(g1, "2017-02-01", 2)
-            g1_s3 = create_dated_step(g1, nil, nil)
-            g1_s4 = create_dated_step(g1, "2017-01-01", 10)
-          g2 = create(:project_group, parent: root2)
-            create_dated_step(g2, "2017-01-01", 5)
-          g3 = create(:project_group, parent: root2)
-            create_dated_step(g3, nil, 3)
-          g4 = create(:project_group, parent: root2)
-          g5 = create(:project_group, parent: root2)
-            create_dated_step(g5, "2017-03-01", 0)
-          g6 = create(:project_group, parent: root2)
-            g6_g1 = create(:project_group, parent: g6)
-              create_dated_step(g6_g1, "2017-01-10", 5)
-            g6_g2 = create(:project_group, parent: g6)
-              create_dated_step(g6_g2, "2017-01-01", 5)
-          s1 = create_dated_step(root2, nil, 0)
-          s2 = create_dated_step(root2, "2017-02-28", 30)
-
-        expect(root2.reload.filtered_children).to eq [g2, g6, g1, s2, g5, g3, g4, s1]
-        expect(g1.reload.filtered_children).to eq [g1_s4, g1_s2, g1_s1, g1_s3]
-        expect(g6.reload.filtered_children).to eq [g6_g2, g6_g1]
+        expect(@root2.reload.filtered_children).to eq [@g2, @g6, @g1, @s2, @g5, @g3, @g4, @s1]
+        expect(@g1.reload.filtered_children).to eq [@g1_s4, @g1_s2, @g1_s1, @g1_s3]
+        expect(@g6.reload.filtered_children).to eq [@g6_g2, @g6_g1]
       end
     end
 
     describe "self_and_descendant_groups_preordered" do
       it "should return flat pre-ordered array of groups" do
-        expect(root.self_and_descendant_groups_preordered).to eq [g1, g2, g2_1, g2_1_1, g2_1_2, g2_2, g4]
+        expect(@root2.reload.self_and_descendant_groups_preordered).to eq [@root2, @g2, @g6, @g6_g2, @g6_g1, @g1, @g5, @g3, @g4]
       end
     end
   end
