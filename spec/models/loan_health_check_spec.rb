@@ -93,6 +93,11 @@ RSpec.describe LoanHealthCheck, type: :model do
 
           it { is_expected.to_not include :late_steps }
         end
+        context 'and no end date' do
+          let(:loan) { create(:loan, :prospective, end_date: nil) }
+
+          it { is_expected.to_not include :late_steps }
+        end
         context 'and a step more than one day late' do
           let(:loan) { create(:loan, :prospective, :with_past_due_project_step) }
 

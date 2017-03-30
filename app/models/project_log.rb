@@ -38,6 +38,8 @@ class ProjectLog < ActiveRecord::Base
   validates :project_step_id, :date, :agent_id, presence: true
   validates :summary, translation_presence: true
 
+  after_commit :recalculate_loan
+
   def self.filter_by(params)
     if params[:step].present?
       where(project_step_id: params[:step])
@@ -60,6 +62,11 @@ class ProjectLog < ActiveRecord::Base
 
   def self.by_date
     order('date IS NULL, date DESC, created_at DESC')
+  end
+
+  def recalculate_loan
+    return unless project_step
+    RecalculateLoanJob.perform_later(loan_id: project_step.project_id)
   end
 
   #todo: confirm if we want the shorter alias accessor for the default translation.

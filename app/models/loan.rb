@@ -70,6 +70,7 @@ class Loan < Project
   validates :organization_id, presence: true
 
   before_create :build_loan_health_check
+  after_commit :recalculate_loan
 
   def self.status_active_id
     status_option_set.id_for_value(STATUS_ACTIVE_VALUE)
@@ -86,6 +87,10 @@ class Loan < Project
     scoped = scoped.country(params[:country]) if params[:country]
     scoped = scoped.status(params[:status]) if params[:status]
     scoped
+  end
+
+  def recalculate_loan
+    RecalculateLoanJob.perform_later(loan_id: id)
   end
 
   def default_name
@@ -195,10 +200,6 @@ class Loan < Project
 
   def active?
     status_value == 'active'
-  end
-
-  def progress_pct
-    loan_health_check.progress_pct
   end
 
   def healthy?

@@ -64,10 +64,15 @@ class ProjectStep < TimelineEntry
   before_update :handle_schedule_children
   before_update :handle_scheduled_start_date
   before_save :handle_finalized_at
+  after_commit :recalculate_loan
 
   # Scheduled end date is calculated
   scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago).where(actual_end_date: nil) }
   scope :recent, -> { where('scheduled_start_date + scheduled_duration_days > ? ', 30.days.ago) }
+
+  def recalculate_loan
+    RecalculateLoanJob.perform_later(loan_id: project_id)
+  end
 
   def name
     summary

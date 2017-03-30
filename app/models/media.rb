@@ -44,11 +44,18 @@ class Media < ActiveRecord::Base
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :kind
 
+  after_commit :recalculate_loan
+
   def alt
     self.try(:caption) || self.media_attachable.try(:name)
   end
 
   def thumbnail?
     kind_value == 'image'
+  end
+
+  def recalculate_loan
+    # Only submit a job if it is a Loan
+    RecalculateLoanJob.perform_later(loan_id: media_attachable_id) if media_attachable_type == 'Project'
   end
 end

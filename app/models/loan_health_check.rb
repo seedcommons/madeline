@@ -52,10 +52,6 @@ class LoanHealthCheck < ActiveRecord::Base
     health_warnings.count < 1
   end
 
-  def uncached_progress_pct
-    check_progress_pct
-  end
-
   private
 
   def check_missing_contract
@@ -67,6 +63,7 @@ class LoanHealthCheck < ActiveRecord::Base
   end
 
   def check_sporadic_loan_updates
+    return false unless loan.end_date
     loan.timeline_entries.merge(ProjectStep.recent).count < [days_old, 30].min
   end
 
