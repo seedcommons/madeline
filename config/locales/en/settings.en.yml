@@ -6,10 +6,7 @@ en:
       accounts: "QuickBooks Accounts"
       note: "These account settings only apply to future transactions."
     connection:
-      connect_to_qb: "Connect to QuickBooks"
       connected: "Connected"
       connection: "QuickBooks Connection"
       disconnect: "Disconnect"
-      disconnect_from_qb: "Disconnect from QuickBooks"
       not_connected: "Not Connected"
-      status: "QuickBooks Status"
