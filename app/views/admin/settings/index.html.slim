@@ -10,21 +10,21 @@ section.block
 
   .form-horizontal
     .form-group
-      label.col-sm-4.text-right = t("quickbooks.connection.status")
+      label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.status")
       - if Division.root && Division.root.quickbooks_connected?
-        .col-sm-8 = t("quickbooks.connection.connected")
+        .col-sm-8.col-md-9.col-lg-10 = t("quickbooks.connection.connected")
       - else
-        .col-sm-8 = t("quickbooks.connection.not_connected")
+        .col-sm-8.col-md-9.col-lg-10 = t("quickbooks.connection.not_connected")
 
     - if Division.root && Division.root.quickbooks_connected?
       .form-group
-        label.col-sm-4.text-right = t("quickbooks.connection.disconnect_from_qb")
-        .col-sm-8
+        label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.disconnect_from_qb")
+        .col-sm-8.col-md-9.col-lg-10
           a href="#{disconnect_admin_accounting_quickbooks_path}" = t("quickbooks.connection.disconnect")
     - else
       .form-group
-        label.col-sm-4.text-right = t("quickbooks.connection.connect_to_qb")
-        .col-sm-8
+        label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.connect_to_qb")
+        .col-sm-8.col-md-9.col-lg-10
           / this will display a button that the user clicks to start the flow
           ipp:connectToIntuit
 
