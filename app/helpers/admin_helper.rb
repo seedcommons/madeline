@@ -66,4 +66,10 @@ module AdminHelper
   def timeline_table_step_column_count
     8
   end
+
+  # For displaying tree structure in dropdowns
+  def indented_option_label(node, label_method)
+    # Subtract 1 from depth since root node either doesn't display or displays as "[None]"
+    ("&nbsp; &nbsp; " * [node.depth - 1, 0].max).html_safe << node.send(label_method)
+  end
 end

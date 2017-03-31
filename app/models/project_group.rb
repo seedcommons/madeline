@@ -62,11 +62,6 @@ class ProjectGroup < TimelineEntry
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
 
-  # For showing groups' tree structure in dropdowns
-  def indented_option_label
-    ("&nbsp; &nbsp; " * [depth - 1, 0].max).html_safe << summary_or_none
-  end
-
   def scheduled_start_date
     return @scheduled_start_date if defined?(@scheduled_start_date)
     @scheduled_start_date = children.map(&:scheduled_start_date).compact.min
@@ -104,7 +99,8 @@ class ProjectGroup < TimelineEntry
     end
   end
 
-  # Returns a flat array of the descendant groups, pre-ordered. For showing groups' tree structure in dropdowns
+  # Returns a flat array of the descendant groups, pre-ordered.
+  # Combine with indented_option_label to show groups in tree structure.
   def self_and_descendant_groups_preordered
     [self, filtered_children.select(&:group?).map(&:self_and_descendant_groups_preordered)].flatten
   end
