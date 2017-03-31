@@ -19,6 +19,11 @@ class LoanResponseSet < ActiveRecord::Base
 
   delegate :division, :division=, to: :loan
   delegate :question, to: :loan_question_set
+  after_commit :recalculate_loan_health
+
+  def recalculate_loan_health
+    RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
+  end
 
   def loan_question_set
     @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")

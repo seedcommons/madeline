@@ -33,5 +33,9 @@ FactoryGirl.define do
     kind_value "image"
     caption { Faker::Hipster.paragraph(2) }
     transient_division
+
+    trait :contract do
+      kind_value :contract
+    end
   end
 end

@@ -33,6 +33,12 @@ en:
         banner_bg_color: "Banner BG Color"
         accent_main_color: "Accent Color"
         accent_fg_color: "Accent FG Text Color"
+        connection_status: "QuickBooks Status"
+        connect: "Connect to QuickBooks"
+        disconnect: "Disconnect from QuickBooks"
+        principal_account_id: "Principal Account"
+        interest_receivable_account_id: "Interest Receivable Account"
+        interest_income_account_id: "Interest Income Account"
       loan:
         division: "Division"
         organization: "Co-op"
@@ -282,6 +288,10 @@ en:
   password: "Password"
   optional: "Optional"
   print: "Print"
+  quickbooks:
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
+    service_unavailable: "The system is temporarily unavailable. Please try again later."
+    misc: "There was an error connecting you to Quickbooks. An administrator has been notified. Some data may be out of date."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -394,6 +404,7 @@ en:
     log: "Log"
     loans: "Loans"
     logs: "Logs"
+    settings: "Settings"
   number:
     nth:
       num_1: "first"
@@ -469,6 +480,7 @@ en:
       step: "Step"
     status:
       completed: "Completed"
+      completed_late: "Completed %{days}d late"
       early: "Early"
       late: "Late"
       not_completed: "Not yet completed"

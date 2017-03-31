@@ -55,6 +55,7 @@ class Loan < Project
   belongs_to :representative, class_name: 'Person'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"
   has_one :post_analysis, -> { where("loan_response_sets.kind" => 'post_analysis') }, class_name: "LoanResponseSet"
+  has_one :loan_health_check, foreign_key: :loan_id
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
@@ -67,6 +68,9 @@ class Loan < Project
   attr_option_settable :status, :loan_type, :public_level
 
   validates :organization_id, presence: true
+
+  before_create :build_loan_health_check
+  after_commit :recalculate_loan_health
 
   def self.status_active_id
     status_option_set.id_for_value(STATUS_ACTIVE_VALUE)
@@ -83,6 +87,10 @@ class Loan < Project
     scoped = scoped.country(params[:country]) if params[:country]
     scoped = scoped.status(params[:status]) if params[:status]
     scoped
+  end
+
+  def recalculate_loan_health
+    RecalculateLoanHealthJob.perform_later(loan_id: id)
   end
 
   def default_name
@@ -189,4 +197,14 @@ class Loan < Project
   def amount_formatted
     ensure_currency.format_amount(amount)
   end
+
+  def active?
+    status_value == 'active'
+  end
+
+  def healthy?
+    return false unless loan_health_check
+    loan_health_check.healthy?
+  end
+
 end
