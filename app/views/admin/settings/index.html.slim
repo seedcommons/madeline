@@ -28,21 +28,22 @@ section.block
           / this will display a button that the user clicks to start the flow
           ipp:connectToIntuit
 
-section.block
-  h2 = t("quickbooks.accounts.accounts")
-  p.note = t("quickbooks.accounts.note")
+- if @accounts && !@accounts.empty?
+  section.block
+    h2 = t("quickbooks.accounts.accounts")
+    p.note = t("quickbooks.accounts.note")
 
-  = simple_form_for([:admin, @division],
-      url: admin_settings_path,
-      method: 'patch',
-      html: {class: 'form-horizontal'},
-      wrapper: :horizontal_form_expanded,
-    ) do |f|
+    = simple_form_for([:admin, @division],
+        url: admin_settings_path,
+        method: 'patch',
+        html: {class: 'form-horizontal'},
+        wrapper: :horizontal_form_expanded,
+      ) do |f|
 
-    = error_notification(f)
-    = f.input :principal_account_id, collection: @accounts
-    = f.input :interest_receivable_account_id, collection: @accounts
-    = f.input :interest_income_account_id, collection: @accounts
+      = error_notification(f)
+      = f.input :principal_account_id, collection: @accounts
+      = f.input :interest_receivable_account_id, collection: @accounts
+      = f.input :interest_income_account_id, collection: @accounts
 
-    .text-right
-      = f.submit t(:save), class: "btn btn-primary"
+      .text-right
+        = f.submit t(:save), class: "btn btn-primary"
