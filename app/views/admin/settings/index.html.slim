@@ -8,25 +8,28 @@ javascript:
 section.block
   h2 = t("quickbooks.connection.connection")
 
-  .form-horizontal
-    .form-group
-      label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.status")
-      - if Division.root && Division.root.quickbooks_connected?
-        .col-sm-8.col-md-9.col-lg-10 = t("quickbooks.connection.connected")
-      - else
-        .col-sm-8.col-md-9.col-lg-10 = t("quickbooks.connection.not_connected")
+  = simple_form_for([:admin, @division],
+      url: admin_settings_path,
+      method: 'patch',
+      html: {class: 'form-horizontal'},
+      wrapper: :horizontal_form_expanded,
+    ) do |f|
 
+    = f.input "connection_status", label: t("quickbooks.connection.status") do
+      .read-only
+        - if Division.root && Division.root.quickbooks_connected?
+          = t("quickbooks.connection.connected")
+        - else
+          = t("quickbooks.connection.not_connected")
     - if Division.root && Division.root.quickbooks_connected?
-      .form-group
-        label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.disconnect_from_qb")
-        .col-sm-8.col-md-9.col-lg-10
-          a href="#{disconnect_admin_accounting_quickbooks_path}" = t("quickbooks.connection.disconnect")
+      = f.input "disconnect", label: t("quickbooks.connection.disconnect_from_qb") do
+        .read-only
+          = link_to(t("quickbooks.connection.disconnect"),
+            disconnect_admin_accounting_quickbooks_path)
     - else
-      .form-group
-        label.col-sm-4.col-md-3.col-lg-2.text-right = t("quickbooks.connection.connect_to_qb")
-        .col-sm-8.col-md-9.col-lg-10
-          / this will display a button that the user clicks to start the flow
-          ipp:connectToIntuit
+      = f.input "connect", label: t("quickbooks.connection.connect_to_qb") do
+        / this will display a button that the user clicks to start the flow
+        ipp:connectToIntuit
 
 - if @accounts && !@accounts.empty?
   section.block
