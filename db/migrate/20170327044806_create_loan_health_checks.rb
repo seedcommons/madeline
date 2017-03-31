@@ -1,7 +1,7 @@
 class CreateLoanHealthChecks < ActiveRecord::Migration
   def change
     create_table :loan_health_checks do |t|
-      t.references :project, index: true, foreign_key: true
+      t.references :loan, index: true, references: :project
       t.boolean :missing_contract
       t.decimal :progress_pct
       t.date :last_log_date
@@ -10,5 +10,7 @@ class CreateLoanHealthChecks < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_foreign_key :loan_health_checks, :projects, column: :loan_id
   end
 end

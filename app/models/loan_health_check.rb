@@ -7,22 +7,22 @@
 #  has_sporadic_updates :boolean
 #  id                   :integer          not null, primary key
 #  last_log_date        :date
+#  loan_id              :integer
 #  missing_contract     :boolean
 #  progress_pct         :decimal(, )
-#  project_id           :integer
 #  updated_at           :datetime         not null
 #
 # Indexes
 #
-#  index_loan_health_checks_on_project_id  (project_id)
+#  index_loan_health_checks_on_loan_id  (loan_id)
 #
 # Foreign Keys
 #
-#  fk_rails_6441c92912  (project_id => projects.id)
+#  fk_rails_04c68907b4  (loan_id => projects.id)
 #
 
 class LoanHealthCheck < ActiveRecord::Base
-  belongs_to :loan, class_name: Project, foreign_key: :project_id
+  belongs_to :loan, class_name: Loan, foreign_key: :loan_id
 
   after_create :recalculate
 

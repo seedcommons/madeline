@@ -55,7 +55,7 @@ class Loan < Project
   belongs_to :representative, class_name: 'Person'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"
   has_one :post_analysis, -> { where("loan_response_sets.kind" => 'post_analysis') }, class_name: "LoanResponseSet"
-  has_one :loan_health_check, foreign_key: :project_id
+  has_one :loan_health_check, foreign_key: :loan_id
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'

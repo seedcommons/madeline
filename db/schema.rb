@@ -116,13 +116,13 @@ ActiveRecord::Schema.define(version: 20170327044806) do
     t.boolean  "has_late_steps"
     t.boolean  "has_sporadic_updates"
     t.date     "last_log_date"
+    t.integer  "loan_id"
     t.boolean  "missing_contract"
     t.decimal  "progress_pct"
-    t.integer  "project_id"
     t.datetime "updated_at", null: false
   end
 
-  add_index "loan_health_checks", ["project_id"], name: "index_loan_health_checks_on_project_id", using: :btree
+  add_index "loan_health_checks", ["loan_id"], name: "index_loan_health_checks_on_loan_id", using: :btree
 
   create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -410,7 +410,7 @@ ActiveRecord::Schema.define(version: 20170327044806) do
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
-  add_foreign_key "loan_health_checks", "projects"
+  add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "media", "people", column: "uploader_id"
