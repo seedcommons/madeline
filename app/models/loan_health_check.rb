@@ -64,7 +64,16 @@ class LoanHealthCheck < ActiveRecord::Base
 
   def check_sporadic_loan_updates
     return false unless loan.end_date
-    loan.timeline_entries.merge(ProjectStep.recent).count < [days_old, 30].min
+
+    end_date = loan.end_date.beginning_of_day
+    valid_range_count = thirty_day_periods_remaining.times.map do |period|
+      end_of_range = end_date - (period * 30).days
+      start_of_range = end_date - ((period+1) * 30).days
+
+      [loan.timeline_entries.where('scheduled_start_date < ? and scheduled_start_date > ?', end_of_range, start_of_range).count, 1].min
+    end.sum
+
+    valid_range_count != thirty_day_periods_remaining
   end
 
   def check_progress_pct
@@ -80,5 +89,12 @@ class LoanHealthCheck < ActiveRecord::Base
   def days_old
     return nil unless loan
     (loan.end_date.beginning_of_day - loan.signing_date.beginning_of_day) / (24 * 60 * 60)
+  end
+
+  def thirty_day_periods_remaining
+    return nil unless loan
+    start_date = ([loan.signing_date, DateTime.now].max).beginning_of_day
+    end_date = loan.end_date.beginning_of_day
+    ( (end_date - start_date) / (24 * 60 * 60)).round / 30
   end
 end
