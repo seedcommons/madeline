@@ -15,6 +15,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     )
 
     @csv_mode = true
+    @enable_export_to_csv = true
 
     export_grid_if_requested('basic_projects': 'basic_projects_grid_definition') do
       # This block only executes if CSV is not being returned

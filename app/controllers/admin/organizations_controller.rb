@@ -16,6 +16,7 @@ class Admin::OrganizationsController < Admin::AdminController
     )
 
     @csv_mode = true
+    @enable_export_to_csv = true
 
     export_grid_if_requested('organizations': 'organizations_grid_definition') do
       # This block only executes if CSV is not being returned
