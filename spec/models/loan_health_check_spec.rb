@@ -15,7 +15,7 @@ RSpec.describe LoanHealthCheck, type: :model do
 
       context 'without criteria' do
         it 'returns 0' do
-          expect(subject).to eq 0
+          is_expected.to eq 0
         end
       end
 
@@ -42,12 +42,14 @@ RSpec.describe LoanHealthCheck, type: :model do
         end
         it { is_expected.to be true }
       end
+
       context 'with 1 #health_warnings' do
         before do
           allow(check).to receive(:health_warnings).and_return([:warning_one])
         end
         it { is_expected.to be false }
       end
+
       context 'with multiple #health_warnings' do
         before do
           allow(check).to receive(:health_warnings).and_return([:warning_one, :warning_two, :warning_three])
@@ -69,6 +71,7 @@ RSpec.describe LoanHealthCheck, type: :model do
           context 'no questions answered' do
             it { is_expected.to include :incomplete_loan_questions }
           end
+
           context '79% of questions answered' do
             before do
               allow(check).to receive(:loan).and_return(loan)
@@ -78,6 +81,7 @@ RSpec.describe LoanHealthCheck, type: :model do
 
             it { is_expected.to include :incomplete_loan_questions }
           end
+
           context '80% of questions answered' do
             before do
               allow(check).to receive(:loan).and_return(loan)
@@ -88,16 +92,19 @@ RSpec.describe LoanHealthCheck, type: :model do
             it { is_expected.to_not include :incomplete_loan_questions }
           end
         end
+
         context 'and no late steps' do
           let(:loan) { create(:loan, :prospective, :with_open_project_step) }
 
           it { is_expected.to_not include :late_steps }
         end
+
         context 'and no end date' do
           let(:loan) { create(:loan, :prospective, end_date: nil) }
 
           it { is_expected.to_not include :late_steps }
         end
+
         context 'and a step more than one day late' do
           let(:loan) { create(:loan, :prospective, :with_past_due_project_step) }
 
@@ -110,6 +117,7 @@ RSpec.describe LoanHealthCheck, type: :model do
 
             it { is_expected.to include :sporadic_loan_updates }
           end
+
           context 'with 15 steps' do
             let(:loan) { create(:loan, :prospective, :with_a_number_of_recent_project_steps, step_count: 15, signing_date: 16.days.ago, end_date: 1.day.ago) }
 
@@ -126,6 +134,7 @@ RSpec.describe LoanHealthCheck, type: :model do
             end
             it { is_expected.to include :sporadic_loan_updates }
           end
+
           context 'with only 29 recent steps and 5 old steps' do
             let(:loan) do
               create(:loan,
