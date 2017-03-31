@@ -1,6 +1,6 @@
-  ol
+  ul
     - group.child_groups.each do |child|
-      li data-level=child.depth data-type=child.data_type
+      li data-level=child.depth data-type=child.data_type class=( 'hidden-print' if response_set.tree_unanswered?(child))
         = child.label
         - if child.data_type == 'group'
-          = render("admin/loans/questionnaires/questionnaire_toc", group: child)
+          = render("admin/loans/questionnaires/questionnaire_toc", group: child, response_set: response_set)

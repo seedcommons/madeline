@@ -99,6 +99,12 @@ class ProjectGroup < TimelineEntry
     end
   end
 
+  # Returns a flat array of the descendant groups, pre-ordered.
+  # Combine with indented_option_label to show groups in tree structure.
+  def self_and_descendant_groups_preordered
+    [self, filtered_children.select(&:group?).map(&:self_and_descendant_groups_preordered)].flatten
+  end
+
   # Gets the total number of steps or childless groups beneath this group.
   # Currently this will recursively traverse the tree and fire a whole bunch of queries,
   # one for each ProjectGroup. Could improve performance by using closure_tree's _including_tree.

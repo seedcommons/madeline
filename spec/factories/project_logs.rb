@@ -38,5 +38,13 @@ FactoryGirl.define do
       log.set_private_notes(Faker::Lorem.paragraph)
     end
 
+    trait :old do
+      date { Faker::Date.between(60.days.ago, 30.days.ago) }
+    end
+
+    trait :recent do
+      date { Faker::Date.between(5.days.ago, 1.day.ago) }
+    end
+
   end
 end

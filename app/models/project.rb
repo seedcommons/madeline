@@ -69,6 +69,10 @@ class Project < ActiveRecord::Base
     @root_timeline_entry ||= timeline_entries.find_or_create_by(parent_id: nil, type: "ProjectGroup")
   end
 
+  def timeline_groups_preordered
+    root_timeline_entry.self_and_descendant_groups_preordered
+  end
+
   # DEPRECATED - This should not be necessary once we transition to tabular format.
   # Do regular ruby select, to avoid issues with AR caching
   # Note, this means the method returns an array, not an AR::Relation
