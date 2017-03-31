@@ -102,6 +102,14 @@ es:
         state: "Estado"
         tax_no: "Nro. de Documento"
         website: "Página Web"
+      project:
+        length_months: "Duración (meses)"
+        name: "Nombre"
+        primary_agent: "Agente Principal"
+        progress: "Progreso"
+        secondary_agent: "Agente Secundario"
+        signing_date: "Fecha de Inicio"
+        status: "Estado"
       project_log:
         step: "Paso"
         date: "Fecha del Apunte"
@@ -116,9 +124,19 @@ es:
         actual_end_date: "Fecha de Finalización"
         duration: "Duración Proyectada"
         is_finalized: "Finalizado"
+        is_finalized?: "Finalizado"
+        old_duration_days: "Duración Original"
+        old_start_date: "Fecha de Inicio Original"
         scheduled_duration_days: "Duración Proyectada"
         scheduled_start_date: "Fecha Proyectada de Inicio"
         step_type_value: "Tipo"
+      accounting:
+        transaction:
+          qb_id: "Id"
+          qb_transaction_type: "Tipo"
+          txn_date: "Fecha"
+          total: "Total"
+          private_note: "Nota"
     errors:
       models:
         project_group:
@@ -276,7 +294,7 @@ es:
     hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
-    no_records: "No se encontraron registros."
+    no_records: "No se hallaron registros"
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
     note: "Nota"
     notes: "Notas"
@@ -359,7 +377,7 @@ es:
       num_2: "segundo"
       num_3: "tercero"
       num_4: "cuarto"
-      num_5: "quinto"
+      num_5: "último/a"
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
   project_step:
@@ -404,7 +422,8 @@ es:
     months: "Mes(es)"
     move: "Mover Paso"
     no_status: "[No status]"
-    no_steps: "No hay pasos de la línea de tiempo que mostrar."
+    no_steps: "Esta línea de tiempo aún no tiene pasos."
+    no_steps_match: "Ninguna línea de tiempo coincide con estos filtros."
     occurrences: "ocurrencia(s)"
     once: "Una vez"
     on_label: "En:"

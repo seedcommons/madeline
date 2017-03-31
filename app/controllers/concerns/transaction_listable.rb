@@ -5,10 +5,21 @@ module TransactionListable
     begin
       ::Accounting::Quickbooks::AccountFetcher.new.fetch
       ::Accounting::Quickbooks::TransactionFetcher.new.fetch
-    rescue Accounting::Quickbooks::FetchError => e
+    rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
-      Rails.logger.error e.cause
-      flash.now[:error] = 'Error connecting to quickbooks'
+      flash.now[:error] = t('quickbooks.service_unavailable')
+    rescue Quickbooks::MissingRealmError,
+      Quickbooks::AuthorizationFailure => e
+      Rails.logger.error e
+      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
+    rescue Quickbooks::InvalidModelException,
+      Quickbooks::Forbidden,
+      Quickbooks::ThrottleExceeded,
+      Quickbooks::TooManyRequests,
+      Quickbooks::IntuitRequestException => e
+      Rails.logger.error e
+      ExceptionNotifier.notify_exception(e)
+      flash.now[:error] = t('quickbooks.misc')
     end
 
     if project_id
@@ -17,6 +28,13 @@ module TransactionListable
       @transactions = ::Accounting::Transaction.all
     end
 
-    @transactions_grid = initialize_grid(@transactions)
+    @enable_export_to_csv = true
+
+    @transactions_grid = initialize_grid(@transactions,
+      enable_export_to_csv: @enable_export_to_csv,
+      name: 'transactions'
+    )
+
+    export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 end

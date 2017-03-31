@@ -32,8 +32,7 @@ describe LoanQuestion, :type => :model do
     expect(create(:loan_question)).to be_valid
   end
 
-  context 'question groups required by loan type' do
-
+  describe 'required_for?' do
     let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }
     let!(:lt1) { create(:option, option_set: loan_type_set, value: 'lt1', label_translations: {en: 'Loan Type One'}) }
     let!(:lt2) { create(:option, option_set: loan_type_set, value: 'lt2', label_translations: {en: 'Loan Type Two'}) }
@@ -93,7 +92,6 @@ describe LoanQuestion, :type => :model do
       expect(f2.required_for?(loan2)).to be_truthy
     end
 
-
     it 'not required when override true for child and no associations present' do
       expect(f333.required_for?(loan1)).to be_falsey
     end
@@ -101,6 +99,25 @@ describe LoanQuestion, :type => :model do
     it 'not required on child when override false even when association is present' do
       expect(f4.required_for?(loan1)).to be_falsey
     end
+  end
 
+  describe 'position' do
+    let!(:set) { create(:loan_question_set) }
+    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
+    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
+    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text",
+      override_associations: true) }
+    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group",
+      override_associations: true) }
+    let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string") }
+    let!(:f32) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f32", data_type: "boolean") }
+
+    it 'should be set automatically' do
+      expect(f1.position).to eq 0
+      expect(f2.position).to eq 1
+      expect(f3.position).to eq 2
+      expect(f31.position).to eq 0
+      expect(f32.position).to eq 1
+    end
   end
 end

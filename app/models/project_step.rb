@@ -177,7 +177,8 @@ class ProjectStep < TimelineEntry
     project_logs.order(:date).last.try(:progress)
   end
 
-  # Step status to be shown in admin panel timeline
+  # Step status used in timeline list
+  # Please use ProjectStepHelper project_step_status in other contexts
   def admin_status
     days = days_late
     if days

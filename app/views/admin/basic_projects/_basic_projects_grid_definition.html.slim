@@ -1,5 +1,5 @@
 = define_grid(@basic_projects_grid, hide_csv_button: true,
-    html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
+    html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
     - g.blank_slate { set_no_grid_records_flag }
 
