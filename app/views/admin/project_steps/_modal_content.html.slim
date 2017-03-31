@@ -71,7 +71,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       = f.input :parent_id
         .view-element = @step.parent.summary_or_none if @step.parent.present?
-        = f.input_field :parent_id, collection: @parents, label_method: :option_label, include_blank: false
+        = f.input_field :parent_id, collection: @parents, label_method: :indented_option_label, include_blank: false
 
       = f.input :schedule_parent_id
         .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
