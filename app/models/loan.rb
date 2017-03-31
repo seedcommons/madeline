@@ -70,7 +70,7 @@ class Loan < Project
   validates :organization_id, presence: true
 
   before_create :build_loan_health_check
-  after_commit :recalculate_loan
+  after_commit :recalculate_loan_health
 
   def self.status_active_id
     status_option_set.id_for_value(STATUS_ACTIVE_VALUE)
@@ -89,8 +89,8 @@ class Loan < Project
     scoped
   end
 
-  def recalculate_loan
-    RecalculateLoanJob.perform_later(loan_id: id)
+  def recalculate_loan_health
+    RecalculateLoanHealthJob.perform_later(loan_id: id)
   end
 
   def default_name

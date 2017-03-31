@@ -38,7 +38,7 @@ class ProjectLog < ActiveRecord::Base
   validates :project_step_id, :date, :agent_id, presence: true
   validates :summary, translation_presence: true
 
-  after_commit :recalculate_loan
+  after_commit :recalculate_loan_health
 
   def self.filter_by(params)
     if params[:step].present?
@@ -64,9 +64,9 @@ class ProjectLog < ActiveRecord::Base
     order('date IS NULL, date DESC, created_at DESC')
   end
 
-  def recalculate_loan
+  def recalculate_loan_health
     return unless project_step
-    RecalculateLoanJob.perform_later(loan_id: project_step.project_id)
+    RecalculateLoanHealthJob.perform_later(loan_id: project_step.project_id)
   end
 
   #todo: confirm if we want the shorter alias accessor for the default translation.

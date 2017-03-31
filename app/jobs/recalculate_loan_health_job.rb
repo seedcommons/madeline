@@ -1,4 +1,4 @@
-class RecalculateLoanJob < ActiveJob::Base
+class RecalculateLoanHealthJob < ActiveJob::Base
   queue_as :default
 
   def perform(loan_id: )

@@ -44,7 +44,7 @@ class Media < ActiveRecord::Base
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :kind
 
-  after_commit :recalculate_loan
+  after_commit :recalculate_loan_health
 
   def alt
     self.try(:caption) || self.media_attachable.try(:name)
@@ -54,8 +54,8 @@ class Media < ActiveRecord::Base
     kind_value == 'image'
   end
 
-  def recalculate_loan
+  def recalculate_loan_health
     # Only submit a job if it is a Loan
-    RecalculateLoanJob.perform_later(loan_id: media_attachable_id) if media_attachable_type == 'Project'
+    RecalculateLoanHealthJob.perform_later(loan_id: media_attachable_id) if media_attachable_type == 'Project'
   end
 end
