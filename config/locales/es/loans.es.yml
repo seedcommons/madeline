@@ -9,7 +9,6 @@ es:
     back_to_loan: "Regresar al Préstamo"
     backward: "- hacia atrás"
     batch_actions: "Acciones en Lotes"
-    calendar: "Calendario"
     cancel_edit: "Cancelar la Edición"
     confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este préstamo para siempre?"
     confirm_response_deletion: "ATENCIÓN: ¿Realmente quieres borrar permanentemente estas respuestas?"
@@ -54,7 +53,6 @@ es:
     print_memo: "Imprimir Memo de Préstamo"
     questionnaires: "Preguntas"
     questionnaire: "Cuestionario"
-    questions: "Preguntas"
     rating: "Puntuación"
     save_responses: "Guardar Respuestas"
     signing_date: "Fecha de Firma"
@@ -69,10 +67,15 @@ es:
       frozen: "Congelado"
       liquidated: "Liquidado"
     end_date: "Fecha de Finalización "
+    tab:
+      details: "Detalles"
+      questions: "Preguntas"
+      timeline: "Línea de Tiempo"
+      timeline_list: "Línea de Tiempo - Lista"
+      logs: "Apuntes"
+      transactions: "Transacciones"
+      calendar: "Calendario"
     threshold_amount: "Monto Umbral"
-    timeline: "Línea de Tiempo"
-    timeline_list: "Línea de Tiempo - Lista"
-    timeline_table: "Línea de Tiempo - Tabla"
     toc: "Índice de contenidos"
     transactions: "Transacciones"
     transaction_new_disbursement: "Nuevo Desembolso"
@@ -168,7 +171,8 @@ es:
     optional_questions: "Preguntas Opcionales"
   admin:
     loans:
-      questionnaires:
-        main:
-          edit: "Editar Respuestas"
-          delete: "Borrar Todas las Respuestas"
+      questions:
+        edit: "Editar Respuestas"
+        delete: "Borrar Todas las Respuestas"
+      transactions:
+        new_transaction: "Agregar Transacción"

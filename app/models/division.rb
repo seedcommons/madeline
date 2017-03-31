@@ -2,38 +2,47 @@
 #
 # Table name: divisions
 #
-#  accent_fg_color    :string
-#  accent_main_color  :string
-#  banner_bg_color    :string
-#  banner_fg_color    :string
-#  created_at         :datetime         not null
-#  currency_id        :integer
-#  custom_data        :json
-#  description        :text
-#  id                 :integer          not null, primary key
-#  internal_name      :string
-#  locales            :json
-#  logo_content_type  :string
-#  logo_file_name     :string
-#  logo_file_size     :integer
-#  logo_text          :string
-#  logo_updated_at    :datetime
-#  name               :string
-#  notify_on_new_logs :boolean          default(FALSE)
-#  organization_id    :integer
-#  parent_id          :integer
-#  quickbooks_data    :json
-#  updated_at         :datetime         not null
+#  accent_fg_color                :string
+#  accent_main_color              :string
+#  banner_bg_color                :string
+#  banner_fg_color                :string
+#  created_at                     :datetime         not null
+#  currency_id                    :integer
+#  custom_data                    :json
+#  description                    :text
+#  id                             :integer          not null, primary key
+#  interest_income_account_id     :integer
+#  interest_receivable_account_id :integer
+#  internal_name                  :string
+#  locales                        :json
+#  logo_content_type              :string
+#  logo_file_name                 :string
+#  logo_file_size                 :integer
+#  logo_text                      :string
+#  logo_updated_at                :datetime
+#  name                           :string
+#  notify_on_new_logs             :boolean          default(FALSE)
+#  organization_id                :integer
+#  parent_id                      :integer
+#  principal_account_id           :integer
+#  quickbooks_data                :json
+#  updated_at                     :datetime         not null
 #
 # Indexes
 #
-#  index_divisions_on_currency_id      (currency_id)
-#  index_divisions_on_organization_id  (organization_id)
+#  index_divisions_on_currency_id                     (currency_id)
+#  index_divisions_on_interest_income_account_id      (interest_income_account_id)
+#  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
+#  index_divisions_on_organization_id                 (organization_id)
+#  index_divisions_on_principal_account_id            (principal_account_id)
 #
 # Foreign Keys
 #
+#  fk_rails_16249e4f59  (principal_account_id => accounting_accounts.id)
 #  fk_rails_648c512956  (organization_id => organizations.id)
+#  fk_rails_7d27a21116  (interest_receivable_account_id => accounting_accounts.id)
 #  fk_rails_99cb2ea4ed  (currency_id => currencies.id)
+#  fk_rails_e1c7480e41  (interest_income_account_id => accounting_accounts.id)
 #
 
 class Division < ActiveRecord::Base
@@ -55,6 +64,10 @@ class Division < ActiveRecord::Base
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
+
+  belongs_to :principal_account, class_name: "Accounting::Account"
+  belongs_to :interest_receivable_account, class_name: "Accounting::Account"
+  belongs_to :interest_income_account, class_name: "Accounting::Account"
 
   belongs_to :parent, class_name: 'Division'
 

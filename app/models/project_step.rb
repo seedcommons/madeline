@@ -64,6 +64,15 @@ class ProjectStep < TimelineEntry
   before_update :handle_schedule_children
   before_update :handle_scheduled_start_date
   before_save :handle_finalized_at
+  after_commit :recalculate_loan_health
+
+  # Scheduled end date is calculated
+  scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago).where(actual_end_date: nil) }
+  scope :recent, -> { where('scheduled_start_date + scheduled_duration_days > ? ', 30.days.ago) }
+
+  def recalculate_loan_health
+    RecalculateLoanHealthJob.perform_later(loan_id: project_id)
+  end
 
   def name
     summary
@@ -168,7 +177,8 @@ class ProjectStep < TimelineEntry
     project_logs.order(:date).last.try(:progress)
   end
 
-  # Step status to be shown in admin panel timeline
+  # Step status used in timeline list
+  # Please use ProjectStepHelper project_step_status in other contexts
   def admin_status
     days = days_late
     if days

@@ -109,6 +109,10 @@ section.details {
   font-weight: bold;
 }
 
+.alert a {
+  text-decoration: underline;
+}
+
 a, input[type="checkbox"], input[type="radio"], select {
   cursor: pointer;
 }
