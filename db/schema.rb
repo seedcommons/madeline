@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301172852) do
+ActiveRecord::Schema.define(version: 20170328160210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20170301172852) do
     t.integer  "currency_id"
     t.json     "custom_data"
     t.text     "description"
+    t.integer  "interest_income_account_id"
+    t.integer  "interest_receivable_account_id"
     t.string   "internal_name"
     t.json     "locales"
     t.string   "logo_content_type"
@@ -104,12 +106,16 @@ ActiveRecord::Schema.define(version: 20170301172852) do
     t.boolean  "notify_on_new_logs", default: false
     t.integer  "organization_id"
     t.integer  "parent_id"
+    t.integer  "principal_account_id"
     t.json     "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
   add_index "divisions", ["currency_id"], name: "index_divisions_on_currency_id", using: :btree
+  add_index "divisions", ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id", using: :btree
+  add_index "divisions", ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id", using: :btree
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id", using: :btree
+  add_index "divisions", ["principal_account_id"], name: "index_divisions_on_principal_account_id", using: :btree
 
   create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
@@ -395,6 +401,9 @@ ActiveRecord::Schema.define(version: 20170301172852) do
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "projects"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
+  add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"
+  add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
+  add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_question_sets", "divisions"

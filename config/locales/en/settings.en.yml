@@ -1,0 +1,12 @@
+en:
+  settings:
+    settings: "Settings"
+  quickbooks:
+    accounts:
+      accounts: "QuickBooks Accounts"
+      note: "These account settings only apply to future transactions."
+    connection:
+      connected: "Connected"
+      connection: "QuickBooks Connection"
+      disconnect: "Disconnect"
+      not_connected: "Not Connected"
