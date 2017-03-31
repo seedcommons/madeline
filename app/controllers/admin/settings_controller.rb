@@ -4,7 +4,7 @@ class Admin::SettingsController < Admin::AdminController
     authorize :setting
 
     @division = current_division.root
-    @accounts = ::Accounting::Account.all
+    @accounts = ::Accounting::Account.all if @division.quickbooks_connected?
   end
 
   def update
@@ -14,7 +14,7 @@ class Admin::SettingsController < Admin::AdminController
     if @division.update(settings_params)
       redirect_to admin_settings_path, notice: I18n.t(:notice_updated)
     else
-      @accounts = ::Accounting::Account.all
+      @accounts = ::Accounting::Account.all if @division.quickbooks_connected?
       render :index
     end
   end
