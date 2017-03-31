@@ -15,19 +15,19 @@ section.block
       wrapper: :horizontal_form_expanded,
     ) do |f|
 
-    = f.input "connection_status", label: t("quickbooks.connection.status") do
+    = f.input "connection_status" do
       .read-only
         - if Division.root && Division.root.quickbooks_connected?
           = t("quickbooks.connection.connected")
         - else
           = t("quickbooks.connection.not_connected")
     - if Division.root && Division.root.quickbooks_connected?
-      = f.input "disconnect", label: t("quickbooks.connection.disconnect_from_qb") do
+      = f.input "disconnect" do
         .read-only
           = link_to(t("quickbooks.connection.disconnect"),
             disconnect_admin_accounting_quickbooks_path)
     - else
-      = f.input "connect", label: t("quickbooks.connection.connect_to_qb") do
+      = f.input "connect" do
         / this will display a button that the user clicks to start the flow
         ipp:connectToIntuit
 
