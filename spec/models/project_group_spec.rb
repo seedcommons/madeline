@@ -138,14 +138,6 @@ describe ProjectGroup, type: :model do
         expect(@root2.reload.self_and_descendant_groups_preordered).to eq [@root2, @g2, @g6, @g6_g2, @g6_g1, @g1, @g5, @g3, @g4]
       end
     end
-
-    describe "indented_option_label" do
-      it "should return space-padded label text" do
-        expect(@root2.indented_option_label).to eq "[None]"
-        expect(@g1.indented_option_label).to eq @g1.summary.to_s
-        expect(@g6_g1.indented_option_label).to eq "&nbsp; &nbsp; #{@g6_g1.summary.to_s}"
-      end
-    end
   end
 
   def create_dated_step(parent, scheduled_start_date, scheduled_duration_days)
