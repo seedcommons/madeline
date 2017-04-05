@@ -13,7 +13,7 @@ div.modal-body
     = error_notification(f, dont_show_default: true)
 
     - if @entry.parent.present?
-      = f.input :parent_id, collection: [@entry.parent], label_method: :summary, disabled: true
+      = f.input :parent_id, collection: @parents, label_method: :summary, include_blank: false
 
     = render 'admin/project_groups/translatable', media: @entry, f: f
 
