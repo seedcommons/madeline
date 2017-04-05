@@ -54,6 +54,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def render_modal_partial(status: 200)
     link_params = params.slice(:project_id, :parent_id)
+    find_possible_parent_groups
     render partial: "admin/project_groups/modal_content", status: status
   end
 
@@ -63,6 +64,11 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def find_timeline_entry
     @entry = ProjectGroup.find(params[:id])
+    @project = Project.find(@entry.project_id)
     authorize @entry
+  end
+
+  def find_possible_parent_groups
+    @parents = @project.timeline_groups_preordered
   end
 end
