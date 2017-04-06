@@ -44,6 +44,22 @@
       }
     }
 
+    .person {
+      &:first-of-type {
+        h3 {
+          margin-top: .75em;
+        }
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      .recent-projects {
+        margin-top: .25em;
+      }
+    }
+
     .recent-projects {
       #completion_status {
         display: inline-block;
