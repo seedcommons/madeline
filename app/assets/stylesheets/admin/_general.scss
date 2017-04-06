@@ -134,3 +134,10 @@ a, input[type="checkbox"], input[type="radio"], select {
 [data-hide-all], .show-actions [data-hide-all] {
   display: none;
 }
+
+// Applies to all wice grid tables
+.wice-grid-container {
+  .table {
+    margin-bottom: 0;
+  }
+}
