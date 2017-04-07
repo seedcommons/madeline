@@ -138,6 +138,23 @@ describe ProjectGroup, type: :model do
         expect(@root2.reload.self_and_descendant_groups_preordered).to eq [@root2, @g2, @g6, @g6_g2, @g6_g1, @g1, @g5, @g3, @g4]
       end
     end
+
+    describe "parent_group" do
+      it "should not allow root group's parent to be changed" do
+      end
+
+      it "should not allow group's parent to be empty" do
+      end
+
+      it "should allow a parent to be changed otherwise" do
+      end
+
+      it "should move children along with the group" do
+      end
+
+      it "should not allow a child to become the parent" do
+      end
+    end
   end
 
   def create_dated_step(parent, scheduled_start_date, scheduled_duration_days)
