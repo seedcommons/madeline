@@ -4,7 +4,7 @@
   .content {
     h1, h2 {
       margin: 0;
-      padding: 0;
+      padding: 0 0 .25em;
     }
 
     .section {
@@ -45,6 +45,8 @@
     }
 
     .person {
+      margin-bottom: 1.25em;
+
       &:first-of-type {
         h3 {
           margin-top: .75em;
