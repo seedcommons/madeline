@@ -2,4 +2,5 @@
 Madeline
 App is running.
 Delayed Job is <%= @dj ? "" : "NOT " %>running.
-<%= "Everything is OK." if @dj %>
+<%= "There are no stuck jobs." if !@stuck %>
+<%= "Everything is OK." if @ok %>

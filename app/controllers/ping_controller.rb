@@ -6,6 +6,10 @@ class PingController < ApplicationController
       @dj = false
     end
 
-    render layout: nil, formats: :text, status: @dj ? 200 : 503
+    @stuck = Delayed::Job.where.not(failed_at: nil).count > 0
+
+    @ok = !@stuck && @dj
+
+    render layout: nil, formats: :text, status: @ok ? 200 : 503
   end
 end
