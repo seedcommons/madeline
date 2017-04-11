@@ -57,6 +57,7 @@ $media-block-width: 100px;
     .media-title {
       width: $media-block-width;
       color: $gray3;
+      cursor: pointer;
     }
 
     a {
