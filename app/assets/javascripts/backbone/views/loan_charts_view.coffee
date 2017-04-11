@@ -19,7 +19,9 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.load 'current',
       packages: ['corechart']
       callback: @loadCharts.bind @
-    $(window).on("resize", @testLoad.bind @)
+
+    window.addEventListener("resize", @testLoad.bind @);
+    window.addEventListener("load", @testLoad.bind @);
 
   events:
     'click .chart': 'testLoad'
@@ -32,7 +34,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
   testLoad: ->
-    console.log("You have clicked on a chart")
     console.log("Attempting to reload the charts")
     google.charts.load 'current',
       packages: ['corechart']
