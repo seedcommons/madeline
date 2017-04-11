@@ -51,7 +51,7 @@ class Media < ActiveRecord::Base
   end
 
   def thumbnail?
-    kind_value == 'image'
+    kind_value == 'image' ? (item_content_type.include? "image") : false
   end
 
   def recalculate_loan_health
