@@ -14,7 +14,7 @@ module MediaHelper
 
   def media_title(media_item)
     ext = File.extname(media_item.item.file.path)
-    file_name = truncate(File.basename(media_item.item.file.path, ext), length: 15)
+    file_name = truncate(File.basename(media_item.item.file.path, ext), length: 12)
     content_tag(:div, class: "media-title") do
       concat(content_tag(:span, file_name))
       concat(content_tag(:div, ext.downcase))

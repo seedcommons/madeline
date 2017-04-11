@@ -1,7 +1,14 @@
 @import '../colors';
 
+$media-block-width: 100px;
+
 .media-browser {
-  div.media-item { display: inline-block; }
+  div.media-item {
+    display: inline-block;
+    text-align: center;
+    height: auto;
+    vertical-align: top;
+  }
 
   .thumb {
     position: relative;
@@ -28,20 +35,29 @@
       }
     }
 
-    .extension {
-      background-color: $gray2;
+    .extension, .media-block {
       display: block;
-      width: 100px;
-      height: 100px;
+      width: $media-block-width;
+      height: $media-block-width;
       padding-top: 32px;
-      text-align: center;
+      background-color: $gray2;
       color: $gray3;
+    }
+
+    .extension {
       font-size: 1.4em;
+    }
+
+    .media-title {
+      width: $media-block-width;
     }
 
     a {
       display: block;
-      &:hover { text-decoration: none; }
+
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
