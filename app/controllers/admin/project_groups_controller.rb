@@ -69,6 +69,6 @@ class Admin::ProjectGroupsController < Admin::AdminController
   end
 
   def find_possible_parent_groups
-    @parents = @project.timeline_groups_preordered.to_a - [@entry] - @entry.children.to_a
+    @parents = @project.timeline_groups_preordered.to_a - [@entry] - @entry.descendants.to_a
   end
 end
