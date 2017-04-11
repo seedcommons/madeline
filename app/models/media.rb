@@ -58,4 +58,14 @@ class Media < ActiveRecord::Base
     # Only submit a job if it is a Loan
     RecalculateLoanHealthJob.perform_later(loan_id: media_attachable_id) if media_attachable_type == 'Project'
   end
+
+  def visual_media?
+    if kind_value == "image"
+      true
+    elsif kind_value == "video"
+      true
+    else
+      false
+    end
+  end
 end
