@@ -51,6 +51,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'transactions'
       initialize_transactions_grid(@loan.id)
     when 'calendar'
+      @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
     @tabs = %w(details questions timeline timeline_list logs transactions calendar)
