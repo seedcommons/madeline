@@ -48,6 +48,12 @@ $media-block-width: 100px;
       font-size: 1.4em;
     }
 
+    .media-block {
+      i {
+        font-size: 1.4em;
+      }
+    }
+
     .media-title {
       width: $media-block-width;
     }
