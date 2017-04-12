@@ -6,16 +6,15 @@ section.log-list
   = render "admin/project_logs/log_list"
 
 div#log-form-modal
+= render "admin/media/modal"
+
+= paginate @logs
 
 javascript:
   $(function() {
-
     new MS.Views.LogListView({
       el: 'section.log-list',
       refreshUrl: #{json refresh_url},
       logFormModal: $('#log-form-modal')
     });
   });
-
-
-= paginate @logs

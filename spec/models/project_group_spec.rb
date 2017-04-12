@@ -76,6 +76,25 @@ describe ProjectGroup, type: :model do
     end
   end
 
+  context 'changing parent' do
+    let(:root) { create(:root_project_group) }
+    let(:group) { create(:project_group) }
+    let(:child1) { create(:project_group, parent: root) }
+    let(:child2) { create(:project_group, parent: root) }
+
+    it "should disallow changing the root group's parent" do
+      expect { root.update(parent: group) }.to raise_error(ArgumentError)
+    end
+
+    it 'should disallow changing the parent of a regular group to nil' do
+      expect { child1.update(parent: nil) }.to raise_error(ArgumentError)
+    end
+
+    it 'should allow the parent to be changed otherwise' do
+      expect(child1.update(parent: child2)).to be true
+    end
+  end
+
   context "with descendants" do
     let(:root) { create(:root_project_group, :with_descendants) }
 
