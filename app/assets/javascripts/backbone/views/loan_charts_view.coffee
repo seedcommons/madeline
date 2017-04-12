@@ -16,15 +16,13 @@ class MS.Views.LoanChartsView extends Backbone.View
       },
       backgroundColor: 'none'
     }
-    google.charts.load 'current',
-      packages: ['corechart']
-      callback: @loadCharts.bind @
+    @loadGoogleCharts
 
     window.addEventListener("resize", @testLoad.bind @);
     window.addEventListener("load", @testLoad.bind @);
 
   events:
-    'click .chart': 'testLoad'
+    'click .chart': 'loadGoogleCharts'
 
   loadCharts: ->
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
@@ -33,8 +31,8 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
-  testLoad: ->
-    console.log("Attempting to reload the charts")
+  loadGoogleCharts: ->
+    console.log("Attempting to load the charts")
     google.charts.load 'current',
       packages: ['corechart']
       callback: @loadCharts.bind @
