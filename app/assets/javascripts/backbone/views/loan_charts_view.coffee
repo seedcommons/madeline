@@ -18,8 +18,8 @@ class MS.Views.LoanChartsView extends Backbone.View
     }
     @loadGoogleCharts
 
-    window.addEventListener("resize", @testLoad.bind @);
-    window.addEventListener("load", @testLoad.bind @);
+    window.addEventListener("resize", @loadGoogleCharts.bind @);
+    window.addEventListener("load", @loadGoogleCharts.bind @);
 
   events:
     'click .chart': 'loadGoogleCharts'
