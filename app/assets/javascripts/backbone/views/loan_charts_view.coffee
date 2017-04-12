@@ -18,11 +18,16 @@ class MS.Views.LoanChartsView extends Backbone.View
     }
     @loadGoogleCharts
 
+    # When window is resized, resize the charts
     window.addEventListener("resize", @loadGoogleCharts.bind @);
 
   events:
-    'click .chart': 'loadGoogleCharts'
     'tree.expanded': 'loadGoogleCharts'
+
+  loadGoogleCharts: ->
+    google.charts.load 'current',
+      packages: ['corechart']
+      callback: @loadCharts.bind @
 
   loadCharts: ->
     google.charts.setOnLoadCallback @breakevenRevenueChart.bind @
@@ -30,12 +35,6 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenProductProfitChart.bind @
     google.charts.setOnLoadCallback @breakevenFixedCostsChart.bind @
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
-
-  loadGoogleCharts: ->
-    console.log("Attempting to load the charts")
-    google.charts.load 'current',
-      packages: ['corechart']
-      callback: @loadCharts.bind @
 
   breakevenRevenueChart: ->
     chartTable = @defaultChartTable(I18n.t('loan.breakeven.product'), I18n.t('loan.breakeven.revenue'), @breakevenRevenue)
