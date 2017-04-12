@@ -14,7 +14,7 @@ module MediaHelper
     ext = File.extname(media_item.item.file.path)
     file_name = truncate(File.basename(media_item.item.file.path, ext), length: 12)
     full_name = File.basename(media_item.item.file.path)
-    content_tag(:div, class: "media-title", title: "#{full_name}") do
+    content_tag(:div, class: "media-title", title: full_name) do
       concat(content_tag(:span, file_name))
       concat(content_tag(:div, ext.downcase))
     end
@@ -30,15 +30,14 @@ module MediaHelper
     else
       case ext = File.extname(media_item.item.file.path)
       when ".pdf"
-        icon_class = "file-pdf-o"
+        "file-pdf-o"
       when ".doc"
-        icon_class = "file-word-o"
+        "file-word-o"
       when ".docx"
-        icon_class = "file-word-o"
+        "file-word-o"
       else
-        icon_class = "file-text-o"
+        "file-text-o"
       end
-      return icon_class
     end
   end
 end
