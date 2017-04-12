@@ -12,8 +12,8 @@ div.modal-body
 
     = error_notification(f, dont_show_default: true)
 
-    = f.input :parent_id, collection: @parents.map { |g| [indented_option_label(g, :summary_or_none), g.id] },
-      include_blank: false
+    = f.input :parent_id, collection: @parents.map { |g| [indented_option_label(g,
+      :summary_or_none), g.id] }, include_blank: false
 
     = render 'admin/project_groups/translatable', media: @entry, f: f
 
