@@ -16,6 +16,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'focus .questionnaire-form form': 'setupDirtyForm'
     'tree.open': 'notifyExpandListeners'
 
+  # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
     @$(e.node.element).find('[data-tree-expand-listener]').trigger('tree.expanded')
 
