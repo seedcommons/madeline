@@ -37,6 +37,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     # Initialize the jqtree
     @tree.tree
       dragAndDrop: false
+      saveState: true
       selectable: false
       useContextMenu: false
       # This is fired for each li element in the jqtree just after it's created.
