@@ -72,4 +72,9 @@ module AdminHelper
     # Subtract 1 from depth since root node either doesn't display or displays as "[None]"
     ("&nbsp; &nbsp; " * [node.depth - 1, 0].max).html_safe << node.send(label_method)
   end
+
+  # Displays Font Awesome icons
+  def icon_tag(class_name)
+    content_tag(:i, "", class: "fa fa-#{class_name}")
+  end
 end

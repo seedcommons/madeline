@@ -5,8 +5,7 @@ module MediaHelper
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
-        concat(sanitize("<i class='fa fa-#{media_icon_class(media_item)}'></i>", tags: %w(i),
-          attributes: %w(class)))
+        concat(icon(media_icon_class(media_item)))
       end
     end
   end
