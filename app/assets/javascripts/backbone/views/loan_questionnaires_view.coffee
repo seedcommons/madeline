@@ -84,7 +84,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     nodes
 
   editDocument: (e) ->
-    # Fire a global event. Consider refactoring this later to use the style used in LoanChartsView
+    # Fire a global event. Consider refactoring this in the style of notifyExpandListeners above.
     Backbone.trigger 'LoanQuestionnairesView:edit', @
 
   # Sets up the dirtyForm plugin on the questionnaire form.
