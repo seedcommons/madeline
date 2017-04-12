@@ -7,13 +7,13 @@
     h4 = t("media.documents")
 
     - owner.media.each do |media_item|
-      - unless media_item.visual_media?
+      - unless media_item.visual?
         = render "admin/media/media_item", media_item: media_item, link_params: link_params
   div
     h4 = t("media.visual_media")
 
     - owner.media.each do |media_item|
-      - if media_item.visual_media?
+      - if media_item.visual?
         = render "admin/media/media_item", media_item: media_item, link_params: link_params
 
   div.media-item#media-new

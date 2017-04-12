@@ -22,7 +22,7 @@ module MediaHelper
   end
 
   def media_icon_class(media_item)
-    if media_item.visual_media?
+    if media_item.visual?
       if media_item.kind_value == "video"
         "file-video-o"
       else
