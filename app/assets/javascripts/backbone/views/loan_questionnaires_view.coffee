@@ -14,6 +14,11 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'confirm:complete .linked-document [data-action="delete"]': 'removeLinkedDocument'
     'click .edit-action': 'editDocument'
     'focus .questionnaire-form form': 'setupDirtyForm'
+    'tree.open': 'notifyExpandListeners'
+
+  # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
+  notifyExpandListeners: (e) ->
+    @$(e.node.element).find('[data-tree-expand-listener]').trigger('tree.expanded')
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
@@ -79,6 +84,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     nodes
 
   editDocument: (e) ->
+    # Fire a global event. Consider refactoring this in the style of notifyExpandListeners above.
     Backbone.trigger 'LoanQuestionnairesView:edit', @
 
   # Sets up the dirtyForm plugin on the questionnaire form.
