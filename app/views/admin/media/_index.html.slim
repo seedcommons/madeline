@@ -1,6 +1,6 @@
 - link_params = {attachable_type: owner.class.model_name.route_key, attachable_id: owner.id}
-- visuals = media_visuals(media)
-- documents = media_documents(media)
+- visuals = media_visuals(owner.media)
+- documents = media_documents(owner.media)
 
 .media-browser.col-lg-12 data-media-type="#{owner.class.name}"
   h3 = t("media.media")
