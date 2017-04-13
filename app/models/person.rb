@@ -64,7 +64,9 @@ class Person < ActiveRecord::Base
   has_many :representative_loans,  class_name: 'Loan', foreign_key: :representative_id,  dependent: :nullify
   has_many :project_logs, foreign_key: :agent_id, dependent: :nullify
   has_many :timeline_entries, foreign_key: :agent_id, dependent: :nullify
-  has_many :media, foreign_key: :uploader_id, dependent: :nullify
+
+  # The belong interferes with the expected behavior for media attachable
+  # has_many :media, foreign_key: :uploader_id, dependent: :nullify
 
   has_one :user, foreign_key: :profile_id, autosave: true, dependent: :destroy
 
