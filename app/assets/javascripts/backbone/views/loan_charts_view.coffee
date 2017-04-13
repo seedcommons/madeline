@@ -16,9 +16,11 @@ class MS.Views.LoanChartsView extends Backbone.View
       },
       backgroundColor: 'none'
     }
-    @loadGoogleCharts
 
-    # When window is resized, resize the charts
+    # If a breakeven question is expanded initially, load the charts
+    window.addEventListener('load', @loadGoogleCharts.bind @);
+
+    # When the window is resized, resize the charts
     window.addEventListener('resize', @loadGoogleCharts.bind @);
 
   events:
