@@ -40,4 +40,12 @@ module MediaHelper
       end
     end
   end
+
+  def media_visuals(media)
+    media.select do |media_item| media_item.visual? end
+  end
+
+  def media_documents(media)
+    media.select do |media_item| !media_item.visual? end
+  end
 end
