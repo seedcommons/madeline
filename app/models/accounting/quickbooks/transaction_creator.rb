@@ -12,12 +12,14 @@ module Accounting
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = memo
 
+        qb_customer_ref = create_customer_reference(qb_customer_id: qb_customer_id)
+
         je.line_items << create_line_item(
           amount: amount,
           loan_id: loan_id,
           posting_type: 'Debit',
           qb_account_id: interest_receivable_account.qb_id,
-          qb_customer_id: qb_customer_id
+          qb_customer_ref: qb_customer_ref
         )
 
         je.line_items << create_line_item(
@@ -25,7 +27,7 @@ module Accounting
           loan_id: loan_id,
           posting_type: 'Credit',
           qb_account_id: qb_bank_account_id,
-          qb_customer_id: qb_customer_id
+          qb_customer_ref: qb_customer_ref
         )
 
         service.create(je)
@@ -41,13 +43,13 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
-      def create_line_item(amount:, loan_id:, posting_type:, qb_account_id:, qb_customer_id:)
+      def create_line_item(amount:, loan_id:, posting_type:, qb_account_id:, qb_customer_ref:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
         jel = ::Quickbooks::Model::JournalEntryLineDetail.new
         line_item.journal_entry_line_detail = jel
 
-        jel.entity = create_customer_reference(qb_customer_id: qb_customer_id)
+        jel.entity = qb_customer_ref
 
         # The QBO api needs a fully persisted class before we can associate it.
         # We need to either find or create the class, and use the returned Id.
