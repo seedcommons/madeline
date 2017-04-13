@@ -101,6 +101,7 @@ Rails.application.routes.draw do
   end
 
   get '/test' => 'static_pages#test'
+  get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')
 end
