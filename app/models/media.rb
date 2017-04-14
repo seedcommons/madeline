@@ -51,11 +51,15 @@ class Media < ActiveRecord::Base
   end
 
   def thumbnail?
-    kind_value == 'image'
+    kind_value == "image" && item_content_type.include?("image")
   end
 
   def recalculate_loan_health
     # Only submit a job if it is a Loan
     RecalculateLoanHealthJob.perform_later(loan_id: media_attachable_id) if media_attachable_type == 'Project'
+  end
+
+  def visual?
+    %w(image video).include?(kind_value)
   end
 end

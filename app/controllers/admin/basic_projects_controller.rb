@@ -37,6 +37,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     when 'logs'
       prep_logs(@basic_project)
     when "calendar"
+      @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
     end
 
