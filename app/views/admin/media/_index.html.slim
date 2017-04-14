@@ -3,8 +3,6 @@
 - documents = media_documents(owner.media)
 
 .media-browser.col-lg-12 data-media-type="#{owner.class.name}"
-  h3 = t("media.media")
-
   - if documents.any?
     div
       h4 = t("media.documents")
