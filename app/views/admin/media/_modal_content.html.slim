@@ -7,7 +7,7 @@ div.modal-body.media-modal
   = simple_form_for [:admin, @media], url: @submit_url, remote: true do |f|
     = error_notification(f)
 
-    - if @media.id
+    - unless @media.new_record?
       div.media-item data-media-id="#{@media.id}"
         .thumb
           = link_to media_thumbnail(@media), @media.item.url, target: "_blank"
