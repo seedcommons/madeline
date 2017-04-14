@@ -45,6 +45,7 @@ class ProjectGroup < TimelineEntry
   # validate :has_summary
 
   before_create :ensure_single_root
+  before_update :check_parent_changes
 
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
@@ -149,6 +150,14 @@ class ProjectGroup < TimelineEntry
     if parent_id.nil?
       roots = self.class.where(project_id: project_id, parent_id: nil).count
       raise MultipleRootError.new("This project already has a root group") if roots > 0
+    end
+  end
+
+  def check_parent_changes
+    if parent_id_changed? && parent_id_was.nil?
+      raise ArgumentError.new("Parent of root group cannot be changed")
+    elsif parent_id_changed? && parent_id.nil?
+      raise ArgumentError.new("Parent of project group cannot be empty")
     end
   end
 end

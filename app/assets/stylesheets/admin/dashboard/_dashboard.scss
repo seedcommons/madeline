@@ -4,7 +4,7 @@
   .content {
     h1, h2 {
       margin: 0;
-      padding-bottom: .75em;
+      padding: 0 0 .25em;
     }
 
     .section {
@@ -41,6 +41,24 @@
     .logs-index.post-list {
       .post {
         padding: 10px;
+      }
+    }
+
+    .person {
+      margin-bottom: 1.25em;
+
+      &:first-of-type {
+        h3 {
+          margin-top: .75em;
+        }
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      .recent-projects {
+        margin-top: .25em;
       }
     }
 

@@ -19,8 +19,12 @@ section.questionnaires li.jqtree_common
 
   .chart {
     display: inline-block;
-    width: 48%;
+    width: auto;
     margin: 2em auto 1em;
     text-align: center;
+
+    @media (min-width: 768px) {
+      width: 48%;
+    }
   }
 }
