@@ -55,7 +55,7 @@ class ProjectStep < TimelineEntry
 
   attr_option_settable :step_type
 
-  validates :project_id, :step_type_value, :scheduled_duration_days, presence: true
+  validates :project_id, :step_type_value, presence: true
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
 
@@ -108,6 +108,7 @@ class ProjectStep < TimelineEntry
 
   def scheduled_end_date
     return if scheduled_start_date.blank?
+    return scheduled_start_date if scheduled_duration_days.blank?
     scheduled_start_date + scheduled_duration_days
   end
 
