@@ -299,7 +299,7 @@ class ProjectStep < TimelineEntry
     if is_finalized?
       false
     else
-      update!(is_finalized: true)
+      update_attribute(:is_finalized, true)
     end
   end
 
