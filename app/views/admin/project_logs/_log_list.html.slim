@@ -85,6 +85,6 @@
               .extra
                 = simple_format content_tag(:strong, t('log.private_notes')) << log.private_notes.to_s
 
-            .media-container.row
-              - unless log.new_record?
+            - if log.media.present?
+              .extra.media-container.row
                 = render 'admin/media/index', media: log.media, owner: log
