@@ -55,7 +55,7 @@ class ProjectStep < TimelineEntry
 
   attr_option_settable :step_type
 
-  validates :project_id, :step_type_value, presence: true
+  validates :project_id, :step_type_value, :scheduled_duration_days, presence: true
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
 
