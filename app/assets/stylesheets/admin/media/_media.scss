@@ -1,18 +1,29 @@
 @import '../colors';
 
+$media-block-width: 100px;
+
 .media-browser {
-  div.media-item { display: inline-block; }
+  h4 {
+    font-size: 15px;
+  }
+
+  div.media-item {
+    display: inline-block;
+    height: auto;
+    vertical-align: top;
+    text-align: center;
+  }
 
   .thumb {
-    position: relative;
     margin-bottom: 15px;
     margin-right: 15px;
+    position: relative;
 
     .actions {
+      display: none;
       position: absolute;
       top: 0px;
       right: 2px;
-      display: none;
       font-size: 18px;
 
       a {
@@ -28,20 +39,37 @@
       }
     }
 
-    .extension {
-      background-color: $gray2;
+    .extension, .media-block {
       display: block;
-      width: 100px;
-      height: 100px;
+      width: $media-block-width;
+      height: $media-block-width;
       padding-top: 32px;
-      text-align: center;
+      background-color: $gray2;
       color: $gray3;
+    }
+
+    .extension {
       font-size: 1.4em;
+    }
+
+    .media-block {
+      i {
+        font-size: 1.4em;
+      }
+    }
+
+    .media-title {
+      width: $media-block-width;
+      color: $gray3;
+      cursor: pointer;
     }
 
     a {
       display: block;
-      &:hover { text-decoration: none; }
+
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
