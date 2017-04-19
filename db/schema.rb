@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328160210) do
+ActiveRecord::Schema.define(version: 20170419144544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -354,7 +354,7 @@ ActiveRecord::Schema.define(version: 20170328160210) do
     t.integer  "schedule_parent_id"
     t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
-    t.string   "step_type_value"
+    t.string   "step_type_value", null: false
     t.string   "type", null: false
     t.datetime "updated_at", null: false
   end
