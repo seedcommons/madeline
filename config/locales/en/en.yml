@@ -275,7 +275,6 @@ en:
   locked: "Locked"
   login: "Login"
   logout: "Logout"
-  media: "Media"
   more: "More"
   name: "Name"
   none: "None"
@@ -386,10 +385,13 @@ en:
   media:
     confirm_deletion: "Are you sure you want to delete this media item?"
     caption: "%{locale_name} Caption"
+    documents: "Documents"
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"
     item: "Item"
+    media: "Media"
+    visual_media: "Visual Media"
 
   menu:
     basic_projects: "Projects"

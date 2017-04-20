@@ -1,22 +1,22 @@
 - link_params = {attachable_type: owner.class.model_name.route_key, attachable_id: owner.id}
+- visuals = media_visuals(owner.media)
+- documents = media_documents(owner.media)
 
 .media-browser.col-lg-12 data-media-type="#{owner.class.name}"
-  - owner.media.each do |media_item|
-    div.media-item data-media-id="#{media_item.id}"
-      .thumb
-        = link_to media_thumbnail(media_item), media_item.item.url
-        .actions
-          = link_to edit_admin_media_path(media_item, link_params), class: 'media-action edit' do
-            i.fa.fa-pencil
-          = link_to admin_media_path(media_item, link_params), class: 'media-action delete',
-            data: { \
-              confirm: t('media.confirm_deletion'),
-              'confirm-title': t('media.delete'),
-              'confirm-cancel': t(:cancel),
-              'confirm-proceed': t(:confirm),
-              'confirm-cancel-class': 'media-action btn cancel btn-default',
-              'confirm-proceed-class': 'media-action btn proceed btn-primary' } do
-            i.fa.fa-trash
+  - if documents.any?
+    div
+      h4 = t("media.documents")
+
+      - documents.each do |media_item|
+        = render "admin/media/media_item", media_item: media_item, link_params: link_params
+
+  - if visuals.any?
+    div
+      h4 = t("media.visual_media")
+
+      - visuals.each do |media_item|
+        = render "admin/media/media_item", media_item: media_item, link_params: link_params
+
   div.media-item#media-new
     .thumb
       = link_to image_tag("new-image.png"), new_admin_media_path(link_params),
