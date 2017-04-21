@@ -46,6 +46,12 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       = error_notification(f)
 
+      // The hide/show for this alert is in ProjectStepModalView.
+      // Do not use .hidden here.
+      .alert.alert-danger.empty-step-error role="alert"
+        i.fa.fa-exclamation-circle>
+        = t("project_step.empty_step_error")
+
       / Summary & details
       .view-element
         = f.input :summary, wrapper_html: {class: 'hidden-print'}

@@ -439,6 +439,7 @@ en:
     duplicate_step: "Duplicate Step"
     duration_days: "%{duration}d"
     edit: "Edit Step"
+    empty_step_error: "Summary is required."
     end: "End:"
     every: "Every:"
     batch_delete_confirm: "Are you sure you want to delete these project steps?"
