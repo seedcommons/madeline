@@ -11,7 +11,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     Division.root.quickbooks_save(access_token: qb_access_token, params: params)
 
-    flash[:notice] = 'Your QuickBooks account has been successfully linked.'
+    flash[:notice] = t('quickbooks.connection.link_message')
   end
 
   def disconnect
@@ -19,7 +19,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     Division.root.quickbooks_forget
 
-    redirect_to admin_settings_path, notice: 'Your QuickBooks account has been successfully disconnected.'
+    redirect_to admin_settings_path, notice: t('quickbooks.connection.disconnect_message')
   end
 
   def full_sync
@@ -27,7 +27,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     ::Accounting::Quickbooks::FullFetcher.new.fetch_all
 
-    redirect_to admin_settings_path, notice: 'Your QuickBooks data has been syncronized'
+    redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
   end
 
   private
