@@ -26,6 +26,13 @@ section.block
         .read-only
           = link_to(t("quickbooks.connection.disconnect"),
             disconnect_admin_accounting_quickbooks_path)
+      = f.input "last_updated_at" do
+        .read-only
+          = @last_updated_at
+      = f.input "full_sync" do
+        .read-only
+          = link_to(t("quickbooks.connection.full_sync"),
+            full_sync_admin_accounting_quickbooks_path)
     - else
       = f.input "connect" do
         / this will display a button that the user clicks to start the flow

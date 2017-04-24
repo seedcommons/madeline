@@ -10,3 +10,4 @@ en:
       connection: "QuickBooks Connection"
       disconnect: "Disconnect"
       not_connected: "Not Connected"
+      full_sync: "Full Sync"

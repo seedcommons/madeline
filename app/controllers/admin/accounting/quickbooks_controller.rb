@@ -22,6 +22,14 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     redirect_to admin_settings_path, notice: 'Your QuickBooks account has been successfully disconnected.'
   end
 
+  def full_sync
+    authorize :'accounting/quickbooks', :full_sync?
+
+    ::Accounting::Quickbooks::FullFetcher.new.fetch_all
+
+    redirect_to admin_settings_path, notice: 'Your QuickBooks data has been syncronized'
+  end
+
   private
 
   def qb_consumer

@@ -3,8 +3,7 @@ module TransactionListable
 
   def initialize_transactions_grid(project_id = nil)
     begin
-      ::Accounting::Quickbooks::AccountFetcher.new.fetch
-      ::Accounting::Quickbooks::TransactionFetcher.new.fetch
+      ::Accounting::Quickbooks::Updater.new.update
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       flash.now[:error] = t('quickbooks.service_unavailable')
