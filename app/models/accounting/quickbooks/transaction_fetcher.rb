@@ -2,7 +2,7 @@ module Accounting
   module Quickbooks
     class TransactionFetcher < FetcherBase
       def types
-        Accounting::Transaction::TRANSACTION_TYPES
+        Accounting::Transaction::QB_TRANSACTION_TYPES
       end
 
       def find_or_create(transaction_type:, qb_object:)

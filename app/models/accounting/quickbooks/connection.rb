@@ -50,6 +50,17 @@ module Accounting
         data[:realm_id] unless data.blank?
       end
 
+      def last_updated_at
+        DateTime.parse(data[:last_updated_at]) unless data.blank? || data[:last_updated_at].blank?
+      end
+
+      def last_updated_at=(date)
+        root = Division.root
+        root.quickbooks_data = data.merge(last_updated_at: date)
+        root.save!
+        @quickbooks_data = root.quickbooks_data
+      end
+
       private
 
       def data

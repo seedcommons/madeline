@@ -26,10 +26,19 @@
 #
 
 class Accounting::Transaction < ActiveRecord::Base
-  TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
+  QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :accounting_account_id
+
+  def self.find_or_create_from_qb_object(qb_object)
+    transaction_type = qb_object.class.name.demodulize
+
+    transaction = find_or_create_by qb_transaction_type: transaction_type, qb_id: qb_object.id
+    transaction.tap do |t|
+      t.update_attributes!(quickbooks_data: qb_object.as_json)
+    end
+  end
 
   def txn_date
     quickbooks_data[:txn_date]
