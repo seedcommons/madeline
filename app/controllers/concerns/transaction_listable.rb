@@ -4,6 +4,9 @@ module TransactionListable
   def initialize_transactions_grid(project_id = nil)
     begin
       ::Accounting::Quickbooks::Updater.new.update
+    rescue Accounting::Quickbooks::FullSyncRequiredError => e
+      Rails.logger.error e
+      flash.now[:error] = t('quickbooks.full_sync_required', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       flash.now[:error] = t('quickbooks.service_unavailable')
