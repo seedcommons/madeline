@@ -1,5 +1,7 @@
 module Accounting
   module Quickbooks
+    class FullSyncRequiredError < StandardError; end
+
     class Updater
       attr_reader :qb_connection
 
@@ -30,9 +32,8 @@ module Accounting
       def changes(updates_since)
         updated_at = updates_since || last_updated_at
 
-        raise "Last update was more than 30 days ago, please do a full sync" unless updated_at && updated_at > max_updated_at
+        raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless updated_at && updated_at > max_updated_at
 
-        puts "Grabbing updates since #{updated_at}"
         service.since(types, updated_at).all_types
       end
 
@@ -44,8 +45,6 @@ module Accounting
 
       def types
         Accounting::Transaction::QB_TRANSACTION_TYPES + [Accounting::Account::QB_TRANSACTION_TYPE]
-        # [Accounting::Account::QB_TRANSACTION_TYPE]
-        # Accounting::Transaction::QB_TRANSACTION_TYPES
       end
 
       def ar_model_for(transaction_type)
@@ -54,8 +53,6 @@ module Accounting
       end
 
       def delete_qb_object(transaction_type:, qb_object:)
-        puts "deleting #{transaction_type}: #{qb_object.id}"
-
         model = ar_model_for(transaction_type)
         model.destroy_all(qb_id: qb_object.id)
       end
