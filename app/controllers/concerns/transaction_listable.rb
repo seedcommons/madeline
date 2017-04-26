@@ -11,7 +11,7 @@ module TransactionListable
     rescue Quickbooks::MissingRealmError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
+      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path, target: "_blank")).html_safe
     rescue Quickbooks::InvalidModelException,
       Quickbooks::Forbidden,
       Quickbooks::ThrottleExceeded,
