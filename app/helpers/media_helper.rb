@@ -10,7 +10,7 @@ module MediaHelper
     end
   end
 
-  def media_title(media_item, shorten = true)
+  def media_title(media_item, shorten: true)
     full_name = File.basename(media_item.item.file.path)
 
     if shorten

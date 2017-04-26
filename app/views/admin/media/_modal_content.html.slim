@@ -11,7 +11,7 @@ div.modal-body.media-modal
       div.media-item data-media-id="#{@media.id}"
         .thumb
           = link_to media_thumbnail(@media), @media.item.url, target: "_blank"
-          = media_title(@media, false)
+          = media_title(@media, shorten: false)
 
     = f.input :item
 
