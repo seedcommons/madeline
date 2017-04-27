@@ -151,6 +151,9 @@ group :development do
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
 
+  # Improved syntax for creating cron jobs
+  gem 'whenever', require: false
+
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'rack-livereload'
