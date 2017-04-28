@@ -13,7 +13,7 @@ module Accounting
       end
 
       def update
-        update_started_at = DateTime.current
+        update_started_at = Time.zone.now
 
         updated_models = changes.flat_map do |type, qb_objects|
           qb_objects.map do |qb_object|

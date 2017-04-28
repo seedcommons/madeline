@@ -11,7 +11,7 @@ module Accounting
       end
 
       def fetch_all
-        started_fetch_at = DateTime.current
+        started_fetch_at = Time.zone.now
 
         ::Accounting::Quickbooks::AccountFetcher.new.fetch
         ::Accounting::Quickbooks::TransactionFetcher.new.fetch
