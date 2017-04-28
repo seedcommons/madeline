@@ -4,20 +4,21 @@
 
 .media-browser.col-lg-12 data-media-type="#{owner.class.name}"
   - if documents.any?
-    div
+    .section
       h4 = t("media.documents")
 
       - documents.each do |media_item|
         = render "admin/media/media_item", media_item: media_item, link_params: link_params
 
   - if visuals.any?
-    div
+    .section
       h4 = t("media.visual_media")
 
       - visuals.each do |media_item|
         = render "admin/media/media_item", media_item: media_item, link_params: link_params
 
-  div.media-item#media-new
+  .section.media-item#media-new
+    h4.invisible = t("media.add")
     .thumb
       = link_to image_tag("new-image.png"), new_admin_media_path(link_params),
-        class: 'media-action new'
+        class: 'media-action new', title: t("media.add")
