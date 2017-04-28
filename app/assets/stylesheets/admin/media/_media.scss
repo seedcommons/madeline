@@ -3,6 +3,10 @@
 $media-block-width: 100px;
 
 .media-browser {
+  .section {
+    display: inline-block;
+  }
+
   h4 {
     font-size: 15px;
   }

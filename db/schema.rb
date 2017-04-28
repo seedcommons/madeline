@@ -366,7 +366,7 @@ ActiveRecord::Schema.define(version: 20170428050802) do
     t.integer  "schedule_parent_id"
     t.integer  "scheduled_duration_days", default: 0
     t.date     "scheduled_start_date"
-    t.string   "step_type_value"
+    t.string   "step_type_value", null: false
     t.string   "type", null: false
     t.datetime "updated_at", null: false
   end
