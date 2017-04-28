@@ -30,7 +30,7 @@ class Accounting::Quickbooks::Connection < ActiveRecord::Base
       secret: access_token.secret,
       division: division,
       realm_id: params['realmId'],
-      token_expires_at: 180.days.from_now.utc
+      token_expires_at: 180.days.from_now
     )
   end
 
@@ -39,12 +39,12 @@ class Accounting::Quickbooks::Connection < ActiveRecord::Base
   end
 
   def expired?
-    return token_expires_at < DateTime.now.utc if token_expires_at
+    return token_expires_at < Time.zone.now if token_expires_at
     false
   end
 
   def renewable?
-    return token_expires_at < 30.days.from_now.utc if token_expires_at && connected?
+    return token_expires_at < 30.days.from_now if token_expires_at && connected?
     false
   end
 
