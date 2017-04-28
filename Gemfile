@@ -101,6 +101,9 @@ gem 'addressable'
 # Quickbooks
 gem 'quickbooks-ruby'
 
+# For parsing human readable dates
+require 'chronic'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
