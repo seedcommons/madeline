@@ -16,7 +16,7 @@ module Accounting
         ::Accounting::Quickbooks::AccountFetcher.new.fetch
         ::Accounting::Quickbooks::TransactionFetcher.new.fetch
 
-        qb_connection.last_updated_at = started_fetch_at
+        qb_connection.update_attribute(:last_updated_at, started_fetch_at)
       end
     end
   end

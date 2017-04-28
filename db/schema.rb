@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328160210) do
+ActiveRecord::Schema.define(version: 20170428050802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,19 @@ ActiveRecord::Schema.define(version: 20170328160210) do
   end
 
   add_index "accounting_accounts", ["qb_id"], name: "index_accounting_accounts_on_qb_id", using: :btree
+
+  create_table "accounting_quickbooks_connections", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer  "division_id"
+    t.datetime "last_updated_at"
+    t.string   "realm_id"
+    t.string   "secret"
+    t.string   "token"
+    t.datetime "token_expires_at"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "accounting_quickbooks_connections", ["division_id"], name: "index_accounting_quickbooks_connections_on_division_id", using: :btree
 
   create_table "accounting_transactions", force: :cascade do |t|
     t.integer  "accounting_account_id"
@@ -107,7 +120,6 @@ ActiveRecord::Schema.define(version: 20170328160210) do
     t.integer  "organization_id"
     t.integer  "parent_id"
     t.integer  "principal_account_id"
-    t.json     "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
@@ -411,6 +423,7 @@ ActiveRecord::Schema.define(version: 20170328160210) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
 
+  add_foreign_key "accounting_quickbooks_connections", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "projects"
   add_foreign_key "countries", "currencies", column: "default_currency_id"

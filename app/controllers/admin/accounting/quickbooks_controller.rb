@@ -9,7 +9,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     authorize :'accounting/quickbooks', :oauth_callback?
     @header_disabled = true
 
-    Division.root.quickbooks_save(access_token: qb_access_token, params: params)
+    Accounting::Quickbooks::Connection.create_from_access_token(access_token: qb_access_token, division: Division.root, params: params)
 
     flash[:notice] = t('quickbooks.connection.link_message')
   end
@@ -17,7 +17,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   def disconnect
     authorize :'accounting/quickbooks', :disconnect?
 
-    Division.root.quickbooks_forget
+    Division.root.qb_connection.destroy
 
     redirect_to admin_settings_path, notice: t('quickbooks.connection.disconnect_message')
   end

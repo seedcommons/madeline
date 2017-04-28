@@ -25,7 +25,7 @@ module Accounting
           end
         end
 
-        qb_connection.last_updated_at = update_started_at
+        qb_connection.update_attribute(:last_updated_at, update_started_at)
 
         updated_models
       end
