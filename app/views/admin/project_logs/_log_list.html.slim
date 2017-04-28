@@ -3,8 +3,8 @@
 - else
   .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
     - if @context == "calendar"
-      a data-expands="step-logs-#{@step.id}" = t("log.show_logs")
-      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs")
+      a data-expands="step-logs-#{@step.id}" = t("log.show_logs_n", n: @step.logs_count)
+      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs_n", n: @step.logs_count)
     - unless @context == "dashboard"
       a data-expand-all=".logs-index" href="#" = t('common.expand_all')
       a data-hide-all=".logs-index" href="#"
