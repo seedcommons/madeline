@@ -36,8 +36,6 @@ gem 'utf8_enforcer_workaround'
 # Slim template language
 gem 'slim'
 
-# Cron jobs
-gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'daemons'
 
@@ -152,7 +150,7 @@ group :development do
   gem 'capistrano-passenger'
 
   # Improved syntax for creating cron jobs
-  gem 'whenever', require: false
+  gem 'whenever', '~> 0.9', require: false
 
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
