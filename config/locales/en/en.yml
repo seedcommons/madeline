@@ -290,6 +290,7 @@ en:
   quickbooks:
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
     service_unavailable: "The system is temporarily unavailable. Please try again later."
+    full_sync_required: "A full sync is required before you can access transactions. Please go to %{settings} to sync."
     misc: "There was an error connecting you to Quickbooks. An administrator has been notified. Some data may be out of date."
   reply_no: "No"
   reply_yes: "Yes"
