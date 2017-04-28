@@ -1,5 +1,8 @@
 module Accounting
   module Quickbooks
+
+    # This class will do a full sync and update with quickbooks for
+    # all object types supported.
     class FullFetcher
       attr_reader :qb_connection
 

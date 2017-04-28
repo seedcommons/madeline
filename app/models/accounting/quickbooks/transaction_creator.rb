@@ -1,5 +1,7 @@
 module Accounting
   module Quickbooks
+
+    # Responsible for creating transaction entries in quickbooks.
     class TransactionCreator
       attr_reader :qb_connection, :principal_account
 

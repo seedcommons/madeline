@@ -6,14 +6,16 @@ module TransactionListable
       ::Accounting::Quickbooks::Updater.new.update
     rescue Accounting::Quickbooks::FullSyncRequiredError => e
       Rails.logger.error e
-      flash.now[:error] = t('quickbooks.full_sync_required', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
+      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
+      flash.now[:error] = t('quickbooks.full_sync_required', settings: settings).html_safe
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       flash.now[:error] = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
+      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
+      flash.now[:error] = t('quickbooks.authorization_failure', settings: settings).html_safe
     rescue Quickbooks::InvalidModelException,
       Quickbooks::Forbidden,
       Quickbooks::ThrottleExceeded,

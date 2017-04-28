@@ -34,7 +34,7 @@ class Accounting::Transaction < ActiveRecord::Base
   def self.find_or_create_from_qb_object(qb_object)
     transaction_type = qb_object.class.name.demodulize
 
-    transaction = find_or_create_by qb_transaction_type: transaction_type, qb_id: qb_object.id
+    transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|
       t.update_attributes!(quickbooks_data: qb_object.as_json)
     end

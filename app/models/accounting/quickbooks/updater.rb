@@ -2,6 +2,9 @@ module Accounting
   module Quickbooks
     class FullSyncRequiredError < StandardError; end
 
+    # Reponsible for grabbing only the updates that have happened in quickbooks
+    # since the last time this class was run. If no quickbooks data exists in the sytem
+    # yet, FullFetcher will need to be run first.
     class Updater
       attr_reader :qb_connection
 
@@ -9,10 +12,10 @@ module Accounting
         @qb_connection = qb_connection
       end
 
-      def update(updates_since: nil)
+      def update
         update_started_at = DateTime.current
 
-        updated_models = changes(updates_since).flat_map do |type, qb_objects|
+        updated_models = changes.flat_map do |type, qb_objects|
           qb_objects.map do |qb_object|
             if should_be_deleted?(qb_object)
               delete_qb_object(transaction_type: type, qb_object: qb_object)
@@ -29,12 +32,10 @@ module Accounting
 
       private
 
-      def changes(updates_since)
-        updated_at = updates_since || last_updated_at
+      def changes
+        raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless last_updated_at && last_updated_at > max_updated_at
 
-        raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless updated_at && updated_at > max_updated_at
-
-        service.since(types, updated_at).all_types
+        service.since(types, last_updated_at).all_types
       end
 
       def find_or_create(transaction_type:, qb_object:)
