@@ -8,7 +8,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
   before do
     allow(subject).to receive(:service).and_return(generic_service)
-    allow(connection).to receive(:last_updated_at=)
+    allow(connection).to receive(:update_attribute).with(:last_updated_at, anything)
   end
 
   describe '#update' do
