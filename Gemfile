@@ -102,7 +102,7 @@ gem 'addressable'
 gem 'quickbooks-ruby'
 
 # For parsing human readable dates
-require 'chronic'
+gem 'chronic'
 
 group :development, :test do
   # Load environment variables from .env file in development
