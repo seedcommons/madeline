@@ -4,9 +4,13 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def new
     @project = Project.find(params[:project_id])
-    @step = ProjectStep.new(project: @project, scheduled_start_date: params[:date],
-      parent_id: params[:parent_id], schedule_parent_id: params[:schedule_parent_id],
-      step_type_value: 'checkin')
+    @step = ProjectStep.new(
+      project: @project,
+      scheduled_start_date: params[:date],
+      parent_id: params[:parent_id],
+      schedule_parent_id: params[:schedule_parent_id],
+      step_type_value: 'checkin'
+    )
     authorize @step
     if params[:context] == 'timeline_table'
       render_modal_content
