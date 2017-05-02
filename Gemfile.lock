@@ -467,6 +467,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0)
   carrierwave
   chroma
+  chronic
   closure_tree (~> 6.2)
   coffee-rails (~> 4.1.0)
   daemons
