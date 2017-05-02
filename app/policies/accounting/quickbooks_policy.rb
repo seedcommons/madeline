@@ -10,4 +10,8 @@ class Accounting::QuickbooksPolicy < ApplicationPolicy
   def disconnect?
     division_admin(division: Division.root)
   end
+
+  def full_sync?
+    division_admin(division: Division.root)
+  end
 end

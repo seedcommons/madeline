@@ -36,8 +36,6 @@ gem 'utf8_enforcer_workaround'
 # Slim template language
 gem 'slim'
 
-# Cron jobs
-gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'daemons'
 
@@ -102,6 +100,12 @@ gem 'addressable'
 
 # Quickbooks
 gem 'quickbooks-ruby'
+
+# For parsing human readable dates
+gem 'chronic'
+
+# Improved syntax for creating cron jobs
+gem 'whenever', '~> 0.9', require: false
 
 group :development, :test do
   # Load environment variables from .env file in development

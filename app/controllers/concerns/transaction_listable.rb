@@ -3,15 +3,19 @@ module TransactionListable
 
   def initialize_transactions_grid(project_id = nil)
     begin
-      ::Accounting::Quickbooks::AccountFetcher.new.fetch
-      ::Accounting::Quickbooks::TransactionFetcher.new.fetch
+      ::Accounting::Quickbooks::Updater.new.update
+    rescue Accounting::Quickbooks::FullSyncRequiredError => e
+      Rails.logger.error e
+      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
+      flash.now[:error] = t('quickbooks.full_sync_required', settings: settings).html_safe
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       flash.now[:error] = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      flash.now[:error] = t('quickbooks.authorization_failure', settings: view_context.link_to(t('menu.settings'), admin_settings_path)).html_safe
+      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
+      flash.now[:error] = t('quickbooks.authorization_failure', settings: settings, target: "_blank").html_safe
     rescue Quickbooks::InvalidModelException,
       Quickbooks::Forbidden,
       Quickbooks::ThrottleExceeded,

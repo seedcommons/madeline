@@ -16,7 +16,7 @@
 #  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
-#  step_type_value         :string
+#  step_type_value         :string           not null
 #  type                    :string           not null
 #  updated_at              :datetime         not null
 #
@@ -108,6 +108,7 @@ class ProjectStep < TimelineEntry
 
   def scheduled_end_date
     return if scheduled_start_date.blank?
+    return scheduled_start_date if scheduled_duration_days.blank?
     scheduled_start_date + scheduled_duration_days
   end
 
@@ -299,7 +300,7 @@ class ProjectStep < TimelineEntry
     if is_finalized?
       false
     else
-      update!(is_finalized: true)
+      update_attribute(:is_finalized, true)
     end
   end
 

@@ -9,17 +9,25 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     authorize :'accounting/quickbooks', :oauth_callback?
     @header_disabled = true
 
-    Division.root.quickbooks_save(access_token: qb_access_token, params: params)
+    Accounting::Quickbooks::Connection.create_from_access_token(access_token: qb_access_token, division: Division.root, params: params)
 
-    flash[:notice] = 'Your QuickBooks account has been successfully linked.'
+    flash[:notice] = t('quickbooks.connection.link_message')
   end
 
   def disconnect
     authorize :'accounting/quickbooks', :disconnect?
 
-    Division.root.quickbooks_forget
+    Division.root.qb_connection.destroy
 
-    redirect_to admin_settings_path, notice: 'Your QuickBooks account has been successfully disconnected.'
+    redirect_to admin_settings_path, notice: t('quickbooks.connection.disconnect_message')
+  end
+
+  def full_sync
+    authorize :'accounting/quickbooks', :full_sync?
+
+    ::Accounting::Quickbooks::FullFetcher.new.fetch_all
+
+    redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
   end
 
   private

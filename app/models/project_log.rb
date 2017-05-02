@@ -91,6 +91,6 @@ class ProjectLog < ActiveRecord::Base
   end
 
   def has_more?
-    [details, additional_notes, private_notes].any?(&:present?)
+    [details, additional_notes, private_notes, media].any?(&:present?)
   end
 end
