@@ -521,7 +521,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   uri-js-rails
   utf8_enforcer_workaround
-  whenever
+  whenever (~> 0.9)
   wice_grid!
 
 BUNDLED WITH

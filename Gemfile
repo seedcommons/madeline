@@ -36,8 +36,6 @@ gem 'utf8_enforcer_workaround'
 # Slim template language
 gem 'slim'
 
-# Cron jobs
-gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'daemons'
 
@@ -103,6 +101,9 @@ gem 'addressable'
 # Quickbooks
 gem 'quickbooks-ruby'
 
+# For parsing human readable dates
+gem 'chronic'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
@@ -150,6 +151,9 @@ group :development do
   gem 'capistrano',  '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+
+  # Improved syntax for creating cron jobs
+  gem 'whenever', '~> 0.9', require: false
 
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
