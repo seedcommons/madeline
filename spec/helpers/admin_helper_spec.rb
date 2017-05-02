@@ -10,7 +10,7 @@ describe AdminHelper, type: :helper do
 
       expect(indented_option_label(root, :summary_or_none)).to eq "[None]"
       expect(indented_option_label(g1, :summary_or_none)).to eq g1.summary.to_s
-      expect(indented_option_label(g1_g1, :summary_or_none)).to eq "&nbsp; &nbsp; #{g1_g1.summary.to_s}"
+      expect(indented_option_label(g1_g1, :summary_or_none)).to eq "&nbsp; &nbsp; #{CGI::escapeHTML(g1_g1.summary.to_s)}"
     end
   end
 end
