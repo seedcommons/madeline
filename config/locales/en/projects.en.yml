@@ -5,3 +5,9 @@ en:
   health_status:
     healthy: "All criteria met."
     unhealthy: "The following criteria are missing:"
+    warnings:
+      active_without_signed_contract: "active_without_signed_contract"
+      active_without_recent_logs: "active_without_recent_logs"
+      late_steps: "late_steps"
+      incomplete_loan_questions: "incomplete_loan_questions"
+      sporadic_loan_updates: "sporadic_loan_updates"
