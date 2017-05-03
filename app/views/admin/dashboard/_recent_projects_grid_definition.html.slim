@@ -22,3 +22,7 @@
       filter: false, ordering: false do |project|
       - content_tag(:span, project.status,
         class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
+
+    - g.column name: "Status", attribute: 'status_value',
+      filter: false, ordering: false do |project|
+      - project.health_status

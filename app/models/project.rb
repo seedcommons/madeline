@@ -122,4 +122,12 @@ class Project < ActiveRecord::Base
       !p.completed && p.project_logs.empty? && p.date <= Date.today
     end
   end
+
+  def health_status
+    if type == "Loan"
+      if loan_health_check
+        loan_health_check.healthy?
+      end
+    end
+  end
 end
