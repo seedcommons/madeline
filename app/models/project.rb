@@ -123,11 +123,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def health_status
+  def health_status_available?
     if type == "Loan"
       if loan_health_check
-        loan_health_check.healthy?
+        return true
       end
     end
+
+    return false
   end
 end

@@ -25,4 +25,5 @@
 
     - g.column name: "Status", attribute: 'status_value',
       filter: false, ordering: false do |project|
-      - project.health_status
+      - if project.health_status_available?
+        - health_status_icon(project)
