@@ -1,3 +1,7 @@
 en:
   project:
     months: "%{number} mo."
+
+  health_status:
+    healthy: "All criteria met."
+    unhealthy: "The following criteria are missing:"
