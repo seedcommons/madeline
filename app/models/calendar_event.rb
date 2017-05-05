@@ -2,6 +2,7 @@ class CalendarEvent
   include ActiveModel::Serialization
 
   attr_accessor :start
+  attr_accessor :end
   attr_accessor :title
   attr_accessor :html  # transient value populated by controller and serialized as "title"
 
@@ -88,6 +89,7 @@ class CalendarEvent
 
   def initialize_project_step(step)
     @start = step.scheduled_start_date
+    @end = step.display_end_date
     @title = step.name.to_s
     @background_color = step.color
 
@@ -105,6 +107,7 @@ class CalendarEvent
 
   def initialize_ghost_step(step)
     @start = step.old_start_date
+    @end = step.display_end_date
     @title = step.name.to_s
     @event_type = "ghost_step"
     @num_of_logs = step.logs_count
@@ -116,6 +119,7 @@ class CalendarEvent
 
   def initialize_project_start(project)
     @start = project.signing_date
+    @end = project.signing_date
     @title = I18n.t("loan.start", name: project.display_name)
     @event_type = "project_start"
     @model_type = project.type
@@ -125,6 +129,7 @@ class CalendarEvent
 
   def initialize_project_end(project)
     @start = project.end_date
+    @end = project.end_date
     @title = I18n.t("loan.end", name: project.display_name)
     @event_type = "project_end"
     @model_type = project.type
