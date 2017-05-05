@@ -1,6 +1,7 @@
 module Accounting
   module Quickbooks
     class FullSyncRequiredError < StandardError; end
+    class NotConnectedError < StandardError; end
 
     # Reponsible for grabbing only the updates that have happened in quickbooks
     # since the last time this class was run. If no quickbooks data exists in the sytem
@@ -13,6 +14,8 @@ module Accounting
       end
 
       def update
+        raise NotConnectedError unless qb_connection
+
         update_started_at = Time.zone.now
 
         updated_models = changes.flat_map do |type, qb_objects|

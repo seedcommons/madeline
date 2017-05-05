@@ -12,8 +12,8 @@ class CreateAccountingQuickbooksConnections < ActiveRecord::Migration
     end
 
     # We only need to migrate the root division at the moment
-    division = Division.root
-    Accounting::Quickbooks::Connection.create(division.quickbooks_data.merge(division: division))
+    # division = Division.root
+    # Accounting::Quickbooks::Connection.create(division.quickbooks_data.merge(division: division))
 
     remove_column :divisions, :quickbooks_data
   end
