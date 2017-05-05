@@ -13,9 +13,19 @@ module LoansHelper
 
   def health_status_message(loan)
     if loan.loan_health_check.healthy?
-      I18n.t("health_status.healthy")
+      status_message = {
+        status: "healthy",
+        message: I18n.t("health_status.healthy")
+      }
     else
-      "Unhealthy"
+      warnings = {
+        test1: "Test 1"
+      }
+      status_message = {
+        status: "unhealthy",
+        message: I18n.t('health_status.unhealthy'),
+        warnings: warnings
+      }
     end
   end
 end
