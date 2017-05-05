@@ -1,0 +1,6 @@
+- status_message = health_status_message(loan)
+
+- if status_message.status == "healthy"
+  i.fa.fa-check-circle.ms-tooltip data-ms-title=status_message.message
+- else
+  i.fa.fa-exclamation-triangle.ms-tooltip data-ms-title=status_message.message

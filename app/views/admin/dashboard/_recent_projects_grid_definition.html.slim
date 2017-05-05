@@ -25,13 +25,18 @@
 
     - g.column name: "Status", attribute: 'status_value',
       filter: false, ordering: false do |project|
-      /- project.health_status_available?
       - if project.health_status_available?
-        - health_status_message(project)
-        /- render "loan_health_message", loan: project
-        / - health_status_message(project)
-        / - status_message = health_status_message(loan)
-        / - if status_message.status == "healthy"
-        /   i.fa.fa-check-circle.ms-tooltip data-ms-title=status_message.message
-        / - else
-        /   i.fa.fa-exclamation-triangle.ms-tooltip data-ms-title=status_message.message
+        - status_message = health_status_message(project)
+        - if status_message == "healthy"
+          i.fa.fa-check-circle.ms-tooltip
+          .message.hidden
+            h4 = status_message[:message]
+        - else
+          i.fa.fa-exclamation-triangle.ms-tooltip
+          .message.hidden
+            h4 = status_message[:message]
+            div = status_message[:warnings]
+            / 
+            / ul
+            /   - status_message[:warnings].each do |warning|
+            /     li = warning
