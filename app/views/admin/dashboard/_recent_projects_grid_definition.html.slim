@@ -36,7 +36,5 @@
           .message.hidden
             h4 = status_message[:message]
             div = status_message[:warnings]
-            / 
-            / ul
-            /   - status_message[:warnings].each do |warning|
-            /     li = warning
+            - status_message[:warnings].each do |warning|
+              p = warning
