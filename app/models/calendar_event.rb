@@ -27,7 +27,7 @@ class CalendarEvent
     when Loan
       [new_project_start(item), new_project_end(item)]
     when ProjectStep
-      [new_project_step(item), new_ghost_step(item)]
+      [new_project_step(item)]
     else
       raise "CalendarEvent.build_for - unexpected model class: #{item.class}"
     end.compact
