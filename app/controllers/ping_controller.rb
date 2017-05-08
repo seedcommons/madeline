@@ -6,6 +6,8 @@ class PingController < ApplicationController
       @dj = false
     end
 
+    @count = Delayed::Job.count
+
     @stuck = Delayed::Job.where.not(failed_at: nil).count > 0
 
     @ok = !@stuck && @dj

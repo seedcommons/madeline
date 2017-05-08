@@ -16,7 +16,7 @@
 #  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
-#  step_type_value         :string
+#  step_type_value         :string           not null
 #  type                    :string           not null
 #  updated_at              :datetime         not null
 #
@@ -46,6 +46,9 @@ class ProjectGroup < TimelineEntry
 
   before_create :ensure_single_root
   before_update :check_parent_changes
+
+  # A step type value is required for timeline entries
+  after_initialize :set_step_type_value
 
   # Prepend required to work with has_closure_tree,
   # otherwise children are deleted before we even get here.
@@ -159,5 +162,9 @@ class ProjectGroup < TimelineEntry
     elsif parent_id_changed? && parent_id.nil?
       raise ArgumentError.new("Parent of project group cannot be empty")
     end
+  end
+
+  def set_step_type_value
+    self.step_type_value = "group"
   end
 end

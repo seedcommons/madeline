@@ -65,6 +65,8 @@ class Division < ActiveRecord::Base
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
+  has_one :qb_connection, class_name: 'Accounting::Quickbooks::Connection', dependent: :destroy
+
   belongs_to :principal_account, class_name: "Accounting::Account"
   belongs_to :interest_receivable_account, class_name: "Accounting::Account"
   belongs_to :interest_income_account, class_name: "Accounting::Account"
@@ -88,7 +90,7 @@ class Division < ActiveRecord::Base
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
 
-  delegate :connected?, :save, :forget, to: :qb_connection, prefix: :quickbooks
+  delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
   def self.root_id
     result = root.try(:id)
@@ -129,9 +131,5 @@ class Division < ActiveRecord::Base
     locales.map do |locale|
       I18n.t("locale_name.#{locale}", locale: locale)
     end
-  end
-
-  def qb_connection
-    @qb_connection ||= Accounting::Quickbooks::Connection.new Division.root.quickbooks_data
   end
 end

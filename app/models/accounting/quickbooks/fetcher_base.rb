@@ -15,14 +15,14 @@ module Accounting
         types.each do |type|
           results = service(type).all || []
           results.each do |qb_object|
-            find_or_create(transaction_type: type, qb_object: qb_object)
+            find_or_create(qb_object: qb_object)
           end
         end
       end
 
       private
 
-      def find_or_create(transaction_type:, qb_object:)
+      def find_or_create(qb_object:)
         raise NotImplementedError
       end
 
