@@ -88,6 +88,38 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
         subject
       end
+
+      it 'creates JournalEntry with default date' do
+        expect(generic_service).to receive(:create) do |arg|
+          expect(arg.txn_date).to be_nil
+        end
+
+        subject
+      end
+
+      context 'and date is supplied' do
+        let(:date) { 3.days.ago }
+
+        subject do
+          creator.add_disbursement(
+            amount: amount,
+            loan_id: loan_id,
+            memo: memo,
+            description: description,
+            qb_bank_account_id: 89,
+            qb_customer_id: qb_customer_id,
+            date: date
+          )
+        end
+
+        it 'creates JournalEntry with date' do
+          expect(generic_service).to receive(:create) do |arg|
+            expect(arg.txn_date).to eq date
+          end
+
+          subject
+        end
+      end
     end
 
     it 'creates JournalEntry with a reference to the existing loan' do

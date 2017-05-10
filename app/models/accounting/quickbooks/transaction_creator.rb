@@ -10,9 +10,10 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, qb_customer_id:)
+      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, qb_customer_id:, date: nil)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = memo
+        je.txn_date = date if date.present?
 
         qb_customer_ref = create_customer_reference(qb_customer_id: qb_customer_id)
 
