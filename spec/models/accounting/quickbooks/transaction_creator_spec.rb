@@ -17,13 +17,16 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   context 'when qb customer does exist' do
     let(:qb_customer_id) { 3 }
     let(:loan_id) { 2 }
+    let(:amount) { 78.20 }
+    let(:memo) { 'I am a memo' }
+    let(:description) { 'I am a line item description' }
 
     subject do
       creator.add_disbursement(
-        amount: 12.09,
+        amount: amount,
         loan_id: loan_id,
-        memo: 'I am memo',
-        description: 'I am a line item description',
+        memo: memo,
+        description: description,
         qb_bank_account_id: 89,
         qb_customer_id: qb_customer_id
       )
@@ -38,7 +41,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
         subject
       end
 
-      it 'creates JournalEntry with 2 line items with customer refs' do
+      it 'creates JournalEntry with 2 line items and customer refs' do
         expect(generic_service).to receive(:create) do |arg|
           arg.line_items.each do |item|
             expect(item.journal_entry_line_detail.entity.type).to eq 'Customer'
@@ -48,11 +51,39 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
         subject
       end
 
-      it 'creates JournalEntry with 2 line items with proper customer id' do
+      it 'creates JournalEntry with 2 line items and proper customer id' do
         expect(generic_service).to receive(:create) do |arg|
           arg.line_items.each do |item|
             expect(item.journal_entry_line_detail.entity.entity_ref.value).to eq qb_customer_id
           end
+        end
+
+        subject
+      end
+
+      it 'creates JournalEntry with 2 line items and proper amount' do
+        expect(generic_service).to receive(:create) do |arg|
+          arg.line_items.each do |item|
+            expect(item.amount).to eq amount
+          end
+        end
+
+        subject
+      end
+
+      it 'creates JournalEntry with 2 line items and proper description' do
+        expect(generic_service).to receive(:create) do |arg|
+          arg.line_items.each do |item|
+            expect(item.description).to eq description
+          end
+        end
+
+        subject
+      end
+
+      it 'creates JournalEntry with proper memo' do
+        expect(generic_service).to receive(:create) do |arg|
+          expect(arg.private_note).to eq memo
         end
 
         subject
