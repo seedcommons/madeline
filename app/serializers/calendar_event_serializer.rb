@@ -1,6 +1,6 @@
 class CalendarEventSerializer < ActiveModel::Serializer
   attributes :start, :end, :html, :id, :model_id, :editable, :is_finalized, :completed, :model_type,
-    :event_type, :has_precedent?
+    :event_type, :has_precedent?, :backgroundColor
 
   def editable
     return false if (object.event_type == "ghost_step") || object.has_precedent?
