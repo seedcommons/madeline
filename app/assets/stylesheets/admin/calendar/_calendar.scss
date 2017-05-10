@@ -1,12 +1,18 @@
 @import "../colors";
 
 .calendar {
+  .fc-event {
+    border: none;
+    background: $background-gray;
+    color: $black;
+  }
+
   .calendar-event {
     margin-bottom: .25em;
     padding: .25em;
-    background: $background-gray;
-    color: $black;
-    border-radius: 0;
+    // background: $background-gray;
+    // color: $black;
+    // border-radius: .5em;
     max-height: 4em;
     overflow-y: hidden;
     font-size: .8em;
