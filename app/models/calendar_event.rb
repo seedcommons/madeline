@@ -11,6 +11,8 @@ class CalendarEvent
   attr_accessor :model_type
 
   attr_accessor :backgroundColor # fullCalendar attribute
+  attr_accessor :event_classes
+
   attr_accessor :step_type
   attr_accessor :completion_status
   attr_accessor :time_status
