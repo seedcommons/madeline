@@ -25,7 +25,6 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  quickbooks_data                :json
 #  updated_at                     :datetime         not null
 #
 # Indexes
