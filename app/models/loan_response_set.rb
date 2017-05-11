@@ -8,12 +8,18 @@
 #  kind        :string
 #  loan_id     :integer          not null
 #  updated_at  :datetime         not null
+#  updater_id  :integer
+#
+# Foreign Keys
+#
+#  fk_rails_4142299b55  (updater_id => users.id)
 #
 
 class LoanResponseSet < ActiveRecord::Base
   include ProgressCalculable
 
   belongs_to :loan
+  belongs_to :updater, class_name: 'User'
 
   attr_accessor :loaded_at
 
