@@ -15,6 +15,8 @@ class LoanResponseSet < ActiveRecord::Base
 
   belongs_to :loan
 
+  attr_accessor :loaded_at
+
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan

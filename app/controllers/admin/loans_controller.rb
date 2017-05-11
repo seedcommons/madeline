@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TransactionListable, TranslationSaveable
+  include TransactionListable, TranslationSaveable, QuestionnaireRenderable
 
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -154,14 +154,5 @@ class Admin::LoansController < Admin::ProjectsController
       notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
       flash.now[:alert] = notice_text
     end
-  end
-
-  def prep_questionnaire
-    @attrib = params[:filter] || "criteria"
-    @response_set = @loan.send(@attrib) || LoanResponseSet.new(kind: @attrib, loan: @loan)
-    @roots = @response_set.loan_question_set.root_group_preloaded
-    @questions_json = @roots.children_applicable_to(@loan).map do |i|
-      LoanQuestionSerializer.new(i, loan: @loan)
-    end.to_json
   end
 end
