@@ -18,6 +18,7 @@ en:
     delete: "Delete Loan"
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
+    dependent_steps_notice: "Note: Some of selected steps depend on other steps. Their scheduled start dates will not be changed."
     description: "Description"
     details: "Details"
     edit: "Edit Loan"
