@@ -15,10 +15,13 @@ class Admin::LoanResponseSetsController < Admin::AdminController
     if @response_set.update(response_set_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     else
-      @tab = 'questions'
-      @loan = @response_set.loan
-      prep_questionnaire
-      render 'admin/loans/show'
+      # @tab = 'questions'
+      # @loan = @response_set.loan
+      # prep_questionnaire
+      # render 'admin/loans/show'
+
+      flash[:response_set] = @response_set
+      redirect_to display_path
     end
   end
 
