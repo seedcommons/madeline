@@ -11,7 +11,6 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   def update
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
-    # @response_set_from_db = @response_set.attributes.symbolize_keys.merge(updater_name: @response_set.updater.try(:name))
     @response_set_from_db = [:updater, :updated_at, :lock_version].map { |i| [i, @response_set.send(i)] }.to_h
 
     adjusted_params = response_set_params.merge(updater_id: current_user.id)
@@ -25,10 +24,6 @@ class Admin::LoanResponseSetsController < Admin::AdminController
     @loan = @response_set.loan
     prep_questionnaire
     render 'admin/loans/show'
-
-    # flash[:conflict] = true
-    # flash[:response_set] = @response_set
-    # redirect_to display_path
   end
 
   def destroy

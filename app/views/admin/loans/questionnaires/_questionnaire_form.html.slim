@@ -26,7 +26,6 @@
     = f.hidden_field(:loan_id)
     = f.hidden_field(:kind)
     = f.hidden_field(:lock_version)
-    / = f.hidden_field(:loaded_at, value: @response_set.loaded_at || Time.now.to_i)
 
     - unless @print_view
       .jqtree data-data=@questions_json class=attrib
