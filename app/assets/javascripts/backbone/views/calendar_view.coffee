@@ -33,7 +33,8 @@ class MS.Views.CalendarView extends Backbone.View
   # Load custom content inside the rendered event rather than title only
   eventAfterRender: (calEvent, initialElement) ->
     $(initialElement).find('.fc-content').append(calEvent.html)
-    console.log(calEvent.event_classes)
+    $(initialElement).addClass(calEvent.event_classes)
+    # $(initialElement).data('step-id', cal_event.model_id)
 
   eventDrop: (event, delta, revertFunc) ->
     if event.model_type == 'ProjectStep'
