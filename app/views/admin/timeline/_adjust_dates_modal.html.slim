@@ -7,6 +7,7 @@ div.modal.fade id="#{modal_id}" tabindex="-1" aria-labelledby="adjust-dates-labe
         h4.modal-title id="adjust-dates-label"
           = t("loan.adjust_scheduled_dates")
       div.modal-body
+        .dependent-steps-notice Note: Some of the selected steps depend on other steps. Their scheduled start dates cannot be changed through this form.
         span = t("loan.move_dates")
 
         div.btn-group-vertical.button-group-radios.form-item data-toggle="buttons" aria-label== t("loan.move_date_direction")
