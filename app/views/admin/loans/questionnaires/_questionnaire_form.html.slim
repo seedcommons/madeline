@@ -14,13 +14,14 @@
     - if @conflict
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes', 
-            link: admin_loan_tab_path(@loan.id, tab: 'questions', filter: @response_set.kind),
+            link: admin_loan_tab_path(@loan, tab: 'questions', filter: @response_set.kind),
             updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
             updated_at: l(@response_set_from_db[:updated_at], format: :long),
           ).html_safe
+        = f.hidden_field(:new_lock_version, value: @response_set_from_db[:lock_version])
         .buttons
-          button.btn.btn-default => t('loan.response_set.overwrite_changes')
-          button.btn.btn-default = t('loan.response_set.discard_reload')
+          => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
+          => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
 
     = f.hidden_field(:loan_id)
     = f.hidden_field(:kind)
@@ -33,8 +34,7 @@
     .actions.form-element
       - unless response_set.new_record?
         a.btn.btn-default.show-action = t(:cancel)
-      - submit_label = t("loan.save_responses")
-      = f.submit submit_label, class: 'update-action btn btn-primary'
+      = f.submit t("loan.save_responses"), class: 'update-action btn btn-primary'
     .clearfix
 
   / Render form fields outside form so they don't get double submitted after being

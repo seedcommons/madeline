@@ -22,7 +22,7 @@ class LoanResponseSet < ActiveRecord::Base
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
 
-  attr_accessor :loaded_at
+  # attr_accessor :loaded_at
 
   validates :loan, presence: true
   # validate :check_for_conflicting_changes

@@ -11,9 +11,13 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   def update
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
-    @response_set_from_db = { updater: @response_set.updater, updated_at: @response_set.updated_at }
+    # @response_set_from_db = @response_set.attributes.symbolize_keys.merge(updater_name: @response_set.updater.try(:name))
+    @response_set_from_db = [:updater, :updated_at, :lock_version].map { |i| [i, @response_set.send(i)] }.to_h
 
-    @response_set.update!(response_set_params)
+    adjusted_params = response_set_params.merge(updater_id: current_user.id)
+    adjusted_params[:lock_version] = adjusted_params.delete(:new_lock_version) if params[:overwrite]
+
+    @response_set.update!(adjusted_params) unless params[:discard]
     redirect_to display_path, notice: I18n.t(:notice_updated)
   rescue ActiveRecord::StaleObjectError
     @conflict = true
@@ -41,11 +45,10 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def response_set_params
-    params[:loan_response_set][:updater_id] = current_user.id
     params.require(:loan_response_set).permit!
   end
 
   def display_path
-    admin_loan_path(@response_set.loan) + "/questions?filter=#{@response_set.kind}"
+    admin_loan_tab_path(@response_set.loan, tab: 'questions', filter: @response_set.kind)
   end
 end
