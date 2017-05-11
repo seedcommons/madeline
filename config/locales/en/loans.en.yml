@@ -157,6 +157,9 @@ en:
       total_net_margin: "Total Net Margin"
       total_fixed_costs: "Total Fixed Costs"
 
+    response_set:
+      conflicting_changes: "The data has changed since you loaded it. The last update was by XXX at XXXpm."
+
   breakeven_table_question:
     days: "Days"
     weeks: "Weeks"
