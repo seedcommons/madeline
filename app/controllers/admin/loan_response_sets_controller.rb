@@ -41,6 +41,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def response_set_params
+    params[:loan_response_set][:updater_id] = current_user.id
     params.require(:loan_response_set).permit!
   end
 
