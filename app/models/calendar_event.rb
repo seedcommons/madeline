@@ -90,8 +90,8 @@ class CalendarEvent
   end
 
   def initialize_project_step(step)
-    @start = step.scheduled_start_date
-    @end = step.display_end_date
+    @start = step.calendar_start_date
+    @end = step.calendar_end_date
     @title = step.name.to_s
     @backgroundColor = step.color
 
