@@ -22,8 +22,7 @@ class CalendarEventSerializer < ActiveModel::Serializer
 
   def event_classes
     if object.model_type == "ProjectStep"
-      "cal-step cal-step-#{object.step_type} #{object.time_status} #{object.has_precedent? ? 'has-precedent': ''} "
-      # "calendar-event cal-step cal-step-#{object.step_type} #{object.time_status} #{object.has_precedent? ? 'has-precedent': ''} "
+      "calendar-event cal-step cal-step-#{object.step_type} #{object.time_status} #{object.has_precedent? ? 'has-precedent': ''} "
     end
   end
 end
