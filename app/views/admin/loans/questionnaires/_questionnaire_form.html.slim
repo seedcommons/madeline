@@ -15,8 +15,8 @@
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes', 
             link: admin_loan_tab_path(@loan.id, tab: 'questions', filter: @response_set.kind),
-            updater: @response_set.updater.try(:name) || t(:unknown), 
-            updated_at: l(@response_set.updated_at, format: :long),
+            updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
+            updated_at: l(@response_set_from_db[:updated_at], format: :long),
           ).html_safe
         .buttons
           button.btn.btn-default => t('loan.response_set.overwrite_changes')

@@ -29,6 +29,7 @@ class LoanResponseSet < ActiveRecord::Base
 
   delegate :division, :division=, to: :loan
   delegate :question, to: :loan_question_set
+
   after_commit :recalculate_loan_health
 
   def recalculate_loan_health

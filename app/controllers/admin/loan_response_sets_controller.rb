@@ -11,6 +11,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   def update
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
+    @response_set_from_db = { updater: @response_set.updater, updated_at: @response_set.updated_at }
 
     @response_set.update!(response_set_params)
     redirect_to display_path, notice: I18n.t(:notice_updated)
