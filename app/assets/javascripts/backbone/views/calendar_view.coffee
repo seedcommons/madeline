@@ -34,7 +34,7 @@ class MS.Views.CalendarView extends Backbone.View
   eventAfterRender: (calEvent, initialElement) ->
     $(initialElement).find('.fc-content').append(calEvent.html)
     $(initialElement).addClass(calEvent.event_classes)
-    # $(initialElement).data('step-id', cal_event.model_id)
+    $(initialElement).data('step-id', calEvent.model_id)
 
   eventDrop: (event, delta, revertFunc) ->
     if event.model_type == 'ProjectStep'
