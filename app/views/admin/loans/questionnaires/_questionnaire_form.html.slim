@@ -10,10 +10,23 @@
     ) do |f|
 
     = error_notification(f)
+    
+    - if @conflict
+      .alert.alert-danger
+        = t('loan.response_set.conflicting_changes', 
+            link: admin_loan_tab_path(@loan.id, tab: 'questions', filter: @response_set.kind),
+            updater: @response_set.updater.try(:name) || t(:unknown), 
+            updated_at: l(@response_set.updated_at, format: :long),
+          ).html_safe
+        .buttons
+          button.btn.btn-default => t('loan.response_set.overwrite_changes')
+          button.btn.btn-default = t('loan.response_set.discard_reload')
+        
 
     = f.hidden_field(:loan_id)
     = f.hidden_field(:kind)
-    = f.hidden_field(:loaded_at, value: @response_set.loaded_at || Time.now.to_i)
+    = f.hidden_field(:lock_version)
+    / = f.hidden_field(:loaded_at, value: @response_set.loaded_at || Time.now.to_i)
 
     - unless @print_view
       .jqtree data-data=@questions_json class=attrib

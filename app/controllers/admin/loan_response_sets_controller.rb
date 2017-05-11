@@ -12,17 +12,18 @@ class Admin::LoanResponseSetsController < Admin::AdminController
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
 
-    if @response_set.update(response_set_params)
-      redirect_to display_path, notice: I18n.t(:notice_updated)
-    else
-      # @tab = 'questions'
-      # @loan = @response_set.loan
-      # prep_questionnaire
-      # render 'admin/loans/show'
+    @response_set.update!(response_set_params)
+    redirect_to display_path, notice: I18n.t(:notice_updated)
+  rescue ActiveRecord::StaleObjectError
+    @conflict = true
+    @tab = 'questions'
+    @loan = @response_set.loan
+    prep_questionnaire
+    render 'admin/loans/show'
 
-      flash[:response_set] = @response_set
-      redirect_to display_path
-    end
+    # flash[:conflict] = true
+    # flash[:response_set] = @response_set
+    # redirect_to display_path
   end
 
   def destroy
