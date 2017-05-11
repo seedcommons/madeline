@@ -10,12 +10,12 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, qb_customer_id:, date: nil)
+      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, organization:, date: nil)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = memo
         je.txn_date = date if date.present?
 
-        qb_customer_ref = create_customer_reference(qb_customer_id: qb_customer_id)
+        qb_customer_ref = create_customer_reference(organization: organization)
 
         je.line_items << create_line_item(
           amount: amount,
@@ -48,6 +48,10 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
+      def customer_service
+        @customer_service ||= ::Quickbooks::Model::Customer.new(qb_connection.auth_details)
+      end
+
       def create_line_item(amount:, loan_id:, posting_type:, description:, qb_account_id:, qb_customer_ref:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
@@ -68,15 +72,28 @@ module Accounting
         line_item
       end
 
-      # We are not creating a customer here, but a customer reference.
+      # We are may be creating a customer here if needed. We return the qb_id and manualy create a reference.
       # The gem does not implement a helper method for _id like account or class.
-      def create_customer_reference(qb_customer_id:)
+      def create_customer_reference(organization:)
+        qb_customer_id = find_or_create_qb_customer_id_from(organization: organization)
+
         entity = ::Quickbooks::Model::Entity.new
         entity.type = 'Customer'
         entity_ref = ::Quickbooks::Model::BaseReference.new(qb_customer_id)
         entity.entity_ref = entity_ref
 
         entity
+      end
+
+      def find_or_create_qb_customer_id_from(organization:)
+        return organization.qb_id if organization.qb_id.present?
+
+        qb_customer = ::Quickbooks::Model::Customer.new
+        qb_customer.display_name = organization.name
+
+        new_qb_customer = customer_service.create(qb_customer)
+
+        new_qb_customer.id
       end
 
       def find_or_create_qb_class(loan_id:)
