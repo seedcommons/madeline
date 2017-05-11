@@ -25,10 +25,10 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
     $form.submit()
 
   checkForDependentSteps: (stepIds) ->
-    $('#dependent-steps-notice').hide()
-    boxes = $(".select-step[data-id][data-precedent-id]:checked")
+    @$('#dependent-steps-notice').hide()
+    boxes = @$(".select-step[data-id][data-precedent-id]:checked")
     if boxes.length > 0
-      $('#dependent-steps-notice').show()
+      @$('#dependent-steps-notice').show()
 
   hideAdjustDatesModal: (e) ->
     @$('.adjust-dates-modal').modal('hide')
