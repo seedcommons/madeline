@@ -1,22 +1,31 @@
 class Admin::LoanResponseSetsController < Admin::AdminController
+  include QuestionnaireRenderable
+
   def create
-    @record = LoanResponseSet.new(record_params)
-    authorize @record
-    @record.save!
+    @response_set = LoanResponseSet.new(response_set_params)
+    authorize @response_set
+    @response_set.save!
     redirect_to display_path, notice: I18n.t(:notice_created)
   end
 
   def update
-    @record = LoanResponseSet.find(params[:id])
-    authorize @record
-    @record.update!(record_params)
-    redirect_to display_path, notice: I18n.t(:notice_updated)
+    @response_set = LoanResponseSet.find(params[:id])
+    authorize @response_set
+
+    if @response_set.update(response_set_params)
+      redirect_to display_path, notice: I18n.t(:notice_updated)
+    else
+      @tab = 'questions'
+      @loan = @response_set.loan
+      prep_questionnaire
+      render 'admin/loans/show'
+    end
   end
 
   def destroy
-    @record = LoanResponseSet.find(params[:id])
-    authorize @record
-    @record.destroy!
+    @response_set = LoanResponseSet.find(params[:id])
+    authorize @response_set
+    @response_set.destroy!
     redirect_to display_path, notice: I18n.t(:notice_deleted)
   end
 
@@ -26,11 +35,11 @@ class Admin::LoanResponseSetsController < Admin::AdminController
     type.constantize.find(id)
   end
 
-  def record_params
+  def response_set_params
     params.require(:loan_response_set).permit!
   end
 
   def display_path
-    admin_loan_path(@record.loan) + "/questions?filter=#{@record.kind}"
+    admin_loan_path(@response_set.loan) + "/questions?filter=#{@response_set.kind}"
   end
 end

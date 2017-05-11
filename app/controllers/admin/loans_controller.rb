@@ -1,6 +1,8 @@
 class Admin::LoansController < Admin::ProjectsController
   include TransactionListable, TranslationSaveable, QuestionnaireRenderable
 
+  TABS = %w(details questions timeline timeline_list logs transactions calendar)
+
   def index
     # Note, current_division is used when creating new entities and is guaranteed to return a value.
     # selected_division is used for index filtering, and may be unassigned.
@@ -34,7 +36,6 @@ class Admin::LoansController < Admin::ProjectsController
   def show
     @loan = Loan.find(params[:id])
     authorize @loan
-    @form_action_url = admin_loan_path
     @active_tab = params[:tab].presence || 'details'
 
     case @tab = params[:tab] || 'details'
@@ -54,7 +55,6 @@ class Admin::LoansController < Admin::ProjectsController
       @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
     end
-    @tabs = %w(details questions timeline timeline_list logs transactions calendar)
 
     render partial: 'admin/loans/details' if request.xhr?
   end

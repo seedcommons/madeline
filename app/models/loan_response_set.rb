@@ -18,6 +18,7 @@ class LoanResponseSet < ActiveRecord::Base
   attr_accessor :loaded_at
 
   validates :loan, presence: true
+  validate :no_conflicting_changes
 
   delegate :division, :division=, to: :loan
   delegate :question, to: :loan_question_set
@@ -151,5 +152,12 @@ class LoanResponseSet < ActiveRecord::Base
 
   def is_number_or_blank?(object)
     true if object.blank? || Float(object) rescue false
+  end
+
+  def no_conflicting_changes
+    if true #updated_at.to_i > self.loaded_at.to_i
+      errors[:base] << I18n.t('loan.response_set.conflicting_changes')
+    end
+    self.loaded_at = nil
   end
 end
