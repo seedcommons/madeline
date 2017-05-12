@@ -280,7 +280,7 @@ describe ProjectStep, type: :model do
         end
 
         it 'updates the scheduled_start_date' do
-          expect(step.scheduled_start_date).to eq new_step.scheduled_end_date
+          expect(step.scheduled_start_date).to eq new_step.scheduled_end_date + 1
         end
       end
     end
@@ -302,22 +302,22 @@ describe ProjectStep, type: :model do
       end
 
       it 'inherits parent_end for scheduled_start_date' do
-        expect(step.scheduled_start_date).to eq parent_end
+        expect(step.scheduled_start_date).to eq parent_end + 1
       end
 
       it 'updates scheduled_end_date' do
-        expect(step.scheduled_end_date).to eq parent_end + 3
+        expect(step.scheduled_end_date).to eq parent_end + 4
       end
 
-      it 'scheduled_start_date can be set to parent end' do
-        step.scheduled_start_date = parent_end
+      it 'scheduled_start_date can be set to parent end + 1' do
+        step.scheduled_start_date = parent_end + 1
         step.save!
         step.reload
 
-        expect(step.scheduled_start_date).to eq parent_end
+        expect(step.scheduled_start_date).to eq parent_end + 1
       end
 
-      it 'scheduled_start_date must match parent end' do
+      it 'scheduled_start_date must match parent end + 1' do
         step.scheduled_start_date = parent_end + 29
         expect(step).to_not be_valid
       end
@@ -333,7 +333,7 @@ describe ProjectStep, type: :model do
         end
 
         it 'keeps scheduled_start_date' do
-          expect(step.scheduled_start_date).to eq parent_end
+          expect(step.scheduled_start_date).to eq parent_end + 1
         end
 
         it 'keeps scheduled_duration_days' do
@@ -341,7 +341,7 @@ describe ProjectStep, type: :model do
         end
 
         it 'keeps scheduled_end_date' do
-          expect(step.scheduled_end_date).to eq parent_end + step_duration
+          expect(step.scheduled_end_date).to eq parent_end + 1 + step_duration
         end
       end
     end
@@ -364,11 +364,11 @@ describe ProjectStep, type: :model do
       end
 
       it 'level 2 children start matches level 1 end' do
-        expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
+        expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date + 1
       end
 
       it 'level 3 children start matches level 2 end' do
-        expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+        expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date + 1
       end
 
       describe 'cascading date adjustment' do
@@ -380,12 +380,14 @@ describe ProjectStep, type: :model do
             expect(step.display_end_date).to eq original_end_date + offset_days
           end
 
+          # We use display_*_date here and elsewhere because that is the
+          # best known date and thus the most important.
           it 'level 2 children start matches level 1 end' do
-            expect(step_level_2.display_start_date).to eq step.display_end_date
+            expect(step_level_2.display_start_date).to eq step.display_end_date + 1
           end
 
           it 'level 3 children start matches level 2 end' do
-            expect(step_level_3.display_start_date).to eq step_level_2.display_end_date
+            expect(step_level_3.display_start_date).to eq step_level_2.display_end_date + 1
           end
         end
 
