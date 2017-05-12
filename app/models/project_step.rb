@@ -219,7 +219,7 @@ class ProjectStep < TimelineEntry
   end
 
   def validate_scheduled_start_date
-    if schedule_parent && schedule_parent.scheduled_end_date != scheduled_start_date
+    if schedule_parent && schedule_parent.display_end_date != display_start_date
       errors.add(:scheduled_start_date, "start date must match precedent step end date")
     end
   end
@@ -384,16 +384,20 @@ class ProjectStep < TimelineEntry
     end
   end
 
+  # Copies date changes to schedule_children as appropriate.
   def handle_schedule_children
     return unless persisted? && schedule_children.present? &&
-      (scheduled_start_date_changed? || scheduled_duration_days_changed?)
+      (scheduled_start_date_changed? || scheduled_duration_days_changed? || actual_end_date_changed?)
 
     schedule_children.each do |step|
-      step.scheduled_start_date = scheduled_end_date
-      step.save
+      step.scheduled_start_date = display_end_date
+      step.save!
     end
   end
 
+  # Checks that old_start_date is not present if scheduled_start_date is blank.
+  # Sets scheduled_start_date to actual_end_date if actual_end_date
+  # is present but scheduled_start_date is blank.
   def handle_scheduled_start_date
     return unless persisted?
     raise ArgumentError if scheduled_start_date.blank? && old_start_date.present?

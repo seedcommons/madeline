@@ -381,45 +381,75 @@ describe ProjectStep, type: :model do
     end
 
     describe 'cascading date adjustment' do
-      let(:duration_offset) { 5 }
+      let(:offset_days) { 5 }
       let!(:original_end_date) { step.scheduled_end_date }
 
-      shared_examples_for "children dates adjusted" do
-        it 'level 1 scheduled_end_date is updated' do
-          expect(step.scheduled_end_date).to eq original_end_date + duration_offset
+      shared_examples_for "children dates are correct" do
+        it 'level 1 display_end_date is updated by the expected offset' do
+          expect(step.display_end_date).to eq original_end_date + offset_days
         end
 
         it 'level 2 children start matches level 1 end' do
-          expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date
+          expect(step_level_2.display_start_date).to eq step.display_end_date
         end
 
         it 'level 3 children start matches level 2 end' do
-          expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date
+          expect(step_level_3.display_start_date).to eq step_level_2.display_end_date
         end
       end
 
       context 'level 1 scheduled_start_date is updated' do
         before do
-          step.scheduled_start_date += duration_offset
-          step.save
+          step.scheduled_start_date += offset_days
+          step.save!
           step.reload
           step_level_2.reload
           step_level_3.reload
         end
 
-        it_behaves_like "children dates adjusted"
+        it_behaves_like "children dates are correct"
       end
 
       context 'level 1 duration is updated' do
         before do
-          step.scheduled_duration_days += duration_offset
-          step.save
+          step.scheduled_duration_days += offset_days
+          step.save!
           step.reload
           step_level_2.reload
           step_level_3.reload
         end
 
-        it_behaves_like "children dates adjusted"
+        it_behaves_like "children dates are correct"
+      end
+
+      context 'level 1 actual_end_date is set' do
+        before do
+          step.actual_end_date = step.scheduled_end_date + offset_days
+          step.save!
+          step.reload
+          step_level_2.reload
+          step_level_3.reload
+        end
+
+        it_behaves_like "children dates are correct"
+      end
+
+      context 'level 1 actual_end_date is set and then scheduled duration is changed' do
+        before do
+          step.actual_end_date = step.scheduled_end_date + offset_days
+          step.save!
+          step.reload
+
+          # Changing the scheduled duration should be meaningless at this point because
+          # the actual_end_date is set.
+          step.scheduled_duration_days = 50
+          step.save!
+
+          step_level_2.reload
+          step_level_3.reload
+        end
+
+        it_behaves_like "children dates are correct"
       end
     end
   end
