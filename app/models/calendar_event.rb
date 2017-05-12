@@ -90,8 +90,8 @@ class CalendarEvent
   end
 
   def initialize_project_step(step)
-    @start = step.calendar_start_date
-    @end = step.calendar_end_date
+    @start = step_start(step)
+    @end = step.display_end_date
     @title = step.name.to_s
     @background_color = step.color
 
@@ -145,5 +145,13 @@ class CalendarEvent
 
   def model_id
     model.id
+  end
+
+  def step_start(step)
+    if step.actual_end_date
+      step.scheduled_start_date > step.actual_end_date ? step.actual_end_date : step.scheduled_start_date
+    else
+      step.scheduled_start_date
+    end
   end
 end

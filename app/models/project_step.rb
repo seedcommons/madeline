@@ -144,19 +144,6 @@ class ProjectStep < TimelineEntry
     actual_end_date || scheduled_end_date
   end
 
-  def calendar_start_date
-    # If an item is completed before its scheduled start date, display event on end date
-    if actual_end_date
-      scheduled_start_date > actual_end_date ? actual_end_date : scheduled_start_date
-    else
-      scheduled_start_date
-    end
-  end
-
-  def calendar_end_date
-    display_end_date
-  end
-
   # Gets best known duration. nil if both start and end dates are nil.
   def display_duration_days
     if display_start_date.nil? && display_end_date.nil?
