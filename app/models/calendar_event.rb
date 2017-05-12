@@ -148,8 +148,8 @@ class CalendarEvent
   end
 
   def step_start(step)
-    if step.actual_end_date
-      step.scheduled_start_date > step.actual_end_date ? step.actual_end_date : step.scheduled_start_date
+    if step.actual_end_date && step.scheduled_start_date > step.actual_end_date
+      step.actual_end_date
     else
       step.scheduled_start_date
     end
