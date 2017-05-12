@@ -144,6 +144,10 @@ class ProjectStep < TimelineEntry
     actual_end_date || scheduled_end_date
   end
 
+  def display_end_date_plus_one
+    display_end_date.try(:+, 1)
+  end
+
   # Gets best known duration. nil if both start and end dates are nil.
   def display_duration_days
     if display_start_date.nil? && display_end_date.nil?
@@ -345,14 +349,14 @@ class ProjectStep < TimelineEntry
   private
 
   def validate_scheduled_start_date
-    if schedule_parent && display_start_date != schedule_parent.display_end_date.try(:+, 1)
+    if schedule_parent && display_start_date != schedule_parent.display_end_date_plus_one
       errors.add(:scheduled_start_date, "start date must match precedent step end date")
     end
   end
 
   def copy_schedule_parent_date
     if schedule_parent
-      self.scheduled_start_date = schedule_parent.display_end_date.try(:+, 1)
+      self.scheduled_start_date = schedule_parent.display_end_date_plus_one
     end
   end
 
@@ -392,7 +396,7 @@ class ProjectStep < TimelineEntry
       (scheduled_start_date_changed? || scheduled_duration_days_changed? || actual_end_date_changed?)
 
     schedule_children.each do |step|
-      step.scheduled_start_date = display_end_date + 1
+      step.scheduled_start_date = display_end_date_plus_one
       step.save!
     end
   end
