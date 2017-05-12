@@ -47,11 +47,11 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
           expect(list.map(&:description).uniq).to eq [description]
 
           details = list.map { |i| i.journal_entry_line_detail }
-          expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
+          expect(details.map { |i| i.posting_type }.uniq).to eq %w(Debit Credit)
           expect(details.map { |i| i.entity.type }.uniq).to eq %w(Customer)
           expect(details.map { |i| i.entity.entity_ref.value }.uniq).to eq [qb_customer_id]
           expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
-          expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
+          expect(details.map { |i| i.account_ref.value }.uniq).to eq [qb_principal_account_id, qb_bank_account_id]
         end
         subject
       end
