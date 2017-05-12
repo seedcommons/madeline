@@ -25,4 +25,8 @@ class CalendarEventSerializer < ActiveModel::Serializer
       "calendar-event cal-step cal-step-#{object.step_type} #{object.time_status} #{object.has_precedent? ? 'has-precedent': ''} "
     end
   end
+
+  def backgroundColor
+    object.background_color
+  end
 end

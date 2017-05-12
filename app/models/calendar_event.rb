@@ -10,7 +10,7 @@ class CalendarEvent
   attr_accessor :model
   attr_accessor :model_type
 
-  attr_accessor :backgroundColor # fullCalendar attribute
+  attr_accessor :background_color
   attr_accessor :event_classes
 
   attr_accessor :step_type
@@ -93,7 +93,7 @@ class CalendarEvent
     @start = step.calendar_start_date
     @end = step.calendar_end_date
     @title = step.name.to_s
-    @backgroundColor = step.color
+    @background_color = step.color
 
     @event_type = "project_step"
     @num_of_logs = step.logs_count
