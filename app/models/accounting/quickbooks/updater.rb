@@ -44,7 +44,7 @@ module Accounting
       def find_or_create(transaction_type:, qb_object:)
         model = ar_model_for(transaction_type)
 
-        model.find_or_create_from_qb_object qb_object
+        model.find_or_create_from_qb_object transaction_type: transaction_type, qb_object: qb_object
       end
 
       def types
@@ -62,7 +62,7 @@ module Accounting
       end
 
       def should_be_deleted?(qb_object)
-        qb_object.try(:status)
+        qb_object.try(:status) == 'Deleted'
       end
 
       def service

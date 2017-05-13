@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype__unq_idx                          (qb_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
 #  index_accounting_transactions_on_project_id             (project_id)
 #  index_accounting_transactions_on_qb_id                  (qb_id)
@@ -31,9 +31,7 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :accounting_account_id
 
-  def self.find_or_create_from_qb_object(qb_object)
-    transaction_type = qb_object.class.name.demodulize
-
+  def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|
       t.update_attributes!(quickbooks_data: qb_object.as_json)
