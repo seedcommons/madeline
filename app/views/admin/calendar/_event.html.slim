@@ -11,34 +11,27 @@
         = cal_event.title
 
   - when "project_step"
-
-    div.calendar-event.cal-step [
-      class="cal-step-#{cal_event.step_type} #{cal_event.time_status}
-        #{cal_event.has_precedent? ? 'has-precedent': ''} "
-      style="#{(c = cal_event.background_color) ? "background: #{c}" : ''}"
-      data-step-id="#{cal_event.model_id}"]
-
-      div.large-left-box
-        span.event-title
-          - if cal_event.step_type == "milestone"
-              i.fa.fa-flag
-          - else
-              i.fa.fa-calendar-check-o
-          = cal_event.title.to_s
-      div.small-right-box.right-align
-        div.align-top.top-info
-          - if cal_event.completion_status == "complete"
-              i.fa.fa-check
-          - elsif cal_event.time_status == "late"
-              i.fa.fa-clock-o
-          - else
-              i = " "
-        div.align-bottom.bottom-info
-          - if cal_event.has_precedent
-              i.fa.fa-link
-          - if cal_event.num_of_logs > 0
-              i.fa.fa-pencil-square-o
-              = cal_event.num_of_logs.to_s
+    div.large-left-box
+      span.event-title
+        - if cal_event.step_type == "milestone"
+            i.fa.fa-flag
+        - else
+            i.fa.fa-calendar-check-o
+        = cal_event.title.to_s
+    div.small-right-box.right-align
+      div.align-top.top-info
+        - if cal_event.completion_status == "complete"
+            i.fa.fa-check
+        - elsif cal_event.time_status == "late"
+            i.fa.fa-clock-o
+        - else
+            i = " "
+      div.align-bottom.bottom-info
+        - if cal_event.has_precedent
+            i.fa.fa-link
+        - if cal_event.num_of_logs > 0
+            i.fa.fa-pencil-square-o
+            = cal_event.num_of_logs.to_s
 
   - when "ghost_step"
 

@@ -8,8 +8,7 @@ class MS.Views.CalendarView extends Backbone.View
     @$calendar = @$('#calendar')
     @stepModal = params.stepModal
     defaultCalendarSettings =
-      # Changes the default event render to load in html rather than title only
-      eventRender: @eventRender.bind(context)
+      eventAfterRender: @eventAfterRender.bind(context)
       eventDrop: @eventDrop.bind(context)
       loading: @loading.bind(context)
       events: params.calendarEventsUrl
@@ -27,7 +26,12 @@ class MS.Views.CalendarView extends Backbone.View
       @stepModal.new(@$el.find('#calendar').data('project-id'), @refresh.bind(@),
         date: date.format('YYYY-MM-DD'))
 
-  eventRender: (calEvent) -> calEvent.html
+  # Load custom content inside the fullCalendar rendered event rather than title only
+  eventAfterRender: (calEvent, initialElement) ->
+    $(initialElement).find('.fc-content').append(calEvent.html)
+    $(initialElement).addClass(calEvent.event_classes)
+    $(initialElement).data('step-id', calEvent.model_id)
+    $(initialElement).find('.fc-title').remove()
 
   eventDrop: (event, delta, revertFunc) ->
     if event.model_type == 'ProjectStep'
