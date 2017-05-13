@@ -12,6 +12,7 @@ module TransactionListable
       Rails.logger.error e
       flash.now[:error] = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
+      Accounting::Quickbooks::NotConnectedError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
       settings = view_context.link_to(t('menu.settings'), admin_settings_path)
