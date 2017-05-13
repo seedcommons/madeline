@@ -10,3 +10,8 @@ es:
       connection: "Conexión QuickBooks"
       disconnect: "Desconectar"
       not_connected: "Desconectado"
+      never_synced: "Nunca"
+      full_sync: "Sincronización completa"
+      disconnect_message: "Tu cuenta de QuickBooks ha sido desconectada correctamente."
+      full_sync_message: "Tus datos de QuickBooks han sido sincronizados."
+      link_message: "Tu cuenta de QuickBooks ha sido vinculada correctamente."
