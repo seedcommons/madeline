@@ -10,11 +10,12 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, qb_customer_id:)
+      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, organization:, date: nil)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = memo
+        je.txn_date = date if date.present?
 
-        qb_customer_ref = create_customer_reference(qb_customer_id: qb_customer_id)
+        qb_customer_ref = customer_reference
 
         je.line_items << create_line_item(
           amount: amount,
@@ -38,6 +39,12 @@ module Accounting
       end
 
       private
+
+      # Not memoized because organization could vary. Make sure to capture in an ivar,
+      # otherwise you could end up with different references to the same object.
+      def customer_reference
+        Customer.new(organization: organization, qb_connection: qb_connection).reference
+      end
 
       def service
         @service ||= ::Quickbooks::Service::JournalEntry.new(qb_connection.auth_details)
@@ -65,17 +72,6 @@ module Accounting
         jel.account_id = qb_account_id
 
         line_item
-      end
-
-      # We are not creating a customer here, but a customer reference.
-      # The gem does not implement a helper method for _id like account or class.
-      def create_customer_reference(qb_customer_id:)
-        entity = ::Quickbooks::Model::Entity.new
-        entity.type = 'Customer'
-        entity_ref = ::Quickbooks::Model::BaseReference.new(qb_customer_id)
-        entity.entity_ref = entity_ref
-
-        entity
       end
 
       def find_or_create_qb_class(loan_id:)

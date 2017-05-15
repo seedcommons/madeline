@@ -2,28 +2,89 @@ require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: 2) }
-  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
+  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: nil) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
+  let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
-  let(:account) { instance_double(Accounting::Account, qb_id: 98) }
-  subject { described_class.new(instance_double(Division, qb_connection: connection, principal_account: account)) }
+  let(:account) { instance_double(Accounting::Account, qb_id: qb_principal_account_id) }
+  let(:loan_id) { 2 }
+  let(:amount) { 78.20 }
+  let(:memo) { 'I am a memo' }
+  let(:description) { 'I am a line item description' }
+  let(:qb_bank_account_id) { 89 }
+  let(:qb_principal_account_id) { 92 }
+  let(:date) { nil }
 
-  before do
-    allow(subject).to receive(:service).and_return(generic_service)
-    allow(subject).to receive(:class_service).and_return(class_service)
+  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: account)) }
+
+  subject do
+    creator.add_disbursement(
+      amount: amount,
+      loan_id: loan_id,
+      memo: memo,
+      description: description,
+      qb_bank_account_id: qb_bank_account_id,
+      organization: organization,
+      date: date
+    )
   end
 
-  it 'should create class ref, and create journal entry' do
-    expect(generic_service).to receive(:create)
-    expect(class_service).to receive(:find_by)
+  before do
+    allow(creator).to receive(:service).and_return(generic_service)
+    allow(creator).to receive(:class_service).and_return(class_service)
+    allow(creator).to receive(:customer_reference).and_return(customer_reference)
+  end
 
-    subject.add_disbursement(
-      amount: 12.09,
-      loan_id: 2,
-      memo: 'I am memo',
-      description: 'I am a line item description',
-      qb_bank_account_id: 89,
-      qb_customer_id: 3
-    )
+  let(:qb_customer_id) { '91234' }
+  let(:qb_new_customer) { instance_double(Quickbooks::Model::Customer, id: qb_customer_id) }
+  let(:customer_reference) { instance_double(Quickbooks::Model::Entity) }
+  let(:customer_name) { 'A cooperative with a name' }
+  let(:organization) { create(:organization, name: customer_name, qb_id: nil) }
+
+  it 'calls create with correct data' do
+    expect(generic_service).to receive(:create) do |arg|
+      expect(arg.line_items.count).to eq 2
+      expect(arg.private_note).to eq memo
+      expect(arg.txn_date).to be_nil
+
+      list = arg.line_items
+      expect(list.map(&:amount).uniq).to eq [amount]
+      expect(list.map(&:description).uniq).to eq [description]
+
+      details = list.map { |i| i.journal_entry_line_detail }
+      expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
+      expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
+      expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
+      expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
+    end
+    subject
+  end
+
+  context 'and date is supplied' do
+    let(:date) { 3.days.ago }
+
+    it 'creates JournalEntry with date' do
+      expect(generic_service).to receive(:create) do |arg|
+        expect(arg.txn_date).to eq date
+      end
+      subject
+    end
+  end
+
+  it 'creates JournalEntry with a reference to the existing loan' do
+    expect(class_service).to receive(:find_by).with(:name, loan_id)
+    subject
+  end
+
+
+  context 'and date is supplied' do
+    let(:date) { 3.days.ago }
+
+    it 'creates JournalEntry with date' do
+      expect(generic_service).to receive(:create) do |arg|
+        expect(arg.txn_date).to eq date
+      end
+      subject
+    end
   end
 end
