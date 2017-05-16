@@ -11,13 +11,17 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   def update
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
-    @response_set_from_db = [:updater, :updated_at, :lock_version].map { |i| [i, @response_set.send(i)] }.to_h
+    [:updater, :updated_at, :lock_version].each { |i| instance_variable_set "@#{i}", @response_set.send(i) }
 
     adjusted_params = response_set_params.merge(updater_id: current_user.id)
-    adjusted_params[:lock_version] = adjusted_params.delete(:new_lock_version) if params[:overwrite]
+    adjusted_params[:lock_version] = params[:new_lock_version] if params[:overwrite]
 
-    @response_set.update!(adjusted_params) unless params[:discard]
-    redirect_to display_path, notice: I18n.t(:notice_updated)
+    if params[:discard]
+      redirect_to display_path
+    else
+      @response_set.update!(adjusted_params)
+      redirect_to display_path, notice: I18n.t(:notice_updated)
+    end
   rescue ActiveRecord::StaleObjectError
     @conflict = true
     @tab = 'questions'

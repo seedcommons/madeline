@@ -15,10 +15,10 @@
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes', 
             link: admin_loan_tab_path(@loan, tab: 'questions', filter: @response_set.kind),
-            updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
-            updated_at: l(@response_set_from_db[:updated_at], format: :long),
+            updater: @updater.try(:name) || "[#{t(:unknown)}]",
+            updated_at: l(@updated_at, format: :long),
           ).html_safe
-        = f.hidden_field(:new_lock_version, value: @response_set_from_db[:lock_version])
+        = hidden_field_tag(:new_lock_version, @lock_version)
         .buttons
           => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
           => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
