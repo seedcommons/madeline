@@ -34,6 +34,7 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
       end
     end
   end
+
   context 'with multiple orphan steps' do
     let(:step1) { create(:project_step, scheduled_start_date: default_date) }
     let(:step2) { create(:project_step, scheduled_start_date: default_date) }
@@ -66,6 +67,7 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
       end
     end
   end
+
   context 'with one grandparent step' do
     let(:step) { create(:project_step, :with_schedule_tree, scheduled_start_date: default_date) }
     let(:step_level_2) { step.schedule_children.first }
@@ -87,12 +89,12 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
 
       it 'should move step_level_2 forward' do
         offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset
+        expect(step_level_2.scheduled_start_date).to eq default_date + offset + 1
       end
 
       it 'should move step_level_3 forward' do
         offset = num_of_days + step_level_2.scheduled_duration_days + step.scheduled_duration_days
-        expect(step_level_3.scheduled_start_date).to eq default_date + offset
+        expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
       end
     end
   end
@@ -120,12 +122,12 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
 
       it 'should move step_level_2 forward' do
         offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset
+        expect(step_level_2.scheduled_start_date).to eq default_date + offset + 1
       end
 
       it 'should move step_level_3 forward' do
         offset = num_of_days + step_level_2.scheduled_duration_days + step.scheduled_duration_days
-        expect(step_level_3.scheduled_start_date).to eq default_date + offset
+        expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
       end
 
       it 'should move orphan step 1 forward' do
