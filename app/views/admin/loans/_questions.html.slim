@@ -17,10 +17,10 @@ section.questionnaires
     section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
       .show-actions
         - if policy(@loan).update? && @response_set.persisted?
-          a.edit-action.view-element href="#"
+          a.edit-action.view-element href="javascript:void(0)"
             i.fa.fa-pencil.fa-large>
             = t(".edit")
-          a.show-action.form-element href="#"
+          a.show-action.form-element href="javascript:void(0)"
             = t("cancel_edit")
           = link_to [:admin, @response_set], method: :delete,
             data: { \
