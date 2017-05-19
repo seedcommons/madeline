@@ -26,8 +26,17 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
   checkForDependentSteps: (stepIds) ->
     @$('#dependent-steps-notice').hide()
-    boxes = @$(".select-step[data-id][data-precedent-id]:checked")
-    if boxes.length > 0
+
+    dependents = @$(".select-step[data-id][data-precedent-id]:checked")
+    stepIds = @$('.step-ids').val()
+    unselectedPrecedentIds = []
+
+    dependents.each ->
+      stepId = $(this).data('id')
+      precedentId = $(this).data('precedent-id')
+      unselectedPrecedentIds.push(stepId) unless stepIds.includes(precedentId)
+
+    if unselectedPrecedentIds.length > 0
       @$('#dependent-steps-notice').show()
 
   hideAdjustDatesModal: (e) ->
