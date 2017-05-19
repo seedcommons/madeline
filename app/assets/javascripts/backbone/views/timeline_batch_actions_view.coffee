@@ -24,6 +24,8 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
     $form.submit()
 
+  # Check the selected steps for any steps with precedents
+  # If the step has a precedent step, show a message
   checkForDependentSteps: (stepIds) ->
     @$('#dependent-steps-notice').hide()
 
