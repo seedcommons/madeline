@@ -5,6 +5,7 @@ class Admin::SettingsController < Admin::AdminController
 
     @division = current_division.root
     @accounts = ::Accounting::Account.all if @division.quickbooks_connected?
+    @last_updated_at = @division.qb_connection.last_updated_at if @division.quickbooks_connected?
   end
 
   def update

@@ -16,7 +16,7 @@
 #  schedule_parent_id      :integer
 #  scheduled_duration_days :integer          default(0)
 #  scheduled_start_date    :date
-#  step_type_value         :string
+#  step_type_value         :string           not null
 #  type                    :string           not null
 #  updated_at              :datetime         not null
 #
@@ -108,6 +108,7 @@ class ProjectStep < TimelineEntry
 
   def scheduled_end_date
     return if scheduled_start_date.blank?
+    return scheduled_start_date if scheduled_duration_days.blank?
     scheduled_start_date + scheduled_duration_days
   end
 
@@ -141,6 +142,10 @@ class ProjectStep < TimelineEntry
   # Gets best known end date. Can be nil.
   def display_end_date
     actual_end_date || scheduled_end_date
+  end
+
+  def display_end_date_plus_one
+    display_end_date.try(:+, 1)
   end
 
   # Gets best known duration. nil if both start and end dates are nil.
@@ -215,12 +220,6 @@ class ProjectStep < TimelineEntry
 
   def is_finalized_locked?
     finalized_at && Time.now > finalized_at + 1.day
-  end
-
-  def validate_scheduled_start_date
-    if schedule_parent && schedule_parent.scheduled_end_date != scheduled_start_date
-      errors.add(:scheduled_start_date, "start date must match precedent step end date")
-    end
   end
 
   def days_late
@@ -299,7 +298,7 @@ class ProjectStep < TimelineEntry
     if is_finalized?
       false
     else
-      update!(is_finalized: true)
+      update_attribute(:is_finalized, true)
     end
   end
 
@@ -349,8 +348,16 @@ class ProjectStep < TimelineEntry
 
   private
 
+  def validate_scheduled_start_date
+    if schedule_parent && display_start_date != schedule_parent.display_end_date_plus_one
+      errors.add(:scheduled_start_date, "start date must match precedent step end date")
+    end
+  end
+
   def copy_schedule_parent_date
-    self.scheduled_start_date = schedule_parent.scheduled_end_date if schedule_parent
+    if schedule_parent
+      self.scheduled_start_date = schedule_parent.display_end_date_plus_one
+    end
   end
 
   def handle_old_start_date_logic
@@ -383,16 +390,20 @@ class ProjectStep < TimelineEntry
     end
   end
 
+  # Copies date changes to schedule_children as appropriate.
   def handle_schedule_children
     return unless persisted? && schedule_children.present? &&
-      (scheduled_start_date_changed? || scheduled_duration_days_changed?)
+      (scheduled_start_date_changed? || scheduled_duration_days_changed? || actual_end_date_changed?)
 
     schedule_children.each do |step|
-      step.scheduled_start_date = scheduled_end_date
-      step.save
+      step.scheduled_start_date = display_end_date_plus_one
+      step.save!
     end
   end
 
+  # Checks that old_start_date is not present if scheduled_start_date is blank.
+  # Sets scheduled_start_date to actual_end_date if actual_end_date
+  # is present but scheduled_start_date is blank.
   def handle_scheduled_start_date
     return unless persisted?
     raise ArgumentError if scheduled_start_date.blank? && old_start_date.present?

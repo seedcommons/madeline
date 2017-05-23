@@ -3,6 +3,14 @@
 $media-block-width: 100px;
 
 .media-browser, .media-modal {
+  .section {
+    display: inline-block;
+  }
+
+  h4 {
+    font-size: 15px;
+  }
+
   div.media-item {
     display: inline-block;
     height: auto;
