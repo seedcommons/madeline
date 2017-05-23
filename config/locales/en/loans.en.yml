@@ -18,7 +18,6 @@ en:
     delete: "Delete Loan"
     delete_responses: "Delete Responses"
     delete_selected: "Delete"
-    dependent_steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
     description: "Description"
     details: "Details"
     edit: "Edit Loan"
@@ -67,6 +66,7 @@ en:
       completed: "Completed"
       frozen: "Frozen"
       liquidated: "Liquidated"
+    steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
     end_date: "End Date"
     tab:
       details: "Details"
