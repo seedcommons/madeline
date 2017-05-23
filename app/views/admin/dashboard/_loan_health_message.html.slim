@@ -1,6 +1,16 @@
-- status_message = health_status_message(loan)
+/ - if status_message.status == "healthy"
+/   i.fa.fa-check-circle.ms-tooltip data-ms-title=status_message.message
+/ - else
+/   i.fa.fa-exclamation-triangle.ms-tooltip data-ms-title=status_message.message
 
-- if status_message.status == "healthy"
-  i.fa.fa-check-circle.ms-tooltip data-ms-title=status_message.message
+- if status_message == "healthy"
+  i.fa.fa-check-circle.ms-tooltip
+  .message.hidden
+    h4 = status_message[:message]
 - else
-  i.fa.fa-exclamation-triangle.ms-tooltip data-ms-title=status_message.message
+  i.fa.fa-exclamation-triangle.ms-tooltip
+  .message.hidden
+    h4 = status_message[:message]
+    div = status_message[:warnings]
+    - status_message[:warnings].each do |warning|
+      p = warning
