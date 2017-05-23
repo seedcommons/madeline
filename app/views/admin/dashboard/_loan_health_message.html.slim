@@ -2,12 +2,14 @@
   .health-message
     i.fa.fa-check-circle.ms-tooltip
     .message.hidden
-      h4 = status_message[:message]
+      .tooltip-content
+        h4 = status_message[:message]
 - else
   .health-message
     i.fa.fa-exclamation-triangle.ms-tooltip
     .message.hidden
-      h4 = status_message[:message]
-      ul
-        - status_message[:warnings].each do |warning|
-          li = warning
+      .tooltip-content
+        h4 = status_message[:message]
+        ul
+          - status_message[:warnings].each do |warning|
+            li = warning
