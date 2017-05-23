@@ -22,6 +22,7 @@ en:
     details: "Details"
     edit: "Edit Loan"
     end: "End %{name}"
+    end_date: "End Date"
     finalize: "Finalize"
     forward: "+ forward"
     id: "Loan ID"
@@ -55,6 +56,8 @@ en:
     questionnaire: "Questionnaire"
     rating: "Score"
     save_responses: "Save Responses"
+    shared:
+      new: "New Loan"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     start: "Start %{name}"
@@ -67,7 +70,6 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
-    end_date: "End Date"
     tab:
       details: "Details"
       questions: "Questions"
@@ -82,8 +84,6 @@ en:
     transaction_new_disbursement: "New Disbursement"
     transaction_new_repayment: "New Repayment"
     transaction_schedule: "Schedule"
-    shared:
-      new: "New Loan"
 
     business_model:
       key_partners: "￼￼Key Partners"
