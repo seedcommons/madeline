@@ -20,8 +20,10 @@ module LoansHelper
   end
 
   def health_status_info(loan)
-    render partial: "admin/dashboard/loan_health_message", locals: {
-      status_message: health_status_message(loan)
-    }
+    if loan.health_status_available?
+      render partial: "admin/dashboard/loan_health_message", locals: {
+        status_message: health_status_message(loan)
+      }
+    end
   end
 end

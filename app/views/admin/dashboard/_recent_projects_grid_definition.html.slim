@@ -25,19 +25,4 @@
 
     - g.column name: "Status", attribute: 'status_value',
       filter: false, ordering: false do |project|
-      - if project.health_status_available?
-        /- health_status_message(project)
-        - health_status_info(project)
-        /- project.health_status_available?
-        / - status_message = health_status_message(project)
-        / - if status_message == "healthy"
-        /   i.fa.fa-check-circle.ms-tooltip
-        /   .message.hidden
-        /     h4 = status_message[:message]
-        / - else
-        /   i.fa.fa-exclamation-triangle.ms-tooltip
-        /   .message.hidden
-        /     h4 = status_message[:message]
-        /     div = status_message[:warnings]
-        /     - status_message[:warnings].each do |warning|
-        /       p = warning
+      - health_status_info(project)
