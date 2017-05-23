@@ -11,9 +11,20 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   def update
     @response_set = LoanResponseSet.find(params[:id])
     authorize @response_set
-    [:updater, :updated_at, :lock_version].each { |i| instance_variable_set "@#{i}", @response_set.send(i) }
 
+    # Need to store these values from the db before they get overwritten by params below
+    @response_set_from_db = {
+      updater: @response_set.updater,
+      updated_at: @response_set.updated_at,
+      lock_version: @response_set.lock_version,
+    }
+
+    # Add updater id to params
     adjusted_params = response_set_params.merge(updater_id: current_user.id)
+    # If there was a conflict and "Overwrite" was clicked, update the lock version to the one pulled
+    # from the database when the warning was displayed. We do this instead of just ignoring the
+    # lock_version in case someone made further changes since the warning was displayed. This way,
+    # another, updated warning will be displayed instead of going ahead with the update.
     adjusted_params[:lock_version] = params[:new_lock_version] if params[:overwrite]
 
     if params[:discard]
