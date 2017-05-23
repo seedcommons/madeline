@@ -6,8 +6,8 @@ en:
     healthy: "All criteria met."
     unhealthy: "The following criteria are missing:"
     warnings:
-      active_without_signed_contract: "active_without_signed_contract"
-      active_without_recent_logs: "active_without_recent_logs"
-      late_steps: "late_steps"
-      incomplete_loan_questions: "incomplete_loan_questions"
-      sporadic_loan_updates: "sporadic_loan_updates"
+      active_without_signed_contract: "Loan marked active and no contract attached"
+      active_without_recent_logs: "Loan marked active and no logs in longer than a month"
+      late_steps: "A step more than a day late and incomplete"
+      incomplete_loan_questions: "Less than 80% of the required questions answered"
+      sporadic_loan_updates: "Less than one step every month"
