@@ -8,7 +8,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
   resetModal: (e) ->
     stepIds = @$('.step-ids').val()
     disabled = stepIds.length < 1
-    @checkForDependentSteps(stepIds)
+    @checkForUnselectedPrecedents(stepIds)
     @$('.adjust-dates-confirm').toggleClass('disabled', disabled)
     @$('.adjust-dates-confirm').prop('disabled', disabled)
 
@@ -26,7 +26,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
   # Check the selected steps for any steps with precedents
   # If the step has a precedent step, show a message
-  checkForDependentSteps: (stepIds) ->
+  checkForUnselectedPrecedents: (stepIds) ->
     @$('#dependent-steps-notice').hide()
 
     dependents = @$(".select-step[data-id][data-precedent-id]:checked")
@@ -36,7 +36,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
     dependents.each ->
       stepId = $(this).data('id')
       precedentId = $(this).data('precedent-id')
-      unselectedPrecedentIds.push(stepId) unless stepIds.includes(precedentId)
+      unselectedPrecedentIds.push(precedentId) unless stepIds.includes(precedentId)
 
     if unselectedPrecedentIds.length > 0
       @$('#dependent-steps-notice').show()
