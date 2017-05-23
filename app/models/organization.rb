@@ -21,6 +21,7 @@
 #  postal_code        :string
 #  primary_contact_id :integer
 #  primary_phone      :string
+#  qb_id              :string
 #  referral_source    :string
 #  secondary_phone    :string
 #  sector             :string
