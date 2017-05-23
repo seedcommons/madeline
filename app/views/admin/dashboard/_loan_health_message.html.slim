@@ -12,6 +12,6 @@
   i.fa.fa-exclamation-triangle.ms-tooltip
   .message.hidden
     h4 = status_message[:message]
-    div = status_message[:warnings]
-    - status_message[:warnings].each do |warning|
-      p = warning
+    ul
+      - status_message[:warnings].each do |warning|
+        li = warning
