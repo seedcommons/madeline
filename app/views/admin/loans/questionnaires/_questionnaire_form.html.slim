@@ -13,11 +13,10 @@
     
     - if @conflict
       .alert.alert-danger
-        = t('loan.response_set.conflicting_changes', 
+        = t('loan.response_set.conflicting_changes_html', 
             link: admin_loan_tab_path(@loan, tab: 'questions', filter: @response_set.kind),
             updater: @updater.try(:name) || "[#{t(:unknown)}]",
-            updated_at: l(@updated_at, format: :long),
-          ).html_safe
+            updated_at: l(@updated_at, format: :long))
         = hidden_field_tag(:new_lock_version, @lock_version)
         .buttons
           => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
