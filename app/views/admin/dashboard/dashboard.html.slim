@@ -1,7 +1,5 @@
 - content_for(:title, @person.name)
 
-/= health_status.warnings.late_steps
-
 .block
   section.section.recent-projects.projects-grid
     = render "recent_projects_grid_definition", grid: @recent_projects_grid
