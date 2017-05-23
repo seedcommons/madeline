@@ -16,14 +16,13 @@ feature 'timeline batch actions' do
     loan.root_timeline_entry.children += [step1, step2, step3]
     # byebug
     visit(admin_loan_path(loan) + '/timeline')
-    # save_and_open_page
     find(:css, ".select-step[data-id='#{step1.id}']").set(true)
     find(:css, ".select-step[data-id='#{step2.id}']").set(true)
     find(:css, ".select-step[data-id='#{step3.id}']").set(true)
     click_on('Batch Actions')
-    click_on('Adjust Dates')
+    find(:css, ".batch-actions .action.adjust-dates").click
     fill_in('num_of_days', with: '3')
-    click_button('Adjust Dates')
+    find(:css, ".action.adjust-dates-confirm").click
     expect(page).to have_content('successfully updated')
   end
 end
