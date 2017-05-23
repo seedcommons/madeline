@@ -23,6 +23,6 @@
       - content_tag(:span, project.status,
         class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
 
-    - g.column name: "Status", attribute: 'status_value',
+    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
       filter: false, ordering: false do |project|
       - health_status_info(project)
