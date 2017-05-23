@@ -5,13 +5,15 @@
 /   i.fa.fa-exclamation-triangle.ms-tooltip data-ms-title=status_message[:message]
 
 - if status_message == "healthy"
-  i.fa.fa-check-circle.ms-tooltip
-  .message.hidden
-    h4 = status_message[:message]
+  .health-message
+    i.fa.fa-check-circle.ms-tooltip
+    .message.hidden
+      h4 = status_message[:message]
 - else
-  i.fa.fa-exclamation-triangle.ms-tooltip
-  .message.hidden
-    h4 = status_message[:message]
-    ul
-      - status_message[:warnings].each do |warning|
-        li = warning
+  .health-message
+    i.fa.fa-exclamation-triangle.ms-tooltip
+    .message.hidden
+      h4 = status_message[:message]
+      ul
+        - status_message[:warnings].each do |warning|
+          li = warning

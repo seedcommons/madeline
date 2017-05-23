@@ -35,13 +35,11 @@ class MS.Views.DashboardProjectsView extends Backbone.View
     @$activeProjects.hide()
 
   prepTooltips: ->
-    console.log("Prepping tooltips")
-
     @$('.ms-tooltip').each (index, tip) ->
-      console.log($(tip).data('ms-title'))
+      message = $(tip).closest('.health-message').find('.message').html()
 
       $(tip).addClass('ms-popover').popover
-        content: $(tip).data('ms-title')
+        content: message
         html: true
         placement: 'left'
         toggle: 'popover'
