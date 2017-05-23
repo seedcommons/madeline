@@ -43,5 +43,4 @@ class MS.Views.DashboardProjectsView extends Backbone.View
         html: true
         placement: 'left'
         toggle: 'popover'
-        title: 'Loan Health'
         trigger: 'manual'
