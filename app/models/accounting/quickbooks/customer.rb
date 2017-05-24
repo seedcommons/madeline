@@ -21,6 +21,8 @@ module Accounting
         entity_ref = ::Quickbooks::Model::BaseReference.new(qb_customer_id)
         entity.entity_ref = entity_ref
 
+        organization.update!(qb_id: qb_customer_id)
+
         entity
       end
 
