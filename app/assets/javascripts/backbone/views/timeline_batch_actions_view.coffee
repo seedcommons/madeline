@@ -36,7 +36,7 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
     dependents.each ->
       stepId = $(this).data('id')
       precedentId = $(this).data('precedent-id')
-      unselectedPrecedentIds.push(precedentId) unless stepIds.includes(precedentId)
+      unselectedPrecedentIds.push(precedentId) unless stepIds.indexOf(precedentId) != -1
 
     if unselectedPrecedentIds.length > 0
       @$('#steps-notice').show()
