@@ -27,7 +27,7 @@ module Accounting
       private
 
       def service
-        @service ||= ::Quickbooks::Model::Customer.new(qb_connection.auth_details)
+        @service ||= ::Quickbooks::Service::Customer.new(qb_connection.auth_details)
       end
 
       def find_or_create_qb_customer_id

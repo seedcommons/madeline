@@ -15,7 +15,7 @@ module Accounting
         je.private_note = memo
         je.txn_date = date if date.present?
 
-        qb_customer_ref = customer_reference
+        qb_customer_ref = customer_reference(organization)
 
         je.line_items << create_line_item(
           amount: amount,
@@ -42,7 +42,7 @@ module Accounting
 
       # Not memoized because organization could vary. Make sure to capture in an ivar,
       # otherwise you could end up with different references to the same object.
-      def customer_reference
+      def customer_reference(organization)
         Customer.new(organization: organization, qb_connection: qb_connection).reference
       end
 
