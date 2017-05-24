@@ -1,6 +1,8 @@
 module Accounting
   module Quickbooks
 
+    # Customer in QBO = Organization (Coop) in Madeline
+    #
     # Represents a QBO Customer object and can create a reference object
     # for a link to this object in a transaction or other QBO object.
     class Customer
