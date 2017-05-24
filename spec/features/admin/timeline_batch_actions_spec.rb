@@ -18,7 +18,7 @@ feature 'timeline batch actions', js: true do
     login_as(user, scope: :user)
   end
 
-  it 'changes dates', focus: true do
+  it 'changes dates' do
     # Add the steps to the loan
     loan.root_timeline_entry.children += [step1, step2, step3, step4, step5]
 
