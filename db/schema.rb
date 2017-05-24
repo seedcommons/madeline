@@ -188,7 +188,9 @@ ActiveRecord::Schema.define(version: 20170511054647) do
     t.json     "custom_data"
     t.string   "kind"
     t.integer  "loan_id", null: false
+    t.integer  "lock_version"
     t.datetime "updated_at", null: false
+    t.integer  "updater_id"
   end
 
   create_table "media", force: :cascade do |t|
@@ -436,6 +438,7 @@ ActiveRecord::Schema.define(version: 20170511054647) do
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
+  add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"

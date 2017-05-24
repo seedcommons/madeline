@@ -59,6 +59,10 @@ section.questionnaires {
     margin: 10px 0 0 0;
     p:last-child { margin: 0; }
   }
+
+  .alert.form-element {
+    margin: 10px 0;
+  }
 }
 
 // This is scoped separately because it can appear inside the print view.
