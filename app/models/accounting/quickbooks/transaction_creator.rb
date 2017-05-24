@@ -16,6 +16,7 @@ module Accounting
         je.txn_date = date if date.present?
 
         qb_customer_ref = customer_reference(organization)
+        qb_department_ref = department_reference(loan_id)
 
         je.line_items << create_line_item(
           amount: amount,
@@ -23,7 +24,8 @@ module Accounting
           posting_type: 'Debit',
           description: description,
           qb_account_id: principal_account.qb_id,
-          qb_customer_ref: qb_customer_ref
+          qb_customer_ref: qb_customer_ref,
+          qb_department_ref: qb_department_ref
         )
 
         je.line_items << create_line_item(
@@ -32,7 +34,8 @@ module Accounting
           posting_type: 'Credit',
           description: description,
           qb_account_id: qb_bank_account_id,
-          qb_customer_ref: qb_customer_ref
+          qb_customer_ref: qb_customer_ref,
+          qb_department_ref: qb_department_ref
         )
 
         service.create(je)
@@ -40,10 +43,13 @@ module Accounting
 
       private
 
-      # Not memoized because organization could vary. Make sure to capture in an ivar,
-      # otherwise you could end up with different references to the same object.
       def customer_reference(organization)
         Customer.new(organization: organization, qb_connection: qb_connection).reference
+      end
+
+      def department_reference(loan_id)
+        division = Loan.find_by(id: loan_id).division
+        Department.new(division: division, qb_connection: qb_connection).reference
       end
 
       def service
@@ -54,13 +60,14 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
-      def create_line_item(amount:, loan_id:, posting_type:, description:, qb_account_id:, qb_customer_ref:)
+      def create_line_item(amount:, loan_id:, posting_type:, description:, qb_account_id:, qb_customer_ref:, qb_department_ref:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
         jel = ::Quickbooks::Model::JournalEntryLineDetail.new
         line_item.journal_entry_line_detail = jel
 
         jel.entity = qb_customer_ref
+        jel.department_ref = qb_department_ref
 
         # The QBO api needs a fully persisted class before we can associate it.
         # We need to either find or create the class, and use the returned Id.
