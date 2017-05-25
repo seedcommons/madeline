@@ -22,7 +22,6 @@ feature 'questionnaire', js: true do
       fill_in('loan_response_set[summary[text]]', with: 'gnashing teeth')
       response_set.touch
       click_button 'Save Responses'
-      save_and_open_page
     end
 
     it "raises an error and discard button works" do
