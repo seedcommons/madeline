@@ -1,0 +1,10 @@
+.health-message
+  i.fa.ms-tooltip class="#{status_message[:icon]}"
+  .message.hidden
+    .tooltip-content
+      h4 = status_message[:message]
+
+      - if status_message[:warnings].present?
+        ul
+          - status_message[:warnings].each do |warning|
+            li = warning

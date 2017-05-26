@@ -48,6 +48,7 @@
 
 javascript:
   $(function(){
+    new MS.Views.DashboardView();
     new MS.Views.DashboardProjectsView();
     new MS.Views.DashboardCalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
