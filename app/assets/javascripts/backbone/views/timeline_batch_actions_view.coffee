@@ -6,9 +6,9 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
     'show.bs.modal': 'resetModal'
 
   resetModal: (e) ->
-    stepIds = @$('.step-ids').val()
-    disabled = stepIds.length < 1
-    @checkForUnselectedPrecedents(stepIds)
+    console.log(@stepIds())
+    disabled = @stepIds().length < 1
+    @checkForUnselectedPrecedents()
     @$('.adjust-dates-confirm').toggleClass('disabled', disabled)
     @$('.adjust-dates-confirm').prop('disabled', disabled)
 
@@ -26,21 +26,29 @@ class MS.Views.TimelineBatchActionsView extends Backbone.View
 
   # Check the selected steps for any steps with precedents
   # If the step has a precedent step, show a message
-  checkForUnselectedPrecedents: (stepIds) ->
+  checkForUnselectedPrecedents: ->
     @$('#steps-notice').hide()
 
     dependents = @$(".select-step[data-id][data-precedent-id]:checked")
-    stepIds = @$('.step-ids').val()
     unselectedPrecedentIds = []
+    stepIds = @stepIds()
 
     dependents.each ->
-      stepId = $(this).data('id')
       precedentId = $(this).data('precedent-id')
+      console.log(stepIds.includes(precedentId))
       unselectedPrecedentIds.push(precedentId) unless stepIds.includes(precedentId)
 
+    console.log(unselectedPrecedentIds)
     if unselectedPrecedentIds.length > 0
       @$('#steps-notice').show()
 
   hideAdjustDatesModal: (e) ->
     @$('.adjust-dates-modal').modal('hide')
     @adjustForm(e)
+
+  stepIds: ->
+    ids = @$('.step-ids').val()
+    if ids
+      ids.split(',').map(parseFloat)
+    else
+      []
