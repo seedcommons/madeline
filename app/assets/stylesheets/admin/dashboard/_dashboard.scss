@@ -82,6 +82,14 @@
   .health-message {
     .fa {
       font-size: 1.25em;
+
+      &.healthy {
+        color: $success2;
+      }
+
+      &.unhealthy {
+        color: $orange1;
+      }
     }
   }
 
