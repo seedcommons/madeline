@@ -31,7 +31,7 @@ feature 'timeline batch actions', js: true do
     step4_orig_date = step4.scheduled_start_date
     step5_orig_date = step5.scheduled_start_date
 
-    num = 3
+    days_shifted = 3
 
     # Select steps
     visit(admin_loan_path(loan) + '/timeline')
@@ -44,17 +44,17 @@ feature 'timeline batch actions', js: true do
     # Ajust dates batch action
     click_on('Batch Actions')
     find(:css, ".batch-actions .action.adjust-dates").click
-    fill_in('num_of_days', with: num)
+    fill_in('num_of_days', with: days_shifted)
     find(:css, ".action.adjust-dates-confirm").click
     expect(page).to have_content('successfully updated')
 
     # Confirm dependent steps change correctly
-    expect(step1.reload.scheduled_start_date).to eq(step1_orig_date.try(:+, num))
-    expect(step2.reload.scheduled_start_date).to eq(step2_orig_date.try(:+, num))
-    expect(step3.reload.scheduled_start_date).to eq(step3_orig_date.try(:+, num))
+    expect(step1.reload.scheduled_start_date).to eq(step1_orig_date.try(:+, days_shifted))
+    expect(step2.reload.scheduled_start_date).to eq(step2_orig_date.try(:+, days_shifted))
+    expect(step3.reload.scheduled_start_date).to eq(step3_orig_date.try(:+, days_shifted))
 
     # Confirm steps with and without start dates change correctly
-    expect(step4.reload.scheduled_start_date).to eq(step4_orig_date.try(:+, num))
-    expect(step5.reload.scheduled_start_date).to eq(step5_orig_date.try(:+, num))
+    expect(step4.reload.scheduled_start_date).to eq(step4_orig_date.try(:+, days_shifted))
+    expect(step5.reload.scheduled_start_date).to eq(step5_orig_date.try(:+, days_shifted))
   end
 end
