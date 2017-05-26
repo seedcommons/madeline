@@ -8,18 +8,16 @@ module ProjectsHelper
   def health_status_message(health_check)
     if health_check.healthy?
       status_message = {
-        status: "healthy",
+        icon: "fa-check-circle",
         message: I18n.t("health_status.healthy"),
-        warnings: [],
-        icon: "fa-check-circle"
+        warnings: []
       }
     else
       warnings = health_check.health_warnings.collect {|w| I18n.t("health_status.warnings.#{w}")}
       status_message = {
-        status: "unhealthy",
+        icon: "fa-exclamation-triangle",
         message: I18n.t('health_status.unhealthy'),
-        warnings: warnings,
-        icon: "fa-exclamation-triangle"
+        warnings: warnings
       }
     end
   end
