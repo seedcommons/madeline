@@ -10,6 +10,36 @@ feature 'questionnaire', js: true do
     login_as(user, scope: :user)
   end
 
+  context 'happy path' do
+    it "works" do
+      # create
+      visit admin_loan_tab_path(loan, 'questions')
+      fill_in('loan_response_set[summary[text]]', with: 'kittens jumping on rainbows')
+      click_button 'Save Responses'
+      expect(page).to have_content 'successfully created'
+      expect(page).to have_content 'kittens jumping on rainbows'
+      expect(loan.criteria.reload.summary.text).to eq 'kittens jumping on rainbows'
+
+      # edit
+      click_link('Edit Responses')
+      fill_in('loan_response_set[summary[text]]', with: 'sexy unicorns')
+      click_button 'Save Responses'
+      expect(page).to have_content 'successfully updated'
+      expect(page).to have_content 'sexy unicorns'
+      expect(page).not_to have_content 'Warning'
+      expect(loan.criteria.reload.summary.text).to eq 'sexy unicorns'
+
+      # delete
+      click_link('Delete All Responses')
+      click_on('Confirm')
+      expect(page).to have_content 'successfully deleted'
+      expect(page).not_to have_content 'sexy unicorns'
+      # After deletion, should be in edit mode
+      expect(page).not_to have_content 'Edit Responses'
+      expect(page).to have_selector 'input[value="Save Responses"]'
+    end
+  end
+
   context 'with conflicting changes' do
     let(:response_set) { loan.create_criteria }
 
