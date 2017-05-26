@@ -28,7 +28,10 @@ module Timeline
     end
 
     def adjust_scheduled_date(step, days_adjustment)
-      if step.scheduled_start_date && days_adjustment != 0
+      # If step has a precedent step, do not change the date
+      if step.schedule_parent_id
+        false
+      elsif step.scheduled_start_date && days_adjustment != 0
         new_date = step.scheduled_start_date + days_adjustment.days
         # note, old_start_date will be assigned if needed by the before_save logic
         step.update!(scheduled_start_date: new_date)

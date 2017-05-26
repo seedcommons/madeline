@@ -122,4 +122,8 @@ class Project < ActiveRecord::Base
       !p.completed && p.project_logs.empty? && p.date <= Date.today
     end
   end
+
+  def health_status_available?
+    return false
+  end
 end

@@ -1,3 +1,4 @@
+# Controls current user's projects list
 class MS.Views.DashboardProjectsView extends Backbone.View
   el: '.projects-grid'
 

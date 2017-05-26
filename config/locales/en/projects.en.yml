@@ -1,3 +1,13 @@
 en:
   project:
     months: "%{number} mo."
+
+  health_status:
+    healthy: "All status checks passed."
+    unhealthy: "The following status checks are failing:"
+    warnings:
+      active_without_signed_contract: "No contract attached"
+      active_without_recent_logs: "No logs in longer than a month"
+      late_steps: "A step more than a day late and incomplete"
+      incomplete_loan_questions: "Less than 80% of the required questions answered"
+      sporadic_loan_updates: "Less than one step every month"

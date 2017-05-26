@@ -5,7 +5,7 @@
 section.loan.details
   div.loan-content
     ul.nav.nav-tabs.nav-tabs-responsive.hidden-print role="tablist"
-      - @tabs.each do |tab|
+      - Admin::LoansController::TABS.each do |tab|
         li role="presentation" class==("active" if tab == @tab)
           = link_to t("loan.tab.#{tab}"), admin_loan_tab_path(@loan.id, tab: tab)
 

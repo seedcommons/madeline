@@ -10,7 +10,7 @@
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
   td class=classes
-    input.select-step type="checkbox" class==completed data-id=entry.id
+    input.select-step type="checkbox" class==completed data-id=entry.id data-precedent-id=entry.schedule_parent_id
 
   td class=classes
     .icon

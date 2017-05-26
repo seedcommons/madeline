@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511054647) do
+ActiveRecord::Schema.define(version: 20170526012142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20170511054647) do
 
   add_index "accounting_transactions", ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id", using: :btree
   add_index "accounting_transactions", ["project_id"], name: "index_accounting_transactions_on_project_id", using: :btree
-  add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
+  add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype__unq_idx", unique: true, using: :btree
   add_index "accounting_transactions", ["qb_id"], name: "index_accounting_transactions_on_qb_id", using: :btree
   add_index "accounting_transactions", ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type", using: :btree
 
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170511054647) do
     t.integer  "organization_id"
     t.integer  "parent_id"
     t.integer  "principal_account_id"
+    t.string   "qb_id"
     t.datetime "updated_at", null: false
   end
 
@@ -188,7 +189,9 @@ ActiveRecord::Schema.define(version: 20170511054647) do
     t.json     "custom_data"
     t.string   "kind"
     t.integer  "loan_id", null: false
+    t.integer  "lock_version", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.integer  "updater_id"
   end
 
   create_table "media", force: :cascade do |t|
@@ -436,6 +439,7 @@ ActiveRecord::Schema.define(version: 20170511054647) do
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
+  add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
