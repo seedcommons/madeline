@@ -22,6 +22,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
   def edit
     @step = ProjectStep.find(params[:id])
+    @logs = @step.project_logs
     authorize @step
     render_modal_content
   end
