@@ -13,7 +13,7 @@ module ProjectsHelper
         warnings: []
       }
     else
-      warnings = health_check.health_warnings.collect {|w| I18n.t("health_status.warnings.#{w}")}
+      warnings = health_check.health_warnings.map { |w| I18n.t("health_status.warnings.#{w}") }
       status_message = {
         icon: "fa-exclamation-triangle",
         message: I18n.t('health_status.unhealthy'),
