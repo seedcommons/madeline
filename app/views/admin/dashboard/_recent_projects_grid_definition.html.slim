@@ -25,4 +25,5 @@
 
     - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
       filter: false, ordering: false do |project|
-      - health_status_info(project)
+      - if project.health_status_available?
+        - health_status_info(project.loan_health_check)
