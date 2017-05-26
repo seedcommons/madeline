@@ -14,13 +14,13 @@ section.questionnaires
         data: {filter: "post_analysis"}
 
   div.questionnaire data-attrib=@attrib class=@attrib
-    section.block class=(@response_set.persisted? && @response_set.valid? ? 'show-view' : 'edit-view')
+    section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
       .show-actions
         - if policy(@loan).update? && @response_set.persisted?
-          a.edit-action.view-element
+          a.edit-action.view-element href="javascript:void(0)"
             i.fa.fa-pencil.fa-large>
             = t(".edit")
-          a.show-action.form-element
+          a.show-action.form-element href="javascript:void(0)"
             = t("cancel_edit")
           = link_to [:admin, @response_set], method: :delete,
             data: { \
