@@ -298,6 +298,7 @@ en:
   step: "Step"
   submit: "Submit"
   unauthorized_error: "You are not authorized to perform this action."
+  unknown: "Unknown"
   update: "Update"
   updated: "Updated"
 

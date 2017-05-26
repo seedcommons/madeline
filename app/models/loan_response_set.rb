@@ -2,23 +2,31 @@
 #
 # Table name: loan_response_sets
 #
-#  created_at  :datetime         not null
-#  custom_data :json
-#  id          :integer          not null, primary key
-#  kind        :string
-#  loan_id     :integer          not null
-#  updated_at  :datetime         not null
+#  created_at   :datetime         not null
+#  custom_data  :json
+#  id           :integer          not null, primary key
+#  kind         :string
+#  loan_id      :integer          not null
+#  lock_version :integer
+#  updated_at   :datetime         not null
+#  updater_id   :integer
+#
+# Foreign Keys
+#
+#  fk_rails_4142299b55  (updater_id => users.id)
 #
 
 class LoanResponseSet < ActiveRecord::Base
   include ProgressCalculable
 
   belongs_to :loan
+  belongs_to :updater, class_name: 'User'
 
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
   delegate :question, to: :loan_question_set
+
   after_commit :recalculate_loan_health
 
   def recalculate_loan_health
