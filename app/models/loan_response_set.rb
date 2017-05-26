@@ -7,7 +7,7 @@
 #  id           :integer          not null, primary key
 #  kind         :string
 #  loan_id      :integer          not null
-#  lock_version :integer
+#  lock_version :integer          default(0), not null
 #  updated_at   :datetime         not null
 #  updater_id   :integer
 #
