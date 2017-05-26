@@ -13,6 +13,7 @@ class MS.Views.MediaView extends Backbone.View
     'click .media-action.delete': 'deleteItem'
     'confirm:complete .media-action.delete': 'deleteConfirm'
     'ajax:complete .media-action.proceed': 'deleteComplete'
+    'change input#media_item': 'removePreviousMedia'
 
   defineMediaVariables: (link) ->
     @mediaBox = @$(link).closest('.media-browser')
@@ -63,3 +64,7 @@ class MS.Views.MediaView extends Backbone.View
   submitForm: ->
     MS.loadingIndicator.show()
     @$('.media-modal form').submit()
+
+  # Do not display thumbnail of older media file if media file is replaced
+  removePreviousMedia: (e) ->
+    @$(e.currentTarget).closest('form').find('.media-item').remove()
