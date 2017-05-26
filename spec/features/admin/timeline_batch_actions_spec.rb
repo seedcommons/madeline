@@ -14,20 +14,23 @@ feature 'timeline batch actions', js: true do
   let(:step4) { create(:project_step, project: loan, scheduled_start_date: Date.today, scheduled_duration_days: nil) }
   let(:step5) { create(:project_step, project: loan, scheduled_start_date: nil, scheduled_duration_days: nil) }
 
+  let(:steps) { [step1, step2, step3, step4, step5] }
+
   before do
     login_as(user, scope: :user)
+
+    # Add the steps to the loan
+    loan.root_timeline_entry.children += steps
   end
 
   it 'changes dates' do
-    # Add the steps to the loan
-    loan.root_timeline_entry.children += [step1, step2, step3, step4, step5]
-
     # Set variables
     step1_orig_date = step1.scheduled_start_date
     step2_orig_date = step2.scheduled_start_date
     step3_orig_date = step3.scheduled_start_date
     step4_orig_date = step4.scheduled_start_date
     step5_orig_date = step5.scheduled_start_date
+
     num = 3
 
     # Select steps
