@@ -1,6 +1,8 @@
 module Accounting
   module Quickbooks
 
+    # Customer in QBO = Organization (Coop) in Madeline
+    #
     # Represents a QBO Customer object and can create a reference object
     # for a link to this object in a transaction or other QBO object.
     class Customer
@@ -21,13 +23,15 @@ module Accounting
         entity_ref = ::Quickbooks::Model::BaseReference.new(qb_customer_id)
         entity.entity_ref = entity_ref
 
+        organization.update!(qb_id: qb_customer_id)
+
         entity
       end
 
       private
 
       def service
-        @service ||= ::Quickbooks::Model::Customer.new(qb_connection.auth_details)
+        @service ||= ::Quickbooks::Service::Customer.new(qb_connection.auth_details)
       end
 
       def find_or_create_qb_customer_id

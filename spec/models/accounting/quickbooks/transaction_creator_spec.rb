@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
-  let(:class_ref) { instance_double(Quickbooks::Model::Class, id: 2) }
+  let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
   let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: nil) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
+  let(:department_service) { instance_double(Quickbooks::Service::Department) }
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
   let(:account) { instance_double(Accounting::Account, qb_id: qb_principal_account_id) }
-  let(:loan_id) { 2 }
+  let(:loan) { create(:loan) }
+  let(:loan_id) { loan.id }
   let(:amount) { 78.20 }
   let(:memo) { 'I am a memo' }
   let(:description) { 'I am a line item description' }
@@ -33,11 +35,13 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     allow(creator).to receive(:service).and_return(generic_service)
     allow(creator).to receive(:class_service).and_return(class_service)
     allow(creator).to receive(:customer_reference).and_return(customer_reference)
+    allow(creator).to receive(:department_reference).and_return(department_reference)
   end
 
   let(:qb_customer_id) { '91234' }
-  let(:qb_new_customer) { instance_double(Quickbooks::Model::Customer, id: qb_customer_id) }
+  let(:qb_department_id) { '4012' }
   let(:customer_reference) { instance_double(Quickbooks::Model::Entity) }
+  let(:department_reference) { instance_double(Quickbooks::Model::BaseReference, value: qb_department_id) }
   let(:customer_name) { 'A cooperative with a name' }
   let(:organization) { create(:organization, name: customer_name, qb_id: nil) }
 
@@ -55,6 +59,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
       expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
       expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
       expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
+      expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
       expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
     end
     subject

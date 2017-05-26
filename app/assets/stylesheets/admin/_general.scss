@@ -113,6 +113,10 @@ section.details {
   text-decoration: underline;
 }
 
+.alert .buttons {
+  margin-top: 1em;
+}
+
 a, input[type="checkbox"], input[type="radio"], select {
   cursor: pointer;
 }

@@ -496,6 +496,7 @@ DEPENDENCIES
   paperclip (~> 5.0.0)
   pg (~> 0.15)
   poltergeist (~> 1.0)
+  pry
   pundit
   pundit-matchers
   quickbooks-ruby

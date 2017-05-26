@@ -30,6 +30,13 @@ RSpec.describe Accounting::Quickbooks::Customer, type: :model do
       expect(reference.type).to eq 'Customer'
       expect(reference.entity_ref.value).to eq qb_customer_id
     end
+
+    it 'saves qb_id to organization' do
+      allow(service).to receive(:create).and_return(qb_new_customer)
+
+      subject.reference
+      expect(Organization.where(qb_id: qb_customer_id).count).to eq 1
+    end
   end
 
   context 'when qb customer does exist' do
