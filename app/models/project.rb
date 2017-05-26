@@ -124,12 +124,6 @@ class Project < ActiveRecord::Base
   end
 
   def health_status_available?
-    if type == "Loan"
-      unless loan_health_check.blank?
-        return true
-      end
-    end
-
     return false
   end
 end

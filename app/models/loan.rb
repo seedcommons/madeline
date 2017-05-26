@@ -207,4 +207,7 @@ class Loan < Project
     loan_health_check.healthy?
   end
 
+  def health_status_available?
+    return !loan_health_check.nil?
+  end
 end
