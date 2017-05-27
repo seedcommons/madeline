@@ -5,7 +5,7 @@ FactoryGirl.define do
     scheduled_start_date { Faker::Date.between(Date.civil(2014, 01, 01), Date.today) }
     scheduled_duration_days { Faker::Number.between(0, 10) }
     is_finalized { [true, false].sample }
-    step_type_value { ["step", "milestone"].sample }
+    step_type_value { ["checkin", "milestone"].sample }
     transient_division
     summary { Faker::Hipster.sentence(4).chomp(".") }
     details { Faker::Hipster.paragraph }

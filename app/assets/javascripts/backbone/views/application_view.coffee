@@ -16,6 +16,8 @@ class MS.Views.ApplicationView extends Backbone.View
     'click .more': 'toggleExpanded'
     'click .less': 'toggleExpanded'
     'click .ms-popover': 'showPopover'
+    'mouseenter .ms-tooltip.ms-popover': 'showTooltip'
+    'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
 
   toggleExpanded: (e) ->
     @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
@@ -29,3 +31,11 @@ class MS.Views.ApplicationView extends Backbone.View
         self.$('.ms-popover').popover('hide')
         self.$el.off 'click', hide # Unregister for performance reasons
     @$el.on 'click', hide
+
+  showTooltip: (e) ->
+    $curPopover = $(e.currentTarget)
+    $curPopover.popover('show')
+
+  hideTooltip: (e) ->
+    $curPopover = $(e.currentTarget)
+    $curPopover.popover('hide')

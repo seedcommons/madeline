@@ -22,6 +22,7 @@ en:
     details: "Details"
     edit: "Edit Loan"
     end: "End %{name}"
+    end_date: "End Date"
     finalize: "Finalize"
     forward: "+ forward"
     id: "Loan ID"
@@ -55,6 +56,8 @@ en:
     questionnaire: "Questionnaire"
     rating: "Score"
     save_responses: "Save Responses"
+    shared:
+      new: "New Loan"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
     start: "Start %{name}"
@@ -66,7 +69,7 @@ en:
       completed: "Completed"
       frozen: "Frozen"
       liquidated: "Liquidated"
-    end_date: "End Date"
+    steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
     tab:
       details: "Details"
       questions: "Questions"
@@ -81,8 +84,6 @@ en:
     transaction_new_disbursement: "New Disbursement"
     transaction_new_repayment: "New Repayment"
     transaction_schedule: "Schedule"
-    shared:
-      new: "New Loan"
 
     business_model:
       key_partners: "￼￼Key Partners"
@@ -156,6 +157,11 @@ en:
       total_gross_margin: "Total Gross Margin"
       total_net_margin: "Total Net Margin"
       total_fixed_costs: "Total Fixed Costs"
+
+    response_set:
+      conflicting_changes_html: '<b>Warning:</b> The data has changed since you loaded it. The last update was by %{updater}, %{updated_at}. You may want to check with them to see what they changed or <a href="%{link}" target="_blank">open the latest data in a new tab</a> to compare.<br><br>You can save your changes anyway, but <b>all other changes since you loaded the page will be lost</b>.'
+      discard_reload: "Discard My Changes and Reload"
+      overwrite_changes: "Save My Changes and Overwrite Others"
 
   breakeven_table_question:
     days: "Days"

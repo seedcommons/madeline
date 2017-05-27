@@ -10,9 +10,23 @@
     ) do |f|
 
     = error_notification(f)
+    
+    - if @conflict
+      .alert.alert-danger
+        = t('loan.response_set.conflicting_changes_html', 
+            link: admin_loan_tab_path(@loan, tab: 'questions', filter: @response_set.kind),
+            updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
+            updated_at: l(@response_set_from_db[:updated_at], format: :long))
+        / `new_lock_version` is the lock_version of the updated record in the db. This is here in
+        / case someone made further changes since the warning was displayed. 
+        = hidden_field_tag(:new_lock_version, @response_set_from_db[:lock_version])
+        .buttons
+          => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
+          => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
 
     = f.hidden_field(:loan_id)
     = f.hidden_field(:kind)
+    = f.hidden_field(:lock_version)
 
     - unless @print_view
       .jqtree data-data=@questions_json class=attrib
@@ -20,8 +34,7 @@
     .actions.form-element
       - unless response_set.new_record?
         a.btn.btn-default.show-action = t(:cancel)
-      - submit_label = t("loan.save_responses")
-      = f.submit submit_label, class: 'update-action btn btn-primary'
+      = f.submit t("loan.save_responses"), class: 'update-action btn btn-primary'
     .clearfix
 
   / Render form fields outside form so they don't get double submitted after being
