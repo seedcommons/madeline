@@ -4,7 +4,7 @@ en:
 
   health_status:
     healthy: "All status checks passed."
-    unhealthy: "The following status checks are failing:"
+    unhealthy: "Status checks are failing:"
     warnings:
       active_without_signed_contract: "No contract attached"
       active_without_recent_logs: "No logs in longer than a month"
