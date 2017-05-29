@@ -31,6 +31,7 @@ FactoryGirl.define do
     internal_name Faker::Lorem.words(2).join('_').downcase
     data_type LoanQuestion::DATA_TYPES.sample
     position [1..10].sample
+    status 'active'
     parent nil
     transient_division
 
