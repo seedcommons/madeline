@@ -4,3 +4,8 @@ section.transactions
 
   = render "admin/accounting/transactions/transactions_grid_definition"
   = render_index_grid_with_redirect_check(@transactions_grid)
+
+javascript:
+  $(function() {
+    new MS.Views.TransactionsView();
+  });
