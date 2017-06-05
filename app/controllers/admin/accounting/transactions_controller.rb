@@ -6,4 +6,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     initialize_transactions_grid
   end
+
+  def new
+  end
+
+  def create
+  end
 end
