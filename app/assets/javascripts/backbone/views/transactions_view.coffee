@@ -10,4 +10,4 @@ class MS.Views.TransactionsView extends Backbone.View
 
   newTransaction: ->
     console.log('Modal will open here')
-    @$('#transaction-modal').show()
+    @$('#transaction-modal').modal("show")
