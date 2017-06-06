@@ -11,7 +11,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'confirm:complete a.delete-action': 'delete'
-    'change #project_step_schedule_parent_id': 'showHideStartDate'
+    # 'change #project_step_schedule_parent_id': 'showHideStartDate'
 
   show: (id, done) ->
     @done = done
@@ -63,7 +63,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
-    @showHideStartDate()
+    # @showHideStartDate()
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
@@ -74,10 +74,10 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   runAndResetDoneCallback: ->
     @done()
     @done = (->) # Reset to empty function.
-
-  showHideStartDate: ->
-    @precedentId = @$('#project_step_schedule_parent_id').val()
-    if @precedentId
-      @$('.form-group.project_step_scheduled_start_date').hide()
-    else
-      @$('.form-group.project_step_scheduled_start_date').show()
+  #
+  # showHideStartDate: ->
+  #   @precedentId = @$('#project_step_schedule_parent_id').val()
+  #   if @precedentId
+  #     @$('.form-group.project_step_scheduled_start_date').hide()
+  #   else
+  #     @$('.form-group.project_step_scheduled_start_date').show()
