@@ -99,4 +99,42 @@ namespace :tww do
       end
     end
   end
+
+  desc "migrate some test data from quickbooks"
+  task migrate_organizations_to_qbo: :environment do
+    qb_connection = Division.root.qb_connection
+
+    customers = Quickbooks::Service::Customer.new(qb_connection.auth_details).all
+
+    customer_hash = {}
+    customers.each do |customer|
+      customer_hash[customer.display_name] = customer
+    end
+
+    Organization.all.find_each do |org|
+      customer = customer_hash[org.name]
+
+      if customer
+        if org.qb_id.blank?
+          puts "Mapping organization '#{org.name}' to #{customer.id}"
+          org.update!(qb_id: customer.id)
+        else
+          if org.qb_id != customer.id
+            puts "ERROR! Duplicate #{org.name} found, skipping"
+            next
+          end
+          puts "Organization '#{org.name}' already mapped to #{org.qb_id}"
+        end
+      else
+        begin
+        puts "Creating new customer for organization '#{org.name}'"
+        customer_ref = Accounting::Quickbooks::Customer.new(organization: org, qb_connection: qb_connection).reference
+        puts "Created customer #{customer_ref.entity_ref.value}"
+        rescue Quickbooks::InvalidModelException, Quickbooks::IntuitRequestException => ex
+          puts ex.message
+          puts "ERROR! Could not create #{org.name}, skipping"
+        end
+      end
+    end
+  end
 end
