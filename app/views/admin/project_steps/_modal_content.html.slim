@@ -98,6 +98,10 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           = f.input_field :scheduled_duration_days
           = t("project_step.days")
 
+      = f.input :scheduled_end_date
+        .static-text-as-field
+          = @step.scheduled_end_date
+
       = f.input :actual_end_date
         .view-element = ldate(@step.actual_end_date)
         = f.input_field :actual_end_date, as: :date_picker
