@@ -12,6 +12,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'ajax:complete form': 'submitComplete'
     'confirm:complete a.delete-action': 'delete'
     # 'change #project_step_schedule_parent_id': 'showHideStartDate'
+    'change #project_step_scheduled_start_date': 'setScheduledEndDate'
+    'change #project_step_scheduled_duration_days': 'setScheduledEndDate'
 
   show: (id, done) ->
     @done = done
@@ -74,10 +76,17 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   runAndResetDoneCallback: ->
     @done()
     @done = (->) # Reset to empty function.
-  #
-  # showHideStartDate: ->
-  #   @precedentId = @$('#project_step_schedule_parent_id').val()
-  #   if @precedentId
-  #     @$('.form-group.project_step_scheduled_start_date').hide()
-  #   else
-  #     @$('.form-group.project_step_scheduled_start_date').show()
+
+  setScheduledEndDate: ->
+    # Applies to all steps
+    console.log("Take the current set start date plus current duration and change the end date")
+    startDate = @$('#project_step_scheduled_start_date').val()
+    duration = @$('#project_step_scheduled_duration_days').val()
+    console.log(startDate)
+    console.log(duration)
+    # console.log(startDate + duration)
+
+  setScheduledStartDateOnDependent: ->
+    # Applies to dependent step only
+    console.log("Setting start date to the precedent step end date + 1")
+    @precedentId = @$('#project_step_schedule_parent_id').val()
