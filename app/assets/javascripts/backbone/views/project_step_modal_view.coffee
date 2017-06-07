@@ -5,15 +5,16 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @done = (->) # Empty function
+    @hideShowEditableStartDate()
 
   events:
     'click .cancel': 'close'
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'confirm:complete a.delete-action': 'delete'
-    'change #project_step_scheduled_start_date': 'setScheduledEndDate'
     'change #project_step_scheduled_duration_days': 'setScheduledEndDate'
     'change #project_step_schedule_parent_id': 'setScheduledStartDateOnDependent'
+    'change #project_step_scheduled_start_date': 'setStaticStartDate'
 
   show: (id, done) ->
     @done = done
@@ -81,10 +82,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     # Applies to all steps
     # Takes the current start date plus current duration and changes the end date
 
-    if @$('#project_step_scheduled_start_date').val()
-      startDateVal = @$('#project_step_scheduled_start_date').val()
-    else
-      startDateVal = @$('.form-group.project_step_scheduled_start_date').find(".static-text-as-field").html()
+    startDateVal = @$('#project_step_scheduled_start_date').val()
     startDate = new Date(startDateVal)
 
     durationVal = @$('#project_step_scheduled_duration_days').val()
@@ -101,8 +99,33 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     # Applies to dependent step only
     # Set start date to the precedent step end date plus 1
     precedentId = @$('#project_step_schedule_parent_id').val()
-    startDate = $(".step-end-date[data-id=#{precedentId}]").data('dependent-step-start-date')
-    @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(startDate)
+    if precedentId
+      startDate = $(".step-end-date[data-id=#{precedentId}]").data('dependent-step-start-date')
+      @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(startDate)
+      @$("#project_step_scheduled_start_date").val(startDate)
 
-    # Set end date
+    @setScheduledEndDate()
+
+  hideShowEditableStartDate: ->
+    precedentId = @$('#project_step_schedule_parent_id').val()
+
+    # if precedentId
+    #   @$(".project_step_scheduled_start_date").find(".static-text-as-field").show()
+    #   @$("#project_step_scheduled_start_date").hide()
+    # else
+    #   @$(".project_step_scheduled_start_date").find(".static-text-as-field").hide()
+    #   @$("#project_step_scheduled_start_date").show()
+
+    @setScheduledStartDateOnDependent()
+
+  setStaticStartDate: ->
+    # Sync user input for start date with static start date
+    # Applies to steps without precedent steps
+
+    userStartDate = @$("#project_step_scheduled_start_date").val()
+    staticStartDate = @$(".project_step_scheduled_start_date").find(".static-text-as-field").html()
+
+    if userStartDate != staticStartDate
+      @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(userStartDate)
+
     @setScheduledEndDate()
