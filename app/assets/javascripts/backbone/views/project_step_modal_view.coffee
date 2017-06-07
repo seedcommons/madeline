@@ -7,7 +7,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = (->) # Empty function
 
   events:
-    'focus': 'hideShowEditableStartDate'
     'click .cancel': 'close'
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
@@ -66,7 +65,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
-    # @showHideStartDate()
+    @hideShowEditableStartDate()
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
