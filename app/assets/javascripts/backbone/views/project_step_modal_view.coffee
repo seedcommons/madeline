@@ -80,11 +80,15 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   setScheduledEndDate: ->
     # Applies to all steps
     console.log("Take the current set start date plus current duration and change the end date")
-    startDate = @$('#project_step_scheduled_start_date').val()
-    duration = @$('#project_step_scheduled_duration_days').val()
-    console.log(startDate)
-    console.log(duration)
-    # console.log(startDate + duration)
+
+    startDateVal = @$('#project_step_scheduled_start_date').val()
+    startDate = new Date(startDateVal)
+
+    durationVal = @$('#project_step_scheduled_duration_days').val()
+    duration = Number(durationVal)
+
+    endDate = new Date(startDateVal)
+    endDate.setDate(endDate.getDate() + duration)
 
   setScheduledStartDateOnDependent: ->
     # Applies to dependent step only
