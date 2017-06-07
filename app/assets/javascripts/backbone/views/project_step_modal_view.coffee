@@ -14,6 +14,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     # 'change #project_step_schedule_parent_id': 'showHideStartDate'
     'change #project_step_scheduled_start_date': 'setScheduledEndDate'
     'change #project_step_scheduled_duration_days': 'setScheduledEndDate'
+    'change #project_step_schedule_parent_id': 'setScheduledStartDateOnDependent'
 
   show: (id, done) ->
     @done = done
@@ -97,4 +98,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   setScheduledStartDateOnDependent: ->
     # Applies to dependent step only
     # Set start date to the precedent step end date plus 1
-    @precedentId = @$('#project_step_schedule_parent_id').val()
+    precedentId = @$('#project_step_schedule_parent_id').val()
+    startDate = $(".step-end-date[data-id=#{precedentId}]").data('dependent-step-start-date')
+    @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(startDate)
