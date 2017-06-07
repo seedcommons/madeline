@@ -89,6 +89,13 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
     endDate = new Date(startDateVal)
     endDate.setDate(endDate.getDate() + duration)
+    console.log(endDate)
+    endDateMoment = moment(endDate)
+    console.log(endDateMoment)
+    endDateFormatted = moment(endDateMoment).format("YYYY[-]MM[-]DD")
+
+    @$(".form-group.project_step_scheduled_end_date").find(".static-text-as-field").html(endDateFormatted)
+    console.log(endDateFormatted)
 
   setScheduledStartDateOnDependent: ->
     # Applies to dependent step only
