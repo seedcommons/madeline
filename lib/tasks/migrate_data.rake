@@ -108,6 +108,8 @@ namespace :tww do
 
     customer_hash = {}
     customers.each do |customer|
+      # Customer does not have a name property so we use display name since that is
+      # what is usually show in the QBO UI.
       customer_hash[customer.display_name] = customer
     end
 
@@ -120,21 +122,13 @@ namespace :tww do
           org.update!(qb_id: customer.id)
         else
           if org.qb_id != customer.id
-            puts "ERROR! Duplicate #{org.name} found, skipping"
+            puts "ERROR! 'Problem mapping customer #{customer.id} to Coop #{org.name}', it is already mapped to #{org.qb_id}, skipping"
             next
           end
-          puts "Organization '#{org.name}' already mapped to #{org.qb_id}"
-        end
-      else
-        begin
-        puts "Creating new customer for organization '#{org.name}'"
-        customer_ref = Accounting::Quickbooks::Customer.new(organization: org, qb_connection: qb_connection).reference
-        puts "Created customer #{customer_ref.entity_ref.value}"
-        rescue Quickbooks::InvalidModelException, Quickbooks::IntuitRequestException => ex
-          puts ex.message
-          puts "ERROR! Could not create #{org.name}, skipping"
         end
       end
     end
+
+    puts "Done mapping #{customers.count} QBO Customers to Coops"
   end
 end
