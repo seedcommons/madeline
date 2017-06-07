@@ -96,5 +96,5 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   setScheduledStartDateOnDependent: ->
     # Applies to dependent step only
-    console.log("Setting start date to the precedent step end date + 1")
+    # Set start date to the precedent step end date plus 1
     @precedentId = @$('#project_step_schedule_parent_id').val()
