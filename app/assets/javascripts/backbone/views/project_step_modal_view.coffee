@@ -5,9 +5,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @done = (->) # Empty function
-    @hideShowEditableStartDate()
 
   events:
+    'focus': 'hideShowEditableStartDate'
     'click .cancel': 'close'
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
@@ -105,18 +105,20 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @$("#project_step_scheduled_start_date").val(startDate)
 
     @setScheduledEndDate()
+    @hideShowEditableStartDate()
 
   hideShowEditableStartDate: ->
     precedentId = @$('#project_step_schedule_parent_id').val()
+    console.log(precedentId)
 
-    # if precedentId
-    #   @$(".project_step_scheduled_start_date").find(".static-text-as-field").show()
-    #   @$("#project_step_scheduled_start_date").hide()
-    # else
-    #   @$(".project_step_scheduled_start_date").find(".static-text-as-field").hide()
-    #   @$("#project_step_scheduled_start_date").show()
+    if precedentId
+      @$(".project_step_scheduled_start_date").find(".static-text-as-field").show()
+      @$("#project_step_scheduled_start_date").hide()
+    else
+      @$(".project_step_scheduled_start_date").find(".static-text-as-field").hide()
+      @$("#project_step_scheduled_start_date").show()
 
-    @setScheduledStartDateOnDependent()
+    # @setScheduledStartDateOnDependent()
 
   setStaticStartDate: ->
     # Sync user input for start date with static start date
@@ -129,3 +131,4 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(userStartDate)
 
     @setScheduledEndDate()
+    @hideShowEditableStartDate()
