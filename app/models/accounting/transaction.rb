@@ -38,6 +38,10 @@ class Accounting::Transaction < ActiveRecord::Base
     end
   end
 
+  def amount
+    quickbooks_data[:amount]
+  end
+
   def txn_date
     quickbooks_data[:txn_date]
   end
@@ -51,6 +55,8 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def quickbooks_data
+    return {} if read_attribute(:quickbooks_data).blank?
+
     read_attribute(:quickbooks_data).with_indifferent_access
   end
 end

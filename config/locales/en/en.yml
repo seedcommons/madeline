@@ -164,6 +164,8 @@ en:
     labels:
       timeline_step_move:
         move_type: "Which Date?"
+      accounting_transaction:
+        private_note: 'Memo'
     options:
       person:
         owning_division_role:

@@ -4,7 +4,19 @@ div.modal-header
   h4.modal-title Add Transaction
 
 div.modal-body
-  / = simple_form_for [:admin, @transaction], remote: true do |f|
+  = render 'alerts'
+
+  = simple_form_for [:admin, @transaction], remote: true do |f|
+    = error_notification(f)
+
+    = f.hidden_field :loan_id, value: @loan.id
+
+    = simple_fields_for :other do |o|
+      = o.input :qb_bank_account_id, collection: Accounting::Account.all, value_method: :qb_id
+
+    = f.input :amount
+
+    = f.input :private_note
 
 div.modal-footer
   button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:cancel)

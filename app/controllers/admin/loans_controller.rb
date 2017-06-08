@@ -50,6 +50,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'logs'
       prep_logs(@loan)
     when 'transactions'
+      @transaction = ::Accounting::Transaction.new(project: @loan)
       initialize_transactions_grid(@loan.id)
     when 'calendar'
       @locale = I18n.locale
