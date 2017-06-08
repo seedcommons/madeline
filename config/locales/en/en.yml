@@ -193,6 +193,9 @@ en:
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
+    # Syntax: see http://bootstrap-datepicker.readthedocs.io/en/latest/options.html?highlight=format#format
+    # Should be equivalent to date.formats.default format above.
+    picker_format: 'M d, yyyy'
 
   ## Front end ##
   country: Country

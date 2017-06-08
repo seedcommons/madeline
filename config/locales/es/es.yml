@@ -189,6 +189,7 @@ es:
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
+    picker_format: 'M d, yyyy'
   show: Mostrar
   show_active: Activo
   show_completed: Completo
