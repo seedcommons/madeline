@@ -91,13 +91,13 @@ describe "LoanResponse.progress" do
   end
 
   context "with question with children" do
-    let!(:f1) { create_question(parent: root, name: "f1", data_type: "text", required: false) }
+    let!(:f1) { create_question(parent: root, name: "f1", data_type: "text", required: false) } # answered
     let!(:f2) { create_question(parent: root, name: "f2", data_type: "number", required: true) }
 
     # Question with children
-    let!(:f3) { create_question(parent: root, name: "f3", data_type: "string", required: true) }
-    let!(:f31) { create_question(parent: f3, name: "f31", data_type: "string", required: true) }
-    let!(:f32) { create_question(parent: f3, name: "f32", data_type: "boolean", required: false) }
+    let!(:f3) { create_question(parent: root, name: "f3", data_type: "string", required: true) } # answered
+      let!(:f31) { create_question(parent: f3, name: "f31", data_type: "string", required: true) } # answered
+      let!(:f32) { create_question(parent: f3, name: "f32", data_type: "boolean", required: false) } # answered
 
     before do
       rset.set_response("f1", {"text" => "foo"})
@@ -108,10 +108,11 @@ describe "LoanResponse.progress" do
     end
 
     it "should be correct" do
-      # Top level (optional) contributes 2 (answered) to numerator and 3 (total) to denominator
+      # Top level (required) contributes 1 (answered & required) to numerator and 2 (required) to denominator
       # f3 children contribute 1 (answered & required) to numerator and 1 (required) to denominator
-      # Total is 3/4 = 75%
-      expect(rset.progress).to be_within(0.001).of(0.75)
+      # Total is 2/3
+      debug rset
+      expect(rset.progress).to be_within(0.001).of(0.666)
     end
   end
 
