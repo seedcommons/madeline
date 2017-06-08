@@ -136,6 +136,7 @@ en:
         old_start_date: "Original Start Date"
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
+        scheduled_end_date: "Scheduled End Date"
         step_type_value: "Type"
       accounting:
         transaction:
