@@ -34,6 +34,7 @@ module ProgressCalculable
   # plus the numerators of any child groups.
   def progress_numerator
     return @progress_numerator if @progress_numerator
+    return @progress_numerator = 0 if respond_to?(:active?) && !active?
     properties = {answered: true, group: false}
     applicable_children = required? ? active_children.select(&:required?) : active_children
 
@@ -48,6 +49,7 @@ module ProgressCalculable
   # plus the denominators of any child groups.
   def progress_denominator
     return @progress_denominator if @progress_denominator
+    return @progress_denominator = 0 if respond_to?(:active?) && !active?
     properties = {group: false}
     applicable_children = required? ? active_children.select(&:required?) : active_children
 

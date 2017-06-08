@@ -32,12 +32,12 @@ describe "LoanResponse.progress" do
       let!(:f43) { create_question(parent: f4, name: "f43", data_type: "string", required: true) }
 
     # Inactive group
-    let!(:f5) { create_group(parent: root, name: "f5", required: false, status: 'inactive') }
-      let!(:f51) { create_question(parent: f5, name: "f51", data_type: "string", required: false) } # answered
-      let!(:f52) { create_question(parent: f5, name: "f52", data_type: "boolean", required: true) }
+    let!(:f5) { create_group(parent: root, name: "f5", required: true, status: 'inactive') }
+      let!(:f51) { create_question(parent: f5, name: "f51", data_type: "string", required: true) } # answered
+      let!(:f52) { create_question(parent: f5, name: "f52", data_type: "boolean", required: false) }
 
     # Retired group
-    let!(:f6) { create_group(parent: root, name: "f6", required: false, status: 'retired') }
+    let!(:f6) { create_group(parent: root, name: "f6", required: true, status: 'retired') }
       let!(:f61) { create_question(parent: f6, name: "f61", data_type: "string", required: false) } # answered
       let!(:f62) { create_question(parent: f6, name: "f62", data_type: "boolean", required: true, status: 'inactive') }
 
@@ -78,6 +78,8 @@ describe "LoanResponse.progress" do
       # Inactive questions only show when they are answered, and they are never required, so
       # progress makes no sense. Retired questions should never show, so they should be excluded as
       # well.
+      debug(rset.response("f5"))
+      debug(rset.response("f6"))
       expect(rset.response("f5").progress).to eq 0
       expect(rset.response("f6").progress).to eq 0
     end
