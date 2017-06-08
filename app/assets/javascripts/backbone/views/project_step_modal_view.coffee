@@ -65,7 +65,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
   replaceContent: (html) ->
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
-    @hideShowEditableStartDate()
+    @showHideStartDate()
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
@@ -104,11 +104,12 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @$("#project_step_scheduled_start_date").val(startDate)
 
     @setScheduledEndDate()
-    @hideShowEditableStartDate()
+    @showHideStartDate()
 
-  hideShowEditableStartDate: ->
+  showHideStartDate: ->
+    # Show read-only start date when step has precedent step
+    # Show editable start date when step is not a dependent step
     precedentId = @$('#project_step_schedule_parent_id').val()
-    console.log(precedentId)
 
     if precedentId
       @$(".project_step_scheduled_start_date").find(".static-text-as-field").show()
@@ -117,12 +118,8 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @$(".project_step_scheduled_start_date").find(".static-text-as-field").hide()
       @$("#project_step_scheduled_start_date").show()
 
-    # @setScheduledStartDateOnDependent()
-
   setStaticStartDate: ->
-    # Sync user input for start date with static start date
-    # Applies to steps without precedent steps
-
+    # Sync user inputed start date with hidden read-only start date
     userStartDate = @$("#project_step_scheduled_start_date").val()
     staticStartDate = @$(".project_step_scheduled_start_date").find(".static-text-as-field").html()
 
@@ -130,4 +127,4 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(userStartDate)
 
     @setScheduledEndDate()
-    @hideShowEditableStartDate()
+    @showHideStartDate()
