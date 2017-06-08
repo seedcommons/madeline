@@ -90,7 +90,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     endDate = new Date(startDateVal)
     endDate.setDate(endDate.getDate() + duration)
     endDateMoment = moment(endDate)
-    endDateFormatted = moment(endDateMoment).format("YYYY[-]MM[-]DD")
+    endDateFormatted = moment(endDateMoment).format(MS.dateFormats.default)
 
     @$(".form-group.project_step_scheduled_end_date").find(".static-text-as-field").
       html(endDateFormatted)
