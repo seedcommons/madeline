@@ -81,7 +81,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       - if @step.old_start_date && @step.is_finalized?
         = f.input :old_start_date
           .static-text-as-field
-            = @step.old_start_date
+            = ldate(@step.old_start_date)
 
       = f.input :scheduled_start_date
         .view-element = ldate(@step.scheduled_start_date)
@@ -102,7 +102,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       = f.input :scheduled_end_date
         .static-text-as-field
-          = @step.scheduled_end_date
+          = ldate(@step.scheduled_end_date)
 
       = f.input :actual_end_date
         .view-element = ldate(@step.actual_end_date)
