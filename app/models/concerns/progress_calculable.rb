@@ -1,5 +1,5 @@
 # Methods for calculating progress towards completion of LoanResponseSets.
-# Assumes including classes implement :required?, :group?, :answered?, and :children.
+# Assumes including classes implement :required?, :group?, :answered?, :active?, and :children.
 module ProgressCalculable
   extend ActiveSupport::Concern
 
@@ -19,9 +19,9 @@ module ProgressCalculable
     required? ? "normal" : "optional"
   end
 
-  # Inactive questions only show when they are answered, and they are never required, so
-  # progress makes no sense. Retired questions should never show, so they should be excluded as
-  # well.
+  # Inactive and retired questions should be ignored. Inactive questions only show when they are
+  # answered, and they are never required, so progress makes no sense. Retired questions should
+  # never show, so they should be excluded as well.
   def active_children
     children.select(&:active?)
   end
@@ -32,7 +32,7 @@ module ProgressCalculable
   # plus the numerators of any child groups.
   def progress_numerator
     return @progress_numerator if @progress_numerator
-    return @progress_numerator = 0 if respond_to?(:active?) && !active?
+    return @progress_numerator = 0 unless active?
     applicable_children = required? ? active_children.select(&:required?) : active_children
 
     @progress_numerator = applicable_children.sum do |c|
@@ -46,7 +46,7 @@ module ProgressCalculable
   # plus the denominators of any child groups.
   def progress_denominator
     return @progress_denominator if @progress_denominator
-    return @progress_denominator = 0 if respond_to?(:active?) && !active?
+    return @progress_denominator = 0 unless active?
     applicable_children = required? ? active_children.select(&:required?) : active_children
 
     @progress_denominator = applicable_children.sum do |c|

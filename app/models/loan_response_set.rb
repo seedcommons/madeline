@@ -70,6 +70,11 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
+  def active?
+    true
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
   # Returns the LoanResponses for the top level questions in the set.
   def children
     question(:root).children.map { |f| response(f) }
