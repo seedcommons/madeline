@@ -36,6 +36,8 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
 
+  before_save :update_fields_from_quickbooks_data
+
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|
@@ -45,5 +47,27 @@ class Accounting::Transaction < ActiveRecord::Base
 
   def quickbooks_data
     read_attribute(:quickbooks_data).with_indifferent_access
+  end
+
+  private
+
+  def update_fields_from_quickbooks_data
+    self.amount = first_quickbooks_line_item[:amount]
+    self.description = first_quickbooks_line_item[:description]
+    self.project_id = first_quickbooks_class_name
+    self.txn_date = quickbooks_data[:txn_date]
+    self.private_note = quickbooks_data[:private_note]
+    self.total = quickbooks_data[:total]
+  end
+
+  def first_quickbooks_line_item
+    return {} unless quickbooks_data[:line_items]
+    quickbooks_data[:line_items].first
+  end
+
+  def first_quickbooks_class_name
+    return unless first_quickbooks_line_item[:journal_entry_line_detail]
+    return unless first_quickbooks_line_item[:journal_entry_line_detail][:class_ref]
+    first_quickbooks_line_item[:journal_entry_line_detail][:class_ref][:name]
   end
 end
