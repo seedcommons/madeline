@@ -52,6 +52,8 @@ class Accounting::Transaction < ActiveRecord::Base
   private
 
   def update_fields_from_quickbooks_data
+    return unless quickbooks_data.present?
+
     self.amount = first_quickbooks_line_item[:amount]
     self.description = first_quickbooks_line_item[:description]
     self.project_id = first_quickbooks_class_name

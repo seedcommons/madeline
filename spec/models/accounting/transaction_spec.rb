@@ -69,4 +69,26 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(subject.project_id).to eq loan.id
     end
   end
+
+  context 'when quickbooks_data is nil' do
+    subject do
+      create(:accounting_transaction,
+        amount: 404.02,
+        total: 42,
+        txn_date: '2017-10-31',
+        private_note: 'a memo',
+        description: 'desc',
+        project_id: loan.id,
+      )
+    end
+
+    it 'should not overwrite calculated quickbooks fields' do
+      expect(subject.amount).to eq 404.02
+      expect(subject.total).to eq 42
+      expect(subject.txn_date).to eq Date.parse('2017-10-31')
+      expect(subject.private_note).to eq 'a memo'
+      expect(subject.description).to eq 'desc'
+      expect(subject.project_id).to eq loan.id
+    end
+  end
 end
