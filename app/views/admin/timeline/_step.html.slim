@@ -34,7 +34,7 @@
     class="#{classes} step-date step-end-date"
     data-id=entry.id
     data-precedent-id=entry.schedule_parent_id
-    data-dependent-step-start-date=entry.dependent_step_start_date]
+    data-dependent-step-start-date=ldate(entry.display_end_date)]
     = entry.display_end_date ? ldate(entry.display_end_date, format: :short) : ""
 
   td class=classes
