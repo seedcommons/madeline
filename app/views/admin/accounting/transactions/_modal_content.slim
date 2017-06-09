@@ -9,10 +9,9 @@ div.modal-body
   = simple_form_for [:admin, @transaction], remote: true do |f|
     = error_notification(f)
 
-    = f.hidden_field :loan_id, value: @loan.id
+    = f.hidden_field :project_id
 
-    = simple_fields_for :other do |o|
-      = o.input :qb_bank_account_id, collection: Accounting::Account.all, value_method: :qb_id
+    = f.association :account
 
     = f.input :amount
 

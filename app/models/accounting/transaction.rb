@@ -44,8 +44,6 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def quickbooks_data
-    return {} if read_attribute(:quickbooks_data).blank?
-
     read_attribute(:quickbooks_data).with_indifferent_access
   end
 end

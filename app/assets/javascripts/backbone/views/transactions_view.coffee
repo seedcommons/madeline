@@ -5,4 +5,4 @@ class MS.Views.TransactionsView extends Backbone.View
    'click [data-action="new-transaction"]': 'newTransaction'
 
   newTransaction: ->
-    @$('#transaction-modal').modal("show")
+    @$('#transaction-modal').modal('show')
