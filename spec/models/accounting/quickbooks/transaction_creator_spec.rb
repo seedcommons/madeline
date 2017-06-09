@@ -7,28 +7,31 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
-  let(:account) { instance_double(Accounting::Account, qb_id: qb_principal_account_id) }
+  let(:account) { create(:accounting_account, qb_id: qb_principal_account_id) }
+  let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
   let(:loan) { create(:loan) }
   let(:loan_id) { loan.id }
   let(:amount) { 78.20 }
   let(:memo) { 'I am a memo' }
   let(:description) { 'I am a line item description' }
-  let(:qb_bank_account_id) { 89 }
-  let(:qb_principal_account_id) { 92 }
+  let(:qb_bank_account_id) { '89' }
+  let(:qb_principal_account_id) { '92' }
   let(:date) { nil }
+  let(:transaction) do
+    Accounting::Transaction.new(
+      amount: amount,
+      project: loan,
+      private_note: memo,
+      description: description,
+      account: bank_account,
+      txn_date: date
+    )
+  end
 
   let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: account)) }
 
   subject do
-    creator.add_disbursement(
-      amount: amount,
-      loan_id: loan_id,
-      memo: memo,
-      description: description,
-      qb_bank_account_id: qb_bank_account_id,
-      organization: organization,
-      date: date
-    )
+    creator.add_disbursement transaction
   end
 
   before do
@@ -66,7 +69,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   end
 
   context 'and date is supplied' do
-    let(:date) { 3.days.ago }
+    let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
@@ -83,7 +86,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
 
   context 'and date is supplied' do
-    let(:date) { 3.days.ago }
+    let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|

@@ -11,9 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526012142) do
+ActiveRecord::Schema.define(version: 20170609044730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "accounting_accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -41,11 +42,16 @@ ActiveRecord::Schema.define(version: 20170526012142) do
 
   create_table "accounting_transactions", force: :cascade do |t|
     t.integer  "accounting_account_id"
+    t.decimal  "amount"
     t.datetime "created_at", null: false
+    t.string   "description"
+    t.string   "private_note"
     t.integer  "project_id"
     t.string   "qb_id", null: false
     t.string   "qb_transaction_type", null: false
     t.json     "quickbooks_data"
+    t.decimal  "total"
+    t.date     "txn_date"
     t.datetime "updated_at", null: false
   end
 

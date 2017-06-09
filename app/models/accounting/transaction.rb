@@ -3,12 +3,17 @@
 # Table name: accounting_transactions
 #
 #  accounting_account_id :integer
+#  amount                :decimal(, )
 #  created_at            :datetime         not null
+#  description           :string
 #  id                    :integer          not null, primary key
+#  private_note          :string
 #  project_id            :integer
 #  qb_id                 :string           not null
 #  qb_transaction_type   :string           not null
 #  quickbooks_data       :json
+#  total                 :decimal(, )
+#  txn_date              :date
 #  updated_at            :datetime         not null
 #
 # Indexes
@@ -29,29 +34,13 @@ class Accounting::Transaction < ActiveRecord::Base
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
-  belongs_to :project, inverse_of: :transactions, foreign_key: :accounting_account_id
+  belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|
       t.update_attributes!(quickbooks_data: qb_object.as_json)
     end
-  end
-
-  def amount
-    quickbooks_data[:amount]
-  end
-
-  def txn_date
-    quickbooks_data[:txn_date]
-  end
-
-  def total
-    quickbooks_data[:total]
-  end
-
-  def private_note
-    quickbooks_data[:private_note]
   end
 
   def quickbooks_data

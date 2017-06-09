@@ -10,30 +10,30 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, organization:, date: nil)
+      def add_disbursement(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
-        je.private_note = memo
-        je.txn_date = date if date.present?
+        je.private_note = transaction.private_note
+        je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
-        qb_customer_ref = customer_reference(organization)
-        qb_department_ref = department_reference(loan_id)
+        qb_customer_ref = customer_reference(transaction.project.organization)
+        qb_department_ref = department_reference(transaction.project)
 
         je.line_items << create_line_item(
-          amount: amount,
-          loan_id: loan_id,
+          amount: transaction.amount,
+          loan_id: transaction.project_id,
           posting_type: 'Debit',
-          description: description,
+          description: transaction.description,
           qb_account_id: principal_account.qb_id,
           qb_customer_ref: qb_customer_ref,
           qb_department_ref: qb_department_ref
         )
 
         je.line_items << create_line_item(
-          amount: amount,
-          loan_id: loan_id,
+          amount: transaction.amount,
+          loan_id: transaction.project_id,
           posting_type: 'Credit',
-          description: description,
-          qb_account_id: qb_bank_account_id,
+          description: transaction.description,
+          qb_account_id: transaction.account.qb_id,
           qb_customer_ref: qb_customer_ref,
           qb_department_ref: qb_department_ref
         )
@@ -47,8 +47,8 @@ module Accounting
         Customer.new(organization: organization, qb_connection: qb_connection).reference
       end
 
-      def department_reference(loan_id)
-        division = Loan.find_by(id: loan_id).division
+      def department_reference(loan)
+        division = loan.division
         Department.new(division: division, qb_connection: qb_connection).reference
       end
 
