@@ -23,7 +23,7 @@ describe "LoanResponse.progress" do
       let!(:f36) { create_question(parent: f3, name: "f36", data_type: "string", required: true, status: 'inactive') }
       let!(:f37) { create_question(parent: f3, name: "f37", data_type: "string", required: true, status: 'retired') } # answered
       let!(:f38) { create_group(parent: f3, name: "f38", required: false) }
-        let!(:f381) { create_question(parent: f38, name: "f381", data_type: "boolean", required: false) }
+        let!(:f381) { create_question(parent: f38, name: "f381", data_type: "boolean", required: true) }
 
     # Optional group
     let!(:f4) { create_group(parent: root, name: "f4", required: false) }
@@ -58,36 +58,48 @@ describe "LoanResponse.progress" do
     it "should be correct for a required group" do
       # For required group, we want percentage of all required questions answered.
       # Group has 6 active questions, 3 required, and 2 of those have answers, so 2/3 == 66%
-      debug(rset.response("f3"))
-      expect(rset.response("f3").progress).to be_within(0.001).of(0.666)
+      resp = rset.response("f3")
+      expect(resp.progress_numerator).to eq 2
+      expect(resp.progress_denominator).to eq 3
+      expect(resp.progress).to be_within(0.001).of(0.666)
     end
 
     it "should be correct for required group with with no required questions" do
-      debug(rset.response("f33"))
-      expect(rset.response("f33").progress).to eq 0
+      resp = rset.response("f33")
+      expect(resp.progress_numerator).to eq 0
+      expect(resp.progress_denominator).to eq 0
+      expect(resp.progress).to eq 0
     end
 
     it "should be correct for an optional group" do
       # For optional group, we want percentage of all questions answered, required or not.
       # Group has 3 total questions, and 1 of those has an answer, so 1/3 == 33%
-      debug(rset.response("f4"))
-      expect(rset.response("f4").progress).to be_within(0.001).of(0.333)
+      resp = rset.response("f4")
+      expect(resp.progress_numerator).to eq 1
+      expect(resp.progress_denominator).to eq 3
+      expect(resp.progress).to be_within(0.001).of(0.333)
     end
 
     it "should exclude inactive and retired questions from calculations" do
       # Inactive questions only show when they are answered, and they are never required, so
       # progress makes no sense. Retired questions should never show, so they should be excluded as
       # well.
-      debug(rset.response("f5"))
-      debug(rset.response("f6"))
-      expect(rset.response("f5").progress).to eq 0
-      expect(rset.response("f6").progress).to eq 0
+      resp = rset.response("f5")
+      expect(resp.progress_numerator).to eq 0
+      expect(resp.progress_denominator).to eq 0
+      expect(resp.progress).to eq 0
+
+      resp = rset.response("f6")
+      expect(resp.progress_numerator).to eq 0
+      expect(resp.progress_denominator).to eq 0
+      expect(resp.progress).to eq 0
     end
 
     it "should be correct for the full custom value set" do
       # Direct children contribute 0/1, group f3 contributes 2/3, total = 2/4 = 50%
       # Optional, inactive and retired groups and questions should be ignored
-      debug(rset)
+      expect(rset.progress_numerator).to eq 2
+      expect(rset.progress_denominator).to eq 4
       expect(rset.progress).to be_within(0.001).of(0.5)
     end
   end
@@ -113,13 +125,16 @@ describe "LoanResponse.progress" do
       # Top level (required) contributes 1 (answered & required) to numerator and 2 (required) to denominator
       # f3 children contribute 1 (answered & required) to numerator and 1 (required) to denominator
       # Total is 2/3
-      debug rset
+      expect(rset.progress_numerator).to eq 2
+      expect(rset.progress_denominator).to eq 3
       expect(rset.progress).to be_within(0.001).of(0.666)
     end
   end
 
   context "with empty LoanQuestionSet" do
     it "should be correct" do
+      expect(rset.progress_numerator).to eq 0
+      expect(rset.progress_denominator).to eq 0
       expect(rset.progress).to eq 0
     end
   end
@@ -146,10 +161,5 @@ describe "LoanResponse.progress" do
       # If we want the field to be required we need to set it up to require answers for our loan's loan type.
       loan_types: required ? [fun_loan_type] : []
     )
-  end
-
-  def debug(rset)
-    puts "NUMERATOR: #{rset.send :progress_numerator}"
-    puts "DENOMINATOR: #{rset.send :progress_denominator}"
   end
 end
