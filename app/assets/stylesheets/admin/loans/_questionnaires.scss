@@ -169,13 +169,14 @@ section.questionnaires {
   }
 }
 
-@media print {
-  .questionnaire-form {
-    .header {
-      page-break-before: always;
-    }
-  }
-}
+// Page breaks temporarily removed from printed loan memo
+// @media print {
+//   .questionnaire-form {
+//     .header {
+//       page-break-before: always;
+//     }
+//   }
+// }
 
 .admin-embeddable_media {
   #embeddable_media_start_cell,

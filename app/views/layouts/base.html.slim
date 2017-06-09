@@ -15,7 +15,11 @@ html lang="en-US"
 
     javascript:
       I18n.availableLocales = #{json I18n.available_locales};
-      $(function() { new MS.Views.ApplicationView(); });
+      $(function() {
+        new MS.Views.ApplicationView({
+          dateFormats: #{json(I18n.t("date.moment_formats"))}
+        });
+      });
 
     = stylesheet_link_tag "application", media: "all"
     - if admin_controller?

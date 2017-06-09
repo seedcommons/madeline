@@ -136,6 +136,7 @@ en:
         old_start_date: "Original Start Date"
         scheduled_duration_days: "Scheduled Duration"
         scheduled_start_date: "Scheduled Start Date"
+        scheduled_end_date: "Scheduled End Date"
         step_type_value: "Type"
       accounting:
         transaction:
@@ -195,6 +196,14 @@ en:
       long: '%B %e, %Y'
       md_only: '%b %e'
       my_only: '%b %Y'
+    # Syntax: see https://momentjs.com/docs/#/displaying/
+    # Should match the above strftime style formats.
+    moment_formats:
+      default: 'MMM D, YYYY'
+    # Syntax: see http://bootstrap-datepicker.readthedocs.io/en/latest/options.html?highlight=format#format
+    # Should be equivalent to date.formats.default format above.
+    picker_format: 'M d, yyyy'
+
 
   ## Front end ##
   country: Country
