@@ -1,5 +1,5 @@
 # Methods for calculating progress towards completion of LoanResponseSets.
-# Assumes including classes implement required?, :group?, :answered?, and children.
+# Assumes including classes implement :required?, :group?, :answered?, :active?, and :children.
 module ProgressCalculable
   extend ActiveSupport::Concern
 
@@ -19,43 +19,40 @@ module ProgressCalculable
     required? ? "normal" : "optional"
   end
 
-  protected
+  # Inactive and retired questions should be ignored. Inactive questions only show when they are
+  # answered, and they are never required, so progress makes no sense. Retired questions should
+  # never show, so they should be excluded as well.
+  def active_children
+    children.select(&:active?)
+  end
 
   # If this is a required node, the numerator is the number of answered, required child questions,
-  # plus the numerators of any child groups.
+  # plus the numerators of any required child groups.
   # If this is an optional node, the numerator is just the number of answered child questions,
   # plus the numerators of any child groups.
   def progress_numerator
     return @progress_numerator if @progress_numerator
-    properties = {answered: true, group: false, active: true}
-    properties[:required] = true if required?
-    @progress_numerator = children.sum do |c|
-      (c.has_properties?(properties) ? 1 : 0) + c.progress_numerator
+    return @progress_numerator = 0 unless active?
+
+    @progress_numerator = progress_applicable_children.sum do |c|
+      (c.answered? && !c.group? ? 1 : 0) + c.progress_numerator
     end
   end
 
   # If this is a required node, the denominator is the number of required child questions,
-  # plus the denominators of any child groups.
+  # plus the denominators of any required child groups.
   # If this is an optional node, the denominator is just the total number of child questions,
   # plus the denominators of any child groups.
   def progress_denominator
     return @progress_denominator if @progress_denominator
-    properties = {group: false, active: true}
-    properties[:required] = true if required?
+    return @progress_denominator = 0 unless active?
 
-    @progress_denominator = children.sum do |c|
-      (c.has_properties?(properties) ? 1 : 0) + c.progress_denominator
+    @progress_denominator = progress_applicable_children.sum do |c|
+      (!c.group? ? 1 : 0) + c.progress_denominator
     end
   end
 
-  def has_properties?(properties)
-    # If any of the following boolean expressions is true, we must return false.
-    tests = [
-      properties.has_key?(:required) && properties[:required] != required?,
-      properties.has_key?(:answered) && properties[:answered] != answered?,
-      properties.has_key?(:group) && properties[:group] != group?,
-      properties.has_key?(:active) && properties[:active] != active?
-    ]
-    !tests.any? { |t| t }
+  def progress_applicable_children
+    required? ? active_children.select(&:required?) : active_children
   end
 end

@@ -52,9 +52,9 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
-  # A LoanResponseSet is never required to be fully answered. Requiredness is determined by children.
+  # Overall progress should consider only required questions, unless there are none.
   def required?
-    false
+    children.any?(&:required?)
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
@@ -67,6 +67,11 @@ class LoanResponseSet < ActiveRecord::Base
   # A LoanResponseSet behaves as a group so can never be answered.
   def answered?
     false
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  def active?
+    true
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
