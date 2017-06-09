@@ -4,7 +4,6 @@ div.modal-header
   h4.modal-title = t("media.#{@media.new_record? ? 'add' : 'edit'}")
 
 div.modal-body.media-modal
-
   = simple_form_for [:admin, @media], url: @submit_url, remote: true do |f|
     = error_notification(f)
 
