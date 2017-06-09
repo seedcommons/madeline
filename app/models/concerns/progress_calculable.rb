@@ -26,8 +26,6 @@ module ProgressCalculable
     children.select(&:active?)
   end
 
-  protected
-
   # If this is a required node, the numerator is the number of answered, required child questions,
   # plus the numerators of any required child groups.
   # If this is an optional node, the numerator is just the number of answered child questions,
@@ -35,11 +33,10 @@ module ProgressCalculable
   def progress_numerator
     return @progress_numerator if @progress_numerator
     return @progress_numerator = 0 if respond_to?(:active?) && !active?
-    properties = {answered: true, group: false}
     applicable_children = required? ? active_children.select(&:required?) : active_children
 
     @progress_numerator = applicable_children.sum do |c|
-      (c.has_properties?(properties) ? 1 : 0) + c.progress_numerator
+      (c.answered? && !c.group? ? 1 : 0) + c.progress_numerator
     end
   end
 
@@ -50,22 +47,10 @@ module ProgressCalculable
   def progress_denominator
     return @progress_denominator if @progress_denominator
     return @progress_denominator = 0 if respond_to?(:active?) && !active?
-    properties = {group: false}
     applicable_children = required? ? active_children.select(&:required?) : active_children
 
     @progress_denominator = applicable_children.sum do |c|
-      (c.has_properties?(properties) ? 1 : 0) + c.progress_denominator
+      (!c.group? ? 1 : 0) + c.progress_denominator
     end
-  end
-
-  def has_properties?(properties)
-    # If any of the following boolean expressions is true, we must return false.
-    tests = [
-      properties.has_key?(:required) && properties[:required] != required?,
-      properties.has_key?(:answered) && properties[:answered] != answered?,
-      properties.has_key?(:group) && properties[:group] != group?,
-      properties.has_key?(:active) && properties[:active] != active?
-    ]
-    !tests.any? { |t| t }
   end
 end
