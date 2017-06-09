@@ -48,8 +48,7 @@ module Accounting
       end
 
       def department_reference(loan)
-        division = loan.division
-        Department.new(division: division, qb_connection: qb_connection).reference
+        Department.new(division: loan.division, qb_connection: qb_connection).reference
       end
 
       def service

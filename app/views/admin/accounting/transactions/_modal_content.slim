@@ -4,8 +4,6 @@ div.modal-header
   h4.modal-title Add Transaction
 
 div.modal-body
-  = render 'alerts'
-
   = simple_form_for [:admin, @transaction], remote: true do |f|
     = error_notification(f)
 

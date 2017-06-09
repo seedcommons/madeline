@@ -18,7 +18,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
       render_modal_partial
     rescue => ex
-      flash.now[:error] = ex.message
+      @transaction.errors.add(:base, ex.message)
       render_modal_partial(status: 422)
     end
   end

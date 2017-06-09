@@ -7,7 +7,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
-  let(:account) { create(:accounting_account, qb_id: qb_principal_account_id) }
+  let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
   let(:loan) { create(:loan) }
   let(:loan_id) { loan.id }
@@ -28,7 +28,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     )
   end
 
-  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: account)) }
+  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
 
   subject do
     creator.add_disbursement transaction
