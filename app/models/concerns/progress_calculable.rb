@@ -33,9 +33,8 @@ module ProgressCalculable
   def progress_numerator
     return @progress_numerator if @progress_numerator
     return @progress_numerator = 0 unless active?
-    applicable_children = required? ? active_children.select(&:required?) : active_children
 
-    @progress_numerator = applicable_children.sum do |c|
+    @progress_numerator = progress_applicable_children.sum do |c|
       (c.answered? && !c.group? ? 1 : 0) + c.progress_numerator
     end
   end
@@ -47,10 +46,13 @@ module ProgressCalculable
   def progress_denominator
     return @progress_denominator if @progress_denominator
     return @progress_denominator = 0 unless active?
-    applicable_children = required? ? active_children.select(&:required?) : active_children
 
-    @progress_denominator = applicable_children.sum do |c|
+    @progress_denominator = progress_applicable_children.sum do |c|
       (!c.group? ? 1 : 0) + c.progress_denominator
     end
+  end
+
+  def progress_applicable_children
+    required? ? active_children.select(&:required?) : active_children
   end
 end
