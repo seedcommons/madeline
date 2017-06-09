@@ -89,9 +89,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     endDate = new Date(startDateVal)
     endDate.setDate(endDate.getDate() + duration)
     endDateMoment = moment(endDate)
-    # dateFormats is not being populated and is breaking other functions
-    # endDateFormatted = moment(endDateMoment).format(MS.dateFormats.default)
-    endDateFormatted = moment(endDateMoment).format('MMM D, YYYY')
+    endDateFormatted = moment(endDateMoment).format(MS.dateFormats.default)
 
     @$(".form-group.project_step_scheduled_end_date").find(".static-text-as-field").
       html(endDateFormatted)

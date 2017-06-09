@@ -11,7 +11,7 @@ class MS.Views.ApplicationView extends Backbone.View
     MS.alert = (html) ->
       $alert = $(html).hide()
       $alert.appendTo($('.alerts')).show('fast')
-    MS.dateFormat = params.dateFormat
+    MS.dateFormats = params.dateFormats
 
   events: ->
     'click .more': 'toggleExpanded'
