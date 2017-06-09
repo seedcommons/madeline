@@ -140,11 +140,11 @@ en:
         step_type_value: "Type"
       accounting:
         transaction:
+          private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
-          private_note: "Note"
     errors:
       models:
         project_group:
@@ -163,10 +163,12 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
+      accounting_transaction:
+        account: "Account"
+        amount: "Amount"
+        private_note: "Memo"
       timeline_step_move:
         move_type: "Which Date?"
-      accounting_transaction:
-        private_note: 'Memo'
     options:
       person:
         owning_division_role:
