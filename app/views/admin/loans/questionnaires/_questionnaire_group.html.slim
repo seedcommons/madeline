@@ -14,14 +14,15 @@
           - reopen_fieldset = true
 
         / Page header for print view
-        .header.visible-print-block
-          = @loan.division.name
-          br
-          = t("loan.print_header_title")
-          br
-          = @loan.organization.name
-          br
-          = I18n.l(Date.today, format: :long)
+        / Page headers temporarily removed from printed loan memo
+        / .header.visible-print-block
+        /   = @loan.division.name
+        /   br
+        /   = t("loan.print_header_title")
+        /   br
+        /   = @loan.organization.name
+        /   br
+        /   = I18n.l(Date.today, format: :long)
 
       - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
