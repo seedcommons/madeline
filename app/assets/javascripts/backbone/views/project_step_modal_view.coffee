@@ -84,8 +84,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     startDateVal = @$('#project_step_scheduled_start_date').val()
     startDate = new Date(startDateVal)
 
-    durationVal = @$('#project_step_scheduled_duration_days').val()
-    duration = Number(durationVal)
+    duration = Number(@$('#project_step_scheduled_duration_days').val())
 
     endDate = new Date(startDateVal)
     endDate.setDate(endDate.getDate() + duration)
