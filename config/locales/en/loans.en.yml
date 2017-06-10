@@ -1,10 +1,10 @@
 en:
   loan:
+    adjust_dates: "Adjust Dates"
+    adjust_scheduled_dates: "Adjust Scheduled Dates"
     agent:
       one: "Agent"
       other: "Agents"
-    adjust_dates: "Adjust Dates"
-    adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"
     back_to_loan: "Back to Loan"
     backward: "- backward"
