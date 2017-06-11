@@ -1,3 +1,12 @@
 es:
   project:
     months: "%{number} meses "
+  health_status:
+    healthy: "Todas las revisaciones de status han sido aprobadas."
+    unhealthy: "Las revisaciones de status están fallando:"
+    warnings:
+      active_without_signed_contract: "No se adjuntó ningún contrato"
+      active_without_recent_logs: "Sin logs desde hace más de un mes"
+      late_steps: "Paso atrasado e incompleto por más de un día "
+      incomplete_loan_questions: "Se han respondido menos del 80% oe las preguntas requeridas"
+      sporadic_loan_updates: "Menos de un paso por mes"

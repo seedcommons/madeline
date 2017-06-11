@@ -22,6 +22,7 @@ es:
     details: "Detalles"
     edit: "Editar Préstamo"
     end: "Finalizar %{name}"
+    end_date: "Fecha de Finalización "
     finalize: "Finalizar"
     forward: "+ hacia adelante"
     id: "Nro. ID de Préstamo"
@@ -55,6 +56,8 @@ es:
     questionnaire: "Cuestionario"
     rating: "Puntuación"
     save_responses: "Guardar Respuestas"
+    shared:
+      new: "Nuevo Préstamo"
     signing_date: "Fecha de Firma"
     sign_date: "Fecha de Firma"
     start: "Iniciar %{name}"
@@ -66,7 +69,7 @@ es:
       completed: "Completo"
       frozen: "Congelado"
       liquidated: "Liquidado"
-    end_date: "Fecha de Finalización "
+    steps_notice: "Algunos de los pasos seleccionados dependen de pasos que no seleccionaste. Las fechas de esos pasos no se ajustarán."
     tab:
       details: "Detalles"
       questions: "Preguntas"
@@ -81,8 +84,6 @@ es:
     transaction_new_disbursement: "Nuevo Desembolso"
     transaction_new_repayment: "Nueva Devolución"
     transaction_schedule: "Movimientos"
-    shared:
-      new: "Nuevo Préstamo"
     business_model:
       key_partners: "Socios Clave"
       key_activities: "Actividades Clave"
@@ -153,6 +154,10 @@ es:
       total_gross_margin: "Total de Margen Bruto"
       total_net_margin: "Total de Margen Neto"
       total_fixed_costs: "Costos Fijos Totales"
+    response_set:
+      conflicting_changes_html: '<b>Advertencia:</b> Los datos han cambiado desde que los cargste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez debas confirmar con esa persona lo que cambiaron o <a href="%{link}" target="_blank">abrir los datos más recientes en una pestaña nueva</a> para comparar.<br><br>Puedes guardar tus cambios de todas maneras, pero <b>todos los otros cambios desde que cargaste la página se perderán</b>.'
+      discard_reload: "Descartar Mis Cambios y Recargar"
+      overwrite_changes: "Guardar Mis Cambios y Borrar Los Otros"
   breakeven_table_question:
     days: "Días"
     weeks: "Semanas"

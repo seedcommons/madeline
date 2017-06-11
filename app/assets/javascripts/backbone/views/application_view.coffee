@@ -5,12 +5,13 @@ class MS.Views.ApplicationView extends Backbone.View
 
   el: 'body'
 
-  initialize: ->
+  initialize: (params) ->
     new MS.Views.ErrorHandler()
     new MS.Views.Expander()
     MS.alert = (html) ->
       $alert = $(html).hide()
       $alert.appendTo($('.alerts')).show('fast')
+    MS.dateFormats = params.dateFormats
 
   events: ->
     'click .more': 'toggleExpanded'

@@ -99,4 +99,31 @@ namespace :tww do
       end
     end
   end
+
+  desc "migrate some test data from quickbooks"
+  task migrate_organizations_to_qbo: :environment do
+    qb_connection = Division.root.qb_connection
+
+    customers = Quickbooks::Service::Customer.new(qb_connection.auth_details).all
+
+    customer_hash = customers.index_by(&:display_name)
+
+    Organization.all.find_each do |org|
+      customer = customer_hash[org.name.strip]
+
+      if customer
+        if org.qb_id.blank?
+          puts "Mapping organization '#{org.name}' to #{customer.id}"
+          org.update!(qb_id: customer.id)
+        elsif org.qb_id != customer.id
+          puts "ERROR! 'Problem mapping customer #{customer.id} to Coop #{org.name}', it is already mapped to #{org.qb_id}, skipping"
+          next
+        end
+      else
+        puts "No matching customer found for Coop '#{org.name}'"
+      end
+    end
+
+    puts "Done mapping #{customers.count} QBO Customers to Coops"
+  end
 end
