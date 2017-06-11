@@ -292,6 +292,7 @@ es:
   step: "Paso"
   submit: "Enviar"
   unauthorized_error: "No tienes autorización para realizar esta acción."
+  unknown: "Desconocido"
   update: "Actualizar"
   updated: "Actualizado"
   common:
