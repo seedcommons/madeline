@@ -1,8 +1,6 @@
 = define_grid(grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
-    - g.blank_slate { set_no_grid_records_flag }
-
     - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
       ordering: false do |project|
       - if project.type == "BasicProject"
