@@ -7,6 +7,7 @@
 #  created_at            :datetime         not null
 #  description           :string
 #  id                    :integer          not null, primary key
+#  loan_transaction_type :string
 #  private_note          :string
 #  project_id            :integer
 #  qb_id                 :string           not null
@@ -48,10 +49,6 @@ class Accounting::Transaction < ActiveRecord::Base
 
   def quickbooks_data
     read_attribute(:quickbooks_data).with_indifferent_access
-  end
-
-  # TODO: Add migration for this field
-  def loan_transaction_type
   end
 
   private
