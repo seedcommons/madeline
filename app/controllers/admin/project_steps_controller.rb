@@ -72,10 +72,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     # Detect if duration was changed
     duration_changed = @step.pending_duration_change?
 
-    valid = @step.save
-
     # save step but do not update to the new end date yet
-    @step.update_column(:actual_end_date, previous_end_date)
+    @step.actual_end_date = previous_end_date
+
+    valid = @step.save
 
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
