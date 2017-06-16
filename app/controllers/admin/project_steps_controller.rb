@@ -61,18 +61,29 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     @step.assign_attributes(project_step_params)
 
-     # Detect potential schedule shift.
+    # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
+
+    # get the previous end date
+    previous_end_date = @step.actual_end_date_was
+    # get the new end date
+    new_end_date = @step.actual_end_date
 
     # Detect if duration was changed
     duration_changed = @step.pending_duration_change?
+
+    # save step but do not update to the new end date yet
+    @step.actual_end_date = previous_end_date
 
     valid = @step.save
 
     # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
-    options = {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}
+    options = {id: @step.id,
+               days_shifted: days_shifted,
+               duration_changed: duration_changed,
+               new_end_date: new_end_date}
 
     if %w(timeline_table calendar).include?(params[:context])
       # For timeline_table and calendar contexts, this action is being called

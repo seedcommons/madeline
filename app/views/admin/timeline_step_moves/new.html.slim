@@ -18,6 +18,7 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby=""
 
           = f.hidden_field :days_shifted
           = f.hidden_field :context
+          = f.hidden_field :new_end_date
 
           - if @step_move.context == "calendar_drag" && !@step_move.step_completed?
             = f.input :move_type, as: :radio_buttons, collection: Timeline::StepMove::MOVE_TYPES
