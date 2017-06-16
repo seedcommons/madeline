@@ -8,6 +8,7 @@ div.modal-body
     = error_notification(f)
 
     = f.hidden_field :project_id
+    = f.input :loan_transaction_type, collection: @loan_transaction_types
     = f.association :account
     = f.input :amount
     = f.input :private_note

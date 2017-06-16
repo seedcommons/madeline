@@ -32,6 +32,7 @@
 
 class Accounting::Transaction < ActiveRecord::Base
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
+  LOAN_TRANSACTION_TYPES = %w(disbursement repayment)
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
@@ -47,6 +48,10 @@ class Accounting::Transaction < ActiveRecord::Base
 
   def quickbooks_data
     read_attribute(:quickbooks_data).with_indifferent_access
+  end
+
+  # TODO: Add migration for this field
+  def loan_transaction_type
   end
 
   private

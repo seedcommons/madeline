@@ -166,10 +166,15 @@ en:
       accounting_transaction:
         account: "Account"
         amount: "Amount"
+        loan_transaction_type: "Type of Transaction"
         private_note: "Memo"
       timeline_step_move:
         move_type: "Which Date?"
     options:
+      accounting_transaction:
+        loan_transaction_type:
+          disbursement: "Disbursement"
+          repayment: "Repayment"
       person:
         owning_division_role:
           admin: "Admin"
