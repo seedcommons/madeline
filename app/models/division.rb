@@ -132,4 +132,8 @@ class Division < ActiveRecord::Base
       I18n.t("locale_name.#{locale}", locale: locale)
     end
   end
+
+  def qb_accounts_connected?
+    return principal_account_id.present? && interest_income_account_id.present? && interest_receivable_account_id.present?
+  end
 end

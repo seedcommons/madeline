@@ -52,6 +52,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'transactions'
       @transaction = ::Accounting::Transaction.new(project: @loan)
       @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+      @add_transaction_available = Division.find(current_division.parent_id).qb_accounts_connected?
       initialize_transactions_grid(@loan.id)
     when 'calendar'
       @locale = I18n.locale
