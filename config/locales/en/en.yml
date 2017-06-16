@@ -326,6 +326,7 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add: "Add"
     add_language: "Add Language"
     address_state: "State"
     created: "Created"
