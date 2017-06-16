@@ -16,3 +16,4 @@ en:
       disconnect_message: "Your QuickBooks account has been successfully disconnected."
       full_sync_message: "Your QuickBooks data has been synchronized."
       link_message: "Your QuickBooks account has been successfully linked."
+      sync_transactions: "Sync Transactions"
