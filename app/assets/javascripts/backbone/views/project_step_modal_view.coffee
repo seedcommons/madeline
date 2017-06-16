@@ -51,7 +51,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       # If the step date or duration changed as a result of the update,
       # we need to show the step move modal, which prompts for a new log.
       if json.days_shifted || json.duration_changed
-        @showMoveStepModal(json.id, json.days_shifted)
+        @showMoveStepModal(json.id, json.days_shifted, json.new_end_date)
       else
         @runAndResetDoneCallback()
     else
@@ -67,11 +67,11 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
     @showHideStartDate()
 
-  showMoveStepModal: (id, daysShifted) ->
+  showMoveStepModal: (id, daysShifted, newEndDate) ->
     unless @moveStepModal
       el = $('<div>').insertAfter(@$el)
-      @moveStepModal = new MS.Views.MoveStepModalView(el: el, context: 'edit_date')
-    @moveStepModal.show(id, daysShifted).done => @runAndResetDoneCallback()
+      @moveStepModal = new MS.Views.MoveStepModalView(el: el, context: 'edit_date', newEndDate: newEndDate)
+    @moveStepModal.show(id, daysShifted, newEndDate).done => @runAndResetDoneCallback()
 
   runAndResetDoneCallback: ->
     @done()

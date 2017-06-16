@@ -2,13 +2,14 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
   initialize: (options) ->
     @context = options.context
+    @newEndDate = options.newEndDate
 
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:complete': 'submitSuccess'
     'hidden.bs.modal': 'modalHidden'
 
-  show: (stepId, daysShifted) ->
+  show: (stepId, daysShifted, newEndDate) ->
     @submitted = false
     MS.loadingIndicator.show()
     @stepId = stepId
@@ -16,7 +17,7 @@ class MS.Views.MoveStepModalView extends Backbone.View
 
     # Fetch the content of the modal. We pass days_shifted and context as these are required attribs
     # of the TimelineStepMove object.
-    params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}"
+    params = "step_id=#{@stepId}&days_shifted=#{daysShifted}&context=#{@context}&new_end_date=#{@newEndDate}"
     $.get "/admin/timeline_step_moves/new?#{params}", (html) => @replaceContent(html, 'show')
 
     @deferred.promise()

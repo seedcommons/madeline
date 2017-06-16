@@ -7,7 +7,8 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     @step_move = Timeline::StepMove.new(
       step: @step,
       days_shifted: params[:days_shifted],
-      context: params[:context]
+      context: params[:context],
+      new_end_date: params[:new_end_date]
     )
 
     set_log_form_vars
@@ -21,8 +22,10 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     @log = ProjectLog.new(project_log_params)
     authorize @log, :create?
     @step_move = Timeline::StepMove.new(project_step_move_params.merge(step: @step, log: @log))
+    new_end_date = params[:timeline_step_move][:new_end_date]
 
     if @log.save
+      @step.update_column(:actual_end_date, new_end_date)
       @step_move.execute!
       render nothing: true
     else
@@ -42,6 +45,6 @@ class Admin::TimelineStepMovesController < Admin::AdminController
   private
 
   def project_step_move_params
-    params.require(:timeline_step_move).permit(:move_type, :days_shifted, :context)
+    params.require(:timeline_step_move).permit(:move_type, :days_shifted, :context, :new_end_date)
   end
 end

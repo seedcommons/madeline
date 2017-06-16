@@ -114,6 +114,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'pry'
+  gem 'pry-nav'
+  gem 'pry-rails'
 
   # Watches for inefficient queries and recommends eager loading
   gem 'bullet'

@@ -8,7 +8,7 @@ module Timeline
 
     MOVE_TYPES = %i(change_date mark_completed)
 
-    attr_reader :step, :log, :move_type, :days_shifted, :context
+    attr_reader :step, :log, :move_type, :days_shifted, :context, :new_end_date
 
     delegate :completed?, to: :step, prefix: true
 
@@ -18,6 +18,7 @@ module Timeline
       @move_type = params[:move_type] || "change_date"
       @days_shifted = params[:days_shifted].to_i
       @context = params[:context]
+      @new_end_date = params[:new_end_date]
     end
 
     def execute!
