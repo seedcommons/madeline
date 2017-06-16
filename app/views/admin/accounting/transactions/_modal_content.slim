@@ -12,7 +12,8 @@ div.modal-body
     = f.input :txn_date, as: :date_picker
     = f.association :account
     = f.input :amount
-    = f.input :private_note
+    = f.input :description
+    = f.input :private_note, as: :text
 
 div.modal-footer
   button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:cancel)

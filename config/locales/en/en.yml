@@ -164,8 +164,9 @@ en:
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
       accounting_transaction:
-        account: "Account"
+        account: "Bank Account"
         amount: "Amount"
+        description: "Description"
         loan_transaction_type: "Type of Transaction"
         private_note: "Memo"
         txn_date: "Date"
