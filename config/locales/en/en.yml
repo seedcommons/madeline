@@ -168,6 +168,7 @@ en:
         amount: "Amount"
         loan_transaction_type: "Type of Transaction"
         private_note: "Memo"
+        txn_date: "Date"
       timeline_step_move:
         move_type: "Which Date?"
     options:
