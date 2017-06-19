@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
-  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: nil) }
+  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
+  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: created_journal_entry) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
@@ -64,6 +65,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
       expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
       expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
       expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
+
+      # QBO returns the newly created object, we need to return one here.
+      created_journal_entry
     end
     subject
   end
@@ -74,6 +78,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
+
+        # QBO returns the newly created object, we need to return one here.
+        created_journal_entry
       end
       subject
     end
@@ -91,6 +98,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
+
+        # QBO returns the newly created object, we need to return one here.
+        created_journal_entry
       end
       subject
     end

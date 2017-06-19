@@ -38,7 +38,9 @@ module Accounting
           qb_department_ref: qb_department_ref
         )
 
-        service.create(je)
+        created_je = service.create(je)
+
+        save_transaction(transaction, created_je)
       end
 
       private
@@ -57,6 +59,13 @@ module Accounting
 
       def class_service
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
+      end
+
+      def save_transaction(transaction, qb_object)
+        transaction.qb_transaction_type = 'JournalEntry'
+        transaction.qb_id = qb_object.id
+        transaction.quickbooks_data = qb_object.as_json
+        transaction.save!
       end
 
       def create_line_item(amount:, loan_id:, posting_type:, description:, qb_account_id:, qb_customer_ref:, qb_department_ref:)
