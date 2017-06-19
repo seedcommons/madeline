@@ -52,10 +52,11 @@ class Admin::LoansController < Admin::ProjectsController
     when 'transactions'
       @transaction = ::Accounting::Transaction.new(project: @loan)
       @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
-      @add_transaction_available = Division.find(current_division.parent_id).qb_accounts_connected?
+
+      @add_transaction_available = Division.find(@loan.division.parent_id).qb_accounts_connected?
 
       message = ActionController::Base.helpers.sanitize(t('quickbooks.accounts.not_connected', link: admin_settings_url), tags: %w(a), attributes: %w(href))
-      flash[:alert] = message unless !@add_transaction_available
+      flash[:alert] = message unless @add_transaction_available
 
       initialize_transactions_grid(@loan.id)
     when 'calendar'
