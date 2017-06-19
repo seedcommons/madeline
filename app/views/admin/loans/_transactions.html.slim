@@ -2,8 +2,6 @@ section.transactions
   .show-actions.hidden-print
     = link_to t(".new_transaction"), "#", class: "btn btn-primary",
       disabled: !@add_transaction_available, data: {action: "new-transaction"}
-    = link_to t("quickbooks.connection.sync_transactions"),
-      full_sync_admin_accounting_quickbooks_path
 
   = render "admin/accounting/transactions/transactions_grid_definition"
   = render_index_grid_with_redirect_check(@transactions_grid)
