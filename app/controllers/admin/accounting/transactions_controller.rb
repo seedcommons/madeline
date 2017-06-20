@@ -15,7 +15,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     begin
       creator = ::Accounting::Quickbooks::TransactionCreator.new
       creator.add_disbursement @transaction
-      # notice: t("admin.loans.transactions.create_success")
+      flash[:notice] = t("admin.loans.transactions.create_success")
+      render nothing: true
     rescue => ex
       @transaction.errors.add(:base, ex.message)
       render_modal_partial(status: 422)
