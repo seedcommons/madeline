@@ -50,25 +50,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'logs'
       prep_logs(@loan)
     when 'transactions'
-      @transaction = ::Accounting::Transaction.new(project: @loan)
-      @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
-      root = Division.root
-
-      @add_transaction_available = root.division.qb_accounts_connected?
-
-      pai = root.principal_account_id
-      ira = root.interest_receivable_account_id
-      iia = root.interest_income_account_id
-
-      a_ids = Accounting::Account.all.collect(&:id).uniq
-      new_ids = a_ids - [pai, ira, iia]
-
-      @accounts = ::Accounting::Account.where('id in (?)', new_ids)
-
-      message = ActionController::Base.helpers.sanitize(t('quickbooks.accounts.not_connected', link: admin_settings_url), tags: %w(a), attributes: %w(href))
-      flash.now[:alert] = message unless @add_transaction_available
-
-      initialize_transactions_grid(@loan.id)
+      prep_transactions
     when 'calendar'
       @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
@@ -172,5 +154,27 @@ class Admin::LoansController < Admin::ProjectsController
       notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
       flash.now[:alert] = notice_text
     end
+  end
+
+  def prep_transactions
+    @transaction = ::Accounting::Transaction.new(project: @loan)
+    @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+    root = Division.root
+
+    @add_transaction_available = root.division.qb_accounts_connected?
+
+    pai = root.principal_account_id
+    ira = root.interest_receivable_account_id
+    iia = root.interest_income_account_id
+
+    a_ids = Accounting::Account.all.collect(&:id).uniq
+    new_ids = a_ids - [pai, ira, iia]
+
+    @accounts = ::Accounting::Account.where('id in (?)', new_ids)
+
+    message = ActionController::Base.helpers.sanitize(t('quickbooks.accounts.not_connected', link: admin_settings_url), tags: %w(a), attributes: %w(href))
+    flash.now[:alert] = message unless @add_transaction_available
+
+    initialize_transactions_grid(@loan.id)
   end
 end
