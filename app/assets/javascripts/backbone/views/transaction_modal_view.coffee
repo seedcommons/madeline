@@ -16,5 +16,6 @@ class MS.Views.TransactionModalView extends Backbone.View
     MS.loadingIndicator.hide()
     if parseInt(data.status) == 200
       @$el.modal('hide')
+      window.location.reload(true)
     else
       @$('.modal-content').html(data.responseText)
