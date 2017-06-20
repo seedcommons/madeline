@@ -14,7 +14,8 @@ class MS.Views.TransactionModalView extends Backbone.View
 
   submitComplete: (e, data) ->
     MS.loadingIndicator.hide()
-    if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
+    if parseInt(data.status) == 200
       @$el.modal('hide')
+      window.location.reload(true)
     else
       @$('.modal-content').html(data.responseText)
