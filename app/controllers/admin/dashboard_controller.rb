@@ -22,7 +22,7 @@ class Admin::DashboardController < Admin::AdminController
   def prep_projects_grid_for_current_user
     # Projects belonging to the current user
     # 15 most recent projects, sorted by created date, then updated date
-    @recent_projects = @person.agent_projects.order(created_at: :desc, updated_at: :desc)
+    @recent_projects = @person.active_agent_projects.order(created_at: :desc, updated_at: :desc)
 
     @recent_projects_grid = initialize_grid(
       @recent_projects,
@@ -42,7 +42,7 @@ class Admin::DashboardController < Admin::AdminController
     @people_grids = {}
     @people.each do |person|
       @people_grids["#{person}"] = initialize_grid(
-        person.agent_projects.order(created_at: :desc, updated_at: :desc),
+        person.active_agent_projects.order(created_at: :desc, updated_at: :desc),
         include: [:primary_agent, :secondary_agent],
         per_page: 5,
         name: "projects_person_#{person.id}",
