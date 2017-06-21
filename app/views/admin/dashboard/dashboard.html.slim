@@ -7,12 +7,6 @@
     header
       h2 = t("dashboard.my_projects")
 
-      / .filter.text-right
-      /   .filter-content
-      /     = form_tag do
-      /       = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
-      /         class: "form-control")
-
     - if @no_records_at_all
       = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
     - else
@@ -49,7 +43,6 @@
 javascript:
   $(function(){
     new MS.Views.DashboardView();
-    new MS.Views.DashboardProjectsView();
     new MS.Views.DashboardCalendarView({
       calendarEventsUrl: #{json @calendar_events_url},
       stepModal: new MS.Views.ProjectStepModalView(),
