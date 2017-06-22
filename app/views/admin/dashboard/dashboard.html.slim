@@ -13,7 +13,7 @@
             = select_tag(:completion_status, options_for_select(@status_filter_options, "all"),
               class: "form-control")
 
-    - if @no_records_at_all
+    - if @recent_projects_grid.no_records_at_all
       = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
     - else
       = render_index_grid(@recent_projects_grid)

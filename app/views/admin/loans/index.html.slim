@@ -5,7 +5,7 @@
 
 = render "loans_grid_definition"
 
-- unless @no_records_at_all
+- unless @loans_grid.no_records_at_all
   header.block.index-table
     .filters
       h4 = t("filter_by")
