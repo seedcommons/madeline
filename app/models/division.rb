@@ -132,8 +132,12 @@ class Division < ActiveRecord::Base
       I18n.t("locale_name.#{locale}", locale: locale)
     end
   end
+  
+  def accounts
+    @accounts ||= [principal_account, interest_receivable_account, interest_income_account].compact
+  end
 
   def qb_accounts_connected?
-    return principal_account_id.present? && interest_income_account_id.present? && interest_receivable_account_id.present?
+    accounts.size == 3
   end
 end
