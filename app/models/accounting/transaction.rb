@@ -51,6 +51,15 @@ class Accounting::Transaction < ActiveRecord::Base
     read_attribute(:quickbooks_data).with_indifferent_access
   end
 
+  # Stores the ID and type of the given Quickbooks object on this Transaction.
+  # This is so that during sync operations, we can associate one with the other and not
+  # create duplicates.
+  # Does NOT save the object.
+  def associate_with_qb_obj(qb_obj)
+    self.qb_id = qb_obj.id
+    self.qb_transaction_type = qb_obj.class.name.demodulize
+  end
+
   private
 
   def update_fields_from_quickbooks_data

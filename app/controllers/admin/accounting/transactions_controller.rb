@@ -14,11 +14,19 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     begin
       creator = ::Accounting::Quickbooks::TransactionCreator.new
-      creator.add_disbursement @transaction
+      journal_entry = creator.add_disbursement @transaction
+
+      # It's important we store the ID and type of the QB journal entry we just created
+      # so that on the next sync, a duplicate is not created.
+      @transaction.associate_with_qb_obj(journal_entry)
+
+      @transaction.save!
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
     rescue => ex
-      @transaction.errors.add(:base, ex.message)
+      # We don't need to display the message twice if it's a validation error.
+      # But we do want to display the error if the QB API blows up.
+      @transaction.errors.add(:base, ex.message) unless ex.is_a?(ActiveRecord::RecordInvalid)
       render_modal_partial(status: 422)
     end
   end
