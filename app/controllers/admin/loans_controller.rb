@@ -159,18 +159,8 @@ class Admin::LoansController < Admin::ProjectsController
   def prep_transactions
     @transaction = ::Accounting::Transaction.new(project: @loan)
     @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
-    root = Division.root
-
-    @add_transaction_available = root.division.qb_accounts_connected?
-
-    pai = root.principal_account_id
-    ira = root.interest_receivable_account_id
-    iia = root.interest_income_account_id
-
-    a_ids = Accounting::Account.all.collect(&:id).uniq
-    new_ids = a_ids - [pai, ira, iia]
-
-    @accounts = ::Accounting::Account.where('id in (?)', new_ids)
+    @add_transaction_available = Division.root.qb_accounts_connected?
+    @accounts = Accounting::Account.all - Division.root.accounts
 
     message = ActionController::Base.helpers.sanitize(t('quickbooks.accounts.not_connected', link: admin_settings_url), tags: %w(a), attributes: %w(href))
     flash.now[:alert] = message unless @add_transaction_available
