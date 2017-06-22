@@ -5,12 +5,15 @@ feature 'transaction flow' do
 
   before do
     login_as(user, scope: :user)
-    allow(Accounting::Quickbooks::Updater).to receive(:new).and_return(updater)
   end
 
   describe 'all transactions' do
     let(:updater) { instance_double(Accounting::Quickbooks::Updater, last_updated_at: Time.zone.now) }
     let!(:transactions) { create_list(:accounting_transaction, 2) }
+
+    before do
+      allow(Accounting::Quickbooks::Updater).to receive(:new).and_return(updater)
+    end
 
     scenario 'loads properly', js: true do
       # Should update transactions
@@ -24,59 +27,23 @@ feature 'transaction flow' do
 
   describe 'transactions for loan' do
     let!(:loan) { create(:loan) }
-    let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: 492, as_json: quickbooks_data) }
-    let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
-    let(:updater) { Accounting::Quickbooks::Updater.new(connection) }
-    let(:quickbooks_data) do
-      { 'line_items' =>
-       [{ 'id' => '0',
-          'description' => 'Nate desc',
-          'amount' => '15.09',
-          'detail_type' => 'JournalEntryLineDetail',
-          'journal_entry_line_detail' => {
-            'posting_type' => 'Debit',
-            'entity' => {
-              'type' => 'Customer',
-              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => '84', 'name' => 'Accounts Receivable (A/R)', 'type' => nil },
-            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-            'department_ref' => nil } },
-        { 'id' => '1',
-          'description' => 'Nate desc',
-          'amount' => '15.09',
-          'detail_type' => 'JournalEntryLineDetail',
-          'journal_entry_line_detail' => {
-            'posting_type' => 'Credit',
-            'entity' => {
-              'type' => 'Customer',
-              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => '35', 'name' => 'Checking', 'type' => nil },
-            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-            'department_ref' => nil } }],
-        'id' => '167',
-        'sync_token' => 0,
-        'meta_data' => {
-          'create_time' => '2017-04-18T10:14:30.000-07:00',
-          'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
-        'txn_date' => '2017-04-18',
-        'total' => '19.99',
-        'private_note' => 'Nate now testing' }
-    end
+    let!(:accounts) { create_list(:accounting_account, 2) }
 
-    before do
-      allow(updater).to receive(:changes).and_return({ 'JournalEntry' => [journal_entry] })
-      allow(connection).to receive(:update_attribute)
-    end
-
-    scenario 'creates new transaction, when new qbo object is present', js: true do
+    # This spec does not test TransactionCreator at all because stubbing out
+    # all the necessary things was not practical at the time.
+    # Eventually we should refactor the Quickbooks code such that stubbing is easier.
+    scenario 'creates new transaction', js: true do
       visit "/admin/loans/#{loan.id}/transactions"
+      click_on 'Add Transaction'
+      select 'Disbursement', from: 'Type of Transaction'
+      fill_in 'Date', with: Date.today.to_s
+      select accounts.first.name, from: 'Bank Account'
+      fill_in 'Amount', with: '12.34'
+      fill_in 'Description', with: 'Foo bar'
+      fill_in 'Memo', with: 'Chunky monkey'
+      click_on 'Add'
 
-      # If the QB ID/Type are eventually hidden, this spec will need to some how change to verify those values.
-      expect(page).to have_content(492)
-      expect(page).to have_content('JournalEntry')
-      expect(page).to have_content('2017-04-18')
-      expect(page).to have_content(19.99)
-      expect(page).to have_content('Nate now testing')
+      expect(page).to have_content("Chunky monkey")
     end
   end
 end

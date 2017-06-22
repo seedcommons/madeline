@@ -48,7 +48,7 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def quickbooks_data
-    read_attribute(:quickbooks_data).with_indifferent_access
+    read_attribute(:quickbooks_data).try(:with_indifferent_access)
   end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
