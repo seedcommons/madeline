@@ -162,8 +162,11 @@ class Admin::LoansController < Admin::ProjectsController
     @add_transaction_available = Division.root.qb_accounts_connected?
     @accounts = Accounting::Account.all - Division.root.accounts
 
-    message = ActionController::Base.helpers.sanitize(t('quickbooks.accounts.not_connected', link: admin_settings_url), tags: %w(a), attributes: %w(href))
-    flash.now[:alert] = message unless @add_transaction_available
+    unless @add_transaction_available
+      # We need to use the view helper version of `t` so that we can use the _html functionality.
+      flash.now[:alert] = self.class.helpers.t('quickbooks.accounts.not_connected_html',
+        link: admin_settings_url)
+    end
 
     initialize_transactions_grid(@loan.id)
   end
