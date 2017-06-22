@@ -138,26 +138,24 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
             'private_note' => 'New note' }
         end
 
-        context 'with updated JournalEntry' do
-          it 'does not create a new transaction' do
-            expect { subject.update }.not_to change { Accounting::Transaction.where(qb_id: qb_id).count }
-          end
+        it 'does not create a new transaction' do
+          expect { subject.update }.not_to change { Accounting::Transaction.where(qb_id: qb_id).count }
+        end
 
-          it 'updates transaction timestamp' do
-            expect { subject.update }.to change { Accounting::Transaction.where(qb_id: qb_id).take.updated_at }
-          end
+        it 'updates transaction timestamp' do
+          expect { subject.update }.to change { Accounting::Transaction.where(qb_id: qb_id).take.updated_at }
+        end
 
-          it 'updates transaction fields' do
-            subject.update
-            t = Accounting::Transaction.where(qb_id: qb_id).take
+        it 'updates transaction fields' do
+          subject.update
+          t = Accounting::Transaction.where(qb_id: qb_id).take
 
-            expect(t.amount).to eq(0.24)
-            expect(t.description).to eq('New desc')
-            expect(t.project_id).to eq(new_loan.id)
-            expect(t.txn_date).to eq(Date.parse('2017-07-08'))
-            expect(t.private_note).to eq('New note')
-            expect(t.total).to eq(407.22)
-          end
+          expect(t.amount).to eq(0.24)
+          expect(t.description).to eq('New desc')
+          expect(t.project_id).to eq(new_loan.id)
+          expect(t.txn_date).to eq(Date.parse('2017-07-08'))
+          expect(t.private_note).to eq('New note')
+          expect(t.total).to eq(407.22)
         end
       end
 

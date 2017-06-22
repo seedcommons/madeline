@@ -45,27 +45,12 @@ RSpec.describe Accounting::Transaction, type: :model do
       transaction.tap { transaction.update(quickbooks_data: quickbooks_data) }
     end
 
-    it 'updates amount' do
+    it 'updates correctly' do
       expect(subject.amount).to eq 15.09
-    end
-
-    it 'updates total' do
       expect(subject.total).to eq 19.99
-    end
-
-    it 'updates txn_date' do
       expect(subject.txn_date).to eq Date.parse('2017-04-18')
-    end
-
-    it 'updates private_note' do
       expect(subject.private_note).to eq 'Nate now testing'
-    end
-
-    it 'updates description' do
       expect(subject.description).to eq 'Nate desc'
-    end
-
-    it 'updates project_id' do
       expect(subject.project_id).to eq loan.id
     end
   end
