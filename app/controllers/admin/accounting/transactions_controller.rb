@@ -13,6 +13,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @transaction = ::Accounting::Transaction.new(transaction_params)
 
     begin
+      raise ActiveRecord::RecordInvalid.new(@transaction) if !@transaction.valid?
+
       # We don't have the ability to stub quickbooks interactions so
       # for now we'll just return a fake JournalEntry in test mode.
       if Rails.env.test?
@@ -39,6 +41,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       else
         raise ex
       end
+      @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+      @accounts = Accounting::Account.all - Division.root.accounts
       render_modal_partial(status: 422)
     end
   end
@@ -47,7 +51,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def transaction_params
     params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
-      :private_note, :accounting_account_id, :description)
+      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type)
   end
 
   def render_modal_partial(status: 200)

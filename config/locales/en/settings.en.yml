@@ -5,7 +5,6 @@ en:
     accounts:
       accounts: "QuickBooks Accounts"
       note: "These account settings only apply to future transactions."
-      not_connected_html: 'One or more required accounts is missing in your <a href="%{link}" target="_blank">QuickBooks settings</a>. Please select your QuickBooks accounts.'
     connection:
       connected: "Connected"
       connection: "QuickBooks Connection"

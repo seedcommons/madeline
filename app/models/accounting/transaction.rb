@@ -40,6 +40,8 @@ class Accounting::Transaction < ActiveRecord::Base
 
   before_save :update_fields_from_quickbooks_data
 
+  validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
+
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|

@@ -164,7 +164,7 @@ class Admin::LoansController < Admin::ProjectsController
 
     unless @add_transaction_available
       # We need to use the view helper version of `t` so that we can use the _html functionality.
-      flash.now[:alert] = self.class.helpers.t('quickbooks.accounts.not_connected_html',
+      flash.now[:alert] = self.class.helpers.t('quickbooks.not_connected_html',
         link: admin_settings_url)
     end
 
