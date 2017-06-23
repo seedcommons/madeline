@@ -42,6 +42,8 @@ class Accounting::Transaction < ActiveRecord::Base
 
   validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
 
+  delegate :currency, to: :project
+
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.tap do |t|

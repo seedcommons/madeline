@@ -140,6 +140,8 @@ en:
         step_type_value: "Type"
       accounting:
         transaction:
+          amount: "Amount"
+          description: "Description"
           private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
