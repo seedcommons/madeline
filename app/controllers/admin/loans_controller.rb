@@ -160,7 +160,7 @@ class Admin::LoansController < Admin::ProjectsController
     @transaction = ::Accounting::Transaction.new(project: @loan)
     @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
     @add_transaction_available = Division.root.qb_accounts_connected?
-    @accounts = Accounting::Account.all - Division.root.accounts
+    @accounts = Accounting::Account.where(qb_account_classification: 'Asset') - Division.root.accounts
 
     unless @add_transaction_available
       # We need to use the view helper version of `t` so that we can use the _html functionality.
