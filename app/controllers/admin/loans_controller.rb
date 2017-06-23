@@ -157,7 +157,7 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_transactions
-    @transaction = ::Accounting::Transaction.new(project: @loan)
+    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Date.today)
     @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
     @add_transaction_available = Division.root.qb_accounts_connected?
     @accounts = Accounting::Account.where(qb_account_classification: 'Asset') - Division.root.accounts
