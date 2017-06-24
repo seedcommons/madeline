@@ -42,7 +42,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
         raise ex
       end
       @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
-      @accounts = Accounting::Account.all - Division.root.accounts
+      @accounts = Accounting::Account.where(qb_account_classification: 'Asset') - Division.root.accounts
       render_modal_partial(status: 422)
     end
   end

@@ -4,6 +4,7 @@ class MS.Views.TransactionModalView extends Backbone.View
   events:
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
+    'change #accounting_transaction_loan_transaction_type': 'setDescription'
 
   initialize: (params) ->
     @loanId = params.loanId
@@ -17,4 +18,13 @@ class MS.Views.TransactionModalView extends Backbone.View
       @$el.modal('hide')
       window.location.reload(true)
     else
+      MS.loadingIndicator.hide()
       @$('.modal-content').html(data.responseText)
+
+  setDescription: (e) ->
+    if e.target.value > ''
+      description = I18n.t('transactions.default_description',
+        loan_transaction_type: e.target.selectedOptions[0].innerText, loan_id: @loanId)
+    else
+      description = ''
+    $('#accounting_transaction_description').val(description)

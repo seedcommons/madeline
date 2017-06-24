@@ -178,8 +178,12 @@ en:
       edit_all: Edit All
       cancel_edit: Cancel Edit
       save_all: Save All
+
   questionnaires:
     optional_questions: "Optional Questions"
+
+  transactions:
+    default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
