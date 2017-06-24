@@ -21,7 +21,7 @@ feature 'transaction flow' do
 
       visit '/admin/accounting/transactions'
 
-      expect(page).to have_content(transactions[0].qb_transaction_type)
+      expect(page.text.gsub ',', '').to have_content(transactions[0].amount.to_s)
     end
   end
 
@@ -37,13 +37,13 @@ feature 'transaction flow' do
       click_on 'Add Transaction'
       select 'Disbursement', from: 'Type of Transaction'
       fill_in 'Date', with: Date.today.to_s
-      select accounts.first.name, from: 'Bank Account'
+      select accounts.sample.name, from: 'Bank Account'
       fill_in 'Amount', with: '12.34'
       fill_in 'Description', with: 'Foo bar'
       fill_in 'Memo', with: 'Chunky monkey'
       click_on 'Add'
 
-      expect(page).to have_content("Chunky monkey")
+      expect(page).to have_content("Foo bar")
     end
   end
 end
