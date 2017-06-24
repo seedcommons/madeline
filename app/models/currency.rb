@@ -17,9 +17,8 @@ class Currency < ActiveRecord::Base
   end
 
   def plural_name
-    # This should obviously be refactored someday. Ideally the currency's name field would
+    # TODO: This should obviously be refactored someday. Ideally the currency's name field would
     # be converted to be translatable. Currently the name is stored only in English.
-    # As of 9/2016 this is only used in the public front end (which is used in Spanish as well!).
     "#{name}s"
   end
 end
