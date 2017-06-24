@@ -46,9 +46,7 @@ class Accounting::Transaction < ActiveRecord::Base
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
-    transaction.tap do |t|
-      t.update_attributes!(quickbooks_data: qb_object.as_json)
-    end
+    transaction.update(quickbooks_data: qb_object.as_json)
   end
 
   def quickbooks_data
