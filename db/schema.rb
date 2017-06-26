@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616110440) do
+ActiveRecord::Schema.define(version: 20170626230135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170616110440) do
     t.integer  "accounting_account_id"
     t.decimal  "amount"
     t.datetime "created_at", null: false
+    t.integer  "currency_id"
     t.string   "description"
     t.string   "loan_transaction_type"
     t.string   "private_note"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(version: 20170616110440) do
   end
 
   add_index "accounting_transactions", ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id", using: :btree
+  add_index "accounting_transactions", ["currency_id"], name: "index_accounting_transactions_on_currency_id", using: :btree
   add_index "accounting_transactions", ["project_id"], name: "index_accounting_transactions_on_project_id", using: :btree
   add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
   add_index "accounting_transactions", ["qb_id"], name: "index_accounting_transactions_on_qb_id", using: :btree
@@ -435,6 +437,7 @@ ActiveRecord::Schema.define(version: 20170616110440) do
 
   add_foreign_key "accounting_quickbooks_connections", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
+  add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"

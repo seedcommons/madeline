@@ -5,6 +5,7 @@
 #  accounting_account_id :integer
 #  amount                :decimal(, )
 #  created_at            :datetime         not null
+#  currency_id           :integer
 #  description           :string
 #  id                    :integer          not null, primary key
 #  loan_transaction_type :string
@@ -21,6 +22,7 @@
 #
 #  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
+#  index_accounting_transactions_on_currency_id            (currency_id)
 #  index_accounting_transactions_on_project_id             (project_id)
 #  index_accounting_transactions_on_qb_id                  (qb_id)
 #  index_accounting_transactions_on_qb_transaction_type    (qb_transaction_type)
@@ -29,6 +31,7 @@
 #
 #  fk_rails_3b7e4ae807  (accounting_account_id => accounting_accounts.id)
 #  fk_rails_662fd2ba2d  (project_id => projects.id)
+#  fk_rails_db49322130  (currency_id => currencies.id)
 #
 
 class Accounting::Transaction < ActiveRecord::Base
@@ -37,6 +40,7 @@ class Accounting::Transaction < ActiveRecord::Base
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
+  belongs_to :currency
 
   before_save :update_fields_from_quickbooks_data
 
@@ -61,10 +65,6 @@ class Accounting::Transaction < ActiveRecord::Base
     self.qb_transaction_type = qb_obj.class.name.demodulize
   end
 
-  def currency
-    Currency.find_by(code: quickbooks_data[:currency_ref][:value])
-  end
-
   private
 
   def update_fields_from_quickbooks_data
@@ -76,6 +76,7 @@ class Accounting::Transaction < ActiveRecord::Base
     self.txn_date = quickbooks_data[:txn_date]
     self.private_note = quickbooks_data[:private_note]
     self.total = quickbooks_data[:total]
+    self.currency_id = lookup_currency_id
   end
 
   def first_quickbooks_line_item
@@ -87,5 +88,13 @@ class Accounting::Transaction < ActiveRecord::Base
     return unless first_quickbooks_line_item[:journal_entry_line_detail]
     return unless first_quickbooks_line_item[:journal_entry_line_detail][:class_ref]
     first_quickbooks_line_item[:journal_entry_line_detail][:class_ref][:name]
+  end
+
+  def lookup_currency_id
+    if quickbooks_data && quickbooks_data[:currency_ref]
+      Currency.find_by(code: quickbooks_data[:currency_ref][:value]).id
+    elsif project
+      project.currency.id
+    end
   end
 end
