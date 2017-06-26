@@ -101,11 +101,7 @@ class Person < ActiveRecord::Base
   end
 
   def active_agent_projects
-    # Status values can be found at Loan.status_option_set.options and
-    # BasicProject.status_option_set.options
-    active_statuses = ["active", "changed", "possible", "prospective", "refinanced", "relationship",
-      "relationship_active"]
-    agent_projects.where(status_value: active_statuses)
+    agent_projects.where(status_value: Project::ACTIVE_STATUSES)
   end
 
   private
