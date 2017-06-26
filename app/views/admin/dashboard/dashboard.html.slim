@@ -7,7 +7,7 @@
     header
       h2 = t("dashboard.my_projects")
 
-    - if @no_records_at_all
+    - if @recent_projects_grid.no_records_at_all
       = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
     - else
       = render_index_grid(@recent_projects_grid)
@@ -37,8 +37,8 @@
         .person
           h3 = person.name
           .recent-projects
-            = render "recent_projects_grid_definition", grid: @people_grids[person.to_s]
-            = render_index_grid(@people_grids[person.to_s])
+            = render "recent_projects_grid_definition", grid: @people_grids[person]
+            = render_index_grid(@people_grids[person])
 
 javascript:
   $(function(){

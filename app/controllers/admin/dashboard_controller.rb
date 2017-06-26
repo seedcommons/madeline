@@ -41,7 +41,7 @@ class Admin::DashboardController < Admin::AdminController
 
     @people_grids = {}
     @people.each do |person|
-      @people_grids["#{person}"] = initialize_grid(
+      @people_grids[person] = initialize_grid(
         person.active_agent_projects.order(created_at: :desc, updated_at: :desc),
         include: [:primary_agent, :secondary_agent],
         per_page: 5,
@@ -53,7 +53,6 @@ class Admin::DashboardController < Admin::AdminController
 
   def prep_logs
     @context = "dashboard"
-    @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).
-      per(10)
+    @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).per(10)
   end
 end
