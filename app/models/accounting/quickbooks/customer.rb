@@ -1,6 +1,5 @@
 module Accounting
   module Quickbooks
-
     # Customer in QBO = Organization (Coop) in Madeline
     #
     # Represents a QBO Customer object and can create a reference object
@@ -37,8 +36,10 @@ module Accounting
       def find_or_create_qb_customer_id
         return organization.qb_id if organization.qb_id.present?
 
+        normalized_name = organization.name.tr(':', '_')
+
         qb_customer = ::Quickbooks::Model::Customer.new
-        qb_customer.display_name = organization.name
+        qb_customer.display_name = normalized_name
 
         new_qb_customer = service.create(qb_customer)
 
