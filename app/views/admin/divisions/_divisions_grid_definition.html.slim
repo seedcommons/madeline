@@ -1,7 +1,7 @@
 = define_grid(@divisions_grid, show_filters: :show, hide_csv_button: true,
   html: { class: 'rowlink table-hover', data: { link: 'row' } }) do |g|
 
-  - g.blank_slate { set_no_grid_records_flag }
+  - g.blank_slate { @divisions_grid.no_records_at_all = true; "" }
 
   - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false do |division|
     - link_to(division.id, admin_division_path(division.id))
