@@ -92,9 +92,9 @@ class Accounting::Transaction < ActiveRecord::Base
 
   def lookup_currency_id
     if quickbooks_data && quickbooks_data[:currency_ref]
-      Currency.find_by(code: quickbooks_data[:currency_ref][:value]).id
+      Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
     elsif project
-      project.currency.id
+      project.currency_id
     end
   end
 end
