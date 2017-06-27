@@ -100,6 +100,10 @@ class Person < ActiveRecord::Base
     Project.where("primary_agent_id = ? OR secondary_agent_id = ?", id, id)
   end
 
+  def active_agent_projects
+    agent_projects.where(status_value: Project::ACTIVE_STATUSES)
+  end
+
   private
 
   def update_full_name
