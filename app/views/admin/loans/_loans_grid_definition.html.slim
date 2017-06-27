@@ -1,7 +1,7 @@
 = define_grid(@loans_grid, show_filters: :show, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
-    - g.blank_slate { set_no_grid_records_flag }
+    - g.blank_slate { @loans_grid.no_records_at_all = true; "" }
 
     - g.column name: t('common.id'), attribute: 'id', filter: true, in_csv: false, detach_with_id: :id_filter do |loan|
       - link_to(loan.id, admin_loan_path(loan.id))

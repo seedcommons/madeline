@@ -46,6 +46,11 @@ class Project < ActiveRecord::Base
   include Translatable
   include OptionSettable
 
+  # Status values can be found at Loan.status_option_set.options and
+  # BasicProject.status_option_set.options
+  ACTIVE_STATUSES = %w(active changed possible prospective refinanced relationship
+    relationship_active)
+
   belongs_to :division
   belongs_to :primary_agent, class_name: 'Person'
   belongs_to :secondary_agent, class_name: 'Person'
