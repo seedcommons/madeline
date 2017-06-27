@@ -27,7 +27,7 @@
           tr.loans_items.well.loan_list_item_wrap style=("opacity: 0.9;")
             td.loan_item_thumb
               a href=(url_for loan)
-                .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
+                .coop_pic_sm style=("background-image: url('#{loan.thumb_url}');")
             td.loan_item_desc
               h5.coop_name
                 a href=(url_for loan) = loan.display_name
