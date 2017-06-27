@@ -23,6 +23,10 @@
 ### Creating a test user from the rails console
     Person.create(division_id: 99, email: 'test@theworkingworld.org', first_name: 'Test', has_system_access: true, password: 'test1234', password_confirmation: 'test1234', owning_division_role: 'admin')
 
+### Delayed job
+
+Some things, like loan health checks, require delayed_job to be running. Run delayed_job with `bin/delayed_job start`.
+
 ### Testing mailers
 
 To test sending mail, install and run mailcatcher, then run delayed_job:
