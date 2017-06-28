@@ -1,7 +1,7 @@
 = define_grid(@basic_projects_grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
-    - g.blank_slate { set_no_grid_records_flag }
+    - g.blank_slate { @basic_projects_grid.no_records_at_all = true; "" }
 
     - g.column name: t('common.name'), attribute: 'name', filter: true,
       detach_with_id: :name_filter do |project|
