@@ -140,11 +140,13 @@ en:
         step_type_value: "Type"
       accounting:
         transaction:
+          amount: "Amount"
+          description: "Description"
+          private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
-          private_note: "Note"
     errors:
       models:
         project_group:
@@ -163,9 +165,20 @@ en:
         accent_main_color: "Color of links, buttons, etc. Defaults to banner BG color."
         accent_fg_color: "Color of text on top of accent color. Defaults to banner FG color."
     labels:
+      accounting_transaction:
+        account: "Bank Account"
+        amount: "Amount"
+        description: "Description"
+        loan_transaction_type: "Type of Transaction"
+        private_note: "Memo"
+        txn_date: "Date"
       timeline_step_move:
         move_type: "Which Date?"
     options:
+      accounting_transaction:
+        loan_transaction_type:
+          disbursement: "Disbursement"
+          repayment: "Repayment"
       person:
         owning_division_role:
           admin: "Admin"
@@ -298,9 +311,10 @@ en:
   print: "Print"
   quickbooks:
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
-    service_unavailable: "The system is temporarily unavailable. Please try again later."
     full_sync_required: "A full sync is required before you can access transactions. Please go to %{settings} to sync."
     misc: "There was an error connecting you to Quickbooks. An administrator has been notified. Some data may be out of date."
+    not_connected_html: 'Before you can add transactions, you need to select QuickBooks accounts on the <a href="%{link}" target="_blank">Settings</a> page.'
+    service_unavailable: "The system is temporarily unavailable. Please try again later."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -315,6 +329,7 @@ en:
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
   common:
+    add: "Add"
     add_language: "Add Language"
     address_state: "State"
     created: "Created"

@@ -1,0 +1,20 @@
+div.modal-header
+  button type="button" class="close cancel" data-dismiss="modal" aria-label== t(:cancel)
+    span aria-hidden="true" &times;
+  h4.modal-title = t("admin.loans.transactions.new_transaction")
+
+div.modal-body
+  = simple_form_for [:admin, @transaction], remote: true do |f|
+    = error_notification(f)
+
+    = f.hidden_field :project_id
+    = f.input :loan_transaction_type, collection: @loan_transaction_types
+    = f.input :txn_date, as: :date_picker
+    = f.association :account, collection: @accounts
+    = f.input :amount
+    = f.input :description
+    = f.input :private_note, as: :text
+
+div.modal-footer
+  button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:cancel)
+  button.btn.btn-primary = t("common.add")
