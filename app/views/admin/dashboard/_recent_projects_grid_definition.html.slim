@@ -10,20 +10,30 @@
       - else
         - link_to(project.id, admin_loan_path(project.id))
 
-    - g.column name: t('common.name'), attribute: 'name', filter: false,
+    - g.column name: t('common.role'), attribute: 'primary_agent_id', filter: false,
+               ordering: false do |project|
+      - if project.primary_agent_id == person.id
+        - '1st'
+      - else
+        - '2nd'
+
+    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
+               filter: false, ordering: false do |project|
+      - content_tag(:span, project.status,
+                    class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
+
+    - g.column name: t('common.type'), attribute: 'type', filter: false,
+               ordering: false do |project|
+      - if project.type == 'BasicProject'
+        - t('common.project')
+      - else
+        - t('activerecord.models.loan')
+
+    - g.column name: t('common.project'), attribute: 'organization_id', filter: false,
       ordering: false do |project|
       - project.display_name
 
-    - g.column name: t("activerecord.attributes.project.signing_date"),
-      attribute: 'signing_date', filter: false, ordering: false do |project|
-      - ldate(project.signing_date)
-
-    - g.column name: t('activerecord.attributes.project.progress'), attribute: 'status_value',
-      filter: false, ordering: false do |project|
-      - content_tag(:span, project.status,
-        class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
-
-    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
-      filter: false, ordering: false do |project|
+    - g.column name: t('activerecord.attributes.project.health_check'), attribute: 'status_value',
+               filter: false, ordering: false do |project|
       - if project.health_status_available?
         - health_status_info(project.loan_health_check)

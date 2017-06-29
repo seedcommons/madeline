@@ -5,6 +5,8 @@ class Admin::AdminController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized
 
+  helper_method :current_user
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def admin_controller?
