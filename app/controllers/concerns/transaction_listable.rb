@@ -42,4 +42,9 @@ module TransactionListable
 
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
+
+  def prep_transaction_form
+    @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+    @accounts = Accounting::Account.asset_accounts - Division.root.accounts
+  end
 end

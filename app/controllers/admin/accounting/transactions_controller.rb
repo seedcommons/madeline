@@ -41,8 +41,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       else
         raise ex
       end
-      @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
-      @accounts = Accounting::Account.where(qb_account_classification: 'Asset') - Division.root.accounts
+
+      prep_transaction_form
       render_modal_partial(status: 422)
     end
   end

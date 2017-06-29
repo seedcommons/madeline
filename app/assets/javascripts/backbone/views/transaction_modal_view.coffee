@@ -22,7 +22,7 @@ class MS.Views.TransactionModalView extends Backbone.View
       @$('.modal-content').html(data.responseText)
 
   setDescription: (e) ->
-    if e.target.value > ''
+    if e.target.value != ''
       description = I18n.t('transactions.default_description',
         loan_transaction_type: e.target.selectedOptions[0].innerText, loan_id: @loanId)
     else

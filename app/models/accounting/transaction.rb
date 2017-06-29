@@ -85,9 +85,7 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def first_quickbooks_class_name
-    return unless first_quickbooks_line_item[:journal_entry_line_detail]
-    return unless first_quickbooks_line_item[:journal_entry_line_detail][:class_ref]
-    first_quickbooks_line_item[:journal_entry_line_detail][:class_ref][:name]
+    first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
   end
 
   def lookup_currency_id
