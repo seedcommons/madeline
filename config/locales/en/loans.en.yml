@@ -1,10 +1,10 @@
 en:
   loan:
+    adjust_dates: "Adjust Dates"
+    adjust_scheduled_dates: "Adjust Scheduled Dates"
     agent:
       one: "Agent"
       other: "Agents"
-    adjust_dates: "Adjust Dates"
-    adjust_scheduled_dates: "Adjust Scheduled Dates"
     amount: "Amount"
     back_to_loan: "Back to Loan"
     backward: "- backward"
@@ -178,8 +178,12 @@ en:
       edit_all: Edit All
       cancel_edit: Cancel Edit
       save_all: Save All
+
   questionnaires:
     optional_questions: "Optional Questions"
+
+  transactions:
+    default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:
@@ -189,3 +193,4 @@ en:
         delete: "Delete All Responses"
       transactions:
         new_transaction: "Add Transaction"
+        create_success: "Transaction successfully created."

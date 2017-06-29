@@ -104,7 +104,7 @@ namespace :tww do
   task migrate_organizations_to_qbo: :environment do
     qb_connection = Division.root.qb_connection
 
-    customers = Quickbooks::Service::Customer.new(qb_connection.auth_details).all
+    customers = Quickbooks::Service::Customer.new(qb_connection.auth_details).all || []
 
     customer_hash = customers.index_by(&:display_name)
 
