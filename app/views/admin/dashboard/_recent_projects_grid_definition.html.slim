@@ -5,7 +5,7 @@
 
     - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
       ordering: false do |project|
-      - if project.type == "BasicProject"
+      - if project.type == 'BasicProject'
         - link_to(project.id, admin_basic_project_path(project.id))
       - else
         - link_to(project.id, admin_loan_path(project.id))

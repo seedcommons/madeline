@@ -48,8 +48,7 @@ class Project < ActiveRecord::Base
 
   # Status values can be found at Loan.status_option_set.options and
   # BasicProject.status_option_set.options
-  ACTIVE_STATUSES = %w(active changed possible prospective refinanced relationship
-    relationship_active)
+  STATUSES = %w(active changed possible prospective)
 
   belongs_to :division
   belongs_to :primary_agent, class_name: 'Person'

@@ -22,15 +22,9 @@ class Admin::DashboardController < Admin::AdminController
   def prep_projects_grid_for_current_user
     # Projects belonging to the current user
     # 15 most recent projects, sorted by created date, then updated date
-    @recent_projects = @person.active_agent_projects.order(created_at: :desc, updated_at: :desc)
+    @recent_projects = @person.active_agent_projects
 
-    @recent_projects_grid = initialize_grid(
-      @recent_projects,
-      include: [:primary_agent, :secondary_agent],
-      per_page: 15,
-      name: "recent_projects",
-      enable_export_to_csv: false
-    )
+    @recent_projects_grid = initialize_wice_grid(@recent_projects, @person, 15)
 
     @status_filter_options = STATUS_FILTERS.map { |f| [I18n.t("dashboard.status_options.#{f}"), f] }
   end
@@ -41,18 +35,40 @@ class Admin::DashboardController < Admin::AdminController
 
     @people_grids = {}
     @people.each do |person|
-      @people_grids[person] = initialize_grid(
-        person.active_agent_projects.order(created_at: :desc, updated_at: :desc),
-        include: [:primary_agent, :secondary_agent],
-        per_page: 5,
-        name: "projects_person_#{person.id}",
-        enable_export_to_csv: false
-      )
+      projects = person.active_agent_projects
+      @people_grids[person] = initialize_wice_grid(projects, person, 5)
     end
   end
 
   def prep_logs
     @context = "dashboard"
     @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).per(10)
+  end
+
+  private
+
+  def initialize_wice_grid(projects, person, page)
+    initialize_grid(
+        projects,
+        include: [:primary_agent, :secondary_agent],
+        per_page: page,
+        order: 'projects.order_by_agent',
+        custom_order: {
+            'projects.order_by_agent' => "case when projects.primary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'Loan' then 8
+                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'BasicProject' then 7
+                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'Loan' then 6
+                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'BasicProject' then 5
+                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'Loan' then 4
+                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'BasicProject' then 3
+                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'Loan' then 2
+                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'BasicProject' then 1
+                                               else 0 end",
+            'projects.created_at' => 'projects.created_at',
+            'projects.updated_at' => 'projects.updated_at'
+        },
+        order_direction: 'desc',
+        name: "projects_person_#{person.id}",
+        enable_export_to_csv: false
+    )
   end
 end
