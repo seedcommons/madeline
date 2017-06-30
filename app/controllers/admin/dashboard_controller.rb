@@ -63,8 +63,6 @@ class Admin::DashboardController < Admin::AdminController
                                                when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'Loan' then 2
                                                when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'BasicProject' then 1
                                                else 0 end",
-            'projects.created_at' => 'projects.created_at',
-            'projects.updated_at' => 'projects.updated_at'
         },
         order_direction: 'desc',
         name: "projects_person_#{person.id}",

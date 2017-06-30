@@ -1,6 +1,10 @@
 = define_grid(grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
+    - g.row_attributes do |project|
+      - if project.primary_agent_id == person.id
+        - {style: 'font-weight: 700;'}
+
     - g.blank_slate { grid.no_records_at_all = true; "" }
 
     - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
