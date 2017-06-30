@@ -93,8 +93,8 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[Madeline Staging] ",
-      :sender_address => %{"Madeline" <devops@sassafras.coop>},
-      :exception_recipients => %w{devops@sassafras.coop}
+      :sender_address => %{"Madeline" <madeline.ops@sassafras.coop>},
+      :exception_recipients => %w{madeline.ops@sassafras.coop}
     }
 
   # For wordpress template
