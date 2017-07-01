@@ -52,6 +52,14 @@ class Accounting::Transaction < ActiveRecord::Base
     transaction.save!(validate: false)
   end
 
+  def self.by_date
+    order(:txn_date, :created_at)
+  end
+
+  def previous
+    self.class.where('txn_date <= ?', txn_date).by_date.last
+  end
+
   def quickbooks_data
     read_attribute(:quickbooks_data).try(:with_indifferent_access)
   end
