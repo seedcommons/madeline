@@ -4,14 +4,17 @@ class Admin::CalendarEventsController < Admin::AdminController
   # 'project_id' is optional and scopes to results for a single project if provided, otherwise all projects
   # within the current top nav division selection are included..
   def index
+    # Calendar for a specific loan or basic project
     if params[:project_id]
       project = Project.find(params[:project_id])
       authorize project, :show?
       project_filter = {id: project.id}
+    # Calendar on user dashboard
     elsif params[:person_id]
       person = Person.find(params[:person_id])
       skip_authorization
       project_filter = {id: policy_scope(person.agent_projects).pluck(:id)}
+    # Main calendar, which shows all loans and basic projects in a division
     else
       skip_authorization
       # JE Todo: restore authorize when manage division branch merged
