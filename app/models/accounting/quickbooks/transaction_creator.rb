@@ -10,32 +10,44 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      def add_disbursement(amount:, loan_id:, memo:, description:, qb_bank_account_id:, organization:, date: nil)
+      # Creates a disbursement transaction in Quickbooks based on a Transaction object created in Madeline.
+      # Specifically, creates and returns a QB journal entry with two line items:
+      # - a debit from the division's principal account
+      # - a credit to the account specified in the transaction
+      def add_disbursement(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
-        je.private_note = memo
-        je.txn_date = date if date.present?
+        je.private_note = transaction.private_note
+        je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
-        qb_customer_ref = customer_reference(organization)
-        qb_department_ref = department_reference(loan_id)
+        qb_customer_ref = customer_reference(transaction.project.organization)
+        qb_department_ref = department_reference(transaction.project)
+
+        # We use the journal entry class field to store the loan ID.
+        # The loan ID is actually stored as the 'name' of the class object in Quickbooks.
+        # Note that 'class' in Quickbooks has nothing to do with a class in Ruby. It's just a
+        # bit of metadata about the journal entry.
+        # The QBO api needs a fully persisted class before we can associate it.
+        # We need to either find or create the class, and use the returned Id.
+        qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
         je.line_items << create_line_item(
-          amount: amount,
-          loan_id: loan_id,
+          amount: transaction.amount,
           posting_type: 'Debit',
-          description: description,
+          description: transaction.description,
           qb_account_id: principal_account.qb_id,
           qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref
+          qb_department_ref: qb_department_ref,
+          qb_class_id: qb_class_id
         )
 
         je.line_items << create_line_item(
-          amount: amount,
-          loan_id: loan_id,
+          amount: transaction.amount,
           posting_type: 'Credit',
-          description: description,
-          qb_account_id: qb_bank_account_id,
+          description: transaction.description,
+          qb_account_id: transaction.account.qb_id,
           qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref
+          qb_department_ref: qb_department_ref,
+          qb_class_id: qb_class_id
         )
 
         service.create(je)
@@ -47,9 +59,8 @@ module Accounting
         Customer.new(organization: organization, qb_connection: qb_connection).reference
       end
 
-      def department_reference(loan_id)
-        division = Loan.find_by(id: loan_id).division
-        Department.new(division: division, qb_connection: qb_connection).reference
+      def department_reference(loan)
+        Department.new(division: loan.division, qb_connection: qb_connection).reference
       end
 
       def service
@@ -60,7 +71,8 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
-      def create_line_item(amount:, loan_id:, posting_type:, description:, qb_account_id:, qb_customer_ref:, qb_department_ref:)
+      def create_line_item(amount:, posting_type:, description:, qb_account_id:,
+        qb_customer_ref:, qb_department_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
         jel = ::Quickbooks::Model::JournalEntryLineDetail.new
@@ -68,10 +80,7 @@ module Accounting
 
         jel.entity = qb_customer_ref
         jel.department_ref = qb_department_ref
-
-        # The QBO api needs a fully persisted class before we can associate it.
-        # We need to either find or create the class, and use the returned Id.
-        jel.class_id = find_or_create_qb_class(loan_id: loan_id).id
+        jel.class_id = qb_class_id
 
         line_item.amount = amount
         line_item.description = description
@@ -81,6 +90,8 @@ module Accounting
         line_item
       end
 
+      # We use the Quickbooks 'classes' to store the loan IDs.
+      # This method finds or creates a QB class to hold a given loan ID.
       def find_or_create_qb_class(loan_id:)
         loan_ref = class_service.find_by(:name, loan_id).first
         return loan_ref if loan_ref
