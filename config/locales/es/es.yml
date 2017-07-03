@@ -135,6 +135,7 @@ es:
         old_start_date: "Fecha de Inicio Original"
         scheduled_duration_days: "Duración Proyectada"
         scheduled_start_date: "Fecha Proyectada de Inicio"
+        scheduled_end_date: "Fecha Proyectada de Finalización"
         step_type_value: "Tipo"
       accounting:
         transaction:
@@ -142,7 +143,6 @@ es:
           qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
-          private_note: "Nota"
     errors:
       models:
         project_group:
@@ -283,9 +283,9 @@ es:
   print: "Imprimir"
   quickbooks:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
-    service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
     full_sync_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
+    service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
