@@ -2,33 +2,37 @@ require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
-  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: nil) }
+  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
+  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: created_journal_entry) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
-  let(:account) { instance_double(Accounting::Account, qb_id: qb_principal_account_id) }
+  let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
+  let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
   let(:loan) { create(:loan) }
   let(:loan_id) { loan.id }
   let(:amount) { 78.20 }
   let(:memo) { 'I am a memo' }
   let(:description) { 'I am a line item description' }
-  let(:qb_bank_account_id) { 89 }
-  let(:qb_principal_account_id) { 92 }
+  let(:qb_bank_account_id) { '89' }
+  let(:qb_principal_account_id) { '92' }
   let(:date) { nil }
+  let(:transaction) do
+    Accounting::Transaction.new(
+      amount: amount,
+      project: loan,
+      private_note: memo,
+      description: description,
+      account: bank_account,
+      txn_date: date
+    )
+  end
 
-  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: account)) }
+  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
 
   subject do
-    creator.add_disbursement(
-      amount: amount,
-      loan_id: loan_id,
-      memo: memo,
-      description: description,
-      qb_bank_account_id: qb_bank_account_id,
-      organization: organization,
-      date: date
-    )
+    creator.add_disbursement transaction
   end
 
   before do
@@ -61,16 +65,22 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
       expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
       expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
       expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
+
+      # QBO returns the newly created object, we need to return one here.
+      created_journal_entry
     end
     subject
   end
 
   context 'and date is supplied' do
-    let(:date) { 3.days.ago }
+    let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
+
+        # QBO returns the newly created object, we need to return one here.
+        created_journal_entry
       end
       subject
     end
@@ -83,11 +93,14 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
 
   context 'and date is supplied' do
-    let(:date) { 3.days.ago }
+    let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
+
+        # QBO returns the newly created object, we need to return one here.
+        created_journal_entry
       end
       subject
     end

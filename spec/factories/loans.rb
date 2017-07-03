@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :loan do
+  factory :loan, aliases: [:project] do
     division { root_division }
     organization
     name { "Loan for " + Faker::Company.name }

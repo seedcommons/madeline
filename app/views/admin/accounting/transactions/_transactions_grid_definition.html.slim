@@ -1,17 +1,12 @@
 = define_grid(@transactions_grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
-  - g.column name: t('activerecord.attributes.accounting.transaction.qb_id'), attribute: 'qb_id',
-    filter: false
-  - g.column name: t('activerecord.attributes.accounting.transaction.qb_transaction_type'),
-    filter: false do |transaction|
-    - transaction.qb_transaction_type
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false do |transaction|
-    - transaction.txn_date
-  - g.column name: t('activerecord.attributes.accounting.transaction.total'),
+    - l transaction.txn_date, format: :long
+  - g.column name: t('activerecord.attributes.accounting.transaction.description'),
     filter: false do |transaction|
-    - transaction.total
-  - g.column name: t('activerecord.attributes.accounting.transaction.private_note'),
+    - transaction.description
+  - g.column name: t('activerecord.attributes.accounting.transaction.amount'),
     filter: false do |transaction|
-    - transaction.private_note
+    - format_currency transaction.amount, transaction.currency

@@ -1,6 +1,14 @@
 section.transactions
   .show-actions.hidden-print
-    a.btn.btn-primary data-action="new-transaction" href="#" = t(".new_transaction")
+    = link_to t(".new_transaction"), "#", class: "btn btn-primary",
+      disabled: !@add_transaction_available, data: {action: "new-transaction"}
 
   = render "admin/accounting/transactions/transactions_grid_definition"
   = render_index_grid_with_redirect_check(@transactions_grid)
+  = render "admin/accounting/transactions/modal"
+
+javascript:
+  $(function() {
+    new MS.Views.TransactionsView();
+    new MS.Views.TransactionModalView({loanId: #{@loan.id}});
+  });
