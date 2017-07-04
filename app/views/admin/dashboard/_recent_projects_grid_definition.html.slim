@@ -15,19 +15,19 @@
         - link_to(project.id, admin_loan_path(project.id))
 
     - g.column name: t('common.role'), attribute: 'primary_agent_id', filter: false,
-               ordering: false do |project|
+      ordering: false do |project|
       - if project.primary_agent_id == person.id
-        - '1st'
+        - t('common.first')
       - else
-        - '2nd'
+        - -t('common.second')
 
     - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
-               filter: false, ordering: false do |project|
+      filter: false, ordering: false do |project|
       - content_tag(:span, project.status,
-                    class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
+        class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
 
     - g.column name: t('common.type'), attribute: 'type', filter: false,
-               ordering: false do |project|
+      ordering: false do |project|
       - if project.type == 'BasicProject'
         - t('common.project')
       - else
@@ -38,6 +38,6 @@
       - project.display_name
 
     - g.column name: t('activerecord.attributes.project.health_check'), attribute: 'status_value',
-               filter: false, ordering: false do |project|
+      filter: false, ordering: false do |project|
       - if project.health_status_available?
         - health_status_info(project.loan_health_check)

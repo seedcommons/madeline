@@ -54,15 +54,7 @@ class Admin::DashboardController < Admin::AdminController
         per_page: page,
         order: 'projects.order_by_agent',
         custom_order: {
-            'projects.order_by_agent' => "case when projects.primary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'Loan' then 8
-                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'BasicProject' then 7
-                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'Loan' then 6
-                                               when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'BasicProject' then 5
-                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'Loan' then 4
-                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active' and projects.type = 'BasicProject' then 3
-                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'Loan' then 2
-                                               when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective' and projects.type = 'BasicProject' then 1
-                                               else 0 end",
+            'projects.order_by_agent' => Project.new_order(person),
         },
         order_direction: 'desc',
         name: "projects_person_#{person.id}",
