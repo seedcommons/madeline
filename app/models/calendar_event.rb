@@ -51,7 +51,8 @@ class CalendarEvent
     project.end_date ? new.initialize_project_end(project) : nil
   end
 
-  def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project, step_scope: ProjectStep, project_id: nil)
+  def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project,
+      step_scope: ProjectStep, project_id: nil)
     events = project_events_by_date_project_scope(date_range, project_scope.where(project_filter))
     events += step_events_by_date_project_filter(date_range: date_range, project_filter: project_filter,
       scope: step_scope, project_id: project_id)
@@ -85,8 +86,10 @@ class CalendarEvent
   end
 
   def self.project_step_date_filter(range, scope = ProjectStep, project_id)
-    scoped_steps = scope.where("actual_end_date BETWEEN :first AND :last OR scheduled_start_date BETWEEN :first AND :last "\
-    "OR old_start_date BETWEEN :first and :last", {first: range.first, last: range.last})
+    scoped_steps = scope.where("actual_end_date BETWEEN :first AND :last OR "\
+                               "scheduled_start_date BETWEEN :first AND :last "\
+                               "OR old_start_date BETWEEN :first and :last",
+                               {first: range.first, last: range.last})
 
     if project_id
       scoped_steps
