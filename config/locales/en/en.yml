@@ -312,8 +312,9 @@ en:
   print: "Print"
   quickbooks:
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
+    class_location_notice_html: "<b>NOTE:</b> Before you can add transactions, you need to make sure <b>Classes</b> and <b>Locations</b> (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     full_sync_required: "A full sync is required before you can access transactions. Please go to %{settings} to sync."
-    misc: "There was an error connecting you to Quickbooks. An administrator has been notified. Some data may be out of date."
+    misc: "There was an error connecting you to QuickBooks. An administrator has been notified. Some data may be out of date."
     not_connected_html: 'Before you can add transactions, you need to select QuickBooks accounts on the <a href="%{link}" target="_blank">Settings</a> page.'
     service_unavailable: "The system is temporarily unavailable. Please try again later."
   reply_no: "No"
