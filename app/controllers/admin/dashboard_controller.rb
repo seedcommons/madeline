@@ -27,7 +27,6 @@ class Admin::DashboardController < Admin::AdminController
     @recent_projects_grid = initialize_grid(
       @recent_projects,
       include: [:primary_agent, :secondary_agent],
-      per_page: 15,
       name: "recent_projects",
       enable_export_to_csv: false
     )
@@ -44,7 +43,6 @@ class Admin::DashboardController < Admin::AdminController
       @people_grids[person] = initialize_grid(
         person.active_agent_projects.order(created_at: :desc, updated_at: :desc),
         include: [:primary_agent, :secondary_agent],
-        per_page: 5,
         name: "projects_person_#{person.id}",
         enable_export_to_csv: false
       )
