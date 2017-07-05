@@ -107,6 +107,9 @@ gem 'chronic'
 # Improved syntax for creating cron jobs
 gem 'whenever', '~> 0.9', require: false
 
+# Remove limit for what can be stored in a cookie
+gem 'activerecord-session_store'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
