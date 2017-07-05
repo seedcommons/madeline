@@ -49,10 +49,7 @@
             *header_tag
               / Group title
               => index_str
-              - if question.first_child?
-                = question.label
-              - else
-                = (parents.map(&:label) + [question.label]).join(": ")
+              = question.label
 
           - else
             .question-label = "#{index_str} #{question.label}"
