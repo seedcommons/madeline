@@ -1,0 +1,8 @@
+.loan-memo-header.visible-print-block
+  = @loan.division.name
+  br
+  = t("loan.print_header_title")
+  br
+  = @loan.organization.name
+  br
+  = I18n.l(Date.today, format: :long)

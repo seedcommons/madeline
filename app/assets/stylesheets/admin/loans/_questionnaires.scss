@@ -99,7 +99,7 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
-  .header {
+  .loan-memo-header {
     text-align: center;
     margin-bottom: 2em;
   }
@@ -172,7 +172,7 @@ section.questionnaires {
 // Page breaks temporarily removed from printed loan memo
 @media print {
   .questionnaire-form {
-    .header {
+    .loan-memo-header {
       page-break-before: always;
     }
   }
