@@ -99,11 +99,6 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
-  .loan-memo-header {
-    text-align: center;
-    margin-bottom: 2em;
-  }
-
   .answer {
     margin-left: 1em;
     margin-bottom: 1em;
@@ -169,12 +164,12 @@ section.questionnaires {
   }
 }
 
-// Page breaks temporarily removed from printed loan memo
-@media print {
-  .questionnaire-form {
-    .loan-memo-header {
-      page-break-before: always;
-    }
+.loan-memo-header {
+  text-align: center;
+  margin-bottom: 2em;
+
+  @media print {
+    page-break-before: always;
   }
 }
 
