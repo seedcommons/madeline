@@ -46,7 +46,8 @@
                 = question.label
               - else
                 = (parents.map(&:label) + [question.label]).join(": ")
-
+          - elsif question.depth == 1
+            h4 = "#{index_str} #{question.label}"
           - else
             .question-label = "#{index_str} #{question.label}"
 
