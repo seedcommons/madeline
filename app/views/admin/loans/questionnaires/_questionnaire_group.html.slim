@@ -47,6 +47,7 @@
                 = question.label
               - else
                 = (parents.map(&:label) + [question.label]).join(": ")
+          / Style top-level questions the same as top-level groups
           - elsif question.depth == 1
             h4 = "#{index_str} #{question.label}"
           - else
