@@ -6,8 +6,8 @@
     - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
 
     - roots.each_with_index do |question, idx|
-
-      - if question.data_type == 'group' && !question.first_child? && !response_set.tree_unanswered?(question)
+      / Add page break for top-level groups with answered questions
+      - if question.data_type == 'group' && question.parent.root? && !response_set.tree_unanswered?(question)
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -15,14 +15,14 @@
 
         / Page header for print view
         / Page headers temporarily removed from printed loan memo
-        / .header.visible-print-block
-        /   = @loan.division.name
-        /   br
-        /   = t("loan.print_header_title")
-        /   br
-        /   = @loan.organization.name
-        /   br
-        /   = I18n.l(Date.today, format: :long)
+        .header.visible-print-block
+          = @loan.division.name
+          br
+          = t("loan.print_header_title")
+          br
+          = @loan.organization.name
+          br
+          = I18n.l(Date.today, format: :long)
 
       - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
