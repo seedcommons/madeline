@@ -19,7 +19,7 @@
       - if project.primary_agent_id == person.id
         - t('common.first')
       - else
-        - -t('common.second')
+        - t('common.second')
 
     - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
       filter: false, ordering: false do |project|
