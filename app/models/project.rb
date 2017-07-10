@@ -133,28 +133,36 @@ class Project < ActiveRecord::Base
 
   def self.new_order(person)
     "case when projects.primary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'Loan' then 8
+          and projects.type = 'Loan' then 12
 
           when projects.primary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'BasicProject' then 7
+          and projects.type = 'BasicProject' then 11
 
           when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective'
+          and projects.type = 'Loan' then 10
+
+          when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective'
+          and projects.type = 'BasicProject' then 9
+
+          when projects.primary_agent_id = #{person.id} and projects.type = 'Loan' then 8
+
+          when projects.primary_agent_id = #{person.id} and projects.type = 'BasicProject' then 7
+
+          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
           and projects.type = 'Loan' then 6
 
-          when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective'
+          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
           and projects.type = 'BasicProject' then 5
 
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
+          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
           and projects.type = 'Loan' then 4
 
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
+          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
           and projects.type = 'BasicProject' then 3
 
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'Loan' then 2
+          when projects.secondary_agent_id = #{person.id} and projects.type = 'Loan' then 2
 
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'BasicProject' then 1
+          when projects.secondary_agent_id = #{person.id} and projects.type = 'BasicProject' then 1
 
           else 0 end"
   end
