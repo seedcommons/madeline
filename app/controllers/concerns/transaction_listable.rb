@@ -44,7 +44,7 @@ module TransactionListable
   end
 
   def prep_transaction_form
-    @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+    @loan_transaction_types = Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
   end
 end
