@@ -131,39 +131,16 @@ class Project < ActiveRecord::Base
     return false
   end
 
-  def self.new_order(person)
-    "case when projects.primary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'Loan' then 12
+  def self.dashboard_order(person_id)
+    clauses = []
 
-          when projects.primary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'BasicProject' then 11
+    clauses << "CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
+                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END"
 
-          when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'Loan' then 10
+    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective' THEN 2 ELSE 3 END"
 
-          when projects.primary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'BasicProject' then 9
+    clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
 
-          when projects.primary_agent_id = #{person.id} and projects.type = 'Loan' then 8
-
-          when projects.primary_agent_id = #{person.id} and projects.type = 'BasicProject' then 7
-
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'Loan' then 6
-
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'active'
-          and projects.type = 'BasicProject' then 5
-
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'Loan' then 4
-
-          when projects.secondary_agent_id = #{person.id} and projects.status_value = 'prospective'
-          and projects.type = 'BasicProject' then 3
-
-          when projects.secondary_agent_id = #{person.id} and projects.type = 'Loan' then 2
-
-          when projects.secondary_agent_id = #{person.id} and projects.type = 'BasicProject' then 1
-
-          else 0 end"
+    clauses.join(', ')
   end
 end
