@@ -137,7 +137,8 @@ class Project < ActiveRecord::Base
     clauses << "CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
                     "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END"
 
-    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective' THEN 2 ELSE 3 END"
+    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
+                    "THEN 2 ELSE 3 END"
 
     clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
 
