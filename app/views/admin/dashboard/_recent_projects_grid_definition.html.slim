@@ -3,7 +3,7 @@
 
     - g.row_attributes do |project|
       - if project.primary_agent_id == person.id
-        - {style: 'font-weight: 700;'}
+        - {class: 'bold'}
 
     - g.blank_slate { grid.no_records_at_all = true; "" }
 
