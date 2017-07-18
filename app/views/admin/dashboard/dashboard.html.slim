@@ -3,7 +3,7 @@
 .block
   section.section.recent-projects.projects-grid
     = render partial: "recent_projects_grid_definition",
-             locals: {person: @person, grid: @recent_projects_grid}
+      locals: {person: @person, grid: @recent_projects_grid}
 
     header
       h2 = t("dashboard.my_projects")
@@ -39,7 +39,7 @@
           h3 = person.name
           .recent-projects
             = render partial: "recent_projects_grid_definition",
-                     locals: {person: person, grid: @people_grids[person]}
+              locals: {person: person, grid: @people_grids[person]}
             = render_index_grid(@people_grids[person])
 
 javascript:
