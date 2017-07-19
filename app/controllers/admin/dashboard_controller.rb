@@ -24,7 +24,7 @@ class Admin::DashboardController < Admin::AdminController
     # 15 most recent projects, sorted by created date, then updated date
     @recent_projects = @person.active_agent_projects
 
-    @recent_projects_grid = initialize_wice_grid(@recent_projects, @person.id, 15)
+    @recent_projects_grid = initialize_wice_grid(@recent_projects, @person.id)
 
     @status_filter_options = STATUS_FILTERS.map { |f| [I18n.t("dashboard.status_options.#{f}"), f] }
   end
@@ -36,7 +36,7 @@ class Admin::DashboardController < Admin::AdminController
     @people_grids = {}
     @people.each do |person|
       projects = person.active_agent_projects
-      @people_grids[person] = initialize_wice_grid(projects, person.id, 5)
+      @people_grids[person] = initialize_wice_grid(projects, person.id)
     end
   end
 
@@ -47,7 +47,7 @@ class Admin::DashboardController < Admin::AdminController
 
   private
 
-  def initialize_wice_grid(projects, person_id, page)
+  def initialize_wice_grid(projects, person_id)
     initialize_grid(
         projects,
         include: [:primary_agent, :secondary_agent],
