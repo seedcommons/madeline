@@ -86,7 +86,11 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   editDocument: (e) ->
     # Fire a global event. Consider refactoring this in the style of notifyExpandListeners above.
     Backbone.trigger 'LoanQuestionnairesView:edit', @
-
+    $('.view-element.answer')
+      .next('textarea')
+      .on 'change keyup keydown paste cut', ->
+        $(this).height(0).height @scrollHeight
+      .change()
   # Sets up the dirtyForm plugin on the questionnaire form.
   # We need to do this on a focus event because the form is not always visible when the page loads,
   # and dirtyForms doesn't seem to work with a hidden form. The focus event can only be fired when the
