@@ -101,7 +101,7 @@ class Person < ActiveRecord::Base
   end
 
   def active_agent_projects
-    agent_projects.where(status_value: Project::ACTIVE_STATUSES)
+    agent_projects.where(status_value: Project::OPEN_STATUSES)
   end
 
   private

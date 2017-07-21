@@ -1,29 +1,43 @@
 = define_grid(grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: @csv_mode ? nil : 'row'}}) do |g|
 
+    - g.row_attributes do |project|
+      - if project.primary_agent_id == person.id
+        - {class: 'bold'}
+
     - g.blank_slate { grid.no_records_at_all = true; "" }
 
     - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
       ordering: false do |project|
-      - if project.type == "BasicProject"
+      - if project.type == 'BasicProject'
         - link_to(project.id, admin_basic_project_path(project.id))
       - else
         - link_to(project.id, admin_loan_path(project.id))
 
-    - g.column name: t('common.name'), attribute: 'name', filter: false,
+    - g.column name: t('common.role'), attribute: 'primary_agent_id', filter: false,
       ordering: false do |project|
-      - project.display_name
+      - if project.primary_agent_id == person.id
+        - t('common.first')
+      - else
+        - t('common.second')
 
-    - g.column name: t("activerecord.attributes.project.signing_date"),
-      attribute: 'signing_date', filter: false, ordering: false do |project|
-      - ldate(project.signing_date)
-
-    - g.column name: t('activerecord.attributes.project.progress'), attribute: 'status_value',
+    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
       filter: false, ordering: false do |project|
       - content_tag(:span, project.status,
         class: "project-status #{project.status_value == 'completed' ? 'completed' : 'active'}")
 
-    - g.column name: t('activerecord.attributes.project.status'), attribute: 'status_value',
+    - g.column name: t('common.type'), attribute: 'type', filter: false,
+      ordering: false do |project|
+      - if project.type == 'BasicProject'
+        - t('common.project')
+      - else
+        - t('activerecord.models.loan')
+
+    - g.column name: t('common.project'), attribute: 'organization_id', filter: false,
+      ordering: false do |project|
+      - project.display_name
+
+    - g.column name: t('activerecord.attributes.project.health_check'), attribute: 'status_value',
       filter: false, ordering: false do |project|
       - if project.health_status_available?
         - health_status_info(project.loan_health_check)
