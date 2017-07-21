@@ -142,12 +142,17 @@ en:
       accounting:
         transaction:
           amount: "Amount"
+          capital_balance: "Capital Balance"
+          capital_returned: "Capital Returned"
           description: "Description"
+          interest_balance: "Interest Balance"
+          interest_paid: "Interest Paid"
           private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
+          total_balance: "Total Balance"
     errors:
       models:
         project_group:

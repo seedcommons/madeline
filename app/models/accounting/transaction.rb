@@ -4,11 +4,15 @@
 #
 #  accounting_account_id :integer
 #  amount                :decimal(, )
+#  change_in_interest    :decimal(, )      default(0.0)
+#  change_in_principal   :decimal(, )      default(0.0)
 #  created_at            :datetime         not null
 #  currency_id           :integer
 #  description           :string
 #  id                    :integer          not null, primary key
+#  interest_balance      :decimal(, )      default(0.0)
 #  loan_transaction_type :string
+#  principal_balance     :decimal(, )      default(0.0)
 #  private_note          :string
 #  project_id            :integer
 #  qb_id                 :string           not null
@@ -43,6 +47,7 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :currency
 
   before_save :update_fields_from_quickbooks_data
+  after_save :calculate_loan_amounts
 
   validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
 
@@ -50,6 +55,14 @@ class Accounting::Transaction < ActiveRecord::Base
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.quickbooks_data = qb_object.as_json
     transaction.save!(validate: false)
+  end
+
+  def self.by_date
+    order(txn_date: :asc)
+  end
+
+  def self.previous(loan_id)
+    where('txn_date <= ? AND project_id = ?', Date.today, loan_id).by_date.last(2).first
   end
 
   def quickbooks_data
@@ -63,6 +76,10 @@ class Accounting::Transaction < ActiveRecord::Base
   def associate_with_qb_obj(qb_obj)
     self.qb_id = qb_obj.id
     self.qb_transaction_type = qb_obj.class.name.demodulize
+  end
+
+  def total_balance
+    interest_balance + principal_balance
   end
 
   private
@@ -93,6 +110,29 @@ class Accounting::Transaction < ActiveRecord::Base
       Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
     elsif project
       project.currency_id
+    end
+  end
+
+  def calculate_loan_amounts
+    loan_id = self.project_id
+
+    if self.loan_transaction_type == 'disbursement'
+      self.update_column(:change_in_principal, amount)
+    end
+
+    if amount <= interest_balance
+      self.change_in_interest =- amount
+      self.update_column(:change_in_interest, change_in_interest)
+    elsif amount > interest_balance
+      self.change_in_interest =- interest_balance
+      self.update_column(:change_in_interest, change_in_interest)
+      self.change_in_principal =- (interest_balance - amount)
+      self.update_column(:change_in_principal, change_in_principal)
+    end
+
+    if self.class.previous(loan_id)
+      self.interest_balance = self.class.previous(loan_id).interest_balance + change_in_interest
+      self.update_column(:interest_balance, interest_balance)
     end
   end
 end

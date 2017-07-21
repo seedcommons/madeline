@@ -210,4 +210,12 @@ class Loan < Project
   def health_status_available?
     return !loan_health_check.nil?
   end
+
+  def principal_balance
+    transactions.by_date.last.principal_balance
+  end
+
+  def interest_balance
+    transactions.by_date.last.interest_balance
+  end
 end
