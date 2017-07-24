@@ -43,13 +43,8 @@
             *header_tag
               / Group title
               => index_str
-              - if question.first_child?
-                = question.label
-              - else
-                = (parents.map(&:label) + [question.label]).join(": ")
-          / Style top-level questions the same as top-level groups
-          - elsif question.depth == 1
-            h4 = "#{index_str} #{question.label}"
+              = question.label
+
           - else
             .question-label = "#{index_str} #{question.label}"
 

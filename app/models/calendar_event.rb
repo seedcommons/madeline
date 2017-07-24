@@ -51,10 +51,11 @@ class CalendarEvent
     project.end_date ? new.initialize_project_end(project) : nil
   end
 
-  def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project, step_scope: ProjectStep)
+  def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project,
+    step_scope: ProjectStep, project_id: nil)
     events = project_events_by_date_project_scope(date_range, project_scope.where(project_filter))
     events += step_events_by_date_project_filter(date_range: date_range, project_filter: project_filter,
-      scope: step_scope)
+      scope: step_scope, project_id: project_id)
 
     # Filter out sibling events outside of our range
     events.select!{ |event| date_range === event.start }
@@ -65,8 +66,9 @@ class CalendarEvent
     project_date_filter(range, scope).map(&:calendar_events).flatten
   end
 
-  def self.step_events_by_date_project_filter(date_range: nil, project_filter: nil, scope: ProjectStep)
-    project_step_date_filter(date_range, scope).
+  def self.step_events_by_date_project_filter(date_range: nil, project_filter: nil, scope: ProjectStep,
+    project_id: nil)
+    project_step_date_filter(date_range, scope, project_id).
       # Would be nice to be able to use a join here, but this performs okay with the full migrated
       # data, and I'm not sure if it's possible without entirely hand crafted SQL
       where(project_id: Project.where(project_filter).pluck(:id)).
@@ -84,9 +86,17 @@ class CalendarEvent
                 {first: range.first, last: range.last})
   end
 
-  def self.project_step_date_filter(range, scope = ProjectStep)
-    scope.where("actual_end_date BETWEEN :first AND :last OR scheduled_start_date BETWEEN :first AND :last "\
-      "OR old_start_date BETWEEN :first and :last", {first: range.first, last: range.last})
+  def self.project_step_date_filter(range, scope = ProjectStep, project_id)
+    scoped_steps = scope.where("actual_end_date BETWEEN :first AND :last "\
+                               "OR scheduled_start_date BETWEEN :first AND :last "\
+                               "OR old_start_date BETWEEN :first and :last",
+                               {first: range.first, last: range.last})
+
+    if project_id
+      scoped_steps
+    else
+      scoped_steps.where(is_finalized: true)
+    end
   end
 
   def initialize_project_step(step)
