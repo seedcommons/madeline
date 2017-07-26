@@ -10,6 +10,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       dragAndDrop: true
       selectable: false
       useContextMenu: false
+      saveState: true
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset} #{node.status}")
