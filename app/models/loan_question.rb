@@ -9,6 +9,7 @@
 #  internal_name         :string
 #  loan_question_set_id  :integer
 #  migration_position    :integer
+#  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
