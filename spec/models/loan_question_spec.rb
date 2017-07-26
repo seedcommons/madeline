@@ -121,8 +121,7 @@ describe LoanQuestion, :type => :model do
     end
   end
 
-  describe 'number', clean_with_truncation: true do
-
+  describe "number", clean_with_truncation: true do
     let!(:set) { create(:loan_question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
@@ -200,6 +199,30 @@ describe LoanQuestion, :type => :model do
           expect(f4.reload.number).to eq 2
         end
       end
+    end
+  end
+
+  describe "full_number", clean_with_truncation: true do
+    let!(:set) { create(:loan_question_set) }
+    let!(:lqroot) { set.root_group }
+    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
+    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text", status: "inactive") }
+    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group") }
+    let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string", status: "inactive") }
+    let!(:f32) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f32", data_type: "boolean") }
+    let!(:f33) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f33", data_type: "group") }
+    let!(:f331) { create(:loan_question, loan_question_set: set, parent: f33, internal_name: "f331", data_type: "boolean") }
+    let!(:f4) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f4", data_type: "text") }
+
+    it "should be correct for all nodes" do
+      expect(f1.reload.full_number).to eq "1"
+      expect(f2.reload.full_number).to be_nil
+      expect(f3.reload.full_number).to eq "2"
+      expect(f31.reload.full_number).to be_nil
+      expect(f32.reload.full_number).to eq "2.1"
+      expect(f33.reload.full_number).to eq "2.2"
+      expect(f331.reload.full_number).to eq "2.2.1"
+      expect(f4.reload.full_number).to eq "3"
     end
   end
 end

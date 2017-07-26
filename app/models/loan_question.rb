@@ -182,6 +182,17 @@ class LoanQuestion < ActiveRecord::Base
     end
   end
 
+  def full_number
+    return @full_number if defined?(@full_number)
+    @full_number = if number.nil? || parent.nil?
+      nil
+    elsif parent.root?
+      number.to_s
+    else
+      "#{parent.full_number}.#{number}"
+    end
+  end
+
   protected
 
   def set_numbers
