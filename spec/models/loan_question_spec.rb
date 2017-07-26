@@ -171,7 +171,7 @@ describe LoanQuestion, :type => :model do
         end
       end
 
-      context "on change active status" do
+      context "on activate" do
         before do
           f2.update_attributes!(status: "active")
         end
@@ -183,6 +183,21 @@ describe LoanQuestion, :type => :model do
           expect(f31.reload.number).to eq 1
           expect(f32.reload.number).to eq 2
           expect(f4.reload.number).to eq 4
+        end
+      end
+
+      context "on deactivate" do
+        before do
+          f1.update_attributes!(status: "inactive")
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to be_nil
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 1
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
         end
       end
 

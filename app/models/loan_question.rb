@@ -204,6 +204,7 @@ class LoanQuestion < ActiveRecord::Base
       FROM loan_questions
       WHERE parent_id = #{parent_id} AND status = 'active'
     ) AS t WHERE loan_questions.id = t.id")
+    self.class.where.not(status: "active").update_all("number = NULL")
   end
 
   private
