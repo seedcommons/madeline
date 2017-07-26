@@ -67,7 +67,7 @@ class LoanQuestion < ActiveRecord::Base
   validates :data_type, presence: true
 
   after_save :ensure_internal_name
-  after_commit :set_number
+  after_commit :set_numbers
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
@@ -184,9 +184,15 @@ class LoanQuestion < ActiveRecord::Base
 
   protected
 
-  def set_number
-    puts 'got here - callback'
-    update_column(:number, siblings_before.where(status: 'active').count + 1)
+  def set_numbers
+    # If parent_id is null (which can happen just after creation)
+    # there is no point in doing this.
+    return if parent_id.nil?
+    self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
+      FROM loan_questions
+      WHERE parent_id = #{parent_id} AND status = 'active'
+    ) AS t WHERE loan_questions.id = t.id")
   end
 
   private

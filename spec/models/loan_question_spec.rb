@@ -121,22 +121,85 @@ describe LoanQuestion, :type => :model do
     end
   end
 
-  describe 'number' do
-    let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
-    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text", number: 1) }
-    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text", status: 'inactive') }
-    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group", number: 2) }
-    let!(:f4) { create(:loan_question, loan_question_set: set, parent: nil, internal_name: "f4", data_type: "group") }
+  describe 'number', clean_with_truncation: true do
 
-    #insert node above f3 , it should get right number and f3 should also get updated
-    it 'should be set automatically' do
-      puts 'about to prepend'
-      f3.prepend_sibling(f4)
-      puts 'prepended'
-      expect(f1.reload.number).to eq(1)
-      expect(f4.reload.number).to eq(2)
-      expect(f3.reload.number).to eq(3)
+    let!(:set) { create(:loan_question_set) }
+    let!(:lqroot) { set.root_group }
+    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
+    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text", status: "inactive") }
+    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group") }
+    let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string") }
+    let!(:f32) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f32", data_type: "boolean") }
+    let!(:f4) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f4", data_type: "text") }
+
+    context "on create" do
+      it "sets the correct numbers" do
+        expect(f1.reload.number).to eq 1
+        expect(f2.reload.number).to be_nil
+        expect(f3.reload.number).to eq 2
+        expect(f31.reload.number).to eq 1
+        expect(f32.reload.number).to eq 2
+        expect(f4.reload.number).to eq 3
+      end
+
+      context "on move top-level node" do
+        before do
+          f2.prepend_sibling(f4)
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 3
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
+        end
+      end
+
+      context "on move child node" do
+        before do
+          f31.prepend_sibling(f32)
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 2
+          expect(f31.reload.number).to eq 2
+          expect(f32.reload.number).to eq 1
+          expect(f4.reload.number).to eq 3
+        end
+      end
+
+      context "on change active status" do
+        before do
+          f2.update_attributes!(status: "active")
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to eq 2
+          expect(f3.reload.number).to eq 3
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 4
+        end
+      end
+
+      context "on destroy" do
+        before do
+          f1.destroy
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 1
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
+        end
+      end
     end
   end
 end
