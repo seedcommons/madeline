@@ -38,7 +38,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def update
     if @loan_question.update(loan_question_params)
-      render json: @loan_question.reload
+      render_set_json(@loan_question.loan_question_set)
     else
       render_form(status: :unprocessable_entity)
     end
@@ -53,7 +53,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     end
 
     target.send(method, @loan_question)
-    head :no_content
+    render_set_json(@loan_question.loan_question_set)
   rescue
     flash.now[:error] = I18n.t('loan_questions.move_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
@@ -61,7 +61,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def destroy
     @loan_question.destroy!
-    head :no_content
+    set = @loan_question.loan_question_set
+    render_set_json(@loan_question.loan_question_set)
   rescue
     flash.now[:error] = I18n.t('loan_questions.delete_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
@@ -69,31 +70,35 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   private
 
-    def set_loan_question
-      @loan_question = LoanQuestion.find(params[:id])
-      authorize @loan_question
-    end
+  def render_set_json(set)
+    render json: set.root_group_preloaded.children_applicable_to(nil)
+  end
 
-    def loan_question_params
-      # This `delete_if` is required when raising an error on unpermitted params.
-      # However, it should be abstracted somehow so it applies to all controllers.
-      # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
-      params.require(:loan_question).permit(
-        :label, :data_type, :parent_id, :position,
-        :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
-        *translation_params(:label, :explanation),
-        loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
-      )
-    end
+  def set_loan_question
+    @loan_question = LoanQuestion.find(params[:id])
+    authorize @loan_question
+  end
 
-    def render_form(status: nil)
-      @data_types = LoanQuestion::DATA_TYPES.map do |i|
-        [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
-      end.sort
-      if status
-        render partial: 'form', status: :status
-      else
-        render partial: 'form'
-      end
+  def loan_question_params
+    # This `delete_if` is required when raising an error on unpermitted params.
+    # However, it should be abstracted somehow so it applies to all controllers.
+    # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
+    params.require(:loan_question).permit(
+      :label, :data_type, :parent_id, :position,
+      :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
+      *translation_params(:label, :explanation),
+      loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
+    )
+  end
+
+  def render_form(status: nil)
+    @data_types = LoanQuestion::DATA_TYPES.map do |i|
+      [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
+    end.sort
+    if status
+      render partial: 'form', status: :status
+    else
+      render partial: 'form'
     end
+  end
 end
