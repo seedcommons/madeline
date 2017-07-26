@@ -120,4 +120,23 @@ describe LoanQuestion, :type => :model do
       expect(f32.position).to eq 1
     end
   end
+
+  describe 'number' do
+    let!(:set) { create(:loan_question_set) }
+    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
+    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text", number: 1) }
+    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text", status: 'inactive') }
+    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group", number: 2) }
+    let!(:f4) { create(:loan_question, loan_question_set: set, parent: nil, internal_name: "f4", data_type: "group") }
+
+    #insert node above f3 , it should get right number and f3 should also get updated
+    it 'should be set automatically' do
+      puts 'about to prepend'
+      f3.prepend_sibling(f4)
+      puts 'prepended'
+      expect(f1.reload.number).to eq(1)
+      expect(f4.reload.number).to eq(2)
+      expect(f3.reload.number).to eq(3)
+    end
+  end
 end

@@ -67,6 +67,7 @@ class LoanQuestion < ActiveRecord::Base
   validates :data_type, presence: true
 
   after_save :ensure_internal_name
+  after_commit :set_number
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
@@ -179,6 +180,13 @@ class LoanQuestion < ActiveRecord::Base
     (Loan.loan_type_option_set.options - loan_question_requirements.map(&:loan_type)).each do |lt|
       loan_question_requirements.build(loan_type: lt)
     end
+  end
+
+  protected
+
+  def set_number
+    puts 'got here - callback'
+    update_column(:number, siblings_before.where(status: 'active').count + 1)
   end
 
   private
