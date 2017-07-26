@@ -99,6 +99,7 @@ On server:
 
 In order to test any of the Quickbooks features, you will need to create Intuit Developer account and sandbox.
 
+#### Set up an Intuit Developer account
 1. Visit https://developer.intuit.com
 1. Click "Sign In"
 1. Create an account, or sign in
@@ -113,3 +114,18 @@ In order to test any of the Quickbooks features, you will need to create Intuit 
 1. Click authorize to connect your account data to Madeline.
 
 Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-version-3-api-part-1.html if any steps are missing..
+
+#### Add disbursement
+
+1. In order to add a disbursement transaction, a QuickBooks account must be properly set up.
+1. If you are working with QuickBooks in development mode, follow the steps above to create a QuickBooks account and connect it to Madeline.
+1. Inside "Intuit Developer > My Apps", click on your app.
+1. Inside "Resources" section, click on "QuickBooks sandbox".
+1. Click "Go to company".
+1. Inside QuickBooks, click on the gear icon for settings. Under "Settings", click on "Company Settings". (For example, https://sandbox.qbo.intuit.com/app/settings?p=Company.)
+1. In the "Company" section of the "Company Settings", scroll to the "Categories" section.
+1. Click the pencil icon to edit the "Categories" section.
+1. Make sure "Track Classes" is checked/on.
+1. Make sure "Track Locations" is checked/on.
+1. In the "Location label" dropdown, select "Divisions".
+1. Click the "Save" button.
