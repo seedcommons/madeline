@@ -193,6 +193,10 @@ class LoanQuestion < ActiveRecord::Base
     end
   end
 
+  def full_number_and_label
+    [full_number, label].compact.join(". ")
+  end
+
   protected
 
   def set_numbers
