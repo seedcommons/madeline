@@ -61,7 +61,6 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def destroy
     @loan_question.destroy!
-    set = @loan_question.loan_question_set
     render_set_json(@loan_question.loan_question_set)
   rescue
     flash.now[:error] = I18n.t('loan_questions.delete_error') + ": " + $!.to_s
