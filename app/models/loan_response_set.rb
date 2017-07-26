@@ -35,26 +35,12 @@ class LoanResponseSet < ActiveRecord::Base
 
   validate do
     # iterate through all LoanResponses and set a :base error if any of them are invalid
+    errors.add(:base, 'Validation error') unless responses.all?(&:valid?)
+    # errors.add(:field_332, 'a field error')
   end
 
   def loan_question_set
     @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
-  end
-
-  def custom_data=(hash)
-    # {"q_123" => {"number" => 5}, "q_456" => {"text" => "foo", "rating" => 3}}
-
-    self.custom_data = hash
-    build_objs(question(:root))
-
-  end
-
-  # Private
-  def build_objs_for(question)
-    responses[x] = response
-    ...
-      build_objs_for(child)
-
   end
 
   # Spec: Create a question set with breakeven table, create a LoanResponse, assign a hash to custom_data, call valid? on
@@ -110,6 +96,11 @@ class LoanResponseSet < ActiveRecord::Base
     raw_value = (custom_data || {})[field.json_key]
     # Here, instead of just blindly creating a new one, check the hash first.
     LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
+  end
+
+  # This seems like a wonkey way to do it. Is there a better way?
+  def responses
+    custom_data.keys.map{ |key| response(key.to_i) }
   end
 
   # DELETE everything from here down except tree_unanswered and see if specs still work and questionnaire still works.

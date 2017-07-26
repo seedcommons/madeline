@@ -66,6 +66,9 @@
 
         - else
           .answer-wrapper.tree-view
+            - unless value.valid?
+              .has-error
+                = raw value.errors.full_messages.map { |msg| content_tag(:div, msg, class: 'alert alert-danger') }.join
             - if value.has_rating?
               - if value.rating.present?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"

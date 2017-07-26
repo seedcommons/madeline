@@ -29,9 +29,10 @@ class Admin::LoanResponseSetsController < Admin::AdminController
 
     if params[:discard]
       redirect_to display_path
-    else
-      @response_set.update!(adjusted_params)
+    elsif @response_set.update(adjusted_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
+    else
+      redirect_to display_path
     end
   rescue ActiveRecord::StaleObjectError
     @conflict = true

@@ -1,5 +1,6 @@
 # Represents multi-value loan criteria or post analysis questionnaire response.
 class LoanResponse
+  include ActiveModel::Validations
   include ProgressCalculable
 
   attr_accessor :loan
@@ -35,6 +36,8 @@ class LoanResponse
     @breakeven = remove_blanks data[:breakeven]
     @business_canvas = data[:business_canvas]
   end
+
+  validate :breakeven_table_requires_name, if: :has_breakeven_table?
 
   def model_name
     'LoanResponse'
@@ -119,6 +122,10 @@ class LoanResponse
   end
 
   private
+
+  def breakeven_table_requires_name
+    errors.add(:breakeven_table, 'All products require a name') if breakeven_hash[:products].any?{ |p| p[:name].blank? }
+  end
 
   # Gets child responses of this response by asking LoanResponseSet.
   # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
