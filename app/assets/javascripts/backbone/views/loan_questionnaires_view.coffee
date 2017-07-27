@@ -88,7 +88,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     Backbone.trigger 'LoanQuestionnairesView:edit', @
     $('.view-element.answer')
       .next('textarea')
-      .on 'change keyup keydown paste cut', ->
+      .on 'change keyup keypress keydown paste cut', ->
         $(this).height(0).height @scrollHeight
       .change()
   # Sets up the dirtyForm plugin on the questionnaire form.
