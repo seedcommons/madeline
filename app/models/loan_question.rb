@@ -70,6 +70,7 @@ class LoanQuestion < ActiveRecord::Base
   after_save :ensure_internal_name
 
   before_save :nullify_number, if: -> { status_changed? && status != 'active' }
+  before_save { @old_parent_id = parent_id_changed? ? parent_id_was : nil }
   after_commit :set_numbers
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
@@ -203,12 +204,11 @@ class LoanQuestion < ActiveRecord::Base
   protected
 
   def set_numbers
-    # If parent_id is null (which can happen just after creation)
-    # there is no point in doing this.
-    return if parent_id.nil?
+    update_numbers_for_parent(parent_id) if parent_id
+    update_numbers_for_parent(@old_parent_id) if @old_parent_id
+  end
 
-    # Efficiently update numbers on all loan questions (since order etc. may have changed)
-    # Only active questions should have numbers.
+  def update_numbers_for_parent(parent_id)
     self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
       FROM loan_questions
@@ -216,16 +216,16 @@ class LoanQuestion < ActiveRecord::Base
     ) AS t WHERE loan_questions.id = t.id")
   end
 
+  private
+
   def nullify_number
     self.number = nil
     true
   end
 
-  private
-
-    def ensure_internal_name
-      if !internal_name
-        self.update! internal_name: "field_#{id}"
-      end
+  def ensure_internal_name
+    if !internal_name
+      self.update! internal_name: "field_#{id}"
     end
+  end
 end
