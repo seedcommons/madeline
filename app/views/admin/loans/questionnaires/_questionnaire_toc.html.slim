@@ -1,6 +1,12 @@
-  ul
-    - group.child_groups.each do |child|
-      li data-level=child.depth data-type=child.data_type class=( 'hidden-print' if response_set.tree_unanswered?(child))
-        = child.label
-        - if child.data_type == 'group'
-          = render("admin/loans/questionnaires/questionnaire_toc", group: child, response_set: response_set)
+ul
+  - group.child_groups.each_with_index do |child, idx|
+    - index_str = (indices + [idx + 1]).join(".")
+
+    li data-level=child.depth data-type=child.data_type class=( 'hidden-print' if response_set.tree_unanswered?(child))
+      - if child.data_type == 'group'
+        - if (filtered_children = child.children_applicable_to(@loan)).present?
+          => index_str
+          = child.label
+          = render("admin/loans/questionnaires/questionnaire_toc", group: child,
+                   response_set: response_set, roots: filtered_children,
+                   parents: parents + [child], indices: indices + [idx + 1])
