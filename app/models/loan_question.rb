@@ -205,6 +205,9 @@ class LoanQuestion < ActiveRecord::Base
     # If parent_id is null (which can happen just after creation)
     # there is no point in doing this.
     return if parent_id.nil?
+
+    # Efficiently update numbers on all loan questions (since order etc. may have changed)
+    # Only active questions should have numbers.
     self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
       FROM loan_questions
