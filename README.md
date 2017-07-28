@@ -122,10 +122,11 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 1. If you are working with a QuickBooks account with real data:
   1. Log into your QuickBooks account.
 1. If you are working with a QuickBooks account for testing or development:
-  1. Follow the steps above in "Set up an Intuit Developer account" to create a QuickBooks account and connect it to Madeline.
+  1. If you have not already, follow the steps above in "Set up an Intuit Developer account" to create a QuickBooks account and connect it to Madeline.
   1. Inside "Intuit Developer > My Apps", click on your app.
-  1. Inside "Resources" section, click on "QuickBooks sandbox".
+  1. Inside the "Resources" section, click on "QuickBooks sandbox".
   1. Click "Go to company".
+  1. QuickBooks will load.
 1. Inside QuickBooks, click on the gear icon for settings. Under "Settings", click on "Company Settings". (For example, https://sandbox.qbo.intuit.com/app/settings?p=Company.)
 1. In the "Company" section of the "Company Settings", scroll to the "Categories" section.
 1. Click the pencil icon to edit the "Categories" section.
@@ -136,16 +137,16 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 
 ##### Adjust QuickBooks settings
 
-1. Inside Madeline, in the main menu, go to "Manage > Settings".
+1. Inside Madeline in the main menu go to "Manage > Settings".
 1. Ensure that the QuickBooks account you wish to use is connected.
 1. Click on "Full Sync".
 1. In the "QuickBooks Accounts" settings below, select 3 separate accounts.
-  1. Principal Account: Funds will be disbursed from the principal account.
+  1. Any funds that will be disbursed will come from the principal account.
   1. Specific accounts in QuickBooks cannot be used as the 3 main QuickBooks accounts specified in "QuickBooks Accounts" in your Madeline settings. If you encounter an error when trying to add a disbursement, please try selecting a different account in your "QuickBooks Accounts" settings.
 
 ##### Add a disbursement transaction
 
-1. When you are ready to add a disbursement to a specific loan, visit the loan in Madeline. (For example, http://http://localhost:3000/admin/loans/{loan-id})
+1. When you are ready to add a disbursement to a specific loan, visit the loan in Madeline. You can get to a specific loan by clicking "Loans" in the main menu and finding the loan you want to view. (For example, http://http://localhost:3000/admin/loans/{loan-id})
 1. Click on the "Transactions" tab.
 1. Click on the "Add Transaction".
 1. A modal will appear.
@@ -154,5 +155,5 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 1. Select an amount.
 1. Revise the other transaction form fields, as desired.
 1. Save.
-1. The page will reload and display your transaction.
-1. If an error is shown instead of the page reloading, there may be a problem your QuickBooks settings. Please see "Adjust QuickBooks settings"
+1. The page will reload and display your newly created transaction.
+1. If an error is shown instead of the page reloading, there may be a problem with your QuickBooks settings. Please see "Adjust QuickBooks settings".
