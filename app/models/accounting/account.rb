@@ -31,4 +31,8 @@ class Accounting::Account < ActiveRecord::Base
       )
     end
   end
+
+  def self.asset_accounts
+    where(qb_account_classification: 'Asset')
+  end
 end

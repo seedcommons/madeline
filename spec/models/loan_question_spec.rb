@@ -41,23 +41,23 @@ describe LoanQuestion, :type => :model do
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
 
     let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
-    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
+    let!(:lqroot) { create_q(set: set, name: "lqroot", type: "group") }
+    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
 
-    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f4", data_type: "text",
+    let!(:f2) { create_q(set: set, parent: lqroot, name: "f4", type: "text",
       override_associations: true, loan_types: [lt1,lt2]) }
 
-    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group",
+    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group",
       override_associations: true, loan_types: [lt1]) }
-    let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string") }
-    let!(:f33) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f33", data_type: "group") }
-    let!(:f331) { create(:loan_question, loan_question_set: set, parent: f33, internal_name: "f331", data_type: "boolean") }
-    let!(:f332) { create(:loan_question, loan_question_set: set, parent: f33, internal_name: "f332", data_type: "number",
+    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f33) { create_q(set: set, parent: f3, name: "f33", type: "group") }
+    let!(:f331) { create_q(set: set, parent: f33, name: "f331", type: "boolean") }
+    let!(:f332) { create_q(set: set, parent: f33, name: "f332", type: "number",
       override_associations: true, loan_types: [lt2]) }
-    let!(:f333) { create(:loan_question, loan_question_set: set, parent: f33, internal_name: "f333", data_type: "text",
+    let!(:f333) { create_q(set: set, parent: f33, name: "f333", type: "text",
       override_associations: true) }
 
-    let!(:f4) { create(:loan_question, loan_question_set: set, parent: f1, internal_name: "f4", data_type: "text",
+    let!(:f4) { create_q(set: set, parent: f1, name: "f4", type: "text",
       loan_types: [lt1,lt2]) }
 
     it 'not required by default' do
@@ -103,14 +103,12 @@ describe LoanQuestion, :type => :model do
 
   describe 'position' do
     let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
-    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text") }
-    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text",
-      override_associations: true) }
-    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group",
-      override_associations: true) }
-    let!(:f31) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f31", data_type: "string") }
-    let!(:f32) { create(:loan_question, loan_question_set: set, parent: f3, internal_name: "f32", data_type: "boolean") }
+    let!(:lqroot) { create_q(set: set, name: "lqroot", type: "group") }
+    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
+    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group", override_associations: true) }
+    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
 
     it 'should be set automatically' do
       expect(f1.position).to eq 0
@@ -121,22 +119,131 @@ describe LoanQuestion, :type => :model do
     end
   end
 
-  describe 'number' do
+  describe "number", clean_with_truncation: true do
     let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create(:loan_question, loan_question_set: set, internal_name: "lqroot", data_type: "group") }
-    let!(:f1) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f1", data_type: "text", number: 1) }
-    let!(:f2) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f2", data_type: "text", status: 'inactive') }
-    let!(:f3) { create(:loan_question, loan_question_set: set, parent: lqroot, internal_name: "f3", data_type: "group", number: 2) }
-    let!(:f4) { create(:loan_question, loan_question_set: set, parent: nil, internal_name: "f4", data_type: "group") }
+    let!(:lqroot) { set.root_group }
+    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group") }
+    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
+    let!(:f4) { create_q(set: set, parent: lqroot, name: "f4", type: "text") }
 
-    #insert node above f3 , it should get right number and f3 should also get updated
-    it 'should be set automatically' do
-      puts 'about to prepend'
-      f3.prepend_sibling(f4)
-      puts 'prepended'
-      expect(f1.reload.number).to eq(1)
-      expect(f4.reload.number).to eq(2)
-      expect(f3.reload.number).to eq(3)
+    context "on create" do
+      it "sets the correct numbers" do
+        expect(f1.reload.number).to eq 1
+        expect(f2.reload.number).to be_nil
+        expect(f3.reload.number).to eq 2
+        expect(f31.reload.number).to eq 1
+        expect(f32.reload.number).to eq 2
+        expect(f4.reload.number).to eq 3
+      end
+
+      context "on move top-level node" do
+        before do
+          f2.prepend_sibling(f4)
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 3
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
+        end
+      end
+
+      context "on move child node" do
+        before do
+          f31.prepend_sibling(f32)
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 2
+          expect(f31.reload.number).to eq 2
+          expect(f32.reload.number).to eq 1
+          expect(f4.reload.number).to eq 3
+        end
+      end
+
+      context "on activate" do
+        before do
+          f2.update_attributes!(status: "active")
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to eq 1
+          expect(f2.reload.number).to eq 2
+          expect(f3.reload.number).to eq 3
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 4
+        end
+      end
+
+      context "on deactivate" do
+        before do
+          f1.update_attributes!(status: "inactive")
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f1.reload.number).to be_nil
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 1
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
+        end
+      end
+
+      context "on destroy" do
+        before do
+          f1.destroy
+        end
+
+        it "should adjust numbers appropriately" do
+          expect(f2.reload.number).to be_nil
+          expect(f3.reload.number).to eq 1
+          expect(f31.reload.number).to eq 1
+          expect(f32.reload.number).to eq 2
+          expect(f4.reload.number).to eq 2
+        end
+      end
     end
+  end
+
+  describe "full_number", clean_with_truncation: true do
+    let!(:set) { create(:loan_question_set) }
+    let!(:lqroot) { set.root_group }
+    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group") }
+    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string", status: "inactive") }
+    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
+    let!(:f33) { create_q(set: set, parent: f3, name: "f33", type: "group") }
+    let!(:f331) { create_q(set: set, parent: f33, name: "f331", type: "boolean") }
+    let!(:f4) { create_q(set: set, parent: lqroot, name: "f4", type: "text") }
+
+    it "should be correct for all nodes" do
+      expect(f1.reload.full_number).to eq "1"
+      expect(f2.reload.full_number).to be_nil
+      expect(f3.reload.full_number).to eq "2"
+      expect(f31.reload.full_number).to be_nil
+      expect(f32.reload.full_number).to eq "2.1"
+      expect(f33.reload.full_number).to eq "2.2"
+      expect(f331.reload.full_number).to eq "2.2.1"
+      expect(f4.reload.full_number).to eq "3"
+    end
+  end
+
+  # Helper method to shorten keys
+  def create_q(attribs)
+    attribs[:loan_question_set] = attribs.delete(:set)
+    attribs[:internal_name] = attribs.delete(:name)
+    attribs[:data_type] = attribs.delete(:type)
+    create(:loan_question, attribs)
   end
 end

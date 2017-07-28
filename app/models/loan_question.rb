@@ -9,6 +9,7 @@
 #  internal_name         :string
 #  loan_question_set_id  :integer
 #  migration_position    :integer
+#  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
@@ -67,7 +68,11 @@ class LoanQuestion < ActiveRecord::Base
   validates :data_type, presence: true
 
   after_save :ensure_internal_name
+<<<<<<< HEAD
   after_commit :set_number
+=======
+  after_commit :set_numbers
+>>>>>>> 5279f9df95612a31262bce43728fb1863c6b50dd
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
@@ -182,11 +187,33 @@ class LoanQuestion < ActiveRecord::Base
     end
   end
 
+  def full_number
+    return @full_number if defined?(@full_number)
+    @full_number = if number.nil? || parent.nil?
+      nil
+    elsif parent.root?
+      number.to_s
+    else
+      "#{parent.full_number}.#{number}"
+    end
+  end
+
+  def full_number_and_label
+    [full_number, label].compact.join(". ")
+  end
+
   protected
 
-  def set_number
-    puts 'got here - callback'
-    update_column(:number, siblings_before.where(status: 'active').count + 1)
+  def set_numbers
+    # If parent_id is null (which can happen just after creation)
+    # there is no point in doing this.
+    return if parent_id.nil?
+    self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
+      FROM loan_questions
+      WHERE parent_id = #{parent_id} AND status = 'active'
+    ) AS t WHERE loan_questions.id = t.id")
+    self.class.where.not(status: "active").update_all("number = NULL")
   end
 
   private

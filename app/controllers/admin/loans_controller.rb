@@ -50,7 +50,7 @@ class Admin::LoansController < Admin::ProjectsController
     when 'logs'
       prep_logs(@loan)
     when 'transactions'
-      initialize_transactions_grid(@loan.id)
+      prep_transactions
     when 'calendar'
       @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
@@ -154,5 +154,19 @@ class Admin::LoansController < Admin::ProjectsController
       notice_text << " " << I18n.t('loan.popup_blocker') if @attached_links.length > 1
       flash.now[:alert] = notice_text
     end
+  end
+
+  def prep_transactions
+    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Date.today)
+    @add_transaction_available = Division.root.qb_accounts_connected?
+    prep_transaction_form
+
+    unless @add_transaction_available
+      # We need to use the view helper version of `t` so that we can use the _html functionality.
+      flash.now[:alert] = self.class.helpers.t('quickbooks.not_connected_html',
+        link: admin_settings_url)
+    end
+
+    initialize_transactions_grid(@loan.id)
   end
 end

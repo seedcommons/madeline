@@ -47,15 +47,9 @@
           - if question.data_type == 'group'
             - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
             *header_tag
-              / Group title
-              => index_str
-              - if question.first_child?
-                = question.label
-              - else
-                = (parents.map(&:label) + [question.label]).join(": ")
-
+              = question.full_number_and_label
           - else
-            .question-label = "#{index_str} #{question.label}"
+            .question-label = question.full_number_and_label
 
         - if question.explanation.present?
           .help-block.hidden-print.tree-view = simple_format(question.explanation.to_s)
