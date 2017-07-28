@@ -48,8 +48,7 @@ class Project < ActiveRecord::Base
 
   # Status values can be found at Loan.status_option_set.options and
   # BasicProject.status_option_set.options
-  ACTIVE_STATUSES = %w(active changed possible prospective refinanced relationship
-    relationship_active)
+  OPEN_STATUSES = %w(active changed possible prospective)
 
   belongs_to :division
   belongs_to :primary_agent, class_name: 'Person'
@@ -130,5 +129,19 @@ class Project < ActiveRecord::Base
 
   def health_status_available?
     return false
+  end
+
+  def self.dashboard_order(person_id)
+    clauses = []
+
+    clauses << "CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
+                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END"
+
+    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
+                    "THEN 2 ELSE 3 END"
+
+    clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
+
+    clauses.join(', ')
   end
 end
