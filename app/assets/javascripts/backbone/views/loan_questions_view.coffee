@@ -75,6 +75,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
       # Update node on page with data returned from server
+      # Remember the state of which nodes are expanded (subtrees)
       @tree.tree('loadData', response)
       @$('#edit-modal').modal('hide')
       @filterSwitchView.filterInit()
