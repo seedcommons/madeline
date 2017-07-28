@@ -117,11 +117,15 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 
 #### Add disbursement
 
+##### Prepare your QuickBooks account
 1. In order to add a disbursement transaction, a QuickBooks account must be properly set up.
-1. If you are working with QuickBooks in development mode, follow the steps above to create a QuickBooks account and connect it to Madeline.
-1. Inside "Intuit Developer > My Apps", click on your app.
-1. Inside "Resources" section, click on "QuickBooks sandbox".
-1. Click "Go to company".
+1. If you are working with a QuickBooks account with real data:
+  1. Log into your QuickBooks account.
+1. If you are working with a QuickBooks account for testing or development:
+  1. Follow the steps above in "Set up an Intuit Developer account" to create a QuickBooks account and connect it to Madeline.
+  1. Inside "Intuit Developer > My Apps", click on your app.
+  1. Inside "Resources" section, click on "QuickBooks sandbox".
+  1. Click "Go to company".
 1. Inside QuickBooks, click on the gear icon for settings. Under "Settings", click on "Company Settings". (For example, https://sandbox.qbo.intuit.com/app/settings?p=Company.)
 1. In the "Company" section of the "Company Settings", scroll to the "Categories" section.
 1. Click the pencil icon to edit the "Categories" section.
@@ -129,3 +133,7 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 1. Make sure "Track Locations" is checked/on.
 1. In the "Location label" dropdown, select "Divisions".
 1. Click the "Save" button.
+
+##### Adjust QuickBooks settings
+
+1. Inside Madeline, in the main menu, go to "Manage > Settings".
