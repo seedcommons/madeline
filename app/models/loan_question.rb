@@ -69,6 +69,7 @@ class LoanQuestion < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
+  before_save :nullify_number, if: -> { status_changed? && status != 'active' }
   after_commit :set_numbers
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
@@ -213,7 +214,11 @@ class LoanQuestion < ActiveRecord::Base
       FROM loan_questions
       WHERE parent_id = #{parent_id} AND status = 'active'
     ) AS t WHERE loan_questions.id = t.id")
-    self.class.where.not(status: "active").update_all("number = NULL")
+  end
+
+  def nullify_number
+    self.number = nil
+    true
   end
 
   private
