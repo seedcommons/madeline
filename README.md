@@ -137,3 +137,22 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 ##### Adjust QuickBooks settings
 
 1. Inside Madeline, in the main menu, go to "Manage > Settings".
+1. Ensure that the QuickBooks account you wish to use is connected.
+1. Click on "Full Sync".
+1. In the "QuickBooks Accounts" settings below, select 3 separate accounts.
+  1. Principal Account: Funds will be disbursed from the principal account.
+  1. Specific accounts in QuickBooks cannot be used as the 3 main QuickBooks accounts specified in "QuickBooks Accounts" in your Madeline settings. If you encounter an error when trying to add a disbursement, please try selecting a different account in your "QuickBooks Accounts" settings.
+
+##### Add a disbursement transaction
+
+1. When you are ready to add a disbursement to a specific loan, visit the loan in Madeline. (For example, http://http://localhost:3000/admin/loans/{loan-id})
+1. Click on the "Transactions" tab.
+1. Click on the "Add Transaction".
+1. A modal will appear.
+1. In "Type of Transaction", select "Disbursement".
+1. In "Bank Account", select the bank account that the funds will be disbursed into. Funds will come from the primary account and be disbursed into this account.
+1. Select an amount.
+1. Revise the other transaction form fields, as desired.
+1. Save.
+1. The page will reload and display your transaction.
+1. If an error is shown instead of the page reloading, there may be a problem your QuickBooks settings. Please see "Adjust QuickBooks settings"
