@@ -68,11 +68,8 @@ class LoanQuestion < ActiveRecord::Base
   validates :data_type, presence: true
 
   after_save :ensure_internal_name
-<<<<<<< HEAD
-  after_commit :set_number
-=======
+
   after_commit :set_numbers
->>>>>>> 5279f9df95612a31262bce43728fb1863c6b50dd
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
