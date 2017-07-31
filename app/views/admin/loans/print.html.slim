@@ -19,7 +19,7 @@ section data-container="loan"
 
       - if @loan.criteria
         h3 = t('loan.toc')
-        section.toc = render "admin/loans/questionnaires/questionnaire_toc",
+        = render "admin/loans/questionnaires/questionnaire_toc",
           group: @loan.criteria.loan_question_set.root_group_preloaded,
           response_set: @loan.criteria
         = render "admin/loans/questionnaires/questionnaire_form",
