@@ -19,7 +19,12 @@
     }
   }
 
+  .loan-types {
+    text-align: right;
+  }
+
   .loan-type-required {
+    display: inline-block;
     max-width: 8em;
     max-height: 2em;
     margin: 0 .2em 0 0;

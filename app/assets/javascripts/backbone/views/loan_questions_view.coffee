@@ -144,6 +144,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   requiredLoanTypesHTML: (node) ->
     # For each loan type required, add a conatiner with its label
-    node.required_loan_types.map (loan_type) ->
-      "<div class='loan-type-required'>#{loan_type}</div>"
-    .join ' '
+    "<div class='loan-types'>" +
+      node.required_loan_types.map (loan_type) ->
+        "<div class='loan-type-required'>#{loan_type}</div>"
+      .join(' ') +
+      "</div>"
