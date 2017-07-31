@@ -9,6 +9,7 @@
 #  internal_name         :string
 #  loan_question_set_id  :integer
 #  migration_position    :integer
+#  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
@@ -67,6 +68,9 @@ class LoanQuestion < ActiveRecord::Base
   validates :data_type, presence: true
 
   after_save :ensure_internal_name
+
+  before_save :prepare_numbers
+  after_commit :set_numbers
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
@@ -181,11 +185,47 @@ class LoanQuestion < ActiveRecord::Base
     end
   end
 
+  def full_number
+    return @full_number if defined?(@full_number)
+    @full_number = if number.nil? || parent.nil?
+      nil
+    elsif parent.root?
+      number.to_s
+    else
+      "#{parent.full_number}.#{number}"
+    end
+  end
+
+  def full_number_and_label
+    [full_number, label].compact.join(" ")
+  end
+
+  protected
+
+  def set_numbers
+    update_numbers_for_parent(parent_id) if parent_id
+    update_numbers_for_parent(@old_parent_id) if @old_parent_id
+  end
+
+  def update_numbers_for_parent(parent_id)
+    self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
+      FROM loan_questions
+      WHERE parent_id = #{parent_id} AND status = 'active'
+    ) AS t WHERE loan_questions.id = t.id")
+  end
+
   private
 
-    def ensure_internal_name
-      if !internal_name
-        self.update! internal_name: "field_#{id}"
-      end
+  def prepare_numbers
+    self.number = nil if status_changed? && status != 'active'
+    @old_parent_id = parent_id_changed? ? parent_id_was : nil
+    true
+  end
+
+  def ensure_internal_name
+    if !internal_name
+      self.update! internal_name: "field_#{id}"
     end
+  end
 end

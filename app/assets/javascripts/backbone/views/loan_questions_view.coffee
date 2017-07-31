@@ -10,6 +10,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       dragAndDrop: true
       selectable: false
       useContextMenu: false
+      saveState: true
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
             .addClass("filterable #{node.fieldset} #{node.status}")
@@ -47,7 +48,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # Use current value of override parent to determine if loan types are shown
     @$('[name="loan_question[override_associations]"]').trigger('change')
 
-
   createNode: (e) ->
     $form = @$(e.target).closest('form')
 
@@ -74,8 +74,9 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
-      # Update node on page with data returned from server
-      @tree.tree('updateNode', node, response)
+      # Update tree with data returned from server
+      # Remember the state of which nodes are expanded (subtrees)
+      @tree.tree('loadData', response)
       @$('#edit-modal').modal('hide')
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
@@ -94,8 +95,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       relation: e.move_info.position # before, after, or inside
 
     $.post("/admin/loan_questions/#{id}/move", data)
-    .done =>
-      e.move_info.do_move()
+    .done (response) =>
+      @tree.tree('loadData', response)
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
@@ -113,8 +114,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     node = @tree.tree('getNodeById', id)
 
     $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
-    .done =>
-      @tree.tree('removeNode', node)
+    .done (response) =>
+      @tree.tree('loadData', response)
       @filterSwitchView.filterInit()
       @addNewItemBlocks()
     .fail (response) ->
@@ -143,6 +144,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   requiredLoanTypesHTML: (node) ->
     # For each loan type required, add a conatiner with its label
-    node.required_loan_types.map (loan_type) ->
-      "<div class='loan-type-required'>#{loan_type}</div>"
-    .join ' '
+    "<div class='loan-types'>" +
+      node.required_loan_types.map (loan_type) ->
+        "<div class='loan-type-required'>#{loan_type}</div>"
+      .join(' ') +
+      "</div>"
