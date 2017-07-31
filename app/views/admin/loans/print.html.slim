@@ -14,6 +14,7 @@ section data-container="loan"
 
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
+      = render "admin/loans/questionnaires/page_header"
       h2 = t('loan.criteria')
 
       - if @loan.criteria
