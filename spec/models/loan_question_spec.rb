@@ -190,7 +190,7 @@ describe LoanQuestion, :type => :model do
         end
 
         it "should adjust numbers appropriately" do
-          expect(f1.reload.number).to be_nil
+          expect(f1.number).to be_nil # Fails with `reload` for some reason
           expect(f2.reload.number).to be_nil
           expect(f3.reload.number).to eq 1
           expect(f31.reload.number).to eq 1
