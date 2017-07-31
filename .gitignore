@@ -21,6 +21,7 @@ config/database.yml
 .DS_Store
 .idea
 .tags
+scratch.*
 *.scratch
 *.swp
 *.swo
