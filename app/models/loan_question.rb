@@ -191,7 +191,7 @@ class LoanQuestion < ActiveRecord::Base
       nil
     elsif parent.root?
       number.to_s
-    else
+    elsif parent.full_number
       "#{parent.full_number}.#{number}"
     end
   end
