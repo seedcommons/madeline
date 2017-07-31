@@ -69,8 +69,7 @@ class LoanQuestion < ActiveRecord::Base
 
   after_save :ensure_internal_name
 
-  before_save :nullify_number, if: -> { status_changed? && status != 'active' }
-  before_save { @old_parent_id = parent_id_changed? ? parent_id_was : nil }
+  before_save :prepare_numbers
   after_commit :set_numbers
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
@@ -218,8 +217,9 @@ class LoanQuestion < ActiveRecord::Base
 
   private
 
-  def nullify_number
-    self.number = nil
+  def prepare_numbers
+    self.number = nil if status_changed? && status != 'active'
+    @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
   end
 
