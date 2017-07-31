@@ -34,7 +34,7 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   end
 
   def name
-    object.label.to_s
+    object.full_number_and_label
   end
 
   # jqtree expects children in a `children` key

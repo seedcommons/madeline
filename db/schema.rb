@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626230135) do
+ActiveRecord::Schema.define(version: 20170726202231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 20170626230135) do
     t.string   "internal_name"
     t.integer  "loan_question_set_id"
     t.integer  "migration_position"
+    t.integer  "number"
     t.boolean  "override_associations", default: false, null: false
     t.integer  "parent_id"
     t.integer  "position"
