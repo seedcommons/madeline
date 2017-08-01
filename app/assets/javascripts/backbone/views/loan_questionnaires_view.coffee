@@ -19,6 +19,10 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
     @$(e.node.element).find('[data-tree-expand-listener]').trigger('tree.expanded')
+    $('.answer-wrapper textarea')
+    .on 'change keyup keypress keydown paste cut clear', ->
+      $(this).height(0).height @scrollHeight
+    .change()
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
