@@ -19,10 +19,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
     @$(e.node.element).find('[data-tree-expand-listener]').trigger('tree.expanded')
-    $('.answer-wrapper textarea')
-    .on 'change keyup keypress keydown paste cut clear', ->
-      $(this).height(0).height @scrollHeight
-    .change()
+    @flexibleTextArea()
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
@@ -90,10 +87,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   editDocument: (e) ->
     # Fire a global event. Consider refactoring this in the style of notifyExpandListeners above.
     Backbone.trigger 'LoanQuestionnairesView:edit', @
-    $('.answer-wrapper textarea')
-      .on 'change keyup keypress keydown paste cut clear', ->
-        $(this).height(0).height @scrollHeight
-      .change()
+    @flexibleTextArea()
 
   # Sets up the dirtyForm plugin on the questionnaire form.
   # We need to do this on a focus event because the form is not always visible when the page loads,
@@ -101,3 +95,9 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   # form is visible. Also, calling .dirtyForms() on each focus event doesn't seem to cause any issues.
   setupDirtyForm: (e) ->
     @$('.questionnaire-form form').dirtyForms()
+
+  flexibleTextArea: (e) ->
+    $('.answer-wrapper textarea')
+    .on 'change keyup keypress keydown paste cut clear', ->
+      $(this).height(0).height @scrollHeight
+    .change()
