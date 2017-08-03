@@ -42,12 +42,15 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    I18n.locale = params[:locale] || locale_from_header || I18n.default_locale
+    # binding.pry
+    return I18n.locale = params[:locale] if params[:locale]
+    return I18n.locale = locale_from_header if I18n.available_locales.include?(locale_from_header)
+    I18n.locale = I18n.default_locale
   end
 
   def locale_from_header
     if !Rails.env.test? && (lang_header = request.env['HTTP_ACCEPT_LANGUAGE'])
-      lang_header.scan(/^[a-z]{2}/).first
+      lang_header.scan(/^[a-z]{2}/).first.to_sym
     end
   end
 end
