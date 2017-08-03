@@ -84,7 +84,7 @@ Rails.application.configure do
     port: 587,
     domain: 'theworkingworld.org',
     user_name: 'madeline@theworkingworld.org',
-    password: 'w^9srUKPwq',
+    password: ENV.fetch('MADELINE_EMAIL_PASSWORD'),
     authentication: 'plain',
     enable_starttls_auto: true,
   }
