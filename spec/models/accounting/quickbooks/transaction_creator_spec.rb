@@ -32,7 +32,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
 
   subject do
-    creator.add_disbursement transaction
+    creator.create_in_qb transaction
   end
 
   before do
