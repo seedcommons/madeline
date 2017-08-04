@@ -14,7 +14,7 @@ module Accounting
       # Specifically, creates and returns a QB journal entry with two line items:
       # - a debit from the division's principal account
       # - a credit to the account specified in the transaction
-      def add_disbursement(transaction)
+      def create_in_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
