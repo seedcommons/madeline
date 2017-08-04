@@ -53,7 +53,11 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, :js => true) do
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, clean_with_truncation: true) do
     DatabaseCleaner.strategy = :truncation
   end
 
@@ -99,6 +103,14 @@ RSpec.configure do |config|
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
   config.include FactorySpecHelpers
+
+  Capybara.register_driver :poltergeist do |app|
+    # Increase timeout to allow for potentially long-running asset precompile on first request.
+    # cf. https://github.com/teampoltergeist/poltergeist/issues/677#issuecomment-249303507
+    # As of 7/31/2017 on Travis this first request (i.e. the first JS-enabled feature spec) to run
+    # was taking over 30 seconds.
+    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+  end
 
   Capybara.javascript_driver = :poltergeist
 end

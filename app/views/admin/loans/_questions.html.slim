@@ -33,7 +33,8 @@ section.questionnaires
             = t(".delete")
 
       h2 = t("loan.#{@attrib}")
-      = render "admin/loans/questionnaires/questionnaire_form", response_set: @response_set, attrib: @attrib
+      = render partial: "admin/loans/questionnaires/questionnaire_form",
+               locals: {response_set: @response_set, attrib: @attrib}
 
 javascript:
   $(function() {

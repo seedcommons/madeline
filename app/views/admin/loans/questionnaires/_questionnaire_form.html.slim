@@ -1,4 +1,6 @@
 .questionnaire-form
+  / We manually specify the form URL here because we need to pass the filter QS param
+  / in case the form validation fails and the LoanResponseSetsController has to render.
   = simple_form_for([:admin, response_set],
       html: { \
         class: 'form-horizontal',
@@ -9,12 +11,14 @@
       },
     ) do |f|
 
+    = hidden_field_tag :filter, attrib
+
     = error_notification(f)
     
     - if @conflict
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes_html', 
-            link: admin_loan_tab_path(@loan, tab: 'questions', filter: @response_set.kind),
+            link: admin_loan_tab_path(@loan, tab: 'questions', filter: response_set.kind),
             updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
             updated_at: l(@response_set_from_db[:updated_at], format: :long))
         / `new_lock_version` is the lock_version of the updated record in the db. This is here in
