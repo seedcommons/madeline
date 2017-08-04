@@ -6,7 +6,8 @@ class NotificationMailer < ApplicationMailer
   #   en.notification_mailer.new_log.subject
   #
 
-  def from_address(log)
+  def reply_to_address(log)
+    # added check because some of the agents don't have emails
     if log.agent.email.present?
       %Q("#{log.agent.name} <#{log.agent.email}>")
     else
@@ -17,7 +18,7 @@ class NotificationMailer < ApplicationMailer
   def new_log(log, user)
     @log = log
     mail(to: user.email,
-         from: from_address(log) ,
+         reply_to: reply_to_address(log),
          subject: I18n.t('notification_mailer.new_log.subject', project: log.project.display_name)
     )
   end
