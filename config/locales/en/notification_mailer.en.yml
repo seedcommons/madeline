@@ -3,4 +3,4 @@ en:
     new_log:
       subject: "[Madeline] New log on %{project}"
       created: "A new log has been created on %{project} by %{agent}"
-      contact: Reply to this email to contact the author of the log.
+      contact: "Reply to this email to contact the author of the log."
