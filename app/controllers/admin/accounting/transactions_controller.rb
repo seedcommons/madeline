@@ -21,7 +21,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
         journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
       else
         creator = ::Accounting::Quickbooks::TransactionCreator.new
-        journal_entry = creator.add_disbursement @transaction
+        journal_entry = creator.create_in_qb @transaction
       end
 
       # It's important we store the ID and type of the QB journal entry we just created
