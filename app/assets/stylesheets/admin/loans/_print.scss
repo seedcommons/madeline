@@ -42,16 +42,16 @@
     display: none;
   }
 
+  $canvas-width: 9.25in;
+
   .business-model-canvas-wrapper {
-    page-break-before: always;
-    page-break-after: always;
-    height: 10in;
+    height: $canvas-width;
     width: 7.5in;
     overflow: hidden;
   }
 
   .business-model-canvas {
-    width: 10in;
+    width: $canvas-width;
     display: inline-block;
 
     -ms-transform: translate(7.5in,0) rotate(90deg);
