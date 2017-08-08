@@ -35,6 +35,8 @@ en:
         accent_fg_color: "Accent FG Text Color"
         connection_status: "QuickBooks Status"
         connect: "Connect to QuickBooks"
+        last_updated_at: "Last Updated At"
+        full_sync: "Full Sync"
         disconnect: "Disconnect from QuickBooks"
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
