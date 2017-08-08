@@ -35,12 +35,16 @@
 #
 
 class Accounting::Transaction < ActiveRecord::Base
+  include OptionSettable
+
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement)
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :currency
+
+  attr_option_settable :loan_transaction_type
 
   before_save :update_fields_from_quickbooks_data
 
