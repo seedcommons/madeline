@@ -4,7 +4,7 @@ class MS.Views.TransactionModalView extends Backbone.View
   events:
     'click .btn-primary': 'submitForm'
     'ajax:complete form': 'submitComplete'
-    'change #accounting_transaction_loan_transaction_type': 'setDescription'
+    'change #accounting_transaction_loan_transaction_type_value': 'setDescription'
 
   initialize: (params) ->
     @loanId = params.loanId

@@ -2,21 +2,21 @@
 #
 # Table name: accounting_transactions
 #
-#  accounting_account_id :integer
-#  amount                :decimal(, )
-#  created_at            :datetime         not null
-#  currency_id           :integer
-#  description           :string
-#  id                    :integer          not null, primary key
-#  loan_transaction_type :string
-#  private_note          :string
-#  project_id            :integer
-#  qb_id                 :string           not null
-#  qb_transaction_type   :string           not null
-#  quickbooks_data       :json
-#  total                 :decimal(, )
-#  txn_date              :date
-#  updated_at            :datetime         not null
+#  accounting_account_id       :integer
+#  amount                      :decimal(, )
+#  created_at                  :datetime         not null
+#  currency_id                 :integer
+#  description                 :string
+#  id                          :integer          not null, primary key
+#  loan_transaction_type_value :string
+#  private_note                :string
+#  project_id                  :integer
+#  qb_id                       :string           not null
+#  qb_transaction_type         :string           not null
+#  quickbooks_data             :json
+#  total                       :decimal(, )
+#  txn_date                    :date
+#  updated_at                  :datetime         not null
 #
 # Indexes
 #
@@ -48,7 +48,7 @@ class Accounting::Transaction < ActiveRecord::Base
 
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
+  validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id

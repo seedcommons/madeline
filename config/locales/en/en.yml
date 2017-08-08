@@ -172,14 +172,14 @@ en:
         account: "Bank Account"
         amount: "Amount"
         description: "Description"
-        loan_transaction_type: "Type of Transaction"
+        loan_transaction_type_value: "Type of Transaction"
         private_note: "Memo"
         txn_date: "Date"
       timeline_step_move:
         move_type: "Which Date?"
     options:
       accounting_transaction:
-        loan_transaction_type:
+        loan_transaction_type_value:
           disbursement: "Disbursement"
           repayment: "Repayment"
       person:
