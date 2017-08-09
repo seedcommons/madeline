@@ -82,8 +82,8 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    domain: 'theworkingworld.org',
-    user_name: 'madeline@theworkingworld.org',
+    domain: ENV.fetch('MADELINE_DOMAIN'),
+    user_name: ENV.fetch('MADELINE_EMAIL_FROM'),
     password: ENV.fetch('MADELINE_EMAIL_PASSWORD'),
     authentication: 'plain',
     enable_starttls_auto: true,
