@@ -133,6 +133,7 @@ class Admin::LoansController < Admin::ProjectsController
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
+    @tab ||= 'details'
   end
 
   def representative_choices
