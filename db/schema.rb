@@ -11,9 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170726202231) do
+ActiveRecord::Schema.define(version: 20170809054542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "accounting_accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -48,7 +49,7 @@ ActiveRecord::Schema.define(version: 20170726202231) do
     t.string   "loan_transaction_type"
     t.string   "private_note"
     t.integer  "project_id"
-    t.string   "qb_id", null: false
+    t.string   "qb_id"
     t.string   "qb_transaction_type", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"
@@ -59,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170726202231) do
   add_index "accounting_transactions", ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id", using: :btree
   add_index "accounting_transactions", ["currency_id"], name: "index_accounting_transactions_on_currency_id", using: :btree
   add_index "accounting_transactions", ["project_id"], name: "index_accounting_transactions_on_project_id", using: :btree
-  add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
+  add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype__unq_idx", unique: true, using: :btree
   add_index "accounting_transactions", ["qb_id"], name: "index_accounting_transactions_on_qb_id", using: :btree
   add_index "accounting_transactions", ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type", using: :btree
 

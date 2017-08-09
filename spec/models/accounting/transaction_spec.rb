@@ -76,4 +76,70 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(subject.project_id).to eq loan.id
     end
   end
+
+  context 'when disbursement transaction' do
+    let(:transaction_type) { 'disbursement' }
+
+    context 'without qb_id' do
+      it 'can save without amount' do
+        params = {
+          amount: nil,
+          txn_date: '2017-10-31',
+          private_note: 'a memo',
+          description: 'desc',
+          project_id: loan.id,
+          qb_transaction_type: transaction_type,
+          qb_id: nil
+        }
+        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+    context 'with qb_id' do
+      it 'requires an amount to save' do
+        params = {
+          amount: nil,
+          txn_date: '2017-10-31',
+          private_note: 'a memo',
+          description: 'desc',
+          project_id: loan.id,
+          qb_transaction_type: transaction_type,
+          qb_id: 123
+        }
+        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
+
+  context 'when interest transaction' do
+    let(:transaction_type) { 'interest' }
+
+    context 'without qb_id' do
+      it 'can save without amount' do
+        params = {
+          amount: nil,
+          txn_date: '2017-10-31',
+          private_note: 'a memo',
+          description: 'desc',
+          project_id: loan.id,
+          qb_transaction_type: transaction_type,
+          qb_id: nil
+        }
+        expect { create(:accounting_transaction, params) }.not_to raise_error
+      end
+    end
+    context 'with qb_id' do
+      it 'requires an amount to save' do
+        params = {
+          amount: nil,
+          txn_date: '2017-10-31',
+          private_note: 'a memo',
+          description: 'desc',
+          project_id: loan.id,
+          qb_transaction_type: transaction_type,
+          qb_id: 123
+        }
+        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
 end

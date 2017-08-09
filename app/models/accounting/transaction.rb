@@ -11,7 +11,7 @@
 #  loan_transaction_type :string
 #  private_note          :string
 #  project_id            :integer
-#  qb_id                 :string           not null
+#  qb_id                 :string
 #  qb_transaction_type   :string           not null
 #  quickbooks_data       :json
 #  total                 :decimal(, )
@@ -20,7 +20,7 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype__unq_idx                          (qb_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
 #  index_accounting_transactions_on_currency_id            (currency_id)
 #  index_accounting_transactions_on_project_id             (project_id)
@@ -37,6 +37,7 @@
 class Accounting::Transaction < ActiveRecord::Base
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
   LOAN_TRANSACTION_TYPES = %i(disbursement)
+  LOAN_INTEREST_TYPE = 'interest'
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
@@ -44,7 +45,8 @@ class Accounting::Transaction < ActiveRecord::Base
 
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
+  validates :loan_transaction_type, :txn_date, :accounting_account_id, presence: true
+  validates :amount, presence: true, unless: -> { qb_id.blank? && qb_transaction_type == LOAN_INTEREST_TYPE }
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
