@@ -50,6 +50,12 @@ class Accounting::Transaction < ActiveRecord::Base
 
   validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
 
+  scope :standard_order, -> {
+    joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
+      AND options.value = accounting_transactions.loan_transaction_type_value").
+    order(:txn_date, "options.position", :created_at)
+  }
+
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.quickbooks_data = qb_object.as_json
