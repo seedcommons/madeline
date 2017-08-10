@@ -77,68 +77,55 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
-  context 'when disbursement transaction' do
-    let(:transaction_type) { 'disbursement' }
+  describe 'qb_id' do
+    let(:transaction_params) do
+      {
+        amount: nil,
+        txn_date: '2017-10-31',
+        private_note: 'a memo',
+        description: 'desc',
+        project_id: loan.id,
+        qb_transaction_type: transaction_type
+      }
+    end
 
-    context 'without qb_id' do
-      it 'can save without amount' do
-        params = {
-          amount: nil,
-          txn_date: '2017-10-31',
-          private_note: 'a memo',
-          description: 'desc',
-          project_id: loan.id,
-          qb_transaction_type: transaction_type,
-          qb_id: nil
-        }
-        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
+    context 'when disbursement transaction' do
+      let(:transaction_type) { 'disbursement' }
+
+      context 'without qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context 'with qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
       end
     end
-    context 'with qb_id' do
-      it 'requires an amount to save' do
-        params = {
-          amount: nil,
-          txn_date: '2017-10-31',
-          private_note: 'a memo',
-          description: 'desc',
-          project_id: loan.id,
-          qb_transaction_type: transaction_type,
-          qb_id: 123
-        }
-        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-  end
 
-  context 'when interest transaction' do
-    let(:transaction_type) { 'interest' }
+    context 'when interest transaction' do
+      let(:transaction_type) { 'interest' }
 
-    context 'without qb_id' do
-      it 'can save without amount' do
-        params = {
-          amount: nil,
-          txn_date: '2017-10-31',
-          private_note: 'a memo',
-          description: 'desc',
-          project_id: loan.id,
-          qb_transaction_type: transaction_type,
-          qb_id: nil
-        }
-        expect { create(:accounting_transaction, params) }.not_to raise_error
+      context 'without qb_id' do
+        it 'can save without amount' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.not_to raise_error
+        end
       end
-    end
-    context 'with qb_id' do
-      it 'requires an amount to save' do
-        params = {
-          amount: nil,
-          txn_date: '2017-10-31',
-          private_note: 'a memo',
-          description: 'desc',
-          project_id: loan.id,
-          qb_transaction_type: transaction_type,
-          qb_id: 123
-        }
-        expect { create(:accounting_transaction, params) }.to raise_error(ActiveRecord::RecordInvalid)
+
+      context 'with qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
       end
     end
   end

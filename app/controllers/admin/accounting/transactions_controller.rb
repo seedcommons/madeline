@@ -31,9 +31,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
       # Create blank interest transaction. The interest calculator will pick this up and
       # calculate the value, and sync it to quickbooks.
-      interest_transaction = ::Accounting::Transaction.find_or_initialize_by(transaction_interest_params
+      interest_transaction = ::Accounting::Transaction.find_or_create_by!(transaction_params.except(:amount)
         .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE))
-      interest_transaction.save!
 
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
@@ -42,7 +41,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       # But we do want to display the error if the QB API blows up.
       if ex.is_a?(ActiveRecord::RecordInvalid)
         # Only raise error if we had a problem saving the interest transaction
-        raise ex if @transaction.valid?
+        raise ex if ex.record == interest_transaction
       elsif ex.class.name.include?('Quickbooks::')
         @transaction.errors.add(:base, ex.message)
       else
@@ -59,11 +58,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def transaction_params
     params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
       :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type)
-  end
-
-  def transaction_interest_params
-    params.require(:accounting_transaction).permit(:project_id, :account_id,
-      :accounting_account_id, :txn_date, :loan_transaction_type)
   end
 
   def render_modal_partial(status: 200)
