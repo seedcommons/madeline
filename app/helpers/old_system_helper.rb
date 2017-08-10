@@ -39,6 +39,7 @@ module OldSystemHelper
   #  "loan[amount]"=>#<BigDecimal:7feb498d5658,'0.1E5',9(18)>,
   #  "loan[currency_id]"=>2 ... }
   def to_query_values(object)
+    return {} if !object
     allowed_attribs = object.attributes.select do |_key, value|
       [Fixnum, String, BigDecimal, Date].any? { |type| value.is_a?(type) }
     end

@@ -22,4 +22,7 @@ class ProjectStepPolicy < ApplicationPolicy
     update?
   end
 
+  def edit_finalized_dates?
+    division_admin
+  end
 end
