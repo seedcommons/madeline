@@ -1,4 +1,4 @@
-A new log has been created on <%= @log.project.display_name %> by <%= @log.agent.name %>:
+<%= t('notification_mailer.new_log.created', project: @log.project.display_name, agent: @log.agent.name) %>:
 
 <%= t :step %>: <%= @log.project_step.summary %>
 
@@ -23,3 +23,5 @@ A new log has been created on <%= @log.project.display_name %> by <%= @log.agent
 <% end -%>
 
 <%= admin_loan_url(@log.project) %>/timeline
+
+<%= t('notification_mailer.new_log.contact') %>
