@@ -42,6 +42,8 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :currency
 
+  has_many :line_items, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
+
   before_save :update_fields_from_quickbooks_data
 
   validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true

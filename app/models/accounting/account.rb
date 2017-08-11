@@ -20,6 +20,7 @@ class Accounting::Account < ActiveRecord::Base
   belongs_to :project
 
   has_many :transactions, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
+  has_many :line_items, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     account = find_or_initialize_by qb_id: qb_object.id
