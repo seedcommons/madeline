@@ -164,7 +164,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     # If schedule_parent_id is set, scheduled_start_date should be ignored.
     permitted.delete(:scheduled_start_date) if permitted[:schedule_parent_id].present?
 
-    unless policy(@step).edit_finalized_dates?
+    unless (@step && policy(@step).edit_finalized_dates?)
       [:old_start_date, :old_duration_days].each { |k| permitted.delete(k) }
     end
 

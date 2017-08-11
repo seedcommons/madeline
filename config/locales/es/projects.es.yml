@@ -8,5 +8,5 @@ es:
       active_without_signed_contract: "No se adjuntó ningún contrato"
       active_without_recent_logs: "Sin logs desde hace más de un mes"
       late_steps: "Paso atrasado e incompleto por más de un día "
-      incomplete_loan_questions: "Se han respondido menos del 80% oe las preguntas requeridas"
+      incomplete_loan_questions: "Se han respondido menos del 80% de las preguntas requeridas"
       sporadic_loan_updates: "Menos de un paso por mes"

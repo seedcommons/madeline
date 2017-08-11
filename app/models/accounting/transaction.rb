@@ -36,7 +36,7 @@
 
 class Accounting::Transaction < ActiveRecord::Base
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
-  LOAN_TRANSACTION_TYPES = %i(disbursement)
+  LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
