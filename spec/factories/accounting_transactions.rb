@@ -5,7 +5,7 @@ FactoryGirl.define do
     # qb_transaction_type { Accounting::Transaction::QB_TRANSACTION_TYPES.sample }
     qb_transaction_type 'JournalEntry'
     quickbooks_data { {} }
-    loan_transaction_type %w(disbursement repayment).sample
+    loan_transaction_type_value %w(interest disbursement repayment).sample
     txn_date { Faker::Date.between(30.days.ago, Date.today) }
     amount { Faker::Number.decimal(4, 2) }
     account

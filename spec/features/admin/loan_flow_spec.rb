@@ -18,11 +18,7 @@ feature 'loan flow' do
     let(:loan) { create(:loan, :with_timeline, division: division) }
 
     before do
-      # TODO: Shouldn't have to do this here. Refactor.
-      step_type = OptionSet.create(division: Division.root, model_type: ProjectStep.name,
-        model_attribute: 'step_type')
-      step_type.options.create(value: 'checkin', label_translations: {en: 'Check-in', es: 'Paso'})
-      step_type.options.create(value: 'milestone', label_translations: {en: 'Milestone', es: 'Hito'})
+      OptionSetCreator.new.create_step_type
     end
 
     scenario "works", js: true do

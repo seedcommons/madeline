@@ -29,6 +29,10 @@ feature 'transaction flow' do
     let!(:loan) { create(:loan) }
     let!(:accounts) { create_list(:accounting_account, 2) }
 
+    before do
+      OptionSetCreator.new.create_loan_transaction_type
+    end
+
     # This spec does not test TransactionCreator at all because stubbing out
     # all the necessary things was not practical at the time.
     # Eventually we should refactor the Quickbooks code such that stubbing is easier.

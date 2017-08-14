@@ -76,4 +76,50 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(subject.project_id).to eq loan.id
     end
   end
+
+  describe '.standard_order' do
+    let!(:txn_1) do
+      create(:accounting_transaction,
+        txn_date: Date.today,
+        loan_transaction_type_value: 'repayment',
+        created_at: Time.now - 1.minutes
+      )
+    end
+    let!(:txn_2) do
+      create(:accounting_transaction,
+        txn_date: Date.today,
+        loan_transaction_type_value: 'disbursement',
+        created_at: Time.now - 2.minutes
+      )
+    end
+    let!(:txn_3) do
+      create(:accounting_transaction,
+        txn_date: Date.today - 3,
+        loan_transaction_type_value: 'disbursement',
+        created_at: Time.now - 3.minutes
+      )
+    end
+    let!(:txn_4) do
+      create(:accounting_transaction,
+        txn_date: Date.today - 3,
+        loan_transaction_type_value: 'interest',
+        created_at: Time.now - 10.minutes
+      )
+    end
+    let!(:txn_5) do
+      create(:accounting_transaction,
+        txn_date: Date.today - 3,
+        loan_transaction_type_value: 'interest',
+        created_at: Time.now - 5.minutes
+      )
+    end
+
+    before do
+      OptionSetCreator.new.create_loan_transaction_type
+    end
+
+    it 'returns in the right order' do
+      expect(Accounting::Transaction.standard_order).to eq([txn_4, txn_5, txn_3, txn_2, txn_1])
+    end
+  end
 end

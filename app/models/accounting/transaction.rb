@@ -2,21 +2,21 @@
 #
 # Table name: accounting_transactions
 #
-#  accounting_account_id :integer
-#  amount                :decimal(, )
-#  created_at            :datetime         not null
-#  currency_id           :integer
-#  description           :string
-#  id                    :integer          not null, primary key
-#  loan_transaction_type :string
-#  private_note          :string
-#  project_id            :integer
-#  qb_id                 :string           not null
-#  qb_transaction_type   :string           not null
-#  quickbooks_data       :json
-#  total                 :decimal(, )
-#  txn_date              :date
-#  updated_at            :datetime         not null
+#  accounting_account_id       :integer
+#  amount                      :decimal(, )
+#  created_at                  :datetime         not null
+#  currency_id                 :integer
+#  description                 :string
+#  id                          :integer          not null, primary key
+#  loan_transaction_type_value :string
+#  private_note                :string
+#  project_id                  :integer
+#  qb_id                       :string           not null
+#  qb_transaction_type         :string           not null
+#  quickbooks_data             :json
+#  total                       :decimal(, )
+#  txn_date                    :date
+#  updated_at                  :datetime         not null
 #
 # Indexes
 #
@@ -35,16 +35,28 @@
 #
 
 class Accounting::Transaction < ActiveRecord::Base
+  include OptionSettable
+
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
-  LOAN_TRANSACTION_TYPES = %i(disbursement)
+  AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :currency
 
+  attr_option_settable :loan_transaction_type
+  has_many :line_items, inverse_of: :accounting_transaction,
+    foreign_key: :accounting_transaction_id, dependent: :destroy
+
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type, :txn_date, :amount, :accounting_account_id, presence: true
+  validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
+
+  scope :standard_order, -> {
+    joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
+      AND options.value = accounting_transactions.loan_transaction_type_value").
+    order(:txn_date, "options.position", :created_at)
+  }
 
   def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
