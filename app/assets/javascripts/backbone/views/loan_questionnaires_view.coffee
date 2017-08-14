@@ -5,6 +5,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @initializeTree()
+    @adjustAllTextareas()
 
     @$('.breakeven-tables').map (index, breakeven) =>
       new MS.Views.BreakevenView(el: breakeven)
@@ -15,10 +16,17 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'click .edit-action': 'editDocument'
     'focus .questionnaire-form form': 'setupDirtyForm'
     'tree.open': 'notifyExpandListeners'
+    'change .answer-wrapper textarea': 'adjustTextArea'
+    'keyup .answer-wrapper textarea': 'adjustTextArea'
+    'keydown .answer-wrapper textarea': 'adjustTextArea'
+    'paste .answer-wrapper textarea': 'adjustTextArea'
+    'cut .answer-wrapper textarea': 'adjustTextArea'
+    'clear .answer-wrapper textarea': 'adjustTextArea'
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
     @$(e.node.element).find('[data-tree-expand-listener]').trigger('tree.expanded')
+    @adjustAllTextareas()
 
   removeLinkedDocument: (e) ->
     e.preventDefault()
@@ -86,6 +94,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   editDocument: (e) ->
     # Fire a global event. Consider refactoring this in the style of notifyExpandListeners above.
     Backbone.trigger 'LoanQuestionnairesView:edit', @
+    @adjustAllTextareas()
 
   # Sets up the dirtyForm plugin on the questionnaire form.
   # We need to do this on a focus event because the form is not always visible when the page loads,
@@ -93,3 +102,10 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   # form is visible. Also, calling .dirtyForms() on each focus event doesn't seem to cause any issues.
   setupDirtyForm: (e) ->
     @$('.questionnaire-form form').dirtyForms()
+
+  adjustTextArea: (e) ->
+    textarea = @$(e.target)
+    textarea.height(0).height(textarea[0].scrollHeight)
+
+  adjustAllTextareas: ->
+    @$('.answer-wrapper textarea').trigger('change')
