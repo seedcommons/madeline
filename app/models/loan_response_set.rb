@@ -33,14 +33,30 @@ class LoanResponseSet < ActiveRecord::Base
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
+  validate do
+    # iterate through all LoanResponses and set a :base error if any of them are invalid
+    errors.add(:base, 'Validation error') unless responses.all?(&:valid?)
+    # errors.add(:field_332, 'a field error')
+  end
+
   def loan_question_set
     @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
   end
+
+  # Spec: Create a question set with breakeven table, create a LoanResponse, assign a hash to custom_data, call valid? on
+  # the LoanResponse, expect to get the :base error, and expect to get appropriate error on breakeven table
+  # Also try creating a LoanResponse with acceptable content and make sure no errors on base or on LoanResponses.
 
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
     return [] if custom_data.blank?
     custom_data.values.map { |v| v["url"].presence }.compact
+  end
+
+  # Needed to satisfy the ProgressCalculable duck type.
+  # Returns the LoanResponses for the top level questions in the set.
+  def children
+    question(:root).children.map { |f| response(f) }
   end
 
   # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
@@ -74,18 +90,20 @@ class LoanResponseSet < ActiveRecord::Base
     true
   end
 
-  # Needed to satisfy the ProgressCalculable duck type.
-  # Returns the LoanResponses for the top level questions in the set.
-  def children
-    question(:root).children.map { |f| response(f) }
-  end
-
   # Fetches a custom value from the json field. `question_identifier` can be the same
   def response(question_identifier)
     field = question(question_identifier)
     raw_value = (custom_data || {})[field.json_key]
+    # Here, instead of just blindly creating a new one, check the hash first.
     LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
   end
+
+  # This seems like a wonkey way to do it. Is there a better way?
+  def responses
+    custom_data.keys.map{ |key| response(key.to_i) }
+  end
+
+  # DELETE everything from here down except tree_unanswered and see if specs still work and questionnaire still works.
 
   # Change/assign custom field value, but don't save.
   def set_response(question_identifier, value)
