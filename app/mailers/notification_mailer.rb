@@ -9,7 +9,7 @@ class NotificationMailer < ApplicationMailer
   def reply_to_address(log)
     # added check because some of the agents don't have emails
     if log.agent.email.present?
-      %Q("#{log.agent.name} <#{log.agent.email}>")
+      "#{log.agent.name} <#{log.agent.email}>"
     else
       ApplicationMailer.default[:from]
     end
