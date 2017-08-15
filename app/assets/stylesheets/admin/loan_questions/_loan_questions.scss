@@ -10,6 +10,8 @@
 
     .jqtree-title {
       flex-grow: 100;
+      min-width: 20%;
+      word-wrap: break-word;
     }
   }
 
@@ -19,7 +21,12 @@
     }
   }
 
+  .loan-types {
+    text-align: right;
+  }
+
   .loan-type-required {
+    display: inline-block;
     max-width: 8em;
     max-height: 2em;
     margin: 0 .2em 0 0;

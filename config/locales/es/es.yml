@@ -135,14 +135,17 @@ es:
         old_start_date: "Fecha de Inicio Original"
         scheduled_duration_days: "Duración Proyectada"
         scheduled_start_date: "Fecha Proyectada de Inicio"
+        scheduled_end_date: "Fecha Proyectada de Finalización"
         step_type_value: "Tipo"
       accounting:
         transaction:
+          amount: "Monto"
+          description: "Descripción"
+          private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
-          private_note: "Nota"
     errors:
       models:
         project_group:
@@ -160,9 +163,20 @@ es:
         accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
         accent_fg_color: "Color del texto encima del color de acento. El default es el color de primer plano del banner."
     labels:
+      accounting_transaction:
+        account: "Cuenta Bancaria"
+        amount: "Monto"
+        description: "Descripción"
+        loan_transaction_type_value: "Tipo de Transacción"
+        private_note: "Memo"
+        txn_date: "Fecha"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
     options:
+      accounting_transaction:
+        loan_transaction_type_value:
+          disbursement: "Desembolso"
+          repayment: "Devolución"
       person:
         owning_division_role:
           admin: "Admin"
@@ -283,9 +297,11 @@ es:
   print: "Imprimir"
   quickbooks:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
-    service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
+    class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de Quickbooks de tu negocio. "
     full_sync_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
+    not_connected_html: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en <a href="%{link}" target="_blank">la página de configuración  </a> .'
+    service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
@@ -296,6 +312,7 @@ es:
   update: "Actualizar"
   updated: "Actualizado"
   common:
+    add: "Agregar"
     add_language: "Agregar Idioma"
     address_state: "Estado"
     created: "Creado"
@@ -383,11 +400,11 @@ es:
     coops: "Cooperativas"
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
+    loans: "Préstamos"
     loan_questions: "Preguntas de Préstamos"
     manage: "Manejar"
     people: "Miembros"
     log: "Apunte"
-    loans: "Préstamos"
     logs: "Apuntes"
     settings: "Ajustes"
   number:

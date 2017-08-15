@@ -67,7 +67,7 @@ class Loan < Project
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :status, :loan_type, :public_level
 
-  validates :organization_id, presence: true
+  validates :organization, presence: true
 
   before_create :build_loan_health_check
   after_commit :recalculate_loan_health

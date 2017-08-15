@@ -13,6 +13,7 @@
 # Indexes
 #
 #  index_options_on_option_set_id  (option_set_id)
+#  index_options_on_value          (value)
 #
 # Foreign Keys
 #

@@ -8,7 +8,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
       a.show-action.form-element
         = t("cancel_edit")
     - else
-      a href=admin_organization_path(@loan) = t("cancel_edit")
+      a href=admin_loan_path(@loan) = t("cancel_edit")
     = link_to [:admin, @loan], method: :delete,
       data: { \
         confirm: t("loan.confirm_deletion"),
