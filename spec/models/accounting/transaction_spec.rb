@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Transaction, type: :model do
-  # subject { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
-  let(:loan) { create(:loan) }
-  let(:transaction) { create(:accounting_transaction) }
+  let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+  let(:transaction) { create(:accounting_transaction, project: loan) }
   let(:quickbooks_data) do
     { 'line_items' =>
      [{ 'id' => '0',
