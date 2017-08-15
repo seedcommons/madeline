@@ -53,7 +53,6 @@ class Accounting::Transaction < ActiveRecord::Base
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
   before_save :update_fields_from_quickbooks_data
-  after_save :calculate_loan_amounts
 
   validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
 
@@ -67,14 +66,6 @@ class Accounting::Transaction < ActiveRecord::Base
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.quickbooks_data = qb_object.as_json
     transaction.save!(validate: false)
-  end
-
-  def self.by_date
-    order(txn_date: :asc)
-  end
-
-  def self.previous(loan_id)
-    where('txn_date <= ? AND project_id = ?', Date.today, loan_id).by_date.last(2).first
   end
 
   def quickbooks_data
@@ -122,29 +113,6 @@ class Accounting::Transaction < ActiveRecord::Base
       Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
     elsif project
       project.currency_id
-    end
-  end
-
-  def calculate_loan_amounts
-    loan_id = self.project_id
-
-    if self.loan_transaction_type == 'disbursement'
-      self.update_column(:change_in_principal, amount)
-    end
-
-    if amount <= interest_balance
-      self.change_in_interest =- amount
-      self.update_column(:change_in_interest, change_in_interest)
-    elsif amount > interest_balance
-      self.change_in_interest =- interest_balance
-      self.update_column(:change_in_interest, change_in_interest)
-      self.change_in_principal =- (interest_balance - amount)
-      self.update_column(:change_in_principal, change_in_principal)
-    end
-
-    if self.class.previous(loan_id)
-      self.interest_balance = self.class.previous(loan_id).interest_balance + change_in_interest
-      self.update_column(:interest_balance, interest_balance)
     end
   end
 end
