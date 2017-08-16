@@ -11,7 +11,6 @@
 class LoanQuestionSet < ActiveRecord::Base
   include Translatable
 
-  belongs_to :division
   has_closure_tree_root :root_group, class_name: "LoanQuestion"
 
   attr_translatable :label
