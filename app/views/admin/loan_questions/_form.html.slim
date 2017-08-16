@@ -18,14 +18,15 @@
     = f.input :status, label: t("loan_questions.active"), as: :boolean, checked_value: 'active',
       unchecked_value: 'inactive'
 
+    = f.input "division", label: "Division", collection: current_user.accessible_divisions,
+      selected: @loan_question.division.id
+
     = f.input :data_type do
       = f.input_field :data_type, collection: @data_types
 
       table.table.allow-attachments: tbody: tr
         td = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
         td = f.label :has_embeddable_media
-
-    = f.input "division", label: "Division"
 
     = render "loan_types", f: f
 
