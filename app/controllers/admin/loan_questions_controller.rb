@@ -14,7 +14,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def new
     set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
-    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent)
+    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent,
+      division: current_division)
     authorize @loan_question
     @loan_question.build_complete_requirements
     render_form
