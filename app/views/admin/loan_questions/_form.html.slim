@@ -25,6 +25,8 @@
         td = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
         td = f.label :has_embeddable_media
 
+    = f.input "division", label: "Division"
+
     = render "loan_types", f: f
 
     = f.translatable_inputs do |l|
