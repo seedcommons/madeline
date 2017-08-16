@@ -4,7 +4,7 @@
 #
 #  created_at            :datetime         not null
 #  data_type             :string
-#  division_id           :string
+#  division_id           :integer          not null
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string

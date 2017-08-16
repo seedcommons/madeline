@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170816150506) do
+ActiveRecord::Schema.define(version: 20170816171303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -182,12 +182,9 @@ ActiveRecord::Schema.define(version: 20170816150506) do
 
   create_table "loan_question_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "division_id"
     t.string   "internal_name"
     t.datetime "updated_at", null: false
   end
-
-  add_index "loan_question_sets", ["division_id"], name: "index_loan_question_sets_on_division_id", using: :btree
 
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -465,7 +462,6 @@ ActiveRecord::Schema.define(version: 20170816150506) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
-  add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
