@@ -122,22 +122,24 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
-  # Create a tx with line items and test delta methods
-  # Test calculate_balances with prev_tx present and nil
-  # change_in_principal = sum of all line items debiting the principal account minus the sum of all line items crediting the principal account
-  # change_in_interest = sum of all line items debiting the interest receivable account minus the sum of all line items crediting the interest receivable account
-
   context 'with line items' do
-    # refactor when tests pass
     before do
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'debit', accounting_account_id: transaction.division.principal_account.id, amount: 1)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'debit', accounting_account_id: transaction.division.interest_receivable_account.id, amount: 2)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'debit', accounting_account_id: transaction.division.interest_income_account.id, amount: 1.5)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'debit', amount: 2.5)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'credit', accounting_account_id: transaction.division.principal_account.id, amount: 5)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'credit', accounting_account_id: transaction.division.interest_receivable_account.id, amount: 3)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'credit', accounting_account_id: transaction.division.interest_income_account.id, amount: 1)
-      create(:line_item, accounting_transaction_id: transaction.id, posting_type: 'credit', amount: 11)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
+        accounting_account: transaction.division.principal_account, amount: 1)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
+        accounting_account: transaction.division.interest_receivable_account, amount: 2)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
+        accounting_account: transaction.division.interest_income_account, amount: 1.5)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
+        amount: 2.5)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
+        accounting_account: transaction.division.principal_account, amount: 5)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
+        accounting_account: transaction.division.interest_receivable_account, amount: 3)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
+        accounting_account: transaction.division.interest_income_account, amount: 1)
+      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
+        amount: 11)
     end
 
     it 'calculates correctly' do
