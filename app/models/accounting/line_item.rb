@@ -24,6 +24,30 @@
 #
 
 class Accounting::LineItem < ActiveRecord::Base
-  belongs_to :accounting_transaction, class_name: 'Accounting::Transaction'
+  belongs_to :parent_transaction, class_name: 'Accounting::Transaction'
   belongs_to :accounting_account, class_name: 'Accounting::Account'
+
+  scope :debited_principal, -> (division) {
+    debits.where(accounting_account: division.principal_account)
+  }
+
+  scope :debited_interest_receivable, -> (division) {
+    debits.where(accounting_account: division.interest_receivable_account)
+  }
+
+  scope :credited_principal, -> (division) {
+    credits.where(accounting_account: division.principal_account)
+  }
+
+  scope :credited_interest_receivable, -> (division) {
+    credits.where(accounting_account: division.interest_receivable_account)
+  }
+
+  def self.debits
+    where(posting_type: "debit")
+  end
+
+  def self.credits
+    where(posting_type: "credit")
+  end
 end

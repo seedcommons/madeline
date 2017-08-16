@@ -47,12 +47,14 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
-  has_many :line_items, inverse_of: :accounting_transaction,
+  has_many :line_items, inverse_of: :parent_transaction,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
   before_save :update_fields_from_quickbooks_data
 
   validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
+
+  delegate :division, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -77,6 +79,20 @@ class Accounting::Transaction < ActiveRecord::Base
   def associate_with_qb_obj(qb_obj)
     self.qb_id = qb_obj.id
     self.qb_transaction_type = qb_obj.class.name.demodulize
+  end
+
+  def change_in_interest
+    debited_amt = line_items.debited_interest_receivable(division).sum(:amount)
+    credited_amt = line_items.credited_interest_receivable(division).sum(:amount)
+
+    debited_amt - credited_amt
+  end
+
+  def change_in_principal
+    debited_amt = line_items.debited_principal(division).sum(:amount)
+    credited_amt = line_items.credited_principal(division).sum(:amount)
+
+    debited_amt - credited_amt
   end
 
   def total_balance

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :accounting_line_item, class: 'Accounting::LineItem' do
+  factory :accounting_line_item, class: 'Accounting::LineItem', aliases: [:line_item] do
     qb_line_id 1
     association(:accounting_transaction)
     association(:accounting_account)
