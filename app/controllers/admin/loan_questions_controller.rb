@@ -84,7 +84,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # However, it should be abstracted somehow so it applies to all controllers.
     # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:loan_question).permit(
-      :label, :data_type, :parent_id, :position,
+      :label, :data_type, :division_id, :parent_id, :position,
       :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
