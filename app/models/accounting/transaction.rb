@@ -82,15 +82,15 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_interest
-    debited_amt = line_items.debited_interest_receivable(division).sum(:amount)
-    credited_amt = line_items.credited_interest_receivable(division).sum(:amount)
+    debited_amt = line_items.debits.where(account: division.interest_receivable_account).sum(:amount)
+    credited_amt = line_items.credits.where(account: division.interest_receivable_account).sum(:amount)
 
     debited_amt - credited_amt
   end
 
   def change_in_principal
-    debited_amt = line_items.debited_principal(division).sum(:amount)
-    credited_amt = line_items.credited_principal(division).sum(:amount)
+    debited_amt = line_items.debits.where(account: division.principal_account).sum(:amount)
+    credited_amt = line_items.credits.where(account: division.principal_account).sum(:amount)
 
     debited_amt - credited_amt
   end

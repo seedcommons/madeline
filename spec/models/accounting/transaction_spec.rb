@@ -124,21 +124,21 @@ RSpec.describe Accounting::Transaction, type: :model do
 
   context 'with line items' do
     before do
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
-        accounting_account: transaction.division.principal_account, amount: 1)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
-        accounting_account: transaction.division.interest_receivable_account, amount: 2)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
-        accounting_account: transaction.division.interest_income_account, amount: 1.5)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'debit',
+      create(:line_item, parent_transaction: transaction, posting_type: 'debit',
+        account: transaction.division.principal_account, amount: 1)
+      create(:line_item, parent_transaction: transaction, posting_type: 'debit',
+        account: transaction.division.interest_receivable_account, amount: 2)
+      create(:line_item, parent_transaction: transaction, posting_type: 'debit',
+        account: transaction.division.interest_income_account, amount: 1.5)
+      create(:line_item, parent_transaction: transaction, posting_type: 'debit',
         amount: 2.5)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
-        accounting_account: transaction.division.principal_account, amount: 5)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
-        accounting_account: transaction.division.interest_receivable_account, amount: 3)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
-        accounting_account: transaction.division.interest_income_account, amount: 1)
-      create(:line_item,accounting_transaction_id: transaction.id, posting_type: 'credit',
+      create(:line_item, parent_transaction: transaction, posting_type: 'credit',
+        account: transaction.division.principal_account, amount: 5)
+      create(:line_item, parent_transaction: transaction, posting_type: 'credit',
+        account: transaction.division.interest_receivable_account, amount: 3)
+      create(:line_item, parent_transaction: transaction, posting_type: 'credit',
+        account: transaction.division.interest_income_account, amount: 1)
+      create(:line_item, parent_transaction: transaction, posting_type: 'credit',
         amount: 11)
     end
 
