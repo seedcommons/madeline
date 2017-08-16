@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810192441) do
+ActiveRecord::Schema.define(version: 20170816142318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 20170810192441) do
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string   "data_type"
+    t.string   "division_id"
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "loan_question_set_id"
