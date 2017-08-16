@@ -4,6 +4,7 @@
 #
 #  created_at            :datetime         not null
 #  data_type             :string
+#  division_id           :string
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
@@ -63,7 +64,7 @@ class LoanQuestion < ActiveRecord::Base
   attr_translatable :label
   attr_translatable :explanation
 
-  delegate :division, :division=, to: :loan_question_set
+  # delegate :division, :division=, to: :loan_question_set
 
   validates :data_type, presence: true
 
