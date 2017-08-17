@@ -144,11 +144,11 @@ en:
       accounting:
         transaction:
           amount: "Amount"
-          capital_balance: "Capital Balance"
-          capital_returned: "Capital Returned"
+          change_in_interest: "Change in Interest"
+          change_in_principal: "Change in Principal"
           description: "Description"
           interest_balance: "Interest Balance"
-          interest_paid: "Interest Paid"
+          principal_balance: "Principal Balance"
           private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
