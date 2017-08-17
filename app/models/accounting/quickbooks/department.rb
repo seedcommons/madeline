@@ -40,6 +40,14 @@ module Accounting
         new_qb_department = service.create(qb_department)
 
         new_qb_department.id
+      rescue ::Quickbooks::IntuitRequestException => e
+        if e.message =~ /^Duplicate Name Exists Error/
+          id = service.query("select * from Department where Name = '#{division.name}'").first.id
+          raise e unless id
+          id
+        else
+          raise e
+        end
       end
     end
   end

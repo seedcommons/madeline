@@ -44,6 +44,14 @@ module Accounting
         new_qb_customer = service.create(qb_customer)
 
         new_qb_customer.id
+      rescue ::Quickbooks::IntuitRequestException => e
+        if e.message =~ /^Duplicate Name Exists Error/
+          id = service.query("select * from Customer where DisplayName = '#{normalized_name}'").first.id
+          raise e unless id
+          id
+        else
+          raise e
+        end
       end
     end
   end
