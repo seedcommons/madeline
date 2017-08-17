@@ -1,0 +1,3 @@
+class FilteredQuestion < SimpleDelegator
+
+end

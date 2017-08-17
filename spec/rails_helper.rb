@@ -103,6 +103,7 @@ RSpec.configure do |config|
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
   config.include FactorySpecHelpers
+  config.include ModelSpecHelpers, type: :model
 
   Capybara.register_driver :poltergeist do |app|
     # Increase timeout to allow for potentially long-running asset precompile on first request.
