@@ -99,6 +99,16 @@ class Accounting::Transaction < ActiveRecord::Base
     interest_balance + principal_balance
   end
 
+  def calculate_balances(prev_tx: nil)
+    if prev_tx.nil?
+      self.interest_balance = change_in_interest
+      self.principal_balance = change_in_principal
+    else
+      self.interest_balance = prev_tx.interest_balance + change_in_interest
+      self.principal_balance = prev_tx.principal_balance + change_in_principal
+    end
+  end
+
   private
 
   def update_fields_from_quickbooks_data

@@ -146,5 +146,21 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(transaction.reload.change_in_principal).to eq(-4)
       expect(transaction.reload.change_in_interest).to eq(-1)
     end
+
+    describe '#calculate_balances' do
+      it 'without previous transaction' do
+        transaction.calculate_balances
+        expect(transaction.interest_balance).to eq(-1)
+        expect(transaction.principal_balance).to eq(-4)
+      end
+
+      it 'with previous transaction' do
+        prev_tx = create(:accounting_transaction, interest_balance: 3, principal_balance: 5)
+
+        transaction.calculate_balances(prev_tx: prev_tx)
+        expect(transaction.interest_balance).to eq(2)
+        expect(transaction.principal_balance).to eq(1)
+      end
+    end
   end
 end
