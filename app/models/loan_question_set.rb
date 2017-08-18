@@ -36,7 +36,8 @@ class LoanQuestionSet < ActiveRecord::Base
       data_type: "group",
       internal_name: "root_#{id}",
       required: true,
-      position: 0
+      position: 0,
+      division: Division.root
     )
   end
 
