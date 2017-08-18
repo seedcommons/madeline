@@ -16,7 +16,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
             .addClass("filterable #{node.fieldset} #{node.status}")
             .find('.jqtree-element')
             .append(@requiredLoanTypesHTML(node))
-            .append($('.links-block').html())
+            .append("<span>#{node.can_edit}</span>")
+            .append(@permittedActionsHTML(node))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
 
@@ -149,3 +150,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         "<div class='loan-type-required'>#{loan_type}</div>"
       .join(' ') +
       "</div>"
+
+  permittedActionsHTML: (node) ->
+    if node.can_edit then "true" else "false"

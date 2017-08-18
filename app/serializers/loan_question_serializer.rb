@@ -26,10 +26,12 @@
 #
 
 class LoanQuestionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status,
+    :can_edit
 
   def initialize(*args, loan: nil, **options)
     @loan = loan
+    # @user = options.delete(:user)
     super(*args, options)
   end
 
@@ -59,5 +61,10 @@ class LoanQuestionSerializer < ActiveModel::Serializer
 
   def status
     object.status.presence || "active"
+  end
+
+  def can_edit
+    # Pundit.policy!(@user, object).edit?
+    true
   end
 end
