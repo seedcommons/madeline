@@ -142,6 +142,9 @@ group :development, :test do
   gem 'poltergeist', '~> 1.0'
   gem 'simplecov'
   gem 'quiet_assets'
+
+  # Dump data to Rails commands
+  gem 'seed_dump'
 end
 
 group :development do
