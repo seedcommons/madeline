@@ -152,4 +152,4 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       "</div>"
 
   permittedActionsHTML: (node) ->
-    if node.can_edit then "true" else "false"
+    if node.can_edit == "true" then "true" else "false"

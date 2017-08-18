@@ -30,8 +30,11 @@ class LoanQuestionSerializer < ActiveModel::Serializer
     :can_edit
 
   def initialize(*args, loan: nil, **options)
+    Rails.logger.debug("ARGS: #{args}")
+    Rails.logger.debug("OPTIONS: #{options}")
+    Rails.logger.debug("USER: #{options[:user]}")
     @loan = loan
-    # @user = options.delete(:user)
+    @user = options[:user]
     super(*args, options)
   end
 
@@ -64,7 +67,11 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   end
 
   def can_edit
-    # Pundit.policy!(@user, object).edit?
-    true
+    if @user
+      Rails.logger.debug("USER ID: #{@user.id}")
+      Pundit.policy!(@user, object).edit?
+    else
+      return false
+    end
   end
 end
