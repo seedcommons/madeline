@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :accounting_transaction, class: 'Accounting::Transaction', aliases: [:journal_entry_transaction] do
+  factory :accounting_transaction, class: 'Accounting::Transaction', aliases: [:journal_entry_transaction, :parent_transaction] do
     sequence(:qb_id)
     # All Madeline-related transactions are Journal Entries now
     # qb_transaction_type { Accounting::Transaction::QB_TRANSACTION_TYPES.sample }
