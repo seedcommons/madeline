@@ -148,13 +148,13 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
 
     describe '#calculate_balances' do
-      it 'without previous transaction' do
+      it 'works without previous transaction' do
         transaction.calculate_balances
         expect(transaction.interest_balance).to eq(-1)
         expect(transaction.principal_balance).to eq(-4)
       end
 
-      it 'with previous transaction' do
+      it 'works with previous transaction' do
         prev_tx = create(:accounting_transaction, interest_balance: 3, principal_balance: 5)
 
         transaction.calculate_balances(prev_tx: prev_tx)
