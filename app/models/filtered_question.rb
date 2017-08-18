@@ -3,9 +3,23 @@
 class FilteredQuestion < SimpleDelegator
   attr_accessor :loan
 
+  def self.decorate_collection(collection)
+    collection.map { |q| self.class.new(q, loan) }
+  end
+
   def initialize(question, loan)
     super(question)
     @loan = loan
+  end
+
+  def parent
+    return @parent if defined?(@parent)
+    @parent = object.parent.nil? ? nil : self.class.new(object.parent, loan)
+  end
+
+  # Returns child questions that are applicable to the given loan. Sorts by requiredness, then position.
+  def children
+    @children ||= decorated_children.select(&:visible?).sort_by(&:reqpos)
   end
 
   # Resolves if this particular question is considered required for the provided loan, based on
@@ -27,12 +41,29 @@ class FilteredQuestion < SimpleDelegator
     end
   end
 
-  def parent
-    return @parent if defined?(@parent)
-    @parent = object.parent.nil? ? nil : self.class.new(object.parent, loan)
+  def answered?
+    response_set && !response_set.tree_unanswered?(object)
   end
 
   private
+
+  def decorated_children
+    self.class.decorate_collection(object.children)
+  end
+
+  # Returns an array of the form [<required>, <position>] where required is 1 if question is required,
+  # 2 if not, and position is the questions position. Used for sorting.
+  def reqpos
+    @reqpos ||= [required? ? 1 : 2, position]
+  end
+
+  def visible?
+    status == 'active' || (status == 'inactive' && answered?)
+  end
+
+  def response_set
+    @response_set ||= loan.send(loan_question_set.kind)
+  end
 
   def object
     __getobj__

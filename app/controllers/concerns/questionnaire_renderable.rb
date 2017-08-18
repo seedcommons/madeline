@@ -4,9 +4,8 @@ module QuestionnaireRenderable
   def prep_questionnaire
     @attrib = params[:filter] || "criteria"
     @response_set ||= @loan.send(@attrib) || LoanResponseSet.new(kind: @attrib, loan: @loan)
-    @root = @response_set.loan_question_set.root_group_preloaded
-    @questions_json = @root.children_applicable_to(@loan).map do |i|
-      LoanQuestionSerializer.new(i, loan: @loan)
-    end.to_json
+    root = @response_set.loan_question_set.root_group_preloaded
+    @top_level_questions = QuestionDecorator.new(root, @loan).children
+    @questions_json = @top_level_questions.map { |q| LoanQuestionSerializer.new(q) }.to_json
   end
 end
