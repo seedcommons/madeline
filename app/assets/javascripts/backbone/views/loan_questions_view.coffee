@@ -19,6 +19,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
             .append(@permittedActionsHTML(node))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
+    @prepTooltips()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -158,3 +159,14 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       $('.links-block').html()
     else
       $('.actions-disabled-block').html()
+
+  prepTooltips: ->
+    @$('.ms-tooltip').each (index, tip) ->
+      message = "Not editable"
+
+      $(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: 'left'
+        toggle: 'popover'
+        trigger: 'manual'
