@@ -164,7 +164,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) ->
-      message = "Not editable"
+      message = I18n.t('loan_questions.not_editable')
 
       $(tip).addClass('ms-popover').popover
         content: message

@@ -9,6 +9,7 @@ en:
     explanation: "Explanation"
     manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
+    not_editable: "You are not authorized to change this question."
     text: "Title"
 
   linked_document:
