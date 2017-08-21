@@ -10,7 +10,6 @@ class Admin::LoanQuestionsController < Admin::AdminController
       sets.map { |s| s.root_group_preloaded.children_applicable_to(nil) }.flatten,
       {user: current_user}
     ).to_json
-    # logger.debug("QuestionsCtrlr Index: #{@json}")
   end
 
   def new

@@ -10,18 +10,18 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       dragAndDrop: true
       selectable: false
       onCanMove: (node) =>
-          if node.can_edit == true
-            return true
-          else
-            return false
+        if node.can_edit == true
+          return true
+        else
+          return false
       useContextMenu: false
       saveState: true
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
-            .addClass("filterable #{node.fieldset} #{node.status}")
-            .find('.jqtree-element')
-            .append(@requiredLoanTypesHTML(node))
-            .append(@permittedActionsHTML(node))
+          .addClass("filterable #{node.fieldset} #{node.status}")
+          .find('.jqtree-element')
+          .append(@requiredLoanTypesHTML(node))
+          .append(@permittedActionsHTML(node))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
     @prepTooltips()
@@ -157,9 +157,6 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       "</div>"
 
   permittedActionsHTML: (node) ->
-    # console.log(node)
-    # console.log(node.can_edit)
-
     if node.can_edit == true
       $('.links-block').html()
     else
