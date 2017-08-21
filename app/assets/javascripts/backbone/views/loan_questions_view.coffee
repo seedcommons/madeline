@@ -9,6 +9,11 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       data: @tree.data('data')
       dragAndDrop: true
       selectable: false
+      onCanMove: (node) =>
+          if node.can_edit == true
+            return true
+          else
+            return false
       useContextMenu: false
       saveState: true
       onCreateLi: (node, $li) =>
