@@ -65,9 +65,6 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
       expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
       expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
       expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
-
-      # QBO returns the newly created object, we need to return one here.
-      created_journal_entry
     end
     subject
   end
@@ -78,9 +75,6 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
-
-        # QBO returns the newly created object, we need to return one here.
-        created_journal_entry
       end
       subject
     end
@@ -89,20 +83,5 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   it 'creates JournalEntry with a reference to the existing loan' do
     expect(class_service).to receive(:find_by).with(:name, loan_id)
     subject
-  end
-
-
-  context 'and date is supplied' do
-    let(:date) { 3.days.ago.to_date }
-
-    it 'creates JournalEntry with date' do
-      expect(generic_service).to receive(:create) do |arg|
-        expect(arg.txn_date).to eq date
-
-        # QBO returns the newly created object, we need to return one here.
-        created_journal_entry
-      end
-      subject
-    end
   end
 end
