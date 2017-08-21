@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       member do
         get :questionnaires
         get :print
+        get :duplicate
       end
     end
     resources :loan_questions do
