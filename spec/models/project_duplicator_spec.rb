@@ -12,9 +12,21 @@ RSpec.describe ProjectDuplicator, type: :model do
       .to eq loan.attributes.except(*attribs_to_exclude)
   end
 
-  it 'name column is prepended with "Copy of"' do
-    new_loan = duplicator.duplicate
+  context 'with default name' do
+    let(:loan) { create(:loan, name: '') }
 
-    expect(new_loan.name) .to eq "Copy of #{loan.name}"
+    it 'name column is prepended with "Copy of"' do
+      new_loan = duplicator.duplicate
+
+      expect(new_loan.name) .to eq "Copy of #{loan.display_name}"
+    end
+  end
+
+  context 'with non-default name' do
+    it 'name column is prepended with "Copy of"' do
+      new_loan = duplicator.duplicate
+
+      expect(new_loan.name) .to eq "Copy of #{loan.name}"
+    end
   end
 end

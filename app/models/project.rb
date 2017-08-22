@@ -75,7 +75,7 @@ class Project < ActiveRecord::Base
     # The default name is computed, if it hasn't been set it will be blank.
     # We need to manually copy over the name and set it here for it to work.
     customize(lambda { |original, new|
-      new.name = "Copy of #{original.name}"
+      new.name = "Copy of #{original.display_name}"
     })
   end
 
