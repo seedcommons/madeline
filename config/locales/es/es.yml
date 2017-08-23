@@ -167,14 +167,14 @@ es:
         account: "Cuenta Bancaria"
         amount: "Monto"
         description: "Descripción"
-        loan_transaction_type: "Tipo de Transacción"
+        loan_transaction_type_value: "Tipo de Transacción"
         private_note: "Memo"
         txn_date: "Fecha"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
     options:
       accounting_transaction:
-        loan_transaction_type:
+        loan_transaction_type_value:
           disbursement: "Desembolso"
           repayment: "Devolución"
       person:

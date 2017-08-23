@@ -35,6 +35,8 @@ en:
         accent_fg_color: "Accent FG Text Color"
         connection_status: "QuickBooks Status"
         connect: "Connect to QuickBooks"
+        last_updated_at: "Last Updated At"
+        full_sync: "Full Sync"
         disconnect: "Disconnect from QuickBooks"
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
@@ -170,14 +172,14 @@ en:
         account: "Bank Account"
         amount: "Amount"
         description: "Description"
-        loan_transaction_type: "Type of Transaction"
+        loan_transaction_type_value: "Type of Transaction"
         private_note: "Memo"
         txn_date: "Date"
       timeline_step_move:
         move_type: "Which Date?"
     options:
       accounting_transaction:
-        loan_transaction_type:
+        loan_transaction_type_value:
           disbursement: "Disbursement"
           repayment: "Repayment"
       person:

@@ -44,7 +44,9 @@ module TransactionListable
   end
 
   def prep_transaction_form
-    @loan_transaction_types = ::Accounting::Transaction::LOAN_TRANSACTION_TYPES
+    @loan_transaction_types = Accounting::Transaction.loan_transaction_type_options.select do |option|
+      Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
+    end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
   end
 end

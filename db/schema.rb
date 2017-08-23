@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809054542) do
+ActiveRecord::Schema.define(version: 20170810192441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
@@ -26,6 +26,20 @@ ActiveRecord::Schema.define(version: 20170809054542) do
   end
 
   add_index "accounting_accounts", ["qb_id"], name: "index_accounting_accounts_on_qb_id", using: :btree
+
+  create_table "accounting_line_items", force: :cascade do |t|
+    t.integer  "accounting_account_id"
+    t.integer  "accounting_transaction_id"
+    t.decimal  "amount"
+    t.datetime "created_at", null: false
+    t.string   "description"
+    t.string   "posting_type"
+    t.integer  "qb_line_id"
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "accounting_line_items", ["accounting_account_id"], name: "index_accounting_line_items_on_accounting_account_id", using: :btree
+  add_index "accounting_line_items", ["accounting_transaction_id"], name: "index_accounting_line_items_on_accounting_transaction_id", using: :btree
 
   create_table "accounting_quickbooks_connections", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -46,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170809054542) do
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.string   "description"
-    t.string   "loan_transaction_type"
+    t.string   "loan_transaction_type_value"
     t.string   "private_note"
     t.integer  "project_id"
     t.string   "qb_id"
@@ -252,6 +266,7 @@ ActiveRecord::Schema.define(version: 20170809054542) do
   end
 
   add_index "options", ["option_set_id"], name: "index_options_on_option_set_id", using: :btree
+  add_index "options", ["value"], name: "index_options_on_value", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "alias"
@@ -437,6 +452,8 @@ ActiveRecord::Schema.define(version: 20170809054542) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
 
+  add_foreign_key "accounting_line_items", "accounting_accounts"
+  add_foreign_key "accounting_line_items", "accounting_transactions"
   add_foreign_key "accounting_quickbooks_connections", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
