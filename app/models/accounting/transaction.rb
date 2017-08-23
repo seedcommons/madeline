@@ -51,8 +51,8 @@ class Accounting::Transaction < ActiveRecord::Base
 
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
-  validates :amount, presence: true, unless: -> { qb_id.blank? && qb_transaction_type == LOAN_INTEREST_TYPE }
+  validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
+  validates :amount, presence: true, unless: :uninitialized_interest?
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -64,6 +64,11 @@ class Accounting::Transaction < ActiveRecord::Base
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.quickbooks_data = qb_object.as_json
     transaction.save!(validate: false)
+  end
+
+  def uninitialized_interest?
+    return false unless qb_transaction_type == LOAN_INTEREST_TYPE
+    qb_id.blank?
   end
 
   def quickbooks_data

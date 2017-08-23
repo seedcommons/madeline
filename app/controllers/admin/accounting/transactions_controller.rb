@@ -31,8 +31,12 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
       # Create blank interest transaction. The interest calculator will pick this up and
       # calculate the value, and sync it to quickbooks.
-      interest_transaction = ::Accounting::Transaction.find_or_create_by!(transaction_params.except(:amount)
-        .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE))
+      interest_description = I18n.t('transactions.default_description',
+        loan_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE.titleize, loan_id: @loan.id)
+
+      interest_transaction = ::Accounting::Transaction
+        .find_or_create_by!(transaction_params.except(:amount, :description)
+        .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
 
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
