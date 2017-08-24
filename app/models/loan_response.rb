@@ -2,21 +2,8 @@
 class LoanResponse
   include ProgressCalculable
 
-  attr_accessor :loan
-  attr_accessor :loan_question
-  attr_accessor :loan_response_set
-  attr_accessor :text
-  attr_accessor :string
-  attr_accessor :number
-  attr_accessor :boolean
-  attr_accessor :rating
-  attr_accessor :url
-  attr_accessor :start_cell
-  attr_accessor :end_cell
-  attr_accessor :owner
-  attr_accessor :breakeven
-  attr_accessor :business_canvas
-  attr_accessor :not_applicable
+  attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean, 
+    :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
   alias_method :not_applicable?, :not_applicable
 
@@ -27,17 +14,10 @@ class LoanResponse
     @loan = loan
     @loan_question = loan_question
     @loan_response_set = loan_response_set
-    @text = data[:text]
-    @string = data[:string]
-    @number = data[:number]
-    @boolean = data[:boolean]
-    @rating = data[:rating]
-    @url = data[:url]
-    @start_cell = data[:start_cell]
-    @end_cell = data[:end_cell]
+    %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
+      instance_variable_set("@#{i}", data[i.to_sym])
+    end
     @breakeven = remove_blanks data[:breakeven]
-    @business_canvas = data[:business_canvas]
-    @not_applicable = data[:not_applicable]
   end
 
   def model_name
@@ -68,41 +48,25 @@ class LoanResponse
     @field_attributes ||= loan_question.value_types
   end
 
-  def has_text?
-    field_attributes.include?(:text)
-  end
-
-  def has_string?
-    field_attributes.include?(:string)
-  end
-
-  def has_number?
-    field_attributes.include?(:number)
-  end
-
-  def has_rating?
-    field_attributes.include?(:rating)
-  end
-
   def has_linked_document?
     field_attributes.include?(:url)
-  end
-
-  def has_boolean?
-    field_attributes.include?(:boolean)
   end
 
   def has_breakeven_table?
     field_attributes.include?(:breakeven)
   end
 
-  def has_business_canvas?
-    field_attributes.include?(:business_canvas)
+  def method_missing(method, *args, &block)
+    if method =~ /^has_(.*)\?$/
+      field_attributes.include?($1.to_sym)
+    else
+      super
+    end
   end
 
   def blank?
-    !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
-      breakeven_report.blank? && business_canvas_blank?
+    !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
+      boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
   end
 
   def business_canvas_blank?
