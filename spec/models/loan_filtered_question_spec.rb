@@ -38,6 +38,18 @@ RSpec.describe LoanFilteredQuestion, type: :model do
     end
   end
 
+  describe '#children' do
+    subject(:children) { LoanFilteredQuestion.new(q3, loan1).children }
+
+    it 'should return the same class' do
+      expect(children.first).to be_a LoanFilteredQuestion
+    end
+
+    it 'hides invisible questions' do
+
+    end
+  end
+
   describe '#required?' do
     it 'not required by default' do
       expect(LoanFilteredQuestion.new(q1, loan1).required?).to be false
