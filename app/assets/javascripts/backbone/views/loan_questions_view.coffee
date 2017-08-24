@@ -9,11 +9,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       data: @tree.data('data')
       dragAndDrop: true
       selectable: false
-      onCanMove: (node) =>
-        if node.can_edit == true
-          return true
-        else
-          return false
+      onCanMove: (node) => node.can_edit
       useContextMenu: false
       saveState: true
       onCreateLi: (node, $li) =>
@@ -157,7 +153,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       "</div>"
 
   permittedActionsHTML: (node) ->
-    if node.can_edit == true
+    if node.can_edit
       $('.links-block').html()
     else
       $('.actions-disabled-block').html()
