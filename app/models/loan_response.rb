@@ -101,7 +101,7 @@ class LoanResponse
   end
 
   def blank?
-    text.blank? && string.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
+    !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? && boolean.blank? && url.blank? &&
       breakeven_report.blank? && business_canvas_blank?
   end
 

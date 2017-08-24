@@ -28,7 +28,7 @@
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
-      - css_class += ' hidden-print' if response_set.tree_unanswered?(question)
+      - css_class += ' hidden-print' if response_set.tree_unanswered?(question) || response.not_applicable?
       - css_class += " #{question.status}"
 
       .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
