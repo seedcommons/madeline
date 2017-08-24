@@ -163,10 +163,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       $('.actions-disabled-block').html()
 
   prepTooltips: ->
-    @$('.ms-tooltip').each (index, tip) ->
+    @$('.ms-tooltip').each (index, tip) =>
       message = I18n.t('loan_questions.not_editable')
 
-      $(tip).addClass('ms-popover').popover
+      @$(tip).addClass('ms-popover').popover
         content: message
         html: true
         placement: 'left'
