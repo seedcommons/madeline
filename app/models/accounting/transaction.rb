@@ -81,18 +81,12 @@ class Accounting::Transaction < ActiveRecord::Base
     self.qb_transaction_type = qb_obj.class.name.demodulize
   end
 
-  def change_in_interest
-    debited_amt = line_items.debits.where(account: division.interest_receivable_account).sum(:amount)
-    credited_amt = line_items.credits.where(account: division.interest_receivable_account).sum(:amount)
-
-    debited_amt - credited_amt
+  def change_in_principal
+    @change_in_principal ||= sum_for_account(division.principal_account_id)
   end
 
-  def change_in_principal
-    debited_amt = line_items.debits.where(account: division.principal_account).sum(:amount)
-    credited_amt = line_items.credits.where(account: division.principal_account).sum(:amount)
-
-    debited_amt - credited_amt
+  def change_in_interest
+    @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
   end
 
   def total_balance
@@ -100,16 +94,21 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def calculate_balances(prev_tx: nil)
-    if prev_tx.nil?
-      self.interest_balance = change_in_interest
-      self.principal_balance = change_in_principal
-    else
-      self.interest_balance = prev_tx.interest_balance + change_in_interest
-      self.principal_balance = prev_tx.principal_balance + change_in_principal
-    end
+    self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
+    self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
   end
 
   private
+
+  def sum_for_account(account_id)
+    line_items.to_a.sum do |item|
+      if item.accounting_account_id == account_id
+        (item.credit? ? -1 : 1) * item.amount
+      else
+        0
+      end
+    end
+  end
 
   def update_fields_from_quickbooks_data
     return unless quickbooks_data.present?
