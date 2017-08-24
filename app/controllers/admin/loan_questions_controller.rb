@@ -8,7 +8,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     @json = ActiveModel::Serializer::CollectionSerializer.new(
       sets.map { |s| s.root_group_preloaded.children_applicable_to(nil) }.flatten,
-      {user: current_user}
+      user: current_user
     ).to_json
   end
 
