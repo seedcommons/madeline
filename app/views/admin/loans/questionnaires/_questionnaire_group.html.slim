@@ -24,7 +24,7 @@
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - value = response_set.response(question)
+      - response = response_set.response(question)
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
@@ -36,7 +36,7 @@
 
         span.tree-view
           - if !question.leaf?
-            = render "admin/loans/questionnaires/progress_bar", object: value
+            = render "admin/loans/questionnaires/progress_bar", object: response
 
           - if question.data_type == 'group'
             - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
@@ -57,60 +57,60 @@
 
         - else
           .answer-wrapper.tree-view
-            - if value.has_rating?
-              - if value.rating.present?
-                .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"
-              = f.input_field :"#{question.attribute_sym}[rating]", as: :select, selected: value.rating,
+            - if response.has_rating?
+              - if response.rating.present?
+                .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
+              = f.input_field :"#{question.attribute_sym}[rating]", as: :select, selected: response.rating,
                 collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
 
-            - if value.has_number?
-              - if value.number.present?
-                .view-element.answer = value.number
-              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal, value: value.number
+            - if response.has_number?
+              - if response.number.present?
+                .view-element.answer = response.number
+              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal, value: response.number
 
-            - if value.has_text?
-              - if value.text.present?
-                .view-element.answer = simple_format(value.text)
-              = f.input_field :"#{question.attribute_sym}[text]", as: value.text_form_field_type,
-                value: value.text
+            - if response.has_text?
+              - if response.text.present?
+                .view-element.answer = simple_format(response.text)
+              = f.input_field :"#{question.attribute_sym}[text]", as: response.text_form_field_type,
+                value: response.text
 
-            - if value.has_string?
-              - if value.string.present?
-                .view-element.answer = simple_format(value.string)
-              = f.input_field :"#{question.attribute_sym}[string]", value: value.string
+            - if response.has_string?
+              - if response.string.present?
+                .view-element.answer = simple_format(response.string)
+              = f.input_field :"#{question.attribute_sym}[string]", value: response.string
 
-            - if value.has_boolean?
-              - if value.boolean.present?
-                .view-element.answer = t(value.boolean == "yes" ? "reply_yes" : "reply_no")
-              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: value.boolean,
+            - if response.has_boolean?
+              - if response.boolean.present?
+                .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")
+              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: response.boolean,
                 collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
                 prompt: I18n.t("select_prompt"), data: {boolean: true}
 
-            - if value.has_breakeven_table?
-              - if value.breakeven_report.present?
+            - if response.has_breakeven_table?
+              - if response.breakeven_report.present?
                 .view-element
-                  = render "admin/loans/questionnaires/breakeven_table_report", report: value.breakeven_report
-                  = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report, id: value.loan_question.id
-                  - if value.breakeven_report[:periods] > 1
-                    = render "admin/loans/questionnaires/breakeven_rampup/main", report: value.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_table_report", report: response.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_charts", report: response.breakeven_report, id: response.loan_question.id
+                  - if response.breakeven_report[:periods] > 1
+                    = render "admin/loans/questionnaires/breakeven_rampup/main", report: response.breakeven_report
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                    question: question, data: value.breakeven_hash, total_fixed_costs: value.breakeven_report[:total_fixed_costs]
+                    question: question, data: response.breakeven_hash, total_fixed_costs: response.breakeven_report[:total_fixed_costs]
               - else
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                    question: question, data: value.breakeven_hash, total_fixed_costs: 0
+                    question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
-            - if value.has_business_canvas?
-              .answer class=('form-element' if value.business_canvas_blank?)
+            - if response.has_business_canvas?
+              .answer class=('form-element' if response.business_canvas_blank?)
                 = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-                  question: question, data: value.business_canvas
+                  question: question, data: response.business_canvas
 
-            - if value.has_linked_document?
+            - if response.has_linked_document?
               = render 'admin/loans/questionnaires/linked_document', f: f,
-                question: question, document: value.linked_document
+                question: question, document: response.linked_document
 
-            - if value.blank?
+            - if response.blank?
               .view-element.answer.blank = t("loan.no_answer")
 
 
