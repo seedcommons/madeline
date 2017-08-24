@@ -16,6 +16,9 @@ class LoanResponse
   attr_accessor :owner
   attr_accessor :breakeven
   attr_accessor :business_canvas
+  attr_accessor :not_applicable
+
+  alias_method :not_applicable?, :not_applicable
 
   delegate :group?, :active?, to: :loan_question
 
@@ -34,6 +37,7 @@ class LoanResponse
     @end_cell = data[:end_cell]
     @breakeven = remove_blanks data[:breakeven]
     @business_canvas = data[:business_canvas]
+    @not_applicable = data[:not_applicable]
   end
 
   def model_name
