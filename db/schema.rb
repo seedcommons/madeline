@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815171305) do
+ActiveRecord::Schema.define(version: 20170824174143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 20170815171305) do
   add_index "accounting_accounts", ["qb_id"], name: "index_accounting_accounts_on_qb_id", using: :btree
 
   create_table "accounting_line_items", force: :cascade do |t|
-    t.integer  "accounting_account_id"
-    t.integer  "accounting_transaction_id"
-    t.decimal  "amount"
+    t.integer  "accounting_account_id", null: false
+    t.integer  "accounting_transaction_id", null: false
+    t.decimal  "amount", null: false
     t.datetime "created_at", null: false
     t.string   "description"
-    t.string   "posting_type"
+    t.string   "posting_type", null: false
     t.integer  "qb_line_id"
     t.datetime "updated_at", null: false
   end
