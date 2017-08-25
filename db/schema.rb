@@ -184,16 +184,14 @@ ActiveRecord::Schema.define(version: 20170824174143) do
 
   create_table "loan_question_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "division_id"
     t.string   "internal_name"
     t.datetime "updated_at", null: false
   end
 
-  add_index "loan_question_sets", ["division_id"], name: "index_loan_question_sets_on_division_id", using: :btree
-
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string   "data_type"
+    t.integer  "division_id", null: false
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "loan_question_set_id"
@@ -467,7 +465,6 @@ ActiveRecord::Schema.define(version: 20170824174143) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
-  add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
