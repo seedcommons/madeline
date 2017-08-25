@@ -50,6 +50,12 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
     parent { root_division }
+
+    trait :with_accounts do
+      association :principal_account, factory: :accounting_account
+      association :interest_receivable_account, factory: :accounting_account
+      association :interest_income_account, factory: :accounting_account
+    end
   end
 end
 

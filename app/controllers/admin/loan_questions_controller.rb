@@ -14,7 +14,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
   def new
     set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
-    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent)
+    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent,
+      division: current_division)
     authorize @loan_question
     @loan_question.build_complete_requirements
     render_form
@@ -83,7 +84,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # However, it should be abstracted somehow so it applies to all controllers.
     # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:loan_question).permit(
-      :label, :data_type, :parent_id, :position,
+      :label, :data_type, :division_id, :parent_id, :position,
       :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]

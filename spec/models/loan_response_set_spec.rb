@@ -14,6 +14,7 @@ require 'rails_helper'
 
 
 describe LoanResponseSet, :type => :model do
+  let!(:division) { create(:division) }
 
   it 'has a valid factory' do
     expect(create(:loan_response_set)).to be_valid

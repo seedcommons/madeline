@@ -8,10 +8,12 @@
 #  currency_id                 :integer
 #  description                 :string
 #  id                          :integer          not null, primary key
+#  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
 #  project_id                  :integer
-#  qb_id                       :string           not null
+#  qb_id                       :string
 #  qb_transaction_type         :string           not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )
@@ -20,7 +22,7 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype__unq_idx                          (qb_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
 #  index_accounting_transactions_on_currency_id            (currency_id)
 #  index_accounting_transactions_on_project_id             (project_id)
@@ -39,18 +41,22 @@ class Accounting::Transaction < ActiveRecord::Base
 
   QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
+  LOAN_INTEREST_TYPE = 'interest'
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
-  has_many :line_items, inverse_of: :accounting_transaction,
+  has_many :line_items, inverse_of: :parent_transaction,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type_value, :txn_date, :amount, :accounting_account_id, presence: true
+  validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
+  validates :amount, presence: true, unless: :uninitialized_interest?
+
+  delegate :division, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -58,10 +64,15 @@ class Accounting::Transaction < ActiveRecord::Base
     order(:txn_date, "options.position", :created_at)
   }
 
-  def self.find_or_create_from_qb_object(transaction_type:, qb_object:)
+  def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
     transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
     transaction.quickbooks_data = qb_object.as_json
     transaction.save!(validate: false)
+  end
+
+  def uninitialized_interest?
+    return false unless qb_transaction_type == LOAN_INTEREST_TYPE
+    qb_id.blank?
   end
 
   def quickbooks_data
@@ -77,7 +88,34 @@ class Accounting::Transaction < ActiveRecord::Base
     self.qb_transaction_type = qb_obj.class.name.demodulize
   end
 
+  def change_in_principal
+    @change_in_principal ||= sum_for_account(division.principal_account_id)
+  end
+
+  def change_in_interest
+    @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
+  end
+
+  def total_balance
+    interest_balance + principal_balance
+  end
+
+  def calculate_balances(prev_tx: nil)
+    self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
+    self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+  end
+
   private
+
+  def sum_for_account(account_id)
+    line_items.to_a.sum do |item|
+      if item.accounting_account_id == account_id
+        (item.credit? ? -1 : 1) * item.amount
+      else
+        0
+      end
+    end
+  end
 
   def update_fields_from_quickbooks_data
     return unless quickbooks_data.present?

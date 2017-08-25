@@ -3,24 +3,14 @@
 # Table name: loan_question_sets
 #
 #  created_at    :datetime         not null
-#  division_id   :integer
 #  id            :integer          not null, primary key
 #  internal_name :string
 #  updated_at    :datetime         not null
-#
-# Indexes
-#
-#  index_loan_question_sets_on_division_id  (division_id)
-#
-# Foreign Keys
-#
-#  fk_rails_13da1a92b4  (division_id => divisions.id)
 #
 
 class LoanQuestionSet < ActiveRecord::Base
   include Translatable
 
-  belongs_to :division
   has_closure_tree_root :root_group, class_name: "LoanQuestion"
 
   attr_translatable :label
@@ -46,7 +36,8 @@ class LoanQuestionSet < ActiveRecord::Base
       data_type: "group",
       internal_name: "root_#{id}",
       required: true,
-      position: 0
+      position: 0,
+      division: Division.root
     )
   end
 
