@@ -122,6 +122,59 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
+  describe 'qb_id' do
+    let(:transaction_params) do
+      {
+        amount: nil,
+        txn_date: '2017-10-31',
+        private_note: 'a memo',
+        description: 'desc',
+        project_id: loan.id,
+        qb_transaction_type: transaction_type
+      }
+    end
+
+    context 'when disbursement transaction' do
+      let(:transaction_type) { 'disbursement' }
+
+      context 'without qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context 'with qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+    end
+
+    context 'when interest transaction' do
+      let(:transaction_type) { 'interest' }
+
+      context 'without qb_id' do
+        it 'can save without amount' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.not_to raise_error
+        end
+      end
+
+      context 'with qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+    end
+  end
+
   context 'with line items' do
     let(:txn) { transaction }
     let(:int_inc_acct) { transaction.division.interest_income_account }

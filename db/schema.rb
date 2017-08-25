@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20170824174143) do
     t.decimal  "principal_balance", default: 0.0
     t.string   "private_note"
     t.integer  "project_id"
-    t.string   "qb_id", null: false
+    t.string   "qb_id"
     t.string   "qb_transaction_type", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"
