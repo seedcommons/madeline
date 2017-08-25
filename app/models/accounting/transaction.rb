@@ -11,7 +11,7 @@
 #  loan_transaction_type_value :string
 #  private_note                :string
 #  project_id                  :integer
-#  qb_id                       :string           not null
+#  qb_id                       :string
 #  qb_transaction_type         :string           not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )
