@@ -10,6 +10,8 @@ class PingController < ApplicationController
 
     @stuck = Delayed::Job.where.not(failed_at: nil).count > 0
 
+    @stale = Delayed::Job.where('attempts >= 3 and created_at < ?', Time.now - 1.day).count > 0
+
     @ok = !@stuck && @dj
 
     render layout: nil, formats: :text, status: @ok ? 200 : 503
