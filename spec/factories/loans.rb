@@ -149,5 +149,17 @@ FactoryGirl.define do
         create(:project_step, :open, :with_old_logs, project: loan)
       end
     end
+
+    trait :with_accounting_transaction do
+      after(:create) do |loan|
+        create(:accounting_transaction, project: loan)
+      end
+    end
+
+    trait :with_copies do
+      after(:create) do |loan|
+        create(:loan, original: loan)
+      end
+    end
   end
 end

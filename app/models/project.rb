@@ -71,6 +71,10 @@ class Project < ActiveRecord::Base
   amoeba do
     enable
     propagate
+    exclude_association :media
+    exclude_association :timeline_entries
+    exclude_association :transactions
+    exclude_association :copies
 
     # The default name is computed, if it hasn't been set it will be blank.
     # We need to manually copy over the name and set it here for it to work.
