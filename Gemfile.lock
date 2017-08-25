@@ -51,6 +51,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    amoeba (3.0.0)
+      activerecord (>= 3.2.6)
     annotate (2.7.0)
       activerecord (>= 3.2, < 6.0)
       rake (~> 10.4)
@@ -454,6 +456,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   addressable
+  amoeba
   annotate
   attribute_normalizer
   awesome_print

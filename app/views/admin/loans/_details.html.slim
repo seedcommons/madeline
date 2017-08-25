@@ -2,6 +2,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
   h1.sr-only = t("loan.tab.details")
   .show-actions.hidden-print
     - if @loan.valid?
+      = link_to t("loan.duplicate"), duplicate_admin_loan_path
       a.edit-action.view-element
         i.fa.fa-pencil.fa-large> 
         = t("loan.edit")

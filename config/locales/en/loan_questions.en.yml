@@ -38,6 +38,7 @@ en:
     labels:
       loan_question:
         data_type: Data Type
+        division: Division
         has_embeddable_media: Allow files or links to be attached
         loan_types: Required for Loan Types
     options:
