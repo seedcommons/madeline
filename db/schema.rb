@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821035759) do
+ActiveRecord::Schema.define(version: 20170824174143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 20170821035759) do
   add_index "accounting_accounts", ["qb_id"], name: "index_accounting_accounts_on_qb_id", using: :btree
 
   create_table "accounting_line_items", force: :cascade do |t|
-    t.integer  "accounting_account_id"
-    t.integer  "accounting_transaction_id"
-    t.decimal  "amount"
+    t.integer  "accounting_account_id", null: false
+    t.integer  "accounting_transaction_id", null: false
+    t.decimal  "amount", null: false
     t.datetime "created_at", null: false
     t.string   "description"
-    t.string   "posting_type"
+    t.string   "posting_type", null: false
     t.integer  "qb_line_id"
     t.datetime "updated_at", null: false
   end
@@ -59,10 +59,12 @@ ActiveRecord::Schema.define(version: 20170821035759) do
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.string   "description"
+    t.decimal  "interest_balance", default: 0.0
     t.string   "loan_transaction_type_value"
+    t.decimal  "principal_balance", default: 0.0
     t.string   "private_note"
     t.integer  "project_id"
-    t.string   "qb_id", null: false
+    t.string   "qb_id"
     t.string   "qb_transaction_type", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"

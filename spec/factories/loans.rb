@@ -132,6 +132,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_transaction do
+      after(:create) do |loan|
+        create(:accounting_transaction, project_id: loan.id)
+      end
+    end
+
     trait :with_recent_logs do
       after(:create) do |loan|
         create(:project_step, :open, :with_recent_logs, project: loan)
