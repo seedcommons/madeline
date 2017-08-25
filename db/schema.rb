@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20170810192441) do
     t.string   "loan_transaction_type_value"
     t.string   "private_note"
     t.integer  "project_id"
-    t.string   "qb_id", null: false
+    t.string   "qb_id"
     t.string   "qb_transaction_type", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"
