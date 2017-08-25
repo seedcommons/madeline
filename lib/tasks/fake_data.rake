@@ -18,6 +18,7 @@ if Rails.env.development?
         :with_translations,
         :with_foreign_translations,
         :with_timeline,
+        :with_transaction,
         :with_log_media,
         :with_loan_media,
         :with_coop_media)
@@ -26,9 +27,10 @@ if Rails.env.development?
         :with_foreign_translations,
         :with_steps_only_timeline,
         :with_log_media,
+        :with_transaction,
         :with_loan_media,
         :with_coop_media)
-      FactoryGirl.create_list(:loan, 13)
+      FactoryGirl.create_list(:loan, 13, :with_transaction)
       puts "Generated fake data"
     end
   end

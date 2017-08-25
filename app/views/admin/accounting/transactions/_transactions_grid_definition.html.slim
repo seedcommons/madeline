@@ -10,3 +10,18 @@
   - g.column name: t('activerecord.attributes.accounting.transaction.amount'),
     filter: false do |transaction|
     - format_currency transaction.amount, transaction.currency
+  - g.column name: t('activerecord.attributes.accounting.transaction.change_in_interest'),
+    filter: false do |transaction|
+    - format_currency transaction.change_in_interest, transaction.currency
+  - g.column name: t('activerecord.attributes.accounting.transaction.interest_balance'),
+    filter: false do |transaction|
+    - format_currency transaction.interest_balance, transaction.currency
+  - g.column name: t('activerecord.attributes.accounting.transaction.change_in_principal'),
+    filter: false do |transaction|
+    - format_currency transaction.change_in_principal, transaction.currency
+  - g.column name: t('activerecord.attributes.accounting.transaction.principal_balance'),
+    filter: false do |transaction|
+    - format_currency transaction.principal_balance, transaction.currency
+  - g.column name: t('activerecord.attributes.accounting.transaction.total_balance'),
+    filter: false do |transaction|
+    - format_currency transaction.total_balance, transaction.currency

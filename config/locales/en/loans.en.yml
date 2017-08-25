@@ -20,6 +20,8 @@ en:
     delete_selected: "Delete"
     description: "Description"
     details: "Details"
+    duplicate: "Duplicate"
+    duplicated_message: "The loan was successfully duplicated."
     edit: "Edit Loan"
     end: "End %{name}"
     end_date: "End Date"
