@@ -24,7 +24,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a32cf017b9  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_a32cf017b9  (loan_question_set_id => question_sets.id)
 #
 
 # Full conceptual meaning of 'override_associations' boolean:
@@ -37,7 +37,7 @@ class Question < ActiveRecord::Base
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
 
-  belongs_to :loan_question_set
+  belongs_to :question_set
   belongs_to :division
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required

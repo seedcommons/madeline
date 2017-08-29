@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829161016) do
+ActiveRecord::Schema.define(version: 20170829162114) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -182,12 +182,6 @@ ActiveRecord::Schema.define(version: 20170829161016) do
     t.integer "option_id"
   end
 
-  create_table "loan_question_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string   "internal_name"
-    t.datetime "updated_at", null: false
-  end
-
   create_table "loan_response_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json     "custom_data"
@@ -351,6 +345,12 @@ ActiveRecord::Schema.define(version: 20170829161016) do
   add_index "projects", ["division_id"], name: "index_projects_on_division_id", using: :btree
   add_index "projects", ["organization_id"], name: "index_projects_on_organization_id", using: :btree
 
+  create_table "question_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string   "internal_name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "questions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string   "data_type"
@@ -483,7 +483,7 @@ ActiveRecord::Schema.define(version: 20170829161016) do
   add_foreign_key "projects", "people", column: "primary_agent_id"
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
-  add_foreign_key "questions", "loan_question_sets"
+  add_foreign_key "questions", "question_sets", column: "loan_question_set_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"

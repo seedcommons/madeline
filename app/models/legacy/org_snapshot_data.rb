@@ -4,7 +4,7 @@ module Legacy
 
     def self.create_loan_questions
       defaults = { loan_question_set_id: 2 } # criteria
-      criteria_root = ::LoanQuestionSet.find(2).loan_questions.root
+      criteria_root = ::QuestionSet.find(2).loan_questions.root
       parent = ::Question.create(defaults.merge data_type: 'group', label: "[Migrated from loan fields]", parent: criteria_root)
       defaults.merge! parent: parent, data_type: 'number'
       ::Question.create(defaults.merge internal_name: :cooperative_members, label: "Cooperative members")

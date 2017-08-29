@@ -34,7 +34,7 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   def loan_question_set
-    @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
+    @loan_question_set ||= QuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   # Fetches urls of all embeddable media in the whole custom value set

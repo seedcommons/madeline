@@ -8,7 +8,7 @@ describe "LoanResponse.progress" do
   let!(:root) { qset.root_group }
   let(:rset) { LoanResponseSet.new(loan: loan, kind: 'criteria') }
 
-  context "with full LoanQuestionSet" do
+  context "with full QuestionSet" do
     let!(:f1) { create_question(parent: root, name: "f1", data_type: "text", required: false) } # answered
     let!(:f2) { create_question(parent: root, name: "f2", data_type: "number", required: true) }
 
@@ -131,7 +131,7 @@ describe "LoanResponse.progress" do
     end
   end
 
-  context "with empty LoanQuestionSet" do
+  context "with empty QuestionSet" do
     it "should be correct" do
       expect(rset.progress_numerator).to eq 0
       expect(rset.progress_denominator).to eq 0

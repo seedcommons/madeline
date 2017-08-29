@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_question_sets
+# Table name: question_sets
 #
 #  created_at    :datetime         not null
 #  id            :integer          not null, primary key
@@ -8,7 +8,7 @@
 #  updated_at    :datetime         not null
 #
 
-class LoanQuestionSet < ActiveRecord::Base
+class QuestionSet < ActiveRecord::Base
   include Translatable
 
   has_closure_tree_root :root_group, class_name: "LoanQuestion"
@@ -21,7 +21,7 @@ class LoanQuestionSet < ActiveRecord::Base
   # It is called from a Rails migration and from the old system migration.
   # It should be removed once all the data are migrated and stable.
   def self.create_root_groups!
-    LoanQuestionSet.all.each do |set|
+    QuestionSet.all.each do |set|
       roots = Question.where(loan_question_set_id: set.id, parent: nil).to_a
       new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
       (roots - [new_root]).each { |r| r.update_attributes!(parent: new_root) }
@@ -79,7 +79,7 @@ class LoanQuestionSet < ActiveRecord::Base
 
   # This is private because it is needed to allow the inverse association on LoanQuestion, but
   # it should never be used directly. Access children via the root or by cache hashes.
-  has_many :loan_questions, inverse_of: :loan_question_set
+  has_many :loan_questions, inverse_of: :QuestionSet
 
   # Recursive method to construct @node_lookup_table, which is a hash of
   # node IDs and internal_names to the nodes themselves.
