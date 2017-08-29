@@ -27,11 +27,11 @@ FactoryGirl.define do
 
     trait :generic_fields do
       after(:create) do |model|
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'a_string', data_type: 'string')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'a_number', data_type: 'number')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'a_boolean', data_type: 'boolean')
       end
     end
@@ -40,9 +40,9 @@ FactoryGirl.define do
       internal_name 'loan_criteria'
       after(:create) do |model|
         model.set_label('Loan Criteria Questionnaire')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'summary', data_type: 'text')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'workers', data_type: 'number')
       end
     end
@@ -51,9 +51,9 @@ FactoryGirl.define do
       internal_name 'loan_post_analysis'
       after(:create) do |model|
         model.set_label('Loan Post Analysis')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'new_worker_knowledge', data_type: 'text')
-        create(:loan_question, parent: model.root_group, loan_question_set: model,
+        create(:question, parent: model.root_group, loan_question_set: model,
           internal_name: 'total_loan_amount', data_type: 'number')
       end
     end

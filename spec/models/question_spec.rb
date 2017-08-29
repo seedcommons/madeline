@@ -31,7 +31,7 @@ describe Question, :type => :model do
   let!(:division) { create(:division) }
 
   it 'has a valid factory' do
-    expect(create(:loan_question)).to be_valid
+    expect(create(:question)).to be_valid
   end
 
   describe 'required_for?' do
@@ -246,6 +246,6 @@ describe Question, :type => :model do
     attribs[:loan_question_set] = attribs.delete(:set)
     attribs[:internal_name] = attribs.delete(:name)
     attribs[:data_type] = attribs.delete(:type)
-    create(:loan_question, attribs)
+    create(:question, attribs)
   end
 end

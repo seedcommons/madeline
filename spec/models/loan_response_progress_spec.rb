@@ -150,7 +150,7 @@ describe "LoanResponse.progress" do
   end
 
   def create_question(parent: nil, name:, data_type:, required:, status: 'active')
-    field = create(:loan_question,
+    field = create(:question,
       loan_question_set: qset,
       parent: parent,
       internal_name: name,

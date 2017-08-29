@@ -26,7 +26,7 @@
 #
 
 FactoryGirl.define do
-  factory :loan_question do
+  factory :question do
     loan_question_set
     internal_name Faker::Lorem.words(2).join('_').downcase
     data_type Question::DATA_TYPES.sample
