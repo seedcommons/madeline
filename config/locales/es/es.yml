@@ -116,6 +116,7 @@ es:
         secondary_agent: "Agente Secundario"
         signing_date: "Fecha de Inicio"
         status: "Estado"
+        health_check: "Revisión de Salud"
       project_log:
         step: "Paso"
         date: "Fecha del Apunte"
@@ -167,16 +168,11 @@ es:
         account: "Cuenta Bancaria"
         amount: "Monto"
         description: "Descripción"
-        loan_transaction_type_value: "Tipo de Transacción"
         private_note: "Memo"
         txn_date: "Fecha"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
     options:
-      accounting_transaction:
-        loan_transaction_type_value:
-          disbursement: "Desembolso"
-          repayment: "Devolución"
       person:
         owning_division_role:
           admin: "Admin"
@@ -323,6 +319,7 @@ es:
     division: "División"
     divisions: "Divisiones"
     expand_all: "Expandir Todo"
+    first: "1ero"
     hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
@@ -332,10 +329,14 @@ es:
     notes: "Notas"
     parent: "Principal"
     print: "Imprimir"
+    project: "Proyecto"
     remove: "Eliminar"
+    role: "Rol"
     save: "Guardar"
+    second: "2do"
     street_address: "Domicilio"
     summary: "Resumen"
+    type: "Tipo"
     updated: "Actualizado"
     website: "Página web"
     id: "ID"

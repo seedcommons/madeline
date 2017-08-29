@@ -107,6 +107,9 @@ gem 'chronic'
 # Improved syntax for creating cron jobs
 gem 'whenever', '~> 0.9', require: false
 
+# Easy cloning of active record objects
+gem 'amoeba'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'

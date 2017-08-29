@@ -144,12 +144,17 @@ en:
       accounting:
         transaction:
           amount: "Amount"
+          change_in_interest: "Change in Interest"
+          change_in_principal: "Change in Principal"
           description: "Description"
+          interest_balance: "Interest Balance"
+          principal_balance: "Principal Balance"
           private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
+          total_balance: "Total Balance"
     errors:
       models:
         project_group:

@@ -1,7 +1,7 @@
 module TransactionListable
   extend ActiveSupport::Concern
 
-  def initialize_transactions_grid(project_id = nil, order: 'txn_date desc, created_at desc')
+  def initialize_transactions_grid(project_id = nil)
     begin
       ::Accounting::Quickbooks::Updater.new.update
     rescue Accounting::Quickbooks::FullSyncRequiredError => e
@@ -28,9 +28,9 @@ module TransactionListable
     end
 
     if project_id
-      @transactions = ::Accounting::Transaction.where(project_id: project_id).order(order)
+      @transactions = ::Accounting::Transaction.where(project_id: project_id).standard_order
     else
-      @transactions = ::Accounting::Transaction.all.order(order)
+      @transactions = ::Accounting::Transaction.standard_order
     end
 
     @enable_export_to_csv = true
