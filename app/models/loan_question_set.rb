@@ -22,7 +22,7 @@ class LoanQuestionSet < ActiveRecord::Base
   # It should be removed once all the data are migrated and stable.
   def self.create_root_groups!
     LoanQuestionSet.all.each do |set|
-      roots = LoanQuestion.where(loan_question_set_id: set.id, parent: nil).to_a
+      roots = Question.where(loan_question_set_id: set.id, parent: nil).to_a
       new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
       (roots - [new_root]).each { |r| r.update_attributes!(parent: new_root) }
     end
@@ -30,7 +30,7 @@ class LoanQuestionSet < ActiveRecord::Base
 
   def create_root_group!
     raise "Must be persisted" unless persisted?
-    LoanQuestion.create!(
+    Question.create!(
       loan_question_set_id: id,
       parent: nil,
       data_type: "group",
@@ -65,7 +65,7 @@ class LoanQuestionSet < ActiveRecord::Base
 
     question = if question_identifier == :root
       root_group_preloaded
-    elsif question_identifier.is_a?(LoanQuestion)
+    elsif question_identifier.is_a?(Question)
       @node_lookup_table[question_identifier.id]
     else
       @node_lookup_table[question_identifier]

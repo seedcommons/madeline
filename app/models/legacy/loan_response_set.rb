@@ -30,7 +30,7 @@ module Legacy
       puts "responses count: #{responses.count}"
       responses.each do |response|
         # puts "response id: #{response.id} - question id: #{response.question_id}"
-        field = ::LoanQuestion.find_by(id: response.question_id)
+        field = ::Question.find_by(id: response.question_id)
         if field
           # puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
           model = models[field.loan_question_set.internal_name]

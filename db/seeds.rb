@@ -20,7 +20,7 @@ OptionSetCreator.new.create_all
 
 # Need to leave room for migrated loan questions
 # Can remove this line once migration is over with.
-LoanQuestion.recalibrate_sequence(id: 300)
+Question.recalibrate_sequence(id: 300)
 
 # Without these resets we were getting a strange closure_tree error.
 LoanQuestionSet.connection.schema_cache.clear!

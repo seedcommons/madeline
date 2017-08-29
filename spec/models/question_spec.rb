@@ -27,7 +27,7 @@
 
 require 'rails_helper'
 
-describe LoanQuestion, :type => :model do
+describe Question, :type => :model do
   let!(:division) { create(:division) }
 
   it 'has a valid factory' do

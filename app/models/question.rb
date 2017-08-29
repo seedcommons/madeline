@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_questions
+# Table name: questions
 #
 #  created_at            :datetime         not null
 #  data_type             :string
@@ -20,7 +20,7 @@
 #
 # Indexes
 #
-#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_loan_question_set_id  (loan_question_set_id)
 #
 # Foreign Keys
 #
@@ -32,7 +32,7 @@
 # parent question"
 
 
-class LoanQuestion < ActiveRecord::Base
+class Question < ActiveRecord::Base
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)

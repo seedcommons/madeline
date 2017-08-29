@@ -1,6 +1,6 @@
 = f.input "loan_types" do
   - unless @loan_question.top_level?
-    = f.input_field :override_associations, collection: LoanQuestion::OVERRIDE_ASSOCIATIONS_OPTIONS
+    = f.input_field :override_associations, collection: Question::OVERRIDE_ASSOCIATIONS_OPTIONS
 
   table.table.loan-types-table
     thead

@@ -3,7 +3,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   before_action :set_loan_question, only: [:show, :edit, :update, :destroy, :move]
 
   def index
-    authorize LoanQuestion
+    authorize Question
     # Hide retired questions for now
     sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     @json = ActiveModel::Serializer::CollectionSerializer.new(
@@ -13,8 +13,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
 
   def new
     set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
-    parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
-    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent,
+    parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
+    @loan_question = Question.new(loan_question_set_id: set.id, parent: parent,
       division: current_division)
     authorize @loan_question
     @loan_question.build_complete_requirements
@@ -28,7 +28,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def create
-    @loan_question = LoanQuestion.new(loan_question_params)
+    @loan_question = Question.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
       render json: @loan_question.reload
@@ -46,7 +46,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def move
-    target = LoanQuestion.find(params[:target])
+    target = Question.find(params[:target])
     method = case params[:relation]
       when 'before' then :prepend_sibling
       when 'after' then :append_sibling
@@ -75,7 +75,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def set_loan_question
-    @loan_question = LoanQuestion.find(params[:id])
+    @loan_question = Question.find(params[:id])
     authorize @loan_question
   end
 
@@ -92,7 +92,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def render_form(status: nil)
-    @data_types = LoanQuestion::DATA_TYPES.map do |i|
+    @data_types = Question::DATA_TYPES.map do |i|
       [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
     end.sort
     if status
