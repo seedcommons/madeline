@@ -28,10 +28,12 @@ module TransactionListable
     end
 
     if project_id
-      @transactions = ::Accounting::Transaction.where(project_id: project_id).standard_order
+      @transactions = ::Accounting::Transaction.where(project_id: project_id)
     else
-      @transactions = ::Accounting::Transaction.standard_order
+      @transactions = ::Accounting::Transaction.all
     end
+
+    @transactions = @transactions.include(:account, :project, :currency, :line_items).standard_order
 
     @enable_export_to_csv = true
 
