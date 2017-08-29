@@ -65,8 +65,12 @@ class LoanResponse
   end
 
   def blank?
-    !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
-      boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
+    if group?
+      loan_question.descendants.all? { |i| loan_response_set.response(i.id).blank? }
+    else
+      !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
+        boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
+    end
   end
 
   def business_canvas_blank?
