@@ -110,7 +110,10 @@
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document
 
-            - if response.blank?
+            / TODO
+            - if response.not_applicable?
+              .view-element.answer
+            - elsif !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
 
 
