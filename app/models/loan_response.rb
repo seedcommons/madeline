@@ -2,7 +2,7 @@
 class LoanResponse
   include ProgressCalculable
 
-  attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean, 
+  attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
   alias_method :not_applicable?, :not_applicable
