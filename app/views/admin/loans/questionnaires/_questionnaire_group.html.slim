@@ -8,8 +8,9 @@
     - roots.each_with_index do |question, idx|
       / Add page break for top-level groups with answered questions
       / Also add page break for business model canvas answered question
+      - response = response_set.response(question)
       - if (question.data_type == "business_canvas" || (question.data_type == 'group' && question.parent.root?)) \
-          && !response_set.tree_unanswered?(question)
+          && !response.blank?
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -20,11 +21,10 @@
 
       - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response_set.tree_unanswered?(question)))
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response.blank?))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - response = response_set.response(question)
       - css_class = optional ? 'optional' : 'required'
 
       / Don't print unanswered questions or groups
@@ -110,7 +110,10 @@
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document
 
-            - if response.blank?
+            / TODO
+            - if response.not_applicable?
+              .view-element.answer
+            - elsif !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
 
 
