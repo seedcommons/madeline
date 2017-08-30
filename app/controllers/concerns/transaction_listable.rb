@@ -33,7 +33,7 @@ module TransactionListable
       @transactions = ::Accounting::Transaction.all
     end
 
-    @transactions = @transactions.include(:account, :project, :currency, :line_items).standard_order
+    @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
 
     @enable_export_to_csv = true
 
