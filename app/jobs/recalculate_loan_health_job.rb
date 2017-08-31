@@ -6,7 +6,7 @@ class RecalculateLoanHealthJob < ActiveJob::Base
 
     unless check
       Rails.logger.debug "Creating health check for loan #{loan_id}"
-      check = LoanHealthCheck.create(loan_id: loan_id)
+      check = LoanHealthCheck.create!(loan_id: loan_id)
     end
 
     check.recalculate
