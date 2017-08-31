@@ -1,6 +1,9 @@
 = define_grid(@transactions_grid, hide_csv_button: true,
     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
+  - g.row_attributes do |transaction|
+    - {onclick: "document.location = '#{admin_loan_transaction_path(loan_id: @loan.id, id: transaction)}';"}
+
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false do |transaction|
     - l transaction.txn_date, format: :long

@@ -56,6 +56,11 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
+  def show
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    authorize @transaction, :show?
+  end
+
   private
 
   def transaction_params
