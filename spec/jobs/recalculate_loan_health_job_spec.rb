@@ -7,23 +7,23 @@ describe RecalculateLoanHealthJob do
     it "should regenerate the check" do
       # We prove the check ran successfully by creating a contract and ensuring
       # the missing_contract field switches value.
-      expect(loan.loan_health_check.missing_contract).to be true
+      expect(loan.health_check.missing_contract).to be true
       create(:media, media_attachable: loan, kind_value: "contract")
       described_class.new.perform(loan_id: loan.id)
-      expect(loan.reload.loan_health_check.missing_contract).to be false
+      expect(loan.reload.health_check.missing_contract).to be false
     end
   end
 
   context "without existing health check object" do
     before do
-      loan.loan_health_check.destroy
+      loan.health_check.destroy
     end
 
     it "should create and regenerate the check" do
-      expect(loan.loan_health_check).to be_destroyed
+      expect(loan.health_check).to be_destroyed
       create(:media, media_attachable: loan, kind_value: "contract")
       described_class.new.perform(loan_id: loan.id)
-      expect(loan.reload.loan_health_check.missing_contract).to be false
+      expect(loan.reload.health_check.missing_contract).to be false
     end
   end
 
