@@ -31,13 +31,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     )
   end
 
-  # this model has been refactored in 6666 which is now complete
-  # merging 6666 will require refactoring these mocks
-  # begin
   let(:line_item_1) {
     create(:line_item,
-      accounting_transaction: transaction,
-      accounting_account: principal_account,
+      account: principal_account,
       posting_type: 'Debit',
       description: '1st line item',
       amount: 100
@@ -46,8 +42,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
   let(:line_item_2) {
     create(:line_item,
-      accounting_transaction: transaction,
-      accounting_account: bank_account,
+      account: bank_account,
       posting_type: 'Credit',
       description: '2nd line item',
       amount: 25
@@ -56,14 +51,12 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
   let(:line_item_3) {
     create(:line_item,
-      accounting_transaction: transaction,
-      accounting_account: office_account,
+      account: office_account,
       posting_type: 'Credit',
       description: '3rd line item',
       amount: 75
     )
   }
-  # end
 
   let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
 
@@ -76,6 +69,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     allow(creator).to receive(:class_service).and_return(class_service)
     allow(creator).to receive(:customer_reference).and_return(customer_reference)
     allow(creator).to receive(:department_reference).and_return(department_reference)
+
+    # since transaction does not exist yet
+    transaction.line_items << [line_item_1, line_item_2, line_item_3]
   end
 
   let(:qb_customer_id) { '91234' }
@@ -97,10 +93,10 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
       details = list.map { |i| i.journal_entry_line_detail }
       expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
-      # expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
-      # expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
-      # expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
-      # expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
+      expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
+      expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
+      expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
+      expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
     end
     subject
   end
