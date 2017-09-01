@@ -57,6 +57,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def show
+    @loan = Loan.find_by(id: params[:loan_id])
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize @transaction, :show?
   end
