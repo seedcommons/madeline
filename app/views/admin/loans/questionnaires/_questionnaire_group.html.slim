@@ -110,18 +110,19 @@
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document
 
-            / Not Applicable
-              / Debugging
-              /= response.inspect
-              / = question.attribute_sym
+            .not-applicable
+              / Not Applicable
+                / Debugging
+                /= response.inspect
+                / = question.attribute_sym
 
-            - if response.not_applicable
-              .view-element.answer Not applicable
+              - if response.not_applicable
+                .view-element.answer Not applicable
 
-            .form-element
-              / = f.input :"#{question.attribute_sym}[not_applicable]"
-              input type="checkbox" name="loan_response_set[#{question.attribute_sym}[not_applicable]]"
-              label for="loan_response_set[#{question.attribute_sym}[not_applicable]]" Not applicable
+              .form-element
+                / = f.input :"#{question.attribute_sym}[not_applicable]"
+                input type="checkbox" name="loan_response_set[#{question.attribute_sym}[not_applicable]]"
+                label for="loan_response_set[#{question.attribute_sym}[not_applicable]]" Not applicable
 
             - if !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
