@@ -111,16 +111,11 @@
                 question: question, document: response.linked_document
 
             .not-applicable
-              / Not Applicable
-                / Debugging
-                /= response.inspect
-                / = question.attribute_sym
-
-              - if response.not_applicable
+              - if response.not_applicable?
                 .view-element.answer = t("loan.not_applicable")
 
               .form-element
-                / = f.input :"#{question.attribute_sym}[not_applicable]"
+                /= f.input_field "#{question.attribute_sym}[not_applicable]", as: :boolean
                 input type="checkbox" name="loan_response_set[#{question.attribute_sym}[not_applicable]]"
                 label for="loan_response_set[#{question.attribute_sym}[not_applicable]]" = t("loan.not_applicable")
 
