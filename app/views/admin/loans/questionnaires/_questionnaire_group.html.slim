@@ -117,12 +117,12 @@
                 / = question.attribute_sym
 
               - if response.not_applicable
-                .view-element.answer Not applicable
+                .view-element.answer = t("loan.not_applicable")
 
               .form-element
                 / = f.input :"#{question.attribute_sym}[not_applicable]"
                 input type="checkbox" name="loan_response_set[#{question.attribute_sym}[not_applicable]]"
-                label for="loan_response_set[#{question.attribute_sym}[not_applicable]]" Not applicable
+                label for="loan_response_set[#{question.attribute_sym}[not_applicable]]" = t("loan.not_applicable")
 
             - if !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
