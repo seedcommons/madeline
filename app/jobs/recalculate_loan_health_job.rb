@@ -1,6 +1,4 @@
-class RecalculateLoanHealthJob < ActiveJob::Base
-  queue_as :default
-
+class RecalculateLoanHealthJob < ApplicationJob
   def perform(loan_id:)
     check = LoanHealthCheck.where(loan_id: loan_id).first
 
