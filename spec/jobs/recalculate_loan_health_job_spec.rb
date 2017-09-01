@@ -3,6 +3,7 @@ require "rails_helper"
 describe RecalculateLoanHealthJob do
   let(:loan) { create(:loan, :prospective) }
 
+  # A health check object gets generated on before_create
   context "with existing health check object" do
     it "should regenerate the check" do
       # We prove the check ran successfully by creating a contract and ensuring
