@@ -72,6 +72,8 @@ section.questionnaires {
 
 // This is scoped separately because it can appear inside the print view.
 .questionnaire-form {
+  $help-text-font-size: 12px;
+
   li {
     min-height: 3em;
     margin-bottom: 1em;
@@ -88,7 +90,7 @@ section.questionnaires {
 
   .help-block {
     font-style: italic;
-    font-size: 12px;
+    font-size: $help-text-font-size;
     color: $gray3;
   }
 
@@ -173,6 +175,7 @@ section.questionnaires {
 
     label {
       margin-left: .5em;
+      font-size: $help-text-font-size;
       font-weight: normal;
     }
   }
