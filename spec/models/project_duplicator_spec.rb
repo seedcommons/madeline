@@ -41,8 +41,18 @@ RSpec.describe ProjectDuplicator, type: :model do
       expect(new_loan.media.count).to eq 0
     end
 
-    it 'ignores timeline_entries' do
-      expect(new_loan.timeline_entries.count).to eq 0
+    it 'copies timeline_entries' do
+      expect(new_loan.timeline_entries.count).to eq loan.timeline_entries.count
+    end
+
+    it 'copies timeline_entry children' do
+      loan_first_children = loan.root_timeline_entry.children
+      # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
+      # Using #reload does not do it.
+      new_loan_first_children = Loan.find(new_loan.id).root_timeline_entry.children
+
+      expect(new_loan_first_children.count).to eq loan_first_children.count
+      expect(new_loan_first_children.pluck(:parent_id)).not_to eq loan_first_children.pluck(:parent_id)
     end
 
     it 'copies loan_health_check' do

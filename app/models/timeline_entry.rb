@@ -40,7 +40,7 @@ class TimelineEntry < ActiveRecord::Base
 
   attr_translatable :summary
 
-  belongs_to :project
+  belongs_to :project, inverse_of: :timeline_entries
   belongs_to :agent, class_name: 'Person'
 
   # Even though, logs can only be associated with steps, this ass'n is defined here so that
