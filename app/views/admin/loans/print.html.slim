@@ -12,6 +12,12 @@ section data-container="loan"
     section.featured-image
       = image_tag(@first_image.item.url) if @first_image
 
+    section.images
+      = render "admin/loans/questionnaires/page_header"
+      /= @images.inspect
+      - @images.each do |image|
+          img src="#{image.item}"
+
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
       = render "admin/loans/questionnaires/page_header"
