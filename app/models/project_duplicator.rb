@@ -20,6 +20,11 @@ class ProjectDuplicator
     copy_entry = orig_entry.amoeba_dup
     copy_entry.project = copy
 
+    # amoeba does not set the project_step_id
+    copy_entry.project_logs.each do |log|
+      log.project_step = copy_entry
+    end
+
     # closure_tree doesn't seem to fire properly unless we save here.
     copy_entry.parent = copy_parent_entry
     copy_entry.save!
