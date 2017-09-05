@@ -5,8 +5,6 @@ class LoanResponse
   attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  alias_method :not_applicable?, :not_applicable
-
   delegate :group?, :active?, to: :loan_question
 
   def initialize(loan:, loan_question:, loan_response_set:, data:)
@@ -88,6 +86,12 @@ class LoanResponse
 
   def required?
     @required ||= loan_question.required_for?(loan)
+  end
+
+  # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could
+  # get refactored in future to use actual booleans.
+  def not_applicable?
+    not_applicable == "yes"
   end
 
   private
