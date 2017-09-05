@@ -10,10 +10,8 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      # Creates a disbursement transaction in Quickbooks based on a Transaction object created in Madeline.
-      # Specifically, creates and returns a QB journal entry with two line items:
-      # - a debit from the division's principal account
-      # - a credit to the account specified in the transaction
+      # Creates a transaction in Quickbooks based on a Transaction object created in Madeline. Line
+      # items in QB mirror line items in Madeline.
       def create_in_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = transaction.private_note
