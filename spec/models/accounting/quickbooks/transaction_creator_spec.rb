@@ -88,8 +88,8 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
       expect(arg.txn_date).to be_nil
 
       list = arg.line_items
-      expect(list.map(&:amount)).to eq [line_item_1.amount, line_item_2.amount, line_item_3.amount]
-      expect(list.map(&:description).uniq).to eq [line_item_1.description, line_item_2.description, line_item_3.description]
+      expect(list.map(&:amount)).to eq transaction.line_items.map(&:amount)
+      expect(list.map(&:description).uniq).to eq transaction.line_items.map(&:description)
 
       details = list.map { |i| i.journal_entry_line_detail }
       expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
