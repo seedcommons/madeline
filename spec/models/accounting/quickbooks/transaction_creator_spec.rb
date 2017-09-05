@@ -32,7 +32,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   end
 
   let(:line_item_1) {
-    create(:line_item,
+    build(:line_item,
       account: principal_account,
       posting_type: 'Debit',
       description: '1st line item',
@@ -41,7 +41,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   }
 
   let(:line_item_2) {
-    create(:line_item,
+    build(:line_item,
       account: bank_account,
       posting_type: 'Credit',
       description: '2nd line item',
@@ -50,7 +50,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   }
 
   let(:line_item_3) {
-    create(:line_item,
+    build(:line_item,
       account: office_account,
       posting_type: 'Credit',
       description: '3rd line item',
