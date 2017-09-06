@@ -60,13 +60,15 @@
             - if response.has_rating?
               - if response.rating.present? && !response.not_applicable?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
-              = f.input_field :"#{question.attribute_sym}[rating]", as: :select, selected: response.rating,
-                collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
+              = f.input_field :"#{question.attribute_sym}[rating]", as: :select,
+                selected: response.rating, collection: Array(1..5), prompt: I18n.t("select_prompt"),
+                data: {rating: true}
 
             - if response.has_number?
               - if response.number.present? && !response.not_applicable?
                 .view-element.answer = response.number
-              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal, value: response.number
+              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
+                value: response.number
 
             - if response.has_text?
               - if response.text.present? && !response.not_applicable?
@@ -82,20 +84,25 @@
             - if response.has_boolean?
               - if response.boolean.present? && !response.not_applicable?
                 .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")
-              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: response.boolean,
-                collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
-                prompt: I18n.t("select_prompt"), data: {boolean: true}
+              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
+                selected: response.boolean, collection: %i(yes no),
+                label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
+                data: {boolean: true}
 
             - if response.has_breakeven_table?
               - if response.breakeven_report.present? && !response.not_applicable?
                 .view-element
-                  = render "admin/loans/questionnaires/breakeven_table_report", report: response.breakeven_report
-                  = render "admin/loans/questionnaires/breakeven_charts", report: response.breakeven_report, id: response.loan_question.id
+                  = render "admin/loans/questionnaires/breakeven_table_report",
+                    report: response.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_charts",
+                    report: response.breakeven_report, id: response.loan_question.id
                   - if response.breakeven_report[:periods] > 1
-                    = render "admin/loans/questionnaires/breakeven_rampup/main", report: response.breakeven_report
+                    = render "admin/loans/questionnaires/breakeven_rampup/main",
+                      report: response.breakeven_report
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                    question: question, data: response.breakeven_hash, total_fixed_costs: response.breakeven_report[:total_fixed_costs]
+                    question: question, data: response.breakeven_hash,
+                    total_fixed_costs: response.breakeven_report[:total_fixed_costs]
               - else
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
@@ -113,14 +120,17 @@
               .form-element
                 / This is the 'not applicable' checkbox.
                 / The boolean field above uses a select box so we need a different treatment here.
-                / However it makes sense to maintain the same underlying boolean values (yes/no) in the
-                / response data. It is easiest to do a manual checkbox, plus a hidden tag so that if
-                / the box is unchecked, the submitted value will be 'no'. This is a standard Rails trick:
+                / However it makes sense to maintain the same underlying boolean values (yes/no)
+                / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
+                / so that if the box is unchecked, the submitted value will be 'no'. This is a
+                / standard Rails trick:
                 / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
-                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]", "no"
+                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  "no"
                 = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
                   "yes", response.not_applicable?
-                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]", t("loan.not_applicable")
+                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  t("loan.not_applicable")
 
             - if response.has_business_canvas?
               - unless response.not_applicable? || response.business_canvas_blank?
