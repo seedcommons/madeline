@@ -64,7 +64,7 @@ class LoanResponse
 
   def blank?
     if group?
-      loan_question.descendants.all? { |i| loan_response_set.response(i.id).blank? }
+      loan_question.children.all?(&:blank?)
     else
       !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
