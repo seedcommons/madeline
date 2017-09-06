@@ -101,11 +101,6 @@
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
                     question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
-            - if response.has_business_canvas?
-              .answer class=('form-element' if response.business_canvas_blank?)
-                = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-                  question: question, data: response.business_canvas
-
             - if response.has_linked_document?
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document,
@@ -126,6 +121,16 @@
                 = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
                   "yes", response.not_applicable?
                 = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]", t("loan.not_applicable")
+
+            - if response.has_business_canvas?
+              - unless response.not_applicable? || response.business_canvas_blank?
+                .view-element.answer
+                  = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+                    question: question, data: response.business_canvas
+              / The form element will always show in edit mode
+              .form-element
+                = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+                question: question, data: response.business_canvas
 
             - if !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
