@@ -63,11 +63,6 @@ section.questionnaires {
   .alert.form-element {
     margin: 10px 0;
   }
-
-  .not-applicable {
-    color: $gray3;
-    font-style: italic;
-  }
 }
 
 // This is scoped separately because it can appear inside the print view.
@@ -170,11 +165,11 @@ section.questionnaires {
   }
 
   .not-applicable {
-    color: $gray3;
     font-style: italic;
 
     label {
       margin-left: .5em;
+      color: $gray3;
       font-size: $help-text-font-size;
       font-weight: normal;
     }
