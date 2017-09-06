@@ -1,20 +1,20 @@
-div
-  = 'Type of Transaction'
-  = @transaction.loan_transaction_type_value.capitalize
-  br
-  = 'Date'
-  = @transaction.txn_date
-  br
-  = 'Bank Account'
-  = @transaction.account.name
-  br
-  = 'Amount'
-  = @transaction.amount
-  br
-  = 'Description'
-  = @transaction.description
-  br
-  = 'Memo'
-  = @transaction.private_note
-
 = render "admin/accounting/transactions/form"
+
+/ div
+/   = 'Type of Transaction'
+/   = @transaction.loan_transaction_type_value.capitalize
+/   br
+/   = 'Date'
+/   = @transaction.txn_date
+/   br
+/   = 'Bank Account'
+/   = @transaction.account.name
+/   br
+/   = 'Amount'
+/   = @transaction.amount
+/   br
+/   = 'Description'
+/   = @transaction.description
+/   br
+/   = 'Memo'
+/   = @transaction.private_note
