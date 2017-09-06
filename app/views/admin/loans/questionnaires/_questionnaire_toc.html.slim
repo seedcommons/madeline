@@ -1,7 +1,8 @@
 ul
   - group.child_groups.each do |child|
     - response = response_set.response(child)
-    li data-level=child.depth data-type=child.data_type class=( 'hidden-print' if response.blank?)
+    li data-level=child.depth data-type=child.data_type class=('hidden-print' if response.blank?)
       = child.full_number_and_label
       - if child.data_type == 'group'
-        = render("admin/loans/questionnaires/questionnaire_toc", group: child, response_set: response_set)
+        = render("admin/loans/questionnaires/questionnaire_toc", group: child,
+          response_set: response_set)
