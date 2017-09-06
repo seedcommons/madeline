@@ -14,8 +14,8 @@
 
   = f.input :loan_transaction_type_value
     .view-element
-      /= @transaction.loan_transaction_type_value.capitalize
-      = @transaction.loan_transaction_type_value
+      - if @transaction.loan_transaction_type_value
+        = @transaction.loan_transaction_type_value.capitalize
     = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types
 
   = f.input :txn_date
@@ -29,7 +29,11 @@
     = f.input_field :account, collection: @accounts
 
   = f.input :amount
-    .view-element = @transaction.amount
+    .view-element
+    - if @loan.currency
+      = format_currency(@transaction.amount, @loan.currency, tooltip: false)
+    - else
+      = @transaction.amount
     = f.input_field :amount
 
   = f.input :description
