@@ -57,6 +57,26 @@
 
         - else
           .answer-wrapper.tree-view
+
+            .not-applicable
+              - if response.not_applicable?
+                .view-element.answer = t("loan.not_applicable")
+
+              .form-element
+                / This is the 'not applicable' checkbox.
+                / The boolean field above uses a select box so we need a different treatment here.
+                / However it makes sense to maintain the same underlying boolean values (yes/no)
+                / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
+                / so that if the box is unchecked, the submitted value will be 'no'. This is a
+                / standard Rails trick:
+                / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
+                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  "no"
+                = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  "yes", response.not_applicable?
+                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  t("loan.not_applicable")
+
             - if response.has_rating?
               - if response.rating.present? && !response.not_applicable?
                 .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
@@ -112,25 +132,6 @@
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document,
                 not_applicable: response.not_applicable?
-
-            .not-applicable
-              - if response.not_applicable?
-                .view-element.answer = t("loan.not_applicable")
-
-              .form-element
-                / This is the 'not applicable' checkbox.
-                / The boolean field above uses a select box so we need a different treatment here.
-                / However it makes sense to maintain the same underlying boolean values (yes/no)
-                / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
-                / so that if the box is unchecked, the submitted value will be 'no'. This is a
-                / standard Rails trick:
-                / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
-                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
-                  "no"
-                = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
-                  "yes", response.not_applicable?
-                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]",
-                  t("loan.not_applicable")
 
             - if response.has_business_canvas?
               - unless response.not_applicable? || response.business_canvas_blank?
