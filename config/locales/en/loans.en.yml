@@ -39,7 +39,7 @@ en:
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     no_answer: "No answer given."
-    not_applicable: "Not applicable."
+    not_applicable: "Not applicable"
     num_of_links:
       one: "There is %{count} linked document."
       other: "There are %{count} linked documents."
