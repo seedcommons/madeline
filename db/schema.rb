@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824174143) do
+ActiveRecord::Schema.define(version: 20170831195637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 20170824174143) do
     t.boolean  "has_late_steps"
     t.boolean  "has_sporadic_updates"
     t.date     "last_log_date"
-    t.integer  "loan_id"
+    t.integer  "loan_id", null: false
     t.boolean  "missing_contract"
     t.decimal  "progress_pct"
     t.datetime "updated_at", null: false
