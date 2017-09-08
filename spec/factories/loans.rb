@@ -68,19 +68,22 @@ FactoryGirl.define do
 
     trait :with_one_project_step do
       after(:create) do |loan|
-        create(:project_step, :with_logs, project: loan)
+        step = create(:project_step, :with_logs, project: loan)
+        loan.root_timeline_entry.children << step
       end
     end
 
     trait :with_past_due_project_step do
       after(:create) do |loan|
-        create(:project_step, :past_due, :with_logs, project: loan)
+        step = create(:project_step, :past_due, :with_logs, project: loan)
+        loan.root_timeline_entry.children << step
       end
     end
 
     trait :with_open_project_step do
       after(:create) do |loan|
         create(:project_step, :open, :with_logs, project: loan)
+        loan.root_timeline_entry.children << step
       end
     end
 
@@ -102,7 +105,8 @@ FactoryGirl.define do
       end
 
       after(:create) do |loan, evaluator|
-        create_list(:project_step, evaluator.step_count, :recent, :with_logs, project: loan)
+        step = create_list(:project_step, evaluator.step_count, :recent, :with_logs, project: loan)
+        loan.root_timeline_entry.children << step
       end
     end
 
