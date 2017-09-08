@@ -22,6 +22,7 @@ en:
     details: "Details"
     duplicate: "Duplicate"
     duplicated_message: "The loan was successfully duplicated."
+    confirm_duplication: "This will duplicate the %{object_type} and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
     edit: "Edit Loan"
     end: "End %{name}"
     end_date: "End Date"
