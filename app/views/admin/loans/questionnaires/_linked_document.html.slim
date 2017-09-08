@@ -25,19 +25,20 @@
               data-confirm-title= t("linked_document.linked_document")]
               = t("linked_document.delete")
 
-  .spreadsheet-links.view-element
-    - if document
-      .doc-actions
-        - if document.display_url.present?
-          / Beware, the display_height value doesn't not seem to be honored
-          a[href="#" data-expands="iframe-#{question.attribute_sym}"
-            data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
-            i.fa.fa-eye.fa-large>
-            = t("loan.spreadsheet_inline")
-          a href="#" data-hides="iframe-#{question.attribute_sym}"
-            i.fa.fa-eye-slash.fa-large>
-            = t("loan.spreadsheet_hide")
-          = link_to document.url, target: '_blank'
-            i.fa.fa-external-link.fa-large>
-            = t("loan.spreadsheet_new_tab")
-    .spreadsheet data-expandable="iframe-#{question.attribute_sym}"
+  - unless not_applicable
+    .spreadsheet-links.view-element
+      - if document
+        .doc-actions
+          - if document.display_url.present?
+            / Beware, the display_height value doesn't not seem to be honored
+            a[href="#" data-expands="iframe-#{question.attribute_sym}"
+              data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
+              i.fa.fa-eye.fa-large>
+              = t("loan.spreadsheet_inline")
+            a href="#" data-hides="iframe-#{question.attribute_sym}"
+              i.fa.fa-eye-slash.fa-large>
+              = t("loan.spreadsheet_hide")
+            = link_to document.url, target: '_blank'
+              i.fa.fa-external-link.fa-large>
+              = t("loan.spreadsheet_new_tab")
+      .spreadsheet data-expandable="iframe-#{question.attribute_sym}"

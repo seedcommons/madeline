@@ -61,8 +61,8 @@ RSpec.describe ProjectDuplicator, type: :model do
       expect(new_root.children[1].children.count).to eq root.children[1].children.count
     end
 
-    it 'copies loan_health_check' do
-      expect(new_loan.loan_health_check.loan_id).to eq new_loan.id
+    it 'copies health_check' do
+      expect(new_loan.health_check.loan_id).to eq new_loan.id
     end
 
     it 'ignores transactions' do

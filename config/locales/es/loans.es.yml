@@ -20,6 +20,8 @@ es:
     delete_selected: "Borrar"
     description: "Descripción"
     details: "Detalles"
+    duplicate: "Duplicar"
+    duplicated_message: "El préstamo fue duplicado correctamente."
     edit: "Editar Préstamo"
     end: "Finalizar %{name}"
     end_date: "Fecha de Finalización "
@@ -176,6 +178,7 @@ es:
     optional_questions: "Preguntas Opcionales"
   transactions:
     default_description: "%{loan_transaction_type} para Préstamo #%{loan_id}"
+    interest_description: "Intereses Acumulados para Préstamo #%{loan_id}"
   admin:
     loans:
       questions:
