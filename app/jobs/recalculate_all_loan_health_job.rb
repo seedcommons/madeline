@@ -1,6 +1,4 @@
-class RecalculateAllLoanHealthJob < ActiveJob::Base
-  queue_as :default
-
+class RecalculateAllLoanHealthJob < ApplicationJob
   def perform
     # Create a job for each loan recalculation.
     # The granularity makes it easier to see what loans have problems when they happen.
