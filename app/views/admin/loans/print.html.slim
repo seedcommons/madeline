@@ -19,7 +19,7 @@ section data-container="loan"
         .image-list
           - @image_list.each do |image|
             .img-container
-              img src="#{image.item}"
+              = image_tag(image.item)
 
   - if @mode != "details-only"
     section.loan.criteria class='show-view'

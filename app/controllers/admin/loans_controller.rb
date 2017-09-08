@@ -117,7 +117,6 @@ class Admin::LoansController < Admin::ProjectsController
     authorize @loan, :show?
     @print_view = true
     @mode = params[:mode]
-    @first_image = @loan.media.find {|item| item.kind_value == 'image'}
     @images = @loan.media.where(kind_value: "image")
     @image_list = @images.drop(1)
     @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
