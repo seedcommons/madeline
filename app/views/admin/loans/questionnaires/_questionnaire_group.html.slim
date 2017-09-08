@@ -109,7 +109,7 @@
                 label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
                 data: {boolean: true}
 
-            - if response.has_breakeven_table?
+            - if response.has_breakeven?
               - if response.breakeven_report.present? && !response.not_applicable?
                 .view-element
                   = render "admin/loans/questionnaires/breakeven_table_report",
@@ -128,7 +128,7 @@
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
                     question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
-            - if response.has_linked_document?
+            - if response.has_url?
               = render 'admin/loans/questionnaires/linked_document', f: f,
                 question: question, document: response.linked_document,
                 not_applicable: response.not_applicable?

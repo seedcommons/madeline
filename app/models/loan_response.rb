@@ -7,6 +7,8 @@ class LoanResponse
 
   delegate :group?, :active?, to: :loan_question
 
+  TYPES = %i(text string number rating boolean url breakeven business_canvas)
+
   def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
@@ -46,19 +48,9 @@ class LoanResponse
     @field_attributes ||= loan_question.value_types
   end
 
-  def has_linked_document?
-    field_attributes.include?(:url)
-  end
-
-  def has_breakeven_table?
-    field_attributes.include?(:breakeven)
-  end
-
-  def method_missing(method, *args, &block)
-    if method =~ /^has_(.*)\?$/
-      field_attributes.include?($1.to_sym)
-    else
-      super
+  TYPES.each do |type|
+    define_method("has_#{type}?") do
+      field_attributes.include?(type)
     end
   end
 
