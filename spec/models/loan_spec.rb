@@ -197,20 +197,20 @@ describe Loan, :type => :model do
 
     end
 
-    describe '.loan_health_check' do
+    describe '.health_check' do
       context 'for new loan' do
         it 'creates a LoanHealthCheck' do
-          expect(loan.loan_health_check).to_not be nil
+          expect(loan.health_check).to_not be nil
         end
       end
     end
 
     describe '.healthy?' do
-      context 'without loan_health_check record' do
+      context 'without health_check record' do
         it 'is not healthy' do
-          loan.loan_health_check = nil
+          loan.health_check = nil
 
-          expect(loan.loan_health_check).to be nil
+          expect(loan.health_check).to be nil
           expect(loan.healthy?).to be false
         end
       end

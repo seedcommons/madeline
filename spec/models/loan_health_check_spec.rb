@@ -6,7 +6,7 @@ RSpec.describe LoanHealthCheck, type: :model do
   end
 
   context 'fresh loan' do
-    let(:check) { loan.loan_health_check }
+    let(:check) { loan.health_check }
     let(:loan) { create(:loan, :prospective) }
     subject { check }
 
