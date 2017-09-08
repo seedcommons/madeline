@@ -65,4 +65,26 @@
       min-height: inherit;
     }
   }
+
+  .images {
+    .image-list {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .img-container {
+      height: 2in;
+      width: 3.5in;
+      margin: .5em;
+      border: 1px solid $gray3;
+    }
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      padding: .5em;
+    }
+  }
 }

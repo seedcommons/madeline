@@ -14,9 +14,10 @@ section data-container="loan"
 
     section.images
       = render "admin/loans/questionnaires/page_header"
-      /= @images.inspect
-      - @images.each do |image|
-          img src="#{image.item}"
+      .image-list
+        - @images.each do |image|
+          .img-container
+            img src="#{image.item}"
 
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
