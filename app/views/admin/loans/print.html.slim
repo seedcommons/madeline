@@ -9,15 +9,17 @@ section data-container="loan"
       h2 = t('loan.details')
       = render "admin/loans/details", loan: @loan
 
-    section.featured-image
-      = image_tag(@first_image.item.url) if @first_image
+    - if @images.first
+      section.featured-image
+        = image_tag(@images.first.item)
 
-    section.images
-      = render "admin/loans/questionnaires/page_header"
-      .image-list
-        - @image_list.each do |image|
-          .img-container
-            img src="#{image.item}"
+    - unless @image_list.empty?
+      section.images
+        = render "admin/loans/questionnaires/page_header"
+        .image-list
+          - @image_list.each do |image|
+            .img-container
+              img src="#{image.item}"
 
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
