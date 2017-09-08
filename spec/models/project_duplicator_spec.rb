@@ -30,7 +30,6 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  # add some expectations for fields
   context 'with populated associations' do
     let(:loan) do
       create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction,
@@ -83,7 +82,11 @@ RSpec.describe ProjectDuplicator, type: :model do
       end
 
       it 'copies project logs' do
-        expect(new_loan.project_logs.first.id).not_to eq loan.project_logs.first.id
+        log = loan.project_logs.first
+        new_log = new_loan.project_logs.first
+
+        expect(new_log.id).not_to eq log.id
+        expect(new_log.date).to eq log.date
         expect(new_loan.project_logs.count).to be > 0
         expect(new_loan.project_logs.count).to eq loan.project_logs.count
       end
