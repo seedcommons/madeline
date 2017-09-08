@@ -2,3 +2,5 @@ es:
   notification_mailer:
     new_log:
       subject: "[Madeline] Nuevo apunte en %{project}"
+      created: "Un nuevo apunte ha sido creado por %{agent} en %{project}"
+      contact: "Responder a este mail para contactar al autor del apunte."
