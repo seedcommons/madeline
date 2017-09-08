@@ -8,5 +8,36 @@ FactoryGirl.define do
     amount { Faker::Number.decimal(4, 2) }
     account
     project
+
+    trait :with_interest do
+      loan_transaction_type_value 'interest'
+      amount 100
+
+      after(:create) do |txn|
+        create(:line_item, parent_transaction: txn, posting_type: 'debit', amount: 100)
+        create(:line_item, parent_transaction: txn, posting_type: 'credit', amount: 100)
+      end
+    end
+
+    trait :with_disbursement do
+      loan_transaction_type_value 'disbursement'
+      amount 100
+
+      after(:create) do |txn|
+        create(:line_item, parent_transaction: txn, posting_type: 'credit', amount: 100)
+        create(:line_item, parent_transaction: txn, posting_type: 'debit', amount: 100)
+      end
+    end
+
+    trait :with_repayment do
+      loan_transaction_type_value 'repayment'
+      amount 100
+
+      after(:create) do |txn|
+        create(:line_item, parent_transaction: txn, posting_type: 'debit', amount: 100)
+        create(:line_item, parent_transaction: txn, posting_type: 'credit', amount: 50)
+        create(:line_item, parent_transaction: txn, posting_type: 'credit', amount: 50)
+      end
+    end
   end
 end
