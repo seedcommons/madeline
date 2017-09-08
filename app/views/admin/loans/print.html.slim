@@ -15,7 +15,7 @@ section data-container="loan"
     section.images
       = render "admin/loans/questionnaires/page_header"
       .image-list
-        - @images.each do |image|
+        - @image_list.each do |image|
           .img-container
             img src="#{image.item}"
 
