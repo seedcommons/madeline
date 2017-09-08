@@ -10,7 +10,7 @@
       / Also add page break for business model canvas answered question
       - response = response_set.response(question)
       - if (question.data_type == "business_canvas" || (question.data_type == 'group' && question.parent.root?)) \
-          && !response.blank?
+          && response.present?
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -21,7 +21,7 @@
 
       - optional = !question.required_for?(@loan)
       - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response.blank?))
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && response.present?))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
