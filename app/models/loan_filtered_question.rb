@@ -2,6 +2,10 @@
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
+  # the super initialize is breaking this in the tests since it requires a division
+  # I'm thinking two things. At the moment, preferring 1
+    # create a separate class that inherits from filtered_questions for division
+    # update this initialize method, the tests for it and all other usages with division arg
   def initialize(question, loan)
     super(question)
     @loan = loan
@@ -31,7 +35,7 @@ class LoanFilteredQuestion < FilteredQuestion
     if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      parent&.required?
+      parent.required?
     end
   end
 
