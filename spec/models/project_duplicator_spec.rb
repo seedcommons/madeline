@@ -32,8 +32,7 @@ RSpec.describe ProjectDuplicator, type: :model do
 
   context 'with populated associations' do
     let(:loan) do
-      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction,
-        :with_copies)
+      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction, :with_copies)
     end
 
     # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
@@ -90,6 +89,42 @@ RSpec.describe ProjectDuplicator, type: :model do
         expect(new_loan.project_logs.count).to be > 0
         expect(new_loan.project_logs.count).to eq loan.project_logs.count
       end
+    end
+  end
+
+  context 'with scheduled children' do
+    let(:loan) do
+      loan = create(:loan)
+    end
+
+    it 'has properly scheduled original loan' do
+      # Do some ground truth assertions here to ensure we are copying what we expect.
+
+      children = loan.root_timeline_entry.children
+      expect(children.count).to eq 3
+
+      g1 = children[0]
+      g2 = children[1]
+      s3 = children[2]
+      expect(g1.is_group?).to be_true
+      expect(g2.is_group?).to be_true
+      expect(s3.is_step?).to be_true
+
+      s11 = g1.children[0]
+      s21 = g2.children[1]
+      expect(s11.is_step?).to be_true
+      expect(s21.is_step?).to be_true
+
+      expect(s21.scheduled_start_date).to eq Date('2017-01-01')
+      expect(s21.scheduled_duration_days).to eq 5
+
+      expect(s11.scheduled_start_date).to eq Date('2017-01-06')
+      expect(s11.scheduled_duration_days).to eq 7
+      expect(s11.schedule_parent).to eq s21
+
+      expect(s3.scheduled_start_date).to eq Date('2017-01-015')
+      expect(s3.scheduled_duration_days).to eq 2
+      expect(s3.schedule_parent).to eq s11
     end
   end
 end
