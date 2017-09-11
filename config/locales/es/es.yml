@@ -34,6 +34,8 @@ es:
         accent_fg_color: "Color del Texto del Primer Plano de Acentos"
         connection_status: "Estado de QuickBooks"
         connect: "Conectar a QuickBooks"
+        last_updated_at: "Actualizado por última vez el"
+        full_sync: "Sincronización completa"
         disconnect: "Desconectar de QuickBooks"
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
@@ -141,12 +143,17 @@ es:
       accounting:
         transaction:
           amount: "Monto"
+          change_in_interest: "Cambio en el Interés"
+          change_in_principal: "Cambio en el Capital Prinicipal"
           description: "Descripción"
+          interest_balance: "Balance del Interés"
+          principal_balance: "Balance del Capital Principal"
           private_note: "Memo"
           qb_id: "Id"
           qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
+          total_balance: "Balance Total"
     errors:
       models:
         project_group:
@@ -168,11 +175,16 @@ es:
         account: "Cuenta Bancaria"
         amount: "Monto"
         description: "Descripción"
+        loan_transaction_type_value: "Tipo de Transacción"
         private_note: "Memo"
         txn_date: "Fecha"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
     options:
+      accounting_transaction:
+        loan_transaction_type_value:
+          disbursement: "Desembolso"
+          repayment: "Devolución"
       person:
         owning_division_role:
           admin: "Admin"
