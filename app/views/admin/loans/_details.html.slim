@@ -4,7 +4,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
     - if @loan.valid?
       = link_to t("loan.duplicate"), duplicate_admin_loan_path,
         data: { \
-          confirm: t("loan.confirm_duplication", object_type: @loan.class.name),
+          confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}"),
           "confirm-cancel": t(:cancel),
           "confirm-proceed": t(:confirm),
           "confirm-title": t("loan.duplicate") \

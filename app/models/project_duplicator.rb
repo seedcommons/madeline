@@ -15,7 +15,7 @@ class ProjectDuplicator
     copy
   end
 
-  # make sure to set project_id on copy
+  # Recursively copies timeline entries in pre-order traversal, ensuring correct parentage.
   def duplicate_timeline_entry(orig_entry, copy_parent_entry = nil)
     copy_entry = orig_entry.amoeba_dup
     copy_entry.project = copy
