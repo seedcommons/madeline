@@ -95,6 +95,24 @@ RSpec.describe ProjectDuplicator, type: :model do
   context 'with scheduled children' do
     let(:loan) do
       loan = create(:loan)
+
+      root = create(:root_project_group, project: loan)
+
+      s21 = FactoryGirl.create(:project_step, project: loan, division: root.division,
+        scheduled_start_date: '2017-01-01', scheduled_duration_days: 5)
+      s11 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s21,
+        scheduled_duration_days: 7)
+      s3 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s11,
+        scheduled_duration_days: 2)
+
+      helper = ProjectGroupFactoryHelper
+      g1 = helper.add_child_group(root, root)
+        g1.children << s11
+      g2 = helper.add_child_group(root, root)
+        g2.children << s21
+      root.children << s3
+
+      loan
     end
 
     it 'has properly scheduled original loan' do
@@ -106,23 +124,24 @@ RSpec.describe ProjectDuplicator, type: :model do
       g1 = children[0]
       g2 = children[1]
       s3 = children[2]
-      expect(g1.is_group?).to be_true
-      expect(g2.is_group?).to be_true
-      expect(s3.is_step?).to be_true
+      expect(g1.group?).to be_truthy
+      expect(g2.group?).to be_truthy
+      expect(s3.step?).to be_truthy
 
       s11 = g1.children[0]
-      s21 = g2.children[1]
-      expect(s11.is_step?).to be_true
-      expect(s21.is_step?).to be_true
+      s21 = g2.children[0]
+      expect(s11.step?).to be_truthy
+      expect(s21.step?).to be_truthy
 
-      expect(s21.scheduled_start_date).to eq Date('2017-01-01')
+      expect(s21.scheduled_start_date).to eq Date.parse('2017-01-01')
       expect(s21.scheduled_duration_days).to eq 5
+      expect(s21.schedule_parent).to be_nil
 
-      expect(s11.scheduled_start_date).to eq Date('2017-01-06')
+      expect(s11.scheduled_start_date).to eq Date.parse('2017-01-07')
       expect(s11.scheduled_duration_days).to eq 7
       expect(s11.schedule_parent).to eq s21
 
-      expect(s3.scheduled_start_date).to eq Date('2017-01-015')
+      expect(s3.scheduled_start_date).to eq Date.parse('2017-01-15')
       expect(s3.scheduled_duration_days).to eq 2
       expect(s3.schedule_parent).to eq s11
     end
