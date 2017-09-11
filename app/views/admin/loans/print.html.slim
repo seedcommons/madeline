@@ -25,8 +25,8 @@ section data-container="loan"
         .img-container
           = image_tag(image.item)
 
-        / Close container tags every 8 images
-        - if (index + 1) % 8  == 0
+        / Close container tags every 8 images and on the last image
+        - if ((index + 1) % 8 == 0) || (index + 1 == @image_list.length)
           </div></section>
 
   - if @mode != "details-only"
