@@ -82,7 +82,7 @@ describe "LoanResponse.progress" do
     end
   end
 
-  context "with question set" do
+  context "with empty question set" do
     it "should be correct" do
       expect(rset.progress_numerator).to eq 0
       expect(rset.progress_denominator).to eq 0
