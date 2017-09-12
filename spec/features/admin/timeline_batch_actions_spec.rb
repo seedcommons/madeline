@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'timeline batch actions', js: true do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
-  let!(:loan) { create(:loan, :with_timeline, division: division) }
+  let!(:loan) { create(:loan, :with_timeline2, division: division) }
 
   # Create a step with a dependent step, which also has a dependent step
   let(:step1) { create(:project_step, project: loan) }

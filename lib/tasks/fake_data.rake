@@ -17,7 +17,7 @@ if Rails.env.development?
       FactoryGirl.create(:loan,
         :with_translations,
         :with_foreign_translations,
-        :with_timeline,
+        :with_timeline2,
         :with_transaction,
         :with_log_media,
         :with_loan_media,
