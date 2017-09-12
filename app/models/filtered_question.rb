@@ -1,22 +1,27 @@
 # Wraps LoanQuestion and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  def self.decorate_collection(collection)
-    collection.map { |q| self.class.new(q, loan) }
+  def self.decorate_collection(collection, args)
+    collection.map { |q| self.new(q, **args) }
   end
 
-  def parent(*args)
+  def initialize(question, **args)
+    super(question)
+    @args = args
+  end
+
+  def parent
     return @parent if defined?(@parent)
-    @parent = object.parent.nil? ? nil : self.class.new(object.parent, *args)
+    @parent = object.parent.nil? ? nil : self.class.new(object.parent, **@args)
   end
 
-  def children(sort: :position)
-    @children ||= decorated_children.sort_by(&sort)
+  def children
+    @children ||= decorated_children.sort_by(&:position)
   end
 
-  private
+  protected
 
   def decorated_children
-    self.class.decorate_collection(object.children)
+    self.class.decorate_collection(object.children, @args)
   end
 
   def object
