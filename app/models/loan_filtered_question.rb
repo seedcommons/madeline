@@ -2,22 +2,16 @@
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
-  # the super initialize is breaking this in the tests since it requires a division
-  # I'm thinking two things. At the moment, preferring 1
-    # create a separate class that inherits from filtered_questions for division
-    # update this initialize method, the tests for it and all other usages with division arg
-  def initialize(question, loan)
-    super(question)
+  def initialize(question, loan:)
+    super(question, loan: loan)
     @loan = loan
-  end
-
-  def parent
-    super(loan)
   end
 
   # Returns child questions that are applicable to the given loan. Sorts by requiredness, then position.
   def children
-    @children ||= super(sort: [required? ? 1 : 2, position]).select(&:visible?)
+    @children ||= decorated_children.select(&:visible?).sort_by do |i|
+      [i.required? ? 1 : 2, i.position]
+    end
   end
 
   # Resolves if this particular question is considered required for the provided loan, based on
@@ -35,15 +29,13 @@ class LoanFilteredQuestion < FilteredQuestion
     if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      parent&.required?
+      parent.required?
     end
   end
 
   def answered?
     response_set && !response_set.tree_unanswered?(object)
   end
-
-  private
 
   def visible?
     status == 'active' || (status == 'inactive' && answered?)

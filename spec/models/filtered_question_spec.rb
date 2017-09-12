@@ -14,17 +14,21 @@ describe FilteredQuestion, type: :model do
   let(:q21) { create(:loan_question, division: d21) }
 
   it 'filters correctly' do
-    expect(FilteredQuestion.new(q0, division: d0).visible?).to be_truthy
-    expect(FilteredQuestion.new(q1, division: d1).visible?).to be_truthy
-    expect(FilteredQuestion.new(q1, division: d11).visible?).to be_falsey
-    expect(FilteredQuestion.new(q1, division: d2).visible?).to be_falsey
-    expect(FilteredQuestion.new(q1, division: d21).visible?).to be_falsey
-    expect(FilteredQuestion.new(q1, division: d0).visible?).to be_truthy
-    expect(FilteredQuestion.new(q11, division: d21).visible?).to be_falsey
-    expect(FilteredQuestion.new(q11, division: d1).visible?).to be_truthy
-    expect(FilteredQuestion.new(q11, division: d0).visible?).to be_truthy
-    expect(FilteredQuestion.new(q11, division: d2).visible?).to be_falsey
-    expect(FilteredQuestion.new(q2, division: d1).visible?).to be_falsey
-    expect(FilteredQuestion.new(q2, division: d0).visible?).to be_truthy
+    expect(filtered_question(q0, d0).visible?).to be_truthy
+    expect(filtered_question(q1, d1).visible?).to be_truthy
+    expect(filtered_question(q1, d11).visible?).to be_falsey
+    expect(filtered_question(q1, d2).visible?).to be_falsey
+    expect(filtered_question(q1, d21).visible?).to be_falsey
+    expect(filtered_question(q1, d0).visible?).to be_truthy
+    expect(filtered_question(q11, d21).visible?).to be_falsey
+    expect(filtered_question(q11, d1).visible?).to be_truthy
+    expect(filtered_question(q11, d0).visible?).to be_truthy
+    expect(filtered_question(q11, d2).visible?).to be_falsey
+    expect(filtered_question(q2, d1).visible?).to be_falsey
+    expect(filtered_question(q2, d0).visible?).to be_truthy
+  end
+
+  def filtered_question(q, d)
+    FilteredQuestion.new(q, division: d)
   end
 end
