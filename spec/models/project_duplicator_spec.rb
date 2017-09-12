@@ -18,7 +18,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     it 'name column is prepended with "Copy of"' do
       new_loan = duplicator.duplicate
 
-      expect(new_loan.name) .to eq "Copy of #{loan.default_name}"
+      expect(new_loan.name).to eq "Copy of #{loan.default_name}"
     end
   end
 
@@ -26,7 +26,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     it 'name column is prepended with "Copy of"' do
       new_loan = duplicator.duplicate
 
-      expect(new_loan.name) .to eq "Copy of #{loan.name}"
+      expect(new_loan.name).to eq "Copy of #{loan.name}"
     end
   end
 
