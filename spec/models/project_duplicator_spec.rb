@@ -134,6 +134,14 @@ RSpec.describe ProjectDuplicator, type: :model do
       loan = create(:loan)
 
       root = create(:root_project_group, project: loan)
+      g1 = ProjectGroupFactoryHelper.add_child_group(root, root)
+      g2 = ProjectGroupFactoryHelper.add_child_group(root, root)
+
+      # g1
+      #   s11
+      # g2
+      #   s22
+      # s3
 
       # 01-01   01-7      01-15
       # s21-----s11-------s3--
@@ -144,10 +152,8 @@ RSpec.describe ProjectDuplicator, type: :model do
       s3 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s11,
         scheduled_duration_days: 2)
 
-      g1 = ProjectGroupFactoryHelper.add_child_group(root, root)
-        g1.children << s11
-      g2 = ProjectGroupFactoryHelper.add_child_group(root, root)
-        g2.children << s21
+      g1.children << s11
+      g2.children << s21
       root.children << s3
 
       loan
