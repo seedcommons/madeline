@@ -1,6 +1,6 @@
 # Wraps LoanQuestion and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  def self.decorate_collection(collection, args)
+  def self.decorate_collection(collection, **args)
     collection.map { |q| self.new(q, **args) }
   end
 
@@ -25,6 +25,6 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(object.children, @args)
+    self.class.decorate_collection(object.children, **@args)
   end
 end
