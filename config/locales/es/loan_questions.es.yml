@@ -35,6 +35,7 @@ es:
     labels:
       loan_question:
         data_type: Tipo de Dato
+        division: División
         has_embeddable_media: Permitir adjuntar archivos o links
         loan_types: Requerido para Tipos de Préstamos
     options:
