@@ -32,7 +32,7 @@ RSpec.describe ProjectDuplicator, type: :model do
 
   context 'with populated associations' do
     let(:loan) do
-      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction, :with_copies)
+      create(:loan, :with_loan_media, :with_timeline2, :with_accounting_transaction, :with_copies)
     end
 
     # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
@@ -44,7 +44,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
 
     it 'copies timeline_entries' do
-      expect(new_loan.timeline_entries.first.id).not_to eq loan.timeline_entries.first.id
+      expect(new_loan.timeline_entries[0].id).not_to eq loan.timeline_entries[0].id
       expect(new_loan.timeline_entries.count).to eq loan.timeline_entries.count
     end
 
@@ -52,16 +52,12 @@ RSpec.describe ProjectDuplicator, type: :model do
       root = loan.root_timeline_entry
       new_root = new_loan.root_timeline_entry
 
-      # We need to sort children by id's as once the schedule is copied over, the order changes.
-      children = root.children.order(:id)
-      new_children = new_root.children.order(:id)
-
       expect(new_root.id).not_to eq root.id
-      expect(new_children.first.id).not_to eq children.first.id
-      expect(new_children.count).to eq children.count
+      expect(new_root.c[0].id).not_to eq root.c[0].id
+      expect(new_root.c.count).to eq root.c.count
 
-      expect(new_children[1].children[0].id).not_to eq children[1].children[0].id
-      expect(new_children[1].children.count).to eq children[1].children.count
+      expect(new_root.c[1].c[0].id).not_to eq root.c[1].c[0].id
+      expect(new_root.c[1].c.count).to eq root.c[1].c.count
     end
 
     it 'copies health_check' do
@@ -78,15 +74,15 @@ RSpec.describe ProjectDuplicator, type: :model do
 
     context 'with project logs' do
       before do
-        grandchild = loan.root_timeline_entry.children[0].children[0]
+        grandchild = loan.root_timeline_entry.c[0].c[0]
         logs = create_list(:project_log, 2, project_step: grandchild)
         grandchild.project_logs << logs
         loan.save!
       end
 
       it 'copies project logs' do
-        log = loan.project_logs.first
-        new_log = new_loan.project_logs.first
+        log = loan.project_logs[0]
+        new_log = new_loan.project_logs[0]
 
         expect(new_log.id).not_to eq log.id
         expect(new_log.date).to eq log.date
