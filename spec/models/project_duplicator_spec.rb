@@ -52,12 +52,16 @@ RSpec.describe ProjectDuplicator, type: :model do
       root = loan.root_timeline_entry
       new_root = new_loan.root_timeline_entry
 
-      expect(new_root.id).not_to eq root.id
-      expect(new_root.children.first.id).not_to eq root.children.first.id
-      expect(new_root.children.count).to eq root.children.count
+      # We need to sort children by id's as once the schedule is copied over, the order changes.
+      children = root.children.order(:id)
+      new_children = new_root.children.order(:id)
 
-      expect(new_root.children[1].children[0].id).not_to eq root.children[1].children[0].id
-      expect(new_root.children[1].children.count).to eq root.children[1].children.count
+      expect(new_root.id).not_to eq root.id
+      expect(new_children.first.id).not_to eq children.first.id
+      expect(new_children.count).to eq children.count
+
+      expect(new_children[1].children[0].id).not_to eq children[1].children[0].id
+      expect(new_children[1].children.count).to eq children[1].children.count
     end
 
     it 'copies health_check' do
@@ -92,33 +96,11 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  context 'with scheduled children' do
-    let(:loan) do
-      loan = create(:loan)
-
-      root = create(:root_project_group, project: loan)
-
-      s21 = FactoryGirl.create(:project_step, project: loan, division: root.division,
-        scheduled_start_date: '2017-01-01', scheduled_duration_days: 5)
-      s11 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s21,
-        scheduled_duration_days: 7)
-      s3 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s11,
-        scheduled_duration_days: 2)
-
-      helper = ProjectGroupFactoryHelper
-      g1 = helper.add_child_group(root, root)
-        g1.children << s11
-      g2 = helper.add_child_group(root, root)
-        g2.children << s21
-      root.children << s3
-
-      loan
-    end
-
-    it 'has properly scheduled original loan' do
+  shared_examples_for 'scheduled loan' do
+    it 'has been properly scheduled' do
       # Do some ground truth assertions here to ensure we are copying what we expect.
 
-      children = loan.root_timeline_entry.children
+      children = loan_to_test.root_timeline_entry.children.order(:id)
       expect(children.count).to eq 3
 
       g1 = children[0]
@@ -144,6 +126,47 @@ RSpec.describe ProjectDuplicator, type: :model do
       expect(s3.scheduled_start_date).to eq Date.parse('2017-01-15')
       expect(s3.scheduled_duration_days).to eq 2
       expect(s3.schedule_parent).to eq s11
+    end
+  end
+
+  context 'with scheduled children' do
+    let(:loan) do
+      loan = create(:loan)
+
+      root = create(:root_project_group, project: loan)
+
+      # 01-01   01-7      01-15
+      # s21-----s11-------s3--
+      s21 = FactoryGirl.create(:project_step, project: loan, division: root.division,
+        scheduled_start_date: '2017-01-01', scheduled_duration_days: 5)
+      s11 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s21,
+        scheduled_duration_days: 7)
+      s3 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s11,
+        scheduled_duration_days: 2)
+
+      g1 = ProjectGroupFactoryHelper.add_child_group(root, root)
+        g1.children << s11
+      g2 = ProjectGroupFactoryHelper.add_child_group(root, root)
+        g2.children << s21
+      root.children << s3
+
+      loan
+    end
+
+    context 'original loan' do
+      let(:loan_to_test) { loan }
+      it_behaves_like 'scheduled loan'
+    end
+
+    context 'copied loan' do
+      let(:new_loan) { Loan.find(duplicator.duplicate.id) }
+      let(:loan_to_test) { new_loan }
+
+      it_behaves_like 'scheduled loan'
+
+      it 'has different loan id from original' do
+        expect(new_loan.id).not_to eq loan.id
+      end
     end
   end
 end

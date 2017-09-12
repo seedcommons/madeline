@@ -57,6 +57,7 @@ class TimelineEntry < ActiveRecord::Base
     propagate
     include_association :translations
     include_association :project_logs
+    nullify :schedule_parent_id
   end
 
   # Returns a value that can be used in sort operations. Should be analogous to the by_date scope above, but
