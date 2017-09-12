@@ -8,10 +8,12 @@
 #  currency_id                 :integer
 #  description                 :string
 #  id                          :integer          not null, primary key
+#  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
 #  project_id                  :integer
-#  qb_id                       :string           not null
+#  qb_id                       :string
 #  qb_transaction_type         :string           not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )

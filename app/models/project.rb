@@ -15,6 +15,7 @@
 #  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
+#  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
 #  public_level_value          :string
