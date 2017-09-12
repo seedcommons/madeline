@@ -72,7 +72,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
   def render_set_json(set)
-    render json: set.root_group_preloaded.children_applicable_to(nil)
+    render json: set.root_group_preloaded.children_applicable_to(nil), user: current_user
   end
 
   def set_loan_question
