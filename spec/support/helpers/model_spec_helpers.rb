@@ -7,7 +7,7 @@ module ModelSpecHelpers
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
     let!(:qset) { create(:loan_question_set, internal_name: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { LoanResponseSet.new(loan: loan1, kind: 'criteria') }
+    let(:rset) { build(:loan_response_set, loan: loan1) }
   end
 
   shared_context "full question set and responses" do
@@ -20,15 +20,16 @@ module ModelSpecHelpers
     let!(:q3) { create_group(parent: root, name: "q3", required: true) }
     let!(:q31) { create_question(parent: q3, name: "q31", type: "string", required: true, override: false) } # answered
     let!(:q32) { create_question(parent: q3, name: "q32", type: "boolean", required: true) } # answered
-    let!(:q33) { create_group(parent: q3, name: "q33", required: true) }
+    let!(:q33) { create_group(parent: q3, name: "q33", required: true, position: 99) }
     let!(:q331) { create_question(parent: q33, name: "q331", type: "boolean", required: false) } # answered
     let!(:q332) { create_question(parent: q33, name: "q332", type: "boolean", loan_types: [lt2]) }
     let!(:q34) { create_question(parent: q3, name: "q34", type: "string", required: false) }
-    let!(:q35) { create_question(parent: q3, name: "q35", type: "string", required: true) }
+    let!(:q35) { create_question(parent: q3, name: "q35", type: "string", required: true, position: -99) }
     let!(:q36) { create_question(parent: q3, name: "q36", type: "string", required: true, status: 'inactive') }
     let!(:q37) { create_question(parent: q3, name: "q37", type: "string", required: true, status: 'retired') } # answered
     let!(:q38) { create_group(parent: q3, name: "q38", required: false) }
     let!(:q381) { create_question(parent: q38, name: "q381", type: "boolean", loan_types: []) }
+    let!(:q39) { create_question(parent: q3, name: "q39", type: "text", status: 'inactive') } # answered
 
     # Optional group
     let!(:q4) { create_group(parent: root, name: "q4", required: false) }
@@ -54,36 +55,34 @@ module ModelSpecHelpers
       rset.set_response("q32", {"boolean" => "no"}) # required
       rset.set_response("q331", {"boolean" => "yes"})
       rset.set_response("q37", {"text" => "retired question"})
+      rset.set_response("q39", {"text" => "inactive question"})
       rset.set_response("q41", {"text" => ""})
       rset.set_response("q42", {"text" => "pants"})
       rset.set_response("q43", {"text" => ""})
       rset.set_response("q51", {"text" => "inactive group"})
       rset.set_response("q61", {"text" => "retired group"})
+      rset.save!
     end
   end
 
-  def create_group(parent: nil, name: "", required: nil, status: 'active', override: true, loan_types: nil)
+  def create_group(**args)
     create_question(
-      parent: parent,
-      name: name,
       type: "group",
-      required: required,
-      status: status,
-      override: override,
-      loan_types: loan_types,
+      **args
     )
   end
 
-  def create_question(set: qset, status: 'active', name: "", parent: nil, type:, override: true,
-    loan_types: nil, required: nil)
+  def create_question(set: qset, status: 'active', name: "", type:, override: true, required: false,
+    loan_types: nil, **args)
+
     create(:loan_question,
       loan_question_set: set,
       status: status,
       internal_name: name,
-      parent: parent,
       data_type: type,
       override_associations: override,
       loan_types: loan_types || (required ? [lt1] : []),
+      **args
     )
   end
 end

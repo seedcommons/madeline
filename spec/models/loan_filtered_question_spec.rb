@@ -4,9 +4,11 @@ RSpec.describe LoanFilteredQuestion, type: :model do
   include_context "full question set and responses"
 
   describe '#parent' do
-    subject(:parent) { LoanFilteredQuestion.new(q31, loan: loan1).parent }
+    let(:parent) { LoanFilteredQuestion.new(q31, loan: loan1).parent }
 
-    it { should be_a LoanFilteredQuestion }
+    it 'returns a decorated object' do
+      expect(parent).to be_a LoanFilteredQuestion
+    end
 
     it 'should have the right loan' do
       expect(parent.loan).to eq loan1
@@ -14,14 +16,14 @@ RSpec.describe LoanFilteredQuestion, type: :model do
   end
 
   describe '#children' do
-    subject(:children) { LoanFilteredQuestion.new(q3.reload, loan: loan1).children }
+    let(:children) { LoanFilteredQuestion.new(q3.reload, loan: loan1).children }
 
     it 'returns decorated objects' do
       expect(children.first).to be_a LoanFilteredQuestion
     end
 
-    it 'hides invisible questions' do
-
+    it 'returns only visible questions in the correct order' do
+      expect(children.map(&:object)).to eq [q35, q31, q32, q33, q34, q38, q39]
     end
   end
 

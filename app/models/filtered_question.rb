@@ -18,13 +18,13 @@ class FilteredQuestion < SimpleDelegator
     @children ||= decorated_children.sort_by(&:position)
   end
 
+  def object
+    __getobj__
+  end
+
   protected
 
   def decorated_children
     self.class.decorate_collection(object.children, @args)
-  end
-
-  def object
-    __getobj__
   end
 end
