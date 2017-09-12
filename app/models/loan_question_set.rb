@@ -11,7 +11,6 @@
 class LoanQuestionSet < ActiveRecord::Base
   include Translatable
 
-  belongs_to :division
   has_closure_tree_root :root_group, class_name: "LoanQuestion"
 
   attr_translatable :label
@@ -37,7 +36,8 @@ class LoanQuestionSet < ActiveRecord::Base
       data_type: "group",
       internal_name: "root_#{id}",
       required: true,
-      position: 0
+      position: 0,
+      division: Division.root
     )
   end
 

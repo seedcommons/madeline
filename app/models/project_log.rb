@@ -35,10 +35,16 @@ class ProjectLog < ActiveRecord::Base
 
   attr_option_settable :progress_metric
 
-  validates :project_step_id, :date, :agent_id, presence: true
+  validates :project_step, :date, presence: true
   validates :summary, translation_presence: true
 
   after_commit :recalculate_loan_health
+
+  amoeba do
+    enable
+
+    include_association :translations
+  end
 
   def self.filter_by(params)
     if params[:step].present?

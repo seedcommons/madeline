@@ -103,6 +103,15 @@ class Admin::LoansController < Admin::ProjectsController
     end
   end
 
+  def duplicate
+    @loan = Loan.find(params[:id])
+    authorize @loan, :new?
+
+    new_loan = ProjectDuplicator.new(@loan).duplicate
+
+    redirect_to admin_loan_path(new_loan), notice: I18n.t('loan.duplicated_message')
+  end
+
   def print
     @loan = Loan.find(params[:id])
     authorize @loan, :show?

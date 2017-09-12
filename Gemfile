@@ -69,7 +69,7 @@ gem 'jquery-ui-rails'
 # 1. the csv_encoding feature has not been released yet
 #    despite being committed in November 2015.
 # 2. We added a placeholder to the bootstrap datepicker (PR outstanding on main project)
-gem 'wice_grid', github: 'sassafrastech/wice_grid', branch: 'rails3'
+gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails3'
 
 # Forms
 gem 'simple_form'
@@ -106,6 +106,9 @@ gem 'chronic'
 
 # Improved syntax for creating cron jobs
 gem 'whenever', '~> 0.9', require: false
+
+# Easy cloning of active record objects
+gem 'amoeba'
 
 group :development, :test do
   # Load environment variables from .env file in development

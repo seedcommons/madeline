@@ -24,6 +24,14 @@
 #
 
 class Accounting::LineItem < ActiveRecord::Base
-  belongs_to :accounting_transaction, class_name: 'Accounting::Transaction'
-  belongs_to :accounting_account, class_name: 'Accounting::Account'
+  belongs_to :parent_transaction, class_name: 'Accounting::Transaction', foreign_key: :accounting_transaction_id
+  belongs_to :account, class_name: 'Accounting::Account', foreign_key: :accounting_account_id
+
+  def credit?
+    posting_type == "credit"
+  end
+
+  def debit?
+    posting_type == "debit"
+  end
 end
