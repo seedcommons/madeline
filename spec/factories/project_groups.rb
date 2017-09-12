@@ -28,6 +28,12 @@ FactoryGirl.define do
         end
       end
 
+      trait :with_descendants2 do
+        after(:create) do |root|
+          ProjectGroupFactoryHelper2.create_descendants(root)
+        end
+      end
+
       trait :with_only_step_descendants do
         after(:create) do |root|
           helper = ProjectGroupFactoryHelper
@@ -95,8 +101,13 @@ class ProjectGroupFactoryHelper2
   # But creates in a jumbled order so that we know sort works properly.
   def self.create_full_timeline
     project = FactoryGirl.create(:loan)
+    root = FactoryGirl.create(:root_project_group, project: project)
+    create_descendants(root)
+  end
+
+  def self.create_descendants(root)
     {}.tap do |nodes|
-      nodes[:root] = FactoryGirl.create(:root_project_group, project: project)
+      nodes[:root] = root
       nodes[:g3] = create_group(nodes[:root])
       nodes[:g3_s3] = create_step(nodes[:g3], "2017-02-01", 5)
       nodes[:g3_s2] = create_step(nodes[:g3], "2017-02-01", 2)
