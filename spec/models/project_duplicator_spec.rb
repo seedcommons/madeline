@@ -92,67 +92,47 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  shared_examples_for 'scheduled loan' do
-    it 'has been properly scheduled' do
-      # Do some ground truth assertions here to ensure we are copying what we expect.
-
-      children = loan_to_test.root_timeline_entry.children.order(:id)
-      expect(children.count).to eq 3
-
-      g1 = children[0]
-      g2 = children[1]
-      s3 = children[2]
-      expect(g1.group?).to be_truthy
-      expect(g2.group?).to be_truthy
-      expect(s3.step?).to be_truthy
-
-      s11 = g1.children[0]
-      s21 = g2.children[0]
-      expect(s11.step?).to be_truthy
-      expect(s21.step?).to be_truthy
-
-      expect(s21.scheduled_start_date).to eq Date.parse('2017-01-01')
-      expect(s21.scheduled_duration_days).to eq 5
-      expect(s21.schedule_parent).to be_nil
-
-      expect(s11.scheduled_start_date).to eq Date.parse('2017-01-07')
-      expect(s11.scheduled_duration_days).to eq 7
-      expect(s11.schedule_parent).to eq s21
-
-      expect(s3.scheduled_start_date).to eq Date.parse('2017-01-15')
-      expect(s3.scheduled_duration_days).to eq 2
-      expect(s3.schedule_parent).to eq s11
-    end
-  end
-
   context 'with scheduled children' do
-    let(:loan) do
-      loan = create(:loan)
+    # Creates a timeline and returns nodes stored in a hash.
+    let!(:nodes) { ProjectGroupFactoryHelper.create_full_timeline }
+    let(:loan) { nodes[:root].project }
 
-      root = create(:root_project_group, project: loan)
-      g1 = ProjectGroupFactoryHelper.add_child_group(root, root)
-      g2 = ProjectGroupFactoryHelper.add_child_group(root, root)
+    # Break each of the nodes out into a let so that we can examine them individually.
+    ProjectGroupFactoryHelper::NODE_NAMES.each do |name|
+      let(name) { nodes[name] }
+    end
 
-      # g1
-      #   s11
-      # g2
-      #   s22
-      # s3
+    before do
+      # See ProjectGroupFactoryHelper for the layout of nodes in the timeline.
+      # We introduce some schedule dependencies in such a way that one of the dependencies
+      # actually goes downward instead of upward.
+      # g3_s3 is sorted above s1 because g3 has an early step. But we're going to make g3_s3 depend
+      # on s1, which won't change the sort order, but is a downward depenendency.
+      g3_s3.update_attributes!(schedule_parent_id: s1.id)
+      g5_s1.update_attributes!(schedule_parent_id: g3_s3.id)
+    end
 
-      # 01-01   01-7      01-15
-      # s21-----s11-------s3--
-      s21 = FactoryGirl.create(:project_step, project: loan, division: root.division,
-        scheduled_start_date: '2017-01-01', scheduled_duration_days: 5)
-      s11 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s21,
-        scheduled_duration_days: 7)
-      s3 = FactoryGirl.create(:project_step, project: loan, division: root.division, schedule_parent: s11,
-        scheduled_duration_days: 2)
+    shared_examples_for 'scheduled loan' do
+      it 'has been properly scheduled' do
+        # We need to rebuild these references because we're using these examples for both
+        # the old and the new loan.
+        root = loan_to_test.root_timeline_entry
+        s1 = root.c[3]
+        g3_s3 = root.c[2].c[2]
+        g5_s1 = root.c[5].c[0]
 
-      g1.children << s11
-      g2.children << s21
-      root.children << s3
+        expect(s1.scheduled_start_date).to eq Date.parse('2017-02-28')
+        expect(s1.scheduled_duration_days).to eq 30
+        expect(s1.schedule_parent).to be_nil
 
-      loan
+        expect(g3_s3.scheduled_start_date).to eq Date.parse('2017-03-31')
+        expect(g3_s3.scheduled_duration_days).to eq 5
+        expect(g3_s3.schedule_parent).to eq s1
+
+        expect(g5_s1.scheduled_start_date).to eq Date.parse('2017-04-06')
+        expect(g5_s1.scheduled_duration_days).to eq 3
+        expect(g5_s1.schedule_parent).to eq g3_s3
+      end
     end
 
     context 'original loan' do
