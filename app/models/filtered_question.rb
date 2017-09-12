@@ -9,6 +9,10 @@ class FilteredQuestion < SimpleDelegator
     @args = args
   end
 
+  def inspect
+    "#<#{self.class} object: #{super}>"
+  end
+
   def parent
     return @parent if defined?(@parent)
     @parent = object.parent.nil? ? nil : self.class.new(object.parent, **@args)

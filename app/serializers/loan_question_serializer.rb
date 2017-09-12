@@ -28,11 +28,6 @@
 class LoanQuestionSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status
 
-  def initialize(*args, loan: nil, **options)
-    @loan = loan
-    super(*args, options)
-  end
-
   def name
     object.full_number_and_label
   end
@@ -41,7 +36,7 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children_applicable_to(@loan).map { |node| self.class.new(node, loan: @loan) }
+      object.children.map { |node| self.class.new(node) }
     end
   end
 
@@ -50,7 +45,7 @@ class LoanQuestionSerializer < ActiveModel::Serializer
   end
 
   def optional
-    @loan && !object.required_for?(@loan)
+    !object.required?
   end
 
   def required_loan_types
