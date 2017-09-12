@@ -10,6 +10,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
+  let(:office_account) { create(:accounting_account, qb_id: qb_office_account_id) }
   let(:loan) { create(:loan) }
   let(:loan_id) { loan.id }
   let(:amount) { 78.20 }
@@ -17,6 +18,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:description) { 'I am a line item description' }
   let(:qb_bank_account_id) { '89' }
   let(:qb_principal_account_id) { '92' }
+  let(:qb_office_account_id) { '1' }
   let(:date) { nil }
   let(:transaction) do
     Accounting::Transaction.new(
@@ -29,6 +31,33 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     )
   end
 
+  let(:line_item_1) {
+    build(:line_item,
+      account: principal_account,
+      posting_type: 'Debit',
+      description: '1st line item',
+      amount: 100
+    )
+  }
+
+  let(:line_item_2) {
+    build(:line_item,
+      account: bank_account,
+      posting_type: 'Credit',
+      description: '2nd line item',
+      amount: 25
+    )
+  }
+
+  let(:line_item_3) {
+    build(:line_item,
+      account: office_account,
+      posting_type: 'Credit',
+      description: '3rd line item',
+      amount: 75
+    )
+  }
+
   let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
 
   subject do
@@ -40,6 +69,9 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     allow(creator).to receive(:class_service).and_return(class_service)
     allow(creator).to receive(:customer_reference).and_return(customer_reference)
     allow(creator).to receive(:department_reference).and_return(department_reference)
+
+    # since transaction does not exist yet
+    transaction.line_items << [line_item_1, line_item_2, line_item_3]
   end
 
   let(:qb_customer_id) { '91234' }
@@ -51,23 +83,20 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
 
   it 'calls create with correct data' do
     expect(generic_service).to receive(:create) do |arg|
-      expect(arg.line_items.count).to eq 2
+      expect(arg.line_items.count).to eq 3
       expect(arg.private_note).to eq memo
       expect(arg.txn_date).to be_nil
 
       list = arg.line_items
-      expect(list.map(&:amount).uniq).to eq [amount]
-      expect(list.map(&:description).uniq).to eq [description]
+      expect(list.map(&:amount)).to eq transaction.line_items.map(&:amount)
+      expect(list.map(&:description).uniq).to eq transaction.line_items.map(&:description)
 
       details = list.map { |i| i.journal_entry_line_detail }
       expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
       expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
       expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
       expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
-      expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id]
-
-      # QBO returns the newly created object, we need to return one here.
-      created_journal_entry
+      expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
     end
     subject
   end
@@ -78,9 +107,6 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     it 'creates JournalEntry with date' do
       expect(generic_service).to receive(:create) do |arg|
         expect(arg.txn_date).to eq date
-
-        # QBO returns the newly created object, we need to return one here.
-        created_journal_entry
       end
       subject
     end
@@ -89,20 +115,5 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   it 'creates JournalEntry with a reference to the existing loan' do
     expect(class_service).to receive(:find_by).with(:name, loan_id)
     subject
-  end
-
-
-  context 'and date is supplied' do
-    let(:date) { 3.days.ago.to_date }
-
-    it 'creates JournalEntry with date' do
-      expect(generic_service).to receive(:create) do |arg|
-        expect(arg.txn_date).to eq date
-
-        # QBO returns the newly created object, we need to return one here.
-        created_journal_entry
-      end
-      subject
-    end
   end
 end
