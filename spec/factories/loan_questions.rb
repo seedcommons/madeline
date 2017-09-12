@@ -33,7 +33,7 @@ FactoryGirl.define do
     position [1..10].sample
     status 'active'
     parent nil
-    transient_division
+    division { root_division }
 
     after(:create) do |model|
       model.set_label(Faker::Lorem.words(2).join(' '))

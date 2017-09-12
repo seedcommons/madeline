@@ -7,7 +7,7 @@
 #  has_sporadic_updates :boolean
 #  id                   :integer          not null, primary key
 #  last_log_date        :date
-#  loan_id              :integer
+#  loan_id              :integer          not null
 #  missing_contract     :boolean
 #  progress_pct         :decimal(, )
 #  updated_at           :datetime         not null

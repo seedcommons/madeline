@@ -4,6 +4,7 @@
 #
 #  created_at            :datetime         not null
 #  data_type             :string
+#  division_id           :integer          not null
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
@@ -37,6 +38,7 @@ class LoanQuestion < ActiveRecord::Base
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
 
   belongs_to :loan_question_set
+  belongs_to :division
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
@@ -62,8 +64,6 @@ class LoanQuestion < ActiveRecord::Base
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
   attr_translatable :explanation
-
-  delegate :division, :division=, to: :loan_question_set
 
   validates :data_type, presence: true
 

@@ -20,6 +20,8 @@ en:
     delete_selected: "Delete"
     description: "Description"
     details: "Details"
+    duplicate: "Duplicate"
+    duplicated_message: "The loan was successfully duplicated."
     edit: "Edit Loan"
     end: "End %{name}"
     end_date: "End Date"
@@ -37,6 +39,7 @@ en:
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     no_answer: "No answer given."
+    not_applicable: "Not applicable"
     num_of_links:
       one: "There is %{count} linked document."
       other: "There are %{count} linked documents."
@@ -184,6 +187,7 @@ en:
 
   transactions:
     default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
+    interest_description: "Interest Accrual for Loan #%{loan_id}"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:

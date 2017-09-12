@@ -15,6 +15,7 @@
 #  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
+#  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
 #  public_level_value          :string
@@ -53,9 +54,11 @@ class Project < ActiveRecord::Base
   belongs_to :division
   belongs_to :primary_agent, class_name: 'Person'
   belongs_to :secondary_agent, class_name: 'Person'
+  belongs_to :original, class_name: 'Project'
   has_many :timeline_entries, dependent: :destroy
   has_many :project_logs, through: :timeline_entries
   has_many :transactions, class_name: 'Accounting::Transaction', dependent: :destroy
+  has_many :copies, class_name: 'Project', foreign_key: 'original_id', dependent: :nullify
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
@@ -63,6 +66,22 @@ class Project < ActiveRecord::Base
   validates :division_id, presence: true
 
   alias_method :logs, :project_logs
+
+  # Configure how the class is duplicated
+  amoeba do
+    enable
+    propagate
+    exclude_association :media
+    exclude_association :timeline_entries
+    exclude_association :transactions
+    exclude_association :copies
+
+    # The default name is computed, if it hasn't been set it will be blank.
+    # We need to manually copy over the name and set it here for it to work.
+    customize(lambda { |orig, new|
+      new.name = "Copy of #{orig.display_name}"
+    })
+  end
 
   # The Loan's timeline entries should be accessed via this root node.
   # Timeline steps are organzed as a tree. The tree has a blank root node (ProjectGroup) that is not shown

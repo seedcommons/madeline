@@ -15,6 +15,7 @@
 #  loan_type_value             :string
 #  name                        :string
 #  organization_id             :integer
+#  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
 #  public_level_value          :string
@@ -55,7 +56,7 @@ class Loan < Project
   belongs_to :representative, class_name: 'Person'
   has_one :criteria, -> { where("loan_response_sets.kind" => 'criteria') }, class_name: "LoanResponseSet"
   has_one :post_analysis, -> { where("loan_response_sets.kind" => 'post_analysis') }, class_name: "LoanResponseSet"
-  has_one :loan_health_check, foreign_key: :loan_id, dependent: :destroy
+  has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :country, ->(country) {
     joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
@@ -69,7 +70,7 @@ class Loan < Project
 
   validates :organization, presence: true
 
-  before_create :build_loan_health_check
+  before_create :build_health_check
   after_commit :recalculate_loan_health
 
   def self.status_active_id
@@ -203,11 +204,11 @@ class Loan < Project
   end
 
   def healthy?
-    return false unless loan_health_check
-    loan_health_check.healthy?
+    return false unless health_check
+    health_check.healthy?
   end
 
   def health_status_available?
-    return !loan_health_check.nil?
+    return !health_check.nil?
   end
 end

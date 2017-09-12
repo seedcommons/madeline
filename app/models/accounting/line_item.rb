@@ -2,13 +2,13 @@
 #
 # Table name: accounting_line_items
 #
-#  accounting_account_id     :integer
-#  accounting_transaction_id :integer
-#  amount                    :decimal(, )
+#  accounting_account_id     :integer          not null
+#  accounting_transaction_id :integer          not null
+#  amount                    :decimal(, )      not null
 #  created_at                :datetime         not null
 #  description               :string
 #  id                        :integer          not null, primary key
-#  posting_type              :string
+#  posting_type              :string           not null
 #  qb_line_id                :integer
 #  updated_at                :datetime         not null
 #
@@ -24,6 +24,14 @@
 #
 
 class Accounting::LineItem < ActiveRecord::Base
-  belongs_to :accounting_transaction, class_name: 'Accounting::Transaction'
-  belongs_to :accounting_account, class_name: 'Accounting::Account'
+  belongs_to :parent_transaction, class_name: 'Accounting::Transaction', foreign_key: :accounting_transaction_id
+  belongs_to :account, class_name: 'Accounting::Account', foreign_key: :accounting_account_id
+
+  def credit?
+    posting_type == "credit"
+  end
+
+  def debit?
+    posting_type == "debit"
+  end
 end

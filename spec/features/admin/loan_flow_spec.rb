@@ -51,6 +51,15 @@ feature 'loan flow' do
     end
   end
 
+  describe 'details' do
+    scenario 'can duplicate', js: true do
+      visit admin_loan_path(loan)
+
+      click_on('Duplicate')
+      expect(page).to have_content "Copy of #{loan.display_name}"
+    end
+  end
+
   # Keeping this code here for now. It tended to be more stable than the shared example.
   # Can be deleted when we are happy the shared spec is working.
   # scenario 'can view index', js: true do

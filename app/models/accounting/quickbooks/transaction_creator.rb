@@ -10,10 +10,8 @@ module Accounting
         @principal_account = root_division.principal_account
       end
 
-      # Creates a disbursement transaction in Quickbooks based on a Transaction object created in Madeline.
-      # Specifically, creates and returns a QB journal entry with two line items:
-      # - a debit from the division's principal account
-      # - a credit to the account specified in the transaction
+      # Creates a transaction in Quickbooks based on a Transaction object created in Madeline. Line
+      # items in QB mirror line items in Madeline.
       def create_in_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = transaction.private_note
@@ -30,25 +28,17 @@ module Accounting
         # We need to either find or create the class, and use the returned Id.
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
-        je.line_items << create_line_item(
-          amount: transaction.amount,
-          posting_type: 'Debit',
-          description: transaction.description,
-          qb_account_id: principal_account.qb_id,
-          qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref,
-          qb_class_id: qb_class_id
-        )
-
-        je.line_items << create_line_item(
-          amount: transaction.amount,
-          posting_type: 'Credit',
-          description: transaction.description,
-          qb_account_id: transaction.account.qb_id,
-          qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref,
-          qb_class_id: qb_class_id
-        )
+        transaction.line_items.each do |li|
+          je.line_items << create_line_item(
+            amount: li.amount,
+            posting_type: li.posting_type,
+            description: li.description,
+            qb_account_id: li.account.qb_id,
+            qb_customer_ref: qb_customer_ref,
+            qb_department_ref: qb_department_ref,
+            qb_class_id: qb_class_id
+          )
+        end
 
         service.create(je)
       end
