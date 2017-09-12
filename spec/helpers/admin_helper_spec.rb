@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AdminHelper, type: :helper do
   describe "indented_option_label" do
-    let(:root) { create(:root_project_group, :with_descendants2) }
+    let(:root) { create(:root_project_group, :with_descendants) }
 
     it "should return space-padded label text" do
       g1 = root.filtered_children[0]

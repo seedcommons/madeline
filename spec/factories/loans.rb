@@ -93,12 +93,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_timeline2 do
-      after(:create) do |loan|
-        create(:root_project_group, :with_descendants2, project: loan)
-      end
-    end
-
     trait :with_steps_only_timeline do
       after(:create) do |loan|
         create(:root_project_group, :with_only_step_descendants, project: loan)

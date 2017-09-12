@@ -97,10 +97,10 @@ describe ProjectGroup, type: :model do
 
   context "with descendants" do
     # Creates a timeline and returns nodes stored in a hash.
-    let!(:nodes) { ProjectGroupFactoryHelper2.create_full_timeline }
+    let!(:nodes) { ProjectGroupFactoryHelper.create_full_timeline }
 
     # Break each of the nodes out into a let so that we can examine them individually.
-    ProjectGroupFactoryHelper2::NODE_NAMES.each do |name|
+    ProjectGroupFactoryHelper::NODE_NAMES.each do |name|
       let(name) { nodes[name] }
     end
 

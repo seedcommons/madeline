@@ -11,33 +11,13 @@ FactoryGirl.define do
 
       trait :with_descendants do
         after(:create) do |root|
-          helper = ProjectGroupFactoryHelper
-          g1 = helper.add_child_group(root, root)
-            g1_s = helper.add_child_steps(g1, root)
-          g2 = helper.add_child_group(root, root)
-            g2_1 = helper.add_child_group(g2, root)
-              g2_1_1 = helper.add_child_group(g2_1, root)
-                g2_1_1_s = helper.add_child_steps(g2_1_1, root)
-              g2_1_2 = helper.add_child_group(g2_1, root)
-                g2_1_2_s = helper.add_child_steps(g2_1_2, root)
-              g2_1_s = helper.add_child_steps(g2_1, root)
-            g2_2 = helper.add_child_group(g2, root)
-              g2_2_s = helper.add_child_steps(g2_2, root)
-          s3 = helper.add_child_step(root, root)
-          g4 = helper.add_child_group(root, root)
-        end
-      end
-
-      trait :with_descendants2 do
-        after(:create) do |root|
-          ProjectGroupFactoryHelper2.create_descendants(root)
+          ProjectGroupFactoryHelper.create_descendants(root)
         end
       end
 
       trait :with_only_step_descendants do
         after(:create) do |root|
-          helper = ProjectGroupFactoryHelper
-          helper.add_child_steps(root, root, 5..10)
+          ProjectGroupFactoryHelper.create_steps(root, 5..10)
         end
       end
     end
@@ -45,33 +25,8 @@ FactoryGirl.define do
 end
 
 class ProjectGroupFactoryHelper
-  def self.add_child_group(parent, root)
-    parent.children <<
-      (group = FactoryGirl.create(:project_group,
-        project: root.project,
-        division: root.division,
-        parent_id: parent.id)
-      )
-    group
-  end
-
-  def self.add_child_step(parent, root)
-    attribs = {}
-
-    # Randomly sometimes don't include dates.
-    attribs[:scheduled_start_date] = nil if rand(5) == 0
-
-    step = FactoryGirl.create(:project_step, attribs.merge(project: root.project, division: root.division))
-    parent.children << step
-    step
-  end
-
-  def self.add_child_steps(parent, root, rand_range = 1..4)
-    rand(rand_range).times.map { add_child_step(parent, root) }
-  end
-end
-
-class ProjectGroupFactoryHelper2
+  # This is so that the nodes can be injected into `let`s in specs. Should be kept in sync with
+  # nodes below.
   NODE_NAMES = %i(root g3 g3_s3 g3_s2 g3_s4 g3_s1 g1 g1_s1 g5 g5_s1 g6 g4 g4_s1
     g2 g2_g2 g2_g2_s1 g2_g1 g2_g1_s1 s2 s1)
 
@@ -145,5 +100,9 @@ class ProjectGroupFactoryHelper2
     ).tap do |step|
       parent.children << step
     end
+  end
+
+  def self.create_steps(parent, rand_range = 1..4)
+    rand(rand_range).times.map { create_step(parent, nil, nil) }
   end
 end

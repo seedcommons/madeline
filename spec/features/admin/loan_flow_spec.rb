@@ -15,7 +15,7 @@ feature 'loan flow' do
   end
 
   describe "timeline" do
-    let(:loan) { create(:loan, :with_timeline2, division: division) }
+    let(:loan) { create(:loan, :with_timeline, division: division) }
 
     before do
       OptionSetCreator.new.create_step_type

@@ -32,7 +32,7 @@ RSpec.describe ProjectDuplicator, type: :model do
 
   context 'with populated associations' do
     let(:loan) do
-      create(:loan, :with_loan_media, :with_timeline2, :with_accounting_transaction, :with_copies)
+      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction, :with_copies)
     end
 
     # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
