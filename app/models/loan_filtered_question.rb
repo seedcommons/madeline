@@ -35,7 +35,7 @@ class LoanFilteredQuestion < FilteredQuestion
     if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      parent.required?
+      parent&.required?
     end
   end
 
