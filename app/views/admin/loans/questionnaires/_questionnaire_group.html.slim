@@ -2,13 +2,13 @@
   / should probably be refactored someday to happen in the model
   div
     - optional_encountered = false
-    - optionals_exist = roots.any? { |i| !i.required_for?(@loan) }
-    - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
+    - optionals_exist = roots.any? { |i| !i.required? }
+    - requireds_exist = roots.any? { |i| i.required? }
 
-    - roots.each_with_index do |question, idx|
+    - roots.each do |question|
       / Add page break for top-level groups with answered questions
       / Also add page break for business model canvas answered question
-      - response = response_set.response(question)
+      - response = response_set.response(question.id)
       - if (question.data_type == "business_canvas" || (question.data_type == 'group' && question.parent.root?)) \
           && response.present?
         / Close and reopen fieldset with new group/page
@@ -19,21 +19,18 @@
         / Page header for print view
         = render "admin/loans/questionnaires/page_header"
 
-      - optional = !question.required_for?(@loan)
-      - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
+      - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && !question.required?
       - if @print_view && (reopen_fieldset || (start_of_optional_group && response.present?))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - css_class = optional ? 'optional' : 'required'
+      - css_class = question.required? ? 'required' : 'optional'
 
       / Don't print unanswered questions or groups
       - css_class += ' hidden-print' if response.blank? || response.not_applicable?
       - css_class += " #{question.status}"
 
       .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
-        - index_str = (indices + [idx + 1]).join(".")
-
         span.tree-view
           - if !question.leaf?
             = render "admin/loans/questionnaires/progress_bar", object: response
@@ -50,10 +47,10 @@
 
         / Recurse if group, else render
         - if question.data_type == 'group'
-          - if (filtered_children = question.children_applicable_to(@loan)).present?
+          - if (question.children).present?
             = render("admin/loans/questionnaires/questionnaire_group",
-              f: f, response_set: response_set, roots: filtered_children,
-              parents: parents + [question], indices: indices + [idx + 1])
+              f: f, response_set: response_set, roots: question.children,
+              parents: parents + [question])
 
         - else
           .answer-wrapper.tree-view

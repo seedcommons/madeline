@@ -7,7 +7,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # Hide retired questions for now
     sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     @json = ActiveModel::Serializer::CollectionSerializer.new(
-      sets.map { |s| s.root_group_preloaded.children_applicable_to(nil) }.flatten
+      sets.map { |s| FilteredQuestion.new(s.root_group_preloaded).children }.flatten
     ).to_json
   end
 
@@ -71,7 +71,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
   def render_set_json(set)
-    render json: set.root_group_preloaded.children_applicable_to(nil)
+    render json: FilteredQuestion.new(set.root_group_preloaded).children
   end
 
   def set_loan_question

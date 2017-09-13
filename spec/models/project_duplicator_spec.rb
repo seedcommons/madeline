@@ -35,14 +35,30 @@ RSpec.describe ProjectDuplicator, type: :model do
       create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction,
         :with_copies)
     end
-    let(:new_loan) { duplicator.duplicate }
+
+    # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
+    # Using #reload does not do it.
+    let(:new_loan) { Loan.find(duplicator.duplicate.id) }
 
     it 'ignores media' do
       expect(new_loan.media.count).to eq 0
     end
 
-    it 'ignores timeline_entries' do
-      expect(new_loan.timeline_entries.count).to eq 0
+    it 'copies timeline_entries' do
+      expect(new_loan.timeline_entries.first.id).not_to eq loan.timeline_entries.first.id
+      expect(new_loan.timeline_entries.count).to eq loan.timeline_entries.count
+    end
+
+    it 'copies timeline_entry children' do
+      root = loan.root_timeline_entry
+      new_root = new_loan.root_timeline_entry
+
+      expect(new_root.id).not_to eq root.id
+      expect(new_root.children.first.id).not_to eq root.children.first.id
+      expect(new_root.children.count).to eq root.children.count
+
+      expect(new_root.children[1].children[0].id).not_to eq root.children[1].children[0].id
+      expect(new_root.children[1].children.count).to eq root.children[1].children.count
     end
 
     it 'copies health_check' do
@@ -55,6 +71,25 @@ RSpec.describe ProjectDuplicator, type: :model do
 
     it 'ignores copies' do
       expect(new_loan.copies.count).to eq 0
+    end
+
+    context 'with project logs' do
+      before do
+        grandchild = loan.root_timeline_entry.children[0].children[0]
+        logs = create_list(:project_log, 2, project_step: grandchild)
+        grandchild.project_logs << logs
+        loan.save!
+      end
+
+      it 'copies project logs' do
+        log = loan.project_logs.first
+        new_log = new_loan.project_logs.first
+
+        expect(new_log.id).not_to eq log.id
+        expect(new_log.date).to eq log.date
+        expect(new_loan.project_logs.count).to be > 0
+        expect(new_loan.project_logs.count).to eq loan.project_logs.count
+      end
     end
   end
 end

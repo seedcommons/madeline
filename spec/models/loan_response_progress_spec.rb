@@ -24,11 +24,11 @@ describe "LoanResponse.progress" do
 
     it "should be correct for an optional group" do
       # For optional group, we want percentage of all questions answered, required or not.
-      # Group has 3 total questions, and 1 of those has an answer, so 1/3 == 33%
+      # Group has 4 total questions, and 1 of those has an answer, so 1/4 == 25%
       resp = rset.response("q4")
       expect(resp.progress_numerator).to eq 1
-      expect(resp.progress_denominator).to eq 3
-      expect(resp.progress).to be_within(0.001).of(0.333)
+      expect(resp.progress_denominator).to eq 4
+      expect(resp.progress).to be_within(0.001).of(0.25)
     end
 
     it "should exclude inactive and retired questions from calculations" do

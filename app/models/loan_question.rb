@@ -49,17 +49,13 @@ class LoanQuestion < ActiveRecord::Base
   # alias_method :loan_types, :options
   has_many :loan_types, class_name: 'Option', through: :loan_question_requirements
 
-  # note, the custom field form layout can be hierarchially nested
+  # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', dependent: :destroy
 
   # Bug in closure_tree's built in methods requires this fix
   # https://github.com/mceachen/closure_tree/issues/137
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
-
-  # Transient value populated by depth first traversal of questions scoped to a specific division.
-  # Starts with '1'.  Used in hierarchical display of questions.
-  attr_accessor :transient_position
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
@@ -74,26 +70,6 @@ class LoanQuestion < ActiveRecord::Base
 
   DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
-  def children_sorted_by_required(loan)
-    children.sort_by { |c| [c.required_for?(loan) ? 0 : 1, c.position] }
-  end
-
-  def children_sorted_by_position
-    children.sort_by(&:position)
-  end
-
-  # Selects only those questions that are applicable to the given loan.
-  def children_applicable_to(loan)
-    @children_applicable_to ||= {}
-    @children_applicable_to[loan] ||= if loan
-      children_sorted_by_required(loan).select do |c|
-        c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
-      end
-    else
-      children_sorted_by_position.select { |c| c.status != 'retired' }
-    end
-  end
-
   def top_level?
     parent.root?
   end
@@ -101,12 +77,6 @@ class LoanQuestion < ActiveRecord::Base
   # Overriding this method because the closure_tree implementation causes a DB query.
   def depth
     @depth ||= root? ? 0 : parent.depth + 1
-  end
-
-  def answered_for?(loan)
-    response_set = loan.send(loan_question_set.kind)
-    return false if !response_set
-    !response_set.tree_unanswered?(self)
   end
 
   def name
@@ -126,7 +96,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def child_groups
-    children_sorted_by_position.select(&:group?)
+    children.select(&:group?).sort_by(&:position)
   end
 
   def first_child?
