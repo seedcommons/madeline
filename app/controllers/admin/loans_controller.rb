@@ -118,8 +118,8 @@ class Admin::LoansController < Admin::ProjectsController
     @print_view = true
     @mode = params[:mode]
     @images = @loan.media.where(kind_value: "image")
-    @image_list = @images.drop(1)
-    @image_list_two = @images.drop(1).each_slice(8).to_a
+    # Group every 8 images
+    @image_list = @images.drop(1).each_slice(8).to_a
     @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
     prep_attached_links if @mode != "details-only"
   end

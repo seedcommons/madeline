@@ -14,28 +14,10 @@ section data-container="loan"
         = image_tag(@images.first.item)
 
     - unless @image_list.empty?
-      - @image_list.each_with_index do |image, index|
-        / HTML instead of Slim is used in this block to have control over how items are nested
-        / A new page and heading appears every 8 images
-        - if index % 8 == 0
-          <section class="images">
-            = render "admin/loans/questionnaires/page_header"
-            <div class="image-list">
-
-        .img-container
-          = image_tag(image.item)
-
-        / Close container tags every 8 images and on the last image
-        - if ((index + 1) % 8 == 0) || (index + 1 == @image_list.length)
-          </div></section>
-
-    - unless @image_list_two.empty?
-      - @image_list_two.each_with_index do |images, index|
+      - @image_list.each_with_index do |images, index|
         section.images
-          h4 Image List Two
           = render "admin/loans/questionnaires/page_header"
           .image-list
-            /= images.inspect
             - images.each do |image|
               .img-container
                 = image_tag(image.item)
