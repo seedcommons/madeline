@@ -96,7 +96,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def child_groups
-    children_sorted_by_position.select(&:group?)
+    children.select(&:group?).sort_by(&:position)
   end
 
   def first_child?
