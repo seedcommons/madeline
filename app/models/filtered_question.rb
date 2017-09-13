@@ -22,6 +22,10 @@ class FilteredQuestion < SimpleDelegator
     @children ||= decorated_children.sort_by(&:position)
   end
 
+  def child_groups
+    children.select(&:group?)
+  end
+
   def object
     __getobj__
   end

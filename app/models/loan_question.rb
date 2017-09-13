@@ -95,10 +95,6 @@ class LoanQuestion < ActiveRecord::Base
     status == 'active'
   end
 
-  def child_groups
-    children.select(&:group?).sort_by(&:position)
-  end
-
   def first_child?
     @first_child ||= parent && parent.children.none? { |q| q.position < position }
   end
