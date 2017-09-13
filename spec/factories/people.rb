@@ -56,12 +56,12 @@ FactoryGirl.define do
 
   trait :with_member_access do
     has_system_access true
-    owning_division_role :member
+    access_role :member
   end
 
   trait :with_admin_access do
     has_system_access true
-    owning_division_role :admin
+    access_role :admin
     with_password
   end
 
