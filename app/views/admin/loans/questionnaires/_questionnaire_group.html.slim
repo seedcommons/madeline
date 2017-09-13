@@ -2,10 +2,10 @@
   / should probably be refactored someday to happen in the model
   div
     - optional_encountered = false
-    - optionals_exist = roots.any? { |i| !i.required? }
-    - requireds_exist = roots.any? { |i| i.required? }
+    - optionals_exist = root.children.any?(&:optional?)
+    - requireds_exist = root.children.any?(&:required?)
 
-    - roots.each do |question|
+    - root.children.each do |question|
       / Add page break for top-level groups with answered questions
       / Also add page break for business model canvas answered question
       - response = response_set.response(question.id)
@@ -46,11 +46,9 @@
           .help-block.hidden-print.tree-view = simple_format(question.explanation.to_s)
 
         / Recurse if group, else render
-        - if question.data_type == 'group'
-          - if (question.children).present?
-            = render("admin/loans/questionnaires/questionnaire_group",
-              f: f, response_set: response_set, roots: question.children,
-              parents: parents + [question])
+        - if question.data_type == 'group' && question.children.present?
+          = render("admin/loans/questionnaires/questionnaire_group", f: f,
+            response_set: response_set, root: question, parents: parents + [question])
 
         - else
           .answer-wrapper.tree-view
