@@ -39,9 +39,7 @@ class ProjectDuplicator
   end
 
   def copy_schedule_info
-    scheduled_entries = step_map.keys
-      .select(&:scheduled_start_date)
-      .sort_by(&:scheduled_start_date)
+    scheduled_entries = step_map.keys.select(&:has_date?).sort_by(&:scheduled_start_date)
 
     scheduled_entries.each do |old_step|
       new_step = step_map[old_step]

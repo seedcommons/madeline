@@ -62,6 +62,11 @@ class ProjectGroup < TimelineEntry
     filtered_children.none?
   end
 
+  # Duck type. Groups have no defined date.
+  def has_date?
+    false
+  end
+
   def summary_or_none
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
