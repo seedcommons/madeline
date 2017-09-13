@@ -79,14 +79,15 @@
     .img-container {
       height: 2in;
       width: 3.5in;
-      margin: .5em;
+      margin: .1in;
       border: 1px solid $gray3;
     }
 
     img {
+      // Image fills as much as it can vertically and horizontally inside its container
       max-height: 100%;
       max-width: 100%;
-      padding: .5em;
+      padding: .1in;
     }
   }
 }
