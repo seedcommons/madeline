@@ -1,4 +1,4 @@
-# Inherits from LoanQuestion. Adds a Loan and provides methods relating to the combination of the two.
+# Inherits from FilteredQuestion. Adds a Loan and provides methods relating to the combination of the two.
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
@@ -26,11 +26,15 @@ class LoanFilteredQuestion < FilteredQuestion
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required?
-    if override_associations || depth == 1
+    @required ||= if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
       parent&.required?
     end
+  end
+
+  def optional?
+    !required?
   end
 
   def answered?

@@ -4,7 +4,7 @@ RSpec.describe LoanFilteredQuestion, type: :model do
   include_context "full question set and responses"
 
   describe '#parent' do
-    let(:parent) { LoanFilteredQuestion.new(q31, loan: loan1).parent }
+    let(:parent) { described_class.new(q31, loan: loan1).parent }
 
     it 'returns a decorated object' do
       expect(parent).to be_a LoanFilteredQuestion
@@ -16,7 +16,7 @@ RSpec.describe LoanFilteredQuestion, type: :model do
   end
 
   describe '#children' do
-    let(:children) { LoanFilteredQuestion.new(q3.reload, loan: loan1).children }
+    let(:children) { described_class.new(q3.reload, loan: loan1).children }
 
     it 'returns decorated objects' do
       expect(children.first).to be_a LoanFilteredQuestion
@@ -30,43 +30,43 @@ RSpec.describe LoanFilteredQuestion, type: :model do
 
   describe '#required?' do
     it 'not required by default' do
-      expect(LoanFilteredQuestion.new(q1, loan: loan1).required?).to be false
+      expect(described_class.new(q1, loan: loan1)).not_to be_required
     end
 
     it 'required when override true and assocation present' do
-      expect(LoanFilteredQuestion.new(q3, loan: loan1).required?).to be true
+      expect(described_class.new(q3, loan: loan1)).to be_required
     end
 
     it 'not required when override true and assocation not present' do
-      expect(LoanFilteredQuestion.new(q3, loan: loan2).required?).to be false
+      expect(described_class.new(q3, loan: loan2)).not_to be_required
     end
 
     it 'required when inherited and parent association present' do
-      expect(LoanFilteredQuestion.new(q31, loan: loan1).required?).to be true
+      expect(described_class.new(q31, loan: loan1)).to be_required
     end
 
     it 'not required when inherited and parent association not present' do
-      expect(LoanFilteredQuestion.new(q31, loan: loan2).required?).to be false
+      expect(described_class.new(q31, loan: loan2)).not_to be_required
     end
 
     it 'not required when override true for child and not present at child level' do
-      expect(LoanFilteredQuestion.new(q332, loan: loan1).required?).to be false
+      expect(described_class.new(q332, loan: loan1)).not_to be_required
     end
 
     it 'required when override true for child and present at child level' do
-      expect(LoanFilteredQuestion.new(q332, loan: loan2).required?).to be true
+      expect(described_class.new(q332, loan: loan2)).to be_required
     end
 
     it 'required when override true and association present for both types' do
-      expect(LoanFilteredQuestion.new(q2, loan: loan2).required?).to be true
+      expect(described_class.new(q2, loan: loan2)).to be_required
     end
 
     it 'not required when override true for child and no associations present' do
-      expect(LoanFilteredQuestion.new(q381, loan: loan1).required?).to be false
+      expect(described_class.new(q381, loan: loan1)).not_to be_required
     end
 
     it 'not required on child when override false even when association is present' do
-      expect(LoanFilteredQuestion.new(q4, loan: loan1).required?).to be false
+      expect(described_class.new(q4, loan: loan1)).not_to be_required
     end
   end
 end

@@ -5,7 +5,7 @@ class LoanResponse
   attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  delegate :group?, :active?, to: :loan_question
+  delegate :group?, :active?, :required?, to: :loan_question
 
   TYPES = %i(text string number rating boolean url breakeven business_canvas)
 
@@ -74,10 +74,6 @@ class LoanResponse
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
     loan_question.data_type == 'text' ? :text : :string
-  end
-
-  def required?
-    @required ||= loan_question.required?
   end
 
   # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could

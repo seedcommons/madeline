@@ -1,4 +1,4 @@
-module ModelSpecHelpers
+module QuestionSpecHelpers
   shared_context "question set" do
     let!(:loan_type_set) { create(:option_set, model_type: ::Loan.name, model_attribute: 'loan_type') }
     let!(:lt1) { create(:option, option_set: loan_type_set, value: 'lt1', label_translations: {en: 'Loan Type One'}) }
@@ -66,10 +66,7 @@ module ModelSpecHelpers
   end
 
   def create_group(**args)
-    create_question(
-      type: "group",
-      **args
-    )
+    create_question(type: "group", **args)
   end
 
   def create_question(set: qset, status: 'active', name: "", type:, override: true, required: false,
