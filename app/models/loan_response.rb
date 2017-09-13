@@ -12,7 +12,7 @@ class LoanResponse
   def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
-    @loan_question = loan_question
+    @loan_question = LoanFilteredQuestion.new(loan_question, loan: @loan)
     @loan_response_set = loan_response_set
     %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
@@ -77,7 +77,7 @@ class LoanResponse
   end
 
   def required?
-    @required ||= loan_question.required_for?(loan)
+    @required ||= loan_question.required?
   end
 
   # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could
