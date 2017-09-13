@@ -20,7 +20,9 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    (object.division == @division) || object.division.ancestors.include?(@division)
+    return true if @division.nil?
+
+    @division.loan_questions.include?(object) || object.division.descendants.include?(@division)
   end
 
   def children
