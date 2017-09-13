@@ -7,7 +7,8 @@ class FilteredQuestion < SimpleDelegator
   # end
 
   # this is what works with 6941 but breaks in 6939
-  def initialize(question, division:, **args)
+  def initialize(question, division: nil, **args)
+    super(question)
     @question = question
     @division = division
     @args = args
