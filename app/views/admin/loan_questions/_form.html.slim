@@ -15,6 +15,16 @@
   .modal-body
     = error_notification(f)
 
+    = f.translatable_inputs do |l|
+      = f.input :"label_#{l}", as: :text,
+          input_html: { data: { translatable: 'loan_questions.text' } },
+          placeholder: I18n.t('loan_questions.text', locale: l),
+          label: t('loan_questions.text', locale: l)
+      = f.input :"explanation_#{l}", as: :text,
+          input_html: { data: { translatable: 'loan_questions.explanation' } },
+          placeholder: I18n.t('loan_questions.explanation', locale: l),
+          label: t('loan_questions.explanation', locale: l)
+
     = f.input :status, label: t("loan_questions.active"), as: :boolean, checked_value: 'active',
       unchecked_value: 'inactive'
 
@@ -29,16 +39,6 @@
         td = f.label :has_embeddable_media
 
     = render "loan_types", f: f
-
-    = f.translatable_inputs do |l|
-      = f.input :"label_#{l}", as: :text,
-        input_html: {data: {translatable: 'loan_questions.text'}},
-        placeholder: I18n.t('loan_questions.text', locale: l),
-        label: t('loan_questions.text', locale: l)
-      = f.input :"explanation_#{l}", as: :text,
-        input_html: {data: {translatable: 'loan_questions.explanation'}},
-        placeholder: I18n.t('loan_questions.explanation', locale: l),
-        label: t('loan_questions.explanation', locale: l)
 
     - if f.object.new_record?
       = f.input_field :parent_id, as: :hidden
