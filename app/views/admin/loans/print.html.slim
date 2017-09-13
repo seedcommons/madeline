@@ -29,6 +29,17 @@ section data-container="loan"
         - if ((index + 1) % 8 == 0) || (index + 1 == @image_list.length)
           </div></section>
 
+    - unless @image_list_two.empty?
+      - @image_list_two.each_with_index do |images, index|
+        section.images
+          h4 Image List Two
+          = render "admin/loans/questionnaires/page_header"
+          .image-list
+            /= images.inspect
+            - images.each do |image|
+              .img-container
+                = image_tag(image.item)
+
   - if @mode != "details-only"
     section.loan.criteria class='show-view'
       = render "admin/loans/questionnaires/page_header"
