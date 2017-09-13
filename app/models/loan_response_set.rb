@@ -48,7 +48,7 @@ class LoanResponseSet < ActiveRecord::Base
   # this responsibility in LoanResponseSet seemed reasonable.
   # Uses the `question` method to efficiently retreive the question.
   def children_of(response)
-    question(response.loan_question.id).children.map { |q| response(q) }
+    question(response.loan_question.id).children.map { |q| response(q.id) }
   end
 
   # Needed to satisfy the ProgressCalculable duck type.
@@ -77,7 +77,7 @@ class LoanResponseSet < ActiveRecord::Base
   # Needed to satisfy the ProgressCalculable duck type.
   # Returns the LoanResponses for the top level questions in the set.
   def children
-    question(:root).children.map { |f| response(f) }
+    question(:root).children.map { |q| response(q.id) }
   end
 
   # Fetches a custom value from the json field. `question_identifier` can be the same
