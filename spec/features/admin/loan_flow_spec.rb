@@ -56,6 +56,7 @@ feature 'loan flow' do
       visit admin_loan_path(loan)
 
       click_on('Duplicate')
+      click_on('Confirm')
       expect(page).to have_content "Copy of #{loan.display_name}"
     end
   end
