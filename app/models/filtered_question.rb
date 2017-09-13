@@ -1,15 +1,7 @@
 # Wraps LoanQuestion and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  # this is what is in 6939 but breaks in 6941
-  # def initialize(question, **args)
-  #   super(question)
-  #   @args = args
-  # end
-
-  # this is what works with 6941 but breaks in 6939
   def initialize(question, division: nil, **args)
     super(question)
-    @question = question
     @division = division
     @args = args
   end
@@ -28,13 +20,14 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    (@question.division == @division) || @question.division.ancestors.include?(@division)
+    (object.division == @division) || object.division.ancestors.include?(@division)
   end
 
   def children
     @children ||= decorated_children.sort_by(&:position)
   end
 
+  # Returns the decorated question
   def object
     __getobj__
   end
