@@ -34,7 +34,7 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def answered?
-    response_set && !response_set.tree_unanswered?(id)
+    response_set && !response_set.tree_unanswered?(object)
   end
 
   def visible?

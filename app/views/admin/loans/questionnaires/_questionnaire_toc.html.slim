@@ -1,6 +1,6 @@
 ul
   - group.child_groups.each do |child|
-    - response = response_set.response(child.id)
+    - response = response_set.response(child)
     li data-level=child.depth data-type=child.data_type class=('hidden-print' if response.blank?)
       = child.full_number_and_label
       - if child.data_type == 'group'

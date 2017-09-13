@@ -8,7 +8,7 @@
     - roots.each do |question|
       / Add page break for top-level groups with answered questions
       / Also add page break for business model canvas answered question
-      - response = response_set.response(question.id)
+      - response = response_set.response(question)
       - if (question.data_type == "business_canvas" || (question.data_type == 'group' && question.parent.root?)) \
           && response.present?
         / Close and reopen fieldset with new group/page
