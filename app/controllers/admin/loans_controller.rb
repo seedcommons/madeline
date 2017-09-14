@@ -117,7 +117,9 @@ class Admin::LoansController < Admin::ProjectsController
     authorize @loan, :show?
     @print_view = true
     @mode = params[:mode]
-    @first_image = @loan.media.find {|item| item.kind_value == 'image'}
+    @images = @loan.media.where(kind_value: "image")
+    # Group every 8 images
+    @image_list = @images.drop(1).each_slice(8).to_a
     prep_questionnaire(json: false)
     prep_attached_links if @mode != "details-only"
   end

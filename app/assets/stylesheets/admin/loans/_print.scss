@@ -1,3 +1,5 @@
+@import "../colors";
+
 .print-view {
   // Just so it doesn't look so bad on the screen before printing
   @media only screen { margin: 10px; }
@@ -63,6 +65,29 @@
 
     .canvas-cell.half-height {
       min-height: inherit;
+    }
+  }
+
+  .images {
+    .image-list {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .img-container {
+      height: 2in;
+      width: 3.5in;
+      margin: .1in;
+      border: 1px solid $gray3;
+    }
+
+    img {
+      // Image fills as much as it can vertically and horizontally inside its container
+      max-height: 100%;
+      max-width: 100%;
+      padding: .1in;
     }
   }
 }
