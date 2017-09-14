@@ -120,7 +120,7 @@ class Admin::LoansController < Admin::ProjectsController
     @images = @loan.media.where(kind_value: "image")
     # Group every 8 images
     @image_list = @images.drop(1).each_slice(8).to_a
-    @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
+    prep_questionnaire(json: false)
     prep_attached_links if @mode != "details-only"
   end
 

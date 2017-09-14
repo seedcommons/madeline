@@ -40,7 +40,7 @@ class Member < ActiveRecord::Base
         data[:email] = email
         adjusted_password = password.ljust(8, '0')
         data[:password] = data[:password_confirmation] = adjusted_password
-        data[:owning_division_role] = username == 'brendan' ? :admin : :member
+        data[:access_role] = username == 'brendan' ? :admin : :member
       end
     end
     data
