@@ -1,8 +1,9 @@
 class ProjectDuplicator
-  attr_reader :orig, :copy
+  attr_reader :orig, :copy, :step_map
 
   def initialize(orig)
     @orig = orig
+    @step_map = {}
   end
 
   def duplicate
@@ -10,6 +11,7 @@ class ProjectDuplicator
     copy.original = orig
 
     duplicate_timeline_entry(orig.root_timeline_entry)
+    copy_schedule_info
 
     copy.save!
     copy
@@ -29,8 +31,27 @@ class ProjectDuplicator
     copy_entry.parent = copy_parent_entry
     copy_entry.save!
 
+    step_map[orig_entry] = copy_entry
+
     orig_entry.children.each do |child|
       duplicate_timeline_entry(child, copy_entry)
+    end
+  end
+
+  def copy_schedule_info
+    scheduled_entries = step_map.keys.select(&:has_date?).sort_by(&:scheduled_start_date)
+
+    scheduled_entries.each do |old_step|
+      new_step = step_map[old_step]
+
+      if old_step.schedule_parent_id
+        new_step.schedule_parent_id = step_map[old_step.schedule_parent].id
+      else
+        new_step.scheduled_start_date = old_step.scheduled_start_date
+      end
+      new_step.scheduled_duration_days = old_step.scheduled_duration_days
+
+      new_step.save!
     end
   end
 end

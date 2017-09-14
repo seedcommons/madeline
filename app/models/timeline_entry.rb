@@ -49,14 +49,17 @@ class TimelineEntry < ActiveRecord::Base
 
   delegate :division, :division=, to: :project, allow_nil: true
 
-  # NOTE: This will only work for steps, but must be defined here in the parent class
-  scope :by_date, -> { order("scheduled_start_date is null, scheduled_start_date, scheduled_duration_days") }
+  # NOTE: This will only work for steps, but must be defined here in the parent class.
+  # It DOES NOT do the nice recursive date stuff that group.filtered_children does.
+  scope :by_date, -> {
+    order("scheduled_start_date IS NULL, scheduled_start_date, scheduled_duration_days, id") }
 
   amoeba do
     enable
     propagate
     include_association :translations
     include_association :project_logs
+    nullify :schedule_parent_id
   end
 
   # Returns a value that can be used in sort operations. Should be analogous to the by_date scope above, but
