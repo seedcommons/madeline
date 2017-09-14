@@ -56,12 +56,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
-      # Insert node with data returned from server
-      parent_node = @tree.tree('getNodeById', response.parent_id)
+      @refreshTree(response)
       @$('#edit-modal').modal('hide')
-      @tree.tree('appendNode', response, parent_node)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
@@ -76,12 +72,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
-      # Update tree with data returned from server
-      # Remember the state of which nodes are expanded (subtrees)
-      @tree.tree('loadData', response)
+      @refreshTree(response)
       @$('#edit-modal').modal('hide')
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
@@ -98,9 +90,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     $.post("/admin/loan_questions/#{id}/move", data)
     .done (response) =>
-      @tree.tree('loadData', response)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
+      @refreshTree(response)
     .fail (response) ->
       MS.alert(response.responseText)
 
@@ -117,9 +107,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
     .done (response) =>
-      @tree.tree('loadData', response)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
+      @refreshTree(response)
     .fail (response) ->
       MS.alert(response.responseText)
     return false
@@ -168,3 +156,10 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         placement: 'left'
         toggle: 'popover'
         trigger: 'manual'
+
+  # Update tree with data returned from server
+  # Remember the state of which nodes are expanded (subtrees)
+  refreshTree: (response) ->
+    @tree.tree('loadData', response)
+    @filterSwitchView.filterInit()
+    @addNewItemBlocks()

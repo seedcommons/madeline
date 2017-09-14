@@ -32,7 +32,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     @loan_question = LoanQuestion.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
-      render json: @loan_question.reload
+      render_set_json(@loan_question.loan_question_set)
     else
       render_form(status: :unprocessable_entity)
     end
