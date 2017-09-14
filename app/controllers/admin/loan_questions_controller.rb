@@ -7,7 +7,8 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # Hide retired questions for now
     sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     @json = ActiveModel::Serializer::CollectionSerializer.new(
-      sets.map { |s| FilteredQuestion.new(s.root_group_preloaded).children }.flatten
+      sets.map { |s| FilteredQuestion.new(s.root_group_preloaded).children }.flatten,
+        user: current_user
     ).to_json
   end
 
@@ -31,7 +32,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     @loan_question = LoanQuestion.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
-      render json: @loan_question.reload
+      render_set_json(@loan_question.loan_question_set)
     else
       render_form(status: :unprocessable_entity)
     end
@@ -71,7 +72,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
   def render_set_json(set)
-    render json: FilteredQuestion.new(set.root_group_preloaded).children
+    render json: FilteredQuestion.new(set.root_group_preloaded).children, user: current_user
   end
 
   def set_loan_question
