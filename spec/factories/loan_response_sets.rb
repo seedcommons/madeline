@@ -14,6 +14,5 @@ FactoryGirl.define do
   factory :loan_response_set do
     loan
     kind 'criteria'
-    transient_division
   end
 end

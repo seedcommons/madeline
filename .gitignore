@@ -25,7 +25,6 @@ scratch.*
 *.scratch
 *.swp
 *.swo
-.ruby-version
 config/secrets.yml
 setenv.sh
 config/initializers/local_config.rb

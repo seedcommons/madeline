@@ -5,24 +5,34 @@
 section data-container="loan"
 
   - if @mode != "criteria-only"
-    section.loan.details class='show-view'
+    section.loan.details.show-view
       h2 = t('loan.details')
       = render "admin/loans/details", loan: @loan
 
-    section.featured-image
-      = image_tag(@first_image.item.url) if @first_image
+    - if @images.first
+      section.featured-image
+        = image_tag(@images.first.item)
+
+    - unless @image_list.empty?
+      - @image_list.each_with_index do |images, index|
+        section.images
+          = render "admin/loans/questionnaires/page_header"
+          .image-list
+            - images.each do |image|
+              .img-container
+                = image_tag(image.item)
 
   - if @mode != "details-only"
-    section.loan.criteria class='show-view'
+    section.loan.criteria.show-view
       = render "admin/loans/questionnaires/page_header"
       h2 = t('loan.criteria')
 
-      - if @loan.criteria
+      - if @response_set
         h3 = t('loan.toc')
         = render "admin/loans/questionnaires/questionnaire_toc",
-          group: @loan.criteria.loan_question_set.root_group_preloaded,
-          response_set: @loan.criteria
+          group: @root,
+          response_set: @response_set
         = render "admin/loans/questionnaires/questionnaire_form",
-          response_set: @loan.criteria, attrib: :criteria
+          response_set: @response_set, attrib: :criteria
       - else
         = t('loan.criteria_not_entered')
