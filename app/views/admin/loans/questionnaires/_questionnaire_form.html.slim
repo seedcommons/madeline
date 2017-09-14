@@ -46,5 +46,5 @@
   = simple_fields_for(response_set, defaults: {input_html: {class: 'form-element form-control'}}) do |f|
 
     = render "admin/loans/questionnaires/questionnaire_group",
-      f: f, response_set: response_set, roots: @roots.children_applicable_to(@loan),
+      f: f, response_set: response_set, root: @root,
       parents: [], indices: []
