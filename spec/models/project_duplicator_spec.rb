@@ -116,7 +116,7 @@ RSpec.describe ProjectDuplicator, type: :model do
       it 'has been properly scheduled' do
         # We need to rebuild these references because we're using these examples for both
         # the old and the new loan.
-        root = loan_to_test.root_timeline_entry
+        root = subject.root_timeline_entry
         s1 = root.c[3]
         g3_s3 = root.c[2].c[2]
         g5_s1 = root.c[5].c[0]
@@ -136,18 +136,17 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
 
     context 'original loan' do
-      let(:loan_to_test) { loan }
+      subject { loan }
       it_behaves_like 'scheduled loan'
     end
 
     context 'copied loan' do
-      let(:new_loan) { Loan.find(duplicator.duplicate.id) }
-      let(:loan_to_test) { new_loan }
+      subject { Loan.find(duplicator.duplicate.id) }
 
       it_behaves_like 'scheduled loan'
 
       it 'has different loan id from original' do
-        expect(new_loan.id).not_to eq loan.id
+        expect(subject.id).not_to eq loan.id
       end
     end
   end
