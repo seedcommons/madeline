@@ -29,6 +29,10 @@ class FilteredQuestion < SimpleDelegator
     @children ||= decorated_children.select(&:visible?).sort_by(&:sort_key)
   end
 
+  def sort_key
+    position
+  end
+
   # Returns the decorated question
   def object
     __getobj__
@@ -38,9 +42,5 @@ class FilteredQuestion < SimpleDelegator
 
   def decorated_children
     self.class.decorate_collection(object.children, division: @division, **@args)
-  end
-
-  def sort_key
-    position
   end
 end

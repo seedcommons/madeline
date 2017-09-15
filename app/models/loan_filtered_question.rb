@@ -7,6 +7,10 @@ class LoanFilteredQuestion < FilteredQuestion
     @loan = loan
   end
 
+  def sort_key
+    [required? ? 1 : 2, position]
+  end
+
   # Resolves if this particular question is considered required for the provided loan, based on
   # presence of association records in the loan_questions_options relation table, and the
   # 'override_associations' flag.
@@ -36,11 +40,5 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def response_set
     @response_set ||= loan.send(loan_question_set.kind)
-  end
-
-  protected
-
-  def sort_key
-    [required? ? 1 : 2, position]
   end
 end
