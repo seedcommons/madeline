@@ -95,7 +95,7 @@ class LoanResponseSet < ActiveRecord::Base
 
   def tree_unanswered?(root_identifier)
     field = question(root_identifier)
-    field.self_and_descendants.all? { |i| response(i.id).blank? }
+    field.self_and_descendants.all? { |i| response(i).blank? }
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
@@ -113,9 +113,10 @@ class LoanResponseSet < ActiveRecord::Base
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action, field = match_dynamic_method(method_sym)
     if action
+      q = question(attribute_name)
       case action
-      when :get then return response(attribute_name)
-      when :set then return set_response(attribute_name, arguments.first)
+      when :get then return response(q)
+      when :set then return set_response(q, arguments.first)
       end
     end
     super
