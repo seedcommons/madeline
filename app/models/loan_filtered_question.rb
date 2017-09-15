@@ -2,16 +2,9 @@
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
-  def initialize(question, loan:)
-    super(question, loan: loan)
+  def initialize(question, loan:, division: nil)
+    super(question, loan: loan, division: division)
     @loan = loan
-  end
-
-  # Returns child questions that are applicable to the given loan. Sorts by requiredness, then position.
-  def children
-    @children ||= decorated_children.select(&:visible?).sort_by do |i|
-      [i.required? ? 1 : 2, i.position]
-    end
   end
 
   # Resolves if this particular question is considered required for the provided loan, based on
@@ -43,5 +36,11 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def response_set
     @response_set ||= loan.send(loan_question_set.kind)
+  end
+
+  protected
+
+  def sort_key
+    [required? ? 1 : 2, position]
   end
 end
