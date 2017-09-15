@@ -5,14 +5,14 @@ class LoanResponse
   attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  delegate :group?, :active?, to: :loan_question
+  delegate :group?, :active?, :required?, to: :loan_question
 
   TYPES = %i(text string number rating boolean url breakeven business_canvas)
 
   def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
-    @loan_question = loan_question
+    @loan_question = LoanFilteredQuestion.new(loan_question, loan: @loan)
     @loan_response_set = loan_response_set
     %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
@@ -56,7 +56,7 @@ class LoanResponse
 
   def blank?
     if group?
-      loan_question.children.all?(&:blank?)
+      loan_question.descendants.all? { |i| loan_response_set.response(i.id).blank? }
     else
       !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
@@ -74,10 +74,6 @@ class LoanResponse
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
     loan_question.data_type == 'text' ? :text : :string
-  end
-
-  def required?
-    @required ||= loan_question.required_for?(loan)
   end
 
   # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could

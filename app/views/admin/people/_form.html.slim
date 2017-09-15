@@ -91,12 +91,12 @@
     / The display of these fields is toggled based on the state of the above system access checkbox
     fieldset id='user_fields'
 
-      = f.input :owning_division_role
+      = f.input :access_role
         - if policy(@person).update_access?
-          .view-element = @person.owning_division_role_label
-          = f.input_field :owning_division_role, collection: @roles_choices, include_blank: true
+          .view-element = @person.access_role_label
+          = f.input_field :access_role, collection: @roles_choices, include_blank: true
         - else
-          = @person.owning_division_role_label
+          = @person.access_role_label
 
       - if policy(@person).update_password?
         = render "password_fields", f: f

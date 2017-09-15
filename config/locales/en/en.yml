@@ -100,7 +100,7 @@ en:
         first_name: "First Name"
         has_system_access: "Has System Access"
         last_name: "Last Name"
-        owning_division_role: "Access Role"
+        access_role: "Access Role"
         postal_code: "Zip Code"
         password: "Password"
         password_confirmation: "Password Confirmation"
@@ -188,7 +188,7 @@ en:
           disbursement: "Disbursement"
           repayment: "Repayment"
       person:
-        owning_division_role:
+        access_role:
           admin: "Admin"
           member: "Member"
           none: "None"

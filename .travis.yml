@@ -25,7 +25,7 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec
 rvm:
-  - 2.2.0
+  - 2.3.1
 env:
   global:
     - MADELINE_EMAIL_FROM=madeline@theworkingworld.org

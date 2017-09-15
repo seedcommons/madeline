@@ -59,7 +59,7 @@ describe Person, type: :model do
     end
 
     it 'resolves role' do
-      expect(person.owning_division_role).to eq(:member)
+      expect(person.access_role).to eq(:member)
     end
 
     it 'mirrors email to user' do
@@ -70,7 +70,7 @@ describe Person, type: :model do
     end
 
     it 'updates role to user' do
-      person.owning_division_role = :admin
+      person.access_role = :admin
       person.save
       expect(person.user.roles.first.name).to eq('admin')
     end

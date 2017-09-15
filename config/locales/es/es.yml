@@ -99,7 +99,7 @@ es:
         first_name: "Nombre de Pila"
         has_system_access: "Tiene Acceso al Sistema"
         last_name: "Apellido"
-        owning_division_role: "Rol de Acceso"
+        access_role: "Rol de Acceso"
         postal_code: "Código Postal"
         password: "Contraseña"
         password_confirmation: "Confirmación de Contraseña"
@@ -186,7 +186,7 @@ es:
           disbursement: "Desembolso"
           repayment: "Devolución"
       person:
-        owning_division_role:
+        access_role:
           admin: "Admin"
           member: "Miembro"
           none: "Ninguno"
