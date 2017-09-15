@@ -9,14 +9,14 @@ describe "LoanResponse.progress" do
     it "should be correct for a required group" do
       # For required group, we want percentage of all required questions answered.
       # Group has 6 active questions, 3 required, and 2 of those have answers, so 2/3 == 66%
-      resp = rset.response("q3")
+      resp = rset.response(q3)
       expect(resp.progress_numerator).to eq 2
       expect(resp.progress_denominator).to eq 3
       expect(resp.progress).to be_within(0.001).of(0.666)
     end
 
     it "should be correct for required group with with no required questions" do
-      resp = rset.response("q33")
+      resp = rset.response(q33)
       expect(resp.progress_numerator).to eq 0
       expect(resp.progress_denominator).to eq 0
       expect(resp.progress).to eq 0
@@ -25,7 +25,7 @@ describe "LoanResponse.progress" do
     it "should be correct for an optional group" do
       # For optional group, we want percentage of all questions answered, required or not.
       # Group has 4 total questions, and 1 of those has an answer, so 1/4 == 25%
-      resp = rset.response("q4")
+      resp = rset.response(q4)
       expect(resp.progress_numerator).to eq 1
       expect(resp.progress_denominator).to eq 4
       expect(resp.progress).to be_within(0.001).of(0.25)
@@ -35,12 +35,12 @@ describe "LoanResponse.progress" do
       # Inactive questions only show when they are answered, and they are never required, so
       # progress makes no sense. Retired questions should never show, so they should be excluded as
       # well.
-      resp = rset.response("q5")
+      resp = rset.response(q5)
       expect(resp.progress_numerator).to eq 0
       expect(resp.progress_denominator).to eq 0
       expect(resp.progress).to eq 0
 
-      resp = rset.response("q6")
+      resp = rset.response(q6)
       expect(resp.progress_numerator).to eq 0
       expect(resp.progress_denominator).to eq 0
       expect(resp.progress).to eq 0
@@ -65,11 +65,11 @@ describe "LoanResponse.progress" do
       let!(:q32) { create_question(parent: q3, name: "q32", type: "boolean", required: false) } # answered
 
     before do
-      rset.set_response("q1", {"text" => "foo"})
-      rset.set_response("q2", {"text" => ""}) # required
-      rset.set_response("q3", {"text" => "stuff"}) # required
-      rset.set_response("q31", {"text" => "junk"}) # required
-      rset.set_response("q32", {"boolean" => "no"})
+      rset.set_response(q1, {"text" => "foo"})
+      rset.set_response(q2, {"text" => ""}) # required
+      rset.set_response(q3, {"text" => "stuff"}) # required
+      rset.set_response(q31, {"text" => "junk"}) # required
+      rset.set_response(q32, {"boolean" => "no"})
     end
 
     it "should be correct" do

@@ -49,18 +49,18 @@ module QuestionSpecHelpers
     let!(:q62) { create_question(parent: q6, name: "q62", type: "boolean", required: true, status: 'inactive') }
 
     before do
-      rset.set_response("q1", {"text" => "foo"})
-      rset.set_response("q2", {"text" => ""}) # required
-      rset.set_response("q31", {"text" => "junk"}) # required
-      rset.set_response("q32", {"boolean" => "no"}) # required
-      rset.set_response("q331", {"boolean" => "yes"})
-      rset.set_response("q37", {"text" => "retired question"})
-      rset.set_response("q39", {"text" => "inactive question"})
-      rset.set_response("q41", {"text" => ""})
-      rset.set_response("q42", {"text" => "pants"})
-      rset.set_response("q43", {"text" => ""})
-      rset.set_response("q51", {"text" => "inactive group"})
-      rset.set_response("q61", {"text" => "retired group"})
+      rset.set_response(q1, {"text" => "foo"})
+      rset.set_response(q2, {"text" => ""}) # required
+      rset.set_response(q31, {"text" => "junk"}) # required
+      rset.set_response(q32, {"boolean" => "no"}) # required
+      rset.set_response(q331, {"boolean" => "yes"})
+      rset.set_response(q37, {"text" => "retired question"})
+      rset.set_response(q39, {"text" => "inactive question"})
+      rset.set_response(q41, {"text" => ""})
+      rset.set_response(q42, {"text" => "pants"})
+      rset.set_response(q43, {"text" => ""})
+      rset.set_response(q51, {"text" => "inactive group"})
+      rset.set_response(q61, {"text" => "retired group"})
       rset.save!
     end
   end
