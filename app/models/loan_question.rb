@@ -91,6 +91,14 @@ class LoanQuestion < ActiveRecord::Base
     data_type == 'group'
   end
 
+  def top_level_group?
+    group? && top_level?
+  end
+
+  def business_canvas?
+    data_type == 'business_canvas'
+  end
+
   def active?
     status == 'active'
   end
