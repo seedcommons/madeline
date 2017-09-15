@@ -219,9 +219,6 @@ en:
     # Should match the above strftime style formats.
     moment_formats:
       default: 'MMM D, YYYY'
-    # Syntax: see http://bootstrap-datepicker.readthedocs.io/en/latest/options.html?highlight=format#format
-    # Should be equivalent to date.formats.default format above.
-    picker_format: 'M d, yyyy'
 
 
   ## Front end ##

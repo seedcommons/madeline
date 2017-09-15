@@ -213,7 +213,6 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
-    picker_format: 'M d, yyyy'
   show: Mostrar
   show_active: Activo
   show_completed: Completo

@@ -12,6 +12,7 @@ class MS.Views.ApplicationView extends Backbone.View
       $alert = $(html).hide()
       $alert.appendTo($('.alerts')).show('fast')
     MS.dateFormats = params.dateFormats
+    $.fn.datepicker.defaults.language = params.locale
 
   events: ->
     'click .more': 'toggleExpanded'
