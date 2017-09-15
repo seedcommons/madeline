@@ -82,14 +82,14 @@ class LoanResponseSet < ActiveRecord::Base
 
   # Fetches a custom value from the json field. `question_identifier` can be the same
   def response(question)
-    raw_value = (custom_data || {})[field.json_key]
-    LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
+    raw_value = (custom_data || {})[question.json_key]
+    LoanResponse.new(loan: loan, loan_question: question, loan_response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.
   def set_response(question, value)
     self.custom_data ||= {}
-    custom_data[field.json_key] = value
+    custom_data[question.json_key] = value
     custom_data
   end
 
