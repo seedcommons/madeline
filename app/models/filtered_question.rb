@@ -6,8 +6,8 @@ class FilteredQuestion < SimpleDelegator
     @args = args
   end
 
-  def self.decorate_collection(collection, **args)
-    collection.map { |q| self.new(q, **args) }
+  def self.decorate_collection(collection, division: nil, **args)
+    collection.map { |q| self.new(q, division: division, **args) }
   end
 
   def inspect
@@ -16,7 +16,7 @@ class FilteredQuestion < SimpleDelegator
 
   def parent
     return @parent if defined?(@parent)
-    @parent = object.parent.nil? ? nil : self.class.new(object.parent, **@args)
+    @parent = object.parent.nil? ? nil : self.class.new(object.parent, division: @division, **@args)
   end
 
   def visible?
@@ -26,7 +26,7 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def children
-    @children ||= decorated_children.sort_by(&:position)
+    @children ||= decorated_children.select(&:visible?).sort_by(&:position)
   end
 
   # Returns the decorated question
@@ -37,6 +37,6 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(object.children, **@args)
+    self.class.decorate_collection(object.children, division: @division, **@args)
   end
 end
