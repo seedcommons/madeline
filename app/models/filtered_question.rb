@@ -34,6 +34,11 @@ class FilteredQuestion < SimpleDelegator
     __getobj__
   end
 
+  # Should not need this method and it circumvents decoration.
+  def self_and_descendants
+    raise NotImplementedError
+  end
+
   protected
 
   def decorated_children

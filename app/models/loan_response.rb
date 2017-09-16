@@ -54,9 +54,10 @@ class LoanResponse
     end
   end
 
+  # Checks if response is blank, including any descenants if this is a group.
   def blank?
     if group?
-      loan_question.descendants.all? { |i| loan_response_set.response(i).blank? }
+      loan_question.children.all?(&:blank?)
     else
       !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?

@@ -65,7 +65,7 @@ class LoanQuestionSet < ActiveRecord::Base
 
     question = if question_identifier == :root
       root_group_preloaded
-    elsif question_identifier.is_a?(LoanQuestion)
+    elsif question_identifier.is_a?(LoanQuestion) || question_identifier.is_a?(FilteredQuestion)
       @node_lookup_table[question_identifier.id]
     else
       @node_lookup_table[question_identifier]

@@ -45,9 +45,8 @@ class LoanResponseSet < ActiveRecord::Base
   # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
   # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
   # this responsibility in LoanResponseSet seemed reasonable.
-  # Uses the `question` method to efficiently retreive the question.
   def children_of(response)
-    question(response.loan_question.id).children.map { |q| response(q) }
+    response.loan_question.children.map { |q| response(q) }
   end
 
   def root_response
@@ -65,11 +64,6 @@ class LoanResponseSet < ActiveRecord::Base
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
-  end
-
-  def tree_unanswered?(root_identifier)
-    field = question(root_identifier)
-    field.self_and_descendants.all? { |i| response(i).blank? }
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special

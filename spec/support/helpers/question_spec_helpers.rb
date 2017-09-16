@@ -62,6 +62,9 @@ module QuestionSpecHelpers
       rset.set_response(q51, {"text" => "inactive group"})
       rset.set_response(q61, {"text" => "retired group"})
       rset.save!
+
+      # Reload groups so they see their children!
+      [q3, q33, q38, q4, q5, q6].each(&:reload)
     end
   end
 

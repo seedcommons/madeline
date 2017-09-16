@@ -36,6 +36,14 @@ class LoanQuestion < ActiveRecord::Base
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
+  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
+
+  # These methods are troublesome because they circumvent eager loading and also cause leaks in
+  # decoration. We can do without them! Better to use children and parent to walk the tree and get
+  # what you need. We are not dealing with huge trees!
+  BANNED_METHODS = %i(root leaves child_ids ancestors ancestor_ids self_and_ancestors self_and_ancestors_ids
+    siblings sibling_ids self_and_siblings descendants descendant_ids
+    self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
   belongs_to :loan_question_set
   belongs_to :division
@@ -52,11 +60,6 @@ class LoanQuestion < ActiveRecord::Base
   # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', dependent: :destroy
 
-  # Bug in closure_tree's built in methods requires this fix
-  # https://github.com/mceachen/closure_tree/issues/137
-  has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
-  has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
-
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
   attr_translatable :explanation
@@ -67,8 +70,6 @@ class LoanQuestion < ActiveRecord::Base
 
   before_save :prepare_numbers
   after_commit :set_numbers
-
-  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
 
   def top_level?
     parent.root?
@@ -153,6 +154,13 @@ class LoanQuestion < ActiveRecord::Base
 
   def full_number_and_label
     [full_number, label].compact.join(" ")
+  end
+
+  # See comment above on constant definition.
+  BANNED_METHODS.each do |m|
+    define_method(m) do |*args|
+      raise NotImplementedError
+    end
   end
 
   protected
