@@ -61,22 +61,13 @@ describe FilteredQuestion, type: :model do
       expect(filtered_question(q2_a, d21)).to be_visible
       expect(filtered_question(q2_b, d21)).to be_visible
       expect(filtered_question(q21, d21)).to be_visible
-
-      # "All divisions" selected - show all questions
-      expect(filtered_question(q0, nil)).to be_visible
-      expect(filtered_question(q1, nil)).to be_visible
-      expect(filtered_question(q11, nil)).to be_visible
-      expect(filtered_question(q2, nil)).to be_visible
-      expect(filtered_question(q2_a, nil)).to be_visible
-      expect(filtered_question(q2_b, nil)).to be_visible
-      expect(filtered_question(q21, nil)).to be_visible
     end
   end
 
   describe '#children' do
     it 'should return only visible children' do
       q2.reload
-      expect(filtered_question(q2, nil).children.map(&:object)).to contain_exactly(q2_a, q2_b)
+      expect(filtered_question(q2, d21).children.map(&:object)).to contain_exactly(q2_a, q2_b)
       expect(filtered_question(q2, d2).children.map(&:object)).to contain_exactly(q2_a)
     end
   end
