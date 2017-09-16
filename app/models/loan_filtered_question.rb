@@ -24,7 +24,8 @@ class LoanFilteredQuestion < FilteredQuestion
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required?
-    @required ||= if override_associations || depth == 1
+    return @required if definded?(@required)
+    @required = if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
       root? ? true : parent.required?
