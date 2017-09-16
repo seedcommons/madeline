@@ -36,6 +36,7 @@
 //= require tree.jquery
 //= require jquery.dirtyforms
 //= require bootstrap-datepicker
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
 
 //= require twitter/bootstrap/rails/confirm
 //= require admin/confirm
