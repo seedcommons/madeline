@@ -22,7 +22,6 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    return true if @division.nil?
     @division.loan_questions.include?(object) || object.division.descendants.include?(@division)
   end
 
