@@ -17,8 +17,6 @@
 #
 
 class LoanResponseSet < ActiveRecord::Base
-  include ProgressCalculable
-
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
 
@@ -26,6 +24,7 @@ class LoanResponseSet < ActiveRecord::Base
 
   delegate :division, :division=, to: :loan
   delegate :question, to: :loan_question_set
+  delegate :progress, :progress_pct, :progress_type, to: :root_response
 
   after_commit :recalculate_loan_health
 
@@ -51,33 +50,8 @@ class LoanResponseSet < ActiveRecord::Base
     question(response.loan_question.id).children.map { |q| response(q) }
   end
 
-  # Needed to satisfy the ProgressCalculable duck type.
-  # Overall progress should consider only required questions, unless there are none.
-  def required?
-    children.any?(&:required?)
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # A LoanResponseSet behaves as a group.
-  def group?
-    true
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # A LoanResponseSet behaves as a group so can never be answered.
-  def answered?
-    false
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  def active?
-    true
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # Returns the LoanResponses for the top level questions in the set.
-  def children
-    question(:root).children.map { |f| response(f) }
+  def root_response
+    response(LoanFilteredQuestion.new(question(:root), loan: loan))
   end
 
   # Fetches a custom value from the json field. `question_identifier` can be the same

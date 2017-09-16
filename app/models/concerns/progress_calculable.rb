@@ -19,12 +19,7 @@ module ProgressCalculable
     required? ? "normal" : "optional"
   end
 
-  # Inactive and retired questions should be ignored. Inactive questions only show when they are
-  # answered, and they are never required, so progress makes no sense. Retired questions should
-  # never show, so they should be excluded as well.
-  def active_children
-    children.select(&:active?)
-  end
+  protected
 
   # If this is a required node, the numerator is the number of answered, required child questions,
   # plus the numerators of any required child groups.
@@ -52,7 +47,17 @@ module ProgressCalculable
     end
   end
 
+  # Inactive and retired questions should be ignored. Inactive questions only show when they are
+  # answered, and they are never required, so progress makes no sense. Retired questions should
+  # never show, so they should be excluded as well.
+  # If the current response is required, only count children that are also required.
   def progress_applicable_children
-    required? ? active_children.select(&:required?) : active_children
+    children.select do |c|
+      if self.required?
+        c.active? && c.required?
+      else
+        c.active?
+      end
+    end
   end
 end
