@@ -58,7 +58,6 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    p @args
     self.class.decorate_collection(object.children, **@args)
   end
 end
