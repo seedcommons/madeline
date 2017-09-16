@@ -61,18 +61,21 @@ class LoanQuestionSet < ActiveRecord::Base
   # Gets a LoanQuestion by its id, internal_name, or the LoanQuestion itself.
   # Uses the node_lookup_table so that it does not trigger any new database queries once the table is built.
   def question(question_identifier, required: true)
+    # Return immediately if we are passed a LoanQuestion or FilteredQuestion.
+    if question_identifier.is_a?(LoanQuestion) || question_identifier.is_a?(FilteredQuestion)
+      return question_identifier
+    end
+
     build_node_lookup_table_for(root_group_preloaded) unless @node_lookup_table
 
-    question = if question_identifier == :root
+    result = if question_identifier == :root
       root_group_preloaded
-    elsif question_identifier.is_a?(LoanQuestion) || question_identifier.is_a?(FilteredQuestion)
-      @node_lookup_table[question_identifier.id]
     else
       @node_lookup_table[question_identifier]
     end
 
-    raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}"  if required && !question
-    question
+    raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}" if required && !result
+    result
   end
 
   private

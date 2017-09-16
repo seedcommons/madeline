@@ -23,7 +23,6 @@ class LoanResponseSet < ActiveRecord::Base
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
-  delegate :question, to: :loan_question_set
   delegate :progress, :progress_pct, :progress_type, to: :root_response
 
   after_commit :recalculate_loan_health
@@ -32,29 +31,18 @@ class LoanResponseSet < ActiveRecord::Base
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
-  def loan_question_set
-    @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
-  end
-
-  # Fetches urls of all embeddable media in the whole custom value set
-  def embedded_urls
-    return [] if custom_data.blank?
-    custom_data.values.map { |v| v["url"].presence }.compact
-  end
-
-  # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
-  # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
-  # this responsibility in LoanResponseSet seemed reasonable.
-  def children_of(response)
-    response.loan_question.children.map { |q| response(q) }
+  def question_set
+    @question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   def root_response
-    response(LoanFilteredQuestion.new(question(:root), loan: loan))
+    response(question(:root))
   end
 
-  # Fetches a custom value from the json field. `question_identifier` can be the same
+  # Fetches a custom value from the json field.
+  # Ensures `question` is decorated before passing to LoanResponse.
   def response(question)
+    question = ensure_decorated(question)
     raw_value = (custom_data || {})[question.json_key]
     LoanResponse.new(loan: loan, loan_question: question, loan_response_set: self, data: raw_value)
   end
@@ -64,6 +52,12 @@ class LoanResponseSet < ActiveRecord::Base
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
+  end
+
+  # Fetches urls of all embeddable media in the whole custom value set
+  def embedded_urls
+    return [] if custom_data.blank?
+    custom_data.values.map { |v| v["url"].presence }.compact
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
@@ -96,6 +90,15 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   private
+
+  # Gets the question for the given identifier. Decorates it if it's not already.
+  def question(identifier, required: true)
+    ensure_decorated(question_set.question(identifier, required: required))
+  end
+
+  def ensure_decorated(question)
+    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
+  end
 
   # Determines attribute name and implied operations for dynamic methods as documented above
   def match_dynamic_method(method_sym)

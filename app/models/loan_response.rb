@@ -12,12 +12,12 @@ class LoanResponse
   def initialize(loan:, loan_question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
-    @loan_question = LoanFilteredQuestion.new(loan_question, loan: @loan)
+    @loan_question = loan_question
     @loan_response_set = loan_response_set
     %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
     end
-    @breakeven = remove_blanks data[:breakeven]
+    @breakeven = remove_blanks(data[:breakeven])
   end
 
   def model_name
@@ -86,10 +86,11 @@ class LoanResponse
   private
 
   # Gets child responses of this response by asking LoanResponseSet.
-  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
+  # Assumes LoanResponseSet's implementation of `response`
+  # will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
   def children
-    loan_response_set.children_of(self)
+    loan_question.children.map { |q| loan_response_set.response(q) }
   end
 
   def remove_blanks(data)

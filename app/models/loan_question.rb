@@ -108,6 +108,10 @@ class LoanQuestion < ActiveRecord::Base
     @first_child ||= parent && parent.children.none? { |q| q.position < position }
   end
 
+  def decorated?
+    false
+  end
+
   # List of value keys for fields which have nested values
   def value_types
     # raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
