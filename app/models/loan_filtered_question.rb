@@ -2,16 +2,14 @@
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
-  def initialize(question, loan:)
-    super(question, loan: loan)
-    @loan = loan
+  def initialize(question, **args)
+    @loan = args[:loan]
+    args[:division] = @loan.division
+    super(question, **args)
   end
 
-  # Returns child questions that are applicable to the given loan. Sorts by requiredness, then position.
-  def children
-    @children ||= decorated_children.select(&:visible?).sort_by do |i|
-      [i.required? ? 1 : 2, i.position]
-    end
+  def sort_key
+    [required? ? 1 : 2, position]
   end
 
   # Resolves if this particular question is considered required for the provided loan, based on
@@ -42,7 +40,7 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def visible?
-    status == 'active' || (status == 'inactive' && answered?)
+    super && (status == 'active' || (status == 'inactive' && answered?))
   end
 
   def response_set
