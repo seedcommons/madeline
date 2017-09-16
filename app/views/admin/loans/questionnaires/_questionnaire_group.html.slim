@@ -109,7 +109,7 @@
                   = render "admin/loans/questionnaires/breakeven_table_report",
                     report: response.breakeven_report
                   = render "admin/loans/questionnaires/breakeven_charts",
-                    report: response.breakeven_report, id: response.loan_question.id
+                    report: response.breakeven_report, id: question.id
                   - if response.breakeven_report[:periods] > 1
                     = render "admin/loans/questionnaires/breakeven_rampup/main",
                       report: response.breakeven_report

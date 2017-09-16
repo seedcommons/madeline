@@ -44,7 +44,7 @@ class LoanResponseSet < ActiveRecord::Base
   def response(question)
     question = ensure_decorated(question)
     raw_value = (custom_data || {})[question.json_key]
-    LoanResponse.new(loan: loan, loan_question: question, loan_response_set: self, data: raw_value)
+    LoanResponse.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.
