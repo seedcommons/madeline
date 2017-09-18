@@ -2,14 +2,15 @@
   / should probably be refactored someday to happen in the model
   div
     - optional_encountered = false
-    - optionals_exist = roots.any? { |i| !i.required_for?(@loan) }
-    - requireds_exist = roots.any? { |i| i.required_for?(@loan) }
+    - optionals_exist = root.children.any?(&:optional?)
+    - requireds_exist = root.children.any?(&:required?)
 
-    - roots.each_with_index do |question, idx|
+    - root.children.each do |question|
       / Add page break for top-level groups with answered questions
       / Also add page break for business model canvas answered question
+      - response = response_set.response(question.id)
       - if (question.data_type == "business_canvas" || (question.data_type == 'group' && question.parent.root?)) \
-          && !response_set.tree_unanswered?(question)
+          && response.present?
         / Close and reopen fieldset with new group/page
         - if optional_encountered && @print_view
           </fieldset>
@@ -18,25 +19,21 @@
         / Page header for print view
         = render "admin/loans/questionnaires/page_header"
 
-      - optional = !question.required_for?(@loan)
-      - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && optional
-      - if @print_view && (reopen_fieldset || (start_of_optional_group && !response_set.tree_unanswered?(question)))
+      - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && !question.required?
+      - if @print_view && (reopen_fieldset || (start_of_optional_group && response.present?))
         - optional_encountered = true; reopen_fieldset = false
         <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
-      - value = response_set.response(question)
-      - css_class = optional ? 'optional' : 'required'
+      - css_class = question.required? ? 'required' : 'optional'
 
       / Don't print unanswered questions or groups
-      - css_class += ' hidden-print' if response_set.tree_unanswered?(question)
+      - css_class += ' hidden-print' if response.blank? || response.not_applicable?
       - css_class += " #{question.status}"
 
       .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
-        - index_str = (indices + [idx + 1]).join(".")
-
         span.tree-view
           - if !question.leaf?
-            = render "admin/loans/questionnaires/progress_bar", object: value
+            = render "admin/loans/questionnaires/progress_bar", object: response
 
           - if question.data_type == 'group'
             - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
@@ -49,70 +46,100 @@
           .help-block.hidden-print.tree-view = simple_format(question.explanation.to_s)
 
         / Recurse if group, else render
-        - if question.data_type == 'group'
-          - if (filtered_children = question.children_applicable_to(@loan)).present?
-            = render("admin/loans/questionnaires/questionnaire_group",
-              f: f, response_set: response_set, roots: filtered_children,
-              parents: parents + [question], indices: indices + [idx + 1])
+        - if question.data_type == 'group' && question.children.present?
+          = render("admin/loans/questionnaires/questionnaire_group", f: f,
+            response_set: response_set, root: question, parents: parents + [question])
 
         - else
           .answer-wrapper.tree-view
-            - if value.has_rating?
-              - if value.rating.present?
-                .view-element.answer = "#{I18n.t('loan.rating')}: #{value.rating}"
-              = f.input_field :"#{question.attribute_sym}[rating]", as: :select, selected: value.rating,
-                collection: Array(1..5), prompt: I18n.t("select_prompt"), data: {rating: true}
 
-            - if value.has_number?
-              - if value.number.present?
-                .view-element.answer = value.number
-              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal, value: value.number
+            .not-applicable
+              - if response.not_applicable?
+                .view-element.answer = t("loan.not_applicable")
 
-            - if value.has_text?
-              - if value.text.present?
-                .view-element.answer = simple_format(value.text)
-              = f.input_field :"#{question.attribute_sym}[text]", as: value.text_form_field_type,
-                value: value.text
+              .form-element
+                / This is the 'not applicable' checkbox.
+                / The boolean field above uses a select box so we need a different treatment here.
+                / However it makes sense to maintain the same underlying boolean values (yes/no)
+                / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
+                / so that if the box is unchecked, the submitted value will be 'no'. This is a
+                / standard Rails trick:
+                / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
+                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  "no"
+                = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  "yes", response.not_applicable?
+                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]",
+                  t("loan.not_applicable")
 
-            - if value.has_string?
-              - if value.string.present?
-                .view-element.answer = simple_format(value.string)
-              = f.input_field :"#{question.attribute_sym}[string]", value: value.string
+            - if response.has_rating?
+              - if response.rating.present? && !response.not_applicable?
+                .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
+              = f.input_field :"#{question.attribute_sym}[rating]", as: :select,
+                selected: response.rating, collection: Array(1..5), prompt: I18n.t("select_prompt"),
+                data: {rating: true}
 
-            - if value.has_boolean?
-              - if value.boolean.present?
-                .view-element.answer = t(value.boolean == "yes" ? "reply_yes" : "reply_no")
-              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select, selected: value.boolean,
-                collection: %i(yes no), label_method: ->(i) { t("reply_#{i}") },
-                prompt: I18n.t("select_prompt"), data: {boolean: true}
+            - if response.has_number?
+              - if response.number.present? && !response.not_applicable?
+                .view-element.answer = response.number
+              = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
+                value: response.number
 
-            - if value.has_breakeven_table?
-              - if value.breakeven_report.present?
+            - if response.has_text?
+              - if response.text.present? && !response.not_applicable?
+                .view-element.answer = simple_format(response.text)
+              = f.input_field :"#{question.attribute_sym}[text]", as: response.text_form_field_type,
+                value: response.text
+
+            - if response.has_string?
+              - if response.string.present? && !response.not_applicable?
+                .view-element.answer = simple_format(response.string)
+              = f.input_field :"#{question.attribute_sym}[string]", value: response.string
+
+            - if response.has_boolean?
+              - if response.boolean.present? && !response.not_applicable?
+                .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")
+              = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
+                selected: response.boolean, collection: %i(yes no),
+                label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
+                data: {boolean: true}
+
+            - if response.has_breakeven?
+              - if response.breakeven_report.present? && !response.not_applicable?
                 .view-element
-                  = render "admin/loans/questionnaires/breakeven_table_report", report: value.breakeven_report
-                  = render "admin/loans/questionnaires/breakeven_charts", report: value.breakeven_report, id: value.loan_question.id
-                  - if value.breakeven_report[:periods] > 1
-                    = render "admin/loans/questionnaires/breakeven_rampup/main", report: value.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_table_report",
+                    report: response.breakeven_report
+                  = render "admin/loans/questionnaires/breakeven_charts",
+                    report: response.breakeven_report, id: response.loan_question.id
+                  - if response.breakeven_report[:periods] > 1
+                    = render "admin/loans/questionnaires/breakeven_rampup/main",
+                      report: response.breakeven_report
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                    question: question, data: value.breakeven_hash, total_fixed_costs: value.breakeven_report[:total_fixed_costs]
+                    question: question, data: response.breakeven_hash,
+                    total_fixed_costs: response.breakeven_report[:total_fixed_costs]
               - else
                 .form-element
                   = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                    question: question, data: value.breakeven_hash, total_fixed_costs: 0
+                    question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
-            - if value.has_business_canvas?
-              .answer class=('form-element' if value.business_canvas_blank?)
-                = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-                  question: question, data: value.business_canvas
-
-            - if value.has_linked_document?
+            - if response.has_url?
               = render 'admin/loans/questionnaires/linked_document', f: f,
-                question: question, document: value.linked_document
+                question: question, document: response.linked_document,
+                not_applicable: response.not_applicable?
 
-            - if value.blank?
+            - if response.has_business_canvas?
+              - unless response.not_applicable? || response.business_canvas_blank?
+                .view-element.answer
+                  = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+                    question: question, data: response.business_canvas
+              / The form element will always show in edit mode
+              .form-element
+                = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+                question: question, data: response.business_canvas
+
+            - if !response.group? && response.blank?
               .view-element.answer.blank = t("loan.no_answer")
-
 
     - if optional_encountered && @print_view
       </fieldset>

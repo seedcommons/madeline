@@ -106,6 +106,10 @@ class ProjectStep < TimelineEntry
     copy_schedule_parent_date
   end
 
+  def has_date?
+    scheduled_start_date.present?
+  end
+
   def scheduled_end_date
     return if scheduled_start_date.blank?
     return scheduled_start_date if scheduled_duration_days.blank?

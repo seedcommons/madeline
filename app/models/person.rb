@@ -44,7 +44,7 @@
 # A valid User must reference a Person record with 'has_system_access' in order to login into the
 # system.  When a Person record is created or updated with 'has_system_access' true, then an
 # associated User record is created with the access granted based on the transient
-# 'owning_division_role' attribute and 'password'/'password_confirmation' attributes.
+# 'access_role' attribute and 'password'/'password_confirmation' attributes.
 #
 
 class Person < ActiveRecord::Base
@@ -73,7 +73,7 @@ class Person < ActiveRecord::Base
   validate :user_valid
 
   # Transient attributes to facilitate user management
-  attr_writer :owning_division_role
+  attr_writer :access_role
   attr_accessor :password, :password_confirmation
 
   before_save :update_full_name
@@ -86,14 +86,14 @@ class Person < ActiveRecord::Base
   scope :with_agent_projects, -> { where("EXISTS (SELECT * FROM projects WHERE primary_agent_id = people.id OR secondary_agent_id = people.id)") }
 
   # Lazy evaluation getter
-  def owning_division_role
-    @owning_division_role = resolve_owning_division_role unless defined? @owning_division_role
-    @owning_division_role
+  def access_role
+    return @access_role if defined? @access_role
+    @access_role = resolve_access_role
   end
 
-  def owning_division_role_label
-    label_key = owning_division_role || 'none'
-    I18n.t("simple_form.options.person.owning_division_role.#{label_key}")
+  def access_role_label
+    label_key = access_role || 'none'
+    I18n.t("simple_form.options.person.access_role.#{label_key}")
   end
 
   def agent_projects
@@ -110,7 +110,7 @@ class Person < ActiveRecord::Base
     self.name = "#{first_name} #{last_name}"
   end
 
-  def resolve_owning_division_role
+  def resolve_access_role
     if user
       role = user.roles.find_by(resource_type: 'Division', resource_id: division_id)
       return role.name.to_sym if role
@@ -123,9 +123,9 @@ class Person < ActiveRecord::Base
   end
 
   def division_role_valid
-    if has_system_access? && (owning_division_role.blank? ||
-      !VALID_DIVISION_ROLES.include?(owning_division_role.to_sym))
-      errors.add(:owning_division_role, I18n.t("people.shared.invalid_division_role"))
+    if has_system_access? && (access_role.blank? ||
+      !VALID_DIVISION_ROLES.include?(access_role.to_sym))
+      errors.add(:access_role, I18n.t("people.shared.invalid_division_role"))
     end
   end
 
@@ -162,8 +162,8 @@ class Person < ActiveRecord::Base
 
   def handle_roles
     return unless has_system_access # not expected, but broken form display logic was allowing
-    old_role = resolve_owning_division_role
-    new_role = owning_division_role.present? ? owning_division_role.to_sym : nil
+    old_role = resolve_access_role
+    new_role = access_role.present? ? access_role.to_sym : nil
     # Invalid roles expected to rejected by validation rules. but avoid cryptic error just in case.
     raise "Unexpected division role: #{new_role}" if new_role && !VALID_DIVISION_ROLES.include?(new_role)
     if old_role != new_role

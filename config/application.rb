@@ -38,6 +38,15 @@ module MadelineSystem
     config.active_job.queue_adapter = :delayed_job
 
     config.action_mailer.default_url_options = { host: ENV['MADELINE_HOSTNAME'] }
+
+    # Send email on errors
+    unless Rails.env.test?
+      Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
+        email_prefix: "[Madeline #{Rails.env.to_s.capitalize}] ",
+        sender_address: %{"Madeline" <#{ENV['MADELINE_EMAIL_FROM']}>},
+        exception_recipients: [ENV['MADELINE_ERROR_EMAILS_TO']]
+      }
+    end
   end
 
   # This seems to be required for proper rendering of all wice_grid views. (Without, view contents is all html escaped.)
