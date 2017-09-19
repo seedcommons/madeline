@@ -26,6 +26,12 @@ module ApplicationHelper
     date ? l(date, format: format) : ""
   end
 
+  # We use a generic format for date inputs and the date picker because dealing with localized
+  # formats is a pain on submission. Rails doesn't parse non-English formats very well.
+  def format_date_input(date)
+    date ? l(date, format: "%Y-%m-%d") : ""
+  end
+
   # Converts given object/value to json and runs through html_safe.
   # In Rails 4, this is necessary and sufficient to guard against XSS in JSON.
   def json(obj)

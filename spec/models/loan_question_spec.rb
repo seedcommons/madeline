@@ -34,83 +34,14 @@ describe LoanQuestion, :type => :model do
     expect(create(:loan_question)).to be_valid
   end
 
-  describe 'required_for?' do
-    let!(:loan_type_set) { create(:option_set, division: root_division, model_type: ::Loan.name, model_attribute: 'loan_type') }
-    let!(:lt1) { create(:option, option_set: loan_type_set, value: 'lt1', label_translations: {en: 'Loan Type One'}) }
-    let!(:lt2) { create(:option, option_set: loan_type_set, value: 'lt2', label_translations: {en: 'Loan Type Two'}) }
-
-    let!(:loan1) { create(:loan, loan_type_value: lt1.value)}
-    let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
-
-    let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create_q(set: set, name: "lqroot", type: "group") }
-    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
-
-    let!(:f2) { create_q(set: set, parent: lqroot, name: "f4", type: "text",
-      override_associations: true, loan_types: [lt1,lt2]) }
-
-    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group",
-      override_associations: true, loan_types: [lt1]) }
-    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
-    let!(:f33) { create_q(set: set, parent: f3, name: "f33", type: "group") }
-    let!(:f331) { create_q(set: set, parent: f33, name: "f331", type: "boolean") }
-    let!(:f332) { create_q(set: set, parent: f33, name: "f332", type: "number",
-      override_associations: true, loan_types: [lt2]) }
-    let!(:f333) { create_q(set: set, parent: f33, name: "f333", type: "text",
-      override_associations: true) }
-
-    let!(:f4) { create_q(set: set, parent: f1, name: "f4", type: "text",
-      loan_types: [lt1,lt2]) }
-
-    it 'not required by default' do
-      expect(f1.required_for?(loan1)).to be_falsey
-    end
-
-    it 'required when override true and assocation present' do
-      expect(f3.required_for?(loan1)).to be_truthy
-    end
-
-    it 'not required when override true and assocation not present' do
-      expect(f3.required_for?(loan2)).to be_falsey
-    end
-
-    it 'required when inherited and parent association present' do
-      expect(f31.required_for?(loan1)).to be_truthy
-    end
-
-    it 'not required when inherited and parent association not present' do
-      expect(f31.required_for?(loan2)).to be_falsey
-    end
-
-    it 'not required when override true for child and not present at child level' do
-      expect(f332.required_for?(loan1)).to be_falsey
-    end
-
-    it 'required when override true for child and present at child level' do
-      expect(f332.required_for?(loan2)).to be_truthy
-    end
-
-    it 'required when override true and association present for both types' do
-      expect(f2.required_for?(loan2)).to be_truthy
-    end
-
-    it 'not required when override true for child and no associations present' do
-      expect(f333.required_for?(loan1)).to be_falsey
-    end
-
-    it 'not required on child when override false even when association is present' do
-      expect(f4.required_for?(loan1)).to be_falsey
-    end
-  end
-
   describe 'position' do
     let!(:set) { create(:loan_question_set) }
-    let!(:lqroot) { create_q(set: set, name: "lqroot", type: "group") }
-    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
-    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
-    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group", override_associations: true) }
-    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
-    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
+    let!(:lqroot) { create_question(set: set, name: "lqroot", type: "group") }
+    let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
+    let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group", override_associations: true) }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
 
     it 'should be set automatically' do
       expect(f1.position).to eq 0
@@ -124,12 +55,12 @@ describe LoanQuestion, :type => :model do
   describe "number", clean_with_truncation: true do
     let!(:set) { create(:loan_question_set) }
     let!(:lqroot) { set.root_group }
-    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
-    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
-    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group") }
-    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string") }
-    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
-    let!(:f4) { create_q(set: set, parent: lqroot, name: "f4", type: "text") }
+    let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
+    let!(:f4) { create_question(set: set, parent: lqroot, name: "f4", type: "text") }
 
     context "on create" do
       it "sets the correct numbers" do
@@ -220,14 +151,14 @@ describe LoanQuestion, :type => :model do
   describe "full_number", clean_with_truncation: true do
     let!(:set) { create(:loan_question_set) }
     let!(:lqroot) { set.root_group }
-    let!(:f1) { create_q(set: set, parent: lqroot, name: "f1", type: "text") }
-    let!(:f2) { create_q(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
-    let!(:f3) { create_q(set: set, parent: lqroot, name: "f3", type: "group") }
-    let!(:f31) { create_q(set: set, parent: f3, name: "f31", type: "string", status: "inactive") }
-    let!(:f32) { create_q(set: set, parent: f3, name: "f32", type: "boolean") }
-    let!(:f33) { create_q(set: set, parent: f3, name: "f33", type: "group") }
-    let!(:f331) { create_q(set: set, parent: f33, name: "f331", type: "boolean") }
-    let!(:f4) { create_q(set: set, parent: lqroot, name: "f4", type: "text") }
+    let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
+    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string", status: "inactive") }
+    let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
+    let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "group") }
+    let!(:f331) { create_question(set: set, parent: f33, name: "f331", type: "boolean") }
+    let!(:f4) { create_question(set: set, parent: lqroot, name: "f4", type: "text") }
 
     it "should be correct for all nodes" do
       expect(f1.reload.full_number).to eq "1"
@@ -239,13 +170,5 @@ describe LoanQuestion, :type => :model do
       expect(f331.reload.full_number).to eq "2.2.1"
       expect(f4.reload.full_number).to eq "3"
     end
-  end
-
-  # Helper method to shorten keys
-  def create_q(attribs)
-    attribs[:loan_question_set] = attribs.delete(:set)
-    attribs[:internal_name] = attribs.delete(:name)
-    attribs[:data_type] = attribs.delete(:type)
-    create(:loan_question, attribs)
   end
 end

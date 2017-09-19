@@ -9,6 +9,7 @@ es:
     explanation: "Explicación"
     manage: "Manejar Preguntas del Préstamo"
     move_error: "El ítem no pudo moverse debido a un error"
+    not_editable: "Esta pregunta o esto groupo es heredada/o de un división principal. No puede cambiar esta pregunta o esto grupo."
     text: "Título"
   linked_document:
     cell_end: Celda Final
@@ -35,6 +36,7 @@ es:
     labels:
       loan_question:
         data_type: Tipo de Dato
+        division: División
         has_embeddable_media: Permitir adjuntar archivos o links
         loan_types: Requerido para Tipos de Préstamos
     options:

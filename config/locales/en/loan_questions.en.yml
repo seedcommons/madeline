@@ -9,6 +9,7 @@ en:
     explanation: "Explanation"
     manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
+    not_editable: "This question or group is inherited from a parent division, so it can't be changed."
     text: "Title"
 
   linked_document:
