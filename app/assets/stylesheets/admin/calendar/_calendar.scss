@@ -77,6 +77,10 @@
     }
   }
 
+  .project-start, .project-end {
+    text-overflow: ellipsis;
+  }
+
   .cal-ghost-step {
     background: $white;
     border: 1px dashed $gray3;
