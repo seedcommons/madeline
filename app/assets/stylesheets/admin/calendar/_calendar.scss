@@ -27,7 +27,6 @@
 
       &.fa-link {
         color: $gray3;
-        padding-right: .25em;
       }
     }
 
@@ -54,7 +53,7 @@
   .cal-ghost-step, .cal-step {
     .large-left-box {
       background: inherit;
-      width: calc(100% - 3em);
+      width: calc(100% - 4em);
       display: inline-block;
       max-height: 3em;
       overflow: hidden;
@@ -65,13 +64,17 @@
     }
 
     .small-right-box {
-      width: 3em;
+      width: 4em;
       display: inline-block;
       vertical-align: top;
       margin: 0;
       padding: 0;
       height: 100%;
       float: right;
+
+      i {
+        margin-right: .25em;
+      }
     }
   }
 
