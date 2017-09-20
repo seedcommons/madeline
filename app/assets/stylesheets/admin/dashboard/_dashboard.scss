@@ -98,4 +98,12 @@
       font-size: 1em;
     }
   }
+
+  table {
+    // Specificuty added to override defaults
+    th, > thead:first-child > tr:first-child > th {
+      background: $gray2;
+      border-bottom-color: $gray3;
+    }
+  }
 }
