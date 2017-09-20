@@ -12,7 +12,7 @@ es:
     cancel_edit: "Cancelar la Edición"
     confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este préstamo para siempre?"
     confirm_duplication:
-      loan: "Este duplica el préstamo y los artículos incluídos (las entradas del Línea del Tiempo, los apuntes, y las respuestas del Cuestionario). ¿Quieres continuar?"
+      loan: "Esto duplicará el préstamo y todo lo asociado a él, como las entradas de línea de tiempo, apuntes y respuestas a cuestionarios. ¿Quieres continuar?"
     confirm_response_deletion: "ATENCIÓN: ¿Realmente quieres borrar permanentemente estas respuestas?"
     criteria: "Criterios"
     criteria_not_entered: "No se han ingresado criterios aún."
@@ -41,7 +41,7 @@ es:
     move_dates: "Mover las fechas previstas"
     move_date_direction: "¿Mover la fecha hacia adelante o hacia atrás?"
     no_answer: "Falta respuesta."
-    not_applicable: "No aplicable"
+    not_applicable: "No aplica"
     num_of_links:
       one: "Hay %{count} documento asociado."
       other: "Hay %{count} documentos asociados."

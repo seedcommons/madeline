@@ -188,8 +188,8 @@ es:
       person:
         access_role:
           admin: "Admin"
-          member: "Miembro"
-          none: "Ninguno"
+          member: "Miembro/a"
+          none: "Ninguno/a"
       timeline_step_move:
         move_type:
           change_date: "Cambiar la fecha prevista del paso"
