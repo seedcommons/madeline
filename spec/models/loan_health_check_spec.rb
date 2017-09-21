@@ -121,7 +121,8 @@ RSpec.describe LoanHealthCheck, type: :model do
           end
 
           context 'ending in 90 days' do
-            let(:loan) { create(:loan, :prospective, end_date: 90.days.from_now) }
+            let(:loan) { create(:loan, :prospective, signing_date: signing_date, end_date: 90.days.from_now) }
+            let(:signing_date) { Date.today }
 
             context 'with no future steps' do
               it { is_expected.to include :sporadic_loan_updates }
@@ -153,6 +154,12 @@ RSpec.describe LoanHealthCheck, type: :model do
               end
 
               it { is_expected.to_not include :sporadic_loan_updates }
+            end
+
+            context 'with no signing_date' do
+              let(:signing_date) { nil }
+
+              it { is_expected.to include :sporadic_loan_updates }
             end
           end
         end
