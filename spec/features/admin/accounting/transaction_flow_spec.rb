@@ -47,7 +47,21 @@ feature 'transaction flow' do
       fill_in 'Memo', with: 'Chunky monkey'
       click_on 'Add'
 
-      expect(page).to have_content("Foo bar")
+      expect(page).to have_content('Foo bar')
     end
   end
+
+  describe 'show', js: true do
+    let!(:loan) { create(:loan) }
+    let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
+
+    scenario 'can show transactions' do
+      visit admin_loan_tab_path(loan, tab: 'transactions')
+      click_on txn.txn_date.strftime('%B %d, %Y')
+      sleep 5
+      expect(page).to have_content('Edit')
+      expect(page).to have_content('icecream')
+    end
+  end
+
 end
