@@ -19,7 +19,7 @@
     = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types
 
   = f.input :txn_date
-    .view-element = @transaction.txn_date
+    .view-element = ldate(@transaction.txn_date)
     = f.input_field :txn_date, as: :date_picker
 
   = f.input :account
