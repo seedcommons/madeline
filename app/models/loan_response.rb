@@ -54,7 +54,7 @@ class LoanResponse
     end
   end
 
-  # Checks if response is blank, including any descenants if this is a group.
+  # Checks if response is blank, including any descendants if this is a group.
   def blank?
     if group?
       question.children.all?(&:blank?)
