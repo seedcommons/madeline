@@ -2,14 +2,15 @@ require 'rails_helper'
 
 describe LoanResponse do
   let(:question) { create(:loan_question, data_type: type) }
-  let(:response) {
+  let(:response) do
     LoanResponse.new(
       loan: nil,
       question: question,
       loan_response_set: nil,
       data: data
     )
-  }
+  end
+  subject { response }
 
   describe '#blank?' do
     context 'for non-group questions' do
@@ -18,17 +19,13 @@ describe LoanResponse do
       context 'empty response' do
         let(:data) { {} }
 
-        it do
-          expect(response).to be_blank
-        end
+        it { is_expected.to be_blank }
       end
 
       context 'non-empty response' do
         let(:data) { {'number' => 1} }
 
-        it do
-          expect(response).not_to be_blank
-        end
+        it { is_expected.not_to be_blank }
       end
     end
 
@@ -49,17 +46,13 @@ describe LoanResponse do
       context 'both child responses blank' do
         let(:data2) { {} }
 
-        it do
-          expect(response).to be_blank
-        end
+        it { is_expected.to be_blank }
       end
 
       context 'non-empty response' do
         let(:data2) { { 'number' => 3 } }
 
-        it do
-          expect(response).not_to be_blank
-        end
+        it { is_expected.not_to be_blank }
       end
     end
   end
