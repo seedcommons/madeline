@@ -15,6 +15,8 @@ describe FilteredQuestion, type: :model do
     let!(:q2_b) { create(:loan_question, parent: q2, division: d21) }
       let!(:q21) { create(:loan_question, division: d21) }
 
+  let!(:user) { create(:user, :admin, division: d0) }
+
   describe '#visible?' do
     it 'shows only questions belonging to the selected division and its ancestors' do
       # Root division selected
@@ -62,6 +64,14 @@ describe FilteredQuestion, type: :model do
       expect(filtered_question(q2_b, d21)).to be_visible
       expect(filtered_question(q21, d21)).to be_visible
     end
+
+    context 'with user in lower division' do
+      let!(:user) { create(:user, :admin, division: d1) }
+
+      it 'should still be able to see questions from ancestor division' do
+        expect(filtered_question(q0, d0)).to be_visible
+      end
+    end
   end
 
   describe '#children' do
@@ -73,6 +83,6 @@ describe FilteredQuestion, type: :model do
   end
 
   def filtered_question(q, d)
-    FilteredQuestion.new(q, division: d)
+    FilteredQuestion.new(q, division: d, user: user)
   end
 end

@@ -2,6 +2,7 @@
 class FilteredQuestion < SimpleDelegator
   def initialize(question, **args)
     super(question)
+    @user = args[:user]
     @division = args[:division]
 
     # We save these so we can reuse them when decorating children and parents.
@@ -22,7 +23,10 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    @division.loan_questions.include?(object) || object.division.descendants.include?(@division)
+    allowed? && (
+      @division.loan_questions.include?(object) ||
+      object.division.descendants.include?(@division)
+    )
   end
 
   def children
@@ -58,5 +62,9 @@ class FilteredQuestion < SimpleDelegator
 
   def decorated_children
     self.class.decorate_collection(object.children, **@args)
+  end
+
+  def allowed?
+    LoanQuestionPolicy.new(@user, object).show?
   end
 end
