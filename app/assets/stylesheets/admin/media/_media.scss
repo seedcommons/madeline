@@ -72,6 +72,7 @@ $media-block-width: 100px;
       width: $media-block-width;
       color: $gray3;
       cursor: pointer;
+      word-wrap: break-word;
     }
 
     a {
