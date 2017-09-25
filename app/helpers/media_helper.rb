@@ -31,7 +31,15 @@ module MediaHelper
     caption = media_item.caption
 
     unless caption.text.empty?
-      return caption.text
+      if shorten
+        content_tag(:div, class: "media-title") do
+          concat(content_tag(:span, truncate(caption.text, length: 28)))
+        end
+      else
+        content_tag(:div, class: "media-title") do
+          concat(content_tag(:span, caption.text))
+        end
+      end
     else
       media_title(media_item)
     end
