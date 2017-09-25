@@ -2,6 +2,7 @@ div.media-item data-media-id="#{media_item.id}"
   .thumb
     = link_to media_thumbnail(media_item), media_item.item.url
     = media_title(media_item)
+    = media_caption(media_item)
     .actions
       = link_to edit_admin_media_path(media_item, link_params), class: 'media-action edit' do
         i.fa.fa-pencil

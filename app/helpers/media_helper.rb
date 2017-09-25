@@ -27,6 +27,16 @@ module MediaHelper
     end
   end
 
+  def media_caption(media_item, shorten: true)
+    caption = media_item.caption
+
+    unless caption.text.empty?
+      return caption.text
+    else
+      media_title(media_item)
+    end
+  end
+
   def media_icon_class(media_item)
     if media_item.visual?
       if media_item.kind_value == "video"
