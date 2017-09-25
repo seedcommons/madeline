@@ -27,13 +27,13 @@
 
 FactoryGirl.define do
   factory :loan_question do
+    division { root_division }
     loan_question_set
     internal_name Faker::Lorem.words(2).join('_').downcase
     data_type LoanQuestion::DATA_TYPES.sample
     position [1..10].sample
     status 'active'
     parent nil
-    division { root_division }
 
     after(:create) do |model|
       model.set_label(Faker::Lorem.words(2).join(' '))
