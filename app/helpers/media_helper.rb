@@ -1,7 +1,8 @@
 module MediaHelper
   def media_thumbnail(media_item)
     if media_item.thumbnail?
-      image_tag(media_item.item.thumb.url)
+      alt_text = truncate(media_item.caption.text, length: 36)
+      return image_tag(media_item.item.thumb.url, alt: alt_text)
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
