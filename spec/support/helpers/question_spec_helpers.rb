@@ -8,6 +8,8 @@ module QuestionSpecHelpers
     let!(:qset) { create(:loan_question_set, internal_name: 'loan_criteria') }
     let!(:root) { qset.root_group }
     let(:rset) { build(:loan_response_set, loan: loan1) }
+
+    before { rset.current_user = create(:user, :admin) }
   end
 
   shared_context "full question set and responses" do
@@ -49,6 +51,7 @@ module QuestionSpecHelpers
     let!(:q62) { create_question(parent: q6, name: "q62", type: "boolean", required: true, status: 'inactive') }
 
     before do
+      rset.current_user = create(:user, :admin)
       rset.set_response(q1, {"text" => "foo"})
       rset.set_response(q2, {"text" => ""}) # required
       rset.set_response(q31, {"text" => "junk"}) # required
