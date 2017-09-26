@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe LoanFilteredQuestion, type: :model do
   include_context "full question set and responses"
+  let(:user) { create(:user, :admin) }
 
   describe '#parent' do
-    let(:user) { create(:user, :admin) }
     let(:parent) { described_class.new(q31, loan: loan1, user: user).parent }
 
     it 'returns a decorated object' do

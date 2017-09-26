@@ -23,10 +23,7 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    allowed? && (
-      @division.loan_questions.include?(object) ||
-      object.division.descendants.include?(@division)
-    )
+    allowed? && object.division.self_and_descendants.include?(@division)
   end
 
   def children
