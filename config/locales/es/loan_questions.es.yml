@@ -9,7 +9,7 @@ es:
     explanation: "Explicación"
     manage: "Manejar Preguntas del Préstamo"
     move_error: "El ítem no pudo moverse debido a un error"
-    not_editable: "Esta pregunta o esto groupo es heredada/o de un división principal. No puede cambiar esta pregunta o esto grupo."
+    not_editable: "Esta pregunta o grupo ha sido heredado de una división superior, por lo que no puede cambiarse."
     text: "Título"
   linked_document:
     cell_end: Celda Final
