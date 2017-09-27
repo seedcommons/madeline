@@ -24,14 +24,12 @@
             i.fa.fa-check
         - elsif cal_event.time_status == "late"
             i.fa.fa-clock-o
-        - else
-            i = " "
-      div.align-bottom.bottom-info
-        - if cal_event.has_precedent
-            i.fa.fa-link
+
         - if cal_event.num_of_logs > 0
             i.fa.fa-pencil-square-o
-            = cal_event.num_of_logs.to_s
+              span = cal_event.num_of_logs.to_s
+        - if cal_event.has_precedent
+            i.fa.fa-link
 
   - when "ghost_step"
 
