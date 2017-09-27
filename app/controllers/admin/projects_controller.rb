@@ -27,17 +27,6 @@ class Admin::ProjectsController < Admin::AdminController
     end
   end
 
-  def show
-    @project = Project.find(params[:id])
-    authorize @project, :show?
-    case @project.type
-    when 'Loan'
-      redirect_to admin_loan_tab_path(@project, tab: 'details')
-    when 'BasicProject'
-      redirect_to admin_basic_project_path(@project, tab: 'details')
-    end
-  end
-
   protected
 
   def prep_timeline(project)

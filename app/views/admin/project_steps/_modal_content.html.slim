@@ -49,7 +49,8 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       - else
         .view-element
           = f.input :project_id
-            = link_to @project.display_name, admin_project_path(@project)
+            = link_to @project.display_name,
+              send("admin_#{@project.model_name.singular}_tab_path", @project, tab: "details")
 
       / Summary & details
       .view-element
