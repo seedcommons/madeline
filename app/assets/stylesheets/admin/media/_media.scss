@@ -73,6 +73,10 @@ $media-block-width: 100px;
       color: $gray3;
       cursor: pointer;
       word-wrap: break-word;
+
+      &.media-caption {
+        color: inherit;
+      }
     }
 
     a {
