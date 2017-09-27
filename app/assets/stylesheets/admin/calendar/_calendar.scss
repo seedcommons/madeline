@@ -1,4 +1,5 @@
 @import "../colors";
+@import "../variables";
 
 .calendar {
   .fc-event {
@@ -16,7 +17,7 @@
     padding: .25em .5em;
     max-height: 4em;
     overflow: hidden;
-    font-size: .8em;
+    font-size: 1.2rem;
     cursor: default;
 
     .fa {
@@ -25,9 +26,8 @@
       font-size: 1em;
       line-height: 1.2em;
 
-      &.fa-link {
-        color: $gray3;
-        padding-right: .25em;
+      span {
+        font-family: $app-fonts;
       }
     }
 
@@ -52,11 +52,9 @@
   }
 
   .cal-ghost-step, .cal-step {
-    min-height: 3em;
-
     .large-left-box {
       background: inherit;
-      width: calc(100% - 3em);
+      width: calc(100% - 4em);
       display: inline-block;
       max-height: 3em;
       overflow: hidden;
@@ -67,14 +65,22 @@
     }
 
     .small-right-box {
-      width: 3em;
+      width: 4em;
       display: inline-block;
       vertical-align: top;
       margin: 0;
       padding: 0;
       height: 100%;
       float: right;
+
+      .fa {
+        margin-right: .25em;
+      }
     }
+  }
+
+  .project-start, .project-end {
+    text-overflow: ellipsis;
   }
 
   .cal-ghost-step {
@@ -179,10 +185,6 @@
 
     .fa {
       padding: .2em;
-
-      &.fa-link {
-        color: $gray3;
-      }
     }
 
     .milestone {
