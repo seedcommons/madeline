@@ -41,7 +41,7 @@ class LoanQuestion < ActiveRecord::Base
   # These methods are troublesome because they circumvent eager loading and also cause leaks in
   # decoration. We can do without them! Better to use children and parent to walk the tree and get
   # what you need. We are not dealing with huge trees!
-  BANNED_METHODS = %i(root leaves child_ids ancestors ancestor_ids self_and_ancestors self_and_ancestors_ids
+  BANNED_METHODS = %i(root leaves child_ids ancestors ancestor_ids self_and_ancestors_ids
     siblings sibling_ids self_and_siblings descendants descendant_ids
     self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
@@ -163,7 +163,7 @@ class LoanQuestion < ActiveRecord::Base
   # See comment above on constant definition.
   BANNED_METHODS.each do |m|
     define_method(m) do |*args|
-      raise NotImplementedError
+      raise NotImplementedError(m.to_s)
     end
   end
 
