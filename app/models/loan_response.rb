@@ -2,22 +2,22 @@
 class LoanResponse
   include ProgressCalculable
 
-  attr_accessor :loan, :loan_question, :loan_response_set, :text, :string, :number, :boolean,
+  attr_accessor :loan, :question, :loan_response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  delegate :group?, :active?, :required?, to: :loan_question
+  delegate :group?, :active?, :required?, to: :question
 
   TYPES = %i(text string number rating boolean url breakeven business_canvas)
 
-  def initialize(loan:, loan_question:, loan_response_set:, data:)
+  def initialize(loan:, question:, loan_response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
-    @loan_question = LoanFilteredQuestion.new(loan_question, loan: @loan)
+    @question = question
     @loan_response_set = loan_response_set
     %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
     end
-    @breakeven = remove_blanks data[:breakeven]
+    @breakeven = remove_blanks(data[:breakeven])
   end
 
   def model_name
@@ -45,7 +45,7 @@ class LoanResponse
   end
 
   def field_attributes
-    @field_attributes ||= loan_question.value_types
+    @field_attributes ||= question.value_types
   end
 
   TYPES.each do |type|
@@ -54,9 +54,10 @@ class LoanResponse
     end
   end
 
+  # Checks if response is blank, including any descendants if this is a group.
   def blank?
     if group?
-      loan_question.descendants.all? { |i| loan_response_set.response(i.id).blank? }
+      children.all?(&:blank?)
     else
       !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
@@ -73,7 +74,7 @@ class LoanResponse
 
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
-    loan_question.data_type == 'text' ? :text : :string
+    question.data_type == 'text' ? :text : :string
   end
 
   # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could
@@ -85,10 +86,11 @@ class LoanResponse
   private
 
   # Gets child responses of this response by asking LoanResponseSet.
-  # Assumes LoanResponseSet's implementation will be super fast (not hitting DB everytime), else
+  # Assumes LoanResponseSet's implementation of `response`
+  # will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
   def children
-    loan_response_set.children_of(self)
+    question.children.map { |q| loan_response_set.response(q) }
   end
 
   def remove_blanks(data)
