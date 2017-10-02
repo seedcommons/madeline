@@ -30,6 +30,8 @@
     data-id=entry.id
     data-precedent-id=entry.schedule_parent_id]
     = entry.display_start_date ? ldate(entry.display_start_date, format: :short) : ""
+    - if entry.schedule_parent_id
+      i.fa.fa-link
   td[
     class="#{classes} step-date step-end-date"
     data-id=entry.id
