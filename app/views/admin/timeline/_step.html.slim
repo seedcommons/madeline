@@ -38,6 +38,8 @@
     data-precedent-id=entry.schedule_parent_id
     data-dependent-step-start-date=ldate(entry.display_end_date)]
     = entry.display_end_date ? ldate(entry.display_end_date, format: :short) : ""
+    - unless entry.schedule_children.empty?
+      i.fa.fa-link
 
   td class=classes
     - if entry.display_duration_days && entry.display_duration_days > 0
