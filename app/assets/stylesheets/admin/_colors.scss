@@ -36,9 +36,9 @@ $body: #333;
 $black: black;
 
 // Color values from project step model
-$onTime: hsl(120, 73%, 57%);
-$superEarly: hsl(120, 41%, 47%);
-$barelyLate: hsl(56, 100%, 66%);
-$superLate: hsl(0, 74%, 54%);
+$onTime: hsl(120, 73%, 57%);      // rgb(65, 225, 65)
+$superEarly: hsl(120, 41%, 47%);  // rgb(71, 169, 71)
+$barelyLate: hsl(56, 100%, 66%);  // rgb(255, 243, 82)
+$superLate: hsl(0, 74%, 54%);     // rgb(225, 51, 51)
 
 $veryLate: $orange2;
