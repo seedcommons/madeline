@@ -18,7 +18,6 @@ class MS.Views.CalendarView extends Backbone.View
     options = $.extend defaultCalendarSettings, settings
     @$calendar.fullCalendar(options)
 
-
   stepClick: (e) ->
     @stepModal.show(@$(e.currentTarget).data('step-id'), @refresh.bind(@))
 
