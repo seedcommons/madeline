@@ -4,20 +4,23 @@ div#legend-content
       div.column.col-lg-6
         table.legend-block
           tr
+            td
+            th.draft = t("calendar.draft")
+          tr
+            td
+            th = t("calendar.finalized")
+          tr
+            td
+            th.bold = t("calendar.status.incomplete")
+          tr
             td: i.fa.fa-calendar-check-o
             th = t("calendar.check_in")
           tr
             td: span.milestone: i.fa.fa-flag
             th = t("calendar.milestone")
           tr
-            td
-            th.bold = t("calendar.status.incomplete")
-          tr
             td: span: i.fa.fa-pencil-square-o
             th = t("calendar.num_of_logs")
-          tr
-            td: span: i.fa.fa-link
-            th = t("calendar.has_precedent")
 
       div.column.col-lg-6
         table.legend-block
@@ -36,3 +39,6 @@ div#legend-content
           tr
             td: span.superlate: i.fa.fa-clock-o
             th = t("calendar.status.super_late")
+          tr
+            td: span: i.fa.fa-link
+            th = t("calendar.has_precedent")

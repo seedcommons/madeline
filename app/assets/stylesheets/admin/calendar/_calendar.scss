@@ -223,6 +223,11 @@
       height: 1.25em;
       border: 1px dashed $gray3;
     }
+
+    .draft {
+      font-style: italic;
+      color: $gray8;
+    }
   }
 
   .popover {

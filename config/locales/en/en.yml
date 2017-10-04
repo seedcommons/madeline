@@ -380,6 +380,8 @@ en:
   calendar:
     calendar: "Calendar"
     check_in: "Check in"
+    draft: "Draft"
+    finalized: "Finalized"
     has_precedent: "Depends on another step"
     legend: "Legend"
     milestone: "Milestone"
