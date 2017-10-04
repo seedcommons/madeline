@@ -79,6 +79,12 @@
     }
   }
 
+  .cal-step {
+    &.draft-step {
+      font-style: italic;
+    }
+  }
+
   .project-start, .project-end {
     text-overflow: ellipsis;
   }
