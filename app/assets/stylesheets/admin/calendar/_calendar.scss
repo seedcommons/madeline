@@ -1,11 +1,6 @@
 @import "../colors";
 @import "../variables";
 
-.draft-step {
-  font-style: italic;
-  color: $gray8;
-}
-
 .calendar {
   .fc-event {
     border: none;
@@ -86,7 +81,7 @@
 
   .cal-step {
     &.draft {
-      @extend .draft-step;
+      @extend .draft;
     }
   }
 
@@ -229,7 +224,7 @@
     }
 
     .draft {
-      @extend .draft-step;
+      @extend .draft;
     }
   }
 
