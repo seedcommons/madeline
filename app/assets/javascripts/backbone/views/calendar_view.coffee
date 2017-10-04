@@ -32,9 +32,9 @@ class MS.Views.CalendarView extends Backbone.View
     $(initialElement).find('.fc-content').append(calEvent.html)
 
     if calEvent.is_finalized
-      $(initialElement).addClass('finalized-step')
+      $(initialElement).addClass('finalized')
     else
-      $(initialElement).addClass('draft-step')
+      $(initialElement).addClass('draft')
 
     $(initialElement).addClass(calEvent.event_classes)
     $(initialElement).data('step-id', calEvent.model_id)
