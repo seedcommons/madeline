@@ -61,9 +61,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize @transaction, :show?
 
-    respond_to do |format|
-      format.js
-    end
+    prep_transaction_form
+    render_modal_partial
   end
 
   private
