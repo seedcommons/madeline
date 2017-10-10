@@ -144,6 +144,8 @@ class Admin::LoansController < Admin::ProjectsController
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
+    @loan_criteria = @loan.criteria
+    @loan_criteria.current_user = current_user if @loan_criteria
     @tab ||= 'details'
   end
 
