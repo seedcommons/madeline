@@ -65,6 +65,11 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  config.before(:each) do
+    # Create root division
+    Division.create!(name: '-')
+  end
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
