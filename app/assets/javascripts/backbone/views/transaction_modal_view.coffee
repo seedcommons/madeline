@@ -9,6 +9,22 @@ class MS.Views.TransactionModalView extends Backbone.View
   initialize: (params) ->
     @loanId = params.loanId
 
+  new: (projectId) ->
+    url = "/admin/accounting/transactions/new"
+    @loadContent(url)
+
+  show: (id, projectId) ->
+    url = "/admin/loans/#{projectId}/transactions/#{id}"
+    @loadContent(url)
+
+  loadContent: (url) ->
+    $.get url, (html) =>
+      @replaceContent(html)
+      @$el.modal('show')
+
+  replaceContent: (html) ->
+    @$el.find('.modal-content').html(html)
+
   submitForm: ->
     MS.loadingIndicator.show()
     @$('form').submit()
