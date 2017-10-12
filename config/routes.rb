@@ -96,7 +96,6 @@ Rails.application.routes.draw do
     get 'dashboard' => 'dashboard#dashboard', as: 'dashboard'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
     get '/loans/:project_id/transactions/:id' => 'accounting/transactions#show', as: 'loan_transaction'
-    # get '/loans/:project_id/transactions/new' => 'accounting/transactions#new', as: 'new_loan_transaction'
   end
 
   localized do

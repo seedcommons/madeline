@@ -11,14 +11,14 @@ class MS.Views.TransactionModalView extends Backbone.View
 
   new: (projectId) ->
     url = "/admin/accounting/transactions/new"
-    @loadContent(url)
+    @loadContent(url, projectId)
 
   show: (id, projectId) ->
     url = "/admin/loans/#{projectId}/transactions/#{id}"
-    @loadContent(url)
+    @loadContent(url, projectId)
 
-  loadContent: (url) ->
-    $.get url, (html) =>
+  loadContent: (url, projectId) ->
+    $.get url, project_id: projectId, (html) =>
       @replaceContent(html)
       @$el.modal('show')
 
