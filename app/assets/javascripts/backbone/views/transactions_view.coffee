@@ -1,30 +1,37 @@
 class MS.Views.TransactionsView extends Backbone.View
   el: '.transactions'
 
+  initialize: ->
+    @modal = @$('#transaction-modal')
+
   events:
    'click [data-action="new-transaction"]': 'newTransaction'
    'click [data-action="show-transaction"]': 'showTransaction'
 
-  newTransaction: ->
-    @$('#transaction-modal').modal('show')
+  newTransaction: (e) ->
+    url = "/admin/accounting/transactions/new"
+    @loadContent(url)
 
   showTransaction: (e) ->
     e.preventDefault()
-    console.log(e)
     row = e.currentTarget
     console.log($(row).data())
 
-    @$('#transaction-modal').modal('show')
-  #
-  # loadContent: (url) ->
-  #   $.get url, (html) =>
-  #     @replaceContent(html)
-  #     @$el.modal('show')
-  #
-  # replaceContent: (html) ->
-  #   @$el.find('.modal-content').html(html)
-  #   new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
-  #
+    id = $(row).data('id')
+    projectId = $(row).data('projectId')
+    url = "/admin/loans/#{projectId}/transactions/#{id}"
+
+    @loadContent(url)
+
+  loadContent: (url) ->
+    $.get url, (html) =>
+      @replaceContent(html)
+      @modal.modal('show')
+
+  replaceContent: (html) ->
+    @modal.find('.modal-content').html(html)
+
+  # Example of how to split transactionModalView from transactionsView
   # showTransactionModal: (e) ->
   #   e.preventDefault()
   #   link = e.currentTarget
