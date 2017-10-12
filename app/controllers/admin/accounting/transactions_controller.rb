@@ -56,8 +56,19 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
+  def new
+    # @loan = Loan.find_by(id: params[:project_id])
+    @loan = Loan.find_by(id: 1407)
+    # @transaction = ::Accounting::Transaction.new(project_id: params[:project_id])
+    @transaction = ::Accounting::Transaction.new()
+    authorize @transaction, :new?
+
+    prep_transaction_form
+    render_modal_partial
+  end
+
   def show
-    @loan = Loan.find_by(id: params[:loan_id])
+    @loan = Loan.find_by(id: params[:project_id])
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize @transaction, :show?
 
