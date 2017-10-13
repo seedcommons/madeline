@@ -78,6 +78,7 @@ class LoanHealthCheck < ActiveRecord::Base
 
   def check_progress_pct
     return 0 unless loan.criteria
+    loan.criteria.current_user = :system
     loan.criteria.progress_pct
   end
 

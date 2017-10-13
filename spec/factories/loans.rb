@@ -165,5 +165,16 @@ FactoryGirl.define do
         create(:loan, original: loan)
       end
     end
+
+    # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
+    trait :with_criteria_responses do |loan|
+      after(:create) do |loan|
+        loan.criteria = create(:loan_response_set,
+          kind: 'criteria',
+          loan: loan,
+          custom_data: {summary: 'foo', workers: 5}
+        )
+      end
+    end
   end
 end

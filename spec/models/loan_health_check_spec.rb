@@ -21,9 +21,10 @@ RSpec.describe LoanHealthCheck, type: :model do
 
       context 'with criteria' do
         let(:progress) { 57 }
+
         before do
           allow(check).to receive(:loan).and_return(loan)
-          allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: progress))
+          stub_criteria(progress)
           check.recalculate
         end
 
@@ -75,7 +76,7 @@ RSpec.describe LoanHealthCheck, type: :model do
           context '79% of questions answered' do
             before do
               allow(check).to receive(:loan).and_return(loan)
-              allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: 79))
+              stub_criteria(79)
               check.recalculate
             end
 
@@ -85,7 +86,7 @@ RSpec.describe LoanHealthCheck, type: :model do
           context '80% of questions answered' do
             before do
               allow(check).to receive(:loan).and_return(loan)
-              allow(loan).to receive(:criteria).and_return(instance_double(LoanResponseSet, progress_pct: 80))
+              stub_criteria(80)
               check.recalculate
             end
 
@@ -186,5 +187,11 @@ RSpec.describe LoanHealthCheck, type: :model do
         end
       end
     end
+  end
+
+  def stub_criteria(pct)
+    set = instance_double(LoanResponseSet, progress_pct: pct)
+    allow(set).to receive(:current_user=)
+    allow(loan).to receive(:criteria).and_return(set)
   end
 end
