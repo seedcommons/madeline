@@ -37,12 +37,7 @@
 #
 
 def root_division
-  result = Division.root
-  unless result
-    # puts "autocreating root Division"
-    result = Division.create!(name:'-')
-  end
-  result
+  Division.root
 end
 
 FactoryGirl.define do
