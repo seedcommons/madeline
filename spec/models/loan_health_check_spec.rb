@@ -126,6 +126,13 @@ RSpec.describe LoanHealthCheck, type: :model do
 
             context 'with no future steps' do
               it { is_expected.to include :sporadic_loan_updates }
+
+              context 'and no signing_date' do
+                let(:signing_date) { nil }
+
+                # Should not crash.
+                it { is_expected.to include :sporadic_loan_updates }
+              end
             end
 
             context 'with 1 future step' do
@@ -154,12 +161,6 @@ RSpec.describe LoanHealthCheck, type: :model do
               end
 
               it { is_expected.to_not include :sporadic_loan_updates }
-            end
-
-            context 'with no signing_date' do
-              let(:signing_date) { nil }
-
-              it { is_expected.to include :sporadic_loan_updates }
             end
           end
         end
