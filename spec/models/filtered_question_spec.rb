@@ -86,6 +86,8 @@ describe FilteredQuestion, type: :model do
       end
 
       it 'should not be able to see questions in divisions outside own acestors and descendants' do
+        # This would not be possible via the division selector dropdown because d2 would not be available,
+        # but good to test that the policy is being consulted anyway.
         expect(filtered_question(q2, d2)).not_to be_visible
       end
     end
