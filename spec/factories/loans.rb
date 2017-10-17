@@ -14,8 +14,8 @@ FactoryGirl.define do
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    first_interest_payment_date { Faker::Date.between(signing_date, Date.today) }
-    first_payment_date { Faker::Date.between(signing_date, Date.today) }
+    first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
     end_date { Faker::Date.between(first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
@@ -163,6 +163,17 @@ FactoryGirl.define do
     trait :with_copies do
       after(:create) do |loan|
         create(:loan, original: loan)
+      end
+    end
+
+    # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
+    trait :with_criteria_responses do |loan|
+      after(:create) do |loan|
+        loan.criteria = create(:loan_response_set,
+          kind: 'criteria',
+          loan: loan,
+          custom_data: {summary: 'foo', workers: 5}
+        )
       end
     end
   end
