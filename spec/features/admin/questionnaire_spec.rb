@@ -18,7 +18,7 @@ feature 'questionnaire', js: true do
       click_button 'Save Responses'
       expect(page).to have_content 'successfully created'
       expect(page).to have_content 'kittens jumping on rainbows'
-      expect(loan.criteria.reload.summary.text).to eq 'kittens jumping on rainbows'
+      expect(criteria.summary.text).to eq 'kittens jumping on rainbows'
 
       # edit
       click_link('Edit Responses')
@@ -27,7 +27,7 @@ feature 'questionnaire', js: true do
       expect(page).to have_content 'successfully updated'
       expect(page).to have_content 'sexy unicorns'
       expect(page).not_to have_content 'Warning'
-      expect(loan.criteria.reload.summary.text).to eq 'sexy unicorns'
+      expect(criteria.summary.text).to eq 'sexy unicorns'
 
       # delete
       click_link('Delete All Responses')
@@ -41,7 +41,7 @@ feature 'questionnaire', js: true do
   end
 
   context 'with conflicting changes' do
-    let(:response_set) { loan.create_criteria }
+    let(:response_set) { criteria }
 
     before do
       response_set.summary = {text: 'dragon'}
@@ -63,14 +63,21 @@ feature 'questionnaire', js: true do
       find('input[type="submit"][name="discard"]').click
       expect(page).not_to have_content 'Warning'
       expect(page).to have_content 'dragon'
-      expect(response_set.reload.summary.text).to eq 'dragon'
+      expect(criteria.summary.text).to eq 'dragon'
     end
 
     it "overwrite button works" do
       find('input[type="submit"][name="overwrite"]').click
       expect(page).to have_content 'successfully updated'
       expect(page).to have_content 'gnashing teeth'
-      expect(response_set.reload.summary.text).to eq 'gnashing teeth'
+      expect(criteria.summary.text).to eq 'gnashing teeth'
     end
+  end
+
+  #  finds and reloads/creates criteria and assigns current user
+  def criteria
+    c = loan.criteria ? loan.criteria.reload : loan.create_criteria
+    c.current_user = user
+    c
   end
 end

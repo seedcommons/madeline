@@ -2,16 +2,14 @@
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
 
-  def initialize(question, loan:)
-    super(question, loan: loan)
-    @loan = loan
+  def initialize(question, **args)
+    @loan = args[:loan]
+    args[:division] = @loan.division
+    super(question, **args)
   end
 
-  # Returns child questions that are applicable to the given loan. Sorts by requiredness, then position.
-  def children
-    @children ||= decorated_children.select(&:visible?).sort_by do |i|
-      [i.required? ? 1 : 2, i.position]
-    end
+  def sort_key
+    [required? ? 1 : 2, position]
   end
 
   # Resolves if this particular question is considered required for the provided loan, based on
@@ -26,10 +24,11 @@ class LoanFilteredQuestion < FilteredQuestion
   # Note, loan type association records are ignored for questions without the 'override_assocations'
   # flag assigned.
   def required?
-    @required ||= if override_associations || depth == 1
+    return @required if defined?(@required)
+    @required = if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      parent&.required?
+      root? ? true : parent.required?
     end
   end
 
@@ -38,11 +37,11 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def answered?
-    response_set && !response_set.tree_unanswered?(object)
+    response_set && response_set.response(self).present?
   end
 
   def visible?
-    status == 'active' || (status == 'inactive' && answered?)
+    super && (status == 'active' || (status == 'inactive' && answered?))
   end
 
   def response_set

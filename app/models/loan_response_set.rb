@@ -17,7 +17,7 @@
 #
 
 class LoanResponseSet < ActiveRecord::Base
-  include ProgressCalculable
+  attr_accessor :current_user
 
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
@@ -25,7 +25,7 @@ class LoanResponseSet < ActiveRecord::Base
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
-  delegate :question, to: :loan_question_set
+  delegate :progress, :progress_pct, :progress_type, to: :root_response
 
   after_commit :recalculate_loan_health
 
@@ -33,71 +33,33 @@ class LoanResponseSet < ActiveRecord::Base
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
-  def loan_question_set
-    @loan_question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
+  def question_set
+    @question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
+  end
+
+  def root_response
+    response(question(:root))
+  end
+
+  # Fetches a custom value from the json field.
+  # Ensures `question` is decorated before passing to LoanResponse.
+  def response(question)
+    question = ensure_decorated(question)
+    raw_value = (custom_data || {})[question.json_key]
+    LoanResponse.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
+  end
+
+  # Change/assign custom field value, but don't save.
+  def set_response(question, value)
+    self.custom_data ||= {}
+    custom_data[question.json_key] = value
+    custom_data
   end
 
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
     return [] if custom_data.blank?
     custom_data.values.map { |v| v["url"].presence }.compact
-  end
-
-  # Gets LoanResponses whose LoanQuestions are children of the LoanQuestion of the given LoanResponse.
-  # LoanResponseSet knows about response data, while LoanQuestion knows about field hierarchy, so placing
-  # this responsibility in LoanResponseSet seemed reasonable.
-  # Uses the `question` method to efficiently retreive the question.
-  def children_of(response)
-    question(response.loan_question.id).children.map { |q| response(q) }
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # Overall progress should consider only required questions, unless there are none.
-  def required?
-    children.any?(&:required?)
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # A LoanResponseSet behaves as a group.
-  def group?
-    true
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # A LoanResponseSet behaves as a group so can never be answered.
-  def answered?
-    false
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  def active?
-    true
-  end
-
-  # Needed to satisfy the ProgressCalculable duck type.
-  # Returns the LoanResponses for the top level questions in the set.
-  def children
-    question(:root).children.map { |f| response(f) }
-  end
-
-  # Fetches a custom value from the json field. `question_identifier` can be the same
-  def response(question_identifier)
-    field = question(question_identifier)
-    raw_value = (custom_data || {})[field.json_key]
-    LoanResponse.new(loan: loan, loan_question: field, loan_response_set: self, data: raw_value)
-  end
-
-  # Change/assign custom field value, but don't save.
-  def set_response(question_identifier, value)
-    field = question(question_identifier)
-    self.custom_data ||= {}
-    custom_data[field.json_key] = value
-    custom_data
-  end
-
-  def tree_unanswered?(root_identifier)
-    field = question(root_identifier)
-    field.self_and_descendants.all? { |i| response(i.id).blank? }
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
@@ -115,9 +77,10 @@ class LoanResponseSet < ActiveRecord::Base
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action, field = match_dynamic_method(method_sym)
     if action
+      q = question(attribute_name)
       case action
-      when :get then return response(attribute_name)
-      when :set then return set_response(attribute_name, arguments.first)
+      when :get then return response(q)
+      when :set then return set_response(q, arguments.first)
       end
     end
     super
@@ -129,6 +92,15 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   private
+
+  # Gets the question for the given identifier. Decorates it if it's not already.
+  def question(identifier, required: true)
+    ensure_decorated(question_set.question(identifier, required: required))
+  end
+
+  def ensure_decorated(question)
+    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan, user: current_user)
+  end
 
   # Determines attribute name and implied operations for dynamic methods as documented above
   def match_dynamic_method(method_sym)

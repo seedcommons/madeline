@@ -2,7 +2,8 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   include QuestionnaireRenderable
 
   def create
-    @response_set = LoanResponseSet.new(response_set_params)
+    @response_set = LoanResponseSet.new(current_user: current_user)
+    @response_set.assign_attributes(response_set_params)
     authorize @response_set
     @response_set.save!
     redirect_to display_path, notice: I18n.t(:notice_created)
@@ -10,6 +11,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
 
   def update
     @response_set = LoanResponseSet.find(params[:id])
+    @response_set.current_user = current_user
     authorize @response_set
 
     # Need to store these values from the db before they get overwritten by params below
@@ -43,6 +45,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
 
   def destroy
     @response_set = LoanResponseSet.find(params[:id])
+    @response_set.current_user = current_user
     authorize @response_set
     @response_set.destroy!
     redirect_to display_path, notice: I18n.t(:notice_deleted)

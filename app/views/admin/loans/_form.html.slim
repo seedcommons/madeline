@@ -37,7 +37,7 @@
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
-    = render "admin/loans/questionnaires/progress_bar", object: @loan.criteria
+    = render "admin/loans/questionnaires/progress_bar", object: @loan_criteria
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
