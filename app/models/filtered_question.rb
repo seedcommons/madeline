@@ -65,6 +65,6 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def allowed?
-    LoanQuestionPolicy.new(@user, object).show?
+    @user == :system || LoanQuestionPolicy.new(@user, object).show?
   end
 end
