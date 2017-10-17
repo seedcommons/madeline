@@ -36,7 +36,7 @@ module MediaHelper
   def media_caption(media_item, shorten: true)
     caption = media_item.send("caption_#{I18n.locale}")
 
-    if caption && caption.text && !caption.text.empty?
+    if caption && caption.text.present?
       if shorten
         content_tag(:div, class: "media-title media-caption") do
           concat(content_tag(:span, truncate(caption.text, length: 26)))
