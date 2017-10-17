@@ -6,14 +6,13 @@ class MS.Views.TransactionModalView extends Backbone.View
     'ajax:complete form': 'submitComplete'
     'change #accounting_transaction_loan_transaction_type_value': 'setDescription'
 
-  initialize: (params) ->
-    @loanId = params.loanId
-
   new: (projectId) ->
+    @loanId = projectId
     url = "/admin/accounting/transactions/new"
     @loadContent(url, projectId)
 
   show: (id, projectId) ->
+    @loanId = projectId
     url = "/admin/loans/#{projectId}/transactions/#{id}"
     @loadContent(url, projectId)
 
