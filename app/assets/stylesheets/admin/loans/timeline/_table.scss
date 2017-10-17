@@ -1,5 +1,4 @@
 @import "../../colors";
-@import "../../variables";
 
 .timeline-table {
   .date-col {
@@ -74,7 +73,6 @@
   }
 
   td.draft {
-    @extend .draft;
     color: $gray3;
 
     &.step-menu-col {

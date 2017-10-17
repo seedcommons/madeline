@@ -139,3 +139,8 @@ a, input[type="checkbox"], input[type="radio"], select {
 [data-hide-all], .show-actions [data-hide-all] {
   display: none;
 }
+
+.draft {
+  font-style: italic;
+  color: $gray8;
+}

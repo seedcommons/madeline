@@ -79,12 +79,6 @@
     }
   }
 
-  .cal-step {
-    &.draft {
-      @extend .draft;
-    }
-  }
-
   .project-start, .project-end {
     text-overflow: ellipsis;
   }
@@ -221,10 +215,6 @@
       width: 1.5em;
       height: 1.25em;
       border: 1px dashed $gray3;
-    }
-
-    .draft {
-      @extend .draft;
     }
   }
 
