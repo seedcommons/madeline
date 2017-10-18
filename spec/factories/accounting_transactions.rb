@@ -47,9 +47,9 @@ FactoryGirl.define do
         create(:line_item, parent_transaction: txn, account: txn.account,
           posting_type: 'debit', amount: evaluator.amount)
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
-          posting_type: 'credit', amount: evaluator.amount.to_f/2)
+          posting_type: 'credit', amount: evaluator.amount.to_f / 2)
         create(:line_item, parent_transaction: txn, account: evaluator.division.principal_account,
-          posting_type: 'credit', amount: evaluator.amount.to_f/2)
+          posting_type: 'credit', amount: evaluator.amount.to_f / 2)
       end
     end
   end
