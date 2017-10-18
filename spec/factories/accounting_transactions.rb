@@ -17,7 +17,7 @@ FactoryGirl.define do
 
     trait :with_interest do
       loan_transaction_type_value 'interest'
-      amount 100
+      amount 3
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
@@ -41,7 +41,7 @@ FactoryGirl.define do
 
     trait :with_repayment do
       loan_transaction_type_value 'repayment'
-      amount 100
+      amount 23.7
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,

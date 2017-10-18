@@ -101,8 +101,17 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def calculate_balances(prev_tx: nil)
-    self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
-    self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+    principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
+    interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+
+    # save the principal balance and interest balance on 'each' txn
+    update_attribute(:principal_balance, principal_balance)
+    update_attribute(:interest_balance, interest_balance)
+  end
+
+  # Returns first line item for the given account
+  def line_item_for(account)
+    account.line_items.first
   end
 
   private
