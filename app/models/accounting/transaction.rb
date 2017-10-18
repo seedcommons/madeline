@@ -109,9 +109,9 @@ class Accounting::Transaction < ActiveRecord::Base
     update_attribute(:interest_balance, interest_balance)
   end
 
-  # Returns first line item for the given account
+  # Returns first line item for the given account, or nil if not found.
   def line_item_for(account)
-    account.line_items.first
+    line_items.detect { |li| li.account == account }
   end
 
   private

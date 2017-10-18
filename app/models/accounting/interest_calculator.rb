@@ -1,18 +1,67 @@
 module Accounting
   class InterestCalculator
-    def recalculate_line_item(loan)
-      prev_txn = nil
+    attr_reader :loan, :prin_acct, :int_rcv_acct, :int_inc_acct
 
-      loan.transactions.standard_order.each_with_index do |txn, i|
-        prev_txn = nil if i == 0
-        current_txn = txn
+    def initialize(loan)
+      @loan = loan
+      @prin_acct = division.principal_account
+      @int_rcv_acct = division.interest_receivable_account
+      @int_inc_acct = division.interest_income_account
+    end
 
-        txn if current_txn != prev_txn
+    def recalculate_line_items
+      prev_tx = nil
 
-        txn.calculate_balances(prev_tx: prev_txn)
+      loan.transactions.standard_order.each do |tx|
+        case tx.loan_transaction_type_value
+        when "interest"
+          line_item_for(tx, int_rcv_acct).update!(
+            posting_type: "debit",
+            amount: tx.amount
+          )
+          line_item_for(tx, int_inc_acct).update!(
+            posting_type: "credit",
+            amount: tx.amount
+          )
 
-        prev_txn = current_txn
+        when "disbursement"
+          line_item_for(tx, prin_acct).update!(
+            posting_type: "debit",
+            amount: tx.amount
+          )
+          line_item_for(tx, tx.account).update!(
+            posting_type: "credit",
+            amount: tx.amount
+          )
+
+        when "repayment"
+          int_part = [tx.amount, prev_tx.interest_balance].min
+          line_item_for(tx, tx.account).update!(
+            posting_type: "debit",
+            amount: tx.amount
+          )
+          line_item_for(tx, int_rcv_acct).update!(
+            posting_type: "credit",
+            amount: int_part
+          )
+          line_item_for(tx, prin_acct).update!(
+            posting_type: "credit",
+            amount: tx.amount - int_part
+          )
+        end
+
+        tx.calculate_balances(prev_tx: prev_tx)
+        prev_tx = tx
       end
+    end
+
+    private
+
+    delegate :division, to: :loan
+
+    # Finds or creates line item for transaction or account
+    def line_item_for(tx, acct)
+      tx.line_item_for(acct) || tx.line_items.build(account: acct)
     end
   end
 end
