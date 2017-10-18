@@ -1,9 +1,6 @@
 class MS.Views.TransactionsView extends Backbone.View
   el: '.transactions'
 
-  initialize: ->
-    @modal = @$('#transaction-modal')
-
   events:
    'click [data-action="new-transaction"]': 'showTransactionModal'
    'click [data-action="show-transaction"]': 'showTransactionModal'
