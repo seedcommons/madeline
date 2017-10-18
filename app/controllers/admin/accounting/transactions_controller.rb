@@ -80,7 +80,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize @transaction, :update?
 
     if @transaction.save
-      Rails.logger.debug("SUCCESSFUL SAVE: #{@transaction.inspect}")
       redirect_to admin_loan_tab_path(@loan.id, tab: 'transactions'), notice: I18n.t(:notice_updated)
     else
       prep_transaction_form
