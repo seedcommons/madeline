@@ -4,9 +4,6 @@
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false do |transaction|
     - date = l transaction.txn_date, format: :long
-    / - link_to(date, admin_loan_transaction_path(project_id: @loan.id, id: transaction, txn_id: transaction.id), remote: true)
-    / - link_to(date, admin_loan_transaction_path(project_id: @loan.id, id: transaction),
-    /   data: {action: 'show-transaction', project_id: @loan.id, id: transaction.id})
     - link_to(date, '#', data: {action: 'show-transaction', project_id: @loan.id, id: transaction.id})
 
   - g.column name: t('activerecord.attributes.accounting.transaction.description'),
