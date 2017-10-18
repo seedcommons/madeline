@@ -15,6 +15,7 @@ class MS.Views.TransactionModalView extends Backbone.View
     @loanId = projectId
     url = "/admin/loans/#{projectId}/transactions/#{id}"
     @loadContent(url, projectId)
+    @$el.addClass('show-view')
 
   loadContent: (url, projectId) ->
     $.get url, project_id: projectId, (html) =>
