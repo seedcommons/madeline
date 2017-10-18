@@ -29,12 +29,6 @@ class MS.Views.CalendarView extends Backbone.View
   # Load custom content inside the fullCalendar rendered event rather than title only
   eventAfterRender: (calEvent, initialElement) ->
     $(initialElement).find('.fc-content').append(calEvent.html)
-
-    if calEvent.is_finalized
-      $(initialElement).addClass('finalized')
-    else
-      $(initialElement).addClass('draft')
-
     $(initialElement).addClass(calEvent.event_classes)
     $(initialElement).data('step-id', calEvent.model_id)
     $(initialElement).find('.fc-title').remove()
