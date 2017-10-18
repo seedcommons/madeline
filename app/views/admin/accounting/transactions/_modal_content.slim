@@ -1,15 +1,19 @@
 div.modal-header
-  button type="button" class="close cancel" data-dismiss="modal" aria-label== t(:cancel)
+  button type="button" class="close cancel" data-dismiss="modal" aria-label== t(:close)
     span aria-hidden="true" &times;
   h4.modal-title
-    = @transaction.new_record? ? t("admin.loans.transactions.new_transaction") : "Transaction"
+    - if @transaction.new_record?
+      = t("admin.loans.transactions.new_transaction")
+    - else
+      = @transaction.description
 
 div.modal-body
   = render "admin/accounting/transactions/form"
 
 div.modal-footer
   .view-element
-    button.btn.btn-default.cancel type="button" data-dismiss="modal" = "Close"
+    button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:close)
   .form-element
     button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:cancel)
-    button.btn.btn-primary = @transaction.new_record? ? t("common.add") : "Edit"
+    button.btn.btn-primary
+      = @transaction.new_record? ? t("common.add") : t("admin.loans.transactions.update")

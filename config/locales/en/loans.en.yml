@@ -198,5 +198,6 @@ en:
         edit: "Edit Responses"
         delete: "Delete All Responses"
       transactions:
-        new_transaction: "Add Transaction"
         create_success: "Transaction successfully created."
+        new_transaction: "Add Transaction"
+        update: "Update Transaction"
