@@ -51,6 +51,7 @@ module Accounting
         end
 
         tx.calculate_balances(prev_tx: prev_tx)
+        tx.save!
         prev_tx = tx
       end
     end
