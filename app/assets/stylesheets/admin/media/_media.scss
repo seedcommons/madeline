@@ -44,9 +44,10 @@ $media-block-width: 100px;
   }
 
   .thumb {
+    position: relative;
+    max-width: 100px;
     margin-bottom: 15px;
     margin-right: 15px;
-    position: relative;
 
     .actions {
       display: none;
@@ -72,10 +73,16 @@ $media-block-width: 100px;
       width: $media-block-width;
       color: $gray3;
       cursor: pointer;
+      word-wrap: break-word;
+
+      &.media-caption {
+        color: inherit;
+      }
     }
 
     a {
       display: block;
+      height: 100px;
 
       &:hover {
         text-decoration: none;
