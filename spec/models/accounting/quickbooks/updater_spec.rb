@@ -5,7 +5,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 34 }
   let(:division) { create(:division, :with_accounts) }
-  let(:loan) { create(:loan, division: division) }
+  let!(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
   let(:quickbooks_data) do
     { 'line_items' =>
@@ -54,7 +54,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       'total' => '19.99',
       'private_note' => 'Nate now testing' }
   end
-  let(:txn) { create(:accounting_transaction, quickbooks_data: quickbooks_data) }
+  let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
   let!(:line_items) do
     txn.line_items = [create(:line_item,
         qb_line_id: 0,
@@ -109,9 +109,10 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       expect(Accounting::LineItem.count).to eq(4)
       expect(txn.reload.line_items.count).to eq(4)
       expect(txn.reload.line_items.last.qb_line_id).to eq(3)
+
       # Adding a debit to the interest receivable account should reduce the
       # change in interest and thus the txn's amount field
-      expect(txn.amount).to eq 14.09
+      expect(txn.reload.amount).to eq 16.09
     end
   end
 
