@@ -30,10 +30,10 @@
 
   = f.input :amount
     .view-element
-    - if @loan.currency
-      = format_currency(@transaction.amount, @loan.currency, tooltip: false)
-    - else
-      = @transaction.amount
+      - if @loan.currency
+        = format_currency(@transaction.amount, @loan.currency, tooltip: false)
+      - else
+        = @transaction.amount
     = f.input_field :amount
 
   = f.input :description
