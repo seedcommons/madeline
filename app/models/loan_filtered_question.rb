@@ -28,7 +28,6 @@ class LoanFilteredQuestion < FilteredQuestion
     @required = if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      # parent.required?
       root? ? true : parent.required?
     end
   end
