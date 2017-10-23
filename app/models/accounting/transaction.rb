@@ -48,10 +48,10 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
-  has_many :line_items, inverse_of: :parent_transaction,
+  has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  before_save :update_fields_from_quickbooks_data
+  # before_save :update_fields_from_quickbooks_data
 
   validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
@@ -64,11 +64,11 @@ class Accounting::Transaction < ActiveRecord::Base
     order(:txn_date, "options.position", :created_at)
   }
 
-  def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
-    transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
-    transaction.quickbooks_data = qb_object.as_json
-    transaction.save!(validate: false)
-  end
+  # def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
+  #   transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
+  #   transaction.quickbooks_data = qb_object.as_json
+  #   transaction.save!(validate: false)
+  # end
 
   def uninitialized_interest?
     return false unless qb_transaction_type == LOAN_INTEREST_TYPE
@@ -117,32 +117,22 @@ class Accounting::Transaction < ActiveRecord::Base
     end
   end
 
-  def update_fields_from_quickbooks_data
-    return unless quickbooks_data.present?
+  # Remove
+  # def first_quickbooks_line_item
+  #   return {} unless quickbooks_data[:line_items]
+  #   quickbooks_data[:line_items].first
+  # end
 
-    self.amount = first_quickbooks_line_item[:amount]
-    self.description = first_quickbooks_line_item[:description]
-    self.project_id = first_quickbooks_class_name
-    self.txn_date = quickbooks_data[:txn_date]
-    self.private_note = quickbooks_data[:private_note]
-    self.total = quickbooks_data[:total]
-    self.currency_id = lookup_currency_id
-  end
+  # Move
+  # def first_quickbooks_class_name
+  #   first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
+  # end
 
-  def first_quickbooks_line_item
-    return {} unless quickbooks_data[:line_items]
-    quickbooks_data[:line_items].first
-  end
-
-  def first_quickbooks_class_name
-    first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
-  end
-
-  def lookup_currency_id
-    if quickbooks_data && quickbooks_data[:currency_ref]
-      Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-    elsif project
-      project.currency_id
-    end
-  end
+  # def lookup_currency_id
+  #   if quickbooks_data && quickbooks_data[:currency_ref]
+  #     Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
+  #   elsif project
+  #     project.currency_id
+  #   end
+  # end
 end

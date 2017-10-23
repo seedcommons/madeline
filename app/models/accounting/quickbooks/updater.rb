@@ -7,10 +7,11 @@ module Accounting
     # since the last time this class was run. If no quickbooks data exists in the sytem
     # yet, FullFetcher will need to be run first.
     class Updater
-      attr_reader :qb_connection
+      attr_reader :qb_connection, :quickbooks_data
 
-      def initialize(qb_connection = Division.root.qb_connection)
+      def initialize(qb_connection = Division.root.qb_connection, quickbooks_data)
         @qb_connection = qb_connection
+        @quickbooks_data = quickbooks_data
       end
 
       def update
@@ -33,7 +34,50 @@ module Accounting
         updated_models
       end
 
+      def extract_qb_data(txn)
+        return unless txn.quickbooks_data.present?
+
+        # Remove
+        # self.amount = first_quickbooks_line_item[:amount]
+        # self.description = first_quickbooks_line_item[:description]
+        # Keep
+        txn.project_id = first_quickbooks_class_name
+        txn.txn_date = quickbooks_data[:txn_date]
+        txn.private_note = quickbooks_data[:private_note]
+        txn.total = quickbooks_data[:total]
+        # txn.quickbooks_data
+        # txn.currency_id = lookup_currency_id
+
+
+        txn.quickbooks_data['line_items'].each do |li|
+          acct_name = li['journal_entry_line_detail']['account_ref']['name']
+          acct = Accounting::Account.find_by(name: acct_name)
+
+          # skip if line item does not have an account in Madeline
+          next unless acct
+
+          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).
+              update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
+           # = acct.name
+          # li['journal_entry_line_detail']['account_ref']['value'] = acct.id
+        end
+      end
+
+
       private
+
+      # def quickbooks_data
+      #   read_attribute(:quickbooks_data).try(:with_indifferent_access)
+      # end
+
+      def first_quickbooks_line_item
+        return {} unless quickbooks_data[:line_items]
+        quickbooks_data[:line_items].first
+      end
+
+      def first_quickbooks_class_name
+        first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
+      end
 
       def changes
         raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless last_updated_at && last_updated_at > max_updated_at
