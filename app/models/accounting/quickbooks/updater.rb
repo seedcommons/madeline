@@ -37,6 +37,16 @@ module Accounting
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
+        # removed line_item doesn't make it into the second loop so it is still available in Madeline
+        # so we delete them
+        if txn.quickbooks_data['line_items'].count < txn.line_items.count
+          qb_ids = txn.quickbooks_data['line_items'].map{ |h| h['id'].to_i }
+
+          txn.line_items.each do |li|
+            li.destroy unless qb_ids.include?(li.qb_line_id)
+          end
+        end
+
         txn.quickbooks_data['line_items'].each do |li|
           acct_name = li['journal_entry_line_detail']['account_ref']['name']
           acct = Accounting::Account.find_by(name: acct_name)
