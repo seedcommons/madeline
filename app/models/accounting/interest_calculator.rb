@@ -35,7 +35,7 @@ module Accounting
           )
 
         when "repayment"
-          int_part = [tx.amount, prev_tx.interest_balance].min
+          int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
           line_item_for(tx, tx.account).update!(
             posting_type: "debit",
             amount: tx.amount
