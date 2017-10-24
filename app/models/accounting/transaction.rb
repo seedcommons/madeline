@@ -105,6 +105,11 @@ class Accounting::Transaction < ActiveRecord::Base
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
   end
 
+  # Returns first line item for the given account, or nil if not found.
+  def line_item_for(account)
+    line_items.detect { |li| li.account == account }
+  end
+
   private
 
   def sum_for_account(account_id)
