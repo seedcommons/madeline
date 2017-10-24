@@ -8,9 +8,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:service) { instance_double(Quickbooks::Service::JournalEntry) }
   let(:qb_id) { '827' }
-  let(:transaction) do
-    create(:accounting_transaction, qb_id: qb_id)
-  end
+  let(:transaction) { create(:accounting_transaction, qb_id: qb_id) }
 
   subject do
     described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account))
@@ -23,6 +21,8 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
 
   context 'when transaction is nil' do
     it 'does not call service' do
+      expect(service).not_to receive(:create)
+      expect(service).not_to receive(:update)
       subject.reconcile(nil)
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   end
 
   context 'with matching transaction in qbo' do
-    it 'calls create with qbo transaction' do
+    it 'calls update with qbo transaction' do
       expect(service).to receive(:update).with(created_journal_entry)
       expect(builder).to receive(:build_for_qb).with(transaction)
 
