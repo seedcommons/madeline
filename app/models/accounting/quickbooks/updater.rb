@@ -14,7 +14,7 @@ module Accounting
         @quickbooks_data = quickbooks_data
       end
 
-      def update
+      def update(loan=nil)
         raise NotConnectedError unless qb_connection
 
         update_started_at = Time.zone.now
@@ -30,6 +30,8 @@ module Accounting
         end
 
         qb_connection.update_attribute(:last_updated_at, update_started_at)
+
+        update_ledger(loan) if loan
 
         updated_models
       end
@@ -65,6 +67,12 @@ module Accounting
         txn.save!
       end
 
+      def update_ledger(loan)
+        loan.transactions.standard_order.each do |txn|
+          extract_qb_data(txn)
+          txn.reload.calculate_balances
+        end
+      end
 
       private
 

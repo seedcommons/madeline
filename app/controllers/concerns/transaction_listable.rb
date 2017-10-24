@@ -1,9 +1,9 @@
 module TransactionListable
   extend ActiveSupport::Concern
 
-  def initialize_transactions_grid(project_id = nil)
+  def initialize_transactions_grid(project=nil)
     begin
-      ::Accounting::Quickbooks::Updater.new.update
+      ::Accounting::Quickbooks::Updater.new.update(project)
     rescue Accounting::Quickbooks::FullSyncRequiredError => e
       Rails.logger.error e
       settings = view_context.link_to(t('menu.settings'), admin_settings_path)
@@ -27,8 +27,8 @@ module TransactionListable
       flash.now[:error] = t('quickbooks.misc')
     end
 
-    if project_id
-      @transactions = ::Accounting::Transaction.where(project_id: project_id)
+    if project
+      @transactions = ::Accounting::Transaction.where(project_id: project.id)
     else
       @transactions = ::Accounting::Transaction.all
     end
