@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
+  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
+  let(:creator) { instance_double(Accounting::Quickbooks::TransactionCreator, create_for_qb: created_journal_entry) }
   let(:qb_principal_account_id) { '92' }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:service) { instance_double(Quickbooks::Service::JournalEntry) }
@@ -16,6 +18,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
 
   before do
     allow(subject).to receive(:service).and_return(service)
+    allow(subject).to receive(:creator).and_return(creator)
   end
 
   context 'when transaction is nil' do
@@ -27,15 +30,19 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   context 'with no matching transaction in qbo' do
     let(:qb_id) { nil }
 
-    it 'calls create with mocked transaction' do
-      expect(service).to receive(:create).with(transaction)
+    it 'calls create with qbo transaction' do
+      expect(service).to receive(:create).with(created_journal_entry)
+      expect(creator).to receive(:create_for_qb).with(transaction)
+
       subject.reconcile(transaction)
     end
   end
 
   context 'with matching transaction in qbo' do
-    it 'calls create with mocked transaction' do
-      expect(service).to receive(:update).with(transaction)
+    it 'calls create with qbo transaction' do
+      expect(service).to receive(:update).with(created_journal_entry)
+      expect(creator).to receive(:create_for_qb).with(transaction)
+
       subject.reconcile(transaction)
     end
   end
