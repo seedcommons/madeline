@@ -1,8 +1,9 @@
 module Accounting
   module Quickbooks
 
-    # Responsible for creating transaction entries in quickbooks.
-    class TransactionCreator
+    # Responsible for creating and returning quickbooks transaction objects.
+    # NOTE: Will not create the transaction in Quickbooks. The Reconciler will do that.
+    class TransactionBuilder
       attr_reader :qb_connection, :principal_account
 
       def initialize(root_division = Division.root)
@@ -12,8 +13,7 @@ module Accounting
 
       # Creates a transaction for Quickbooks based on a Transaction object created in Madeline. Line
       # items in QB mirror line items in Madeline.
-      # NOTE: Will not create the transaction in Quickbooks. The Reconciler will do that.
-      def create_for_qb(transaction)
+      def build_for_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?

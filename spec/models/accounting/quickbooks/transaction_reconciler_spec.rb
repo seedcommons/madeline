@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
   let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
-  let(:creator) { instance_double(Accounting::Quickbooks::TransactionCreator, create_for_qb: created_journal_entry) }
+  let(:builder) { instance_double(Accounting::Quickbooks::TransactionBuilder, build_for_qb: created_journal_entry) }
   let(:qb_principal_account_id) { '92' }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:service) { instance_double(Quickbooks::Service::JournalEntry) }
@@ -18,7 +18,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
 
   before do
     allow(subject).to receive(:service).and_return(service)
-    allow(subject).to receive(:creator).and_return(creator)
+    allow(subject).to receive(:builder).and_return(builder)
   end
 
   context 'when transaction is nil' do
@@ -32,7 +32,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
 
     it 'calls create with qbo transaction' do
       expect(service).to receive(:create).with(created_journal_entry)
-      expect(creator).to receive(:create_for_qb).with(transaction)
+      expect(builder).to receive(:build_for_qb).with(transaction)
 
       subject.reconcile(transaction)
     end
@@ -41,7 +41,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   context 'with matching transaction in qbo' do
     it 'calls create with qbo transaction' do
       expect(service).to receive(:update).with(created_journal_entry)
-      expect(creator).to receive(:create_for_qb).with(transaction)
+      expect(builder).to receive(:build_for_qb).with(transaction)
 
       subject.reconcile(transaction)
     end

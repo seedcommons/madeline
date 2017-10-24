@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
+RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
@@ -77,7 +77,7 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:organization) { create(:organization, name: customer_name, qb_id: nil) }
 
   it 'calls create with correct data' do
-    je = subject.create_for_qb transaction
+    je = subject.build_for_qb transaction
 
     expect(je.line_items.count).to eq 3
     expect(je.private_note).to eq memo
@@ -99,13 +99,13 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
-      je = subject.create_for_qb transaction
+      je = subject.build_for_qb transaction
       expect(je.txn_date).to eq date
     end
   end
 
   it 'creates JournalEntry with a reference to the existing loan' do
     expect(class_service).to receive(:find_by).with(:name, loan_id)
-    subject.create_for_qb transaction
+    subject.build_for_qb transaction
   end
 end

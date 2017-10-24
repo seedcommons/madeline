@@ -15,8 +15,7 @@ module Accounting
       def reconcile(transaction)
         return unless transaction.present?
 
-        # Should probably rename from creator to builder
-        je = creator.create_for_qb(transaction)
+        je = builder.build_for_qb(transaction)
 
         if transaction.qb_id.present?
           service.update(je)
@@ -29,8 +28,8 @@ module Accounting
 
       private
 
-      def creator
-        @creator ||= TransactionCreator.new(root_division)
+      def builder
+        @builder ||= TransactionBuilder.new(root_division)
       end
 
       def service
