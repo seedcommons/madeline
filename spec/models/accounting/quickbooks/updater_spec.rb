@@ -7,7 +7,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account}
   let(:int_rcv_acct) { division.interest_receivable_account }
-  let!(:loan) { create(:loan, division: division) }
+  let(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
   let(:quickbooks_data) do
     { 'line_items' =>
