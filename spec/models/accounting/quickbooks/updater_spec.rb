@@ -84,7 +84,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
     allow(connection).to receive(:update_attribute).with(:last_updated_at, anything)
   end
 
-  subject { described_class.new(connection, quickbooks_data) }
+  subject { described_class.new(connection) }
 
   context 'QB line item manipulations', clean_with_truncation: true do
     context 'line item added' do

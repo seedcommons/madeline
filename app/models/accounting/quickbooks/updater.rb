@@ -7,11 +7,10 @@ module Accounting
     # since the last time this class was run. If no quickbooks data exists in the sytem
     # yet, FullFetcher will need to be run first.
     class Updater
-      attr_reader :qb_connection, :quickbooks_data
+      attr_reader :qb_connection
 
-      def initialize(qb_connection = Division.root.qb_connection, quickbooks_data)
+      def initialize(qb_connection = Division.root.qb_connection)
         @qb_connection = qb_connection
-        @quickbooks_data = quickbooks_data
       end
 
       def update(loan=nil)
@@ -60,9 +59,9 @@ module Accounting
               update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
         end
 
-        txn.txn_date = quickbooks_data['txn_date']
-        txn.private_note = quickbooks_data['private_note']
-        txn.total = quickbooks_data['total']
+        txn.txn_date = txn.quickbooks_data['txn_date']
+        txn.private_note = txn.quickbooks_data['private_note']
+        txn.total = txn.quickbooks_data['total']
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
         txn.save!
       end
