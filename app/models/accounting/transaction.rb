@@ -51,8 +51,6 @@ class Accounting::Transaction < ActiveRecord::Base
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  # before_save :update_fields_from_quickbooks_data
-
   validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
 
@@ -74,10 +72,6 @@ class Accounting::Transaction < ActiveRecord::Base
     return false unless qb_transaction_type == LOAN_INTEREST_TYPE
     qb_id.blank?
   end
-
-  # def quickbooks_data
-  #   read_attribute(:quickbooks_data).try(:with_indifferent_access)
-  # end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
@@ -117,16 +111,8 @@ class Accounting::Transaction < ActiveRecord::Base
     end
   end
 
-  # Remove
-  # def first_quickbooks_line_item
-  #   return {} unless quickbooks_data[:line_items]
-  #   quickbooks_data[:line_items].first
-  # end
-
-  # Move
-  # def first_quickbooks_class_name
-  #   first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
-  # end
+  # not sure how this is going to come into the new implementation;
+  # is this being removed as well?
 
   # def lookup_currency_id
   #   if quickbooks_data && quickbooks_data[:currency_ref]
