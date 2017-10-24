@@ -23,6 +23,8 @@ module Accounting
         else
           service.create(je)
         end
+
+        je
       end
 
       private

@@ -20,8 +20,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       if Rails.env.test?
         journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
       else
-        creator = ::Accounting::Quickbooks::TransactionCreator.new
-        journal_entry = creator.create_in_qb @transaction
+        reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
+        journal_entry = reconciler.reconcile @transaction
       end
 
       # It's important we store the ID and type of the QB journal entry we just created
