@@ -45,7 +45,7 @@ feature 'transaction flow' do
       fill_in 'Amount', with: '12.34'
       fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
-      click_on 'Add'
+      page.find('a[data-action="submit"]').click
 
       expect(page).to have_content('Palm trees')
     end
