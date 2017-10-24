@@ -33,7 +33,7 @@ feature 'transaction flow' do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    # This spec does not test TransactionCreator at all because stubbing out
+    # This spec does not test TransactionBuilder at all because stubbing out
     # all the necessary things was not practical at the time.
     # Eventually we should refactor the Quickbooks code such that stubbing is easier.
     scenario 'creates new transaction', js: true do
