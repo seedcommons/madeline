@@ -116,6 +116,34 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
     end
   end
 
+  context 'a line item is updated in QB' do
+    let(:last_updated_at) { Date.today - 3 }
+
+    before do
+      line_item = quickbooks_data['line_items'][1]
+
+      # update a line item
+      line_item['journal_entry_line_detail']['posting_type'] = 'Debit'
+      line_item['amount'] = 10.00
+
+      txn.update(quickbooks_data: quickbooks_data)
+      subject.extract_qb_data(txn)
+    end
+
+    it 'updates correctly in Madeline', clean_with_truncation: true do
+      expect(Accounting::LineItem.count).to eq(3)
+      expect(txn.reload.line_items.count).to eq(3)
+      expect(txn.reload.line_items.count).to eq(3)
+      expect(txn.reload.line_items.last.qb_line_id).to eq(2)
+      expect(txn.reload.line_items.map {|i| i.posting_type}).to contain_exactly('Debit', 'Debit', 'Credit')
+      expect(txn.reload.line_items.map {|i| i.amount}).to contain_exactly(15.09, 10.00, 2.72)
+
+      # Adding a debit to the interest receivable account should reduce the
+      # change in interest and thus the txn's amount field
+      expect(txn.reload.amount).to eq 12.72
+    end
+  end
+
   context 'when quickbooks_data is nil' do
     subject do
       create(:accounting_transaction,

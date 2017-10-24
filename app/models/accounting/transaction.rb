@@ -75,9 +75,9 @@ class Accounting::Transaction < ActiveRecord::Base
     qb_id.blank?
   end
 
-  def quickbooks_data
-    read_attribute(:quickbooks_data).try(:with_indifferent_access)
-  end
+  # def quickbooks_data
+  #   read_attribute(:quickbooks_data).try(:with_indifferent_access)
+  # end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
