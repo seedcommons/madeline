@@ -43,11 +43,11 @@ feature 'transaction flow' do
       fill_in 'Date', with: Date.today.to_s
       select accounts.sample.name, from: 'Bank Account'
       fill_in 'Amount', with: '12.34'
-      fill_in 'Description', with: 'Foo bar'
+      fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
       click_on 'Add'
 
-      expect(page).to have_content('Foo bar')
+      expect(page).to have_content('Palm trees')
     end
   end
 
