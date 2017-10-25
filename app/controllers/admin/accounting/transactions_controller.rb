@@ -36,7 +36,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       # We don't have the ability to stub quickbooks interactions so
       # for now we'll just return a fake JournalEntry in test mode.
       if Rails.env.test?
-        journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
+        journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
       else
         creator = ::Accounting::Quickbooks::TransactionCreator.new
         journal_entry = creator.create_in_qb @transaction
