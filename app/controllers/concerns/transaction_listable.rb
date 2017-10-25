@@ -1,7 +1,7 @@
 module TransactionListable
   extend ActiveSupport::Concern
 
-  def initialize_transactions_grid(project=nil)
+  def initialize_transactions_grid(project = nil)
     begin
       ::Accounting::Quickbooks::Updater.new.update(project)
     rescue Accounting::Quickbooks::FullSyncRequiredError => e

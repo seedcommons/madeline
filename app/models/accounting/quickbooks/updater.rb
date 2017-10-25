@@ -13,7 +13,8 @@ module Accounting
         @qb_connection = qb_connection
       end
 
-      def update(loan=nil)
+      # checks that accounts and transactions are found, created, updated or deleted
+      def update(loan = nil)
         raise NotConnectedError unless qb_connection
 
         update_started_at = Time.zone.now
