@@ -84,7 +84,6 @@ module Accounting
 
       def find_or_create(transaction_type:, qb_object:)
         model = ar_model_for(transaction_type)
-
         model.create_or_update_from_qb_object transaction_type: transaction_type, qb_object: qb_object
       end
 

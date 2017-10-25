@@ -86,7 +86,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
   subject { described_class.new(connection) }
 
-  context 'QB line item manipulations', clean_with_truncation: true do
+  context 'QB line item manipulations' do
     context 'line item added' do
       let(:last_updated_at) { nil }
 
