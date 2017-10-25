@@ -9,6 +9,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
+  let(:last_updated_at) { nil }
   let(:quickbooks_data) do
     { 'line_items' =>
      [{ 'id' => '0',
@@ -78,17 +79,15 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         posting_type: 'Credit')]
   end
 
+  subject { described_class.new(connection) }
 
   before do
     allow(subject).to receive(:service).and_return(generic_service)
     allow(connection).to receive(:update_attribute).with(:last_updated_at, anything)
   end
 
-  subject { described_class.new(connection) }
-
   context 'QB line item manipulations' do
     context 'line item added' do
-      let(:last_updated_at) { nil }
 
       before do
         quickbooks_data['line_items'] << {
@@ -172,7 +171,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   end
 
   context 'when quickbooks_data is nil' do
-    subject do
+    let(:txn) do
       create(:accounting_transaction,
         amount: 404.02,
         total: 42,
@@ -184,18 +183,17 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
     end
 
     it 'should not overwrite calculated quickbooks fields' do
-      expect(subject.amount).to eq 404.02
-      expect(subject.total).to eq 42
-      expect(subject.txn_date).to eq Date.parse('2017-10-31')
-      expect(subject.private_note).to eq 'a memo'
-      expect(subject.description).to eq 'desc'
-      expect(subject.project_id).to eq loan.id
+      expect(txn.amount).to eq 404.02
+      expect(txn.total).to eq 42
+      expect(txn.txn_date).to eq Date.parse('2017-10-31')
+      expect(txn.private_note).to eq 'a memo'
+      expect(txn.description).to eq 'desc'
+      expect(txn.project_id).to eq loan.id
     end
   end
 
   describe '#update' do
     context 'when last_updated_at is nil' do
-      let(:last_updated_at) { nil }
 
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
@@ -230,7 +228,6 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       end
 
       context 'when transaction does not yet exist locally' do
-
         it 'creates a new transaction with the correct data' do
           subject.update
 
