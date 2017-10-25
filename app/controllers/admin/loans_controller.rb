@@ -172,14 +172,7 @@ class Admin::LoansController < Admin::ProjectsController
 
   def prep_transactions
     @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Date.today)
-    @add_transaction_available = Division.root.qb_accounts_connected?
     prep_transaction_form
-
-    unless @add_transaction_available
-      # We need to use the view helper version of `t` so that we can use the _html functionality.
-      flash.now[:alert] = self.class.helpers.t('quickbooks.not_connected_html',
-        link: admin_settings_url)
-    end
 
     initialize_transactions_grid(@loan.id)
   end

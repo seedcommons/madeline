@@ -1,10 +1,12 @@
 section.transactions
   .show-actions.hidden-print
-    = link_to t(".new_transaction"), "#", class: "btn btn-primary",
-      disabled: !@add_transaction_available, data: {action: "new-transaction"}
+    - unless @transaction_list_hidden
+      = link_to t(".new_transaction"), "#", class: "btn btn-primary",
+        disabled: !@add_transaction_available, data: {action: "new-transaction"}
 
-  = render "admin/accounting/transactions/transactions_grid_definition"
-  = render_index_grid_with_redirect_check(@transactions_grid)
+  - unless @transaction_list_hidden
+    = render "admin/accounting/transactions/transactions_grid_definition"
+    = render_index_grid_with_redirect_check(@transactions_grid)
   = render "admin/accounting/transactions/modal"
 
 javascript:
