@@ -9,8 +9,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def create
     @loan = Loan.find(transaction_params[:project_id])
-    authorize @loan
-    @transaction = ::Accounting::Transaction.new(transaction_params)
+    authorize(@loan, :update?)
+    @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_transaction_type: 'JournalEntry')
 
     begin
       # Save the transaction in Madeline first so that InterestCalculator picks it up
@@ -24,7 +24,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
         .find_or_create_by!(transaction_params.except(:amount, :description)
         .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
 
-      InterestCalculator.new(@transaction).recalculate
+      ::Accounting::InterestCalculator.new(@loan).recalculate
 
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
