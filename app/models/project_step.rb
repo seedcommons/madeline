@@ -37,6 +37,7 @@ require 'chronic'
 class ProjectStep < TimelineEntry
   class NoChildrenAllowedError < StandardError; end
 
+  # NOTE: These colors are also defined in app/assets/stylesheets/admin/_colors.scss
   COLORS = {
     on_time: 'hsl(120, 73%, 57%)',
     super_early: 'hsl(120, 41%, 47%)',

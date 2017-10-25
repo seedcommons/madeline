@@ -35,10 +35,11 @@ $gray9: #595959;                  // Meets accessibility standards on white back
 $body: #333;
 $black: black;
 
-// Color values from project step model
-$onTime: rgb(65, 225, 65);        // hsl(120, 73%, 57%)
-$superEarly: rgb(71, 169, 71);    // hsl(120, 41%, 47%)
-$barelyLate: rgb(255, 243, 82);   // hsl(56, 100%, 66%)
-$superLate: rgb(225, 51, 51);     // hsl(0, 74%, 54%)
+// Color values from project step model. Note these are defined there as well. Using HSL here
+// because it is required for calculations in that model.
+$onTime: hsl(120, 73%, 57%);       // rgb(65, 225, 65);
+$superEarly: hsl(120, 41%, 47%);   // rgb(71, 169, 71);
+$barelyLate: hsl(56, 100%, 66%);   // rgb(255, 243, 82);
+$superLate: hsl(0, 74%, 54%);      // rgb(225, 51, 51);
 
 $veryLate: $orange2;
