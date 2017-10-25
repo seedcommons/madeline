@@ -9,7 +9,7 @@ module Accounting
       @int_inc_acct = division.interest_income_account
     end
 
-    def recalculate_line_items
+    def recalculate
       prev_tx = nil
 
       loan.transactions.standard_order.each do |tx|
@@ -49,6 +49,13 @@ module Accounting
             amount: tx.amount - int_part
           )
         end
+
+        reconciler = Quickbooks::TransactionReconciler.new
+        journal_entry = reconciler.reconcile tx
+
+        # It's important we store the ID and type of the QB journal entry we just created
+        # so that on the next sync, a duplicate is not created.
+        tx.associate_with_qb_obj(journal_entry)
 
         tx.calculate_balances(prev_tx: prev_tx)
         tx.save!

@@ -20,7 +20,7 @@ describe Accounting::InterestCalculator do
       #########################
       # Initial computation
 
-      Accounting::InterestCalculator.new(loan).recalculate_line_items
+      Accounting::InterestCalculator.new(loan).recalculate
 
       # t0
       # size
@@ -84,7 +84,7 @@ describe Accounting::InterestCalculator do
       # Recalculation after change
 
       t1.update!(amount: 2.5)
-      Accounting::InterestCalculator.new(loan).recalculate_line_items
+      Accounting::InterestCalculator.new(loan).recalculate
 
       # t2
       # size

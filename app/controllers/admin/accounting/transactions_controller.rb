@@ -13,29 +13,18 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @transaction = ::Accounting::Transaction.new(transaction_params)
 
     begin
-      raise ActiveRecord::RecordInvalid.new(@transaction) if !@transaction.valid?
-
-      # We don't have the ability to stub quickbooks interactions so
-      # for now we'll just return a fake JournalEntry in test mode.
-      if Rails.env.test?
-        journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
-      else
-        reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
-        journal_entry = reconciler.reconcile @transaction
-      end
-
-      # It's important we store the ID and type of the QB journal entry we just created
-      # so that on the next sync, a duplicate is not created.
-      @transaction.associate_with_qb_obj(journal_entry)
+      # Save the transaction in Madeline first so that InterestCalculator picks it up
       @transaction.save!
 
-      # Create blank interest transaction. The interest calculator will pick this up and
+      # Create blank interest transaction. The InterestCalculator will pick this up and
       # calculate the value, and sync it to quickbooks.
       interest_description = I18n.t('transactions.interest_description', loan_id: @loan.id)
 
       interest_transaction = ::Accounting::Transaction
         .find_or_create_by!(transaction_params.except(:amount, :description)
         .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
+
+      InterestCalculator.new(@transaction).recalculate
 
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
