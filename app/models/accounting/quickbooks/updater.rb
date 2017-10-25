@@ -36,6 +36,15 @@ module Accounting
         updated_models
       end
 
+      private
+
+      def update_ledger(loan)
+        loan.transactions.standard_order.each do |txn|
+          extract_qb_data(txn)
+          txn.reload.calculate_balances
+        end
+      end
+
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
@@ -57,7 +66,7 @@ module Accounting
           next unless acct
 
           Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).
-              update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
+            update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
         end
 
         txn.txn_date = txn.quickbooks_data['txn_date']
@@ -66,15 +75,6 @@ module Accounting
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
         txn.save!
       end
-
-      def update_ledger(loan)
-        loan.transactions.standard_order.each do |txn|
-          extract_qb_data(txn)
-          txn.reload.calculate_balances
-        end
-      end
-
-      private
 
       def changes
         raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless last_updated_at && last_updated_at > max_updated_at

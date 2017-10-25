@@ -105,7 +105,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
             'department_ref' => nil } }
 
         txn.update(quickbooks_data: quickbooks_data)
-        subject.extract_qb_data(txn)
+        subject.send(:extract_qb_data, txn)
       end
 
       it 'updates correctly in Madeline' do
@@ -129,7 +129,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         line_item['amount'] = 10.00
 
         txn.update(quickbooks_data: quickbooks_data)
-        subject.extract_qb_data(txn)
+        subject.send(:extract_qb_data, txn)
       end
 
       it 'updates correctly in Madeline' do
@@ -156,7 +156,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         quickbooks_data['line_items'].delete(line_item_2)
 
         txn.update(quickbooks_data: quickbooks_data)
-        subject.extract_qb_data(txn)
+        subject.send(:extract_qb_data, txn)
       end
 
       it 'updates correctly in Madeline' do
@@ -170,31 +170,8 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
     end
   end
 
-  context 'when quickbooks_data is nil' do
-    let(:txn) do
-      create(:accounting_transaction,
-        amount: 404.02,
-        total: 42,
-        txn_date: '2017-10-31',
-        private_note: 'a memo',
-        description: 'desc',
-        project_id: loan.id,
-      )
-    end
-
-    it 'should not overwrite calculated quickbooks fields' do
-      expect(txn.amount).to eq 404.02
-      expect(txn.total).to eq 42
-      expect(txn.txn_date).to eq Date.parse('2017-10-31')
-      expect(txn.private_note).to eq 'a memo'
-      expect(txn.description).to eq 'desc'
-      expect(txn.project_id).to eq loan.id
-    end
-  end
-
   describe '#update' do
     context 'when last_updated_at is nil' do
-
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
       end
@@ -283,19 +260,14 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         end
 
         it 'updates transaction timestamp' do
-          expect { subject.update }.to change { Accounting::Transaction.where(qb_id: qb_id).take.updated_at }
+          expect { subject.update }.to change { Accounting::Transaction.find_by(qb_id: qb_id).updated_at }
         end
 
         it 'updates transaction fields' do
           subject.update
-          t = Accounting::Transaction.where(qb_id: qb_id).take
 
-          expect(t.amount).to eq(0.24)
-          expect(t.description).to eq('New desc')
-          expect(t.project_id).to eq(new_loan.id)
-          expect(t.txn_date).to eq(Date.parse('2017-07-08'))
-          expect(t.private_note).to eq('New note')
-          expect(t.total).to eq(407.22)
+          t = Accounting::Transaction.find_by(qb_id: qb_id)
+          expect(t.quickbooks_data).to eq(updated_quickbooks_data)
         end
       end
 
@@ -315,12 +287,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
             subject.update
             t = Accounting::Transaction.where(qb_id: qb_id).take
 
-            expect(t.amount).to eq(15.09)
-            expect(t.description).to eq('Nate desc')
-            expect(t.project_id).to eq(loan.id)
-            expect(t.txn_date).to eq(Date.parse('2017-04-18'))
-            expect(t.private_note).to eq('Nate now testing')
-            expect(t.total).to eq(19.99)
+            expect(t.quickbooks_data).to eq(quickbooks_data)
           end
         end
 
