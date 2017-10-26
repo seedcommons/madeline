@@ -155,6 +155,7 @@ en:
           txn_date: "Date"
           total: "Total"
           total_balance: "Total Balance"
+          type: "Type"
     errors:
       models:
         project_group:
