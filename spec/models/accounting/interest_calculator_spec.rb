@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe Accounting::InterestCalculator do
   let!(:division) { create(:division, :with_accounts) }
-  let(:loan) { create(:loan, division: division) }
+  let(:loan) { create(:loan, division: division, rate: 377.17) }
   let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
     project: loan, txn_date: Date.today - 3, division: division) }
-  let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: 3.1,
+  let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: 9.87,
     project: loan, txn_date: Date.today, division: division) }
   let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 17.5,
     project: loan, txn_date: Date.today + 1.day, division: division) }
@@ -20,7 +20,7 @@ describe Accounting::InterestCalculator do
       #########################
       # Initial computation
 
-      Accounting::InterestCalculator.new(loan).recalculate
+      described_class.new(loan).recalculate
 
       # t0
       # size

@@ -15,13 +15,19 @@ module Accounting
       loan.transactions.standard_order.each do |tx|
         case tx.loan_transaction_type_value
         when "interest"
+          if prev_tx
+            accrued_interest = prev_tx.principal_balance * loan.rate / 365 * (tx.txn_date - prev_tx.txn_date)
+          else
+            accrued_interest = 0
+          end
+
           line_item_for(tx, int_rcv_acct).update!(
             posting_type: "Debit",
-            amount: tx.amount
+            amount: accrued_interest
           )
           line_item_for(tx, int_inc_acct).update!(
             posting_type: "Credit",
-            amount: tx.amount
+            amount: accrued_interest
           )
 
         when "disbursement"
@@ -50,7 +56,7 @@ module Accounting
           )
         end
 
-        reconciler = Accounting::Quickbooks::TransactionReconciler.new
+        reconciler = Accounting::Quickbooks::TransactionReconciler.new(loan.division)
         journal_entry = reconciler.reconcile tx
 
         # It's important we store the ID and type of the QB journal entry we just created

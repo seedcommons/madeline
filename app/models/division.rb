@@ -142,6 +142,10 @@ class Division < ActiveRecord::Base
   end
 
   # If no QB connection on this division, fall back to nearest ancestor with accounts defined
+  def qb_connection
+    super || parent&.qb_connection
+  end
+
   def principal_account
     super || parent&.principal_account
   end
