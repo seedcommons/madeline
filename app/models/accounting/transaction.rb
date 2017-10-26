@@ -53,8 +53,9 @@ class Accounting::Transaction < ActiveRecord::Base
 
   before_save :update_fields_from_quickbooks_data
 
-  validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
+  validates :loan_transaction_type_value, :txn_date, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
+  validates :accounting_account_id, presence: true, unless: :interest?
 
   delegate :division, to: :project
 
@@ -70,9 +71,12 @@ class Accounting::Transaction < ActiveRecord::Base
     transaction.save!(validate: false)
   end
 
+  def interest?
+    loan_transaction_type_value == 'interest'
+  end
+
   def uninitialized_interest?
-    return false unless qb_transaction_type == LOAN_INTEREST_TYPE
-    qb_id.blank?
+    interest? && qb_id.blank?
   end
 
   def quickbooks_data

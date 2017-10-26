@@ -12,41 +12,31 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_transaction_type: 'JournalEntry')
 
-    begin
-      # Save the transaction in Madeline first so that InterestCalculator picks it up
-      @transaction.save!
-
-      # Create blank interest transaction. The InterestCalculator will pick this up and
-      # calculate the value, and sync it to quickbooks.
-      interest_description = I18n.t('transactions.interest_description', loan_id: @loan.id)
-
-      interest_transaction = ::Accounting::Transaction
-        .find_or_create_by!(transaction_params.except(:amount, :description)
-        .merge(
-          qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE,
-          description: interest_description,
-          loan_transaction_type_value: 'interest',
-          amount: 0
-        ))
-
-      ::Accounting::InterestCalculator.new(@loan).recalculate
-
-      flash[:notice] = t("admin.loans.transactions.create_success")
-      render nothing: true
-    rescue => ex
-      # We don't need to display the message twice if it's a validation error.
-      # But we do want to display the error if the QB API blows up.
-      if ex.is_a?(ActiveRecord::RecordInvalid)
-        # Only raise error if we had a problem saving the interest transaction
-        raise ex if ex.record == interest_transaction
-      elsif ex.class.name.include?('Quickbooks::')
-        @transaction.errors.add(:base, ex.message)
-      else
-        raise ex
+    # If no interest transaction already on this date, create a blank one. The InterestCalculator
+    # will pick this up, calculate the value, and sync it to quickbooks.
+    interest_transaction = ::Accounting::Transaction.find_or_create_by!(transaction_params
+      .slice(:project_id, :txn_date).merge(loan_transaction_type_value: 'interest')) do |txn|
+        txn.qb_transaction_type = ::Accounting::Transaction::LOAN_INTEREST_TYPE
+        txn.description = I18n.t('transactions.interest_description', loan_id: @loan.id)
+        txn.amount = 0
       end
 
+    if @transaction.save
+      ::Accounting::InterestCalculator.new(@loan).recalculate
+      flash[:notice] = t("admin.loans.transactions.create_success")
+      render nothing: true
+    else
       prep_transaction_form
       render_modal_partial(status: 422)
+    end
+  rescue => ex
+    # Display QB error as validation error on form
+    if ex.class.name.include?('Quickbooks::')
+      @transaction.errors.add(:base, ex.message)
+      prep_transaction_form
+      render_modal_partial(status: 422)
+    else
+      raise ex
     end
   end
 
