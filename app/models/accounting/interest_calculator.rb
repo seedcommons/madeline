@@ -50,7 +50,7 @@ module Accounting
           )
         end
 
-        reconciler = Quickbooks::TransactionReconciler.new
+        reconciler = Accounting::Quickbooks::TransactionReconciler.new
         journal_entry = reconciler.reconcile tx
 
         # It's important we store the ID and type of the QB journal entry we just created

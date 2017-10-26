@@ -18,12 +18,12 @@ module Accounting
         je = builder.build_for_qb(transaction)
 
         if transaction.qb_id.present?
-          service.update(je)
+          journal_entry = service.update(je)
         else
-          service.create(je)
+          journal_entry = service.create(je)
         end
 
-        je
+        journal_entry
       end
 
       private

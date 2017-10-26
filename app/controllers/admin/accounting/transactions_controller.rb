@@ -22,7 +22,12 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
       interest_transaction = ::Accounting::Transaction
         .find_or_create_by!(transaction_params.except(:amount, :description)
-        .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
+        .merge(
+          qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE,
+          description: interest_description,
+          loan_transaction_type_value: 'interest',
+          amount: 0
+        ))
 
       ::Accounting::InterestCalculator.new(@loan).recalculate
 
