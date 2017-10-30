@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030181830) do
+ActiveRecord::Schema.define(version: 20171030233947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20171030181830) do
     t.string   "private_note"
     t.integer  "project_id"
     t.string   "qb_id"
-    t.string   "qb_transaction_type", null: false
+    t.string   "qb_transaction_type", default: "JournalEntry", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"
     t.date     "txn_date"

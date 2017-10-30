@@ -14,7 +14,7 @@
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
-#  qb_transaction_type         :string           not null
+#  qb_transaction_type         :string           default("JournalEntry"), not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )
 #  txn_date                    :date
@@ -39,7 +39,7 @@
 class Accounting::Transaction < ActiveRecord::Base
   include OptionSettable
 
-  QB_TRANSACTION_TYPES = %w(JournalEntry Deposit Purchase).freeze
+  QB_TRANSACTION_TYPES = %w(JournalEntry).freeze
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
