@@ -52,7 +52,6 @@ class Accounting::Transaction < ActiveRecord::Base
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
   validates :loan_transaction_type_value, :txn_date, presence: true
-  validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
   validates :accounting_account_id, presence: true, unless: :interest?
 
