@@ -27,7 +27,9 @@ feature 'transaction flow' do
 
   describe 'transactions for loan' do
     let!(:loan) { create(:loan) }
-    let!(:accounts) { create_list(:accounting_account, 2) }
+    let(:acct_1) { create(:accounting_account) }
+    let(:acct_2) { create(:accounting_account) }
+    let!(:accounts) { [acct_1, acct_2] }
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
