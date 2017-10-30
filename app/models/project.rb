@@ -6,7 +6,7 @@
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  custom_data                 :json
-#  division_id                 :integer
+#  division_id                 :integer          not null
 #  end_date                    :date
 #  first_interest_payment_date :date
 #  first_payment_date          :date
