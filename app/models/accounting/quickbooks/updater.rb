@@ -13,7 +13,8 @@ module Accounting
         @qb_connection = qb_connection
       end
 
-      def update
+      # checks that accounts and transactions are found, created, updated or deleted
+      def update(loan = nil)
         raise NotConnectedError unless qb_connection
 
         update_started_at = Time.zone.now
@@ -30,10 +31,50 @@ module Accounting
 
         qb_connection.update_attribute(:last_updated_at, update_started_at)
 
+        update_ledger(loan) if loan
+
         updated_models
       end
 
       private
+
+      def update_ledger(loan)
+        loan.transactions.standard_order.each do |txn|
+          extract_qb_data(txn)
+          txn.reload.calculate_balances
+        end
+      end
+
+      def extract_qb_data(txn)
+        return unless txn.quickbooks_data.present?
+
+        # removed line_item doesn't make it into the second loop so it is still available in Madeline
+        # so we delete them
+        if txn.quickbooks_data['line_items'].count < txn.line_items.count
+          qb_ids = txn.quickbooks_data['line_items'].map{ |h| h['id'].to_i }
+
+          txn.line_items.each do |li|
+            li.destroy unless qb_ids.include?(li.qb_line_id)
+          end
+        end
+
+        txn.quickbooks_data['line_items'].each do |li|
+          acct_name = li['journal_entry_line_detail']['account_ref']['name']
+          acct = Accounting::Account.find_by(name: acct_name)
+
+          # skip if line item does not have an account in Madeline
+          next unless acct
+
+          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).
+            update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
+        end
+
+        txn.txn_date = txn.quickbooks_data['txn_date']
+        txn.private_note = txn.quickbooks_data['private_note']
+        txn.total = txn.quickbooks_data['total']
+        txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
+        txn.save!
+      end
 
       def changes
         raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless last_updated_at && last_updated_at > max_updated_at
@@ -43,7 +84,6 @@ module Accounting
 
       def find_or_create(transaction_type:, qb_object:)
         model = ar_model_for(transaction_type)
-
         model.create_or_update_from_qb_object transaction_type: transaction_type, qb_object: qb_object
       end
 
