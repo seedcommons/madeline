@@ -51,8 +51,6 @@ class Accounting::Transaction < ActiveRecord::Base
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  before_save :update_fields_from_quickbooks_data
-
   validates :loan_transaction_type_value, :txn_date, presence: true
   validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
