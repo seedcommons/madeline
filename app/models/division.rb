@@ -141,20 +141,17 @@ class Division < ActiveRecord::Base
     accounts.size == 3
   end
 
-  # If no QB connection on this division, fall back to nearest ancestor with accounts defined
-  def qb_connection
-    super || parent&.qb_connection
+  # If no QB connection on this division, fall back to nearest ancestor with QB connection.
+  # May return nil.
+  def qb_division
+    # Division.root
+    qb_connection ? self : parent&.qb_division
   end
 
-  def principal_account
-    super || parent&.principal_account
-  end
-
-  def interest_receivable_account
-    super || parent&.interest_receivable_account
-  end
-
-  def interest_income_account
-    super || parent&.interest_income_account
+  %i(principal_account interest_receivable_account interest_income_account principal_account_id
+    interest_receivable_account_id interest_income_account_id).each do |method|
+    define_method(method) do
+      qb_connection ? super() : qb_division&.send(method)
+    end
   end
 end

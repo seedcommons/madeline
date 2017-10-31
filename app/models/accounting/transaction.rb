@@ -111,6 +111,7 @@ class Accounting::Transaction < ActiveRecord::Base
   private
 
   def sum_for_account(account_id)
+    # TODO: Is "reload" necessary?
     line_items.reload.to_a.sum do |item|
       if item.accounting_account_id == account_id
         (item.credit? ? -1 : 1) * item.amount
