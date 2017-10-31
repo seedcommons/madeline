@@ -55,7 +55,7 @@ class Accounting::Transaction < ActiveRecord::Base
   validates :amount, presence: true, unless: :uninitialized_interest?
   validates :accounting_account_id, presence: true, unless: :interest?
 
-  delegate :division, to: :project
+  delegate :division, :qb_division, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -87,11 +87,11 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
-    @change_in_principal ||= sum_for_account(division.principal_account_id)
+    @change_in_principal ||= sum_for_account(qb_division.principal_account_id)
   end
 
   def change_in_interest
-    @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
+    @change_in_interest ||= sum_for_account(qb_division.interest_receivable_account_id)
   end
 
   def total_balance

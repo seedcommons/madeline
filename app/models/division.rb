@@ -147,11 +147,4 @@ class Division < ActiveRecord::Base
     # Division.root
     qb_connection ? self : parent&.qb_division
   end
-
-  %i(principal_account interest_receivable_account interest_income_account principal_account_id
-    interest_receivable_account_id interest_income_account_id).each do |method|
-    define_method(method) do
-      qb_connection ? super() : qb_division&.send(method)
-    end
-  end
 end
