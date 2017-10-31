@@ -59,7 +59,7 @@ RSpec.describe Accounting::Transaction, type: :model do
         private_note: 'a memo',
         description: 'desc',
         project_id: loan.id,
-        qb_transaction_type: transaction_type
+        loan_transaction_type_value: transaction_type
       }
     end
 
