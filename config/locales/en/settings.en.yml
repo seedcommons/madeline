@@ -13,5 +13,5 @@ en:
       never_synced: "Never"
       full_sync: "Full Sync"
       disconnect_message: "Your QuickBooks account has been successfully disconnected."
-      full_sync_message: "Your QuickBooks data has been synchronized."
-      link_message: "Your QuickBooks account has been successfully linked."
+      full_sync_message: "Your QuickBooks data has been synchronized. Note: You need to select accounts below before you can add transactions."
+      link_message: "Your QuickBooks account has been successfully linked. Note: You need to click \"Full sync\" below before you can access transactions."

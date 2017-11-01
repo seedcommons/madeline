@@ -1,5 +1,11 @@
 if Rails.env.development?
   namespace :dev do
+    desc "Delete all data from database without needing to drop and recreate"
+    task clean_db: :environment do
+      # ActiveRecord::Base.connection.execute('drop schema public cascade; create schema public')
+      DatabaseCleaner.clean_with(:truncation)
+    end
+
     desc "Generate UI testing data"
     task fake_data: :environment do
       # Create admin user
@@ -13,24 +19,26 @@ if Rails.env.development?
       puts "Login: #{user.email}"
       puts "Password: xxxxxxxx"
 
+      division = FactoryGirl.create(:division)
+
       # Create some data
       FactoryGirl.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_timeline,
-        :with_transaction,
         :with_log_media,
         :with_loan_media,
-        :with_coop_media)
+        :with_coop_media,
+        division: division)
       FactoryGirl.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_steps_only_timeline,
         :with_log_media,
-        :with_transaction,
         :with_loan_media,
-        :with_coop_media)
-      FactoryGirl.create_list(:loan, 13, :with_transaction)
+        :with_coop_media,
+        division: division)
+      FactoryGirl.create_list(:loan, 13, division: division)
       puts "Generated fake data"
     end
   end
