@@ -6,9 +6,9 @@ module Accounting
     class TransactionBuilder
       attr_reader :qb_connection, :principal_account
 
-      def initialize(root_division = Division.root)
-        @qb_connection = root_division.qb_connection
-        @principal_account = root_division.principal_account
+      def initialize(qb_division = Division.root)
+        @qb_connection = qb_division.qb_connection
+        @principal_account = qb_division.principal_account
       end
 
       # Creates a transaction for Quickbooks based on a Transaction object created in Madeline. Line

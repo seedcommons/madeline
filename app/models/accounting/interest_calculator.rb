@@ -4,9 +4,9 @@ module Accounting
 
     def initialize(loan)
       @loan = loan
-      @prin_acct = loan.division.principal_account
-      @int_rcv_acct = loan.division.interest_receivable_account
-      @int_inc_acct = loan.division.interest_income_account
+      @prin_acct = qb_division.principal_account
+      @int_rcv_acct = qb_division.interest_receivable_account
+      @int_inc_acct = qb_division.interest_income_account
     end
 
     def recalculate
@@ -56,7 +56,7 @@ module Accounting
           )
         end
 
-        reconciler = Accounting::Quickbooks::TransactionReconciler.new(loan.division)
+        reconciler = Accounting::Quickbooks::TransactionReconciler.new(qb_division)
         journal_entry = reconciler.reconcile tx
 
         # It's important we store the ID and type of the QB journal entry we just created
@@ -70,6 +70,8 @@ module Accounting
     end
 
     private
+
+    delegate :qb_division, to: :loan
 
     # Finds or creates line item for transaction and account
     def line_item_for(tx, acct)
