@@ -83,10 +83,13 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
+    # TODO: Make project required and get rid of these guard clauses
+    return 0 unless project
     @change_in_principal ||= sum_for_account(division.principal_account_id)
   end
 
   def change_in_interest
+    return 0 unless project
     @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
   end
 
