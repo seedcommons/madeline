@@ -10,7 +10,7 @@ FactoryGirl.define do
     public_level_value { ["featured", "hidden"].sample }
     amount { rand(5000..50000) }
     currency
-    rate 0.15
+    rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
