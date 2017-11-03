@@ -22,9 +22,6 @@ class Accounting::Account < ActiveRecord::Base
   has_many :transactions, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
   has_many :line_items, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
 
-  # when division is associated to account, scope this validation
-  validates :name, uniqueness: true
-
   def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
     account = find_or_initialize_by qb_id: qb_object.id
     account.tap do |a|
