@@ -2,7 +2,7 @@
     html: { \
       class: 'form-horizontal transaction-form',
     },
-    wrapper: :horizontal_form_condensed,
+    wrapper: :horizontal_form,
     defaults: { \
       input_html: {class: 'form-element form-control'},
     },
@@ -42,5 +42,5 @@
     = f.input_field :description
 
   = f.input :private_note
-    .view-element = @transaction.private_note
+    .view-element = simple_format(@transaction.private_note)
     = f.input_field :private_note, as: :text
