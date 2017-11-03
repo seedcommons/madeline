@@ -11,7 +11,7 @@ class MS.Views.TransactionsView extends Backbone.View
     action = @$(link).data('action')
 
     unless @transactionModalView
-      @transactionModalView = new MS.Views.TransactionModalView(parentView: this)
+      @transactionModalView = new MS.Views.TransactionModalView()
 
     if action == 'show-transaction'
       @transactionModalView.show(@$(link).data('id'), @$(link).data('project-id'))

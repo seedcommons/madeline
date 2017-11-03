@@ -60,7 +60,6 @@ feature 'transaction flow' do
     scenario 'can show transactions' do
       visit admin_loan_tab_path(loan, tab: 'transactions')
       click_on txn.txn_date.strftime('%B %-d, %Y')
-      sleep 5
       expect(page).to have_content('icecream')
     end
   end

@@ -54,9 +54,7 @@ class Accounting::Transaction < ActiveRecord::Base
   validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
 
-  # since we have a new route that has to do with loans
-  # transactions index breaks since not all transactions have loans
-  delegate :division, to: :project, allow_nil: true
+  delegate :division, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -85,13 +83,14 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
-    # not all transactions have loans
-    @change_in_principal ||= sum_for_account(division.try(:principal_account_id))
+    # TODO: Make project required and get rid of these guard clauses
+    return 0 unless project
+    @change_in_principal ||= sum_for_account(division.principal_account_id)
   end
 
   def change_in_interest
-    # not all transactions have loans
-    @change_in_interest ||= sum_for_account(division.try(:interest_receivable_account_id))
+    return 0 unless project
+    @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
   end
 
   def total_balance
