@@ -1,20 +1,19 @@
 div.modal-header
-  button type="button" class="close cancel" data-dismiss="modal" aria-label== t(:cancel)
+  a class="close cancel" data-dismiss="modal" aria-label== t(:close)
     span aria-hidden="true" &times;
-  h4.modal-title = t("admin.loans.transactions.new_transaction")
+  h4.modal-title
+    - if @transaction.new_record?
+      = t("admin.loans.transactions.new_transaction")
+    - else
+      = @transaction.description
 
 div.modal-body
-  = simple_form_for [:admin, @transaction], remote: true do |f|
-    = error_notification(f)
-
-    = f.hidden_field :project_id
-    = f.input :loan_transaction_type_value, collection: @loan_transaction_types
-    = f.input :txn_date, as: :date_picker
-    = f.association :account, collection: @accounts
-    = f.input :amount
-    = f.input :description
-    = f.input :private_note, as: :text
+  = render "admin/accounting/transactions/form"
 
 div.modal-footer
-  button.btn.btn-default.cancel type="button" data-dismiss="modal" = t(:cancel)
-  button.btn.btn-primary = t("common.add")
+  .view-element
+    a.btn.btn-default.cancel data-dismiss="modal" = t(:close)
+  .form-element
+    a.btn.btn-default.cancel data-dismiss="modal" = t(:cancel)
+    a.btn.btn-primary data-action="submit"
+      = @transaction.new_record? ? t("common.add") : t("admin.loans.transactions.update")

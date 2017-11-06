@@ -181,6 +181,6 @@ class Admin::LoansController < Admin::ProjectsController
         link: admin_settings_url)
     end
 
-    initialize_transactions_grid(@loan.id)
+    initialize_transactions_grid(@loan)
   end
 end

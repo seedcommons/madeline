@@ -27,13 +27,15 @@ feature 'transaction flow' do
 
   describe 'transactions for loan' do
     let!(:loan) { create(:loan) }
-    let!(:accounts) { create_list(:accounting_account, 2) }
+    let(:acct_1) { create(:accounting_account) }
+    let(:acct_2) { create(:accounting_account) }
+    let!(:accounts) { [acct_1, acct_2] }
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    # This spec does not test TransactionCreator at all because stubbing out
+    # This spec does not test TransactionBuilder at all because stubbing out
     # all the necessary things was not practical at the time.
     # Eventually we should refactor the Quickbooks code such that stubbing is easier.
     scenario 'creates new transaction', js: true do
@@ -43,11 +45,23 @@ feature 'transaction flow' do
       fill_in 'Date', with: Date.today.to_s
       select accounts.sample.name, from: 'Bank Account'
       fill_in 'Amount', with: '12.34'
-      fill_in 'Description', with: 'Foo bar'
+      fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
-      click_on 'Add'
+      page.find('a[data-action="submit"]').click
 
-      expect(page).to have_content("Foo bar")
+      expect(page).to have_content('Palm trees')
     end
   end
+
+  describe 'show', js: true do
+    let!(:loan) { create(:loan) }
+    let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
+
+    scenario 'can show transactions' do
+      visit admin_loan_tab_path(loan, tab: 'transactions')
+      click_on txn.txn_date.strftime('%B %-d, %Y')
+      expect(page).to have_content('icecream')
+    end
+  end
+
 end

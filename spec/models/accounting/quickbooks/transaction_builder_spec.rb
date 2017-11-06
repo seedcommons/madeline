@@ -1,9 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
+RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
-  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
-  let(:generic_service) { instance_double(Quickbooks::Service::JournalEntry, all: [], create: created_journal_entry) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
@@ -58,17 +56,14 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
     )
   }
 
-  let(:creator) { described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account)) }
-
   subject do
-    creator.create_in_qb transaction
+    described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account))
   end
 
   before do
-    allow(creator).to receive(:service).and_return(generic_service)
-    allow(creator).to receive(:class_service).and_return(class_service)
-    allow(creator).to receive(:customer_reference).and_return(customer_reference)
-    allow(creator).to receive(:department_reference).and_return(department_reference)
+    allow(subject).to receive(:class_service).and_return(class_service)
+    allow(subject).to receive(:customer_reference).and_return(customer_reference)
+    allow(subject).to receive(:department_reference).and_return(department_reference)
 
     # since transaction does not exist yet
     transaction.line_items << [line_item_1, line_item_2, line_item_3]
@@ -82,38 +77,35 @@ RSpec.describe Accounting::Quickbooks::TransactionCreator, type: :model do
   let(:organization) { create(:organization, name: customer_name, qb_id: nil) }
 
   it 'calls create with correct data' do
-    expect(generic_service).to receive(:create) do |arg|
-      expect(arg.line_items.count).to eq 3
-      expect(arg.private_note).to eq memo
-      expect(arg.txn_date).to be_nil
+    je = subject.build_for_qb transaction
 
-      list = arg.line_items
-      expect(list.map(&:amount)).to eq transaction.line_items.map(&:amount)
-      expect(list.map(&:description).uniq).to eq transaction.line_items.map(&:description)
+    expect(je.line_items.count).to eq 3
+    expect(je.private_note).to eq memo
+    expect(je.txn_date).to be_nil
 
-      details = list.map { |i| i.journal_entry_line_detail }
-      expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
-      expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
-      expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
-      expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
-      expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
-    end
-    subject
+    list = je.line_items
+    expect(list.map(&:amount)).to eq transaction.line_items.map(&:amount)
+    expect(list.map(&:description).uniq).to eq transaction.line_items.map(&:description)
+
+    details = list.map { |i| i.journal_entry_line_detail }
+    expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
+    expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
+    expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
+    expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
+    expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
   end
 
   context 'and date is supplied' do
     let(:date) { 3.days.ago.to_date }
 
     it 'creates JournalEntry with date' do
-      expect(generic_service).to receive(:create) do |arg|
-        expect(arg.txn_date).to eq date
-      end
-      subject
+      je = subject.build_for_qb transaction
+      expect(je.txn_date).to eq date
     end
   end
 
   it 'creates JournalEntry with a reference to the existing loan' do
     expect(class_service).to receive(:find_by).with(:name, loan_id)
-    subject
+    subject.build_for_qb transaction
   end
 end

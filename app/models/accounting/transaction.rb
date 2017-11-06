@@ -22,7 +22,7 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype__unq_idx                          (qb_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
 #  index_accounting_transactions_on_currency_id            (currency_id)
 #  index_accounting_transactions_on_project_id             (project_id)
@@ -48,10 +48,8 @@ class Accounting::Transaction < ActiveRecord::Base
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
-  has_many :line_items, inverse_of: :parent_transaction,
+  has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
-
-  before_save :update_fields_from_quickbooks_data
 
   validates :loan_transaction_type_value, :txn_date, :accounting_account_id, presence: true
   validates :amount, presence: true, unless: :uninitialized_interest?
@@ -75,10 +73,6 @@ class Accounting::Transaction < ActiveRecord::Base
     qb_id.blank?
   end
 
-  def quickbooks_data
-    read_attribute(:quickbooks_data).try(:with_indifferent_access)
-  end
-
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
   # create duplicates.
@@ -89,10 +83,13 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
+    # TODO: Make project required and get rid of these guard clauses
+    return 0 unless project
     @change_in_principal ||= sum_for_account(division.principal_account_id)
   end
 
   def change_in_interest
+    return 0 unless project
     @change_in_interest ||= sum_for_account(division.interest_receivable_account_id)
   end
 
@@ -105,10 +102,15 @@ class Accounting::Transaction < ActiveRecord::Base
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
   end
 
+  # Returns first line item for the given account, or nil if not found.
+  def line_item_for(account)
+    line_items.detect { |li| li.account == account }
+  end
+
   private
 
   def sum_for_account(account_id)
-    line_items.to_a.sum do |item|
+    line_items.reload.to_a.sum do |item|
       if item.accounting_account_id == account_id
         (item.credit? ? -1 : 1) * item.amount
       else
@@ -117,32 +119,14 @@ class Accounting::Transaction < ActiveRecord::Base
     end
   end
 
-  def update_fields_from_quickbooks_data
-    return unless quickbooks_data.present?
+  # not sure how this is going to come into the new implementation;
+  # is this being removed as well?
 
-    self.amount = first_quickbooks_line_item[:amount]
-    self.description = first_quickbooks_line_item[:description]
-    self.project_id = first_quickbooks_class_name
-    self.txn_date = quickbooks_data[:txn_date]
-    self.private_note = quickbooks_data[:private_note]
-    self.total = quickbooks_data[:total]
-    self.currency_id = lookup_currency_id
-  end
-
-  def first_quickbooks_line_item
-    return {} unless quickbooks_data[:line_items]
-    quickbooks_data[:line_items].first
-  end
-
-  def first_quickbooks_class_name
-    first_quickbooks_line_item[:journal_entry_line_detail].try(:[], :class_ref).try(:[], :name)
-  end
-
-  def lookup_currency_id
-    if quickbooks_data && quickbooks_data[:currency_ref]
-      Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-    elsif project
-      project.currency_id
-    end
-  end
+  # def lookup_currency_id
+  #   if quickbooks_data && quickbooks_data[:currency_ref]
+  #     Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
+  #   elsif project
+  #     project.currency_id
+  #   end
+  # end
 end
