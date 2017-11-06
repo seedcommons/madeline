@@ -140,7 +140,7 @@ a, input[type="checkbox"], input[type="radio"], select {
   display: none;
 }
 
-.draft {
+.draft, .calendar .fc-event.draft {
   font-style: italic;
-  color: $gray8 !important;
+  color: $gray8;
 }
