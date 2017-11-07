@@ -2,7 +2,8 @@ section.transactions
   .show-actions.hidden-print
     - unless @transaction_list_hidden
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
-        disabled: !@add_transaction_available, data: {action: "new-transaction"}
+        disabled: !@add_transaction_available, data: {action: "new-transaction"},
+        data: {action: "new-transaction", project_id: @loan.id}
 
   - unless @transaction_list_hidden
     = render "admin/accounting/transactions/transactions_grid_definition"

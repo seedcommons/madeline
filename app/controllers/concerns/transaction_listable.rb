@@ -1,12 +1,12 @@
 module TransactionListable
   extend ActiveSupport::Concern
 
-  def initialize_transactions_grid(project_id = nil)
-    update_transactions if Division.root.quickbooks_connected?
+  def initialize_transactions_grid(project = nil)
+    update_transactions(project) if Division.root.quickbooks_connected?
     @add_transaction_available = Division.root.qb_accounts_connected?
 
-    if project_id
-      @transactions = ::Accounting::Transaction.where(project_id: project_id)
+    if project
+      @transactions = ::Accounting::Transaction.where(project_id: project.id)
     else
       @transactions = ::Accounting::Transaction.all
     end
@@ -40,8 +40,8 @@ module TransactionListable
 
   private
 
-  def update_transactions
-    ::Accounting::Quickbooks::Updater.new.update
+  def update_transactions(project)
+    ::Accounting::Quickbooks::Updater.new.update(project)
   rescue Accounting::Quickbooks::FullSyncRequiredError => e
     Rails.logger.error e
     @full_sync_required = true

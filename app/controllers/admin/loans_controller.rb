@@ -174,6 +174,6 @@ class Admin::LoansController < Admin::ProjectsController
     @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Date.today)
     prep_transaction_form
 
-    initialize_transactions_grid(@loan.id)
+    initialize_transactions_grid(@loan)
   end
 end
