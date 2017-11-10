@@ -22,20 +22,24 @@ module Accounting
           end
 
           line_item_for(tx, int_rcv_acct).update!(
+            qb_line_id: 0,
             posting_type: "Debit",
             amount: accrued_interest
           )
           line_item_for(tx, int_inc_acct).update!(
+            qb_line_id: 1,
             posting_type: "Credit",
             amount: accrued_interest
           )
 
         when "disbursement"
           line_item_for(tx, prin_acct).update!(
+            qb_line_id: 0,
             posting_type: "Debit",
             amount: tx.amount
           )
           line_item_for(tx, tx.account).update!(
+            qb_line_id: 1,
             posting_type: "Credit",
             amount: tx.amount
           )
@@ -43,16 +47,19 @@ module Accounting
         when "repayment"
           int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
           line_item_for(tx, tx.account).update!(
+            qb_line_id: 0,
             posting_type: "Debit",
             amount: tx.amount
           )
-          line_item_for(tx, int_rcv_acct).update!(
-            posting_type: "Credit",
-            amount: int_part
-          )
           line_item_for(tx, prin_acct).update!(
+            qb_line_id: 1,
             posting_type: "Credit",
             amount: tx.amount - int_part
+          )
+          line_item_for(tx, int_rcv_acct).update!(
+            qb_line_id: 2,
+            posting_type: "Credit",
+            amount: int_part
           )
         end
 
