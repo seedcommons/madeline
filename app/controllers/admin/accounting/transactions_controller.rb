@@ -16,7 +16,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # The InterestCalculator will pick this up, calculate the value, and sync it to quickbooks.
     if @loan.transactions.where('txn_date < ?', transaction_params[:txn_date]).exists?
       attrs = transaction_params.slice(:txn_date).merge(loan_transaction_type_value: 'interest')
-      interest_transaction = @loan.transactions.create!(attrs) do |txn|
+      interest_transaction = @loan.transactions.find_or_create_by!(attrs) do |txn|
         txn.qb_transaction_type = ::Accounting::Transaction::LOAN_INTEREST_TYPE
         txn.description = I18n.t('transactions.interest_description', loan_id: @loan.id)
         txn.amount = 0
