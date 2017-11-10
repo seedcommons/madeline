@@ -16,7 +16,7 @@ module Accounting
         case tx.loan_transaction_type_value
         when "interest"
           if prev_tx
-            accrued_interest = prev_tx.principal_balance * loan.rate / 365 * (tx.txn_date - prev_tx.txn_date)
+            accrued_interest = prev_tx.principal_balance * loan.interest_rate / 365 * (tx.txn_date - prev_tx.txn_date)
           else
             accrued_interest = 0
           end

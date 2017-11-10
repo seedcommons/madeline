@@ -90,6 +90,11 @@ class Loan < Project
     scoped
   end
 
+  # Rate is entered as a percent
+  def interest_rate
+    rate / 100 if rate
+  end
+
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: id)
   end
