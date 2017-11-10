@@ -87,11 +87,11 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
-    @change_in_principal ||= sum_for_account(qb_division.principal_account_id)
+    @change_in_principal ||= net_debit_for_account(qb_division.principal_account_id)
   end
 
   def change_in_interest
-    @change_in_interest ||= sum_for_account(qb_division.interest_receivable_account_id)
+    @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
   end
 
   def total_balance
@@ -110,7 +110,10 @@ class Accounting::Transaction < ActiveRecord::Base
 
   private
 
-  def sum_for_account(account_id)
+  # Debits minus credits for the given account. Returns a negative number if this transaction is a
+  # net credit to the passed in account. Note that for non-asset accounts such as interest income,
+  # which is increased by a credit, a negative number indicates the account is increasing.
+  def net_debit_for_account(account_id)
     # TODO: Is "reload" necessary?
     line_items.reload.to_a.sum do |item|
       if item.accounting_account_id == account_id
