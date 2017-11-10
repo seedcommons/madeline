@@ -1,7 +1,14 @@
 if Rails.env.development?
   namespace :dev do
+    desc "Delete all data from database, seed, and generate fake_data"
+    task db_reset: :environment do
+      Rake::Task['dev:db_clean'].invoke
+      Rake::Task['db:seed'].invoke
+      Rake::Task['dev:fake_data'].invoke
+    end
+
     desc "Delete all data from database without needing to drop and recreate"
-    task clean_db: :environment do
+    task db_clean: :environment do
       # ActiveRecord::Base.connection.execute('drop schema public cascade; create schema public')
       DatabaseCleaner.clean_with(:truncation)
     end
