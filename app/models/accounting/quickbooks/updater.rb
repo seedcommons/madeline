@@ -31,7 +31,10 @@ module Accounting
 
         qb_connection.update_attribute(:last_updated_at, update_started_at)
 
-        update_ledger(loan) if loan
+        if loan
+          update_ledger(loan)
+          ::Accounting::InterestCalculator.new(loan).recalculate
+        end
 
         updated_models
       end

@@ -24,7 +24,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
 
     if @transaction.save
-      ::Accounting::InterestCalculator.new(@loan).recalculate
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
     else
