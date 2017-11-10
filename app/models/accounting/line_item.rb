@@ -28,10 +28,10 @@ class Accounting::LineItem < ActiveRecord::Base
   belongs_to :account, class_name: 'Accounting::Account', foreign_key: :accounting_account_id
 
   def credit?
-    posting_type == "credit"
+    posting_type == "Credit"
   end
 
   def debit?
-    posting_type == "debit"
+    posting_type == "Debit"
   end
 end
