@@ -9,6 +9,8 @@
   padding: 1em;
 
   &.active {
+    overflow-x: auto;
+    margin: 0 1em 0 0;
     background: $background-gray;
   }
 
