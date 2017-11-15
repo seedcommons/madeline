@@ -1,18 +1,3 @@
-# Represents a transaction in a Loan's financial history.
-# Serves as a local cache of transaction objects stored in Quickbooks.
-# Quickbooks should be considered the authoritative source for the transaction information it stores.
-# Madeline additionally tracks special data about interest and principal balances, but this information
-# is ultimately derived from data stored in Quickbooks.
-#
-# Standard Order
-# =================
-# Standard order means transactions ordered by:
-#   1. Date, then
-#   2. Type (1. interest, 2. disbursement, 3. repayment), then
-#   3. Creation date
-# It should be rare that transactions of the same type and date exist, so the creation date
-# should not be often needed to break ties.
-
 # == Schema Information
 #
 # Table name: accounting_transactions
@@ -51,6 +36,20 @@
 #  fk_rails_db49322130  (currency_id => currencies.id)
 #
 
+# Represents a transaction in a Loan's financial history.
+# Serves as a local cache of transaction objects stored in Quickbooks.
+# Quickbooks should be considered the authoritative source for the transaction information it stores.
+# Madeline additionally tracks special data about interest and principal balances, but this information
+# is ultimately derived from data stored in Quickbooks.
+#
+# Standard Order
+# =================
+# Standard order means transactions ordered by:
+#   1. Date, then
+#   2. Type (1. interest, 2. disbursement, 3. repayment), then
+#   3. Creation date
+# It should be rare that transactions of the same type and date exist, so the creation date
+# should not be often needed to break ties.
 class Accounting::Transaction < ActiveRecord::Base
   include OptionSettable
 

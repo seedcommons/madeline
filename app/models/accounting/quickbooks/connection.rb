@@ -1,19 +1,15 @@
-# Stores the access token and other necessary information necessary to authenticate
-# Quickbooks API requests.
-# Also responsible for determining if connection is still valid or expired.
-
 # == Schema Information
 #
 # Table name: accounting_quickbooks_connections
 #
 #  created_at       :datetime         not null
-#  division_id      :integer
+#  division_id      :integer          not null
 #  id               :integer          not null, primary key
 #  last_updated_at  :datetime
-#  realm_id         :string
-#  secret           :string
-#  token            :string
-#  token_expires_at :datetime
+#  realm_id         :string           not null
+#  secret           :string           not null
+#  token            :string           not null
+#  token_expires_at :datetime         not null
 #  updated_at       :datetime         not null
 #
 # Indexes
@@ -25,6 +21,9 @@
 #  fk_rails_0655b77149  (division_id => divisions.id)
 #
 
+# Stores the access token and other necessary information necessary to authenticate
+# Quickbooks API requests.
+# Also responsible for determining if connection is still valid or expired.
 class Accounting::Quickbooks::Connection < ActiveRecord::Base
   belongs_to :division
 
