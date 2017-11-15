@@ -14,7 +14,7 @@ module Accounting
 
         # If the transaction already has a qb_id then it already exists in QB, so we should update it.
         if transaction.qb_id.present?
-          journal_entry = service.update(je)
+          journal_entry = service.update(je, sparse: true)
         else
           journal_entry = service.create(je)
         end

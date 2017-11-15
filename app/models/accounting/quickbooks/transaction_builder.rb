@@ -20,6 +20,8 @@ module Accounting
       # items in QB mirror line items in Madeline.
       def build_for_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
+        je.id = transaction.qb_id
+        je.sync_token = transaction.quickbooks_data['sync_token']
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
@@ -34,8 +36,9 @@ module Accounting
         # We need to either find or create the class, and use the returned Id.
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
-        transaction.line_items.each do |li|
+        transaction.line_items.each_with_index do |li, i|
           je.line_items << build_line_item(
+            id: i,
             amount: li.amount,
             posting_type: li.posting_type,
             description: transaction.description,
@@ -69,10 +72,11 @@ module Accounting
 
       # Builds a Quickbooks `Line` object, which represents a Quickbooks line item, not to be confused
       # with a Madeline LineItem.
-      def build_line_item(amount:, posting_type:, description:, qb_account_id:,
+      def build_line_item(id:, amount:, posting_type:, description:, qb_account_id:,
         qb_customer_ref:, qb_department_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
+        line_item.id = id
         jel = ::Quickbooks::Model::JournalEntryLineDetail.new
         line_item.journal_entry_line_detail = jel
 

@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :loan, aliases: [:project] do
     division { root_division }
     organization
-    name { "Loan for " + Faker::Company.name }
+    name { "Loan for " + organization.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
