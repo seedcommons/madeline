@@ -41,6 +41,7 @@ class MS.Views.TimelineTableView extends Backbone.View
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)
       @timelineFilters.resetFilterDropdowns()
+      @styleDropdowns()
 
   newGroup: (e) ->
     e.preventDefault()
