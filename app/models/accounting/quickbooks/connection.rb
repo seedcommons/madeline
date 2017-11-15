@@ -1,3 +1,7 @@
+# Stores the access token and other necessary information necessary to authenticate
+# Quickbooks API requests.
+# Also responsible for determining if connection is still valid or expired.
+
 # == Schema Information
 #
 # Table name: accounting_quickbooks_connections
@@ -49,9 +53,10 @@ class Accounting::Quickbooks::Connection < ActiveRecord::Base
   end
 
   def auth_details
-    { access_token: access_token, company_id: realm_id }
+    {access_token: access_token, company_id: realm_id}
   end
 
+  # Returns an access token object based on the stored (string-type) token and secret values from Quickbooks.
   def access_token
     Accounting::Quickbooks::Consumer.new.access_token(token: token, secret: secret)
   end

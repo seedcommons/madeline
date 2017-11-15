@@ -1,3 +1,9 @@
+# Stores per-account details for a particular transaction as per typical double-entry accounting.
+# Tracks a corresponding line item in Quickbooks. Note however that Quickbooks does not assign
+# unique IDs to line items as it does to transactions and accounts. Instead it assigns sequential "line IDs",
+# which we do store.
+# Quickbooks should be considered the authoritative source for line item information.
+
 # == Schema Information
 #
 # Table name: accounting_line_items
