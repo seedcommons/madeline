@@ -82,7 +82,7 @@ module Accounting
 
     # Finds or creates line item for transaction and account
     def line_item_for(tx, acct)
-      tx.line_item_for(acct) || tx.line_items.build(account: acct)
+      tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
     end
   end
 end

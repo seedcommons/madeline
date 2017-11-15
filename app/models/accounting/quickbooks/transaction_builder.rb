@@ -33,7 +33,7 @@ module Accounting
           je.line_items << create_line_item(
             amount: li.amount,
             posting_type: li.posting_type,
-            description: li.description,
+            description: transaction.description,
             qb_account_id: li.account.qb_id,
             qb_customer_ref: qb_customer_ref,
             qb_department_ref: qb_department_ref,
