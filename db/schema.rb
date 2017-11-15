@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030233947) do
+ActiveRecord::Schema.define(version: 20171115184346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 20171030233947) do
 
   create_table "accounting_quickbooks_connections", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "division_id"
+    t.integer  "division_id", null: false
     t.datetime "last_updated_at"
-    t.string   "realm_id"
-    t.string   "secret"
-    t.string   "token"
-    t.datetime "token_expires_at"
+    t.string   "realm_id", null: false
+    t.string   "secret", null: false
+    t.string   "token", null: false
+    t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
   end
 

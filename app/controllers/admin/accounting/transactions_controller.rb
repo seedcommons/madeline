@@ -12,6 +12,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_transaction_type: 'JournalEntry')
 
+    # TODO move this logic into model someplace and add test
     # If earlier transactions exist, but no interest transaction on this date, create a blank one.
     # The InterestCalculator will pick this up, calculate the value, and sync it to quickbooks.
     if @loan.transactions.where('txn_date < ?', transaction_params[:txn_date]).exists?

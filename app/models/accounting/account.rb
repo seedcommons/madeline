@@ -15,6 +15,9 @@
 #  index_accounting_accounts_on_qb_id  (qb_id)
 #
 
+# Represents an account as in a typical double-entry accounting system.
+# Accounts defined in the associated Quickbooks instance are synced and cached locally on Madeline.
+# Quickbooks should be considered the authoritative source for account information.
 class Accounting::Account < ActiveRecord::Base
   QB_TRANSACTION_TYPE = 'Account'
   belongs_to :project

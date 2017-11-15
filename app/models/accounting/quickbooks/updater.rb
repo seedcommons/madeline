@@ -1,11 +1,12 @@
+# Updater is reponsible for grabbing only the updates that have happened in Quickbooks
+# since the last time this class was run. If no Quickbooks data exists in the sytem
+# yet, FullFetcher will need to be run first.
+# Updater also kicks off the recalculation process in InterestCalculator once it is done fetching.
 module Accounting
   module Quickbooks
     class FullSyncRequiredError < StandardError; end
     class NotConnectedError < StandardError; end
 
-    # Reponsible for grabbing only the updates that have happened in quickbooks
-    # since the last time this class was run. If no quickbooks data exists in the sytem
-    # yet, FullFetcher will need to be run first.
     class Updater
       attr_reader :qb_connection
 
@@ -13,7 +14,16 @@ module Accounting
         @qb_connection = qb_connection
       end
 
-      # checks that accounts and transactions are found, created, updated or deleted
+      # Fetches all changes from Quickbooks since the last update.
+      # Note that *all* changes are pulled from Quickbooks even if the `loan` parameter is given.
+      # Fetched data is initially stored in the objects' qb_data attribute, but NOT copied into the
+      # associated attributes.
+      #
+      # If the loan parameter is given, this method also extracts QB data for Transactions
+      # related to ONLY the given loan. See extract_qb_data for more details.
+      #
+      # Raises a FullSyncRequiredError if there are updates
+      # too far in the past for the `since` method to access.
       def update(loan = nil)
         raise NotConnectedError unless qb_connection
 
@@ -48,13 +58,15 @@ module Accounting
         end
       end
 
+      # Extracts data for a given Transaction from the JSON in `quickbooks_data`
+      # into the Transaction's attributes and associated LineItems.
+      # Creates/deletes LineItems as needed.
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
-        # removed line_item doesn't make it into the second loop so it is still available in Madeline
-        # so we delete them
+        # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
-          qb_ids = txn.quickbooks_data['line_items'].map{ |h| h['id'].to_i }
+          qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
 
           txn.line_items.each do |li|
             li.destroy unless qb_ids.include?(li.qb_line_id)
@@ -68,19 +80,32 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).
-            update!(account: acct, amount: li['amount'], posting_type: li['journal_entry_line_detail']['posting_type'])
+          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).update!(
+            account: acct,
+            amount: li['amount'],
+            posting_type: li['journal_entry_line_detail']['posting_type']
+          )
         end
 
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
+
+        # This line may seem odd since the natural thing to do would be to simply compute the
+        # amount based on the sum of the line items.
+        # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
+        # which are computed from a special subset of line items (see the Transaction model for more detail).
+        # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
+        # but that is ok.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
+
         txn.save!
       end
 
       def changes
-        raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync" unless last_updated_at && last_updated_at > max_updated_at
+        unless last_updated_at && last_updated_at > max_updated_at
+          raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync"
+        end
 
         service.since(types, last_updated_at).all_types
       end

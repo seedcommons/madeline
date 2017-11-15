@@ -19,14 +19,6 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
     allow(subject).to receive(:builder).and_return(builder)
   end
 
-  context 'when transaction is nil' do
-    it 'does not call service' do
-      expect(service).not_to receive(:create)
-      expect(service).not_to receive(:update)
-      subject.reconcile(nil)
-    end
-  end
-
   context 'with no matching transaction in qbo' do
     let(:qb_id) { nil }
 

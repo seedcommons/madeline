@@ -1,6 +1,6 @@
+# Responsible for updating or creating transaction entries in Quickbooks.
 module Accounting
   module Quickbooks
-    # Responsible for updating or creating transaction entries in quickbooks.
     class TransactionReconciler
       def initialize(qb_division = Division.root)
         @qb_division = qb_division
@@ -8,13 +8,11 @@ module Accounting
         @principal_account = qb_division.principal_account
       end
 
-      # Creates a transaction in Quickbooks based on a Transaction object created in Madeline. Line
-      # items in QB mirror line items in Madeline.
+      # Creates or updates a transaction in QB based on a Transaction object created in Madeline.
       def reconcile(transaction)
-        return unless transaction.present?
-
         je = builder.build_for_qb(transaction)
 
+        # If the transaction already has a qb_id then it already exists in QB, so we should update it.
         if transaction.qb_id.present?
           journal_entry = service.update(je)
         else

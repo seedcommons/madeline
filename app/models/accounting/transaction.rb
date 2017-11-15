@@ -36,6 +36,20 @@
 #  fk_rails_db49322130  (currency_id => currencies.id)
 #
 
+# Represents a transaction in a Loan's financial history.
+# Serves as a local cache of transaction objects stored in Quickbooks.
+# Quickbooks should be considered the authoritative source for the transaction information it stores.
+# Madeline additionally tracks special data about interest and principal balances, but this information
+# is ultimately derived from data stored in Quickbooks.
+#
+# Standard Order
+# =================
+# Standard order means transactions ordered by:
+#   1. Date, then
+#   2. Type (1. interest, 2. disbursement, 3. repayment), then
+#   3. Creation date
+# It should be rare that transactions of the same type and date exist, so the creation date
+# should not be often needed to break ties.
 class Accounting::Transaction < ActiveRecord::Base
   include OptionSettable
 
@@ -87,11 +101,13 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
+    # See InterestCalculator for more documentation on principal/interest accounts.
     @change_in_principal ||= net_debit_for_account(qb_division.principal_account_id)
   end
 
   def change_in_interest
-    @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
+    # See InterestCalculator for more documentation on principal/interest accounts.
+     @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
   end
 
   def total_balance

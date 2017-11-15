@@ -1,8 +1,13 @@
+# TransactionBuilder is responsible for building Quickbooks JournalEntry objects from Madeline Transactions.
+# Note that these JournalEntrys may or may not already exist in Quickbooks. This is because we
+# need a fully initialized JournalEntry object to perform both creates AND updates via the Quickbooks API.
+# This class is NOT responsible for running the actual create/update operation via the API.
+#
+# However, it may initiate API calls while getting references for customer (QB equivalent for Organization),
+# department (QB equivalent for Division), and class (QB equivalent for Loan) if corresponding
+# objects don't exist yet in Quickbooks.
 module Accounting
   module Quickbooks
-
-    # Responsible for creating and returning quickbooks transaction objects.
-    # NOTE: Will not create the transaction in Quickbooks. The Reconciler will do that.
     class TransactionBuilder
       attr_reader :qb_connection, :principal_account
 
@@ -30,7 +35,7 @@ module Accounting
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
         transaction.line_items.each do |li|
-          je.line_items << create_line_item(
+          je.line_items << build_line_item(
             amount: li.amount,
             posting_type: li.posting_type,
             description: transaction.description,
@@ -62,7 +67,9 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
-      def create_line_item(amount:, posting_type:, description:, qb_account_id:,
+      # Builds a Quickbooks `Line` object, which represents a Quickbooks line item, not to be confused
+      # with a Madeline LineItem.
+      def build_line_item(amount:, posting_type:, description:, qb_account_id:,
         qb_customer_ref:, qb_department_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'

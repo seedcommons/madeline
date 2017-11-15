@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
-  let(:connection) { instance_double(Accounting::Quickbooks::Connection, last_updated_at: last_updated_at) }
+  let(:connection) { create(:accounting_quickbooks_connection, last_updated_at: last_updated_at) }
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
-  let(:qb_id) { 34 }
-  let(:division) { create(:division, :with_accounts) }
+  let(:qb_id) { 1982547353 }
+  let(:division) { create(:division, :with_accounts, qb_connection: connection) }
   let(:prin_acct) { division.principal_account}
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: division) }
@@ -83,12 +83,11 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
   before do
     allow(subject).to receive(:service).and_return(generic_service)
-    allow(connection).to receive(:update_attribute).with(:last_updated_at, anything)
+    allow(division).to receive(:qb_division).and_return(division)
   end
 
   context 'QB line item manipulations' do
     context 'line item added' do
-
       before do
         quickbooks_data['line_items'] << {
           'id' => '3',
