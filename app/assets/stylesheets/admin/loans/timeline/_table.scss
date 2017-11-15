@@ -124,4 +124,19 @@
       margin-left: .5em;
     }
   }
+
+  .table-wrapper {
+    overflow: auto;
+    min-height: 30em;
+    padding: 1em;
+  }
+}
+
+#timeline {
+  &.tab-pane {
+    &.active {
+      display: block;
+      overflow: visible;
+    }
+  }
 }

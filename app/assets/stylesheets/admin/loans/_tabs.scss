@@ -9,15 +9,7 @@
   padding: 1em;
 
   &.active {
-    display: block;
-    overflow: visible;
     background: $background-gray;
-
-    .table-wrapper {
-      overflow: auto;
-      padding: 1em;
-      min-height: 30em;
-    }
   }
 
   &.flush {
