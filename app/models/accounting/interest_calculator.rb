@@ -13,6 +13,8 @@ module Accounting
       prev_tx = nil
 
       loan.transactions.standard_order.each do |tx|
+        changed = false
+
         case tx.loan_transaction_type_value
         when "interest"
           if prev_tx
@@ -21,11 +23,15 @@ module Accounting
             accrued_interest = 0
           end
 
-          line_item_for(tx, int_rcv_acct).update!(
+          x = line_item_for(tx, int_rcv_acct)
+          x.assign_attributes(
             qb_line_id: 0,
             posting_type: "Debit",
             amount: accrued_interest
           )
+          changed = true if x.changed?
+          x.save!
+
           line_item_for(tx, int_inc_acct).update!(
             qb_line_id: 1,
             posting_type: "Credit",
