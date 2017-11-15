@@ -162,8 +162,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @logListModalView.show(stepId, @refresh.bind(@))
 
   styleDropdowns: ->
+    # Make top 4 rows of timeline have dropdown menus instead of dropup menus
     $topRows = @$el.find('tbody tr:nth-child(-n+4)')
-    $topGroup = $topRows.find('.project-group')
-    $topGroup.removeClass('dropup')
-    $topStep = $topRows.find('.step-menu-col')
-    $topStep.removeClass('dropup')
+    $topGroups = $topRows.find('.project-group')
+    $topGroups.removeClass('dropup')
+    $topSteps = $topRows.find('.step-menu-col')
+    $topSteps.removeClass('dropup')
