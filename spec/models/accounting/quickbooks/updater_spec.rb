@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:connection) { create(:accounting_quickbooks_connection, last_updated_at: last_updated_at) }
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
-  let(:qb_id) { 34 }
+  let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts, qb_connection: connection) }
   let(:prin_acct) { division.principal_account}
   let(:int_rcv_acct) { division.interest_receivable_account }
