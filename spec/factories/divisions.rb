@@ -51,6 +51,10 @@ FactoryGirl.define do
       association :interest_receivable_account, factory: :accounting_account
       association :interest_income_account, factory: :accounting_account
     end
+
+    trait :with_qb_connection do
+      association :qb_connection, factory: :accounting_quickbooks_connection
+    end
   end
 end
 
