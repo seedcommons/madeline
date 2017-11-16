@@ -44,7 +44,7 @@
 
 require 'rails_helper'
 
-describe Loan, :type => :model do
+describe Loan, type: :model do
 
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
@@ -52,6 +52,23 @@ describe Loan, :type => :model do
 
   it 'has a valid factory' do
     expect(create(:loan)).to be_valid
+  end
+
+  context 'primary and secondary agents' do
+    let(:person_1) { create(:person) }
+    let(:person_2) { create(:person) }
+    let(:loan) { build(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_1.id) }
+
+    it 'raises error if agents are the same' do
+      expect{
+        loan.save
+      }.to raise_error#("Validation failed: Quantity is not a number")
+    end
+
+    it 'does not raise error for different agents' do
+      loan.secondary_agent_id = person_2.id
+      expect{ loan.save }.to change { Loan.count }.by(1)
+    end
   end
 
   context 'model methods' do
