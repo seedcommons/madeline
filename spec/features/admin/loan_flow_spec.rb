@@ -61,6 +61,14 @@ feature 'loan flow' do
     end
   end
 
+  describe 'agent dropdown list', js: true do
+    scenario 'a selected agent does not show up in another agent list' do
+      visit new_admin_loan_path
+      select user.name, from: 'loan_primary_agent_id'
+      expect(page).to have_select('loan_secondary_agent_id', options: [''])
+    end
+  end
+
   # Keeping this code here for now. It tended to be more stable than the shared example.
   # Can be deleted when we are happy the shared spec is working.
   # scenario 'can view index', js: true do

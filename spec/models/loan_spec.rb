@@ -57,17 +57,17 @@ describe Loan, type: :model do
   context 'primary and secondary agents' do
     let(:person_1) { create(:person) }
     let(:person_2) { create(:person) }
-    let(:loan) { build(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_1.id) }
 
     it 'raises error if agents are the same' do
       expect{
-        loan.save
-      }.to raise_error#("Validation failed: Quantity is not a number")
+        create(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_1.id)
+      }.to raise_error
     end
 
     it 'does not raise error for different agents' do
-      loan.secondary_agent_id = person_2.id
-      expect{ loan.save }.to change { Loan.count }.by(1)
+      expect{
+        create(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_2.id)
+      }.to change { Loan.count }.by(1)
     end
   end
 
