@@ -213,7 +213,11 @@ class Loan < Project
     return !health_check.nil?
   end
 
+  def agents_the_same?
+    (primary_agent.present? || secondary_agent.present?) && primary_agent == secondary_agent
+  end
+
   def check_agents
-    errors.add(:primary_agent, "can't be the same as secondary agent") if primary_agent == secondary_agent
+    errors.add(:primary_agent, "can't be the same as secondary agent") if agents_the_same?
   end
 end
