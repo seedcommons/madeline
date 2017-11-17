@@ -20,8 +20,13 @@ module Accounting
       # items in QB mirror line items in Madeline.
       def build_for_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
-        je.id = transaction.qb_id
-        je.sync_token = transaction.quickbooks_data['sync_token']
+
+        # If transaction already exists in QB, these are required
+        if transaction.qb_id
+          je.id = transaction.qb_id
+          je.sync_token = transaction.quickbooks_data['sync_token']
+        end
+
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
