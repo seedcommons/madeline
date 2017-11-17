@@ -6,7 +6,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   let(:builder) { instance_double(Accounting::Quickbooks::TransactionBuilder, build_for_qb: created_journal_entry) }
   let(:qb_principal_account_id) { '92' }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
-  let(:service) { instance_double(Quickbooks::Service::JournalEntry, create: nil, update: nil) }
+  let(:service) { instance_double(Quickbooks::Service::JournalEntry, create: created_journal_entry, update: created_journal_entry) }
   let(:qb_id) { '827' }
   let(:transaction) { create(:accounting_transaction, qb_id: qb_id) }
 
@@ -55,7 +55,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
 
       it 'calls update with qbo transaction' do
         expect(builder).to receive(:build_for_qb).with(transaction)
-        expect(service).to receive(:update).with(created_journal_entry)
+        expect(service).to receive(:update).with(created_journal_entry, sparse: true)
         subject.reconcile(transaction)
       end
     end

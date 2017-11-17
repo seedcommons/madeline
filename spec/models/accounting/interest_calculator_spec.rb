@@ -236,7 +236,7 @@ describe Accounting::InterestCalculator do
     allow(calculator).to receive(:reconciler).and_return(reconciler)
     calculator.send(:transactions).each do |t|
       expect(reconciler).to receive(:reconcile).with(t).and_return(nil)
-      expect(t).to receive(:associate_with_qb_obj).with(nil).and_return(nil)
+      allow(t).to receive(:associate_with_qb_obj).with(nil).and_return(nil)
     end
     calculator
   end

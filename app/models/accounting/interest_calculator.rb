@@ -116,7 +116,6 @@ module Accounting
         tx.save!
 
         # Create/update the transaction in quickbooks if necessary.
-        # TODO move this into separate class.
         reconciler.reconcile(tx)
 
         prev_tx = tx
