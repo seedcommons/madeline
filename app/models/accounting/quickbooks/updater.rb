@@ -43,7 +43,7 @@ module Accounting
 
         if loan
           update_ledger(loan)
-          ::Accounting::InterestCalculator.new(loan).recalculate
+          InterestCalculator.new(loan).recalculate
         end
 
         updated_models
@@ -74,13 +74,12 @@ module Accounting
         end
 
         txn.quickbooks_data['line_items'].each do |li|
-          acct_name = li['journal_entry_line_detail']['account_ref']['name']
-          acct = Accounting::Account.find_by(name: acct_name)
+          acct = Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
 
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).update!(
+          LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).update!(
             account: acct,
             amount: li['amount'],
             posting_type: li['journal_entry_line_detail']['posting_type']
@@ -116,12 +115,12 @@ module Accounting
       end
 
       def types
-        Accounting::Transaction::QB_TRANSACTION_TYPES + [Accounting::Account::QB_TRANSACTION_TYPE]
+        Transaction::QB_TRANSACTION_TYPES + [Account::QB_TRANSACTION_TYPE]
       end
 
       def ar_model_for(transaction_type)
-        return Accounting::Account if Accounting::Account::QB_TRANSACTION_TYPE == transaction_type
-        Accounting::Transaction
+        return Account if Account::QB_TRANSACTION_TYPE == transaction_type
+        Transaction
       end
 
       def delete_qb_object(transaction_type:, qb_object:)

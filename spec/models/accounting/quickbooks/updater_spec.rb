@@ -141,6 +141,11 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         quickbooks_data['line_items'][1]['amount'] = '0.81' # int_rcv_acct
         quickbooks_data['line_items'][2]['amount'] = '11.80' # txn_acct
         quickbooks_data['total'] = '11.80'
+
+        # We throw in an account name change also to test that accounts are matched by ID.
+        # This should not affect anything.
+        quickbooks_data['line_items'][1]['journal_entry_line_detail']['account_ref']['name'] = 'Foo'
+
         update_transaction_with_new_quickbooks_data
       end
 
