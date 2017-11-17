@@ -3,7 +3,7 @@
 
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false do |transaction|
-    - date = l transaction.txn_date, format: :long
+    - date = ldate(transaction.txn_date, format: :long)
     - link_to(date, '#', data: {action: 'show-transaction', 
       project_id: transaction.project_id, id: transaction.id})
 

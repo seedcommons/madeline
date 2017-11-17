@@ -97,7 +97,7 @@ class Loan < Project
   def default_name
     if organization
       date = signing_date || created_at.to_date
-      "#{organization.name} - #{I18n.l(date)}"
+      "#{organization.name} - #{ApplicationController.helpers.ldate(date)}"
     end
   end
 
@@ -138,7 +138,7 @@ class Loan < Project
   end
 
   def signing_date_long
-    I18n.l self.signing_date, format: :long if self.signing_date
+    ApplicationController.helpers.ldate(self.signing_date, format: :long) if self.signing_date
   end
 
   # def short_description

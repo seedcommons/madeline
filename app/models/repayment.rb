@@ -17,9 +17,9 @@ class Repayment < ActiveRecord::Base
 
   def status_date
     if self.paid
-      "#{I18n.t :paid} #{I18n.l self.date_paid, format: :long}"
+      "#{I18n.t :paid} #{ApplicationController.helpers.ldate(self.date_paid, format: :long)}"
     else
-      "#{I18n.t :due} #{I18n.l self.date_due, format: :long}"
+      "#{I18n.t :due} #{ApplicationController.helpers.ldate(self.date_due, format: :long)}"
     end
   end
 
