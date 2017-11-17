@@ -87,10 +87,6 @@ class Accounting::Transaction < ActiveRecord::Base
     loan_transaction_type_value == 'interest'
   end
 
-  def uninitialized_interest?
-    interest? && qb_id.blank?
-  end
-
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
   # create duplicates.

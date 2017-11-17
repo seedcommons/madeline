@@ -93,14 +93,6 @@ RSpec.describe Accounting::Transaction, type: :model do
           end.not_to raise_error
         end
       end
-
-      context 'with qb_id' do
-        it 'requires an amount to save' do
-          expect do
-            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
-          end.to raise_error(ActiveRecord::RecordInvalid)
-        end
-      end
     end
   end
 
