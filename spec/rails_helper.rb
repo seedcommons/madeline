@@ -108,6 +108,7 @@ RSpec.configure do |config|
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
   config.include FactorySpecHelpers
+  config.include GeneralSpecHelpers
   config.include QuestionSpecHelpers, type: :model
 
   Capybara.register_driver :poltergeist do |app|

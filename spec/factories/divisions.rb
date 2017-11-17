@@ -50,6 +50,9 @@ FactoryGirl.define do
       association :principal_account, factory: :accounting_account
       association :interest_receivable_account, factory: :accounting_account
       association :interest_income_account, factory: :accounting_account
+
+      # This is needed for Division#qb_division to work properly
+      association :qb_connection, factory: :accounting_quickbooks_connection
     end
   end
 end

@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
 #  project_id                  :integer
@@ -66,7 +67,7 @@ class Accounting::Transaction < ActiveRecord::Base
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
   validates :loan_transaction_type_value, :txn_date, presence: true
-  validates :amount, presence: true, unless: :uninitialized_interest?
+  validates :amount, presence: true, unless: :interest?
   validates :accounting_account_id, presence: true, unless: :interest?
 
   delegate :division, :qb_division, to: :project
@@ -77,18 +78,21 @@ class Accounting::Transaction < ActiveRecord::Base
     order(:txn_date, "options.position", :created_at)
   }
 
-  def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
-    transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
-    transaction.quickbooks_data = qb_object.as_json
-    transaction.save!(validate: false)
+  def self.create_or_update_from_qb_object!(transaction_type:, qb_object:)
+    txn = find_or_initialize_by(qb_transaction_type: transaction_type, qb_id: qb_object.id)
+    txn.quickbooks_data = qb_object.as_json
+
+    # Since the data has just come straight from quickbooks, no need to push it back up.
+    txn.needs_qb_push = false
+
+    # We have to skip validations on create because the data haven't been extracted yet.
+    txn.new_record? ? txn.save(validate: false) : txn.save!
+
+    txn
   end
 
   def interest?
     loan_transaction_type_value == 'interest'
-  end
-
-  def uninitialized_interest?
-    interest? && qb_id.blank?
   end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
@@ -120,8 +124,21 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   # Returns first line item for the given account, or nil if not found.
+  # Guaranteed that the LineItem object returned will exist in the current
+  # Transaction's line_items array (not a separate copy).
   def line_item_for(account)
     line_items.detect { |li| li.account == account }
+  end
+
+  # Finds first line item with the given ID or builds a new one.
+  # Guaranteed that the LineItem object returned will exist in the current
+  # Transaction's line_items array (not a separate copy).
+  def line_item_with_id(id)
+    line_items.detect { |li| li.qb_line_id == id } || line_items.build(qb_line_id: id)
+  end
+
+  def set_qb_push_flag!(value)
+    update_column(:needs_qb_push, value)
   end
 
   private
@@ -130,8 +147,7 @@ class Accounting::Transaction < ActiveRecord::Base
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
   # which is increased by a credit, a negative number indicates the account is increasing.
   def net_debit_for_account(account_id)
-    # TODO: Is "reload" necessary?
-    line_items.reload.to_a.sum do |item|
+    line_items.to_a.sum do |item|
       if item.accounting_account_id == account_id
         (item.credit? ? -1 : 1) * item.amount
       else

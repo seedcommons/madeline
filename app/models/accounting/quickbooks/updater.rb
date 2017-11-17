@@ -29,8 +29,8 @@ module Accounting
 
         update_started_at = Time.zone.now
 
-        updated_models = changes.flat_map do |type, qb_objects|
-          qb_objects.map do |qb_object|
+        changes.each do |type, qb_objects|
+          qb_objects.each do |qb_object|
             if should_be_deleted?(qb_object)
               delete_qb_object(transaction_type: type, qb_object: qb_object)
             else
@@ -43,10 +43,8 @@ module Accounting
 
         if loan
           update_ledger(loan)
-          ::Accounting::InterestCalculator.new(loan).recalculate
+          InterestCalculator.new(loan).recalculate
         end
-
-        updated_models
       end
 
       private
@@ -69,18 +67,17 @@ module Accounting
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
 
           txn.line_items.each do |li|
-            li.destroy unless qb_ids.include?(li.qb_line_id)
+            txn.line_items.destroy(li) unless qb_ids.include?(li.qb_line_id)
           end
         end
 
         txn.quickbooks_data['line_items'].each do |li|
-          acct_name = li['journal_entry_line_detail']['account_ref']['name']
-          acct = Accounting::Account.find_by(name: acct_name)
+          acct = Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
 
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          Accounting::LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).update!(
+          txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
             posting_type: li['journal_entry_line_detail']['posting_type']
@@ -112,16 +109,16 @@ module Accounting
 
       def find_or_create(transaction_type:, qb_object:)
         model = ar_model_for(transaction_type)
-        model.create_or_update_from_qb_object transaction_type: transaction_type, qb_object: qb_object
+        model.create_or_update_from_qb_object!(transaction_type: transaction_type, qb_object: qb_object)
       end
 
       def types
-        Accounting::Transaction::QB_TRANSACTION_TYPES + [Accounting::Account::QB_TRANSACTION_TYPE]
+        Transaction::QB_TRANSACTION_TYPES + [Account::QB_TRANSACTION_TYPE]
       end
 
       def ar_model_for(transaction_type)
-        return Accounting::Account if Accounting::Account::QB_TRANSACTION_TYPE == transaction_type
-        Accounting::Transaction
+        return Account if Account::QB_TRANSACTION_TYPE == transaction_type
+        Transaction
       end
 
       def delete_qb_object(transaction_type:, qb_object:)

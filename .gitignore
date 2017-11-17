@@ -32,3 +32,4 @@ coverage/
 /app/views/layouts/embedded/*
 .byebug_history
 .env
+~$*

@@ -3,7 +3,8 @@
 #      for the Loan's division (see below for more on special accounts and the formula
 #      for the calculations).
 #   2. Creating/updating LineItems in Madeline to match the calculated amounts.
-#   3. Syncing those LineItems to Quickbooks.
+#   3. Creating/updating transactions and line items in Quickbooks to match those in Madeline,
+#      incluidng the newly calculated amounts.
 #   4. Recalculating Transaction balances (see Transaction model for more info on this operation).
 #
 # Special Accounts
@@ -51,33 +52,28 @@ module Accounting
     def recalculate
       prev_tx = nil
 
-      loan.transactions.standard_order.each do |tx|
+      transactions.each do |tx|
         case tx.loan_transaction_type_value
         when "interest"
-          if prev_tx
-            accrued_interest = prev_tx.principal_balance * loan.interest_rate / 365 * (tx.txn_date - prev_tx.txn_date)
-          else
-            accrued_interest = 0
-          end
-
-          line_item_for(tx, int_rcv_acct).update!(
+          accrued = accrued_interest(prev_tx, tx)
+          line_item_for(tx, int_rcv_acct).assign_attributes(
             qb_line_id: 0,
             posting_type: "Debit",
-            amount: accrued_interest
+            amount: accrued
           )
-          line_item_for(tx, int_inc_acct).update!(
+          line_item_for(tx, int_inc_acct).assign_attributes(
             qb_line_id: 1,
             posting_type: "Credit",
-            amount: accrued_interest
+            amount: accrued
           )
 
         when "disbursement"
-          line_item_for(tx, prin_acct).update!(
+          line_item_for(tx, prin_acct).assign_attributes(
             qb_line_id: 0,
             posting_type: "Debit",
             amount: tx.amount
           )
-          line_item_for(tx, tx.account).update!(
+          line_item_for(tx, tx.account).assign_attributes(
             qb_line_id: 1,
             posting_type: "Credit",
             amount: tx.amount
@@ -85,34 +81,48 @@ module Accounting
 
         when "repayment"
           int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-          line_item_for(tx, tx.account).update!(
+          line_item_for(tx, tx.account).assign_attributes(
             qb_line_id: 0,
             posting_type: "Debit",
             amount: tx.amount
           )
-          line_item_for(tx, prin_acct).update!(
+          line_item_for(tx, prin_acct).assign_attributes(
             qb_line_id: 1,
             posting_type: "Credit",
             amount: tx.amount - int_part
           )
-          line_item_for(tx, int_rcv_acct).update!(
+          line_item_for(tx, int_rcv_acct).assign_attributes(
             qb_line_id: 2,
             posting_type: "Credit",
             amount: int_part
           )
         end
 
-        reconciler = Accounting::Quickbooks::TransactionReconciler.new(qb_division)
-        journal_entry = reconciler.reconcile tx
-
-        # It's important we store the ID and type of the QB journal entry we just created
-        # so that on the next sync, a duplicate is not created.
-        tx.associate_with_qb_obj(journal_entry)
-
         # Since we may have just adjusted line items upon which the change_in_principal and
         # change_in_interest depend, it is important that we recalculate balances now.
         tx.calculate_balances(prev_tx: prev_tx)
+
+        # Before we save, check if the transaction's line items have changed and
+        # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
+        # don't need to get pushed. Therefore we don't need to check changes on the transaction
+        # object itself, just the line items.
+        #
+        # Note that if the flag is already set we leave it as true even if no changes
+        # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
+        # even if we don't change anything here.
+        tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
+
+        # This should save the transaction and all its line items.
         tx.save!
+
+        # Create/update the transaction in quickbooks.
+        # TODO move this into separate class.
+        qb_journal_entry = reconciler.reconcile(tx)
+
+        # It's important we store the ID and type of the QB journal entry we just created
+        # so that on the next sync, a duplicate is not created.
+        tx.associate_with_qb_obj(qb_journal_entry)
+
         prev_tx = tx
       end
     end
@@ -121,7 +131,29 @@ module Accounting
 
     delegate :qb_division, to: :loan
 
-    # Finds or creates line item for transaction and account
+    def transactions
+      @transactions ||= loan.transactions.standard_order
+    end
+
+    def reconciler
+      @reconciler ||= Accounting::Quickbooks::TransactionReconciler.new(qb_division)
+    end
+
+    # Calculates the interest accrued between the date of the last transaction and the current one.
+    def accrued_interest(prev_tx, tx)
+      if prev_tx
+        (prev_tx.principal_balance * daily_rate * (tx.txn_date - prev_tx.txn_date)).round(2)
+      else
+        0.0
+      end
+    end
+
+    def daily_rate
+      @daily_rate ||= loan.interest_rate / 365.0
+    end
+
+    # Finds or creates line item for transaction and account.
+    # Guarantees that the LineItem object returned will be in `tx`s `line_items` array (not a separate copy).
     def line_item_for(tx, acct)
       tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
     end

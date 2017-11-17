@@ -51,6 +51,20 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
+  describe '.create_or_update_from_qb_object!' do
+    let(:qb_obj) { double(id: 123, as_json: {'x' => 'y'}) }
+    let(:txn) do
+      described_class.create_or_update_from_qb_object!(transaction_type: 'JournalEntry', qb_object: qb_obj)
+    end
+
+    it 'should set appropriate fields on create' do
+      expect(txn.qb_transaction_type).to eq('JournalEntry')
+      expect(txn.qb_id).to eq('123')
+      expect(txn.quickbooks_data).to eq({'x' => 'y'})
+      expect(txn.needs_qb_push).to be false
+    end
+  end
+
   describe 'qb_id' do
     let(:transaction_params) do
       {
@@ -93,14 +107,6 @@ RSpec.describe Accounting::Transaction, type: :model do
           end.not_to raise_error
         end
       end
-
-      context 'with qb_id' do
-        it 'requires an amount to save' do
-          expect do
-            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
-          end.to raise_error(ActiveRecord::RecordInvalid)
-        end
-      end
     end
   end
 
@@ -110,38 +116,39 @@ RSpec.describe Accounting::Transaction, type: :model do
     let(:int_rcv_acct) { transaction.division.interest_receivable_account }
     let(:prin_acct) { transaction.division.principal_account }
     let!(:line_items) do
-      create_line_item(txn, 'debit', 1.02, account: prin_acct)
-      create_line_item(txn, 'debit', 2.07, account: int_rcv_acct)
-      create_line_item(txn, 'debit', 1.5, account: int_inc_acct)
-      create_line_item(txn, 'credit', 5, account: prin_acct)
-      create_line_item(txn, 'credit', 3, account: int_rcv_acct)
-      create_line_item(txn, 'credit', 1, account: int_inc_acct)
+      create_line_item(txn, 'Debit', 1.02, account: prin_acct)
+      create_line_item(txn, 'Debit', 2.07, account: int_rcv_acct)
+      create_line_item(txn, 'Debit', 1.50, account: int_inc_acct)
+      create_line_item(txn, 'Credit', 1.15, account: prin_acct)
+      create_line_item(txn, 'Credit', 3.00, account: int_rcv_acct)
+      create_line_item(txn, 'Credit', 1.25, account: int_inc_acct)
 
-      # Decoys (factory will create accounts)
-      create_line_item(txn, 'debit', 2.5)
-      create_line_item(txn, 'credit', 11)
+      # These are decoy line items associated with random accounts that we don't care about.
+      # They should not be included in the change_in_* calculations.
+      create_line_item(txn, 'Debit', 2.50)
+      create_line_item(txn, 'Credit', 1.69)
     end
 
     describe '#change_in_principal and #change_in_interest' do
       it 'calculates correctly' do
-        expect(transaction.reload.change_in_principal).to eq(-3.98)
-        expect(transaction.reload.change_in_interest).to eq(-0.93)
+        expect(transaction.reload.change_in_principal).to equal_money(-0.13)
+        expect(transaction.reload.change_in_interest).to equal_money(-0.93)
       end
     end
 
     describe '#calculate_balances' do
       it 'works without previous transaction' do
         transaction.calculate_balances
-        expect(transaction.principal_balance).to eq(-3.98)
-        expect(transaction.interest_balance).to eq(-0.93)
+        expect(transaction.principal_balance).to equal_money(-0.13)
+        expect(transaction.interest_balance).to equal_money(-0.93)
       end
 
       it 'works with previous transaction' do
         prev_tx = create(:accounting_transaction, principal_balance: 6.22, interest_balance: 4.50)
 
         transaction.calculate_balances(prev_tx: prev_tx)
-        expect(transaction.principal_balance).to eq(2.24)
-        expect(transaction.interest_balance).to eq(3.57)
+        expect(transaction.principal_balance).to equal_money(6.09)
+        expect(transaction.interest_balance).to equal_money(3.57)
       end
     end
 
