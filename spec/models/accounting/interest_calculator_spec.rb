@@ -16,6 +16,7 @@ describe Accounting::InterestCalculator do
     project: loan, txn_date: "2017-04-01", division: division) }
   let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
     project: loan, txn_date: Date.today + 2.days, division: division) }
+  let(:all_txns) { [t0, t1, t2, t3, t4, t5] }
   let!(:prin_acct) { division.principal_account }
   let!(:int_rcv_acct) { division.interest_receivable_account }
   let!(:int_inc_acct) { division.interest_income_account }
@@ -24,10 +25,12 @@ describe Accounting::InterestCalculator do
     it do
       #########################
       # Initial computation
-      stubbed_calculator.recalculate
+      recalculate_and_reload
 
-      # t0
-      # size
+      # All transactions should get their push flags set because they didn't have any line items before.
+      expect(all_txns.map(&:needs_qb_push).uniq).to eq [true]
+
+      # t0 --------------------------------------------------------
       expect(t0.line_items.size).to eq(2)
 
       # account details
@@ -40,8 +43,7 @@ describe Accounting::InterestCalculator do
       expect(t0.reload.principal_balance).to equal_money(100.00)
       expect(t0.reload.interest_balance).to equal_money(0)
 
-      # t1
-      # size
+      # t1 --------------------------------------------------------
       expect(t1.line_items.size).to eq(2)
 
       # account details
@@ -54,8 +56,7 @@ describe Accounting::InterestCalculator do
       expect(t1.reload.principal_balance).to equal_money(100.00)
       expect(t1.reload.interest_balance).to equal_money(0.07)
 
-      # t2
-      # size
+      # t2 --------------------------------------------------------
       expect(t2.line_items.size).to eq(2)
 
       # account details
@@ -68,8 +69,7 @@ describe Accounting::InterestCalculator do
       expect(t2.reload.principal_balance).to equal_money(117.50)
       expect(t2.reload.interest_balance).to equal_money(0.07)
 
-      # t3
-      # size
+      # t3 --------------------------------------------------------
       expect(t3.line_items.size).to eq(2)
 
       # account details
@@ -82,8 +82,7 @@ describe Accounting::InterestCalculator do
       expect(t3.reload.principal_balance).to equal_money(117.50)
       expect(t3.reload.interest_balance).to equal_money(2.31)
 
-      # t4
-      # size
+      # t4 --------------------------------------------------------
       expect(t4.line_items.size).to eq(3)
 
       # account details
@@ -98,8 +97,7 @@ describe Accounting::InterestCalculator do
       expect(t4.reload.principal_balance).to equal_money(117.50)
       expect(t4.reload.interest_balance).to equal_money(1.31)
 
-      # t5
-      # size
+      # t5 --------------------------------------------------------
       expect(t5.line_items.size).to eq(3)
 
       # account details
@@ -118,11 +116,13 @@ describe Accounting::InterestCalculator do
       # Recalculation after change of second disbursement to larger number
 
       t2.update!(amount: 52.50)
-      stubbed_calculator.recalculate
+      recalculate_and_reload
 
-      # t0
-      # size
+      # t0 --------------------------------------------------------
       expect(t0.line_items.size).to eq(2)
+
+      # This txn is before changed one, so no changes.
+      expect(t0.needs_qb_push).to be false
 
       # account details
       expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
@@ -134,9 +134,11 @@ describe Accounting::InterestCalculator do
       expect(t0.reload.principal_balance).to equal_money(100.00)
       expect(t0.reload.interest_balance).to equal_money(0)
 
-      # t1
-      # size
+      # t1 --------------------------------------------------------
       expect(t1.line_items.size).to eq(2)
+
+      # This txn is before changed one, so no changes.
+      expect(t1.needs_qb_push).to be false
 
       # account details
       expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
@@ -148,9 +150,11 @@ describe Accounting::InterestCalculator do
       expect(t1.reload.principal_balance).to equal_money(100.00)
       expect(t1.reload.interest_balance).to equal_money(0.07)
 
-      # t2
-      # size
+      # t2 --------------------------------------------------------
       expect(t2.line_items.size).to eq(2)
+
+      # This is the changed txn
+      expect(t2.needs_qb_push).to be true
 
       # account details
       expect(t2.line_item_for(prin_acct).amount).to equal_money(52.50)
@@ -162,9 +166,11 @@ describe Accounting::InterestCalculator do
       expect(t2.reload.principal_balance).to equal_money(152.50)
       expect(t2.reload.interest_balance).to equal_money(0.07)
 
-      # t3
-      # size
+      # t3 --------------------------------------------------------
       expect(t3.line_items.size).to eq(2)
+
+      # This is an interest txn that changes as a result of previous txn change.
+      expect(t3.needs_qb_push).to be true
 
       # account details
       expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.91)
@@ -176,9 +182,11 @@ describe Accounting::InterestCalculator do
       expect(t3.reload.principal_balance).to equal_money(152.50)
       expect(t3.reload.interest_balance).to equal_money(2.98)
 
-      # t4
-      # size
+      # t4 --------------------------------------------------------
       expect(t4.line_items.size).to eq(3)
+
+      # The line items here stay the same so no need to push.
+      expect(t0.needs_qb_push).to be false
 
       # account details
       expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
@@ -192,8 +200,7 @@ describe Accounting::InterestCalculator do
       expect(t4.reload.principal_balance).to equal_money(152.50)
       expect(t4.reload.interest_balance).to equal_money(1.98)
 
-      # t5
-      # size
+      # t5 --------------------------------------------------------
       expect(t5.line_items.size).to eq(3)
 
       # account details
@@ -204,10 +211,19 @@ describe Accounting::InterestCalculator do
       expect(t5.line_item_for(prin_acct).amount).to equal_money(10.32)
       expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
 
+      # The interest change above cascades down into this txn.
+      expect(t5.needs_qb_push).to be true
+
       # balances
       expect(t5.reload.principal_balance).to equal_money(142.18)
       expect(t5.reload.interest_balance).to equal_money(0.00)
     end
+  end
+
+  def recalculate_and_reload
+    reset_push_flags
+    stubbed_calculator.recalculate
+    all_txns.map(&:reload)
   end
 
   # We have to stub reconciler because it triggers calls to API.
@@ -223,5 +239,9 @@ describe Accounting::InterestCalculator do
       expect(t).to receive(:associate_with_qb_obj).with(nil).and_return(nil)
     end
     calculator
+  end
+
+  def reset_push_flags
+    all_txns.each { |t| t.set_qb_push_flag!(false) }
   end
 end

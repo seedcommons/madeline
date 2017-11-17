@@ -33,10 +33,14 @@ class Accounting::LineItem < ActiveRecord::Base
   belongs_to :account, class_name: 'Accounting::Account', foreign_key: :accounting_account_id
 
   def credit?
-    posting_type == "Credit"
+    posting_type == "Credit".freeze
   end
 
   def debit?
-    posting_type == "Debit"
+    posting_type == "Debit".freeze
+  end
+
+  def type_or_amt_changed?
+    (changes.keys & %w(posting_type amount).freeze).any?
   end
 end

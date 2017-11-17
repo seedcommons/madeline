@@ -67,7 +67,7 @@ module Accounting
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
 
           txn.line_items.each do |li|
-            li.destroy unless qb_ids.include?(li.qb_line_id)
+            txn.line_items.destroy(li) unless qb_ids.include?(li.qb_line_id)
           end
         end
 
@@ -77,7 +77,7 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          LineItem.find_or_initialize_by(qb_line_id: li['id'], parent_transaction: txn).update!(
+          txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
             posting_type: li['journal_entry_line_detail']['posting_type']

@@ -124,8 +124,17 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   # Returns first line item for the given account, or nil if not found.
+  # Guaranteed that the LineItem object returned will exist in the current
+  # Transaction's line_items array (not a separate copy).
   def line_item_for(account)
     line_items.detect { |li| li.account == account }
+  end
+
+  # Finds first line item with the given ID or builds a new one.
+  # Guaranteed that the LineItem object returned will exist in the current
+  # Transaction's line_items array (not a separate copy).
+  def line_item_with_id(id)
+    line_items.detect { |li| li.qb_line_id == id } || line_items.build(qb_line_id: id)
   end
 
   def set_qb_push_flag!(value)
@@ -138,8 +147,7 @@ class Accounting::Transaction < ActiveRecord::Base
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
   # which is increased by a credit, a negative number indicates the account is increasing.
   def net_debit_for_account(account_id)
-    # TODO: Is "reload" necessary?
-    line_items.reload.to_a.sum do |item|
+    line_items.to_a.sum do |item|
       if item.accounting_account_id == account_id
         (item.credit? ? -1 : 1) * item.amount
       else
