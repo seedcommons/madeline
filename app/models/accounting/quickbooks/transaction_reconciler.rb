@@ -10,16 +10,17 @@ module Accounting
 
       # Creates or updates a transaction in QB based on a Transaction object created in Madeline.
       def reconcile(transaction)
+        return unless transaction.needs_qb_push?
+
         je = builder.build_for_qb(transaction)
 
         # If the transaction already has a qb_id then it already exists in QB, so we should update it.
-        if transaction.qb_id.present?
-          journal_entry = service.update(je)
-        else
-          journal_entry = service.create(je)
-        end
+        # Otherwise we create it.
+        je = transaction.qb_id ? service.update(je) : service.create(je)
 
-        journal_entry
+        transaction.set_qb_push_flag!(false)
+
+        je
       end
 
       private

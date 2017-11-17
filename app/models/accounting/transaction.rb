@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
 #  project_id                  :integer
@@ -118,6 +119,10 @@ class Accounting::Transaction < ActiveRecord::Base
   # Returns first line item for the given account, or nil if not found.
   def line_item_for(account)
     line_items.detect { |li| li.account == account }
+  end
+
+  def set_qb_push_flag!(value)
+    update_column(:needs_qb_push, value)
   end
 
   private
