@@ -117,24 +117,24 @@ RSpec.describe Accounting::Transaction, type: :model do
 
     describe '#change_in_principal and #change_in_interest' do
       it 'calculates correctly' do
-        expect(transaction.reload.change_in_principal).to be_within(0.0001).of(-0.13)
-        expect(transaction.reload.change_in_interest).to be_within(0.0001).of(-0.93)
+        expect(transaction.reload.change_in_principal).to equal_money(-0.13)
+        expect(transaction.reload.change_in_interest).to equal_money(-0.93)
       end
     end
 
     describe '#calculate_balances' do
       it 'works without previous transaction' do
         transaction.calculate_balances
-        expect(transaction.principal_balance).to be_within(0.0001).of(-0.13)
-        expect(transaction.interest_balance).to be_within(0.0001).of(-0.93)
+        expect(transaction.principal_balance).to equal_money(-0.13)
+        expect(transaction.interest_balance).to equal_money(-0.93)
       end
 
       it 'works with previous transaction' do
         prev_tx = create(:accounting_transaction, principal_balance: 6.22, interest_balance: 4.50)
 
         transaction.calculate_balances(prev_tx: prev_tx)
-        expect(transaction.principal_balance).to be_within(0.0001).of(6.09)
-        expect(transaction.interest_balance).to be_within(0.0001).of(3.57)
+        expect(transaction.principal_balance).to equal_money(6.09)
+        expect(transaction.interest_balance).to equal_money(3.57)
       end
     end
 

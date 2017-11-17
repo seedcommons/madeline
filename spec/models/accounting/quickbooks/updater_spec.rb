@@ -123,66 +123,61 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
             'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
             'department_ref' => nil } }
         quickbooks_data['total'] = '13.30'
-
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
-        txn.reload
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
         expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2, 3, 4])
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit', 'Credit', 'Debit'])
-        [10.99, 1.31, 12.30, 1.00, 1.00].each_with_index do |amt, i|
-          expect(txn.line_items[i].amount).to be_within(0.0001).of(amt)
-        end
+        expect_line_item_amounts([10.99, 1.31, 12.30, 1.00, 1.00])
 
         # Amount is calculated from line items so this tests all of those calculations.
-        expect(txn.amount).to be_within(0.0001).of(13.30)
+        expect(txn.amount).to equal_money(13.30)
       end
     end
 
     context 'changing existing prin_acct and txn_acct line items by 0.50 in quickbooks' do
-      let(:last_updated_at) { Date.today - 3 }
-
       before do
         quickbooks_data['line_items'][1]['amount'] = '0.81' # int_rcv_acct
         quickbooks_data['line_items'][2]['amount'] = '11.80' # txn_acct
         quickbooks_data['total'] = '11.80'
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
-        txn.reload
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
         expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2])
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit'])
-        [10.99, 0.81, 11.80].each_with_index do |amt, i|
-          expect(txn.line_items[i].amount).to be_within(0.0001).of(amt)
-        end
-        expect(txn.amount).to be_within(0.0001).of(11.80)
+        expect_line_item_amounts([10.99, 0.81, 11.80])
+        expect(txn.amount).to equal_money(11.80)
       end
     end
 
     context 'removing a credit and and adjusting the other credit in quickbooks' do
-      let(:last_updated_at) { Date.today - 2 }
-
       before do
         quickbooks_data['line_items'][0]['amount'] = '9.68'
         quickbooks_data['line_items'][2]['amount'] = '9.68'
         quickbooks_data['line_items'].delete_at(1)
         quickbooks_data['total'] = '9.68'
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
-        txn.reload
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
         expect(txn.line_items.map(&:qb_line_id)).to eq([0, 2])
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Debit'])
-        [9.68, 9.68].each_with_index do |amt, i|
-          expect(txn.line_items[i].amount).to be_within(0.0001).of(amt)
-        end
-        expect(txn.amount).to be_within(0.0001).of(9.68)
+        expect_line_item_amounts([9.68, 9.68])
+        expect(txn.amount).to equal_money(9.68)
+      end
+    end
+
+    def update_transaction_with_new_quickbooks_data
+      txn.update(quickbooks_data: quickbooks_data)
+      subject.send(:extract_qb_data, txn)
+      txn.reload
+    end
+
+    def expect_line_item_amounts(amounts)
+      amounts.each_with_index do |amt, i|
+        expect(txn.line_items[i].amount).to equal_money(amt)
       end
     end
   end
