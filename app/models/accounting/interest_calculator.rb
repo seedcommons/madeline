@@ -115,13 +115,9 @@ module Accounting
         # This should save the transaction and all its line items.
         tx.save!
 
-        # Create/update the transaction in quickbooks.
+        # Create/update the transaction in quickbooks if necessary.
         # TODO move this into separate class.
-        qb_journal_entry = reconciler.reconcile(tx)
-
-        # It's important we store the ID and type of the QB journal entry we just created
-        # so that on the next sync, a duplicate is not created.
-        tx.associate_with_qb_obj(qb_journal_entry)
+        reconciler.reconcile(tx)
 
         prev_tx = tx
       end

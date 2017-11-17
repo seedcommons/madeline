@@ -20,7 +20,9 @@ module Accounting
 
         transaction.set_qb_push_flag!(false)
 
-        je
+        # It's important we store the ID and type of the QB journal entry we just created
+        # so that on the next sync, a duplicate is not created.
+        transaction.associate_with_qb_obj(je)
       end
 
       private
