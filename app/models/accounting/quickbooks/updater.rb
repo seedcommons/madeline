@@ -29,8 +29,8 @@ module Accounting
 
         update_started_at = Time.zone.now
 
-        updated_models = changes.flat_map do |type, qb_objects|
-          qb_objects.map do |qb_object|
+        changes.each do |type, qb_objects|
+          qb_objects.each do |qb_object|
             if should_be_deleted?(qb_object)
               delete_qb_object(transaction_type: type, qb_object: qb_object)
             else
@@ -45,8 +45,6 @@ module Accounting
           update_ledger(loan)
           InterestCalculator.new(loan).recalculate
         end
-
-        updated_models
       end
 
       private
@@ -111,7 +109,7 @@ module Accounting
 
       def find_or_create(transaction_type:, qb_object:)
         model = ar_model_for(transaction_type)
-        model.create_or_update_from_qb_object transaction_type: transaction_type, qb_object: qb_object
+        model.create_or_update_from_qb_object!(transaction_type: transaction_type, qb_object: qb_object)
       end
 
       def types

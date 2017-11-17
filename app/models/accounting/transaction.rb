@@ -78,10 +78,17 @@ class Accounting::Transaction < ActiveRecord::Base
     order(:txn_date, "options.position", :created_at)
   }
 
-  def self.create_or_update_from_qb_object(transaction_type:, qb_object:)
-    transaction = find_or_initialize_by qb_transaction_type: transaction_type, qb_id: qb_object.id
-    transaction.quickbooks_data = qb_object.as_json
-    transaction.save!(validate: false)
+  def self.create_or_update_from_qb_object!(transaction_type:, qb_object:)
+    txn = find_or_initialize_by(qb_transaction_type: transaction_type, qb_id: qb_object.id)
+    txn.quickbooks_data = qb_object.as_json
+
+    # Since the data has just come straight from quickbooks, no need to push it back up.
+    txn.needs_qb_push = false
+
+    # We have to skip validations on create because the data haven't been extracted yet.
+    txn.new_record? ? txn.save(validate: false) : txn.save!
+
+    txn
   end
 
   def interest?
