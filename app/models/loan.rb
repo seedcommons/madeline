@@ -218,6 +218,6 @@ class Loan < Project
   end
 
   def check_agents
-    errors.add(:primary_agent, 'for this project cannot be the same as the second point person') if agents_the_same?
+    errors.add(:primary_agent, I18n.t('pry_sec_agent_error')) if agents_the_same?
   end
 end

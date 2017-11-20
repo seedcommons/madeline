@@ -270,6 +270,7 @@ en:
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
+  pry_sec_agent_error: 'for this project cannot be the same as the second point person'
   close: "Close"
   select_prompt: "Select..."
 
