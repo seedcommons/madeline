@@ -14,15 +14,6 @@ feature 'transaction flow' do
     before do
       allow(Accounting::Quickbooks::Updater).to receive(:new).and_return(updater)
     end
-
-    scenario 'loads properly', js: true do
-      # Should update transactions
-      expect(updater).to receive(:update)
-
-      visit '/admin/accounting/transactions'
-
-      expect(page.text.gsub ',', '').to have_content(transactions[0].amount.to_s)
-    end
   end
 
   describe 'transactions for loan' do
