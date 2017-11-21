@@ -34,7 +34,7 @@ module Accounting
             if should_be_deleted?(qb_object)
               delete_qb_object(qb_object_type: type, qb_object: qb_object)
             else
-              find_or_create(qb_object_type: type, qb_object: qb_object)
+              create_or_update(qb_object_type: type, qb_object: qb_object)
             end
           end
         end
@@ -53,6 +53,7 @@ module Accounting
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
           txn.reload.calculate_balances
+          txn.save!
         end
       end
 
@@ -99,7 +100,7 @@ module Accounting
         service.since(types, last_updated_at).all_types
       end
 
-      def find_or_create(qb_object_type:, qb_object:)
+      def create_or_update(qb_object_type:, qb_object:)
         model = ar_model_for(qb_object_type)
         model.create_or_update_from_qb_object!(qb_object_type: qb_object_type, qb_object: qb_object)
       end

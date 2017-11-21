@@ -37,6 +37,6 @@ class Accounting::Account < ActiveRecord::Base
   end
 
   def self.asset_accounts
-    where(qb_account_classification: 'Asset')
+    where(qb_account_classification: 'Asset').order(:name)
   end
 end
