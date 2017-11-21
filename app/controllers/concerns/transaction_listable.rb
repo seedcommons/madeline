@@ -21,9 +21,7 @@ module TransactionListable
     )
 
     unless @add_transaction_available || flash.now[:error].present?
-      # We need to use the view helper version of `t` so that we can use the _html functionality.
-      flash.now[:alert] = self.class.helpers.t('quickbooks.not_connected_html',
-        link: admin_settings_url)
+      flash.now[:alert] = t('quickbooks.not_connected', settings: settings_link).html_safe
     end
 
     @transaction_list_hidden = @full_sync_required || @transactions.count == 0
@@ -45,8 +43,7 @@ module TransactionListable
   rescue Accounting::Quickbooks::FullSyncRequiredError => e
     Rails.logger.error e
     @full_sync_required = true
-    settings = view_context.link_to(t('menu.settings'), admin_settings_path)
-    flash.now[:error] = t('quickbooks.full_sync_required', settings: settings).html_safe
+    flash.now[:error] = t('quickbooks.full_sync_required', settings: settings_link).html_safe
   rescue Quickbooks::ServiceUnavailable => e
     Rails.logger.error e
     flash.now[:error] = t('quickbooks.service_unavailable')
@@ -54,8 +51,7 @@ module TransactionListable
     Accounting::Quickbooks::NotConnectedError,
     Quickbooks::AuthorizationFailure => e
     Rails.logger.error e
-    settings = view_context.link_to(t('menu.settings'), admin_settings_path)
-    flash.now[:error] = t('quickbooks.authorization_failure', settings: settings, target: "_blank").html_safe
+    flash.now[:error] = t('quickbooks.authorization_failure', settings: settings_link).html_safe
   rescue Quickbooks::InvalidModelException,
     Quickbooks::Forbidden,
     Quickbooks::ThrottleExceeded,
@@ -64,5 +60,9 @@ module TransactionListable
     Rails.logger.error e
     ExceptionNotifier.notify_exception(e)
     flash.now[:error] = t('quickbooks.misc')
+  end
+
+  def settings_link
+    view_context.link_to(t('menu.settings'), admin_settings_path)
   end
 end
