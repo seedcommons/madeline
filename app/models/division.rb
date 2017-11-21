@@ -138,7 +138,6 @@ class Division < ActiveRecord::Base
   end
 
   def qb_accounts_connected?
-    return true if Rails.env.test?
     accounts.size == 3
   end
 end
