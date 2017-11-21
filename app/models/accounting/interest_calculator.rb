@@ -4,7 +4,7 @@
 #      for the calculations).
 #   2. Creating/updating LineItems in Madeline to match the calculated amounts.
 #   3. Creating/updating transactions and line items in Quickbooks to match those in Madeline,
-#      incluidng the newly calculated amounts.
+#      including the newly calculated amounts.
 #   4. Recalculating Transaction balances (see Transaction model for more info on this operation).
 #
 # Special Accounts
@@ -17,15 +17,15 @@
 #     * Tracks interest owed to the loan fund
 #     * Should be an *accounts receivable* account in Quickbooks
 #   * Interest income account
-#     * Tracks income generated from interest on loans by the loan found
+#     * Tracks income generated from interest on loans by the loan fund
 #     * Should be an *income* account in Quickbooks
 #
 # Calculation Formula
 # =====================
 # For each Madeline transaction, in standard order (see the Transaction model for more on standard order):
 #   * For *interest* transactions:
-#     * Debit interest receivable account by transaction amount
-#     * Credit interest income account by transaction amount
+#     * Debit interest receivable account by accrued interest (see below)
+#     * Credit interest income account by accrued interest (see below)
 #   * For *disbursements* transactions:
 #     * Credit transaction account by transaction amount
 #     * Debit principal account by transaction amount
@@ -37,6 +37,9 @@
 #     * Credit principal account by the greater of:
 #       * transaction amount minus previous transaction's `interest_balance`, and
 #       * zero
+# Accrued interest formula:
+#   No compounding interest! Interest only accrues on principal balance:
+#   accrued interest = previous txn's principal balance * interest rate / 365 * # days since previous txn
 #
 module Accounting
   class InterestCalculator
