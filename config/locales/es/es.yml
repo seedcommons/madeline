@@ -150,7 +150,6 @@ es:
           principal_balance: "Balance del Capital Principal"
           private_note: "Memo"
           qb_id: "Id"
-          qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
           total_balance: "Balance Total"

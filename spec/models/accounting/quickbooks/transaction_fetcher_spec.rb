@@ -29,7 +29,7 @@ RSpec.describe Accounting::Quickbooks::TransactionFetcher, type: :model do
 
     expect { subject.fetch }.to change { Accounting::Transaction.all.count }.by(1)
     txn = Accounting::Transaction.first
-    expect(txn.qb_transaction_type).to eq 'JournalEntry'
+    expect(txn.qb_object_type).to eq 'JournalEntry'
     expect(txn.qb_id).to eq '99'
   end
 end

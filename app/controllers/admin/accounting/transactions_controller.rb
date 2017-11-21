@@ -10,7 +10,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def create
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
-    @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_transaction_type: 'JournalEntry')
+    @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_object_type: 'JournalEntry')
 
     # TODO move this logic into model someplace and add test
     # If earlier transactions exist, but no interest transaction on this date, create a blank one.
@@ -18,7 +18,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     if @loan.transactions.where('txn_date < ?', transaction_params[:txn_date]).exists?
       attrs = transaction_params.slice(:txn_date).merge(loan_transaction_type_value: 'interest')
       interest_transaction = @loan.transactions.find_or_create_by!(attrs) do |txn|
-        txn.qb_transaction_type = ::Accounting::Transaction::LOAN_INTEREST_TYPE
         txn.description = I18n.t('transactions.interest_description', loan_id: @loan.id)
         txn.amount = 0
       end

@@ -54,11 +54,11 @@ RSpec.describe Accounting::Transaction, type: :model do
   describe '.create_or_update_from_qb_object!' do
     let(:qb_obj) { double(id: 123, as_json: {'x' => 'y'}) }
     let(:txn) do
-      described_class.create_or_update_from_qb_object!(transaction_type: 'JournalEntry', qb_object: qb_obj)
+      described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
     end
 
     it 'should set appropriate fields on create' do
-      expect(txn.qb_transaction_type).to eq('JournalEntry')
+      expect(txn.qb_object_type).to eq('JournalEntry')
       expect(txn.qb_id).to eq('123')
       expect(txn.quickbooks_data).to eq({'x' => 'y'})
       expect(txn.needs_qb_push).to be false

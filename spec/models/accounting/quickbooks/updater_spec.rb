@@ -227,7 +227,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
           transaction = Accounting::Transaction.where(qb_id: qb_id).take
           expect(transaction).not_to be_nil
-          expect(transaction.qb_transaction_type).to eq 'JournalEntry'
+          expect(transaction.qb_object_type).to eq 'JournalEntry'
           expect(transaction.quickbooks_data).not_to be_empty
         end
       end

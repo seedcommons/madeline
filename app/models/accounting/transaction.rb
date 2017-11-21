@@ -15,7 +15,7 @@
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
-#  qb_transaction_type         :string           default("JournalEntry"), not null
+#  qb_object_type              :string           default("JournalEntry"), not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )
 #  txn_date                    :date
@@ -23,12 +23,12 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
+#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_object_type) UNIQUE
 #  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
 #  index_accounting_transactions_on_currency_id            (currency_id)
 #  index_accounting_transactions_on_project_id             (project_id)
 #  index_accounting_transactions_on_qb_id                  (qb_id)
-#  index_accounting_transactions_on_qb_transaction_type    (qb_transaction_type)
+#  index_accounting_transactions_on_qb_object_type         (qb_object_type)
 #
 # Foreign Keys
 #
@@ -54,7 +54,7 @@
 class Accounting::Transaction < ActiveRecord::Base
   include OptionSettable
 
-  QB_TRANSACTION_TYPES = %w(JournalEntry).freeze
+  QB_OBJECT_TYPES = %w(JournalEntry).freeze
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
@@ -78,8 +78,8 @@ class Accounting::Transaction < ActiveRecord::Base
     order(:txn_date, "options.position", :created_at)
   }
 
-  def self.create_or_update_from_qb_object!(transaction_type:, qb_object:)
-    txn = find_or_initialize_by(qb_transaction_type: transaction_type, qb_id: qb_object.id)
+  def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
+    txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
 
     # Since the data has just come straight from quickbooks, no need to push it back up.
@@ -101,7 +101,7 @@ class Accounting::Transaction < ActiveRecord::Base
   # Does NOT save the object.
   def associate_with_qb_obj(qb_obj)
     self.qb_id = qb_obj.id
-    self.qb_transaction_type = qb_obj.class.name.demodulize
+    self.qb_object_type = qb_obj.class.name.demodulize
   end
 
   def change_in_principal

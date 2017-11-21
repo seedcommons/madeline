@@ -32,9 +32,9 @@ module Accounting
         changes.each do |type, qb_objects|
           qb_objects.each do |qb_object|
             if should_be_deleted?(qb_object)
-              delete_qb_object(transaction_type: type, qb_object: qb_object)
+              delete_qb_object(qb_object_type: type, qb_object: qb_object)
             else
-              find_or_create(transaction_type: type, qb_object: qb_object)
+              find_or_create(qb_object_type: type, qb_object: qb_object)
             end
           end
         end
@@ -107,22 +107,22 @@ module Accounting
         service.since(types, last_updated_at).all_types
       end
 
-      def find_or_create(transaction_type:, qb_object:)
-        model = ar_model_for(transaction_type)
-        model.create_or_update_from_qb_object!(transaction_type: transaction_type, qb_object: qb_object)
+      def find_or_create(qb_object_type:, qb_object:)
+        model = ar_model_for(qb_object_type)
+        model.create_or_update_from_qb_object!(qb_object_type: qb_object_type, qb_object: qb_object)
       end
 
       def types
-        Transaction::QB_TRANSACTION_TYPES + [Account::QB_TRANSACTION_TYPE]
+        Transaction::QB_OBJECT_TYPES + [Account::QB_OBJECT_TYPE]
       end
 
-      def ar_model_for(transaction_type)
-        return Account if Account::QB_TRANSACTION_TYPE == transaction_type
+      def ar_model_for(qb_object_type)
+        return Account if Account::QB_OBJECT_TYPE == qb_object_type
         Transaction
       end
 
-      def delete_qb_object(transaction_type:, qb_object:)
-        model = ar_model_for(transaction_type)
+      def delete_qb_object(qb_object_type:, qb_object:)
+        model = ar_model_for(qb_object_type)
         model.destroy_all(qb_id: qb_object.id)
       end
 

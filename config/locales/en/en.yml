@@ -151,7 +151,6 @@ en:
           principal_balance: "Principal Balance"
           private_note: "Memo"
           qb_id: "Id"
-          qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
           total_balance: "Total Balance"

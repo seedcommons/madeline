@@ -7,7 +7,7 @@ FactoryGirl.define do
     end
 
     sequence(:qb_id)
-    qb_transaction_type 'JournalEntry'
+    qb_object_type 'JournalEntry'
     quickbooks_data { {} }
     loan_transaction_type_value %w(interest disbursement repayment).sample
     txn_date { Faker::Date.between(30.days.ago, Date.today) }
