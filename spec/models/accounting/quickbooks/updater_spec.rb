@@ -177,6 +177,8 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
     def update_transaction_with_new_quickbooks_data
       txn.update(quickbooks_data: quickbooks_data)
       subject.send(:extract_qb_data, txn)
+      txn.calculate_balances
+      txn.save!
       txn.reload
     end
 

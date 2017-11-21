@@ -119,6 +119,8 @@ class Accounting::Transaction < ActiveRecord::Base
     interest_balance + principal_balance
   end
 
+  # Calculates balance fields and amount field based on line items.
+  # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
