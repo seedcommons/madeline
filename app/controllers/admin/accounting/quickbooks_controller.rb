@@ -10,6 +10,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     @header_disabled = true
 
     Accounting::Quickbooks::Connection.create_from_access_token(access_token: qb_access_token, division: Division.root, params: params)
+    ::Accounting::Quickbooks::FullFetcher.new.fetch_all
 
     flash[:notice] = t('quickbooks.connection.link_message')
   end
