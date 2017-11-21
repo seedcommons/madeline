@@ -102,6 +102,7 @@ class Accounting::Transaction < ActiveRecord::Base
   def associate_with_qb_obj(qb_obj)
     self.qb_id = qb_obj.id
     self.qb_object_type = qb_obj.class.name.demodulize
+    self.quickbooks_data = qb_obj.as_json
   end
 
   def change_in_principal
