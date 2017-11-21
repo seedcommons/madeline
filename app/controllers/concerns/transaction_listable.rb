@@ -26,7 +26,7 @@ module TransactionListable
         link: admin_settings_url)
     end
 
-    @transaction_list_hidden = @full_sync_required
+    @transaction_list_hidden = @full_sync_required || @transactions.count == 0
 
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
