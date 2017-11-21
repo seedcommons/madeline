@@ -2,8 +2,8 @@ module TransactionListable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    update_transactions(project) if Division.root.quickbooks_connected?
-    @add_transaction_available = Division.root.qb_accounts_connected?
+    update_transactions(project) unless Rails.env.test?
+    @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
 
     if project
       @transactions = ::Accounting::Transaction.where(project_id: project.id)

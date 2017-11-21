@@ -1,6 +1,6 @@
 section.transactions
   .show-actions.hidden-print
-    - if !@transaction_list_hidden && @add_transaction_available
+    - if @add_transaction_available
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
         data: {action: "new-transaction", project_id: @loan.id}
 
