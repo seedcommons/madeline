@@ -122,6 +122,14 @@ class Accounting::Transaction < ActiveRecord::Base
   def calculate_balances(prev_tx: nil)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+
+    # This line may seem odd since the natural thing to do would be to simply compute the
+    # amount based on the sum of the line items.
+    # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
+    # which are computed from a special subset of line items (see the Transaction model for more detail).
+    # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
+    # but that is ok.
+    self.amount = (change_in_interest + change_in_principal).abs
   end
 
   # Returns first line item for the given account, or nil if not found.
