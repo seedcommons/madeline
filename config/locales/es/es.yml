@@ -361,6 +361,8 @@ es:
   calendar:
     calendar: "Calendario"
     check_in: "Check in"
+    draft: "Borrador"
+    finalized: "Finalizado"
     has_precedent: "Depende de otro paso"
     legend: "Leyenda"
     milestone: "Hito"
