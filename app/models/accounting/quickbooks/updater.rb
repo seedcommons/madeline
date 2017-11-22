@@ -89,6 +89,14 @@ module Accounting
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
 
+        # This line may seem odd since the natural thing to do would be to simply compute the
+        # amount based on the sum of the line items.
+        # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
+        # which are computed from a special subset of line items (see the Transaction model for more detail).
+        # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
+        # but that is ok.
+        txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
+
         txn.save!
       end
 

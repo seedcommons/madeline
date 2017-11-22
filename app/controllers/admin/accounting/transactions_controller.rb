@@ -19,6 +19,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       attrs = transaction_params.slice(:txn_date).merge(loan_transaction_type_value: 'interest')
       interest_transaction = @loan.transactions.find_or_create_by!(attrs) do |txn|
         txn.description = I18n.t('transactions.interest_description', loan_id: @loan.id)
+        txn.amount = 0
       end
     end
 
