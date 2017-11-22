@@ -1,23 +1,19 @@
 require 'rails_helper'
 
 feature 'transaction flow' do
-  let(:user) { create_admin(root_division) }
+  let!(:loan) { create(:loan) }
+  let(:user) { create_admin(Division.root) }
 
   before do
+    Division.root.update_attributes!(
+      principal_account: create(:account),
+      interest_income_account: create(:account),
+      interest_receivable_account: create(:account)
+    )
     login_as(user, scope: :user)
   end
 
-  describe 'all transactions' do
-    let(:updater) { instance_double(Accounting::Quickbooks::Updater, last_updated_at: Time.zone.now) }
-    let!(:transactions) { create_list(:accounting_transaction, 2) }
-
-    before do
-      allow(Accounting::Quickbooks::Updater).to receive(:new).and_return(updater)
-    end
-  end
-
   describe 'transactions for loan' do
-    let!(:loan) { create(:loan) }
     let(:acct_1) { create(:accounting_account) }
     let(:acct_2) { create(:accounting_account) }
     let!(:accounts) { [acct_1, acct_2] }
@@ -39,13 +35,11 @@ feature 'transaction flow' do
       fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
       page.find('a[data-action="submit"]').click
-
       expect(page).to have_content('Palm trees')
     end
   end
 
   describe 'show', js: true do
-    let!(:loan) { create(:loan) }
     let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
 
     scenario 'can show transactions' do
@@ -54,5 +48,4 @@ feature 'transaction flow' do
       expect(page).to have_content('icecream')
     end
   end
-
 end
