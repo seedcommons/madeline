@@ -6,7 +6,7 @@
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  custom_data                 :json
-#  division_id                 :integer
+#  division_id                 :integer          not null
 #  end_date                    :date
 #  first_interest_payment_date :date
 #  first_payment_date          :date
@@ -68,6 +68,7 @@ class Loan < Project
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :status, :loan_type, :public_level
 
+  validate :check_agents
   validates :organization, presence: true
 
   before_create :build_health_check
@@ -97,6 +98,8 @@ class Loan < Project
   def default_name
     if organization
       date = signing_date || created_at.to_date
+
+      # date will always return a value so there is no need to use ldate
       "#{organization.name} - #{I18n.l(date)}"
     end
   end
@@ -138,7 +141,8 @@ class Loan < Project
   end
 
   def signing_date_long
-    I18n.l self.signing_date, format: :long if self.signing_date
+    # this may or may not be available so setting a default value
+    I18n.l(self.signing_date, format: :long, default: '')
   end
 
   # def short_description
@@ -210,5 +214,15 @@ class Loan < Project
 
   def health_status_available?
     return !health_check.nil?
+  end
+
+  private
+
+  def agents_the_same?
+    (primary_agent.present? || secondary_agent.present?) && (primary_agent == secondary_agent)
+  end
+
+  def check_agents
+    errors.add(:primary_agent, :same_as_secondary) if agents_the_same?
   end
 end

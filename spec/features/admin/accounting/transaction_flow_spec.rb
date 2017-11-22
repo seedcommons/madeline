@@ -1,39 +1,28 @@
 require 'rails_helper'
 
 feature 'transaction flow' do
-  let(:user) { create_admin(root_division) }
+  let!(:loan) { create(:loan) }
+  let(:user) { create_admin(Division.root) }
 
   before do
+    Division.root.update_attributes!(
+      principal_account: create(:account),
+      interest_income_account: create(:account),
+      interest_receivable_account: create(:account)
+    )
     login_as(user, scope: :user)
   end
 
-  describe 'all transactions' do
-    let(:updater) { instance_double(Accounting::Quickbooks::Updater, last_updated_at: Time.zone.now) }
-    let!(:transactions) { create_list(:accounting_transaction, 2) }
-
-    before do
-      allow(Accounting::Quickbooks::Updater).to receive(:new).and_return(updater)
-    end
-
-    scenario 'loads properly', js: true do
-      # Should update transactions
-      expect(updater).to receive(:update)
-
-      visit '/admin/accounting/transactions'
-
-      expect(page.text.gsub ',', '').to have_content(transactions[0].amount.to_s)
-    end
-  end
-
   describe 'transactions for loan' do
-    let!(:loan) { create(:loan) }
-    let!(:accounts) { create_list(:accounting_account, 2) }
+    let(:acct_1) { create(:accounting_account) }
+    let(:acct_2) { create(:accounting_account) }
+    let!(:accounts) { [acct_1, acct_2] }
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    # This spec does not test TransactionCreator at all because stubbing out
+    # This spec does not test TransactionBuilder at all because stubbing out
     # all the necessary things was not practical at the time.
     # Eventually we should refactor the Quickbooks code such that stubbing is easier.
     scenario 'creates new transaction', js: true do
@@ -43,11 +32,20 @@ feature 'transaction flow' do
       fill_in 'Date', with: Date.today.to_s
       select accounts.sample.name, from: 'Bank Account'
       fill_in 'Amount', with: '12.34'
-      fill_in 'Description', with: 'Foo bar'
+      fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
-      click_on 'Add'
+      page.find('a[data-action="submit"]').click
+      expect(page).to have_content('Palm trees')
+    end
+  end
 
-      expect(page).to have_content("Foo bar")
+  describe 'show', js: true do
+    let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
+
+    scenario 'can show transactions' do
+      visit admin_loan_tab_path(loan, tab: 'transactions')
+      click_on txn.txn_date.strftime('%B %-d, %Y')
+      expect(page).to have_content('icecream')
     end
   end
 end

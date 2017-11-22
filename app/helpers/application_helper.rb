@@ -17,19 +17,13 @@ module ApplicationHelper
       when 24.hours..6.months then :md_only
       else :my_only
     end
-    display = l(datetime, format: format)
-    full = l(datetime, format: "full_tz")
+    display = ldate(datetime, format: format)
+    full = ldate(datetime, format: "full_tz")
     %Q{<span title="#{full}">#{display}</span>}.html_safe
   end
 
   def ldate(date, format: nil)
     date ? l(date, format: format) : ""
-  end
-
-  # We use a generic format for date inputs and the date picker because dealing with localized
-  # formats is a pain on submission. Rails doesn't parse non-English formats very well.
-  def format_date_input(date)
-    date ? l(date, format: "%Y-%m-%d") : ""
   end
 
   # Converts given object/value to json and runs through html_safe.

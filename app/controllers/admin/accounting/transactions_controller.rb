@@ -7,6 +7,24 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     initialize_transactions_grid
   end
 
+  def new
+    @loan = Loan.find_by(id: params[:project_id])
+    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id])
+    authorize @transaction, :new?
+
+    prep_transaction_form
+    render_modal_partial
+  end
+
+  def show
+    @loan = Loan.find_by(id: params[:project_id])
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    authorize @transaction, :show?
+
+    prep_transaction_form
+    render_modal_partial
+  end
+
   def create
     @loan = Loan.find(transaction_params[:project_id])
     authorize @loan
@@ -18,10 +36,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       # We don't have the ability to stub quickbooks interactions so
       # for now we'll just return a fake JournalEntry in test mode.
       if Rails.env.test?
-        journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
+        journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
       else
-        creator = ::Accounting::Quickbooks::TransactionCreator.new
-        journal_entry = creator.create_in_qb @transaction
+        reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
+        journal_entry = reconciler.reconcile @transaction
       end
 
       # It's important we store the ID and type of the QB journal entry we just created
@@ -53,6 +71,19 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
       prep_transaction_form
       render_modal_partial(status: 422)
+    end
+  end
+
+  def update
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    @loan = Loan.find_by(id: @transaction.project_id)
+    authorize @transaction, :update?
+
+    if @transaction.save
+      redirect_to admin_loan_tab_path(@loan.id, tab: 'transactions'), notice: I18n.t(:notice_updated)
+    else
+      prep_transaction_form
+      render_modal_partial
     end
   end
 

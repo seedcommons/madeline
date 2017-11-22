@@ -13,7 +13,7 @@ shared_examples_for 'division_owned_scope' do |record_type|
   describe 'Scope' do
     context 'being a member of a division' do
       let(:user) { create(:user, :member, division: division) }
-      it 'can not resolve records owned by parent division' do
+      it 'cannot resolve records owned by parent division' do
         expect(record_id_scope(record_type, user, parent_divison_record.id)).not_to exist
       end
       it 'can resolve records owned by division' do
@@ -26,7 +26,7 @@ shared_examples_for 'division_owned_scope' do |record_type|
 
     context 'being an admin of a division' do
       let(:user) { create(:user, :admin, division: division) }
-      it 'can not resolve records owned by parent division' do
+      it 'cannot resolve records owned by parent division' do
         expect(record_id_scope(record_type, user, parent_divison_record.id)).not_to exist
       end
       it 'can resolve records owned by division' do
@@ -39,7 +39,7 @@ shared_examples_for 'division_owned_scope' do |record_type|
 
     context 'being owned by, but without roll association with a division' do
       let(:user) { create(:user, division: division) }
-      it 'can not resolve any records' do
+      it 'cannot resolve any records' do
         expect(record_scope(record_type, user)).not_to exist
       end
     end
