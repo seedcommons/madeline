@@ -138,7 +138,7 @@ class Loan < Project
   end
 
   def signing_date_long
-    ApplicationController.helpers.ldate(self.signing_date, format: :long) if self.signing_date
+    ApplicationController.helpers.ldate(self.signing_date, format: :long)
   end
 
   # def short_description
