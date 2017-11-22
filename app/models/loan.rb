@@ -97,7 +97,9 @@ class Loan < Project
   def default_name
     if organization
       date = signing_date || created_at.to_date
-      "#{organization.name} - #{ApplicationController.helpers.ldate(date)}"
+
+      # date will always return a value so there is no need to use ldate
+      "#{organization.name} - #{I18n.l(date)}"
     end
   end
 
@@ -138,7 +140,8 @@ class Loan < Project
   end
 
   def signing_date_long
-    ApplicationController.helpers.ldate(self.signing_date, format: :long)
+    # this may or may not be available so setting a default value
+    I18n.l(self.signing_date, format: :long, default: '')
   end
 
   # def short_description
