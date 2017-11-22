@@ -61,7 +61,7 @@ describe Loan, type: :model do
     let(:loan_2) { build(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_2.id) }
 
     it 'raises error if agents are the same' do
-      error = 'The point person for this project can not be the same as the second point person'
+      error = 'The point person for this project cannot be the same as the second point person'
       expect(loan_1).not_to be_valid
       expect(loan_1.errors[:primary_agent].join).to match(error)
     end

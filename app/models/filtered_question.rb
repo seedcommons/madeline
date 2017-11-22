@@ -5,8 +5,8 @@ class FilteredQuestion < SimpleDelegator
     @user = args[:user]
     @division = args[:division]
 
-    raise ArgumentError.new('User can not be nil') unless @user
-    raise ArgumentError.new('Division can not be nil') unless @division
+    raise ArgumentError.new('User cannot be nil') unless @user
+    raise ArgumentError.new('Division cannot be nil') unless @division
 
     # We save these so we can reuse them when decorating children and parents.
     @args = args

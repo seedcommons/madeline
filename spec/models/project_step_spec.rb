@@ -45,7 +45,7 @@ describe ProjectStep, type: :model do
     expect { step1.add_child(step2) }.to raise_error(ProjectStep::NoChildrenAllowedError)
   end
 
-  it 'can not be unfinalized after 24 hours' do
+  it 'cannot be unfinalized after 24 hours' do
     step = create(:project_step, is_finalized: true, finalized_at: Time.now - 25.hours)
     step.is_finalized = false
     expect(step).to be_invalid

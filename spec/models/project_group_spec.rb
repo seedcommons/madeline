@@ -71,7 +71,7 @@ describe ProjectGroup, type: :model do
       group
     end
 
-    it 'can not be destroyed' do
+    it 'cannot be destroyed' do
       expect { group.destroy }.to raise_error ProjectGroup::DestroyWithChildrenError
     end
   end
