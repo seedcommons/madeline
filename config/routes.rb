@@ -78,20 +78,6 @@ Rails.application.routes.draw do
       resources :transactions
     end
 
-    namespace :raw do
-      resources :divisions
-      resources :loans
-      resources :organizations
-      resources :people
-      resources :project_steps
-      resources :project_logs
-      resources :notes
-      resources :loan_question_sets
-      resources :loan_questions
-      resources :loan_response_sets
-      post 'select_division', to: 'divisions#select'
-    end
-
     get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'
     get 'dashboard' => 'dashboard#dashboard', as: 'dashboard'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'

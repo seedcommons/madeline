@@ -124,4 +124,18 @@
       margin-left: .5em;
     }
   }
+
+  .table-wrapper {
+    overflow: auto;
+    min-height: 30em;
+  }
+}
+
+#timeline {
+  &.tab-pane {
+    &.active {
+      display: block;
+      overflow: visible;
+    }
+  }
 }
