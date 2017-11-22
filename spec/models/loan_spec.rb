@@ -57,17 +57,17 @@ describe Loan, type: :model do
   context 'primary and secondary agents' do
     let(:person_1) { create(:person) }
     let(:person_2) { create(:person) }
+    let(:loan_1) { build(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_1.id) }
+    let(:loan_2) { build(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_2.id) }
 
     it 'raises error if agents are the same' do
-      expect{
-        create(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_1.id)
-      }.to raise_error
+      error = 'The point person for this project can not be the same as the second point person'
+      expect(loan_1).not_to be_valid
+      expect(loan_1.errors[:primary_agent].join).to match(error)
     end
 
     it 'does not raise error for different agents' do
-      expect{
-        create(:loan, primary_agent_id: person_1.id, secondary_agent_id: person_2.id)
-      }.to change { Loan.count }.by(1)
+      expect(loan_2).to be_valid
     end
   end
 

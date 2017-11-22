@@ -157,6 +157,10 @@ en:
           total_balance: "Total Balance"
     errors:
       models:
+        loan:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'The point person for this project can not be the same as the second point person'
         project_group:
           no_summary: "Summary is required."
         organization:
@@ -270,7 +274,6 @@ en:
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
-  pry_sec_agent_error: 'for this project cannot be the same as the second point person'
   close: "Close"
   select_prompt: "Select..."
 
