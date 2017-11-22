@@ -5,7 +5,7 @@ module TransactionListable
     update_transactions(project) unless Rails.env.test?
 
     # It is possible for QuickBooks to be disonnected and QB accounts to be connected if a user
-    # recently disconnected.
+    # recently disconnected. Both are needed to confirm connection status.
     @add_transaction_available = Division.root.qb_accounts_connected? &&
       Division.root.quickbooks_connected? && !@full_sync_required
 
