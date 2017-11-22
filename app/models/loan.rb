@@ -68,6 +68,7 @@ class Loan < Project
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :status, :loan_type, :public_level
 
+  validate :check_agents
   validates :organization, presence: true
 
   before_create :build_health_check
@@ -213,5 +214,15 @@ class Loan < Project
 
   def health_status_available?
     return !health_check.nil?
+  end
+
+  private
+
+  def agents_the_same?
+    (primary_agent.present? || secondary_agent.present?) && (primary_agent == secondary_agent)
+  end
+
+  def check_agents
+    errors.add(:primary_agent, :same_as_secondary) if agents_the_same?
   end
 end

@@ -12,6 +12,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     new MS.Views.TimelineSelectStepsView(el: '#timeline-table')
     new MS.Views.TimelineBatchActionsView(el: '#timeline-table')
     @timelineFilters = new MS.Views.TimelineFiltersView(el: @$('form.filters'))
+    @styleDropdowns()
 
   events:
     'click .project-group .fa-cog': 'openGroupMenu'
@@ -40,6 +41,7 @@ class MS.Views.TimelineTableView extends Backbone.View
       MS.loadingIndicator.hide()
       @$('.table-wrapper').html(html)
       @timelineFilters.resetFilterDropdowns()
+      @styleDropdowns()
 
   newGroup: (e) ->
     e.preventDefault()
@@ -158,3 +160,11 @@ class MS.Views.TimelineTableView extends Backbone.View
     unless @logListModalView
       @logListModalView = new MS.Views.LogListModalView(el: @$('#log-list-modal'))
     @logListModalView.show(stepId, @refresh.bind(@))
+
+  styleDropdowns: ->
+    # Make top 4 rows of timeline have dropdown menus instead of dropup menus
+    $topRows = @$el.find('tbody tr:nth-child(-n+4)')
+    $topGroups = $topRows.find('.project-group')
+    $topGroups.removeClass('dropup')
+    $topSteps = $topRows.find('.step-menu-col')
+    $topSteps.removeClass('dropup')
