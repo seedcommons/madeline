@@ -1,5 +1,5 @@
 # -*- SkipSchemaAnnotations
-FactoryGirl.define do
+FactoryBot.define do
   factory :repayment do
     amount_due { rand(1..50000) }
     amount_paid { amount_due }

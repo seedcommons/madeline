@@ -38,7 +38,7 @@
 #  fk_rails_fdfb048ae6  (country_id => countries.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :person do
     division { root_division }
     first_name { Faker::Name.first_name }

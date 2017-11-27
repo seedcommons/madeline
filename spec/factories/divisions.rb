@@ -40,7 +40,7 @@ def root_division
   Division.root
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Company.name }
@@ -56,7 +56,7 @@ end
 
 # Defines a global trait for models that delegate their divisions
 # allowing us to assign them directly
-FactoryGirl.define do
+FactoryBot.define do
   trait :transient_division do
     transient do
       division { nil }

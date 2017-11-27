@@ -16,7 +16,7 @@
 #  index_translations_on_translatable_type_and_translatable_id  (translatable_type,translatable_id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :translation do
     association :translatable, factory: :loan
     translatable_attribute :summary

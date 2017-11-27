@@ -22,7 +22,7 @@
 #  fk_rails_67bf2c0e5e  (project_step_id => timeline_entries.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :project_log do
     project_step
     association :agent, factory: :person

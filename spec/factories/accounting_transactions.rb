@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :accounting_transaction, class: 'Accounting::Transaction', aliases: [:journal_entry_transaction] do
     # division is not an attribute here but we need to access the accounts associated
     # this is only for some traits below

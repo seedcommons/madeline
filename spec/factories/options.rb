@@ -19,7 +19,7 @@
 #  fk_rails_db3e5d5ea9  (option_set_id => option_sets.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :option do
     option_set
     position 1

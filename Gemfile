@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.6'
-gem 'pg', '~> 0.15'
+gem 'pg', '~> 0.15', '< 0.21.0'
 
 # Assets
 gem 'sass-rails', '~> 5.0'
@@ -136,7 +136,7 @@ group :development, :test do
   # Specs and Test Coverage
   gem 'rspec-rails'
   gem 'pundit-matchers'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'database_cleaner', '~> 1.5'
   gem 'faker'
   gem 'capybara', '~> 2.0'

@@ -25,7 +25,7 @@
 #  fk_rails_a32cf017b9  (loan_question_set_id => loan_question_sets.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :loan_question do
     division { root_division }
     loan_question_set

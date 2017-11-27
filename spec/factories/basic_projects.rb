@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :basic_project do
     division nil
     status_value 'MyString'

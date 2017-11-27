@@ -3,7 +3,7 @@ if Rails.env.development?
     desc "Generate UI testing data"
     task fake_data: :environment do
       # Create admin user
-      user = FactoryGirl.create(:user, :admin,
+      user = FactoryBot.create(:user, :admin,
         email: "admin@example.com",
         password: "xxxxxxxx",
         password_confirmation: "xxxxxxxx"
@@ -14,7 +14,7 @@ if Rails.env.development?
       puts "Password: xxxxxxxx"
 
       # Create some data
-      FactoryGirl.create(:loan,
+      FactoryBot.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_timeline,
@@ -22,7 +22,7 @@ if Rails.env.development?
         :with_log_media,
         :with_loan_media,
         :with_coop_media)
-      FactoryGirl.create(:loan,
+      FactoryBot.create(:loan,
         :with_translations,
         :with_foreign_translations,
         :with_steps_only_timeline,
@@ -30,7 +30,7 @@ if Rails.env.development?
         :with_transaction,
         :with_loan_media,
         :with_coop_media)
-      FactoryGirl.create_list(:loan, 13, :with_transaction)
+      FactoryBot.create_list(:loan, 13, :with_transaction)
       puts "Generated fake data"
     end
   end

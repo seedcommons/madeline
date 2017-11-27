@@ -41,7 +41,7 @@
 #  fk_rails_e5fef62474  (division_id => divisions.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :organization do
     division { root_division }
     country

@@ -17,7 +17,7 @@
 #  fk_rails_13da1a92b4  (division_id => divisions.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :loan_question_set do
     internal_name Faker::Lorem.words(2).join('_').downcase
 
