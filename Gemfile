@@ -31,7 +31,7 @@ gem 'rolify'
 # gem 'will_paginate-bootstrap'
 
 # Remove UTF8 parameter from GET forms
-gem 'utf8_enforcer_workaround'
+# gem 'utf8_enforcer_workaround', '~> 1.1' no longer in use
 
 # Slim template language
 gem 'slim'
@@ -146,7 +146,7 @@ group :development, :test do
   gem 'simplecov'
 
   # this is not yet supported for rails 5
-  # gem 'quiet_assets'
+  # gem 'quiet_assets' not in use
 
   # Dump data to Rails commands
   gem 'seed_dump'

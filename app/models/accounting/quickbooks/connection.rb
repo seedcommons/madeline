@@ -18,7 +18,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_0655b77149  (division_id => divisions.id)
+#  fk_rails_...  (division_id => divisions.id)
 #
 
 class Accounting::Quickbooks::Connection < ActiveRecord::Base

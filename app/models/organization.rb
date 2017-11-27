@@ -37,9 +37,9 @@
 #
 # Foreign Keys
 #
-#  fk_rails_0de9c8b6c9  (country_id => countries.id)
-#  fk_rails_a43f2db6ae  (primary_contact_id => people.id)
-#  fk_rails_e5fef62474  (division_id => divisions.id)
+#  fk_rails_...  (country_id => countries.id)
+#  fk_rails_...  (division_id => divisions.id)
+#  fk_rails_...  (primary_contact_id => people.id)
 #
 
 class Organization < ActiveRecord::Base
