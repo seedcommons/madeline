@@ -115,7 +115,7 @@ RSpec.configure do |config|
     # cf. https://github.com/teampoltergeist/poltergeist/issues/677#issuecomment-249303507
     # As of 7/31/2017 on Travis this first request (i.e. the first JS-enabled feature spec) to run
     # was taking over 30 seconds.
-    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute, js_errors: false)
   end
 
   Capybara.javascript_driver = :poltergeist

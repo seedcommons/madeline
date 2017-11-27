@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.6'
+gem 'rails', '~> 5.1', '>= 5.1.4'
 gem 'pg', '~> 0.15', '< 0.21.0'
 
 # Assets
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.0'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'font-awesome-rails'
@@ -116,9 +116,9 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'pry'
-  gem 'pry-nav'
-  gem 'pry-rails'
+  gem 'pry', '0.10.4'
+  gem 'pry-nav', '0.2.4'
+  gem 'pry-rails', '0.3.5'
 
   # Watches for inefficient queries and recommends eager loading
   gem 'bullet'
@@ -144,7 +144,9 @@ group :development, :test do
   gem 'selenium-webdriver', '~> 2.0'
   gem 'poltergeist', '~> 1.0'
   gem 'simplecov'
-  gem 'quiet_assets'
+
+  # this is not yet supported for rails 5
+  # gem 'quiet_assets'
 
   # Dump data to Rails commands
   gem 'seed_dump'
