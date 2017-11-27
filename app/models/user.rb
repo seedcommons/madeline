@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :profile, class_name: Person
+  belongs_to :profile, class_name: 'Person'
   delegate :division, :division=, to: :profile
 
   def name
