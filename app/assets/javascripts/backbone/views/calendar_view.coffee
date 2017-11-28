@@ -77,3 +77,10 @@ class MS.Views.CalendarView extends Backbone.View
 
   refresh: (e) ->
     @$calendar.fullCalendar('refetchEvents')
+
+  switchView: (desiredView) ->
+    # When the FullCalendar defaultView parameter is set to 'basicWeek' all events do not load.
+    # Instead of using defaultView, the calendar initially loads the month view with all events.
+    # Then the calendar shifts to the desired view.
+    @refresh()
+    @$calendar.fullCalendar('changeView', desiredView)
