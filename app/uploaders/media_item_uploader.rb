@@ -2,7 +2,7 @@
 
 class MediaItemUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  include CarrierWave::MimeTypes
+  # include CarrierWave::MimeTypes
 
   IMAGE_REGEX = %r{\Aimage\/.*\z}i
   VIDEO_REGEX = %r{\Avideo\/.*\z}i
@@ -10,7 +10,7 @@ class MediaItemUploader < CarrierWave::Uploader::Base
   # the kind of storage to use for this uploader
   storage :file
 
-  process :set_content_type
+  # process :set_content_type
   process :set_size_and_type_on_model
   process :set_height_and_width_on_model, if: :image?
 
