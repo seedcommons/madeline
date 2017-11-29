@@ -1,0 +1,21 @@
+.view-element
+  = f.input :summary, wrapper_html: {class: 'hidden-print'}
+    = @basic_project.summary
+  = f.input :details
+    = @basic_project.details
+
+.form-element
+  = f.translatable_inputs do |l|
+    = f.input :"summary_#{l}",
+      input_html: {data: {translatable: 'common.summary'}},
+      placeholder: I18n.t('common.summary', locale: l),
+      label: I18n.t('common.summary', locale: l)
+    = f.input :"details_#{l}", as: :text,
+      input_html: {rows: 3, data: {translatable: 'common.details'}},
+      placeholder: I18n.t('common.details', locale: l),
+      label: I18n.t('common.details', locale: l)
+
+javascript:
+  $(function() {
+    new MS.Views.TranslationsView({el: $('[data-content-translatable="basic_project"]')});
+  });
