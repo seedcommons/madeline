@@ -85,6 +85,6 @@ class TimelineEntry < ActiveRecord::Base
   end
 
   def duration_is_over_0
-    errors.add(:scheduled_duration_days, :less_than_1) if scheduled_duration_invalid?
+    errors.add(:scheduled_end_date, :less_than_1) if scheduled_duration_invalid?
   end
 end
