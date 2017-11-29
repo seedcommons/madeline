@@ -22,8 +22,7 @@
     .view-element = @basic_project.status
     = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
-  /= render 'admin/basic_projects/translatable', f: f
-  = render 'admin/basic_projects/translatable', project: @basic_project, f: f, model_type: "basic_project"
+  = render 'admin/projects/translatable', project: @basic_project, f: f
 
   = f.input :primary_agent
     .view-element = @basic_project.primary_agent.try(:name)

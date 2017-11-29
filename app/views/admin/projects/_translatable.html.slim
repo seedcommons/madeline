@@ -17,5 +17,7 @@
 
 javascript:
   $(function() {
-    new MS.Views.TranslationsView({el: $("[data-content-translatable='#{model_type}']")});
+    new MS.Views.TranslationsView({
+      el: $("[data-content-translatable='#{project.class.name.underscore}']")
+    });
   });
