@@ -167,6 +167,10 @@ en:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        timeline_entry:
+          attributes:
+            scheduled_duration_days:
+              less_than_1: "can't be less than 1"
 
   simple_form:
     hints:

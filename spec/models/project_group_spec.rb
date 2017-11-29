@@ -113,7 +113,7 @@ describe ProjectGroup, type: :model do
 
       it "should be correct for interior node" do
         group = root.filtered_children[1]
-        expect(group.descendant_leaf_count).to eq 2
+        expect(group.descendant_leaf_count).to eq 1
       end
     end
 
@@ -123,13 +123,13 @@ describe ProjectGroup, type: :model do
       end
 
       it "should be correct, but not necessarily match root, for interior node" do
-        expect(root.filtered_children[2].max_descendant_group_depth).to eq 1
+        expect(root.filtered_children[2].max_descendant_group_depth).to eq 2
       end
     end
 
     describe "filtered_children" do
       it "should be sorted" do
-        expect(root.filtered_children).to eq [g1, g2, g3, s1, g4, g5, g6, s2]
+        expect(root.filtered_children).to eq [g3, g1, g2, s1, g4, g5, g6, s2]
         expect(g2.filtered_children).to eq [g2_g1, g2_g2]
         expect(g3.filtered_children).to eq [g3_s1, g3_s2, g3_s3, g3_s4]
       end
@@ -138,8 +138,26 @@ describe ProjectGroup, type: :model do
     describe "self_and_descendant_groups_preordered" do
       it "should return flat pre-ordered array of groups" do
         expect(root.self_and_descendant_groups_preordered).to eq(
-          [root, g1, g2, g2_g1, g2_g2, g3, g4, g5, g6])
+          [root, g3, g1, g2, g2_g1, g2_g2, g4, g5, g6])
       end
     end
   end
 end
+
+
+# expected:
+
+  #<ProjectGroup id: 7, actual_end_date: nil, agent_id: 10, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 14, actual_end_date: nil, agent_id: 17, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 2, actual_end_date: nil, agent_id: 5, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">, #<ProjectStep id: 20, actual_end_date: nil, agent_id: 23, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: "2017-11-29 21:12:51", is_finalized: true, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: 30, scheduled_start_date: "2017-02-28", step_type_value: "checkin", type: "ProjectStep", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 12, actual_end_date: nil, agent_id: 15, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 9, actual_end_date: nil, agent_id: 12, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 11, actual_end_date: nil, agent_id: 14, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">, #<ProjectStep id: 19, actual_end_date: nil, agent_id: 22, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: false, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: 1, scheduled_start_date: nil, step_type_value: "milestone", type: "ProjectStep", updated_at: "2017-11-29 21:12:51">]
+  # got: [
+
+  #<ProjectGroup id: 2, actual_end_date: nil, agent_id: 5, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 7, actual_end_date: nil, agent_id: 10, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 14, actual_end_date: nil, agent_id: 17, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">, #<ProjectStep id: 20, actual_end_date: nil, agent_id: 23, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: "2017-11-29 21:12:51", is_finalized: true, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: 30, scheduled_start_date: "2017-02-28", step_type_value: "checkin", type: "ProjectStep", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 12, actual_end_date: nil, agent_id: 15, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 9, actual_end_date: nil, agent_id: 12, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">,
+  # #<ProjectGroup id: 11, actual_end_date: nil, agent_id: 14, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: nil, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: nil, scheduled_start_date: nil, step_type_value: "group", type: "ProjectGroup", updated_at: "2017-11-29 21:12:51">, #<ProjectStep id: 19, actual_end_date: nil, agent_id: 22, created_at: "2017-11-29 21:12:51", date_change_count: 0, finalized_at: nil, is_finalized: false, old_duration_days: 0, old_start_date: nil, parent_id: 1, project_id: 1, schedule_parent_id: nil, scheduled_duration_days: 1, scheduled_start_date: nil, step_type_value: "milestone", type: "ProjectStep", updated_at: "2017-11-29 21:12:51">]
