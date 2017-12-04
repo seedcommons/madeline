@@ -59,6 +59,7 @@ class ProjectStep < TimelineEntry
   validates :project_id, :step_type_value, presence: true
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
+  validate :duration_is_over_0
 
   before_update :handle_old_start_date_logic
   before_update :handle_old_duration_days_logic
@@ -430,5 +431,13 @@ class ProjectStep < TimelineEntry
 
     r = start.each_with_index.map { |val, i| val + (finish[i] - val) * fraction }
     "hsla(#{r[0]}, #{r[1]}%, #{r[2]}%, #{opacity})"
+  end
+
+  def scheduled_duration_invalid?
+    scheduled_duration_days.present? ? scheduled_duration_days < 1 : scheduled_duration_days
+  end
+
+  def duration_is_over_0
+    errors.add(:scheduled_end_date, :less_than_1) if scheduled_duration_invalid?
   end
 end

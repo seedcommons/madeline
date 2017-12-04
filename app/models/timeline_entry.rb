@@ -49,8 +49,6 @@ class TimelineEntry < ActiveRecord::Base
 
   delegate :division, :division=, to: :project, allow_nil: true
 
-  validate :duration_is_over_0
-
   # NOTE: This will only work for steps, but must be defined here in the parent class.
   # It DOES NOT do the nice recursive date stuff that group.filtered_children does.
   scope :by_date, -> {
@@ -76,15 +74,5 @@ class TimelineEntry < ActiveRecord::Base
 
   def group?
     is_a?(ProjectGroup)
-  end
-
-  private
-
-  def scheduled_duration_invalid?
-    scheduled_duration_days.present? ? scheduled_duration_days < 1 : scheduled_duration_days
-  end
-
-  def duration_is_over_0
-    errors.add(:scheduled_end_date, :less_than_1) if scheduled_duration_invalid?
   end
 end

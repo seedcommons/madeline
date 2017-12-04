@@ -113,7 +113,7 @@ describe ProjectGroup, type: :model do
 
       it "should be correct for interior node" do
         group = root.filtered_children[1]
-        expect(group.descendant_leaf_count).to eq 1
+        expect(group.descendant_leaf_count).to eq 2
       end
     end
 
@@ -123,13 +123,13 @@ describe ProjectGroup, type: :model do
       end
 
       it "should be correct, but not necessarily match root, for interior node" do
-        expect(root.filtered_children[2].max_descendant_group_depth).to eq 2
+        expect(root.filtered_children[2].max_descendant_group_depth).to eq 1
       end
     end
 
     describe "filtered_children" do
       it "should be sorted" do
-        expect(root.filtered_children).to eq [g3, g1, g2, s1, g4, g5, g6, s2]
+        expect(root.filtered_children).to eq [g1, g2, g3, s1, g4, g5, g6, s2]
         expect(g2.filtered_children).to eq [g2_g1, g2_g2]
         expect(g3.filtered_children).to eq [g3_s1, g3_s2, g3_s3, g3_s4]
       end
@@ -138,7 +138,7 @@ describe ProjectGroup, type: :model do
     describe "self_and_descendant_groups_preordered" do
       it "should return flat pre-ordered array of groups" do
         expect(root.self_and_descendant_groups_preordered).to eq(
-          [root, g3, g1, g2, g2_g1, g2_g2, g4, g5, g6])
+          [root, g1, g2, g2_g1, g2_g2, g3, g4, g5, g6])
       end
     end
   end
