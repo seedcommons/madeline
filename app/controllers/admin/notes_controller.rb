@@ -22,7 +22,7 @@ class Admin::NotesController < Admin::AdminController
 
   def destroy
     @note.destroy
-    head :no_content
+    head :ok
   end
 
   private

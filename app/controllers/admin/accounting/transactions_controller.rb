@@ -56,7 +56,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
         .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
 
       flash[:notice] = t("admin.loans.transactions.create_success")
-      render nothing: true
+      head :ok
     rescue => ex
       # We don't need to display the message twice if it's a validation error.
       # But we do want to display the error if the QB API blows up.

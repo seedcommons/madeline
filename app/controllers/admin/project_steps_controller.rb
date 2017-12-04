@@ -96,7 +96,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     if request.xhr?
       @step.destroy
-      render nothing: true
+      head :ok
     else
       if @step.destroy
         display_timeline(@step.project_id, I18n.t(:notice_deleted))
