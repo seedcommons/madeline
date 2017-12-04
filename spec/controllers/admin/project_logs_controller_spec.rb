@@ -14,26 +14,28 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
       before { log.division.update(notify_on_new_logs: true) }
 
       context "with notify checked" do
-        let(:notify) { true }
+        # let(:notify) { true }
 
         it "enqueues and sends notification email" do
+          # expect do
+          #
+          # end.to change { Delayed::Job.count }.by(2)
           expect do
-            post :create, project_log: log.attributes, notify: notify
-          end.to change { Delayed::Job.count }.by(2)
-          expect do
-            @dj_result = Delayed::Worker.new.work_off
+            post :create, params: {project_log: log.attributes, notify: '1'}
+            Delayed::Worker.new.work_off
           end.to change { ActionMailer::Base.deliveries.size }.by(2)
-          expect(@dj_result).to eq [2, 0] # successes, failures
+          # expect(@dj_result).to eq [2, 0] # successes, failures
         end
       end
 
       context "with notify unchecked" do
-        let(:notify) { false }
+        # let(:notify) { false }
 
         it "doesn't send email" do
           expect do
-            post :create, project_log: log.attributes, notify: notify
-          end.to change { Delayed::Job.count }.by(0)
+            post :create, params: {project_log: log.attributes}
+            Delayed::Worker.new.work_off
+          end.to change { ActionMailer::Base.deliveries.size }.by(0)
         end
       end
     end
@@ -41,8 +43,9 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
     context "with division not set to notify" do
       it "doesn't send email" do
         expect do
-          post :create, project_log: log.attributes, notify: true
-        end.to change { Delayed::Job.count }.by(0)
+          post :create, params: {project_log: log.attributes, notify: '1'}
+          Delayed::Worker.new.work_off
+        end.to change { ActionMailer::Base.deliveries.size }.by(0)
       end
     end
   end
