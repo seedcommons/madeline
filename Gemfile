@@ -65,11 +65,10 @@ gem 'mysql2'
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
-# We are using this fork because
-# 1. the csv_encoding feature has not been released yet
-#    despite being committed in November 2015.
-# 2. We added a placeholder to the bootstrap datepicker (PR outstanding on main project)
-gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails3'
+# We are using this fork because:
+# 1. 'tag_options'no longer valid in rails 5
+# 2. AR 'size' method triggers the count query which causes errors in rails 5
+gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails5'
 
 # Forms
 gem 'simple_form'
