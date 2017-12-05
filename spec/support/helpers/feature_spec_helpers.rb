@@ -7,6 +7,7 @@ module FeatureSpecHelpers
   def wait_for_loading_indicator
     expect(page).to have_content('Loading...')
     expect(page).not_to have_content('Loading...')
+    expect(page).not_to have_css('div#glb-load-ind')
   end
 
   # Fills in the given value into the box with given ID, then selects the first matching option.
