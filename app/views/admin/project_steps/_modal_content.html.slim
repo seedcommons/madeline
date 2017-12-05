@@ -20,12 +20,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           i.fa.fa-close.fa-large>
           = t("cancel_edit")
         - if @step.persisted?
-          a.delete-action [
-              data-confirm=t("project_step.confirm_deletion")
-              data-confirm-title=t("project_step.delete", count: 1)
-              data-confirm-cancel=t(:cancel)
-              data-confirm-proceed=t(:confirm)
-            ]
+          a.delete-action [ data-confirm=t("project_step.confirm_deletion") ]
             i.fa.fa-trash.fa-large>
             = t("project_step.delete", count: 1)
       javascript:

@@ -57,8 +57,7 @@ feature 'loan flow' do
     scenario 'can duplicate', js: true do
       visit admin_loan_path(loan)
 
-      click_on('Duplicate')
-      click_on('Confirm')
+      accept_confirm { click_on('Duplicate') }
       expect(page).to have_content "Copy of #{loan.display_name}"
     end
   end

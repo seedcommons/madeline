@@ -21,8 +21,7 @@
         - if document.display_url.present?
           .doc-actions
             a [data-action="delete"
-              data-confirm= t("linked_document.delete_confirmation")
-              data-confirm-title= t("linked_document.linked_document")]
+              data-confirm= t("linked_document.delete_confirmation")]
               = t("linked_document.delete")
 
   - unless not_applicable

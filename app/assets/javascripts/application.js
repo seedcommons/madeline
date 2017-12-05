@@ -38,9 +38,6 @@
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
 
-//= require twitter/bootstrap/rails/confirm
-//= require admin/confirm
-
 //= require moment
 //= require fullcalendar
 //= require fullcalendar/locale-all.js
