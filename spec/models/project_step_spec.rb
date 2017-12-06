@@ -309,7 +309,7 @@ describe ProjectStep, type: :model do
         expect(step.scheduled_end_date).to eq parent_end + 3
       end
 
-      it 'scheduled_start_date can be set to parent end' do
+      it 'scheduled_start_date can be set to parent end + 1' do
         step.scheduled_start_date = parent_end + 1
         step.save!
         step.reload

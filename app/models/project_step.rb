@@ -433,11 +433,11 @@ class ProjectStep < TimelineEntry
     "hsla(#{r[0]}, #{r[1]}%, #{r[2]}%, #{opacity})"
   end
 
-  def scheduled_duration_invalid?
-    scheduled_duration_days.present? ? scheduled_duration_days < 1 : scheduled_duration_days
+  def duration_less_than_one?
+    scheduled_duration_days < 1 if scheduled_duration_days
   end
 
   def duration_is_over_0
-    errors.add(:scheduled_end_date, :less_than_1) if scheduled_duration_invalid?
+    errors.add(:scheduled_end_date, :less_than_1) if duration_less_than_one?
   end
 end

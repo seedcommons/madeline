@@ -86,10 +86,11 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
     startDate = new Date(startDateVal)
 
-    setDuration = startDate.setDate(startDate.getDate() + duration)
-    preEndDate = new Date(setDuration)
+    preEndDate = new Date(startDate.setDate(startDate.getDate() + duration))
 
     if startDateVal
+      # if duration has not been set in the ui, js has this stored as 0 in memory
+      # this condition is in order for the end date not to be set to a day before
       if duration < 1
         endDate = startDate
       else

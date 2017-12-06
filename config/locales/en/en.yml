@@ -170,7 +170,7 @@ en:
         timeline_entry:
           attributes:
             scheduled_end_date:
-              less_than_1: "Duration days can't be less than 1"
+              less_than_1: "The scheduled duration of a step cannot be less than 1 day"
 
   simple_form:
     hints:

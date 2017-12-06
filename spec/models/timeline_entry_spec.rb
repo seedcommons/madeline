@@ -7,8 +7,9 @@ describe TimelineEntry, type: :model do
     let(:tle_2) { build(:project_step) }
 
     it 'raises error if duration is less than 1 day' do
+      error = 'The scheduled duration of a step cannot be less than 1 day'
       expect(tle_1).not_to be_valid
-      expect(tle_1.errors[:scheduled_end_date].join).to match("Duration days can't be less than 1")
+      expect(tle_1.errors[:scheduled_end_date].join).to match(error)
     end
 
     it 'does not raise error for valid entries' do
