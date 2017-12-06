@@ -26,23 +26,11 @@ gem 'devise'
 gem 'pundit'
 gem 'rolify'
 
-# Pagination
-# gem 'will_paginate', '~> 3.0.4'
-# gem 'will_paginate-bootstrap'
-
-# Remove UTF8 parameter from GET forms
-# gem 'utf8_enforcer_workaround', '~> 1.1' no longer in use
-
 # Slim template language
 gem 'slim'
 
 gem 'delayed_job_active_record'
 gem 'daemons'
-
-# note, for now just using chronic, which was already included
-# if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
-#gem 'ice_cube'
-# beware, I tried 'tickle' first but it didn't seem stable
 
 # Internationalization
 gem 'rails-i18n'
@@ -143,9 +131,6 @@ group :development, :test do
   gem 'selenium-webdriver', '~> 2.0'
   gem 'poltergeist', '~> 1.0'
   gem 'simplecov'
-
-  # this is not yet supported for rails 5
-  # gem 'quiet_assets' not in use
 
   # Dump data to Rails commands
   gem 'seed_dump'
