@@ -46,7 +46,7 @@ gem 'daemons'
 
 # Internationalization
 gem 'rails-i18n'
-gem "i18n-js", ">= 3.0.0.rc11"
+gem 'i18n-js', '>= 3.0.0.rc11'
 
 # Translate urls
 gem 'route_translator'
@@ -66,7 +66,7 @@ gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
 # We are using this fork because:
-# 1. 'tag_options'no longer valid in rails 5
+# 1. 'tag_options' no longer valid in rails 5
 # 2. AR 'size' method triggers the count query which causes errors in rails 5
 gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails5'
 
