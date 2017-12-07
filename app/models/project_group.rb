@@ -62,6 +62,11 @@ class ProjectGroup < TimelineEntry
     filtered_children.none?
   end
 
+  # Duck type. Groups have no defined date.
+  def has_date?
+    false
+  end
+
   def summary_or_none
     summary.blank? ? "[#{I18n.t("none")}]" : summary.to_s
   end
@@ -102,6 +107,9 @@ class ProjectGroup < TimelineEntry
       )
     end
   end
+
+  # For use in specs
+  alias_method :c, :filtered_children
 
   # Returns a flat array of the descendant groups, pre-ordered.
   # Combine with indented_option_label to show groups in tree structure.

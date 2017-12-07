@@ -38,13 +38,19 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       defaults: {input_html: {class: "form-element form-control"}},
       ) do |f|
 
-      / Need to pass these through to create but not update.
-      - if @step.new_record?
-        = f.hidden_field(:project_id)
-
       = hidden_field_tag(:context, context)
 
       = error_notification(f)
+
+      / Project
+      - if @step.new_record?
+        / Need to pass this through to create but not update.
+        = f.hidden_field(:project_id)
+      - else
+        .view-element
+          = f.input :project_id
+            = link_to @project.display_name,
+              send("admin_#{@project.model_name.singular}_tab_path", @project, tab: "details")
 
       / Summary & details
       .view-element

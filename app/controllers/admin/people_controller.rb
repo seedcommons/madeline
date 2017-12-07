@@ -85,7 +85,7 @@ class Admin::PeopleController < Admin::AdminController
       :first_name, :last_name, :street_address, :city, :state, :postal_code, :country_id,
       :primary_phone, :secondary_phone, :email, :tax_no, :birth_date, :website, :contact_notes,
       :division_id, :primary_organization_id,
-      :has_system_access, :password, :password_confirmation, :owning_division_role
+      :has_system_access, :password, :password_confirmation, :access_role
     )
   end
 

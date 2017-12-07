@@ -10,6 +10,7 @@ addons:
 services:
   - postgresql
 before_install: # Install PhantomJS 2.1.1 or some of our specs fail with default (v1.9.8 as of 3/2/2017)
+  - gem update bundler --no-rdoc --no-ri
   - "export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH"
   - "if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
   - "if [ $(phantomjs --version) != '2.1.1' ]; then wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2; fi"
@@ -24,7 +25,7 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec
 rvm:
-  - 2.2.0
+  - 2.3.1
 env:
   global:
     - MADELINE_EMAIL_FROM=madeline@theworkingworld.org

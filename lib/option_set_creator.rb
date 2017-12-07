@@ -74,31 +74,31 @@ class OptionSetCreator
     loan_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'loan_type')
     loan_type.options.destroy_all
-    loan_type.options.create(migration_id: 1, label_translations: {
+    loan_type.options.create(migration_id: 1, value: 'liquidity_loc', label_translations: {
         en: 'Liquidity line of credit',
         es: 'Línea de crédito de efectivo'
       })
-    loan_type.options.create(migration_id: 2, label_translations: {
+    loan_type.options.create(migration_id: 2, value: 'investment_loc', label_translations: {
         en: 'Investment line of credit',
         es: 'Línea de crédito de inversión'
       })
-    loan_type.options.create(migration_id: 3, label_translations: {
+    loan_type.options.create(migration_id: 3, value: 'investment', label_translations: {
         en: 'Investment Loans',
         es: 'Préstamo de Inversión'
       })
-    loan_type.options.create(migration_id: 4, label_translations: {
+    loan_type.options.create(migration_id: 4, value: 'evolving', label_translations: {
         en: 'Evolving loan',
         es: 'Préstamo de evolución'
       })
-    loan_type.options.create(migration_id: 5, label_translations: {
+    loan_type.options.create(migration_id: 5, value: 'single_liquidity_loc', label_translations: {
         en: 'Single Liquidity line of credit',
         es: 'Línea puntual de crédito de efectivo'
       })
-    loan_type.options.create(migration_id: 6, label_translations: {
+    loan_type.options.create(migration_id: 6, value: 'wc_investment', label_translations: {
         en: 'Working Capital Investment Loan',
         es: 'Préstamo de Inversión de Capital de Trabajo'
       })
-    loan_type.options.create(migration_id: 7, label_translations: {
+    loan_type.options.create(migration_id: 7, value: 'sa_investment', label_translations: {
         en: 'Secured Asset Investment Loan',
         es: 'Préstamo de Inversión de Bienes Asegurados'
       })

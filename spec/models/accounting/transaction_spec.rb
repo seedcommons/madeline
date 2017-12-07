@@ -1,81 +1,9 @@
 require 'rails_helper'
 
+# quickbooks_data['line_items'].each
 RSpec.describe Accounting::Transaction, type: :model do
-  # subject { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
-  let(:loan) { create(:loan) }
-  let(:transaction) { create(:accounting_transaction) }
-  let(:quickbooks_data) do
-    { 'line_items' =>
-     [{ 'id' => '0',
-        'description' => 'Nate desc',
-        'amount' => '15.09',
-        'detail_type' => 'JournalEntryLineDetail',
-        'journal_entry_line_detail' => {
-          'posting_type' => 'Debit',
-          'entity' => {
-            'type' => 'Customer',
-            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-          'account_ref' => { 'value' => '84', 'name' => 'Accounts Receivable (A/R)', 'type' => nil },
-          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-          'department_ref' => nil } },
-      { 'id' => '1',
-        'description' => 'Nate desc',
-        'amount' => '15.09',
-        'detail_type' => 'JournalEntryLineDetail',
-        'journal_entry_line_detail' => {
-          'posting_type' => 'Credit',
-          'entity' => {
-            'type' => 'Customer',
-            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-          'account_ref' => { 'value' => '35', 'name' => 'Checking', 'type' => nil },
-          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-          'department_ref' => nil } }],
-      'id' => '167',
-      'sync_token' => 0,
-      'meta_data' => {
-        'create_time' => '2017-04-18T10:14:30.000-07:00',
-        'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
-      'txn_date' => '2017-04-18',
-      'total' => '19.99',
-      'private_note' => 'Nate now testing' }
-  end
-
-  context 'when quickbooks_data is updated' do
-    subject do
-      transaction.tap { transaction.update(quickbooks_data: quickbooks_data) }
-    end
-
-    it 'updates correctly' do
-      expect(subject.amount).to eq 15.09
-      expect(subject.total).to eq 19.99
-      expect(subject.txn_date).to eq Date.parse('2017-04-18')
-      expect(subject.private_note).to eq 'Nate now testing'
-      expect(subject.description).to eq 'Nate desc'
-      expect(subject.project_id).to eq loan.id
-    end
-  end
-
-  context 'when quickbooks_data is nil' do
-    subject do
-      create(:accounting_transaction,
-        amount: 404.02,
-        total: 42,
-        txn_date: '2017-10-31',
-        private_note: 'a memo',
-        description: 'desc',
-        project_id: loan.id,
-      )
-    end
-
-    it 'should not overwrite calculated quickbooks fields' do
-      expect(subject.amount).to eq 404.02
-      expect(subject.total).to eq 42
-      expect(subject.txn_date).to eq Date.parse('2017-10-31')
-      expect(subject.private_note).to eq 'a memo'
-      expect(subject.description).to eq 'desc'
-      expect(subject.project_id).to eq loan.id
-    end
-  end
+  let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+  let(:transaction) { create(:accounting_transaction, project: loan) }
 
   describe '.standard_order' do
     let!(:txn_1) do
@@ -120,6 +48,112 @@ RSpec.describe Accounting::Transaction, type: :model do
 
     it 'returns in the right order' do
       expect(Accounting::Transaction.standard_order).to eq([txn_4, txn_5, txn_3, txn_2, txn_1])
+    end
+  end
+
+  describe '.create_or_update_from_qb_object!' do
+    let(:qb_obj) { double(id: 123, as_json: {'x' => 'y'}) }
+    let(:txn) do
+      described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+    end
+
+    it 'should set appropriate fields on create' do
+      expect(txn.qb_object_type).to eq('JournalEntry')
+      expect(txn.qb_id).to eq('123')
+      expect(txn.quickbooks_data).to eq({'x' => 'y'})
+      expect(txn.needs_qb_push).to be false
+    end
+  end
+
+  describe 'qb_id' do
+    let(:transaction_params) do
+      {
+        amount: nil,
+        txn_date: '2017-10-31',
+        private_note: 'a memo',
+        description: 'desc',
+        project_id: loan.id,
+        loan_transaction_type_value: transaction_type
+      }
+    end
+
+    context 'when disbursement transaction' do
+      let(:transaction_type) { 'disbursement' }
+
+      context 'without qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context 'with qb_id' do
+        it 'requires an amount to save' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: 123))
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+    end
+
+    context 'when interest transaction' do
+      let(:transaction_type) { 'interest' }
+
+      context 'without qb_id' do
+        it 'can save without amount' do
+          expect do
+            create(:accounting_transaction, transaction_params.merge(qb_id: nil))
+          end.not_to raise_error
+        end
+      end
+    end
+  end
+
+  context 'with line items' do
+    let(:txn) { transaction }
+    let(:int_inc_acct) { transaction.division.interest_income_account }
+    let(:int_rcv_acct) { transaction.division.interest_receivable_account }
+    let(:prin_acct) { transaction.division.principal_account }
+    let!(:line_items) do
+      create_line_item(txn, 'Debit', 1.02, account: prin_acct)
+      create_line_item(txn, 'Debit', 2.07, account: int_rcv_acct)
+      create_line_item(txn, 'Debit', 1.50, account: int_inc_acct)
+      create_line_item(txn, 'Credit', 1.15, account: prin_acct)
+      create_line_item(txn, 'Credit', 3.00, account: int_rcv_acct)
+      create_line_item(txn, 'Credit', 1.25, account: int_inc_acct)
+
+      # These are decoy line items associated with random accounts that we don't care about.
+      # They should not be included in the change_in_* calculations.
+      create_line_item(txn, 'Debit', 2.50)
+      create_line_item(txn, 'Credit', 1.69)
+    end
+
+    describe '#change_in_principal and #change_in_interest' do
+      it 'calculates correctly' do
+        expect(transaction.reload.change_in_principal).to equal_money(-0.13)
+        expect(transaction.reload.change_in_interest).to equal_money(-0.93)
+      end
+    end
+
+    describe '#calculate_balances' do
+      it 'works without previous transaction' do
+        transaction.calculate_balances
+        expect(transaction.principal_balance).to equal_money(-0.13)
+        expect(transaction.interest_balance).to equal_money(-0.93)
+      end
+
+      it 'works with previous transaction' do
+        prev_tx = create(:accounting_transaction, principal_balance: 6.22, interest_balance: 4.50)
+
+        transaction.calculate_balances(prev_tx: prev_tx)
+        expect(transaction.principal_balance).to equal_money(6.09)
+        expect(transaction.interest_balance).to equal_money(3.57)
+      end
+    end
+
+    def create_line_item(txn, type, amount, options = {})
+      create(:line_item, options.merge(parent_transaction: txn, posting_type: type, amount: amount))
     end
   end
 end

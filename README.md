@@ -21,7 +21,7 @@
     rails s
 
 ### Creating a test user from the rails console
-    Person.create(division_id: 99, email: 'test@theworkingworld.org', first_name: 'Test', has_system_access: true, password: 'test1234', password_confirmation: 'test1234', owning_division_role: 'admin')
+    Person.create(division_id: 99, email: 'test@theworkingworld.org', first_name: 'Test', has_system_access: true, password: 'test1234', password_confirmation: 'test1234', access_role: 'admin')
 
 ### Delayed job
 

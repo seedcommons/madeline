@@ -9,41 +9,34 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def create
     @loan = Loan.find(transaction_params[:project_id])
-    authorize @loan
-    @transaction = ::Accounting::Transaction.new(transaction_params)
+    authorize(@loan, :update?)
+    @transaction = ::Accounting::Transaction.new(transaction_params.merge qb_object_type: 'JournalEntry')
 
-    begin
-      raise ActiveRecord::RecordInvalid.new(@transaction) if !@transaction.valid?
-
-      # We don't have the ability to stub quickbooks interactions so
-      # for now we'll just return a fake JournalEntry in test mode.
-      if Rails.env.test?
-        journal_entry = Quickbooks::Model::JournalEntry.new(id: 123)
-      else
-        creator = ::Accounting::Quickbooks::TransactionCreator.new
-        journal_entry = creator.create_in_qb @transaction
+    # TODO move this logic into model someplace and add test
+    # If earlier transactions exist, but no interest transaction on this date, create a blank one.
+    # The InterestCalculator will pick this up, calculate the value, and sync it to quickbooks.
+    if @loan.transactions.where('txn_date < ?', transaction_params[:txn_date]).exists?
+      attrs = transaction_params.slice(:txn_date).merge(loan_transaction_type_value: 'interest')
+      interest_transaction = @loan.transactions.find_or_create_by!(attrs) do |txn|
+        txn.description = I18n.t('transactions.interest_description', loan_id: @loan.id)
       end
+    end
 
-      # It's important we store the ID and type of the QB journal entry we just created
-      # so that on the next sync, a duplicate is not created.
-      @transaction.associate_with_qb_obj(journal_entry)
-
-      @transaction.save!
+    if @transaction.save
       flash[:notice] = t("admin.loans.transactions.create_success")
       render nothing: true
-    rescue => ex
-      # We don't need to display the message twice if it's a validation error.
-      # But we do want to display the error if the QB API blows up.
-      if ex.is_a?(ActiveRecord::RecordInvalid)
-        # Do nothing
-      elsif ex.class.name.include?('Quickbooks::')
-        @transaction.errors.add(:base, ex.message)
-      else
-        raise ex
-      end
-
+    else
       prep_transaction_form
       render_modal_partial(status: 422)
+    end
+  rescue => ex
+    # Display QB error as validation error on form
+    if ex.class.name.include?('Quickbooks::')
+      @transaction.errors.add(:base, ex.message)
+      prep_transaction_form
+      render_modal_partial(status: 422)
+    else
+      raise ex
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810192441) do
+ActiveRecord::Schema.define(version: 20171121000427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 20170810192441) do
   add_index "accounting_accounts", ["qb_id"], name: "index_accounting_accounts_on_qb_id", using: :btree
 
   create_table "accounting_line_items", force: :cascade do |t|
-    t.integer  "accounting_account_id"
-    t.integer  "accounting_transaction_id"
-    t.decimal  "amount"
+    t.integer  "accounting_account_id", null: false
+    t.integer  "accounting_transaction_id", null: false
+    t.decimal  "amount", null: false
     t.datetime "created_at", null: false
     t.string   "description"
-    t.string   "posting_type"
+    t.string   "posting_type", null: false
     t.integer  "qb_line_id"
     t.datetime "updated_at", null: false
   end
@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 20170810192441) do
 
   create_table "accounting_quickbooks_connections", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "division_id"
+    t.integer  "division_id", null: false
     t.datetime "last_updated_at"
-    t.string   "realm_id"
-    t.string   "secret"
-    t.string   "token"
-    t.datetime "token_expires_at"
+    t.string   "realm_id", null: false
+    t.string   "secret", null: false
+    t.string   "token", null: false
+    t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -59,11 +59,14 @@ ActiveRecord::Schema.define(version: 20170810192441) do
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.string   "description"
+    t.decimal  "interest_balance", default: 0.0
     t.string   "loan_transaction_type_value"
+    t.boolean  "needs_qb_push", default: true, null: false
+    t.decimal  "principal_balance", default: 0.0
     t.string   "private_note"
     t.integer  "project_id"
-    t.string   "qb_id", null: false
-    t.string   "qb_transaction_type", null: false
+    t.string   "qb_id"
+    t.string   "qb_object_type", default: "JournalEntry", null: false
     t.json     "quickbooks_data"
     t.decimal  "total"
     t.date     "txn_date"
@@ -73,9 +76,9 @@ ActiveRecord::Schema.define(version: 20170810192441) do
   add_index "accounting_transactions", ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id", using: :btree
   add_index "accounting_transactions", ["currency_id"], name: "index_accounting_transactions_on_currency_id", using: :btree
   add_index "accounting_transactions", ["project_id"], name: "index_accounting_transactions_on_project_id", using: :btree
-  add_index "accounting_transactions", ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
+  add_index "accounting_transactions", ["qb_id", "qb_object_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true, using: :btree
   add_index "accounting_transactions", ["qb_id"], name: "index_accounting_transactions_on_qb_id", using: :btree
-  add_index "accounting_transactions", ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type", using: :btree
+  add_index "accounting_transactions", ["qb_object_type"], name: "index_accounting_transactions_on_qb_object_type", using: :btree
 
   create_table "countries", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -157,7 +160,7 @@ ActiveRecord::Schema.define(version: 20170810192441) do
     t.boolean  "has_late_steps"
     t.boolean  "has_sporadic_updates"
     t.date     "last_log_date"
-    t.integer  "loan_id"
+    t.integer  "loan_id", null: false
     t.boolean  "missing_contract"
     t.decimal  "progress_pct"
     t.datetime "updated_at", null: false
@@ -182,16 +185,14 @@ ActiveRecord::Schema.define(version: 20170810192441) do
 
   create_table "loan_question_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer  "division_id"
     t.string   "internal_name"
     t.datetime "updated_at", null: false
   end
 
-  add_index "loan_question_sets", ["division_id"], name: "index_loan_question_sets_on_division_id", using: :btree
-
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string   "data_type"
+    t.integer  "division_id", null: false
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
     t.integer  "loan_question_set_id"
@@ -345,7 +346,7 @@ ActiveRecord::Schema.define(version: 20170810192441) do
     t.datetime "created_at", null: false
     t.integer  "currency_id"
     t.json     "custom_data"
-    t.integer  "division_id"
+    t.integer  "division_id", null: false
     t.date     "end_date"
     t.date     "first_interest_payment_date"
     t.date     "first_payment_date"
@@ -353,6 +354,7 @@ ActiveRecord::Schema.define(version: 20170810192441) do
     t.string   "loan_type_value"
     t.string   "name"
     t.integer  "organization_id"
+    t.integer  "original_id"
     t.integer  "primary_agent_id"
     t.decimal  "projected_return"
     t.string   "public_level_value"
@@ -464,7 +466,6 @@ ActiveRecord::Schema.define(version: 20170810192441) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
-  add_foreign_key "loan_question_sets", "divisions"
   add_foreign_key "loan_questions", "loan_question_sets"
   add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"

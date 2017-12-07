@@ -4,6 +4,7 @@
 #
 #  created_at            :datetime         not null
 #  data_type             :string
+#  division_id           :integer          not null
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
@@ -35,8 +36,17 @@ class LoanQuestion < ActiveRecord::Base
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
+  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
+
+  # These methods are troublesome because they circumvent eager loading and also cause leaks in
+  # decoration. We can do without them! Better to use children and parent to walk the tree and get
+  # what you need. We are not dealing with huge trees!
+  BANNED_METHODS = %i(root leaves child_ids ancestors ancestor_ids self_and_ancestors_ids
+    siblings sibling_ids self_and_siblings descendants descendant_ids
+    self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
   belongs_to :loan_question_set
+  belongs_to :division
 
   # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
@@ -47,23 +57,12 @@ class LoanQuestion < ActiveRecord::Base
   # alias_method :loan_types, :options
   has_many :loan_types, class_name: 'Option', through: :loan_question_requirements
 
-  # note, the custom field form layout can be hierarchially nested
+  # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', dependent: :destroy
-
-  # Bug in closure_tree's built in methods requires this fix
-  # https://github.com/mceachen/closure_tree/issues/137
-  has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
-  has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
-
-  # Transient value populated by depth first traversal of questions scoped to a specific division.
-  # Starts with '1'.  Used in hierarchical display of questions.
-  attr_accessor :transient_position
 
   # define accessor like convenience methods for the fields stored in the Translations table
   attr_translatable :label
   attr_translatable :explanation
-
-  delegate :division, :division=, to: :loan_question_set
 
   validates :data_type, presence: true
 
@@ -72,28 +71,6 @@ class LoanQuestion < ActiveRecord::Base
   before_save :prepare_numbers
   after_commit :set_numbers
 
-  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
-
-  def children_sorted_by_required(loan)
-    children.sort_by { |c| [c.required_for?(loan) ? 0 : 1, c.position] }
-  end
-
-  def children_sorted_by_position
-    children.sort_by(&:position)
-  end
-
-  # Selects only those questions that are applicable to the given loan.
-  def children_applicable_to(loan)
-    @children_applicable_to ||= {}
-    @children_applicable_to[loan] ||= if loan
-      children_sorted_by_required(loan).select do |c|
-        c.status == 'active' || (c.status == 'inactive' && c.answered_for?(loan))
-      end
-    else
-      children_sorted_by_position.select { |c| c.status != 'retired' }
-    end
-  end
-
   def top_level?
     parent.root?
   end
@@ -101,31 +78,6 @@ class LoanQuestion < ActiveRecord::Base
   # Overriding this method because the closure_tree implementation causes a DB query.
   def depth
     @depth ||= root? ? 0 : parent.depth + 1
-  end
-
-  def answered_for?(loan)
-    response_set = loan.send(loan_question_set.kind)
-    return false if !response_set
-    !response_set.tree_unanswered?(self)
-  end
-
-  # Resolves if this particular question is considered required for the provided loan, based on
-  # presence of association records in the loan_questions_options relation table, and the
-  # 'override_associations' flag.
-  # - If override is true and join records are present, question is required for those loan types
-  #   and optional for all others
-  # - If override is true and no records are present, all are optional
-  # - If override is false, inherit from parent
-  # - Top level nodes (those with depth = 1 are direct children of the root) effectively have
-  #   override always true
-  # Note, loan type association records are ignored for questions without the 'override_assocations'
-  # flag assigned.
-  def required_for?(loan)
-    if override_associations || depth == 1
-      loan_types.include?(loan.loan_type_option)
-    else
-      parent && parent.required_for?(loan)
-    end
   end
 
   def name
@@ -140,16 +92,24 @@ class LoanQuestion < ActiveRecord::Base
     data_type == 'group'
   end
 
+  def top_level_group?
+    group? && top_level?
+  end
+
+  def business_canvas?
+    data_type == 'business_canvas'
+  end
+
   def active?
     status == 'active'
   end
 
-  def child_groups
-    children_sorted_by_position.select(&:group?)
-  end
-
   def first_child?
     @first_child ||= parent && parent.children.none? { |q| q.position < position }
+  end
+
+  def decorated?
+    false
   end
 
   # List of value keys for fields which have nested values
@@ -198,6 +158,13 @@ class LoanQuestion < ActiveRecord::Base
 
   def full_number_and_label
     [full_number, label].compact.join(" ")
+  end
+
+  # See comment above on constant definition.
+  BANNED_METHODS.each do |m|
+    define_method(m) do |*args|
+      raise NotImplementedError(m.to_s)
+    end
   end
 
   protected

@@ -7,7 +7,7 @@
 #  has_sporadic_updates :boolean
 #  id                   :integer          not null, primary key
 #  last_log_date        :date
-#  loan_id              :integer
+#  loan_id              :integer          not null
 #  missing_contract     :boolean
 #  progress_pct         :decimal(, )
 #  updated_at           :datetime         not null
@@ -78,6 +78,7 @@ class LoanHealthCheck < ActiveRecord::Base
 
   def check_progress_pct
     return 0 unless loan.criteria
+    loan.criteria.current_user = :system
     loan.criteria.progress_pct
   end
 
@@ -86,15 +87,10 @@ class LoanHealthCheck < ActiveRecord::Base
     loan.project_logs.maximum(:date) || Time.at(0)
   end
 
-  def days_old
-    return nil unless loan
-    (loan.end_date.beginning_of_day - loan.signing_date.beginning_of_day) / (24 * 60 * 60)
-  end
-
   def thirty_day_periods_remaining
     return nil unless loan
-    start_date = ([loan.signing_date, Time.zone.now].max).beginning_of_day
+    start_date = ([loan.signing_date || Time.zone.now, Time.zone.now].max).beginning_of_day
     end_date = loan.end_date.beginning_of_day
-    ( (end_date - start_date) / (24 * 60 * 60)).round / 30
+    ((end_date - start_date) / (24 * 60 * 60)).round / 30
   end
 end

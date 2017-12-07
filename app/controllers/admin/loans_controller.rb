@@ -103,13 +103,24 @@ class Admin::LoansController < Admin::ProjectsController
     end
   end
 
+  def duplicate
+    @loan = Loan.find(params[:id])
+    authorize @loan, :new?
+
+    new_loan = ProjectDuplicator.new(@loan).duplicate
+
+    redirect_to admin_loan_path(new_loan), notice: I18n.t('loan.duplicated_message')
+  end
+
   def print
     @loan = Loan.find(params[:id])
     authorize @loan, :show?
     @print_view = true
     @mode = params[:mode]
-    @first_image = @loan.media.find {|item| item.kind_value == 'image'}
-    @roots = LoanQuestionSet.find_by(internal_name: "loan_criteria").root_group_preloaded
+    @images = @loan.media.where(kind_value: "image")
+    # Group every 8 images
+    @image_list = @images.drop(1).each_slice(8).to_a
+    prep_questionnaire(json: false)
     prep_attached_links if @mode != "details-only"
   end
 
@@ -133,6 +144,8 @@ class Admin::LoansController < Admin::ProjectsController
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)
     @representative_choices = representative_choices
+    @loan_criteria = @loan.criteria
+    @loan_criteria.current_user = current_user if @loan_criteria
     @tab ||= 'details'
   end
 
@@ -168,6 +181,6 @@ class Admin::LoansController < Admin::ProjectsController
         link: admin_settings_url)
     end
 
-    initialize_transactions_grid(@loan.id)
+    initialize_transactions_grid(@loan)
   end
 end

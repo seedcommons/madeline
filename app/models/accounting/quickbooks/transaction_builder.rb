@@ -1,21 +1,32 @@
+# TransactionBuilder is responsible for building Quickbooks JournalEntry objects from Madeline Transactions.
+# Note that these JournalEntrys may or may not already exist in Quickbooks. This is because we
+# need a fully initialized JournalEntry object to perform both creates AND updates via the Quickbooks API.
+# This class is NOT responsible for running the actual create/update operation via the API.
+#
+# However, it may initiate API calls while getting references for customer (QB equivalent for Organization),
+# department (QB equivalent for Division), and class (QB equivalent for Loan) if corresponding
+# objects don't exist yet in Quickbooks.
 module Accounting
   module Quickbooks
-
-    # Responsible for creating transaction entries in quickbooks.
-    class TransactionCreator
+    class TransactionBuilder
       attr_reader :qb_connection, :principal_account
 
-      def initialize(root_division = Division.root)
-        @qb_connection = root_division.qb_connection
-        @principal_account = root_division.principal_account
+      def initialize(qb_division = Division.root)
+        @qb_connection = qb_division.qb_connection
+        @principal_account = qb_division.principal_account
       end
 
-      # Creates a disbursement transaction in Quickbooks based on a Transaction object created in Madeline.
-      # Specifically, creates and returns a QB journal entry with two line items:
-      # - a debit from the division's principal account
-      # - a credit to the account specified in the transaction
-      def create_in_qb(transaction)
+      # Creates a transaction for Quickbooks based on a Transaction object created in Madeline. Line
+      # items in QB mirror line items in Madeline.
+      def build_for_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
+
+        # If transaction already exists in QB, these are required
+        if transaction.qb_id
+          je.id = transaction.qb_id
+          je.sync_token = transaction.quickbooks_data['sync_token']
+        end
+
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
@@ -30,27 +41,20 @@ module Accounting
         # We need to either find or create the class, and use the returned Id.
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
-        je.line_items << create_line_item(
-          amount: transaction.amount,
-          posting_type: 'Debit',
-          description: transaction.description,
-          qb_account_id: principal_account.qb_id,
-          qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref,
-          qb_class_id: qb_class_id
-        )
+        transaction.line_items.each_with_index do |li, i|
+          je.line_items << build_line_item(
+            id: i,
+            amount: li.amount,
+            posting_type: li.posting_type,
+            description: transaction.description,
+            qb_account_id: li.account.qb_id,
+            qb_customer_ref: qb_customer_ref,
+            qb_department_ref: qb_department_ref,
+            qb_class_id: qb_class_id
+          )
+        end
 
-        je.line_items << create_line_item(
-          amount: transaction.amount,
-          posting_type: 'Credit',
-          description: transaction.description,
-          qb_account_id: transaction.account.qb_id,
-          qb_customer_ref: qb_customer_ref,
-          qb_department_ref: qb_department_ref,
-          qb_class_id: qb_class_id
-        )
-
-        service.create(je)
+        je
       end
 
       private
@@ -71,10 +75,13 @@ module Accounting
         @class_service ||= ::Quickbooks::Service::Class.new(qb_connection.auth_details)
       end
 
-      def create_line_item(amount:, posting_type:, description:, qb_account_id:,
+      # Builds a Quickbooks `Line` object, which represents a Quickbooks line item, not to be confused
+      # with a Madeline LineItem.
+      def build_line_item(id:, amount:, posting_type:, description:, qb_account_id:,
         qb_customer_ref:, qb_department_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'
+        line_item.id = id
         jel = ::Quickbooks::Model::JournalEntryLineDetail.new
         line_item.journal_entry_line_detail = jel
 

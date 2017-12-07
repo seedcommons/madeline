@@ -2,7 +2,7 @@
 
 .timeline-table {
   .date-col {
-    min-width: 8rem;
+    min-width: 11rem;
   }
 
   .step-name-col {
@@ -118,5 +118,11 @@
 
   .highlighted {
     background: $highlight;
+  }
+
+  .step-date {
+    .fa {
+      margin-left: .5em;
+    }
   }
 }

@@ -70,7 +70,8 @@ class Loan < ActiveRecord::Base
     if data.values.any?(&:present?)
       new_record.create_criteria unless new_record.criteria
       data.each do |key, val|
-        new_record.criteria.set_response(key.to_s, number: val)
+        question = new_record.criteria.question(key)
+        new_record.criteria.set_response(question, number: val)
       end
       new_record.criteria.save!
     end

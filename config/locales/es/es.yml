@@ -34,6 +34,8 @@ es:
         accent_fg_color: "Color del Texto del Primer Plano de Acentos"
         connection_status: "Estado de QuickBooks"
         connect: "Conectar a QuickBooks"
+        last_updated_at: "Actualizado por última vez el"
+        full_sync: "Sincronización completa"
         disconnect: "Desconectar de QuickBooks"
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
@@ -97,7 +99,7 @@ es:
         first_name: "Nombre de Pila"
         has_system_access: "Tiene Acceso al Sistema"
         last_name: "Apellido"
-        owning_division_role: "Rol de Acceso"
+        access_role: "Rol de Acceso"
         postal_code: "Código Postal"
         password: "Contraseña"
         password_confirmation: "Confirmación de Contraseña"
@@ -116,6 +118,7 @@ es:
         secondary_agent: "Agente Secundario"
         signing_date: "Fecha de Inicio"
         status: "Estado"
+        health_check: "Revisión de Salud"
       project_log:
         step: "Paso"
         date: "Fecha del Apunte"
@@ -140,12 +143,16 @@ es:
       accounting:
         transaction:
           amount: "Monto"
+          change_in_interest: "Cambio en el Interés"
+          change_in_principal: "Cambio en el Capital Prinicipal"
           description: "Descripción"
+          interest_balance: "Balance del Interés"
+          principal_balance: "Balance del Capital Principal"
           private_note: "Memo"
           qb_id: "Id"
-          qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
+          total_balance: "Balance Total"
     errors:
       models:
         project_group:
@@ -178,10 +185,10 @@ es:
           disbursement: "Desembolso"
           repayment: "Devolución"
       person:
-        owning_division_role:
+        access_role:
           admin: "Admin"
-          member: "Miembro"
-          none: "Ninguno"
+          member: "Miembro/a"
+          none: "Ninguno/a"
       timeline_step_move:
         move_type:
           change_date: "Cambiar la fecha prevista del paso"
@@ -205,7 +212,6 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
-    picker_format: 'M d, yyyy'
   show: Mostrar
   show_active: Activo
   show_completed: Completo
@@ -323,6 +329,7 @@ es:
     division: "División"
     divisions: "Divisiones"
     expand_all: "Expandir Todo"
+    first: "1ero"
     hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
@@ -332,10 +339,14 @@ es:
     notes: "Notas"
     parent: "Principal"
     print: "Imprimir"
+    project: "Proyecto"
     remove: "Eliminar"
+    role: "Rol"
     save: "Guardar"
+    second: "2do"
     street_address: "Domicilio"
     summary: "Resumen"
+    type: "Tipo"
     updated: "Actualizado"
     website: "Página web"
     id: "ID"

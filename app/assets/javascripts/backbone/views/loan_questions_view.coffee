@@ -9,16 +9,18 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       data: @tree.data('data')
       dragAndDrop: true
       selectable: false
+      onCanMove: (node) => node.can_edit
       useContextMenu: false
       saveState: true
       onCreateLi: (node, $li) =>
         $li.attr('data-id', node.id)
-            .addClass("filterable #{node.fieldset} #{node.status}")
-            .find('.jqtree-element')
-            .append(@requiredLoanTypesHTML(node))
-            .append($('.links-block').html())
+          .addClass("filterable #{node.fieldset} #{node.status}")
+          .find('.jqtree-element')
+          .append(@requiredLoanTypesHTML(node))
+          .append(@permittedActionsHTML(node))
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @addNewItemBlocks()
+    @prepTooltips()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -54,12 +56,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
-      # Insert node with data returned from server
-      parent_node = @tree.tree('getNodeById', response.parent_id)
+      @refreshTree(response)
       @$('#edit-modal').modal('hide')
-      @tree.tree('appendNode', response, parent_node)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
@@ -74,12 +72,8 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     # We send form data via ajax so we can capture the response from server
     $.post($form.attr('action'), $form.serialize())
     .done (response) =>
-      # Update tree with data returned from server
-      # Remember the state of which nodes are expanded (subtrees)
-      @tree.tree('loadData', response)
+      @refreshTree(response)
       @$('#edit-modal').modal('hide')
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
     .fail (response) =>
       @$('.modal-content').html(response.responseText)
 
@@ -96,9 +90,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     $.post("/admin/loan_questions/#{id}/move", data)
     .done (response) =>
-      @tree.tree('loadData', response)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
+      @refreshTree(response)
     .fail (response) ->
       MS.alert(response.responseText)
 
@@ -115,9 +107,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
     $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
     .done (response) =>
-      @tree.tree('loadData', response)
-      @filterSwitchView.filterInit()
-      @addNewItemBlocks()
+      @refreshTree(response)
     .fail (response) ->
       MS.alert(response.responseText)
     return false
@@ -149,3 +139,27 @@ class MS.Views.LoanQuestionsView extends Backbone.View
         "<div class='loan-type-required'>#{loan_type}</div>"
       .join(' ') +
       "</div>"
+
+  permittedActionsHTML: (node) ->
+    if node.can_edit
+      $('.links-block').html()
+    else
+      $('.actions-disabled-block').html()
+
+  prepTooltips: ->
+    @$('.ms-tooltip').each (index, tip) =>
+      message = I18n.t('loan_questions.not_editable')
+
+      @$(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: 'left'
+        toggle: 'popover'
+        trigger: 'manual'
+
+  # Update tree with data returned from server
+  # Remember the state of which nodes are expanded (subtrees)
+  refreshTree: (response) ->
+    @tree.tree('loadData', response)
+    @filterSwitchView.filterInit()
+    @addNewItemBlocks()

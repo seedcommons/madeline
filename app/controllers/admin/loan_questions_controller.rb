@@ -6,15 +6,15 @@ class Admin::LoanQuestionsController < Admin::AdminController
     authorize LoanQuestion
     # Hide retired questions for now
     sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
-    @json = ActiveModel::Serializer::CollectionSerializer.new(
-      sets.map { |s| s.root_group_preloaded.children_applicable_to(nil) }.flatten
-    ).to_json
+    questions = sets.map { |s| top_level_questions(s) }.flatten
+    @json = ActiveModel::Serializer::CollectionSerializer.new(questions, user: current_user).to_json
   end
 
   def new
     set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? LoanQuestion.find(params[:parent_id]) : set.root_group
-    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent)
+    @loan_question = LoanQuestion.new(loan_question_set_id: set.id, parent: parent,
+      division: current_division)
     authorize @loan_question
     @loan_question.build_complete_requirements
     render_form
@@ -30,7 +30,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     @loan_question = LoanQuestion.new(loan_question_params)
     authorize @loan_question
     if @loan_question.save
-      render json: @loan_question.reload
+      render_set_json(@loan_question.loan_question_set)
     else
       render_form(status: :unprocessable_entity)
     end
@@ -70,7 +70,12 @@ class Admin::LoanQuestionsController < Admin::AdminController
   private
 
   def render_set_json(set)
-    render json: set.root_group_preloaded.children_applicable_to(nil)
+    render json: top_level_questions(set), user: current_user
+  end
+
+  def top_level_questions(set)
+    FilteredQuestion.new(set.root_group_preloaded, division: selected_division || Division.root,
+      user: current_user).children
   end
 
   def set_loan_question
@@ -83,7 +88,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     # However, it should be abstracted somehow so it applies to all controllers.
     # params.require(:loan_question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:loan_question).permit(
-      :label, :data_type, :parent_id, :position,
+      :label, :data_type, :division_id, :parent_id, :position,
       :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]

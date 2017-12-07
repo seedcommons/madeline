@@ -34,7 +34,7 @@ section.questionnaires {
       > .jqtree-element > .jqtree-title {
         font-style: italic;
         font-weight: bold;
-        color: #888;
+        color: $gray3;
       }
     }
 
@@ -67,6 +67,8 @@ section.questionnaires {
 
 // This is scoped separately because it can appear inside the print view.
 .questionnaire-form {
+  $help-text-font-size: 12px;
+
   li {
     min-height: 3em;
     margin-bottom: 1em;
@@ -83,8 +85,8 @@ section.questionnaires {
 
   .help-block {
     font-style: italic;
-    font-size: 12px;
-    color: #888;
+    font-size: $help-text-font-size;
+    color: $gray3;
   }
 
   input[type="number"] {
@@ -137,7 +139,6 @@ section.questionnaires {
     }
   }
 
-
   .form-element.actions {
     // When position is fixed, the entire webpage/viewport is the parent element
     position: fixed;
@@ -160,6 +161,17 @@ section.questionnaires {
 
     a {
       float: none;
+    }
+  }
+
+  .not-applicable {
+    font-style: italic;
+
+    label {
+      margin-left: .5em;
+      color: $gray3;
+      font-size: $help-text-font-size;
+      font-weight: normal;
     }
   }
 }

@@ -65,6 +65,11 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  config.before(:each) do
+    # Create root division
+    Division.create!(name: '-')
+  end
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
@@ -103,6 +108,8 @@ RSpec.configure do |config|
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
   config.include FactorySpecHelpers
+  config.include GeneralSpecHelpers
+  config.include QuestionSpecHelpers, type: :model
 
   Capybara.register_driver :poltergeist do |app|
     # Increase timeout to allow for potentially long-running asset precompile on first request.

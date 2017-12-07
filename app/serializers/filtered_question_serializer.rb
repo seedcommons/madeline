@@ -1,0 +1,2 @@
+class FilteredQuestionSerializer < LoanQuestionSerializer
+end

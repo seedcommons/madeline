@@ -3,24 +3,14 @@
 # Table name: loan_question_sets
 #
 #  created_at    :datetime         not null
-#  division_id   :integer
 #  id            :integer          not null, primary key
 #  internal_name :string
 #  updated_at    :datetime         not null
-#
-# Indexes
-#
-#  index_loan_question_sets_on_division_id  (division_id)
-#
-# Foreign Keys
-#
-#  fk_rails_13da1a92b4  (division_id => divisions.id)
 #
 
 class LoanQuestionSet < ActiveRecord::Base
   include Translatable
 
-  belongs_to :division
   has_closure_tree_root :root_group, class_name: "LoanQuestion"
 
   attr_translatable :label
@@ -46,7 +36,8 @@ class LoanQuestionSet < ActiveRecord::Base
       data_type: "group",
       internal_name: "root_#{id}",
       required: true,
-      position: 0
+      position: 0,
+      division: Division.root
     )
   end
 
@@ -70,18 +61,21 @@ class LoanQuestionSet < ActiveRecord::Base
   # Gets a LoanQuestion by its id, internal_name, or the LoanQuestion itself.
   # Uses the node_lookup_table so that it does not trigger any new database queries once the table is built.
   def question(question_identifier, required: true)
+    # Return immediately if we are passed a LoanQuestion or FilteredQuestion.
+    if question_identifier.is_a?(LoanQuestion) || question_identifier.is_a?(FilteredQuestion)
+      return question_identifier
+    end
+
     build_node_lookup_table_for(root_group_preloaded) unless @node_lookup_table
 
-    question = if question_identifier == :root
+    result = if question_identifier == :root
       root_group_preloaded
-    elsif question_identifier.is_a?(LoanQuestion)
-      @node_lookup_table[question_identifier.id]
     else
       @node_lookup_table[question_identifier]
     end
 
-    raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}"  if required && !question
-    question
+    raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}" if required && !result
+    result
   end
 
   private

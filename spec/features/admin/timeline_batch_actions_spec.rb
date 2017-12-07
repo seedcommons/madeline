@@ -41,7 +41,7 @@ feature 'timeline batch actions', js: true do
     find(:css, ".select-step[data-id='#{step4.id}']").set(true)
     find(:css, ".select-step[data-id='#{step5.id}']").set(true)
 
-    # Ajust dates batch action
+    # Adjust dates batch action
     click_on('Batch Actions')
     find(:css, ".batch-actions .action.adjust-dates").click
     fill_in('num_of_days', with: days_shifted)

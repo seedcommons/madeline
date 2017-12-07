@@ -11,6 +11,8 @@ en:
     batch_actions: "Batch Actions"
     cancel_edit: "Cancel Edit"
     confirm_deletion: "WARNING: Are you sure you want to permanently delete this loan?"
+    confirm_duplication:
+      loan: "This will duplicate the loan and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
     confirm_response_deletion: "WARNING: Are you sure you want to permanently delete these responses?"
     criteria: "Criteria"
     criteria_not_entered: "Criteria have not been entered yet."
@@ -20,6 +22,8 @@ en:
     delete_selected: "Delete"
     description: "Description"
     details: "Details"
+    duplicate: "Duplicate"
+    duplicated_message: "The loan was successfully duplicated."
     edit: "Edit Loan"
     end: "End %{name}"
     end_date: "End Date"
@@ -37,6 +41,7 @@ en:
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
     no_answer: "No answer given."
+    not_applicable: "Not applicable"
     num_of_links:
       one: "There is %{count} linked document."
       other: "There are %{count} linked documents."
@@ -184,6 +189,7 @@ en:
 
   transactions:
     default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
+    interest_description: "Interest Accrual for Loan #%{loan_id}"
 
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   admin:

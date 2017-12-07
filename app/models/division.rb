@@ -58,7 +58,7 @@ class Division < ActiveRecord::Base
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :loan_question_sets, dependent: :destroy
+  has_many :loan_questions
   has_many :option_sets, dependent: :destroy
 
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
@@ -132,12 +132,19 @@ class Division < ActiveRecord::Base
       I18n.t("locale_name.#{locale}", locale: locale)
     end
   end
-  
+
   def accounts
     @accounts ||= [principal_account, interest_receivable_account, interest_income_account].compact
   end
 
   def qb_accounts_connected?
     accounts.size == 3
+  end
+
+  # If no QB connection on this division, fall back to nearest ancestor with QB connection.
+  # May return nil.
+  def qb_division
+    # Division.root
+    qb_connection ? self : parent&.qb_division
   end
 end

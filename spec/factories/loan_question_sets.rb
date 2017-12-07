@@ -19,7 +19,6 @@
 
 FactoryGirl.define do
   factory :loan_question_set do
-    division { root_division }
     internal_name Faker::Lorem.words(2).join('_').downcase
 
     after(:create) do |model|

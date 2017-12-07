@@ -2,9 +2,10 @@
 // General styles forming a cohesive, non-trivially sized group should be moved into separate file.
 
 @import "colors";
+@import "variables";
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: $app-fonts;
 }
 
 // A two-column table for key-value style data.
