@@ -46,7 +46,7 @@ module Accounting
         new_qb_customer.id
       rescue ::Quickbooks::IntuitRequestException => e
         if e.message =~ /^Duplicate Name Exists Error/
-          id = service.query("select * from Customer where DisplayName = '#{normalized_name}'").first.id
+          id = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}").first.id
           raise e unless id
           id
         else

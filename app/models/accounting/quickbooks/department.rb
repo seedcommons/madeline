@@ -41,7 +41,7 @@ module Accounting
         new_qb_department.id
       rescue ::Quickbooks::IntuitRequestException => e
         if e.message =~ /^Duplicate Name Exists Error/
-          id = service.query("select * from Department where Name = '#{division.name}'").first.id
+          id = service.query("select * from Department where Name = '#{division.name.gsub("'", "\\\\'")}'").first.id
           raise e unless id
           id
         else
