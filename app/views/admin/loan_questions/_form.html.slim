@@ -34,9 +34,8 @@
     = f.input :data_type do
       = f.input_field :data_type, collection: @data_types
 
-      table.table.allow-attachments: tbody: tr
-        td = f.input_field :has_embeddable_media, as: :boolean, boolean_style: :inline
-        td = f.label :has_embeddable_media
+    = f.input :has_embeddable_media
+      = f.input_field :has_embeddable_media, as: :boolean
 
     = render "loan_types", f: f
 
