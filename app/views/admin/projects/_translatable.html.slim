@@ -1,8 +1,8 @@
 .view-element
   = f.input :summary, wrapper_html: {class: 'hidden-print'}
-    = @loan.summary
+    = project.summary
   = f.input :details
-    = @loan.details
+    = project.details
 
 .form-element
   = f.translatable_inputs do |l|
@@ -17,5 +17,7 @@
 
 javascript:
   $(function() {
-    new MS.Views.TranslationsView({el: $('[data-content-translatable="loan"]')});
+    new MS.Views.TranslationsView({
+      el: $("[data-content-translatable='#{project.class.name.underscore}']")
+    });
   });

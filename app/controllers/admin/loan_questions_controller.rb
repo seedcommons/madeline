@@ -32,6 +32,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     if @loan_question.save
       render_set_json(@loan_question.loan_question_set)
     else
+      @loan_question.build_complete_requirements
       render_form(status: :unprocessable_entity)
     end
   end
@@ -99,10 +100,7 @@ class Admin::LoanQuestionsController < Admin::AdminController
     @data_types = LoanQuestion::DATA_TYPES.map do |i|
       [I18n.t("simple_form.options.loan_question.data_type.#{i}"), i]
     end.sort
-    if status
-      render partial: 'form', status: :status
-    else
-      render partial: 'form'
-    end
+
+    render partial: 'form', status: status
   end
 end

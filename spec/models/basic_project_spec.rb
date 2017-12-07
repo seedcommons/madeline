@@ -3,6 +3,13 @@ require 'rails_helper'
 describe BasicProject, type: :model do
   include_context 'project'
 
+  it_should_behave_like 'translatable', ['summary', 'details']
+  it_should_behave_like 'option_settable', ['status']
+
+  it 'has a valid factory' do
+    expect(create(:basic_project)).to be_valid
+  end
+
   context 'primary and secondary agents' do
     it 'raises error if agents are the same' do
       error = 'The point person for this project cannot be the same as the second point person'
