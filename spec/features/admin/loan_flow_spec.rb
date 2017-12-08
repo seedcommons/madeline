@@ -62,6 +62,14 @@ feature 'loan flow' do
     end
   end
 
+  scenario 'loan can not be created with the same person as pry and sec agent' do
+    visit new_admin_loan_path
+    select user.name, from: 'loan_primary_agent_id'
+    select user.name, from: 'loan_secondary_agent_id'
+    click_on 'Create Loan'
+    expect(page).to have_content('The point person for this project cannot be the same as the second point person')
+  end
+
   # Keeping this code here for now. It tended to be more stable than the shared example.
   # Can be deleted when we are happy the shared spec is working.
   # scenario 'can view index', js: true do
