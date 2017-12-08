@@ -22,6 +22,8 @@
     .view-element = @basic_project.status
     = f.input_field :status_value, collection: BasicProject.status_options, include_blank: true
 
+  = render 'admin/projects/translatable', project: @basic_project, f: f
+
   = f.input :primary_agent
     .view-element = @basic_project.primary_agent.try(:name)
     = f.input_field :primary_agent_id, collection: @agent_choices

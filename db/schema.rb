@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030181830) do
+ActiveRecord::Schema.define(version: 20171129145057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 20171030181830) do
 
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string   "data_type"
+    t.string   "data_type", null: false
     t.integer  "division_id", null: false
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
@@ -394,7 +394,7 @@ ActiveRecord::Schema.define(version: 20171030181830) do
     t.integer  "parent_id"
     t.integer  "project_id"
     t.integer  "schedule_parent_id"
-    t.integer  "scheduled_duration_days", default: 0
+    t.integer  "scheduled_duration_days"
     t.date     "scheduled_start_date"
     t.string   "step_type_value", null: false
     t.string   "type", null: false

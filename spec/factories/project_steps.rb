@@ -3,7 +3,7 @@ FactoryBot.define do
     association :project, factory: :loan
     association :agent, factory: :person
     scheduled_start_date { Faker::Date.between(Date.civil(2014, 01, 01), Date.today) }
-    scheduled_duration_days { Faker::Number.between(0, 10) }
+    scheduled_duration_days { Faker::Number.between(1, 10) }
     is_finalized { [true, false].sample }
     step_type_value { ["checkin", "milestone"].sample }
     transient_division
