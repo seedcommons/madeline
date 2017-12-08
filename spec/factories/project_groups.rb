@@ -47,11 +47,11 @@ class ProjectGroupFactoryHelper
   #     g3_s4      (no date, no days)
   #   s1           (2017-02-28, 30 days)
   #   g4
-  #     g4_s1      (2017-03-01, 0 days)
+  #     g4_s1      (2017-03-01, 1 day)
   #   g5
   #     g5_s1      (no date, 3 days)
   #   g6
-  #     s2         (no date, 0 days)
+  #     s2         (no date, 1 day)
   #
   # But creates in a jumbled order so that we know sort works properly.
   def self.create_full_timeline
@@ -74,13 +74,13 @@ class ProjectGroupFactoryHelper
       nodes[:g5_s1] = create_step(nodes[:g5], nil, 3)
       nodes[:g6] = create_group(nodes[:root])
       nodes[:g4] = create_group(nodes[:root])
-      nodes[:g4_s1] = create_step(nodes[:g4], "2017-03-01", 0)
+      nodes[:g4_s1] = create_step(nodes[:g4], "2017-03-01", 1)
       nodes[:g2] = create_group(nodes[:root])
       nodes[:g2_g2] = create_group(nodes[:g2])
       nodes[:g2_g2_s1] = create_step(nodes[:g2_g2], "2017-01-10", 5)
       nodes[:g2_g1] = create_group(nodes[:g2])
       nodes[:g2_g1_s1] = create_step(nodes[:g2_g1], "2017-01-01", 5)
-      nodes[:s2] = create_step(nodes[:root], nil, 0)
+      nodes[:s2] = create_step(nodes[:root], nil, 1)
       nodes[:s1] = create_step(nodes[:root], "2017-02-28", 30)
     end
   end

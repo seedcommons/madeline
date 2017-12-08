@@ -125,11 +125,12 @@ RSpec.describe ProjectDuplicator, type: :model do
         expect(s1.scheduled_duration_days).to eq 30
         expect(s1.schedule_parent).to be_nil
 
-        expect(g3_s3.scheduled_start_date).to eq Date.parse('2017-03-31')
+        expect(g3_s3.scheduled_start_date).to eq Date.parse('2017-03-30')
         expect(g3_s3.scheduled_duration_days).to eq 5
         expect(g3_s3.schedule_parent).to eq s1
 
-        expect(g5_s1.scheduled_start_date).to eq Date.parse('2017-04-06')
+        # start date for dependent step is end date of previous step + 1
+        expect(g5_s1.scheduled_start_date).to eq Date.parse('2017-04-04')
         expect(g5_s1.scheduled_duration_days).to eq 3
         expect(g5_s1.schedule_parent).to eq g3_s3
       end
