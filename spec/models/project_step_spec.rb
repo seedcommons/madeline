@@ -14,7 +14,7 @@
 #  parent_id               :integer
 #  project_id              :integer
 #  schedule_parent_id      :integer
-#  scheduled_duration_days :integer          default(0)
+#  scheduled_duration_days :integer
 #  scheduled_start_date    :date
 #  step_type_value         :string           not null
 #  type                    :string           not null
