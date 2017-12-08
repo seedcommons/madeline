@@ -167,6 +167,10 @@ en:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        media:
+          attributes:
+            item:
+              reattach: "please reattach your image"
 
   simple_form:
     hints:
