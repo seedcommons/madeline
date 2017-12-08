@@ -2,13 +2,14 @@ section.details class=(@basic_project.valid? ? "show-view" : " edit-view")
   .show-actions
     - if policy(@basic_project).update?
       - if @basic_project.valid?
+
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
           = t("basic_project.edit")
         a.show-action.form-element
           = t("cancel_edit")
       - else
-        a href=admin_basic_project_path(@person) = t("cancel_edit")
+        a href=admin_basic_project_path(current_user) = t("cancel_edit")
     - if policy(@basic_project).destroy?
       = link_to [:admin, @basic_project], method: :delete,
           data: { \

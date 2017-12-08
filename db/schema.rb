@@ -190,7 +190,7 @@ ActiveRecord::Schema.define(version: 20171129145057) do
 
   create_table "loan_questions", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string   "data_type"
+    t.string   "data_type", null: false
     t.integer  "division_id", null: false
     t.boolean  "has_embeddable_media", default: false, null: false
     t.string   "internal_name"
