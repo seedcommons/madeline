@@ -9,7 +9,7 @@
 #
 # Special Accounts
 # ====================
-# A Madeline Division can be associated with three special Quickbooks accounts:
+# A Madeline Division with a Quickbooks connection can be associated with three special Quickbooks accounts:
 #   * Principal account
 #     * Tracks principal amounts loaned to organizations
 #     * Should be an *accounts receivable* account in Quickbooks
@@ -20,17 +20,22 @@
 #     * Tracks income generated from interest on loans by the loan fund
 #     * Should be an *income* account in Quickbooks
 #
+# Each disbursement or repayment transaction is also associated with an account. This represents the
+# bank account (or cash) the money is coming out of or going into.
+#
 # Calculation Formula
 # =====================
 # For each Madeline transaction, in standard order (see the Transaction model for more on standard order):
 #   * For *interest* transactions:
 #     * Debit interest receivable account by accrued interest (see below)
 #     * Credit interest income account by accrued interest (see below)
-#   * For *disbursements* transactions:
-#     * Credit transaction account by transaction amount
+#   * For *disbursement* transactions:
+#     * Credit transaction account (bank account) by transaction amount
 #     * Debit principal account by transaction amount
 #   * For *repayment* transactions:
-#     * Debit transaction account by transaction amount
+#     * By default, repayments are applied to the interest balance until it reaches zero, then the
+#       remainder is applied to the principal.
+#     * Debit transaction account (bank account) by transaction amount
 #     * Credit interest receivable account by the lesser of
 #       * transaction amount, and
 #       * previous transaction's `interest_balance`
