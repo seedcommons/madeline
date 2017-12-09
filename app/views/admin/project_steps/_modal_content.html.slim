@@ -103,7 +103,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
             = t("project_step.days")
           - else
             .static-text-as-field 
-              => @step.old_duration_days
+              = @step.old_duration_days
               = t("project_step.days")
 
       = f.input "duration"
