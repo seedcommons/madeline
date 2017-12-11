@@ -61,9 +61,10 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   deleteGroup: (e, response) ->
     e.preventDefault()
-    $.post("/admin/project_groups/#{@parentId(e)}", {'_method': 'DELETE'})
-    .done => @refresh()
-    .fail (response) => MS.alert(response.responseText)
+    if (response)
+      $.post("/admin/project_groups/#{@parentId(e)}", {'_method': 'DELETE'})
+      .done => @refresh()
+      .fail (response) => MS.alert(response.responseText)
 
   newStep: (e) ->
     e.preventDefault()
