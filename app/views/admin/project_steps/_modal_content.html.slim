@@ -13,21 +13,22 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
   div.modal-body
     - if @mode == :show_and_form
       .show-actions
-        a.edit-action.view-element
-          i.fa.fa-pencil.fa-large>
-          = t("project_step.edit")
-        a.show-action.form-element
-          i.fa.fa-close.fa-large>
-          = t("cancel_edit")
-        - if @step.persisted?
-          a.delete-action [
-              data-confirm=t("project_step.confirm_deletion")
-              data-confirm-title=t("project_step.delete", count: 1)
-              data-confirm-cancel=t(:cancel)
-              data-confirm-proceed=t(:confirm)
-            ]
-            i.fa.fa-trash.fa-large>
-            = t("project_step.delete", count: 1)
+       - unless @context == "calendar"
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t("project_step.edit")
+          a.show-action.form-element
+            i.fa.fa-close.fa-large>
+            = t("cancel_edit")
+          - if @step.persisted?
+            a.delete-action [
+                data-confirm=t("project_step.confirm_deletion")
+                data-confirm-title=t("project_step.delete", count: 1)
+                data-confirm-cancel=t(:cancel)
+                data-confirm-proceed=t(:confirm)
+              ]
+              i.fa.fa-trash.fa-large>
+              = t("project_step.delete", count: 1)
       javascript:
         $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
