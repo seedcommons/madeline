@@ -16,7 +16,7 @@ header.small
       .item
         => link_to admin_note_path(note), method: :delete, class: 'delete-action',
             remote: true, data: { confirm: t('notes.confirm_deletion') }
-          i.fa.fa-trash>
+          i.fa.fa-trash
           = t(:delete)
 
 => simple_format note.text.to_s
