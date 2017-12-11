@@ -1,4 +1,4 @@
-class AddLineItemConstraints < ActiveRecord::Migration
+class AddLineItemConstraints < ActiveRecord::Migration[4.2]
   def change
     change_column_null :accounting_line_items, :accounting_account_id, false
     change_column_null :accounting_line_items, :accounting_transaction_id, false
