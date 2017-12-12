@@ -1,12 +1,14 @@
 # Madeline Accounting Features
+## Accounting README
 
+### About
 Madeline includes support for managing loan financial data with Quickbooks Online.
 
-Detailed documentation of this functionality is found throughout the classes in the Accounting namespace.
+Detailed documentation of this functionality is found throughout the classes in the Accounting namespace. See `app/models/accounting`.
 
 ### General Notes
 
-* Quickbooks Online is considered the authoritative source for accounting data.
+* [Quickbooks Online](https://developer.intuit.com/docs/00_quickbooks_online/1_get_started/00_get_started) is considered the authoritative source for accounting data.
 * Madeline's roles include:
     * Allowing easy viewing and editing of transaction data for a given Loan. In Quickbooks, the data is not easily viewable by loan.
     * Allowing easy creation of various types of standard transactions.
@@ -20,7 +22,7 @@ Changes to transactions in Madeline need to get pushed back to Quickbooks. There
 ways for transactions to get created/updated on the Madeline side:
 
 1. Creation via UI
-2. Auto-creation of an interest transaction upon creation of a disbursement or repayment when there are transactions on previous days but no interest transaction on 
+2. Auto-creation of an interest transaction upon creation of a disbursement or repayment when there are transactions on previous days but no interest transaction on
 3. Modification via the interest calculation process
 
 Any code that changes a transaction is responsible for setting the `needs_qb_push` flag on that transaction.
