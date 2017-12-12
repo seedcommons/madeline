@@ -55,7 +55,7 @@
     .view-element = @loan.display_currency
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
-  = render 'admin/loans/translatable', loan: @loan, f: f
+  = render 'admin/projects/translatable', project: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
     choices: @agent_choices, classes: 'hidden-print')

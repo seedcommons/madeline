@@ -108,7 +108,7 @@ describe ProjectStep, type: :model do
     let(:default_params) do
       { scheduled_start_date: default_start_date,
         old_start_date: default_old_date,
-        scheduled_duration_days: 0,
+        scheduled_duration_days: 1,
         old_duration_days: 0 }
     end
 
@@ -119,12 +119,12 @@ describe ProjectStep, type: :model do
 
     it 'returns scheduled_start_date if old_start_date is nil' do
       step = create(:project_step, default_params.merge(old_start_date: nil))
-      expect(step.original_end_date).to eq default_start_date
+      expect(step.original_end_date).to eq default_start_date + 1
     end
 
     it 'returns old_start_date if scheduled_start_date is present' do
       step = create(:project_step, default_params)
-      expect(step.original_end_date).to eq default_old_date
+      expect(step.original_end_date).to eq default_old_date + 1
     end
 
     it 'returns old_start_date if scheduled_start_date is nil' do
@@ -150,7 +150,7 @@ describe ProjectStep, type: :model do
     let(:default_params) { {
       scheduled_start_date: default_start_date,
       actual_end_date: default_actual_end_date,
-      scheduled_duration_days: 0
+      scheduled_duration_days: 1
     } }
 
     it 'returns actual_end_date when set' do
@@ -262,7 +262,7 @@ describe ProjectStep, type: :model do
       let(:duration) { 2 }
 
       it 'scheduled_end_date is correct' do
-        expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 6)
+        expect(step.scheduled_end_date).to eq Date.civil(2016, 3, 5)
       end
 
       it 'scheduled_start_date can be changed' do
@@ -295,7 +295,7 @@ describe ProjectStep, type: :model do
         scheduled_duration_days: parent_duration) }
       let(:parent_start) { Date.civil(2014, 5, 8) }
       let(:parent_end) { Date.civil(2014, 5, 13) }
-      let(:parent_duration) { 5 }
+      let(:parent_duration) { 6 }
 
       it 'has schedule_parent_id' do
         expect(step.schedule_parent_id).to eq parent_step.id
@@ -306,7 +306,7 @@ describe ProjectStep, type: :model do
       end
 
       it 'updates scheduled_end_date' do
-        expect(step.scheduled_end_date).to eq parent_end + 4
+        expect(step.scheduled_end_date).to eq parent_end + 3
       end
 
       it 'scheduled_start_date can be set to parent end + 1' do
@@ -341,7 +341,7 @@ describe ProjectStep, type: :model do
         end
 
         it 'keeps scheduled_end_date' do
-          expect(step.scheduled_end_date).to eq parent_end + 1 + step_duration
+          expect(step.scheduled_end_date).to eq parent_end + step_duration
         end
       end
     end

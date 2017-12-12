@@ -161,12 +161,20 @@ en:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+        basic_project:
+            attributes:
+              primary_agent:
+                same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         project_group:
           no_summary: "Summary is required."
         organization:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        timeline_entry:
+          attributes:
+            scheduled_end_date:
+              less_than_1: "The scheduled duration of a step cannot be less than 1 day"
 
   simple_form:
     hints:
