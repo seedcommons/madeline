@@ -7,6 +7,24 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     initialize_transactions_grid
   end
 
+  def new
+    @loan = Loan.find_by(id: params[:project_id])
+    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id])
+    authorize @transaction, :new?
+
+    prep_transaction_form
+    render_modal_partial
+  end
+
+  def show
+    @loan = Loan.find_by(id: params[:project_id])
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    authorize @transaction, :show?
+
+    prep_transaction_form
+    render_modal_partial
+  end
+
   def create
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
@@ -37,6 +55,19 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       render_modal_partial(status: 422)
     else
       raise ex
+    end
+  end
+
+  def update
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    @loan = Loan.find_by(id: @transaction.project_id)
+    authorize @transaction, :update?
+
+    if @transaction.save
+      redirect_to admin_loan_tab_path(@loan.id, tab: 'transactions'), notice: I18n.t(:notice_updated)
+    else
+      prep_transaction_form
+      render_modal_partial
     end
   end
 

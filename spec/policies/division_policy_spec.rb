@@ -34,7 +34,7 @@ describe DivisionPolicy do
     let(:user) { create(:user, :admin, division: parent_division) }
 
     permit_actions [:index, :show, :create, :edit, :update]
-    it 'can not delete division with a child' do
+    it 'cannot delete division with a child' do
       should forbid_action :destroy
     end
     it 'can delete division without children' do
@@ -58,7 +58,7 @@ describe DivisionPolicy do
   describe 'Scope' do
     context 'being a member of a division' do
       let(:user) { create(:user, :member, division: division) }
-      it 'can not resolve the parent division' do
+      it 'cannot resolve the parent division' do
         expect(division_id_scope(user, parent_division.id)).not_to exist
       end
       it 'can resolve the division' do
@@ -71,7 +71,7 @@ describe DivisionPolicy do
 
     context 'being an admin of a division' do
       let(:user) { create(:user, :admin, division: division) }
-      it 'can not resolve the parent division' do
+      it 'cannot resolve the parent division' do
         expect(division_id_scope(user, parent_division.id)).not_to exist
       end
       it 'can resolve the division' do
@@ -84,7 +84,7 @@ describe DivisionPolicy do
 
     context 'being owned by, but without roll association with a division' do
       let(:user) { create(:user, division: division) }
-      it 'can not resolve any division' do
+      it 'cannot resolve any division' do
         expect(division_scope(user)).not_to exist
       end
     end

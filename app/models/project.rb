@@ -63,6 +63,7 @@ class Project < ActiveRecord::Base
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
 
+  validate :check_agents
   validates :division_id, presence: true
 
   alias_method :logs, :project_logs
@@ -164,5 +165,15 @@ class Project < ActiveRecord::Base
     clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
 
     clauses.join(', ')
+  end
+
+  private
+
+  def agents_the_same?
+    (primary_agent.present? || secondary_agent.present?) && (primary_agent == secondary_agent)
+  end
+
+  def check_agents
+    errors.add(:primary_agent, :same_as_secondary) if agents_the_same?
   end
 end

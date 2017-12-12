@@ -106,11 +106,16 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def change_in_principal
+    # TODO: Make project required and get rid of these guard clauses
+    return 0 unless project
+
     # See InterestCalculator for more documentation on principal/interest accounts.
     @change_in_principal ||= net_debit_for_account(qb_division.principal_account_id)
   end
 
   def change_in_interest
+    return 0 unless project
+
     # See InterestCalculator for more documentation on principal/interest accounts.
      @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
   end

@@ -303,10 +303,10 @@ es:
   print: "Imprimir"
   quickbooks:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
-    class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de Quickbooks de tu negocio. "
+    class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de Quickbooks de tu negocio."
     full_sync_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
-    not_connected_html: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en <a href="%{link}" target="_blank">la página de configuración  </a> .'
+    not_connected: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en %{settings}.'
     service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
   reply_no: "No"
   reply_yes: "Sí"
@@ -360,6 +360,8 @@ es:
   calendar:
     calendar: "Calendario"
     check_in: "Check in"
+    draft: "Borrador"
+    finalized: "Finalizado"
     has_precedent: "Depende de otro paso"
     legend: "Leyenda"
     milestone: "Hito"

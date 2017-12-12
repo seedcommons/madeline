@@ -22,7 +22,7 @@ describe Note do
     expect(create(:note)).to be_valid
   end
 
-  it 'can not be created without a notable' do
+  it 'cannot be created without a notable' do
     expect{ create(:note, notable: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 end

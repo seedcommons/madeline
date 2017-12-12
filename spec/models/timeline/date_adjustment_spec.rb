@@ -89,11 +89,12 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
 
       it 'should move step_level_2 forward' do
         offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset + 1
+        expect(step_level_2.scheduled_start_date).to eq default_date + offset
       end
 
       it 'should move step_level_3 forward' do
-        offset = num_of_days + step_level_2.scheduled_duration_days + step.scheduled_duration_days
+        # subtract 1 from duration days since we are re-setting the duration and scheduled end date
+        offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
         expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
       end
     end
@@ -122,11 +123,12 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
 
       it 'should move step_level_2 forward' do
         offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset + 1
+        expect(step_level_2.scheduled_start_date).to eq default_date + offset
       end
 
       it 'should move step_level_3 forward' do
-        offset = num_of_days + step_level_2.scheduled_duration_days + step.scheduled_duration_days
+        # subtract 1 from duration days since we are re-setting the duration and scheduled end date
+        offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
         expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
       end
 

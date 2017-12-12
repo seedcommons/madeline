@@ -16,10 +16,12 @@ class Repayment < ActiveRecord::Base
   end
 
   def status_date
+    # this may or may not be available so setting a date default value
+
     if self.paid
-      "#{I18n.t :paid} #{I18n.l self.date_paid, format: :long}"
+      "#{I18n.t :paid} #{I18n.l(self.date_paid, format: :long, default: '')}"
     else
-      "#{I18n.t :due} #{I18n.l self.date_due, format: :long}"
+      "#{I18n.t :due} #{I18n.l(self.date_due, format: :long, default: '')}"
     end
   end
 
