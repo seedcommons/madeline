@@ -59,7 +59,7 @@ module TransactionListable
     Quickbooks::IntuitRequestException => e
     Rails.logger.error e
     ExceptionNotifier.notify_exception(e)
-    flash.now[:error] = t('quickbooks.misc')
+    flash.now[:error] = t('quickbooks.misc', msg: e)
   end
 
   def settings_link

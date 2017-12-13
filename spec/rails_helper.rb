@@ -72,6 +72,10 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+
+    if Rails.configuration.x.test
+      Rails.configuration.x.test = ActiveSupport::OrderedOptions.new
+    end
   end
 
   config.after(:suite) do
