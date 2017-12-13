@@ -30,6 +30,7 @@ feature 'loan flow' do
 
       select("Finalized", from: "status")
       wait_for_loading_indicator
+
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
         if te.is_finalized?
@@ -40,8 +41,11 @@ feature 'loan flow' do
       end
 
       select("All Statuses", from: "status")
+      wait_for_loading_indicator
+
       select("Milestone", from: "type")
       wait_for_loading_indicator
+
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
         if te.milestone?
