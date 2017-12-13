@@ -40,6 +40,8 @@ feature 'loan flow' do
         end
       end
 
+      # It's important to wait for the loading indicator after each of these select clicks.
+      # Otherwise the requests may resolve in the wrong order and cause failures.
       select("All Statuses", from: "status")
       wait_for_loading_indicator
 
