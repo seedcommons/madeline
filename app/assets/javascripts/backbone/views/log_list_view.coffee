@@ -14,12 +14,13 @@ class MS.Views.LogListView extends Backbone.View
     logId = @$(e.currentTarget).closest('.log').data('id')
     @logFormModalView.showEdit(logId, '', @refresh.bind(@))
 
-  deleteLog: (e) ->
+  deleteLog: (e, resp) ->
     e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
-    $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
-    .done => @refresh()
-    .fail (response) -> MS.alert(response.responseText)
+    if (resp)
+      $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
+      .done => @refresh()
+      .fail (response) -> MS.alert(response.responseText)
 
   refresh: () ->
     $.get @refreshUrl, (html) =>
