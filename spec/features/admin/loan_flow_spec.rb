@@ -30,6 +30,7 @@ feature 'loan flow' do
 
       select("Finalized", from: "status")
       wait_for_loading_indicator
+
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
         if te.is_finalized?
@@ -39,9 +40,14 @@ feature 'loan flow' do
         end
       end
 
+      # It's important to wait for the loading indicator after each of these select clicks.
+      # Otherwise the requests may resolve in the wrong order and cause failures.
       select("All Statuses", from: "status")
+      wait_for_loading_indicator
+
       select("Milestone", from: "type")
       wait_for_loading_indicator
+
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
         if te.milestone?

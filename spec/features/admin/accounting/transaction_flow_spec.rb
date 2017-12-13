@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'transaction flow' do
-  let!(:loan) { create(:loan) }
+  let!(:loan) { create(:loan, division: Division.root) }
   let(:user) { create_admin(Division.root) }
 
   before do

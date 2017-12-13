@@ -1,4 +1,4 @@
-class CreateLineItems < ActiveRecord::Migration
+class CreateLineItems < ActiveRecord::Migration[4.2]
   def change
     create_table :accounting_line_items do |t|
       t.integer :qb_line_id

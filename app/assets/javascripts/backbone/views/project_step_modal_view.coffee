@@ -32,11 +32,12 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @done = done
     @loadContent("/admin/project_steps/#{id}/edit?context=timeline_table")
 
-  delete: (e) ->
+  delete: (e, resp) ->
     id = @$(e.currentTarget).closest('[data-id]').data('id')
-    $.post "/admin/project_steps/#{id}", {'_method': 'DELETE'}, =>
-      @close()
-      @runAndResetDoneCallback()
+    if (resp)
+      $.post "/admin/project_steps/#{id}", {'_method': 'DELETE'}, =>
+        @close()
+        @runAndResetDoneCallback()
 
   close: ->
     @$el.modal('hide')
