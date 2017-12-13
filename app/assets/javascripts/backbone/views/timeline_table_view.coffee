@@ -19,7 +19,6 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .step-menu-col .fa-cog': 'openStepMenu'
     'click .timeline-action[data-action="new-group"]': 'newGroup'
     'click .timeline-action[data-action="new-step"]': 'newStep'
-    'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
     'click #project-group-menu [data-action="edit"]': 'editGroup'
@@ -28,6 +27,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
+    'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
     'mouseenter .step-start-date': 'showPrecedentStep'
@@ -79,14 +79,15 @@ class MS.Views.TimelineTableView extends Backbone.View
       @logFormModalView = new MS.Views.LogFormModalView(el: $("<div>").insertAfter(@$el))
     @logFormModalView.showNew(@stepIdFromEvent(e), @refresh.bind(@))
 
-  deleteStep: (e) ->
+  deleteStep: (e, resp) ->
     item = e.currentTarget
     stepId = $(item).closest('.step-menu-col').data('id')
-    $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
-    .done =>
-      @refresh()
-    .fail (response) ->
-      MS.alert(response.responseText)
+    if (resp)
+      $.ajax(type: "DELETE", url: "/admin/project_steps/#{stepId}")
+      .done =>
+        @refresh()
+      .fail (response) ->
+        MS.alert(response.responseText)
 
   addDependentStep: (e) ->
     e.preventDefault()
