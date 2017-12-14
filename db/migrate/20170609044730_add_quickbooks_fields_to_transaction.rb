@@ -1,4 +1,4 @@
-class AddQuickbooksFieldsToTransaction < ActiveRecord::Migration
+class AddQuickbooksFieldsToTransaction < ActiveRecord::Migration[4.2]
   def change
     add_column :accounting_transactions, :amount, :decimal
     add_column :accounting_transactions, :txn_date, :date

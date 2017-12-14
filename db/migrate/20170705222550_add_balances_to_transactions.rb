@@ -1,4 +1,4 @@
-class AddBalancesToTransactions < ActiveRecord::Migration
+class AddBalancesToTransactions < ActiveRecord::Migration[4.2]
   def change
     add_column :accounting_transactions, :principal_balance, :decimal, default: 0.0
     add_column :accounting_transactions, :interest_balance, :decimal, default: 0.0

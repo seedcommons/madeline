@@ -101,16 +101,17 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     @$(e.target).closest('a').attr('data-confirm',
       I18n.t("loan_questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
 
-  deleteNode: (e) ->
+  deleteNode: (e, resp) ->
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
 
-    $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
-    .done (response) =>
-      @refreshTree(response)
-    .fail (response) ->
-      MS.alert(response.responseText)
-    return false
+    if (resp)
+      $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
+      .done (response) =>
+        @refreshTree(response)
+      .fail (response) ->
+        MS.alert(response.responseText)
+      return false
 
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
