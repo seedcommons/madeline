@@ -47,4 +47,8 @@ describe Division, :type => :model do
     root_division
     expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+  describe '#' do
+
+  end
 end
