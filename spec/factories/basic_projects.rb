@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :basic_project do
     division { root_division }
     name {"Test Basic Project"}

@@ -24,7 +24,7 @@ class Admin::TimelineStepMovesController < Admin::AdminController
 
     if @log.save
       @step_move.execute!
-      render nothing: true
+      head :ok
     else
       set_log_form_vars
       render :new, layout: false, status: :unprocessable_entity
@@ -36,7 +36,7 @@ class Admin::TimelineStepMovesController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step, :update?
     @step.update_attributes(scheduled_start_date: params[:scheduled_start_date])
-    render nothing: true
+    head :ok
   end
 
   private

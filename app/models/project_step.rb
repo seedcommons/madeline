@@ -27,10 +27,10 @@
 #
 # Foreign Keys
 #
-#  fk_rails_8589af42f8  (agent_id => people.id)
-#  fk_rails_af8b359300  (project_id => projects.id)
-#  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
-#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
+#  fk_rails_...  (agent_id => people.id)
+#  fk_rails_...  (parent_id => timeline_entries.id)
+#  fk_rails_...  (project_id => projects.id)
+#  fk_rails_...  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'chronic'

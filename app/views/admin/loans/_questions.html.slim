@@ -23,12 +23,7 @@ section.questionnaires
           a.show-action.form-element href="javascript:void(0)"
             = t("cancel_edit")
           = link_to [:admin, @response_set], method: :delete,
-            data: { \
-              confirm: t("loan.confirm_response_deletion"),
-              "confirm-cancel": t(:cancel),
-              "confirm-proceed": t(:confirm),
-              "confirm-title": t("loan.delete_responses") \
-            }
+            data: { confirm: t("loan.confirm_response_deletion") }
             i.fa.fa-trash.fa-large>
             = t(".delete")
 

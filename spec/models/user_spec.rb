@@ -26,7 +26,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a8794354f0  (profile_id => people.id)
+#  fk_rails_...  (profile_id => people.id)
 #
 
 require 'rails_helper'

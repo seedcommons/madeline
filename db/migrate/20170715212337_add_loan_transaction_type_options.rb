@@ -1,4 +1,4 @@
-class AddLoanTransactionTypeOptions < ActiveRecord::Migration
+class AddLoanTransactionTypeOptions < ActiveRecord::Migration[4.2]
   def up
     loan_transaction_type = OptionSet.find_or_create_by(division: Division.root, model_type: Accounting::Transaction.name,
       model_attribute: 'loan_transaction_type')

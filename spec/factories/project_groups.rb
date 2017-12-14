@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :project_group do |f|
 
     association :project, factory: :loan
@@ -55,8 +55,8 @@ class ProjectGroupFactoryHelper
   #
   # But creates in a jumbled order so that we know sort works properly.
   def self.create_full_timeline
-    project = FactoryGirl.create(:loan)
-    root = FactoryGirl.create(:root_project_group, project: project)
+    project = FactoryBot.create(:loan)
+    root = FactoryBot.create(:root_project_group, project: project)
     create_descendants(root)
   end
 
@@ -86,13 +86,13 @@ class ProjectGroupFactoryHelper
   end
 
   def self.create_group(parent)
-    FactoryGirl.create(:project_group, project: parent.project, parent: parent).tap do |group|
+    FactoryBot.create(:project_group, project: parent.project, parent: parent).tap do |group|
       parent.children << group
     end
   end
 
   def self.create_step(parent, scheduled_start_date, scheduled_duration_days)
-    FactoryGirl.create(:project_step,
+    FactoryBot.create(:project_step,
       project: parent.project,
       parent: parent,
       scheduled_start_date: scheduled_start_date,

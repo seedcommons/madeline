@@ -17,7 +17,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_db3e5d5ea9  (option_set_id => option_sets.id)
+#  fk_rails_...  (option_set_id => option_sets.id)
 #
 
 class Option < ActiveRecord::Base

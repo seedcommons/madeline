@@ -31,9 +31,9 @@
 #
 # Foreign Keys
 #
-#  fk_rails_3b7e4ae807  (accounting_account_id => accounting_accounts.id)
-#  fk_rails_662fd2ba2d  (project_id => projects.id)
-#  fk_rails_db49322130  (currency_id => currencies.id)
+#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (project_id => projects.id)
 #
 
 class Accounting::Transaction < ActiveRecord::Base

@@ -19,8 +19,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_c0f205ff31  (accounting_account_id => accounting_accounts.id)
-#  fk_rails_c987f5b811  (accounting_transaction_id => accounting_transactions.id)
+#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
+#  fk_rails_...  (accounting_transaction_id => accounting_transactions.id)
 #
 
 class Accounting::LineItem < ActiveRecord::Base

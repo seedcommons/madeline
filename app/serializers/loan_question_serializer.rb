@@ -3,12 +3,14 @@
 # Table name: loan_questions
 #
 #  created_at            :datetime         not null
-#  data_type             :string
+#  data_type             :string           not null
+#  division_id           :integer          not null
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
 #  loan_question_set_id  :integer
 #  migration_position    :integer
+#  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
@@ -22,7 +24,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a32cf017b9  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
 #
 
 class LoanQuestionSerializer < ActiveModel::Serializer

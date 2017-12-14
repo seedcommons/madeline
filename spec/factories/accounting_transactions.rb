@@ -1,4 +1,42 @@
-FactoryGirl.define do
+# == Schema Information
+#
+# Table name: accounting_transactions
+#
+#  accounting_account_id       :integer
+#  amount                      :decimal(, )
+#  created_at                  :datetime         not null
+#  currency_id                 :integer
+#  description                 :string
+#  id                          :integer          not null, primary key
+#  interest_balance            :decimal(, )      default(0.0)
+#  loan_transaction_type_value :string
+#  principal_balance           :decimal(, )      default(0.0)
+#  private_note                :string
+#  project_id                  :integer
+#  qb_id                       :string
+#  qb_transaction_type         :string           not null
+#  quickbooks_data             :json
+#  total                       :decimal(, )
+#  txn_date                    :date
+#  updated_at                  :datetime         not null
+#
+# Indexes
+#
+#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
+#  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
+#  index_accounting_transactions_on_currency_id            (currency_id)
+#  index_accounting_transactions_on_project_id             (project_id)
+#  index_accounting_transactions_on_qb_id                  (qb_id)
+#  index_accounting_transactions_on_qb_transaction_type    (qb_transaction_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (project_id => projects.id)
+#
+
+FactoryBot.define do
   factory :accounting_transaction, class: 'Accounting::Transaction', aliases: [:journal_entry_transaction] do
     # division is not an attribute here but we need to access the accounts associated
     # this is only for some traits below
