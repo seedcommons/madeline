@@ -2,7 +2,7 @@ module TransactionListable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    update_transactions(project) unless Rails.env.test?
+    update_transactions(project)
     @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
 
     if project
@@ -39,7 +39,15 @@ module TransactionListable
   private
 
   def update_transactions(project)
-    ::Accounting::Quickbooks::Updater.new.update(project)
+    # Stub the Updater in test mode
+    if Rails.env.test?
+      # Raise an error if requested by the specs
+      if msg = Rails.configuration.x.test.set_invalid_model_error
+        raise Quickbooks::InvalidModelException.new(msg)
+      end
+    else
+      ::Accounting::Quickbooks::Updater.new.update(project)
+    end
   rescue Accounting::Quickbooks::FullSyncRequiredError => e
     Rails.logger.error e
     @full_sync_required = true

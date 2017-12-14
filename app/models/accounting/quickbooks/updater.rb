@@ -1,7 +1,5 @@
 module Accounting
   module Quickbooks
-    class FullSyncRequiredError < StandardError; end
-    class NotConnectedError < StandardError; end
 
     # Reponsible for grabbing only the updates that have happened in quickbooks
     # since the last time this class was run. If no quickbooks data exists in the sytem

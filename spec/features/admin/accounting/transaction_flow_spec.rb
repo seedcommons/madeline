@@ -21,7 +21,6 @@ feature 'transaction flow' do
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
-      visit "/admin/loans/#{loan.id}/transactions"
     end
 
     describe 'new transaction' do
@@ -29,6 +28,7 @@ feature 'transaction flow' do
       # all the necessary things was not practical at the time.
       # Eventually we should refactor the Quickbooks code such that stubbing is easier.
       scenario 'creates new transaction' do
+        visit "/admin/loans/#{loan.id}/transactions"
         click_on 'Add Transaction'
         select 'Disbursement', from: 'Type of Transaction'
         fill_in 'Date', with: Date.today.to_s
@@ -47,8 +47,8 @@ feature 'transaction flow' do
       end
 
       scenario 'throws error when qb returns error' do
-        # add test to cause expectastion
-        expect(page).to have_content('qb model error')
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_alert('Some data may be out of date. (Error: qb model error)')
       end
     end
   end
