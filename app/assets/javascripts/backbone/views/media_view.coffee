@@ -27,11 +27,12 @@ class MS.Views.MediaView extends Backbone.View
   deleteConfirm: (e, response) ->
     e.preventDefault()
     link = e.currentTarget
-    @defineMediaVariables(link)
-    MS.loadingIndicator.show()
+    if (response)
+      @defineMediaVariables(link)
+      MS.loadingIndicator.show()
 
-    $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
-      @deleteComplete(html)
+      $.post @$(link).attr('href'), {'_method': 'DELETE'}, (html) =>
+        @deleteComplete(html)
 
   deleteComplete: (html) ->
     MS.loadingIndicator.hide()

@@ -15,8 +15,7 @@ header.small
     - if policy(note).destroy?
       .item
         => link_to admin_note_path(note), method: :delete, class: 'delete-action',
-            data: { confirm: t('notes.confirm_deletion') }
-            remote: true
+            remote: true, data: { confirm: t('notes.confirm_deletion') }
           i.fa.fa-trash>
           = t(:delete)
 
