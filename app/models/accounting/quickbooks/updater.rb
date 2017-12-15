@@ -7,6 +7,8 @@ module Accounting
     class Updater
       attr_reader :qb_connection
 
+      MIN_TIME_BETWEEN_UPDATES = 5.seconds
+
       def initialize(qb_connection = Division.root.qb_connection)
         @qb_connection = qb_connection
       end
@@ -14,8 +16,7 @@ module Accounting
       # checks that accounts and transactions are found, created, updated or deleted
       def update(loan = nil)
         raise NotConnectedError unless qb_connection
-
-        update_started_at = Time.zone.now
+        return if too_soon_to_run_again?
 
         updated_models = changes.flat_map do |type, qb_objects|
           qb_objects.map do |qb_object|
@@ -27,7 +28,14 @@ module Accounting
           end
         end
 
-        qb_connection.update_attribute(:last_updated_at, update_started_at)
+        # We record last_updated_at as the time the update *finishes* because last_updated_at
+        # is used to avoid runs that immediately follow each other as in the case of a transaction creation
+        # followed by a transaction listing. If we record the time the update *started* and the update
+        # takes some time, we would need to increase the MIN_TIME_BETWEEN_UPDATES value and that might
+        # make it frustrating for users who want to deliberately re-run the updater.
+        # The other function of last_updated_at is to check if a full sync needs to be run,
+        # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
+        qb_connection.update_attribute(:last_updated_at, Time.now)
 
         update_ledger(loan) if loan
 
@@ -35,6 +43,11 @@ module Accounting
       end
 
       private
+
+      def too_soon_to_run_again?
+        return false if qb_connection.last_updated_at.nil?
+        Time.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
+      end
 
       def update_ledger(loan)
         loan.transactions.standard_order.each do |txn|

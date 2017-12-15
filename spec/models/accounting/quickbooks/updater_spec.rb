@@ -193,6 +193,15 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       end
     end
 
+    context 'when last_updated_at is less than 5 seconds ago' do
+      let(:last_updated_at) { 4.seconds.ago }
+
+      it 'returns without doing anything' do
+        expect(subject).not_to receive(:changes)
+        subject.update
+      end
+    end
+
     context 'when last_updated_at is 30 days ago' do
       let(:last_updated_at) { 30.days.ago }
 
