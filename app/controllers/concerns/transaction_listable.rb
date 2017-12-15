@@ -2,13 +2,16 @@ module TransactionListable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    update_transactions(project)
+    if error = run_updater_and_handle_errors(project: project)
+      flash.now[:error] = error
+    end
+
     @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
 
     if project
-      @transactions = ::Accounting::Transaction.where(project_id: project.id)
+      @transactions = Accounting::Transaction.where(project_id: project.id)
     else
-      @transactions = ::Accounting::Transaction.all
+      @transactions = Accounting::Transaction.all
     end
 
     @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
@@ -36,39 +39,47 @@ module TransactionListable
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
   end
 
-  private
-
-  def update_transactions(project)
-    # Stub the Updater in test mode
-    if Rails.env.test?
-      # Raise an error if requested by the specs
-      if msg = Rails.configuration.x.test.set_invalid_model_error
-        raise Quickbooks::InvalidModelException.new(msg)
+  # Runs the updater for the given project and handles any Quickbooks errors.
+  # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
+  # Notifies admins if error is not part of normal operation.
+  # Sets the @full_sync_required variable if a FullSyncRequiredError error is raised.
+  def run_updater_and_handle_errors(project:)
+    error_msg = nil
+    begin
+      # Stub the Updater in test mode
+      if Rails.env.test?
+        # Raise an error if requested by the specs
+        if msg = Rails.configuration.x.test.set_invalid_model_error
+          raise Quickbooks::InvalidModelException.new(msg)
+        end
+      else
+        Accounting::Quickbooks::Updater.new.update(project)
       end
-    else
-      ::Accounting::Quickbooks::Updater.new.update(project)
+    rescue Accounting::Quickbooks::FullSyncRequiredError => e
+      Rails.logger.error e
+      @full_sync_required = true
+      error_msg = t('quickbooks.full_sync_required', settings: settings_link).html_safe
+    rescue Quickbooks::ServiceUnavailable => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.service_unavailable')
+    rescue Quickbooks::MissingRealmError,
+      Accounting::Quickbooks::NotConnectedError,
+      Quickbooks::AuthorizationFailure => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
+    rescue Quickbooks::InvalidModelException,
+      Quickbooks::Forbidden,
+      Quickbooks::ThrottleExceeded,
+      Quickbooks::TooManyRequests,
+      Quickbooks::IntuitRequestException => e
+      Rails.logger.error e
+      ExceptionNotifier.notify_exception(e)
+      error_msg = t('quickbooks.misc', msg: e)
     end
-  rescue Accounting::Quickbooks::FullSyncRequiredError => e
-    Rails.logger.error e
-    @full_sync_required = true
-    flash.now[:error] = t('quickbooks.full_sync_required', settings: settings_link).html_safe
-  rescue Quickbooks::ServiceUnavailable => e
-    Rails.logger.error e
-    flash.now[:error] = t('quickbooks.service_unavailable')
-  rescue Quickbooks::MissingRealmError,
-    Accounting::Quickbooks::NotConnectedError,
-    Quickbooks::AuthorizationFailure => e
-    Rails.logger.error e
-    flash.now[:error] = t('quickbooks.authorization_failure', settings: settings_link).html_safe
-  rescue Quickbooks::InvalidModelException,
-    Quickbooks::Forbidden,
-    Quickbooks::ThrottleExceeded,
-    Quickbooks::TooManyRequests,
-    Quickbooks::IntuitRequestException => e
-    Rails.logger.error e
-    ExceptionNotifier.notify_exception(e)
-    flash.now[:error] = t('quickbooks.misc', msg: e)
+    error_msg
   end
+
+  private
 
   def settings_link
     view_context.link_to(t('menu.settings'), admin_settings_path)

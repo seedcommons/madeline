@@ -30,48 +30,17 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize @loan
     @transaction = ::Accounting::Transaction.new(transaction_params)
 
-    begin
-      if @transaction.valid?
-        # This is a database transaction, not accounting!
-        # We use it because we want to rollback transaction creation or updates if there are errors.
-        ActiveRecord::Base.transaction do
-          reconcile_and_save_transaction
-          ensure_interest_transaction
-
-          # Stub the Updater in test mode
-          if Rails.env.test?
-            # Raise an error if requested by the specs
-            if msg = Rails.configuration.x.test.set_invalid_model_error
-              raise Quickbooks::InvalidModelException.new(msg)
-            end
-          else
-            ::Accounting::Quickbooks::Updater.new.update(project)
-          end
-
-          flash[:notice] = t("admin.loans.transactions.create_success")
-          head :ok
+    if @transaction.valid?
+      # This is a database transaction, not accounting!
+      # We use it because we want to rollback transaction creation or updates if there are errors.
+      ActiveRecord::Base.transaction do
+        reconcile_and_save_transaction
+        ensure_interest_transaction
+        if error = run_updater_and_handle_errors(project: @transaction.project)
+          @transaction.errors.add(:base, error)
+          raise ActiveRecord::Rollback
         end
       end
-    rescue Accounting::Quickbooks::FullSyncRequiredError => e
-      Rails.logger.error e
-      @full_sync_required = true
-      @transaction.errors.add(:base, t('quickbooks.full_sync_required', settings: settings_link).html_safe)
-    rescue Quickbooks::ServiceUnavailable => e
-      Rails.logger.error e
-      @transaction.errors.add(:base, t('quickbooks.service_unavailable'))
-    rescue Quickbooks::MissingRealmError,
-      Accounting::Quickbooks::NotConnectedError,
-      Quickbooks::AuthorizationFailure => e
-      Rails.logger.error e
-      @transaction.errors.add(:base, t('quickbooks.authorization_failure', settings: settings_link).html_safe)
-    rescue Quickbooks::InvalidModelException,
-      Quickbooks::Forbidden,
-      Quickbooks::ThrottleExceeded,
-      Quickbooks::TooManyRequests,
-      Quickbooks::IntuitRequestException => e
-      Rails.logger.error e
-      ExceptionNotifier.notify_exception(e)
-      @transaction.errors.add(:base, t('quickbooks.misc', msg: e))
     end
 
     # Since the txn has already been saved and/or validated before errors are added in
@@ -79,6 +48,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     if @transaction.errors.any?
       prep_transaction_form
       render_modal_partial(status: 422)
+    else
+      # The JS modal view will reload the index page if we return 200, so we set a flash message.
+      flash[:notice] = t("admin.loans.transactions.create_success")
+      head :ok
     end
   end
 
