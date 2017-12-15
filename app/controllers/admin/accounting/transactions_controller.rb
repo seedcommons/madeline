@@ -32,27 +32,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     begin
       if @transaction.valid?
-        # We don't have the ability to stub quickbooks interactions so
-        # for now we'll just return a fake JournalEntry in test mode.
-        if Rails.env.test?
-          journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
-        else
-          reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
-          journal_entry = reconciler.reconcile @transaction
-        end
-
-        # It's important we store the ID and type of the QB journal entry we just created
-        # so that on the next sync, a duplicate is not created.
-        @transaction.associate_with_qb_obj(journal_entry)
-        @transaction.save
-
-        # Create blank interest transaction. The interest calculator will pick this up and
-        # calculate the value, and sync it to quickbooks.
-        interest_description = I18n.t('transactions.interest_description', loan_id: @loan.id)
-
-        interest_transaction = ::Accounting::Transaction
-          .find_or_create_by!(transaction_params.except(:amount, :description)
-          .merge(qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE, description: interest_description))
+        reconcile_and_save_transaction
+        ensure_interest_transaction
 
         # Stub the Updater in test mode
         if Rails.env.test?
@@ -111,6 +92,36 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   private
+
+  # Syncs transaction to Quickbooks, saves the new QB ID, and saves the transaction.
+  # Assumes @transaction has already been validated.
+  # Raises ActiveRecord::InvalidRecord if somehow the txn has become invalid (shouldn't happen).
+  # May raise Quickbooks errors due to the sync operation.
+  def reconcile_and_save_transaction
+    # We don't have the ability to stub quickbooks interactions so
+    # for now we'll just return a fake JournalEntry in test mode.
+    if Rails.env.test?
+      journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
+    else
+      reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
+      journal_entry = reconciler.reconcile @transaction
+    end
+
+    # It's important we store the ID and type of the QB journal entry we just created
+    # so that on the next sync, a duplicate is not created.
+    @transaction.associate_with_qb_obj(journal_entry)
+    @transaction.save!
+  end
+
+  # Create blank interest transaction. The interest calculator will pick this up and
+  # calculate the value, and sync it to quickbooks.
+  # Raises an ActiveRecord::InvalidRecord error if there is a validation error, which there never should be.
+  def ensure_interest_transaction
+    Accounting::Transaction.find_or_create_by!(transaction_params.except(:amount, :description).merge(
+      qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE,
+      description: I18n.t('transactions.interest_description', loan_id: @loan.id)
+    ))
+  end
 
   def transaction_params
     params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
