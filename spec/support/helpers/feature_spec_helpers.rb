@@ -18,8 +18,8 @@ module FeatureSpecHelpers
     find(".select2-results li", text: /#{value}/).click
   end
 
-  def have_alert(msg)
-    have_css('p.alert', text: msg)
+  def have_alert(msg, container: 'body')
+    have_css("#{container} .alert", text: msg)
   end
 
   shared_examples :flow do

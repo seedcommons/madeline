@@ -53,13 +53,13 @@ feature 'transaction flow' do
         expect(page).to have_alert(qb_model_error)
       end
 
-      scenario 'throws error in txn creation modal' do
+      scenario 'error thrown during transaction creation is displayed' do
         visit "/admin/loans/#{loan.id}/transactions"
         fill_some_part_of_txn_form
         fill_in 'Amount', with: '12.34'
         Rails.configuration.x.test.set_invalid_model_error = 'qb model error'
         page.find('a[data-action="submit"]').click
-        expect(page).to have_alert(qb_model_error)
+        expect(page).to have_alert(qb_model_error, container: '.transaction-form')
       end
     end
   end
