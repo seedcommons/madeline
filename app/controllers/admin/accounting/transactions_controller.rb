@@ -78,19 +78,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
-  def update
-    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
-    @loan = Loan.find_by(id: @transaction.project_id)
-    authorize @transaction, :update?
-
-    if @transaction.save
-      redirect_to admin_loan_tab_path(@loan.id, tab: 'transactions'), notice: I18n.t(:notice_updated)
-    else
-      prep_transaction_form
-      render_modal_partial
-    end
-  end
-
   private
 
   # Syncs transaction to Quickbooks, saves the new QB ID, and saves the transaction.
