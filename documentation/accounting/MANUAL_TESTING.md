@@ -14,6 +14,26 @@
     2. Loans Receivable (Type: Accounts receivable)
     3. Interest Income (Type: Income)
 
+
+### Create an Intuit Developer account
+
+In order to test any of the QuickBooks features, you will need to create an Intuit Developer account and sandbox.
+
+1. Visit https://developer.intuit.com
+1. Click "Sign In"
+1. Create an account, or sign in
+1. Click on "My Apps"
+1. Click on "Select APIs" under "Just start coding"
+1. Select "Accounting" and click "Create app"
+1. Click on "Keys"
+1. Copy the OAuth Key and Secret into your .env file. Use `.env.example` as a template.
+1. While logged into the application (Madeline site), visit Manage > Settings.
+1. Click on the button that says "Connect to QuickBooks."
+1. Sign in to the QuickBooks account for your developer account.
+1. Click authorize to connect your account data to Madeline.
+
+Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-version-3-api-part-1.html if any steps are missing..
+
 ### Accounting
 
 1. Connect to QuickBooks
