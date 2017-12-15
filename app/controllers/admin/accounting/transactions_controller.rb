@@ -43,8 +43,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       end
     end
 
-    # Since the txn has already been saved and/or validated before errors are added in
-    # rescue blocks, valid? may be true even if there are errors.
+    # Since the txn has already been saved and/or validated before errors are added after
+    # run_updater_and_handle_errors, valid? may be true even if there are errors.
     if @transaction.errors.any?
       prep_transaction_form
       render_modal_partial(status: 422)
@@ -59,7 +59,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   # Syncs transaction to Quickbooks, saves the new QB ID, and saves the transaction.
   # Assumes @transaction has already been validated.
-  # Raises ActiveRecord::InvalidRecord if somehow the txn has become invalid (shouldn't happen).
+  # Raises ActiveRecord::InvalidRecord if somehow the txn becomes invalid (shouldn't happen).
   # May raise Quickbooks errors due to the sync operation.
   def reconcile_and_save_transaction
     # We don't have the ability to stub quickbooks interactions so
@@ -68,7 +68,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
     else
       reconciler = Accounting::Quickbooks::TransactionReconciler.new
-      journal_entry = reconciler.reconcile @transaction
+      journal_entry = reconciler.reconcile(@transaction)
     end
 
     # It's important we store the ID and type of the QB journal entry we just created
