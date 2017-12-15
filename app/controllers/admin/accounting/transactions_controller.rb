@@ -32,21 +32,25 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     begin
       if @transaction.valid?
-        reconcile_and_save_transaction
-        ensure_interest_transaction
+        # This is a database transaction, not accounting!
+        # We use it because we want to rollback transaction creation or updates if there are errors.
+        ActiveRecord::Base.transaction do
+          reconcile_and_save_transaction
+          ensure_interest_transaction
 
-        # Stub the Updater in test mode
-        if Rails.env.test?
-          # Raise an error if requested by the specs
-          if msg = Rails.configuration.x.test.set_invalid_model_error
-            raise Quickbooks::InvalidModelException.new(msg)
+          # Stub the Updater in test mode
+          if Rails.env.test?
+            # Raise an error if requested by the specs
+            if msg = Rails.configuration.x.test.set_invalid_model_error
+              raise Quickbooks::InvalidModelException.new(msg)
+            end
+          else
+            ::Accounting::Quickbooks::Updater.new.update(project)
           end
-        else
-          ::Accounting::Quickbooks::Updater.new.update(project)
-        end
 
-        flash[:notice] = t("admin.loans.transactions.create_success")
-        head :ok
+          flash[:notice] = t("admin.loans.transactions.create_success")
+          head :ok
+        end
       end
     rescue Accounting::Quickbooks::FullSyncRequiredError => e
       Rails.logger.error e

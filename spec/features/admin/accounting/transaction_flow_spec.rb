@@ -54,12 +54,16 @@ feature 'transaction flow' do
       end
 
       scenario 'error thrown during transaction creation is displayed' do
-        visit "/admin/loans/#{loan.id}/transactions"
-        fill_some_part_of_txn_form
-        fill_in 'Amount', with: '12.34'
-        Rails.configuration.x.test.set_invalid_model_error = 'qb model error'
-        page.find('a[data-action="submit"]').click
-        expect(page).to have_alert(qb_model_error, container: '.transaction-form')
+        # This process should not create any transactions (disbursement OR interest)
+        # because it errors out.
+        expect do
+          visit "/admin/loans/#{loan.id}/transactions"
+          fill_some_part_of_txn_form
+          fill_in 'Amount', with: '12.34'
+          Rails.configuration.x.test.set_invalid_model_error = 'qb model error'
+          page.find('a[data-action="submit"]').click
+          expect(page).to have_alert(qb_model_error, container: '.transaction-form')
+        end.to change { Accounting::Transaction.count }.by(0)
       end
     end
   end
