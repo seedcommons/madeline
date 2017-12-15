@@ -1,10 +1,11 @@
 # Madeline Accounting Features
 ## Manual Testing Protocol
 
-### Setup
+## Setup
 
-1. `rake dev:db_reset` (Deletes all data and creates fake data)
-2. Sign in with admin user (admin@example.com, xxxxxxxx)
+### Set up Madeline test database
+1. Run `rake dev:db_reset`. (This deletes all data and creates fake data.)
+2. Sign in with the admin user. Credentials appear in the console when the above rake command is run.
 
 ### Set up a QuickBooks app
 
@@ -92,26 +93,37 @@ as `Connected`.
   1. Interest Income Account: Interest Income
 1. Click `Save`. A successfully updated flash message will appear.
 
-### Features
-4. Loan Transactions
-    1. Click 'Loans' from nav menu and choose a loan with no transactions from the table.
-    2. Note the number in the Rate field.
-    2. Click 'Transactions' tab. ("No records" message)
-    3. Click 'Add Transaction'
-        1. Type: Disbursement
-        2. Date: Today (default)
-        3. Bank Acct: Any
-        4. Amount: 100
-        5. Description: Default is fine
-        6. Memo: Random text
-        7. Click 'Add' (Txn shows in table, Flash message: successfully created)
-    4. Click 'Add Transaction'
-        1. Type: Repayment
-        2. Date: One year from now
-        3. Bank Acct: Any
-        4. Amount: 50
-        5. Click 'Add' (Txn shows in table, int txn also shows on same day before repayment, appropriate value)
-        6. View values for int/prin ∆s and totals in table (Should be all present and reasonable)
+## Features
+
+### Loan Transactions
+  1. Inside Madeline, click `Loans` from the main menu and choose a loan with no transactions from the table.
+    1. Inside a loan, a loan with no transactions will not show a list of transactions in the `Transactions` tab.
+  1. Click on the loan you want to open. The loan's `Details` tab is initially shown.
+  1. Note the number in the `Rate` field in the loan's `Details`.
+  2. Click the `Transactions` tab.
+
+#### Add Disbursement
+  1. Click 'Add Transaction'
+    1. Type: Disbursement
+    1. Date: Today (default)
+    1. Bank Acct: Any
+    1. Amount: 100
+    1. Description: Default is fine
+    1. Memo: Random text
+    1. Click 'Add'
+  1. The newly created transaction shows up in table. Flash message: successfully created.
+
+#### Add Repayment
+  1. Click 'Add Transaction'
+    1. Type: Repayment
+    1. Date: One year from now
+    1. Bank Acct: Any
+    1. Amount: 50
+    1. Click 'Add'
+  1. Txn shows in table, int txn also shows on same day before repayment, appropriate value
+
+#### int/prin ∆s and totals in table
+    6. View values for int/prin ∆s and totals in table (Should be all present and reasonable)
     5. Go to QB > Gear Icon > All Lists > Classes
         1. Find loan ID and click 'Run Report'
         2. Ignore Balance column
@@ -126,8 +138,9 @@ as `Connected`.
             1. View line items (Correct amounts, accounts, description, class, location, name)
             2. View correct memo
             3. Exit Journal Entry view
-    6. Edit disbursement in QB
-        1. Change both disbursement line item amounts to 110
-    7. Go back to Madeline and reload txn page of the loan (this should recalculate interest and send back to QBO)
-    8. Refresh the page (runs updater again, nothing should change)
-    9. Go back to QBO and see that interest txn has updated, repayment updated also (line items)
+
+#### Edit disbursement in QB
+  1. Change both disbursement line item amounts to 110
+  7. Go back to Madeline and reload txn page of the loan (this should recalculate interest and send back to QBO)
+  8. Refresh the page (runs updater again, nothing should change)
+  9. Go back to QBO and see that interest txn has updated, repayment updated also (line items)
