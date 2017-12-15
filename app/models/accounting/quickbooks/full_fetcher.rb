@@ -10,7 +10,7 @@ module Accounting
       end
 
       def fetch_all
-        divisions_accounts = clear_all_accounts
+        divisions_accounts = clear_all_accounts!
 
         ::Accounting::Transaction.destroy_all
         ::Accounting::Account.destroy_all
@@ -22,12 +22,14 @@ module Accounting
 
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
 
-        restore_all_accounts(divisions_accounts)
+        restore_all_accounts!(divisions_accounts)
       end
+
+      private
 
       # Set all divisions' accounts to nil and return a hash of the QB ids of the removed accounts
       # by division
-      def clear_all_accounts
+      def clear_all_accounts!
         divisions_accounts = {}
         Division.all.each do |d|
           accounts_qb_ids = {
@@ -46,9 +48,9 @@ module Accounting
       end
 
       # Restore all divisions' accounts to the ones passed in. Argument is expected to be a hash of
-      # the form returned by `#clear_all_accounts`. NOTE: If a previously selected account no longer
-      # exists after the full sync from QB, it will be set to nil. This is by design.
-      def restore_all_accounts(divisions_accounts)
+      # the form returned by `#clear_all_accounts!`. NOTE: If a previously selected account no
+      # longer exists after the full sync from QB, it will be set to nil. This is by design.
+      def restore_all_accounts!(divisions_accounts)
         divisions_accounts.each do |did, qb_ids|
           Division.find(did).update(
             principal_account: Accounting::Account.find_by(qb_id: qb_ids[:principal_qb_id]),
