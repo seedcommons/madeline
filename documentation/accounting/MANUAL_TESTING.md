@@ -111,7 +111,7 @@ as `Connected`.
     1. Description: Default is fine
     1. Memo: Random text
     1. Click 'Add'
-  1. The newly created transaction shows up in table. Flash message: successfully created.
+  1. One newly created transaction should show up in table. Flash message: successfully created.
 
 #### Add Repayment
   1. Click 'Add Transaction'
@@ -120,7 +120,9 @@ as `Connected`.
     1. Bank Acct: Any
     1. Amount: 50
     1. Click 'Add'
-  1. Txn shows in table, int txn also shows on same day before repayment, appropriate value
+  1. The page will refresh.
+  1. One newly created transaction shows in table. The type will show up as "Repayment."
+  1. One newly created interest transaction also shows on the same day listed before the repayment with the appropriate value. The type will show up as "Interest."
 
 #### int/prin ∆s and totals in table
     6. View values for int/prin ∆s and totals in table (Should be all present and reasonable)
