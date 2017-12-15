@@ -42,7 +42,7 @@
                 = loan.location
               .sign_date
                 i.fa.fa-fw.fa-calendar>
-                = loan.SigningDate ? l(loan.SigningDate, format: :long) : ''
+                = ldate(loan.SigningDate, format: :long)
               .loan_amount
                 / i.icon-coinstack>
                 = loan.amount_formatted

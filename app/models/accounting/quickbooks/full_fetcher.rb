@@ -10,12 +10,19 @@ module Accounting
       end
 
       def fetch_all
+        divisions_accounts = Division.clear_all_accounts
+
+        ::Accounting::Transaction.destroy_all
+        ::Accounting::Account.destroy_all
+
         started_fetch_at = Time.zone.now
 
         ::Accounting::Quickbooks::AccountFetcher.new.fetch
         ::Accounting::Quickbooks::TransactionFetcher.new.fetch
 
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
+
+        Division.restore_all_accounts(divisions_accounts)
       end
     end
   end

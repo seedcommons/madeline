@@ -2,7 +2,7 @@ header.small
   .post-info
     .item
       i.fa.fa-calendar-o>
-      = l note.created_at.to_date
+      = ldate note.created_at.to_date
     .item
       a href=admin_person_path(note.author)
         i.fa.fa-user>

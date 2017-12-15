@@ -16,7 +16,7 @@ class CalendarEventSerializer < ActiveModel::Serializer
   # FullCalendar expects an event end date to be 1 day after an event ends
   # Events that occur over a single day need the same start and end date
   def end
-    if object.start - object.end <= 1
+    if object.start == object.end
       object.end
     else
       object.end + 1
@@ -33,7 +33,9 @@ class CalendarEventSerializer < ActiveModel::Serializer
 
   def event_classes
     if object.model_type == "ProjectStep"
-      "calendar-event cal-step cal-step-#{object.step_type} #{object.time_status} #{object.has_precedent? ? 'has-precedent': ''} "
+      "calendar-event cal-step cal-step-#{object.step_type} #{object.time_status} "\
+        "#{object.has_precedent? ? 'has-precedent' : ''} "\
+        "#{is_finalized ? 'finalized' : 'draft'}"
     end
   end
 

@@ -188,5 +188,6 @@ es:
         edit: "Editar Respuestas"
         delete: "Borrar Todas las Respuestas"
       transactions:
-        new_transaction: "Agregar Transacción"
         create_success: "La transacción fue creada correctamente."
+        new_transaction: "Agregar Transacción"
+        update: "Actualizar Transacción"

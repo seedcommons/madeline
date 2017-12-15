@@ -4,12 +4,12 @@
 .calendar {
   .fc-event {
     border: none;
-    background: $background-gray;
+    background: $table-gray;
     color: $black;
 
     // All events have a border the same color as the default bg color
     // so that they will be the same height as events with actual borders.
-    border: 1px solid $background-gray;
+    border: 1px solid $table-gray;
   }
 
   .calendar-event {

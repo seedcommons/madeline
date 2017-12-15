@@ -73,7 +73,6 @@
   }
 
   td.draft {
-    font-style: italic;
     color: $gray3;
 
     &.step-menu-col {
@@ -123,6 +122,20 @@
   .step-date {
     .fa {
       margin-left: .5em;
+    }
+  }
+
+  .table-wrapper {
+    overflow: auto;
+    min-height: 30em;
+  }
+}
+
+#timeline {
+  &.tab-pane {
+    &.active {
+      display: block;
+      overflow: visible;
     }
   }
 }

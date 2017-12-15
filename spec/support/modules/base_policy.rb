@@ -89,7 +89,7 @@ end
 def forbid_actions(actions)
   actions.each do |action|
     if action == :index && defined?(record_type)
-      it 'can not index' do
+      it 'cannot index' do
         expect(index_subject(record_type).index?).to be_falsey
       end
     else

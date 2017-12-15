@@ -6,6 +6,11 @@ feature 'transaction flow' do
   let(:user) { create_admin(division) }
 
   before do
+    Division.root.update_attributes!(
+      principal_account: create(:account),
+      interest_income_account: create(:account),
+      interest_receivable_account: create(:account)
+    )
     login_as(user, scope: :user)
   end
 
@@ -28,11 +33,20 @@ feature 'transaction flow' do
       fill_in 'Date', with: Date.today.to_s
       select accounts.sample.name, from: 'Bank Account'
       fill_in 'Amount', with: '12.34'
-      fill_in 'Description', with: 'Foo bar'
+      fill_in 'Description', with: 'Palm trees'
       fill_in 'Memo', with: 'Chunky monkey'
-      click_on 'Add'
+      page.find('a[data-action="submit"]').click
+      expect(page).to have_content('Palm trees')
+    end
+  end
 
-      expect(page).to have_content("Foo bar")
+  describe 'show', js: true do
+    let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
+
+    scenario 'can show transactions' do
+      visit admin_loan_tab_path(loan, tab: 'transactions')
+      click_on txn.txn_date.strftime('%B %-d, %Y')
+      expect(page).to have_content('icecream')
     end
   end
 end

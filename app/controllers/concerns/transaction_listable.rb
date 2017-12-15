@@ -2,30 +2,8 @@ module TransactionListable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    begin
-      ::Accounting::Quickbooks::Updater.new.update(project)
-    rescue Accounting::Quickbooks::FullSyncRequiredError => e
-      Rails.logger.error e
-      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
-      flash.now[:error] = t('quickbooks.full_sync_required', settings: settings).html_safe
-    rescue Quickbooks::ServiceUnavailable => e
-      Rails.logger.error e
-      flash.now[:error] = t('quickbooks.service_unavailable')
-    rescue Quickbooks::MissingRealmError,
-      Accounting::Quickbooks::NotConnectedError,
-      Quickbooks::AuthorizationFailure => e
-      Rails.logger.error e
-      settings = view_context.link_to(t('menu.settings'), admin_settings_path)
-      flash.now[:error] = t('quickbooks.authorization_failure', settings: settings, target: "_blank").html_safe
-    rescue Quickbooks::InvalidModelException,
-      Quickbooks::Forbidden,
-      Quickbooks::ThrottleExceeded,
-      Quickbooks::TooManyRequests,
-      Quickbooks::IntuitRequestException => e
-      Rails.logger.error e
-      ExceptionNotifier.notify_exception(e)
-      flash.now[:error] = t('quickbooks.misc')
-    end
+    update_transactions(project) unless Rails.env.test?
+    @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
 
     if project
       @transactions = ::Accounting::Transaction.where(project_id: project.id)
@@ -42,6 +20,12 @@ module TransactionListable
       name: 'transactions'
     )
 
+    unless @add_transaction_available || flash.now[:error].present?
+      flash.now[:alert] = t('quickbooks.not_connected', settings: settings_link).html_safe
+    end
+
+    @transaction_list_hidden = @full_sync_required || @transactions.count == 0
+
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 
@@ -50,5 +34,35 @@ module TransactionListable
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
+  end
+
+  private
+
+  def update_transactions(project)
+    ::Accounting::Quickbooks::Updater.new.update(project)
+  rescue Accounting::Quickbooks::FullSyncRequiredError => e
+    Rails.logger.error e
+    @full_sync_required = true
+    flash.now[:error] = t('quickbooks.full_sync_required', settings: settings_link).html_safe
+  rescue Quickbooks::ServiceUnavailable => e
+    Rails.logger.error e
+    flash.now[:error] = t('quickbooks.service_unavailable')
+  rescue Quickbooks::MissingRealmError,
+    Accounting::Quickbooks::NotConnectedError,
+    Quickbooks::AuthorizationFailure => e
+    Rails.logger.error e
+    flash.now[:error] = t('quickbooks.authorization_failure', settings: settings_link).html_safe
+  rescue Quickbooks::InvalidModelException,
+    Quickbooks::Forbidden,
+    Quickbooks::ThrottleExceeded,
+    Quickbooks::TooManyRequests,
+    Quickbooks::IntuitRequestException => e
+    Rails.logger.error e
+    ExceptionNotifier.notify_exception(e)
+    flash.now[:error] = t('quickbooks.misc')
+  end
+
+  def settings_link
+    view_context.link_to(t('menu.settings'), admin_settings_path)
   end
 end

@@ -2,7 +2,6 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   # Kicks off oauth flow by redirecting to Intuit with request token.
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
-
     redirect_to("https://appcenter.intuit.com/Connect/Begin?oauth_token=#{fetch_qb_request_token}")
   end
 
@@ -16,23 +15,20 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       division: Division.root,
       params: params
     )
+    Accounting::Quickbooks::FullFetcher.new.fetch_all
 
     flash[:notice] = t('quickbooks.connection.link_message')
   end
 
   def disconnect
     authorize :'accounting/quickbooks', :disconnect?
-
     Division.root.qb_connection.destroy
-
     redirect_to admin_settings_path, notice: t('quickbooks.connection.disconnect_message')
   end
 
   def full_sync
     authorize :'accounting/quickbooks', :full_sync?
-
-    ::Accounting::Quickbooks::FullFetcher.new.fetch_all
-
+    Accounting::Quickbooks::FullFetcher.new.fetch_all
     redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
   end
 
