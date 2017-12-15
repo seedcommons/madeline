@@ -2,33 +2,21 @@ module TransactionControllable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    if error = handle_qb_errors { run_updater(project: project) }
-      flash.now[:error] = error
-    end
+    run_updater_and_handle_errors(project: project)
 
-    @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
-
-    if project
-      @transactions = Accounting::Transaction.where(project_id: project.id)
-    else
-      @transactions = Accounting::Transaction.all
-    end
-
+    @transactions = Accounting::Transaction
+    @transactions = @transactions.where(project_id: project.id) if project
     @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
 
-    @enable_export_to_csv = true
+    check_if_qb_connected
+    set_whether_add_txn_is_allowed
+    set_whether_txn_list_is_visible
 
+    @enable_export_to_csv = true
     @transactions_grid = initialize_grid(@transactions,
       enable_export_to_csv: @enable_export_to_csv,
       name: 'transactions'
     )
-
-    unless @add_transaction_available || flash.now[:error].present?
-      flash.now[:alert] = t('quickbooks.not_connected', settings: settings_link).html_safe
-    end
-
-    @transaction_list_hidden = @full_sync_required || @transactions.count == 0
-
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 
@@ -83,6 +71,26 @@ module TransactionControllable
   end
 
   private
+
+  def run_updater_and_handle_errors(project:)
+    if error = handle_qb_errors { run_updater(project: project) }
+      flash.now[:error] = error
+    end
+  end
+
+  def set_whether_add_txn_is_allowed
+    @add_transaction_available = Division.root.qb_accounts_connected? && !@full_sync_required
+  end
+
+  def set_whether_txn_list_is_visible
+    @transaction_list_hidden = @full_sync_required || @transactions.count == 0
+  end
+
+  def check_if_qb_connected
+    unless @add_transaction_available || flash.now[:error].present?
+      flash.now[:alert] = t('quickbooks.not_connected', settings: settings_link).html_safe
+    end
+  end
 
   def settings_link
     view_context.link_to(t('menu.settings'), admin_settings_path)
