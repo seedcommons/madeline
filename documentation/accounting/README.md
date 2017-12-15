@@ -4,7 +4,7 @@
 ### About
 Madeline includes support for managing loan financial data with QuickBooks Online.
 
-Detailed documentation of this functionality is found throughout the classes in the Accounting namespace. See `app/models/accounting`.
+Detailed documentation of this functionality is found throughout the classes in the Accounting namespace. See the `app/models/accounting` folder.
 
 ### General Notes
 
