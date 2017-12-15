@@ -1,5 +1,5 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
-  include TransactionListable
+  include TransactionControllable
 
   def index
     authorize :'accounting/transaction', :index?

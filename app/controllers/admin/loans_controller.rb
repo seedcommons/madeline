@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TransactionListable, TranslationSaveable, QuestionnaireRenderable
+  include TransactionControllable, TranslationSaveable, QuestionnaireRenderable
 
   TABS = %w(details questions timeline timeline_list logs transactions calendar)
 

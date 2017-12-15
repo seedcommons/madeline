@@ -1,4 +1,4 @@
-module TransactionListable
+module TransactionControllable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
