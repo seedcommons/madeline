@@ -31,11 +31,38 @@ If any documentation is missing in this guide for setting up QuickBooks with Mad
 1. A dashboard for your project will appear after creating the app.
 
 #### Create QuickBooks accounts inside the app's sandbox
-1. TODO: Edit this section with clear instructions on how to create the accounts. Ensure flow to the next main step makes sense.
-1. Inside QuickBooks, create the following accounts if not existing:
-    1. Interest Receivable (Type: Accounts receivable)
-    2. Loans Receivable (Type: Accounts receivable)
-    3. Interest Income (Type: Income)
+1. Inside your project dashboard, click on `QuickBooks sandbox` under the `Resources` section.
+1. You will see a sandbox company. Click `Go to company`.
+1. A new window will open for a sandbox version of QuickBooks.
+1. Click on `Accounting` in the menu to the right.
+1. Click on `New`.
+1. A new account modal pops up.
+1. Create the following accounts, if not existing.
+
+<table>
+  <thead>
+    <th>Category Type</th>
+    <th>Detail Type</th>
+    <th>Name</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Accounts receivable</td>
+      <td>Accounts receivable</td>
+      <td>Interest Receivable</td>
+    </tr>
+    <tr>
+      <td>Accounts receivable</td>
+      <td>Accounts receivable</td>
+      <td>Loans Receivable</td>
+    </tr>
+    <tr>
+      <td>Income</td>
+      <td>Service/Fee Income</td>
+      <td>Interest Income</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Connect the QuickBooks app to Madeline
 
@@ -57,13 +84,13 @@ as `Connected`.
 #### Connect QuickBooks Accounts
 1. Follow the steps in the *Create QuickBooks accounts inside the app's sandbox* section above, if you have not done so already.
 1. Visit the Madeline Setting page at `Manage > Settings`.
+1. Click `Full Sync` if you have not done so recently.
 1. See the `QuickBooks Accounts` section lower on the page.
 1. Change the three account values to the following:
   1. Principal Account: Loans Receivable
   1. Interest Receivable Account: Interest Receivable
   1. Interest Income Account: Interest Income
-1. Click `Save`. (Flash message: successfully updated)
-
+1. Click `Save`. A successfully updated flash message will appear.
 
 ### Features
 4. Loan Transactions
