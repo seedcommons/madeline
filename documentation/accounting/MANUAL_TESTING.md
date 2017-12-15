@@ -37,19 +37,24 @@ Refer to http://minimul.com/integrating-rails-and-quickbooks-online-via-the-vers
 ### Accounting
 
 1. Connect to QuickBooks
-    1. In Madeline click `Manage > Settings` in the main menu.
-    1. Click the `Connect to QuickBooks` button. (A popup shows.)
-    1. Sign into your Intuit Developer account.
-    1. Click the `Authorize` button to share data between QuickBooks and Madeline.
-    1. A message should appear from Madeline that you can now close the window.
-    4. Close the window. Refresh the main browser. The QuickBooks settings page should show `QuickBooks Status`
+  1. In Madeline click `Manage > Settings` in the main menu.
+  1. Click the `Connect to QuickBooks` button. (A popup shows.)
+  1. Sign into your Intuit Developer account.
+  1. Click the `Authorize` button to share data between QuickBooks and Madeline.
+  1. A message should appear from Madeline that you can now close the window.
+  1. Close the window. Refresh the main browser. The QuickBooks settings page should show `QuickBooks Status`
 as `Connected`.
-    5. Click 'Full Sync' (Flash message: QB data synchronized)
-    6. Change three account values:
-        1. Principal Account: Loans Receivable
-        2. Interest Receivable Account: Interest Receivable
-        3. Interest Income Account: Interest Income
-    7. Click 'Save' (Flash message: successfully updated)
+  1. Click `Full Sync`. Once completed, a message will flash indicating that QuickBooks data has been synchronized.
+
+1. Connect QuickBooks Accounts
+  1. TODO: These instructions below are incomplete. Sometimes the account names listed below do not exist. Also, some explanation about what these accounts are would be helpful. Do accounts need to be created inside the QuickBooks Online interface first?
+  1. Now we need to add accounts.
+  1. See the `QuickBooks Accounts` section lower on the Madeline page.
+  1. Change three account values:
+    1. Principal Account: Loans Receivable
+    1. Interest Receivable Account: Interest Receivable
+    1. Interest Income Account: Interest Income
+  1. Click `Save`. (Flash message: successfully updated)
 
 4. Loan Transactions
     1. Click 'Loans' from nav menu and choose a loan with no transactions from the table.
