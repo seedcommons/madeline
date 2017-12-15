@@ -132,22 +132,22 @@ as `Connected`.
   1. Go to your Intuit Developer account QuickBooks sandbox.
   1. Inside your QB sandbox, click Gear Icon > All Lists > Classes
     1. Find the loan ID and click 'Run Report'
-    2. Ignore Balance column
-    2. Click any line item from disbursement transaction
-        1. View line items (Correct amounts, accounts, description, class, location, name)
-        2. View correct memo
-        4. Exit Journal Entry view
-    5. Click any line item from interest transaction
-        1. View line items (Correct amounts, accounts, description, class, location, name)
-        2. Exit Journal Entry view
-    7. Click any line item from repayment transaction
-        1. View line items (Correct amounts, accounts, description, class, location, name)
-        2. View correct memo
-        3. Exit Journal Entry view
+    1. Ignore Balance column
+    1. Click any line item from disbursement transaction
+      1. View line items (Correct amounts, accounts, description, class, location, name)
+      1. View correct memo
+      1. Exit Journal Entry view
+    1. Click any line item from interest transaction
+      1. View line items (Correct amounts, accounts, description, class, location, name)
+      1. Exit Journal Entry view
+    1. Click any line item from repayment transaction
+      1. View line items (Correct amounts, accounts, description, class, location, name)
+      1. View correct memo
+      1. Exit Journal Entry view
 
 #### Edit disbursement inside QB
   1. Change both disbursement line item amounts to 110
     1. TODO: Clarify directions. Once you open a disbursements by clicking on its description, you can change both transactions that display in the modal and edit their amounts.
-  7. Go back to Madeline and reload the txn page of the loan (this should recalculate interest and send back to QBO)
-  8. Refresh the page (runs updater again, nothing should change)
-  9. Go back to QBO and see that interest txn has updated, repayment updated also (line items)
+  1. Go back to Madeline and reload the txn page of the loan (this should recalculate interest and send back to QBO)
+  1. Refresh the page (runs updater again, nothing should change)
+  1. Go back to QBO and see that interest txn has updated, repayment updated also (line items)
