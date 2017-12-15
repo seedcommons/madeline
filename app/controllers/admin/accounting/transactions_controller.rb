@@ -29,19 +29,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find(transaction_params[:project_id])
     authorize @loan
     @transaction = Accounting::Transaction.new(transaction_params)
-
-    if @transaction.valid?
-      # This is a database transaction, not accounting!
-      # We use it because we want to rollback transaction creation or updates if there are errors.
-      ActiveRecord::Base.transaction do
-        reconcile_and_save_transaction
-        ensure_interest_transaction
-        if error = run_updater_and_handle_errors(project: @transaction.project)
-          @transaction.errors.add(:base, error)
-          raise ActiveRecord::Rollback
-        end
-      end
-    end
+    process_transaction_and_handle_errors
 
     # Since the txn has already been saved and/or validated before errors are added after
     # run_updater_and_handle_errors, valid? may be true even if there are errors.
@@ -57,18 +45,44 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   private
 
+  # Reconciles, saves, creates interest transaction, runs updater.
+  # Does nothing if transaction is invalid.
+  # Handles any QB errors that come up and sets them as base errors on @transaction.
+  def process_transaction_and_handle_errors
+    return unless @transaction.valid?
+
+    # This is a database transaction, not accounting!
+    # We use it because we want to rollback transaction creation or updates if there are errors.
+    ActiveRecord::Base.transaction do
+      error = handle_qb_errors do
+        reconcile_and_save_transaction
+        ensure_interest_transaction
+        run_updater(project: @transaction.project)
+      end
+
+      if error
+        @transaction.errors.add(:base, error)
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
+
   # Syncs transaction to Quickbooks, saves the new QB ID, and saves the transaction.
   # Assumes @transaction has already been validated.
   # Raises ActiveRecord::InvalidRecord if somehow the txn becomes invalid (shouldn't happen).
   # May raise Quickbooks errors due to the sync operation.
   def reconcile_and_save_transaction
     # We don't have the ability to stub quickbooks interactions so
-    # for now we'll just return a fake JournalEntry in test mode.
-    if Rails.env.test?
-      journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
+    # for now we'll just return a fake JournalEntry in test mode, or raise an error if requested.
+    journal_entry = if Rails.env.test?
+      if msg = Rails.configuration.x.test.raise_qb_error_during_reconciler
+        raise Quickbooks::InvalidModelException.new(msg)
+      else
+        Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
+      end
     else
       reconciler = Accounting::Quickbooks::TransactionReconciler.new
-      journal_entry = reconciler.reconcile(@transaction)
+      reconciler.reconcile(@transaction)
     end
 
     # It's important we store the ID and type of the QB journal entry we just created

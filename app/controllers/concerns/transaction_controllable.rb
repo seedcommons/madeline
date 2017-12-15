@@ -2,7 +2,7 @@ module TransactionControllable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    if error = run_updater_and_handle_errors(project: project)
+    if error = handle_qb_errors { run_updater(project: project) }
       flash.now[:error] = error
     end
 
@@ -39,22 +39,13 @@ module TransactionControllable
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
   end
 
-  # Runs the updater for the given project and handles any Quickbooks errors.
+  # Runs the given block and handles any Quickbooks errors.
   # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
   # Notifies admins if error is not part of normal operation.
   # Sets the @full_sync_required variable if a FullSyncRequiredError error is raised.
-  def run_updater_and_handle_errors(project:)
-    error_msg = nil
+  def handle_qb_errors
     begin
-      # Stub the Updater in test mode
-      if Rails.env.test?
-        # Raise an error if requested by the specs
-        if msg = Rails.configuration.x.test.set_invalid_model_error
-          raise Quickbooks::InvalidModelException.new(msg)
-        end
-      else
-        Accounting::Quickbooks::Updater.new.update(project)
-      end
+      yield
     rescue Accounting::Quickbooks::FullSyncRequiredError => e
       Rails.logger.error e
       @full_sync_required = true
@@ -77,6 +68,18 @@ module TransactionControllable
       error_msg = t('quickbooks.misc', msg: e)
     end
     error_msg
+  end
+
+  def run_updater(project:)
+    # Stub the Updater in test mode
+    if Rails.env.test?
+      # Raise an error if requested by the specs
+      if msg = Rails.configuration.x.test.raise_qb_error_during_updater
+        raise Quickbooks::InvalidModelException.new(msg)
+      end
+    else
+      Accounting::Quickbooks::Updater.new.update(project)
+    end
   end
 
   private
