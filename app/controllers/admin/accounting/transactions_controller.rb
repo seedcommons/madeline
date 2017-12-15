@@ -9,7 +9,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def new
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id])
+    @transaction = Accounting::Transaction.new(project_id: params[:project_id])
     authorize @transaction, :new?
 
     prep_transaction_form
@@ -18,7 +18,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def show
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    @transaction = Accounting::Transaction.find_by(id: params[:id])
     authorize @transaction, :show?
 
     prep_transaction_form
@@ -28,7 +28,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def create
     @loan = Loan.find(transaction_params[:project_id])
     authorize @loan
-    @transaction = ::Accounting::Transaction.new(transaction_params)
+    @transaction = Accounting::Transaction.new(transaction_params)
 
     if @transaction.valid?
       # This is a database transaction, not accounting!
@@ -67,7 +67,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     if Rails.env.test?
       journal_entry = Quickbooks::Model::JournalEntry.new(id: rand(1000000000))
     else
-      reconciler = ::Accounting::Quickbooks::TransactionReconciler.new
+      reconciler = Accounting::Quickbooks::TransactionReconciler.new
       journal_entry = reconciler.reconcile @transaction
     end
 
@@ -82,7 +82,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   # Raises an ActiveRecord::InvalidRecord error if there is a validation error, which there never should be.
   def ensure_interest_transaction
     Accounting::Transaction.find_or_create_by!(transaction_params.except(:amount, :description).merge(
-      qb_transaction_type: ::Accounting::Transaction::LOAN_INTEREST_TYPE,
+      qb_transaction_type: Accounting::Transaction::LOAN_INTEREST_TYPE,
       description: I18n.t('transactions.interest_description', loan_id: @loan.id)
     ))
   end
