@@ -32,14 +32,11 @@ feature 'transaction flow' do
         fill_txn_form
         page.find('a[data-action="submit"]').click
         expect(page).to have_content('Palm trees')
+        expect(page).to have_content("Interest Accrual for Loan ##{loan.id}")
       end
     end
 
     describe 'error handling' do
-      before do
-
-      end
-
       scenario 'error thrown on index page load is displayed' do
         Rails.configuration.x.test.set_invalid_model_error = 'qb model error'
         visit "/admin/loans/#{loan.id}/transactions"
