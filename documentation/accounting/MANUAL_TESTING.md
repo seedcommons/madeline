@@ -16,11 +16,14 @@
 
 ### Accounting
 
-1. Connect to Quickbooks
-    1. In Madeline click Manage > Settings
-    2. Click 'Quickbooks connect' buttton (Popup shows)
-    3. Auth to QB (Message that you can now close window)
-    4. Close window, refresh browser (Should show settings page with status connected)
+1. Connect to QuickBooks
+    1. In Madeline click `Manage > Settings` in the main menu.
+    1. Click the `Connect to QuickBooks` button. (A popup shows.)
+    1. Sign into your Intuit Developer account.
+    1. Click the `Authorize` button to share data between QuickBooks and Madeline.
+    1. A message should appear from Madeline that you can now close the window.
+    4. Close the window. Refresh the main browser. The QuickBooks settings page should show `QuickBooks Status`
+as `Connected`.
     5. Click 'Full Sync' (Flash message: QB data synchronized)
     6. Change three account values:
         1. Principal Account: Loans Receivable
