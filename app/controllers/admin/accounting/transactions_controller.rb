@@ -31,8 +31,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @transaction = Accounting::Transaction.new(transaction_params)
     process_transaction_and_handle_errors
 
-    # Since the txn has already been saved and/or validated before errors are added after
-    # run_updater_and_handle_errors, valid? may be true even if there are errors.
+    # Since the txn has already been saved and/or validated before qb errors are added,
+    # valid? may be true even if there are errors.
     if @transaction.errors.any?
       prep_transaction_form
       render_modal_partial(status: 422)
