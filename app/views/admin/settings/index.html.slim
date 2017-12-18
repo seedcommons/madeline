@@ -32,10 +32,12 @@ section.block
             = ldate(@last_updated_at, format: :long)
           - else
             = t("quickbooks.connection.never_synced")
-      = f.input "full_sync" do
+      = f.input "full_reset" do
         .read-only
-          = link_to(t("quickbooks.connection.full_sync"),
-            full_sync_admin_accounting_quickbooks_path)
+          = link_to(t("quickbooks.connection.full_reset"),
+            full_reset_admin_accounting_quickbooks_path, class: "btn btn-primary new-button")
+          section.alert.alert-info
+            p.post = t("quickbooks.connection.full_reset_information")
     - else
       = f.input "connect" do
         / this will display a button that the user clicks to start the flow

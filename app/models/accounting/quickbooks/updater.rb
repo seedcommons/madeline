@@ -113,7 +113,7 @@ module Accounting
 
       def changes
         unless last_updated_at && last_updated_at > max_updated_at
-          raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full sync"
+          raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full reset"
         end
 
         service.since(types, last_updated_at).all_types

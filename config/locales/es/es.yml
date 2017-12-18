@@ -35,7 +35,7 @@ es:
         connection_status: "Estado de QuickBooks"
         connect: "Conectar a QuickBooks"
         last_updated_at: "Actualizado por última vez el"
-        full_sync: "Sincronización completa"
+        full_reset: "Sincronización completa"
         disconnect: "Desconectar de QuickBooks"
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
@@ -304,7 +304,7 @@ es:
   quickbooks:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
     class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de Quickbooks de tu negocio."
-    full_sync_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
+    full_reset_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
     not_connected: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en %{settings}.'
     service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."

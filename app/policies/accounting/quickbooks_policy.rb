@@ -11,7 +11,7 @@ class Accounting::QuickbooksPolicy < ApplicationPolicy
     division_admin(division: Division.root)
   end
 
-  def full_sync?
+  def full_reset?
     division_admin(division: Division.root)
   end
 end

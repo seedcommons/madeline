@@ -15,6 +15,8 @@ if Rails.env.development?
 
     desc "Generate UI testing data"
     task fake_data: :environment do
+      division = FactoryGirl.create(:division)
+
       # Create admin user
       user = FactoryBot.create(:user, :admin,
         email: "admin@example.com",
@@ -25,8 +27,6 @@ if Rails.env.development?
       puts "Created default admin user"
       puts "Login: #{user.email}"
       puts "Password: xxxxxxxx"
-
-      division = FactoryBot.create(:division)
 
       # Create some data
       FactoryBot.create(:loan,
