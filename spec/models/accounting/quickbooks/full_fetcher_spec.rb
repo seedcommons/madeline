@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::FullFetcher, type: :model do
-  subject { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
+  let(:qb_connection) { create(:accounting_quickbooks_connection) }
+  subject { described_class.new(qb_connection) }
   let(:division) { create(:division, :with_accounts) }
+  Division.root.update!(qb_connection: qb_connection)
 
   describe '#fetch_all' do
     it "removes and restores accounts" do
+      # account_fetcher = instance_double(Accounting::Quickbooks::AccountFetcher)
+      # transaction_fetcher = instance_double(Accounting::Quickbooks::TransactionFetcher)
+      # expect(account_fetcher).to receive(:new)
+      # expect(transaction_fetcher).to receive(:new)
       accounts = division.accounts
       subject.fetch_all
       # expect(division.reload.accounts).to
