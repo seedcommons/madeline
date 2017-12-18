@@ -31,10 +31,22 @@ If any documentation is missing in this guide for setting up QuickBooks with Mad
 1. Select `Accounting` and click `Create app`.
 1. A dashboard for your project will appear after creating the app.
 
-#### Create QuickBooks accounts inside the app's sandbox
+### Open QuickBooks sandbox
 1. Inside your project dashboard, click on `QuickBooks sandbox` under the `Resources` section.
 1. You will see a sandbox company. Click `Go to company`.
 1. A new window will open for a sandbox version of QuickBooks.
+
+#### Adjust Company account settings
+1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
+1. Click on the gear icon to the upper right.
+1. Click on `Company Settings`.
+1. Inside the `Company` tab (default), scroll to the `Categories` section. Click the pencil icon.
+1. Make sure `Track classes` is enabled with `One to each row in transaction` selected in `Assign classes`.
+1. Make sure `Track locations` is enabled with `Location label` set to `Division`.
+
+
+#### Create QuickBooks accounts inside the app's sandbox
+1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
 1. Click on `Accounting` in the menu to the right.
 1. Click on `New`.
 1. A new account modal pops up.
