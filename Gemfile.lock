@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/sassafrastech/wice_grid.git
-  revision: cfa0874c8dd3cb6729fd2db2546caf9b43eb5087
+  revision: e664e902a63414daf8a52fcc1449e5440baebd0c
   branch: rails3
   specs:
-    wice_grid (3.6.2)
+    wice_grid (3.6.3)
       activerecord (> 3.2)
       coffee-rails (> 3.2)
       kaminari (~> 0.16)
@@ -540,4 +540,4 @@ DEPENDENCIES
   wice_grid!
 
 BUNDLED WITH
-   1.14.6
+   1.16.0

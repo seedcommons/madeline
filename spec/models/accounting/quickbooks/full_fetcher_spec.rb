@@ -1,23 +1,100 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Accounting::Quickbooks::FullFetcher, type: :model do
-  let(:qb_connection) { create(:accounting_quickbooks_connection) }
+describe Accounting::Quickbooks::FullFetcher, type: :model do
+  let!(:qb_connection) { double(Accounting::Quickbooks::Connection) }
+  let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
+  let!(:interest_receivable_account) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
+  let!(:interest_income_account) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }
+  let!(:division) do
+    division = Division.root
+    division.update(
+      principal_account: principal_account,
+      interest_receivable_account: interest_receivable_account,
+      interest_income_account: interest_income_account
+    )
+    division
+  end
+  let(:qb_account_service) do
+    instance_double(Quickbooks::Service::Account, all: [
+      instance_double(Quickbooks::Model::Account,
+        id: principal_account.qb_id,
+        name: principal_account.name,
+        classification: principal_account.qb_account_classification ),
+      instance_double(Quickbooks::Model::Account,
+        id: interest_receivable_account.qb_id,
+        name: interest_receivable_account.name,
+        classification: interest_receivable_account.qb_account_classification),
+      instance_double(Quickbooks::Model::Account,
+        id: interest_income_account.qb_id,
+        name: interest_income_account.name,
+        classification: interest_income_account.qb_account_classification)
+    ])
+  end
+  let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
+  let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(qb_connection) }
+  let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher, new: account_fetcher).as_stubbed_const }
+  let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(qb_connection) }
+  let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher, new: transaction_fetcher).as_stubbed_const }
+
   subject { described_class.new(qb_connection) }
-  let(:division) { create(:division, :with_accounts) }
-  Division.root.update!(qb_connection: qb_connection)
 
-  describe '#fetch_all' do
+  describe "#fetch_all" do
     it "removes and restores accounts" do
-      # account_fetcher = instance_double(Accounting::Quickbooks::AccountFetcher)
-      # transaction_fetcher = instance_double(Accounting::Quickbooks::TransactionFetcher)
-      # expect(account_fetcher).to receive(:new)
-      # expect(transaction_fetcher).to receive(:new)
-      accounts = division.accounts
+
+      stored_account_ids = division.accounts.map(&:id)
+
+      expect(division.accounts.count).to eq 3
+
+      expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
+      expect(account_fetcher).to receive(:fetch).and_call_original
+
+      expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+      expect(transaction_fetcher).to receive(:fetch).and_call_original
+
+      expect(qb_connection).to receive :update_attribute
+
       subject.fetch_all
-      # expect(division.reload.accounts).to
+      division = Division.root
+
+      new_account_ids = division.accounts.map(&:id)
+
       # Accounts should be restored with the same QB ids but they should have different DB ids
+      expect(division.accounts.count).to eq 3
+      expect(stored_account_ids).not_to match_array new_account_ids
     end
 
-    it "sets division account association to nil if account no longer exists after fetch"
+    context "with missing division account" do
+      let(:qb_account_service) do
+        instance_double(Quickbooks::Service::Account, all: [
+          instance_double(Quickbooks::Model::Account,
+            id: principal_account.qb_id,
+            name: principal_account.name,
+            classification: principal_account.qb_account_classification ),
+          instance_double(Quickbooks::Model::Account,
+            id: interest_income_account.qb_id,
+            name: interest_income_account.name,
+            classification: interest_income_account.qb_account_classification)
+        ])
+      end
+
+      it "sets division account association to nil if account no longer exists after fetch" do
+        division = Division.root
+
+        expect(division.interest_receivable_account).not_to be_nil
+
+        expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
+        expect(account_fetcher).to receive(:fetch).and_call_original
+
+        expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+        expect(transaction_fetcher).to receive(:fetch).and_call_original
+
+        expect(qb_connection).to receive :update_attribute
+
+        subject.fetch_all
+        division = Division.root
+
+        expect(division.interest_receivable_account).to be_nil
+      end
+    end
   end
 end

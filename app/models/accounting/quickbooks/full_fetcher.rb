@@ -17,8 +17,8 @@ module Accounting
 
         started_fetch_at = Time.zone.now
 
-        ::Accounting::Quickbooks::AccountFetcher.new.fetch
-        ::Accounting::Quickbooks::TransactionFetcher.new.fetch
+        ::Accounting::Quickbooks::AccountFetcher.new(@qb_connection).fetch
+        ::Accounting::Quickbooks::TransactionFetcher.new(@qb_connection).fetch
 
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
 
