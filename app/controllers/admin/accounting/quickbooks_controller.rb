@@ -32,6 +32,12 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
   end
 
+  def connected
+    authorize :'accounting/quickbooks', :authenticate?
+    @quickbooks_connected = Division.root.quickbooks_connected?
+    render json: @quickbooks_connected
+  end
+
   private
 
   def qb_consumer

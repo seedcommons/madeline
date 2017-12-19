@@ -72,6 +72,7 @@ Rails.application.routes.draw do
           get :oauth_callback
           get :disconnect
           get :full_sync
+          get :connected
         end
       end
 
