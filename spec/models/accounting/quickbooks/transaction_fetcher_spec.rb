@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::TransactionFetcher, type: :model do
-  subject { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
+  let(:division) { create(:division, :with_accounts) }
+  subject { described_class.new(division) }
 
   let(:generic_service) { instance_double(Quickbooks::Service::Account, all: []) }
   before do
