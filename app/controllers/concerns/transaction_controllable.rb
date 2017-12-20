@@ -30,14 +30,14 @@ module TransactionControllable
   # Runs the given block and handles any Quickbooks errors.
   # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
   # Notifies admins if error is not part of normal operation.
-  # Sets the @full_reset_required variable if a FullSyncRequiredError error is raised.
+  # Sets the @data_reset_required variable if a FullSyncRequiredError error is raised.
   def handle_qb_errors
     begin
       yield
-    rescue Accounting::Quickbooks::FullSyncRequiredError => e
+    rescue Accounting::Quickbooks::DataResetRequiredError => e
       Rails.logger.error e
-      @full_reset_required = true
-      error_msg = t('quickbooks.full_reset_required', settings: settings_link).html_safe
+      @data_reset_required = true
+      error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       error_msg = t('quickbooks.service_unavailable')
@@ -79,11 +79,11 @@ module TransactionControllable
   end
 
   def set_whether_add_txn_is_allowed
-    @add_transaction_available = Division.root.qb_accounts_connected? && !@full_reset_required
+    @add_transaction_available = Division.root.qb_accounts_connected? && !@data_reset_required
   end
 
   def set_whether_txn_list_is_visible
-    @transaction_list_hidden = @full_reset_required || @transactions.count == 0
+    @transaction_list_hidden = @data_reset_required || @transactions.count == 0
   end
 
   def check_if_qb_connected

@@ -22,7 +22,7 @@ module Accounting
       # If the loan parameter is given, this method also extracts QB data for Transactions
       # related to ONLY the given loan. See extract_qb_data for more details.
       #
-      # Raises a FullSyncRequiredError if there are updates
+      # Raises a DataResetRequiredError if there are updates
       # too far in the past for the `since` method to access.
       def update(loan = nil)
         raise NotConnectedError unless qb_connection
@@ -113,7 +113,7 @@ module Accounting
 
       def changes
         unless last_updated_at && last_updated_at > max_updated_at
-          raise FullSyncRequiredError, "Last update was more than 30 days ago, please do a full reset"
+          raise DataResetRequiredError
         end
 
         service.since(types, last_updated_at).all_types
