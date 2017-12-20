@@ -18,10 +18,7 @@ section.coop.details
       
       / TODO: Confirm and cancel should have defaults (already done?)
       = link_to [:admin, @org], method: :delete,
-          data: { \
-            confirm: t('organization.confirm_deletion'),
-            "confirm-title": t("organization.delete"),
-          }
+          data: { confirm: t('organization.confirm_deletion') }
         i.fa.fa-trash.fa-large>
         = t("organization.delete")
     = render 'form'

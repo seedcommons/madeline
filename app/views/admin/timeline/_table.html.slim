@@ -17,8 +17,7 @@
     li: a href="#" data-action="edit" = t(:edit)
     li: a [href="javascript:"
       data-action="delete"
-      data-confirm= t("project_group.delete_confirmation")
-      data-confirm-title= t("project_group.delete")]
+      data-confirm= t("project_group.delete_confirmation")]
       = t(:delete)
 
   ul.dropdown-menu.dropdown-menu-right id="project-step-menu"
@@ -26,8 +25,7 @@
     li: a href="#" data-action="duplicate" = t("project_step.duplicate")
     li
       a [href="#" data-action="delete"
-        data-confirm= t("project_step.confirm_deletion")
-        data-confirm-title= t("project_step.delete", count: 1)]
+        data-confirm= t("project_step.confirm_deletion")]
         = t(:delete)
     li: a href="#" data-action="add-dependent-step" = t("project_step.add_dependent_step")
     li: a href="#" data-action="add-log" = t("project_step.add_log")

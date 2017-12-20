@@ -15,10 +15,10 @@
 #
 # Foreign Keys
 #
-#  fk_rails_1565c19047  (division_id => divisions.id)
+#  fk_rails_...  (division_id => divisions.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :option_set do
     division { root_division }
     model_type "Loan"

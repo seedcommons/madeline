@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :project_step do
     association :project, factory: :loan
     association :agent, factory: :person

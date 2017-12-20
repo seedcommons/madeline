@@ -23,18 +23,18 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_object_type) UNIQUE
-#  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
-#  index_accounting_transactions_on_currency_id            (currency_id)
-#  index_accounting_transactions_on_project_id             (project_id)
-#  index_accounting_transactions_on_qb_id                  (qb_id)
-#  index_accounting_transactions_on_qb_object_type         (qb_object_type)
+#  index_accounting_transactions_on_accounting_account_id     (accounting_account_id)
+#  index_accounting_transactions_on_currency_id               (currency_id)
+#  index_accounting_transactions_on_project_id                (project_id)
+#  index_accounting_transactions_on_qb_id                     (qb_id)
+#  index_accounting_transactions_on_qb_id_and_qb_object_type  (qb_id,qb_object_type) UNIQUE
+#  index_accounting_transactions_on_qb_object_type            (qb_object_type)
 #
 # Foreign Keys
 #
-#  fk_rails_3b7e4ae807  (accounting_account_id => accounting_accounts.id)
-#  fk_rails_662fd2ba2d  (project_id => projects.id)
-#  fk_rails_db49322130  (currency_id => currencies.id)
+#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (project_id => projects.id)
 #
 
 # Represents a transaction in a Loan's financial history.
@@ -77,6 +77,7 @@ class Accounting::Transaction < ActiveRecord::Base
       AND options.value = accounting_transactions.loan_transaction_type_value").
     order(:txn_date, "options.position", :created_at)
   }
+  scope :interest_type, -> { where(qb_object_type: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)

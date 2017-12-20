@@ -26,7 +26,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a8794354f0  (profile_id => people.id)
+#  fk_rails_...  (profile_id => people.id)
 #
 
 #
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :profile, class_name: Person
+  belongs_to :profile, class_name: 'Person'
   delegate :division, :division=, to: :profile
 
   def name

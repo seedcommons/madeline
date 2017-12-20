@@ -35,15 +35,12 @@
 //= require wice_grid
 //= require tree.jquery
 //= require jquery.dirtyforms
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
-
-//= require twitter/bootstrap/rails/confirm
-//= require admin/confirm
 
 //= require moment
 //= require fullcalendar
-//= require fullcalendar/lang-all.js
+//= require fullcalendar/locale-all.js
 
 //= require admin/admin
 

@@ -2,7 +2,7 @@ class MS.Views.TransactionModalView extends Backbone.View
   el: '#transaction-modal'
 
   events:
-    'click .btn-primary': 'submitForm'
+    'click [data-action="submit"]': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'change #accounting_transaction_loan_transaction_type_value': 'setDescription'
 

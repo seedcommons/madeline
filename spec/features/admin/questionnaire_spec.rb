@@ -30,8 +30,7 @@ feature 'questionnaire', js: true do
       expect(criteria.summary.text).to eq 'sexy unicorns'
 
       # delete
-      click_link('Delete All Responses')
-      click_on('Confirm')
+      accept_confirm { click_link('Delete All Responses') }
       expect(page).to have_content 'successfully deleted'
       expect(page).not_to have_content 'sexy unicorns'
       # After deletion, should be in edit mode

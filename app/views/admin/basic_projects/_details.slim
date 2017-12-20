@@ -12,12 +12,7 @@ section.details class=(@basic_project.valid? ? "show-view" : " edit-view")
         a href=admin_basic_project_path(current_user) = t("cancel_edit")
     - if policy(@basic_project).destroy?
       = link_to [:admin, @basic_project], method: :delete,
-          data: { \
-            confirm: t("basic_project.confirm_deletion"),
-            "confirm-title": t("basic_project.delete"),
-            "confirm-cancel": t(:cancel),
-            "confirm-proceed": t(:confirm)\
-        }
+          data: { confirm: t("basic_project.confirm_deletion") }
         i.fa.fa-trash.fa-large>
         = t("basic_project.delete")
 

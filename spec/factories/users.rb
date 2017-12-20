@@ -26,10 +26,10 @@
 #
 # Foreign Keys
 #
-#  fk_rails_a8794354f0  (profile_id => people.id)
+#  fk_rails_...  (profile_id => people.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     created_at { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     current_sign_in_at { Faker::Date.between(created_at, Date.today) }

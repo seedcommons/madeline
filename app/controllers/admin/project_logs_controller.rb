@@ -79,7 +79,7 @@ class Admin::ProjectLogsController < Admin::AdminController
   end
 
   def notify
-    if params[:notify] && @log.division.notify_on_new_logs?
+    if params[:notify] == '1' && @log.division.notify_on_new_logs?
       @log.division.users.each do |user|
         NotificationMailer.new_log(@log, user).deliver_later
       end
