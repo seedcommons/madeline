@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Accounting::Quickbooks::FullFetcher, type: :model do
-  let!(:qb_connection) { double(Accounting::Quickbooks::Connection) }
+  let!(:qb_connection) { create(:accounting_quickbooks_connection) }
   let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
   let!(:interest_receivable_account) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
   let!(:interest_income_account) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }
@@ -10,7 +10,8 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     division.update(
       principal_account: principal_account,
       interest_receivable_account: interest_receivable_account,
-      interest_income_account: interest_income_account
+      interest_income_account: interest_income_account,
+      qb_connection: qb_connection,
     )
     division
   end
@@ -19,7 +20,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
       instance_double(Quickbooks::Model::Account,
         id: principal_account.qb_id,
         name: principal_account.name,
-        classification: principal_account.qb_account_classification ),
+        classification: principal_account.qb_account_classification),
       instance_double(Quickbooks::Model::Account,
         id: interest_receivable_account.qb_id,
         name: interest_receivable_account.name,
@@ -31,12 +32,14 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     ])
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
-  let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(qb_connection) }
-  let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher, new: account_fetcher).as_stubbed_const }
-  let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(qb_connection) }
-  let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher, new: transaction_fetcher).as_stubbed_const }
+  let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(division) }
+  let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher,
+    new: account_fetcher).as_stubbed_const }
+  let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(division) }
+  let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher,
+    new: transaction_fetcher).as_stubbed_const }
 
-  subject { described_class.new(qb_connection) }
+  subject { described_class.new(division) }
 
   describe "#fetch_all" do
     it "removes and restores accounts" do

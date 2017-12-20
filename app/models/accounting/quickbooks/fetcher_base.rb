@@ -7,8 +7,8 @@ module Accounting
     class FetcherBase
       attr_reader :qb_connection
 
-      def initialize(qb_connection = Division.root.qb_connection)
-        @qb_connection = qb_connection
+      def initialize(division)
+        @qb_connection = division.qb_connection
       end
 
       def fetch
