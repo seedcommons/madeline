@@ -15,7 +15,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       division: Division.root,
       params: params
     )
-    Accounting::Quickbooks::FullFetcher.new.fetch_all
+    Accounting::Quickbooks::FullFetcher.new(current_division.qb_division).fetch_all
 
     flash[:notice] = t('quickbooks.connection.link_message')
   end
@@ -28,7 +28,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
   def full_sync
     authorize :'accounting/quickbooks', :full_sync?
-    Accounting::Quickbooks::FullFetcher.new.fetch_all
+    Accounting::Quickbooks::FullFetcher.new(current_division.qb_division).fetch_all
     redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
   end
 

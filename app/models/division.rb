@@ -102,35 +102,6 @@ class Division < ActiveRecord::Base
     division ? division.self_and_descendants : all
   end
 
-  # Set all divisions' accounts to nil and return a hash of the QB ids of the removed accounts by division
-  def self.clear_all_accounts
-    divisions_accounts = {}
-    all.each do |d|
-      accounts_qb_ids = {
-        principal_qb_id: d.principal_account&.qb_id,
-        interest_receivable_qb_id: d.interest_receivable_account&.qb_id,
-        interest_income_qb_id: d.interest_income_account&.qb_id,
-      }
-      d.update(
-        principal_account_id: nil,
-        interest_receivable_account_id: nil,
-        interest_income_account_id: nil,
-      )
-      divisions_accounts[d.id] = accounts_qb_ids
-    end
-    divisions_accounts
-  end
-
-  def self.restore_all_accounts(divisions_accounts)
-    divisions_accounts.each do |did, qb_ids|
-      find(did).update(
-        principal_account: Accounting::Account.find_by(qb_id: qb_ids[:principal_qb_id]),
-        interest_receivable_account: Accounting::Account.find_by(qb_id: qb_ids[:interest_receivable_qb_id]),
-        interest_income_account: Accounting::Account.find_by(qb_id: qb_ids[:interest_income_qb_id]),
-      )
-    end
-  end
-
   # interface compatibility with other models
   def division
     self
