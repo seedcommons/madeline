@@ -55,7 +55,6 @@
 
 #### Edit disbursement inside QB
   1. Change both disbursement line item amounts to 110
-     1. TODO: Clarify directions. Once you open a disbursements by clicking on its description, you can change both transactions that display in the modal and edit their amounts.
   1. Go back to Madeline and reload the txn page of the loan (this should recalculate interest and send back to QBO)
   1. Refresh the page (runs updater again, nothing should change)
   1. Go back to QBO and see that interest txn has updated, repayment updated also (line items)
