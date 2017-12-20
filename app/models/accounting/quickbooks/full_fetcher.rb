@@ -13,8 +13,9 @@ module Accounting
       def fetch_all
         accounts = clear_accounts!
 
-        ::Accounting::Transaction.destroy_all
-        ::Accounting::Account.destroy_all
+        ::Accounting::LineItem.delete_all
+        ::Accounting::Transaction.delete_all
+        ::Accounting::Account.delete_all
 
         started_fetch_at = Time.zone.now
 
