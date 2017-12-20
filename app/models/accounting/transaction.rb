@@ -77,6 +77,7 @@ class Accounting::Transaction < ActiveRecord::Base
       AND options.value = accounting_transactions.loan_transaction_type_value").
     order(:txn_date, "options.position", :created_at)
   }
+  scope :interest_type, -> { where(qb_object_type: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)

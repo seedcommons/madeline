@@ -1,17 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
-  let(:connection) { create(:accounting_quickbooks_connection, last_updated_at: last_updated_at) }
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 1982547353 }
-  let(:division) { create(:division, :with_accounts, qb_connection: connection) }
+  let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account}
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
-  let(:last_updated_at) { nil }
 
   # This is example JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
@@ -84,7 +82,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         posting_type: 'Debit')]
   end
 
-  subject { described_class.new(connection) }
+  subject { described_class.new(division.qb_connection) }
 
   before do
     allow(subject).to receive(:service).and_return(generic_service)
@@ -190,6 +188,12 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   end
 
   describe '#update' do
+    let(:last_updated_at) { nil }
+
+    before do
+      division.qb_connection.update_attribute(:last_updated_at, last_updated_at)
+    end
+
     context 'when last_updated_at is nil' do
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
@@ -209,6 +213,15 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
+      end
+    end
+
+    context 'when last_updated_at is less than 5 seconds ago' do
+      let(:last_updated_at) { 4.seconds.ago }
+
+      it 'returns without doing anything' do
+        expect(subject).not_to receive(:changes)
+        subject.update
       end
     end
 
