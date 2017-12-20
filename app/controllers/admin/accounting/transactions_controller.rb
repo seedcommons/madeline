@@ -42,7 +42,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
     if @transaction.save
       flash[:notice] = t("admin.loans.transactions.create_success")
-      render nothing: true
+      head :ok
     else
       prep_transaction_form
       render_modal_partial(status: 422)

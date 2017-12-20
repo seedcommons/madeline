@@ -11,7 +11,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_cc2d004fbb  (default_currency_id => currencies.id)
+#  fk_rails_...  (default_currency_id => currencies.id)
 #
 
 class Country < ActiveRecord::Base

@@ -38,11 +38,11 @@
 #
 # Foreign Keys
 #
-#  fk_rails_16249e4f59  (principal_account_id => accounting_accounts.id)
-#  fk_rails_648c512956  (organization_id => organizations.id)
-#  fk_rails_7d27a21116  (interest_receivable_account_id => accounting_accounts.id)
-#  fk_rails_99cb2ea4ed  (currency_id => currencies.id)
-#  fk_rails_e1c7480e41  (interest_income_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (interest_income_account_id => accounting_accounts.id)
+#  fk_rails_...  (interest_receivable_account_id => accounting_accounts.id)
+#  fk_rails_...  (organization_id => organizations.id)
+#  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
 class Division < ActiveRecord::Base

@@ -22,7 +22,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_d64ff8d67d  (uploader_id => people.id)
+#  fk_rails_...  (uploader_id => people.id)
 #
 
 class Media < ActiveRecord::Base

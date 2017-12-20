@@ -124,7 +124,7 @@ module Accounting
 
       def delete_qb_object(qb_object_type:, qb_object:)
         model = ar_model_for(qb_object_type)
-        model.destroy_all(qb_id: qb_object.id)
+        model.where(qb_id: qb_object.id).destroy_all
       end
 
       def should_be_deleted?(qb_object)

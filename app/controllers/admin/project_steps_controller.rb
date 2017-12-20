@@ -49,7 +49,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     end
     valid = @step.save
     if params[:context] == 'timeline_table'
-      valid ? render(nothing: true) : render_modal_content(422)
+      valid ? (head :ok) : render_modal_content(422)
     else
       render_step_partial(valid ? :show : :form)
     end
@@ -96,7 +96,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     if request.xhr?
       @step.destroy
-      render nothing: true
+      head :ok
     else
       if @step.destroy
         display_timeline(@step.project_id, I18n.t(:notice_deleted))

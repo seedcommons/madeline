@@ -14,9 +14,9 @@
 #  parent_id               :integer
 #  project_id              :integer
 #  schedule_parent_id      :integer
-#  scheduled_duration_days :integer          default(0)
+#  scheduled_duration_days :integer
 #  scheduled_start_date    :date
-#  step_type_value         :string
+#  step_type_value         :string           not null
 #  type                    :string           not null
 #  updated_at              :datetime         not null
 #
@@ -27,10 +27,10 @@
 #
 # Foreign Keys
 #
-#  fk_rails_8589af42f8  (agent_id => people.id)
-#  fk_rails_af8b359300  (project_id => projects.id)
-#  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
-#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
+#  fk_rails_...  (agent_id => people.id)
+#  fk_rails_...  (parent_id => timeline_entries.id)
+#  fk_rails_...  (project_id => projects.id)
+#  fk_rails_...  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'rails_helper'

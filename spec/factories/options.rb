@@ -13,13 +13,14 @@
 # Indexes
 #
 #  index_options_on_option_set_id  (option_set_id)
+#  index_options_on_value          (value)
 #
 # Foreign Keys
 #
-#  fk_rails_db3e5d5ea9  (option_set_id => option_sets.id)
+#  fk_rails_...  (option_set_id => option_sets.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :option do
     option_set
     position 1

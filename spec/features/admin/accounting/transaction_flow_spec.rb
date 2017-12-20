@@ -1,7 +1,10 @@
 require 'rails_helper'
 
-feature 'transaction flow' do
-  let(:division) { create(:division, :with_accounts) }
+feature 'transaction flow', :accounting do
+  # TODO: This should all not be dependent on using the root division. It should work in any Division.
+  # Right now, the TransactionPolicy requires admin privileges on Division.root, and Accounts are
+  # not scoped to division.
+  let(:division) { Division.root }
   let!(:loan) { create(:loan, division: division) }
   let(:user) { create_admin(division) }
 
@@ -41,7 +44,10 @@ feature 'transaction flow' do
   end
 
   describe 'show', js: true do
-    let!(:txn) { create(:accounting_transaction, project_id: loan.id, description: 'I love icecream') }
+    let!(:txn) do
+      create(:accounting_transaction,
+        project_id: loan.id, description: 'I love icecream', division: division)
+    end
 
     scenario 'can show transactions' do
       visit admin_loan_tab_path(loan, tab: 'transactions')

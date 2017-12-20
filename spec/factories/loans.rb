@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :loan, aliases: [:project] do
     division { root_division }
     organization

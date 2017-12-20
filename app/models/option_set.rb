@@ -15,7 +15,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_1565c19047  (division_id => divisions.id)
+#  fk_rails_...  (division_id => divisions.id)
 #
 
 class OptionSet < ActiveRecord::Base

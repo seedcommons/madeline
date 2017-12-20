@@ -1,3 +1,42 @@
+# == Schema Information
+#
+# Table name: accounting_transactions
+#
+#  accounting_account_id       :integer
+#  amount                      :decimal(, )
+#  created_at                  :datetime         not null
+#  currency_id                 :integer
+#  description                 :string
+#  id                          :integer          not null, primary key
+#  interest_balance            :decimal(, )      default(0.0)
+#  loan_transaction_type_value :string
+#  needs_qb_push               :boolean          default(TRUE), not null
+#  principal_balance           :decimal(, )      default(0.0)
+#  private_note                :string
+#  project_id                  :integer
+#  qb_id                       :string
+#  qb_object_type              :string           default("JournalEntry"), not null
+#  quickbooks_data             :json
+#  total                       :decimal(, )
+#  txn_date                    :date
+#  updated_at                  :datetime         not null
+#
+# Indexes
+#
+#  index_accounting_transactions_on_accounting_account_id     (accounting_account_id)
+#  index_accounting_transactions_on_currency_id               (currency_id)
+#  index_accounting_transactions_on_project_id                (project_id)
+#  index_accounting_transactions_on_qb_id                     (qb_id)
+#  index_accounting_transactions_on_qb_id_and_qb_object_type  (qb_id,qb_object_type) UNIQUE
+#  index_accounting_transactions_on_qb_object_type            (qb_object_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (project_id => projects.id)
+#
+
 require 'rails_helper'
 
 # quickbooks_data['line_items'].each

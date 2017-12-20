@@ -18,8 +18,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_54dbbbb1d4  (agent_id => people.id)
-#  fk_rails_67bf2c0e5e  (project_step_id => timeline_entries.id)
+#  fk_rails_...  (agent_id => people.id)
+#  fk_rails_...  (project_step_id => timeline_entries.id)
 #
 
 require 'rails_helper'

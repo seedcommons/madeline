@@ -13,7 +13,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_4142299b55  (updater_id => users.id)
+#  fk_rails_...  (updater_id => users.id)
 #
 
 class LoanResponseSet < ActiveRecord::Base

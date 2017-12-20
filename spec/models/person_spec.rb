@@ -33,9 +33,9 @@
 #
 # Foreign Keys
 #
-#  fk_rails_20168ebb0e  (primary_organization_id => organizations.id)
-#  fk_rails_7aab1f72a5  (division_id => divisions.id)
-#  fk_rails_fdfb048ae6  (country_id => countries.id)
+#  fk_rails_...  (country_id => countries.id)
+#  fk_rails_...  (division_id => divisions.id)
+#  fk_rails_...  (primary_organization_id => organizations.id)
 #
 
 require 'rails_helper'

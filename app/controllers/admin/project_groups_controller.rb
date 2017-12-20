@@ -28,7 +28,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
     @entry.parent = parent_id.present? ? ProjectGroup.find(parent_id) : @project.root_timeline_entry
 
     if @entry.save
-      render nothing: true
+      head :ok
     else
       render_modal_partial(status: 422)
     end
@@ -36,7 +36,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def update
     if @entry.update(project_group_params)
-      render nothing: true
+      head :ok
     else
       render_modal_partial(status: 422)
     end
@@ -44,7 +44,7 @@ class Admin::ProjectGroupsController < Admin::AdminController
 
   def destroy
     @entry.destroy!
-    head :no_content
+    head :ok
   rescue
     flash.now[:error] = I18n.t('project_groups.delete_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
