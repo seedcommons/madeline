@@ -45,7 +45,7 @@ if Rails.env.development?
         :with_loan_media,
         :with_coop_media,
         division: division)
-      FactoryBot.create_list(:loan, 13, :with_transaction, division: division)
+      FactoryBot.create_list(:loan, 13, division: division)
       puts "Generated fake data"
     end
   end
