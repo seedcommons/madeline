@@ -35,7 +35,7 @@ section.block
       = f.input "data_reset" do
         .read-only
           = link_to(t("quickbooks.connection.data_reset"),
-            data_reset_admin_accounting_quickbooks_path, class: "btn btn-primary new-button")
+            reset_data_admin_accounting_quickbooks_path, class: "btn btn-primary new-button")
           section.alert.alert-info
             p.post = t("quickbooks.connection.data_reset_information")
     - else
