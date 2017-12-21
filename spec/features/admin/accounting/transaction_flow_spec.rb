@@ -54,20 +54,9 @@ feature 'transaction flow', :accounting do
         expect(page).to have_content("Amount can't be blank")
       end
 
-      scenario 'with qb error during Reconciler' do
+      scenario 'with qb error during Updater' do
         # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
-        expect do
-          visit "/admin/loans/#{loan.id}/transactions"
-          fill_txn_form
-          Rails.configuration.x.test.raise_qb_error_during_reconciler = 'qb fail on create'
-          page.find('a[data-action="submit"]').click
-          expect(page).to have_alert('Some data may be out of date. (Error: qb fail on create)',
-            container: '.transaction-form')
-        end.to change { Accounting::Transaction.count }.by(0)
-      end
-
-      scenario 'with qb error during Updater' do
         expect do
           visit "/admin/loans/#{loan.id}/transactions"
           fill_txn_form
