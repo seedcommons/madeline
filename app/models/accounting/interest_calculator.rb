@@ -60,19 +60,21 @@ module Accounting
     def recalculate
       prev_tx = nil
 
+      ensure_interest_transactions
+
       transactions.each do |tx|
         case tx.loan_transaction_type_value
         when "interest"
-          accrued = accrued_interest(prev_tx, tx)
+          tx.amount = accrued_interest(prev_tx, tx)
           line_item_for(tx, int_rcv_acct).assign_attributes(
             qb_line_id: 0,
             posting_type: "Debit",
-            amount: accrued
+            amount: tx.amount
           )
           line_item_for(tx, int_inc_acct).assign_attributes(
             qb_line_id: 1,
             posting_type: "Credit",
-            amount: accrued
+            amount: tx.amount
           )
 
         when "disbursement"
@@ -135,7 +137,7 @@ module Accounting
     delegate :qb_division, to: :loan
 
     def transactions
-      @transactions ||= loan.transactions.standard_order
+      @transactions ||= loan.transactions.standard_order.to_a
     end
 
     def reconciler
@@ -159,6 +161,25 @@ module Accounting
     # Guarantees that the LineItem object returned will be in `tx`s `line_items` array (not a separate copy).
     def line_item_for(tx, acct)
       tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
+    end
+
+    # Inserts interest transactions at points in the array where they are needed but missing.
+    def ensure_interest_transactions
+      txns_by_date = transactions.group_by(&:txn_date)
+      first_date = transactions.first.try(:txn_date)
+      @transactions = []
+
+      txns_by_date.each do |date, txns|
+        if date != first_date && txns.none?(&:interest?)
+          transactions << loan.transactions.create!(
+            txn_date: txns.first.txn_date,
+            amount: 0, # Will be updated momentarily.
+            loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+            description: I18n.t('transactions.interest_description'
+          ))
+        end
+        transactions.concat(txns)
+      end
     end
   end
 end
