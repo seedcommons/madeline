@@ -54,9 +54,24 @@ FactoryBot.define do
     account
     project
 
-    trait :with_interest do
+    trait :interest do
       loan_transaction_type_value 'interest'
-      amount 3
+      amount 3.25
+    end
+
+    trait :disbursement do
+      loan_transaction_type_value 'disbursement'
+      amount 100
+    end
+
+    trait :repayment do
+      loan_transaction_type_value 'repayment'
+      amount 23.7
+    end
+
+    trait :interest_with_line_items do
+      loan_transaction_type_value 'interest'
+      amount 3.25
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
@@ -66,7 +81,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_disbursement do
+    trait :disbursement_with_line_items do
       loan_transaction_type_value 'disbursement'
       amount 100
 
@@ -78,7 +93,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_repayment do
+    trait :repayment_with_line_items do
       loan_transaction_type_value 'repayment'
       amount 23.7
 

@@ -77,7 +77,7 @@ class Accounting::Transaction < ActiveRecord::Base
       AND options.value = accounting_transactions.loan_transaction_type_value").
     order(:txn_date, "options.position", :created_at)
   }
-  scope :interest_type, -> { where(qb_object_type: LOAN_INTEREST_TYPE) }
+  scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
@@ -93,7 +93,7 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def interest?
-    loan_transaction_type_value == 'interest'
+    loan_transaction_type_value == LOAN_INTEREST_TYPE
   end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
@@ -150,7 +150,27 @@ class Accounting::Transaction < ActiveRecord::Base
     update_column(:needs_qb_push, value)
   end
 
+  # Creates a blank interest transaction to go with this transaction if there is not already
+  # one on the same date, and if there is at least one transaction prior to this date.
+  # Does nothing if this transaction is already interest type.
+  # The interest calculator will pick this up and calculate the value, and sync it to quickbooks.
+  # Raises an ActiveRecord::InvalidRecord error if there is a validation error, which there never should be.
+  def ensure_interest_transaction
+    return unless project.present?
+    return if loan_transaction_type_value == LOAN_INTEREST_TYPE
+    return unless previous_transactions?
+
+    attrs = {txn_date: txn_date, loan_transaction_type_value: LOAN_INTEREST_TYPE}
+    project.transactions.find_or_create_by!(attrs) do |txn|
+      txn.description = I18n.t('transactions.interest_description', loan_id: project.id)
+    end
+  end
+
   private
+
+  def previous_transactions?
+    project.transactions.where('txn_date < ?', txn_date).exists?
+  end
 
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
