@@ -8,7 +8,7 @@ module TransactionControllable
     @transactions = @transactions.where(project_id: project.id) if project
     @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
 
-    check_if_qb_connected
+    check_if_qb_accounts_selected
     set_whether_add_txn_is_allowed
     set_whether_txn_list_is_visible
 
@@ -79,16 +79,16 @@ module TransactionControllable
   end
 
   def set_whether_add_txn_is_allowed
-    @add_transaction_available = current_division.qb_division&.qb_accounts_connected? && !@data_reset_required
+    @add_transaction_available = current_division.qb_division&.qb_accounts_selected? && !@data_reset_required
   end
 
   def set_whether_txn_list_is_visible
     @transaction_list_hidden = @data_reset_required || @transactions.count == 0
   end
 
-  def check_if_qb_connected
-    unless current_division.qb_division&.qb_accounts_connected? || flash.now[:error].present?
-      flash.now[:alert] = t('quickbooks.accounts_not_connected', settings: settings_link).html_safe
+  def check_if_qb_accounts_selected
+    unless current_division.qb_division&.qb_accounts_selected? || flash.now[:error].present?
+      flash.now[:alert] = t('quickbooks.accounts_not_selected', settings: settings_link).html_safe
     end
   end
 

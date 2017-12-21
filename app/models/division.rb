@@ -137,7 +137,7 @@ class Division < ActiveRecord::Base
     @accounts ||= [principal_account, interest_receivable_account, interest_income_account].compact
   end
 
-  def qb_accounts_connected?
+  def qb_accounts_selected?
     accounts.size == 3
   end
 
