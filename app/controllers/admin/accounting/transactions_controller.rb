@@ -18,7 +18,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def show
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = Accounting::Transaction.find_by(id: params[:id])
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize @transaction, :show?
 
     prep_transaction_form
@@ -27,8 +27,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def create
     @loan = Loan.find(transaction_params[:project_id])
-    authorize @loan
-    @transaction = Accounting::Transaction.new(transaction_params)
+    authorize(@loan, :update?)
+    @transaction = ::Accounting::Transaction.new(transaction_params)
     process_transaction_and_handle_errors
 
     # Since the txn has already been saved and/or validated before qb errors are added,
