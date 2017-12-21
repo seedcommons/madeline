@@ -306,7 +306,7 @@ es:
     class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
     data_reset_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
-    not_connected: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en %{settings}.'
+    accounts_not_connected: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en %{settings}.'
     service_unavailable: "El sistema no está disponible temporariamente. Por favor intentar de nuevo más tarde."
   reply_no: "No"
   reply_yes: "Sí"

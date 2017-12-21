@@ -79,7 +79,7 @@ module TransactionControllable
   end
 
   def set_whether_add_txn_is_allowed
-    @add_transaction_available = Division.root.qb_accounts_connected? && !@data_reset_required
+    @add_transaction_available = current_division.qb_division&.qb_accounts_connected? && !@data_reset_required
   end
 
   def set_whether_txn_list_is_visible
@@ -87,8 +87,8 @@ module TransactionControllable
   end
 
   def check_if_qb_connected
-    unless @add_transaction_available || flash.now[:error].present?
-      flash.now[:alert] = t('quickbooks.not_connected', settings: settings_link).html_safe
+    unless current_division.qb_division&.qb_accounts_connected? || flash.now[:error].present?
+      flash.now[:alert] = t('quickbooks.accounts_not_connected', settings: settings_link).html_safe
     end
   end
 

@@ -17,11 +17,11 @@ section.block
 
     = f.input "connection_status" do
       .read-only
-        - if Division.root && Division.root.quickbooks_connected?
+        - if @division.quickbooks_connected?
           = t("quickbooks.connection.connected")
         - else
           = t("quickbooks.connection.not_connected")
-    - if Division.root && Division.root.quickbooks_connected?
+    - if @division.quickbooks_connected?
       = f.input "disconnect" do
         .read-only
           = link_to(t("quickbooks.connection.disconnect"),
