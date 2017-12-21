@@ -1,4 +1,4 @@
-# Does a full sync with Quickbooks for Accounts and Transactions. Creates new objects as needed, and
+# Does a full reset with Quickbooks for Accounts and Transactions. Creates new objects as needed, and
 # updates existing objects.
 module Accounting
   module Quickbooks

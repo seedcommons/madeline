@@ -1,6 +1,6 @@
 module Accounting
   module Quickbooks
-    class FullSyncRequiredError < StandardError
+    class DataResetRequiredError < StandardError
     end
   end
 end

@@ -26,10 +26,10 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     redirect_to admin_settings_path, notice: t('quickbooks.connection.disconnect_message')
   end
 
-  def full_sync
-    authorize :'accounting/quickbooks', :full_sync?
+  def reset_data
+    authorize :'accounting/quickbooks', :reset_data?
     Accounting::Quickbooks::FullFetcher.new(current_division.qb_division).fetch_all
-    redirect_to admin_settings_path, notice: t('quickbooks.connection.full_sync_message')
+    redirect_to admin_settings_path, notice: t('quickbooks.connection.data_reset_message')
   end
 
   def connected

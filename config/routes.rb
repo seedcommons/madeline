@@ -71,7 +71,7 @@ Rails.application.routes.draw do
           get :authenticate
           get :oauth_callback
           get :disconnect
-          get :full_sync
+          get :reset_data
           get :connected
         end
       end

@@ -196,7 +196,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
     context 'when last_updated_at is nil' do
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
+        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
       end
 
       context 'when qb_connection is nil' do
@@ -212,7 +212,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       let(:last_updated_at) { 31.days.ago }
 
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
+        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
       end
     end
 
