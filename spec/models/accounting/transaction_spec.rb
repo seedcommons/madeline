@@ -195,38 +195,4 @@ RSpec.describe Accounting::Transaction, type: :model do
       create(:line_item, options.merge(parent_transaction: txn, posting_type: type, amount: amount))
     end
   end
-
-  describe '#ensure_interest_transaction' do
-    let!(:txn1) { create(:accounting_transaction, :disbursement, project: loan, txn_date: '2017-02-01') }
-
-    context 'with no preceding txn' do
-      it 'does not create an interest txn' do
-        txn2 = create(:accounting_transaction, :disbursement, project: loan, txn_date: '2017-01-31')
-        expect_int_txn_change(0) { txn2.ensure_interest_transaction }
-      end
-    end
-
-    context 'with preceding txn and existing interest txn on this date' do
-      let!(:txn2) { create(:accounting_transaction, :disbursement, project: loan, txn_date: '2017-02-15') }
-      let!(:txn3) { create(:accounting_transaction, :interest, project: loan, txn_date: '2017-02-15') }
-
-      it 'does not create an interest txn' do
-        txn4 = create(:accounting_transaction, :disbursement, project: loan, txn_date: '2017-02-15')
-        expect_int_txn_change(0) { txn4.ensure_interest_transaction }
-      end
-    end
-
-    context 'with preceding txn and no interest txn on this date' do
-      it 'creates an interest txn with correct date and description' do
-        txn2 = create(:accounting_transaction, :disbursement, project: loan, txn_date: '2017-02-05')
-        expect_int_txn_change(1) { txn2.ensure_interest_transaction }
-        int_txn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-02-05')
-        expect(int_txn.description).to eq "Interest Accrual for Loan ##{loan.id}"
-      end
-    end
-
-    def expect_int_txn_change(num)
-      expect { yield }.to change { Accounting::Transaction.interest_type.count }.by(num)
-    end
-  end
 end
