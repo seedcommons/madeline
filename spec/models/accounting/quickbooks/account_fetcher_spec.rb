@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::AccountFetcher, type: :model do
-  subject { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
+  let(:division) { create(:division, :with_accounts) }
+  subject { described_class.new(division) }
 
   it 'should work when a nil query result is returned' do
     service = instance_double(Quickbooks::Service::Account, all: nil)
@@ -21,7 +22,7 @@ RSpec.describe Accounting::Quickbooks::AccountFetcher, type: :model do
     let(:classification) { 'Liability' }
     let(:qb_account) { instance_double(Quickbooks::Model::Account, id: 99, name: name, classification: classification) }
     let(:service) { instance_double(Quickbooks::Service::Account, all: [qb_account]) }
-    let(:fetcher) { described_class.new(instance_double(Accounting::Quickbooks::Connection)) }
+    let(:fetcher) { described_class.new(division) }
 
     subject { fetcher.fetch }
 

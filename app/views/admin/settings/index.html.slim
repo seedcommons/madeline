@@ -65,3 +65,8 @@ section.block
 
   section.alert.alert-warning
     = t('quickbooks.class_location_notice_html')
+
+javascript:
+  $(function(){
+    new MS.Views.SettingsView(#{{{qb_connected: Division.root.quickbooks_connected? == true}.to_json}});
+  });

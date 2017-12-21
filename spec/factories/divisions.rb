@@ -52,7 +52,7 @@ end
 FactoryBot.define do
   factory :division do
     description { Faker::Lorem.sentence }
-    name { Faker::Company.name }
+    name { Faker::Address.city }
     parent { root_division }
 
     trait :with_accounts do
