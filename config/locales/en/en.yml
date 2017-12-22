@@ -328,7 +328,7 @@ en:
   print: "Print"
   quickbooks:
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
-    class_location_notice_html: "<b>NOTE:</b> Before you can add transactions, you need to make sure <b>Classes</b> and <b>Locations</b> (a.k.a. Divisions) are enabled in your QuickBooks company settings."
+    class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
     accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
