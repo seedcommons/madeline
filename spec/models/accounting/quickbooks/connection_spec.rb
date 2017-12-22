@@ -3,13 +3,13 @@
 # Table name: accounting_quickbooks_connections
 #
 #  created_at       :datetime         not null
-#  division_id      :integer
+#  division_id      :integer          not null
 #  id               :integer          not null, primary key
 #  last_updated_at  :datetime
-#  realm_id         :string
-#  secret           :string
-#  token            :string
-#  token_expires_at :datetime
+#  realm_id         :string           not null
+#  secret           :string           not null
+#  token            :string           not null
+#  token_expires_at :datetime         not null
 #  updated_at       :datetime         not null
 #
 # Indexes

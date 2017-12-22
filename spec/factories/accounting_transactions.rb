@@ -10,11 +10,12 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
-#  qb_transaction_type         :string           not null
+#  qb_object_type              :string           default("JournalEntry"), not null
 #  quickbooks_data             :json
 #  total                       :decimal(, )
 #  txn_date                    :date
@@ -22,12 +23,12 @@
 #
 # Indexes
 #
-#  acc_trans_qbid_qbtype_unq_idx                           (qb_id,qb_transaction_type) UNIQUE
-#  index_accounting_transactions_on_accounting_account_id  (accounting_account_id)
-#  index_accounting_transactions_on_currency_id            (currency_id)
-#  index_accounting_transactions_on_project_id             (project_id)
-#  index_accounting_transactions_on_qb_id                  (qb_id)
-#  index_accounting_transactions_on_qb_transaction_type    (qb_transaction_type)
+#  index_accounting_transactions_on_accounting_account_id     (accounting_account_id)
+#  index_accounting_transactions_on_currency_id               (currency_id)
+#  index_accounting_transactions_on_project_id                (project_id)
+#  index_accounting_transactions_on_qb_id                     (qb_id)
+#  index_accounting_transactions_on_qb_id_and_qb_object_type  (qb_id,qb_object_type) UNIQUE
+#  index_accounting_transactions_on_qb_object_type            (qb_object_type)
 #
 # Foreign Keys
 #
@@ -45,7 +46,7 @@ FactoryBot.define do
     end
 
     sequence(:qb_id)
-    qb_transaction_type 'JournalEntry'
+    qb_object_type 'JournalEntry'
     quickbooks_data { {} }
     loan_transaction_type_value %w(interest disbursement repayment).sample
     txn_date { Faker::Date.between(30.days.ago, Date.today) }
@@ -53,9 +54,24 @@ FactoryBot.define do
     account
     project
 
-    trait :with_interest do
+    trait :interest do
       loan_transaction_type_value 'interest'
-      amount 3
+      amount 3.25
+    end
+
+    trait :disbursement do
+      loan_transaction_type_value 'disbursement'
+      amount 100
+    end
+
+    trait :repayment do
+      loan_transaction_type_value 'repayment'
+      amount 23.7
+    end
+
+    trait :interest_with_line_items do
+      loan_transaction_type_value 'interest'
+      amount 3.25
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
@@ -65,7 +81,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_disbursement do
+    trait :disbursement_with_line_items do
       loan_transaction_type_value 'disbursement'
       amount 100
 
@@ -77,7 +93,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_repayment do
+    trait :repayment_with_line_items do
       loan_transaction_type_value 'repayment'
       amount 23.7
 

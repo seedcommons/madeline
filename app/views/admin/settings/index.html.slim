@@ -17,11 +17,11 @@ section.block
 
     = f.input "connection_status" do
       .read-only
-        - if Division.root && Division.root.quickbooks_connected?
+        - if @division.quickbooks_connected?
           = t("quickbooks.connection.connected")
         - else
           = t("quickbooks.connection.not_connected")
-    - if Division.root && Division.root.quickbooks_connected?
+    - if @division.quickbooks_connected?
       = f.input "disconnect" do
         .read-only
           = link_to(t("quickbooks.connection.disconnect"),
@@ -32,10 +32,11 @@ section.block
             = ldate(@last_updated_at, format: :long)
           - else
             = t("quickbooks.connection.never_synced")
-      = f.input "full_sync" do
-        .read-only
-          = link_to(t("quickbooks.connection.full_sync"),
-            full_sync_admin_accounting_quickbooks_path)
+      = f.input "data_reset" do
+        .read-only.flex-container
+          div => link_to(t("quickbooks.connection.data_reset"),
+            reset_data_admin_accounting_quickbooks_path, class: "btn btn-default new-button reset-button")
+          p.help-block = t("quickbooks.connection.data_reset_information")
     - else
       = f.input "connect" do
         / this will display a button that the user clicks to start the flow
@@ -62,4 +63,9 @@ section.block
         = f.submit t(:save), class: "btn btn-primary"
 
   section.alert.alert-warning
-    = t('quickbooks.class_location_notice_html')
+    = t('quickbooks.class_location_notice')
+
+javascript:
+  $(function(){
+    new MS.Views.SettingsView(#{{{qb_connected: Division.root.quickbooks_connected? == true}.to_json}});
+  });

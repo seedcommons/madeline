@@ -137,7 +137,14 @@ class Division < ActiveRecord::Base
     @accounts ||= [principal_account, interest_receivable_account, interest_income_account].compact
   end
 
-  def qb_accounts_connected?
+  def qb_accounts_selected?
     accounts.size == 3
+  end
+
+  # If no QB connection on this division, fall back to nearest ancestor with QB connection.
+  # May return nil.
+  def qb_division
+    # Division.root
+    qb_connection ? self : parent&.qb_division
   end
 end

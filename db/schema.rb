@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129145057) do
+ActiveRecord::Schema.define(version: 20171220174646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,12 +41,12 @@ ActiveRecord::Schema.define(version: 20171129145057) do
 
   create_table "accounting_quickbooks_connections", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "division_id"
+    t.integer "division_id", null: false
     t.datetime "last_updated_at"
-    t.string "realm_id"
-    t.string "secret"
-    t.string "token"
-    t.datetime "token_expires_at"
+    t.string "realm_id", null: false
+    t.string "secret", null: false
+    t.string "token", null: false
+    t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_quickbooks_connections_on_division_id"
   end
@@ -59,11 +59,12 @@ ActiveRecord::Schema.define(version: 20171129145057) do
     t.string "description"
     t.decimal "interest_balance", default: "0.0"
     t.string "loan_transaction_type_value"
+    t.boolean "needs_qb_push", default: true, null: false
     t.decimal "principal_balance", default: "0.0"
     t.string "private_note"
     t.integer "project_id"
     t.string "qb_id"
-    t.string "qb_transaction_type", null: false
+    t.string "qb_object_type", default: "JournalEntry", null: false
     t.json "quickbooks_data"
     t.decimal "total"
     t.date "txn_date"
@@ -71,9 +72,9 @@ ActiveRecord::Schema.define(version: 20171129145057) do
     t.index ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id"
     t.index ["currency_id"], name: "index_accounting_transactions_on_currency_id"
     t.index ["project_id"], name: "index_accounting_transactions_on_project_id"
-    t.index ["qb_id", "qb_transaction_type"], name: "acc_trans_qbid_qbtype_unq_idx", unique: true
+    t.index ["qb_id", "qb_object_type"], name: "index_accounting_transactions_on_qb_id_and_qb_object_type", unique: true
     t.index ["qb_id"], name: "index_accounting_transactions_on_qb_id"
-    t.index ["qb_transaction_type"], name: "index_accounting_transactions_on_qb_transaction_type"
+    t.index ["qb_object_type"], name: "index_accounting_transactions_on_qb_object_type"
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|

@@ -11,6 +11,5 @@ section.transactions
 
 javascript:
   $(function() {
-    new MS.Views.TransactionsView();
-    new MS.Views.TransactionModalView({loanId: #{@loan.id}});
+    new MS.Views.TransactionsView({loanId: #{@loan.id}});
   });
