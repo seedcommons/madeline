@@ -175,7 +175,7 @@ module Accounting
             txn_date: txns.first.txn_date,
             amount: 0, # Will be updated momentarily.
             loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-            description: I18n.t('transactions.interest_description', loan_id: project.id)
+            description: I18n.t('transactions.interest_description', loan_id: loan.id)
           )
         end
         transactions.concat(txns)

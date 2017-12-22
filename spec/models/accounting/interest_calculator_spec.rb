@@ -233,8 +233,9 @@ describe Accounting::InterestCalculator do
 
     it 'creates interest txns where appropriate' do
       expect { recalculate_and_reload }.to change { Accounting::Transaction.interest_type.count }.by(1)
-      expect(Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04').amount).
-        to equal_money(0.07)
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04')
+      expect(inttxn.amount).to equal_money(0.07)
+      expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
     end
   end
 
