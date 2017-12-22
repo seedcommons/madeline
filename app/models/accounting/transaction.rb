@@ -152,10 +152,6 @@ class Accounting::Transaction < ActiveRecord::Base
 
   private
 
-  def previous_transactions?
-    project.transactions.where('txn_date < ?', txn_date).exists?
-  end
-
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
   # which is increased by a credit, a negative number indicates the account is increasing.

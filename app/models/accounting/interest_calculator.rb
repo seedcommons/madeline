@@ -164,6 +164,8 @@ module Accounting
     end
 
     # Inserts interest transactions at points in the array where they are needed but missing.
+    # There should be one interest transaction on each date for which there are any other
+    # transactions, except the date of the first transaction.
     def ensure_interest_transactions
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first.try(:txn_date)
