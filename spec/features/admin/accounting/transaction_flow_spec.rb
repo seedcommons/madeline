@@ -7,7 +7,6 @@ feature 'transaction flow', :accounting do
   let(:division) { Division.root }
   let!(:loan) { create(:loan, division: division) }
   let(:user) { create_admin(division) }
-  let!(:txn) { create(:accounting_transaction, project: loan) }
 
   before do
     Division.root.update_attributes!(
@@ -36,15 +35,14 @@ feature 'transaction flow', :accounting do
     end
 
     describe 'new transaction' do
-      # This spec does not test TransactionBuilder at all because stubbing out
-      # all the necessary things was not practical at the time.
+      # This spec does not test TransactionBuilder, InterestCalculator, Updater, or other QB classes
+      # because stubbing out all the necessary things was not practical at the time.
       # Eventually we should refactor the Quickbooks code such that stubbing is easier.
       scenario 'creates new transaction' do
         visit "/admin/loans/#{loan.id}/transactions"
         fill_txn_form
         page.find('a[data-action="submit"]').click
         expect(page).to have_content('Palm trees')
-        expect(page).to have_content("Interest Accrual for Loan ##{loan.id}")
       end
 
       scenario 'with validation error' do

@@ -77,7 +77,7 @@ class Accounting::Transaction < ActiveRecord::Base
       AND options.value = accounting_transactions.loan_transaction_type_value").
     order(:txn_date, "options.position", :created_at)
   }
-  scope :interest_type, -> { where(qb_object_type: LOAN_INTEREST_TYPE) }
+  scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
@@ -93,7 +93,7 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   def interest?
-    loan_transaction_type_value == 'interest'
+    loan_transaction_type_value == LOAN_INTEREST_TYPE
   end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
@@ -151,6 +151,10 @@ class Accounting::Transaction < ActiveRecord::Base
   end
 
   private
+
+  def previous_transactions?
+    project.transactions.where('txn_date < ?', txn_date).exists?
+  end
 
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,

@@ -45,34 +45,20 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   private
 
-  # Saves transaction record, creates interest transaction, runs updater.
+  # Saves transaction record and runs updater.
   # Does nothing if transaction is invalid.
   # Handles any QB errors that come up in updater and sets them as base errors on @transaction.
   def process_transaction_and_handle_errors
-    return unless @transaction.valid?
-
     # This is a database transaction, not accounting!
     # We use it because we want to rollback transaction creation or updates if there are errors.
     ActiveRecord::Base.transaction do
-      @transaction.save!
-      ensure_interest_transaction
-
-      if error = handle_qb_errors { run_updater(project: @transaction.project) }
-        @transaction.errors.add(:base, error)
-        raise ActiveRecord::Rollback
+      if @transaction.save
+        if error = handle_qb_errors { run_updater(project: @transaction.project) }
+          @transaction.errors.add(:base, error)
+          raise ActiveRecord::Rollback
+        end
       end
     end
-  end
-
-  # Create blank interest transaction. The interest calculator will pick this up and
-  # calculate the value, and sync it to quickbooks.
-  # Raises an ActiveRecord::InvalidRecord error if there is a validation error, which there never should be.
-  def ensure_interest_transaction
-    Accounting::Transaction.find_or_create_by!(transaction_params.merge(
-      loan_transaction_type_value: Accounting::Transaction::LOAN_INTEREST_TYPE,
-      amount: 0, # This is a temporary value.
-      description: I18n.t('transactions.interest_description', loan_id: @loan.id)
-    ))
   end
 
   def transaction_params

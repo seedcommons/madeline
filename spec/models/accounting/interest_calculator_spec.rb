@@ -4,219 +4,238 @@ require 'rails_helper'
 describe Accounting::InterestCalculator do
   let!(:division) { create(:division, :with_accounts) }
   let(:loan) { create(:loan, division: division, rate: 8.0) }
-  let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
-    project: loan, txn_date: "2017-01-01", division: division) }
-  let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
-    project: loan, txn_date: "2017-01-04", division: division) }
-  let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 17.50,
-    project: loan, txn_date: "2017-01-04", division: division) }
-  let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
-    project: loan, txn_date: "2017-04-01", division: division) }
-  let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 1.00,
-    project: loan, txn_date: "2017-04-01", division: division) }
-  let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
-    project: loan, txn_date: Date.today + 2.days, division: division) }
-  let(:all_txns) { [t0, t1, t2, t3, t4, t5] }
-  let!(:prin_acct) { division.principal_account }
-  let!(:int_rcv_acct) { division.interest_receivable_account }
-  let!(:int_inc_acct) { division.interest_income_account }
 
-  describe 'initial creation and update' do
-    it do
-      #########################
-      # Initial computation
-      recalculate_and_reload
+  describe 'general operation' do
+    let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+      project: loan, txn_date: "2017-01-01", division: division) }
+    let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
+      project: loan, txn_date: "2017-01-04", division: division) }
+    let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 17.50,
+      project: loan, txn_date: "2017-01-04", division: division) }
+    let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
+      project: loan, txn_date: "2017-04-01", division: division) }
+    let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 1.00,
+      project: loan, txn_date: "2017-04-01", division: division) }
+    let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
+      project: loan, txn_date: "2017-04-01", division: division) }
+    let(:all_txns) { [t0, t1, t2, t3, t4, t5] }
+    let!(:prin_acct) { division.principal_account }
+    let!(:int_rcv_acct) { division.interest_receivable_account }
+    let!(:int_inc_acct) { division.interest_income_account }
 
-      # All transactions should get their push flags set because they didn't have any line items before.
-      expect(all_txns.map(&:needs_qb_push).uniq).to eq [true]
+    describe 'initial creation and update' do
+      it do
+        #########################
+        # Initial computation
+        recalculate_and_reload
 
-      # t0 --------------------------------------------------------
-      expect(t0.line_items.size).to eq(2)
+        # All transactions should get their push flags set because they didn't have any line items before.
+        expect(all_txns.map(&:needs_qb_push).uniq).to eq [true]
 
-      # account details
-      expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
-      expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
-      expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
-      expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
+        # t0 --------------------------------------------------------
+        expect(t0.line_items.size).to eq(2)
 
-      # balances
-      expect(t0.reload.principal_balance).to equal_money(100.00)
-      expect(t0.reload.interest_balance).to equal_money(0)
+        # account details
+        expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
+        expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
+        expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
 
-      # t1 --------------------------------------------------------
-      expect(t1.line_items.size).to eq(2)
+        # balances
+        expect(t0.reload.principal_balance).to equal_money(100.00)
+        expect(t0.reload.interest_balance).to equal_money(0)
 
-      # account details
-      expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
-      expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-      expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
-      expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        # t1 --------------------------------------------------------
+        expect(t1.line_items.size).to eq(2)
 
-      # balances
-      expect(t1.reload.principal_balance).to equal_money(100.00)
-      expect(t1.reload.interest_balance).to equal_money(0.07)
+        # account details
+        expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
+        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
+        expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
-      # t2 --------------------------------------------------------
-      expect(t2.line_items.size).to eq(2)
+        # balances
+        expect(t1.reload.principal_balance).to equal_money(100.00)
+        expect(t1.reload.interest_balance).to equal_money(0.07)
 
-      # account details
-      expect(t2.line_item_for(prin_acct).amount).to equal_money(17.50)
-      expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
-      expect(t2.line_item_for(t2.account).amount).to equal_money(17.50)
-      expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
+        # t2 --------------------------------------------------------
+        expect(t2.line_items.size).to eq(2)
 
-      # balances
-      expect(t2.reload.principal_balance).to equal_money(117.50)
-      expect(t2.reload.interest_balance).to equal_money(0.07)
+        # account details
+        expect(t2.line_item_for(prin_acct).amount).to equal_money(17.50)
+        expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t2.line_item_for(t2.account).amount).to equal_money(17.50)
+        expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
 
-      # t3 --------------------------------------------------------
-      expect(t3.line_items.size).to eq(2)
+        # balances
+        expect(t2.reload.principal_balance).to equal_money(117.50)
+        expect(t2.reload.interest_balance).to equal_money(0.07)
 
-      # account details
-      expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.24)
-      expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-      expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.24)
-      expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        # t3 --------------------------------------------------------
+        expect(t3.line_items.size).to eq(2)
 
-      # balances
-      expect(t3.reload.principal_balance).to equal_money(117.50)
-      expect(t3.reload.interest_balance).to equal_money(2.31)
+        # account details
+        expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.24)
+        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.24)
+        expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
-      # t4 --------------------------------------------------------
-      expect(t4.line_items.size).to eq(3)
+        # balances
+        expect(t3.reload.principal_balance).to equal_money(117.50)
+        expect(t3.reload.interest_balance).to equal_money(2.31)
 
-      # account details
-      expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
-      expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
-      expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
-      expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-      expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
-      expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
+        # t4 --------------------------------------------------------
+        expect(t4.line_items.size).to eq(3)
 
-      # balances
-      expect(t4.reload.principal_balance).to equal_money(117.50)
-      expect(t4.reload.interest_balance).to equal_money(1.31)
+        # account details
+        expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
+        expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
+        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
+        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
+        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
-      # t5 --------------------------------------------------------
-      expect(t5.line_items.size).to eq(3)
+        # balances
+        expect(t4.reload.principal_balance).to equal_money(117.50)
+        expect(t4.reload.interest_balance).to equal_money(1.31)
 
-      # account details
-      expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
-      expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
-      expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.31)
-      expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-      expect(t5.line_item_for(prin_acct).amount).to equal_money(10.99)
-      expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
+        # t5 --------------------------------------------------------
+        expect(t5.line_items.size).to eq(3)
 
-      # balances
-      expect(t5.reload.principal_balance).to equal_money(106.51)
-      expect(t5.reload.interest_balance).to equal_money(0.00)
+        # account details
+        expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
+        expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
+        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.31)
+        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t5.line_item_for(prin_acct).amount).to equal_money(10.99)
+        expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
 
-      ##############################################################################################
-      # Recalculation after change of second disbursement to larger number
+        # balances
+        expect(t5.reload.principal_balance).to equal_money(106.51)
+        expect(t5.reload.interest_balance).to equal_money(0.00)
 
-      t2.update!(amount: 52.50)
-      recalculate_and_reload
+        ##############################################################################################
+        # Recalculation after change of second disbursement to larger number
 
-      # t0 --------------------------------------------------------
-      expect(t0.line_items.size).to eq(2)
+        t2.update!(amount: 52.50)
+        recalculate_and_reload
 
-      # This txn is before changed one, so no changes.
-      expect(t0.needs_qb_push).to be false
+        # t0 --------------------------------------------------------
+        expect(t0.line_items.size).to eq(2)
 
-      # account details
-      expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
-      expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
-      expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
-      expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
+        # This txn is before changed one, so no changes.
+        expect(t0.needs_qb_push).to be false
 
-      # balances
-      expect(t0.reload.principal_balance).to equal_money(100.00)
-      expect(t0.reload.interest_balance).to equal_money(0)
+        # account details
+        expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
+        expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
+        expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
 
-      # t1 --------------------------------------------------------
-      expect(t1.line_items.size).to eq(2)
+        # balances
+        expect(t0.reload.principal_balance).to equal_money(100.00)
+        expect(t0.reload.interest_balance).to equal_money(0)
 
-      # This txn is before changed one, so no changes.
-      expect(t1.needs_qb_push).to be false
+        # t1 --------------------------------------------------------
+        expect(t1.line_items.size).to eq(2)
 
-      # account details
-      expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
-      expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-      expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
-      expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        # This txn is before changed one, so no changes.
+        expect(t1.needs_qb_push).to be false
 
-      # balances
-      expect(t1.reload.principal_balance).to equal_money(100.00)
-      expect(t1.reload.interest_balance).to equal_money(0.07)
+        # account details
+        expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
+        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
+        expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
-      # t2 --------------------------------------------------------
-      expect(t2.line_items.size).to eq(2)
+        # balances
+        expect(t1.reload.principal_balance).to equal_money(100.00)
+        expect(t1.reload.interest_balance).to equal_money(0.07)
 
-      # This is the changed txn
-      expect(t2.needs_qb_push).to be true
+        # t2 --------------------------------------------------------
+        expect(t2.line_items.size).to eq(2)
 
-      # account details
-      expect(t2.line_item_for(prin_acct).amount).to equal_money(52.50)
-      expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
-      expect(t2.line_item_for(t2.account).amount).to equal_money(52.50)
-      expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
+        # This is the changed txn
+        expect(t2.needs_qb_push).to be true
 
-      # balances
-      expect(t2.reload.principal_balance).to equal_money(152.50)
-      expect(t2.reload.interest_balance).to equal_money(0.07)
+        # account details
+        expect(t2.line_item_for(prin_acct).amount).to equal_money(52.50)
+        expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t2.line_item_for(t2.account).amount).to equal_money(52.50)
+        expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
 
-      # t3 --------------------------------------------------------
-      expect(t3.line_items.size).to eq(2)
+        # balances
+        expect(t2.reload.principal_balance).to equal_money(152.50)
+        expect(t2.reload.interest_balance).to equal_money(0.07)
 
-      # This is an interest txn that changes as a result of previous txn change.
-      expect(t3.needs_qb_push).to be true
+        # t3 --------------------------------------------------------
+        expect(t3.line_items.size).to eq(2)
 
-      # account details
-      expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.91)
-      expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-      expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.91)
-      expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        # This is an interest txn that changes as a result of previous txn change.
+        expect(t3.needs_qb_push).to be true
 
-      # balances
-      expect(t3.reload.principal_balance).to equal_money(152.50)
-      expect(t3.reload.interest_balance).to equal_money(2.98)
+        # account details
+        expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.91)
+        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.91)
+        expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
-      # t4 --------------------------------------------------------
-      expect(t4.line_items.size).to eq(3)
+        # balances
+        expect(t3.reload.principal_balance).to equal_money(152.50)
+        expect(t3.reload.interest_balance).to equal_money(2.98)
 
-      # The line items here stay the same so no need to push.
-      expect(t0.needs_qb_push).to be false
+        # t4 --------------------------------------------------------
+        expect(t4.line_items.size).to eq(3)
 
-      # account details
-      expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
-      expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
-      expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
-      expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-      expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
-      expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
+        # The line items here stay the same so no need to push.
+        expect(t0.needs_qb_push).to be false
 
-      # balances
-      expect(t4.reload.principal_balance).to equal_money(152.50)
-      expect(t4.reload.interest_balance).to equal_money(1.98)
+        # account details
+        expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
+        expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
+        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
+        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
+        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
-      # t5 --------------------------------------------------------
-      expect(t5.line_items.size).to eq(3)
+        # balances
+        expect(t4.reload.principal_balance).to equal_money(152.50)
+        expect(t4.reload.interest_balance).to equal_money(1.98)
 
-      # account details
-      expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
-      expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
-      expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.98)
-      expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-      expect(t5.line_item_for(prin_acct).amount).to equal_money(10.32)
-      expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
+        # t5 --------------------------------------------------------
+        expect(t5.line_items.size).to eq(3)
 
-      # The interest change above cascades down into this txn.
-      expect(t5.needs_qb_push).to be true
+        # account details
+        expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
+        expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
+        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.98)
+        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t5.line_item_for(prin_acct).amount).to equal_money(10.32)
+        expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
 
-      # balances
-      expect(t5.reload.principal_balance).to equal_money(142.18)
-      expect(t5.reload.interest_balance).to equal_money(0.00)
+        # The interest change above cascades down into this txn.
+        expect(t5.needs_qb_push).to be true
+
+        # balances
+        expect(t5.reload.principal_balance).to equal_money(142.18)
+        expect(t5.reload.interest_balance).to equal_money(0.00)
+      end
+    end
+  end
+
+  describe 'creation of interest txns' do
+    # There should be an interest txn between t0 and t1, but not before t0
+    let!(:t0) { create(:accounting_transaction, :disbursement, amount: 100.0,
+      project: loan, txn_date: "2017-01-01", division: division) }
+    let!(:t1) { create(:accounting_transaction, :disbursement, amount: 200.0,
+      project: loan, txn_date: "2017-01-04", division: division) }
+    let(:all_txns) { [t0, t1] }
+
+    it 'creates interest txns where appropriate' do
+      expect { recalculate_and_reload }.to change { Accounting::Transaction.interest_type.count }.by(1)
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04')
+      expect(inttxn.amount).to equal_money(0.07)
+      expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
     end
   end
 
@@ -234,8 +253,8 @@ describe Accounting::InterestCalculator do
     calculator = Accounting::InterestCalculator.new(loan)
     reconciler = double()
     allow(calculator).to receive(:reconciler).and_return(reconciler)
+    allow(reconciler).to receive(:reconcile).and_return(nil)
     calculator.send(:transactions).each do |t|
-      expect(reconciler).to receive(:reconcile).with(t).and_return(nil)
       allow(t).to receive(:associate_with_qb_obj).with(nil).and_return(nil)
     end
     calculator

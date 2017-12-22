@@ -42,7 +42,6 @@ require 'rails_helper'
 # quickbooks_data['line_items'].each
 RSpec.describe Accounting::Transaction, type: :model do
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
-  let(:transaction) { create(:accounting_transaction, project: loan) }
 
   describe '.standard_order' do
     let!(:txn_1) do
@@ -150,6 +149,7 @@ RSpec.describe Accounting::Transaction, type: :model do
   end
 
   context 'with line items' do
+    let(:transaction) { create(:accounting_transaction, project: loan) }
     let(:txn) { transaction }
     let(:int_inc_acct) { transaction.division.interest_income_account }
     let(:int_rcv_acct) { transaction.division.interest_receivable_account }
