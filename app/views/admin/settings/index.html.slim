@@ -33,11 +33,10 @@ section.block
           - else
             = t("quickbooks.connection.never_synced")
       = f.input "data_reset" do
-        .read-only
-          = link_to(t("quickbooks.connection.data_reset"),
-            reset_data_admin_accounting_quickbooks_path, class: "btn btn-primary new-button")
-          section.alert.alert-info
-            p.post = t("quickbooks.connection.data_reset_information")
+        .read-only.flex-container
+          div => link_to(t("quickbooks.connection.data_reset"),
+            reset_data_admin_accounting_quickbooks_path, class: "btn btn-default new-button reset-button")
+          p.help-block = t("quickbooks.connection.data_reset_information")
     - else
       = f.input "connect" do
         / this will display a button that the user clicks to start the flow
