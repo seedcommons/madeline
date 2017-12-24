@@ -83,6 +83,10 @@ class Accounting::Transaction < ActiveRecord::Base
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
 
+    # Beginning attempt to create txns from properly tagged txns in QB
+    # project_id = txn.quickbooks_data.dig('line_items', 0, 'journal_entry_line_detail', 'class_ref', 'name')&.to_i
+    # txn.project_id = project_id if Project.exists?(project_id)
+
     # Since the data has just come straight from quickbooks, no need to push it back up.
     txn.needs_qb_push = false
 
@@ -111,14 +115,14 @@ class Accounting::Transaction < ActiveRecord::Base
     return 0 unless project
 
     # See InterestCalculator for more documentation on principal/interest accounts.
-    @change_in_principal ||= net_debit_for_account(qb_division.principal_account_id)
+    @change_in_principal ||= net_debit_for_account(qb_division&.principal_account_id)
   end
 
   def change_in_interest
     return 0 unless project
 
     # See InterestCalculator for more documentation on principal/interest accounts.
-     @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
+     @change_in_interest ||= net_debit_for_account(qb_division&.interest_receivable_account_id)
   end
 
   def total_balance

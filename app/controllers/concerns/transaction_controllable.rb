@@ -30,7 +30,7 @@ module TransactionControllable
   # Runs the given block and handles any Quickbooks errors.
   # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
   # Notifies admins if error is not part of normal operation.
-  # Sets the @data_reset_required variable if a FullSyncRequiredError error is raised.
+  # Sets the @data_reset_required variable if a DataResetRequiredError error is raised.
   def handle_qb_errors
     begin
       yield
@@ -45,6 +45,7 @@ module TransactionControllable
       Accounting::Quickbooks::NotConnectedError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
+      @qb_not_connected = true
       error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
     rescue Quickbooks::InvalidModelException,
       Quickbooks::Forbidden,
@@ -83,7 +84,7 @@ module TransactionControllable
   end
 
   def set_whether_txn_list_is_visible
-    @transaction_list_hidden = @data_reset_required || @transactions.count == 0
+    @transaction_list_hidden = @qb_not_connected || @data_reset_required || @transactions.count == 0
   end
 
   def check_if_qb_accounts_selected
