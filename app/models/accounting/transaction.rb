@@ -111,14 +111,14 @@ class Accounting::Transaction < ActiveRecord::Base
     return 0 unless project
 
     # See InterestCalculator for more documentation on principal/interest accounts.
-    @change_in_principal ||= net_debit_for_account(qb_division.principal_account_id)
+    @change_in_principal ||= net_debit_for_account(qb_division&.principal_account_id)
   end
 
   def change_in_interest
     return 0 unless project
 
     # See InterestCalculator for more documentation on principal/interest accounts.
-     @change_in_interest ||= net_debit_for_account(qb_division.interest_receivable_account_id)
+     @change_in_interest ||= net_debit_for_account(qb_division&.interest_receivable_account_id)
   end
 
   def total_balance
