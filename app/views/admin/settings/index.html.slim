@@ -45,7 +45,7 @@ section.block
 - if @accounts && !@accounts.empty?
   section.block
     h2 = t("quickbooks.accounts.accounts")
-    p.note = t("quickbooks.accounts.note")
+    p.help-block.note = t("quickbooks.accounts.note")
 
     = simple_form_for([:admin, @division],
         url: admin_settings_path,
