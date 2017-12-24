@@ -150,17 +150,30 @@ es:
           principal_balance: "Balance del Capital Principal"
           private_note: "Memo"
           qb_id: "Id"
+          qb_transaction_type: "Tipo"
           txn_date: "Fecha"
           total: "Total"
           total_balance: "Balance Total"
     errors:
       models:
+        loan:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo del responsable segundo'
+        basic_project:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo del responsable segundo'
         project_group:
           no_summary: "Se requiere un resumen."
         organization:
           attributes:
             primary_contact:
               invalid: 'El Contacto Principal debe pertenecer a la organización'
+        timeline_entry:
+          attributes:
+            scheduled_end_date:
+              less_than_1: "La duración proyectada de un paso no puede ser menos de 1 día"
   simple_form:
     hints:
       division:
@@ -303,7 +316,7 @@ es:
   print: "Imprimir"
   quickbooks:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
-    class_location_notice_html: "<b>NOTA:</b> Antes de poder agregar transacciones, debes asegurarte de que <b>Clases</b> y <b>Locaciones</b> (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
+    class_location_notice: "NOTA: Antes de poder agregar transacciones, debes asegurarte de que Clases y Locaciones (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
     data_reset_required: "Se requiere una sincronización completa antes de poder acceder a las transacciones. Por favor ir a %{settings} para sincronizar."
     misc: "Hubo un error en la conexión a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados."
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar cuentas de QuickBooks accounts en %{settings}.'

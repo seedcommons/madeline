@@ -160,7 +160,7 @@ es:
       total_net_margin: "Total de Margen Neto"
       total_fixed_costs: "Costos Fijos Totales"
     response_set:
-      conflicting_changes_html: '<b>Advertencia:</b> Los datos han cambiado desde que los cargste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez debas confirmar con esa persona lo que cambiaron o <a href="%{link}" target="_blank">abrir los datos más recientes en una pestaña nueva</a> para comparar.<br><br>Puedes guardar tus cambios de todas maneras, pero <b>todos los otros cambios desde que cargaste la página se perderán</b>.'
+      conflicting_changes: 'Advertencia: Los datos han cambiado desde que los cargste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez debas confirmar con esa persona lo que cambiaron o <a href="%{link}" target="_blank">abrir los datos más recientes en una pestaña nueva</a> para comparar. Puedes guardar tus cambios de todas maneras, pero todos los otros cambios desde que cargaste la página se perderán. '
       discard_reload: "Descartar Mis Cambios y Recargar"
       overwrite_changes: "Guardar Mis Cambios y Borrar Los Otros"
   breakeven_table_question:
