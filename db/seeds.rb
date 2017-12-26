@@ -26,8 +26,8 @@ LoanQuestion.recalibrate_sequence(id: 300)
 LoanQuestionSet.connection.schema_cache.clear!
 LoanQuestionSet.reset_column_information
 
-LoanQuestionSet.find_or_create_by(id: 2,
-  internal_name: 'loan_criteria').set_label('Loan Criteria Questionnaire')
-LoanQuestionSet.find_or_create_by(id: 3,
-  internal_name: 'loan_post_analysis').set_label('Loan Post Analysis')
+LoanQuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria').
+  set_label('Loan Criteria Questionnaire')
+LoanQuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis').
+  set_label('Loan Post Analysis')
 LoanQuestionSet.recalibrate_sequence(gap: 10)

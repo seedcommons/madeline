@@ -68,6 +68,8 @@ class Project < ActiveRecord::Base
 
   alias_method :logs, :project_logs
 
+  delegate :qb_division, to: :division
+
   # Configure how the class is duplicated
   amoeba do
     enable

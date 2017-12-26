@@ -52,13 +52,18 @@ end
 FactoryBot.define do
   factory :division do
     description { Faker::Lorem.sentence }
-    name { Faker::Company.name }
+    name { Faker::Address.city }
     parent { root_division }
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account
       association :interest_receivable_account, factory: :accounting_account
       association :interest_income_account, factory: :accounting_account
+
+      after(:create) do |division|
+        # This is needed for Division#qb_division to work properly
+        division.qb_connection = create(:accounting_quickbooks_connection, division: division)
+      end
     end
   end
 end

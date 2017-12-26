@@ -18,6 +18,10 @@ module FeatureSpecHelpers
     find(".select2-results li", text: /#{value}/).click
   end
 
+  def have_alert(msg, container: 'body')
+    have_css("#{container} .alert", text: msg)
+  end
+
   shared_examples :flow do
     let(:field_to_change) { 'name' }
     let(:edit_button_name) { "Edit #{subject.model_name.human}" }

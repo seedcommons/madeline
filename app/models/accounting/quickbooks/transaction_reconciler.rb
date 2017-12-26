@@ -1,35 +1,37 @@
+# Responsible for updating or creating transaction entries in Quickbooks.
 module Accounting
   module Quickbooks
-    # Responsible for updating or creating transaction entries in quickbooks.
     class TransactionReconciler
-      attr_reader :qb_connection, :principal_account, :root_division
-
-      def initialize(root_division = Division.root)
-        @root_division = root_division
-        @qb_connection = root_division.qb_connection
-        @principal_account = root_division.principal_account
+      def initialize(qb_division = Division.root)
+        @qb_division = qb_division
+        @qb_connection = qb_division.qb_connection
+        @principal_account = qb_division.principal_account
       end
 
-      # Creates a transaction in Quickbooks based on a Transaction object created in Madeline. Line
-      # items in QB mirror line items in Madeline.
+      # Creates or updates a transaction in QB based on a Transaction object created in Madeline.
       def reconcile(transaction)
-        return unless transaction.present?
+        return unless transaction.needs_qb_push?
 
         je = builder.build_for_qb(transaction)
 
-        if transaction.qb_id.present?
-          service.update(je)
-        else
-          service.create(je)
-        end
+        # If the transaction already has a qb_id then it already exists in QB, so we should update it.
+        # Otherwise we create it.
+        je = transaction.qb_id ? service.update(je, sparse: true) : service.create(je)
 
-        je
+        transaction.set_qb_push_flag!(false)
+
+        # It's important we store the ID and type of the QB journal entry we just created
+        # so that on the next sync, a duplicate is not created.
+        transaction.associate_with_qb_obj(je)
+        transaction.save!
       end
 
       private
 
+      attr_reader :qb_connection, :principal_account, :qb_division
+
       def builder
-        @builder ||= TransactionBuilder.new(root_division)
+        @builder ||= TransactionBuilder.new(qb_division)
       end
 
       def service

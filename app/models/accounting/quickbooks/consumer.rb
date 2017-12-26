@@ -1,3 +1,6 @@
+# Handles authenticating to the Quickbooks API. Depends on the consumer key and secret ENV vars.
+# The project Readme contains detailed instructions on how to configure these.
+# See Quickbooks::Connection for details on how authentication information is stored.
 module Accounting
   module Quickbooks
     class Consumer
@@ -21,6 +24,7 @@ module Accounting
         qb_request_token.get_access_token(oauth_verifier: oauth_verifier)
       end
 
+      # TODO: Move to Connection class.
       def access_token(token:, secret:)
         OAuth::AccessToken.new(@oauth_consumer, token, secret)
       end

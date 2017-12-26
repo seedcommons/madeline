@@ -26,8 +26,8 @@
     = f.association :account, collection: @accounts
   .view-element
     = f.input :account
-        - if @transaction.account
-          = @transaction.account.name
+      - if @transaction.account
+        = @transaction.account.name
 
   = f.input :amount
     .view-element

@@ -65,13 +65,19 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
+    traits = []
+    traits << :with_accounts if example.metadata[:accounting]
     # Create root division
-    Division.create!(name: '-')
+    create(:division, *traits, parent: nil, name: '-', description: 'Root')
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
+
+    if Rails.configuration.x.test
+      Rails.configuration.x.test = ActiveSupport::OrderedOptions.new
+    end
   end
 
   config.after(:suite) do
@@ -108,6 +114,7 @@ RSpec.configure do |config|
   config.include FeatureSpecHelpers, type: :feature
   config.include FactoryBot::Syntax::Methods
   config.include FactorySpecHelpers
+  config.include GeneralSpecHelpers
   config.include QuestionSpecHelpers, type: :model
   config.include ProjectSpecHelpers, type: :model
 

@@ -33,7 +33,6 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
     build(:line_item,
       account: principal_account,
       posting_type: 'Debit',
-      description: '1st line item',
       amount: 100
     )
   }
@@ -42,7 +41,6 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
     build(:line_item,
       account: bank_account,
       posting_type: 'Credit',
-      description: '2nd line item',
       amount: 25
     )
   }
@@ -51,7 +49,6 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
     build(:line_item,
       account: office_account,
       posting_type: 'Credit',
-      description: '3rd line item',
       amount: 75
     )
   }
@@ -85,7 +82,7 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
 
     list = je.line_items
     expect(list.map(&:amount)).to eq transaction.line_items.map(&:amount)
-    expect(list.map(&:description).uniq).to eq transaction.line_items.map(&:description)
+    expect(list.map(&:description).uniq).to eq ['I am a line item description']
 
     details = list.map { |i| i.journal_entry_line_detail }
     expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)

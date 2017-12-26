@@ -12,5 +12,16 @@
     .form-horizontal {
       margin-top: 1em;
     }
+
+    .read-only {
+      .alert {
+        margin-top: 1em;
+      }
+    }
+
+    .reset-button {
+      padding: 2px 6px;
+      margin-right: 6px;
+    }
   }
 }

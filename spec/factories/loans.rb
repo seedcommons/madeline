@@ -2,15 +2,15 @@ FactoryBot.define do
   factory :loan, aliases: [:project] do
     division { root_division }
     organization
-    name { "Loan for " + Faker::Company.name }
+    name { "Loan for " + organization.name }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
-    status_value { ["active", "frozen", "liquidated"].sample }
+    status_value { ["active", "frozen", "liquidated", "completed"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
     public_level_value { ["featured", "hidden"].sample }
     amount { rand(5000..50000) }
     currency
-    rate 0.15
+    rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
