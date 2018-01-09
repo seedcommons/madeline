@@ -2,15 +2,15 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
   h1.sr-only = t("loan.tab.details")
   .show-actions.hidden-print
     - if @loan.valid?
-      = link_to duplicate_admin_loan_path,
-        data: { confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}") }
-        i.fa.fa-clone>
-        = t("loan.duplicate")
       a.edit-action.view-element
         i.fa.fa-pencil.fa-large> 
         = t("loan.edit")
       a.show-action.form-element
         = t("cancel_edit")
+      = link_to duplicate_admin_loan_path,
+        data: { confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}") }
+        i.fa.fa-clone>
+        = t("loan.duplicate")
     - else
       a href=admin_loan_path(@loan) = t("cancel_edit")
     = link_to [:admin, @loan], method: :delete,
