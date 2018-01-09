@@ -1,23 +1,30 @@
 section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' : 'edit-view')
   h1.sr-only = t("loan.tab.details")
   .show-actions.hidden-print
+    / Edit
     - if @loan.valid?
       a.edit-action.view-element
         i.fa.fa-pencil.fa-large> 
         = t("loan.edit")
       a.show-action.form-element
         = t("cancel_edit")
-      = link_to duplicate_admin_loan_path,
-        data: { confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}") }
-        i.fa.fa-clone>
-        = t("loan.duplicate")
     - else
       a href=admin_loan_path(@loan) = t("cancel_edit")
+
+    / Delete
     = link_to [:admin, @loan], method: :delete,
       data: { confirm: t("loan.confirm_deletion") }
       i.fa.fa-trash.fa-large>
       = t("loan.delete")
 
+    / Duplicate
+    - if @loan.valid?
+      = link_to duplicate_admin_loan_path,
+        data: { confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}") }
+        i.fa.fa-clone>
+        = t("loan.duplicate")
+
+    / Open Transactions - Old System
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
         => t('loan.transactions')
@@ -29,6 +36,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
           li.divider role="separator"
         li = link_to(t('loan.transaction_schedule'), old_system_schedule_url(loan: @loan), target: '_blank')
 
+    / Open Loan Memo
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
         => t('loan.print')
