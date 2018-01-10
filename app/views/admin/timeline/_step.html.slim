@@ -53,14 +53,15 @@
       = project_step_status(entry)
 
   - latest_logs = entry.latest_logs
-  td.recent-logs class="#{classes} #{latest_logs.length > 0 ? 'has-logs' : '' }" data-id=entry.id
+  - logs_available = latest_logs.length
+  td.recent-logs class="#{classes} #{logs_available > 0 ? 'has-logs' : '' }" data-id=entry.id
     - latest_logs.each_with_index do |log, index|
       p.log-summary = log.summary
 
       - if index == latest_logs.length - 1
         div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
 
-  td.step-menu-col class="dropup #{classes}" data-id=entry.id data-parent-id=entry.parent_id
+  td.step-menu-col class="dropup #{classes} #{logs_available > 0 ? 'logs-available' : '' }" data-id=entry.id data-parent-id=entry.parent_id
     span.dropdown
       i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
 
