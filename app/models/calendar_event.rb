@@ -56,9 +56,6 @@ class CalendarEvent
     events = project_events_by_date_project_scope(date_range, project_scope.where(project_filter))
     events += step_events_by_date_project_filter(date_range: date_range, project_filter: project_filter,
       scope: step_scope, project_id: project_id)
-
-    # Filter out sibling events outside of our range
-    events.select!{ |event| date_range === event.start }
     events
   end
 
