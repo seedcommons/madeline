@@ -2,7 +2,7 @@
   = f.input :summary, wrapper_html: {class: 'hidden-print'}
     = project.summary
   = f.input :details
-    = project.details
+    = simple_format(project.details)
 
 .form-element
   = f.translatable_inputs do |l|
