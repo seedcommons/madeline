@@ -33,14 +33,12 @@ module FeatureSpecHelpers
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
 
       # Change to specific division, and ensure the page reloads properly
-      find('[data-expands="division-dropdown"]').click
-      find('.select_division_form').select(division.name)
+      select_division(division.name)
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Change Division'
       expect(find('.without-logo')).to have_content division.name
 
       # Change back to all divisions, and ensure it reloads properly
-      find('[data-expands="division-dropdown"]').click
-      find('.select_division_form').select('All Divisions')
+      select_division('All Divisions')
       expect(find('.madeline')).to have_content 'Madeline'
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
 
@@ -57,7 +55,11 @@ module FeatureSpecHelpers
       click_button "Update #{subject.model_name.human}"
       expect(page).to have_content("Changed #{subject.model_name.human} Name")
       expect(page).to have_content('Record was successfully updated.')
-
     end
+  end
+
+  def select_division(division_name)
+    find('[data-expands="division-dropdown"]').click
+    find('.select_division_form').select(division_name)
   end
 end
