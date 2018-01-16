@@ -36,7 +36,7 @@ gem 'rails-i18n'
 gem 'i18n-js', '>= 3.0.0.rc11'
 
 # Translate urls
-gem 'route_translator'
+gem 'route_translator', '>=5.5.3'
 
 # Model hierarchical data
 gem 'closure_tree', '~> 6.2'

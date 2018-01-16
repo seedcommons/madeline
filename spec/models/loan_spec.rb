@@ -55,6 +55,12 @@ describe Loan, type: :model do
     expect(create(:loan)).to be_valid
   end
 
+  it 'does not save without a division' do
+    expect {
+      create(:loan, division: nil)
+    }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
   context 'primary and secondary agents' do
     include_context 'project'
 
