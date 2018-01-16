@@ -42,7 +42,10 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def child_groups
-    children.select(&:group?)
+    # show visible top level questions in table of contents
+    children.select do |m|
+      m.top_level? || m.group?
+    end
   end
 
   def object
