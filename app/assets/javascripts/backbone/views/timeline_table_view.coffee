@@ -114,9 +114,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     $logsLink = @$('#project-step-menu a[data-action="view-logs"]').closest('li')
 
     if !(@$(e.currentTarget).closest('.step-menu-col').hasClass('logs-available'))
-      $logsLink.hide()
+      $logsLink.addClass('disabled')
     else
-      $logsLink.show()
+      $logsLink.removeClass('disabled')
 
     @openMenu(e, 'step')
 
