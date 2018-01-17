@@ -59,7 +59,9 @@ module FeatureSpecHelpers
   end
 
   def select_division(division_name)
-    find('[data-expands="division-dropdown"]').click
-    find('.select_division_form').select(division_name)
+    within('.user-div-info') do
+      find('[data-expands="division-dropdown"]').click
+      find('.select_division_form').select(division_name)
+    end
   end
 end
