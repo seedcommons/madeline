@@ -28,4 +28,12 @@ class Translation < ActiveRecord::Base
   def to_s
     text
   end
+
+  def empty?
+    text.empty?
+  end
+
+  def strip
+    text
+  end
 end

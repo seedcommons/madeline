@@ -1,5 +1,9 @@
 class MS.Views.TimelineSelectStepsView extends Backbone.View
 
+  initialize: ->
+    # on page load, disable the batch actions since no step would have been checked
+    $('.dropdown-menu.batch-actions > li').addClass("disabled");
+
   events: (params) ->
     'change .select-step': 'rememberChecked'
     'click #choose-all': 'controlAll'
@@ -57,3 +61,9 @@ class MS.Views.TimelineSelectStepsView extends Backbone.View
         ids.push($(@).data('id'))
 
     @$('.step-ids').attr('value', ids)
+
+    # disable/enable the batch actions depending on if any step is checked
+    if ids.length == 0
+      $('.dropdown-menu.batch-actions > li').addClass("disabled");
+    else
+      $('.dropdown-menu.batch-actions > li').removeClass("disabled");
