@@ -164,11 +164,16 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table.find('td').removeClass('highlighted')
 
   openLogList: (e) ->
-    e.preventDefault()
-    stepId = @$(e.currentTarget).closest('td[data-id]').data('id')
-    unless @logListModalView
-      @logListModalView = new MS.Views.LogListModalView(el: @$('#log-list-modal'))
-    @logListModalView.show(stepId, @refresh.bind(@))
+    @showStep(e)
+#    console.log(@$("[data-expands='step-logs-#{@stepIdFromEvent(e)}']"))
+#    @$("[data-expands='step-logs-#{@stepIdFromEvent(e)}']").click()
+#    cmi = $(document).find("a[data-expands='step-logs-" + @stepIdFromEvent(e) + "']")
+    cmi = $(document).find("div[class='show-actions']")
+#    cmi = $("a[data-expands='step-logs-#{@stepIdFromEvent(e)}']")
+    console.log(cmi)
+    console.log(cmi.length)
+#    cmi.click()
+#    cmi.removeAttr('data-expands')
 
   styleDropdowns: ->
     # Make top 4 rows of timeline have dropdown menus instead of dropup menus
