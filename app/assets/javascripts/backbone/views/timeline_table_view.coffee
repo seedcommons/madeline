@@ -23,7 +23,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
-    'click #project-step-menu a[data-action=edit]': 'editStep'
+    'click #project-step-menu a[data-action=show]': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
@@ -70,9 +70,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     e.preventDefault()
     @stepModal.new(@projectId, @refresh.bind(@))
 
-  editStep: (e) ->
+  showStep: (e) ->
     e.preventDefault()
-    @stepModal.edit(@stepIdFromEvent(e), @refresh.bind(@))
+    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
   addLog: (e) ->
     e.preventDefault()
