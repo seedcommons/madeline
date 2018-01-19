@@ -13,10 +13,6 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
   div.modal-body
     - if @mode == :show_and_form
       .show-actions
-        // TODO: remove comment after refactor and feature is complete
-        // Edit step functionality is disabled in the calendar.
-        // There are bugs in the edit step modal inside a calendar context that need to be resolved
-        // before enabling this functionality.
         a.edit-action.view-element
           i.fa.fa-pencil.fa-large>
           = t("project_step.edit")
