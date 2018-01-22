@@ -15,8 +15,9 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'change #project_step_schedule_parent_id': 'setScheduledStartDateOnDependent'
     'change #project_step_scheduled_start_date': 'setStaticStartDate'
 
-  show: (id, done) ->
+  show: (id, done, options = {}) ->
     @done = done
+    @expandedLogs = options.expandedLogs
     # The show method is only used by the calendar. Hopefully contexts can go away later.
     @loadContent("/admin/project_steps/#{id}?context=calendar")
 
@@ -67,6 +68,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
     @showHideStartDate()
+    @expandLogs() if @expandedLogs
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
@@ -137,3 +139,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
     @setScheduledEndDate()
     @showHideStartDate()
+
+  expandLogs: ->
+    @$("[data-expands]").click()
