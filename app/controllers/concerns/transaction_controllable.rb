@@ -55,6 +55,9 @@ module TransactionControllable
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
       error_msg = t('quickbooks.misc', msg: e)
+    rescue Accounting::Quickbooks::NegativeBalanceError => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.negative_balance')
     end
     error_msg
   end

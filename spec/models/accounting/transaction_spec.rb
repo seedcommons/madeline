@@ -39,7 +39,6 @@
 
 require 'rails_helper'
 
-# quickbooks_data['line_items'].each
 RSpec.describe Accounting::Transaction, type: :model do
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
 
