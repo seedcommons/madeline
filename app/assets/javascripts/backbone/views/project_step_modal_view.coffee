@@ -17,6 +17,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   show: (id, done, options = {}) ->
     @done = done
+    @id = id
     @expandedLogs = options.expandedLogs
     # The show method is only used by the calendar. Hopefully contexts can go away later.
     @loadContent("/admin/project_steps/#{id}?context=calendar")
@@ -141,4 +142,4 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @showHideStartDate()
 
   expandLogs: ->
-    @$("[data-expands]").click()
+    @$("[data-expands='step-logs-#{@id}']").click()
