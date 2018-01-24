@@ -134,7 +134,11 @@ class Accounting::Transaction < ActiveRecord::Base
   def calculate_balances(prev_tx: nil)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
-    raise Accounting::Quickbooks::NegativeBalanceError if total_balance < self.amount
+    raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance) if total_balance < 0
+  end
+
+  def prev_balance
+    total_balance - change_in_principal - change_in_interest
   end
 
   # Returns first line item for the given account, or nil if not found.
