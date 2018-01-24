@@ -4,7 +4,9 @@ section.transactions
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
         data: {action: "new-transaction", project_id: @loan.id}
 
-  - unless @transaction_list_hidden
+  - if @transaction_list_hidden
+    .no-records-msg = t('common.no_records')
+  - else
     = render "admin/accounting/transactions/transactions_grid_definition"
     = render_index_grid_with_redirect_check(@transactions_grid)
   = render "admin/accounting/transactions/modal"
