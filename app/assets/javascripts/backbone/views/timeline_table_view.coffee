@@ -15,6 +15,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @styleDropdowns()
 
   events:
+    'click .project-group': 'editGroup'
     'click .project-group .fa-cog': 'openGroupMenu'
     'click .step-menu-col .fa-cog': 'openStepMenu'
     'click .timeline-action[data-action="new-group"]': 'newGroup'
@@ -23,6 +24,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
     'click #project-group-menu [data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
+    'click .project-step': 'showStep'
     'click #project-step-menu a[data-action=show]': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
@@ -56,8 +58,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
-    e.preventDefault()
-    @groupModal.edit(@parentId(e))
+    if @$(e.target).hasClass('project-group')
+      e.preventDefault()
+      @groupModal.edit(@parentId(e))
 
   deleteGroup: (e, response) ->
     e.preventDefault()
@@ -71,8 +74,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@projectId, @refresh.bind(@))
 
   showStep: (e) ->
-    e.preventDefault()
-    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
+    if @$(e.target).hasClass('project-step')
+      e.preventDefault()
+      @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
   addLog: (e) ->
     e.preventDefault()
