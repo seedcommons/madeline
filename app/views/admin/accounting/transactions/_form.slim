@@ -1,3 +1,5 @@
+- label_classes = 'control-label col-sm-3'
+
 = simple_form_for([:admin, @transaction], remote: true,
     html: { \
       class: 'form-horizontal transaction-form',
@@ -44,3 +46,23 @@
   = f.input :private_note
     .view-element = simple_format(@transaction.private_note)
     = f.input_field :private_note, as: :text
+
+  .view-element.form-group
+    = f.label t('activerecord.attributes.accounting.transaction.change_in_interest'), class: label_classes
+    .col-sm-9 = format_currency(@transaction.change_in_interest, @transaction.currency)
+
+  .view-element.form-group
+    = f.label t('activerecord.attributes.accounting.transaction.change_in_principal'), class: label_classes
+    .col-sm-9 = format_currency(@transaction.change_in_principal, @transaction.currency)
+
+  .view-element.form-group
+    = f.label t('activerecord.attributes.accounting.transaction.interest_balance'), class: label_classes
+    .col-sm-9 = format_currency(@transaction.interest_balance, @transaction.currency)
+
+  .view-element.form-group
+    = f.label t('activerecord.attributes.accounting.transaction.interest_balance'), class: label_classes
+    .col-sm-9 = format_currency(@transaction.principal_balance, @transaction.currency)
+
+  .view-element.form-group
+    = f.label t('activerecord.attributes.accounting.transaction.total_balance'), class: label_classes
+    .col-sm-9 = format_currency(@transaction.total_balance, @transaction.currency)
