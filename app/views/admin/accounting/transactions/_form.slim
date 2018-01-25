@@ -48,17 +48,20 @@
 
   / The following fields display only in show transaction
 
-  = f.input :change_in_interest
-     .view-element = format_currency(@transaction.change_in_interest, @transaction.currency)
+  .view-element = f.input :change_in_interest
+    = format_currency(@transaction.change_in_interest, @transaction.currency)
 
-  = f.input :change_in_principal
-    .view-element = format_currency(@transaction.change_in_principal, @transaction.currency)
+  .view-element = f.input :change_in_principal
+    = format_currency(@transaction.change_in_principal, @transaction.currency)
 
-  = f.input :interest_balance
-    .view-element = format_currency(@transaction.interest_balance, @transaction.currency)
+  .view-element = f.input :interest_balance
+    = format_currency(@transaction.interest_balance, @transaction.currency)
 
-  = f.input :principal_balance
-    .view-element = format_currency(@transaction.principal_balance, @transaction.currency)
+  .view-element = f.input :principal_balance
+    = format_currency(@transaction.principal_balance, @transaction.currency)
 
-  = f.input :total_balance
-    .view-element = format_currency(@transaction.total_balance, @transaction.currency)
+  .view-element = f.input :total_balance
+    = format_currency(@transaction.total_balance, @transaction.currency)
+
+  .view-element = f.input :qb_record_id
+    = @transaction.qb_id
