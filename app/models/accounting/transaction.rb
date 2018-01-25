@@ -90,7 +90,7 @@ class Accounting::Transaction < ActiveRecord::Base
     # Since the data has just come straight from quickbooks, no need to push it back up.
     txn.needs_qb_push = false
 
-    Accounting::Quickbooks::Updater.new.extract_qb_data(txn)
+    Accounting::Quickbooks::Updater.new.restore_from_qb_data(txn)
 
     # We have to skip validations on create because the data haven't been extracted yet.
     txn.new_record? ? txn.save(validate: false) : txn.save!
