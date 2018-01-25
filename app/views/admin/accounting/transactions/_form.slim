@@ -62,3 +62,6 @@
 
   .view-element = f.input :total_balance
     = format_currency(@transaction.total_balance, @transaction.currency)
+
+  .view-element = f.input :qb_record_id
+    = @transaction.qb_id

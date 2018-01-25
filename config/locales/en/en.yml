@@ -195,6 +195,7 @@ en:
         loan_transaction_type_value: "Type of Transaction"
         principal_balance: "Principal Balance"
         private_note: "Memo"
+        qb_record_id: "QuickBooks Record ID"
         total_balance: "Total Balance"
         txn_date: "Date"
       timeline_step_move:
