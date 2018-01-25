@@ -20,11 +20,10 @@ module Accounting
         started_fetch_at = Time.zone.now
 
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
+        restore_accounts!(accounts)
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
 
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
-
-        restore_accounts!(accounts)
       end
 
       private
