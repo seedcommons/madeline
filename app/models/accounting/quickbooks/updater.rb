@@ -53,6 +53,56 @@ module Accounting
         end
       end
 
+      def restore_from_qb_data(txn)
+        extract_qb_data(txn, save: false)
+
+        # The only line items we're interested in are those that have a class name in QB that
+        # corresponds to a project id in Madeline
+        relevant_line_items = []
+        txn.quickbooks_data['line_items'].each do |li|
+          class_name = li['journal_entry_line_detail']['class_ref']['name']
+          if /^\d+$/.match class_name #&& Project.exists?(class_name.to_i)
+            li['project_id'] = class_name.to_i
+            li['qb_account_id'] = li['journal_entry_line_detail']['account_ref']['value']
+            relevant_line_items << li
+          end
+        end
+
+        # If txn has no project (usually because it's newly imported), set the project based on the
+        # class name given in QB
+        unless txn.project
+          pids = relevant_line_items.map { |i| i['project_id'] }
+          # Check that there's only one QB class name consisting only of digits, otherwise ignore txn
+          return unless pids.uniq.count == 1
+          # Only set if project found
+          # Use find_by so as not to raise an error if not found
+          txn.project = Project.find_by(id: pids.first.to_i)
+        end
+
+        unless txn.loan_transaction_type_value
+          if txn.change_in_principal > 0
+            txn.loan_transaction_type_value = 'disbursement'
+          elsif txn.change_in_interest > 0
+            txn.loan_transaction_type_value = 'interest'
+          elsif txn.total_change < 0
+            txn.loan_transaction_type_value = 'repayment'
+          else
+            return
+          end
+        end
+
+        unless txn.account || txn.interest?
+          qb_account_ids = relevant_line_items.map { |i| i['qb_account_id'] }
+          non_special_account_ids = qb_account_ids.select do |i|
+            !txn.qb_division.accounts.map(&:qb_id).include? i
+          end
+          return if non_special_account_ids.uniq.count == 1
+          txn.account = Accounting::Account.find_by(qb_id: non_special_account_ids.first)
+        end
+
+        txn.save!
+      end
+
       private
 
       def too_soon_to_run_again?
@@ -71,7 +121,7 @@ module Accounting
       # Extracts data for a given Transaction from the JSON in `quickbooks_data`
       # into the Transaction's attributes and associated LineItems.
       # Creates/deletes LineItems as needed.
-      def extract_qb_data(txn)
+      def extract_qb_data(txn, save: true)
         return unless txn.quickbooks_data.present?
 
         # If we have more line items than are in Quickbooks, we delete the extras.
@@ -99,16 +149,9 @@ module Accounting
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
+        txn.amount = (txn.total_change).abs
 
-        # This line may seem odd since the natural thing to do would be to simply compute the
-        # amount based on the sum of the line items.
-        # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
-        # which are computed from a special subset of line items (see the Transaction model for more detail).
-        # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
-        # but that is ok.
-        txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
-
-        txn.save!
+        txn.save! if save
       end
 
       def changes

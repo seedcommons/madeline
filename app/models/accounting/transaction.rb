@@ -90,6 +90,8 @@ class Accounting::Transaction < ActiveRecord::Base
     # Since the data has just come straight from quickbooks, no need to push it back up.
     txn.needs_qb_push = false
 
+    Accounting::Quickbooks::Updater.new.restore_from_qb_data(txn)
+
     # We have to skip validations on create because the data haven't been extracted yet.
     txn.new_record? ? txn.save(validate: false) : txn.save!
 
@@ -123,6 +125,10 @@ class Accounting::Transaction < ActiveRecord::Base
 
     # See InterestCalculator for more documentation on principal/interest accounts.
      @change_in_interest ||= net_debit_for_account(qb_division&.interest_receivable_account_id)
+  end
+
+  def total_change
+    change_in_principal + change_in_interest
   end
 
   def total_balance
