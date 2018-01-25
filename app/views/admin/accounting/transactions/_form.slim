@@ -1,5 +1,3 @@
-- label_classes = 'control-label col-sm-3'
-
 = simple_form_for([:admin, @transaction], remote: true,
     html: { \
       class: 'form-horizontal transaction-form',
@@ -43,26 +41,24 @@
     .view-element = @transaction.description
     = f.input_field :description
 
+  / Memo
   = f.input :private_note
     .view-element = simple_format(@transaction.private_note)
     = f.input_field :private_note, as: :text
 
-  .view-element.form-group
-    = f.label t('activerecord.attributes.accounting.transaction.change_in_interest'), class: label_classes
-    .col-sm-9 = format_currency(@transaction.change_in_interest, @transaction.currency)
+  / The following fields display only in show transaction
 
-  .view-element.form-group
-    = f.label t('activerecord.attributes.accounting.transaction.change_in_principal'), class: label_classes
-    .col-sm-9 = format_currency(@transaction.change_in_principal, @transaction.currency)
+  = f.input :change_in_interest
+     .view-element = format_currency(@transaction.change_in_interest, @transaction.currency)
 
-  .view-element.form-group
-    = f.label t('activerecord.attributes.accounting.transaction.interest_balance'), class: label_classes
-    .col-sm-9 = format_currency(@transaction.interest_balance, @transaction.currency)
+  = f.input :change_in_principal
+    .view-element = format_currency(@transaction.change_in_principal, @transaction.currency)
 
-  .view-element.form-group
-    = f.label t('activerecord.attributes.accounting.transaction.interest_balance'), class: label_classes
-    .col-sm-9 = format_currency(@transaction.principal_balance, @transaction.currency)
+  = f.input :interest_balance
+    .view-element = format_currency(@transaction.interest_balance, @transaction.currency)
 
-  .view-element.form-group
-    = f.label t('activerecord.attributes.accounting.transaction.total_balance'), class: label_classes
-    .col-sm-9 = format_currency(@transaction.total_balance, @transaction.currency)
+  = f.input :principal_balance
+    .view-element = format_currency(@transaction.principal_balance, @transaction.currency)
+
+  = f.input :total_balance
+    .view-element = format_currency(@transaction.total_balance, @transaction.currency)
