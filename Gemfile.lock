@@ -215,7 +215,7 @@ GEM
     highline (1.7.10)
     hirb (0.7.3)
     http_parser.rb (0.6.0)
-    i18n (0.9.1)
+    i18n (0.9.3)
       concurrent-ruby (~> 1.0)
     i18n-js (3.0.2)
       i18n (~> 0.6, >= 0.6.6)
@@ -251,7 +251,7 @@ GEM
     mini_magick (4.8.0)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.10.3)
+    minitest (5.11.1)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     multi_json (1.12.2)
@@ -269,7 +269,7 @@ GEM
       shellany (~> 0.0)
     oauth (0.4.7)
     orm_adapter (0.5.0)
-    paperclip (5.0.0)
+    paperclip (5.2.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
       cocaine (~> 0.5.5)
@@ -517,7 +517,7 @@ DEPENDENCIES
   mini_magick
   momentjs-rails
   mysql2
-  paperclip (~> 5.0.0)
+  paperclip (~> 5.2)
   pg (~> 0.15, < 0.21.0)
   poltergeist (~> 1.0)
   pry (= 0.10.4)
