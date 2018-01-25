@@ -96,7 +96,7 @@ module Accounting
           non_special_account_ids = qb_account_ids.select do |i|
             !txn.qb_division.accounts.map(&:qb_id).include? i
           end
-          return if non_special_account_ids.uniq.count == 1
+          return unless non_special_account_ids.uniq.count == 1
           txn.account = Accounting::Account.find_by(qb_id: non_special_account_ids.first)
         end
 
