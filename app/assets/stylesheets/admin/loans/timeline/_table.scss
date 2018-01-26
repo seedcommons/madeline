@@ -119,6 +119,10 @@
     background: $highlight;
   }
 
+  .highlighted2 {
+    background: $gray3;
+  }
+
   .step-date {
     .fa {
       margin-left: .5em;
@@ -128,6 +132,10 @@
   .table-wrapper {
     overflow: auto;
     min-height: 30em;
+  }
+
+  td.project-group:hover {
+    background: $background-gray;
   }
 }
 

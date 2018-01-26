@@ -36,6 +36,16 @@ class MS.Views.TimelineTableView extends Backbone.View
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
     'click [data-action="view-logs"]': 'openLogList'
+    'mouseenter td.project-step': 'highlightStep'
+    'mouseleave td.project-step': 'removeHighlightStep'
+
+  removeHighlightStep: (e) ->
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')
+
+  highlightStep: (e) ->
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").toggleClass('highlighted2')
 
   refresh: ->
     MS.loadingIndicator.show()
