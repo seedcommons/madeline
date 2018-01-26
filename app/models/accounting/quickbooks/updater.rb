@@ -102,7 +102,6 @@ module Accounting
 
         txn.currency = lookup_currency(txn)
 
-
         # This line may seem odd since the natural thing to do would be to simply compute the
         # amount based on the sum of the line items.
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
