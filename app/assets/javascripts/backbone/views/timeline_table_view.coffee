@@ -165,10 +165,7 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   openLogList: (e) ->
     e.preventDefault()
-    stepId = @$(e.currentTarget).closest('td[data-id]').data('id')
-    unless @logListModalView
-      @logListModalView = new MS.Views.LogListModalView(el: @$('#log-list-modal'))
-    @logListModalView.show(stepId, @refresh.bind(@))
+    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
 
   styleDropdowns: ->
     # Make top 4 rows of timeline have dropdown menus instead of dropup menus
