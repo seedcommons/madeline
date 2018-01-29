@@ -116,11 +116,11 @@
   }
 
   .highlighted {
-    background: $gray2;
+    background: $highlight;
   }
 
   .highlighted2 {
-    background: $gray3;
+    background: $gray2;
   }
 
   .step-date {
@@ -134,8 +134,12 @@
     min-height: 30em;
   }
 
-  td.project-group:hover {
-    background: $background-gray;
+  td {
+    &.project-group {
+      &:hover {
+        background: $gray2;
+      }
+    }
   }
 }
 

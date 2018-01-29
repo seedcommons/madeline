@@ -37,15 +37,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'mouseleave .step-date': 'hideRelatedSteps'
     'click [data-action="view-logs"]': 'openLogList'
     'mouseenter td.project-step': 'highlightStep'
-    'mouseleave td.project-step': 'removeHighlightStep'
-
-  removeHighlightStep: (e) ->
-    id = $(e.currentTarget).data('id')
-    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')
-
-  highlightStep: (e) ->
-    id = $(e.currentTarget).data('id')
-    @$("td.project-step[data-id='#{id}']").toggleClass('highlighted2')
+    'mouseleave td.project-step': 'unhighlightStep'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -191,3 +183,12 @@ class MS.Views.TimelineTableView extends Backbone.View
     $topGroups.removeClass('dropup')
     $topSteps = $topRows.find('.step-menu-col')
     $topSteps.removeClass('dropup')
+
+  highlightStep: (e) ->
+    if !(@$(e.target).hasClass('step-start-date') || @$(e.target).hasClass('step-end-date'))
+      id = $(e.currentTarget).data('id')
+      @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
+
+  unhighlightStep: (e) ->
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')
