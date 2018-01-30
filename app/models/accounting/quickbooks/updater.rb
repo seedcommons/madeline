@@ -119,7 +119,7 @@ module Accounting
         if txn.quickbooks_data && txn.quickbooks_data[:currency_ref]
           Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
         elsif project
-          Currency.find_by(id: project.currency_id)
+          project.currency
         end
       end
 
