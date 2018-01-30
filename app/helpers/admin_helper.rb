@@ -54,7 +54,7 @@ module AdminHelper
   end
 
   def format_currency(amount, currency, tooltip: true)
-    # add space before $ (pretty)
+    # add space before $ and C$ (pretty)
     display_symbol =
       if currency && currency.name == 'Nicaraguan Cordoba'
         currency.symbol.sub('C$', ' C$')
