@@ -22,6 +22,7 @@ class MS.Views.LogListView extends Backbone.View
       .done => @refresh()
       .fail (response) -> MS.alert(response.responseText)
 
+#  the last bit is to fix the refresh since it breaks the step modal log list on delete
   refresh: () ->
     $.get @refreshUrl, (html) =>
       @$el.html(html)

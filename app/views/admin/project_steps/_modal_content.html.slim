@@ -126,7 +126,8 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           .view-element = @step.is_finalized? ? t("reply_yes") : t("reply_no")
           = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
-    = render "admin/project_logs/log_list", context: context if @step.logs_count > 0
+    section.log-list
+      = render "admin/project_logs/log_list", context: context if @step.logs_count > 0
 
   div.modal-footer
     .view-element
@@ -134,3 +135,12 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
     .form-element
       button.btn.btn-default.cancel type="button" = t(:cancel)
       button.btn.btn-primary.submit = t(:submit)
+
+javascript:
+  $(function() {
+    new MS.Views.LogListView({
+      el: 'section.log-list',
+      refreshUrl: #{json "/admin/logs?project=#{@project.id}"},
+      logFormModal: $('#log-form-modal')
+    });
+  });
