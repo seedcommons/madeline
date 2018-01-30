@@ -18,7 +18,7 @@ gem 'select2-rails'
 gem 'rails-backbone'
 gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
-gem 'paperclip', '~> 5.0.0'
+gem 'paperclip', '~> 5.2'
 
 # Authentication / Authorization
 gem 'devise'

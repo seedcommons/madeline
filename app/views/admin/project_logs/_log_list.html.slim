@@ -19,7 +19,7 @@
           i.fa.fa-fw.fa-calendar
         = @step.summary
 
-  .logs-index.post-list data-expandable=(@context == 'calendar' ? "step-logs-#{@step.id}" : "")
+  .logs-index.post-list data-expandable="step-logs-#{@step.try(:id)}"
     - @logs.each do |log|
       - step = log.project_step
       .log.post data-id=log.id

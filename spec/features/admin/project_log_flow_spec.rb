@@ -13,7 +13,7 @@ feature 'loan flow' do
     login_as(user, scope: :user)
   end
 
-  scenario 'should work', js: true do
+  scenario 'should work' do
     visit(admin_project_logs_path)
     expect(page).to have_content(project_log.summary)
   end
