@@ -185,9 +185,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     $topSteps.removeClass('dropup')
 
   highlightStep: (e) ->
-    if !(@$(e.target).hasClass('step-start-date') || @$(e.target).hasClass('step-end-date'))
-      id = $(e.currentTarget).data('id')
-      @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
 
   unhighlightStep: (e) ->
     id = $(e.currentTarget).data('id')
