@@ -86,6 +86,7 @@ en:
     threshold_amount: "Threshold Amount"
     toc: "Table of Contents"
     transactions: "Transactions"
+    transactions_old: "Transactions (old system)"
     transaction_new_disbursement: "New Disbursement"
     transaction_new_repayment: "New Repayment"
     transaction_schedule: "Schedule"
