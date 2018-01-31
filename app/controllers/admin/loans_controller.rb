@@ -37,6 +37,7 @@ class Admin::LoansController < Admin::ProjectsController
     @loan = Loan.find(params[:id])
     authorize @loan
     @active_tab = params[:tab].presence || 'details'
+    @relocate_alerts = true # Show alerts inside tab
 
     case @tab = params[:tab] || 'details'
     when 'details'
