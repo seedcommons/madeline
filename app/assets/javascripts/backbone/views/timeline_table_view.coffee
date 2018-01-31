@@ -60,7 +60,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
-    if @$(e.target).hasClass('project-group')
+    # the normal edit link from the dropdown has an 'a' tag with no class
+    # TODO - find a tidier way to fix this
+    if @$(e.target).hasClass('project-group') || @$(e.target).hasClass('')
       e.preventDefault()
       @groupModal.edit(@parentId(e))
 
@@ -76,7 +78,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@projectId, @refresh.bind(@))
 
   showStep: (e) ->
-    if @$(e.target).hasClass('project-step')
+    # the normal edit link from the dropdown has an 'a' tag with no class
+    # TODO - find a tidier way to fix this
+    if @$(e.target).hasClass('project-step') || @$(e.target).hasClass('')
       e.preventDefault()
       @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
