@@ -29,7 +29,7 @@ config/secrets.yml
 setenv.sh
 config/initializers/local_config.rb
 coverage/
-/app/views/layouts/embedded/*
+/app/views/layouts/public/wordpress/*
 .byebug_history
 .env
 ~$*

@@ -1,3 +1,7 @@
+/ This layout uses the 'nested layout' design pattern from the Rails docs.
+/ It sets up variable chunks of content using content_for and then renders the base layout.
+/ The base layout then pulls in the chunks we define here.
+
 - content_for :template, yield(:title) || t("loans.index.title")
 
 - content_for :head
@@ -12,4 +16,4 @@
   = render "application/alerts"
   = yield
 
-= render template: "layouts/embedded/wordpress-#{get_division_from_url}"
+= render template: "layouts/public/wordpress/wordpress-#{get_division_from_url}"

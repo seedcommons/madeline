@@ -1,0 +1,12 @@
+/ This layout uses the 'nested layout' design pattern from the Rails docs.
+/ It sets up variable chunks of content using content_for and then renders the base layout.
+/ The base layout then pulls in the chunks we define here.
+
+- if @print_view
+  - content_for :content
+    = render "layouts/admin/print"
+- else
+  - content_for :content
+    = render "layouts/admin/page"
+
+= render template: "layouts/admin/main"
