@@ -13,20 +13,16 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
   div.modal-body
     - if @mode == :show_and_form
       .show-actions
-        // Edit step functionality is disabled in the calendar.
-        // There are bugs in the edit step modal inside a calendar context that need to be resolved
-        // before enabling this functionality.
-        - unless @context == "calendar"
-          a.edit-action.view-element
-            i.fa.fa-pencil.fa-large>
-            = t("project_step.edit")
-          a.show-action.form-element
-            i.fa.fa-close.fa-large>
-            = t("cancel_edit")
-          - if @step.persisted?
-            a.delete-action [ data-confirm=t("project_step.confirm_deletion") ]
-              i.fa.fa-trash.fa-large>
-              = t("project_step.delete", count: 1)
+        a.edit-action.view-element
+          i.fa.fa-pencil.fa-large>
+          = t("project_step.edit")
+        a.show-action.form-element
+          i.fa.fa-close.fa-large>
+          = t("cancel_edit")
+        - if @step.persisted?
+          a.delete-action [ data-confirm=t("project_step.confirm_deletion") ]
+            i.fa.fa-trash.fa-large>
+            = t("project_step.delete", count: 1)
       javascript:
         $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
