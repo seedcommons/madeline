@@ -64,6 +64,15 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
             placeholder: I18n.t('common.details', locale: l),
             label: I18n.t('common.details', locale: l)
 
+      = f.input :parent_id
+        .view-element = @step.parent.summary_or_none if @step.parent.present?
+        = f.input_field :parent_id, collection: @parents.map { |i| [indented_option_label(i, :summary_or_none), i.id] },
+            include_blank: false
+
+      = f.input :schedule_parent_id
+        .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
+        = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
+
       .row
         .col-sm-6
           = f.input :step_type_value
@@ -71,15 +80,6 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
             = f.input_field :step_type_value,
               collection: ProjectStep.step_type_option_set.translated_list,
               include_blank: false
-
-          = f.input :parent_id
-            .view-element = @step.parent.summary_or_none if @step.parent.present?
-            = f.input_field :parent_id, collection: @parents.map { |i| [indented_option_label(i, :summary_or_none), i.id] },
-                include_blank: false
-
-          = f.input :schedule_parent_id
-            .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
-            = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
 
           // is_finalized? is not used because this input is used as a CSS selector
           = f.input :is_finalized
