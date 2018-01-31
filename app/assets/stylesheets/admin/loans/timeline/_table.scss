@@ -135,9 +135,13 @@
   }
 
   td {
-    &.project-group {
+    &.project-group, &.project-step {
       &:hover {
         background: $gray2;
+
+        &.highlighted {
+          background: $highlight;
+        }
       }
     }
   }
