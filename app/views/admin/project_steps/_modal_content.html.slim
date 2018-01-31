@@ -136,11 +136,11 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       button.btn.btn-default.cancel type="button" = t(:cancel)
       button.btn.btn-primary.submit = t(:submit)
 
-javascript:
-  $(function() {
-    new MS.Views.LogListView({
-      el: 'section.log-list',
-      refreshUrl: #{json "/admin/logs?project=#{@project.id}"},
-      logFormModal: $('#log-form-modal')
-    });
-  });
+//javascript:
+//  $(function() {
+//    new MS.Views.LogListView({
+//      el: 'section.log-list',
+//      refreshUrl: #{json "/admin/logs?project=#{@project.id}"},
+//      logFormModal: $('#log-form-modal')
+//    });
+//  });
