@@ -42,8 +42,6 @@
 //= require fullcalendar
 //= require fullcalendar/locale-all.js
 
-//= require admin/admin
-
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync

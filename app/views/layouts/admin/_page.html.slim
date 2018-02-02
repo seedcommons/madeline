@@ -8,7 +8,8 @@ div
         ul.nav.nav-sidebar
           = render "layouts/admin/site_menu"
       .content-wrapper
-        .alerts = render "application/alerts"
+        - unless @relocate_alerts
+          .alerts = render "application/alerts"
         section.content
           .page-header
             h1.page-title = yield :title
@@ -18,4 +19,4 @@ div
 javascript:
   $(function() {
     new MS.Views.PageView();
-  })
+  });

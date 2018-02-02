@@ -346,7 +346,7 @@ es:
     hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
-    no_records: "No se hallaron registros"
+    no_records: "No se hallaron registros."
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
     note: "Nota"
     notes: "Notas"

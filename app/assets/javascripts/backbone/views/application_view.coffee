@@ -20,6 +20,7 @@ class MS.Views.ApplicationView extends Backbone.View
     'click .ms-popover': 'showPopover'
     'mouseenter .ms-tooltip.ms-popover': 'showTooltip'
     'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
+    'shown.bs.modal .modal': 'preventMultipleModalBackdrops'
 
   toggleExpanded: (e) ->
     @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
@@ -41,3 +42,7 @@ class MS.Views.ApplicationView extends Backbone.View
   hideTooltip: (e) ->
     $curPopover = $(e.currentTarget)
     $curPopover.popover('hide')
+
+  preventMultipleModalBackdrops: ->
+    if (@$(".modal-backdrop").length > 1)
+      @$(".modal-backdrop").not(':first').remove()

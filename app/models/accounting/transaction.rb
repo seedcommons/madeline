@@ -178,15 +178,4 @@ class Accounting::Transaction < ActiveRecord::Base
       end
     end
   end
-
-  # not sure how this is going to come into the new implementation;
-  # is this being removed as well?
-
-  # def lookup_currency_id
-  #   if quickbooks_data && quickbooks_data[:currency_ref]
-  #     Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-  #   elsif project
-  #     project.currency_id
-  #   end
-  # end
 end
