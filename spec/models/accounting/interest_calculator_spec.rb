@@ -228,15 +228,22 @@ describe Accounting::InterestCalculator do
     let!(:t0) { create(:accounting_transaction, :disbursement, amount: 100.0,
       project: loan, txn_date: "2017-01-01", division: division) }
     let!(:t1) { create(:accounting_transaction, :disbursement, amount: 200.0,
-      project: loan, txn_date: "2017-01-04", division: division) }
+      project: loan, txn_date: "2017-02-04", division: division) }
     let(:all_txns) { [t0, t1] }
 
-    it 'creates interest txns where appropriate' do
+    it 'creates an interest txn before another txn' do
       expect { recalculate_and_reload }.to change { Accounting::Transaction.interest_type.count }.by(1)
-      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04')
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-02-04')
+      pp inttxn.amount.to_f
       expect(inttxn.amount).to equal_money(0.07)
       expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
     end
+
+    it 'creates and interest txn on the end of each month' do
+      recalculate_and_reload
+      expect(Accounting::Transaction.interest_type).to include an_object_having_attributes(txn_date: '2017-01-31')
+    end
+
   end
 
   def recalculate_and_reload
