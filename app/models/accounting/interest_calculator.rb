@@ -174,7 +174,7 @@ module Accounting
       txns_by_date.each do |date, txns|
         if date != first_date && txns.none?(&:interest?)
           transactions << loan.transactions.create!(
-            txn_date: txns.first.txn_date,
+            txn_date: date,
             amount: 0, # Will be updated momentarily.
             loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
             description: I18n.t('transactions.interest_description', loan_id: loan.id)
