@@ -169,6 +169,10 @@ module Accounting
     def ensure_interest_transactions
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first.try(:txn_date)
+      # add to txns_by_date: last day of each month between first_date and today
+      # only add if it's not already there
+      # txns_by_date[<date>] = []
+      # then sort by keys
       @transactions = []
 
       txns_by_date.each do |date, txns|

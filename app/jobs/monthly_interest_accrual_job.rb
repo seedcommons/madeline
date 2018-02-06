@@ -1,5 +1,5 @@
-class MonthlyInterestAccrual < ApplicationJob
+class MonthlyInterestAccrualJob < ApplicationJob
   def perform
-    Accounting::InterestCalculator.
+    # Accounting::InterestCalculator.recalculate
   end
 end
