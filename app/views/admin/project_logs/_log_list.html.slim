@@ -48,20 +48,20 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            / don't show edit and delete in project step rendition of log list
+            / don't show edit in project step rendition of log list
             - unless @context == 'calendar' || @context == 'dashboard' || controller_name == 'project_steps'
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
-              .item
-                = link_to '#',
-                    data: { \
-                      action: 'delete', \
-                      confirm: t('project_logs.shared.confirm_deletion') \
-                    }
-                      i.fa.fa-trash>
-                      = t(:delete)
+            .item
+              = link_to '#',
+                  data: { \
+                    action: 'delete', \
+                    confirm: t('project_logs.shared.confirm_deletion') \
+                  }
+                    i.fa.fa-trash>
+                    = t(:delete)
 
         - if log.summary
           span.summary = log.summary
