@@ -225,23 +225,26 @@ describe Accounting::InterestCalculator do
 
   describe 'creation of interest txns' do
     # There should be an interest txn between t0 and t1, but not before t0
-    let!(:t0) { create(:accounting_transaction, :disbursement, amount: 100.0,
+    let!(:t0) { create(:accounting_transaction, :disbursement, amount: 10000.0,
       project: loan, txn_date: "2017-01-01", division: division) }
-    let!(:t1) { create(:accounting_transaction, :disbursement, amount: 200.0,
-      project: loan, txn_date: "2017-02-04", division: division) }
+    let!(:t1) { create(:accounting_transaction, :disbursement, amount: 20000.0,
+      project: loan, txn_date: "2017-01-04", division: division) }
     let(:all_txns) { [t0, t1] }
+    # prev_tx.principal_balance * daily_rate * (tx.txn_date - prev_tx.txn_date)
 
     it 'creates an interest txn before another txn' do
       expect { recalculate_and_reload }.to change { Accounting::Transaction.interest_type.count }.by(1)
-      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-02-04')
-      pp inttxn.amount.to_f
-      expect(inttxn.amount).to equal_money(0.07)
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04')
+      expect(inttxn.amount).to equal_money(6.58)
       expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
     end
 
     it 'creates and interest txn on the end of each month' do
+      int_txn = create(:accounting_transaction, :disbursement, amount: 30000.0,
+        project: loan, txn_date: "2017-02-04", division: division)
       recalculate_and_reload
       expect(Accounting::Transaction.interest_type).to include an_object_having_attributes(txn_date: '2017-01-31')
+      expect(int_txn.amount).to equal_money(177.53)
     end
 
   end
