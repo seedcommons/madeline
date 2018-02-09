@@ -22,10 +22,10 @@ html lang="en-US"
       });
 
     = stylesheet_link_tag "application", media: "all"
-    - if admin_controller?
-      = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Asap:400i,700i|Open+Sans:400,600", media: "all"
-      = stylesheet_link_tag "admin/admin", media: "all"
-      = render("layouts/admin/custom_colors")
+
+    = stylesheet_link_tag "admin", media: "all"
+    = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Asap:400i,700i|Open+Sans:400,600", media: "all"
+    = render("layouts/admin/custom_colors") if admin_controller?
 
   body class="#{admin_controller? ? 'admin' : ''}
               #{params[:controller].gsub('/', '-')}
