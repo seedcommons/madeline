@@ -26,7 +26,7 @@ module WordpressEmbeddable
   private
 
   def update_template
-    template_path = "layouts/embedded/wordpress-#{get_division_from_url}"
+    template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{get_division_from_url}"
     return if template_exists?(template_path)
     WordpressTemplate.update(
       division: get_division_from_url,

@@ -1,4 +1,4 @@
-class LoansController < ApplicationController
+class Public::LoansController < ApplicationController
   include WordpressEmbeddable
   # GET /loans
   # GET /loans.json
