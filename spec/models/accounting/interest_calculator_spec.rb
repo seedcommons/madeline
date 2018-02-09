@@ -3,7 +3,7 @@ require 'rails_helper'
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
   let!(:division) { create(:division, :with_accounts) }
-  let(:loan) { create(:loan, division: division, rate: 8.0) }
+  let(:loan) { create(:loan, division: division, rate: 8.0, status_value: 'active') }
 
   describe 'general operation' do
     let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
@@ -226,27 +226,30 @@ describe Accounting::InterestCalculator do
   describe 'creation of interest txns' do
     # There should be an interest txn between t0 and t1, but not before t0
     let!(:t0) { create(:accounting_transaction, :disbursement, amount: 10000.0,
-      project: loan, txn_date: "2017-01-01", division: division) }
+      project: loan, txn_date: "2018-01-01", division: division) }
     let!(:t1) { create(:accounting_transaction, :disbursement, amount: 20000.0,
-      project: loan, txn_date: "2017-01-04", division: division) }
+      project: loan, txn_date: "2018-01-04", division: division) }
     let(:all_txns) { [t0, t1] }
     # prev_tx.principal_balance * daily_rate * (tx.txn_date - prev_tx.txn_date)
 
     it 'creates an interest txn before another txn' do
       expect { recalculate_and_reload }.to change { Accounting::Transaction.interest_type.count }.by(1)
-      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2017-01-04')
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-04')
       expect(inttxn.amount).to equal_money(6.58)
       expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
     end
 
-    it 'creates and interest txn on the end of each month' do
-      int_txn = create(:accounting_transaction, :disbursement, amount: 30000.0,
-        project: loan, txn_date: "2017-02-04", division: division)
+    it 'creates an interest txn on the end of each month' do
+      # create(:accounting_transaction, :disbursement, amount: 30000.0,
+      #   project: loan, txn_date: "2018-02-04", division: division)
       recalculate_and_reload
-      expect(Accounting::Transaction.interest_type).to include an_object_having_attributes(txn_date: '2017-01-31')
-      expect(int_txn.amount).to equal_money(177.53)
+      pp Accounting::Transaction.interest_type
+      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
+      # Principal balance should be 30000
+      # Days since previous txn (1/4 to 1/31) = 27
+      # .08/365 * 30000 * 27 = 177.53
+      expect(inttxn.amount).to equal_money(177.53) # returning 72.33
     end
-
   end
 
   def recalculate_and_reload

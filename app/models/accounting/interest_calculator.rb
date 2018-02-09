@@ -60,75 +60,108 @@ module Accounting
     def recalculate
       prev_tx = nil
 
-      ensure_interest_transactions
+      txns_by_date = transactions.group_by(&:txn_date)
+      first_date = transactions.first&.txn_date
+      last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
 
-      transactions.each do |tx|
-        case tx.loan_transaction_type_value
-        when "interest"
-          tx.amount = accrued_interest(prev_tx, tx)
-          line_item_for(tx, int_rcv_acct).assign_attributes(
-            qb_line_id: 0,
-            posting_type: "Debit",
-            amount: tx.amount
-          )
-          line_item_for(tx, int_inc_acct).assign_attributes(
-            qb_line_id: 1,
-            posting_type: "Credit",
-            amount: tx.amount
-          )
+      txn_dates = txns_by_date.keys
+      month_boundaries = month_boundaries(first_date, last_date)
 
-        when "disbursement"
-          line_item_for(tx, prin_acct).assign_attributes(
-            qb_line_id: 0,
-            posting_type: "Debit",
-            amount: tx.amount
-          )
-          line_item_for(tx, tx.account).assign_attributes(
-            qb_line_id: 1,
-            posting_type: "Credit",
-            amount: tx.amount
-          )
+      dates = txn_dates.concat(month_boundaries).sort
 
-        when "repayment"
-          int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-          line_item_for(tx, tx.account).assign_attributes(
-            qb_line_id: 0,
-            posting_type: "Debit",
-            amount: tx.amount
-          )
-          line_item_for(tx, prin_acct).assign_attributes(
-            qb_line_id: 1,
-            posting_type: "Credit",
-            amount: tx.amount - int_part
-          )
-          line_item_for(tx, int_rcv_acct).assign_attributes(
-            qb_line_id: 2,
-            posting_type: "Credit",
-            amount: int_part
+      @transactions = []
+
+      dates.each do |date|
+        txns = []
+
+        if txns_by_date[date]
+          if prev_tx && prev_tx.principal_balance > 0 && txns_by_date[date].none?(&:interest?)
+            txns << loan.transactions.build(
+              txn_date: date,
+              amount: 0, # Will be updated momentarily.
+              loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+              description: I18n.t('transactions.interest_description', loan_id: loan.id)
+            )
+          end
+          txns.concat(txns_by_date[date])
+        else
+          txns << loan.transactions.build(
+            txn_date: date,
+            amount: 0, # Will be updated momentarily.
+            loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+            description: I18n.t('transactions.interest_description', loan_id: loan.id)
           )
         end
 
-        # Since we may have just adjusted line items upon which the change_in_principal and
-        # change_in_interest depend, it is important that we recalculate balances now.
-        tx.calculate_balances(prev_tx: prev_tx)
+        txns.each do |tx|
+          case tx.loan_transaction_type_value
+            when "interest"
+              tx.amount = accrued_interest(prev_tx, tx)
+              line_item_for(tx, int_rcv_acct).assign_attributes(
+                qb_line_id: 0,
+                posting_type: "Debit",
+                amount: tx.amount
+              )
+              line_item_for(tx, int_inc_acct).assign_attributes(
+                qb_line_id: 1,
+                posting_type: "Credit",
+                amount: tx.amount
+              )
 
-        # Before we save, check if the transaction's line items have changed and
-        # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
-        # don't need to get pushed. Therefore we don't need to check changes on the transaction
-        # object itself, just the line items.
-        #
-        # Note that if the flag is already set we leave it as true even if no changes
-        # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
-        # even if we don't change anything here.
-        tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
+            when "disbursement"
+              line_item_for(tx, prin_acct).assign_attributes(
+                qb_line_id: 0,
+                posting_type: "Debit",
+                amount: tx.amount
+              )
+              line_item_for(tx, tx.account).assign_attributes(
+                qb_line_id: 1,
+                posting_type: "Credit",
+                amount: tx.amount
+              )
 
-        # This should save the transaction and all its line items.
-        tx.save!
+            when "repayment"
+              int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
+              line_item_for(tx, tx.account).assign_attributes(
+                qb_line_id: 0,
+                posting_type: "Debit",
+                amount: tx.amount
+              )
+              line_item_for(tx, prin_acct).assign_attributes(
+                qb_line_id: 1,
+                posting_type: "Credit",
+                amount: tx.amount - int_part
+              )
+              line_item_for(tx, int_rcv_acct).assign_attributes(
+                qb_line_id: 2,
+                posting_type: "Credit",
+                amount: int_part
+              )
+          end
 
-        # Create/update the transaction in quickbooks if necessary.
-        reconciler.reconcile(tx)
+          # Since we may have just adjusted line items upon which the change_in_principal and
+          # change_in_interest depend, it is important that we recalculate balances now.
+          tx.calculate_balances(prev_tx: prev_tx)
 
-        prev_tx = tx
+          # Before we save, check if the transaction's line items have changed and
+          # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
+          # don't need to get pushed. Therefore we don't need to check changes on the transaction
+          # object itself, just the line items.
+          #
+          # Note that if the flag is already set we leave it as true even if no changes
+          # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
+          # even if we don't change anything here.
+          tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
+
+          # This should save the transaction and all its line items.
+          tx.save!
+
+          # Create/update the transaction in quickbooks if necessary.
+          reconciler.reconcile(tx)
+
+          prev_tx = tx
+        end
+        @transactions.concat(txns)
       end
     end
 
@@ -163,29 +196,43 @@ module Accounting
       tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
     end
 
+    # Get the month boundaries between two dates
+    def month_boundaries(d1, d2)
+      (d1..d2).select { |d| d == d.end_of_month }
+    end
+
     # Inserts interest transactions at points in the array where they are needed but missing.
     # There should be one interest transaction on each date for which there are any other
     # transactions, except the date of the first transaction.
-    def ensure_interest_transactions
-      txns_by_date = transactions.group_by(&:txn_date)
-      first_date = transactions.first.try(:txn_date)
-      # add to txns_by_date: last day of each month between first_date and today
-      # only add if it's not already there
-      # txns_by_date[<date>] = []
-      # then sort by keys
-      @transactions = []
-
-      txns_by_date.each do |date, txns|
-        if date != first_date && txns.none?(&:interest?)
-          transactions << loan.transactions.create!(
-            txn_date: date,
-            amount: 0, # Will be updated momentarily.
-            loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-            description: I18n.t('transactions.interest_description', loan_id: loan.id)
-          )
-        end
-        transactions.concat(txns)
-      end
-    end
+    # def ensure_interest_transactions
+    #   txns_by_date = transactions.group_by(&:txn_date)
+    #   first_date = transactions.first.try(:txn_date)
+    #   last_date = loan.status_value == :active ? Date.today : transactions.last.try(:txn_date)
+    #
+    #   dates = txns_by_date.keys
+    #   month_boundaries = month_boundaries(first_date, last_date)
+    #
+    #   txn_dates = dates.concat(month_boundaries)
+    #
+    #
+    #   # check if there is prev_tx.principal_balance > 0 on each date
+    #   # if yes(and no int txn already on that date), build an interest txn on that day
+    #   # if no, skip
+    #   #
+    #   #
+    #   @transactions = []
+    #
+    #   txns_by_date.each do |date, txns|
+    #     if date != first_date && txns.none?(&:interest?)
+    #       @transactions << loan.transactions.create!(
+    #         txn_date: date,
+    #         amount: 0, # Will be updated momentarily.
+    #         loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+    #         description: I18n.t('transactions.interest_description', loan_id: loan.id)
+    #       )
+    #     end
+    #     @transactions.concat(txns)
+    #   end
+    # end
   end
 end
