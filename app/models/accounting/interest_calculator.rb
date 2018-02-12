@@ -61,7 +61,7 @@ module Accounting
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)
-      first_date = transactions.first&.txn_date
+      first_date = txns_by_date.present? ? transactions.first&.txn_date : Date.today
       last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
