@@ -1,4 +1,4 @@
-class Public::StaticPagesController < ApplicationController
+class Public::StaticPagesController < Public::PublicController
   include WordpressEmbeddable
 
   def test
