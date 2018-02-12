@@ -22,9 +22,9 @@ html lang="en-US"
       });
 
     = stylesheet_link_tag "application", media: "all"
-
     = stylesheet_link_tag "admin", media: "all"
-    = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Asap:400i,700i|Open+Sans:400,600", media: "all"
+    - google_fonts_url = "https://fonts.googleapis.com/css?family=Asap:400i,700i|Open+Sans:400,600"
+    = stylesheet_link_tag google_fonts_url, media: "all"
     = render("layouts/admin/custom_colors") if admin_controller?
 
   body class="#{admin_controller? ? 'admin' : ''}
