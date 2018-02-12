@@ -1,3 +1,7 @@
+/ This layout doesn't get used directly by the controller, but instead via 
+/ the 'nested layout' design pattern from the Rails docs.
+/ It is called by the devise and signed_in layouts, and then yeilds to custom content blocks
+/ defined by those layouts.
 doctype html
 html lang="en-US"
 
