@@ -27,7 +27,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
     / Open Transactions - Old System
     span.dropdown
       a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-        => t('loan.transactions')
+        => t('loan.transactions_old')
         span.caret
       ul.dropdown-menu.dropdown-menu-right
         - if @loan.status_value == 'active'

@@ -75,7 +75,9 @@ class Admin::LoanQuestionsController < Admin::AdminController
   end
 
   def top_level_questions(set)
-    FilteredQuestion.new(set.root_group_preloaded, division: selected_division || Division.root,
+    root_group = set.root_group_preloaded
+    return root_group.children unless selected_division
+    FilteredQuestion.new(root_group, division: selected_division,
       user: current_user).children
   end
 
