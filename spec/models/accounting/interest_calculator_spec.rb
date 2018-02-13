@@ -230,7 +230,6 @@ describe Accounting::InterestCalculator do
     let!(:t1) { create(:accounting_transaction, :disbursement, amount: 20000.0,
       project: loan, txn_date: "2018-01-04", division: division) }
     let(:all_txns) { [t0, t1] }
-    # prev_tx.principal_balance * daily_rate * (tx.txn_date - prev_tx.txn_date)
 
     it 'creates an interest txn before another txn' do
       recalculate_and_reload
@@ -241,15 +240,13 @@ describe Accounting::InterestCalculator do
     end
 
     it 'creates an interest txn on the end of each month' do
-      # create(:accounting_transaction, :disbursement, amount: 30000.0,
-      #   project: loan, txn_date: "2018-02-04", division: division)
       recalculate_and_reload
       inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
       expect(inttxn).not_to be_nil
       # Principal balance should be 30000
       # Days since previous txn (1/4 to 1/31) = 27
       # .08/365 * 30000 * 27 = 177.53
-      expect(inttxn.amount).to equal_money(177.53) # returning 72.33
+      expect(inttxn.amount).to equal_money(177.53)
     end
   end
 

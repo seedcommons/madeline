@@ -72,6 +72,9 @@ module Accounting
       @transactions = []
 
       dates.each do |date|
+        # Inserts interest transactions at points in the array where they are needed but missing.
+        # There should be one interest transaction on each date for which there are any other
+        # transactions, except the date of the first transaction.
         txns = []
 
         if txns_by_date[date]
@@ -160,7 +163,6 @@ module Accounting
           reconciler.reconcile(tx)
 
           prev_tx = tx
-          # binding.pry if tx.id == 4
         end
         @transactions.concat(txns)
       end
@@ -202,39 +204,5 @@ module Accounting
     def month_boundaries(d1, d2)
       (d1..d2).select { |d| d == d.end_of_month }
     end
-
-    # Inserts interest transactions at points in the array where they are needed but missing.
-    # There should be one interest transaction on each date for which there are any other
-    # transactions, except the date of the first transaction.
-    # def ensure_interest_transactions
-    #   txns_by_date = transactions.group_by(&:txn_date)
-    #   first_date = transactions.first.try(:txn_date)
-    #   last_date = loan.status_value == :active ? Date.today : transactions.last.try(:txn_date)
-    #
-    #   dates = txns_by_date.keys
-    #   month_boundaries = month_boundaries(first_date, last_date)
-    #
-    #   txn_dates = dates.concat(month_boundaries)
-    #
-    #
-    #   # check if there is prev_tx.principal_balance > 0 on each date
-    #   # if yes(and no int txn already on that date), build an interest txn on that day
-    #   # if no, skip
-    #   #
-    #   #
-    #   @transactions = []
-    #
-    #   txns_by_date.each do |date, txns|
-    #     if date != first_date && txns.none?(&:interest?)
-    #       @transactions << loan.transactions.create!(
-    #         txn_date: date,
-    #         amount: 0, # Will be updated momentarily.
-    #         loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-    #         description: I18n.t('transactions.interest_description', loan_id: loan.id)
-    #       )
-    #     end
-    #     @transactions.concat(txns)
-    #   end
-    # end
   end
 end
