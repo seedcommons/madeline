@@ -77,24 +77,14 @@ module Accounting
         # transactions, except the date of the first transaction.
         txns = []
 
-        if txns_by_date[date]
-          if prev_tx && prev_tx.principal_balance > 0 && txns_by_date[date].none?(&:interest?)
-            txns << loan.transactions.build(
-              txn_date: date,
-              amount: 0, # Will be updated momentarily.
-              loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-              description: I18n.t('transactions.interest_description', loan_id: loan.id)
-            )
-          end
-          txns.concat(txns_by_date[date])
-        else
-          txns << loan.transactions.build(
-            txn_date: date,
-            amount: 0, # Will be updated momentarily.
-            loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-            description: I18n.t('transactions.interest_description', loan_id: loan.id)
-          )
-        end
+        txns << loan.transactions.build(
+          txn_date: date,
+          amount: 0, # Will be updated momentarily.
+          loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+          description: I18n.t('transactions.interest_description', loan_id: loan.id)
+        ) if add_int_tx?(txns_by_date[date], prev_tx)
+
+        txns.concat(txns_by_date[date]) if txns_by_date[date]
 
         txns.each do |tx|
           case tx.loan_transaction_type_value
@@ -203,6 +193,13 @@ module Accounting
     # Get the month boundaries between two dates
     def month_boundaries(d1, d2)
       (d1..d2).select { |d| d == d.end_of_month }
+    end
+
+    def add_int_tx?(txs, prev_tx)
+      return true if txs.nil?
+      if txs
+       return true if prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+      end
     end
   end
 end
