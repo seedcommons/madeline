@@ -47,7 +47,10 @@ module Accounting
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
         qb_connection.update_attribute(:last_updated_at, Time.now)
 
-        if loan
+        # loans = [loans] if loans.is_a? Loan
+        # loans.each do |loan|
+
+        if loan && loan.transactions.present?
           update_ledger(loan)
           InterestCalculator.new(loan).recalculate
         end

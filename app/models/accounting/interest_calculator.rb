@@ -61,13 +61,13 @@ module Accounting
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)
-      first_date = txns_by_date.present? ? transactions.first&.txn_date : Date.today
+      first_date = transactions.first&.txn_date
       last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
       month_boundaries = month_boundaries(first_date, last_date)
 
-      dates = txn_dates.concat(month_boundaries).sort
+      dates = txn_dates.concat(month_boundaries).uniq.sort
 
       @transactions = []
 
@@ -160,6 +160,7 @@ module Accounting
           reconciler.reconcile(tx)
 
           prev_tx = tx
+          # binding.pry if tx.id == 4
         end
         @transactions.concat(txns)
       end
@@ -180,6 +181,7 @@ module Accounting
     # Calculates the interest accrued between the date of the last transaction and the current one.
     def accrued_interest(prev_tx, tx)
       if prev_tx
+        # Note: QB doesn't accept fractions of pennies
         (prev_tx.principal_balance * daily_rate * (tx.txn_date - prev_tx.txn_date)).round(2)
       else
         0.0

@@ -1,7 +1,8 @@
 class MonthlyInterestAccrualJob < ApplicationJob
   def perform
-    Loan.active.each do |loan|
-      Accounting::InterestCalculator.new(loan).recalculate
-    end
+    Accounting::Updater.new(Loan.active)
+    # Loan.active.each do |loan|
+    #   Accounting::InterestCalculator.new(loan).recalculate if loan.transactions.present?
+    # end
   end
 end

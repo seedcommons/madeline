@@ -14,7 +14,7 @@ describe Accounting::InterestCalculator do
       project: loan, txn_date: "2017-01-04", division: division) }
     let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
       project: loan, txn_date: "2017-01-31", division: division) }
-    let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 1.00,
+    let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 0.50,
       project: loan, txn_date: "2017-01-31", division: division) }
     let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
       project: loan, txn_date: "2017-01-31", division: division) }
@@ -75,33 +75,29 @@ describe Accounting::InterestCalculator do
         expect(t3.line_items.size).to eq(2)
 
         # account details
-        # expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.24)
+        expect(t3.line_item_for(int_rcv_acct).amount).to equal_money (0.08/365 * 27 * 117.50).round(2)
         expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-        # expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.24)
+        expect(t3.line_item_for(int_inc_acct).amount).to equal_money (0.08/365 * 27 * 117.50).round(2)
         expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
-        pp t3.reload.principal_balance.to_f
-        pp t3.reload.interest_balance.to_f
         # balances
-        # expect(t3.reload.principal_balance).to equal_money(117.50)
-        # Apr 1 - Jan 4 = 87 days
-        # .08/365 * 27 * 117.50
-        expect(t3.reload.interest_balance).to equal_money(0.70)
+        expect(t3.reload.principal_balance).to equal_money(117.50)
+        expect(t3.reload.interest_balance).to equal_money (0.07 + 0.08/365 * 27 * 117.50).round(2)
 
         # t4 --------------------------------------------------------
         expect(t4.line_items.size).to eq(3)
 
         # account details
-        expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
+        expect(t4.line_item_for(t4.account).amount).to equal_money(0.50)
         expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
-        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
+        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
+        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.0)
         expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(117.50)
-        expect(t4.reload.interest_balance).to equal_money(1.31)
+        expect(t4.reload.interest_balance).to equal_money(0.27) # 0.77 - 0.50
 
         # t5 --------------------------------------------------------
         expect(t5.line_items.size).to eq(3)
@@ -109,13 +105,13 @@ describe Accounting::InterestCalculator do
         # account details
         expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
         expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
-        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.31)
+        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(0.27)
         expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-        expect(t5.line_item_for(prin_acct).amount).to equal_money(10.99)
+        expect(t5.line_item_for(prin_acct).amount).to equal_money(12.03)
         expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # balances
-        expect(t5.reload.principal_balance).to equal_money(106.51)
+        expect(t5.reload.principal_balance).to equal_money(117.50 - 12.03)
         expect(t5.reload.interest_balance).to equal_money(0.00)
 
         ##############################################################################################
@@ -179,14 +175,14 @@ describe Accounting::InterestCalculator do
         expect(t3.needs_qb_push).to be true
 
         # account details
-        expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(2.91)
+        expect(t3.line_item_for(int_rcv_acct).amount).to equal_money (0.08/365 * 27 * 152.50).round(2)
         expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
-        expect(t3.line_item_for(int_inc_acct).amount).to equal_money(2.91)
+        expect(t3.line_item_for(int_inc_acct).amount).to equal_money (0.08/365 * 27 * 152.50).round(2)
         expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(152.50)
-        expect(t3.reload.interest_balance).to equal_money(2.98)
+        expect(t3.reload.interest_balance).to equal_money (0.07 + 0.08/365 * 27 * 152.50).round(2)
 
         # t4 --------------------------------------------------------
         expect(t4.line_items.size).to eq(3)
@@ -195,16 +191,16 @@ describe Accounting::InterestCalculator do
         expect(t0.needs_qb_push).to be false
 
         # account details
-        expect(t4.line_item_for(t4.account).amount).to equal_money(1.00)
+        expect(t4.line_item_for(t4.account).amount).to equal_money(0.50)
         expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
-        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(1.00)
+        expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
         expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
         expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(152.50)
-        expect(t4.reload.interest_balance).to equal_money(1.98)
+        expect(t4.reload.interest_balance).to equal_money(0.47) # 0.97 - 0.50
 
         # t5 --------------------------------------------------------
         expect(t5.line_items.size).to eq(3)
@@ -212,16 +208,16 @@ describe Accounting::InterestCalculator do
         # account details
         expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
         expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
-        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(1.98)
+        expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(0.47)
         expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-        expect(t5.line_item_for(prin_acct).amount).to equal_money(10.32)
+        expect(t5.line_item_for(prin_acct).amount).to equal_money(11.83)
         expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # The interest change above cascades down into this txn.
         expect(t5.needs_qb_push).to be true
 
         # balances
-        expect(t5.reload.principal_balance).to equal_money(142.18)
+        expect(t5.reload.principal_balance).to equal_money(152.50 - 11.83)
         expect(t5.reload.interest_balance).to equal_money(0.00)
       end
     end
@@ -248,7 +244,6 @@ describe Accounting::InterestCalculator do
       # create(:accounting_transaction, :disbursement, amount: 30000.0,
       #   project: loan, txn_date: "2018-02-04", division: division)
       recalculate_and_reload
-      pp Accounting::Transaction.interest_type
       inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
       expect(inttxn).not_to be_nil
       # Principal balance should be 30000
