@@ -462,7 +462,7 @@ en:
     people: "Members"
     log: "Log"
     logs: "Logs"
-    settings: "Settings"
+    accounting_settings: "Accounting Settings"
   number:
     nth:
       num_1: "first"
