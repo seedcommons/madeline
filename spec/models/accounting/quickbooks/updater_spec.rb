@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 # TODO: find a way to stub less of this workflow/add more unit tests.
+# The specs are not catching when the update method receives a loan or an array of loans
 
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
