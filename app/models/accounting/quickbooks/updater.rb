@@ -24,6 +24,8 @@ module Accounting
       #
       # Raises a DataResetRequiredError if there are updates
       # too far in the past for the `since` method to access.
+      #
+      # This argument can either be a single loan or an array of loans
       def update(loans = nil)
         raise NotConnectedError unless qb_connection
         return if too_soon_to_run_again?
@@ -49,7 +51,7 @@ module Accounting
 
         if loans
           # check if loan is one object or multiple
-          [loans] if loans.is_a? Loan
+          loans = [loans] if loans.is_a? Loan
 
           loans.each do |loan|
             if loan.transactions.present?

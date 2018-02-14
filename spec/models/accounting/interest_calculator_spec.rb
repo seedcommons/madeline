@@ -3,7 +3,7 @@ require 'rails_helper'
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
   let!(:division) { create(:division, :with_accounts) }
-  let(:loan) { create(:loan, division: division, rate: 8.0, status_value: 'active') }
+  let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
 
   describe 'general operation' do
     let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,

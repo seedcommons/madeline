@@ -65,9 +65,9 @@ module Accounting
       last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
-      month_boundaries = month_boundaries(first_date, last_date)
+      last_day_in_months = month_boundaries(first_date, last_date)
 
-      dates = txn_dates.concat(month_boundaries).uniq.sort
+      dates = txn_dates.concat(last_day_in_months).uniq.sort
 
       @transactions = []
 
