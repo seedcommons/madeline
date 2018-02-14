@@ -296,6 +296,7 @@ GEM
     pry-rails (0.3.5)
       pry (>= 0.9.10)
     public_suffix (3.0.1)
+    puma (3.11.2)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     pundit-matchers (1.4.1)
@@ -527,6 +528,7 @@ DEPENDENCIES
   pry (= 0.10.4)
   pry-nav (= 0.2.4)
   pry-rails (= 0.3.5)
+  puma
   pundit
   pundit-matchers
   quickbooks-ruby

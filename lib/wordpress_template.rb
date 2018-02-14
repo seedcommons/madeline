@@ -1,6 +1,6 @@
 module WordpressTemplate
   def self.update(division:, base_uri:)
-    if Rails.env.development? || Rails.env.test?
+    if Rails.env.test?
       html = File.read(Rails.root.join('spec', 'fixtures', 'wordpress-rails.html'))
     else
       html = self.fetch_template(division: division, base_uri: base_uri)
@@ -16,8 +16,8 @@ module WordpressTemplate
   end
 
   def self.process_template(division:, html:)
-    file = Rails.root.join('app', 'layouts', 'public', 'wordpress', Rails.env,
-      "wordpress-#{division}.html.erb")
+    file_path = Rails.root.join('app', 'layouts', 'public', 'wordpress', Rails.env)
+    file = File.join(file_path, "wordpress-#{division}.html.erb")
     additional_substitutions = [
       [/<div class="post-content">(.*?)<p>(.*?)<\/p>(.*?)<\/div>/m, '\1\2\3'],
       ['<div class="article-single">', '<div>'],
@@ -27,6 +27,7 @@ module WordpressTemplate
       '<%= yield :\k<section> %>'
     )
     additional_substitutions.each { |sub| html.gsub! *sub }
+    FileUtils.mkdir_p(file_path)
     File.open(file, 'w') { |f| f.write(html) }
   end
 end
