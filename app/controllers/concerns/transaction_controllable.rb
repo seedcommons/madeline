@@ -94,6 +94,6 @@ module TransactionControllable
   end
 
   def settings_link
-    view_context.link_to(t('menu.settings'), admin_settings_path)
+    view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
   end
 end
