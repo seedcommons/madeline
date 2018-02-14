@@ -55,6 +55,9 @@ module TransactionControllable
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
       error_msg = t('quickbooks.misc', msg: e)
+    rescue Accounting::Quickbooks::NegativeBalanceError => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
     end
     error_msg
   end
@@ -94,6 +97,6 @@ module TransactionControllable
   end
 
   def settings_link
-    view_context.link_to(t('menu.settings'), admin_settings_path)
+    view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
   end
 end

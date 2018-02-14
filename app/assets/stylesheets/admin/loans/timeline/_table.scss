@@ -115,10 +115,6 @@
     margin-left: 10px;
   }
 
-  .highlighted {
-    background: $highlight;
-  }
-
   .step-date {
     .fa {
       margin-left: .5em;
@@ -128,6 +124,38 @@
   .table-wrapper {
     overflow: auto;
     min-height: 30em;
+  }
+
+  .highlighted {
+    background: $highlight;
+  }
+
+  .highlighted2 {
+    background: $gray2;
+
+    .dropdown {
+      .fa {
+        color: $gray9;
+      }
+    }
+  }
+
+  td {
+    &.project-group, &.project-step {
+      &:hover {
+        background: $gray2;
+
+        .dropdown {
+          .fa {
+            color: $gray9;
+          }
+        }
+
+        &.highlighted {
+          background: $highlight;
+        }
+      }
+    }
   }
 }
 
