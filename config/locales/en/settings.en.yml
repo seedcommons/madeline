@@ -1,6 +1,6 @@
 en:
   settings:
-    settings: "Settings"
+    accounting: "Accounting Settings"
   quickbooks:
     accounts:
       accounts: "QuickBooks Accounts"

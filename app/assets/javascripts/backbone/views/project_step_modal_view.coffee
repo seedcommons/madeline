@@ -112,8 +112,18 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     precedentId = @$('#project_step_schedule_parent_id').val()
     if precedentId
       startDate = $(".step-end-date[data-id=#{precedentId}]").data('dependent-step-start-date')
-      @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(startDate)
-      @$("#project_step_scheduled_start_date").val(startDate)
+      # parse date since 'startDate' is a string
+      parsedStartDate = new Date(startDate)
+
+      # increment end date of precedent step by 1 day
+      updatedStartDate = new Date(parsedStartDate.setDate(parsedStartDate.getDate() + 1))
+
+      # set up right date format
+      startDateMoment = moment(updatedStartDate)
+      startDateFormatted = moment(startDateMoment).format(MS.dateFormats.default)
+
+      @$(".form-group.project_step_scheduled_start_date").find(".static-text-as-field").html(startDateFormatted)
+      @$("#project_step_scheduled_start_date").val(startDateFormatted)
 
     @setScheduledEndDate()
     @showHideStartDate()
