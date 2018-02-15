@@ -14,7 +14,7 @@
   ul.dropdown-menu id="project-group-menu"
     li: a href="#" data-action="add-child-group" = t(".add_child_group")
     li: a href="#" data-action="add-child-step" = t(".add_child_step")
-    li: a href="#" data-action="edit" = t(:edit)
+    li: a href="#" class="project-groups" data-action="edit" = t(:edit)
     li: a href="javascript:" data-action="delete" data-confirm= t("project_group.delete_confirmation")
       = t(:delete)
 

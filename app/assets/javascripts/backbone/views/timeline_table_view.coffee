@@ -22,7 +22,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
-    'click #project-group-menu [data-action="edit"]': 'editGroup'
+    'click #project-group-menu .project-groups[data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click .project-step': 'showStep'
     'click #project-step-menu a[data-action=show]': 'showStep'
@@ -60,9 +60,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
-    # the normal edit link from the dropdown has an 'a' tag with no class
-    # TODO - find a tidier way to fix this
-    if @$(e.target).hasClass('project-group') || @$(e.target).hasClass('')
+    if @$(e.target).hasClass('project-groups')
       e.preventDefault()
       @groupModal.edit(@parentId(e))
 
