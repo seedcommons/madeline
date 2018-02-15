@@ -22,10 +22,10 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
-    'click #project-group-menu .project-groups[data-action="edit"]': 'editGroup'
+    'click .project-groups[data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click .project-step': 'showStep'
-    'click #project-step-menu a[data-action=show]': 'showStep'
+    'click .project-steps[data-action=show]': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
@@ -36,8 +36,8 @@ class MS.Views.TimelineTableView extends Backbone.View
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
     'click [data-action="view-logs"]': 'openLogList'
-    'mouseenter td.project-step': 'highlightStep'
-    'mouseleave td.project-step': 'unhighlightStep'
+    'mouseenter td.project-steps': 'highlightStep'
+    'mouseleave td.project-steps': 'unhighlightStep'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -76,9 +76,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@projectId, @refresh.bind(@))
 
   showStep: (e) ->
-    # the normal edit link from the dropdown has an 'a' tag with no class
-    # TODO - find a tidier way to fix this
-    if @$(e.target).hasClass('project-step') || @$(e.target).hasClass('')
+    if @$(e.target).hasClass('project-steps')
       e.preventDefault()
       @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
@@ -185,8 +183,8 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   highlightStep: (e) ->
     id = $(e.currentTarget).data('id')
-    @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
+    @$("td.project-steps[data-id='#{id}']").addClass('highlighted2')
 
   unhighlightStep: (e) ->
     id = $(e.currentTarget).data('id')
-    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')
+    @$("td.project-steps[data-id='#{id}']").removeClass('highlighted2')
