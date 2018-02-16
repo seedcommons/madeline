@@ -3,21 +3,21 @@
 
 / Note that we have to repeat these classes on all td tags because we don't always have access to
 / the tr tag
-- classes = "#{completed} #{draft}"
+- classes = "project-step #{completed} #{draft}"
 
 = content_tag_if(first_in_row, :tr)
   / Add spacer for step who has a group as a sibling
   - unless siblings_are_all_steps
     td.spacer colspan="#{max_group_depth - entry.depth + 1}"
 
-  td class=classes
+  td class=classes data-id=entry.id
     input.select-step[
       type="checkbox"
       class==completed
       data-id=entry.id
       data-precedent-id=entry.schedule_parent_id]
 
-  td class=classes
+  td class=classes data-id=entry.id
     .icon
       - if entry.milestone?
         i.fa.fa-fw.fa-flag-o
@@ -41,15 +41,15 @@
     - unless entry.schedule_children.empty?
       i.fa.fa-link
 
-  td class=classes
+  td class=classes data-id=entry.id
     - if entry.display_duration_days && entry.display_duration_days > 0
       = t("project_step.duration_days", duration: entry.display_duration_days)
 
   - if entry.is_finalized
-    td class=classes style="background: #{entry.timeline_background_color};"
+    td class=classes data-id=entry.id style="background: #{entry.timeline_background_color};"
       = project_step_status(entry)
   - else
-    td class=classes
+    td class=classes data-id=entry.id
       = project_step_status(entry)
 
   - latest_logs = entry.latest_logs

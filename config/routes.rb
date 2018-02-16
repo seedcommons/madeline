@@ -62,8 +62,8 @@ Rails.application.routes.draw do
       resources :media
     end
 
-    get 'settings' => 'settings#index'
-    patch 'settings' => 'settings#update'
+    get 'accounting-settings' => 'settings#index'
+    patch 'accounting-settings' => 'settings#update'
 
     namespace :accounting do
       resources :quickbooks do
