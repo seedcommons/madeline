@@ -1,0 +1,14 @@
+// This is a manifest to pull in admin styles.
+
+// Vendor styles needed by admin panel.
+@import "jquery-ui";
+@import "wice_grid";
+@import "fullcalendar";
+@import "jqtree";
+@import "bootstrap/variables";
+
+// Our styles
+@import "admin/colors"; // Colors and variables should be loaded first.
+@import "admin/variables";
+@import "admin/layout"; // May be necessary to import layout first, not sure.
+@import "admin/**/*";
