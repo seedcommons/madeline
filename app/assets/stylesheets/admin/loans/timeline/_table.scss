@@ -139,7 +139,7 @@
   }
 
   td {
-    &.project-group-item, &.project-steps {
+    &.project-group, &.project-step {
       &:hover {
         background: $gray2;
 

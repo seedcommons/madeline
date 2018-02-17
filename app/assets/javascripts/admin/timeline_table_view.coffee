@@ -15,29 +15,33 @@ class MS.Views.TimelineTableView extends Backbone.View
     @styleDropdowns()
 
   events:
-    'click .project-group': 'editGroup'
-    'click .project-group .fa-cog': 'openGroupMenu'
-    'click .step-menu-col .fa-cog': 'openStepMenu'
+    # Timeline actions
     'click .timeline-action[data-action="new-group"]': 'newGroup'
     'click .timeline-action[data-action="new-step"]': 'newStep'
+    # Group actions
+    'click .project-group .fa-cog': 'openGroupMenu'
+    'click .project-group-item[data-action="edit"]': 'editGroup'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
-    'click .project-group-item[data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
-    'click .project-step': 'showStep'
-    'click .project-steps[data-action=show]': 'showStep'
+    # Step actions
+    'click .step-menu-col .fa-cog': 'openStepMenu'
+    'click .project-step-item[data-action=show]': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
     'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
-    'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
-    'change form.filters': 'refresh'
+    # Step interactions
     'mouseenter .step-start-date': 'showPrecedentStep'
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
+    'mouseenter td.project-step': 'highlightStep'
+    'mouseleave td.project-step': 'unhighlightStep'
+    # Logs list actions
     'click [data-action="view-logs"]': 'openLogList'
-    'mouseenter td.project-steps': 'highlightStep'
-    'mouseleave td.project-steps': 'unhighlightStep'
+    # Other actions
+    'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
+    'change form.filters': 'refresh'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -76,7 +80,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@projectId, @refresh.bind(@))
 
   showStep: (e) ->
-    if @$(e.target).hasClass('project-steps')
+    if @$(e.target).hasClass('project-step-item')
       e.preventDefault()
       @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
@@ -183,8 +187,8 @@ class MS.Views.TimelineTableView extends Backbone.View
 
   highlightStep: (e) ->
     id = $(e.currentTarget).data('id')
-    @$("td.project-steps[data-id='#{id}']").addClass('highlighted2')
+    @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
 
   unhighlightStep: (e) ->
     id = $(e.currentTarget).data('id')
-    @$("td.project-steps[data-id='#{id}']").removeClass('highlighted2')
+    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')
