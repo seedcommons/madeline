@@ -86,11 +86,13 @@ Rails.application.routes.draw do
   end
 
   localized do
-    resources :loans, only: [:index, :show]
-    get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
+    namespace :public, path: '/' do
+      resources :loans, only: [:index, :show]
+      get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
+      get 'test' => 'static_pages#test'
+    end
   end
 
-  get '/test' => 'static_pages#test'
   get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')

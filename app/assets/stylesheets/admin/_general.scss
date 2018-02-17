@@ -1,9 +1,5 @@
 // General, miscellaneous styles to be used throughout the admin area.
 // General styles forming a cohesive, non-trivially sized group should be moved into separate file.
-
-@import "colors";
-@import "variables";
-
 body {
   font-family: $app-fonts;
 }
