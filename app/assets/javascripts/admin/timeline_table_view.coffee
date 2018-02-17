@@ -22,7 +22,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .timeline-action[data-action="new-step"]': 'newStep'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
-    'click .project-groups[data-action="edit"]': 'editGroup'
+    'click .project-group-item[data-action="edit"]': 'editGroup'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     'click .project-step': 'showStep'
     'click .project-steps[data-action=show]': 'showStep'
@@ -60,7 +60,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
-    if @$(e.target).hasClass('project-groups')
+    if @$(e.target).hasClass('project-group-item')
       e.preventDefault()
       @groupModal.edit(@parentId(e))
 
