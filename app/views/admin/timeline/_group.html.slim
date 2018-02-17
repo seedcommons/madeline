@@ -6,7 +6,11 @@
 = content_tag_if(first_in_row, :tr)
   / The root group is not actually displayed
   - unless entry.root?
-    td.project-group data-action="edit" class="project-group-item dropup #{has_children_class}" data-id=entry.id rowspan="#{row_span}" colspan="#{column_span}"
+    td[
+      class="project-group project-group-item dropup #{has_children_class}"
+      data-action="edit"
+      data-id=entry.id rowspan="#{row_span}"
+      colspan="#{column_span}"]
       = entry.summary
       span.dropdown
         i.fa.fa-cog data-toggle="dropdown" aria-hidden="true"
