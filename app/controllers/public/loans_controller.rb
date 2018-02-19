@@ -1,4 +1,4 @@
-class LoansController < ApplicationController
+class Public::LoansController < Public::PublicController
   include WordpressEmbeddable
 
   def index

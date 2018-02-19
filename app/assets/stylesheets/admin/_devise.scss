@@ -110,6 +110,10 @@ body.devise {
 
   .actions {
     margin-bottom: 15px;
+
+    // There is a global style that floats .actions to the right, which negates the
+    // desired .btn-block (full width) appearance of the buttons on the devise forms.
+    float: none;
   }
 
   .centered-text {

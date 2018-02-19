@@ -265,9 +265,9 @@ Devise.setup do |config|
 end
 
 Rails.application.config.to_prepare do
-  Devise::SessionsController.layout "devise"
-  Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "application" : "devise" }
-  Devise::ConfirmationsController.layout "devise"
-  Devise::UnlocksController.layout "devise"
-  Devise::PasswordsController.layout "devise"
+  Devise::SessionsController.layout "admin/devise"
+  Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "admin/signed_in" : "admin/devise" }
+  Devise::ConfirmationsController.layout "admin/devise"
+  Devise::UnlocksController.layout "admin/devise"
+  Devise::PasswordsController.layout "admin/devise"
 end

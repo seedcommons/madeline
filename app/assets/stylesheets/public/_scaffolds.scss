@@ -1,3 +1,5 @@
+// TODO: This is a big code smell. If some colors are needed in both public and admin areas, they should
+// be moved into the shared dir.
 @import "../admin/colors";
 
 /*body {
