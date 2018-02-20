@@ -30,6 +30,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
+    'click #project-step-menu a[data-action=delete]': 'mmm'
     'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
     # Step interactions
     'mouseenter .step-start-date': 'showPrecedentStep'
@@ -42,6 +43,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     # Other actions
     'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
     'change form.filters': 'refresh'
+
+  mmm: (e) ->
+    @$('#project-step-menu').addClass('noafter');
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -131,6 +135,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     @openMenu(e, 'step')
 
   openMenu: (e, which) ->
+    @$("#project-#{which}-menu").removeClass('noafter');
     link = e.currentTarget
     $menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
     $(link).after($menu)

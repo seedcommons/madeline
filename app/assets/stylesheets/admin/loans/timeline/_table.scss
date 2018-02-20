@@ -138,6 +138,10 @@
     }
   }
 
+  .noafter {
+    display: none;
+  }
+
   td {
     &.project-group, &.project-step {
       &:hover {
