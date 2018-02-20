@@ -40,6 +40,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
       $.post "/admin/project_steps/#{id}", {'_method': 'DELETE'}, =>
         @close()
         @runAndResetDoneCallback()
+    @close()
 
   close: ->
     @$el.modal('hide')
