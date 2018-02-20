@@ -70,10 +70,12 @@ module Accounting
       end
 
       def update_ledger(loan)
+        prev_tx = nil
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
-          txn.reload.calculate_balances
+          txn.reload.calculate_balances(prev_tx: prev_tx)
           txn.save!
+          prev_tx = txn
         end
       end
 

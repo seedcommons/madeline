@@ -17,7 +17,7 @@
     
     - if @conflict
       .alert.alert-danger
-        = t('loan.response_set.conflicting_changes',
+        = t('loan.response_set.conflicting_changes_html',
             link: admin_loan_tab_path(@loan, tab: 'questions', filter: response_set.kind),
             updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
             updated_at: ldate(@response_set_from_db[:updated_at], format: :long))

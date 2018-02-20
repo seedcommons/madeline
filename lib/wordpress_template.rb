@@ -16,7 +16,8 @@ module WordpressTemplate
   end
 
   def self.process_template(division:, html:)
-    file = File.join(Rails.root, 'app', 'views', 'layouts', 'embedded', "wordpress-#{division}.html.erb")
+    file = Rails.root.join('app', 'layouts', 'public', 'wordpress', Rails.env,
+      "wordpress-#{division}.html.erb")
     additional_substitutions = [
       [/<div class="post-content">(.*?)<p>(.*?)<\/p>(.*?)<\/div>/m, '\1\2\3'],
       ['<div class="article-single">', '<div>'],

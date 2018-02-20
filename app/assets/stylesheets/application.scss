@@ -1,15 +1,7 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- */
+// These are styles required by all parts of the app, including admin and public.
+// This manifest does NOT pull in the admin and public directories.
 
+// TODO: Not sure if this variable will exist in the public or admin stylesheets.
 // Bootstrap variable overrides
 // These need to come before the @import of bootstrap itself
 $headings-font-weight: 600;
@@ -20,13 +12,5 @@ $headings-font-weight: 600;
 @import "select2";
 @import "select2-bootstrap";
 @import "bootstrap-datepicker3";
-@import "global-loading-indicator";
-@import "devise";
 @import "font-awesome";
-@import "fontastic";
-@import "madeline_logo";
-@import "expander";
-
-body {
-  color: #333435;
-}
+@import "shared/*";
