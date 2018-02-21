@@ -58,6 +58,8 @@ module AdminHelper
     display_symbol =
       if currency && currency.name == 'Nicaraguan Cordoba'
         currency.symbol.sub('C$', ' C$')
+      elsif currency && currency.name == 'British Pound'
+        currency.symbol.sub('£', ' £')
       elsif currency
         currency.symbol.sub('$', ' $')
       else
