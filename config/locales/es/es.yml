@@ -159,11 +159,11 @@ es:
         loan:
           attributes:
             primary_agent:
-              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo del responsable segundo'
+              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
         basic_project:
           attributes:
             primary_agent:
-              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo del responsable segundo'
+              same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
         project_group:
           no_summary: "Se requiere un resumen."
         organization:
@@ -173,7 +173,7 @@ es:
         timeline_entry:
           attributes:
             scheduled_end_date:
-              less_than_1: "La duración proyectada de un paso no puede ser menos de 1 día"
+              less_than_1: "La duración proyectada de un paso no puede ser menor a 1 día"
   simple_form:
     hints:
       division:
@@ -186,9 +186,15 @@ es:
       accounting_transaction:
         account: "Cuenta Bancaria"
         amount: "Monto"
+        change_in_interest: "Cambio en el interés"
+        change_in_principal: "Cambio en el capital principal"
         description: "Descripción"
+        interest_balance: "Saldo del interés"
         loan_transaction_type_value: "Tipo de Transacción"
+        principal_balance: "Saldo del capital principal"
         private_note: "Memo"
+        qb_record_id: "ID del registro en QuickBooks"
+        total_balance: "Saldo Total"
         txn_date: "Fecha"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
@@ -319,8 +325,9 @@ es:
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
     class_location_notice: "NOTA: Antes de poder agregar transacciones, debes asegurarte de que Clases y Locaciones (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
     data_reset_required: "Se requiere reiniciar los datos de QuickBooks antes de poder acceder a las transacciones. Por favor ir a %{settings} para reiniciar."
-    misc: "Hubo un error en la comunicacíon a QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados. (Error: %{msg})"
+    misc: "Hubo un error en la comunicacíon con QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados. (Error: %{msg})"
     service_unavailable: "QuickBooks no está disponible temporariamente. Por favor intentar de nuevo más tarde."
+    negative_balance: "Esta transacción no es permitida porque resultaría en un saldo negativo. El saldo total a esta fecha es  %{amt}."
   reply_no: "No"
   reply_yes: "Sí"
   save: "Guardar"
@@ -346,7 +353,7 @@ es:
     hide_all: "Ocultar Todo"
     name: "Nombre"
     no_name: "Sin Nombre"
-    no_records: "No se hallaron registros."
+    no_records: "No se encontraron registros."
     no_records_match: "No hay registros que coincidan. Ajustar los filtros o usar Quitar para reiniciar los filtros."
     note: "Nota"
     notes: "Notas"
@@ -432,7 +439,7 @@ es:
     people: "Miembros"
     log: "Apunte"
     logs: "Apuntes"
-    settings: "Ajustes"
+    accounting_settings: "Configuración de Contabilidad"
   number:
     nth:
       num_1: "primero"
