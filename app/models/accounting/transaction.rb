@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  locked                      :boolean          default(TRUE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string

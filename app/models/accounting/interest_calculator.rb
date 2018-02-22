@@ -87,6 +87,7 @@ module Accounting
         txns.concat(txns_by_date[date]) if txns_by_date[date]
 
         txns.each do |tx|
+          next if tx.locked?
           case tx.loan_transaction_type_value
             when "interest"
               tx.amount = accrued_interest(prev_tx, tx)
