@@ -85,7 +85,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
     byebug (9.1.0)
-    capistrano (3.10.0)
+    capistrano (3.10.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -215,7 +215,7 @@ GEM
     highline (1.7.10)
     hirb (0.7.3)
     http_parser.rb (0.6.0)
-    i18n (0.9.3)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     i18n-js (3.0.2)
       i18n (~> 0.6, >= 0.6.6)
@@ -434,7 +434,7 @@ GEM
       sprockets (>= 3.0.0)
     sql_queries_count (0.0.1)
       rails (> 3.0.0)
-    sshkit (1.15.1)
+    sshkit (1.16.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.8.0)
@@ -483,7 +483,7 @@ DEPENDENCIES
   bootstrap-sass
   bullet
   byebug
-  capistrano (~> 3.1)
+  capistrano (~> 3.10.1)
   capistrano-passenger
   capistrano-rails (~> 1.1)
   capistrano3-delayed-job (~> 1.0)

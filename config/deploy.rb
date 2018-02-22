@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
-lock '3.10.0'
+lock '3.10.1'
 
 set :application, 'madeline'
 
-set :repo_url, 'git@github.com:sassafrastech/madeline_system.git'
+set :repo_url, 'https://github.com/sassafrastech/madeline.git'
 
 set :tmp_dir, '/home/deploy/tmp'
 
