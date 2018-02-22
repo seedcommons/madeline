@@ -1,5 +1,5 @@
 class MonthlyInterestAccrualJob < ApplicationJob
   def perform
-    Accounting::Updater.new.update(Loan.active)
+    Accounting::Quickbooks::Updater.new.update(Loan.active)
   end
 end
