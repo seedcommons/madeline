@@ -27,7 +27,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 
     = simple_form_for([:admin, @step],
-      wrapper: :horizontal_form,
+      wrapper: :horizontal_form_one_column,
       remote: true,
       html: {class: "form-horizontal project-step-form"},
       defaults: {input_html: {class: "form-element form-control"}},
@@ -75,14 +75,14 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       .row
         .col-sm-6
-          = f.input :step_type_value
+          = f.input :step_type_value, wrapper: :horizontal_form_two_columns
             .view-element = @step.step_type_label
             = f.input_field :step_type_value,
               collection: ProjectStep.step_type_option_set.translated_list,
               include_blank: false
 
           // is_finalized? is not used because this input is used as a CSS selector
-          = f.input :is_finalized
+          = f.input :is_finalized, wrapper: :horizontal_form_two_columns
             - if @step.is_finalized_locked?
               .static-text-as-field
                 = @step.is_finalized? ? t("reply_yes") : t("reply_no")
@@ -91,23 +91,22 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
               .view-element = @step.is_finalized? ? t("reply_yes") : t("reply_no")
               = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
-
         .col-sm-6
           - if @step.old_start_date && @step.is_finalized?
-            = f.input :old_start_date
+            = f.input :old_start_date, wrapper: :horizontal_form_two_columns
 
             - if policy(@step).edit_finalized_dates?
               = f.input_field :old_start_date, as: :date_picker
             - else
               .static-text-as-field = ldate(@step.old_start_date)
 
-          = f.input :scheduled_start_date
+          = f.input :scheduled_start_date, wrapper: :horizontal_form_two_columns
             .static-text-as-field = ldate(@step.scheduled_start_date)
             .view-element = ldate(@step.scheduled_start_date)
             = f.input_field :scheduled_start_date, as: :date_picker
 
           - if @step.old_duration_days && @step.old_duration_days > 0 && @step.is_finalized?
-            = f.input :old_duration_days
+            = f.input :old_duration_days, wrapper: :horizontal_form_two_columns
               - if policy(@step).edit_finalized_dates?
                 = f.input_field :old_duration_days
                 = t("project_step.days")
@@ -116,16 +115,16 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
                   = @step.old_duration_days
                   = t("project_step.days")
 
-          = f.input "duration"
+          = f.input "duration", wrapper: :horizontal_form_two_columns
             .view-element = @step.scheduled_duration_days
             .form-element
               = f.input_field :scheduled_duration_days
               = t("project_step.days")
 
-          = f.input :scheduled_end_date
+          = f.input :scheduled_end_date, wrapper: :horizontal_form_two_columns
             .static-text-as-field = ldate(@step.scheduled_end_date)
 
-          = f.input :actual_end_date
+          = f.input :actual_end_date, wrapper: :horizontal_form_two_columns
             .view-element = ldate(@step.actual_end_date)
             = f.input_field :actual_end_date, as: :date_picker
 
