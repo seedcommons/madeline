@@ -15,8 +15,10 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'change #project_step_schedule_parent_id': 'setScheduledStartDateOnDependent'
     'change #project_step_scheduled_start_date': 'setStaticStartDate'
 
-  show: (id, done) ->
+  show: (id, done, options = {}) ->
     @done = done
+    @id = id
+    @expandedLogs = options.expandedLogs
     # The show method is only used by the calendar. Hopefully contexts can go away later.
     @loadContent("/admin/project_steps/#{id}?context=calendar")
 
@@ -67,6 +69,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     @$el.find('.modal-content').html(html)
     new MS.Views.TranslationsView(el: @$('[data-content-translatable="project_step"]'))
     @showHideStartDate()
+    @expandLogs() if @expandedLogs
 
   showMoveStepModal: (id, daysShifted) ->
     unless @moveStepModal
@@ -109,8 +112,18 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     precedentId = @$('#project_step_schedule_parent_id').val()
     if precedentId
       startDate = $(".step-end-date[data-id=#{precedentId}]").data('dependent-step-start-date')
-      @$(".project_step_scheduled_start_date").find(".static-text-as-field").html(startDate)
-      @$("#project_step_scheduled_start_date").val(startDate)
+      # parse date since 'startDate' is a string
+      parsedStartDate = new Date(startDate)
+
+      # increment end date of precedent step by 1 day
+      updatedStartDate = new Date(parsedStartDate.setDate(parsedStartDate.getDate() + 1))
+
+      # set up right date format
+      startDateMoment = moment(updatedStartDate)
+      startDateFormatted = moment(startDateMoment).format(MS.dateFormats.default)
+
+      @$(".form-group.project_step_scheduled_start_date").find(".static-text-as-field").html(startDateFormatted)
+      @$("#project_step_scheduled_start_date").val(startDateFormatted)
 
     @setScheduledEndDate()
     @showHideStartDate()
@@ -137,3 +150,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
     @setScheduledEndDate()
     @showHideStartDate()
+
+  expandLogs: ->
+    @$("[data-expands='step-logs-#{@id}']").click()

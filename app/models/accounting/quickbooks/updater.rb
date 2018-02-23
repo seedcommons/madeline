@@ -24,7 +24,9 @@ module Accounting
       #
       # Raises a DataResetRequiredError if there are updates
       # too far in the past for the `since` method to access.
-      def update(loan = nil)
+      #
+      # This argument can either be a single loan or an array of loans
+      def update(loans = nil)
         raise NotConnectedError unless qb_connection
         return if too_soon_to_run_again?
 
@@ -47,9 +49,16 @@ module Accounting
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
         qb_connection.update_attribute(:last_updated_at, Time.now)
 
-        if loan
-          update_ledger(loan)
-          InterestCalculator.new(loan).recalculate
+        if loans
+          # check if loan is one object or multiple
+          loans = [loans] if loans.is_a? Loan
+
+          loans.each do |loan|
+            if loan.transactions.present?
+              update_ledger(loan)
+              InterestCalculator.new(loan).recalculate
+            end
+          end
         end
       end
 
@@ -61,10 +70,12 @@ module Accounting
       end
 
       def update_ledger(loan)
+        prev_tx = nil
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
-          txn.reload.calculate_balances
+          txn.reload.calculate_balances(prev_tx: prev_tx)
           txn.save!
+          prev_tx = txn
         end
       end
 
@@ -100,6 +111,8 @@ module Accounting
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
 
+        txn.currency = lookup_currency(txn)
+
         # This line may seem odd since the natural thing to do would be to simply compute the
         # amount based on the sum of the line items.
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
@@ -109,6 +122,16 @@ module Accounting
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
 
         txn.save!
+      end
+
+      def lookup_currency(txn)
+        project = txn.project
+
+        if txn.quickbooks_data && txn.quickbooks_data[:currency_ref]
+          Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
+        elsif project
+          project.currency
+        end
       end
 
       def changes

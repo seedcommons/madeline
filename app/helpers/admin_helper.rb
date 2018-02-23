@@ -54,10 +54,19 @@ module AdminHelper
   end
 
   def format_currency(amount, currency, tooltip: true)
-    display_symbol = currency ? currency.symbol.sub('$', ' $') : '' # add space before $ (pretty)
+    # add space before $ and C$ (pretty)
+    display_symbol =
+      if currency && currency.name == 'Nicaraguan Cordoba'
+        currency.symbol.sub('C$', ' C$')
+      elsif currency
+        currency.symbol.sub('$', ' $')
+      else
+        ''
+      end
+
     if tooltip
       display_symbol = %Q(<a href="#" onclick="return false" data-toggle="tooltip"
-        class="currency_symbol" title="#{currency.try(:plural_name)}">#{display_symbol}</a> ).html_safe
+        class="currency_symbol" title="#{currency.try(:plural_name)}">#{display_symbol}</a>).html_safe
     end
 
     return number_to_currency(amount, unit: display_symbol, negative_format: "(%u%n)")

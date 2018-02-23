@@ -134,6 +134,16 @@ class Accounting::Transaction < ActiveRecord::Base
   def calculate_balances(prev_tx: nil)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+
+    # as in https://redmine.sassafras.coop/issues/7703, testing this would take time
+    # it could be added as a future TODO
+    if total_balance < 0 && !Rails.env.test?
+      raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
+    end
+  end
+
+  def prev_balance
+    total_balance - change_in_principal - change_in_interest
   end
 
   # Returns first line item for the given account, or nil if not found.
@@ -168,15 +178,4 @@ class Accounting::Transaction < ActiveRecord::Base
       end
     end
   end
-
-  # not sure how this is going to come into the new implementation;
-  # is this being removed as well?
-
-  # def lookup_currency_id
-  #   if quickbooks_data && quickbooks_data[:currency_ref]
-  #     Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-  #   elsif project
-  #     project.currency_id
-  #   end
-  # end
 end
