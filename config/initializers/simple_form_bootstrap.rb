@@ -119,7 +119,7 @@ SimpleForm.setup do |config|
 
   # Use this wrapper for forms that will incoporate one and two column sections.
   # This wrapper is for two column sections, parts of the form that take up half-width.
-  config.wrappers :horizontal_form_two_columns, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
+  config.wrappers :horizontal_form_two_columns, tag: 'div', class: 'form-group two-column-form-element', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
