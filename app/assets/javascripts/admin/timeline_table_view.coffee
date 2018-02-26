@@ -26,7 +26,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     # Step actions
     'click .step-menu-col .fa-cog': 'openStepMenu'
-    'click .project-step-item[data-action=show]': 'showStep'
+    'click .project-step-item': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
