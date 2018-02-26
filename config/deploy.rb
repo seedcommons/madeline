@@ -48,6 +48,7 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads public/sy
 
 # Namespace crontab entries
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+set :whenever_environment, ->{ fetch(:rails_env) }
 
 namespace :deploy do
 
