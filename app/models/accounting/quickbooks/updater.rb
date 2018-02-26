@@ -64,6 +64,7 @@ module Accounting
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
           txn.reload.calculate_balances
+          txn.currency = lookup_currency(txn)
           txn.save!
         end
       end
