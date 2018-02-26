@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130145027) do
+ActiveRecord::Schema.define(version: 20180226164026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20180130145027) do
     t.integer "organization_id"
     t.integer "parent_id"
     t.integer "principal_account_id"
+    t.boolean "public", default: true, null: false
     t.string "qb_id"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
