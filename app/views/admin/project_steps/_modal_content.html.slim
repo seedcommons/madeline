@@ -83,6 +83,8 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         = f.input :old_start_date
           - if policy(@step).edit_finalized_dates?
             = f.input_field :old_start_date, as: :date_picker
+            .view-element
+              = ldate(@step.old_start_date)
           - else
             .static-text-as-field = ldate(@step.old_start_date)
 
