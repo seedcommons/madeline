@@ -24,7 +24,9 @@ module Accounting
       #
       # Raises a DataResetRequiredError if there are updates
       # too far in the past for the `since` method to access.
-      def update(loan = nil)
+      #
+      # This argument can either be a single loan or an array of loans
+      def update(loans = nil)
         raise NotConnectedError unless qb_connection
         return if too_soon_to_run_again?
 
@@ -47,9 +49,16 @@ module Accounting
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
         qb_connection.update_attribute(:last_updated_at, Time.now)
 
-        if loan
-          update_ledger(loan)
-          InterestCalculator.new(loan).recalculate
+        if loans
+          # check if loan is one object or multiple
+          loans = [loans] if loans.is_a? Loan
+
+          loans.each do |loan|
+            if loan.transactions.present?
+              update_ledger(loan)
+              InterestCalculator.new(loan).recalculate
+            end
+          end
         end
       end
 
