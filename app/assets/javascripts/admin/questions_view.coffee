@@ -1,4 +1,4 @@
-class MS.Views.LoanQuestionsView extends Backbone.View
+class MS.Views.QuestionsView extends Backbone.View
 
   el: '.loan-questions'
 
