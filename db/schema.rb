@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305135643) do
+ActiveRecord::Schema.define(version: 20180305163129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -165,16 +165,6 @@ ActiveRecord::Schema.define(version: 20180305135643) do
     t.decimal "amount"
     t.integer "option_id"
     t.integer "question_id"
-  end
-
-  create_table "loan_response_sets", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.string "kind"
-    t.integer "loan_id", null: false
-    t.integer "lock_version", default: 0, null: false
-    t.datetime "updated_at", null: false
-    t.integer "updater_id"
   end
 
   create_table "media", id: :serial, force: :cascade do |t|
@@ -354,6 +344,16 @@ ActiveRecord::Schema.define(version: 20180305135643) do
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
+  create_table "response_sets", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "custom_data"
+    t.string "kind"
+    t.integer "loan_id", null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "updater_id"
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -443,7 +443,6 @@ ActiveRecord::Schema.define(version: 20180305135643) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
-  add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
@@ -462,6 +461,7 @@ ActiveRecord::Schema.define(version: 20180305135643) do
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
   add_foreign_key "questions", "question_sets"
+  add_foreign_key "response_sets", "users", column: "updater_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"

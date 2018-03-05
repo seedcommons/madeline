@@ -2,18 +2,18 @@
 class Response
   include ProgressCalculable
 
-  attr_accessor :loan, :question, :loan_response_set, :text, :string, :number, :boolean,
+  attr_accessor :loan, :question, :response_set, :text, :string, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
   delegate :group?, :active?, :required?, to: :question
 
   TYPES = %i(text string number rating boolean url breakeven business_canvas)
 
-  def initialize(loan:, question:, loan_response_set:, data:)
+  def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @question = question
-    @loan_response_set = loan_response_set
+    @response_set = response_set
     %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
     end
@@ -77,7 +77,7 @@ class Response
     question.data_type == 'text' ? :text : :string
   end
 
-  # Boolean attributes are currently stored as "yes"/"no" in the LoanResponseSet data. This could
+  # Boolean attributes are currently stored as "yes"/"no" in the ResponseSet data. This could
   # get refactored in future to use actual booleans.
   def not_applicable?
     not_applicable == "yes"
@@ -85,12 +85,12 @@ class Response
 
   private
 
-  # Gets child responses of this response by asking LoanResponseSet.
-  # Assumes LoanResponseSet's implementation of `response`
+  # Gets child responses of this response by asking ResponseSet.
+  # Assumes ResponseSet's implementation of `response`
   # will be super fast (not hitting DB everytime), else
   # performance will be horrible in recursive methods.
   def children
-    question.children.map { |q| loan_response_set.response(q) }
+    question.children.map { |q| response_set.response(q) }
   end
 
   def remove_blanks(data)

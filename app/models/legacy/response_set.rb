@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class LoanResponseSet < ActiveRecord::Base
+  class ResponseSet < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
 
@@ -12,8 +12,8 @@ module Legacy
 
     def self.purge_migrated
       # note, not complete, but sufficient for purpose
-      puts "LoanResponseSet.delete_all"
-      ::LoanResponseSet.delete_all
+      puts "ResponseSet.delete_all"
+      ::ResponseSet.delete_all
     end
 
     def migrate
@@ -38,7 +38,7 @@ module Legacy
             match = /loan_(.*)/.match(field.question_set.internal_name)
             raise "unexpected custom field set name: #{field.question_set.internal_name}" unless match
             attrib = match[1]
-            model = loan.send(attrib) || ::LoanResponseSet.new(kind: attrib, loan: loan, custom_data: {})
+            model = loan.send(attrib) || ::ResponseSet.new(kind: attrib, loan: loan, custom_data: {})
             models[field.question_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"

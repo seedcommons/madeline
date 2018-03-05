@@ -16,7 +16,7 @@
 #  fk_rails_...  (updater_id => users.id)
 #
 
-class LoanResponseSet < ActiveRecord::Base
+class ResponseSet < ActiveRecord::Base
   attr_accessor :current_user
 
   belongs_to :loan
@@ -46,7 +46,7 @@ class LoanResponseSet < ActiveRecord::Base
   def response(question)
     question = ensure_decorated(question)
     raw_value = (custom_data || {})[question.json_key]
-    Response.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
+    Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.

@@ -7,7 +7,7 @@ module QuestionSpecHelpers
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
     let!(:qset) { create(:question_set, internal_name: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:loan_response_set, loan: loan1) }
+    let(:rset) { build(:response_set, loan: loan1) }
 
     before { rset.current_user = create(:user, :admin) }
   end
