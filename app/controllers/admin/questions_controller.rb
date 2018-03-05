@@ -5,15 +5,15 @@ class Admin::QuestionsController < Admin::AdminController
   def index
     authorize Question
     # Hide retired questions for now
-    sets = LoanQuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
+    sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     questions = sets.map { |s| top_level_questions(s) }.flatten
     @json = ActiveModel::Serializer::CollectionSerializer.new(questions, user: current_user).to_json
   end
 
   def new
-    set = LoanQuestionSet.find_by(internal_name: "loan_#{params[:set]}")
+    set = QuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
-    @question = Question.new(loan_question_set_id: set.id, parent: parent, division: current_division)
+    @question = Question.new(question_set_id: set.id, parent: parent, division: current_division)
     authorize @question
     @question.build_complete_requirements
     render_form
@@ -29,7 +29,7 @@ class Admin::QuestionsController < Admin::AdminController
     @question = Question.new(question_params)
     authorize @question
     if @question.save
-      render_set_json(@question.loan_question_set)
+      render_set_json(@question.question_set)
     else
       @question.build_complete_requirements
       render_form(status: :unprocessable_entity)
@@ -38,7 +38,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def update
     if @question.update(question_params)
-      render_set_json(@question.loan_question_set)
+      render_set_json(@question.question_set)
     else
       render_form(status: :unprocessable_entity)
     end
@@ -53,7 +53,7 @@ class Admin::QuestionsController < Admin::AdminController
     end
 
     target.send(method, @question)
-    render_set_json(@question.loan_question_set)
+    render_set_json(@question.question_set)
   rescue
     flash.now[:error] = I18n.t('questions.move_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
@@ -61,7 +61,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def destroy
     @question.destroy!
-    render_set_json(@question.loan_question_set)
+    render_set_json(@question.question_set)
   rescue
     flash.now[:error] = I18n.t('questions.delete_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
@@ -91,7 +91,7 @@ class Admin::QuestionsController < Admin::AdminController
     # params.require(:question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:question).permit(
       :label, :data_type, :division_id, :parent_id, :position,
-      :loan_question_set_id, :has_embeddable_media, :override_associations, :status,
+      :question_set_id, :has_embeddable_media, :override_associations, :status,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
     )

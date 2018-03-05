@@ -37,7 +37,7 @@ describe Question, :type => :model do
   end
 
   describe 'position' do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { create_question(set: set, name: "lqroot", type: "group") }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
@@ -55,7 +55,7 @@ describe Question, :type => :model do
   end
 
   describe "number", clean_with_truncation: true do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
@@ -151,7 +151,7 @@ describe Question, :type => :model do
   end
 
   describe "full_number", clean_with_truncation: true do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }

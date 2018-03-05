@@ -8,23 +8,23 @@
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
-#  loan_question_set_id  :integer
 #  migration_position    :integer
 #  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
+#  question_set_id       :integer
 #  required              :boolean          default(FALSE), not null
 #  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_question_set_id  (question_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_...  (question_set_id => question_sets.id)
 #
 
 # Full conceptual meaning of 'override_associations' boolean:
@@ -45,7 +45,7 @@ class Question < ActiveRecord::Base
     siblings sibling_ids self_and_siblings descendants descendant_ids
     self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
-  belongs_to :loan_question_set
+  belongs_to :question_set
   belongs_to :division
 
   # Used for Questions to LoanTypes(Options) associations which imply a required
@@ -81,7 +81,7 @@ class Question < ActiveRecord::Base
   end
 
   def name
-    "#{loan_question_set.internal_name}-#{internal_name}"
+    "#{question_set.internal_name}-#{internal_name}"
   end
 
   def attribute_sym

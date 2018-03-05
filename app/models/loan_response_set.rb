@@ -34,7 +34,7 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   def question_set
-    @question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
+    @question_set ||= QuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   def root_response

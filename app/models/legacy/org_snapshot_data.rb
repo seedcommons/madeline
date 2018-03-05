@@ -3,7 +3,7 @@ module Legacy
     establish_connection :legacy
 
     def self.create_questions
-      defaults = { loan_question_set_id: 2 } # criteria
+      defaults = { question_set_id: 2 } # criteria
       criteria_root = ::LoanQuestionSet.find(2).questions.root
       parent = ::Question.create(defaults.merge data_type: 'group', label: "[Migrated from loan fields]", parent: criteria_root)
       defaults.merge! parent: parent, data_type: 'number'

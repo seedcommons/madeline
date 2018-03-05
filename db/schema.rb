@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305125758) do
+ActiveRecord::Schema.define(version: 20180305135643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -165,12 +165,6 @@ ActiveRecord::Schema.define(version: 20180305125758) do
     t.decimal "amount"
     t.integer "option_id"
     t.integer "question_id"
-  end
-
-  create_table "loan_question_sets", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "internal_name"
-    t.datetime "updated_at", null: false
   end
 
   create_table "loan_response_sets", id: :serial, force: :cascade do |t|
@@ -336,22 +330,28 @@ ActiveRecord::Schema.define(version: 20180305125758) do
     t.index ["descendant_id"], name: "custom_field_desc_idx"
   end
 
+  create_table "question_sets", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "internal_name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "questions", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "data_type", null: false
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
     t.string "internal_name"
-    t.integer "loan_question_set_id"
     t.integer "migration_position"
     t.integer "number"
     t.boolean "override_associations", default: false, null: false
     t.integer "parent_id"
     t.integer "position"
+    t.integer "question_set_id"
     t.boolean "required", default: false, null: false
     t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
-    t.index ["loan_question_set_id"], name: "index_questions_on_loan_question_set_id"
+    t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -461,7 +461,7 @@ ActiveRecord::Schema.define(version: 20180305125758) do
   add_foreign_key "projects", "people", column: "primary_agent_id"
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
-  add_foreign_key "questions", "loan_question_sets"
+  add_foreign_key "questions", "question_sets"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"

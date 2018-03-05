@@ -5,7 +5,7 @@ module QuestionSpecHelpers
     let!(:lt2) { create(:option, option_set: loan_type_set, value: 'lt2', label_translations: {en: 'Loan Type Two'}) }
     let!(:loan1) { create(:loan, loan_type_value: lt1.value)}
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
-    let!(:qset) { create(:loan_question_set, internal_name: 'loan_criteria') }
+    let!(:qset) { create(:question_set, internal_name: 'loan_criteria') }
     let!(:root) { qset.root_group }
     let(:rset) { build(:loan_response_set, loan: loan1) }
 
@@ -79,7 +79,7 @@ module QuestionSpecHelpers
     loan_types: nil, **args)
 
     create(:question,
-      loan_question_set: set,
+      question_set: set,
       status: status,
       internal_name: name,
       data_type: type,

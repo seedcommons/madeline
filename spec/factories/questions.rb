@@ -8,29 +8,29 @@
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
-#  loan_question_set_id  :integer
 #  migration_position    :integer
 #  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
+#  question_set_id       :integer
 #  required              :boolean          default(FALSE), not null
 #  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_question_set_id  (question_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_...  (question_set_id => question_sets.id)
 #
 
 FactoryBot.define do
   factory :question do
     division { root_division }
-    loan_question_set
+    question_set
     internal_name Faker::Lorem.words(2).join('_').downcase
     data_type Question::DATA_TYPES.sample
     position [1..10].sample

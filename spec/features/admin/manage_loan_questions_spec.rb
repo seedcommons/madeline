@@ -5,7 +5,7 @@ feature 'manage loan questions', js: true do
   let!(:d1) { create(:division) }
   let(:user) { create(:user, :admin, division: d1) }
   let(:d11) { create(:division, parent: d1) }
-  let!(:qset) { create(:loan_question_set, internal_name: 'loan_criteria') }
+  let!(:qset) { create(:question_set, internal_name: 'loan_criteria') }
   let!(:q1) { create_question(division: d1, type: :string, parent: qset.root_group) }
 
   let!(:g11) { create_group(division: d11, parent: qset.root_group) }

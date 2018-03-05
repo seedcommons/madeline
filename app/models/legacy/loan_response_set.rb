@@ -32,14 +32,14 @@ module Legacy
         # puts "response id: #{response.id} - question id: #{response.question_id}"
         field = ::Question.find_by(id: response.question_id)
         if field
-          # puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
-          model = models[field.loan_question_set.internal_name]
+          # puts "question_id: #{response.question_id} - set: #{field.question_set.internal_name}"
+          model = models[field.question_set.internal_name]
           unless model
-            match = /loan_(.*)/.match(field.loan_question_set.internal_name)
-            raise "unexpected custom field set name: #{field.loan_question_set.internal_name}" unless match
+            match = /loan_(.*)/.match(field.question_set.internal_name)
+            raise "unexpected custom field set name: #{field.question_set.internal_name}" unless match
             attrib = match[1]
             model = loan.send(attrib) || ::LoanResponseSet.new(kind: attrib, loan: loan, custom_data: {})
-            models[field.loan_question_set.internal_name] = model
+            models[field.question_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"
           value_hash = response.value_hash

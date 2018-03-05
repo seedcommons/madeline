@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe RecalculateLoanHealthJob do
-  let!(:criteria_question_set) { create(:loan_question_set, :loan_criteria) }
+  let!(:criteria_question_set) { create(:question_set, :loan_criteria) }
   let(:loan) { create(:loan, :prospective, :with_criteria_responses) }
 
   # A health check object gets generated on before_create
