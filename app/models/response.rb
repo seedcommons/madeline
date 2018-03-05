@@ -1,5 +1,5 @@
 # Represents multi-value loan criteria or post analysis questionnaire response.
-class LoanResponse
+class Response
   include ProgressCalculable
 
   attr_accessor :loan, :question, :loan_response_set, :text, :string, :number, :boolean,
@@ -21,7 +21,7 @@ class LoanResponse
   end
 
   def model_name
-    'LoanResponse'
+    'Response'
   end
 
   def linked_document

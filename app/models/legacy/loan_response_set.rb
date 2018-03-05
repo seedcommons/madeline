@@ -26,7 +26,7 @@ module Legacy
       # Cache of criteria and post_analysis value sets.
       models = {}
 
-      responses = LoanResponse.where("ResponseSetID = ?", response_set_id)
+      responses = Response.where("ResponseSetID = ?", response_set_id)
       puts "responses count: #{responses.count}"
       responses.each do |response|
         # puts "response id: #{response.id} - question id: #{response.question_id}"

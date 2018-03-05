@@ -42,11 +42,11 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   # Fetches a custom value from the json field.
-  # Ensures `question` is decorated before passing to LoanResponse.
+  # Ensures `question` is decorated before passing to Response.
   def response(question)
     question = ensure_decorated(question)
     raw_value = (custom_data || {})[question.json_key]
-    LoanResponse.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
+    Response.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.

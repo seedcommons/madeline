@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe LoanResponse do
+describe Response do
   let(:question) { create(:question, data_type: type) }
   let(:response) do
-    LoanResponse.new(
+    Response.new(
       loan: nil,
       question: question,
       loan_response_set: nil,
@@ -33,8 +33,8 @@ describe LoanResponse do
       let(:type) { 'group' }
       let(:q1) { create(:question, parent: question, data_type: 'number') }
       let(:q2) { create(:question, parent: question, data_type: 'number') }
-      let(:r1) { LoanResponse.new(loan: nil, question: q1, loan_response_set: nil, data: data1) }
-      let(:r2) { LoanResponse.new(loan: nil, question: q2, loan_response_set: nil, data: data2) }
+      let(:r1) { Response.new(loan: nil, question: q1, loan_response_set: nil, data: data1) }
+      let(:r2) { Response.new(loan: nil, question: q2, loan_response_set: nil, data: data2) }
       let(:data) { {} }
       let(:data1) { {} }
 
