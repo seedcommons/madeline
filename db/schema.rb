@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,8 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305115119) do
-
+ActiveRecord::Schema.define(version: 20180305125758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -160,18 +161,10 @@ ActiveRecord::Schema.define(version: 20180305115119) do
     t.index ["loan_id"], name: "index_loan_health_checks_on_loan_id"
   end
 
-  create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id", null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations", null: false
-    t.index ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true
-    t.index ["descendant_id"], name: "custom_field_desc_idx"
-  end
-
   create_table "loan_question_requirements", id: :serial, force: :cascade do |t|
     t.decimal "amount"
-    t.integer "loan_question_id"
     t.integer "option_id"
+    t.integer "question_id"
   end
 
   create_table "loan_question_sets", id: :serial, force: :cascade do |t|
@@ -333,6 +326,14 @@ ActiveRecord::Schema.define(version: 20180305115119) do
     t.index ["currency_id"], name: "index_projects_on_currency_id"
     t.index ["division_id"], name: "index_projects_on_division_id"
     t.index ["organization_id"], name: "index_projects_on_organization_id"
+  end
+
+  create_table "question_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "custom_field_desc_idx"
   end
 
   create_table "questions", id: :serial, force: :cascade do |t|

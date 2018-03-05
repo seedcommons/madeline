@@ -78,7 +78,7 @@ module QuestionSpecHelpers
   def create_question(set: qset, status: 'active', name: "", type:, override: true, required: false,
     loan_types: nil, **args)
 
-    create(:loan_question,
+    create(:question,
       loan_question_set: set,
       status: status,
       internal_name: name,

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_questions
+# Table name: questions
 #
 #  created_at            :datetime         not null
 #  data_type             :string           not null
@@ -20,7 +20,7 @@
 #
 # Indexes
 #
-#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_loan_question_set_id  (loan_question_set_id)
 #
 # Foreign Keys
 #
@@ -28,11 +28,11 @@
 #
 
 FactoryBot.define do
-  factory :loan_question do
+  factory :question do
     division { root_division }
     loan_question_set
     internal_name Faker::Lorem.words(2).join('_').downcase
-    data_type LoanQuestion::DATA_TYPES.sample
+    data_type Question::DATA_TYPES.sample
     position [1..10].sample
     status 'active'
     parent nil

@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         get :duplicate
       end
     end
-    resources :loan_questions do
+    resources :questions do
       patch 'move', on: :member
     end
     resources :notes, only: [:create, :update, :destroy]

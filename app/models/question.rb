@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_questions
+# Table name: questions
 #
 #  created_at            :datetime         not null
 #  data_type             :string           not null
@@ -20,7 +20,7 @@
 #
 # Indexes
 #
-#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_loan_question_set_id  (loan_question_set_id)
 #
 # Foreign Keys
 #
@@ -32,7 +32,7 @@
 # parent question"
 
 
-class LoanQuestion < ActiveRecord::Base
+class Question < ActiveRecord::Base
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
@@ -48,7 +48,7 @@ class LoanQuestion < ActiveRecord::Base
   belongs_to :loan_question_set
   belongs_to :division
 
-  # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
+  # Used for Questions to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :loan_question_requirements, dependent: :destroy
   accepts_nested_attributes_for :loan_question_requirements, allow_destroy: true
@@ -175,11 +175,11 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def update_numbers_for_parent(parent_id)
-    self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
+    self.class.connection.execute("UPDATE questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
-      FROM loan_questions
+      FROM questions
       WHERE parent_id = #{parent_id} AND status = 'active'
-    ) AS t WHERE loan_questions.id = t.id")
+    ) AS t WHERE questions.id = t.id")
   end
 
   private

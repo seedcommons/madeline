@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class LoanQuestion < ActiveRecord::Base
+  class Question < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
 
@@ -11,7 +11,7 @@ module Legacy
       puts "loan questions: #{ self.count }"
       (1..4).each{ |set_id| migrate_set(set_id) }
       # self.all.each &:migrate
-      ::LoanQuestion.recalibrate_sequence
+      ::Question.recalibrate_sequence
       ::LoanQuestionSet.create_root_groups!
     end
 
@@ -23,8 +23,8 @@ module Legacy
     end
 
     def self.purge_migrated
-      puts "LoanQuestion.destroy_all"
-      ::LoanQuestion.where("loan_question_set_id <= 4").destroy_all
+      puts "Question.destroy_all"
+      ::Question.where("loan_question_set_id <= 4").destroy_all
     end
 
     def parent_id
@@ -71,7 +71,7 @@ module Legacy
       #   puts "skipping loan question with 0 Orden - id: #{id}"
       #   return
       # end
-      # if LoanQuestion.where("Active = :active and Orden = :orden and Grupo = :grupo and id > :id",
+      # if Question.where("Active = :active and Orden = :orden and Grupo = :grupo and id > :id",
       #   {active: active, orden: orden, grupo: grupo, id: id}).exists?
       #   puts "skipping loan question shadowed by same Orden value - id: #{id}"
       #   return
@@ -81,7 +81,7 @@ module Legacy
       # puts "#{data[:id]}: #{data[:label_es]}"
       label_es = data.delete(:label_es)
       label_en = data.delete(:label_en)
-      model = ::LoanQuestion.new(data)
+      model = ::Question.new(data)
       model.set_translation(:label, label_es, locale: :es) if label_es.present?
       model.set_translation(:label, label_en, locale: :en) if label_en.present?
       model.save!
@@ -90,7 +90,7 @@ module Legacy
     end
 
     def migrate_children
-      LoanQuestion.where("NewGroup = :parent_id",
+      Question.where("NewGroup = :parent_id",
         {parent_id: id}).order('NewOrder').each do |record|
         record.migrate
       end

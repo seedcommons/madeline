@@ -1,4 +1,4 @@
-class LoanQuestionPolicy < ApplicationPolicy
+class QuestionPolicy < ApplicationPolicy
   def move?
     update?
   end

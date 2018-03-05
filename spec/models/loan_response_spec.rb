@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe LoanResponse do
-  let(:question) { create(:loan_question, data_type: type) }
+  let(:question) { create(:question, data_type: type) }
   let(:response) do
     LoanResponse.new(
       loan: nil,
@@ -31,8 +31,8 @@ describe LoanResponse do
 
     context 'for group questions' do
       let(:type) { 'group' }
-      let(:q1) { create(:loan_question, parent: question, data_type: 'number') }
-      let(:q2) { create(:loan_question, parent: question, data_type: 'number') }
+      let(:q1) { create(:question, parent: question, data_type: 'number') }
+      let(:q2) { create(:question, parent: question, data_type: 'number') }
       let(:r1) { LoanResponse.new(loan: nil, question: q1, loan_response_set: nil, data: data1) }
       let(:r2) { LoanResponse.new(loan: nil, question: q2, loan_response_set: nil, data: data2) }
       let(:data) { {} }

@@ -29,11 +29,11 @@
 
 require 'rails_helper'
 
-describe LoanQuestion, :type => :model do
+describe Question, :type => :model do
   let!(:division) { create(:division) }
 
   it 'has a valid factory' do
-    expect(create(:loan_question)).to be_valid
+    expect(create(:question)).to be_valid
   end
 
   describe 'position' do

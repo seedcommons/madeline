@@ -23,7 +23,7 @@ feature 'manage loan questions', js: true do
 
     login_as user
 
-    visit admin_loan_questions_path
+    visit admin_questions_path
   end
 
   scenario 'parent division selected' do

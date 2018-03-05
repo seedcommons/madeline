@@ -27,7 +27,7 @@
 #  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
 #
 
-class LoanQuestionSerializer < ActiveModel::Serializer
+class QuestionSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status,
     :can_edit
 

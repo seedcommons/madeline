@@ -5,17 +5,11 @@ module Legacy
     establish_connection :legacy
     include LegacyModel
 
-    def loan_question
-      LoanQuestion.where(id: question_id).first
+    def question
+      Question.where(id: question_id).first
     end
-
-    def loan_question_active
-      LoanQuestion.where(id: question_id).pluck(:active).first
-    end
-
 
     def value_hash
-      question = loan_question
       key = question.try(:data_type) == 'number' ? :number : :text
       result = {}
       # Note, numbers will be encoded as JSON strings, but this is by design since

@@ -30,25 +30,25 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     'tree.move .jqtree': 'moveNode'
     'click .delete-action': 'confirmDelete'
     'confirm:complete .delete-action': 'deleteNode'
-    'change [name="loan_question[override_associations]"]': 'showHideAssociations'
+    'change [name="question[override_associations]"]': 'showHideAssociations'
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
     set = URI(window.location.href).query(true)['filter'] || 'criteria'
-    @$('#edit-modal .modal-content').load "/admin/loan_questions/new?set=#{set}&parent_id=#{parent_id}", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{set}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->
     id = @$(e.target).closest('li').data('id')
-    @$('#edit-modal .modal-content').load "/admin/loan_questions/#{id}/edit", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/#{id}/edit", =>
       @showModal()
 
   showModal: ->
     @$('#edit-modal').modal('show')
-    new MS.Views.TranslationsView(el: $('[data-content-translatable="loan_question"]'))
+    new MS.Views.TranslationsView(el: $('[data-content-translatable="question"]'))
     # Use current value of override parent to determine if loan types are shown
-    @$('[name="loan_question[override_associations]"]').trigger('change')
+    @$('[name="question[override_associations]"]').trigger('change')
 
   createNode: (e) ->
     $form = @$(e.target).closest('form')
@@ -88,7 +88,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
       target: e.move_info.target_node.id
       relation: e.move_info.position # before, after, or inside
 
-    $.post("/admin/loan_questions/#{id}/move", data)
+    $.post("/admin/questions/#{id}/move", data)
     .done (response) =>
       @refreshTree(response)
     .fail (response) ->
@@ -99,14 +99,14 @@ class MS.Views.LoanQuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
     @$(e.target).closest('a').attr('data-confirm',
-      I18n.t("loan_questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
+      I18n.t("questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
 
   deleteNode: (e, resp) ->
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
 
     if (resp)
-      $.ajax(type: "DELETE", url: "/admin/loan_questions/#{id}")
+      $.ajax(type: "DELETE", url: "/admin/questions/#{id}")
       .done (response) =>
         @refreshTree(response)
       .fail (response) ->
@@ -149,7 +149,7 @@ class MS.Views.LoanQuestionsView extends Backbone.View
 
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) =>
-      message = I18n.t('loan_questions.not_editable')
+      message = I18n.t('questions.not_editable')
 
       @$(tip).addClass('ms-popover').popover
         content: message
