@@ -18,7 +18,7 @@ Country.recalibrate_sequence
 
 OptionSetCreator.new.create_all
 
-# Need to leave room for migrated loan questions
+# Need to leave room for migrated questions
 # Can remove this line once migration is over with.
 LoanQuestion.recalibrate_sequence(id: 300)
 

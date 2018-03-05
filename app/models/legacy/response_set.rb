@@ -6,7 +6,7 @@ module Legacy
     include LegacyModel
 
     def self.migrate_all
-      puts "loan response sets: #{self.count}"
+      puts "response sets: #{self.count}"
       all.each(&:migrate)
     end
 

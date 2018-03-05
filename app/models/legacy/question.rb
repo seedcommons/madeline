@@ -8,7 +8,7 @@ module Legacy
     remove_method :id, :question
 
     def self.migrate_all
-      puts "loan questions: #{ self.count }"
+      puts " questions: #{ self.count }"
       (1..4).each{ |set_id| migrate_set(set_id) }
       # self.all.each &:migrate
       ::Question.recalibrate_sequence
@@ -64,16 +64,16 @@ module Legacy
     def migrate
       # Assuming that source data will be manually cleaned up before final migration.
       # if grupo.blank? && data_type != 'group'
-      #   puts "skipping loan question without parent but not a group type - id: #{id}"
+      #   puts "skipping question without parent but not a group type - id: #{id}"
       #   return
       # end
       # if orden.blank? || orden == 0
-      #   puts "skipping loan question with 0 Orden - id: #{id}"
+      #   puts "skipping question with 0 Orden - id: #{id}"
       #   return
       # end
       # if Question.where("Active = :active and Orden = :orden and Grupo = :grupo and id > :id",
       #   {active: active, orden: orden, grupo: grupo, id: id}).exists?
-      #   puts "skipping loan question shadowed by same Orden value - id: #{id}"
+      #   puts "skipping question shadowed by same Orden value - id: #{id}"
       #   return
       # end
 

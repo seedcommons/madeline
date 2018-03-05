@@ -137,7 +137,7 @@ class Question < ActiveRecord::Base
     id.to_s
   end
 
-  # For table of loan types on loan question edit. Returns a complete set of requirement
+  # For table of loan types on question edit. Returns a complete set of requirement
   # objects, one for each loan type, whether it already exists or not.
   def build_complete_requirements
     (Loan.loan_type_option_set.options - loan_question_requirements.map(&:loan_type)).each do |lt|
