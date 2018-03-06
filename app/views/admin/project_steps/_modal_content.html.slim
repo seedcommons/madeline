@@ -83,6 +83,8 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         = f.input :old_start_date
           - if policy(@step).edit_finalized_dates?
             = f.input_field :old_start_date, as: :date_picker
+            .view-element
+              = ldate(@step.old_start_date)
           - else
             .static-text-as-field = ldate(@step.old_start_date)
 
@@ -94,15 +96,21 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
       - if @step.old_duration_days && @step.old_duration_days > 0 && @step.is_finalized?
         = f.input :old_duration_days
           - if policy(@step).edit_finalized_dates?
-            = f.input_field :old_duration_days
-            = t("project_step.days")
+            .view-element
+              = @step.old_duration_days
+              =< t("project_step.days")
+            .form-element
+              = f.input_field :old_duration_days
+              = t("project_step.days")
           - else
             .static-text-as-field 
               = @step.old_duration_days
-              = t("project_step.days")
+              =< t("project_step.days")
 
       = f.input "duration"
-        .view-element = @step.scheduled_duration_days
+        .view-element
+          = @step.scheduled_duration_days
+          =< t("project_step.days")
         .form-element
           = f.input_field :scheduled_duration_days
           = t("project_step.days")

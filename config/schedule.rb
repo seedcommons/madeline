@@ -1,4 +1,6 @@
-every 1.day, at: '3:00' do
+set :output, 'log/cron.log'
+
+every 1.day, at: '3am' do
   runner 'RecalculateAllLoanHealthJob.perform_later'
 end
 

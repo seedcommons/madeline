@@ -84,8 +84,10 @@ class CalendarEvent
   end
 
   def self.project_step_date_filter(range, scope = ProjectStep, project_id)
-    scoped_steps = scope.where("scheduled_start_date <= :last AND "\
-      "COALESCE(actual_end_date, scheduled_start_date + scheduled_duration_days) >= :first",
+    scoped_steps = scope.where(
+      "COALESCE(actual_end_date, scheduled_start_date + scheduled_duration_days) >= :first AND "\
+      "scheduled_start_date <= :last OR "\
+      "scheduled_start_date BETWEEN :first AND :last",
       first: range.first, last: range.last)
 
     # Only show draft steps on project-specific calendar
