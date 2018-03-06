@@ -10,8 +10,8 @@ describe Accounting::InterestCalculator do
       project: loan, txn_date: "2017-01-01", division: division) }
     let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
       project: loan, txn_date: "2017-01-04", division: division) }
-    let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 17.50,
-      project: loan, txn_date: "2017-01-04", division: division) }
+    let!(:t2) { create(:accounting_transaction, :unmanaged, loan_transaction_type_value: "disbursement",
+      amount: 17.50, project: loan, txn_date: "2017-01-04", division: division) }
     let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
       project: loan, txn_date: "2017-01-31", division: division) }
     let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 0.50,
@@ -29,8 +29,14 @@ describe Accounting::InterestCalculator do
         # Initial computation
         recalculate_and_reload
 
-        # All transactions should get their push flags set because they didn't have any line items before.
-        expect(all_txns.map(&:needs_qb_push).uniq).to eq [true]
+        # All transactions except t2 should get their push flags set because they didn't have any line items before.
+        # t2 is not managed
+        expect(t0.needs_qb_push).to be_truthy
+        expect(t1.needs_qb_push).to be_truthy
+        expect(t2.needs_qb_push).to be_falsey
+        expect(t3.needs_qb_push).to be_truthy
+        expect(t4.needs_qb_push).to be_truthy
+        expect(t5.needs_qb_push).to be_truthy
 
         # t0 --------------------------------------------------------
         expect(t0.line_items.size).to eq(2)
