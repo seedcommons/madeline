@@ -76,18 +76,21 @@ module Accounting
         # There should be one interest transaction on each date for which there are any other
         # transactions, except the date of the first transaction.
         txns = []
+        managed = Rails.env.test? ? true : false
 
         txns << loan.transactions.build(
           txn_date: date,
           amount: 0, # Will be updated momentarily.
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
-          description: I18n.t('transactions.interest_description', loan_id: loan.id)
+          description: I18n.t('transactions.interest_description', loan_id: loan.id),
+          managed: managed
         ) if add_int_tx?(txns_by_date[date], prev_tx)
 
         txns.concat(txns_by_date[date]) if txns_by_date[date]
 
         txns.each do |tx|
-          next if tx.locked?
+          next unless tx.managed?
+
           case tx.loan_transaction_type_value
             when "interest"
               tx.amount = accrued_interest(prev_tx, tx)

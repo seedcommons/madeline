@@ -10,7 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
-#  locked                      :boolean          default(TRUE), not null
+#  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
@@ -54,6 +54,7 @@ FactoryBot.define do
     amount { Faker::Number.decimal(4, 2) }
     account
     project
+    managed true
 
     trait :interest do
       loan_transaction_type_value 'interest'
@@ -106,6 +107,10 @@ FactoryBot.define do
         create(:line_item, parent_transaction: txn, account: evaluator.division.principal_account,
           posting_type: 'credit', amount: evaluator.amount.to_f / 2)
       end
+    end
+
+    trait :unmanaged do
+      managed false
     end
   end
 end

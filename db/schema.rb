@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222124353) do
+ActiveRecord::Schema.define(version: 20180306112918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20180222124353) do
     t.decimal "total"
     t.date "txn_date"
     t.datetime "updated_at", null: false
-    t.boolean "locked", default: true, null: false
+    t.boolean "managed", default: false, null: false
     t.index ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id"
     t.index ["currency_id"], name: "index_accounting_transactions_on_currency_id"
     t.index ["project_id"], name: "index_accounting_transactions_on_project_id"
