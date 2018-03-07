@@ -5,7 +5,7 @@ set :application, 'madeline'
 
 # If you have problems deploying, use the below https url instead
 # set :repo_url, 'https://github.com/sassafrastech/madeline.git'
-set :repo_url, 'git@github.com:sassafrastech/madeline_system.git'
+set :repo_url, 'git@github.com:sassafrastech/madeline.git'
 
 set :tmp_dir, '/home/deploy/tmp'
 
