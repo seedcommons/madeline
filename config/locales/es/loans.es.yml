@@ -86,6 +86,7 @@ es:
     threshold_amount: "Monto Umbral"
     toc: "Índice de contenidos"
     transactions: "Transacciones"
+    transactions_old: "Transacciones (sistema viejo)"
     transaction_new_disbursement: "Nuevo Desembolso"
     transaction_new_repayment: "Nueva Devolución"
     transaction_schedule: "Movimientos"
@@ -160,7 +161,7 @@ es:
       total_net_margin: "Total de Margen Neto"
       total_fixed_costs: "Costos Fijos Totales"
     response_set:
-      conflicting_changes: 'Advertencia: Los datos han cambiado desde que los cargste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez debas confirmar con esa persona lo que cambiaron o <a href="%{link}" target="_blank">abrir los datos más recientes en una pestaña nueva</a> para comparar. Puedes guardar tus cambios de todas maneras, pero todos los otros cambios desde que cargaste la página se perderán. '
+      conflicting_changes_html: 'Advertencia: Los datos han cambiado desde la última vez que los cargaste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez quieras confirmar con ellxs qué cambiaron o <a href="%{link}" target="_blank">abrir la información más reciente en una pestaña nueva </a> para comparar.  Puedes grabar tus cambios de todas maneras, pero todos los otros cambios desde que actualizaste la página se perderán. '
       discard_reload: "Descartar Mis Cambios y Recargar"
       overwrite_changes: "Guardar Mis Cambios y Borrar Los Otros"
   breakeven_table_question:
