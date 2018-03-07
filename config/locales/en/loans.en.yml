@@ -3,6 +3,8 @@ en:
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
     agent:
+      primary: 'Primary Agent'
+      secondary: 'Secondary Agent'
       one: "Agent"
       other: "Agents"
     amount: "Amount"

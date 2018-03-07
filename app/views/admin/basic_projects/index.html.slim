@@ -20,10 +20,15 @@
         .filter-content
           = grid_filter(@basic_projects_grid, :status_filter)
 
-      .filter.larger-text-box
-        label = t('basic_project.agent', count: 1)
+      .filter
+        label = t('activerecord.attributes.basic_project.primary_agent')
         .filter-content
-          = grid_filter(@basic_projects_grid, :agent_filter)
+          = grid_filter(@basic_projects_grid, :pry_agent_filter)
+
+      .filter
+        label = t('activerecord.attributes.basic_project.secondary_agent')
+        .filter-content
+          = grid_filter(@basic_projects_grid, :sec_agent_filter)
 
       .filter
         label = t("activerecord.attributes.basic_project.signing_date")

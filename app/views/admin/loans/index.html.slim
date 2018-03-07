@@ -45,10 +45,15 @@
         .filter-content.dates
           = grid_filter(@loans_grid, :end_date_filter)
 
-      .filter.larger-text-box
-        label = t("loan.agent", count: 1)
+      .filter
+        label = t("loan.agent.primary", count: 1)
         .filter-content
-          = grid_filter(@loans_grid, :agent_filter)
+          = grid_filter(@loans_grid, :pry_agent_filter)
+
+      .filter
+        label = t("loan.agent.secondary", count: 1)
+        .filter-content
+          = grid_filter(@loans_grid, :sec_agent_filter)
 
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="loans"

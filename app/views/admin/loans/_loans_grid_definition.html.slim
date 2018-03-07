@@ -41,9 +41,15 @@
     - g.column name: t('activerecord.attributes.loan.currency'), attribute: 'symbol',
       assoc: :currency, filter: false, in_html: false
 
-    - g.column name: t('loan.agent', count: 2), in_csv: false, attribute: 'name', assoc: :primary_agent,
-      filter: true, in_html: true, filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |loan|
-      - loan.display_agent_names
+    / Wice grid filters by db column. Having either primary_agent or secondary_agent will cause the agents to
+      be filtered by that one column so the filter is incomplete
+    / According to https://github.com/leikind/wice_grid/issues/216, the solution would be to create another column
+    - g.column name: t('loan.agent.primary', count: 1), attribute: 'primary_agent_id',
+      custom_filter: Person.filter_in_division(selected_division), detach_with_id: :pry_agent_filter do |loan|
+      - loan.primary_agent.try(:name)
+    - g.column name: t('loan.agent.secondary', count: 1), attribute: 'secondary_agent_id',
+      custom_filter: Person.filter_in_division(selected_division), detach_with_id: :sec_agent_filter do |loan|
+      - loan.secondary_agent.try(:name)
 
     / These need use a custom format, otherwise they will confuse the :custom_agent_filter
     - g.column name: t('activerecord.attributes.loan.primary_agent'), filter: false, in_html: false do |loan|

@@ -16,10 +16,16 @@
       detach_with_id: :status_filter do |project|
       - project.status
 
-    - g.column name: t('basic_project.agent', count: 2), attribute: 'name',
-      assoc: :primary_agent, in_html: true, in_csv: false, filter: true,
-      filter_type: :custom_agent_filter, detach_with_id: :agent_filter do |project|
-      - project.display_agent_names
+    / Wice grid filters by db column. Having either primary_agent or secondary_agent will cause the agents to
+      be filtered by that one column so the filter is incomplete
+    / According to https://github.com/leikind/wice_grid/issues/216, the solution would be to create another column
+    - g.column name: t('loan.agent.primary', count: 2), attribute: 'primary_agent_id',
+      custom_filter: Person.filter_in_division(selected_division), detach_with_id: :pry_agent_filter do |project|
+      - project.primary_agent.try(:name)
+    - g.column name: t('loan.agent.secondary', count: 2), attribute: 'secondary_agent_id',
+      custom_filter: Person.filter_in_division(selected_division), detach_with_id: :sec_agent_filter do |project|
+      - project.secondary_agent.try(:name)
+
     - g.column name: t('activerecord.attributes.basic_project.primary_agent'), filter: false,
       in_html: false do |project|
       - project.primary_agent.try(:name)
