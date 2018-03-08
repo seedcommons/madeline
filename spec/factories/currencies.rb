@@ -17,6 +17,6 @@ FactoryBot.define do
     code "USD"
     symbol "US$"
     short_symbol "$"
-    country_Code "US"
+    country_code "US"
   end
 end
