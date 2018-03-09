@@ -27,6 +27,10 @@ module Accounting
       #
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
+        # Production uses a non-sandbox QuickBooks instance, which may or may not be active at any
+        # given point in time.
+        return if Rails.env.production? && !qb_connection
+
         raise NotConnectedError unless qb_connection
         return if too_soon_to_run_again?
 
