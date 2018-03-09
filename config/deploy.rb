@@ -52,9 +52,6 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads public/sy
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 set :whenever_environment, ->{ fetch(:rails_env) }
 
-# Set rbenv path
-set :rbenv_path, '/home/deploy/.rbenv/version'
-
 namespace :deploy do
 
   after :restart, :clear_cache do
