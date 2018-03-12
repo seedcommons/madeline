@@ -67,9 +67,9 @@ class Accounting::Transaction < ActiveRecord::Base
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  validates :loan_transaction_type_value, :txn_date, presence: true
-  validates :amount, presence: true, unless: :interest?
-  validates :accounting_account_id, presence: true, unless: :interest?
+  validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
+  validates :amount, presence: true, unless: :interest?, if: :managed?
+  validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
 
   delegate :division, :qb_division, to: :project
 

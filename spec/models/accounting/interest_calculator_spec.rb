@@ -10,7 +10,7 @@ describe Accounting::InterestCalculator do
       project: loan, txn_date: "2017-01-01", division: division) }
     let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
       project: loan, txn_date: "2017-01-04", division: division) }
-    let!(:t2) { create(:accounting_transaction, :unmanaged, loan_transaction_type_value: "disbursement",
+    let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement",
       amount: 17.50, project: loan, txn_date: "2017-01-04", division: division) }
     let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
       project: loan, txn_date: "2017-01-31", division: division) }
@@ -18,7 +18,9 @@ describe Accounting::InterestCalculator do
       project: loan, txn_date: "2017-01-31", division: division) }
     let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
       project: loan, txn_date: "2017-01-31", division: division) }
-    let(:all_txns) { [t0, t1, t2, t3, t4, t5] }
+    let!(:t6) { create(:accounting_transaction, :unmanaged, :repayment_with_line_items,
+      loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division) }
+    let(:all_txns) { [t0, t1, t2, t3, t4, t5, t6] }
     let!(:prin_acct) { division.principal_account }
     let!(:int_rcv_acct) { division.interest_receivable_account }
     let!(:int_inc_acct) { division.interest_income_account }
@@ -29,14 +31,9 @@ describe Accounting::InterestCalculator do
         # Initial computation
         recalculate_and_reload
 
-        # All transactions except t2 should get their push flags set because they didn't have any line items before.
-        # t2 is not managed
-        expect(t0.needs_qb_push).to be_truthy
-        expect(t1.needs_qb_push).to be_truthy
-        expect(t2.needs_qb_push).to be_falsey
-        expect(t3.needs_qb_push).to be_truthy
-        expect(t4.needs_qb_push).to be_truthy
-        expect(t5.needs_qb_push).to be_truthy
+        # All transactions except t6 should get their push flags set because they didn't have any line items before.
+        # t6 is not managed
+        expect(all_txns.map(&:needs_qb_push)).to eq [true, true, true, true, true, true, false]
 
         # t0 --------------------------------------------------------
         expect(t0.line_items.size).to eq(2)
@@ -119,6 +116,22 @@ describe Accounting::InterestCalculator do
         # balances
         expect(t5.reload.principal_balance).to equal_money(105.47) # 117.50 - 12.03
         expect(t5.reload.interest_balance).to equal_money(0.00)
+
+        # t6 --------------------------------------------------------
+        expect(t6.line_items.size).to eq(3)
+
+        # account details
+        expect(t6.line_item_for(t6.account).amount).to equal_money(23.7)
+        expect(t6.line_item_for(t6.account).posting_type).to eq('Debit')
+        expect(t6.line_item_for(int_rcv_acct).amount).to equal_money(11.85)
+        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(prin_acct).amount).to equal_money(11.85)
+        expect(t6.line_item_for(prin_acct).posting_type).to eq('Credit')
+
+        # balances
+        expect(t6.reload.principal_balance).to equal_money(93.62) # 105.47 - 11.85
+        expect(t6.reload.interest_balance).to equal_money(-11.85)
+
 
         ##############################################################################################
         # Recalculation after change of second disbursement to larger number
@@ -223,8 +236,26 @@ describe Accounting::InterestCalculator do
         expect(t5.needs_qb_push).to be true
 
         # balances
-        expect(t5.reload.principal_balance).to equal_money(152.50 - 11.83)
+        expect(t5.reload.principal_balance).to equal_money(140.67)
         expect(t5.reload.interest_balance).to equal_money(0.00)
+
+        # t6 --------------------------------------------------------
+        expect(t6.line_items.size).to eq(3)
+
+        # account details
+        expect(t6.line_item_for(t6.account).amount).to equal_money(23.7)
+        expect(t6.line_item_for(t6.account).posting_type).to eq('Debit')
+        expect(t6.line_item_for(int_rcv_acct).amount).to equal_money(11.85)
+        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(prin_acct).amount).to equal_money(11.85)
+        expect(t6.line_item_for(prin_acct).posting_type).to eq('Credit')
+
+        # The interest change above cascades down into this txn.
+        expect(t6.needs_qb_push).to be false
+
+        # balances
+        expect(t6.reload.principal_balance).to equal_money(128.82) # 140.67 - 11.85
+        expect(t6.reload.interest_balance).to equal_money(-11.85)
       end
     end
   end

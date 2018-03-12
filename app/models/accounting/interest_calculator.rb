@@ -76,85 +76,89 @@ module Accounting
         # There should be one interest transaction on each date for which there are any other
         # transactions, except the date of the first transaction.
         txns = []
-        managed = Rails.env.test? ? true : false
 
+        # this adds an interest transaction
+        # int txns should always be managed (for now)
         txns << loan.transactions.build(
           txn_date: date,
           amount: 0, # Will be updated momentarily.
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
           description: I18n.t('transactions.interest_description', loan_id: loan.id),
-          managed: managed
+          managed: true
         ) if add_int_tx?(txns_by_date[date], prev_tx)
 
         txns.concat(txns_by_date[date]) if txns_by_date[date]
 
         txns.each do |tx|
-          next unless tx.managed?
+          if tx.managed?
+            case tx.loan_transaction_type_value
+              when "interest"
+                tx.amount = accrued_interest(prev_tx, tx)
+                line_item_for(tx, int_rcv_acct).assign_attributes(
+                  qb_line_id: 0,
+                  posting_type: "Debit",
+                  amount: tx.amount
+                )
+                line_item_for(tx, int_inc_acct).assign_attributes(
+                  qb_line_id: 1,
+                  posting_type: "Credit",
+                  amount: tx.amount
+                )
 
-          case tx.loan_transaction_type_value
-            when "interest"
-              tx.amount = accrued_interest(prev_tx, tx)
-              line_item_for(tx, int_rcv_acct).assign_attributes(
-                qb_line_id: 0,
-                posting_type: "Debit",
-                amount: tx.amount
-              )
-              line_item_for(tx, int_inc_acct).assign_attributes(
-                qb_line_id: 1,
-                posting_type: "Credit",
-                amount: tx.amount
-              )
+              when "disbursement"
+                line_item_for(tx, prin_acct).assign_attributes(
+                  qb_line_id: 0,
+                  posting_type: "Debit",
+                  amount: tx.amount
+                )
+                line_item_for(tx, tx.account).assign_attributes(
+                  qb_line_id: 1,
+                  posting_type: "Credit",
+                  amount: tx.amount
+                )
 
-            when "disbursement"
-              line_item_for(tx, prin_acct).assign_attributes(
-                qb_line_id: 0,
-                posting_type: "Debit",
-                amount: tx.amount
-              )
-              line_item_for(tx, tx.account).assign_attributes(
-                qb_line_id: 1,
-                posting_type: "Credit",
-                amount: tx.amount
-              )
+              when "repayment"
+                int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
+                line_item_for(tx, tx.account).assign_attributes(
+                  qb_line_id: 0,
+                  posting_type: "Debit",
+                  amount: tx.amount
+                )
+                line_item_for(tx, prin_acct).assign_attributes(
+                  qb_line_id: 1,
+                  posting_type: "Credit",
+                  amount: tx.amount - int_part
+                )
+                line_item_for(tx, int_rcv_acct).assign_attributes(
+                  qb_line_id: 2,
+                  posting_type: "Credit",
+                  amount: int_part
+                )
+            end
 
-            when "repayment"
-              int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-              line_item_for(tx, tx.account).assign_attributes(
-                qb_line_id: 0,
-                posting_type: "Debit",
-                amount: tx.amount
-              )
-              line_item_for(tx, prin_acct).assign_attributes(
-                qb_line_id: 1,
-                posting_type: "Credit",
-                amount: tx.amount - int_part
-              )
-              line_item_for(tx, int_rcv_acct).assign_attributes(
-                qb_line_id: 2,
-                posting_type: "Credit",
-                amount: int_part
-              )
+            # Since we may have just adjusted line items upon which the change_in_principal and
+            # change_in_interest depend, it is important that we recalculate balances now.
+            tx.calculate_balances(prev_tx: prev_tx)
+
+            # Before we save, check if the transaction's line items have changed and
+            # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
+            # don't need to get pushed. Therefore we don't need to check changes on the transaction
+            # object itself, just the line items.
+            #
+            # Note that if the flag is already set we leave it as true even if no changes
+            # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
+            # even if we don't change anything here.
+            tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
+
+            # This should save the transaction and all its line items.
+            tx.save!
+
+            # Create/update the transaction in quickbooks if necessary.
+            reconciler.reconcile(tx)
+          else
+            tx.calculate_balances(prev_tx: prev_tx)
+            tx.save!
           end
-
-          # Since we may have just adjusted line items upon which the change_in_principal and
-          # change_in_interest depend, it is important that we recalculate balances now.
-          tx.calculate_balances(prev_tx: prev_tx)
-
-          # Before we save, check if the transaction's line items have changed and
-          # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
-          # don't need to get pushed. Therefore we don't need to check changes on the transaction
-          # object itself, just the line items.
-          #
-          # Note that if the flag is already set we leave it as true even if no changes
-          # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
-          # even if we don't change anything here.
-          tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
-
-          # This should save the transaction and all its line items.
-          tx.save!
-
-          # Create/update the transaction in quickbooks if necessary.
-          reconciler.reconcile(tx)
 
           prev_tx = tx
         end
