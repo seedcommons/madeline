@@ -145,9 +145,10 @@ group :development do
 
   # Deployment
   gem 'capistrano3-delayed-job', '~> 1.0'
-  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+  gem 'capistrano-rbenv', '~> 2.1'
 
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
