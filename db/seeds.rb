@@ -5,17 +5,17 @@ Division.root.destroy if Division.root.present?
 Division.create(id: 99, name: 'Root Division') unless Division.root
 Division.recalibrate_sequence(gap: 1)
 
-Currency.find_or_create_by(id: 1,name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$',
+Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$',
   short_symbol: '$', country_code: 'AR')
-Currency.find_or_create_by(id: 2,name: 'U.S. Dollar', code: 'USD', symbol: 'US$',
+Currency.find_or_create_by(id: 2, name: 'U.S. Dollar', code: 'USD', symbol: 'US$',
   short_symbol: '$', country_code: 'US')
-Currency.find_or_create_by(id: 3,name: 'British Pound', code: 'GBP', symbol: 'GB£',
+Currency.find_or_create_by(id: 3, name: 'British Pound', code: 'GBP', symbol: 'GB£',
   short_symbol: '£', country_code: 'GB')
-Currency.find_or_create_by(id: 4,name: 'Nicaraguan Cordoba', code: 'NIO', symbol: 'NIC$',
+Currency.find_or_create_by(id: 4, name: 'Nicaraguan Cordoba', code: 'NIO', symbol: 'NIC$',
   short_symbol: 'C$', country_code: 'NI')
-Currency.find_or_create_by(id: 5,name: 'Mexican Peso', code: 'MXN', symbol: 'MX$',
+Currency.find_or_create_by(id: 5, name: 'Mexican Peso', code: 'MXN', symbol: 'MX$',
   short_symbol: '$', country_code: 'MX')
-Currency.find_or_create_by(id: 6,name: 'Guatemalan Quetzal', code: 'GTQ', symbol: 'GTQ',
+Currency.find_or_create_by(id: 6, name: 'Guatemalan Quetzal', code: 'GTQ', symbol: 'GTQ',
   short_symbol: 'Q', country_code: 'GT')
 Currency.recalibrate_sequence
 
