@@ -16,7 +16,7 @@ module WordpressTemplate
   end
 
   def self.process_template(division:, html:)
-    file_path = Rails.root.join('app', 'layouts', 'public', 'wordpress', Rails.env)
+    file_path = Rails.root.join('app', 'views', 'layouts', 'public', 'wordpress', Rails.env)
     file = File.join(file_path, "wordpress-#{division}.html.erb")
     additional_substitutions = [
       [/<div class="post-content">(.*?)<p>(.*?)<\/p>(.*?)<\/div>/m, '\1\2\3'],
