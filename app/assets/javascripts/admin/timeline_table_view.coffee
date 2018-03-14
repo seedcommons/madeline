@@ -136,7 +136,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     link = e.currentTarget
     $menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
     $(link).after($menu)
-    $menu.show()
+    $menu.toggle()
 
   hideStepMenu: (e) ->
     @hideMenu(e, 'step')
