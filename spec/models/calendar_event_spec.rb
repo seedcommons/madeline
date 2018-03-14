@@ -35,9 +35,12 @@ describe CalendarEvent, type: :model do
     # is in the range.
     let!(:step13) { create_step(start_date: "2018-01-15", end_date: "2018-01-20", duration: 30) }
 
+    # A step with only start date set - a draft
+    let!(:step14) { create_step(start_date: "2018-02-03") }
+
     it "should return the correct steps" do
       expect(CalendarEvent.project_step_date_filter(range, ProjectStep, nil)).
-        to contain_exactly(step1, step2, step3, step4, step7, step8, step9, step10)
+        to contain_exactly(step1, step2, step3, step4, step7, step8, step9, step10, step14)
     end
 
     def create_step(start_date:, end_date: nil, duration: nil)
