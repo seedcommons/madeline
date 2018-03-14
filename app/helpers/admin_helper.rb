@@ -54,17 +54,7 @@ module AdminHelper
   end
 
   def format_currency(amount, currency, tooltip: true)
-    # add space to currencies to make them pretty and readable
-    display_symbol =
-      if currency && currency.name == 'Nicaraguan Cordoba'
-        currency.symbol.sub('C$', ' C$')
-      elsif currency && currency.name == 'British Pound'
-        currency.symbol.sub('£', ' £')
-      elsif currency
-        currency.symbol.sub('$', ' $')
-      else
-        ''
-      end
+    display_symbol = currency ? "#{currency.country_code} #{currency.short_symbol}" : ''
 
     if tooltip
       display_symbol = %Q(<a href="#" onclick="return false" data-toggle="tooltip"
