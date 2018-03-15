@@ -176,7 +176,9 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       end
     end
 
-    context 'journal number without MS prefix is unmanaged' do
+    context 'journal number without MS prefix is set as unmanaged' do
+      before { update_transaction_with_new_quickbooks_data }
+
       it do
         expect(txn.managed).to be false
       end
@@ -344,6 +346,9 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
         context 'journal number without MS prefix is managed' do
           it do
+            qb_data = {'line_items' => [], 'doc_number' => 'MS-textme', 'txn_date' => Date.today}
+            txn.update(quickbooks_data: qb_data)
+            subject.send(:extract_qb_data, txn)
             expect(txn.managed).to be true
           end
         end
