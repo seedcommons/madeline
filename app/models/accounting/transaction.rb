@@ -84,6 +84,11 @@ class Accounting::Transaction < ActiveRecord::Base
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
 
+    # Associate qb txn with loan if loan id (class name) is set in QB
+    loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
+    associated_loans = Loan.select(:id).where(id: loan_classes)
+    txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
+
     # Beginning attempt to create txns from properly tagged txns in QB
     # project_id = txn.quickbooks_data.dig('line_items', 0, 'journal_entry_line_detail', 'class_ref', 'name')&.to_i
     # txn.project_id = project_id if Project.exists?(project_id)

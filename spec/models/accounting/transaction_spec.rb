@@ -170,12 +170,10 @@ RSpec.describe Accounting::Transaction, type: :model do
   end
 
   describe '.create_or_update_from_qb_object!' do
-    let(:qb_obj) { double(id: 123, as_json: {'x' => 'y'}) }
-    let(:txn) do
-      described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
-    end
-
     it 'should set appropriate fields on create' do
+      qb_obj = double(id: 123, as_json: {'x' => 'y'})
+      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+
       expect(txn.qb_object_type).to eq('JournalEntry')
       expect(txn.qb_id).to eq('123')
       expect(txn.quickbooks_data).to eq({'x' => 'y'})
@@ -183,13 +181,17 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
 
     it do
-      txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_without_MS)
+      qb_obj = double(id: 124, as_json: quickbooks_data_without_MS)
+      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+
       expect(txn.project_id).to eq(loan.id)
       expect(txn.managed).to be false
     end
 
+    # Journal number starting with "MS" is managed, otherwise unmanaged
     it do
-      txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_with_MS)
+      # txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_with_MS)
+      txn.quickbooks_data = quickbooks_data_with_MS
       expect(txn.project_id).to eq(loan.id)
       expect(txn.managed).to be true
     end
