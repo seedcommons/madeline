@@ -112,9 +112,5 @@ FactoryBot.define do
     trait :unmanaged do
       managed false
     end
-
-    trait :no_loan do
-      project nil
-    end
   end
 end
