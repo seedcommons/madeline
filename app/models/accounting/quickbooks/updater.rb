@@ -103,7 +103,10 @@ module Accounting
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
-            posting_type: li['journal_entry_line_detail']['posting_type']
+            posting_type: li['journal_entry_line_detail']['posting_type'],
+          # Beginning attempt to create txns from properly tagged txns in QB
+          # project_id = txn.quickbooks_data.dig('line_items', 0, 'journal_entry_line_detail', 'class_ref', 'name')&.to_i
+          # txn.project_id = project_id if Project.exists?(project_id)
           )
         end
 

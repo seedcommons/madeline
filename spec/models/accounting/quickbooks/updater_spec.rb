@@ -61,6 +61,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
       'txn_date' => '2017-04-18',
       'total' => '12.30',
+      'doc_number' => 'textme',
       'private_note' => 'Random stuff' }
   end
 
@@ -172,6 +173,12 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Debit'])
         expect_line_item_amounts([9.68, 9.68])
         expect(txn.amount).to equal_money(9.68)
+      end
+    end
+
+    context 'journal number without MS prefix is unmanaged' do
+      it do
+        expect(txn.managed).to be false
       end
     end
 
@@ -287,6 +294,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-07-08',
             'total' => '407.22',
+            'doc_number' => 'MS-textme',
             'private_note' => 'New note' }
         end
 
@@ -331,6 +339,12 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
           it 'destroys transaction with the proper qb_id' do
             expect { subject.update }.to change { Accounting::Transaction.where(qb_id: qb_id).count }.by -1
+          end
+        end
+
+        context 'journal number without MS prefix is managed' do
+          it do
+            expect(txn.managed).to be true
           end
         end
       end

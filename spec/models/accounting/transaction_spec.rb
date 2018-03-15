@@ -49,7 +49,7 @@ RSpec.describe Accounting::Transaction, type: :model do
 
   # This is example JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
-  let(:quickbooks_data_without_MS) do
+  let(:quickbooks_data) do
     { 'line_items' =>
       [{ 'id' => '0',
         'description' => 'Repayment',
@@ -83,43 +83,6 @@ RSpec.describe Accounting::Transaction, type: :model do
       'txn_date' => '2017-04-18',
       'total' => '12.30',
       'doc_number' => 'textme',
-      'private_note' => 'Random stuff' }
-  end
-
-  let(:quickbooks_data_with_MS) do
-    { 'line_items' =>
-      [{ 'id' => '0',
-        'description' => 'Repayment',
-        'amount' => '10.99',
-        'detail_type' => 'JournalEntryLineDetail',
-        'journal_entry_line_detail' => {
-          'posting_type' => 'Credit',
-          'entity' => {
-            'type' => 'Customer',
-            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-          'account_ref' => { 'value' => prin_acct.qb_id, 'name' => 'ice cream', 'type' => nil },
-          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-          'department_ref' => nil } },
-        { 'id' => '1',
-          'description' => 'Repayment',
-          'amount' => '1.31',
-          'detail_type' => 'JournalEntryLineDetail',
-          'journal_entry_line_detail' => {
-            'posting_type' => 'Credit',
-            'entity' => {
-              'type' => 'Customer',
-              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => 'bread', 'type' => nil },
-            'class_ref' => { 'value' => '5000000000000026437', 'name' => 'chicken', 'type' => nil },
-            'department_ref' => nil } }],
-      'id' => '167',
-      'sync_token' => 0,
-      'meta_data' => {
-        'create_time' => '2017-04-18T10:14:30.000-07:00',
-        'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
-      'txn_date' => '2017-04-18',
-      'total' => '12.30',
-      'doc_number' => 'MS-textme',
       'private_note' => 'Random stuff' }
   end
 
@@ -180,20 +143,11 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(txn.needs_qb_push).to be false
     end
 
-    it do
-      qb_obj = double(id: 124, as_json: quickbooks_data_without_MS)
+    it 'associates old QB txn with loan if there is a match' do
+      qb_obj = double(id: 124, as_json: quickbooks_data)
       txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
 
       expect(txn.project_id).to eq(loan.id)
-      expect(txn.managed).to be false
-    end
-
-    # Journal number starting with "MS" is managed, otherwise unmanaged
-    it do
-      # txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_with_MS)
-      txn.quickbooks_data = quickbooks_data_with_MS
-      expect(txn.project_id).to eq(loan.id)
-      expect(txn.managed).to be true
     end
   end
 
