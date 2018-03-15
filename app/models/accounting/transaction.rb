@@ -85,9 +85,11 @@ class Accounting::Transaction < ActiveRecord::Base
     txn.quickbooks_data = qb_object.as_json
 
     # Associate qb txn with loan if loan id (class name) is set in QB
-    loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
-    associated_loans = Loan.select(:id).where(id: loan_classes)
-    txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
+    if txn.quickbooks_data['line_items']
+      loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
+      associated_loans = Loan.select(:id).where(id: loan_classes)
+      txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
+    end
 
     # Since the data has just come straight from quickbooks, no need to push it back up.
     txn.needs_qb_push = false
