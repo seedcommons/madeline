@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -13,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20180308114407) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,7 +58,6 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.string "description"
     t.decimal "interest_balance", default: "0.0"
     t.string "loan_transaction_type_value"
-    t.boolean "managed", default: false, null: false
     t.boolean "needs_qb_push", default: true, null: false
     t.decimal "principal_balance", default: "0.0"
     t.string "private_note"
@@ -70,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.decimal "total"
     t.date "txn_date"
     t.datetime "updated_at", null: false
+    t.boolean "managed", default: false, null: false
     t.index ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id"
     t.index ["currency_id"], name: "index_accounting_transactions_on_currency_id"
     t.index ["project_id"], name: "index_accounting_transactions_on_project_id"

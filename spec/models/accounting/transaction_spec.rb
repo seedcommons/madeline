@@ -41,7 +41,87 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Transaction, type: :model do
+  let(:division) { create(:division, :with_accounts) }
+  let(:prin_acct) { division.principal_account}
+  let(:int_inc_acct) { division.interest_income_account }
+  let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+
+  # This is example JSON that might be returned by the QB API.
+  # The data are taken from the docs/example_calculation.xlsx file, row 7.
+  let(:quickbooks_data_without_MS) do
+    { 'line_items' =>
+      [{ 'id' => '0',
+        'description' => 'Repayment',
+        'amount' => '10.99',
+        'detail_type' => 'JournalEntryLineDetail',
+        'journal_entry_line_detail' => {
+          'posting_type' => 'Credit',
+          'entity' => {
+            'type' => 'Customer',
+            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+          'account_ref' => { 'value' => prin_acct.qb_id, 'name' => 'ice cream', 'type' => nil },
+          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+          'department_ref' => nil } },
+        { 'id' => '1',
+          'description' => 'Repayment',
+          'amount' => '1.31',
+          'detail_type' => 'JournalEntryLineDetail',
+          'journal_entry_line_detail' => {
+            'posting_type' => 'Credit',
+            'entity' => {
+              'type' => 'Customer',
+              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => 'bread', 'type' => nil },
+            'class_ref' => { 'value' => '5000000000000026437', 'name' => 'chicken', 'type' => nil },
+            'department_ref' => nil } }],
+      'id' => '167',
+      'sync_token' => 0,
+      'meta_data' => {
+        'create_time' => '2017-04-18T10:14:30.000-07:00',
+        'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
+      'txn_date' => '2017-04-18',
+      'total' => '12.30',
+      'doc_number' => 'textme',
+      'private_note' => 'Random stuff' }
+  end
+
+  let(:quickbooks_data_with_MS) do
+    { 'line_items' =>
+      [{ 'id' => '0',
+        'description' => 'Repayment',
+        'amount' => '10.99',
+        'detail_type' => 'JournalEntryLineDetail',
+        'journal_entry_line_detail' => {
+          'posting_type' => 'Credit',
+          'entity' => {
+            'type' => 'Customer',
+            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+          'account_ref' => { 'value' => prin_acct.qb_id, 'name' => 'ice cream', 'type' => nil },
+          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+          'department_ref' => nil } },
+        { 'id' => '1',
+          'description' => 'Repayment',
+          'amount' => '1.31',
+          'detail_type' => 'JournalEntryLineDetail',
+          'journal_entry_line_detail' => {
+            'posting_type' => 'Credit',
+            'entity' => {
+              'type' => 'Customer',
+              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => 'bread', 'type' => nil },
+            'class_ref' => { 'value' => '5000000000000026437', 'name' => 'chicken', 'type' => nil },
+            'department_ref' => nil } }],
+      'id' => '167',
+      'sync_token' => 0,
+      'meta_data' => {
+        'create_time' => '2017-04-18T10:14:30.000-07:00',
+        'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
+      'txn_date' => '2017-04-18',
+      'total' => '12.30',
+      'doc_number' => 'MS-textme',
+      'private_note' => 'Random stuff' }
+  end
 
   describe '.standard_order' do
     let!(:txn_1) do
@@ -100,6 +180,18 @@ RSpec.describe Accounting::Transaction, type: :model do
       expect(txn.qb_id).to eq('123')
       expect(txn.quickbooks_data).to eq({'x' => 'y'})
       expect(txn.needs_qb_push).to be false
+    end
+
+    it do
+      txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_without_MS)
+      expect(txn.project_id).to eq(loan.id)
+      expect(txn.managed).to be false
+    end
+
+    it do
+      txn = create(:accounting_transaction, :no_loan, quickbooks_data: quickbooks_data_with_MS)
+      expect(txn.project_id).to eq(loan.id)
+      expect(txn.managed).to be true
     end
   end
 
