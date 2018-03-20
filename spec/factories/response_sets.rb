@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_response_sets
+# Table name: response_sets
 #
 #  created_at   :datetime         not null
 #  custom_data  :json

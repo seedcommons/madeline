@@ -136,7 +136,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     link = e.currentTarget
     $menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
     $(link).after($menu)
-    $menu.show()
+    $menu.toggle()
 
   hideStepMenu: (e) ->
     @hideMenu(e, 'step')
@@ -186,8 +186,12 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table.find('td').removeClass('highlighted')
 
   openLogList: (e) ->
+    $logsLink = @$('#project-step-menu a[data-action="view-logs"]').closest('li')
+
     e.preventDefault()
-    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
+
+    if !$logsLink.hasClass('disabled')
+      @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
 
   styleDropdowns: ->
     # Make top 4 rows of timeline have dropdown menus instead of dropup menus
