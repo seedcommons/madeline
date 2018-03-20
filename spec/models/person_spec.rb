@@ -41,14 +41,16 @@
 require 'rails_helper'
 
 describe Person, type: :model do
+  let(:person) { create(:person, :with_member_access, :with_password) }
+  let(:log) { create(:project_log) }
 
+  before { person.project_logs << log }
 
   it 'has a valid factory' do
     expect(create(:person)).to be_valid
   end
 
   context 'with system access' do
-    let(:person) { create(:person, :with_member_access, :with_password) }
 
     it 'has associated user' do
       expect(person.user).to be_truthy
@@ -74,7 +76,14 @@ describe Person, type: :model do
       person.save
       expect(person.user.roles.first.name).to eq('admin')
     end
-
   end
 
+  context 'with logs' do
+    describe 'person gets deleted' do
+      it 'log sets agent_id to nil' do
+        person.destroy
+        expect(log.agent).to be_nil
+      end
+    end
+  end
 end
