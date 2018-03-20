@@ -347,7 +347,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         context 'journal number without MS prefix is managed' do
           it do
             qb_data = {'line_items' => [], 'doc_number' => 'MS-textme', 'txn_date' => Date.today}
-            txn.update(quickbooks_data: qb_data)
+            txn.update(quickbooks_data: qb_data, managed: false)
             subject.send(:extract_qb_data, txn)
             expect(txn.managed).to be true
           end
