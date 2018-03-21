@@ -4,7 +4,7 @@ feature 'loan flow' do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let!(:loan) { create(:loan, division: division) }
-  let(:parent_group) { create(:project_group, project: loan) }
+  let(:parent_group) { create(:project_group) }
   let!(:child_group) { create(:project_group, project: loan, parent: parent_group) }
 
   before do
