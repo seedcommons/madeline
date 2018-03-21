@@ -39,7 +39,8 @@
 
     - g.column name: t('common.summary'), attribute: 'text', assoc: :translations, filter: false,
       ordering: false do |project|
-      - project.summary
+      - if project.summary
+        - summary_info(project)
 
     - g.column name: t('activerecord.attributes.project.health_check'), attribute: 'status_value',
       filter: false, ordering: false do |project|

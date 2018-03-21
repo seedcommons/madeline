@@ -21,4 +21,19 @@ module ProjectsHelper
       }
     end
   end
+
+  def summary_info(project)
+    render partial: "admin/dashboard/summary", locals: {
+      title: project.name,
+      status_message: summary_message(project)
+    }
+  end
+
+  def summary_message(project)
+    status_message = {
+      icon: "fa-info-circle",
+      title: project.name,
+      summary: project.summary
+    }
+  end
 end
