@@ -23,6 +23,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click .project-group-item[data-action="edit"]': 'editGroup'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
+    'click #project-group-menu [data-action="delete"]': 'hideGroupMenu'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
     # Step actions
     'click .step-menu-col .fa-cog': 'openStepMenu'
@@ -30,6 +31,7 @@ class MS.Views.TimelineTableView extends Backbone.View
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
+    'click #project-step-menu [data-action="delete"]': 'hideStepMenu'
     'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
     # Step interactions
     'mouseenter .step-start-date': 'showPrecedentStep'
@@ -134,6 +136,16 @@ class MS.Views.TimelineTableView extends Backbone.View
     link = e.currentTarget
     $menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
     $(link).after($menu)
+    $menu.toggle()
+
+  hideStepMenu: (e) ->
+    @hideMenu(e, 'step')
+
+  hideGroupMenu: (e) ->
+    @hideMenu(e, 'group')
+
+  hideMenu: (e, which) ->
+    @$("#project-#{which}-menu").hide()
 
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
@@ -174,8 +186,12 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table.find('td').removeClass('highlighted')
 
   openLogList: (e) ->
+    $logsLink = @$('#project-step-menu a[data-action="view-logs"]').closest('li')
+
     e.preventDefault()
-    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
+
+    if !$logsLink.hasClass('disabled')
+      @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
 
   styleDropdowns: ->
     # Make top 4 rows of timeline have dropdown menus instead of dropup menus

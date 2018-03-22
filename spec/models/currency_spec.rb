@@ -3,6 +3,7 @@
 # Table name: currencies
 #
 #  code         :string
+#  country_code :string
 #  created_at   :datetime         not null
 #  id           :integer          not null, primary key
 #  name         :string
