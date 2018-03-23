@@ -97,8 +97,6 @@ gem 'whenever', '~> 0.9', require: false
 gem 'amoeba'
 
 group :development, :test do
-  gem 'puma'
-
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
 
