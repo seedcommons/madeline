@@ -196,5 +196,9 @@ class OptionSetCreator
         en: 'Repayment',
         es: 'Reembolso'
       })
+    loan_transaction_type.options.create(value: 'other', position: 4, label_translations: {
+        en: 'Other',
+        es: 'Otro'
+      })
   end
 end
