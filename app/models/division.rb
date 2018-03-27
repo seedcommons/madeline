@@ -102,6 +102,14 @@ class Division < ActiveRecord::Base
     division ? division.self_and_descendants : all
   end
 
+  def self.qb_divisions
+    Accounting::Quickbooks::Connection.all.map(&:division)
+  end
+
+  def self.qb_accessible_divisions
+    qb_divisions.map(&:self_and_descendants).flatten.uniq
+  end
+
   # interface compatibility with other models
   def division
     self

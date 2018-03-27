@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
@@ -39,7 +40,6 @@
 
 require 'rails_helper'
 
-# quickbooks_data['line_items'].each
 RSpec.describe Accounting::Transaction, type: :model do
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
 

@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
@@ -66,9 +67,9 @@ class Accounting::Transaction < ActiveRecord::Base
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  validates :loan_transaction_type_value, :txn_date, presence: true
-  validates :amount, presence: true, unless: :interest?
-  validates :accounting_account_id, presence: true, unless: :interest?
+  validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
+  validates :amount, presence: true, unless: :interest?, if: :managed?
+  validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
 
   delegate :division, :qb_division, to: :project
 
@@ -134,6 +135,16 @@ class Accounting::Transaction < ActiveRecord::Base
   def calculate_balances(prev_tx: nil)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+
+    # as in https://redmine.sassafras.coop/issues/7703, testing this would take time
+    # it could be added as a future TODO
+    if total_balance < 0 && !Rails.env.test?
+      raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
+    end
+  end
+
+  def prev_balance
+    total_balance - change_in_principal - change_in_interest
   end
 
   # Returns first line item for the given account, or nil if not found.
@@ -168,15 +179,4 @@ class Accounting::Transaction < ActiveRecord::Base
       end
     end
   end
-
-  # not sure how this is going to come into the new implementation;
-  # is this being removed as well?
-
-  # def lookup_currency_id
-  #   if quickbooks_data && quickbooks_data[:currency_ref]
-  #     Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-  #   elsif project
-  #     project.currency_id
-  #   end
-  # end
 end

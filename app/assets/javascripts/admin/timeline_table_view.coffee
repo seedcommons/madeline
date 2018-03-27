@@ -15,25 +15,35 @@ class MS.Views.TimelineTableView extends Backbone.View
     @styleDropdowns()
 
   events:
-    'click .project-group .fa-cog': 'openGroupMenu'
-    'click .step-menu-col .fa-cog': 'openStepMenu'
+    # Timeline actions
     'click .timeline-action[data-action="new-group"]': 'newGroup'
     'click .timeline-action[data-action="new-step"]': 'newStep'
+    # Group actions
+    'click .project-group .fa-cog': 'openGroupMenu'
+    'click .project-group-item[data-action="edit"]': 'editGroup'
     'click #project-group-menu [data-action="add-child-group"]': 'newChildGroup'
     'click #project-group-menu [data-action="add-child-step"]': 'newChildStep'
-    'click #project-group-menu [data-action="edit"]': 'editGroup'
+    'click #project-group-menu [data-action="delete"]': 'hideGroupMenu'
     'confirm:complete #project-group-menu [data-action="delete"]': 'deleteGroup'
-    'click #project-step-menu a[data-action=show]': 'showStep'
+    # Step actions
+    'click .step-menu-col .fa-cog': 'openStepMenu'
+    'click .project-step-item[data-action=show]': 'showStep'
     'click #project-step-menu a[data-action=add-log]': 'addLog'
     'click #project-step-menu a[data-action=add-dependent-step]': 'addDependentStep'
     'click #project-step-menu a[data-action=duplicate]': 'duplicateStep'
+    'click #project-step-menu [data-action="delete"]': 'hideStepMenu'
     'confirm:complete #project-step-menu [data-action="delete"]': 'deleteStep'
-    'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
-    'change form.filters': 'refresh'
+    # Step interactions
     'mouseenter .step-start-date': 'showPrecedentStep'
     'mouseenter .step-end-date': 'showDependentSteps'
     'mouseleave .step-date': 'hideRelatedSteps'
+    'mouseenter td.project-step': 'highlightStep'
+    'mouseleave td.project-step': 'unhighlightStep'
+    # Logs list actions
     'click [data-action="view-logs"]': 'openLogList'
+    # Other actions
+    'click ul.dropdown-menu li.disabled a': 'handleDisabledMenuLinkClick'
+    'change form.filters': 'refresh'
 
   refresh: ->
     MS.loadingIndicator.show()
@@ -56,8 +66,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@$(e.currentTarget).closest('[data-project-id]').data('project-id'), @refresh.bind(@), {parentId: @parentId(e)})
 
   editGroup: (e) ->
-    e.preventDefault()
-    @groupModal.edit(@parentId(e))
+    if @$(e.target).hasClass('project-group-item')
+      e.preventDefault()
+      @groupModal.edit(@parentId(e))
 
   deleteGroup: (e, response) ->
     e.preventDefault()
@@ -71,8 +82,9 @@ class MS.Views.TimelineTableView extends Backbone.View
     @stepModal.new(@projectId, @refresh.bind(@))
 
   showStep: (e) ->
-    e.preventDefault()
-    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
+    if @$(e.target).hasClass('project-step-item')
+      e.preventDefault()
+      @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
   addLog: (e) ->
     e.preventDefault()
@@ -124,6 +136,16 @@ class MS.Views.TimelineTableView extends Backbone.View
     link = e.currentTarget
     $menu = $(link).closest('.timeline-table').find("#project-#{which}-menu")
     $(link).after($menu)
+    $menu.toggle()
+
+  hideStepMenu: (e) ->
+    @hideMenu(e, 'step')
+
+  hideGroupMenu: (e) ->
+    @hideMenu(e, 'group')
+
+  hideMenu: (e, which) ->
+    @$("#project-#{which}-menu").hide()
 
   # Don't do anything with clicks on menu links that are set to disabled.
   handleDisabledMenuLinkClick: (e) ->
@@ -164,8 +186,12 @@ class MS.Views.TimelineTableView extends Backbone.View
     $table.find('td').removeClass('highlighted')
 
   openLogList: (e) ->
+    $logsLink = @$('#project-step-menu a[data-action="view-logs"]').closest('li')
+
     e.preventDefault()
-    @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
+
+    if !$logsLink.hasClass('disabled')
+      @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@), {expandedLogs: true})
 
   styleDropdowns: ->
     # Make top 4 rows of timeline have dropdown menus instead of dropup menus
@@ -174,3 +200,11 @@ class MS.Views.TimelineTableView extends Backbone.View
     $topGroups.removeClass('dropup')
     $topSteps = $topRows.find('.step-menu-col')
     $topSteps.removeClass('dropup')
+
+  highlightStep: (e) ->
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").addClass('highlighted2')
+
+  unhighlightStep: (e) ->
+    id = $(e.currentTarget).data('id')
+    @$("td.project-step[data-id='#{id}']").removeClass('highlighted2')

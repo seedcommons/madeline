@@ -1,5 +1,8 @@
 class Admin::AdminController < ApplicationController
   include DivisionSelectable
+
+  layout 'admin/signed_in'
+
   helper_method :selected_division_id, :selected_division
 
   before_action :authenticate_user!

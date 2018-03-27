@@ -86,6 +86,7 @@ en:
     threshold_amount: "Threshold Amount"
     toc: "Table of Contents"
     transactions: "Transactions"
+    transactions_old: "Transactions (old system)"
     transaction_new_disbursement: "New Disbursement"
     transaction_new_repayment: "New Repayment"
     transaction_schedule: "Schedule"
@@ -164,7 +165,7 @@ en:
       total_fixed_costs: "Total Fixed Costs"
 
     response_set:
-      conflicting_changes: 'Warning: The data has changed since you loaded it. The last update was by %{updater}, %{updated_at}. You may want to check with them to see what they changed or <a href="%{link}" target="_blank">open the latest data in a new tab</a> to compare. You can save your changes anyway, but all other changes since you loaded the page will be lost.'
+      conflicting_changes_html: 'Warning: The data has changed since you loaded it. The last update was by %{updater}, %{updated_at}. You may want to check with them to see what they changed or <a href="%{link}" target="_blank">open the latest data in a new tab</a> to compare. You can save your changes anyway, but all other changes since you loaded the page will be lost.'
       discard_reload: "Discard My Changes and Reload"
       overwrite_changes: "Save My Changes and Overwrite Others"
 
