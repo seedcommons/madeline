@@ -4,11 +4,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
-    # @logsList = new MS.Views.LogListView({
-    #     el: 'section.log-list',
-    #     refreshUrl: 'admin/logs',
-    #     logFormModal: $('#log-form-modal')
-    #   });
     @done = (->) # Empty function
 
   events:
@@ -16,8 +11,6 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     'click .submit': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'confirm:complete a.delete-action': 'delete'
-    # 'confirm:complete .log [data-action="delete"]': 'deleteLog'
-    # 'click .log [data-action="delete"]': 'deleteLog'
     'change #project_step_scheduled_duration_days': 'setScheduledEndDate'
     'change #project_step_schedule_parent_id': 'setScheduledStartDateOnDependent'
     'change #project_step_scheduled_start_date': 'setStaticStartDate'
@@ -48,13 +41,7 @@ class MS.Views.ProjectStepModalView extends Backbone.View
         @close()
         @runAndResetDoneCallback()
 
-  # deleteLog: (e, resp) ->
-  #   console.log('psmv', e)
-  #   @logsList.prepareToDeleteLog(e)
-  #   #@logsList.deleteLog(e, resp, @close())
-
   close: ->
-    console.log('log me')
     @$el.modal('hide')
 
   submitForm: ->
