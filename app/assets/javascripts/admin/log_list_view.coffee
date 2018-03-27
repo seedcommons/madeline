@@ -7,7 +7,6 @@ class MS.Views.LogListView extends Backbone.View
 
   events:
     'click .log [data-action="edit"]': 'openEditLog'
-    'click .log [data-action="delete"]': 'prepareToDeleteLog'
     'confirm:complete .log [data-action="delete"]': 'deleteLog'
 
   openEditLog: (e) ->
@@ -15,33 +14,13 @@ class MS.Views.LogListView extends Backbone.View
     logId = @$(e.currentTarget).closest('.log').data('id')
     @logFormModalView.showEdit(logId, '', @refresh.bind(@))
 
-  prepareToDeleteLog: (e) ->
-    console.log(e)
-    @logId = @$(e.currentTarget).closest('.log').data('id')
-    console.log(@$(e.currentTarget))
-    #@logId = @$(e.currentTarget).data('id')
-    console.log(@logId)
-
   deleteLog: (e, resp) ->
-    console.log(@logId)
-    # e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
     console.log 'log id', logId
     if (resp)
-      $.ajax(method: "DELETE", url: "/admin/logs/#{@logId}")
+      $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
       .done => done
       .fail (response) -> MS.alert(response.responseText)
-
-  # deleteLog: (e, resp, done) ->
-  #   console.log(@logId)
-  #   console.log('llv', e)
-  #   e.preventDefault()
-  #   logId = @$(e.currentTarget).closest('.log').data('id')
-  #   console.log 'log id', logId
-  #   if (resp)
-  #     $.ajax(method: "DELETE", url: "/admin/logs/#{@logId}")
-  #     .done => done
-  #     .fail (response) -> MS.alert(response.responseText)
 
 #  the last bit is to fix the refresh since it breaks the step modal log list on delete
   refresh: () ->
