@@ -1,4 +1,8 @@
+= @step.logs_count if @step
+= @context
+
 - if @logs.blank? && @context != 'calendar'
+/- if @logs.blank?
   = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
   .show-actions.hidden-print class=(@context == 'calendar' ? 'nested-expander' : '')
@@ -54,15 +58,16 @@
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
-            .item
-              = link_to '#',
-                  data: { \
-                    action: 'delete', \
-                    confirm: t('project_logs.shared.confirm_deletion'), \
-                    id: log.id \
-                  }
-                    i.fa.fa-trash>
-                    = t(:delete)
+            - unless @context == 'dashboard'
+              .item
+                = link_to '#',
+                    data: { \
+                      action: 'delete', \
+                      confirm: t('project_logs.shared.confirm_deletion'), \
+                      id: log.id \
+                    }
+                      i.fa.fa-trash>
+                      = t(:delete)
 
         - if log.summary
           span.summary = log.summary
