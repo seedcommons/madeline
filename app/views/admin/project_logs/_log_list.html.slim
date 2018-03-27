@@ -58,7 +58,8 @@
               = link_to '#',
                   data: { \
                     action: 'delete', \
-                    confirm: t('project_logs.shared.confirm_deletion') \
+                    confirm: t('project_logs.shared.confirm_deletion'), \
+                    id: log.id \
                   }
                     i.fa.fa-trash>
                     = t(:delete)
