@@ -64,7 +64,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
   let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
   subject { described_class.new(txn) }
 
-  context '#extract_qb_data' do
+  context '#extract!' do
     context 'adding 1.00 credit to int_rcv_acct and 1.00 debit to txn_acct in quickbooks' do
       before do
         quickbooks_data['line_items'] << {
