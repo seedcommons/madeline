@@ -142,7 +142,6 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.integer "organization_id"
     t.integer "parent_id"
     t.integer "principal_account_id"
-    t.boolean "public", default: true, null: false
     t.string "qb_id"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"

@@ -25,7 +25,6 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(TRUE), not null
 #  qb_id                          :string
 #  updated_at                     :datetime         not null
 #
