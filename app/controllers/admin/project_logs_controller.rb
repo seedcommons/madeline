@@ -56,9 +56,13 @@ class Admin::ProjectLogsController < Admin::AdminController
     @step = @log.project_step
     authorize @log
 
-    if params[:context] == 'timeline'
-      destroy_and_render_partial
-    elsif @log.destroy
+    # if params[:context] == 'timeline'
+    #   destroy_and_render_partial
+    # elsif @log.destroy
+    #   head :ok
+    # end
+
+    if @log.destroy
       head :ok
     end
   end

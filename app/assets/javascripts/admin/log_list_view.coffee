@@ -19,7 +19,9 @@ class MS.Views.LogListView extends Backbone.View
     console.log 'log id', logId
     if (resp)
       $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
-      .done => done
+      .done =>
+        console.log("The log will be removed from the DOM")
+        @$(".log[data-id='#{logId}']").remove()
       .fail (response) -> MS.alert(response.responseText)
 
 #  the last bit is to fix the refresh since it breaks the step modal log list on delete
@@ -27,15 +29,3 @@ class MS.Views.LogListView extends Backbone.View
     $.get @refreshUrl, (html) =>
       @$el.html(html)
       @afterRefresh() if @afterRefresh
-
-  onCompleteAction: (context, done) ->
-#    if context == "timeline"
-      # do an action from the timeline
-      # close the project step modal
-      # reload timeline
-#    if context == "calendar"
-      # do an action from the calendar
-      # close the project step modal
-      # reload calendar events
-#    else
-#      @refresh()
