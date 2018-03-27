@@ -41,10 +41,8 @@
 require 'rails_helper'
 
 describe Person, type: :model do
-  let(:person) { create(:person, :with_member_access, :with_password) }
-  let(:log) { create(:project_log) }
-
-  before { person.project_logs << log }
+  let(:log) { build(:project_log) }
+  let(:person) { create(:person, :with_member_access, :with_password, project_logs: [log]) }
 
   it 'has a valid factory' do
     expect(create(:person)).to be_valid
