@@ -8,6 +8,7 @@ module Accounting
       end
 
       def extract!
+        # if 'other', managed: false
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
@@ -44,6 +45,9 @@ module Accounting
         # but that is ok.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
 
+        # determine txn type
+        # txn.loan_transaction_type_value = txn_type
+
         txn.save!
       end
 
@@ -57,6 +61,10 @@ module Accounting
         elsif project
           project.currency
         end
+      end
+
+      def txn_type
+        'interest'
       end
     end
   end
