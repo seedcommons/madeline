@@ -88,19 +88,18 @@ class MS.Views.ProjectStepModalView extends Backbone.View
     startDateVal = @$('#project_step_scheduled_start_date').val()
     duration = Number(@$('#project_step_scheduled_duration_days').val())
 
-    startDateMoment = moment(startDateVal)
-    preEndDateMoment = moment(startDateMoment).add(duration, "days")
+    startDate = moment(startDateVal)
+    preEndDate = moment(startDate).add(duration, "days")
 
     if startDateVal
       # If duration has not been set in the ui, JS has this stored as 0 in memory
       # This condition is in order for the end date not to be set to a day before
       if duration < 1
-        endDate = startDateMoment
+        endDate = startDate
       else
-        endDate = moment(preEndDateMoment).subtract(1, "days")
+        endDate = moment(preEndDate).subtract(1, "days")
 
-      endDateMoment = moment(endDate)
-      endDateFormatted = moment(endDateMoment).format(MS.dateFormats.default)
+      endDateFormatted = moment(endDate).format(MS.dateFormats.default)
 
       @$(".form-group.project_step_scheduled_end_date").find(".static-text-as-field").
         html(endDateFormatted)
