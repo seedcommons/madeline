@@ -9,7 +9,7 @@ module Accounting
       end
 
       def extract!
-        # if 'other', managed: false
+        # TODO: if 'other', managed: false
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
