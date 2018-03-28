@@ -1,4 +1,9 @@
-every 1.day, at: '3:00' do
+set :output, 'log/cron.log'
+
+env :PATH, ENV['PATH']
+env :GEM_HOME, ENV['GEM_HOME']
+
+every 1.day, at: '3am' do
   runner 'RecalculateAllLoanHealthJob.perform_later'
 end
 
