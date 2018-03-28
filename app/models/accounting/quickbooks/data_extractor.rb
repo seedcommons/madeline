@@ -38,9 +38,6 @@ module Accounting
 
         txn.currency = lookup_currency
 
-        # set transaction type
-        txn.loan_transaction_type_value = txn_type
-
         # This line may seem odd since the natural thing to do would be to simply compute the
         # amount based on the sum of the line items.
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
@@ -49,6 +46,10 @@ module Accounting
         # but that is ok.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
 
+        # set transaction type
+        txn.loan_transaction_type_value = txn_type
+
+        # TODO: set txn account
         txn.save!
       end
 
@@ -64,29 +65,30 @@ module Accounting
 
       def txn_type
         line_items = txn.quickbooks_data['line_items']
+        @int_rcv = loan.division.interest_receivable_account
+        @int_inc = loan.division.interest_income_account
+        @prin_acct = loan.division.principal_account
         li_details = {}
+
+        return 'other' if line_items.count > 3
 
         line_items.each do |li|
           line_item = txn.line_item_with_id(li['id'].to_i)
           li_details[line_item.posting_type] = line_item.account
         end
 
-        if (li_details['Debit'] && li_details['Debit'].id == loan.division.interest_receivable_account.id) &&
-          (li_details['Credit'] && li_details['Credit'].id == loan.division.interest_income_account.id)
-          return 'interest'
+        set_type(li_details['Debit'], li_details['Credit'], line_items)
+      end
 
-        # having issues comparing `txn.account`. it seems that it is not set
-        # it sets the amount in the line item but not the transaction
-
-        elsif (li_details['Debit'] && li_details['Debit'].id == loan.division.principal_account.id) &&
-          (li_details['Credit'] && li_details['Credit'].id == txn.account.id)
+      def set_type(debit, credit, lis)
+        if (debit && debit.id == @int_rcv.id) && (credit && credit.id == @int_inc.id) && lis.count == 2
+          'interest'
+        elsif credit && debit && debit.id == @prin_acct.id && lis.count == 2
           return 'disbursement'
-        elsif ((li_details['Credit'] && li_details['Credit'].id == loan.division.principal_account.id) ||
-          (li_details['Credit'] && li_details['Credit'].id == loan.division.interest_receivable_account.id)) &&
-          (li_details['Debit'] && li_details['Debit'].id == txn.account.id)
+        elsif debit && credit && (credit.id == @prin_acct.id || credit.id == @int_rcv.id) && lis.count == 3
           return 'repayment'
         else
-          return 'other'
+          'other'
         end
       end
     end
