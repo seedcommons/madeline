@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130145027) do
+ActiveRecord::Schema.define(version: 20180308114407) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +58,7 @@ ActiveRecord::Schema.define(version: 20180130145027) do
     t.string "description"
     t.decimal "interest_balance", default: "0.0"
     t.string "loan_transaction_type_value"
+    t.boolean "managed", default: false, null: false
     t.boolean "needs_qb_push", default: true, null: false
     t.decimal "principal_balance", default: "0.0"
     t.string "private_note"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20180130145027) do
 
   create_table "currencies", id: :serial, force: :cascade do |t|
     t.string "code"
+    t.string "country_code"
     t.datetime "created_at", null: false
     t.string "name"
     t.string "short_symbol"
@@ -142,6 +143,7 @@ ActiveRecord::Schema.define(version: 20180130145027) do
     t.integer "principal_account_id"
     t.string "qb_id"
     t.datetime "updated_at", null: false
+    t.boolean "public", default: true, null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"

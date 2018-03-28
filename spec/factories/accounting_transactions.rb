@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
@@ -53,6 +54,7 @@ FactoryBot.define do
     amount { Faker::Number.decimal(4, 2) }
     account
     project
+    managed true
 
     trait :interest do
       loan_transaction_type_value 'interest'
@@ -75,7 +77,7 @@ FactoryBot.define do
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
-          posting_type: 'debit', amount: evaluator.amount)
+          posting_type: 'Debit', amount: evaluator.amount)
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_income_account,
           posting_type: 'credit', amount: evaluator.amount)
       end
@@ -87,9 +89,9 @@ FactoryBot.define do
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,
-          posting_type: 'credit', amount: evaluator.amount)
+          posting_type: 'Credit', amount: evaluator.amount)
         create(:line_item, parent_transaction: txn, account: evaluator.division.principal_account,
-          posting_type: 'debit', amount: evaluator.amount)
+          posting_type: 'Debit', amount: evaluator.amount)
       end
     end
 
@@ -99,12 +101,16 @@ FactoryBot.define do
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,
-          posting_type: 'debit', amount: evaluator.amount)
+          posting_type: 'Debit', amount: evaluator.amount)
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
-          posting_type: 'credit', amount: evaluator.amount.to_f / 2)
+          posting_type: 'Credit', amount: evaluator.amount.to_f / 2)
         create(:line_item, parent_transaction: txn, account: evaluator.division.principal_account,
-          posting_type: 'credit', amount: evaluator.amount.to_f / 2)
+          posting_type: 'Credit', amount: evaluator.amount.to_f / 2)
       end
+    end
+
+    trait :unmanaged do
+      managed false
     end
   end
 end
