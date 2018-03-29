@@ -10,6 +10,7 @@
 #  end_date                    :date
 #  first_interest_payment_date :date
 #  first_payment_date          :date
+#  from_org                    :boolean          default(FALSE), not null
 #  id                          :integer          not null, primary key
 #  length_months               :integer
 #  loan_type_value             :string

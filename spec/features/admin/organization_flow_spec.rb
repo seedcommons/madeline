@@ -20,7 +20,7 @@ feature 'organization flow' do
     click_on 'Create Loan'
 
     expect(page).to have_content('Record was successfully created.')
-    expect(page).to have_content('New Co-op')
-    expect(page).not_to have_content('Loans')
+    expect(page).to have_content(org1.name)
+    expect(page).not_to have_content('Transactions')
   end
 end
