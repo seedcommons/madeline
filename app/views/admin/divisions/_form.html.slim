@@ -41,6 +41,10 @@
     .view-element = t "boolean.#{@division.notify_on_new_logs}"
     = f.input_field :notify_on_new_logs, inline_label: t('.notify_on_new_logs')
 
+  = f.input :public
+    .view-element = t "boolean.#{@division.public}"
+    = f.input_field :public, inline_label: t('.public')
+
   = f.input :logo
     .view-element
       - if @division.logo.present?
