@@ -13,4 +13,14 @@ feature 'organization flow' do
     subject { org1 }
     let(:edit_button_name) { 'Edit Co-op' }
   end
+
+  scenario 'saving loan redirects to coop page' do
+    visit admin_organization_path(org1)
+    click_on 'New Loan'
+    click_on 'Create Loan'
+
+    expect(page).to have_content('Record was successfully created.')
+    expect(page).to have_content('New Co-op')
+    expect(page).not_to have_content('Loans')
+  end
 end
