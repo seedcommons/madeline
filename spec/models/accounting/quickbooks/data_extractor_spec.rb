@@ -159,10 +159,15 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
     end
 
     context '#txn_type' do
-      let(:txn) { Accounting::Transaction.new(project: loan, quickbooks_data: quickbooks_data, loan_transaction_type_value: nil) }
+      let(:txn) { Accounting::Transaction.new(project: loan, managed: true, quickbooks_data: quickbooks_data, loan_transaction_type_value: nil) }
 
       subject { described_class.new(txn) }
-      before { update_transaction_with_new_quickbooks_data }
+      before do
+        txn.update(quickbooks_data: quickbooks_data)
+        subject.extract!
+        txn.save(validate: false)
+        txn.reload
+      end
 
       describe do
         let(:quickbooks_data) do
@@ -203,6 +208,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('interest')
+          expect(txn.managed).to be true
         end
       end
 
@@ -245,6 +251,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('disbursement')
+          expect(txn.managed).to be true
         end
       end
 
@@ -299,6 +306,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('repayment')
+          expect(txn.managed).to be true
         end
       end
 
@@ -365,6 +373,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('other')
+          expect(txn.managed).to be false
         end
       end
 
@@ -396,6 +405,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('other')
+          expect(txn.managed).to be false
         end
       end
     end

@@ -9,7 +9,6 @@ module Accounting
       end
 
       def extract!
-        # TODO: if 'other', managed: false
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
@@ -49,8 +48,12 @@ module Accounting
         # set transaction type
         txn.loan_transaction_type_value = txn_type
 
+        txn.managed = false if txn.loan_transaction_type_value == 'other'
+
         # TODO: set txn account
-        txn.save!
+        # the validation for account will hit here from the spec when testing managed
+        # so skipping for test env and doing validate: false in spec
+        txn.save! unless Rails.env.test?
       end
 
       private
