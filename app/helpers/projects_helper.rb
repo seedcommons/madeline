@@ -1,7 +1,8 @@
 module ProjectsHelper
   def health_status_info(health_check)
     render partial: "admin/dashboard/message", locals: {
-      status_message: health_status_message(health_check)
+      status_message: health_status_message(health_check),
+      message_type: "health_status"
     }
   end
 
@@ -24,7 +25,8 @@ module ProjectsHelper
 
   def summary_info(project)
     render partial: "admin/dashboard/message", locals: {
-      status_message: summary_message(project)
+      status_message: summary_message(project),
+      message_type: "summary"
     }
   end
 
