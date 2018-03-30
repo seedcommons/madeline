@@ -26,6 +26,7 @@ es:
         name: "Nombre"
         parent: "División Principal"
         notify_on_new_logs: "Notificar Nuevos Apuntes"
+        public: "Público"
         logo: "Logo"
         logo_text: "Texto del Logo"
         banner_fg_color: "Color del Primer Plano del Banner "
