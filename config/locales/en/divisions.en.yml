@@ -17,3 +17,4 @@ en:
         edit: "Edit Division"
       form:
         notify_on_new_logs: "Notify users in this division when a new log is created"
+        public: "Show this division's loans on the public website"
