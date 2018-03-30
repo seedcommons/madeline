@@ -168,7 +168,7 @@ FactoryBot.define do
     # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
-        loan.criteria = create(:loan_response_set,
+        loan.criteria = create(:response_set,
           kind: 'criteria',
           loan: loan,
           custom_data: {summary: 'foo', workers: 5}

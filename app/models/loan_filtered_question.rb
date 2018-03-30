@@ -45,6 +45,6 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def response_set
-    @response_set ||= loan.send(loan_question_set.kind)
+    @response_set ||= loan.send(question_set.kind)
   end
 end
