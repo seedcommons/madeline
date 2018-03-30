@@ -1,3 +1,4 @@
+# Populates the option set table with basic values. Called by seeds.rb.
 class OptionSetCreator
   def create_all
     create_loan_status
@@ -110,11 +111,11 @@ class OptionSetCreator
     public_level.options.destroy_all
     public_level.options.create(value: 'featured', label_translations: {
         en: 'Featured',
-        es: 'TODO'
+        es: 'Destacado'
       })
     public_level.options.create(value: 'hidden', label_translations: {
         en: 'Hidden',
-        es: 'TODO'
+        es: 'Oculto'
       })
   end
 
