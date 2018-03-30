@@ -3,11 +3,13 @@ class Public::LoansController < Public::PublicController
 
   def index
     params[:division] = get_division_from_url
-    @loans = Loan.filter_by_params(params).visible.
-      includes(:cooperative, division: :super_division).
-      paginate(:page => params[:pg], :per_page => 20).
-      order('signing_date DESC')
+    @params = { status: params[:status], pg: params[:pg], country: params[:country] }
+    @loans = policy_scope(Loan.filter_by_params(params).visible.
+          includes(:organization, division: :parent).
+          page(params[:pg]).per(20).
+          order('signing_date DESC'))
     @countries = Country.order(:iso_code).pluck(:iso_code)
+
 
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath

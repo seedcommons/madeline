@@ -13,7 +13,10 @@ module WordpressEmbeddable
 
   def get_division_from_url
     division_urls = Rails.configuration.x.wordpress_template[:division_urls]
+    Rails.logger.ap division_urls
+    Rails.logger.ap request.url
     matching = division_urls.select { |expression, _| request.url.match expression }
+    Rails.logger.ap matching
     division = matching.values.first
     division || default_division
   end

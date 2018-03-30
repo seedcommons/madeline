@@ -18,18 +18,18 @@ if Rails.env.development?
       division = FactoryBot.create(:division)
 
       # Create admin user
-      user = FactoryBot.create(:user, :admin,
-        email: "admin@example.com",
-        password: "xxxxxxxx",
-        password_confirmation: "xxxxxxxx"
-      )
-      user.add_role :admin, Division.root
-      puts "Created default admin user"
-      puts "Login: #{user.email}"
-      puts "Password: xxxxxxxx"
+      # user = FactoryBot.create(:user, :admin,
+      #   email: "admin@example.com",
+      #   password: "xxxxxxxx",
+      #   password_confirmation: "xxxxxxxx"
+      # )
+      # user.add_role :admin, Division.root
+      # puts "Created default admin user"
+      # puts "Login: #{user.email}"
+      # puts "Password: xxxxxxxx"
 
       # Create some data
-      FactoryBot.create(:loan,
+      FactoryBot.create_list(:loan, 30,
         :with_translations,
         :with_foreign_translations,
         :with_timeline,
