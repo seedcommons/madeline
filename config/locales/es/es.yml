@@ -435,7 +435,7 @@ es:
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
     loans: "Préstamos"
-    loan_questions: "Preguntas de Préstamos"
+    questions: "Preguntas de Préstamos"
     manage: "Manejar"
     people: "Miembros"
     log: "Apunte"
