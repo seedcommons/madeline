@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_response_sets
+# Table name: response_sets
 #
 #  created_at   :datetime         not null
 #  custom_data  :json
@@ -16,7 +16,7 @@
 #  fk_rails_...  (updater_id => users.id)
 #
 
-class LoanResponseSet < ActiveRecord::Base
+class ResponseSet < ActiveRecord::Base
   attr_accessor :current_user
 
   belongs_to :loan
@@ -34,7 +34,7 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   def question_set
-    @question_set ||= LoanQuestionSet.find_by(internal_name: "loan_#{kind}")
+    @question_set ||= QuestionSet.find_by(internal_name: "loan_#{kind}")
   end
 
   def root_response
@@ -42,11 +42,11 @@ class LoanResponseSet < ActiveRecord::Base
   end
 
   # Fetches a custom value from the json field.
-  # Ensures `question` is decorated before passing to LoanResponse.
+  # Ensures `question` is decorated before passing to Response.
   def response(question)
     question = ensure_decorated(question)
     raw_value = (custom_data || {})[question.json_key]
-    LoanResponse.new(loan: loan, question: question, loan_response_set: self, data: raw_value)
+    Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.

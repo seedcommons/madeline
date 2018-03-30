@@ -1,8 +1,8 @@
-class Admin::LoanResponseSetsController < Admin::AdminController
+class Admin::ResponseSetsController < Admin::AdminController
   include QuestionnaireRenderable
 
   def create
-    @response_set = LoanResponseSet.new(current_user: current_user)
+    @response_set = ResponseSet.new(current_user: current_user)
     @response_set.assign_attributes(response_set_params)
     authorize @response_set
     @response_set.save!
@@ -10,7 +10,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def update
-    @response_set = LoanResponseSet.find(params[:id])
+    @response_set = ResponseSet.find(params[:id])
     @response_set.current_user = current_user
     authorize @response_set
 
@@ -44,7 +44,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def destroy
-    @response_set = LoanResponseSet.find(params[:id])
+    @response_set = ResponseSet.find(params[:id])
     @response_set.current_user = current_user
     authorize @response_set
     @response_set.destroy!
@@ -58,7 +58,7 @@ class Admin::LoanResponseSetsController < Admin::AdminController
   end
 
   def response_set_params
-    params.require(:loan_response_set).permit!
+    params.require(:response_set).permit!
   end
 
   def display_path
