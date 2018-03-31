@@ -1,0 +1,6 @@
+es:
+  database:
+    option_sets:
+      public_level:
+        featured: "Destacado"
+        hidden: "Oculto"
