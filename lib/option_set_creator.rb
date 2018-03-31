@@ -110,11 +110,11 @@ class OptionSetCreator
     public_level.options.destroy_all
     public_level.options.create(value: 'featured', label_translations: {
         en: 'Featured',
-        es: 'TODO'
+        es: 'Destacado'
       })
     public_level.options.create(value: 'hidden', label_translations: {
         en: 'Hidden',
-        es: 'TODO'
+        es: 'Oculto'
       })
   end
 
