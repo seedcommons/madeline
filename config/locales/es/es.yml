@@ -110,7 +110,7 @@ es:
         street_address: "Domicilio"
         state: "Estado"
         tax_no: "Nro. de Documento"
-        website: "Página Web"
+        website: "Página web"
       project:
         length_months: "Duración (meses)"
         name: "Nombre"
@@ -435,7 +435,7 @@ es:
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
     loans: "Préstamos"
-    questions: "Preguntas de Préstamos"
+    questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
     log: "Apunte"
