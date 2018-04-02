@@ -1,6 +1,11 @@
 en:
   database:
     option_sets:
+      basic_project_status:
+        active: 'Active'
+        completed: 'Completed'
+        changed: 'Changed'
+        possible: 'Possible'
       loan_status:
         active: 'Active'
         completed: 'Completed'
@@ -10,6 +15,14 @@ en:
         refinanced: 'Refinanced'
         relationship: 'Relationship'
         relationship_active: 'Relationship Active'
+      loan_type:
+        liquidity_loc: 'Liquidity line of credit'
+        investment_loc: 'Investment line of credit'
+        investment: 'Investment Loans'
+        evolving: 'Evolving loan'
+        single_liquidity_loc: 'Single Liquidity line of credit'
+        wc_investment: 'Working Capital Investment Loan'
+        sa_investment: 'Secured Asset Investment Loan'
       public_level:
         featured: 'Featured'
         hidden: 'Hidden'

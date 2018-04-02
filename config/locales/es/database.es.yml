@@ -1,6 +1,11 @@
 es:
   database:
     option_sets:
+      basic_project_status:
+        active: 'Activo'
+        completed: 'Completo'
+        changed: 'Cambiado'
+        possible: 'Posible'
       loan_status:
         active: 'Prestamo Activo'
         completed: 'Prestamo Completo'
@@ -10,6 +15,14 @@ es:
         refinanced: 'Prestamo Refinanciado'
         relationship: 'Relacion'
         relationship_active: 'Relacion Activo'
+      loan_type:
+        liquidity_loc: 'Línea de crédito de efectivo'
+        investment_loc: 'Línea de crédito de inversión'
+        investment: 'Préstamo de Inversión'
+        evolving: 'Préstamo de evolución'
+        single_liquidity_loc: 'Línea puntual de crédito de efectivo'
+        wc_investment: 'Préstamo de Inversión de Capital de Trabajo'
+        sa_investment: 'Préstamo de Inversión de Bienes Asegurados'
       public_level:
         featured: 'Destacado'
         hidden: 'Oculto'
