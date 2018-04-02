@@ -1,0 +1,15 @@
+es:
+  database:
+    option_sets:
+      loan_status:
+        active: 'Prestamo Activo'
+        completed: 'Prestamo Completo'
+        frozen: 'Prestamo Congelado'
+        liquidated: 'Prestamo Liquidado'
+        prospective: 'Prestamo Prospectivo'
+        refinanced: 'Prestamo Refinanciado'
+        relationship: 'Relacion'
+        relationship_active: 'Relacion Activo'
+      public_level:
+        featured: 'Destacado'
+        hidden: 'Oculto'

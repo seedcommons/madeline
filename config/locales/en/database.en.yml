@@ -1,0 +1,15 @@
+en:
+  database:
+    option_sets:
+      loan_status:
+        active: 'Active'
+        completed: 'Completed'
+        frozen: 'Frozen'
+        liquidated: 'Liquidated'
+        prospective: 'Prospective'
+        refinanced: 'Refinanced'
+        relationship: 'Relationship'
+        relationship_active: 'Relationship Active'
+      public_level:
+        featured: 'Featured'
+        hidden: 'Hidden'
