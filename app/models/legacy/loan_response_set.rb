@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class ResponseSet < ActiveRecord::Base
+  class LoanResponseSet < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
 
