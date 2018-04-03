@@ -341,6 +341,7 @@ en:
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
     service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
+  remember_me: "Remember Me"
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
