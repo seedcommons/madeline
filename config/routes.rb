@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :loan_response_sets
+    resources :response_sets
     resources :divisions do
       collection do
         post :select
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         get :duplicate
       end
     end
-    resources :loan_questions do
+    resources :questions do
       patch 'move', on: :member
     end
     resources :notes, only: [:create, :update, :destroy]
