@@ -23,8 +23,6 @@ class Public::LoansController < Public::PublicController
     @other_loans = policy_scope(Loan.related_loans(@loan))
     
     authorize @loan
-    # @other_loans = @loan.cooperative.loans.status('all').order("SigningDate DESC") if @loan.cooperative
-    # @repayments = @loan.repayments.order('DateDue')
   end
 
   def gallery

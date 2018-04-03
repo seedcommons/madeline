@@ -58,9 +58,6 @@ class Loan < Project
   has_one :post_analysis, -> { where("response_sets.kind" => 'post_analysis') }, class_name: "ResponseSet"
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
-  scope :country, ->(country) {
-    # joins(division: :super_division).where('super_divisions_Divisions.Country' => country) unless country == 'all'
-  }
   scope :status, ->(status) { where(status_value: status) }
   scope :visible, -> { where.not(public_level_value: 'hidden') }
   scope :active, -> { status('active') }
@@ -75,9 +72,6 @@ class Loan < Project
   before_create :build_health_check
   after_commit :recalculate_loan_health
 
-  # def self.status_active_id
-  #   status_option_set.id_for_value(STATUS_ACTIVE_VALUE)
-  # end
 
   def self.default_filter
     {status: 'active', country: 'all'}
@@ -85,9 +79,7 @@ class Loan < Project
 
   def self.filter_by_params(params)
     params.reverse_merge! self.default_filter
-    params[:country] = 'Argentina' if params[:division] == :argentina
     scoped = self.all
-    scoped = scoped.country(params[:country]) if params[:country]
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
     scoped
   end
@@ -129,12 +121,6 @@ class Loan < Project
     #todo: beware code that expected a country to always exist can break if US country not included in seed.data
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
-
-  # def currency
-  #   # Revisit the default currency  handling later.  Doesn't not seem to be working as desired,
-  #   # and this code currently precludes being able to update the currency from the edit form.
-  #   @currency ||= self.country.default_currency
-  # end
 
   def display_currency
     currency ? currency.try(:name) : ''
@@ -178,15 +164,14 @@ class Loan < Project
     pics += loan_media(limit - pics.count, images_only=true)
     return pics unless limit > pics.count
     # then log pics
-    # pics += self.log_media(limit - pics.count, images_only=true)
-    # return pics unless limit > pics.count
-    # then remaining coop pics
+    pics += log_media(limit - pics.count, images_only=true)
+    return pics unless limit > pics.count
+  # then remaining coop pics
     pics += coop_pics[0, limit - pics.count]
     return pics
   end
 
   def thumb_path
-    # return "/assets/ww-avatar-watermark.png"
     if !self.featured_pictures.empty?
       self.featured_pictures.first.item.thumb.url
     else "/assets/ww-avatar-watermark.png" end
