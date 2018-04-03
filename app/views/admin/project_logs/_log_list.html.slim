@@ -29,9 +29,14 @@
               i.fa.fa-calendar-o>
               = ldate(log.date)
             .item
-              a href=admin_person_path(log.agent)
-                i.fa.fa-user>
-                = log.agent_name
+              - if log.agent
+                a href=admin_person_path(log.agent)
+                  i.fa.fa-user>
+                  = log.agent_name
+              - else
+                a href='#'
+                  i.fa.fa-user>
+                  i.fa.fa-times-circle
             .item
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
