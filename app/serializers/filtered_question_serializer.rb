@@ -1,2 +1,2 @@
-class FilteredQuestionSerializer < LoanQuestionSerializer
+class FilteredQuestionSerializer < QuestionSerializer
 end

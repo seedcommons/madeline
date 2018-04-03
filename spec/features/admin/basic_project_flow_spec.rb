@@ -5,6 +5,8 @@ feature 'basic project flow' do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let!(:basic_project) { create(:basic_project, division: division) }
+  let(:parent_group) { create(:project_group) }
+  let!(:child_group) { create(:project_group, project: basic_project, parent: parent_group) }
 
   before do
     login_as(user, scope: :user)
@@ -30,5 +32,11 @@ feature 'basic project flow' do
     select user.name, from: 'basic_project_secondary_agent_id'
     click_on 'Update Basic project'
     expect(page).to have_content('The point person for this project cannot be the same as the second point person')
+  end
+
+  scenario 'loan with groups can be deleted' do
+    visit admin_basic_project_path(basic_project)
+    click_on 'Delete Project'
+    expect(page).to have_content('Record was successfully deleted')
   end
 end

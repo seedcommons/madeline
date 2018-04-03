@@ -4,7 +4,7 @@ feature 'questionnaire', js: true do
   let!(:division) { create(:division) }
   let(:user) { create_member(division) }
   let(:loan) { create(:loan, division: division) }
-  let!(:loan_question_set) { create(:loan_question_set, :loan_criteria) }
+  let!(:question_set) { create(:question_set, :loan_criteria) }
 
   before do
     login_as(user, scope: :user)
@@ -14,7 +14,7 @@ feature 'questionnaire', js: true do
     it "works" do
       # create
       visit admin_loan_tab_path(loan, 'questions')
-      fill_in('loan_response_set[summary[text]]', with: 'kittens jumping on rainbows')
+      fill_in('response_set[summary[text]]', with: 'kittens jumping on rainbows')
       click_button 'Save Responses'
       expect(page).to have_content 'successfully created'
       expect(page).to have_content 'kittens jumping on rainbows'
@@ -22,7 +22,7 @@ feature 'questionnaire', js: true do
 
       # edit
       click_link('Edit Responses')
-      fill_in('loan_response_set[summary[text]]', with: 'sexy unicorns')
+      fill_in('response_set[summary[text]]', with: 'sexy unicorns')
       click_button 'Save Responses'
       expect(page).to have_content 'successfully updated'
       expect(page).to have_content 'sexy unicorns'
@@ -48,7 +48,7 @@ feature 'questionnaire', js: true do
 
       visit admin_loan_tab_path(loan, 'questions')
       click_link('Edit Responses')
-      fill_in('loan_response_set[summary[text]]', with: 'gnashing teeth')
+      fill_in('response_set[summary[text]]', with: 'gnashing teeth')
       response_set.touch
       click_button 'Save Responses'
     end
