@@ -1,2 +1,0 @@
-class LoanQuestionSetPolicy < ApplicationPolicy
-end

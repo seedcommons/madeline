@@ -2,10 +2,10 @@
 #
 # Table name: loan_question_requirements
 #
-#  amount           :decimal(, )
-#  id               :integer          not null, primary key
-#  loan_question_id :integer
-#  option_id        :integer
+#  amount      :decimal(, )
+#  id          :integer          not null, primary key
+#  option_id   :integer
+#  question_id :integer
 #
 
 require 'rails_helper'
