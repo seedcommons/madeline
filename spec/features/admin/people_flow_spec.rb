@@ -3,12 +3,13 @@ require 'rails_helper'
 feature 'people flow' do
 
   let!(:division) { create(:division) }
-  let(:log) { build(:project_log) }
-  let!(:person_1) { create(:person, :with_admin_access, :with_password, project_logs: [log]) }
-  let!(:person_2) { create(:person, :with_member_access, :with_password, project_logs: [log]) }
+  let(:person_1) { create(:person, :with_admin_access, :with_password) }
+  let(:person_2) { create(:person, :with_member_access, :with_password) }
+  let(:loan) { create(:loan, division: division, primary_agent: person_1, secondary_agent: person_2) }
+  let(:step) { create(:project_step, project: loan) }
+  let!(:log_1) { create(:project_log, agent: person_1, project_step: step) }
+  let!(:log_2) { create(:project_log, agent: person_2, project_step: step) }
   let(:user_1) { person_1.user }
-  let(:user_2) { person_2.user }
-  let(:loan) { create(:loan, division: division, representative: person_1) }
 
   before do
     login_as(user_1, scope: :user)
@@ -37,16 +38,12 @@ feature 'people flow' do
 
       # visit the logs page that have logs of person deleted
       visit admin_loan_path(loan)
-      within('ul.hidden-print') do
+      within 'ul.hidden-print' do
         click_on 'Logs'
       end
 
-      save_and_open_page
+      # logs, with or without users are still available
+      expect(all('.log.post').size).to eq 2
     end
-
-
-    # During QA, I found this bug. After deleting the member that had logs and trying
-    # to visit the logs page for a specific loan (the loan related to the log),the page errors out.
-    # See the error below. Additionally, the related step's modal cannot be opened from the timeline.
   end
 end
