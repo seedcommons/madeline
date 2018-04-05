@@ -85,6 +85,9 @@
   - if policy(@person).update_access?
 
     = f.input :has_system_access
+      i.fa.ms-tooltip.fa-info-circle
+        .message.hidden
+          .alert.alert-primary role='alert' Maam
       .view-element = translate_boolean(@person.has_system_access)
       = f.input_field :has_system_access
 
@@ -100,9 +103,6 @@
 
       - if policy(@person).update_password?
         = render "password_fields", f: f
-
-    javascript:
-      $(function() { new MS.Views.PersonView({el: '.person.details'}); });
 
   - elsif policy(@person).update_password?
     / Allow non-admin to update password for self
@@ -120,3 +120,8 @@
         a.btn.btn-default href=admin_person_path(@person) = t(:cancel)
     = f.submit class: 'update-action btn btn-primary'
   .clearfix
+
+  javascript:
+    $(function () {
+      new MS.Views.PersonView({el: '.person'});
+    });

@@ -4,6 +4,7 @@ class MS.Views.PersonView extends Backbone.View
   initialize: ->
     @showHideUserFields()
     new MS.Views.NotableView(el: @el)
+    @prepTooltips()
 
   events:
     'click #person_has_system_access': 'showHideUserFields'
@@ -13,3 +14,15 @@ class MS.Views.PersonView extends Backbone.View
       @$('#user_fields').show()
     else
       @$('#user_fields').hide()
+
+  prepTooltips: ->
+    @$('.ms-tooltip').each (index, tip) =>
+      message = $(tip).closest('.person').find('.message').html()
+#      message = I18n.t('questions.not_editable')
+      $(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: 'left'
+        toggle: 'popover'
+        trigger: 'manual'
+
