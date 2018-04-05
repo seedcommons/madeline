@@ -17,8 +17,7 @@ class MS.Views.PersonView extends Backbone.View
 
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) =>
-      message = $(tip).closest('.person').find('.message').html()
-#      message = I18n.t('questions.not_editable')
+      message = $(tip).closest('[data-message]').data('message')
       $(tip).addClass('ms-popover').popover
         content: message
         html: true

@@ -85,9 +85,8 @@
   - if policy(@person).update_access?
 
     = f.input :has_system_access
-      i.fa.ms-tooltip.fa-info-circle
-        .message.hidden
-          .alert.alert-primary role='alert' Maam
+      - if @person.new_record?
+        i.fa.ms-tooltip.fa-info-circle data-message="#{t('member.system_access')}"
       .view-element = translate_boolean(@person.has_system_access)
       = f.input_field :has_system_access
 
