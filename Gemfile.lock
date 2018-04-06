@@ -125,6 +125,8 @@ GEM
     choice (0.2.0)
     chroma (0.2.0)
     chronic (0.10.2)
+    ckeditor_rails (4.8.0)
+      railties (>= 3.0)
     climate_control (0.2.0)
     cliver (0.3.2)
     closure_tree (6.6.0)
@@ -496,6 +498,7 @@ DEPENDENCIES
   carrierwave
   chroma
   chronic
+  ckeditor_rails
   closure_tree (~> 6.2)
   coffee-rails (~> 4.2.0)
   daemons

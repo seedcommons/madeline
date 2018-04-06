@@ -4,6 +4,8 @@
 //= require jquery
 //= require jquery_ujs
 
+//= require ckeditor-jquery
+
 //= require i18n
 //= require i18n/translations
 
