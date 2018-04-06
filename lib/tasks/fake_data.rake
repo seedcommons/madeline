@@ -19,7 +19,7 @@ if Rails.env.development?
 
       # Create admin user
       user = User.find_by(email: "admin@example.com")
-      if user.empty?
+      if user.blank?
         user = FactoryBot.create(:user, :admin,
           email: "admin@example.com",
           password: "xxxxxxxx",

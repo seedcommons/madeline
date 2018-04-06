@@ -137,15 +137,15 @@ class Loan < Project
     I18n.l(self.signing_date, format: :long, default: '')
   end
 
-  def coop_media(limit=100, images_only=false)
+  def coop_media(limit: 100, images_only: false)
     organization.get_media(limit: limit, images_only: images_only)
   end
 
-  def loan_media(limit=100, images_only=false)
+  def loan_media(limit: 100, images_only: false)
     self.get_media(limit: limit, images_only: images_only)
   end
 
-  def log_media(limit=100, images_only=false)
+  def log_media(limit: 100, images_only: false)
     media = []
     self.project_logs.find_each do |log|
       media += log.get_media(limit: limit - media.count, images_only: images_only)
@@ -154,19 +154,19 @@ class Loan < Project
     media
   end
 
-  def featured_pictures(limit=1)
+  def featured_pictures(limit: 1)
     pics = []
-    coop_pics = coop_media(limit, images_only=true).to_a
+    coop_pics = coop_media(limit: limit, images_only: true).to_a
     # use first coop picture first
     pics << coop_pics.shift if coop_pics.count > 0
     return pics unless limit > pics.count
     # then loan pics
-    pics += loan_media(limit - pics.count, images_only=true)
+    pics += loan_media(limit: limit - pics.count, images_only: true)
     return pics unless limit > pics.count
     # then log pics
-    pics += log_media(limit - pics.count, images_only=true)
+    pics += log_media(limit: limit - pics.count, images_only: true)
     return pics unless limit > pics.count
-  # then remaining coop pics
+    # then remaining coop pics
     pics += coop_pics[0, limit - pics.count]
     return pics
   end

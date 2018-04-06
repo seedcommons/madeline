@@ -10,8 +10,8 @@ class Public::LoansController < Public::PublicController
           page(params[:pg]).per(20).
           order('signing_date DESC'))
     authorize @loans
-    @countries = Country.order(:iso_code).pluck(:iso_code)
 
+    @countries = Country.order(:iso_code).pluck(:iso_code)
 
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath
@@ -19,16 +19,20 @@ class Public::LoansController < Public::PublicController
 
   def show
     @loan = Loan.find(params[:id])
+    authorize @loan
+
     @pictures = @loan.featured_pictures(5) # for slideshow
     @other_loans = policy_scope(Loan.related_loans(@loan))
-    
-    authorize @loan
   end
 
   def gallery
     @loan = Loan.find(params[:id])
-    @coop_media = @loan.coop_media(100, true).in_groups_of(4, false)
-    @loan_media = (@loan.loan_media(100, true) + @loan.log_media(100, true)).in_groups_of(4, false)
     authorize @loan
+
+    @coop_media = @loan.coop_media(limit: 100, images_only: true).in_groups_of(4, false)
+    @loan_media = (
+      @loan.loan_media(limit: 100, images_only: true) +
+      @loan.log_media(limit: 100, images_only: true)
+    ).in_groups_of(4, false)
   end
 end
