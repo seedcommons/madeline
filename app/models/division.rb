@@ -27,6 +27,7 @@
 #  principal_account_id           :integer
 #  public                         :boolean          default(TRUE), not null
 #  qb_id                          :string
+#  short_name                     :string
 #  updated_at                     :datetime         not null
 #
 # Indexes
@@ -36,6 +37,7 @@
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
 #  index_divisions_on_organization_id                 (organization_id)
 #  index_divisions_on_principal_account_id            (principal_account_id)
+#  index_divisions_on_short_name                      (short_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -86,6 +88,7 @@ class Division < ActiveRecord::Base
   has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
+  validate :ascii_encoding
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
@@ -155,5 +158,9 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
+  end
+
+  def ascii_encoding
+    errors.add(:short_name, :invalid) unless self.short_name.force_encoding('UTF-8').ascii_only?
   end
 end
