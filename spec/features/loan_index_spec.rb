@@ -65,7 +65,7 @@ feature 'visit loan index page' do
 
     context 'with divisions' do
       scenario 'filters with division' do
-        select 'Root Division', from: 'division'
+        select '-', from: 'division'
         @loans.each do |loan|
           expect(page).to have_content loan.summary
         end
