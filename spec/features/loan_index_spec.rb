@@ -45,7 +45,6 @@ feature 'visit loan index page' do
     context 'with translations' do
       before { @loans = create_list(:loan, 3, :with_translations, :featured) }
       it 'renders translated loan description' do
-        visit public_loans_path
         click_link 'All'
         @loans.each do |loan|
           expect(page).to have_content loan.summary
@@ -56,12 +55,20 @@ feature 'visit loan index page' do
     context 'with no local translations' do
       before { @loans = create_list(:loan, 3, :with_foreign_translations, :featured) }
       it 'renders loan description with translation hint' do
-        visit public_loans_path
         click_link 'All'
         @loans.each do |loan|
           expect(page).to have_content loan.summary
         end
         expect(page).to have_selector '.loans_items span.translation.foreign_language', count: 3
+      end
+    end
+
+    context 'with divisions' do
+      scenario 'filters with division' do
+        select 'Root Division', from: 'division'
+        @loans.each do |loan|
+          expect(page).to have_content loan.summary
+        end
       end
     end
   end
