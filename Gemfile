@@ -52,6 +52,9 @@ gem 'mysql2'
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
+# Human readable short names
+gem 'friendly_id', '~> 5.1.0'
+
 # We are using this fork because:
 # 1. 'tag_options' no longer valid in rails 5
 # 2. AR 'size' method triggers the count query which causes errors in rails 5

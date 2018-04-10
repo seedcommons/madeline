@@ -50,6 +50,9 @@
 
 class Division < ActiveRecord::Base
   include DivisionBased
+  extend FriendlyId
+
+  friendly_id :short_name
 
   has_closure_tree dependent: :restrict_with_exception
   resourcify
@@ -161,6 +164,8 @@ class Division < ActiveRecord::Base
   end
 
   def ascii_encoding
+    # Friendly throws an error when it hits the show page for some reason
+    return if self.persisted?
     errors.add(:short_name, :invalid) unless self.short_name.force_encoding('UTF-8').ascii_only?
   end
 end
