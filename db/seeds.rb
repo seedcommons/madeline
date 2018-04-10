@@ -2,7 +2,7 @@
 # It should not be specific to a particular instance.
 
 Division.root.destroy if Division.root.present?
-Division.create(id: 99, name: 'Root Division') unless Division.root
+Division.find_or_create_by(id: 99, name: 'Root Division', short_name: 'root-division') unless Division.root
 Division.recalibrate_sequence(gap: 1)
 
 Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$',
