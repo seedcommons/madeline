@@ -169,7 +169,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         txn.reload
       end
 
-      describe do
+      describe 'interest accrual' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -212,7 +212,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         end
       end
 
-      describe do
+      describe 'disbursement' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -255,7 +255,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         end
       end
 
-      describe do
+      describe 'repayment' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -310,7 +310,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         end
       end
 
-      describe do
+      describe 'too many  line items' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -360,6 +360,42 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
                     'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
                   'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
                   'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '4',
+                'description' => 'Repayment',
+                'amount' => '2.31',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Credit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '5',
+                'description' => 'Eba',
+                'amount' => '10.99',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Debit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '7',
+                'description' => 'Eba',
+                'amount' => '10.99',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Credit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
                   'department_ref' => nil } }],
             'id' => '167',
             'sync_token' => 0,
@@ -377,7 +413,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         end
       end
 
-      describe do
+      describe 'too few line items' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
