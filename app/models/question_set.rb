@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_question_sets
+# Table name: question_sets
 #
 #  created_at    :datetime         not null
 #  id            :integer          not null, primary key
@@ -8,10 +8,10 @@
 #  updated_at    :datetime         not null
 #
 
-class LoanQuestionSet < ActiveRecord::Base
+class QuestionSet < ActiveRecord::Base
   include Translatable
 
-  has_closure_tree_root :root_group, class_name: "LoanQuestion"
+  has_closure_tree_root :root_group, class_name: "Question"
 
   attr_translatable :label
 
@@ -21,8 +21,8 @@ class LoanQuestionSet < ActiveRecord::Base
   # It is called from a Rails migration and from the old system migration.
   # It should be removed once all the data are migrated and stable.
   def self.create_root_groups!
-    LoanQuestionSet.all.each do |set|
-      roots = LoanQuestion.where(loan_question_set_id: set.id, parent: nil).to_a
+    QuestionSet.all.each do |set|
+      roots = Question.where(question_set_id: set.id, parent: nil).to_a
       new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
       (roots - [new_root]).each { |r| r.update_attributes!(parent: new_root) }
     end
@@ -30,8 +30,8 @@ class LoanQuestionSet < ActiveRecord::Base
 
   def create_root_group!
     raise "Must be persisted" unless persisted?
-    LoanQuestion.create!(
-      loan_question_set_id: id,
+    Question.create!(
+      question_set_id: id,
       parent: nil,
       data_type: "group",
       internal_name: "root_#{id}",
@@ -58,11 +58,11 @@ class LoanQuestionSet < ActiveRecord::Base
     -1
   end
 
-  # Gets a LoanQuestion by its id, internal_name, or the LoanQuestion itself.
+  # Gets a Question by its id, internal_name, or the Question itself.
   # Uses the node_lookup_table so that it does not trigger any new database queries once the table is built.
   def question(question_identifier, required: true)
-    # Return immediately if we are passed a LoanQuestion or FilteredQuestion.
-    if question_identifier.is_a?(LoanQuestion) || question_identifier.is_a?(FilteredQuestion)
+    # Return immediately if we are passed a Question or FilteredQuestion.
+    if question_identifier.is_a?(Question) || question_identifier.is_a?(FilteredQuestion)
       return question_identifier
     end
 
@@ -74,15 +74,15 @@ class LoanQuestionSet < ActiveRecord::Base
       @node_lookup_table[question_identifier]
     end
 
-    raise "LoanQuestion not found: #{question_identifier} for set: #{internal_name}" if required && !result
+    raise "Question not found: #{question_identifier} for set: #{internal_name}" if required && !result
     result
   end
 
   private
 
-  # This is private because it is needed to allow the inverse association on LoanQuestion, but
+  # This is private because it is needed to allow the inverse association on Question, but
   # it should never be used directly. Access children via the root or by cache hashes.
-  has_many :loan_questions, inverse_of: :loan_question_set
+  has_many :questions, inverse_of: :question_set
 
   # Recursive method to construct @node_lookup_table, which is a hash of
   # node IDs and internal_names to the nodes themselves.

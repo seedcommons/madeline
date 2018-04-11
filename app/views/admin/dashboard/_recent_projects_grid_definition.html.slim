@@ -37,6 +37,11 @@
       ordering: false do |project|
       - project.display_name
 
+    - g.column name: t('common.summary'), attribute: 'text', assoc: :translations, filter: false,
+      ordering: false do |project|
+      - unless project.summary.blank?
+        - summary_info(project)
+
     - g.column name: t('activerecord.attributes.project.health_check'), attribute: 'status_value',
       filter: false, ordering: false do |project|
       - if project.health_status_available?

@@ -40,8 +40,11 @@ Rails.application.configure do
     division_urls: { # get division from request url
       '/' => :us,
     },
+    base_uri: {
+      us: 'http://theworkingworld.org'
+    },
     template_paths: { # url of blank wordpress page for rails to retrieve
-      us: '/wordpress/rails_template',
+      us: '/us/rails',
     },
   }
 

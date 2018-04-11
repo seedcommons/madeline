@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_questions
+# Table name: questions
 #
 #  created_at            :datetime         not null
 #  data_type             :string           not null
@@ -8,36 +8,36 @@
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
-#  loan_question_set_id  :integer
 #  migration_position    :integer
 #  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
+#  question_set_id       :integer
 #  required              :boolean          default(FALSE), not null
 #  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_question_set_id  (question_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_...  (question_set_id => question_sets.id)
 #
 
 require 'rails_helper'
 
-describe LoanQuestion, :type => :model do
+describe Question, :type => :model do
   let!(:division) { create(:division) }
 
   it 'has a valid factory' do
-    expect(create(:loan_question)).to be_valid
+    expect(create(:question)).to be_valid
   end
 
   describe 'position' do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { create_question(set: set, name: "lqroot", type: "group") }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
@@ -55,7 +55,7 @@ describe LoanQuestion, :type => :model do
   end
 
   describe "number", clean_with_truncation: true do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
@@ -151,7 +151,7 @@ describe LoanQuestion, :type => :model do
   end
 
   describe "full_number", clean_with_truncation: true do
-    let!(:set) { create(:loan_question_set) }
+    let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }

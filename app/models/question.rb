@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_questions
+# Table name: questions
 #
 #  created_at            :datetime         not null
 #  data_type             :string           not null
@@ -8,23 +8,23 @@
 #  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  internal_name         :string
-#  loan_question_set_id  :integer
 #  migration_position    :integer
 #  number                :integer
 #  override_associations :boolean          default(FALSE), not null
 #  parent_id             :integer
 #  position              :integer
+#  question_set_id       :integer
 #  required              :boolean          default(FALSE), not null
 #  status                :string           default("active"), not null
 #  updated_at            :datetime         not null
 #
 # Indexes
 #
-#  index_loan_questions_on_loan_question_set_id  (loan_question_set_id)
+#  index_questions_on_question_set_id  (question_set_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (loan_question_set_id => loan_question_sets.id)
+#  fk_rails_...  (question_set_id => question_sets.id)
 #
 
 # Full conceptual meaning of 'override_associations' boolean:
@@ -32,7 +32,7 @@
 # parent question"
 
 
-class LoanQuestion < ActiveRecord::Base
+class Question < ActiveRecord::Base
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
@@ -45,10 +45,10 @@ class LoanQuestion < ActiveRecord::Base
     siblings sibling_ids self_and_siblings descendants descendant_ids
     self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
-  belongs_to :loan_question_set
+  belongs_to :question_set
   belongs_to :division
 
-  # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
+  # Used for Questions to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :loan_question_requirements, dependent: :destroy
   accepts_nested_attributes_for :loan_question_requirements, allow_destroy: true
@@ -81,7 +81,7 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def name
-    "#{loan_question_set.internal_name}-#{internal_name}"
+    "#{question_set.internal_name}-#{internal_name}"
   end
 
   def attribute_sym
@@ -137,7 +137,7 @@ class LoanQuestion < ActiveRecord::Base
     id.to_s
   end
 
-  # For table of loan types on loan question edit. Returns a complete set of requirement
+  # For table of loan types on question edit. Returns a complete set of requirement
   # objects, one for each loan type, whether it already exists or not.
   def build_complete_requirements
     (Loan.loan_type_option_set.options - loan_question_requirements.map(&:loan_type)).each do |lt|
@@ -175,11 +175,11 @@ class LoanQuestion < ActiveRecord::Base
   end
 
   def update_numbers_for_parent(parent_id)
-    self.class.connection.execute("UPDATE loan_questions SET number = num FROM (
+    self.class.connection.execute("UPDATE questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
-      FROM loan_questions
+      FROM questions
       WHERE parent_id = #{parent_id} AND status = 'active'
-    ) AS t WHERE loan_questions.id = t.id")
+    ) AS t WHERE questions.id = t.id")
   end
 
   private

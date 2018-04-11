@@ -1,7 +1,8 @@
 module ProjectsHelper
   def health_status_info(health_check)
-    render partial: "admin/dashboard/loan_health_message", locals: {
-      status_message: health_status_message(health_check)
+    render partial: "admin/dashboard/message", locals: {
+      status_message: health_status_message(health_check),
+      message_type: "health_status"
     }
   end
 
@@ -20,5 +21,20 @@ module ProjectsHelper
         warnings: warnings
       }
     end
+  end
+
+  def summary_info(project)
+    render partial: "admin/dashboard/message", locals: {
+      status_message: summary_message(project),
+      message_type: "summary"
+    }
+  end
+
+  def summary_message(project)
+    status_message = {
+      icon: "fa-info-circle",
+      message: project.summary,
+      warnings: []
+    }
   end
 end

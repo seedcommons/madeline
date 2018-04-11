@@ -1,6 +1,6 @@
 es:
-  loan_question: "Pregunta del préstamo"
-  loan_questions:
+  question: "Pregunta del préstamo"
+  questions:
     active: "Activos"
     confirm_deletion: "ATENCIÓN: Si este ítem tiene preguntas o grupos que le pertenecen, ¡también serán borrados! ¿Realmente quieres borrar esto?"
     confirm_deletion_no_descendants: "¿Realmente quieres borrar esto?"
@@ -23,7 +23,7 @@ es:
     range_of_cells: Celdas opcionales para planilla Google
     url: URL
   admin:
-    loan_questions:
+    questions:
       index:
         title: "Preguntas del Préstamo"
         add_item: "Agregar pregunta o grupo"
@@ -34,13 +34,13 @@ es:
         new_item: Nueva Pregunta o Grupo
   simple_form:
     labels:
-      loan_question:
+      question:
         data_type: Tipo de Dato
         division: División
         has_embeddable_media: Permitir adjuntar archivos o links
         loan_types: Requerido para Tipos de Préstamos
     options:
-      loan_question:
+      question:
         data_type:
           string: Respuesta Corta
           text: Párrafo

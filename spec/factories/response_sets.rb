@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: loan_response_sets
+# Table name: response_sets
 #
 #  created_at   :datetime         not null
 #  custom_data  :json
@@ -17,7 +17,7 @@
 #
 
 FactoryBot.define do
-  factory :loan_response_set do
+  factory :response_set do
     loan
     kind 'criteria'
   end
