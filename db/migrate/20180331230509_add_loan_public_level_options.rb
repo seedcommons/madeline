@@ -16,11 +16,9 @@ class AddLoanPublicLevelOptions < ActiveRecord::Migration[5.1]
   def update_values(o)
     case o.value
       when 'featured'
-        o.label_translations.en = 'Featured'
-        o.label_translations.es ='Destacado'
+        o.label_translations = {en: 'Featured', es: 'Destacado'}
       when 'hidden'
-        o.label_translations.en = 'Hidden'
-        o.label_translations.es = 'Oculto'
+        o.label_translations = {en: 'Hidden', es: 'Oculto'}
     end
   end
 end
