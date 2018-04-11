@@ -84,9 +84,9 @@ module Accounting
       end
 
       def set_type(debit, credit, lis)
-        if (debit && debit.id == @int_rcv.id) && (credit && credit.id == @int_inc.id) && lis.count == 2
+        if (debit&.id == @int_rcv.id) && (credit&.id == @int_inc.id) && lis.count == 2
           'interest'
-        elsif credit && debit && debit.id == @prin_acct.id && lis.count == 2
+        elsif credit && debit&.id == @prin_acct.id && lis.count == 2
           return 'disbursement'
         elsif debit && credit && (credit.id == @prin_acct.id || credit.id == @int_rcv.id) && lis.count == 3
           return 'repayment'
