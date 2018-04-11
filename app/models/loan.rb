@@ -59,6 +59,7 @@ class Loan < Project
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :status, ->(status) { where(status_value: status) }
+  scope :by_division, ->(division_id) { where(division_id: division_id) }
   scope :visible, -> { where.not(public_level_value: 'hidden') }
   scope :active, -> { status('active') }
   scope :related_loans, -> (loan) { loan.organization.loans.where.not(id: loan.id) }
@@ -81,7 +82,21 @@ class Loan < Project
     params.reverse_merge! self.default_filter
     scoped = self.all
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
+
+    if self.check_before_division_filter(params[:division])
+      scoped = scoped.by_division(self.find_division_id_with(params[:division]))
+    end
+
     scoped
+  end
+
+  def self.find_division_id_with(name)
+    Division.find_by(name: name).id if name
+  end
+
+  def self.check_before_division_filter(div_params)
+    # division defaults when no parameter is set and this messes with the scoping
+    div_params != 'all divisions' && !div_params.is_a?(Symbol) && div_params.length > 2
   end
 
   # Rate is entered as a percent
