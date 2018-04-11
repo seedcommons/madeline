@@ -38,11 +38,6 @@ form {
     height: inherit;
     width: inherit;
   }
-
-  // Add space between info tooltip and checkbox
-  .fa {
-    margin-left: 1em;
-  }
 }
 
 .form-group.boolean .form-control[type="checkbox"] {
@@ -100,6 +95,17 @@ form {
   // form control normally is, we need to add some padding.
   .form-horizontal .static-text-as-field {
     padding-top: 7px;
+  }
+
+  .form-group.with-info {
+    select, input {
+      width: auto;
+    }
+
+    // Add space between info tooltip and checkbox
+    .fa {
+      margin-left: 1em;
+    }
   }
 }
 
