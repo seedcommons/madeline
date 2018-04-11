@@ -1,0 +1,2 @@
+class ResponseSetPolicy < ApplicationPolicy
+end
