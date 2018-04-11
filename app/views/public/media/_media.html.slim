@@ -1,6 +1,6 @@
 - caption = media.caption
 figure.thumbnail
-  a href=(media.paths[:large])
-    img src=(media.paths[:small]) alt=(media.alt)
+  a href=(media.item.large.url)
+    img src=(media.item.small.url) alt=(media.alt)
   - if caption.try(:content).present?
     figcaption.caption = render_translation caption
