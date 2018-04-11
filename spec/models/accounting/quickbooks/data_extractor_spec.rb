@@ -7,6 +7,7 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
+  let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
 
   # This is example JSON that might be returned by the QB API.
@@ -310,7 +311,8 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         end
       end
 
-      describe 'too many  line items' do
+      context 'too many  line items' do
+        # this has all possible scenario for interest, disbursement, repayment and random
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -396,6 +398,18 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
                     'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
                   'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
                   'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '8',
+                'description' => 'Eba',
+                'amount' => '10.99',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Credit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => random_acct.name, 'name' => random_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
                   'department_ref' => nil } }],
             'id' => '167',
             'sync_token' => 0,
@@ -410,6 +424,34 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         it do
           expect(txn.loan_transaction_type_value).to eq('other')
           expect(txn.managed).to be false
+        end
+
+        describe 'interest with multiple debits and credits' do
+          it do
+            expect(txn.loan_transaction_type_value).to eq('other')
+            expect(txn.managed).to be false
+          end
+        end
+
+        describe 'disbursement with multiple debits and credits' do
+          it do
+            expect(txn.loan_transaction_type_value).to eq('other')
+            expect(txn.managed).to be false
+          end
+        end
+
+        describe 'repayment with multiple debits and credits' do
+          it do
+            expect(txn.loan_transaction_type_value).to eq('other')
+            expect(txn.managed).to be false
+          end
+        end
+
+        describe 'random with multiple debits and credits' do
+          it do
+            expect(txn.loan_transaction_type_value).to eq('other')
+            expect(txn.managed).to be false
+          end
         end
       end
 

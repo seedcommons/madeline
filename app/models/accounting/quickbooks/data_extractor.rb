@@ -80,6 +80,10 @@ module Accounting
         end
 
         set_type(li_details['Debit'], li_details['Credit'], line_items)
+
+        # A transaction can have multiple line items with the same posting type, but in
+        # this case you overwrite the account with only the last one, I think you need to
+        # do these as arrays, and loop over them in the type set as well.
       end
 
       def set_type(debit, credit, lis)
