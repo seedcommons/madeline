@@ -45,6 +45,9 @@ Rails.application.configure do
     division_urls: { # get division from request url
       'http://localhost:3000' => :us,
     },
+    base_uri: {
+      us: 'http://madeline.test'
+    },
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/wordpress/rails_template',
     },
