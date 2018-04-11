@@ -90,6 +90,7 @@ class Division < ActiveRecord::Base
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
+  scope :by_public, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 

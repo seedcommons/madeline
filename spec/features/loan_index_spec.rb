@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 feature 'visit loan index page' do
-  before { @loans = create_list(:loan, 3, :active, :featured) }
+  before do
+    @loans = create_list(:loan, 3, :active, :featured)
+    create(:division, name: 'chicken')
+    create(:division, name: 'kale', public: false)
+  end
+
   context 'on the loan index page' do
     before { visit public_loans_path }
 
@@ -69,6 +74,12 @@ feature 'visit loan index page' do
         @loans.each do |loan|
           expect(page).to have_content loan.summary
         end
+      end
+    end
+
+    context 'show only public divisions on dropdown' do
+      scenario 'non-public decisions do not show' do
+        expect(page.all('select#division option').map(&:value)).to eq ['all divisions', '-', 'chicken']
       end
     end
   end
