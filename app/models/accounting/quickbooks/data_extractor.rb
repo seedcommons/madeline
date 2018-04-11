@@ -53,7 +53,6 @@ module Accounting
         # TODO: set txn account
         # the validation for account will hit here from the spec when testing managed
         # so skipping for test env and doing validate: false in spec
-        txn.save! unless Rails.env.test?
       end
 
       private

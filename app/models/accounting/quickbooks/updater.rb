@@ -87,6 +87,7 @@ module Accounting
 
         extractor = Accounting::Quickbooks::DataExtractor.new(txn)
         extractor.extract!
+        txn.save!
       end
 
       def changes
