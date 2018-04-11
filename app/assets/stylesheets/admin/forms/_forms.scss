@@ -78,15 +78,19 @@ form {
 .edit-view, .new-view {
   .form-element {
     display: block;
-
-    &.fa {
-      display: inline-block;
-    }
   }
 
   // We need to list specific tag types here that need to override the default display: block above.
-  a.form-element { display: inline; }
-  input.form-element, textarea.form-element, select.form-element { display: inline-block; }
+  a {
+    &.form-element {
+      display: inline;
+    }
+  }
+  input, textarea, select, .fa {
+    &.form-element {
+      display: inline-block;
+    }
+  }
 
   .view-element {
     display: none !important;
