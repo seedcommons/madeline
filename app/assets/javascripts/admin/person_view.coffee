@@ -21,7 +21,6 @@ class MS.Views.PersonView extends Backbone.View
       $(tip).addClass('ms-popover').popover
         content: message
         html: true
-        placement: 'left'
+        placement: 'right'
         toggle: 'popover'
         trigger: 'manual'
-
