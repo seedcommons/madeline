@@ -67,4 +67,9 @@ module ApplicationHelper
       capture(&block)
     end
   end
+
+  # app version number
+  def app_version_number
+    @app_version ||= File.read(File.join(Rails.root, "VERSION"))
+  end
 end
