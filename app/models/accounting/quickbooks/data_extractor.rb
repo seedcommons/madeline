@@ -70,13 +70,17 @@ module Accounting
         @int_rcv = loan.division.interest_receivable_account
         @int_inc = loan.division.interest_income_account
         @prin_acct = loan.division.principal_account
-        li_details = {}
+
+        li_details = {
+          'Debit' => [],
+          'Credit' => []
+        }
 
         return 'other' if line_items.count > 3
 
         line_items.each do |li|
           line_item = txn.line_item_with_id(li['id'].to_i)
-          li_details[line_item.posting_type] = line_item.account
+          li_details[line_item.posting_type] << line_item.account
         end
 
         set_type(li_details['Debit'], li_details['Credit'], line_items)
@@ -86,16 +90,24 @@ module Accounting
         # do these as arrays, and loop over them in the type set as well.
       end
 
-      def set_type(debit, credit, lis)
-        if (debit&.id == @int_rcv.id) && (credit&.id == @int_inc.id) && lis.count == 2
+      def set_type(debits, credits, lis)
+        if any_debit_txns?(debits, @int_rcv) && any_credit_txns?(credits, @int_inc) && lis.count == 2
           'interest'
-        elsif credit && debit&.id == @prin_acct.id && lis.count == 2
+        elsif credits.any? && any_debit_txns?(debits, @prin_acct) && lis.count == 2
           return 'disbursement'
-        elsif debit && credit && (credit.id == @prin_acct.id || credit.id == @int_rcv.id) && lis.count == 3
+        elsif debits.any? && any_credit_txns?(credits, @prin_acct || @int_rcv) && lis.count == 3
           return 'repayment'
         else
           'other'
         end
+      end
+
+      def any_debit_txns?(debits, acct)
+        debits.any? { |debit| debit&.id == acct.id }
+      end
+
+      def any_credit_txns?(credits, acct)
+        credits.any? { |credit| credit&.id == acct.id }
       end
     end
   end
