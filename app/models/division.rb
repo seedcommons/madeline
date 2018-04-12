@@ -91,7 +91,6 @@ class Division < ActiveRecord::Base
   has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
-  validate :ascii_encoding
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
@@ -161,11 +160,5 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
-  end
-
-  def ascii_encoding
-    # Friendly throws an error when it hits the show page for some reason
-    return if self.persisted?
-    errors.add(:short_name, :invalid) unless self.short_name.force_encoding('UTF-8').ascii_only?
   end
 end
