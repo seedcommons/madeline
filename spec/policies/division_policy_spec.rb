@@ -8,6 +8,7 @@ describe DivisionPolicy do
   let!(:parent_division) { create(:division) }
   let!(:division) { create(:division, parent: parent_division) }
   let!(:child_division) { create(:division, parent: division) }
+  let!(:private_division) { create(:division, parent: division, public: false) }
 
   context 'being a member of a division' do
     let(:user) { create(:user, :member, division: division) }
@@ -86,6 +87,22 @@ describe DivisionPolicy do
       let(:user) { create(:user, division: division) }
       it 'cannot resolve any division' do
         expect(division_scope(user)).not_to exist
+      end
+    end
+
+    context 'with a signed user' do
+      let(:user) { create(:user, :admin, division: parent_division) }
+
+      it 'shows all divisions' do
+        expect(division_scope(user)).to contain_exactly(parent_division, division, child_division, private_division)
+      end
+    end
+
+    context 'without a signed user' do
+      let(:user) { nil }
+
+      it 'shows all divisions' do
+        expect(division_scope(user)).to contain_exactly(parent_division, division, child_division)
       end
     end
 

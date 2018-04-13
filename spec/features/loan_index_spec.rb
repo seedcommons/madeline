@@ -70,7 +70,7 @@ feature 'visit loan index page' do
 
     context 'with divisions' do
       scenario 'filters with division' do
-        select '-', from: 'division'
+        select 'chicken', from: 'division'
         @loans.each do |loan|
           expect(page).to have_content loan.summary
         end
@@ -79,7 +79,7 @@ feature 'visit loan index page' do
 
     context 'show only public divisions on dropdown' do
       scenario 'non-public decisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq ['all divisions', '-', 'chicken']
+        expect(page.all('select#division option').map(&:value)).to eq ['all divisions', 'chicken']
       end
     end
   end
