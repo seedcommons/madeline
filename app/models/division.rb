@@ -52,6 +52,8 @@ class Division < ActiveRecord::Base
   include DivisionBased
   extend FriendlyId
 
+  after_create :add_short_name
+
   friendly_id :short_name
 
   has_closure_tree dependent: :restrict_with_exception
@@ -160,5 +162,12 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
+  end
+
+  def add_short_name
+    if self.short_name.nil?
+      self.short_name = self.name.parameterize
+      save
+    end
   end
 end
