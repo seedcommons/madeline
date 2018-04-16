@@ -19,7 +19,7 @@ module Accounting
         end
 
         txn.quickbooks_data['line_items'].each do |li|
-          acct = Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
+          acct = Accounting::Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
 
           # skip if line item does not have an account in Madeline
           next unless acct
@@ -51,8 +51,6 @@ module Accounting
         txn.managed = false if txn.loan_transaction_type_value == 'other'
 
         # TODO: set txn account
-        # the validation for account will hit here from the spec when testing managed
-        # so skipping for test env and doing validate: false in spec
       end
 
       private
