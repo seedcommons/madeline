@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# TODO: refactor this into a shared example group later
 # wice grid tables are being used in a lot of places so we'll pick one for the
 # spec since it's all being powered by one partial: admin/common/grid
 
