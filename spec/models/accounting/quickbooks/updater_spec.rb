@@ -352,6 +352,15 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
             expect(txn.managed).to be true
           end
         end
+
+        context 'quickbooks data without journal number is not managed' do
+          it do
+            qb_data = {'line_items' => [], 'doc_number' => nil, 'txn_date' => Date.today}
+            txn.update(quickbooks_data: qb_data)
+            subject.send(:extract_qb_data, txn)
+            expect(txn.managed).to be false
+          end
+        end
       end
     end
   end

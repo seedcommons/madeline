@@ -86,8 +86,8 @@ module Accounting
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
-        # set txn to managed if there's an MS prefix on the journal number
-        txn.managed = (txn.quickbooks_data['doc_number'].start_with? 'MS') ? true : false
+        # set txn to managed if there's an MS prefix on a journal number
+        txn.managed = (txn.quickbooks_data['doc_number']&.start_with? 'MS') ? true : false
 
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
