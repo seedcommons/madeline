@@ -146,7 +146,7 @@ class ProjectGroup < TimelineEntry
   end
 
   def validate_no_children
-    raise DestroyWithChildrenError.new if children.present?
+    raise DestroyWithChildrenError.new if children.present? && !project.destroying
   end
 
   private

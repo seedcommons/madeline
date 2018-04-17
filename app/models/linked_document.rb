@@ -1,10 +1,10 @@
 # Represents a link to an online document, usually a google spreadsheet from a
-# LoanResponse.
+# Response.
 # Supercedes concept of 'EmbeddableMedia'
 
 class LinkedDocument
 
-  # Persisted data from LoanResponse value hash
+  # Persisted data from Response value hash
   attr_accessor :url
   # Only relevant for google spreadsheets
   attr_accessor :start_cell
