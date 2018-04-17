@@ -94,7 +94,7 @@ class Admin::DivisionsController < Admin::AdminController
   private
 
   def division_params
-    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :parent_id,
+    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :parent_id, :public,
       :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color, :notify_on_new_logs, locales: [])
   end
 
