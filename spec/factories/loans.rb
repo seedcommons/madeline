@@ -3,6 +3,7 @@ FactoryBot.define do
     division { root_division }
     organization
     name { "Loan for " + organization.name }
+    currency { Currency.all.sample || create(:currency) }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
@@ -19,6 +20,11 @@ FactoryBot.define do
     projected_return { amount + (amount * rate * length_months/12) }
 
 
+
+    trait :featured do
+      public_level_value "featured"
+    end
+
     trait :active do
       status_value :active
     end
@@ -32,19 +38,13 @@ FactoryBot.define do
     end
 
     trait :with_translations do
-      after(:create) do |loan|
-        create(:translation, translatable: loan, translatable_attribute: :summary)
-        create(:translation, translatable: loan, translatable_attribute: :details)
-      end
+      summary { Faker::Hipster.sentence }
+      details { Faker::Hipster.paragraph }
     end
 
     trait :with_foreign_translations do
-      after(:create) do |loan|
-        create(:translation,
-          translatable: loan, translatable_attribute: :summary, locale: :es, text: Faker::Lorem.paragraph(2))
-        create(:translation,
-          translatable: loan, translatable_attribute: :details, locale: :es, text: Faker::Lorem.paragraph(2))
-      end
+      summary_es { Faker::Lorem.sentence }
+      details_es { Faker::Lorem.paragraph(2) }
     end
 
     trait :with_loan_media do
@@ -168,7 +168,7 @@ FactoryBot.define do
     # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
-        loan.criteria = create(:loan_response_set,
+        loan.criteria = create(:response_set,
           kind: 'criteria',
           loan: loan,
           custom_data: {summary: 'foo', workers: 5}

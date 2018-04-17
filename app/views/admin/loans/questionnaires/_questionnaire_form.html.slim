@@ -1,6 +1,6 @@
 .questionnaire-form
   / We manually specify the form URL here because we need to pass the filter QS param
-  / in case the form validation fails and the LoanResponseSetsController has to render.
+  / in case the form validation fails and the ResponseSetsController has to render.
   = simple_form_for([:admin, response_set],
       html: { \
         class: 'form-horizontal',

@@ -74,6 +74,7 @@ module Accounting
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
           txn.reload.calculate_balances(prev_tx: prev_tx)
+          txn.currency = lookup_currency(txn)
           txn.save!
           prev_tx = txn
         end
@@ -113,8 +114,6 @@ module Accounting
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
-
-        txn.currency = lookup_currency(txn)
 
         # This line may seem odd since the natural thing to do would be to simply compute the
         # amount based on the sum of the line items.
