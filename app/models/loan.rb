@@ -95,8 +95,8 @@ class Loan < Project
     scoped
   end
 
-  def self.find_division_id_with(name)
-    Division.find_by(name: name).id if name
+  def self.find_division_id_with(s_name)
+    Division.find_by(short_name: s_name).id if s_name
   end
 
   def self.check_before_division_filter(div_params)
