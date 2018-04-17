@@ -34,16 +34,16 @@ Country.recalibrate_sequence
 
 OptionSetCreator.new.create_all
 
-# Need to leave room for migrated loan questions
+# Need to leave room for migrated questions
 # Can remove this line once migration is over with.
-LoanQuestion.recalibrate_sequence(id: 300)
+Question.recalibrate_sequence(id: 300)
 
 # Without these resets we were getting a strange closure_tree error.
-LoanQuestionSet.connection.schema_cache.clear!
-LoanQuestionSet.reset_column_information
+QuestionSet.connection.schema_cache.clear!
+QuestionSet.reset_column_information
 
-LoanQuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria').
+QuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria').
   set_label('Loan Criteria Questionnaire')
-LoanQuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis').
+QuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis').
   set_label('Loan Post Analysis')
-LoanQuestionSet.recalibrate_sequence(gap: 10)
+QuestionSet.recalibrate_sequence(gap: 10)

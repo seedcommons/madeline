@@ -12,3 +12,4 @@ es:
         edit: "Editar División"
       form:
         notify_on_new_logs: "Notificar a los usuarios de esta división cuando se crea un nuevo apunte"
+        public: "Mostrar en la pagina web pública los préstamos de este división"
