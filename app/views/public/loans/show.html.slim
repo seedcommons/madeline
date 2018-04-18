@@ -77,7 +77,10 @@
       #about_loan.tab-content
         #summary.tab-pane
           p.loan_description
-            = render_translation(@loan.details) || %Q{<span class="notfound">#{t :no_description_found}</span>}
+            - if @loan.details
+              = render_translation(@loan.details)
+            - else
+              .notfound = t :no_description_found
 
         // Disable timeline and repayments for now
         / #timeline.tab-pane
