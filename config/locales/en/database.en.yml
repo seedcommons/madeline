@@ -25,8 +25,8 @@ en:
         investment: 'Investment loan'
         evolving: 'Evolving loan'
         single_liquidity_loc: 'Single liquidity line of credit'
-        wc_investment: 'Working capital investment Loan'
-        sa_investment: 'Secured asset investment Loan'
+        wc_investment: 'Working capital investment loan'
+        sa_investment: 'Secured asset investment loan'
       media_kind:
         image: 'Image'
         video: 'Video'
