@@ -1,6 +1,4 @@
-# This view is for general functions for the entire app, including admin and frontend
-# Should be used sparingly. Prefer separate views (perhaps instantiated from in here)
-# for cohesive pieces of functionality.
+# For public loans
 class MS.Views.LoanView extends Backbone.View
 
   el: '.loans'
