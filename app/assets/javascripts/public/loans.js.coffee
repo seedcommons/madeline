@@ -1,11 +1,11 @@
 $ ->
   # Enable link to tab
-  hash = document.location.hash
-  prefix = "_"
-  if hash
-    $(".nav-tabs a[href=" + hash.replace(prefix, "") + "]").tab "show"
-  else # Select first tab
-    $(".nav-tabs a:first").tab "show"
+  # hash = document.location.hash
+  # prefix = "_"
+  # if hash
+  #   $(".nav-tabs a[href=" + hash.replace(prefix, "") + "]").tab "show"
+  # else # Select first tab
+  #   $(".nav-tabs a:first").tab "show"
 
   # Initiate slideshow
   $(".carousel-inner .item").first().addClass "active"

@@ -60,9 +60,26 @@
 
     .clearfix
 
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Nunc tincidunt</a></li>
+      <li><a href="#tabs-2">Proin dolor</a></li>
+      <li><a href="#tabs-3">Aenean lacinia</a></li>
+    </ul>
+    <div id="tabs-1">
+      <p>Tab 1 content</p>
+    </div>
+    <div id="tabs-2">
+      <p>Tab 2 content</p>
+    </div>
+    <div id="tabs-3">
+      <p>Tab 3 content</p>
+    </div>
+  </div>
+
   .row.loan_detail_tabs
     .col-xs-12
-      ul.nav.nav-tabs
+      ul.nav.nav-tabs#loan-tabs
         li
           a data-toggle="tab" href="#summary" = t :summary
         // Disable timeline and repayments for now
@@ -125,3 +142,8 @@
 
 
 / = render 'media/blueimp-gallery'
+
+javascript:
+  $(function(){
+    new MS.Views.LoanView();
+  });
