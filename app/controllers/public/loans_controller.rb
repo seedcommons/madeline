@@ -21,7 +21,7 @@ class Public::LoansController < Public::PublicController
     @loan = Loan.find(params[:id])
     authorize @loan
 
-    @pictures = @loan.featured_pictures(5) # for slideshow
+    @pictures = @loan.featured_pictures(limit: 5) # for slideshow
     @other_loans = policy_scope(Loan.related_loans(@loan))
   end
 
