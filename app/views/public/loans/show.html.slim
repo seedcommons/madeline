@@ -79,11 +79,11 @@
 
   .row.loan_detail_tabs#tabs
     .col-xs-12
-      ul
-        li
-          a data-toggle="tab" href="#summary" = t :summary
-        li
-          a data-toggle="tab" href="#other_loans" = t :past_loans
+      ul.nav.nav-tabs
+        li.nav-item
+          a.nav-link href="#summary" = t :summary
+        li.nav-item
+          a.nav-link href="#other_loans" = t :past_loans
     #about_loan.tab-content
       #summary.tab-pane
         p.loan_description
