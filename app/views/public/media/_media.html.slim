@@ -1,5 +1,3 @@
-- caption = media.caption
 figure.thumbnail data-url=(media.item.large.url)
   img src=(media.item.small.url) alt=(media.alt)
-  - if caption.try(:content).present?
-    figcaption.caption = render_translation caption
+  figcaption.caption = media_caption(media)
