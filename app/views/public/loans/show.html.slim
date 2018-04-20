@@ -82,10 +82,10 @@
     .col-xs-12
       ul.nav.nav-tabs
         li.nav-item
-          a.nav-link href="#summary" = t :summary
+          a.nav-link.active href="#summary" = t :details
         li.nav-item
           a.nav-link href="#other_loans" = t :past_loans
-    #about_loan.tab-content
+    #about_loan.tab-content.col-xs-12
       #summary.tab-pane
         p.loan_description
           - if @loan.details
