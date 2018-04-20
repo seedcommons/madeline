@@ -10,4 +10,4 @@ class MS.Views.LoanView extends Backbone.View
 
   initializeTabs: ->
     # Loan tabs use jQuery UI Tab functionality and Bootstrap styling
-    @$el.tabs();
+    @$el.find('#tabs').tabs();
