@@ -107,15 +107,16 @@ class OptionSetCreator
   def create_public_level
     public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'public_level')
-    public_level.options.destroy_all
-    public_level.options.create(value: 'featured', label_translations: {
-        en: I18n.t('database.option_sets.public_level.featured', locale: 'en'),
-        es: I18n.t('database.option_sets.public_level.featured', locale: 'es')
-      })
-    public_level.options.create(value: 'hidden', label_translations: {
-        en: I18n.t('database.option_sets.public_level.hidden', locale: 'en'),
-        es: I18n.t('database.option_sets.public_level.hidden', locale: 'es')
-      })
+
+    public_level.options.find_or_create_by(value: 'featured') do |option|
+      option.label_translations.en = I18n.t('database.option_sets.public_level.featured', locale: 'en')
+      option.label_translations.es = I18n.t('database.option_sets.public_level.featured', locale: 'es')
+    end
+
+    public_level.options.find_or_create_by(value: 'hidden') do |option|
+      option.label_translations.en = I18n.t('database.option_sets.public_level.hidden', locale: 'en')
+      option.label_translations.es = I18n.t('database.option_sets.public_level.hidden', locale: 'es')
+    end
   end
 
   def create_step_type
