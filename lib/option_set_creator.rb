@@ -1,13 +1,13 @@
 class OptionSetCreator
   def create_all
-    create_loan_status
-    create_basic_project_status
-    create_loan_type
+    # create_loan_status
+    # create_basic_project_status
+    # create_loan_type
     create_public_level
-    create_step_type
-    create_progress_metric
-    create_media_kind
-    create_loan_transaction_type
+    # create_step_type
+    # create_progress_metric
+    # create_media_kind
+    # create_loan_transaction_type
   end
 
   def create_loan_status
@@ -107,15 +107,23 @@ class OptionSetCreator
     public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'public_level')
 
-    Option.find_or_create_by(option_set_id: public_level.id, value: 'featured') do |option|
-      option.label_translations.en = I18n.t('database.option_sets.public_level.featured', locale: 'en')
-      option.label_translations.es = I18n.t('database.option_sets.public_level.featured', locale: 'es')
+    o1 = Option.find_or_create_by(option_set_id: public_level.id, value: 'featured')
+    o1.label_translations.each do |lt|
+      locale = lt.locale
+      lt.update_attribute(:text, I18n.t('database.option_sets.public_level.featured', locale: locale))
     end
+    pp o1
+    pp o1.label_translations
 
-    Option.find_or_create_by(option_set_id: public_level.id, value: 'hidden') do |option|
+    o2 = Option.find_or_create_by(option_set_id: public_level.id, value: 'hidden') do |option|
       option.label_translations.en = I18n.t('database.option_sets.public_level.hidden', locale: 'en')
       option.label_translations.es = I18n.t('database.option_sets.public_level.hidden', locale: 'es')
+      option.save
     end
+
+    puts 'o1', o1.inspect
+
+    puts 'o2', o2.inspect
   end
 
   def create_step_type

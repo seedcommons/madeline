@@ -1,8 +1,7 @@
 # This is generic data that is needed for any instance of this app to work properly.
 # It should not be specific to a particular instance.
 
-Division.root.destroy if Division.root.present?
-Division.create(id: 99, name: 'Root Division') unless Division.root
+Division.create(id: 99, name: 'Root Division') unless Division.root.present?
 Division.recalibrate_sequence(gap: 1)
 
 Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$',
@@ -47,3 +46,5 @@ QuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria').
 QuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis').
   set_label('Loan Post Analysis')
 QuestionSet.recalibrate_sequence(gap: 10)
+
+puts 'seeds ran successfully'
