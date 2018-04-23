@@ -13,36 +13,35 @@ class OptionSetCreator
   def create_loan_status
     loan_status = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'status')
-    loan_status.options.destroy_all
-    loan_status.options.create(value: 'active', label_translations: {
+    loan_status.options.find_or_create_by(value: 'active', label_translations: {
         en: I18n.t('database.option_sets.loan_status.active', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.active', locale: 'es')
       })
-    loan_status.options.create(value: 'completed', label_translations: {
+    loan_status.options.find_or_create_by(value: 'completed', label_translations: {
         en: I18n.t('database.option_sets.loan_status.completed', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.completed', locale: 'es')
       })
-    loan_status.options.create(value: 'frozen', label_translations: {
+    loan_status.options.find_or_create_by(value: 'frozen', label_translations: {
         en: I18n.t('database.option_sets.loan_status.frozen', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.frozen', locale: 'es')
       })
-    loan_status.options.create(value: 'liquidated', label_translations: {
+    loan_status.options.find_or_create_by(value: 'liquidated', label_translations: {
         en: I18n.t('database.option_sets.loan_status.liquidated', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.liquidated', locale: 'es')
       })
-    loan_status.options.create(value: 'prospective', label_translations: {
+    loan_status.options.find_or_create_by(value: 'prospective', label_translations: {
         en: I18n.t('database.option_sets.loan_status.prospective', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.prospective', locale: 'es')
       })
-    loan_status.options.create(value: 'refinanced', label_translations: {
+    loan_status.options.find_or_create_by(value: 'refinanced', label_translations: {
         en: I18n.t('database.option_sets.loan_status.refinanced', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.refinanced', locale: 'es')
       })
-    loan_status.options.create(value: 'relationship', label_translations: {
+    loan_status.options.find_or_create_by(value: 'relationship', label_translations: {
         en: I18n.t('database.option_sets.loan_status.relationship', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.relationship', locale: 'es')
       })
-    loan_status.options.create(value: 'relationship_active', label_translations: {
+    loan_status.options.find_or_create_by(value: 'relationship_active', label_translations: {
         en: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'en'),
         es: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'es')
       })
@@ -108,12 +107,12 @@ class OptionSetCreator
     public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'public_level')
 
-    public_level.options.find_or_create_by(value: 'featured') do |option|
+    Option.find_or_create_by(option_set_id: public_level.id, value: 'featured') do |option|
       option.label_translations.en = I18n.t('database.option_sets.public_level.featured', locale: 'en')
       option.label_translations.es = I18n.t('database.option_sets.public_level.featured', locale: 'es')
     end
 
-    public_level.options.find_or_create_by(value: 'hidden') do |option|
+    Option.find_or_create_by(option_set_id: public_level.id, value: 'hidden') do |option|
       option.label_translations.en = I18n.t('database.option_sets.public_level.hidden', locale: 'en')
       option.label_translations.es = I18n.t('database.option_sets.public_level.hidden', locale: 'es')
     end
