@@ -14,6 +14,8 @@ en:
   admin:
     people:
       show:
+        with_logs:
+          confirm_deletion: "WARNING: This member has logs. If you choose to delete the member, the logs will remain with no author. If you wish to keep the member as the author of the logs, do not delete this member. Instead, if the member is no longer active, uncheck the 'Has  system access' option."
         confirm_deletion: "WARNING: Are you sure you want to permanently delete this Member?"
         delete: "Delete Member"
         edit: "Edit Member"

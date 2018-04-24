@@ -99,6 +99,42 @@ SimpleForm.setup do |config|
     end
   end
 
+  # Use this for forms that will incoporate one and two column sections
+  # This wrapper is for one column sections, parts of the form that take up full-width.
+  config.wrappers :horizontal_form_one_column, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: 'col-sm-3 control-label'
+
+    b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
+      ba.use :input, class: 'form-element form-control'
+      ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
+      ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
+    end
+  end
+
+  # Use this wrapper for forms that will incoporate one and two column sections.
+  # This wrapper is for two column sections, parts of the form that take up half-width.
+  config.wrappers :horizontal_form_two_columns, tag: 'div', class: 'form-group two-column-form-element', error_class: 'has-error' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: 'col-sm-6 control-label'
+
+    b.wrapper tag: 'div', class: 'col-sm-6' do |ba|
+      ba.use :input, class: 'form-element form-control inline'
+      ba.use :error, wrap_with: { tag: 'span', class: 'help-block' }
+      ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
+    end
+  end
+
   config.wrappers :horizontal_file_input, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
     b.use :html5
     b.use :placeholder
