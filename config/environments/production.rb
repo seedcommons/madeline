@@ -102,6 +102,6 @@ Rails.application.configure do
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/us/rails',
       argentina: '/rails',
-    },
+    }
   }
 end

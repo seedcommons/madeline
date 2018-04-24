@@ -99,10 +99,10 @@ Rails.application.configure do
       us: 'http://theworkingworld.org',
       argentina: 'http://labase.org'
     },
-    template_urls: { # url of blank wordpress page for rails to retrieve
-      us: 'http://www.theworkingworld.org/us/rails',
-      argentina: 'http://labase.org/rails',
-    },
+    template_paths: { # url of blank wordpress page for rails to retrieve
+      us: '/us/rails',
+      argentina: '/rails',
+    }
   }
 
   #todo: remove once the cause of this is sorted out.
