@@ -41,7 +41,6 @@ en:
       public_level:
         featured: 'Featured'
         hidden: 'Hidden'
-        public: 'Public'
       step_type:
         checkin: 'Check-in'
         milestone: 'Milestone'
