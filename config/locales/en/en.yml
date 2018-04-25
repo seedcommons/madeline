@@ -247,7 +247,6 @@ en:
   show_active: Active
   show_completed: Completed
   show_all: All
-  show_all_divisions: All Divisions
   loan_active: Active
   loan_completed: Completed
   no_loans_found: No loans found.

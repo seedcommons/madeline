@@ -3,7 +3,7 @@ class Public::LoansController < Public::PublicController
   after_action :verify_authorized
 
   def index
-    params[:division] = params[:division] || get_division_from_url
+    params[:division] ||= get_division_from_url
     @params = { status: params[:status], pg: params[:pg], division: params[:division] }
     @loans = policy_scope(Loan.filter_by_params(params).visible.
           includes(:organization, division: :parent).

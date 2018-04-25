@@ -33,7 +33,7 @@ class DivisionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      user ? scope.where(id: accessible_ids) : scope.where(public: true)
+      user ? scope.where(id: accessible_ids) : scope.published
     end
 
     # This merges in child divisions of the divisions for which a user has been specifically

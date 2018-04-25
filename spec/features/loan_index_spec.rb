@@ -2,8 +2,11 @@ require 'rails_helper'
 
 feature 'visit loan index page' do
   before do
-    @loans = create_list(:loan, 3, :active, :featured)
-    create(:division, name: 'chicken', short_name: 'chick')
+    @loan_1 = create :loan, :active, :featured, name: 'First loan'
+    @loan_2 = create :loan, :active, :featured, name: 'Second loan'
+    @loans =  [@loan_1, @loan_2]
+    create(:division, name: 'chicken', short_name: 'chick', loans: [@loan_1])
+    create(:division, name: 'pokemon', short_name: 'pikachu', loans: [@loan_2])
     create(:division, name: 'kale', short_name: 'kk', public: false)
   end
 
@@ -70,16 +73,25 @@ feature 'visit loan index page' do
 
     context 'with divisions' do
       scenario 'filters with division' do
-        select 'chicken', from: 'division'
-        @loans.each do |loan|
-          expect(page).to have_content loan.summary
-        end
+        visit public_loans_path(division: 'chick')
+        expect(page).not_to have_content(@loan_2.name)
+        expect(page).to have_content(@loan_1.name)
+
+        # when another division is filtered
+        visit public_loans_path(division: 'pikachu')
+        expect(page).not_to have_content(@loan_1.name)
+        expect(page).to have_content(@loan_2name)
+
+        # when no division is filtered
+        visit public_loans_path
+        expect(page).to have_content(@loan_1.name)
+        expect(page).to have_content(@loan_2.name)
       end
     end
 
     context 'show only public divisions on dropdown' do
-      scenario 'non-public decisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq ['all divisions', 'chick']
+      scenario 'non-public divisions do not show' do
+        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu)
       end
     end
   end

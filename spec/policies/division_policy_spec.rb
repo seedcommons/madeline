@@ -90,7 +90,7 @@ describe DivisionPolicy do
       end
     end
 
-    context 'with a signed user' do
+    context 'with a signed in user' do
       let(:user) { create(:user, :admin, division: parent_division) }
 
       it 'shows all divisions' do
@@ -98,7 +98,7 @@ describe DivisionPolicy do
       end
     end
 
-    context 'without a signed user' do
+    context 'without a signed in user' do
       let(:user) { nil }
 
       it 'shows all divisions' do
