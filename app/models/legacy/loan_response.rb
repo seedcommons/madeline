@@ -1,12 +1,12 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class Response < ActiveRecord::Base
+  class LoanResponse < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
 
     def question
-      Question.where(id: question_id).first
+      LoanQuestion.where(id: question_id).first
     end
 
     def value_hash

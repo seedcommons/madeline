@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class Question < ActiveRecord::Base
+  class LoanQuestion < ActiveRecord::Base
     establish_connection :legacy
     include LegacyModel
 
@@ -90,7 +90,7 @@ module Legacy
     end
 
     def migrate_children
-      Question.where("NewGroup = :parent_id",
+      LoanQuestion.where("NewGroup = :parent_id",
         {parent_id: id}).order('NewOrder').each do |record|
         record.migrate
       end
