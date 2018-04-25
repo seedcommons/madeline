@@ -15,36 +15,36 @@ class OptionSetCreator
       model_attribute: 'status')
     loan_status.options.destroy_all
     loan_status.options.create(value: 'active', label_translations: {
-        en: 'Active',
-        es: 'Prestamo Activo'
+        en: I18n.t('database.option_sets.loan_status.active', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.active', locale: 'es')
       })
     loan_status.options.create(value: 'completed', label_translations: {
-        en: 'Completed',
-        es: 'Prestamo Completo'
+        en: I18n.t('database.option_sets.loan_status.completed', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.completed', locale: 'es')
       })
     loan_status.options.create(value: 'frozen', label_translations: {
-        en: 'Frozen',
-        es: 'Prestamo Congelado'
+        en: I18n.t('database.option_sets.loan_status.frozen', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.frozen', locale: 'es')
       })
     loan_status.options.create(value: 'liquidated', label_translations: {
-        en: 'Liquidated',
-        es: 'Prestamo Liquidado'
+        en: I18n.t('database.option_sets.loan_status.liquidated', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.liquidated', locale: 'es')
       })
     loan_status.options.create(value: 'prospective', label_translations: {
-        en: 'Prospective',
-        es: 'Prestamo Prospectivo'
+        en: I18n.t('database.option_sets.loan_status.prospective', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.prospective', locale: 'es')
       })
     loan_status.options.create(value: 'refinanced', label_translations: {
-        en: 'Refinanced',
-        es: 'Prestamo Refinanciado'
+        en: I18n.t('database.option_sets.loan_status.refinanced', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.refinanced', locale: 'es')
       })
     loan_status.options.create(value: 'relationship', label_translations: {
-        en: 'Relationship',
-        es: 'Relacion'
+        en: I18n.t('database.option_sets.loan_status.relationship', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.relationship', locale: 'es')
       })
     loan_status.options.create(value: 'relationship_active', label_translations: {
-        en: 'Relationship Active',
-        es: 'Relacion Activo'
+        en: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'es')
       })
   end
 
@@ -53,20 +53,20 @@ class OptionSetCreator
       model_type: BasicProject.name, model_attribute: 'status')
     basic_project_status.options.destroy_all
     basic_project_status.options.create(value: 'active', label_translations: {
-        en: 'Active',
-        es: 'Activo'
+        en: I18n.t('database.option_sets.basic_project_status.active', locale: 'en'),
+        es: I18n.t('database.option_sets.basic_project_status.active', locale: 'es')
       })
     basic_project_status.options.create(value: 'completed', label_translations: {
-        en: 'Completed',
-        es: 'Completo'
+        en: I18n.t('database.option_sets.basic_project_status.completed', locale: 'en'),
+        es: I18n.t('database.option_sets.basic_project_status.completed', locale: 'es')
       })
     basic_project_status.options.create(value: 'changed', label_translations: {
-        en: 'Changed',
-        es: 'Cambiado'
+        en: I18n.t('database.option_sets.basic_project_status.changed', locale: 'en'),
+        es: I18n.t('database.option_sets.basic_project_status.changed', locale: 'es')
       })
     basic_project_status.options.create(value: 'possible', label_translations: {
-        en: 'Possible',
-        es: 'Posible'
+        en: I18n.t('database.option_sets.basic_project_status.possible', locale: 'en'),
+        es: I18n.t('database.option_sets.basic_project_status.possible', locale: 'es')
       })
   end
 
@@ -75,32 +75,32 @@ class OptionSetCreator
       model_attribute: 'loan_type')
     loan_type.options.destroy_all
     loan_type.options.create(migration_id: 1, value: 'liquidity_loc', label_translations: {
-        en: 'Liquidity line of credit',
-        es: 'Línea de crédito de efectivo'
+        en: I18n.t('database.option_sets.loan_type.liquidity_loc', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.liquidity_loc', locale: 'es')
       })
     loan_type.options.create(migration_id: 2, value: 'investment_loc', label_translations: {
-        en: 'Investment line of credit',
-        es: 'Línea de crédito de inversión'
+        en: I18n.t('database.option_sets.loan_type.investment_loc', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.investment_loc', locale: 'es')
       })
     loan_type.options.create(migration_id: 3, value: 'investment', label_translations: {
-        en: 'Investment Loans',
-        es: 'Préstamo de Inversión'
+        en: I18n.t('database.option_sets.loan_type.investment', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.investment', locale: 'es')
       })
     loan_type.options.create(migration_id: 4, value: 'evolving', label_translations: {
-        en: 'Evolving loan',
-        es: 'Préstamo de evolución'
+        en: I18n.t('database.option_sets.loan_type.evolving', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.evolving', locale: 'es')
       })
     loan_type.options.create(migration_id: 5, value: 'single_liquidity_loc', label_translations: {
-        en: 'Single Liquidity line of credit',
-        es: 'Línea puntual de crédito de efectivo'
+        en: I18n.t('database.option_sets.loan_type.single_liquidity_loc', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.single_liquidity_loc', locale: 'es')
       })
     loan_type.options.create(migration_id: 6, value: 'wc_investment', label_translations: {
-        en: 'Working Capital Investment Loan',
-        es: 'Préstamo de Inversión de Capital de Trabajo'
+        en: I18n.t('database.option_sets.loan_type.wc_investment', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.wc_investment', locale: 'es')
       })
     loan_type.options.create(migration_id: 7, value: 'sa_investment', label_translations: {
-        en: 'Secured Asset Investment Loan',
-        es: 'Préstamo de Inversión de Bienes Asegurados'
+        en: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'es')
       })
   end
 
@@ -109,12 +109,12 @@ class OptionSetCreator
       model_attribute: 'public_level')
     public_level.options.destroy_all
     public_level.options.create(value: 'featured', label_translations: {
-        en: 'Featured',
-        es: 'TODO'
+        en: I18n.t('database.option_sets.public_level.featured', locale: 'en'),
+        es: I18n.t('database.option_sets.public_level.featured', locale: 'es')
       })
     public_level.options.create(value: 'hidden', label_translations: {
-        en: 'Hidden',
-        es: 'TODO'
+        en: I18n.t('database.option_sets.public_level.hidden', locale: 'en'),
+        es: I18n.t('database.option_sets.public_level.hidden', locale: 'es')
       })
   end
 
@@ -123,12 +123,12 @@ class OptionSetCreator
       model_attribute: 'step_type')
     step_type.options.destroy_all
     step_type.options.create(value: 'checkin', label_translations: {
-        en: 'Check-in',
-        es: 'Paso'
+        en: I18n.t('database.option_sets.step_type.checkin', locale: 'en'),
+        es: I18n.t('database.option_sets.step_type.checkin', locale: 'es')
       })
     step_type.options.create(value: 'milestone', label_translations: {
-        en: 'Milestone',
-        es: 'Hito'
+        en: I18n.t('database.option_sets.step_type.milestone', locale: 'en'),
+        es: I18n.t('database.option_sets.step_type.milestone', locale: 'es')
       })
   end
 
@@ -137,24 +137,24 @@ class OptionSetCreator
       model_attribute: 'progress_metric')
     progress_metric.options.destroy_all
     progress_metric.options.create(migration_id: -3, label_translations: {
-        en: 'In need of changing its whole plan',
-        es: 'Con necesidad de cambiar su plan completamente'
+        en: I18n.t('database.option_sets.progress_metric.change_plan', locale: 'en'),
+        es: I18n.t('database.option_sets.progress_metric.change_plan', locale: 'es')
       })
     progress_metric.options.create(migration_id: -2, label_translations: {
-        en: 'In need of changing some events',
-        es: 'Con necesidad de cambiar algunos eventos'
+        en: I18n.t('database.option_sets.progress_metric.change_events', locale: 'en'),
+        es: I18n.t('database.option_sets.progress_metric.change_events', locale: 'es')
       })
     progress_metric.options.create(migration_id: -1, label_translations: {
-        en: 'Behind',
-        es: 'Atrasado'
+        en: I18n.t('database.option_sets.progress_metric.behind', locale: 'en'),
+        es: I18n.t('database.option_sets.progress_metric.behind', locale: 'es')
       })
     progress_metric.options.create(migration_id: 1, label_translations: {
-        en: 'On time',
-        es: 'A tiempo'
+        en: I18n.t('database.option_sets.progress_metric.on_time', locale: 'en'),
+        es: I18n.t('database.option_sets.progress_metric.on_time', locale: 'es')
       })
     progress_metric.options.create(migration_id: 2, label_translations: {
-        en: 'Ahead',
-        es: 'Adelantado'
+        en: I18n.t('database.option_sets.progress_metric.ahead', locale: 'en'),
+        es: I18n.t('database.option_sets.progress_metric.ahead', locale: 'es')
       })
   end
 
@@ -163,20 +163,20 @@ class OptionSetCreator
       model_attribute: 'kind')
     media_kind.options.destroy_all
     media_kind.options.create(value: 'image', label_translations: {
-        en: 'Image',
-        es: 'Imagen'
+        en: I18n.t('database.option_sets.media_kind.image', locale: 'en'),
+        es: I18n.t('database.option_sets.media_kind.image', locale: 'es')
       })
     media_kind.options.create(value: 'video', label_translations: {
-        en: 'Video',
-        es: 'Vídeo'
+        en: I18n.t('database.option_sets.media_kind.video', locale: 'en'),
+        es: I18n.t('database.option_sets.media_kind.video', locale: 'es')
       })
     media_kind.options.create(value: 'document', label_translations: {
-        en: 'Document',
-        es: 'Documento'
+        en: I18n.t('database.option_sets.media_kind.document', locale: 'en'),
+        es: I18n.t('database.option_sets.media_kind.document', locale: 'es')
       })
     media_kind.options.create(value: 'contract', label_translations: {
-        en: 'Contract',
-        es: 'Contrato'
+        en: I18n.t('database.option_sets.media_kind.contract', locale: 'en'),
+        es: I18n.t('database.option_sets.media_kind.contract', locale: 'es')
       })
   end
 
@@ -185,16 +185,16 @@ class OptionSetCreator
       model_type: Accounting::Transaction.name, model_attribute: 'loan_transaction_type')
     loan_transaction_type.options.destroy_all
     loan_transaction_type.options.create(value: 'interest', position: 1, label_translations: {
-        en: 'Interest',
-        es: 'Interés'
+        en: I18n.t('database.option_sets.loan_transaction_type.interest', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_transaction_type.interest', locale: 'es'),
       })
     loan_transaction_type.options.create(value: 'disbursement', position: 2, label_translations: {
-        en: 'Disbursement',
-        es: 'Desembolso'
+        en: I18n.t('database.option_sets.loan_transaction_type.disbursement', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_transaction_type.disbursement', locale: 'es')
       })
     loan_transaction_type.options.create(value: 'repayment', position: 3, label_translations: {
-        en: 'Repayment',
-        es: 'Reembolso'
+        en: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'es')
       })
   end
 end
