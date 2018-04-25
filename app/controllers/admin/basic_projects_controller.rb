@@ -1,5 +1,4 @@
 class Admin::BasicProjectsController < Admin::ProjectsController
-  include TranslationSaveable
 
   def index
     authorize BasicProject

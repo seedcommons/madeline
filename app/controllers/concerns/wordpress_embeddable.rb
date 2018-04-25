@@ -26,7 +26,7 @@ module WordpressEmbeddable
 
     base_uri = Rails.configuration.x.wordpress_template[:base_uri][get_division_from_url]
 
-    WordpressTemplate.update(
+    ::WordpressTemplate.update(
       division: get_division_from_url,
       base_uri: base_uri
     )
