@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410173704) do
+ActiveRecord::Schema.define(version: 20180424150605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -144,14 +144,12 @@ ActiveRecord::Schema.define(version: 20180410173704) do
     t.integer "principal_account_id"
     t.boolean "public", default: true, null: false
     t.string "qb_id"
-    t.string "short_name"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
     t.index ["organization_id"], name: "index_divisions_on_organization_id"
     t.index ["principal_account_id"], name: "index_divisions_on_principal_account_id"
-    t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|
