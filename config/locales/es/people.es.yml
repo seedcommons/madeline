@@ -10,6 +10,8 @@ es:
   admin:
     people:
       show:
+        with_logs:
+          confirm_deletion: "ADVERTENCIA: Este integrante tiene apuntes. Si eliges borrar al integrante, los apuntes quedarán sin autor. Si deseas mantener al integrante como autor de los apuntes, no borres al integrante, sino que en caso de que el integrante ya no esté activo, desactiva la opción 'Tiene acceso al sistema'. "
         confirm_deletion: "ATENCIÓN: ¿Seguro que quieres borrar a este Miembro para siempre?"
         delete: "Borrar Miembro"
         edit: "Editar Miembro"

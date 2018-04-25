@@ -27,6 +27,7 @@ en:
         name: "Name"
         parent: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"
+        public: "Public"
         logo: "Logo"
         logo_text: "Logo Text"
         banner_fg_color: "Banner FG Color"
@@ -360,6 +361,7 @@ en:
     created: "Created"
     caption: "Caption"
     condense_all: "Condense All"
+    deleted_user: "Deleted User"
     description: "Description"
     details: "Details"
     division: "Division"
@@ -458,7 +460,7 @@ en:
     dashboard: "Dashboard"
     divisions: "Divisions"
     loans: "Loans"
-    loan_questions: "Loan Questions"
+    questions: "Questions"
     manage: "Manage"
     people: "Members"
     log: "Log"
@@ -578,6 +580,10 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  member:
+    system_access: "System access allows a user to log into Madeline and view the loans and projects they have access to based on their division."
+    access_role: "Administrators have the ability to edit specific content not available to a regular member, such as managing divisions and editing loan questions."
 
   boolean:
     'true': 'Yes'
