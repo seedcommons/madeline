@@ -18,7 +18,7 @@
 #  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
-#  public_level_value          :string
+#  public_level_value          :string           not null
 #  rate                        :decimal(, )
 #  representative_id           :integer
 #  secondary_agent_id          :integer
@@ -59,7 +59,6 @@ class Loan < Project
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :status, ->(status) { where(status_value: status) }
-  scope :visible, -> { where.not(public_level_value: 'hidden') }
   scope :active, -> { status('active') }
   scope :related_loans, -> (loan) { loan.organization.loans.where.not(id: loan.id) }
 
@@ -67,7 +66,7 @@ class Loan < Project
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :status, :loan_type, :public_level
 
-  validates :organization, presence: true
+  validates :organization, :public_level_value, presence: true
 
   before_create :build_health_check
   after_commit :recalculate_loan_health

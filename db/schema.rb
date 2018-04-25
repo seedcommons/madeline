@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180424150605) do
+ActiveRecord::Schema.define(version: 20180425170810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -302,7 +302,7 @@ ActiveRecord::Schema.define(version: 20180424150605) do
     t.integer "original_id"
     t.integer "primary_agent_id"
     t.decimal "projected_return"
-    t.string "public_level_value"
+    t.string "public_level_value", null: false
     t.decimal "rate"
     t.integer "representative_id"
     t.integer "secondary_agent_id"
