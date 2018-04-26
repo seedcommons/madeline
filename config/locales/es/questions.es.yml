@@ -1,7 +1,7 @@
 es:
-  question: "Pregunta del préstamo"
+  question: "Pregunta"
   questions:
-    active: "Activos"
+    active: "Activo"
     confirm_deletion: "ATENCIÓN: Si este ítem tiene preguntas o grupos que le pertenecen, ¡también serán borrados! ¿Realmente quieres borrar esto?"
     confirm_deletion_no_descendants: "¿Realmente quieres borrar esto?"
     confirm_deletion_descendants: "ATENCIÓN: ¡Este ítem tiene preguntas o grupos relacionados, que serán borrados también! ¿Realmente quieres borrar esto?"
@@ -52,7 +52,7 @@ es:
           boolean: Sí/No
           breakeven: Tabla de Punto de Equilibrio
           breakeven_data: Tabla de Punto de Equilibrio
-          business_canvas: Modelo de Negocios del Lienzo
+          business_canvas: 'Lienzo del Modelo de Negocios '
         override_associations:
           'false': "Hereda del Grupo"
           'true': "Reemplaza al Grupo"

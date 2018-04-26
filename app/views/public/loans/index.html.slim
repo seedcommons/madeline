@@ -2,7 +2,7 @@
 
 .row.loan_filters
   .col-xs-12
-    = form_tag({}, {:method => "get"}) do
+    = form_tag({}, {method: "get"}) do
       .show
         ul.nav.nav-pills
           li.disabled #{t :show}:
@@ -13,8 +13,8 @@
           li class=('active' if @params[:status] == 'all')
             = link_to t(:show_all), @params.merge(status: 'all', pg: nil)
       .country
-        = label_tag(:country, "#{t :country}: ")
-        = select_tag(:country, options_for_select([[t(:show_all), 'all']] + @countries, @params[:country]),
+        = label_tag(:division, "#{t :division}: ")
+        = select_tag(:division, options_for_select([[t(:show_all), 'all']] + @divisions, @params[:division]),
             onchange: "this.form.submit()")
 
 .row

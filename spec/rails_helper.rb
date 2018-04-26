@@ -69,7 +69,7 @@ RSpec.configure do |config|
     traits = []
     traits << :with_accounts if example.metadata[:accounting]
     # Create root division
-    create(:division, *traits, parent: nil, name: '-', description: 'Root')
+    create(:division, *traits, parent: nil, name: '-', description: 'Root', public: false)
   end
 
   config.after(:each) do

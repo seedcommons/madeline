@@ -1,8 +1,10 @@
 # This is generic data that is needed for any instance of this app to work properly.
 # It should not be specific to a particular instance.
 
-Division.root.destroy if Division.root.present?
-Division.create(id: 99, name: 'Root Division') unless Division.root
+root_div = Division.find_or_initialize_by(id: 99)
+root_div.assign_attributes(name: 'Root Division', short_name: 'root-division')
+root_div.save!
+
 Division.recalibrate_sequence(gap: 1)
 
 Currency.find_or_create_by(id: 1, name: 'Argentinean Peso', code: 'ARS', symbol: 'AR$',

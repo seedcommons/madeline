@@ -13,7 +13,7 @@
     assoc: :parent, filter: false
   - g.column name: t("activerecord.attributes.division.default_currency"), attribute: 'name',
     assoc: :default_currency, in_html: false, filter: false do |division|
-
+    - division.default_currency.name if division.default_currency
   - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_csv: false do |division|
     - fuzzy_time(division.created_at)
   - g.column name: t('common.created'), attribute: 'created_at', filter: false, in_html: false
