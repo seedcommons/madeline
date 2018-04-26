@@ -55,6 +55,8 @@ module Accounting
 
       private
 
+      delegate :qb_division, to: :loan
+
       def lookup_currency
         if txn.quickbooks_data && txn.quickbooks_data[:currency_ref]
           Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
@@ -64,12 +66,13 @@ module Accounting
       end
 
       def txn_type
+        # I think division here needs to be replaced with qb_division, right?
         line_items = txn.quickbooks_data['line_items']
-        @int_rcv = loan.division.interest_receivable_account
-        @int_inc = loan.division.interest_income_account
-        @prin_acct = loan.division.principal_account
+        @int_rcv = qb_division.interest_receivable_account
+        @int_inc = qb_division.interest_income_account
+        @prin_acct = qb_division.principal_account
 
-        li_details = {
+        li_accounts = {
           'Debit' => [],
           'Credit' => []
         }
@@ -78,34 +81,22 @@ module Accounting
 
         line_items.each do |li|
           line_item = txn.line_item_with_id(li['id'].to_i)
-          li_details[line_item.posting_type] << line_item.account
+          li_accounts[line_item.posting_type] << line_item.account
         end
 
-        set_type(li_details['Debit'], li_details['Credit'], line_items)
-
-        # A transaction can have multiple line items with the same posting type, but in
-        # this case you overwrite the account with only the last one, I think you need to
-        # do these as arrays, and loop over them in the type set as well.
+        set_type(li_accounts['Debit'], li_accounts['Credit'], line_items)
       end
 
       def set_type(debits, credits, lis)
-        if any_debit_txns?(debits, @int_rcv) && any_credit_txns?(credits, @int_inc) && lis.count == 2
+        if lis.count == 2 && @int_rcv.in?(debits) && @int_inc.in?(credits)
           'interest'
-        elsif credits.any? && any_debit_txns?(debits, @prin_acct) && lis.count == 2
+        elsif lis.count == 2 && credits.any? && @prin_acct.in?(debits)
           return 'disbursement'
-        elsif debits.any? && any_credit_txns?(credits, @prin_acct || @int_rcv) && lis.count == 3
+        elsif lis.count == 3 && debits.any? && @prin_acct.in?(credits) && @int_rcv.in?(credits)
           return 'repayment'
         else
           'other'
         end
-      end
-
-      def any_debit_txns?(debits, acct)
-        debits.any? { |debit| debit&.id == acct.id }
-      end
-
-      def any_credit_txns?(credits, acct)
-        credits.any? { |credit| credit&.id == acct.id }
       end
     end
   end

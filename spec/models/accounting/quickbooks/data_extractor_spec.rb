@@ -425,34 +425,6 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
           expect(txn.loan_transaction_type_value).to eq('other')
           expect(txn.managed).to be false
         end
-
-        describe 'interest with multiple debits and credits' do
-          it do
-            expect(txn.loan_transaction_type_value).to eq('other')
-            expect(txn.managed).to be false
-          end
-        end
-
-        describe 'disbursement with multiple debits and credits' do
-          it do
-            expect(txn.loan_transaction_type_value).to eq('other')
-            expect(txn.managed).to be false
-          end
-        end
-
-        describe 'repayment with multiple debits and credits' do
-          it do
-            expect(txn.loan_transaction_type_value).to eq('other')
-            expect(txn.managed).to be false
-          end
-        end
-
-        describe 'random with multiple debits and credits' do
-          it do
-            expect(txn.loan_transaction_type_value).to eq('other')
-            expect(txn.managed).to be false
-          end
-        end
       end
 
       describe 'too few line items' do
