@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -144,12 +142,14 @@ ActiveRecord::Schema.define(version: 20180425170810) do
     t.integer "principal_account_id"
     t.boolean "public", default: true, null: false
     t.string "qb_id"
+    t.string "short_name"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
     t.index ["organization_id"], name: "index_divisions_on_organization_id"
     t.index ["principal_account_id"], name: "index_divisions_on_principal_account_id"
+    t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|

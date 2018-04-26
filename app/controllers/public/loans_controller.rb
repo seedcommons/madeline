@@ -3,15 +3,15 @@ class Public::LoansController < Public::PublicController
   after_action :verify_authorized
 
   def index
-    params[:division] = get_division_from_url
-    @params = { status: params[:status], pg: params[:pg], country: params[:country] }
+    params[:division] ||= get_division_from_url
+    @params = { status: params[:status], pg: params[:pg], division: params[:division] }
     @loans = policy_scope(Loan.filter_by_params(params).visible.
           includes(:organization, division: :parent).
           page(params[:pg]).per(20).
           order('signing_date DESC'))
     authorize @loans
 
-    @countries = Country.order(:iso_code).pluck(:iso_code)
+    @divisions = Division.published.pluck(:name, :short_name)
 
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath

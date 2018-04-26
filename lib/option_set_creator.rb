@@ -1,3 +1,4 @@
+# Populates the option set table with basic values. Called by seeds.rb.
 class OptionSetCreator
   def create_all
     create_loan_status

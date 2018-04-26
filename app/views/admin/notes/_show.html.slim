@@ -4,9 +4,13 @@ header.small
       i.fa.fa-calendar-o>
       = ldate note.created_at.to_date
     .item
-      a href=admin_person_path(note.author)
+      - if note.author
+        a href=admin_person_path(note.author)
+          i.fa.fa-user>
+          = note.author_name
+      - else
         i.fa.fa-user>
-        = note.author_name
+        span = t("common.deleted_user")
     - if policy(note).edit?
       .item
         a.edit-action href="#"
