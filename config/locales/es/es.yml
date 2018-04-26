@@ -157,11 +157,11 @@ es:
           type: "Tipo"
     errors:
       models:
-        loan:
+        basic_project:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
-        basic_project:
+        loan:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
@@ -232,6 +232,7 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  division: División
   show: Mostrar
   show_active: Activo
   show_completed: Completo
