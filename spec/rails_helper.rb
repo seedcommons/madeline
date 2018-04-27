@@ -65,12 +65,20 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
+    traits = []
+    traits << :with_accounts if example.metadata[:accounting]
     # Create root division
-    Division.create!(name: '-')
+    create(:division, *traits, parent: nil, name: '-', description: 'Root', public: false)
   end
 
   config.after(:each) do
+    if Rails.configuration.x.test
+      Rails.configuration.x.test = ActiveSupport::OrderedOptions.new
+    end
+
+    # fix for weird database cleansing situation
+    Capybara.reset_sessions!
     DatabaseCleaner.clean
   end
 
@@ -104,10 +112,11 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Warden::Test::Helpers
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include FeatureSpecHelpers, type: :feature
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include FactorySpecHelpers
+  config.include GeneralSpecHelpers
   config.include QuestionSpecHelpers, type: :model
   config.include ProjectSpecHelpers, type: :model
 
@@ -116,7 +125,7 @@ RSpec.configure do |config|
     # cf. https://github.com/teampoltergeist/poltergeist/issues/677#issuecomment-249303507
     # As of 7/31/2017 on Travis this first request (i.e. the first JS-enabled feature spec) to run
     # was taking over 30 seconds.
-    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute)
+    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute, js_errors: false)
   end
 
   Capybara.javascript_driver = :poltergeist

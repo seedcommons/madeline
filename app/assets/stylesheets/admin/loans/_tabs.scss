@@ -1,8 +1,8 @@
-@import "../colors";
-@import "bootstrap/variables";
-
 .tab-content {
   background-color: $gray5;
+  min-height: 30em;
+  border: 1px solid #ddd;
+  border-top-color: transparent;
 }
 
 .tab-pane {

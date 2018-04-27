@@ -1,0 +1,2 @@
+class QuestionSetPolicy < ApplicationPolicy
+end

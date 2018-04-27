@@ -6,7 +6,7 @@ class Admin::ProjectsController < Admin::AdminController
     authorize project, :update?
     attrib = params[:which_date] == "project_start" ? :signing_date : :end_date
     project.update_attributes(attrib => params[:new_date])
-    render nothing: true
+    head :ok
   end
 
   # DEPRECATED - please use #timeline

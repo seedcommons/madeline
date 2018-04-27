@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: loan_health_checks
+#
+#  created_at           :datetime         not null
+#  has_late_steps       :boolean
+#  has_sporadic_updates :boolean
+#  id                   :integer          not null, primary key
+#  last_log_date        :date
+#  loan_id              :integer          not null
+#  missing_contract     :boolean
+#  progress_pct         :decimal(, )
+#  updated_at           :datetime         not null
+#
+# Indexes
+#
+#  index_loan_health_checks_on_loan_id  (loan_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (loan_id => projects.id)
+#
+
 require 'rails_helper'
 
 RSpec.describe LoanHealthCheck, type: :model do
@@ -198,7 +221,7 @@ RSpec.describe LoanHealthCheck, type: :model do
   end
 
   def stub_criteria(pct)
-    set = instance_double(LoanResponseSet, progress_pct: pct)
+    set = instance_double(ResponseSet, progress_pct: pct)
     allow(set).to receive(:current_user=)
     allow(loan).to receive(:criteria).and_return(set)
   end

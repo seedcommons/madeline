@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :loan_response_sets
+    resources :response_sets
     resources :divisions do
       collection do
         post :select
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         get :duplicate
       end
     end
-    resources :loan_questions do
+    resources :questions do
       patch 'move', on: :member
     end
     resources :notes, only: [:create, :update, :destroy]
@@ -62,8 +62,8 @@ Rails.application.routes.draw do
       resources :media
     end
 
-    get 'settings' => 'settings#index'
-    patch 'settings' => 'settings#update'
+    get 'accounting-settings' => 'settings#index'
+    patch 'accounting-settings' => 'settings#update'
 
     namespace :accounting do
       resources :quickbooks do
@@ -71,7 +71,8 @@ Rails.application.routes.draw do
           get :authenticate
           get :oauth_callback
           get :disconnect
-          get :full_sync
+          get :reset_data
+          get :connected
         end
       end
 
@@ -85,11 +86,13 @@ Rails.application.routes.draw do
   end
 
   localized do
-    resources :loans, only: [:index, :show]
-    get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
+    namespace :public, path: '/' do
+      resources :loans, only: [:index, :show]
+      get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
+      get 'test' => 'static_pages#test'
+    end
   end
 
-  get '/test' => 'static_pages#test'
   get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')

@@ -27,10 +27,10 @@
 #
 # Foreign Keys
 #
-#  fk_rails_8589af42f8  (agent_id => people.id)
-#  fk_rails_af8b359300  (project_id => projects.id)
-#  fk_rails_d21c3b610d  (parent_id => timeline_entries.id)
-#  fk_rails_fe366670d0  (schedule_parent_id => timeline_entries.id)
+#  fk_rails_...  (agent_id => people.id)
+#  fk_rails_...  (parent_id => timeline_entries.id)
+#  fk_rails_...  (project_id => projects.id)
+#  fk_rails_...  (schedule_parent_id => timeline_entries.id)
 #
 
 require 'chronic'
@@ -385,7 +385,7 @@ class ProjectStep < TimelineEntry
 
     # By default, old_duration_days is set to 0.
     # Only remember old duration if a duration has been set other than the default and then changed.
-    unless old_duration_days > 0
+    unless old_duration_days && old_duration_days > 0
       self.old_duration_days = scheduled_duration_days_was
     end
   end

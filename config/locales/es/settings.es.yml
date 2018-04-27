@@ -1,6 +1,6 @@
 es:
   settings:
-    settings: "Ajustes"
+    accounting: "Configuración de Contabilidad"
   quickbooks:
     accounts:
       accounts: "Cuentas de QuickBooks"
@@ -11,7 +11,8 @@ es:
       disconnect: "Desconectar"
       not_connected: "Desconectado"
       never_synced: "Nunca"
-      full_sync: "Sincronización completa"
+      data_reset: "Reiniciar"
       disconnect_message: "Tu cuenta de QuickBooks ha sido desconectada correctamente."
-      full_sync_message: "Tus datos de QuickBooks han sido sincronizados."
-      link_message: "Tu cuenta de QuickBooks ha sido vinculada correctamente."
+      data_reset_message: "Ha sido reiniciado tu cache de los datos de QuickBooks."
+      data_reset_information: "Si tienes problemas con los datos de QuickBooks, hacer click en Reiniciar para vaciar la copia del cache en Madeline y reestablecerla desde los datos de QuickBooks."
+      link_message: "Has conectado exitosamente tu cuenta de QuickBooks. Nota: Necesitas selectar tus cuentas antes de poder agregar transacciones."

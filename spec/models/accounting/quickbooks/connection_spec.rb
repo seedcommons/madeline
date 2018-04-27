@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: accounting_quickbooks_connections
+#
+#  created_at       :datetime         not null
+#  division_id      :integer          not null
+#  id               :integer          not null, primary key
+#  last_updated_at  :datetime
+#  realm_id         :string           not null
+#  secret           :string           not null
+#  token            :string           not null
+#  token_expires_at :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_accounting_quickbooks_connections_on_division_id  (division_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (division_id => divisions.id)
+#
+
 require 'rails_helper'
 
 RSpec.describe Accounting::Quickbooks::Connection, type: :model do

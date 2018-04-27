@@ -3,12 +3,23 @@ module FeatureSpecHelpers
     page.evaluate_script("window.location.reload()")
   end
 
+  # Waits for the loading indicator to appear and then disappear.
+  def wait_for_loading_indicator
+    expect(page).to have_content('Loading...')
+    expect(page).not_to have_content('Loading...')
+    expect(page).not_to have_css('div#glb-load-ind')
+  end
+
   # Fills in the given value into the box with given ID, then selects the first matching option.
   # Assumes a dropdown-style select2 box. Works with a remote data source.
   def select2(value, from:)
     execute_script("$('##{from}').select2('open')")
     find(".select2-search__field").set(value)
     find(".select2-results li", text: /#{value}/).click
+  end
+
+  def have_alert(msg, container: 'body')
+    have_css("#{container} .alert", text: msg)
   end
 
   shared_examples :flow do
@@ -22,14 +33,12 @@ module FeatureSpecHelpers
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
 
       # Change to specific division, and ensure the page reloads properly
-      find('[data-expands="division-dropdown"]').click
-      find('.select_division_form').select(division.name)
+      select_division(division.name)
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Change Division'
       expect(find('.without-logo')).to have_content division.name
 
       # Change back to all divisions, and ensure it reloads properly
-      find('[data-expands="division-dropdown"]').click
-      find('.select_division_form').select('All Divisions')
+      select_division('All Divisions')
       expect(find('.madeline')).to have_content 'Madeline'
       expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
 
@@ -46,7 +55,13 @@ module FeatureSpecHelpers
       click_button "Update #{subject.model_name.human}"
       expect(page).to have_content("Changed #{subject.model_name.human} Name")
       expect(page).to have_content('Record was successfully updated.')
+    end
+  end
 
+  def select_division(division_name)
+    within('.user-div-info') do
+      find('[data-expands="division-dropdown"]').click
+      find('.select_division_form').select(division_name)
     end
   end
 end

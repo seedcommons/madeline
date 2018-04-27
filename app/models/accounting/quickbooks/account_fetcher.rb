@@ -4,11 +4,14 @@ module Accounting
     # Responsible for grabbing all quickbooks accounts and inserting or updating Accounting::Account
     class AccountFetcher < FetcherBase
       def types
-        [Accounting::Account::QB_TRANSACTION_TYPE]
+        [Accounting::Account::QB_OBJECT_TYPE]
       end
 
-      def find_or_create(transaction_type:, qb_object:)
-        Accounting::Account.create_or_update_from_qb_object transaction_type: transaction_type, qb_object: qb_object
+      def find_or_create(qb_object_type:, qb_object:)
+        Accounting::Account.create_or_update_from_qb_object!(
+          qb_object_type: qb_object_type,
+          qb_object: qb_object
+        )
       end
     end
   end

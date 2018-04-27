@@ -25,7 +25,9 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
+#  public                         :boolean          default(TRUE), not null
 #  qb_id                          :string
+#  short_name                     :string
 #  updated_at                     :datetime         not null
 #
 # Indexes
@@ -35,18 +37,24 @@
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
 #  index_divisions_on_organization_id                 (organization_id)
 #  index_divisions_on_principal_account_id            (principal_account_id)
+#  index_divisions_on_short_name                      (short_name) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_16249e4f59  (principal_account_id => accounting_accounts.id)
-#  fk_rails_648c512956  (organization_id => organizations.id)
-#  fk_rails_7d27a21116  (interest_receivable_account_id => accounting_accounts.id)
-#  fk_rails_99cb2ea4ed  (currency_id => currencies.id)
-#  fk_rails_e1c7480e41  (interest_income_account_id => accounting_accounts.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (interest_income_account_id => accounting_accounts.id)
+#  fk_rails_...  (interest_receivable_account_id => accounting_accounts.id)
+#  fk_rails_...  (organization_id => organizations.id)
+#  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
 class Division < ActiveRecord::Base
   include DivisionBased
+  extend FriendlyId
+
+  after_create :add_short_name
+
+  friendly_id :short_name
 
   has_closure_tree dependent: :restrict_with_exception
   resourcify
@@ -58,7 +66,7 @@ class Division < ActiveRecord::Base
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :loan_questions
+  has_many :questions
   has_many :option_sets, dependent: :destroy
 
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
@@ -89,6 +97,7 @@ class Division < ActiveRecord::Base
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
+  scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
@@ -100,6 +109,14 @@ class Division < ActiveRecord::Base
 
   def self.in_division(division)
     division ? division.self_and_descendants : all
+  end
+
+  def self.qb_divisions
+    Accounting::Quickbooks::Connection.all.map(&:division)
+  end
+
+  def self.qb_accessible_divisions
+    qb_divisions.map(&:self_and_descendants).flatten.uniq
   end
 
   # interface compatibility with other models
@@ -137,7 +154,21 @@ class Division < ActiveRecord::Base
     @accounts ||= [principal_account, interest_receivable_account, interest_income_account].compact
   end
 
-  def qb_accounts_connected?
+  def qb_accounts_selected?
     accounts.size == 3
+  end
+
+  # If no QB connection on this division, fall back to nearest ancestor with QB connection.
+  # May return nil.
+  def qb_division
+    # Division.root
+    qb_connection ? self : parent&.qb_division
+  end
+
+  def add_short_name
+    if self.short_name.nil?
+      self.short_name = self.name.parameterize
+      save
+    end
   end
 end

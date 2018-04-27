@@ -33,22 +33,22 @@
 #
 # Foreign Keys
 #
-#  fk_rails_20168ebb0e  (primary_organization_id => organizations.id)
-#  fk_rails_7aab1f72a5  (division_id => divisions.id)
-#  fk_rails_fdfb048ae6  (country_id => countries.id)
+#  fk_rails_...  (country_id => countries.id)
+#  fk_rails_...  (division_id => divisions.id)
+#  fk_rails_...  (primary_organization_id => organizations.id)
 #
 
 require 'rails_helper'
 
 describe Person, type: :model do
-
+  let(:log) { build(:project_log) }
+  let(:person) { create(:person, :with_member_access, :with_password, project_logs: [log]) }
 
   it 'has a valid factory' do
     expect(create(:person)).to be_valid
   end
 
   context 'with system access' do
-    let(:person) { create(:person, :with_member_access, :with_password) }
 
     it 'has associated user' do
       expect(person.user).to be_truthy
@@ -74,7 +74,14 @@ describe Person, type: :model do
       person.save
       expect(person.user.roles.first.name).to eq('admin')
     end
-
   end
 
+  context 'with logs' do
+    describe 'person gets deleted' do
+      it 'log sets agent_id to nil' do
+        person.destroy
+        expect(log.agent).to be_nil
+      end
+    end
+  end
 end

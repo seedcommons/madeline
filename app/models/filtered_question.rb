@@ -1,4 +1,4 @@
-# Wraps LoanQuestion and delegates most methods, but enables filtering by loan and division via subclasses.
+# Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
   def initialize(question, **args)
     super(question)
@@ -42,7 +42,10 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def child_groups
-    children.select(&:group?)
+    # show visible top level questions in table of contents
+    children.select do |m|
+      m.top_level? || m.group?
+    end
   end
 
   def object
@@ -65,6 +68,6 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def allowed?
-    @user == :system || LoanQuestionPolicy.new(@user, object).show?
+    @user == :system || QuestionPolicy.new(@user, object).show?
   end
 end

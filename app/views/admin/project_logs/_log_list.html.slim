@@ -1,16 +1,16 @@
-- if @logs.blank? && @context != "calendar"
+- if @logs.blank? && @context != 'calendar'
   = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
-  .show-actions.hidden-print class=(@context == "calendar" ? "nested-expander" : "")
-    - if @context == "calendar"
-      a data-expands="step-logs-#{@step.id}" = t("log.show_logs_n", n: @step.logs_count)
-      a data-hides="step-logs-#{@step.id}" = t("log.hide_logs_n", n: @step.logs_count)
-    - unless @context == "dashboard"
+  .show-actions.hidden-print class=(@context == 'calendar' ? 'nested-expander' : '')
+    - if @context == 'calendar'
+      a data-expands="step-logs-#{@step.id}" = t('log.show_logs_n', n: @step.logs_count)
+      a data-hides="step-logs-#{@step.id}" = t('log.hide_logs_n', n: @step.logs_count)
+    - unless @context == 'dashboard'
       a data-expand-all=".logs-index" href="#" = t('common.expand_all')
       a data-hide-all=".logs-index" href="#"
-        = @context == "calendar" ? t('common.condense_all') : t('common.hide_all')
+        = @context == 'calendar' ? t('common.condense_all') : t('common.hide_all')
 
-  - unless @context == "calendar"
+  - unless @context == 'calendar'
     - if @step
       h5
         - if @step.milestone?
@@ -19,7 +19,7 @@
           i.fa.fa-fw.fa-calendar
         = @step.summary
 
-  .logs-index.post-list data-expandable=(@context == "calendar" ? "step-logs-#{@step.id}" : "")
+  .logs-index.post-list data-expandable=(@context == 'calendar' ? "step-logs-#{@step.id}" : "")
     - @logs.each do |log|
       - step = log.project_step
       .log.post data-id=log.id
@@ -29,14 +29,18 @@
               i.fa.fa-calendar-o>
               = ldate(log.date)
             .item
-              a href=admin_person_path(log.agent)
+              - if log.agent
+                a href=admin_person_path(log.agent)
+                  i.fa.fa-user>
+                  = log.agent_name
+              - else
                 i.fa.fa-user>
-                = log.agent_name
+                span = t("common.deleted_user")
             .item
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
 
-            - unless @context == "calendar"
+            - unless @context == 'calendar'
               - unless params[:org].present? || params[:project].present? || params[:step].present? || !step.project.organization
                 .item
                   a href=admin_organization_path(step.project.organization)
@@ -48,19 +52,17 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            - unless @context == "calendar" || @context == "dashboard"
+            / don't show edit and delete in project step rendition of log list
+            - unless @context == 'calendar' || @context == 'dashboard' || controller_name == 'project_steps'
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
               .item
-                = link_to "#",
+                = link_to '#',
                     data: { \
-                      action: "delete", \
-                      confirm: t('project_logs.shared.confirm_deletion'), \
-                      'confirm-cancel': t(:cancel),
-                      'confirm-proceed': t(:confirm),
-                      'confirm-title': t('log.delete') \
+                      action: 'delete', \
+                      confirm: t('project_logs.shared.confirm_deletion') \
                     }
                       i.fa.fa-trash>
                       = t(:delete)
@@ -68,7 +70,7 @@
         - if log.summary
           span.summary = log.summary
 
-        - if log.has_more? && @context != "dashboard"
+        - if log.has_more? && @context != 'dashboard'
           a data-expands="more-#{log.id}" = t(:more)
           a data-hides="more-#{log.id}" = t(:less)
 

@@ -15,7 +15,7 @@
 #  index_notes_on_notable_type_and_notable_id  (notable_type,notable_id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :note do
     association :notable, factory: :organization
     association :author, factory: :person

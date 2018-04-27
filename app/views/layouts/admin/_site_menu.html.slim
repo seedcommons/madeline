@@ -14,6 +14,6 @@ li
   ul.nav.collapse.submenu.submenu1 role="menu"
     - if policy(Division).index?
       li = link_to t('menu.divisions'), admin_divisions_path
-    li = link_to t('menu.loan_questions'), admin_loan_questions_path
+    li = link_to t('menu.questions'), admin_questions_path
     - if policy(:setting).index?
-      li = link_to t('menu.settings'), admin_settings_path
+      li = link_to t('menu.accounting_settings'), admin_accounting_settings_path

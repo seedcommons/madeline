@@ -1,0 +1,46 @@
+en:
+  database:
+    option_sets:
+      basic_project_status:
+        active: 'Active'
+        completed: 'Completed'
+        changed: 'Changed'
+        possible: 'Possible'
+      loan_status:
+        active: 'Active'
+        completed: 'Completed'
+        frozen: 'Frozen'
+        liquidated: 'Liquidated'
+        prospective: 'Prospective'
+        refinanced: 'Refinanced'
+        relationship: 'Relationship'
+        relationship_active: 'Relationship Active'
+      loan_transaction_type:
+        interest: 'Interest'
+        disbursement: 'Disbursement'
+        repayment: 'Repayment'
+      loan_type:
+        liquidity_loc: 'Liquidity line of credit'
+        investment_loc: 'Investment line of credit'
+        investment: 'Investment loan'
+        evolving: 'Evolving loan'
+        single_liquidity_loc: 'Single liquidity line of credit'
+        wc_investment: 'Working capital investment loan'
+        sa_investment: 'Secured asset investment loan'
+      media_kind:
+        image: 'Image'
+        video: 'Video'
+        document: 'Document'
+        contract: 'Contract'
+      progress_metric:
+        change_plan: 'In need of changing its whole plan'
+        change_events: 'In need of changing some events'
+        behind: 'Behind'
+        on_time: 'On time'
+        ahead: 'Ahead'
+      public_level:
+        featured: 'Featured'
+        hidden: 'Hidden'
+      step_type:
+        checkin: 'Check-in'
+        milestone: 'Milestone'

@@ -11,6 +11,7 @@ section.loan.details
 
     .tab-content
       .tab-pane.active id=@tab
+        .alerts = render "application/alerts"
         = render "admin/loans/#{@tab}", project: @loan
 
 = render "admin/media/modal"

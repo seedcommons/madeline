@@ -35,12 +35,12 @@
 #
 # Foreign Keys
 #
-#  fk_rails_5a4bc9458a  (division_id => divisions.id)
-#  fk_rails_7a8d917bd9  (secondary_agent_id => people.id)
-#  fk_rails_ade0930898  (currency_id => currencies.id)
-#  fk_rails_dc1094f4ed  (organization_id => organizations.id)
-#  fk_rails_ded298065b  (representative_id => people.id)
-#  fk_rails_e90f6505d8  (primary_agent_id => people.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (division_id => divisions.id)
+#  fk_rails_...  (organization_id => organizations.id)
+#  fk_rails_...  (primary_agent_id => people.id)
+#  fk_rails_...  (representative_id => people.id)
+#  fk_rails_...  (secondary_agent_id => people.id)
 #
 
 class BasicProject < Project

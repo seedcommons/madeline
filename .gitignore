@@ -29,6 +29,9 @@ config/secrets.yml
 setenv.sh
 config/initializers/local_config.rb
 coverage/
-/app/views/layouts/embedded/*
 .byebug_history
 .env
+~$*
+
+# This is where layouts fetched dynamically from the public wordpress site are kept.
+/app/views/layouts/public/wordpress/**/*.erb

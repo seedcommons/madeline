@@ -35,17 +35,19 @@
 #
 # Foreign Keys
 #
-#  fk_rails_5a4bc9458a  (division_id => divisions.id)
-#  fk_rails_7a8d917bd9  (secondary_agent_id => people.id)
-#  fk_rails_ade0930898  (currency_id => currencies.id)
-#  fk_rails_dc1094f4ed  (organization_id => organizations.id)
-#  fk_rails_ded298065b  (representative_id => people.id)
-#  fk_rails_e90f6505d8  (primary_agent_id => people.id)
+#  fk_rails_...  (currency_id => currencies.id)
+#  fk_rails_...  (division_id => divisions.id)
+#  fk_rails_...  (organization_id => organizations.id)
+#  fk_rails_...  (primary_agent_id => people.id)
+#  fk_rails_...  (representative_id => people.id)
+#  fk_rails_...  (secondary_agent_id => people.id)
 #
 
 class Project < ActiveRecord::Base
   include Translatable
   include OptionSettable
+
+  before_destroy :allow_destroy
 
   # Status values can be found at Loan.status_option_set.options and
   # BasicProject.status_option_set.options
@@ -62,11 +64,14 @@ class Project < ActiveRecord::Base
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
+  attr_accessor :destroying
 
   validate :check_agents
   validates :division_id, presence: true
 
   alias_method :logs, :project_logs
+
+  delegate :qb_division, to: :division
 
   # Configure how the class is duplicated
   amoeba do
@@ -173,5 +178,9 @@ class Project < ActiveRecord::Base
 
   def check_agents
     errors.add(:primary_agent, :same_as_secondary) if agents_the_same?
+  end
+
+  def allow_destroy
+    self.destroying = true
   end
 end

@@ -17,7 +17,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_db3e5d5ea9  (option_set_id => option_sets.id)
+#  fk_rails_...  (option_set_id => option_sets.id)
 #
 
 class Option < ActiveRecord::Base
@@ -25,10 +25,10 @@ class Option < ActiveRecord::Base
 
   belongs_to :option_set
 
-  # Used for Questions(LoanQuestion) to LoanTypes(Options) associations which imply a required
+  # Used for Questions to LoanTypes(Options) associations which imply a required
   # question for a given loan type.
   has_many :loan_question_requirements, dependent: :destroy
-  has_many :loan_questions, through: :loan_question_requirements
+  has_many :questions, through: :loan_question_requirements
 
   delegate :division, :division=, to: :option_set
 

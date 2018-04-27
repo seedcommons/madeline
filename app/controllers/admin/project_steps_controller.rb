@@ -49,7 +49,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     end
     valid = @step.save
     if params[:context] == 'timeline_table'
-      valid ? render(nothing: true) : render_modal_content(422)
+      valid ? (head :ok) : render_modal_content(422)
     else
       render_step_partial(valid ? :show : :form)
     end
@@ -96,7 +96,7 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     if request.xhr?
       @step.destroy
-      render nothing: true
+      head :ok
     else
       if @step.destroy
         display_timeline(@step.project_id, I18n.t(:notice_deleted))
@@ -123,6 +123,9 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def batch_destroy
+    # don't initialize batch destroy if there are no step ids
+    skip_authorization && return if params['step-ids'].blank?
+
     project_id, notice = Timeline::BatchDestroy.new(current_user,
       params['step-ids'],
       notice_key: :notice_batch_deleted).perform
@@ -134,6 +137,9 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def adjust_dates
+    # don't initialize batch date adjustment if there are no step ids
+    skip_authorization && return if params['step-ids'].blank?
+
     project_id, notice = Timeline::DateAdjustment.new(current_user,
       params['step-ids'],
       time_direction: params[:time_direction],
@@ -146,6 +152,9 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   def finalize
+    # don't initialize batch finalize if there are no step ids
+    skip_authorization && return if params['step-ids'].blank?
+
     project_id, notice = Timeline::BatchFinalize.new(current_user, params['step-ids']).perform
 
     # Auth is done in BatchFinalize, but controller doesn't realize

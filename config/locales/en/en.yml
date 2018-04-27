@@ -27,6 +27,7 @@ en:
         name: "Name"
         parent: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"
+        public: "Public"
         logo: "Logo"
         logo_text: "Logo Text"
         banner_fg_color: "Banner FG Color"
@@ -36,7 +37,7 @@ en:
         connection_status: "QuickBooks Status"
         connect: "Connect to QuickBooks"
         last_updated_at: "Last Updated At"
-        full_sync: "Full Sync"
+        data_reset: "Reset Cached QuickBooks Data"
         disconnect: "Disconnect from QuickBooks"
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
@@ -151,20 +152,20 @@ en:
           principal_balance: "Principal Balance"
           private_note: "Memo"
           qb_id: "Id"
-          qb_transaction_type: "Type"
           txn_date: "Date"
           total: "Total"
           total_balance: "Total Balance"
+          type: "Type"
     errors:
       models:
+        basic_project:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         loan:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
-        basic_project:
-            attributes:
-              primary_agent:
-                same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         project_group:
           no_summary: "Summary is required."
         organization:
@@ -192,9 +193,15 @@ en:
       accounting_transaction:
         account: "Bank Account"
         amount: "Amount"
+        change_in_interest: "Change in Interest"
+        change_in_principal: "Change in Principal"
         description: "Description"
+        interest_balance: "Interest Balance"
         loan_transaction_type_value: "Type of Transaction"
+        principal_balance: "Principal Balance"
         private_note: "Memo"
+        qb_record_id: "QuickBooks Record ID"
+        total_balance: "Total Balance"
         txn_date: "Date"
       timeline_step_move:
         move_type: "Which Date?"
@@ -239,6 +246,7 @@ en:
 
   ## Front end ##
   country: Country
+  division: Division
   show: Show
   show_active: Active
   show_completed: Completed
@@ -331,12 +339,13 @@ en:
   optional: "Optional"
   print: "Print"
   quickbooks:
+    accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
-    class_location_notice_html: "<b>NOTE:</b> Before you can add transactions, you need to make sure <b>Classes</b> and <b>Locations</b> (a.k.a. Divisions) are enabled in your QuickBooks company settings."
-    full_sync_required: "A full sync is required before you can access transactions. Please go to %{settings} to sync."
-    misc: "There was an error connecting you to QuickBooks. An administrator has been notified. Some data may be out of date."
-    not_connected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
-    service_unavailable: "The system is temporarily unavailable. Please try again later."
+    class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
+    data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
+    misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
+    negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -357,6 +366,7 @@ en:
     created: "Created"
     caption: "Caption"
     condense_all: "Condense All"
+    deleted_user: "Deleted User"
     description: "Description"
     details: "Details"
     division: "Division"
@@ -366,7 +376,7 @@ en:
     hide_all: "Hide All"
     name: "Name"
     no_name: "No Name"
-    no_records: "No records found"
+    no_records: "No records found."
     no_records_match: "No records match. Adjust the filters or use Clear to reset filters."
     note: "Note"
     notes: "Notes"
@@ -455,12 +465,12 @@ en:
     dashboard: "Dashboard"
     divisions: "Divisions"
     loans: "Loans"
-    loan_questions: "Loan Questions"
+    questions: "Questions"
     manage: "Manage"
     people: "Members"
     log: "Log"
     logs: "Logs"
-    settings: "Settings"
+    accounting_settings: "Accounting Settings"
   number:
     nth:
       num_1: "first"
@@ -575,6 +585,10 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  member:
+    system_access: "System access allows a user to log into Madeline and view the loans and projects they have access to based on their division."
+    access_role: "Administrators have the ability to edit specific content not available to a regular member, such as managing divisions and editing loan questions."
 
   boolean:
     'true': 'Yes'

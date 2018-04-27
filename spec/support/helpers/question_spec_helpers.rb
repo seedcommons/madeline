@@ -5,9 +5,9 @@ module QuestionSpecHelpers
     let!(:lt2) { create(:option, option_set: loan_type_set, value: 'lt2', label_translations: {en: 'Loan Type Two'}) }
     let!(:loan1) { create(:loan, loan_type_value: lt1.value)}
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
-    let!(:qset) { create(:loan_question_set, internal_name: 'loan_criteria') }
+    let!(:qset) { create(:question_set, internal_name: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:loan_response_set, loan: loan1) }
+    let(:rset) { build(:response_set, loan: loan1) }
 
     before { rset.current_user = create(:user, :admin) }
   end
@@ -78,8 +78,8 @@ module QuestionSpecHelpers
   def create_question(set: qset, status: 'active', name: "", type:, override: true, required: false,
     loan_types: nil, **args)
 
-    create(:loan_question,
-      loan_question_set: set,
+    create(:question,
+      question_set: set,
       status: status,
       internal_name: name,
       data_type: type,

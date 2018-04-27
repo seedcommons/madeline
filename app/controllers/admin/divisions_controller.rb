@@ -1,4 +1,6 @@
 class Admin::DivisionsController < Admin::AdminController
+  before_action :find_division, only: [:show, :update, :destroy]
+
   def select
     redisplay_url = params[:redisplay_url] || root_path
     division_id = params[:division_id]
@@ -38,7 +40,6 @@ class Admin::DivisionsController < Admin::AdminController
 
   # show view includes edit
   def show
-    @division = Division.find(params[:id])
     authorize @division
     prep_form_vars
   end
@@ -50,7 +51,6 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def update
-    @division = Division.find(params[:id])
     authorize @division
 
     if @division.update(division_params)
@@ -80,7 +80,6 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def destroy
-    @division = Division.find(params[:id])
     authorize @division
 
     if @division.destroy
@@ -94,8 +93,12 @@ class Admin::DivisionsController < Admin::AdminController
   private
 
   def division_params
-    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :parent_id,
+    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :parent_id, :public,
       :banner_fg_color, :banner_bg_color, :accent_main_color, :accent_fg_color, :notify_on_new_logs, locales: [])
+  end
+
+  def find_division
+    @division = Division.friendly.find(params[:id])
   end
 
   def set_selected_division_id(id)

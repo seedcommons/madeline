@@ -1,9 +1,9 @@
+# Customer in QB = Organization (Coop) in Madeline
+#
+# Represents a QB Customer object and can create a reference object
+# for a link to this object in a transaction or other QB object.
 module Accounting
   module Quickbooks
-    # Customer in QBO = Organization (Coop) in Madeline
-    #
-    # Represents a QBO Customer object and can create a reference object
-    # for a link to this object in a transaction or other QBO object.
     class Customer
       attr_reader :qb_connection, :organization
 
@@ -44,6 +44,14 @@ module Accounting
         new_qb_customer = service.create(qb_customer)
 
         new_qb_customer.id
+      rescue ::Quickbooks::IntuitRequestException => e
+        if e.message =~ /^Duplicate Name Exists Error/
+          id = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}").first.id
+          raise e unless id
+          id
+        else
+          raise e
+        end
       end
     end
   end

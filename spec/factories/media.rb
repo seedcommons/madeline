@@ -22,12 +22,12 @@
 #
 # Foreign Keys
 #
-#  fk_rails_d64ff8d67d  (uploader_id => people.id)
+#  fk_rails_...  (uploader_id => people.id)
 #
 
 require 'open-uri'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :media do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the_swing.jpg')) }
     kind_value "image"

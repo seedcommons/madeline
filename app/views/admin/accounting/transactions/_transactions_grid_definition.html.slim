@@ -2,29 +2,36 @@
     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
 
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
-    filter: false do |transaction|
+    filter: false, in_csv: false do |transaction|
     - date = ldate(transaction.txn_date, format: :long)
     - link_to(date, '#', data: {action: 'show-transaction', 
       project_id: transaction.project_id, id: transaction.id})
-
+  - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
+    filter: false, in_html: false do |transaction|
+    - ldate(transaction.txn_date, format: :long)
+      
+  - g.column name: t('activerecord.attributes.accounting.transaction.type'),
+    filter: false do |transaction|
+    - transaction.loan_transaction_type_label
+    
   - g.column name: t('activerecord.attributes.accounting.transaction.description'),
     filter: false do |transaction|
     - transaction.description
   - g.column name: t('activerecord.attributes.accounting.transaction.amount'),
     filter: false do |transaction|
-    - format_currency transaction.amount, transaction.currency
+    - format_currency(transaction.amount, transaction.currency, tooltip: false)
   - g.column name: t('activerecord.attributes.accounting.transaction.change_in_interest'),
     filter: false do |transaction|
-    - format_currency transaction.change_in_interest, transaction.currency
-  - g.column name: t('activerecord.attributes.accounting.transaction.interest_balance'),
-    filter: false do |transaction|
-    - format_currency transaction.interest_balance, transaction.currency
+    - format_currency(transaction.change_in_interest, transaction.currency, tooltip: false)
   - g.column name: t('activerecord.attributes.accounting.transaction.change_in_principal'),
     filter: false do |transaction|
-    - format_currency transaction.change_in_principal, transaction.currency
+    - format_currency(transaction.change_in_principal, transaction.currency, tooltip: false)
+  - g.column name: t('activerecord.attributes.accounting.transaction.interest_balance'),
+      filter: false do |transaction|
+    - format_currency(transaction.interest_balance, transaction.currency, tooltip: false)
   - g.column name: t('activerecord.attributes.accounting.transaction.principal_balance'),
     filter: false do |transaction|
-    - format_currency transaction.principal_balance, transaction.currency
+    - format_currency(transaction.principal_balance, transaction.currency, tooltip: false)
   - g.column name: t('activerecord.attributes.accounting.transaction.total_balance'),
     filter: false do |transaction|
-    - format_currency transaction.total_balance, transaction.currency
+    - format_currency(transaction.total_balance, transaction.currency, tooltip: false)

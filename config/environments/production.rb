@@ -42,7 +42,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # The available log levels are: :debug, :info, :warn, :error, :fatal, and :unknown,
   # corresponding to the log level numbers from 0 up to 5, respectively.
@@ -95,9 +95,13 @@ Rails.application.configure do
       %r{http://.*\.?theworkingworld\.org} => :us,
       'http://labase.org/inversion' => :argentina,
     },
+    base_uri: {
+      us: 'http://theworkingworld.org',
+      argentina: 'http://labase.org'
+    },
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/us/rails',
       argentina: '/rails',
-    },
+    }
   }
 end

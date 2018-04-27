@@ -18,11 +18,11 @@
 #
 # Foreign Keys
 #
-#  fk_rails_04c68907b4  (loan_id => projects.id)
+#  fk_rails_...  (loan_id => projects.id)
 #
 
 class LoanHealthCheck < ActiveRecord::Base
-  belongs_to :loan, class_name: Loan, foreign_key: :loan_id
+  belongs_to :loan, class_name: 'Loan', foreign_key: :loan_id
 
   after_create :recalculate
 

@@ -1,51 +1,57 @@
 require 'rails_helper'
 
+# TODO: find a way to stub less of this workflow/add more unit tests.
+# The specs are not catching when the update method receives a loan or an array of loans
+
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
-  let(:connection) { instance_double(Accounting::Quickbooks::Connection, last_updated_at: last_updated_at) }
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
-  let(:qb_id) { 34 }
+  let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account}
+  let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
+  let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
-  let(:last_updated_at) { nil }
+
+  # This is example JSON that might be returned by the QB API.
+  # The data are taken from the docs/example_calculation.xlsx file, row 7.
   let(:quickbooks_data) do
     { 'line_items' =>
      [{ 'id' => '0',
-        'description' => 'Nate desc',
-        'amount' => '15.09',
-        'detail_type' => 'JournalEntryLineDetail',
-        'journal_entry_line_detail' => {
-          'posting_type' => 'Debit',
-          'entity' => {
-            'type' => 'Customer',
-            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-          'account_ref' => { 'value' => '84', 'name' => 'Accounts Receivable (A/R)', 'type' => nil },
-          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-          'department_ref' => nil } },
-      { 'id' => '1',
-        'description' => 'Nath desc',
-        'amount' => '12.37',
+        'description' => 'Repayment',
+        'amount' => '10.99',
         'detail_type' => 'JournalEntryLineDetail',
         'journal_entry_line_detail' => {
           'posting_type' => 'Credit',
           'entity' => {
             'type' => 'Customer',
             'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-          'account_ref' => { 'value' => '35', 'name' => prin_acct.name, 'type' => nil },
+          'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
+          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+          'department_ref' => nil } },
+      { 'id' => '1',
+        'description' => 'Repayment',
+        'amount' => '1.31',
+        'detail_type' => 'JournalEntryLineDetail',
+        'journal_entry_line_detail' => {
+          'posting_type' => 'Credit',
+          'entity' => {
+            'type' => 'Customer',
+            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+          'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
           'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
           'department_ref' => nil } },
        { 'id' => '2',
-         'description' => 'Jay desc',
-         'amount' => '2.72',
+         'description' => 'Repayment',
+         'amount' => '12.30',
          'detail_type' => 'JournalEntryLineDetail',
          'journal_entry_line_detail' => {
-           'posting_type' => 'Credit',
+           'posting_type' => 'Debit',
            'entity' => {
              'type' => 'Customer',
              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-           'account_ref' => { 'value' => '35', 'name' => int_rcv_acct.name, 'type' => nil },
+           'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
            'department_ref' => nil } }],
       'id' => '167',
@@ -54,126 +60,146 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         'create_time' => '2017-04-18T10:14:30.000-07:00',
         'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
       'txn_date' => '2017-04-18',
-      'total' => '19.99',
-      'private_note' => 'Nate now testing' }
+      'total' => '12.30',
+      'private_note' => 'Random stuff' }
   end
+
   let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
+
+  # These line items match the JSON above.
   let!(:line_items) do
     txn.line_items = [create(:line_item,
         qb_line_id: 0,
-        description: 'Nate desc',
-        amount: '15.09',
-        account: create(:account, name: 'Accounts Receivable (A/R)'),
-        posting_type: 'Debit'),
-      create(:line_item,
-        qb_line_id: 1,
-        description: 'Nath desc',
-        amount: '12.37',
+        amount: '10.99',
         account: prin_acct,
         posting_type: 'Credit'),
       create(:line_item,
-        qb_line_id: 2,
-        description: 'Jay desc',
-        amount: '2.72',
+        qb_line_id: 1,
+        amount: '1.31',
         account: int_rcv_acct,
-        posting_type: 'Credit')]
+        posting_type: 'Credit'),
+      create(:line_item,
+        qb_line_id: 2,
+        amount: '12.30',
+        account: txn_acct,
+        posting_type: 'Debit')]
   end
 
-  subject { described_class.new(connection) }
+  subject { described_class.new(division.qb_connection) }
 
   before do
     allow(subject).to receive(:service).and_return(generic_service)
-    allow(connection).to receive(:update_attribute).with(:last_updated_at, anything)
+    allow(division).to receive(:qb_division).and_return(division)
   end
 
-  context 'QB line item manipulations' do
-    context 'line item added' do
-
+  # TODO: extract_qb_data should move out of Updater and into a separate Extractor class.
+  # When it does, this context block should move into a separate spec.
+  context '#extract_qb_data' do
+    context 'adding 1.00 credit to int_rcv_acct and 1.00 debit to txn_acct in quickbooks' do
       before do
         quickbooks_data['line_items'] << {
           'id' => '3',
-          'description' => 'Jazzy desc',
-          'amount' => '1.0',
+          'description' => 'Repayment',
+          'amount' => '1.00',
+          'detail_type' => 'JournalEntryLineDetail',
+          'journal_entry_line_detail' => {
+            'posting_type' => 'Credit',
+            'entity' => {
+              'type' => 'Customer',
+              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
+            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+            'department_ref' => nil } }
+        quickbooks_data['line_items'] << {
+          'id' => '4',
+          'description' => 'Repayment',
+          'amount' => '1.00',
           'detail_type' => 'JournalEntryLineDetail',
           'journal_entry_line_detail' => {
             'posting_type' => 'Debit',
             'entity' => {
               'type' => 'Customer',
               'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => '84', 'name' => int_rcv_acct.name, 'type' => nil },
+            'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
             'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
             'department_ref' => nil } }
-
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
+        quickbooks_data['total'] = '13.30'
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
-        expect(txn.reload.line_items.count).to eq(4)
-        expect(txn.reload.line_items.last.qb_line_id).to eq(3)
+        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2, 3, 4])
+        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit', 'Credit', 'Debit'])
+        expect_line_item_amounts([10.99, 1.31, 12.30, 1.00, 1.00])
 
-        # Adding a debit to the interest receivable account should reduce the
-        # change in interest and thus the txn's amount field
-        expect(txn.reload.amount).to eq 16.09
+        # Amount is calculated from line items so this tests all of those calculations.
+        expect(txn.amount).to equal_money(13.30)
       end
     end
 
-    context 'line item updated' do
-      let(:last_updated_at) { Date.today - 3 }
-
+    context 'changing existing prin_acct and txn_acct line items by 0.50 in quickbooks' do
       before do
-        line_item = quickbooks_data['line_items'][1]
+        quickbooks_data['line_items'][1]['amount'] = '0.81' # int_rcv_acct
+        quickbooks_data['line_items'][2]['amount'] = '11.80' # txn_acct
+        quickbooks_data['total'] = '11.80'
 
-        # update a line item
-        line_item['journal_entry_line_detail']['posting_type'] = 'Debit'
-        line_item['amount'] = 10.00
+        # We throw in an account name change also to test that accounts are matched by ID.
+        # This should not affect anything.
+        quickbooks_data['line_items'][1]['journal_entry_line_detail']['account_ref']['name'] = 'Foo'
 
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
-        expect(txn.reload.line_items.count).to eq(3)
-        expect(txn.reload.line_items.last.qb_line_id).to eq(2)
-        expect(txn.reload.line_items.map {|i| i.posting_type}).to contain_exactly('Debit', 'Debit', 'Credit')
-        expect(txn.reload.line_items.map {|i| i.amount}).to contain_exactly(15.09, 10.00, 2.72)
-
-        # Adding a debit to the interest receivable account should reduce the
-        # change in interest and thus the txn's amount field
-        expect(txn.reload.amount).to eq 12.72
+        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2])
+        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit'])
+        expect_line_item_amounts([10.99, 0.81, 11.80])
+        expect(txn.amount).to equal_money(11.80)
       end
     end
 
-    context 'line items removed' do
-      let(:last_updated_at) { Date.today - 2 }
-
+    context 'removing a credit and and adjusting the other credit in quickbooks' do
       before do
-        line_item = quickbooks_data['line_items'][1]
-        line_item_2 = quickbooks_data['line_items'][2]
-
-        # remove line items
-        quickbooks_data['line_items'].delete(line_item)
-        quickbooks_data['line_items'].delete(line_item_2)
-
-        txn.update(quickbooks_data: quickbooks_data)
-        subject.send(:extract_qb_data, txn)
+        quickbooks_data['line_items'][0]['amount'] = '9.68'
+        quickbooks_data['line_items'][2]['amount'] = '9.68'
+        quickbooks_data['line_items'].delete_at(1)
+        quickbooks_data['total'] = '9.68'
+        update_transaction_with_new_quickbooks_data
       end
 
       it 'updates correctly in Madeline' do
-        expect(txn.reload.line_items.count).to eq(1)
-        expect(txn.reload.line_items.last.qb_line_id).to eq(0)
+        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 2])
+        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Debit'])
+        expect_line_item_amounts([9.68, 9.68])
+        expect(txn.amount).to equal_money(9.68)
+      end
+    end
 
-        # Adding a debit to the interest receivable account should reduce the
-        # change in interest and thus the txn's amount field
-        expect(txn.reload.amount).to eq 0
+    def update_transaction_with_new_quickbooks_data
+      txn.update(quickbooks_data: quickbooks_data)
+      subject.send(:extract_qb_data, txn)
+      txn.calculate_balances
+      txn.save!
+      txn.reload
+    end
+
+    def expect_line_item_amounts(amounts)
+      amounts.each_with_index do |amt, i|
+        expect(txn.line_items[i].amount).to equal_money(amt)
       end
     end
   end
 
   describe '#update' do
+    let(:last_updated_at) { nil }
+
+    before do
+      division.qb_connection.update_attribute(:last_updated_at, last_updated_at)
+    end
+
     context 'when last_updated_at is nil' do
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
+        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
       end
 
       context 'when qb_connection is nil' do
@@ -189,7 +215,16 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       let(:last_updated_at) { 31.days.ago }
 
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::FullSyncRequiredError)
+        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
+      end
+    end
+
+    context 'when last_updated_at is less than 5 seconds ago' do
+      let(:last_updated_at) { 4.seconds.ago }
+
+      it 'returns without doing anything' do
+        expect(subject).not_to receive(:changes)
+        subject.update
       end
     end
 
@@ -210,7 +245,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
           transaction = Accounting::Transaction.where(qb_id: qb_id).take
           expect(transaction).not_to be_nil
-          expect(transaction.qb_transaction_type).to eq 'JournalEntry'
+          expect(transaction.qb_object_type).to eq 'JournalEntry'
           expect(transaction.quickbooks_data).not_to be_empty
         end
       end

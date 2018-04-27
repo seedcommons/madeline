@@ -1,37 +1,29 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.5'
-gem 'pg', '~> 0.15'
+gem 'rails', '~> 5.1', '>= 5.1.4'
+gem 'pg', '~> 0.15', '< 0.21.0'
 
 # Assets
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.0'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
-gem 'twitter-bootstrap-rails-confirm'
 gem 'select2-rails'
 gem 'rails-backbone'
 gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
-gem 'paperclip', '~> 5.0.0'
+gem 'paperclip', '~> 5.2'
 
 # Authentication / Authorization
 gem 'devise'
 gem 'pundit'
 gem 'rolify'
-
-# Pagination
-# gem 'will_paginate', '~> 3.0.4'
-# gem 'will_paginate-bootstrap'
-
-# Remove UTF8 parameter from GET forms
-gem 'utf8_enforcer_workaround'
 
 # Slim template language
 gem 'slim'
@@ -39,17 +31,12 @@ gem 'slim'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
-# note, for now just using chronic, which was already included
-# if the duplicate step recurrence feature requirements become more complex in the future, then will likely make sense to use ice_cube
-#gem 'ice_cube'
-# beware, I tried 'tickle' first but it didn't seem stable
-
 # Internationalization
 gem 'rails-i18n'
-gem "i18n-js", ">= 3.0.0.rc11"
+gem 'i18n-js', '>= 3.0.0.rc11'
 
 # Translate urls
-gem 'route_translator'
+gem 'route_translator', '>=5.5.3'
 
 # Model hierarchical data
 gem 'closure_tree', '~> 6.2'
@@ -65,11 +52,13 @@ gem 'mysql2'
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
 
-# We are using this fork because
-# 1. the csv_encoding feature has not been released yet
-#    despite being committed in November 2015.
-# 2. We added a placeholder to the bootstrap datepicker (PR outstanding on main project)
-gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails3'
+# Human readable short names
+gem 'friendly_id', '~> 5.1.0'
+
+# We are using this fork because:
+# 1. 'tag_options' no longer valid in rails 5
+# 2. AR 'size' method triggers the count query which causes errors in rails 5
+gem 'wice_grid', git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails5'
 
 # Forms
 gem 'simple_form'
@@ -116,9 +105,9 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'pry'
-  gem 'pry-nav'
-  gem 'pry-rails'
+  gem 'pry', '0.10.4'
+  gem 'pry-nav', '0.2.4'
+  gem 'pry-rails', '0.3.5'
 
   # Watches for inefficient queries and recommends eager loading
   gem 'bullet'
@@ -136,7 +125,7 @@ group :development, :test do
   # Specs and Test Coverage
   gem 'rspec-rails'
   gem 'pundit-matchers'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'database_cleaner', '~> 1.5'
   gem 'faker'
   gem 'capybara', '~> 2.0'
@@ -144,7 +133,6 @@ group :development, :test do
   gem 'selenium-webdriver', '~> 2.0'
   gem 'poltergeist', '~> 1.0'
   gem 'simplecov'
-  gem 'quiet_assets'
 
   # Dump data to Rails commands
   gem 'seed_dump'
@@ -160,9 +148,10 @@ group :development do
 
   # Deployment
   gem 'capistrano3-delayed-job', '~> 1.0'
-  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+  gem 'capistrano-rbenv', '~> 2.1'
 
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false
