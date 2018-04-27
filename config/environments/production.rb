@@ -95,9 +95,13 @@ Rails.application.configure do
       %r{http://.*\.?theworkingworld\.org} => :us,
       'http://labase.org/inversion' => :argentina,
     },
+    base_uri: {
+      us: 'http://theworkingworld.org',
+      argentina: 'http://labase.org'
+    },
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/us/rails',
       argentina: '/rails',
-    },
+    }
   }
 end

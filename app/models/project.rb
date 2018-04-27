@@ -18,7 +18,7 @@
 #  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
-#  public_level_value          :string
+#  public_level_value          :string           not null
 #  rate                        :decimal(, )
 #  representative_id           :integer
 #  secondary_agent_id          :integer
@@ -47,6 +47,8 @@ class Project < ActiveRecord::Base
   include Translatable
   include OptionSettable
 
+  before_destroy :allow_destroy
+
   # Status values can be found at Loan.status_option_set.options and
   # BasicProject.status_option_set.options
   OPEN_STATUSES = %w(active changed possible prospective)
@@ -60,8 +62,11 @@ class Project < ActiveRecord::Base
   has_many :transactions, class_name: 'Accounting::Transaction', dependent: :destroy
   has_many :copies, class_name: 'Project', foreign_key: 'original_id', dependent: :nullify
 
+  scope :visible, -> { where.not(public_level_value: 'hidden') }
+
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
+  attr_accessor :destroying
 
   validate :check_agents
   validates :division_id, presence: true
@@ -175,5 +180,9 @@ class Project < ActiveRecord::Base
 
   def check_agents
     errors.add(:primary_agent, :same_as_secondary) if agents_the_same?
+  end
+
+  def allow_destroy
+    self.destroying = true
   end
 end

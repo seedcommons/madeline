@@ -21,10 +21,10 @@
                 - for i in (0..(@pictures.count-1)) do
                   li data-slide-to=i data-target="#myCarousel"
             / Carousel items
-            a href="#{url_for gallery_path(@loan)}"
+            a href="#{url_for public_gallery_path(@loan)}"
               .carousel-inner
                 - @pictures.each do |picture|
-                  .item.picture style=("background-image: url(#{picture.paths[:large]});")
+                  .item.picture style=("background-image: url(#{picture.item.large.url});")
             / Carousel nav
             - if @pictures.count > 1
               a.carousel-control.left data-slide="prev" href="#myCarousel"  &lsaquo;
@@ -45,7 +45,7 @@
             th #{t(:amount)}:
             td
               / i.icon-coinstack>
-              = @loan.amount_formatted
+              = format_currency(@loan.amount, @loan.currency)
           tr
             th #{t(:location)}:
             td
@@ -56,7 +56,7 @@
             td
               i.fa.fa-fw.fa-calendar>
               = @loan.signing_date_long
-        .short_description = render_translation @loan.short_description
+        .short_description = render_translation @loan.summary
 
     .clearfix
 
@@ -77,7 +77,7 @@
       #about_loan.tab-content
         #summary.tab-pane
           p.loan_description
-            = render_translation(@loan.description) || %Q{<span class="notfound">#{t :no_description_found}</span>}
+            = render_translation(@loan.details) || %Q{<span class="notfound">#{t :no_description_found}</span>}
 
         // Disable timeline and repayments for now
         / #timeline.tab-pane

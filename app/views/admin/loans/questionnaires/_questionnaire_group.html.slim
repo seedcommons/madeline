@@ -64,11 +64,11 @@
                 / so that if the box is unchecked, the submitted value will be 'no'. This is a
                 / standard Rails trick:
                 / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
-                = hidden_field_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                = hidden_field_tag :"response_set[#{question.attribute_sym}][not_applicable]",
                   "no"
-                = check_box_tag :"loan_response_set[#{question.attribute_sym}][not_applicable]",
+                = check_box_tag :"response_set[#{question.attribute_sym}][not_applicable]",
                   "yes", response.not_applicable?
-                = label_tag "loan_response_set[#{question.attribute_sym}][not_applicable]",
+                = label_tag "response_set[#{question.attribute_sym}][not_applicable]",
                   t("loan.not_applicable")
 
             - if response.has_rating?

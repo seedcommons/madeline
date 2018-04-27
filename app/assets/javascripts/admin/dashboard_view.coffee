@@ -7,7 +7,7 @@ class MS.Views.DashboardView extends Backbone.View
   # Prepare tooltips on all projects shown for all users in the dashboard
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) ->
-      message = $(tip).closest('.health-message').find('.message').html()
+      message = $(tip).closest('.tooltip-message').find('.message').html()
 
       $(tip).addClass('ms-popover').popover
         content: message

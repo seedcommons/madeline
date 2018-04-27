@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TransactionControllable, TranslationSaveable, QuestionnaireRenderable
+  include TransactionControllable, QuestionnaireRenderable
 
   TABS = %w(details questions timeline timeline_list logs transactions calendar)
 
@@ -84,8 +84,14 @@ class Admin::LoansController < Admin::ProjectsController
     @loan = Loan.new(loan_params)
     authorize @loan
 
+    org_id = params[:loan][:organization_id]
+
     if @loan.save
-      redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
+      if params[:from_org] == 'yes'
+        redirect_to admin_organization_path(org_id), notice: I18n.t(:notice_created)
+      else
+        redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
+      end
     else
       prep_form_vars
       render :new

@@ -3,11 +3,12 @@ FactoryBot.define do
     division { root_division }
     organization
     name { "Loan for " + organization.name }
+    currency { Currency.all.sample || create(:currency) }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
-    public_level_value { ["featured", "hidden"].sample }
+    public_level_value { ["featured", "hidden", "public"].sample }
     amount { rand(5000..50000) }
     rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
@@ -18,6 +19,11 @@ FactoryBot.define do
     end_date { Faker::Date.between(first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
+
+
+    trait :featured do
+      public_level_value "featured"
+    end
 
     trait :active do
       status_value :active
@@ -32,19 +38,13 @@ FactoryBot.define do
     end
 
     trait :with_translations do
-      after(:create) do |loan|
-        create(:translation, translatable: loan, translatable_attribute: :summary)
-        create(:translation, translatable: loan, translatable_attribute: :details)
-      end
+      summary { Faker::Hipster.sentence }
+      details { Faker::Hipster.paragraph }
     end
 
     trait :with_foreign_translations do
-      after(:create) do |loan|
-        create(:translation,
-          translatable: loan, translatable_attribute: :summary, locale: :es, text: Faker::Lorem.paragraph(2))
-        create(:translation,
-          translatable: loan, translatable_attribute: :details, locale: :es, text: Faker::Lorem.paragraph(2))
-      end
+      summary_es { Faker::Lorem.sentence }
+      details_es { Faker::Lorem.paragraph(2) }
     end
 
     trait :with_loan_media do
@@ -168,7 +168,7 @@ FactoryBot.define do
     # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
-        loan.criteria = create(:loan_response_set,
+        loan.criteria = create(:response_set,
           kind: 'criteria',
           loan: loan,
           custom_data: {summary: 'foo', workers: 5}
