@@ -18,7 +18,7 @@
 #  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
-#  public_level_value          :string
+#  public_level_value          :string           not null
 #  rate                        :decimal(, )
 #  representative_id           :integer
 #  secondary_agent_id          :integer
@@ -61,6 +61,8 @@ class Project < ActiveRecord::Base
   has_many :project_logs, through: :timeline_entries
   has_many :transactions, class_name: 'Accounting::Transaction', dependent: :destroy
   has_many :copies, class_name: 'Project', foreign_key: 'original_id', dependent: :nullify
+
+  scope :visible, -> { where.not(public_level_value: 'hidden') }
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details

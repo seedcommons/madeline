@@ -187,6 +187,8 @@ GEM
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     fullcalendar-rails (3.4.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
       jquery-ui-rails (>= 5.0.2)
@@ -509,6 +511,7 @@ DEPENDENCIES
   fix-db-schema-conflicts
   font-awesome-rails
   font-awesome-sass (~> 4.3)
+  friendly_id (~> 5.1.0)
   fullcalendar-rails
   goldiloader
   gon
