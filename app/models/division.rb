@@ -94,6 +94,8 @@ class Division < ActiveRecord::Base
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
   validates :name, presence: true
+  validates :short_name, presence: true, if: :public
+  validates :short_name, uniqueness: { allow_blank: true, case_sensitive: false }
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
