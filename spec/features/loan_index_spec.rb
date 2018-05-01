@@ -103,7 +103,7 @@ feature 'visit loan index page' do
 
     context 'show only public divisions on dropdown' do
       scenario 'non-public divisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu)
+        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu fire)
       end
     end
   end
