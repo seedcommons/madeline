@@ -105,7 +105,6 @@ class Division < ActiveRecord::Base
 
   def self.root_id
     result = root.try(:id)
-    logger.info("division root.id: #{result}")
     result
   end
 
