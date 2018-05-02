@@ -77,7 +77,6 @@ feature 'visit loan index page' do
       scenario 'shows loans of division and descendant divisions' do
         # when division with descendants is selected
         visit public_loans_path(division: 'chick')
-        save_and_open_page
         expect(page).not_to have_content(@loan_2.name)
         expect(page).to have_content(@loan_1.name)
         expect(page).to have_content(@loan_3.name)
