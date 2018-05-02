@@ -1,4 +1,4 @@
-# Performs calculations necessary to produce Breakeven Table Report on loan questions
+# Performs calculations necessary to produce Breakeven Table Report on questions
 class BreakevenTableQuestion
   # Expects JSON input like this:
   # {

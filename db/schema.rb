@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308114407) do
+ActiveRecord::Schema.define(version: 20180425170810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -142,13 +140,16 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.integer "organization_id"
     t.integer "parent_id"
     t.integer "principal_account_id"
+    t.boolean "public", default: true, null: false
     t.string "qb_id"
+    t.string "short_name"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
     t.index ["organization_id"], name: "index_divisions_on_organization_id"
     t.index ["principal_account_id"], name: "index_divisions_on_principal_account_id"
+    t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|
@@ -163,52 +164,10 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.index ["loan_id"], name: "index_loan_health_checks_on_loan_id"
   end
 
-  create_table "loan_question_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id", null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations", null: false
-    t.index ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true
-    t.index ["descendant_id"], name: "custom_field_desc_idx"
-  end
-
   create_table "loan_question_requirements", id: :serial, force: :cascade do |t|
     t.decimal "amount"
-    t.integer "loan_question_id"
     t.integer "option_id"
-  end
-
-  create_table "loan_question_sets", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "internal_name"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "loan_questions", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "data_type", null: false
-    t.integer "division_id", null: false
-    t.boolean "has_embeddable_media", default: false, null: false
-    t.string "internal_name"
-    t.integer "loan_question_set_id"
-    t.integer "migration_position"
-    t.integer "number"
-    t.boolean "override_associations", default: false, null: false
-    t.integer "parent_id"
-    t.integer "position"
-    t.boolean "required", default: false, null: false
-    t.string "status", default: "active", null: false
-    t.datetime "updated_at", null: false
-    t.index ["loan_question_set_id"], name: "index_loan_questions_on_loan_question_set_id"
-  end
-
-  create_table "loan_response_sets", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.string "kind"
-    t.integer "loan_id", null: false
-    t.integer "lock_version", default: 0, null: false
-    t.datetime "updated_at", null: false
-    t.integer "updater_id"
+    t.integer "question_id"
   end
 
   create_table "media", id: :serial, force: :cascade do |t|
@@ -343,7 +302,7 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.integer "original_id"
     t.integer "primary_agent_id"
     t.decimal "projected_return"
-    t.string "public_level_value"
+    t.string "public_level_value", null: false
     t.decimal "rate"
     t.integer "representative_id"
     t.integer "secondary_agent_id"
@@ -354,6 +313,48 @@ ActiveRecord::Schema.define(version: 20180308114407) do
     t.index ["currency_id"], name: "index_projects_on_currency_id"
     t.index ["division_id"], name: "index_projects_on_division_id"
     t.index ["organization_id"], name: "index_projects_on_organization_id"
+  end
+
+  create_table "question_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "custom_field_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "custom_field_desc_idx"
+  end
+
+  create_table "question_sets", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "internal_name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "data_type", null: false
+    t.integer "division_id", null: false
+    t.boolean "has_embeddable_media", default: false, null: false
+    t.string "internal_name"
+    t.integer "migration_position"
+    t.integer "number"
+    t.boolean "override_associations", default: false, null: false
+    t.integer "parent_id"
+    t.integer "position"
+    t.integer "question_set_id"
+    t.boolean "required", default: false, null: false
+    t.string "status", default: "active", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_set_id"], name: "index_questions_on_question_set_id"
+  end
+
+  create_table "response_sets", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "custom_data"
+    t.string "kind"
+    t.integer "loan_id", null: false
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "updater_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -445,8 +446,6 @@ ActiveRecord::Schema.define(version: 20180308114407) do
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
-  add_foreign_key "loan_questions", "loan_question_sets"
-  add_foreign_key "loan_response_sets", "users", column: "updater_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"
   add_foreign_key "options", "option_sets"
@@ -464,6 +463,8 @@ ActiveRecord::Schema.define(version: 20180308114407) do
   add_foreign_key "projects", "people", column: "primary_agent_id"
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
+  add_foreign_key "questions", "question_sets"
+  add_foreign_key "response_sets", "users", column: "updater_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
   add_foreign_key "timeline_entries", "projects"
   add_foreign_key "timeline_entries", "timeline_entries", column: "parent_id"

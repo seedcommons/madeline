@@ -25,7 +25,9 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
+#  public                         :boolean          default(TRUE), not null
 #  qb_id                          :string
+#  short_name                     :string
 #  updated_at                     :datetime         not null
 #
 # Indexes
@@ -35,6 +37,7 @@
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
 #  index_divisions_on_organization_id                 (organization_id)
 #  index_divisions_on_principal_account_id            (principal_account_id)
+#  index_divisions_on_short_name                      (short_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -47,6 +50,11 @@
 
 class Division < ActiveRecord::Base
   include DivisionBased
+  extend FriendlyId
+
+  after_create :add_short_name
+
+  friendly_id :short_name
 
   has_closure_tree dependent: :restrict_with_exception
   resourcify
@@ -58,7 +66,7 @@ class Division < ActiveRecord::Base
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :loan_questions
+  has_many :questions
   has_many :option_sets, dependent: :destroy
 
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
@@ -89,6 +97,7 @@ class Division < ActiveRecord::Base
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
+  scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
@@ -154,5 +163,12 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
+  end
+
+  def add_short_name
+    if self.short_name.nil?
+      self.short_name = self.name.parameterize
+      save
+    end
   end
 end

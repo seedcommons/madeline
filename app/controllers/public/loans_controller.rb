@@ -1,28 +1,38 @@
 class Public::LoansController < Public::PublicController
   include WordpressEmbeddable
+  after_action :verify_authorized
 
   def index
-    params[:division] = get_division_from_url
-    @loans = Loan.filter_by_params(params).visible.
-      includes(:cooperative, division: :super_division).
-      paginate(:page => params[:pg], :per_page => 20).
-      order('signing_date DESC')
-    @countries = Country.order(:iso_code).pluck(:iso_code)
+    params[:division] ||= get_division_from_url
+    @params = { status: params[:status], pg: params[:pg], division: params[:division] }
+    @loans = policy_scope(Loan.filter_by_params(params).visible.
+          includes(:organization, division: :parent).
+          page(params[:pg]).per(20).
+          order('signing_date DESC'))
+    authorize @loans
+
+    @divisions = Division.published.pluck(:name, :short_name)
 
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath
   end
 
   def show
-    @loan = Loan.status('all').find(params[:id])
-    @pictures = @loan.featured_pictures(5) # for slideshow
-    @other_loans = @loan.cooperative.loans.status('all').order("SigningDate DESC") if @loan.cooperative
-    @repayments = @loan.repayments.order('DateDue')
+    @loan = Loan.find(params[:id])
+    authorize @loan
+
+    @pictures = @loan.featured_pictures(limit: 5) # for slideshow
+    @other_loans = policy_scope(Loan.related_loans(@loan))
   end
 
   def gallery
-    @loan = Loan.status('all').find(params[:id])
-    @coop_media = @loan.coop_media(100, true).in_groups_of(4, false)
-    @loan_media = (@loan.loan_media(100, true) + @loan.log_media(100, true)).in_groups_of(4, false)
+    @loan = Loan.find(params[:id])
+    authorize @loan
+
+    @coop_media = @loan.coop_media(limit: 100, images_only: true).in_groups_of(4, false)
+    @loan_media = (
+      @loan.loan_media(limit: 100, images_only: true) +
+      @loan.log_media(limit: 100, images_only: true)
+    ).in_groups_of(4, false)
   end
 end

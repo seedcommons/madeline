@@ -187,6 +187,8 @@ GEM
     font-awesome-sass (4.7.0)
       sass (>= 3.2)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     fullcalendar-rails (3.4.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
       jquery-ui-rails (>= 5.0.2)
@@ -240,7 +242,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.1.1)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.12)
@@ -265,7 +267,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
     nio4r (2.1.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -509,6 +511,7 @@ DEPENDENCIES
   fix-db-schema-conflicts
   font-awesome-rails
   font-awesome-sass (~> 4.3)
+  friendly_id (~> 5.1.0)
   fullcalendar-rails
   goldiloader
   gon

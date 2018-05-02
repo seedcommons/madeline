@@ -1,0 +1,5 @@
+en:
+  routes:
+    loans: loans
+    gallery: gallery
+    test: test

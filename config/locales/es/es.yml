@@ -26,6 +26,7 @@ es:
         name: "Nombre"
         parent: "División Principal"
         notify_on_new_logs: "Notificar Nuevos Apuntes"
+        public: "Público"
         logo: "Logo"
         logo_text: "Texto del Logo"
         banner_fg_color: "Color del Primer Plano del Banner "
@@ -109,7 +110,7 @@ es:
         street_address: "Domicilio"
         state: "Estado"
         tax_no: "Nro. de Documento"
-        website: "Página Web"
+        website: "Página web"
       project:
         length_months: "Duración (meses)"
         name: "Nombre"
@@ -156,11 +157,11 @@ es:
           type: "Tipo"
     errors:
       models:
-        loan:
+        basic_project:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
-        basic_project:
+        loan:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
@@ -231,6 +232,7 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  division: División
   show: Mostrar
   show_active: Activo
   show_completed: Completo
@@ -434,7 +436,7 @@ es:
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
     loans: "Préstamos"
-    loan_questions: "Preguntas de Préstamos"
+    questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
     log: "Apunte"
@@ -551,6 +553,9 @@ es:
     no_system_access: "El usuario no tiene acceso al sistema."
     send_instructions: "Enviar instrucciones"
     waiting_confirmation: "Esperando confirmación para: %{email}"
+  member:
+    system_access: "El acceso al sistema permite a un usuario ingresar a Madeline y ver los préstamos y proyectos a los que tienen acceso según su división."
+    access_role: "Los administradores pueden editar contenido específico que no está disponible para un integrante común, tal como el manejo de las divisiones o la edición de preguntas de préstamos."
   boolean:
     'true': 'Sí'
     'false': 'No'

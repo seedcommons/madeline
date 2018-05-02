@@ -33,9 +33,13 @@
               i.fa.fa-calendar-o>
               = ldate(log.date)
             .item
-              a href=admin_person_path(log.agent)
+              - if log.agent
+                a href=admin_person_path(log.agent)
+                  i.fa.fa-user>
+                  = log.agent_name
+              - else
                 i.fa.fa-user>
-                = log.agent_name
+                span = t("common.deleted_user")
             .item
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
