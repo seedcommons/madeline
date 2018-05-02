@@ -20,7 +20,10 @@ class MS.Views.LogListView extends Backbone.View
     if (resp)
       $.ajax(method: "DELETE", url: "/admin/logs/#{logId}/?context=#{context}")
       .done (response) =>
+        # Replace log list
         @$el.html(response)
+
+        # Remove log from timeline
         @$el.closest(".content").find(".project-step .log-summary[data-log-id='#{logId}']").remove()
 
       .fail (response) -> MS.alert(response.responseText)
