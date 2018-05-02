@@ -2,7 +2,7 @@ module WordpressEmbeddable
   extend ActiveSupport::Concern
 
   included do
-    before_action :update_template
+    before_action :check_template
     helper_method :get_division_from_url
     layout "public/wordpress"
   end
@@ -18,12 +18,20 @@ module WordpressEmbeddable
     division || default_division
   end
 
+  def update
+    skip_authorization
+    update_template
+    redirect_to action: "index"
+  end
+
   private
 
-  def update_template
+  def check_template
     template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{get_division_from_url}"
-    return if template_exists?(template_path)
+    update_template unless template_exists?(template_path)
+  end
 
+  def update_template
     base_uri = Rails.configuration.x.wordpress_template[:base_uri][get_division_from_url]
 
     WordpressTemplate.update(

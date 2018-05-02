@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       resources :loans, only: [:index, :show]
       get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       get 'test' => 'static_pages#test'
+      get 'update' => 'loans#update' # Manually update wordpress template
     end
   end
 
