@@ -1,5 +1,5 @@
 = @step.logs_count if @step
-= @context
+= @context ? @context : "THERE IS NO CONTEXT"
 
 - if @logs.blank? && @context != 'calendar'
 /- if @logs.blank?
@@ -14,6 +14,7 @@
       a data-hide-all=".logs-index" href="#"
         = @context == 'calendar' ? t('common.condense_all') : t('common.hide_all')
 
+  / This is not being used because the other logs lists do not have contexts
   - unless @context == 'calendar'
     - if @step
       h5

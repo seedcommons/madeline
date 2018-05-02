@@ -17,7 +17,7 @@ class MS.Views.LogListView extends Backbone.View
   deleteLog: (e, resp) ->
     logId = @$(e.currentTarget).closest('.log').data('id')
     if (resp)
-      $.ajax(method: "DELETE", url: "/admin/logs/#{logId}")
+      $.ajax(method: "DELETE", url: "/admin/logs/#{logId}/?context=calendar")
       .done (response) =>
         @$el.html(response)
         @$el.closest(".content").find(".project-step .log-summary[data-log-id='#{logId}']").remove()
