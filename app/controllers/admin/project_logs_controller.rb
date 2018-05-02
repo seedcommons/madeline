@@ -14,8 +14,6 @@ class Admin::ProjectLogsController < Admin::AdminController
   def show
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
-    pp '***********************'
-    pp @context
     authorize @log
 
     redirect_to admin_loan_path(@step.project)
@@ -58,8 +56,6 @@ class Admin::ProjectLogsController < Admin::AdminController
     @step = @log.project_step
     @logs = @step.project_logs
     @context = params[:context]
-    pp '***********************'
-    pp @context
     authorize @log
 
     destroy_and_render_partial

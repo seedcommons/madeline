@@ -1,8 +1,6 @@
-= @step.logs_count if @step
-= @context ? @context : "THERE IS NO CONTEXT"
+- @context = @context ? @context : "logs_list"
 
 - if @logs.blank? && @context != 'calendar'
-/- if @logs.blank?
   = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
   .show-actions.hidden-print class=(@context == 'calendar' ? 'nested-expander' : '')
@@ -14,15 +12,14 @@
       a data-hide-all=".logs-index" href="#"
         = @context == 'calendar' ? t('common.condense_all') : t('common.hide_all')
 
-  / This is not being used because the other logs lists do not have contexts
-  - unless @context == 'calendar'
-    - if @step
-      h5
-        - if @step.milestone?
-          i.fa.fa-fw.fa-flag-o
-        - elsif @step.checkin?
-          i.fa.fa-fw.fa-calendar
-        = @step.summary
+  / TODO: Under what context is the large heading for step needed?
+  / - if @step
+  /   h5
+  /     - if @step.milestone?
+  /       i.fa.fa-fw.fa-flag-o
+  /     - elsif @step.checkin?
+  /       i.fa.fa-fw.fa-calendar
+  /     = @step.summary
 
   .logs-index.post-list data-expandable=(@context == 'calendar' ? "step-logs-#{@step.id}" : "")
     - @logs.each do |log|
@@ -57,18 +54,20 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            / don't show edit in project step rendition of log list
+            / Don't show edit inside project step modal context of log list
             - unless @context == 'calendar' || @context == 'dashboard' || controller_name == 'project_steps'
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
+
             - unless @context == 'dashboard'
               .item
                 = link_to '#',
                     data: { \
                       action: 'delete', \
                       confirm: t('project_logs.shared.confirm_deletion'), \
+                      context: @context, \
                       id: log.id \
                     }
                       i.fa.fa-trash>
