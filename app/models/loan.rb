@@ -59,7 +59,6 @@ class Loan < Project
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :status, ->(status) { where(status_value: status) }
-  scope :by_division, ->(s_name) { includes(:division).where(divisions: { short_name: s_name }) }
   scope :visible, -> { where.not(public_level_value: 'hidden') }
   scope :active, -> { status('active') }
   scope :related_loans, -> (loan) { loan.organization.loans.where.not(id: loan.id) }
@@ -92,7 +91,8 @@ class Loan < Project
 
     div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
     if div_check
-      scoped = scoped.by_division(params[:division])
+      division = Division.find_by(short_name: div_param)
+      scoped = scoped.where(division_id: division.self_and_descendant_ids)
     end
 
     scoped

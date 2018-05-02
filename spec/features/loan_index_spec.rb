@@ -4,9 +4,11 @@ feature 'visit loan index page' do
   before do
     @loan_1 = create :loan, :active, :featured, name: 'First loan'
     @loan_2 = create :loan, :active, :featured, name: 'Second loan'
-    @loans =  [@loan_1, @loan_2]
-    create(:division, name: 'chicken', short_name: 'chick', loans: [@loan_1])
+    @loan_3 = create :loan, :active, :featured, name: 'Third loan'
+    @loans =  [@loan_1, @loan_2, @loan_3]
+    d1 = create(:division, name: 'chicken', short_name: 'chick', loans: [@loan_1])
     create(:division, name: 'pokemon', short_name: 'pikachu', loans: [@loan_2])
+    create(:division, name: 'from d1', short_name: 'fire', loans: [@loan_3], parent: d1)
     create(:division, name: 'kale', short_name: 'kk', public: false)
   end
 
@@ -71,27 +73,36 @@ feature 'visit loan index page' do
       end
     end
 
-    context 'with divisions' do
-      scenario 'filters with division' do
+    context 'filters with divisions' do
+      scenario 'shows loans of division and descendant divisions' do
+        # when division with descendants is selected
         visit public_loans_path(division: 'chick')
         expect(page).not_to have_content(@loan_2.name)
         expect(page).to have_content(@loan_1.name)
+        expect(page).to have_content(@loan_3.name)
 
-        # when another division is filtered
+        # when division without descendant is selected
         visit public_loans_path(division: 'pikachu')
         expect(page).not_to have_content(@loan_1.name)
-        expect(page).to have_content(@loan_2name)
+        expect(page).not_to have_content(@loan_3.name)
+        expect(page).to have_content(@loan_2.name)
+
+        visit public_loans_path(division: 'fire')
+        expect(page).not_to have_content(@loan_1.name)
+        expect(page).not_to have_content(@loan_2.name)
+        expect(page).to have_content(@loan_3.name)
 
         # when no division is filtered
         visit public_loans_path
         expect(page).to have_content(@loan_1.name)
         expect(page).to have_content(@loan_2.name)
+        expect(page).to have_content(@loan_3.name)
       end
     end
 
     context 'show only public divisions on dropdown' do
       scenario 'non-public divisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu)
+        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu fire)
       end
     end
   end
