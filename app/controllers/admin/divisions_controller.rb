@@ -98,7 +98,7 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def find_division
-    @division = Division.friendly.find(params[:id])
+    @division = Division.find(params[:id])
   end
 
   def set_selected_division_id(id)

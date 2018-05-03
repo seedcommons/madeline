@@ -25,7 +25,7 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(TRUE), not null
+#  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
 #  short_name                     :string
 #  updated_at                     :datetime         not null
@@ -50,11 +50,6 @@
 
 class Division < ActiveRecord::Base
   include DivisionBased
-  extend FriendlyId
-
-  after_create :add_short_name
-
-  friendly_id :short_name
 
   has_closure_tree dependent: :restrict_with_exception
   resourcify
@@ -103,7 +98,6 @@ class Division < ActiveRecord::Base
 
   def self.root_id
     result = root.try(:id)
-    logger.info("division root.id: #{result}")
     result
   end
 
@@ -163,12 +157,5 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
-  end
-
-  def add_short_name
-    if self.short_name.nil?
-      self.short_name = self.name.parameterize
-      save
-    end
   end
 end

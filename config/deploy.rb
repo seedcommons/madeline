@@ -11,7 +11,8 @@ set :tmp_dir, '/home/deploy/tmp'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-set :branch, -> { fetch(:stage) }
+# Set a different branch OR tag on the fly with `cap <stage> deploy BRANCH=<branch_or_tag>`
+set :branch, -> { ENV['BRANCH'] || fetch(:stage) }
 
 
 # Default deploy_to directory is /var/www/my_app_name
