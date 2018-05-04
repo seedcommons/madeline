@@ -19,6 +19,9 @@
         periods: report[:periods],
         units: report[:units]
 
+      tr.group-title
+        td colspan=report[:periods]+1 Totals
+
       = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
         title: t("loan.breakeven_rampup.total_gross_margin"),
         rampup: report[:gross_margin_rampup]

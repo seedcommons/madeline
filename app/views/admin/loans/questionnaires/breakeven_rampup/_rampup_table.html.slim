@@ -21,7 +21,7 @@ tr.group-columns
         = format_currency(rampup[:total], @loan.ensure_currency, tooltip: false)
 
 tr.group-summary
-  th = t("loan.breakeven_rampup.total")
+  td = t("loan.breakeven_rampup.total")
   - total_rampup.each do |item|
     td.text-right
       = format_currency(item, @loan.ensure_currency, tooltip: false)
