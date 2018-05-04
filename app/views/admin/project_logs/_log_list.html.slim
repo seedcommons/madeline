@@ -57,13 +57,12 @@
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
             / Don't show edit inside project step modal context of log list
-            - unless step_modal_context || @context == 'dashboard' || controller_name == 'project_steps'
+            - unless @context == 'dashboard'
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
 
-            - unless @context == 'dashboard'
               .item
                 = link_to '#',
                     data: { \

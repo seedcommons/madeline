@@ -12,6 +12,7 @@ class MS.Views.LogListView extends Backbone.View
   openEditLog: (e) ->
     e.preventDefault()
     logId = @$(e.currentTarget).closest('.log').data('id')
+    $('#project-step-modal').modal('hide')
     @logFormModalView.showEdit(logId, '', @refresh.bind(@))
 
   deleteLog: (e, resp) ->
