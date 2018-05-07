@@ -43,7 +43,7 @@ Rails.application.configure do
     },
     base_uri: {
       us: 'https://theworkingworld.org',
-      argentina: 'http://labase.org'
+      argentina: 'https://labase.org'
     },
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/us/rails',
