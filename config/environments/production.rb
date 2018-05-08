@@ -92,11 +92,11 @@ Rails.application.configure do
   # For wordpress template
   config.x.wordpress_template = {
     division_urls: { # get division from request url
-      %r{http://.*\.?theworkingworld\.org} => :us,
+      %r{https://.*\.?theworkingworld\.org} => :us,
       'http://labase.org/inversion' => :argentina,
     },
     base_uri: {
-      us: 'http://theworkingworld.org',
+      us: 'https://theworkingworld.org',
       argentina: 'http://labase.org'
     },
     template_paths: { # url of blank wordpress page for rails to retrieve

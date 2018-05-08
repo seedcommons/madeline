@@ -5,6 +5,7 @@
 * postgresql
 * mysql (for migrating legacy data)
 * PhantomJS 2.1.x or higher
+* ImageMagick for image processing
 
 ## Getting Started
     git clone git@github.com:sassafrastech/madeline_system.git
