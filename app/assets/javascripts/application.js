@@ -9,6 +9,10 @@
 
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
+
+//= require summernote/summernote-bs4.min
+//= require summernote-init
+
 //= require select2-full
 //= require URI
 //= require shared/bootstrap-multi-modal-fix
