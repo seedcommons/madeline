@@ -20,6 +20,8 @@ gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
 gem 'paperclip', '~> 5.2'
 
+gem 'turbolinks', '~> 5.0.0'
+
 # Text editor
 gem 'summernote-rails', '~> 0.8.10.0'
 

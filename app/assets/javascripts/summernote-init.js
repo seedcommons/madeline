@@ -1,7 +1,9 @@
-$(document).on('ready', function() {
-  return $('[data-provider="summernote"]').each(function() {
-    return $(this).summernote({
+$(document).on('turbolinks:load', function() {
+  $('[data-provider="summernote"]').each(function() {
+    $(this).summernote({
       height: 300
     });
   });
+
+  $('.note-editor').addClass('form-element');
 });
