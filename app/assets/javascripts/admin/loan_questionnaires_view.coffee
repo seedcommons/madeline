@@ -109,3 +109,11 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   adjustAllTextareas: ->
     @$('.answer-wrapper textarea').trigger('change')
+
+    # attempting to hide the editor on page open
+    # and show the editor on edit question
+
+    if $.trim($('.view-element.answer').text()) == ''
+      console.log('I am empty. Show editor')
+    else
+      console.log('Hide editor!')

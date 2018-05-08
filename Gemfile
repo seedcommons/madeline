@@ -48,6 +48,9 @@ gem 'mini_magick'
 # needed for migration of legacy data
 gem 'mysql2'
 
+# Format textarea
+gem 'ckeditor_rails'
+
 # Tables
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
