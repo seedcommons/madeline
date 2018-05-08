@@ -1,7 +1,12 @@
 $(document).on('turbolinks:load', function() {
   $('[data-provider="summernote"]').each(function() {
     $(this).summernote({
-      height: 300
+      height: 300,
+      toolbar: [
+        ["style", ["bold", "italic", "underline", "clear"]],
+        ["table", ["table"]],
+        ["para", ["ul", "ol", "paragraph"]]
+      ]
     });
   });
 
