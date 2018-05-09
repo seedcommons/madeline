@@ -28,6 +28,11 @@ class MS.Views.LogListView extends Backbone.View
         timelineLogs = @$el.find(".timeline-latest-logs").html()
         @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").replaceWith(timelineLogs)
 
+        # Replace number of logs in calendar step event
+        calendarLogs = @$el.find(".calendar-logs").html()
+        calendarEvent = @$el.closest(".content").find(".calendar-event.project-step[data-id='#{stepId}']")
+        calendarEvent.find(".calendar-logs").replaceWith(calendarLogs)
+
       .fail (response) -> MS.alert(response.responseText)
 
 #  the last bit is to fix the refresh since it breaks the step modal log list on delete

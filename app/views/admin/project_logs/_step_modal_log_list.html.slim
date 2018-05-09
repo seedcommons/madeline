@@ -4,3 +4,7 @@
 table.hidden
   tr.timeline-latest-logs
     = render partial: "admin/timeline/logs", locals: {entry: @step, classes: "", latest_logs: @step.latest_logs, logs_available: @step.latest_logs.length}
+
+// Calendar step information for logs
+.hidden
+  = render partial: "admin/calendar/logs", locals: {num_of_logs: @step.logs_count}
