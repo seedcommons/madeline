@@ -86,11 +86,11 @@ Rails.application.routes.draw do
   end
 
   localized do
-    namespace :public, path: '/' do
+    namespace :public, path: '/:site' do
       resources :loans, only: [:index, :show]
       get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       get 'test' => 'static_pages#test'
-      get 'update' => 'loans#update' # Manually update wordpress template
+      get 'update' => 'static_pages#update' # Manually update wordpress template
     end
   end
 
