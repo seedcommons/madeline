@@ -27,4 +27,33 @@ describe RouteTranslator do
       site: "nicaragua",
     )
   end
+
+  it "should route US loans page correctly" do
+    expect(get "/us/loans").to route_to(
+      controller: "public/loans",
+      action: "index",
+      locale: "en",
+      site: "us",
+    )
+  end
+
+  it "should route Nicaragua loans page correctly" do
+    expect(get "/nicaragua/prestamos").to route_to(
+      controller: "public/loans",
+      action: "index",
+      locale: "es",
+      site: "nicaragua",
+    )
+  end
+
+  it "should route Nicaragua gallery page correctly" do
+    expect(get "/nicaragua/prestamos/123/galeria").to route_to(
+      controller: "public/loans",
+      action: "gallery",
+      locale: "es",
+      site: "nicaragua",
+      id: "123",
+    )
+  end
+
 end
