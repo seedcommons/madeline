@@ -22,6 +22,11 @@
       tr.group-title
         td colspan=report[:periods]+1 Totals
 
+      tr.group-columns
+        td = report[:units]
+        - (1..report[:periods]).each do |period|
+          td.text-right = period
+
       = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
         title: t("loan.breakeven_rampup.total_gross_margin"),
         rampup: report[:gross_margin_rampup]
