@@ -21,19 +21,12 @@ class MS.Views.LogListView extends Backbone.View
     if (resp)
       $.ajax(method: "DELETE", url: "/admin/logs/#{logId}/?context=#{context}")
       .done (response) =>
-        # Replace log list
+        # Replace log list in step modal
         @$el.html(response)
-        timelineLogs = @$el.find(".timeline-latest-logs").html()
-        console.log(timelineLogs)
-        @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").replaceWith(timelineLogs)
 
-        # Remove log from timeline
-        # @$el.closest(".content").find(".project-step .log-summary[data-log-id='#{logId}']").remove()
-        # logs_length = @$el.closest(".content").find(".project-step .log-summary").length
-        # console.log logs_length
-        # # If no more logs exist, do not show the 'More' link
-        # if logs_length < 1
-        #   @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").empty()
+        # Replace list of latest logs in timeline step
+        timelineLogs = @$el.find(".timeline-latest-logs").html()
+        @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").replaceWith(timelineLogs)
 
       .fail (response) -> MS.alert(response.responseText)
 
