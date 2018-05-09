@@ -26,7 +26,8 @@
   .logs-index.post-list data-expandable=(step_modal_context ? "step-logs-#{@step.id}" : "")
     - @logs.each do |log|
       - step = log.project_step
-      .log.post data-id=log.id
+      - step_id =(step ? step.id : '')
+      .log.post data-id=log.id data-step-id=step_id
         header.small
           .post-info
             .item
@@ -70,7 +71,8 @@
                       action: 'delete', \
                       confirm: t('project_logs.shared.confirm_deletion'), \
                       context: @context, \
-                      id: log.id \
+                      id: log.id, \
+                      step_id: step_id \
                     }
                       i.fa.fa-trash>
                       = t(:delete)

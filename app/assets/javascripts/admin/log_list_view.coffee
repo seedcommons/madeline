@@ -16,6 +16,7 @@ class MS.Views.LogListView extends Backbone.View
 
   deleteLog: (e, resp) ->
     logId = @$(e.currentTarget).closest('.log').data('id')
+    stepId = @$(e.currentTarget).closest('.log').data('step-id')
     context = @$(e.currentTarget).data('context')
     if (resp)
       $.ajax(method: "DELETE", url: "/admin/logs/#{logId}/?context=#{context}")
@@ -25,6 +26,11 @@ class MS.Views.LogListView extends Backbone.View
 
         # Remove log from timeline
         @$el.closest(".content").find(".project-step .log-summary[data-log-id='#{logId}']").remove()
+        logs_length = @$el.closest(".content").find(".project-step .log-summary").length
+        console.log logs_length
+        # If no more logs exist, do not show the 'More' link
+        if logs_length < 1
+          @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").empty()
 
       .fail (response) -> MS.alert(response.responseText)
 

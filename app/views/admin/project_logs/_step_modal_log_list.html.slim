@@ -1,0 +1,4 @@
+= render partial: "admin/project_logs/log_list"
+
+/ table.hidden
+/  = render "admin/timeline/logs", entry: @step, classes: "", latest_logs: @step.latest_logs, logs_available: latest_logs.length
