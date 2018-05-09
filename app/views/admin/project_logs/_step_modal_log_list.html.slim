@@ -1,4 +1,11 @@
 = render partial: "admin/project_logs/log_list"
 
-/ table.hidden
-/  = render "admin/timeline/logs", entry: @step, classes: "", latest_logs: @step.latest_logs, logs_available: latest_logs.length
+// Timeline information for latest logs
+- if @step.latest_logs && @step.latest_logs.length > 0
+  / p There are latest logs
+  / p = @step.latest_logs.inspect
+  table
+    tr.timeline-latest-logs
+      = render partial: "admin/timeline/logs", locals: {entry: @step, classes: "", latest_logs: @step.latest_logs, logs_available: @step.latest_logs.length}
+/ - else
+/   p The information should render here.
