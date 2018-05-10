@@ -7,4 +7,6 @@ table.hidden
 
 // Calendar step information for logs
 .hidden
-  = render partial: "admin/calendar/logs", locals: {num_of_logs: @step.logs_count}
+  - num_of_logs = @step.logs_count
+  - if num_of_logs > 0
+    = render partial: "admin/calendar/logs", locals: {num_of_logs: num_of_logs}
