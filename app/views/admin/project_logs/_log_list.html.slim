@@ -2,7 +2,7 @@
 - step_modal_context = @context == ('calendar' || 'timeline') ? true : false
 
 - if @logs.blank?
-  - if step_modal_context
+  - unless step_modal_context
     = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
   .show-actions.hidden-print class=(step_modal_context ? 'nested-expander' : '')
