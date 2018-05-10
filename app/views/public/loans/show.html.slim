@@ -71,8 +71,10 @@
         / - unless @repayments.empty?
         /   li
         /     a data-toggle="tab" href="#payments" = t :payments
-        li
-          a data-toggle="tab" href="#other_loans" = t :past_loans
+
+        // Disabling tabs for now since they don't work
+        / li
+        /   a data-toggle="tab" href="#other_loans" = t :past_loans
 
       #about_loan.tab-content
         #summary.tab-pane
