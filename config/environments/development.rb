@@ -42,7 +42,7 @@ Rails.application.configure do
       'labase.test' => :argentina
     },
     base_uri: {
-      us: 'http://theworkingworld.org',
+      us: 'https://theworkingworld.org',
       argentina: 'http://labase.org'
     },
     template_paths: { # url of blank wordpress page for rails to retrieve

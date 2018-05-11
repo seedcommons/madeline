@@ -45,7 +45,7 @@ module LogControllable
     if @log.destroy
       if @step
         @expand_logs = @step.logs_count > 0
-        render partial: 'admin/project_logs/log_list'
+        render partial: 'admin/project_logs/step_modal_log_list'
       else
         render partial: 'admin/project_logs/log_list'
       end

@@ -17,15 +17,22 @@ class MS.Views.LogListView extends Backbone.View
 
   deleteLog: (e, resp) ->
     logId = @$(e.currentTarget).closest('.log').data('id')
+    stepId = @$(e.currentTarget).closest('.log').data('step-id')
     context = @$(e.currentTarget).data('context')
     if (resp)
       $.ajax(method: "DELETE", url: "/admin/logs/#{logId}/?context=#{context}")
       .done (response) =>
-        # Replace log list
+        # Replace log list in step modal
         @$el.html(response)
 
-        # Remove log from timeline
-        @$el.closest(".content").find(".project-step .log-summary[data-log-id='#{logId}']").remove()
+        # Replace list of latest logs in timeline step
+        timelineLogs = @$el.find(".timeline-latest-logs").html()
+        @$el.closest(".content").find(".recent-logs[data-id='#{stepId}']").replaceWith(timelineLogs)
+
+        # Replace number of logs in calendar step event
+        calendarLogs = @$el.find(".calendar-logs").html()
+        calendarEvent = @$el.closest(".content").find(".calendar-event.project-step[data-id='#{stepId}']")
+        calendarEvent.find(".calendar-logs").replaceWith(calendarLogs)
 
       .fail (response) -> MS.alert(response.responseText)
 
