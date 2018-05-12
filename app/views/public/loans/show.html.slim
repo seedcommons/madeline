@@ -21,7 +21,7 @@
                 - for i in (0..(@pictures.count-1)) do
                   li data-slide-to=i data-target="#myCarousel"
             / Carousel items
-            a href=public_gallery_path(@loan)
+            a href=public_gallery_path
               .carousel-inner
                 - @pictures.each do |picture|
                   .item.picture style=("background-image: url(#{picture.item.large.url});")
@@ -71,8 +71,10 @@
         / - unless @repayments.empty?
         /   li
         /     a data-toggle="tab" href="#payments" = t :payments
-        li
-          a data-toggle="tab" href="#other_loans" = t :past_loans
+
+        // Disabling tabs for now since they don't work
+        / li
+        /   a data-toggle="tab" href="#other_loans" = t :past_loans
 
       #about_loan.tab-content
         #summary.tab-pane
