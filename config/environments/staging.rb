@@ -93,11 +93,13 @@ Rails.application.configure do
   config.x.wordpress_template = {
     base_uri: {
       us: 'https://theworkingworld.org',
-      argentina: 'https://labase.org'
+      argentina: 'https://labase.org',
+      nicaragua: 'https://labase.org',
     },
     template_paths: { # url of blank wordpress page for rails to retrieve
       us: '/us/rails',
-      argentina: '/rails',
+      argentina: '/argentina/rails',
+      nicaragua: '/nicaragua/rails',
     }
   }
 
