@@ -8,11 +8,11 @@ module WordpressEmbeddable
   end
 
   def default_site
-    :us
+    "us"
   end
 
   def layout_site
-    params[:site]&.to_sym || default_site
+    params[:site] || default_site
   end
 
   def update
