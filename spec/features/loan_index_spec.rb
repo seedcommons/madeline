@@ -11,7 +11,7 @@ feature 'visit loan index page' do
   end
 
   context 'on the loan index page' do
-    before { visit public_loans_path }
+    before { visit public_loans_path("us") }
 
     it 'shows active loans' do
       active_loans = @loans.select{ |loan| loan.status_value == 'active' }
@@ -98,7 +98,7 @@ feature 'visit loan index page' do
 end
 
 def check_loan_content(loan)
-  expect(page).to have_link loan.display_name, href: public_loan_path(loan)
+  expect(page).to have_link loan.display_name, href: public_loan_path("us", loan)
   expect(page).to have_content loan.signing_date_long
   expect(page).to have_content loan.summary
   expect(page).to have_content loan.location
