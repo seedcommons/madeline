@@ -3,19 +3,16 @@ module WordpressEmbeddable
 
   included do
     before_action :check_template
-    helper_method :get_division_from_url
+    helper_method :layout_site
     layout "public/wordpress"
   end
 
-  def default_division
+  def default_site
     :us
   end
 
-  def get_division_from_url
-    division_urls = Rails.configuration.x.wordpress_template[:division_urls]
-    matching = division_urls.select { |expression, _| request.url.match expression }
-    division = matching.values.first
-    division || default_division
+  def layout_site
+    params[:site].to_sym || default_site
   end
 
   def update
@@ -27,15 +24,15 @@ module WordpressEmbeddable
   private
 
   def check_template
-    template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{get_division_from_url}"
+    template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{layout_site}"
     update_template unless template_exists?(template_path)
   end
 
   def update_template
-    base_uri = Rails.configuration.x.wordpress_template[:base_uri][get_division_from_url]
+    base_uri = Rails.configuration.x.wordpress_template[:base_uri][layout_site]
 
     WordpressTemplate.update(
-      division: get_division_from_url,
+      division: layout_site,
       base_uri: base_uri
     )
   end
