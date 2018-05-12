@@ -43,7 +43,7 @@ feature 'visit loan index page' do
     context 'with many loans' do
       before { @loans = create_list(:loan, 25, :active, :featured) }
       it 'paginates loan list' do
-        visit public_loans_path
+        visit public_loans_path("us")
         expect(page).to have_selector('div.pagination ul.pagination li a[rel="next"]')
         loan_items = page.all('tr.loans_items')
         expect(loan_items.size).to be < 25
@@ -73,17 +73,17 @@ feature 'visit loan index page' do
 
     context 'with divisions' do
       scenario 'filters with division' do
-        visit public_loans_path(division: 'chick')
+        visit public_loans_path("us", division: 'chick')
         expect(page).not_to have_content(@loan_2.name)
         expect(page).to have_content(@loan_1.name)
 
         # when another division is filtered
-        visit public_loans_path(division: 'pikachu')
+        visit public_loans_path("us", division: 'pikachu')
         expect(page).not_to have_content(@loan_1.name)
         expect(page).to have_content(@loan_2name)
 
         # when no division is filtered
-        visit public_loans_path
+        visit public_loans_path("us")
         expect(page).to have_content(@loan_1.name)
         expect(page).to have_content(@loan_2.name)
       end
