@@ -12,7 +12,7 @@ module WordpressEmbeddable
   end
 
   def layout_site
-    params[:site].to_sym || default_site
+    params[:site]&.to_sym || default_site
   end
 
   def update

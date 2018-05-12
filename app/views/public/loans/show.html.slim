@@ -21,7 +21,7 @@
                 - for i in (0..(@pictures.count-1)) do
                   li data-slide-to=i data-target="#myCarousel"
             / Carousel items
-            a href=public_gallery_path(@loan)
+            a href=public_gallery_path
               .carousel-inner
                 - @pictures.each do |picture|
                   .item.picture style=("background-image: url(#{picture.item.large.url});")
