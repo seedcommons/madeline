@@ -27,6 +27,7 @@ es:
         single_liquidity_loc: 'Línea de crédito de efectivo puntual'
         wc_investment: 'Préstamo de inversión para capital de trabajo'
         sa_investment: 'Préstamo de inversión de bienes asegurados'
+        community_solar: 'Solar communitario'
       media_kind:
         image: 'Imagen'
         video: 'Vídeo'

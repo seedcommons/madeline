@@ -6,7 +6,7 @@
       .show
         ul.nav.nav-pills
           li.disabled #{t :show}:
-          li class=('active' if @params[:status] == 'active')
+          li class=('active' if !@params[:status] || @params[:status] == 'active')
             = link_to t(:show_active), @params.merge(status: nil, pg: nil)
           li class=('active' if @params[:status] == 'completed')
             = link_to t(:show_completed), @params.merge(status: 'completed', pg: nil)
@@ -26,14 +26,14 @@
         - @loans.each do |loan|
           tr.loans_items.well.loan_list_item_wrap style=("opacity: 0.9;")
             td.loan_item_thumb
-              a href=(url_for [:public, loan])
+              a href=public_loan_path(params[:site], loan)
                 .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
             td.loan_item_desc
               h5.coop_name
-                a href=(url_for [:public, loan]) = loan.display_name
+                a href=public_loan_path(params[:site], loan) = loan.display_name
               p.about_coop = render_translation(loan.summary)
               p.detail_link.pull-right
-                a.no_line href=(url_for [:public, loan])
+                a.no_line href=public_loan_path(params[:site], loan)
                   span.hover_line> = t :more_details
                   i.fa.fa-chevron-right
             td.facts.loan_item_facts

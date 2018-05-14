@@ -89,11 +89,13 @@ class Loan < Project
     params.reverse_merge! self.default_filter
     scoped = self.all
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
+    scoped = scoped.by_division(params[:division]) if params[:division] != 'all'
 
-    div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
-    if div_check
-      scoped = scoped.by_division(params[:division])
-    end
+    # I don't understand why this was here in place of the line above, but it wasn't working ~Fuzzy
+    # div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
+    # if div_check
+    #   scoped = scoped.by_division(params[:division])
+    # end
 
     scoped
   end

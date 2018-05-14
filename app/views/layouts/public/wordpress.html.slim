@@ -2,7 +2,12 @@
 / It sets up variable chunks of content using content_for and then renders the base layout.
 / The base layout then pulls in the chunks we define here.
 
-- content_for :template, yield(:title) || t("loans.index.title")
+/ The content_for blocks here are used to replace placeholder strings 
+/ of the form [rails_XXX] (e.g. rails_head) in the HTML fetched from the Wordpress site.
+
+/ The `template` block actually defines the page title. The reason it's called `template` is so that
+/ the page will be named [rails_template] on the Wordpress admin panel.
+- content_for :template, yield(:title) || t("loans.index.title") # Sets the page title.
 
 - content_for :head
   = javascript_include_tag "application"
@@ -15,4 +20,4 @@
   = render "application/alerts"
   = yield
 
-= render template: "layouts/public/wordpress/#{Rails.env}/wordpress-#{get_division_from_url}"
+= render template: "layouts/public/wordpress/#{Rails.env}/wordpress-#{layout_site}"
