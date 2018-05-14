@@ -2,7 +2,7 @@ module OldSystemHelper
   DISBURSEMENT_TRANSACTION_TYPE = 12
   REPAYMENT_TRANSACTION_TYPE = 57
 
-  BASE_URI = 'http://internal.labase.org/'.freeze
+  BASE_URI = 'https://internal.labase.org/'.freeze
 
   # Returns the new disbursement url, as well as addtional loan and org information.
   # This information maybe be required, if the loan does not exist in the old system.

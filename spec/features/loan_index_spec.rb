@@ -5,13 +5,13 @@ feature 'visit loan index page' do
     @loan_1 = create :loan, :active, :featured, name: 'First loan'
     @loan_2 = create :loan, :active, :featured, name: 'Second loan'
     @loans =  [@loan_1, @loan_2]
-    create(:division, name: 'chicken', short_name: 'chick', loans: [@loan_1])
+    create(:division, name: 'United States', short_name: 'us', loans: [@loan_1])
     create(:division, name: 'pokemon', short_name: 'pikachu', loans: [@loan_2])
     create(:division, name: 'kale', short_name: 'kk', public: false)
   end
 
   context 'on the loan index page' do
-    before { visit public_loans_path }
+    before { visit public_loans_path("us", division: "all") }
 
     it 'shows active loans' do
       active_loans = @loans.select{ |loan| loan.status_value == 'active' }
@@ -43,7 +43,7 @@ feature 'visit loan index page' do
     context 'with many loans' do
       before { @loans = create_list(:loan, 25, :active, :featured) }
       it 'paginates loan list' do
-        visit public_loans_path
+        visit public_loans_path("us", division: 'all')
         expect(page).to have_selector('div.pagination ul.pagination li a[rel="next"]')
         loan_items = page.all('tr.loans_items')
         expect(loan_items.size).to be < 25
@@ -73,32 +73,37 @@ feature 'visit loan index page' do
 
     context 'with divisions' do
       scenario 'filters with division' do
-        visit public_loans_path(division: 'chick')
+        visit public_loans_path("us", division: 'us')
         expect(page).not_to have_content(@loan_2.name)
         expect(page).to have_content(@loan_1.name)
 
         # when another division is filtered
-        visit public_loans_path(division: 'pikachu')
+        visit public_loans_path("us", division: 'pikachu')
         expect(page).not_to have_content(@loan_1.name)
-        expect(page).to have_content(@loan_2name)
-
-        # when no division is filtered
-        visit public_loans_path
-        expect(page).to have_content(@loan_1.name)
         expect(page).to have_content(@loan_2.name)
+
+        # when 'all' is selected
+        visit public_loans_path("us", division: 'all')
+        expect(page).to have_content(@loan_2.name)
+        expect(page).to have_content(@loan_1.name)
+
+        # when no division is selected, site division is default
+        visit public_loans_path("us")
+        expect(page).not_to have_content(@loan_2.name)
+        expect(page).to have_content(@loan_1.name)
       end
     end
 
     context 'show only public divisions on dropdown' do
       scenario 'non-public divisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq %w(all chick pikachu)
+        expect(page.all('select#division option').map(&:value)).to eq %w(all us pikachu)
       end
     end
   end
 end
 
 def check_loan_content(loan)
-  expect(page).to have_link loan.display_name, href: public_loan_path(loan)
+  expect(page).to have_link loan.display_name, href: public_loan_path("us", loan)
   expect(page).to have_content loan.signing_date_long
   expect(page).to have_content loan.summary
   expect(page).to have_content loan.location
