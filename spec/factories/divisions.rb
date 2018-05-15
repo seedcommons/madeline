@@ -25,8 +25,9 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(TRUE), not null
+#  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
+#  short_name                     :string
 #  updated_at                     :datetime         not null
 #
 # Indexes
@@ -36,6 +37,7 @@
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
 #  index_divisions_on_organization_id                 (organization_id)
 #  index_divisions_on_principal_account_id            (principal_account_id)
+#  index_divisions_on_short_name                      (short_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -55,6 +57,8 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     name { Faker::Address.city }
     parent { root_division }
+    public true
+    sequence(:short_name) { |n| "#{Faker::Lorem.word}-#{n}" }
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account

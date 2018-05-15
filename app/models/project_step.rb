@@ -385,7 +385,7 @@ class ProjectStep < TimelineEntry
 
     # By default, old_duration_days is set to 0.
     # Only remember old duration if a duration has been set other than the default and then changed.
-    unless old_duration_days > 0
+    unless old_duration_days && old_duration_days > 0
       self.old_duration_days = scheduled_duration_days_was
     end
   end

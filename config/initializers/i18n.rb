@@ -3,4 +3,7 @@
 Rails.application.config.i18n.available_locales = %w(en es fr)
 RouteTranslator.config do |config|
   config.disable_fallback = true
+  config.force_locale = true
+  config.available_locales = %w(en es)
+  config.hide_locale = true
 end
