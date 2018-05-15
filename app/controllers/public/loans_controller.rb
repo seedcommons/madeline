@@ -3,7 +3,7 @@ class Public::LoansController < Public::PublicController
   after_action :verify_authorized
 
   def index
-    params[:division] ||= get_division_from_url
+    params[:division] ||= layout_site
     @params = { status: params[:status], pg: params[:pg], division: params[:division] }
     @loans = policy_scope(Loan.filter_by_params(params).visible.
           includes(:organization, division: :parent).
@@ -21,7 +21,7 @@ class Public::LoansController < Public::PublicController
     @loan = Loan.find(params[:id])
     authorize @loan
 
-    @pictures = @loan.featured_pictures(5) # for slideshow
+    @pictures = @loan.featured_pictures(limit: 5) # for slideshow
     @other_loans = policy_scope(Loan.related_loans(@loan))
   end
 

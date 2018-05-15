@@ -103,12 +103,20 @@ class OptionSetCreator
         en: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'en'),
         es: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'es')
       })
+    loan_type.options.create(value: 'community_solar', label_translations: {
+        en: I18n.t('database.option_sets.loan_type.community_solar', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_type.community_solar', locale: 'es')
+      })
   end
 
   def create_public_level
     public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'public_level')
     public_level.options.destroy_all
+    public_level.options.create(value: 'public', label_translations: {
+      en: I18n.t('database.option_sets.public_level.public', locale: 'en'),
+      es: I18n.t('database.option_sets.public_level.public', locale: 'es')
+    })
     public_level.options.create(value: 'featured', label_translations: {
         en: I18n.t('database.option_sets.public_level.featured', locale: 'en'),
         es: I18n.t('database.option_sets.public_level.featured', locale: 'es')

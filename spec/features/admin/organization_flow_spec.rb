@@ -7,6 +7,9 @@ feature 'organization flow' do
 
   before do
     login_as(user, scope: :user)
+
+    option_set = Loan.public_level_option_set
+    option_set.options.create(value: 'public', label_translations: { en: 'Public' })
   end
 
   include_examples :flow do

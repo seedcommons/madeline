@@ -281,7 +281,7 @@ en:
   images_from_this_project: Images from this project
   cooperative: Cooperative
   cooperative_name: "%{name} Cooperative"
-  not_yet_translated: This text has not yet been translated. <a href="http://www.theworkingworld.org/us/contact-us">Contact us</a> if you'd like to help with translation.
+  not_yet_translated: This text has not yet been translated. <a href="https://www.theworkingworld.org/us/contact-us">Contact us</a> if you'd like to help with translation.
   log_completed: Completed
   log_not_yet_completed: Not yet completed
   show_logs: Show Logs
