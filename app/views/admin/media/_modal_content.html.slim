@@ -14,6 +14,8 @@ div.modal-body.media-modal
           = media_title(@media, shorten: false)
 
     = f.input :item
+    - if @media.item?
+      = image_tag @media.item.thumb.url
 
     = f.input :kind_value, collection: Media.kind_options, include_blank: true
     = render 'admin/media/translatable', media: @media, f: f

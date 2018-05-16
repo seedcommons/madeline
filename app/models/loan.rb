@@ -18,7 +18,7 @@
 #  original_id                 :integer
 #  primary_agent_id            :integer
 #  projected_return            :decimal(, )
-#  public_level_value          :string
+#  public_level_value          :string           not null
 #  rate                        :decimal(, )
 #  representative_id           :integer
 #  secondary_agent_id          :integer
@@ -73,7 +73,7 @@ class Loan < Project
   # without the corresponding OptionSet records existing in the database.
   attr_option_settable :status, :loan_type, :public_level
 
-  validates :organization, presence: true
+  validates :organization, :public_level_value, presence: true
 
   before_create :build_health_check
   after_commit :recalculate_loan_health
@@ -89,11 +89,13 @@ class Loan < Project
     params.reverse_merge! self.default_filter
     scoped = self.all
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
+    scoped = scoped.by_division(params[:division]) if params[:division] != 'all'
 
-    div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
-    if div_check
-      scoped = scoped.by_division(params[:division])
-    end
+    # I don't understand why this was here in place of the line above, but it wasn't working ~Fuzzy
+    # div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
+    # if div_check
+    #   scoped = scoped.by_division(params[:division])
+    # end
 
     scoped
   end
@@ -188,7 +190,7 @@ class Loan < Project
   def thumb_path
     if !self.featured_pictures.empty?
       self.featured_pictures.first.item.thumb.url
-    else "/assets/ww-avatar-watermark.png" end
+    else "/images/ww-avatar-watermark.png" end
   end
 
   def ensure_currency

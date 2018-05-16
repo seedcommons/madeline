@@ -10,7 +10,7 @@ module WordpressTemplate
 
   def self.fetch_template(division:, base_uri:)
     require 'open-uri'
-    template_path = Rails.configuration.x.wordpress_template[:template_paths][division]
+    template_path = Rails.configuration.x.wordpress_template[:template_paths][division.to_sym]
     template_url = [base_uri, template_path].join
     html = URI.parse(template_url).read
   end

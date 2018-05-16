@@ -61,6 +61,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
       'txn_date' => '2017-04-18',
       'total' => '12.30',
+      'doc_number' => 'textme',
       'private_note' => 'Random stuff' }
   end
 
@@ -172,6 +173,14 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Debit'])
         expect_line_item_amounts([9.68, 9.68])
         expect(txn.amount).to equal_money(9.68)
+      end
+    end
+
+    context 'journal number without MS prefix is set as unmanaged' do
+      before { update_transaction_with_new_quickbooks_data }
+
+      it do
+        expect(txn.managed).to be false
       end
     end
 
@@ -287,6 +296,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-07-08',
             'total' => '407.22',
+            'doc_number' => 'MS-textme',
             'private_note' => 'New note' }
         end
 
@@ -331,6 +341,24 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
           it 'destroys transaction with the proper qb_id' do
             expect { subject.update }.to change { Accounting::Transaction.where(qb_id: qb_id).count }.by -1
+          end
+        end
+
+        context 'journal number without MS prefix is managed' do
+          it do
+            qb_data = {'line_items' => [], 'doc_number' => 'MS-textme', 'txn_date' => Date.today}
+            txn.update(quickbooks_data: qb_data, managed: false)
+            subject.send(:extract_qb_data, txn)
+            expect(txn.managed).to be true
+          end
+        end
+
+        context 'quickbooks data without journal number is not managed' do
+          it do
+            qb_data = {'line_items' => [], 'doc_number' => nil, 'txn_date' => Date.today}
+            txn.update(quickbooks_data: qb_data)
+            subject.send(:extract_qb_data, txn)
+            expect(txn.managed).to be false
           end
         end
       end

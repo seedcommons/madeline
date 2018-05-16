@@ -4,6 +4,7 @@ FactoryBot.define do
     name {"Test Basic Project"}
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
+    public_level_value "public"
     status_value { ["active", "completed", "changed", "possible"].sample }
 
     trait :with_translations do
