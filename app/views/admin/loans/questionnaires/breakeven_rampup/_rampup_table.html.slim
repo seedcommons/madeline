@@ -14,7 +14,7 @@ tr.group-title
       td.text-right
         = number_to_human(rampup[:quantity], precision: 0)
   tr.group-content
-    td Revenue
+    td = t("loan.breakeven_rampup.revenue")
     - item[:rampup].each do |rampup|
       td.text-right
         = format_currency(rampup[:total], @loan.ensure_currency, tooltip: false)
