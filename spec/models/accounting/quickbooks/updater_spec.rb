@@ -61,6 +61,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
       'txn_date' => '2017-04-18',
       'total' => '12.30',
+      'doc_number' => 'textme',
       'private_note' => 'Random stuff' }
   end
 
@@ -90,104 +91,6 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   before do
     allow(subject).to receive(:service).and_return(generic_service)
     allow(division).to receive(:qb_division).and_return(division)
-  end
-
-  # TODO: extract_qb_data should move out of Updater and into a separate Extractor class.
-  # When it does, this context block should move into a separate spec.
-  context '#extract_qb_data' do
-    context 'adding 1.00 credit to int_rcv_acct and 1.00 debit to txn_acct in quickbooks' do
-      before do
-        quickbooks_data['line_items'] << {
-          'id' => '3',
-          'description' => 'Repayment',
-          'amount' => '1.00',
-          'detail_type' => 'JournalEntryLineDetail',
-          'journal_entry_line_detail' => {
-            'posting_type' => 'Credit',
-            'entity' => {
-              'type' => 'Customer',
-              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
-            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-            'department_ref' => nil } }
-        quickbooks_data['line_items'] << {
-          'id' => '4',
-          'description' => 'Repayment',
-          'amount' => '1.00',
-          'detail_type' => 'JournalEntryLineDetail',
-          'journal_entry_line_detail' => {
-            'posting_type' => 'Debit',
-            'entity' => {
-              'type' => 'Customer',
-              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-            'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
-            'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-            'department_ref' => nil } }
-        quickbooks_data['total'] = '13.30'
-        update_transaction_with_new_quickbooks_data
-      end
-
-      it 'updates correctly in Madeline' do
-        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2, 3, 4])
-        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit', 'Credit', 'Debit'])
-        expect_line_item_amounts([10.99, 1.31, 12.30, 1.00, 1.00])
-
-        # Amount is calculated from line items so this tests all of those calculations.
-        expect(txn.amount).to equal_money(13.30)
-      end
-    end
-
-    context 'changing existing prin_acct and txn_acct line items by 0.50 in quickbooks' do
-      before do
-        quickbooks_data['line_items'][1]['amount'] = '0.81' # int_rcv_acct
-        quickbooks_data['line_items'][2]['amount'] = '11.80' # txn_acct
-        quickbooks_data['total'] = '11.80'
-
-        # We throw in an account name change also to test that accounts are matched by ID.
-        # This should not affect anything.
-        quickbooks_data['line_items'][1]['journal_entry_line_detail']['account_ref']['name'] = 'Foo'
-
-        update_transaction_with_new_quickbooks_data
-      end
-
-      it 'updates correctly in Madeline' do
-        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2])
-        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit'])
-        expect_line_item_amounts([10.99, 0.81, 11.80])
-        expect(txn.amount).to equal_money(11.80)
-      end
-    end
-
-    context 'removing a credit and and adjusting the other credit in quickbooks' do
-      before do
-        quickbooks_data['line_items'][0]['amount'] = '9.68'
-        quickbooks_data['line_items'][2]['amount'] = '9.68'
-        quickbooks_data['line_items'].delete_at(1)
-        quickbooks_data['total'] = '9.68'
-        update_transaction_with_new_quickbooks_data
-      end
-
-      it 'updates correctly in Madeline' do
-        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 2])
-        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Debit'])
-        expect_line_item_amounts([9.68, 9.68])
-        expect(txn.amount).to equal_money(9.68)
-      end
-    end
-
-    def update_transaction_with_new_quickbooks_data
-      txn.update(quickbooks_data: quickbooks_data)
-      subject.send(:extract_qb_data, txn)
-      txn.calculate_balances
-      txn.save!
-      txn.reload
-    end
-
-    def expect_line_item_amounts(amounts)
-      amounts.each_with_index do |amt, i|
-        expect(txn.line_items[i].amount).to equal_money(amt)
-      end
-    end
   end
 
   describe '#update' do
@@ -287,6 +190,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-07-08',
             'total' => '407.22',
+            'doc_number' => 'MS-textme',
             'private_note' => 'New note' }
         end
 
