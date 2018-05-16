@@ -66,6 +66,9 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     @basic_project = BasicProject.new(basic_project_params)
     authorize @basic_project
 
+    # All basic projects should be hidden
+    @basic_project.public_level_value = 'hidden'
+
     if @basic_project.save
       redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
     else

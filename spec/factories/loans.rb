@@ -8,7 +8,7 @@ FactoryBot.define do
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
-    public_level_value { ["featured", "hidden"].sample }
+    public_level_value { ["featured", "hidden", "public"].sample }
     amount { rand(5000..50000) }
     rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
