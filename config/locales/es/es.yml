@@ -267,7 +267,7 @@ es:
   images_from_this_project: Imágenes de este proyecto
   cooperative: Cooperativa
   cooperative_name: "Cooperativa %{name} "
-  not_yet_translated: Este texto aún no ha sido traducido. <a href="http://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
+  not_yet_translated: Este texto aún no ha sido traducido. <a href="https://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
   log_completed: Completo
   log_not_yet_completed: Aún incompleto
   show_logs: Mostrar Apuntes
@@ -306,7 +306,6 @@ es:
   id: "ID"
   incomplete: "Incompleto"
   less: "Menos"
-  loans: "Préstamos"
   locked: "Bloqueado"
   login: "Iniciar sesión"
   logout: "Finalizar sesión"
