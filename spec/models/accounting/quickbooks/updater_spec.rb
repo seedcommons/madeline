@@ -61,6 +61,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
         'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
       'txn_date' => '2017-04-18',
       'total' => '12.30',
+      'doc_number' => 'textme',
       'private_note' => 'Random stuff' }
   end
 
@@ -189,6 +190,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-07-08',
             'total' => '407.22',
+            'doc_number' => 'MS-textme',
             'private_note' => 'New note' }
         end
 

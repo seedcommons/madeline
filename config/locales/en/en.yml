@@ -158,20 +158,24 @@ en:
           type: "Type"
     errors:
       models:
+        basic_project:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         loan:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
-        basic_project:
-            attributes:
-              primary_agent:
-                same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         project_group:
           no_summary: "Summary is required."
         organization:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        media:
+          attributes:
+            item:
+              reattach: "please reattach your image"
         timeline_entry:
           attributes:
             scheduled_end_date:
@@ -242,6 +246,7 @@ en:
 
   ## Front end ##
   country: Country
+  division: Division
   show: Show
   show_active: Active
   show_completed: Completed
@@ -276,7 +281,7 @@ en:
   images_from_this_project: Images from this project
   cooperative: Cooperative
   cooperative_name: "%{name} Cooperative"
-  not_yet_translated: This text has not yet been translated. <a href="http://www.theworkingworld.org/us/contact-us">Contact us</a> if you'd like to help with translation.
+  not_yet_translated: This text has not yet been translated. <a href="https://www.theworkingworld.org/us/contact-us">Contact us</a> if you'd like to help with translation.
   log_completed: Completed
   log_not_yet_completed: Not yet completed
   show_logs: Show Logs
@@ -317,7 +322,6 @@ en:
   id: "ID"
   incomplete: "Incomplete"
   less: "Less"
-  loans: "Loans"
   locked: "Locked"
   login: "Login"
   logout: "Logout"
@@ -361,6 +365,7 @@ en:
     created: "Created"
     caption: "Caption"
     condense_all: "Condense All"
+    deleted_user: "Deleted User"
     description: "Description"
     details: "Details"
     division: "Division"
@@ -579,6 +584,10 @@ en:
     no_system_access: "User does not have system access."
     send_instructions: "Send instructions"
     waiting_confirmation: "Currently waiting confirmation for: %{email}"
+
+  member:
+    system_access: "System access allows a user to log into Madeline and view the loans and projects they have access to based on their division."
+    access_role: "Administrators have the ability to edit specific content not available to a regular member, such as managing divisions and editing loan questions."
 
   boolean:
     'true': 'Yes'
