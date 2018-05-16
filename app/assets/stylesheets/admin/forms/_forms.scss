@@ -30,19 +30,26 @@ form {
   }
 }
 
-// Booleans should not have fixed height/widths. A style from somewhere else is
-// trying to impose them on all .form-controls.
-// The .form-group .checkbox selector is for collections with type: :check_boxes
 .form-group.boolean, .form-group .checkbox {
+  // Booleans should not have fixed height/widths. A style from somewhere else is
+  // trying to impose them on all .form-controls.
+  // The .form-group .checkbox selector is for collections with type: :check_boxes
   .form-control {
     height: inherit;
     width: inherit;
   }
 }
 
-.form-group.boolean .form-control[type="checkbox"] {
-  display: inline-block;
-  margin-left: 10px;
+.form-group.boolean {
+  .form-control[type="checkbox"] {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  // Align checkbox items with their labels
+  label {
+    padding-top: 7px;
+  }
 }
 
 // For collections rendered as type: :check_boxes, the checkboxes and their labels are rendered inside
@@ -76,8 +83,16 @@ form {
   }
 
   // We need to list specific tag types here that need to override the default display: block above.
-  a.form-element { display: inline; }
-  input.form-element, textarea.form-element, select.form-element { display: inline-block; }
+  a {
+    &.form-element {
+      display: inline;
+    }
+  }
+  input, textarea, select, .fa {
+    &.form-element {
+      display: inline-block;
+    }
+  }
 
   .view-element {
     display: none !important;
@@ -87,6 +102,17 @@ form {
   // form control normally is, we need to add some padding.
   .form-horizontal .static-text-as-field {
     padding-top: 7px;
+  }
+
+  .form-group.with-info {
+    select, input {
+      width: auto;
+    }
+
+    // Add space between info tooltip and checkbox
+    .fa {
+      margin-left: 1em;
+    }
   }
 }
 
@@ -112,10 +138,12 @@ form {
     display: none;
   }
 
-  // Need to specially hide the label element that Rails inserts for checkboxes,
-  // as it makes the element too tall in show mode.
-  .form-group.boolean div label {
-    display: none;
+  .form-group.boolean {
+    // Need to specially hide the label element that Rails inserts for checkboxes,
+    // as it makes the element too tall in show mode.
+    div label {
+      display: none;
+    }
   }
 
   // Hide hints in show view

@@ -1,0 +1,6 @@
+en:
+  routes:
+    loans: loans
+    gallery: gallery
+    test: test
+    update: update

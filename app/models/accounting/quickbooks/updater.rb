@@ -86,6 +86,9 @@ module Accounting
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
+        # set txn to managed if there's an MS prefix on a journal number
+        txn.managed = (txn.quickbooks_data['doc_number']&.start_with? 'MS') ? true : false
+
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }

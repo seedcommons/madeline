@@ -157,11 +157,11 @@ es:
           type: "Tipo"
     errors:
       models:
-        loan:
+        basic_project:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
-        basic_project:
+        loan:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
@@ -232,6 +232,7 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  division: División
   show: Mostrar
   show_active: Activo
   show_completed: Completo
@@ -266,7 +267,7 @@ es:
   images_from_this_project: Imágenes de este proyecto
   cooperative: Cooperativa
   cooperative_name: "Cooperativa %{name} "
-  not_yet_translated: Este texto aún no ha sido traducido. <a href="http://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
+  not_yet_translated: Este texto aún no ha sido traducido. <a href="https://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
   log_completed: Completo
   log_not_yet_completed: Aún incompleto
   show_logs: Mostrar Apuntes
@@ -305,7 +306,6 @@ es:
   id: "ID"
   incomplete: "Incompleto"
   less: "Menos"
-  loans: "Préstamos"
   locked: "Bloqueado"
   login: "Iniciar sesión"
   logout: "Finalizar sesión"
@@ -553,6 +553,9 @@ es:
     no_system_access: "El usuario no tiene acceso al sistema."
     send_instructions: "Enviar instrucciones"
     waiting_confirmation: "Esperando confirmación para: %{email}"
+  member:
+    system_access: "El acceso al sistema permite a un usuario ingresar a Madeline y ver los préstamos y proyectos a los que tienen acceso según su división."
+    access_role: "Los administradores pueden editar contenido específico que no está disponible para un integrante común, tal como el manejo de las divisiones o la edición de preguntas de préstamos."
   boolean:
     'true': 'Sí'
     'false': 'No'
