@@ -87,10 +87,10 @@
                   - if loan.id == @loan.id
                     = loan.signing_date_long
                   - else
-                    a href=(url_for loan) = loan.signing_date_long
-                td = loan.amount_formatted
+                    a href=public_loan_path = loan.signing_date_long
+                td = format_currency(loan.amount, loan.currency)
                 td = loan.status
-                td.hidden-xs style="width: 50%" = render_translation loan.short_description
+                td.hidden-xs style="width: 50%" = render_translation(loan.details)
 
       // Tab content for timeline and repayments
       // Disable timeline and repayments for now
