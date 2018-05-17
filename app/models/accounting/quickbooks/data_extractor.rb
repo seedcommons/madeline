@@ -1,10 +1,11 @@
 module Accounting
   module Quickbooks
     class DataExtractor
-      attr_reader :txn
+      attr_reader :txn, :loan
 
       def initialize(txn)
         @txn = txn
+        @loan = txn.project
       end
 
       def extract!
@@ -18,7 +19,7 @@ module Accounting
         end
 
         txn.quickbooks_data['line_items'].each do |li|
-          acct = Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
+          acct = Accounting::Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
 
           # skip if line item does not have an account in Madeline
           next unless acct
@@ -44,18 +45,57 @@ module Accounting
         # but that is ok.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
 
-        txn.save!
+        # set transaction type
+        txn.loan_transaction_type_value = txn_type
+
+        txn.managed = false if txn.loan_transaction_type_value == 'other'
+
+        # TODO: set txn account
       end
 
       private
 
-      def lookup_currency
-        project = txn.project
+      delegate :qb_division, to: :loan
 
+      def lookup_currency
         if txn.quickbooks_data && txn.quickbooks_data[:currency_ref]
           Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-        elsif project
-          project.currency
+        elsif loan
+          loan.currency
+        end
+      end
+
+      def txn_type
+        # I think division here needs to be replaced with qb_division, right?
+        line_items = txn.quickbooks_data['line_items']
+        @int_rcv = qb_division.interest_receivable_account
+        @int_inc = qb_division.interest_income_account
+        @prin_acct = qb_division.principal_account
+
+        li_accounts = {
+          'Debit' => [],
+          'Credit' => []
+        }
+
+        return 'other' if line_items.count > 3
+
+        line_items.each do |li|
+          line_item = txn.line_item_with_id(li['id'].to_i)
+          li_accounts[line_item.posting_type] << line_item.account
+        end
+
+        set_type(li_accounts['Debit'], li_accounts['Credit'], line_items)
+      end
+
+      def set_type(debits, credits, lis)
+        if lis.count == 2 && @int_rcv.in?(debits) && @int_inc.in?(credits)
+          'interest'
+        elsif lis.count == 2 && credits.any? && @prin_acct.in?(debits)
+          return 'disbursement'
+        elsif lis.count == 3 && debits.any? && @prin_acct.in?(credits) && @int_rcv.in?(credits)
+          return 'repayment'
+        else
+          'other'
         end
       end
     end
