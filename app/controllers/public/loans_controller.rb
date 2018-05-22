@@ -5,7 +5,7 @@ class Public::LoansController < Public::PublicController
   def index
     params[:division] ||= layout_site
     @params = { status: params[:status], pg: params[:pg], division: params[:division] }
-    @loans = policy_scope(Loan.filter_by_params(params).visible.
+    @loans = policy_scope(Loan.filter_by_params(params).
           includes(:organization, division: :parent).
           page(params[:pg]).per(20).
           order('signing_date DESC'))

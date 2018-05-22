@@ -33,7 +33,10 @@ class Media < ActiveRecord::Base
   belongs_to :uploader, class_name: 'Person'
 
   mount_uploader :item, MediaItemUploader
+
   validates :item, :kind_value, presence: true
+  validate :update_item_error
+
   attr_translatable :caption, :description
 
   delegate :division, :division=, to: :media_attachable
@@ -61,5 +64,20 @@ class Media < ActiveRecord::Base
 
   def visual?
     %w(image video).include?(kind_value)
+  end
+
+  private
+
+  # checks if there is an error that is not caused be the image being empty
+  def error_but_not_item_error?
+    if errors.messages
+      errors.messages.count == 1 && (errors.messages[:kind_value] == ["can't be blank"])
+    end
+  end
+
+  # a hack to request re-attaching the image when the form re-renders since
+  # there is no clear way to re-render the image when using AJAX
+  def update_item_error
+    errors.add(:item, :reattach) if error_but_not_item_error?
   end
 end
