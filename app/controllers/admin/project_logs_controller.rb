@@ -67,7 +67,22 @@ class Admin::ProjectLogsController < Admin::AdminController
     if @log.save
       @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
       @expand_logs = true
-      head :ok
+      # if params[:context] == 'calendar'
+      #   render partial: "admin/timeline/logs", locals: {
+      #     entry: @step,
+      #     classes: "",
+      #     latest_logs: @step.latest_logs,
+      #     logs_available: @step.latest_logs.length
+      #   }
+      # else
+      #   head :ok
+      # end
+      render partial: "admin/timeline/logs", locals: {
+        entry: @step,
+        classes: "",
+        latest_logs: @step.latest_logs,
+        logs_available: @step.latest_logs.length
+      }
       notify
     else
       @progress_metrics = ProjectLog.progress_metric_options

@@ -47,8 +47,14 @@ class MS.Views.LogFormModalView extends Backbone.View
       @parentView.replaceWith(data)
     else
       if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
+        console.log(data)
+        if data.responseText
+            @replaceTimelineLogsList(data.responseText)
         @$('.modal').modal('hide')
         @done()
         @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
+
+  replaceTimelineLogsList: (content) ->
+    console.log(content)
