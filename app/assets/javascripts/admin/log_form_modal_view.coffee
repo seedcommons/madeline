@@ -48,13 +48,22 @@ class MS.Views.LogFormModalView extends Backbone.View
     else
       if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
         console.log(data)
+
         if data.responseText
-            @replaceTimelineLogsList(data.responseText)
+          console.log(data.responseText)
+          console.log(@$el)
+
+          # Replace the list of logs in the timeline table
+          # $@el is the log form modal
+          @$el.closest('body').append("<div class='specialBox'></div>")
+          sbox = @$el.closest('body').find('.specialBox')
+          sbox.append(data.responseText)
+          updatedLogs = sbox.find('table.hidden tr td')
+          stepId = updatedLogs.data('id')
+          @$el.closest('body').find(".timeline-table td.recent-logs[data-id='#{stepId}']").replaceWith(updatedLogs)
+
         @$('.modal').modal('hide')
         @done()
         @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
-
-  replaceTimelineLogsList: (content) ->
-    console.log(content)

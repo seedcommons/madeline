@@ -77,12 +77,15 @@ class Admin::ProjectLogsController < Admin::AdminController
       # else
       #   head :ok
       # end
-      render partial: "admin/timeline/logs", locals: {
-        entry: @step,
-        classes: "",
-        latest_logs: @step.latest_logs,
-        logs_available: @step.latest_logs.length
-      }
+      # render partial: "admin/timeline/logs", locals: {
+      #   entry: @step,
+      #   classes: "",
+      #   latest_logs: @step.latest_logs,
+      #   logs_available: @step.latest_logs.length
+      # }
+      # +        @expand_logs = @step.logs_count > 0
+      @context = "calendar"
+      render partial: 'admin/project_logs/step_modal_log_list'
       notify
     else
       @progress_metrics = ProjectLog.progress_metric_options
