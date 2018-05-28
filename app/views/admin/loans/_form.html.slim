@@ -107,7 +107,7 @@
 
   = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
-    = f.input_field :public_level_value, collection: Loan.public_level_options, selected: 'Public'
+    = f.input_field :public_level_value, collection: Loan.public_level_options, selected: (@loan.public_level_value || 'public')
 
   .actions.form-element
     - unless @loan.new_record?

@@ -48,7 +48,7 @@
 # =================
 # Standard order means transactions ordered by:
 #   1. Date, then
-#   2. Type (1. interest, 2. disbursement, 3. repayment), then
+#   2. Type (1. interest, 2. disbursement, 3. repayment, 4. other), then
 #   3. Creation date
 # It should be rare that transactions of the same type and date exist, so the creation date
 # should not be often needed to break ties.
