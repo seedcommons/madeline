@@ -172,6 +172,10 @@ en:
           attributes:
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+        media:
+          attributes:
+            item:
+              reattach: "please reattach your image"
         timeline_entry:
           attributes:
             scheduled_end_date:
@@ -318,7 +322,6 @@ en:
   id: "ID"
   incomplete: "Incomplete"
   less: "Less"
-  loans: "Loans"
   locked: "Locked"
   login: "Login"
   logout: "Logout"

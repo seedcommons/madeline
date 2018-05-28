@@ -1,4 +1,4 @@
-.summary-table.rampup-table.breakeven-table
+.summary-table.rampup-table.breakeven-table.table-responsive
   table.table
     thead
       tr.table-title
@@ -18,6 +18,13 @@
         total_rampup: report[:total_cogs_rampup],
         periods: report[:periods],
         units: report[:units]
+
+      tr.group-title
+        td colspan=report[:periods]+1 Totals
+
+        = render "admin/loans/questionnaires/breakeven_rampup/rampup_periods",
+          periods: report[:periods],
+          units: report[:units]
 
       = render "admin/loans/questionnaires/breakeven_rampup/rampup_summary",
         title: t("loan.breakeven_rampup.total_gross_margin"),
