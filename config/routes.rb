@@ -87,6 +87,7 @@ Rails.application.routes.draw do
 
   localized do
     namespace :public, path: '/:site' do
+    # :site can be 'argentina', 'nicaragua', or 'us'
       resources :loans, only: [:index, :show]
       get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       get 'test' => 'static_pages#test'
