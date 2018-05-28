@@ -34,6 +34,7 @@ gem 'daemons'
 # Internationalization
 gem 'rails-i18n'
 gem 'i18n-js', '>= 3.0.0.rc11'
+gem 'devise-i18n'
 
 # Translate urls
 gem 'route_translator', '>=5.5.3'
