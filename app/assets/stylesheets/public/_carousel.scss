@@ -1,19 +1,47 @@
-.carousel-control {
-  top: 50%;
-  &, &:link, &:visited, &:active, &:hover {
-    color: white;
+
+// Older Carousel
+// .carousel-control {
+//   top: 50%;
+//   &, &:link, &:visited, &:active, &:hover {
+//     color: white;
+//   }
+// }
+// .carousel-inner {
+//   background-color: black;
+// }
+// .carousel-inner .item {
+//   height: 411px;
+//   background-position: center center;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+// }
+// /* Landscape phones and down, shrink height of carousel */
+// @media (max-width: 480px) {
+//   .carousel-inner .item { height: 250px; }
+// }
+
+// Bootstrap Carousel
+.carousel {
+  background-color: #595959;
+  border-radius: 5px;
+
+  .carousel-item {
+    height: 20em;
+
+    img {
+      position: relative;
+      overflow-y: hidden;
+      vertical-align: middle;
+    }
   }
-}
-.carousel-inner {
-  background-color: black;
-}
-.carousel-inner .item {
-  height: 411px;
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-/* Landscape phones and down, shrink height of carousel */
-@media (max-width: 480px) {
-  .carousel-inner .item { height: 250px; }
+
+  .carousel-control-prev, .carousel-control-next, .carousel-indicators {
+    &:hover {
+      background: rgba(128,128,128,0.5);
+    }
+  }
+
+  .carousel-indicators {
+    padding: 1em;
+  }
 }
