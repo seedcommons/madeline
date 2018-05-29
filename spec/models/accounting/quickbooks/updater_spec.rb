@@ -240,4 +240,14 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       end
     end
   end
+
+  describe 'extract_qb_data' do
+    let(:txn) { build(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data,
+      loan_transaction_type_value: nil, account: txn_acct) }
+
+    it 'data persists from the extractor to the updater' do
+      # the quickbooks_data variable on line 19 matches a repayment type
+      expect(subject.send(:extract_qb_data, txn).loan_transaction_type_value).to eq('repayment')
+    end
+  end
 end

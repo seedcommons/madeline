@@ -74,7 +74,6 @@ module Accounting
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
           txn.reload.calculate_balances(prev_tx: prev_tx)
-          txn.currency = lookup_currency(txn)
           txn.save!
           prev_tx = txn
         end
@@ -88,16 +87,8 @@ module Accounting
 
         extractor = Accounting::Quickbooks::DataExtractor.new(txn)
         extractor.extract!
-      end
-
-      def lookup_currency(txn)
-        project = txn.project
-
-        if txn.quickbooks_data && txn.quickbooks_data[:currency_ref]
-          Currency.find_by(code: quickbooks_data[:currency_ref][:value]).try(:id)
-        elsif project
-          project.currency
-        end
+        txn.save!
+        txn
       end
 
       def changes
