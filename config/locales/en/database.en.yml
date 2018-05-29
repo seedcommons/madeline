@@ -28,7 +28,7 @@ en:
         single_liquidity_loc: 'Single liquidity line of credit'
         wc_investment: 'Working capital investment loan'
         sa_investment: 'Secured asset investment loan'
-        community_solar: 'Community Solar'
+        community_solar: 'Community solar'
       media_kind:
         image: 'Image'
         video: 'Video'
