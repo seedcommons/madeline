@@ -35,32 +35,33 @@
         / h5.coop_name Current Report
 
         / div = "Pictures length: #{@pictures.length}"
-        #loanImageCarousel.carousel.slide data-ride="carousel"
-          ol.carousel-indicators
-            - remainingPictures = @pictures.length + 3
-            - counter = 0
-            - while remainingPictures > 0
-              li data-target="#loanImageCarousel" data-slide-to="#{counter}" class="#{'active' if counter == 0}"
-              - counter = counter + 1
-              - remainingPictures = remainingPictures - 1
+        a href=public_gallery_path
+          #loanImageCarousel.carousel.slide data-ride="carousel"
+            ol.carousel-indicators
+              - remainingPictures = @pictures.length + 3
+              - counter = 0
+              - while remainingPictures > 0
+                li data-target="#loanImageCarousel" data-slide-to="#{counter}" class="#{'active' if counter == 0}"
+                - counter = counter + 1
+                - remainingPictures = remainingPictures - 1
 
-          .carousel-inner
-            .carousel-item.active
-              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
-            .carousel-item
-              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
-            .carousel-item
-              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
-            - @pictures.each do |picture|
+            .carousel-inner
+              .carousel-item.active
+                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
               .carousel-item
-                img.d-block.w-100 src="#{picture.item.large.url}" alt=""
+                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
+              .carousel-item
+                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
+              - @pictures.each do |picture|
+                .carousel-item
+                  img.d-block.w-100 src="#{picture.item.large.url}" alt=""
 
-          a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
-            span.carousel-control-prev-icon aria-hidden="true"
-            span.sr-only Previous
-          a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
-            span.carousel-control-next-icon aria-hidden="true"
-            span.sr-only Next
+            a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
+              span.carousel-control-prev-icon aria-hidden="true"
+              span.sr-only Previous
+            a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
+              span.carousel-control-next-icon aria-hidden="true"
+              span.sr-only Next
 
     .col-md-5.sidebar.pull-right
       h2.section_title = t :about_this_project
