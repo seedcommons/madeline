@@ -108,39 +108,62 @@ class OptionSetCreator
   def create_loan_type
     loan_type = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'loan_type')
-    loan_type.options.destroy_all
-    loan_type.options.create(migration_id: 1, value: 'liquidity_loc', label_translations: {
+
+    liquidity_loc = loan_type.options.find_or_create_by(value: 'liquidity_loc')
+    liquidity_loc.label_translations = {
       en: I18n.t('database.option_sets.loan_type.liquidity_loc', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.liquidity_loc', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 2, value: 'investment_loc', label_translations: {
+    }
+    liquidity_loc.save
+
+    investment_loc = loan_type.options.find_or_create_by(value: 'investment_loc')
+    investment_loc.label_translations = {
       en: I18n.t('database.option_sets.loan_type.investment_loc', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.investment_loc', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 3, value: 'investment', label_translations: {
+    }
+    investment_loc.save
+
+    investment = loan_type.options.find_or_create_by(value: 'investment')
+    investment.label_translations = {
       en: I18n.t('database.option_sets.loan_type.investment', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.investment', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 4, value: 'evolving', label_translations: {
+    }
+    investment.save
+
+    evolving = loan_type.options.find_or_create_by(value: 'evolving')
+    evolving.label_translations = {
       en: I18n.t('database.option_sets.loan_type.evolving', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.evolving', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 5, value: 'single_liquidity_loc', label_translations: {
+    }
+    evolving.save
+
+    single_liquidity_loc = loan_type.options.find_or_create_by(value: 'single_liquidity_loc')
+    single_liquidity_loc.label_translations = {
       en: I18n.t('database.option_sets.loan_type.single_liquidity_loc', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.single_liquidity_loc', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 6, value: 'wc_investment', label_translations: {
+    }
+    single_liquidity_loc.save
+
+    wc_investment = loan_type.options.find_or_create_by(value: 'wc_investment')
+    wc_investment.label_translations = {
       en: I18n.t('database.option_sets.loan_type.wc_investment', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.wc_investment', locale: 'es')
-    })
-    loan_type.options.create(migration_id: 7, value: 'sa_investment', label_translations: {
+    }
+    wc_investment.save
+
+    sa_investment = loan_type.options.find_or_create_by(value: 'sa_investment')
+    sa_investment.label_translations = {
       en: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.sa_investment', locale: 'es')
-    })
-    loan_type.options.create(value: 'community_solar', label_translations: {
+    }
+    sa_investment.save
+
+    community_solar = loan_type.options.find_or_create_by(value: 'community_solar')
+    community_solar.label_translations = {
       en: I18n.t('database.option_sets.loan_type.community_solar', locale: 'en'),
       es: I18n.t('database.option_sets.loan_type.community_solar', locale: 'es')
-    })
+    }
+    community_solar.save
   end
 
   def create_public_level
