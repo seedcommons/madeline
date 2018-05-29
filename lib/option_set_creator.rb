@@ -287,22 +287,33 @@ class OptionSetCreator
   def create_loan_transaction_type
     loan_transaction_type = OptionSet.find_or_create_by(division: Division.root,
       model_type: Accounting::Transaction.name, model_attribute: 'loan_transaction_type')
-    loan_transaction_type.options.destroy_all
-    loan_transaction_type.options.create(value: 'interest', position: 1, label_translations: {
+
+    interest = loan_transaction_type.options.find_or_create_by(value: 'interest', position: 1)
+    interest.label_translations = {
       en: I18n.t('database.option_sets.loan_transaction_type.interest', locale: 'en'),
-      es: I18n.t('database.option_sets.loan_transaction_type.interest', locale: 'es'),
-    })
-    loan_transaction_type.options.create(value: 'disbursement', position: 2, label_translations: {
+      es: I18n.t('database.option_sets.loan_transaction_type.interest', locale: 'es')
+    }
+    interest.save
+
+    disbursement = loan_transaction_type.options.find_or_create_by(value: 'disbursement', position: 2)
+    disbursement.label_translations = {
       en: I18n.t('database.option_sets.loan_transaction_type.disbursement', locale: 'en'),
       es: I18n.t('database.option_sets.loan_transaction_type.disbursement', locale: 'es')
-    })
-    loan_transaction_type.options.create(value: 'repayment', position: 3, label_translations: {
+    }
+    disbursement.save
+
+    repayment = loan_transaction_type.options.find_or_create_by(value: 'repayment', position: 3)
+    repayment.label_translations = {
       en: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'en'),
       es: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'es')
-    })
-    loan_transaction_type.options.create(value: 'other', position: 4, label_translations: {
-      en: 'Other',
-      es: 'Otro'
-    })
+    }
+    repayment.save
+
+    other = loan_transaction_type.options.find_or_create_by(value: 'other', position: 4)
+    other.label_translations = {
+      en: I18n.t('database.option_sets.loan_transaction_type.other', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_transaction_type.other', locale: 'es')
+    }
+    other.save
   end
 end
