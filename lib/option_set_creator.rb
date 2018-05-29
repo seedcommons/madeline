@@ -14,39 +14,62 @@ class OptionSetCreator
   def create_loan_status
     loan_status = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'status')
-    loan_status.options.destroy_all
-    loan_status.options.create(value: 'active', label_translations: {
-      en: I18n.t('database.option_sets.loan_status.active', locale: 'en'),
-      es: I18n.t('database.option_sets.loan_status.active', locale: 'es')
-    })
-    loan_status.options.create(value: 'completed', label_translations: {
+
+    active = loan_status.options.find_or_create_by(value: 'active')
+    active.label_translations = {
+        en: I18n.t('database.option_sets.loan_status.active', locale: 'en'),
+        es: I18n.t('database.option_sets.loan_status.active', locale: 'es')
+      }
+    active.save
+
+    completed = loan_status.options.find_or_create_by(value: 'completed')
+    completed.label_translations = {
       en: I18n.t('database.option_sets.loan_status.completed', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.completed', locale: 'es')
-    })
-    loan_status.options.create(value: 'frozen', label_translations: {
+    }
+    completed.save
+
+    frozen = loan_status.options.find_or_create_by(value: 'frozen')
+    frozen.label_translations = {
       en: I18n.t('database.option_sets.loan_status.frozen', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.frozen', locale: 'es')
-    })
-    loan_status.options.create(value: 'liquidated', label_translations: {
+    }
+    frozen.save
+
+    liquidated = loan_status.options.find_or_create_by(value: 'liquidated')
+    liquidated.label_translations = {
       en: I18n.t('database.option_sets.loan_status.liquidated', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.liquidated', locale: 'es')
-    })
-    loan_status.options.create(value: 'prospective', label_translations: {
+    }
+    liquidated.save
+
+    prospective = loan_status.options.find_or_create_by(value: 'prospective')
+    prospective.label_translations = {
       en: I18n.t('database.option_sets.loan_status.prospective', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.prospective', locale: 'es')
-    })
-    loan_status.options.create(value: 'refinanced', label_translations: {
+    }
+    prospective.save
+
+    refinanced = loan_status.options.find_or_create_by(value: 'refinanced')
+    refinanced.label_translations = {
       en: I18n.t('database.option_sets.loan_status.refinanced', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.refinanced', locale: 'es')
-    })
-    loan_status.options.create(value: 'relationship', label_translations: {
+    }
+    refinanced.save
+
+    relationship = loan_status.options.find_or_create_by(value: 'relationship')
+    relationship.label_translations = {
       en: I18n.t('database.option_sets.loan_status.relationship', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.relationship', locale: 'es')
-    })
-    loan_status.options.create(value: 'relationship_active', label_translations: {
+    }
+    relationship.save
+
+    relationship_active = loan_status.options.find_or_create_by(value: 'relationship_active')
+    relationship_active.label_translations = {
       en: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'en'),
       es: I18n.t('database.option_sets.loan_status.relationship_active', locale: 'es')
-    })
+    }
+    relationship_active.save
   end
 
   def create_basic_project_status
