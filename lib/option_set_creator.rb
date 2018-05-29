@@ -254,23 +254,34 @@ class OptionSetCreator
   def create_media_kind
     media_kind = OptionSet.find_or_create_by(division: Division.root, model_type: Media.name,
       model_attribute: 'kind')
-    media_kind.options.destroy_all
-    media_kind.options.create(value: 'image', label_translations: {
+
+    image = media_kind.options.find_or_create_by(value: 'image')
+    image.label_translations = {
       en: I18n.t('database.option_sets.media_kind.image', locale: 'en'),
       es: I18n.t('database.option_sets.media_kind.image', locale: 'es')
-    })
-    media_kind.options.create(value: 'video', label_translations: {
+    }
+    image.save
+
+    video = media_kind.options.find_or_create_by(value: 'video')
+    video.label_translations = {
       en: I18n.t('database.option_sets.media_kind.video', locale: 'en'),
       es: I18n.t('database.option_sets.media_kind.video', locale: 'es')
-    })
-    media_kind.options.create(value: 'document', label_translations: {
+    }
+    video.save
+
+    document = media_kind.options.find_or_create_by(value: 'document')
+    document.label_translations = {
       en: I18n.t('database.option_sets.media_kind.document', locale: 'en'),
       es: I18n.t('database.option_sets.media_kind.document', locale: 'es')
-    })
-    media_kind.options.create(value: 'contract', label_translations: {
+    }
+    document.save
+
+    contract = media_kind.options.find_or_create_by(value: 'contract')
+    contract.label_translations = {
       en: I18n.t('database.option_sets.media_kind.contract', locale: 'en'),
       es: I18n.t('database.option_sets.media_kind.contract', locale: 'es')
-    })
+    }
+    contract.save
   end
 
   def create_loan_transaction_type
