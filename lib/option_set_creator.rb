@@ -75,23 +75,34 @@ class OptionSetCreator
   def create_basic_project_status
     basic_project_status = OptionSet.find_or_create_by(division: Division.root,
       model_type: BasicProject.name, model_attribute: 'status')
-    basic_project_status.options.destroy_all
-    basic_project_status.options.create(value: 'active', label_translations: {
+
+    active = basic_project_status.options.find_or_create_by(value: 'active')
+    active.label_translations = {
       en: I18n.t('database.option_sets.basic_project_status.active', locale: 'en'),
       es: I18n.t('database.option_sets.basic_project_status.active', locale: 'es')
-    })
-    basic_project_status.options.create(value: 'completed', label_translations: {
+    }
+    active.save
+
+    completed = basic_project_status.options.find_or_create_by(value: 'completed')
+    completed.label_translations = {
       en: I18n.t('database.option_sets.basic_project_status.completed', locale: 'en'),
       es: I18n.t('database.option_sets.basic_project_status.completed', locale: 'es')
-    })
-    basic_project_status.options.create(value: 'changed', label_translations: {
+    }
+    completed.save
+
+    changed = basic_project_status.options.find_or_create_by(value: 'changed')
+    changed.label_translations = {
       en: I18n.t('database.option_sets.basic_project_status.changed', locale: 'en'),
       es: I18n.t('database.option_sets.basic_project_status.changed', locale: 'es')
-    })
-    basic_project_status.options.create(value: 'possible', label_translations: {
+    }
+    changed.save
+
+    possible = basic_project_status.options.find_or_create_by(value: 'possible')
+    possible.label_translations = {
       en: I18n.t('database.option_sets.basic_project_status.possible', locale: 'en'),
       es: I18n.t('database.option_sets.basic_project_status.possible', locale: 'es')
-    })
+    }
+    possible.save
   end
 
   def create_loan_type
