@@ -2,7 +2,7 @@
 
 .loans.gallery
   .back_link
-    a.no_line href=url_for([:public, @loan])
+    a.no_line href=url_for(public_loan_path(@loan, site: layout_site))
       i.fa.fa-chevron-left>
       span.hover_line = t :back_to, name: @loan.display_name
 
