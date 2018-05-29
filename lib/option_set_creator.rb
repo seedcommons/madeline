@@ -195,15 +195,20 @@ class OptionSetCreator
   def create_step_type
     step_type = OptionSet.find_or_create_by(division: Division.root, model_type: ProjectStep.name,
       model_attribute: 'step_type')
-    step_type.options.destroy_all
-    step_type.options.create(value: 'checkin', label_translations: {
+
+    checkin = step_type.options.find_or_create_by(value: 'checkin')
+     checkin.label_translations = {
       en: I18n.t('database.option_sets.step_type.checkin', locale: 'en'),
       es: I18n.t('database.option_sets.step_type.checkin', locale: 'es')
-    })
-    step_type.options.create(value: 'milestone', label_translations: {
+    }
+    checkin.save
+
+    milestone = step_type.options.find_or_create_by(value: 'milestone')
+    milestone.label_translations = {
       en: I18n.t('database.option_sets.step_type.milestone', locale: 'en'),
       es: I18n.t('database.option_sets.step_type.milestone', locale: 'es')
-    })
+    }
+    milestone.save
   end
 
   def create_progress_metric
