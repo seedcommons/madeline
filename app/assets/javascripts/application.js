@@ -31,7 +31,6 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 
-//= require turbolinks
 //= require summernote/summernote-bs4.min
 //= require summernote-init
 
