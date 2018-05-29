@@ -14,25 +14,57 @@
         h2.section_title = @loan.display_name
 
         / Carousel
-        - if @pictures
-          #myCarousel.carousel.slide
-            - if @pictures.count > 1
-              ol.carousel-indicators
-                - for i in (0..(@pictures.count-1)) do
-                  li data-slide-to=i data-target="#myCarousel"
-            / Carousel items
-            a href=public_gallery_path
-              .carousel-inner
-                - @pictures.each do |picture|
-                  .item.picture style=("background-image: url(#{picture.item.large.url});")
-            / Carousel nav
-            - if @pictures.count > 1
-              a.carousel-control.left data-slide="prev" href="#myCarousel"  &lsaquo;
-              a.carousel-control.right data-slide="next" href="#myCarousel"  &rsaquo;
+        / - if @pictures
+        /   #myCarousel.carousel.slide
+        /     - if @pictures.count > 1
+        /       ol.carousel-indicators
+        /         - for i in (0..(@pictures.count-1)) do
+        /           li data-slide-to=i data-target="#myCarousel"
+        /     / Carousel items
+        /     a href=public_gallery_path
+        /       .carousel-inner
+        /         - @pictures.each do |picture|
+        /           .item.picture style=("background-image: url(#{picture.item.large.url});")
+        /     / Carousel nav
+        /     - if @pictures.count > 1
+        /       a.carousel-control.left data-slide="prev" href="#myCarousel"  &lsaquo;
+        /       a.carousel-control.right data-slide="next" href="#myCarousel"  &rsaquo;
 
         / .lend
         /   a.button.lend_button.pull-right href="#"
         / h5.coop_name Current Report
+
+        br
+        br
+        br
+        br
+        div = "Pictures length: #{@pictures.length}"
+        #loanImageCarousel.carousel.slide data-ride="carousel"
+          ol.carousel-indicators
+            - remainingPictures = @pictures.length + 3
+            - counter = 0
+            - while remainingPictures > 0
+              li data-target="#loanImageCarousel" data-slide-to="#{counter}" class="#{'active' if counter == 0}"
+              - counter = counter + 1
+              - remainingPictures = remainingPictures - 1
+
+          .carousel-inner
+            .carousel-item.active
+              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
+            .carousel-item
+              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
+            .carousel-item
+              img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
+            - @pictures.each do |picture|
+              .carousel-item
+                img.d-block.w-100 src="#{picture.item.large.url}" alt=""
+
+          a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
+            span.carousel-control-prev-icon aria-hidden="true"
+            span.sr-only Previous
+          a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
+            span.carousel-control-next-icon aria-hidden="true"
+            span.sr-only Next
 
     .col-md-5.sidebar.pull-right
       h2.section_title = t :about_this_project
