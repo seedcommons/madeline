@@ -214,27 +214,41 @@ class OptionSetCreator
   def create_progress_metric
     progress_metric = OptionSet.find_or_create_by(division: Division.root, model_type: ProjectLog.name,
       model_attribute: 'progress_metric')
-    progress_metric.options.destroy_all
-    progress_metric.options.create(migration_id: -3, label_translations: {
+
+    change_plan = progress_metric.options.find_or_create_by(migration_id: -3)
+    change_plan.label_translations = {
       en: I18n.t('database.option_sets.progress_metric.change_plan', locale: 'en'),
       es: I18n.t('database.option_sets.progress_metric.change_plan', locale: 'es')
-    })
-    progress_metric.options.create(migration_id: -2, label_translations: {
+    }
+    change_plan.save
+
+    change_events = progress_metric.options.find_or_create_by(migration_id: -2)
+    change_events.label_translations = {
       en: I18n.t('database.option_sets.progress_metric.change_events', locale: 'en'),
       es: I18n.t('database.option_sets.progress_metric.change_events', locale: 'es')
-    })
-    progress_metric.options.create(migration_id: -1, label_translations: {
+    }
+    change_events.save
+
+    behind = progress_metric.options.find_or_create_by(migration_id: -1)
+    behind.label_translations = {
       en: I18n.t('database.option_sets.progress_metric.behind', locale: 'en'),
       es: I18n.t('database.option_sets.progress_metric.behind', locale: 'es')
-    })
-    progress_metric.options.create(migration_id: 1, label_translations: {
+    }
+    behind.save
+
+    on_time = progress_metric.options.find_or_create_by(migration_id: 1)
+    on_time.label_translations = {
       en: I18n.t('database.option_sets.progress_metric.on_time', locale: 'en'),
       es: I18n.t('database.option_sets.progress_metric.on_time', locale: 'es')
-    })
-    progress_metric.options.create(migration_id: 2, label_translations: {
+    }
+    on_time.save
+
+    ahead = progress_metric.options.find_or_create_by(migration_id: 2)
+    ahead.label_translations = {
       en: I18n.t('database.option_sets.progress_metric.ahead', locale: 'en'),
       es: I18n.t('database.option_sets.progress_metric.ahead', locale: 'es')
-    })
+    }
+    ahead.save
   end
 
   def create_media_kind
