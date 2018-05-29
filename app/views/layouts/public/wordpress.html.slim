@@ -18,7 +18,9 @@
 
 - content_for :content
   = render "application/alerts"
-  = render "public/media/modal"
   = yield
+
+/ Modals belong outside of the content container to display properly
+= render "public/media/modal"
 
 = render template: "layouts/public/wordpress/#{Rails.env}/wordpress-#{layout_site}"
