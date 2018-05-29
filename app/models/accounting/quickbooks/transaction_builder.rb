@@ -29,6 +29,7 @@ module Accounting
 
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
+        je.doc_number = set_journal_number(transaction)
 
         qb_customer_ref = customer_reference(transaction.project.organization)
         qb_department_ref = department_reference(transaction.project)
@@ -107,6 +108,11 @@ module Accounting
         qb_class.name = loan_id
 
         class_service.create(qb_class)
+      end
+
+      def set_journal_number(txn)
+        return nil if txn.loan_transaction_type_value == 'other'
+        txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
       end
     end
   end
