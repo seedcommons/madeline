@@ -1,29 +1,11 @@
-
-// Older Carousel
-// .carousel-control {
-//   top: 50%;
-//   &, &:link, &:visited, &:active, &:hover {
-//     color: white;
-//   }
-// }
-// .carousel-inner {
-//   background-color: black;
-// }
-// .carousel-inner .item {
-//   height: 411px;
-//   background-position: center center;
-//   background-size: contain;
-//   background-repeat: no-repeat;
-// }
-// /* Landscape phones and down, shrink height of carousel */
-// @media (max-width: 480px) {
-//   .carousel-inner .item { height: 250px; }
-// }
-
 // Bootstrap Carousel
+
+// Matches border-radius of the status box on the loan's page
+$border-radius: 5px;
+
 .carousel {
   background-color: #595959;
-  border-radius: 5px;
+  border-radius: $border-radius;
 
   .carousel-item {
     height: 20em;
@@ -32,12 +14,14 @@
       position: relative;
       overflow-y: hidden;
       vertical-align: middle;
+      border-radius: $border-radius;
     }
   }
 
   .carousel-control-prev, .carousel-control-next, .carousel-indicators {
     &:hover {
       background: rgba(128,128,128,0.5);
+      border-radius: $border-radius;
     }
   }
 
