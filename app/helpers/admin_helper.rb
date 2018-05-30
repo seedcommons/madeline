@@ -1,7 +1,16 @@
 module AdminHelper
   def division_select_options
-    [[I18n.t("divisions.shared.all"), nil]].concat(
-      current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
+    [[I18n.t("divisions.shared.all"), nil]] + options_tree(current_user.accessible_divisions.hash_tree)
+  end
+
+  # Takes
+  def options_tree(hash_tree)
+    options = []
+    hash_tree.each do |division, subtree|
+      options << ["--" * (division.depth) + division.name, division.id]
+      options += options_tree(subtree)
+    end
+    options
   end
 
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
