@@ -5,20 +5,6 @@ module AdminHelper
       options_tree(current_user.accessible_divisions.hash_tree, default_depth)
   end
 
-  # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
-  # passed into a select menu, recursively padding children with dashes to show tree structure
-  def options_tree(hash_tree, default_depth)
-    options = []
-    hash_tree.each do |division, subtree|
-      unless division.root?
-        depth = division.depth - default_depth
-        options << ["--" * depth + division.name, division.id]
-      end
-      options += options_tree(subtree, default_depth)
-    end
-    options
-  end
-
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
     include_blank_choice: true, classes: '')
     model_field = model.send(field_name)
@@ -82,5 +68,21 @@ module AdminHelper
   # Displays Font Awesome icons
   def icon_tag(class_name)
     content_tag(:i, "", class: "fa fa-#{class_name}")
+  end
+
+  private
+
+  # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
+  # passed into a select menu, recursively padding children with dashes to show tree structure
+  def options_tree(hash_tree, default_depth)
+    options = []
+    hash_tree.each do |division, subtree|
+      unless division.root?
+        depth = division.depth - default_depth
+        options << ["--" * depth + division.name, division.id]
+      end
+      options += options_tree(subtree, default_depth)
+    end
+    options
   end
 end
