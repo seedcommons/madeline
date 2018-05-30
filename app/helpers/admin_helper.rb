@@ -1,15 +1,20 @@
 module AdminHelper
-  def division_select_options
-    [[I18n.t("divisions.shared.all"), nil]] + options_tree(current_user.accessible_divisions.hash_tree)
+  def division_select_options(default_depth: nil)
+    default_depth ||= [current_user.default_division.depth, 1].max
+    [[I18n.t("divisions.shared.all"), nil]] +
+      options_tree(current_user.accessible_divisions.hash_tree, default_depth)
   end
 
-  # Takes
-  def options_tree(hash_tree)
+  # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
+  # passed into a select menu, recursively padding children with dashes to show tree structure
+  def options_tree(hash_tree, default_depth)
     options = []
     hash_tree.each do |division, subtree|
-      prefix = division.depth > 1 ? "--" * (division.depth - 1) : ""
-      options << [prefix + division.name, division.id] unless division.root?
-      options += options_tree(subtree)
+      unless division.root?
+        depth = division.depth - default_depth
+        options << ["--" * depth + division.name, division.id]
+      end
+      options += options_tree(subtree, default_depth)
     end
     options
   end
