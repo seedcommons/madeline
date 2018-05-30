@@ -5,6 +5,7 @@ class MS.Views.LoanView extends Backbone.View
 
   initialize: ->
     @initializeTabs()
+    @initializeCarousel()
 
   events: ->
     'click .nav-tabs .nav-item a': 'styleTabs'
@@ -14,6 +15,11 @@ class MS.Views.LoanView extends Backbone.View
     @$el.find('#tabs').tabs({
       active: 0
     });
+
+  initializeCarousel: ->
+    # Initiate slideshow
+    @$el.find(".carousel-inner .carousel-item").first().addClass('active')
+    @$el.find(".carousel").carousel()
 
   styleTabs: () ->
     # Loan tabs use jQuery UI tab functionality and Bootstrap styling.

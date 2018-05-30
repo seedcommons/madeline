@@ -13,32 +13,14 @@
       .detail_wrap
         h2.section_title = @loan.display_name
 
-        / Carousel
-        / - if @pictures
-        /   #myCarousel.carousel.slide
-        /     - if @pictures.count > 1
-        /       ol.carousel-indicators
-        /         - for i in (0..(@pictures.count-1)) do
-        /           li data-slide-to=i data-target="#myCarousel"
-        /     / Carousel items
-        /     a href=public_gallery_path
-        /       .carousel-inner
-        /         - @pictures.each do |picture|
-        /           .item.picture style=("background-image: url(#{picture.item.large.url});")
-        /     / Carousel nav
-        /     - if @pictures.count > 1
-        /       a.carousel-control.left data-slide="prev" href="#myCarousel"  &lsaquo;
-        /       a.carousel-control.right data-slide="next" href="#myCarousel"  &rsaquo;
-
         / .lend
         /   a.button.lend_button.pull-right href="#"
         / h5.coop_name Current Report
 
-        / div = "Pictures length: #{@pictures.length}"
         a href=public_gallery_path
           #loanImageCarousel.carousel.slide data-ride="carousel"
             ol.carousel-indicators
-              - remainingPictures = @pictures.length + 3
+              - remainingPictures = @pictures.length
               - counter = 0
               - while remainingPictures > 0
                 li data-target="#loanImageCarousel" data-slide-to="#{counter}" class="#{'active' if counter == 0}"
@@ -46,12 +28,6 @@
                 - remainingPictures = remainingPictures - 1
 
             .carousel-inner
-              .carousel-item.active
-                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
-              .carousel-item
-                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
-              .carousel-item
-                img.d-block.w-100 src="http://www.theworkingworld.org/us/wp-content/uploads/2015/04/NFG-TWW-Logo.png"
               - @pictures.each do |picture|
                 .carousel-item
                   img.d-block.w-100 src="#{picture.item.large.url}" alt=""

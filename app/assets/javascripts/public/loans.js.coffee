@@ -1,9 +1,4 @@
 $ ->
-  # Initiate slideshow
-  $(".carousel-inner .item").first().addClass "active"
-  $(".carousel-indicators li").first().addClass "active"
-  $(".carousel").carousel()
-
   # Toggles for Show Logs/Hide Logs and More/Less
   $(".logs, .log-details").on "show.bs.collapse", ->
     toggle = $("#show-" + @id)
