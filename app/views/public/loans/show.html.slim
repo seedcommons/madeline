@@ -122,25 +122,6 @@
       /                 td = l pmt.date_due, format: :long
       /               td = pmt.amount_formatted
 
-        / #other_loans.tab-pane
-        /   - if !@other_loans || @other_loans.count <= 1
-        /     p.empty = t :first_loan
-        /   - else
-        /     h4 = t :all_loans
-        /     table.table.other_loans.rowlink data-link="row"
-        /       - @other_loans.each do |loan|
-        /         tr class="#{'selected' if loan.id == @loan.id}"
-        /           td
-        /             - if loan.id == @loan.id
-        /               = loan.signing_date_long
-        /             - else
-        /               a href=url_for([:public, loan]) = loan.signing_date_long
-        /           td = format_currency(loan.amount, loan.currency)
-        /           td = loan.status
-        /           td.hidden-xs style="width: 50%" = render_translation loan.summary
-        /
-
-/ = render 'media/blueimp-gallery'
 javascript:
   $(function(){
     new MS.Views.LoanView();
