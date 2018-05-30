@@ -7,7 +7,8 @@ module AdminHelper
   def options_tree(hash_tree)
     options = []
     hash_tree.each do |division, subtree|
-      options << ["--" * (division.depth) + division.name, division.id]
+      prefix = division.depth > 1 ? "--" * (division.depth - 1) : ""
+      options << [prefix + division.name, division.id] unless division.root?
       options += options_tree(subtree)
     end
     options
