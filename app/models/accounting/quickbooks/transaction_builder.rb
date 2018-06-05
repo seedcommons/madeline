@@ -25,11 +25,12 @@ module Accounting
         if transaction.qb_id
           je.id = transaction.qb_id
           je.sync_token = transaction.quickbooks_data['sync_token']
+        else
+          je.doc_number = set_journal_number(transaction)
         end
 
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
-        je.doc_number = set_journal_number(transaction)
 
         qb_customer_ref = customer_reference(transaction.project.organization)
         qb_department_ref = department_reference(transaction.project)
