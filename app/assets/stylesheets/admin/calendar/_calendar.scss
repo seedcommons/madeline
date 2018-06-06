@@ -1,6 +1,5 @@
 .calendar {
   .fc-event {
-    border: none;
     background: $table-gray;
     color: $black;
 
@@ -16,6 +15,10 @@
     overflow: hidden;
     font-size: 1.2rem;
     cursor: default;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     .fa {
       display: inline;

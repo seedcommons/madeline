@@ -1,8 +1,6 @@
 - case cal_event.event_type
   - when "project_start", "project_end"
-
     div.calendar-event class="#{cal_event.event_type.gsub('_', '-')}"
-
       span.event-title
         - if cal_event.event_type == "project_start"
             i.fa.fa-play-circle
@@ -11,25 +9,25 @@
         = cal_event.title
 
   - when "project_step"
-    div.large-left-box
-      span.event-title
-        - if cal_event.step_type == "milestone"
-            i.fa.fa-flag
-        - else
-            i.fa.fa-calendar-check-o
-        = cal_event.title.to_s
-    div.small-right-box.right-align
-      div.align-top.top-info
-        - if cal_event.completion_status == "complete"
-            i.fa.fa-check
-        - elsif cal_event.time_status == "late"
-            i.fa.fa-clock-o
+    div.calendar-event class="#{cal_event.event_type.gsub('_', '-')}" data-id="#{cal_event.model_id}"
+      div.large-left-box
+        span.event-title
+          - if cal_event.step_type == "milestone"
+              i.fa.fa-flag
+          - else
+              i.fa.fa-calendar-check-o
+          = cal_event.title.to_s
+      div.small-right-box.right-align
+        div.align-top.top-info
+          - if cal_event.completion_status == "complete"
+              i.fa.fa-check
+          - elsif cal_event.time_status == "late"
+              i.fa.fa-clock-o
 
-        - if cal_event.num_of_logs > 0
-            i.fa.fa-pencil-square-o
-              span = cal_event.num_of_logs.to_s
-        - if cal_event.has_precedent
-            i.fa.fa-link
+          - if cal_event.num_of_logs > 0
+            = render partial: "admin/calendar/logs", locals: {num_of_logs: cal_event.num_of_logs}
+          - if cal_event.has_precedent
+              i.fa.fa-link
 
   - when "ghost_step"
 

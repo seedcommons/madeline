@@ -43,12 +43,12 @@ module LogControllable
 
   def destroy_and_render_partial
     if @log.destroy
-      @expand_logs = @step.logs_count > 0
-      render partial: 'admin/project_steps/project_step', locals: {
-        step: @step,
-        context: 'timeline',
-        mode: :show
-      }
+      if @step
+        @expand_logs = @step.logs_count > 0
+        render partial: 'admin/project_logs/step_modal_log_list'
+      else
+        render partial: 'admin/project_logs/log_list'
+      end
     end
   end
 end
