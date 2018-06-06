@@ -170,12 +170,12 @@ class OptionSetCreator
     public_level = OptionSet.find_or_create_by(division: Division.root, model_type: Loan.name,
       model_attribute: 'public_level')
 
-    public = public_level.options.find_or_create_by(value: 'public')
-    public.label_translations = {
+    public_option = public_level.options.find_or_create_by(value: 'public')
+    public_option.label_translations = {
       en: I18n.t('database.option_sets.public_level.public', locale: 'en'),
       es: I18n.t('database.option_sets.public_level.public', locale: 'es')
     }
-    public.save
+    public_option.save
 
     featured = public_level.options.find_or_create_by(value: 'featured')
     featured.label_translations = {
