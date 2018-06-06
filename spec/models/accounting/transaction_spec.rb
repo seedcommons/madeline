@@ -41,7 +41,50 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::Transaction, type: :model do
+  let(:division) { create(:division, :with_accounts) }
+  let(:prin_acct) { division.principal_account}
+  let(:int_inc_acct) { division.interest_income_account }
+  let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+
+  # This is example JSON that might be returned by the QB API.
+  # The data are taken from the docs/example_calculation.xlsx file, row 7.
+  let(:quickbooks_data) do
+    { 'line_items' =>
+      [{ 'id' => '0',
+        'description' => 'Repayment',
+        'amount' => '10.99',
+        'detail_type' => 'JournalEntryLineDetail',
+        'journal_entry_line_detail' => {
+          'posting_type' => 'Credit',
+          'entity' => {
+            'type' => 'Customer',
+            'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+          'account_ref' => { 'value' => prin_acct.qb_id, 'name' => 'ice cream', 'type' => nil },
+          'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+          'department_ref' => nil } },
+        { 'id' => '1',
+          'description' => 'Repayment',
+          'amount' => '1.31',
+          'detail_type' => 'JournalEntryLineDetail',
+          'journal_entry_line_detail' => {
+            'posting_type' => 'Credit',
+            'entity' => {
+              'type' => 'Customer',
+              'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+            'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => 'bread', 'type' => nil },
+            'class_ref' => { 'value' => '5000000000000026437', 'name' => 'chicken', 'type' => nil },
+            'department_ref' => nil } }],
+      'id' => '167',
+      'sync_token' => 0,
+      'meta_data' => {
+        'create_time' => '2017-04-18T10:14:30.000-07:00',
+        'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
+      'txn_date' => '2017-04-18',
+      'total' => '12.30',
+      'doc_number' => 'textme',
+      'private_note' => 'Random stuff' }
+  end
 
   describe '.standard_order' do
     let!(:txn_1) do
@@ -90,16 +133,21 @@ RSpec.describe Accounting::Transaction, type: :model do
   end
 
   describe '.create_or_update_from_qb_object!' do
-    let(:qb_obj) { double(id: 123, as_json: {'x' => 'y'}) }
-    let(:txn) do
-      described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
-    end
-
     it 'should set appropriate fields on create' do
+      qb_obj = double(id: 123, as_json: {'x' => 'y'})
+      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+
       expect(txn.qb_object_type).to eq('JournalEntry')
       expect(txn.qb_id).to eq('123')
       expect(txn.quickbooks_data).to eq({'x' => 'y'})
       expect(txn.needs_qb_push).to be false
+    end
+
+    it 'associates old QB txn with loan if there is a match' do
+      qb_obj = double(id: 124, as_json: quickbooks_data)
+      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+
+      expect(txn.project_id).to eq(loan.id)
     end
   end
 

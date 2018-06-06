@@ -205,5 +205,9 @@ class OptionSetCreator
         en: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'en'),
         es: I18n.t('database.option_sets.loan_transaction_type.repayment', locale: 'es')
       })
+    loan_transaction_type.options.create(value: 'other', position: 4, label_translations: {
+        en: 'Other',
+        es: 'Otro'
+      })
   end
 end

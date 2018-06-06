@@ -40,9 +40,16 @@ form {
   }
 }
 
-.form-group.boolean .form-control[type="checkbox"] {
-  display: inline-block;
-  margin-left: 10px;
+.form-group.boolean {
+  .form-control[type="checkbox"] {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  // Align checkbox items with their labels
+  label {
+    padding-top: 7px;
+  }
 }
 
 // For collections rendered as type: :check_boxes, the checkboxes and their labels are rendered inside

@@ -59,8 +59,6 @@ class Loan < Project
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :status, ->(status) { where(status_value: status) }
-  scope :by_division, ->(s_name) { includes(:division).where(divisions: { short_name: s_name }) }
-  scope :visible, -> { where.not(public_level_value: 'hidden') }
   scope :active, -> { status('active') }
   scope :related_loans, -> (loan) { loan.organization.loans.where.not(id: loan.id) }
 
@@ -84,18 +82,17 @@ class Loan < Project
   end
 
   def self.filter_by_params(params)
-    div_param = params[:division]
-
     params.reverse_merge! self.default_filter
     scoped = self.all
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
-    scoped = scoped.by_division(params[:division]) if params[:division] != 'all'
 
-    # I don't understand why this was here in place of the line above, but it wasn't working ~Fuzzy
-    # div_check = div_param != 'all' && !div_param.is_a?(Symbol) && !URL_DIVISIONS.include?(div_param)
-    # if div_check
-    #   scoped = scoped.by_division(params[:division])
-    # end
+    if params[:division] != 'all'
+      division_ids = Division.find_by(short_name: params[:division])&.self_and_descendant_ids
+    else
+      division_ids = Division.root.descendant_ids
+    end
+
+    scoped = scoped.where(division: division_ids)
 
     scoped
   end
