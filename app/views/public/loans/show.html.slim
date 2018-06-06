@@ -13,10 +13,6 @@
       .detail_wrap
         h2.section_title = @loan.display_name
 
-        / .lend
-        /   a.button.lend_button.pull-right href="#"
-        / h5.coop_name Current Report
-
         a href=public_gallery_path
           #loanImageCarousel.carousel.slide data-ride="carousel"
             ol.carousel-indicators
@@ -49,7 +45,6 @@
           tr
             th #{t(:amount)}:
             td
-              / i.icon-coinstack>
               = format_currency(@loan.amount, @loan.currency)
           tr
             th #{t(:location)}:
@@ -96,31 +91,6 @@
                 td = format_currency(loan.amount, loan.currency)
                 td = loan.status
                 td.hidden-xs style="width: 50%" = render_translation(loan.details)
-
-      // Tab content for timeline and repayments
-      // Disable timeline and repayments for now
-      / #timeline.tab-pane
-      /   = render 'project_events/timeline'
-      /
-      / - unless @repayments.empty?
-      /   #payments.tab-pane
-      /     .row
-      /       .col-md-7
-      /         h4 = t :payment_schedule
-      /         table.table.repayments
-      /           tr
-      /             th = t :status
-      /             th = t :due_date
-      /             th = t :amount
-      /           - @repayments.each do |pmt|
-      /             tr class=pmt.status
-      /               td
-      /                 b = t pmt.status
-      /               - if pmt.paid
-      /                 td = l pmt.date_paid, format: :long
-      /               - else
-      /                 td = l pmt.date_due, format: :long
-      /               td = pmt.amount_formatted
 
 javascript:
   $(function(){
