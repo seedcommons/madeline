@@ -7,12 +7,12 @@ module WordpressEmbeddable
     layout "public/wordpress"
   end
 
-  def default_site
-    "us"
-  end
-
   def layout_site
-    params[:site] || default_site
+    if params[:site].in?(Loan::URL_DIVISIONS)
+      params[:site]
+    else
+      raise AbstractController::ActionNotFound
+    end
   end
 
   def update

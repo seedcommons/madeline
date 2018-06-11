@@ -142,6 +142,7 @@
     &.project-group, &.project-step {
       &:hover {
         background: $gray2;
+        cursor: pointer;
 
         .dropdown {
           .fa {
