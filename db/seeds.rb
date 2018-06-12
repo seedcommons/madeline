@@ -49,3 +49,5 @@ QuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria').
 QuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis').
   set_label('Loan Post Analysis')
 QuestionSet.recalibrate_sequence(gap: 10)
+
+puts 'seeds ran successfully'

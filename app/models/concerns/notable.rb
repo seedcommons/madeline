@@ -2,6 +2,7 @@ module Notable
   extend ActiveSupport::Concern     ## consider using SuperModule
 
   included do
+    # notes that are added to organizations or people
     has_many :notes, as: :notable
   end
 

@@ -43,6 +43,7 @@ require 'rails_helper'
 describe Person, type: :model do
   let(:log) { build(:project_log) }
   let(:person) { create(:person, :with_member_access, :with_password, project_logs: [log]) }
+  let!(:note) { create(:note, author: person) }
 
   it 'has a valid factory' do
     expect(create(:person)).to be_valid
@@ -76,12 +77,17 @@ describe Person, type: :model do
     end
   end
 
-  context 'with logs' do
-    describe 'person gets deleted' do
-      it 'log sets agent_id to nil' do
-        person.destroy
-        expect(log.agent).to be_nil
-      end
+  context 'destroy' do
+    before { person.destroy }
+
+    it 'log sets agent_id to nil' do
+      person.destroy
+      expect(log.reload.agent).to be_nil
+    end
+
+    it 'note sets author_id to nil' do
+      person.destroy
+      expect(note.reload.author).to be_nil
     end
   end
 end
