@@ -13,23 +13,24 @@
       .detail_wrap
         h2.section_title = @loan.display_name
 
-        a href=public_gallery_path
-          #loanImageCarousel.carousel.slide data-ride="carousel"
-            ol.carousel-indicators
-              - @pictures.each.with_index do |picture, i|
-                li data-target="#loanImageCarousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
+        - if @pictures.length > 0
+          a href=public_gallery_path
+            #loanImageCarousel.carousel.slide data-ride="carousel"
+              ol.carousel-indicators
+                - @pictures.each.with_index do |picture, i|
+                  li data-target="#loanImageCarousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
 
-            .carousel-inner
-              - @pictures.each do |picture|
-                .carousel-item
-                  img.d-block.w-100 src="#{picture.item.large.url}" alt=""
+              .carousel-inner
+                - @pictures.each do |picture|
+                  .carousel-item
+                    img.d-block.w-100 src="#{picture.item.large.url}" alt=""
 
-            a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
-              span.carousel-control-prev-icon aria-hidden="true"
-              span.sr-only Previous
-            a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
-              span.carousel-control-next-icon aria-hidden="true"
-              span.sr-only Next
+              a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
+                span.carousel-control-prev-icon aria-hidden="true"
+                span.sr-only Previous
+              a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
+                span.carousel-control-next-icon aria-hidden="true"
+                span.sr-only Next
 
     .col-md-5.sidebar.pull-right
       h2.section_title = t :about_this_project
