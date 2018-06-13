@@ -27,5 +27,18 @@ $border-radius: 5px;
 
   .carousel-indicators {
     padding: 1em;
+
+    li {
+      $circle-size: 1.5em;
+
+      width: $circle-size;
+      height: $circle-size;
+      border-radius: $circle-size;
+
+      &.active {
+        width: $circle-size;
+        height: $circle-size;
+      }
+    }
   }
 }
