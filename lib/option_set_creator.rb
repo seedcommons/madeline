@@ -164,6 +164,13 @@ class OptionSetCreator
       es: I18n.t('database.option_sets.loan_type.community_solar', locale: 'es')
     }
     community_solar.save
+
+    member_sharing_financing = loan_type.options.find_or_create_by(value: 'member_sharing_financing')
+    member_sharing_financing.label_translations = {
+      en: I18n.t('database.option_sets.loan_type.member_sharing_financing', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_type.member_sharing_financing', locale: 'es')
+    }
+    member_sharing_financing.save
   end
 
   def create_public_level

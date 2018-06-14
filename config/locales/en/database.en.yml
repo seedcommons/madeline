@@ -29,6 +29,7 @@ en:
         wc_investment: 'Working capital investment loan'
         sa_investment: 'Secured asset investment loan'
         community_solar: 'Community solar'
+        member_sharing_financing: 'Member Share Financing'
       media_kind:
         image: 'Image'
         video: 'Video'
