@@ -25,6 +25,8 @@ module Accounting
         if transaction.qb_id
           je.id = transaction.qb_id
           je.sync_token = transaction.quickbooks_data['sync_token']
+        else
+          je.doc_number = set_journal_number(transaction)
         end
 
         je.private_note = transaction.private_note
@@ -107,6 +109,11 @@ module Accounting
         qb_class.name = loan_id
 
         class_service.create(qb_class)
+      end
+
+      def set_journal_number(txn)
+        return nil if txn.loan_transaction_type_value == 'other'
+        txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
       end
     end
   end
