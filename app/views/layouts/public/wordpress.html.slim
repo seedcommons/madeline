@@ -10,6 +10,7 @@
 - content_for :template, yield(:title) || t("loans.index.title") # Sets the page title.
 
 - content_for :head
+  = javascript_include_tag "base"
   = javascript_include_tag "application"
   = javascript_include_tag "public"
   = stylesheet_link_tag "application", media: "all"
