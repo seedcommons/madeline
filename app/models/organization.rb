@@ -49,7 +49,7 @@ class Organization < ActiveRecord::Base
   include DivisionBased
 
   belongs_to :division
-  belongs_to :country
+  belongs_to :country, required: true
   belongs_to :primary_contact, class_name: 'Person'
 
   has_many :loans, dependent: :destroy
