@@ -1,28 +1,33 @@
-- if @logs.blank? && @context != 'calendar'
-  = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
+- @context = @context ? @context : 'logs_list'
+- step_modal_context = @context == ('calendar' || 'timeline') ? true : false
+
+- if @logs.blank?
+  - unless step_modal_context
+    = content_tag(:div, t('common.no_records'), class: 'no-records-msg')
 - else
-  .show-actions.hidden-print class=(@context == 'calendar' ? 'nested-expander' : '')
-    - if @context == 'calendar'
+  .show-actions.hidden-print class=(step_modal_context ? 'nested-expander' : '')
+    - if step_modal_context
       a data-expands="step-logs-#{@step.id}" = t('log.show_logs_n', n: @step.logs_count)
       a data-hides="step-logs-#{@step.id}" = t('log.hide_logs_n', n: @step.logs_count)
     - unless @context == 'dashboard'
       a data-expand-all=".logs-index" href="#" = t('common.expand_all')
       a data-hide-all=".logs-index" href="#"
-        = @context == 'calendar' ? t('common.condense_all') : t('common.hide_all')
+        = step_modal_context ? t('common.condense_all') : t('common.hide_all')
 
-  - unless @context == 'calendar'
-    - if @step
-      h5
-        - if @step.milestone?
-          i.fa.fa-fw.fa-flag-o
-        - elsif @step.checkin?
-          i.fa.fa-fw.fa-calendar
-        = @step.summary
+  / TODO: Under what context is the large heading for step needed?
+  / - if @step
+  /   h5
+  /     - if @step.milestone?
+  /       i.fa.fa-fw.fa-flag-o
+  /     - elsif @step.checkin?
+  /       i.fa.fa-fw.fa-calendar
+  /     = @step.summary
 
-  .logs-index.post-list data-expandable=(@context == 'calendar' ? "step-logs-#{@step.id}" : "")
+  .logs-index.post-list data-expandable=(step_modal_context ? "step-logs-#{@step.id}" : "")
     - @logs.each do |log|
       - step = log.project_step
-      .log.post data-id=log.id
+      - step_id =(step ? step.id : '')
+      .log.post data-id=log.id data-step-id=step_id
         header.small
           .post-info
             .item
@@ -40,7 +45,7 @@
               i.fa.fa-commenting-o>
               = log.progress_metric || t('project_step.no_status')
 
-            - unless @context == 'calendar'
+            - unless step_modal_context
               - unless params[:org].present? || params[:project].present? || params[:step].present? || !step.project.organization
                 .item
                   a href=admin_organization_path(step.project.organization)
@@ -52,17 +57,22 @@
                     = project_step_icon(step)
                     = step.summary.present? ? step.summary : t('log.untitled_step')
 
-            / don't show edit and delete in project step rendition of log list
-            - unless @context == 'calendar' || @context == 'dashboard' || controller_name == 'project_steps'
+            / Don't show edit inside project step modal context of log list
+            - unless step_modal_context || @context == 'dashboard' || controller_name == 'project_steps'
               .item
                 a data-action="edit"
                   i.fa.fa-pencil>
                   = t(:edit)
+
+            - unless @context == 'dashboard'
               .item
                 = link_to '#',
                     data: { \
                       action: 'delete', \
-                      confirm: t('project_logs.shared.confirm_deletion') \
+                      confirm: t('project_logs.shared.confirm_deletion'), \
+                      context: @context, \
+                      id: log.id, \
+                      step_id: step_id \
                     }
                       i.fa.fa-trash>
                       = t(:delete)
