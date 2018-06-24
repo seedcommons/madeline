@@ -1,8 +1,10 @@
 module AdminHelper
-  def division_select_options(default_depth: nil)
-    default_depth ||= [current_user.default_division.depth, 1].max
-    [[I18n.t("divisions.shared.all"), nil]] +
-      options_tree(current_user.accessible_divisions.hash_tree, default_depth)
+  def division_select_options(include_root: true, include_all: false)
+    default_depth = [current_user.default_division.depth, 1].max
+    options = []
+    options << [I18n.t("divisions.shared.all"), nil] if include_all
+    options += options_tree(current_user.accessible_divisions.hash_tree, default_depth,
+      include_root: include_root)
   end
 
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
@@ -74,11 +76,11 @@ module AdminHelper
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
   # passed into a select menu, recursively padding children with spaces to show tree structure
-  def options_tree(hash_tree, default_depth)
+  def options_tree(hash_tree, default_depth, include_root: true)
     options = []
     hash_tree.each do |division, subtree|
-      unless division.root?
-        depth = division.depth - default_depth
+      if include_root || !division.root?
+        depth = [division.depth - default_depth, 0].max
         options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
       end
       options += options_tree(subtree, default_depth)
