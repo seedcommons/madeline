@@ -16,7 +16,7 @@
         = @loan.id
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
+    choices: division_select_options, include_blank_choice: false, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
     choices: @organization_choices, include_blank_choice: true, classes: 'hidden-print')
