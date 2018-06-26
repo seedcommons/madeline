@@ -54,13 +54,11 @@ class Admin::ProjectLogsController < Admin::AdminController
   def destroy
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
+    @logs = @step.project_logs
+    @context = params[:context]
     authorize @log
 
-    if params[:context] == 'timeline'
-      destroy_and_render_partial
-    elsif @log.destroy
-      head :ok
-    end
+    destroy_and_render_partial
   end
 
   private
