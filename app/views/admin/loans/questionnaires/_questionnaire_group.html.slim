@@ -87,8 +87,8 @@
             - if response.has_text?
               - if response.text.present? && !response.not_applicable?
                 .view-element.answer = simple_format(response.text)
-              = f.input_field :"#{question.attribute_sym}[text]", as: response.text_form_field_type,
-                value: response.text
+              = f.input_field :"#{question.attribute_sym}[text]",
+                value: simple_format(response.text), as: :summernote
 
             - if response.has_string?
               - if response.string.present? && !response.not_applicable?
