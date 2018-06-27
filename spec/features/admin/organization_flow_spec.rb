@@ -8,6 +8,9 @@ feature 'organization flow' do
   let!(:org1) { create(:organization, division: division) }
 
   before do
+    # add country to correspond to currency in factories
+    create(:country, iso_code: 'US', name: 'United States')
+
     # add profile name for user
     @u_profile = user.profile
     @u_profile.first_name = 'Jay'

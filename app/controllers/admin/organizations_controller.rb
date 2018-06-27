@@ -102,4 +102,13 @@ class Admin::OrganizationsController < Admin::AdminController
       per_page: 10
     )
   end
+
+  def get_country_name(division)
+    if division.currency_id
+      currency = Currency.find(division.currency_id)
+      country = Country.find_by(iso_code: currency.country_code)
+      country.name
+    end
+  end
+  helper_method :get_country_name
 end
