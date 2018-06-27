@@ -90,7 +90,6 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def prep_form_vars
     @countries = Country.order(:name)
-    @division_choices = division_choices
     @people_choices = person_policy_scope(Person.all).order(:name)
     @notes = @org.notes.order(created_at: :desc)
 
