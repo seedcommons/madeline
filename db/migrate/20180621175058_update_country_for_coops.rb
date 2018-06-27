@@ -3,7 +3,7 @@ class UpdateCountryForCoops < ActiveRecord::Migration[5.1]
     orgs = Organization.where(country: nil)
 
     orgs.each do |o|
-      o.country = get_country(o)
+      o.country = get_country_for(o)
       o.save
     end
   end
@@ -13,7 +13,7 @@ class UpdateCountryForCoops < ActiveRecord::Migration[5.1]
 
   private
 
-  def get_country(org)
+  def get_country_for(org)
     currency_id = org.division.currency_id
     return unless currency_id
 
