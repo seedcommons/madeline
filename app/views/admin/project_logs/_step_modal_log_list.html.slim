@@ -1,0 +1,12 @@
+= render partial: "admin/project_logs/log_list"
+
+// Timeline information for latest logs
+table.hidden
+  tr.timeline-latest-logs
+    = render partial: "admin/timeline/logs", locals: {entry: @step, classes: "", latest_logs: @step.latest_logs, logs_available: @step.latest_logs.length}
+
+// Calendar step information for logs
+.hidden
+  - num_of_logs = @step.logs_count
+  - if num_of_logs > 0
+    = render partial: "admin/calendar/logs", locals: {num_of_logs: num_of_logs}

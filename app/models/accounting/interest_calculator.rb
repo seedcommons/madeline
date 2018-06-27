@@ -83,6 +83,7 @@ module Accounting
           txn_date: date,
           amount: 0, # Will be updated momentarily.
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
+          currency_id: loan.currency_id,
           description: I18n.t('transactions.interest_description', loan_id: loan.id),
           managed: true
         ) if add_int_tx?(txns_by_date[date], prev_tx)

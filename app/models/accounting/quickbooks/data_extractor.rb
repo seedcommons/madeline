@@ -66,7 +66,6 @@ module Accounting
       end
 
       def txn_type
-        # I think division here needs to be replaced with qb_division, right?
         line_items = txn.quickbooks_data['line_items']
         @int_rcv = qb_division.interest_receivable_account
         @int_inc = qb_division.interest_income_account
