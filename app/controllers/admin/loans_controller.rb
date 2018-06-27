@@ -146,7 +146,6 @@ class Admin::LoansController < Admin::ProjectsController
   end
 
   def prep_form_vars
-    @division_choices = division_choices
     @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)

@@ -92,7 +92,6 @@ class Admin::PeopleController < Admin::AdminController
   def prep_form_vars
     @countries = Country.order(:name)
     @organization_choices = organization_choices
-    @division_choices = division_choices
     @roles_choices = role_choices
     @notes = @person.notes.order(created_at: :desc)
   end
