@@ -1,7 +1,10 @@
 module AdminHelper
-  def division_select_options
-    [[I18n.t("divisions.shared.all"), nil]].concat(
-      current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
+  def division_select_options(include_root: true, include_all: false)
+    default_depth = [current_user.default_division.depth, 1].max
+    options = []
+    options << [I18n.t("divisions.shared.all"), nil] if include_all
+    options += options_tree(current_user.accessible_divisions.hash_tree, default_depth,
+      include_root: include_root)
   end
 
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
@@ -67,5 +70,21 @@ module AdminHelper
   # Displays Font Awesome icons
   def icon_tag(class_name)
     content_tag(:i, "", class: "fa fa-#{class_name}")
+  end
+
+  private
+
+  # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
+  # passed into a select menu, recursively padding children with spaces to show tree structure
+  def options_tree(hash_tree, default_depth, include_root: true)
+    options = []
+    hash_tree.each do |division, subtree|
+      if include_root || !division.root?
+        depth = [division.depth - default_depth, 0].max
+        options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
+      end
+      options += options_tree(subtree, default_depth)
+    end
+    options
   end
 end

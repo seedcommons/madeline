@@ -9,6 +9,7 @@
 
 //= require bootstrap-sprockets
 //= require jasny-bootstrap
+
 //= require select2-full
 //= require URI
 //= require shared/bootstrap-multi-modal-fix
@@ -29,6 +30,9 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
+
+//= require summernote/summernote-bs4.min
+//= require summernote-init
 
 //= require_self
 //= require_tree ./shared

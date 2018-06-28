@@ -51,7 +51,7 @@
 class Division < ActiveRecord::Base
   include DivisionBased
 
-  has_closure_tree dependent: :restrict_with_exception
+  has_closure_tree dependent: :restrict_with_exception, order: :name
   resourcify
   alias_attribute :super_division, :parent
 
