@@ -87,7 +87,7 @@ module ApplicationHelper
   # passed into a select menu, recursively padding children with spaces to show tree structure
   def options_tree(hash_tree, depth = 0, include_root: true)
     options = []
-    hash_tree.each do |division, subtree|
+    hash_tree.sort_by { |k,v| k.name }.to_h.each do |division, subtree|
       return options_tree(subtree) if !include_root && division.root?
       options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
       options += options_tree(subtree, depth + 1)
