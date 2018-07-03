@@ -74,11 +74,10 @@ module ApplicationHelper
   end
 
   def division_select_options(include_root: true, include_all: false, public: false)
-    default_depth = public ? 1 : [current_user.default_division.depth, 1].max
     divisions = public ? Division.published : current_user.accessible_divisions
     options = []
     options << [I18n.t("divisions.shared.all"), nil] if include_all
-    options += options_tree(divisions.hash_tree, default_depth,
+    options += options_tree(divisions.hash_tree,
       include_root: include_root)
   end
 
@@ -86,14 +85,13 @@ module ApplicationHelper
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
   # passed into a select menu, recursively padding children with spaces to show tree structure
-  def options_tree(hash_tree, default_depth, include_root: true)
+  def options_tree(hash_tree, depth = 0, include_root: true)
     options = []
     hash_tree.each do |division, subtree|
       if include_root || !division.root?
-        depth = [division.depth - default_depth, 0].max
         options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
       end
-      options += options_tree(subtree, default_depth)
+      options += options_tree(subtree, depth + 1)
     end
     options
   end
