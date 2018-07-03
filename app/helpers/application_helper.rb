@@ -73,11 +73,12 @@ module ApplicationHelper
     @app_version ||= File.read(File.join(Rails.root, "VERSION"))
   end
 
-  def division_select_options(include_root: true, include_all: false)
-    default_depth = [current_user.default_division.depth, 1].max
+  def division_select_options(include_root: true, include_all: false, public: false)
+    default_depth = public ? 1 : [current_user.default_division.depth, 1].max
+    divisions = public ? Division.published : current_user.accessible_divisions
     options = []
     options << [I18n.t("divisions.shared.all"), nil] if include_all
-    options += options_tree(current_user.accessible_divisions.hash_tree, default_depth,
+    options += options_tree(divisions.hash_tree, default_depth,
       include_root: include_root)
   end
 
