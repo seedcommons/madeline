@@ -88,9 +88,8 @@ module ApplicationHelper
   def options_tree(hash_tree, depth = 0, include_root: true)
     options = []
     hash_tree.each do |division, subtree|
-      if include_root || !division.root?
-        options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
-      end
+      return options_tree(subtree) if !include_root && division.root?
+      options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, division.id]
       options += options_tree(subtree, depth + 1)
     end
     options
