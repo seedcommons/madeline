@@ -12,3 +12,9 @@ end
 every 1.month, at: 'start of the month at 2am' do
   runner 'MonthlyInterestAccrualJob.perform_later'
 end
+
+# built in script job type is not updated for rails 4 and higher
+job_type :script, 'cd :path && RAILS_ENV=:environment bundle exec bin/:task :output'
+every :reboot do
+  script 'delayed_job restart'
+end
