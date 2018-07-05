@@ -3,3 +3,9 @@ body.admin nav .user-div-info li {
     display: block;
   }
 }
+
+li.select-division {
+  select {
+    margin-bottom: 1em;
+  }
+}
