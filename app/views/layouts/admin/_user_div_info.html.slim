@@ -1,15 +1,5 @@
 / The user, division change, and logout links.
 / Used in both the right side of banner and in slide-down menu for mobile.
-li
-  = link_to "javascript:void(0)", "data-expands": "division-dropdown"
-    i.fa.fa-retweet>
-    = t(selected_division.nil? ? "template.select_division" : "template.change_division")
-  = form_tag(select_admin_divisions_path, class: 'select_division_form') do
-    = select_tag(:division_id,
-      options_for_select(division_select_options(include_root: false, include_all: true), selected_division_id),
-      class: 'form-control',
-      :'data-expandable' => "division-dropdown")
-    = hidden_field_tag(:redisplay_url)
 
 li
   = link_to admin_person_path(current_user.profile), class: "profile-link",
@@ -22,3 +12,14 @@ li
     i.fa.fa-sign-out>
     - if size == "xs"
       = t("logout")
+
+li.select-division
+  = link_to "javascript:void(0)", "data-expands": "division-dropdown"
+    i.fa.fa-retweet>
+    = t(selected_division.nil? ? "template.select_division" : "template.change_division")
+  = form_tag(select_admin_divisions_path, class: 'select_division_form') do
+    = select_tag(:division_id,
+      options_for_select(division_select_options(include_root: false, include_all: true), selected_division_id),
+      class: 'form-control',
+      :'data-expandable' => "division-dropdown")
+    = hidden_field_tag(:redisplay_url)
