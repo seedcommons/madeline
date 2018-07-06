@@ -86,9 +86,9 @@
 
             - if response.has_text?
               - if response.text.present? && !response.not_applicable?
-                .view-element.answer = response.text.html_safe
+                .view-element.answer = sanitize(response.text, tags: %w(table tbody tr td))
               = f.input_field :"#{question.attribute_sym}[text]",
-                value: response.text.html_safe, as: :summernote
+                value: sanitize(response.text, tags: %w(table tbody tr td)), as: :summernote
 
             - if response.has_string?
               - if response.string.present? && !response.not_applicable?
