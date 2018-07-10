@@ -39,6 +39,14 @@
       .status-box
         table.info
           tr
+            th #{t(:division)}:
+            td
+              a href=public_loans_path(division: @loan.division.short_name)
+                = @loan.division.name
+          tr
+            th #{t(:coop)}:
+            td = @loan.organization.name
+          tr
             th #{t(:status)}:
             td = @loan.status
           tr
