@@ -87,9 +87,9 @@ class Loan < Project
     scoped = scoped.status(params[:status]) if params[:status] != 'all'
 
     if params[:division] != 'all'
-      division_ids = Division.find_by(short_name: params[:division])&.self_and_descendant_ids
+      division_ids = Division.find_by(short_name: params[:division])&.self_and_descendants&.select(&:public?)&.map(&:id)
     else
-      division_ids = Division.root.descendant_ids
+      division_ids = Division.root.descendants.select(&:public?)&.map(&:id)
     end
 
     scoped = scoped.where(division: division_ids)
