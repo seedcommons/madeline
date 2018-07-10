@@ -5,8 +5,13 @@ module Accounting
   module Quickbooks
     class Consumer
       def initialize
-        oauth_consumer_key = ENV.fetch('QB_OAUTH_CONSUMER_KEY')
-        oauth_consumer_secret = ENV.fetch('QB_OAUTH_CONSUMER_SECRET')
+        if ::Quickbooks.sandbox_mode
+          oauth_consumer_key = ENV.fetch('QB_SANDBOX_OAUTH_CONSUMER_KEY')
+          oauth_consumer_secret = ENV.fetch('QB_SANDBOX_OAUTH_CONSUMER_SECRET')
+        else
+          oauth_consumer_key = ENV.fetch('QB_OAUTH_CONSUMER_KEY')
+          oauth_consumer_secret = ENV.fetch('QB_OAUTH_CONSUMER_SECRET')
+        end
 
         @oauth_consumer = OAuth::Consumer.new(oauth_consumer_key, oauth_consumer_secret,
           site: 'https://oauth.intuit.com',

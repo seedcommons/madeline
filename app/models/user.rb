@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def accessible_divisions
-    division_scope.resolve.by_name
+    division_scope.resolve
   end
 
   def accessible_division_ids
