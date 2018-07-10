@@ -41,7 +41,8 @@
             td.facts.loan_item_facts
               .division
                 i.fa.fa-fw.fa-users>
-                = loan.division.name
+                a href=public_loans_path(division: loan.division.short_name)
+                  = loan.division.name
               .location
                 i.fa.fa-fw.fa-map-marker>
                 = loan.location

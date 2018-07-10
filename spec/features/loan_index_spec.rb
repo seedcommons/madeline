@@ -7,9 +7,9 @@ feature 'visit loan index page' do
   let!(:loan_kale) { create(:loan, :active, :featured, name: 'Kale Loan') }
 
   let!(:div_us) { create(:division, name: "United States", short_name: "us", loans: [loan_us]) }
-  let!(:div_pkmn) { create(:division, name: "Pokémon", short_name: "pkmn", loans: [loan_pkmn]) }
-  let!(:div_pika) { create(:division, name: "Pikachu", short_name: "pika", loans: [loan_pika], parent: div_pkmn) }
-  let!(:div_kale) { create(:division, name: "Kale", short_name: "kale", loans: [loan_kale], public: false) }
+  let!(:div_pkmn) { create(:division, name: "The Pokémon", short_name: "pkmn", loans: [loan_pkmn]) }
+  let!(:div_pika) { create(:division, name: "The Pikachu", short_name: "pika", loans: [loan_pika], parent: div_pkmn) }
+  let!(:div_kale) { create(:division, name: "The Kale", short_name: "kale", loans: [loan_kale], public: false) }
 
   let!(:loans) { [loan_us, loan_pkmn, loan_pika, loan_kale] }
 
@@ -119,6 +119,19 @@ feature 'visit loan index page' do
     context 'show only public divisions on dropdown' do
       scenario 'non-public divisions do not show' do
         expect(page.all('select#division option').map(&:value)).to eq %w(all pkmn pika us)
+      end
+    end
+
+    context 'show loans filtered by divisions' do
+      scenario '' do
+        click_on 'The Pokémon'
+        within('.no-more-tables') do
+          expect(page).not_to have_content('United States')
+        end
+        expect(page).to have_content('The Pokémon')
+        expect(page).to have_content('The Pikachu')
+        expect(page).to have_select('division', selected: 'The Pokémon')
+        expect(page.current_url).to have_content('/us/loans?division=pkmn')
       end
     end
   end
