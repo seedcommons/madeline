@@ -84,7 +84,7 @@ module ApplicationHelper
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
   # passed into a select menu, recursively padding children with spaces to show tree structure
-  def options_tree(hash_tree, depth = 0, include_root: true, public:)
+  def options_tree(hash_tree, depth = 0, include_root: true, public: false)
     options = []
     hash_tree.sort_by { |k,v| k.name }.to_h.each do |division, subtree|
       return options_tree(subtree) if !include_root && division.root?
