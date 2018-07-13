@@ -94,7 +94,6 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   def prep_form_vars
     @tab = params[:tab] || 'details'
     @tabs = %w(details timeline timeline_list logs calendar)
-    @division_choices = division_choices
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
   end
 
