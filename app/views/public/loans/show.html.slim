@@ -1,18 +1,5 @@
 - content_for :title, @loan.display_name
 
-/ Carousel of Loan Images
-div#loan-carousel.carousel.slide data-ride="carousel"
-  / Indicators
-  ol.carousel-indicators
-    - @pictures.each.with_index do |picture, i|
-      li data-target="#loan-carousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
-
-  / Wrapper for slides
-  div.carousel-inner role="listbox"
-    - @pictures.each.with_index do |picture, i|
-      div.item class="#{'active' if i.zero?}"
-        img.d-block.w-100 src="#{picture.item.large.url}" alt=""
-
 .loans.detail_page
   .row
     .col-xs-12
@@ -44,6 +31,19 @@ div#loan-carousel.carousel.slide data-ride="carousel"
         /       a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
         /         span.carousel-control-next-icon aria-hidden="true"
         /         span.sr-only Next
+
+        / Carousel of Loan Images
+        #loan-carousel.carousel.slide data-ride="carousel"
+          / Indicators
+          ol.carousel-indicators
+            - @pictures.each.with_index do |picture, i|
+              li data-target="#loan-carousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
+
+          / Wrapper for slides
+          .carousel-inner role="listbox"
+            - @pictures.each.with_index do |picture, i|
+              .item class="#{'active' if i.zero?}"
+                img.d-block.w-100 src="#{picture.item.large.url}" alt=""
 
     .col-md-5.sidebar.pull-right
       h2.section_title = t :about_this_project
