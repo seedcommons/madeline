@@ -13,18 +13,19 @@
       .detail_wrap
         h2.section_title = @loan.display_name
 
-        / Carousel of Loan Images
-        #loan-carousel.carousel.slide data-ride="carousel"
-          / Indicators
-          ol.carousel-indicators
-            - @pictures.each.with_index do |picture, i|
-              li data-target="#loan-carousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
+        a href=public_gallery_path
+          / Carousel of Loan Images
+          #loan-carousel.carousel.slide data-ride="carousel"
+            / Indicators
+            ol.carousel-indicators
+              - @pictures.each.with_index do |picture, i|
+                li data-target="#loan-carousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
 
-          / Wrapper for slides
-          .carousel-inner role="listbox"
-            - @pictures.each.with_index do |picture, i|
-              .item class="#{'active' if i.zero?}"
-                img.d-block.w-100 src="#{picture.item.large.url}" alt=""
+            / Wrapper for slides
+            .carousel-inner role="listbox"
+              - @pictures.each.with_index do |picture, i|
+                .item class="#{'active' if i.zero?}"
+                  img.d-block.w-100 src="#{picture.item.large.url}" alt=""
 
     .col-md-5.sidebar.pull-right
       h2.section_title = t :about_this_project
