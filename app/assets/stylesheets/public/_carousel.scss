@@ -7,14 +7,16 @@ $border-radius: 5px;
   background-color: #595959;
   border-radius: $border-radius;
 
-  .carousel-item {
-    height: 20em;
+  .carousel-inner {
+    .item {
+      height: 20em;
 
-    img {
-      position: relative;
-      overflow-y: hidden;
-      vertical-align: middle;
-      border-radius: $border-radius;
+      img {
+        position: relative;
+        overflow-y: hidden;
+        vertical-align: middle;
+        border-radius: $border-radius;
+      }
     }
   }
 
