@@ -15,9 +15,11 @@ feature 'division flow' do
     subject { division }
   end
 
-  scenario 'division name does not show in parent division dropdown' do
+  scenario "division name and parent division can't be the same" do
     visit admin_division_path(division)
     find('.edit-action').click
-    expect(page).to have_select('division_parent_id', visible: true, options: %w(- Jayita))
+    select 'Cream', from: 'division_parent_id'
+    click_on 'Update Division'
+    expect(page).to have_content('Name and Parent Division can not have the same value')
   end
 end
