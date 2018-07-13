@@ -8,7 +8,7 @@ class MS.Views.MediaModalView extends Backbone.View
     # Open image inside a modal
     $media_item = @$(e.currentTarget)
     url = $media_item.data('url')
-    caption = $media_item.find('.caption').html()
+    caption = $media_item.find('.full-caption').html()
     $('#mediaModal').find('img').attr('src', url)
-    $('#mediaModal').find('p').html(caption)
+    $('#mediaModal').find('.modal-title').html(caption)
     $('#mediaModal').modal('show')

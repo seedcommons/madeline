@@ -11,3 +11,15 @@
 .caption {
   margin: 0;
 }
+
+#mediaModal {
+  .modal-title {
+    display: inline-block;
+  }
+}
+
+figure {
+  .full-caption {
+    display: none;
+  }
+}
