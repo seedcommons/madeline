@@ -162,6 +162,10 @@ en:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+        division:
+          attributes:
+            parent:
+              invalid: 'Parent Division and Name can not have the same value'
         loan:
           attributes:
             primary_agent:

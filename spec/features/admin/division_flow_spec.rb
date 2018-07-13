@@ -20,6 +20,6 @@ feature 'division flow' do
     find('.edit-action').click
     select 'Cream', from: 'division_parent_id'
     click_on 'Update Division'
-    expect(page).to have_content('Name and Parent Division can not have the same value')
+    expect(page).to have_content('Parent Division and Name can not have the same value')
   end
 end
