@@ -165,7 +165,7 @@ en:
         division:
           attributes:
             parent:
-              invalid: 'Parent Division and Name can not have the same value'
+              invalid: 'Division and Parent Division cannot be the same'
         loan:
           attributes:
             primary_agent:
