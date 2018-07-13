@@ -13,25 +13,6 @@
       .detail_wrap
         h2.section_title = @loan.display_name
 
-        / - if @pictures.length > 0
-        /   a href=public_gallery_path
-        /     #loanImageCarousel.carousel.slide data-ride="carousel"
-        /       ol.carousel-indicators
-        /         - @pictures.each.with_index do |picture, i|
-        /           li data-target="#loanImageCarousel" data-slide-to="#{i}" class="#{'active' if i.zero?}"
-        / 
-        /       .carousel-inner
-        /         - @pictures.each do |picture|
-        /           .carousel-item
-        /             img.d-block.w-100 src="#{picture.item.large.url}" alt=""
-        / 
-        /       a.carousel-control-prev href="#loanImageCarousel" role="button" data-slide="prev"
-        /         span.carousel-control-prev-icon aria-hidden="true"
-        /         span.sr-only Previous
-        /       a.carousel-control-next href="#loanImageCarousel" role="button" data-slide="next"
-        /         span.carousel-control-next-icon aria-hidden="true"
-        /         span.sr-only Next
-
         / Carousel of Loan Images
         #loan-carousel.carousel.slide data-ride="carousel"
           / Indicators
@@ -70,37 +51,31 @@
 
     .clearfix
 
-  / Tabs use Bootstrap styling and jQuery UI tab functionality
-  / #tabs.row.loan_detail_tabs
-  /   .col-xs-12
-  /     ul.nav.nav-tabs role="tablist"
-  /       li role="presentation" class="active"
-  /         a href="#details" aria-controls="details" role="tab" data-toggle="tab" = t :details
-  /       li role="presentation" class="active"
-  /         a href="#other_loans" aria-controls="other_loans" role="tab" data-toggle="tab" = t :past_loans
-  /   #about_loan.tab-content.col-xs-12
-  /     #details.tab-pane.active role="tabpanel"
-  /       p.loan_description
-  /         - if @loan.details
-  /           = render_translation(@loan.details)
-  /         - else
-  /           .notfound = t :no_description_found
-  /     #other_loans.tab-pane role="tabpanel"
-  /       - if !@other_loans || @other_loans.count <= 1
-  /         p.empty = t :first_loan
-  /       - else
-  /         h4 = t :all_loans
-  /         table.table.other_loans.rowlink data-link="row"
-  /           - @other_loans.each do |loan|
-  /             tr class="#{'selected' if loan.id == @loan.id}"
-  /               td
-  /                 - if loan.id == @loan.id
-  /                   = loan.signing_date_long
-  /                 - else
-  /                   a href=public_loan_path = loan.signing_date_long
-  /               td = format_currency(loan.amount, loan.currency)
-  /               td = loan.status
-  /               td.hidden-xs style="width: 50%" = render_translation(loan.details)
+  section.details
+    h4 = t :details
+    p.loan_description
+      - if @loan.details
+        = render_translation(@loan.details)
+      - else
+        .notfound = t :no_description_found
+
+  section.other-loans
+    - if !@other_loans || @other_loans.count <= 1
+      h4 = t :past_loans
+      p.empty = t :first_loan
+    - else
+      h4 = t :all_loans
+      table.table.other_loans.rowlink data-link="row"
+        - @other_loans.each do |loan|
+          tr class="#{'selected' if loan.id == @loan.id}"
+            td
+              - if loan.id == @loan.id
+                = loan.signing_date_long
+              - else
+                a href=public_loan_path = loan.signing_date_long
+            td = format_currency(loan.amount, loan.currency)
+            td = loan.status
+            td.hidden-xs style="width: 50%" = render_translation(loan.details)
 
 javascript:
   $(function(){

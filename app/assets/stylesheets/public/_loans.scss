@@ -323,3 +323,16 @@ li.loan {
     background-color: #f3f3f3;
   }
 }
+
+.loans {
+  &.detail_page {
+    section {
+      background: none;
+      padding: 1em 0;
+
+      &.details {
+        padding-top: 3em;
+      }
+    }
+  }
+}
