@@ -61,7 +61,8 @@
 
   = f.input :country
     .view-element = @org.country.try(:name)
-    = f.input_field :country_id, collection: @countries, selected: get_country_name(@org.division)
+    = f.input_field :country_id, collection: @countries, include_blank: true,
+        selected: get_country_name(@org.division)
 
   = f.input :website
     - unless @org.website.nil?
