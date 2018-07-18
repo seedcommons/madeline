@@ -73,26 +73,26 @@ module ApplicationHelper
     @app_version ||= File.read(File.join(Rails.root, "VERSION"))
   end
 
-  def division_select_options(include_root: true, include_all: false, public: false)
-    divisions = public ? Division.published : current_user.accessible_divisions
+  def division_select_options(include_root: true, include_all: false, public_only: false)
+    divisions = public_only ? Division.published : current_user.accessible_divisions
     options = []
-    options << [I18n.t("divisions.shared.all"), (public ? 'all' : nil)] if include_all
-    options += options_tree(divisions.hash_tree, include_root: include_root, public: public)
+    options << [I18n.t("divisions.shared.all"), (public_only ? 'all' : nil)] if include_all
+    options += options_tree(divisions.hash_tree, include_root: include_root, public_only: public_only)
   end
 
   private
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
   # passed into a select menu, recursively padding children with spaces to show tree structure
-  def options_tree(hash_tree, depth = 0, include_root: true, public: false)
+  def options_tree(hash_tree, depth = 0, include_root: true, public_only: false)
     options = []
     hash_tree.sort_by { |k,v| k.name }.to_h.each do |division, subtree|
       return options_tree(subtree) if !include_root && division.root?
 
-      value = public ? division.short_name : division.id
+      value = public_only ? division.short_name : division.id
 
       options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, value]
-      options += options_tree(subtree, depth + 1, public: public)
+      options += options_tree(subtree, depth + 1, public_only: public_only)
     end
     options
   end
