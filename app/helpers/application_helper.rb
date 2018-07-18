@@ -77,7 +77,7 @@ module ApplicationHelper
     @app_version ||= File.read(File.join(Rails.root, "VERSION"))
   end
 
-  def division_select_options(include_root: true, include_all: false, public_only: false)
+  def division_select_options(include_root: true, include_all: false, public_only: true)
     divisions = division_scope.accessible_divisions(public_only: public_only)
     options = []
     options << [I18n.t("divisions.shared.all"), (public_only ? 'all' : nil)] if include_all

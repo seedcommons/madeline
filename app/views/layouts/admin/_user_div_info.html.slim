@@ -6,7 +6,7 @@ li
     = t(selected_division.nil? ? "template.select_division" : "template.change_division")
   = form_tag(select_admin_divisions_path, class: 'select_division_form') do
     = select_tag(:division_id,
-      options_for_select(division_select_options(include_root: false, include_all: true), selected_division_id),
+      options_for_select(division_select_options(include_root: false, include_all: true, public_only: false), selected_division_id),
       class: 'form-control',
       :'data-expandable' => "division-dropdown")
     = hidden_field_tag(:redisplay_url)
