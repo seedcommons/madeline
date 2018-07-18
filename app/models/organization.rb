@@ -49,14 +49,13 @@ class Organization < ActiveRecord::Base
   include DivisionBased
 
   belongs_to :division
-  belongs_to :country, required: true
+  belongs_to :country
   belongs_to :primary_contact, class_name: 'Person'
 
   has_many :loans, dependent: :destroy
   has_many :people, foreign_key: :primary_organization_id, dependent: :nullify
 
-  validates :name, presence: true
-  validates :division_id, presence: true
+  validates :name, :division, :country, presence: true
 
   validate :primary_contact_is_member
 
