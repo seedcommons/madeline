@@ -41,6 +41,10 @@ module ApplicationHelper
     DivisionPolicy.new(current_user, record)
   end
 
+  def division_scope
+    DivisionPolicy::Scope.new(current_user, Division)
+  end
+
   def organization_policy(record)
     OrganizationPolicy.new(current_user, record)
   end
@@ -74,7 +78,7 @@ module ApplicationHelper
   end
 
   def division_select_options(include_root: true, include_all: false, public_only: false)
-    divisions = public_only ? Division.published : current_user.accessible_divisions
+    divisions = division_scope.accessible_divisions(public_only: public_only)
     options = []
     options << [I18n.t("divisions.shared.all"), (public_only ? 'all' : nil)] if include_all
     options += options_tree(divisions.hash_tree, include_root: include_root, public_only: public_only)
