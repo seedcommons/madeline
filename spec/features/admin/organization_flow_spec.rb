@@ -6,11 +6,10 @@ feature 'organization flow' do
   let(:admin) { create_admin(division) }
   let(:user) { create_member(division) }
   let!(:org1) { create(:organization, division: division) }
+  # add country to correspond to currency in factories
+  let!(:country) { create(:country, iso_code: 'US', name: 'United States') }
 
   before do
-    # add country to correspond to currency in factories
-    create(:country, iso_code: 'US', name: 'United States')
-
     # add profile name for user
     @u_profile = user.profile
     @u_profile.first_name = 'Jay'
@@ -73,6 +72,7 @@ feature 'organization flow' do
   scenario 'new coops come with countries' do
     visit new_admin_organization_path
     fill_in 'organization_name', with: 'Jayita'
+    select country.name
     click_on 'Create Organization'
 
     expect(page).to have_content('Jayita')
