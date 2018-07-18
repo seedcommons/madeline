@@ -84,11 +84,12 @@
               = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
                 value: response.number
 
+            - tags = %w(table tbody tr td b i u ol ul p)
             - if response.has_text?
               - if response.text.present? && !response.not_applicable?
-                .view-element.answer = simple_format(response.text)
+                .view-element.answer = sanitize(response.text, tags: tags)
               = f.input_field :"#{question.attribute_sym}[text]",
-                value: simple_format(response.text), as: :summernote
+                value: sanitize(response.text, tags: tags), as: :summernote
 
             - if response.has_string?
               - if response.string.present? && !response.not_applicable?
