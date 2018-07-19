@@ -15,7 +15,7 @@
       .view-element
         - if @person.division
           = link_to @person.division.name, admin_division_path(@person.division)
-      = f.input_field :division_id, collection: division_select_options, include_blank: false
+      = f.input_field :division_id, collection: division_select_options(public_only: false), include_blank: false
     - else
       = @person.division.try(:name)
 

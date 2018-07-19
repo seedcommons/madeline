@@ -11,8 +11,6 @@ class Public::LoansController < Public::PublicController
           order('signing_date DESC'))
     authorize @loans
 
-    @divisions = Division.published.pluck(:name, :short_name)
-
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath
   end
