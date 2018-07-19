@@ -118,7 +118,7 @@ feature 'visit loan index page' do
 
     context 'show only public divisions on dropdown' do
       scenario 'non-public divisions do not show' do
-        expect(page.all('select#division option').map(&:value)).to eq %w(all us pkmn pika)
+        expect(page.all('select#division option').map(&:value)).to eq %w(all pkmn pika us)
       end
     end
   end
