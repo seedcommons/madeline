@@ -49,7 +49,7 @@ en:
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
-        criteria_progress: "Criteria"
+        criteria_progress: "Credit Memo"
         amount: "Amount"
         currency: "Currency"
         primary_agent: "Point Person"
