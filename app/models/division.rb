@@ -92,6 +92,8 @@ class Division < ActiveRecord::Base
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
+  before_save :generate_short_name
+
   scope :by_name, -> { order("LOWER(divisions.name)") }
   scope :published, -> { where(public: true) }
 
@@ -162,5 +164,9 @@ class Division < ActiveRecord::Base
 
   def parent_division_and_name
     errors.add(:parent, :invalid) if parent&.name == name
+  end
+
+  def generate_short_name
+    self.short_name = "#{name.parameterize}-#{SecureRandom.uuid}" if short_name.nil?
   end
 end
