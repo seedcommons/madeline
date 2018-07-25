@@ -59,4 +59,14 @@ describe Division, :type => :model do
     root_division
     expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+  describe 'short name' do
+    let(:division) { create(:division, :without_short_name) }
+
+    it 'generates a short name if one is not provided' do
+      expect(division).to be_valid
+      expect(division.short_name).not_to be_nil
+    end
+  end
+
 end

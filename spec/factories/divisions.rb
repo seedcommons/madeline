@@ -70,6 +70,10 @@ FactoryBot.define do
         division.qb_connection = create(:accounting_quickbooks_connection, division: division)
       end
     end
+
+    trait :without_short_name do
+      short_name nil
+    end
   end
 end
 
