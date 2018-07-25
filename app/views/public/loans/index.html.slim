@@ -14,7 +14,7 @@
             = link_to t(:show_all), @params.merge(status: 'all', pg: nil)
       .country
         = label_tag(:division, "#{t :division}: ")
-        = select_tag(:division, options_for_select([[t(:show_all), 'all']] + @divisions, @params[:division]),
+        = select_tag(:division, options_for_select(division_select_options(include_all: true), @params[:division]),
             onchange: "this.form.submit()")
 
 .row
@@ -29,6 +29,8 @@
               a href=public_loan_path(params[:site], loan)
                 .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
             td.loan_item_desc
+              h4
+                a href=public_loan_path(params[:site], loan) = loan.organization.name
               h5.coop_name
                 a href=public_loan_path(params[:site], loan) = loan.display_name
               p.about_coop = render_translation(loan.summary)
@@ -37,6 +39,10 @@
                   span.hover_line> = t :more_details
                   i.fa.fa-chevron-right
             td.facts.loan_item_facts
+              .division
+                i.fa.fa-fw.fa-users>
+                a href=public_loans_path(division: loan.division.short_name)
+                  = loan.division.name
               .location
                 i.fa.fa-fw.fa-map-marker>
                 = loan.location

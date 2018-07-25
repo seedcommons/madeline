@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 feature 'organization flow' do
-  let(:division) { create(:division) }
+  let(:currency) { create(:currency) }
+  let(:division) { create(:division, currency_id: currency.id) }
   let(:admin) { create_admin(division) }
   let(:user) { create_member(division) }
   let!(:org1) { create(:organization, division: division) }
+  # add country to correspond to currency in factories
+  let!(:country) { create(:country, iso_code: 'US', name: 'United States') }
 
   before do
     # add profile name for user
@@ -64,5 +67,17 @@ feature 'organization flow' do
     # when the organization with the note is visited
     visit admin_organization_path(org1)
     expect(page).to have_content(org1.name)
+  end
+
+  scenario 'new coops come with countries' do
+    visit new_admin_organization_path
+    fill_in 'organization_name', with: 'Jayita'
+    select country.name
+    click_on 'Create Organization'
+
+    expect(page).to have_content('Jayita')
+    expect(page).to have_content('Record was successfully created')
+    expect(page).to have_current_path(admin_organization_path(Organization.last))
+    expect(page).to have_content('United States')
   end
 end
