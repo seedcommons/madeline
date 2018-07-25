@@ -60,10 +60,15 @@ describe Division, :type => :model do
     expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  describe 'short name' do
-    let(:division) { create(:division, :without_short_name) }
+  context 'short name' do
+    let(:division) { create(:division, :without_short_name, name: 'trouble') }
 
     it 'generates a short name if one is not provided' do
+      expect(division).to be_valid
+      expect(division.short_name).not_to be_nil
+    end
+
+    it 'generates a short name for division with the same name' do
       expect(division).to be_valid
       expect(division.short_name).not_to be_nil
     end
