@@ -167,7 +167,12 @@ class Division < ActiveRecord::Base
   end
 
   def generate_short_name
-    self.short_name = if Division.find_by(name: name) && short_name.nil?
+    return if short_name.present?
+
+    # if division name is just dashes, it will use just the uuid for the short name
+    self.short_name = if name.parameterize == ''
+                        "-#{SecureRandom.uuid}"
+                      elsif Division.find_by(name: name) && short_name.nil?
                         "#{name.parameterize}-#{SecureRandom.uuid}"
                       elsif short_name.nil?
                         name.parameterize
