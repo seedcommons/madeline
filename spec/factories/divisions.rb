@@ -58,7 +58,6 @@ FactoryBot.define do
     name { Faker::Address.city }
     parent { root_division }
     public true
-    sequence(:short_name) { |n| "#{Faker::Lorem.word}-#{n}" }
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account
@@ -69,10 +68,6 @@ FactoryBot.define do
         # This is needed for Division#qb_division to work properly
         division.qb_connection = create(:accounting_quickbooks_connection, division: division)
       end
-    end
-
-    trait :without_short_name do
-      short_name nil
     end
   end
 end

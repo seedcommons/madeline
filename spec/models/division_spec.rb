@@ -61,16 +61,23 @@ describe Division, :type => :model do
   end
 
   context 'short name' do
-    let(:division) { create(:division, :without_short_name, name: 'trouble') }
 
-    it 'generates a short name if one is not provided' do
-      expect(division).to be_valid
-      expect(division.short_name).not_to be_nil
+    let!(:division_1) { create(:division, name: 'trouble') }
+    let!(:division_2) { create(:division, name: 'trouble', notify_on_new_logs: true) }
+
+    describe do
+
+      it 'generates a short name if one is not provided' do
+        expect(division_1.short_name).to eq('trouble')
+      end
     end
 
-    it 'generates a short name for division with the same name' do
-      expect(division).to be_valid
-      expect(division.short_name).not_to be_nil
+    describe do
+
+      it 'generates a short name for division with the same name' do
+        # can not assert the uuid string so going with the hyphen after short_name expectation
+        expect(division_2.short_name).to include('trouble-')
+      end
     end
   end
 
