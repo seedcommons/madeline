@@ -71,6 +71,10 @@ section.questionnaires {
     margin-bottom: 1em;
   }
 
+  .note-editable li, .answer li {
+    min-height: 1em;
+  }
+
   .question-label {
     margin-bottom: 1em;
     font-weight: bold;
