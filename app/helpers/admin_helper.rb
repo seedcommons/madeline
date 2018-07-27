@@ -1,9 +1,4 @@
 module AdminHelper
-  def division_select_options
-    [[I18n.t("divisions.shared.all"), nil]].concat(
-      current_user.accessible_divisions.reject(&:root?).map{ |d| [d.name, d.id] })
-  end
-
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
     include_blank_choice: true, classes: '')
     model_field = model.send(field_name)

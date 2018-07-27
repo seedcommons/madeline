@@ -51,7 +51,7 @@
 class Division < ActiveRecord::Base
   include DivisionBased
 
-  has_closure_tree dependent: :restrict_with_exception
+  has_closure_tree dependent: :restrict_with_exception, order: :name
   resourcify
   alias_attribute :super_division, :parent
 
@@ -88,6 +88,7 @@ class Division < ActiveRecord::Base
   has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
+  validate :parent_division_and_name
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
 
@@ -157,5 +158,9 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
+  end
+
+  def parent_division_and_name
+    errors.add(:parent, :invalid) if parent&.name == name
   end
 end

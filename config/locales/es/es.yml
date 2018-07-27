@@ -48,7 +48,7 @@ es:
         name: "Nombre"
         loan_type: "Tipo de Préstamo"
         status: "Estado"
-        criteria_progress: "Criterios"
+        criteria_progress: "Memo del Crédito"
         amount: "Monto"
         currency: "Moneda"
         primary_agent: "Responsable"
@@ -161,6 +161,10 @@ es:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
+        division:
+          attributes:
+            parent:
+              invalid: 'División y División Principal no pueden ser las mismas'
         loan:
           attributes:
             primary_agent:
@@ -171,6 +175,10 @@ es:
           attributes:
             primary_contact:
               invalid: 'El Contacto Principal debe pertenecer a la organización'
+        media:
+          attributes:
+            item:
+              reattach: "Por favor, volver a adjuntar la imagen"
         timeline_entry:
           attributes:
             scheduled_end_date:
@@ -345,6 +353,7 @@ es:
     created: "Creado"
     caption: "Epígrafe"
     condense_all: "Condensar Todo"
+    deleted_user: "Usario Borrado"
     description: "Descripción"
     details: "Detalles"
     division: "División"

@@ -1,0 +1,11 @@
+body.admin nav .user-div-info li {
+  &.select-division {
+    display: block;
+  }
+}
+
+li.select-division {
+  select {
+    margin-bottom: 1em;
+  }
+}
