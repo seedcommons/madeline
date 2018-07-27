@@ -439,6 +439,18 @@ describe ProjectStep, type: :model do
           step_level_3.reload
         end
       end
+
+      context 'late precedent step' do
+        let(:step) { create(:project_step, scheduled_start_date: start_date,
+          scheduled_duration_days: duration) }
+        let(:new_step) { create(:project_step, parent: step) }
+        let(:start_date) { Date.civil(2016, 3, 4) }
+        let(:duration) { 2 }
+
+        it 'does not set the subsequent step as late'do
+          expect(new_step.scheduled_start_date).to eq(Date.today)
+        end
+      end
     end
   end
 end
