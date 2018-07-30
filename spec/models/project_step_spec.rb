@@ -374,7 +374,7 @@ describe ProjectStep, type: :model do
         end
 
         describe 'cascading date adjustment' do
-          let(:offset_days) { 5 }
+          let(:offset_days) { 1 }
           let!(:original_end_date) { step.scheduled_end_date }
 
           shared_examples_for "children dates are correct" do
