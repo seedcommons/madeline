@@ -336,6 +336,7 @@ describe ProjectStep, type: :model do
 
       describe 'parent step not late' do
         let(:parent_duration) { (Date.today - parent_start).to_i }
+
         it 'scheduled_start_date must match parent end + 1' do
           step.scheduled_start_date = parent_end + 29
           expect(step).to_not be_valid
@@ -344,9 +345,10 @@ describe ProjectStep, type: :model do
     end
 
     describe 'a step with a child and grandchild' do
-      subject(:step) { create(:project_step, :with_schedule_tree) }
+      subject(:step) { create(:project_step, :with_schedule_tree, scheduled_start_date: step_start) }
       let(:step_level_2) { step.schedule_children.first }
       let(:step_level_3) { step_level_2.schedule_children.first }
+      let(:step_start) { Date.civil(2016, 3, 4) }
 
       it 'has no parent' do
         expect(step.schedule_parent).to be_nil
@@ -360,80 +362,84 @@ describe ProjectStep, type: :model do
         expect(step.schedule_children.reduce(0) { |count, gc| count + gc.schedule_children.count }).to eq 9
       end
 
-      it 'level 2 children start matches level 1 end' do
-        expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date + 1
-      end
+      describe 'parents are not late' do
+        let(:step_start) { Date.today }
 
-      it 'level 3 children start matches level 2 end' do
-        expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date + 1
-      end
-
-      describe 'cascading date adjustment' do
-        let(:offset_days) { 5 }
-        let!(:original_end_date) { step.scheduled_end_date }
-
-        shared_examples_for "children dates are correct" do
-          it 'level 1 display_end_date is updated by the expected offset' do
-            expect(step.display_end_date).to eq original_end_date + offset_days
-          end
-
-          # We use display_*_date here and elsewhere because that is the
-          # best known date and thus the most important.
-          it 'level 2 children start matches level 1 end' do
-            expect(step_level_2.display_start_date).to eq step.display_end_date + 1
-          end
-
-          it 'level 3 children start matches level 2 end' do
-            expect(step_level_3.display_start_date).to eq step_level_2.display_end_date + 1
-          end
+        it 'level 2 children start matches level 1 end' do
+          expect(step_level_2.scheduled_start_date).to eq step.scheduled_end_date + 1
         end
 
-        context 'level 1 scheduled_start_date is updated' do
-          before do
-            step.scheduled_start_date += offset_days
-            save_and_reload_steps
-          end
-
-          it_behaves_like "children dates are correct"
+        it 'level 3 children start matches level 2 end' do
+          expect(step_level_3.scheduled_start_date).to eq step_level_2.scheduled_end_date + 1
         end
 
-        context 'level 1 duration is updated' do
-          before do
-            step.scheduled_duration_days += offset_days
-            save_and_reload_steps
+        describe 'cascading date adjustment' do
+          let(:offset_days) { 5 }
+          let!(:original_end_date) { step.scheduled_end_date }
+
+          shared_examples_for "children dates are correct" do
+            it 'level 1 display_end_date is updated by the expected offset' do
+              expect(step.display_end_date).to eq original_end_date + offset_days
+            end
+
+            # We use display_*_date here and elsewhere because that is the
+            # best known date and thus the most important.
+            it 'level 2 children start matches level 1 end' do
+              expect(step_level_2.display_start_date).to eq step.display_end_date + 1
+            end
+
+            it 'level 3 children start matches level 2 end' do
+              expect(step_level_3.display_start_date).to eq step_level_2.display_end_date + 1
+            end
           end
 
-          it_behaves_like "children dates are correct"
-        end
+          context 'level 1 scheduled_start_date is updated' do
+            before do
+              step.scheduled_start_date += offset_days
+              save_and_reload_steps
+            end
 
-        context 'level 1 actual_end_date is set' do
-          before do
-            step.actual_end_date = step.scheduled_end_date + offset_days
-            save_and_reload_steps
+            it_behaves_like "children dates are correct"
           end
 
-          it_behaves_like "children dates are correct"
-        end
+          context 'level 1 duration is updated' do
+            before do
+              step.scheduled_duration_days += offset_days
+              save_and_reload_steps
+            end
 
-        context 'level 1 actual_end_date is set and then scheduled duration is changed' do
-          before do
-            step.actual_end_date = step.scheduled_end_date + offset_days
-
-            # Changing the scheduled duration should be meaningless at this point because
-            # the actual_end_date is set.
-            step.scheduled_duration_days = 50
-
-            save_and_reload_steps
+            it_behaves_like "children dates are correct"
           end
 
-          it_behaves_like "children dates are correct"
-        end
+          context 'level 1 actual_end_date is set' do
+            before do
+              step.actual_end_date = step.scheduled_end_date + offset_days
+              save_and_reload_steps
+            end
 
-        def save_and_reload_steps
-          step.save!
-          step.reload
-          step_level_2.reload
-          step_level_3.reload
+            it_behaves_like "children dates are correct"
+          end
+
+          context 'level 1 actual_end_date is set and then scheduled duration is changed' do
+            before do
+              step.actual_end_date = step.scheduled_end_date + offset_days
+
+              # Changing the scheduled duration should be meaningless at this point because
+              # the actual_end_date is set.
+              step.scheduled_duration_days = 50
+
+              save_and_reload_steps
+            end
+
+            it_behaves_like "children dates are correct"
+          end
+
+          def save_and_reload_steps
+            step.save!
+            step.reload
+            step_level_2.reload
+            step_level_3.reload
+          end
         end
       end
     end
