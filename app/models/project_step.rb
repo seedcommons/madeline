@@ -58,7 +58,7 @@ class ProjectStep < TimelineEntry
 
   validates :project_id, :step_type_value, presence: true
   validate :unfinalize_allowed
-  validate :validate_scheduled_start_date
+  validate :validate_scheduled_start_date, unless: :parent_step_is_late
   validate :duration_is_over_0
 
   before_update :handle_old_start_date_logic
@@ -362,11 +362,20 @@ class ProjectStep < TimelineEntry
   private
 
   def validate_scheduled_start_date
+    # binding.pry
     # schedule_parent&.days_late can't be used because we are comparing on three levels
     if schedule_parent
-      if display_start_date != schedule_parent.dependent_step_start_date && schedule_parent.days_late <= 0
+      if display_start_date != schedule_parent.dependent_step_start_date
         errors.add(:scheduled_start_date, "start date must match precedent step end date")
       end
+    end
+  end
+
+  def parent_step_is_late
+    return unless scheduled_start_date
+
+    if schedule_parent
+      schedule_parent.days_late > 0
     end
   end
 
