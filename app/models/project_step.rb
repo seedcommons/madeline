@@ -142,6 +142,11 @@ class ProjectStep < TimelineEntry
 
   # Gets best known start date. Can be nil.
   def display_start_date
+    # schedule_parent&.days_late can't be used because we are comparing numbers
+    if schedule_parent
+      return Date.today if scheduled_start_date && schedule_parent.days_late > 0
+    end
+
     scheduled_start_date
   end
 
