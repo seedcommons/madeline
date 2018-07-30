@@ -142,7 +142,7 @@ class ProjectStep < TimelineEntry
 
   # Gets best known start date. Can be nil.
   def display_start_date
-    # schedule_parent&.days_late can't be used because we are comparing numbers
+    # schedule_parent&.days_late can't be used because we are comparing on three levels
     if schedule_parent
       return Date.today if scheduled_start_date && schedule_parent.days_late > 0
     end
@@ -152,6 +152,11 @@ class ProjectStep < TimelineEntry
 
   # Gets best known end date. Can be nil.
   def display_end_date
+    # schedule_parent&.days_late can't be used because we are comparing on three levels
+    if schedule_parent
+      return if schedule_parent.days_late > 0
+    end
+
     actual_end_date || scheduled_end_date
   end
 
@@ -362,7 +367,7 @@ class ProjectStep < TimelineEntry
   private
 
   def validate_scheduled_start_date
-    # schedule_parent&.days_late can't be used because we are comparing numbers
+    # schedule_parent&.days_late can't be used because we are comparing on three levels
     if schedule_parent
       if display_start_date != schedule_parent.dependent_step_start_date && schedule_parent.days_late <= 0
         errors.add(:scheduled_start_date, "start date must match precedent step end date")
