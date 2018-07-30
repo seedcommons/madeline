@@ -321,31 +321,24 @@ describe ProjectStep, type: :model do
         expect(step.scheduled_start_date).to eq parent_end + 1
       end
 
-      it 'scheduled_start_date must match parent end + 1' do
+      it 'scheduled_start_date does not match parent end + 1 if parent step is late' do
         step.scheduled_start_date = parent_end + 29
-        expect(step).to_not be_valid
+        expect(step).to be_valid
       end
 
-      context 'when step is orphaned' do
-        before do
-          step.schedule_parent_id = nil
-          step.save!
-        end
+      it 'keeps scheduled_duration_days' do
+        expect(step.scheduled_duration_days).to eq step_duration
+      end
 
-        it 'has no schedule_parent_id' do
-          expect(step.schedule_parent_id).to be_nil
-        end
+      it 'keeps scheduled_end_date' do
+        expect(step.scheduled_end_date).to eq parent_end + step_duration
+      end
 
-        it 'keeps scheduled_start_date' do
-          expect(step.scheduled_start_date).to eq parent_end + 1
-        end
-
-        it 'keeps scheduled_duration_days' do
-          expect(step.scheduled_duration_days).to eq step_duration
-        end
-
-        it 'keeps scheduled_end_date' do
-          expect(step.scheduled_end_date).to eq parent_end + step_duration
+      describe 'parent step not late' do
+        let(:parent_duration) { (Date.today - parent_start).to_i }
+        it 'scheduled_start_date must match parent end + 1' do
+          step.scheduled_start_date = parent_end + 29
+          expect(step).to_not be_valid
         end
       end
     end

@@ -362,12 +362,8 @@ class ProjectStep < TimelineEntry
   private
 
   def validate_scheduled_start_date
-    # binding.pry
-    # schedule_parent&.days_late can't be used because we are comparing on three levels
-    if schedule_parent
-      if display_start_date != schedule_parent.dependent_step_start_date
-        errors.add(:scheduled_start_date, "start date must match precedent step end date")
-      end
+    if schedule_parent && display_start_date != schedule_parent.dependent_step_start_date
+      errors.add(:scheduled_start_date, "start date must match precedent step end date")
     end
   end
 
