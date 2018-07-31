@@ -144,7 +144,7 @@ class ProjectStep < TimelineEntry
   def display_start_date
     # schedule_parent&.days_late can't be used because we are comparing on three levels
     if schedule_parent
-      return Date.today if scheduled_start_date && schedule_parent.days_late > 0
+      return Date.today if parent_late?
     end
 
     scheduled_start_date
@@ -153,7 +153,7 @@ class ProjectStep < TimelineEntry
   # Gets best known end date. Can be nil.
   def display_end_date
     if schedule_parent
-      return Date.today + scheduled_duration_days if scheduled_start_date && schedule_parent.days_late > 0
+      return Date.today + scheduled_duration_days if parent_late?
     end
 
     actual_end_date || scheduled_end_date
@@ -377,6 +377,10 @@ class ProjectStep < TimelineEntry
     if schedule_parent
       schedule_parent.days_late > 0
     end
+  end
+
+  def parent_late?
+    scheduled_start_date && schedule_parent.days_late > 0
   end
 
   def copy_schedule_parent_date
