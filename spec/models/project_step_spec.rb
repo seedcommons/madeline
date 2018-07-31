@@ -286,6 +286,10 @@ describe ProjectStep, type: :model do
         it 'does not set the subsequent step as late if parent is late'do
           expect(step.display_start_date).to eq(Date.today)
         end
+
+        it 'updates step end date if parent is late'do
+          expect(step.display_end_date).to eq(Date.today + duration)
+        end
       end
     end
 
