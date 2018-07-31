@@ -92,62 +92,65 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  context 'with scheduled children' do
-    # Creates a timeline and returns nodes stored in a hash.
-    let!(:nodes) { ProjectGroupFactoryHelper.create_full_timeline }
-    let(:loan) { nodes[:root].project }
+  describe 'parent is not late' do
+    context 'with scheduled children' do
+      # Creates a timeline and returns nodes stored in a hash.
+      let!(:nodes) { ProjectGroupFactoryHelper.create_full_timeline }
+      let(:loan) { nodes[:root].project }
 
-    # Break each of the nodes out into a let so that we can examine them individually.
-    ProjectGroupFactoryHelper::NODE_NAMES.each do |name|
-      let(name) { nodes[name] }
-    end
+      # We need to rebuild these references because we're using these examples for both
+      # the old and the new loan.
+      let(:root) { subject.root_timeline_entry }
+      let(:s1) { root.c[3] }
+      let(:g3_s3) { root.c[2].c[2] }
+      let(:g5_s1) { root.c[5].c[0] }
 
-    before do
-      # See ProjectGroupFactoryHelper for the layout of nodes in the timeline.
-      # We introduce some schedule dependencies in such a way that one of the dependencies
-      # actually goes downward instead of upward.
-      # g3_s3 is sorted above s1 because g3 has an early step. But we're going to make g3_s3 depend
-      # on s1, which won't change the sort order, but is a downward depenendency.
-      g3_s3.update_attributes!(schedule_parent_id: s1.id)
-      g5_s1.update_attributes!(schedule_parent_id: g3_s3.id)
-    end
-
-    shared_examples_for 'scheduled loan' do
-      it 'has been properly scheduled' do
-        # We need to rebuild these references because we're using these examples for both
-        # the old and the new loan.
-        root = subject.root_timeline_entry
-        s1 = root.c[3]
-        g3_s3 = root.c[2].c[2]
-        g5_s1 = root.c[5].c[0]
-
-        expect(s1.scheduled_start_date).to eq Date.parse('2017-02-28')
-        expect(s1.scheduled_duration_days).to eq 30
-        expect(s1.schedule_parent).to be_nil
-
-        expect(g3_s3.scheduled_start_date).to eq Date.parse('2017-03-30')
-        expect(g3_s3.scheduled_duration_days).to eq 5
-        expect(g3_s3.schedule_parent).to eq s1
-
-        # start date for dependent step is end date of previous step + 1
-        expect(g5_s1.scheduled_start_date).to eq Date.parse('2017-04-04')
-        expect(g5_s1.scheduled_duration_days).to eq 3
-        expect(g5_s1.schedule_parent).to eq g3_s3
+      # Break each of the nodes out into a let so that we can examine them individually.
+      ProjectGroupFactoryHelper::NODE_NAMES.each do |name|
+        let(name) { nodes[name] }
       end
-    end
 
-    context 'original loan' do
-      subject { loan }
-      it_behaves_like 'scheduled loan'
-    end
+      before do
+        # See ProjectGroupFactoryHelper for the layout of nodes in the timeline.
+        # We introduce some schedule dependencies in such a way that one of the dependencies
+        # actually goes downward instead of upward.
+        # g3_s3 is sorted above s1 because g3 has an early step. But we're going to make g3_s3 depend
+        # on s1, which won't change the sort order, but is a downward dependency.
+        s1.update_attributes!(scheduled_start_date: Date.today)
+        g3_s3.update_attributes!(schedule_parent_id: s1.id)
+        g5_s1.update_attributes!(schedule_parent_id: g3_s3.id)
+      end
 
-    context 'copied loan' do
-      subject { Loan.find(duplicator.duplicate.id) }
+      shared_examples_for 'scheduled loan' do
+        it 'has been properly scheduled' do
+          expect(s1.scheduled_start_date).to eq Date.today
+          expect(s1.scheduled_duration_days).to eq 30
+          expect(s1.schedule_parent).to be_nil
 
-      it_behaves_like 'scheduled loan'
+          expect(g3_s3.scheduled_start_date).to eq s1.scheduled_end_date + 1
+          expect(g3_s3.scheduled_duration_days).to eq 5
+          expect(g3_s3.schedule_parent).to eq s1
 
-      it 'has different loan id from original' do
-        expect(subject.id).not_to eq loan.id
+          # start date for dependent step is end date of previous step + 1
+          expect(g5_s1.scheduled_start_date).to eq g3_s3.scheduled_end_date + 1
+          expect(g5_s1.scheduled_duration_days).to eq 3
+          expect(g5_s1.schedule_parent).to eq g3_s3
+        end
+      end
+
+      context 'original loan' do
+        subject { loan }
+        it_behaves_like 'scheduled loan'
+      end
+
+      context 'copied loan' do
+        subject { Loan.find(duplicator.duplicate.id) }
+
+        it_behaves_like 'scheduled loan'
+
+        it 'has different loan id from original' do
+          expect(subject.id).not_to eq loan.id
+        end
       end
     end
   end
