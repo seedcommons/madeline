@@ -433,14 +433,70 @@ describe ProjectStep, type: :model do
 
             it_behaves_like "children dates are correct"
           end
+        end
+      end
 
-          def save_and_reload_steps
-            step.save!
-            step.reload
-            step_level_2.reload
-            step_level_3.reload
+      describe 'cascading date adjustment for late parents' do
+        let(:offset_days) { 5 } # makes parents late
+        let!(:original_end_date) { step.scheduled_end_date }
+
+        shared_examples_for "children start dates are set to today's date" do
+          it "level 2 children start matches today's date" do
+            expect(step_level_2.display_start_date).to eq Date.today
+          end
+
+          it "level 3 children start matches today's date" do
+            expect(step_level_3.display_start_date).to eq Date.today
           end
         end
+
+        context 'level 1 scheduled_start_date is updated' do
+          before do
+            step.scheduled_start_date += offset_days
+            save_and_reload_steps
+          end
+
+          it_behaves_like "children start dates are set to today's date"
+        end
+
+        context 'level 1 duration is updated' do
+          before do
+            step.scheduled_duration_days += offset_days
+            save_and_reload_steps
+          end
+
+          it_behaves_like "children start dates are set to today's date"
+        end
+
+        context 'level 1 actual_end_date is set' do
+          before do
+            step.actual_end_date = step.scheduled_end_date + offset_days
+            save_and_reload_steps
+          end
+
+          it_behaves_like "children start dates are set to today's date"
+        end
+
+        context 'level 1 actual_end_date is set and then scheduled duration is changed' do
+          before do
+            step.actual_end_date = step.scheduled_end_date + offset_days
+
+            # Changing the scheduled duration should be meaningless at this point because
+            # the actual_end_date is set.
+            step.scheduled_duration_days = 50
+
+            save_and_reload_steps
+          end
+
+          it_behaves_like "children start dates are set to today's date"
+        end
+      end
+
+      def save_and_reload_steps
+        step.save!
+        step.reload
+        step_level_2.reload
+        step_level_3.reload
       end
     end
   end
