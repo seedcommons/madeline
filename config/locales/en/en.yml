@@ -172,6 +172,8 @@ en:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         project_group:
           no_summary: "Summary is required."
+        project_step:
+          must_match: 'start date must match precedent step end date'
         organization:
           attributes:
             primary_contact:
