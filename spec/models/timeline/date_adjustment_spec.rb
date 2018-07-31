@@ -68,76 +68,81 @@ RSpec.describe Timeline::DateAdjustment, type: :model do
     end
   end
 
-  context 'with one grandparent step' do
+  describe 'parent is not late' do
+    let(:default_date) { Date.today }
     let(:step) { create(:project_step, :with_schedule_tree, scheduled_start_date: default_date) }
-    let(:step_level_2) { step.schedule_children.first }
-    let(:step_level_3) { step_level_2.schedule_children.first }
 
-    let(:steps) { [step.id, step_level_2.id, step_level_3.id] }
+    context 'with one grandparent step' do
+      let(:step_level_2) { step.schedule_children.first }
+      let(:step_level_3) { step_level_2.schedule_children.first }
 
-    context 'when moving forward' do
-      before do
-        Timeline::DateAdjustment.new(user, steps, default_params).perform
-        step.reload
-        step_level_2.reload
-        step_level_3.reload
-      end
+      let(:steps) { [step.id, step_level_2.id, step_level_3.id] }
 
-      it 'should move step forward' do
-        expect(step.scheduled_start_date).to eq default_date + num_of_days
-      end
 
-      it 'should move step_level_2 forward' do
-        offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset
-      end
+      context 'when moving forward' do
+        before do
+          Timeline::DateAdjustment.new(user, steps, default_params).perform
+          step.reload
+          step_level_2.reload
+          step_level_3.reload
+        end
 
-      it 'should move step_level_3 forward' do
-        # subtract 1 from duration days since we are re-setting the duration and scheduled end date
-        offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
-        expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
+        it 'should move step forward' do
+          expect(step.scheduled_start_date).to eq default_date + num_of_days
+        end
+
+        it 'should move step_level_2 forward' do
+          offset = num_of_days + step.scheduled_duration_days
+          expect(step_level_2.scheduled_start_date).to eq default_date + offset
+        end
+
+        it 'should move step_level_3 forward' do
+          pp
+          # subtract 1 from duration days since we are re-setting the duration and scheduled end date
+          offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
+          expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
+        end
       end
     end
-  end
 
-  context 'with a mixture of orphan and children steps' do
-    let(:step) { create(:project_step, :with_schedule_tree, scheduled_start_date: default_date) }
-    let(:step_level_2) { step.schedule_children.first }
-    let(:step_level_3) { step_level_2.schedule_children.first }
-    let(:orphan_step1) { create(:project_step, scheduled_start_date: default_date + 8) }
-    let(:orphan_step2) { create(:project_step, scheduled_start_date: default_date + 9) }
+    context 'with a mixture of orphan and children steps' do
+      let(:step_level_2) { step.schedule_children.first }
+      let(:step_level_3) { step_level_2.schedule_children.first }
+      let(:orphan_step1) { create(:project_step, scheduled_start_date: default_date + 8) }
+      let(:orphan_step2) { create(:project_step, scheduled_start_date: default_date + 9) }
 
-    let(:steps) { [step.id, step_level_2.id, step_level_3.id, orphan_step1.id, orphan_step2.id] }
+      let(:steps) { [step.id, step_level_2.id, step_level_3.id, orphan_step1.id, orphan_step2.id] }
 
-    context 'when moving forward' do
-      before do
-        Timeline::DateAdjustment.new(user, steps, default_params).perform
-        step.reload
-        step_level_2.reload
-        step_level_3.reload
-      end
+      context 'when moving forward' do
+        before do
+          Timeline::DateAdjustment.new(user, steps, default_params).perform
+          step.reload
+          step_level_2.reload
+          step_level_3.reload
+        end
 
-      it 'should move step forward' do
-        expect(step.scheduled_start_date).to eq default_date + num_of_days
-      end
+        it 'should move step forward' do
+          expect(step.scheduled_start_date).to eq default_date + num_of_days
+        end
 
-      it 'should move step_level_2 forward' do
-        offset = num_of_days + step.scheduled_duration_days
-        expect(step_level_2.scheduled_start_date).to eq default_date + offset
-      end
+        it 'should move step_level_2 forward' do
+          offset = num_of_days + step.scheduled_duration_days
+          expect(step_level_2.scheduled_start_date).to eq default_date + offset
+        end
 
-      it 'should move step_level_3 forward' do
-        # subtract 1 from duration days since we are re-setting the duration and scheduled end date
-        offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
-        expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
-      end
+        it 'should move step_level_3 forward' do
+          # subtract 1 from duration days since we are re-setting the duration and scheduled end date
+          offset = num_of_days + (step_level_2.scheduled_duration_days - 1) + (step.scheduled_duration_days - 1)
+          expect(step_level_3.scheduled_start_date).to eq default_date + offset + 2
+        end
 
-      it 'should move orphan step 1 forward' do
-        expect(orphan_step1.scheduled_start_date).to eq default_date + 8
-      end
+        it 'should move orphan step 1 forward' do
+          expect(orphan_step1.scheduled_start_date).to eq default_date + 8
+        end
 
-      it 'should move orphan step 2 forward' do
-        expect(orphan_step2.scheduled_start_date).to eq default_date + 9
+        it 'should move orphan step 2 forward' do
+          expect(orphan_step2.scheduled_start_date).to eq default_date + 9
+        end
       end
     end
   end
