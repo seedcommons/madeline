@@ -91,8 +91,9 @@ class Division < ActiveRecord::Base
   validate :parent_division_and_name
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+  validates :short_name, presence: true, uniqueness: true, if: -> { self.public }
 
-  before_save :generate_short_name
+  before_validation :generate_short_name
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
   scope :published, -> { where(public: true) }
@@ -171,9 +172,5 @@ class Division < ActiveRecord::Base
 
     self.short_name = name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
-
-    # I might use before_validation here, and add back the validation for short name
-    # presence and uniqueness for divisions marked public.
-    # We didn't think we needed it for a little while but I guess the division dropdown added some complications.
   end
 end
