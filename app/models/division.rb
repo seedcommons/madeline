@@ -169,13 +169,11 @@ class Division < ActiveRecord::Base
   def generate_short_name
     return if short_name.present?
 
-    # if division name is just dashes, it will use just the uuid for the short name
-    self.short_name = if name.parameterize == ''
-                        "-#{SecureRandom.uuid}"
-                      elsif Division.find_by(name: name) && short_name.nil?
-                        "#{name.parameterize}-#{SecureRandom.uuid}"
-                      elsif short_name.nil?
-                        name.parameterize
-                      end
+    self.short_name = name.parameterize
+    self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
+
+    # I might use before_validation here, and add back the validation for short name
+    # presence and uniqueness for divisions marked public.
+    # We didn't think we needed it for a little while but I guess the division dropdown added some complications.
   end
 end

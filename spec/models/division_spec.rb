@@ -77,7 +77,7 @@ describe Division, type: :model do
     end
 
     it 'generates short name for division with just hyphens' do
-      expect(division_3.short_name).to include('-')
+      expect(division_3.short_name).to eq('-iamauuid2018')
     end
   end
 end
