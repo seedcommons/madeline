@@ -50,7 +50,7 @@
 
 require 'rails_helper'
 
-describe Division, :type => :model do
+describe Division, type: :model do
   it 'has a valid factory' do
     expect(create(:division)).to be_valid
   end
@@ -62,6 +62,8 @@ describe Division, :type => :model do
 
   context 'short name' do
 
+    before { allow(SecureRandom).to receive(:uuid) {'iamauuid2018'} }
+
     let!(:division_1) { create(:division, name: 'trouble') }
     let!(:division_2) { create(:division, name: 'trouble', notify_on_new_logs: true) }
     let!(:division_3) { create(:division, name: '---') }
@@ -71,8 +73,7 @@ describe Division, :type => :model do
     end
 
     it 'generates a short name for division with the same name' do
-      # can not assert the uuid string so going with the hyphen after short_name expectation
-      expect(division_2.short_name).to include('trouble-')
+      expect(division_2.short_name).to eq('trouble-iamauuid2018')
     end
 
     it 'generates short name for division with just hyphens' do
