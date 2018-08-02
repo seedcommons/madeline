@@ -81,6 +81,7 @@ en:
         name: "Name"
         neighborhood: "Neighborhood"
         people: "Members"
+        postal_code: "Postal Code"
         primary_contact: "Primary Contact"
         primary_phone: "Phone"
         referral_source: "Referral Source"
