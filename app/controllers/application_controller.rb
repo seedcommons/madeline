@@ -21,24 +21,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def division_choices
-    current_user.accessible_divisions
-  end
-
-  def loan_policy_scope(scope)
-    LoanPolicy::Scope.new(current_user, scope).resolve
-  end
-
   def organization_policy_scope(scope)
     OrganizationPolicy::Scope.new(current_user, scope).resolve
   end
 
   def person_policy_scope(scope)
     PersonPolicy::Scope.new(current_user, scope).resolve
-  end
-
-  def default_serializer_options
-    {root: false}
   end
 
   private
