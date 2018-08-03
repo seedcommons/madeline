@@ -37,20 +37,8 @@ module ApplicationHelper
     t(:id).capitalize
   end
 
-  def division_policy(record)
-    DivisionPolicy.new(current_user, record)
-  end
-
   def division_scope
     DivisionPolicy::Scope.new(current_user, Division)
-  end
-
-  def organization_policy(record)
-    OrganizationPolicy.new(current_user, record)
-  end
-
-  def person_policy(record)
-    PersonPolicy.new(current_user, record)
   end
 
   def render_index_grid_with_redirect_check(grid)
