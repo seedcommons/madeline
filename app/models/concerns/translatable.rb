@@ -161,16 +161,6 @@ module Translatable
     end
   end
 
-  # returns the element from the parent objects association list for the given object's id
-  # necessary to get autosave behavior to work as desired
-  # def associated_translation(translation)
-  #   if translation
-  #     translations.find{|t| t.id == translation.id}
-  #   else
-  #     translation
-  #   end
-  # end
-
   class TranslationPresenceValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       # Ensure each translation given is not blank.
