@@ -36,10 +36,6 @@ class Accounting::LineItem < ActiveRecord::Base
     posting_type == "Credit".freeze
   end
 
-  def debit?
-    posting_type == "Debit".freeze
-  end
-
   def type_or_amt_changed?
     (changes.keys & %w(posting_type amount).freeze).any?
   end
