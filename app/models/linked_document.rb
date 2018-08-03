@@ -54,13 +54,7 @@ class LinkedDocument
     self
   end
 
-  # In the php system, there used to be some logic dependent upon the range column count, but then
-  # later hardcoded to 600.
-  def display_width
-    600
-  end
-
-  # Beware, the calculated display hight does not seem to be currently honored.
+  # Beware, the calculated display height does not seem to be currently honored.
   # Perhaps overridden by some CSS definition.
   def display_height
     if start_cell.present? && end_cell.present?
