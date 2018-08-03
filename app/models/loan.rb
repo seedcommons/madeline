@@ -46,10 +46,8 @@
 class Loan < Project
   include MediaAttachable
 
-  QUESTION_SET_TYPES = %i(criteria post_analysis)
   DEFAULT_STEP_NAME = '[default]'
   STATUS_ACTIVE_VALUE = 'active'
-  STATUS_COMPLETED_VALUE = 'completed'
 
   belongs_to :organization
   belongs_to :currency
@@ -205,6 +203,6 @@ class Loan < Project
   end
 
   def health_status_available?
-    return !health_check.nil?
+    !health_check.nil?
   end
 end
