@@ -87,30 +87,6 @@
           p.loan_description
             = render_translation(@loan.details) || %Q{<span class="notfound">#{t :no_description_found}</span>}
 
-        // Disable timeline and repayments for now
-        / #timeline.tab-pane
-        /   = render 'project_events/timeline'
-        /
-        / - unless @repayments.empty?
-        /   #payments.tab-pane
-        /     .row
-        /       .col-md-7
-        /         h4 = t :payment_schedule
-        /         table.table.repayments
-        /           tr
-        /             th = t :status
-        /             th = t :due_date
-        /             th = t :amount
-        /           - @repayments.each do |pmt|
-        /             tr class=pmt.status
-        /               td
-        /                 b = t pmt.status
-        /               - if pmt.paid
-        /                 td = l pmt.date_paid, format: :long
-        /               - else
-        /                 td = l pmt.date_due, format: :long
-        /               td = pmt.amount_formatted
-
         #other_loans.tab-pane
           - if !@other_loans || @other_loans.count <= 1
             p.empty = t :first_loan
