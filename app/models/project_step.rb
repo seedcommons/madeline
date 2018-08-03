@@ -46,7 +46,6 @@ class ProjectStep < TimelineEntry
   }.freeze
   SUPER_EARLY_PERIOD = 7.0 # days
   SUPER_LATE_PERIOD = 30.0 # days
-  COMPLETION_STATUSES = %w(draft incomplete complete).freeze
 
   belongs_to :schedule_parent, class_name: 'ProjectStep', inverse_of: :schedule_children
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
@@ -70,7 +69,6 @@ class ProjectStep < TimelineEntry
 
   # Scheduled end date is calculated
   scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago).where(actual_end_date: nil) }
-  scope :recent, -> { where('scheduled_start_date + scheduled_duration_days > ? ', 30.days.ago) }
 
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: project_id)
@@ -211,10 +209,6 @@ class ProjectStep < TimelineEntry
     end
   end
 
-  def date_changed?
-    old_start_date.present?
-  end
-
   # Validates that a step may not be unfinalized more than 24 hours since it was previously marked
   # as finalized.  Note, should generally be avoided by front-end logic, but guards against edge
   # cases.
@@ -288,10 +282,6 @@ class ProjectStep < TimelineEntry
     else
       color
     end
-  end
-
-  def scheduled_start_day
-    scheduled_start_date.day
   end
 
   # Returns a duplication helper object which encapsulate handling of the modal rendering and
