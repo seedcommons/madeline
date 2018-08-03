@@ -100,6 +100,9 @@ gem 'whenever', '~> 0.9', require: false
 # Easy cloning of active record objects
 gem 'amoeba'
 
+# Identifying dead code
+gem 'debride', '~> 1.7'
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem 'dotenv-rails'
