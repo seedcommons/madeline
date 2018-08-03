@@ -92,10 +92,6 @@ class ProjectLog < ActiveRecord::Base
     progress_metric_label
   end
 
-  def progress_continuous
-    self.progress(true)
-  end
-
   def has_more?
     [details, additional_notes, private_notes, media].any?(&:present?)
   end
