@@ -1,7 +1,5 @@
 module Legacy
-
   class Migration
-
     def self.migrate_all
       OptionSet.find_by(model_attribute: :loan_type) || raise("Run rake db:seed first.")
       Legacy::Division.migrate_all
@@ -43,12 +41,6 @@ module Legacy
       Legacy::OrgSnapshotData.migrate_all
     end
 
-    def self.migrate_questions
-      Legacy::LoanQuestion.migrate_all
-      Legacy::DueDiligencePerLoanType.migrate_all
-      Legacy::LoanResponseSet.migrate_all
-    end
-
     def self.purge_migrated
       Legacy::DueDiligencePerLoanType.purge_migrated
       Legacy::LoanQuestion.purge_migrated
@@ -60,11 +52,5 @@ module Legacy
       Legacy::Cooperative.purge_migrated
       Legacy::Division.purge_migrated
     end
-
-    # def malformed_date_clause(field)
-    #   " not (#{field} is not null and dayofmonth(#{field}) = 0 and month(#{field}) > 0)"
-    # end
-
   end
-
 end
