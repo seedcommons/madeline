@@ -26,14 +26,6 @@ module Accounting
         raise NotImplementedError
       end
 
-      def populate(qb_objects)
-        @relation.each do |transaction|
-          qb = qb_objects.find { |qbo| qbo.id.to_s == transaction.qb_transaction_id }
-          transaction.qb_object = qb
-        end
-        @relation
-      end
-
       def types
         raise NotImplementedError
       end
