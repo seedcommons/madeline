@@ -20,9 +20,6 @@ class LinkedDocument
     self.end_cell = end_cell
   end
 
-  # Display url logic from legacy PHP system (which didn't seem to work as desired)
-  #   "#{original_url}&single=true&range=#{start_cell}%3A#{end_cell}&output=html&gid=#{sheet}"
-
   def display_url
     parse_display_params_from_url
     # Todo: confirm if any special behavior needed for Google Apps environments
@@ -54,13 +51,7 @@ class LinkedDocument
     self
   end
 
-  # In the php system, there used to be some logic dependent upon the range column count, but then
-  # later hardcoded to 600.
-  def display_width
-    600
-  end
-
-  # Beware, the calculated display hight does not seem to be currently honored.
+  # Beware, the calculated display height does not seem to be currently honored.
   # Perhaps overridden by some CSS definition.
   def display_height
     if start_cell.present? && end_cell.present?

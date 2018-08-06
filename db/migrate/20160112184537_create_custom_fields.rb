@@ -6,7 +6,6 @@ class CreateCustomFields < ActiveRecord::Migration
       t.string :label
       t.string :data_type
       t.integer :position
-      #todo: add foreign key once migration stabilized, consider need for index after implementation complete
       t.references :parent, references: :custom_fields
 
       t.timestamps null: false

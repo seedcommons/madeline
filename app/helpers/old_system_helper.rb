@@ -4,7 +4,7 @@ module OldSystemHelper
 
   BASE_URI = 'https://internal.labase.org/'.freeze
 
-  # Returns the new disbursement url, as well as addtional loan and org information.
+  # Returns the new disbursement url, as well as additional loan and org information.
   # This information maybe be required, if the loan does not exist in the old system.
   def old_system_new_disbursement_url(loan:)
     old_system_url('transactionManager.php', loan,

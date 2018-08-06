@@ -1,7 +1,7 @@
 if ENV['QUERY_TRACE']
   require 'term/ansicolor'
 
-  # yeilds a stacktrace for each SQL query
+  # yields a stacktrace for each SQL query
   # put this file in config/initializers
   class QueryTrace < ActiveSupport::LogSubscriber
     include Term::ANSIColor

@@ -104,10 +104,6 @@ class Question < ActiveRecord::Base
     status == 'active'
   end
 
-  def first_child?
-    @first_child ||= parent && parent.children.none? { |q| q.position < position }
-  end
-
   def decorated?
     false
   end
@@ -191,8 +187,6 @@ class Question < ActiveRecord::Base
   end
 
   def ensure_internal_name
-    if !internal_name
-      self.update! internal_name: "field_#{id}"
-    end
+    self.update!(internal_name: "field_#{id}") unless internal_name
   end
 end

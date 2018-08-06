@@ -59,10 +59,6 @@ class Organization < ActiveRecord::Base
 
   validate :primary_contact_is_member
 
-  def loans_count
-    loans.size
-  end
-
   def active_loans
     loans.where(status_value: Loan::STATUS_ACTIVE_VALUE)
   end

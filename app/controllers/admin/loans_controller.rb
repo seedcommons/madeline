@@ -160,9 +160,6 @@ class Admin::LoansController < Admin::ProjectsController
     person_policy_scope(raw_choices).order(:name)
   end
 
-  def prep_print_view
-  end
-
   def prep_attached_links
     @attached_links = @loan.criteria_embedded_urls
 

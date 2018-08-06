@@ -120,19 +120,6 @@ class ResponseSet < ActiveRecord::Base
       action = :get
     end
 
-    field = question(attribute_name, required: false)
-    if field
-      [attribute_name, action, field]
-    else
-      nil
-    end
-  end
-
-  def is_number?(object)
-    true if Float(object) rescue false
-  end
-
-  def is_number_or_blank?(object)
-    true if object.blank? || Float(object) rescue false
+    question(attribute_name, required: false) ? [attribute_name, action, field] : nil
   end
 end

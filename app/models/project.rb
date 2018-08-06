@@ -62,8 +62,6 @@ class Project < ActiveRecord::Base
   has_many :transactions, class_name: 'Accounting::Transaction', dependent: :destroy
   has_many :copies, class_name: 'Project', foreign_key: 'original_id', dependent: :nullify
 
-  scope :visible, -> { where.not(public_level_value: 'hidden') }
-
   # define accessor-like convenience methods for the fields stored in the Translations table
   attr_translatable :summary, :details
   attr_accessor :destroying
@@ -155,7 +153,7 @@ class Project < ActiveRecord::Base
   end
 
   def health_status_available?
-    return false
+    false
   end
 
   def self.dashboard_order(person_id)

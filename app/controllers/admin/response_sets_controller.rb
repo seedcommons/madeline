@@ -53,10 +53,6 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   private
 
-  def resolve_polymorphic(type, id)
-    type.constantize.find(id)
-  end
-
   def response_set_params
     params.require(:response_set).permit!
   end

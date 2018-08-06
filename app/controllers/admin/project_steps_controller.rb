@@ -1,6 +1,5 @@
 class Admin::ProjectStepsController < Admin::AdminController
   include TranslationSaveable
-  helper TimeLanguageHelper
 
   def new
     @project = Project.find(params[:project_id])

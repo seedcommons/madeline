@@ -55,10 +55,6 @@ class OptionSet < ActiveRecord::Base
       return "missing option label - value: #{value}"  if true  # make this non-fatal for now
       #todo: confirm if RuntimeException is appropriate or other convention to follow
       raise "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value}"  unless option
-      # fallback to use value as label if option record not found
-      #todo: confirm if reasonable to allow value as default label
-      # Rais.logger.info "OptionSet[#{model_type}.#{model_attribute}] - option value not found: #{value} - using value as default label"
-      # return value
     end
 
     option.label

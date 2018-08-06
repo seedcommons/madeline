@@ -46,10 +46,8 @@
 class Loan < Project
   include MediaAttachable
 
-  QUESTION_SET_TYPES = %i(criteria post_analysis)
   DEFAULT_STEP_NAME = '[default]'
   STATUS_ACTIVE_VALUE = 'active'
-  STATUS_COMPLETED_VALUE = 'completed'
 
   belongs_to :organization
   belongs_to :currency
@@ -129,10 +127,7 @@ class Loan < Project
   end
 
   def country
-    # TODO: Temporary fix sets country to US when not found
-    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
-    #todo: beware code that expected a country to always exist can break if US country not included in seed.data
-    @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
+    @country ||= organization.try(:country) || Country.find_by(iso_code: 'US')
   end
 
   def display_currency
@@ -204,6 +199,6 @@ class Loan < Project
   end
 
   def health_status_available?
-    return !health_check.nil?
+    !health_check.nil?
   end
 end
