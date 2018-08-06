@@ -1,13 +1,9 @@
 
 shared_examples_for 'option_settable' do |attribute_names|
 
-  before do
-    root_division
-  end
+  before { root_division }
 
   let(:model_instance) { create(described_class.to_s.underscore) }
-
-  #todo: confirm if it's reasonable to perform all of these tests for each class and attribute or sufficient to sample
 
   it 'class should give option sets' do
     attribute_names.each do |attribute_name|
@@ -24,7 +20,6 @@ shared_examples_for 'option_settable' do |attribute_names|
     end
   end
 
-
   it 'class should give option values' do
     attribute_names.each do |attribute_name|
       method = "#{attribute_name}_option_values".to_sym
@@ -32,19 +27,16 @@ shared_examples_for 'option_settable' do |attribute_names|
     end
   end
 
-
   it 'class should resolve labels' do
     attribute_names.each do |attribute_name|
       value = described_class.send("#{attribute_name}_option_values".to_sym).sample
       if value
         method = "#{attribute_name}_label".to_sym
         result = described_class.send(method, value, :en)
-        # puts("#{described_class.name}.#{attribute_name} - value: #{value} - class resolved label: #{result}")
         expect(result).to be_a String
       end
     end
   end
-
 
   it 'model instance should give label' do
     attribute_names.each do |attribute_name|
@@ -58,6 +50,4 @@ shared_examples_for 'option_settable' do |attribute_names|
       expect(result.to_s).to eq label
     end
   end
-
-
 end
