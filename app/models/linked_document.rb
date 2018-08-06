@@ -20,9 +20,6 @@ class LinkedDocument
     self.end_cell = end_cell
   end
 
-  # Display url logic from legacy PHP system (which didn't seem to work as desired)
-  #   "#{original_url}&single=true&range=#{start_cell}%3A#{end_cell}&output=html&gid=#{sheet}"
-
   def display_url
     parse_display_params_from_url
     # Todo: confirm if any special behavior needed for Google Apps environments
