@@ -127,10 +127,7 @@ class Loan < Project
   end
 
   def country
-    # TODO: Temporary fix sets country to US when not found
-    # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
-    #todo: beware code that expected a country to always exist can break if US country not included in seed.data
-    @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
+    @country ||= organization.try(:country) || Country.find_by(iso_code: 'US')
   end
 
   def display_currency
