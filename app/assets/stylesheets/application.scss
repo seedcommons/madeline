@@ -1,9 +1,9 @@
 // These are styles required by all parts of the app, including admin and public.
 // This manifest does NOT pull in the admin and public directories.
 
-// TODO: Not sure if this variable will exist in the public or admin stylesheets.
 // Bootstrap variable overrides
 // These need to come before the @import of bootstrap itself
+// This is used by both the public and admin stylesheets
 $headings-font-weight: 600;
 
 @import "bootstrap-sprockets";
