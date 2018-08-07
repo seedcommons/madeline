@@ -84,7 +84,6 @@ module ApplicationHelper
     options += options_tree(divisions.hash_tree, include_root: include_root, public_only: public_only)
   end
 
-
   def currency_name(currency, count:)
     currency ? I18n.t("common.currency.#{currency.code}", count: count) : ''
   end
