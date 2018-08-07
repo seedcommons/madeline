@@ -370,14 +370,30 @@ en:
     caption: "Caption"
     condense_all: "Condense All"
     currency:
-      argentinean_peso: "Argentinean Pesos"
-      us_dollar: "U.S. Dollars"
-      british_pound: "British Pounds"
-      nicaraguan_cordoba: "Nicaraguan Cordobas"
-      mexican_peso: "Mexican Pesos"
-      guatemalan_quetzal: "Guatemalan Quetzals"
-      south_african_rand: "South African Rands"
-      indian_rupee: "Indian Rupees"
+      argentinean_peso:
+        one: "Argentinean Peso"
+        other: "Argentinean Pesos"
+      us_dollar:
+        one: "U.S. Dollar"
+        other: "U.S. Dollars"
+      british_pound:
+        one: "British Pound"
+        other: "British Pounds"
+      nicaraguan_cordoba:
+        one: "Nicaraguan Cordoba"
+        other: "Nicaraguan Cordobas"
+      mexican_peso:
+        one: "Mexican Peso"
+        other: "Mexican Pesos"
+      guatemalan_quetzal:
+        one: "Guatemalan Quetzal"
+        other: "Guatemalan Quetzals"
+      south_african_rand:
+        one: "South African Rand"
+        other: "South African Rands"
+      indian_rupee:
+        one: "Indian Rupee"
+        other: "Indian Rupees"
     deleted_user: "Deleted User"
     description: "Description"
     details: "Details"

@@ -136,7 +136,7 @@ class Loan < Project
   end
 
   def display_currency
-    currency ? currency.try(:name) : ''
+    currency ? I18n.t("common.currency.#{currency.try(:locale_name)}", count: 1) : ''
   end
 
   def location

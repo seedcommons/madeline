@@ -20,6 +20,6 @@ class Currency < ActiveRecord::Base
   end
 
   def locale_name
-    name.parameterize(separator: '_')
+    name.gsub('.', '').parameterize(separator: '_')
   end
 end

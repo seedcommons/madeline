@@ -112,7 +112,9 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def prep_form_vars
-    @currency_choices = Currency.order(:name)
+    @currency_choices = Currency.order(:name).map do |currency|
+      [I18n.t("common.currency.#{currency.try(:locale_name)}", count: 1)]
+    end
     @parent_choices = parent_choices(@division)
   end
 

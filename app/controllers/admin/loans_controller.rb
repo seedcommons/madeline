@@ -148,7 +148,9 @@ class Admin::LoansController < Admin::ProjectsController
   def prep_form_vars
     @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
-    @currency_choices = Currency.all.order(:name)
+    @currency_choices = Currency.order(:name).map do |currency|
+      [I18n.t("common.currency.#{currency.try(:locale_name)}", count: 1)]
+    end
     @representative_choices = representative_choices
     @loan_criteria = @loan.criteria
     @loan_criteria.current_user = current_user if @loan_criteria

@@ -1,6 +1,6 @@
 module CurrencyHelper
   def format_currency(amount, currency, tooltip: true)
-    currency_name = I18n.t("common.currency.#{currency.try(:locale_name)}")
+    currency_name = currency ? I18n.t("common.currency.#{currency.try(:locale_name)}", count: 2) : ''
     display_symbol = currency ? "#{currency.country_code} #{currency.short_symbol}" : ''
 
     if tooltip
