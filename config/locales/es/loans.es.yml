@@ -14,7 +14,7 @@ es:
     confirm_duplication:
       loan: "Esto duplicará el préstamo y todo lo asociado a él, como las entradas de línea de tiempo, apuntes y respuestas a cuestionarios. ¿Quieres continuar?"
     confirm_response_deletion: "ATENCIÓN: ¿Realmente quieres borrar permanentemente estas respuestas?"
-    criteria: "Criterios"
+    criteria: "Memo del Crédito"
     criteria_not_entered: "No se han ingresado criterios aún."
     default_name_message: "Si se deja en blanco, se generará automáticamente un nombre para este préstamo."
     delete: "Borrar Préstamo"
@@ -53,12 +53,10 @@ es:
     post_analysis: "Post-Análisis"
     primary_agent: "Responsable"
     print: "Imprimir"
-    print_criteria: "Solo Criterios"
+    print_criteria: "Memo del Crédito Solamente"
     print_details: "Solo Detalles"
     print_header_title: "Perfil de Inversión y Memo de Crédito"
     print_memo: "Imprimir Memo de Préstamo"
-    questionnaires: "Preguntas"
-    questionnaire: "Cuestionario"
     rating: "Puntuación"
     save_responses: "Guardar Respuestas"
     shared:
@@ -77,7 +75,7 @@ es:
     steps_notice: "Algunos de los pasos seleccionados dependen de pasos que no seleccionaste. Las fechas de esos pasos no se ajustarán."
     tab:
       details: "Detalles"
-      questions: "Preguntas"
+      questions: "Planificación de negocios"
       timeline: "Línea de Tiempo"
       timeline_list: "Línea de Tiempo - Lista"
       logs: "Apuntes"

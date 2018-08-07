@@ -32,19 +32,26 @@
       .status-box
         table.info
           tr
-            th #{t(:status)}:
+            th = "#{t(:division)}:"
+            td
+              a href=public_loans_path(division: @loan.division.short_name)
+                = @loan.division.name
+          tr
+            th = "#{t(:coop)}:"
+            td = @loan.organization.name
+          tr
+            th = "#{t(:status)}:"
             td = @loan.status
           tr
-            th #{t(:amount)}:
-            td
-              = format_currency(@loan.amount, @loan.currency)
+            th = "#{t(:amount)}:"
+            td = format_currency(@loan.amount, @loan.currency)
           tr
-            th #{t(:location)}:
+            th = "#{t(:location)}:"
             td
               i.fa.fa-fw.fa-map-marker>
               = @loan.location
           tr
-            th #{t(:signing_date)}:
+            th = "#{t(:signing_date)}:"
             td
               i.fa.fa-fw.fa-calendar>
               = @loan.signing_date_long
