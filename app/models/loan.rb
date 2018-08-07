@@ -135,10 +135,6 @@ class Loan < Project
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
-  def display_currency
-    currency ? I18n.t("common.currency.#{currency.try(:locale_name)}", count: 1) : ''
-  end
-
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name

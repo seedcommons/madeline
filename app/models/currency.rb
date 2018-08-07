@@ -18,8 +18,4 @@ class Currency < ActiveRecord::Base
   def division
     Division.root # for permissions purposes, assume currency model belongs to root division
   end
-
-  def locale_name
-    name.gsub('.', '').parameterize(separator: '_')
-  end
 end

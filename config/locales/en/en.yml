@@ -370,28 +370,28 @@ en:
     caption: "Caption"
     condense_all: "Condense All"
     currency:
-      argentinean_peso:
+      ARS:
         one: "Argentinean Peso"
         other: "Argentinean Pesos"
-      us_dollar:
+      USD:
         one: "U.S. Dollar"
         other: "U.S. Dollars"
-      british_pound:
+      GBP:
         one: "British Pound"
         other: "British Pounds"
-      nicaraguan_cordoba:
+      NIO:
         one: "Nicaraguan Cordoba"
         other: "Nicaraguan Cordobas"
-      mexican_peso:
+      MXN:
         one: "Mexican Peso"
         other: "Mexican Pesos"
-      guatemalan_quetzal:
+      GTQ:
         one: "Guatemalan Quetzal"
         other: "Guatemalan Quetzals"
-      south_african_rand:
+      ZAR:
         one: "South African Rand"
         other: "South African Rands"
-      indian_rupee:
+      INR:
         one: "Indian Rupee"
         other: "Indian Rupees"
     deleted_user: "Deleted User"

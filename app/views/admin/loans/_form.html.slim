@@ -54,7 +54,7 @@
     = f.input_field :amount
 
   = f.input :currency
-    .view-element = @loan.display_currency
+    .view-element = currency_name(@loan.currency, count: 1)
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
 
   = render 'admin/projects/translatable', project: @loan, f: f
