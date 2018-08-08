@@ -8,6 +8,8 @@ $border-radius: 5px;
   border-radius: $border-radius;
 
   .carousel-inner {
+    border-radius: $border-radius;
+
     .item {
       height: 20em;
 
@@ -15,7 +17,6 @@ $border-radius: 5px;
         position: relative;
         overflow-y: hidden;
         vertical-align: middle;
-        border-radius: $border-radius;
       }
     }
   }
