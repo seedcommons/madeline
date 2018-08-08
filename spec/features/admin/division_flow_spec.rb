@@ -30,5 +30,12 @@ feature 'division flow' do
     fill_in 'Short name', with: 'cream'
     click_on 'Create Division'
     expect(page).to have_content('jay-iamauuid2018')
+
+    # on edit
+    visit admin_division_path(Division.last)
+    find('.edit-action').click
+    fill_in 'Short name', with: 'cream'
+    click_on 'Update Division'
+    expect(page).to have_content('jay')
   end
 end
