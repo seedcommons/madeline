@@ -49,7 +49,7 @@ en:
         name: "Name"
         loan_type: "Loan Type"
         status: "Status"
-        criteria_progress: "Criteria"
+        criteria_progress: "Credit Memo"
         amount: "Amount"
         currency: "Currency"
         primary_agent: "Point Person"
@@ -162,6 +162,10 @@ en:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+        division:
+          attributes:
+            parent:
+              invalid: 'Division and Parent Division cannot be the same'
         loan:
           attributes:
             primary_agent:
