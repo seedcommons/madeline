@@ -168,7 +168,7 @@ class Division < ActiveRecord::Base
   end
 
   def generate_short_name
-    return if short_name.present?
+    return if short_name.present? && Division.pluck(:short_name).exclude?(Division.last.short_name)
 
     self.short_name = name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)

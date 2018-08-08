@@ -7,6 +7,7 @@ feature 'division flow' do
   let(:user) { person.user }
 
   before do
+    allow(SecureRandom).to receive(:uuid) {'iamauuid2018'}
     login_as(user, scope: :user)
   end
 
@@ -28,6 +29,6 @@ feature 'division flow' do
     fill_in 'Name', with: 'Jay'
     fill_in 'Short name', with: 'cream'
     click_on 'Create Division'
-    expect(page).to have_content('Errors prevented the record from being saved')
+    expect(page).to have_content('jay-iamauuid2018')
   end
 end
