@@ -1,4 +1,6 @@
 class Admin::DivisionsController < Admin::AdminController
+  include CurrencyNames
+
   before_action :find_division, only: [:show, :update, :destroy]
 
   def select
@@ -113,7 +115,7 @@ class Admin::DivisionsController < Admin::AdminController
 
   def prep_form_vars
     @currency_choices = Currency.order(:name).map do |currency|
-      helpers.currency_name(currency, count: 1)
+      currency_name(currency, count: 1)
     end
     @parent_choices = parent_choices(@division)
   end
