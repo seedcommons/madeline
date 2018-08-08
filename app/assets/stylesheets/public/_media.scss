@@ -13,6 +13,9 @@
 }
 
 #mediaModal {
+  // Adds compatibility with Argentina site header
+  z-index: 9999;
+
   .modal-title {
     display: inline-block;
   }
