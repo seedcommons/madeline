@@ -18,6 +18,7 @@ es:
       loan_transaction_type:
         interest: 'Interés'
         disbursement: 'Desembolso'
+        other: 'Otro'
         repayment: 'Devolución'
       loan_type:
         liquidity_loc: 'Línea de crédito de efectivo'
@@ -27,7 +28,7 @@ es:
         single_liquidity_loc: 'Línea de crédito de efectivo puntual'
         wc_investment: 'Préstamo de inversión para capital de trabajo'
         sa_investment: 'Préstamo de inversión de bienes asegurados'
-        community_solar: 'Solar communitario'
+        community_solar: 'Energía Solar Comunitaria'
       media_kind:
         image: 'Imagen'
         video: 'Vídeo'
@@ -42,6 +43,7 @@ es:
       public_level:
         featured: 'Destacado'
         hidden: 'Oculto'
+        public: 'Público'
       step_type:
         checkin: 'Check-in'
         milestone: 'Hito'
