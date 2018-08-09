@@ -11,7 +11,7 @@
       - loan.display_name
 
     - g.column name: t('activerecord.attributes.loan.division'), attribute: 'division_id',
-      custom_filter: Division.filter_in_division(selected_division),
+      custom_filter: division_select_options(include_root: false, public_only: false),
       detach_with_id: :division_filter do |loan|
       - loan.division.name
     - g.column name: t('activerecord.attributes.loan.organization'), attribute: 'organization_id',
