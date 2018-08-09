@@ -11,3 +11,22 @@
 .caption {
   margin: 0;
 }
+
+#mediaModal {
+  // Adds compatibility with Argentina site header
+  z-index: 9999;
+
+  .modal-title {
+    display: inline-block;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+figure {
+  .full-caption {
+    display: none;
+  }
+}

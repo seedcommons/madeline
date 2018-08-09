@@ -58,7 +58,6 @@ FactoryBot.define do
     name { Faker::Address.city }
     parent { root_division }
     public true
-    sequence(:short_name) { |n| "#{Faker::Lorem.word}-#{n}" }
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account
