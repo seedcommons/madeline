@@ -74,10 +74,13 @@
         - @other_loans.each do |loan|
           tr
             td
-              a href=public_loan_path(params[:site], loan) = loan.signing_date_long
-            td = format_currency(loan.amount, loan.currency)
-            td = loan.status
-            td.hidden-xs style="width: 50%" = render_translation(loan.summary)
+              a href=public_loan_path(params[:site], loan)
+                = loan.signing_date_long.empty? ? t(:date_not_set) : loan.signing_date_long
+            td
+              = loan.amount ? format_currency(loan.amount, loan.currency) : t(:amount_not_set)
+            td = loan.status ? loan.status : t(:blank)
+            td.hidden-xs style="width: 50%"
+              = loan.summary.empty? ? t(:blank) : render_translation(loan.summary)
 
 javascript:
   $(function(){
