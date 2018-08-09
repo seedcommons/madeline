@@ -84,7 +84,7 @@
               = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
                 value: response.number
 
-            - tags = %w(table tbody tr td b i u ol ul p img)
+            - tags = %w(table tbody tr td b i u ol ul li p img)
             - attrs = %w(style src data-filename)
 
             - if response.has_text?
