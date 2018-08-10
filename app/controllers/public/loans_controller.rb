@@ -3,15 +3,13 @@ class Public::LoansController < Public::PublicController
   after_action :verify_authorized
 
   def index
-    params[:division] ||= get_division_from_url
+    params[:division] ||= layout_site
     @params = { status: params[:status], pg: params[:pg], division: params[:division] }
-    @loans = policy_scope(Loan.filter_by_params(params).visible.
+    @loans = policy_scope(Loan.filter_by_params(params).
           includes(:organization, division: :parent).
           page(params[:pg]).per(20).
           order('signing_date DESC'))
     authorize @loans
-
-    @divisions = Division.published.pluck(:name, :short_name)
 
     # Set last loan list URL for 'Back to Loan List' link
     session[:loans_path] = request.fullpath
@@ -22,7 +20,7 @@ class Public::LoansController < Public::PublicController
     authorize @loan
 
     @pictures = @loan.featured_pictures(limit: 5) # for slideshow
-    @other_loans = policy_scope(Loan.related_loans(@loan))
+    @other_loans = policy_scope(Loan.related_loans(@loan).order('signing_date desc'))
   end
 
   def gallery

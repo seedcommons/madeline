@@ -57,7 +57,7 @@ class Response
   # Checks if response is blank, including any descendants if this is a group.
   def blank?
     if group?
-      children.all?(&:blank?)
+      children.all?(&:blank?) || children.all?(&:not_applicable?)
     else
       !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?

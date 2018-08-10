@@ -25,6 +25,7 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
       private_note: memo,
       description: description,
       account: bank_account,
+      loan_transaction_type_value: 'Disbursement',
       txn_date: date
     )
   end
@@ -78,6 +79,7 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
 
     expect(je.line_items.count).to eq 3
     expect(je.private_note).to eq memo
+    expect(je.doc_number).to eq 'MS-Managed'
     expect(je.txn_date).to be_nil
 
     list = je.line_items

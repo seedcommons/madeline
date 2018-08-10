@@ -2,32 +2,37 @@ module WordpressEmbeddable
   extend ActiveSupport::Concern
 
   included do
-    before_action :update_template
-    helper_method :get_division_from_url
+    before_action :check_template
+    helper_method :layout_site
     layout "public/wordpress"
   end
 
-  def default_division
-    :us
+  def layout_site
+    if params[:site].in?(Loan::URL_DIVISIONS)
+      params[:site]
+    else
+      raise AbstractController::ActionNotFound
+    end
   end
 
-  def get_division_from_url
-    division_urls = Rails.configuration.x.wordpress_template[:division_urls]
-    matching = division_urls.select { |expression, _| request.url.match expression }
-    division = matching.values.first
-    division || default_division
+  def update
+    skip_authorization
+    update_template
+    redirect_to controller: "loans", action: "index", site: params[:site]
   end
 
   private
 
-  def update_template
-    template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{get_division_from_url}"
-    return if template_exists?(template_path)
+  def check_template
+    template_path = "layouts/public/wordpress/#{Rails.env}/wordpress-#{layout_site}"
+    update_template unless template_exists?(template_path)
+  end
 
-    base_uri = Rails.configuration.x.wordpress_template[:base_uri][get_division_from_url]
+  def update_template
+    base_uri = Rails.configuration.x.wordpress_template[:base_uri][layout_site.to_sym]
 
     WordpressTemplate.update(
-      division: get_division_from_url,
+      division: layout_site,
       base_uri: base_uri
     )
   end

@@ -84,13 +84,13 @@ class Admin::OrganizationsController < Admin::AdminController
       :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
       :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
       :industry, :sector, :referral_source, :contact_notes,
-      :division_id, :primary_contact_id, person_ids: []
+      :division_id, :primary_contact_id, :legal_name, :postal_code,
+      person_ids: []
     )
   end
 
   def prep_form_vars
     @countries = Country.order(:name)
-    @division_choices = division_choices
     @people_choices = person_policy_scope(Person.all).order(:name)
     @notes = @org.notes.order(created_at: :desc)
 
@@ -102,4 +102,13 @@ class Admin::OrganizationsController < Admin::AdminController
       per_page: 10
     )
   end
+
+  def get_country_name(division)
+    if division.currency_id
+      currency = Currency.find(division.currency_id)
+      country = Country.find_by(iso_code: currency.country_code)
+      country.name
+    end
+  end
+  helper_method :get_country_name
 end

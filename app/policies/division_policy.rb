@@ -50,5 +50,9 @@ class DivisionPolicy < ApplicationPolicy
     def base_accessible_ids
       user.roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq
     end
+
+    def accessible_divisions(public_only: false)
+      public_only ? Division.published : user.accessible_divisions
+    end
   end
 end

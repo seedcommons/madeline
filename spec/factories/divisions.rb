@@ -25,7 +25,7 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(TRUE), not null
+#  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
 #  short_name                     :string
 #  updated_at                     :datetime         not null
@@ -57,7 +57,7 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     name { Faker::Address.city }
     parent { root_division }
-    sequence(:short_name) { |n| "#{Faker::Lorem.word}-#{n}" }
+    public true
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account

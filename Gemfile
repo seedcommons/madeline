@@ -20,6 +20,9 @@ gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
 gem 'paperclip', '~> 5.2'
 
+# Text editor
+gem 'summernote-rails', '~> 0.8.10.0'
+
 # Authentication / Authorization
 gem 'devise'
 gem 'pundit'
@@ -34,6 +37,7 @@ gem 'daemons'
 # Internationalization
 gem 'rails-i18n'
 gem 'i18n-js', '>= 3.0.0.rc11'
+gem 'devise-i18n'
 
 # Translate urls
 gem 'route_translator', '>=5.5.3'
@@ -51,9 +55,6 @@ gem 'mysql2'
 # Tables
 gem 'font-awesome-sass', '~> 4.3'
 gem 'jquery-ui-rails'
-
-# Human readable short names
-gem 'friendly_id', '~> 5.1.0'
 
 # We are using this fork because:
 # 1. 'tag_options' no longer valid in rails 5

@@ -16,7 +16,7 @@
         = @loan.id
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: @division_choices, include_blank_choice: false, classes: 'hidden-print')
+    choices: division_select_options(public_only: false), include_blank_choice: false, classes: 'hidden-print')
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
     choices: @organization_choices, include_blank_choice: true, classes: 'hidden-print')
@@ -107,7 +107,7 @@
 
   = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
-    = f.input_field :public_level_value, collection: Loan.public_level_options, selected: 'Public'
+    = f.input_field :public_level_value, collection: Loan.public_level_options, selected: (@loan.public_level_value || 'public')
 
   .actions.form-element
     - unless @loan.new_record?

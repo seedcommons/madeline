@@ -4,10 +4,10 @@ class NotePolicy < ApplicationPolicy
   end
 
   def update?
-    user == record.author.user
+    user == record.author.try(:user)
   end
 
   def destroy?
-    user == record.author.user || division_admin
+    user == record.author.try(:user) || division_admin
   end
 end

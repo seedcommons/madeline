@@ -25,7 +25,7 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(TRUE), not null
+#  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
 #  short_name                     :string
 #  updated_at                     :datetime         not null
@@ -50,13 +50,8 @@
 
 class Division < ActiveRecord::Base
   include DivisionBased
-  extend FriendlyId
 
-  after_create :add_short_name
-
-  friendly_id :short_name
-
-  has_closure_tree dependent: :restrict_with_exception
+  has_closure_tree dependent: :restrict_with_exception, order: :name
   resourcify
   alias_attribute :super_division, :parent
 
@@ -93,8 +88,12 @@ class Division < ActiveRecord::Base
   has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
+  validate :parent_division_and_name
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+  validates :short_name, presence: true, uniqueness: true, if: -> { self.public }
+
+  before_validation :generate_short_name
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
   scope :published, -> { where(public: true) }
@@ -103,7 +102,6 @@ class Division < ActiveRecord::Base
 
   def self.root_id
     result = root.try(:id)
-    logger.info("division root.id: #{result}")
     result
   end
 
@@ -165,10 +163,14 @@ class Division < ActiveRecord::Base
     qb_connection ? self : parent&.qb_division
   end
 
-  def add_short_name
-    if self.short_name.nil?
-      self.short_name = self.name.parameterize
-      save
-    end
+  def parent_division_and_name
+    errors.add(:parent, :invalid) if parent&.name == name
+  end
+
+  def generate_short_name
+    return if short_name.present?
+
+    self.short_name = name.parameterize
+    self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
   end
 end
