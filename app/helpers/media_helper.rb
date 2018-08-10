@@ -1,6 +1,6 @@
 module MediaHelper
   def media_thumbnail(media_item)
-    if media_item.thumbnail?
+    if media_item.thumbnail? && media_item.caption
       if media_item.caption.text.present?
         alt_text = truncate(media_item.caption.text, length: 36)
         return image_tag(media_item.item.thumb.url, alt: alt_text)
