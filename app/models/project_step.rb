@@ -366,7 +366,7 @@ class ProjectStep < TimelineEntry
   private
 
   def validate_scheduled_start_date
-    if schedule_parent && display_start_date != schedule_parent.dependent_step_start_date
+    if schedule_parent && scheduled_start_date != schedule_parent.dependent_step_start_date
       errors.add(:scheduled_start_date, :must_match)
     end
   end
