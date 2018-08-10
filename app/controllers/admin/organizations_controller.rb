@@ -84,7 +84,8 @@ class Admin::OrganizationsController < Admin::AdminController
       :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
       :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
       :industry, :sector, :referral_source, :contact_notes,
-      :division_id, :primary_contact_id, person_ids: []
+      :division_id, :primary_contact_id, :legal_name, :postal_code,
+      person_ids: []
     )
   end
 
