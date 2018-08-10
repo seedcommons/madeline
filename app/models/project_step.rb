@@ -153,7 +153,8 @@ class ProjectStep < TimelineEntry
   # Gets best known end date. Can be nil.
   def display_end_date
     if schedule_parent
-      return Date.today + scheduled_duration_days if parent_late?
+      return Date.today + scheduled_duration_days if parent_late? && scheduled_duration_days
+      return Date.today if parent_late?
     end
 
     actual_end_date || scheduled_end_date
