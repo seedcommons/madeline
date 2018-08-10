@@ -1,13 +1,11 @@
 module MediaHelper
   def media_thumbnail(media_item)
     if media_item.thumbnail? && media_item.caption
-      if media_item.caption.text.present?
-        alt_text = truncate(media_item.caption.text, length: 36)
-        return image_tag(media_item.item.thumb.url, alt: alt_text)
-      else
-        # Use auto-generated alt text
-        return image_tag(media_item.item.thumb.url)
-      end
+      # Use auto-generated alt text if no caption text
+      return image_tag(media_item.item.thumb.url) unless media_item.caption.text.blank?
+
+      alt_text = truncate(media_item.caption.text, length: 36)
+      image_tag(media_item.item.thumb.url, alt: alt_text)
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
