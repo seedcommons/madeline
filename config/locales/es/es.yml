@@ -80,6 +80,7 @@ es:
         name: "Nombre"
         neighborhood: "Barrio"
         people: "Miembros"
+        postal_code: "Código postal"
         primary_contact: "Contacto Principal"
         primary_phone: "Teléfono"
         referral_source: "Fuente del Contacto"
@@ -240,6 +241,9 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  amount_not_set: "El monto no está fijo"
+  blank: "-"
+  date_not_set: "La fecha no está fija"
   division: División
   show: Mostrar
   show_active: Activo
@@ -260,6 +264,7 @@ es:
   summary: Resumen
   details: Detalles
   timeline: Línea de Tiempo
+  other_loans: 'Otros Préstamos a Esta Cooperativa '
   payments: Devoluciones
   past_loans: Préstamos Anteriores
   no_description_found: No se encontró descripción.
