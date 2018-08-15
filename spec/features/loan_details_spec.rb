@@ -65,9 +65,8 @@ feature "loan details" do
   end
 
   context "with project events" do
-    before { pending "re-enable timeline" }
-    let!(:loan) { create(:loan, :public, :with_timeline, division: div_us) }
-    it "should have timeline" do
+    let!(:loan) { create(:loan, :public, :active, :with_timeline, division: div_us) }
+    xit "should have timeline" do
       click_link I18n.t :timeline
       project_events = loan.project_events
       project_events.each do |event|
@@ -77,10 +76,9 @@ feature "loan details" do
   end
 
   context "with repayments" do
-    before { pending "re-enable repayments" }
-    let!(:loan) { create(:loan, :public, :with_repayments, division: div_us) }
+    let!(:loan) { create(:loan, :public, :active, :with_repayments, division: div_us) }
 
-    it "should have repayments" do
+    xit "should have repayments" do
       visit loan_path(loan)
       click_link I18n.t :payments
       repayments = loan.reload.repayments
