@@ -20,7 +20,7 @@ class Public::LoansController < Public::PublicController
     authorize @loan
 
     @pictures = @loan.featured_pictures(limit: 5) # for slideshow
-    @other_loans = policy_scope(Loan.related_loans(@loan).order('signing_date desc'))
+    @other_loans = policy_scope(Loan.related_loans(@loan).active_or_completed.order('signing_date desc'))
   end
 
   def gallery
