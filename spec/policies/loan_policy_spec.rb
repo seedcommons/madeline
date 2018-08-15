@@ -6,9 +6,9 @@ describe LoanPolicy do
 
   subject { LoanPolicy.new(user, Loan.where(conditions)) }
   let!(:division) { create(:division) }
-  let!(:loan1) { create(:loan, division: division, public_level_value: 'featured') }
-  let!(:loan2) { create(:loan, division: division, public_level_value: 'featured') }
-  let!(:loan3) { create(:loan, division: division, public_level_value: 'hidden') }
+  let!(:loan1) { create(:loan, :active, division: division, public_level_value: 'featured') }
+  let!(:loan2) { create(:loan, :active, division: division, public_level_value: 'featured') }
+  let!(:loan3) { create(:loan, :active, division: division, public_level_value: 'hidden') }
 
   describe 'with user' do
     let!(:user) { create(:user, :admin, division: division) }
