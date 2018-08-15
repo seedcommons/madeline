@@ -80,7 +80,7 @@
               = loan.amount ? format_currency(loan.amount, loan.currency) : t(:amount_not_set)
             td = loan.status ? loan.status : t(:blank)
             td.hidden-xs style="width: 50%"
-              = loan.summary.empty? ? t(:blank) : render_translation(loan.summary)
+              = loan.summary.blank? ? t(:blank) : render_translation(loan.summary)
 
 javascript:
   $(function(){
