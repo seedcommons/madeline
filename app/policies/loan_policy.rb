@@ -14,7 +14,7 @@ class LoanPolicy < ProjectPolicy
 
     def publicly_visible(scope)
       public_division_ids = Division.where(public: true).pluck(:id)
-      scope.where(division: public_division_ids).where.not(public_level_value: "hidden")
+      scope.where(division: public_division_ids).active_or_completed.where.not(public_level_value: "hidden")
     end
   end
 end
