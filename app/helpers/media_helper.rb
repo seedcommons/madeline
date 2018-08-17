@@ -1,10 +1,13 @@
 module MediaHelper
   def media_thumbnail(media_item)
     if media_item.thumbnail?
-      caption_text_exists = media_item.caption && media_item.caption.text
+      caption_text_exists = media_item.caption && !media_item.caption.text.blank?
 
-      alt_text = caption_text_exists ? truncate(media_item.caption.text, length: 36) : nil
-      image_tag(media_item.item.thumb.url, alt: alt_text)
+      if caption_text_exists
+        image_tag(media_item.item.thumb.url, alt: truncate(media_item.caption.text, length: 36))
+      else
+        image_tag(media_item.item.thumb.url)
+      end
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
