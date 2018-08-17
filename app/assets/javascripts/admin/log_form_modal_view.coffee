@@ -43,12 +43,18 @@ class MS.Views.LogFormModalView extends Backbone.View
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
 
+    console.log(data)
+
     if @parentView # TODO: Remove once old timeline goes away
       @parentView.replaceWith(data)
     else
       if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
         @$('.modal').modal('hide')
+        @updateLogSummaryInList(data.responseText)
         @done()
         @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
+
+  updateLogSummaryInList: (summary) ->
+    console.log(summary)
