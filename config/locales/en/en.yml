@@ -81,6 +81,7 @@ en:
         name: "Name"
         neighborhood: "Neighborhood"
         people: "Members"
+        postal_code: "Postal Code"
         primary_contact: "Primary Contact"
         primary_phone: "Phone"
         referral_source: "Referral Source"
@@ -249,7 +250,10 @@ en:
 
 
   ## Front end ##
+  amount_not_set: "Amount not set"
+  blank: "-"
   country: Country
+  date_not_set: "Date not set"
   division: Division
   show: Show
   show_active: Active
@@ -270,6 +274,7 @@ en:
   summary: Summary
   details: Details
   timeline: Timeline
+  other_loans: Other Loans to This Co-op
   payments: Payments
   past_loans: Past Loans
   no_description_found: No description found.
