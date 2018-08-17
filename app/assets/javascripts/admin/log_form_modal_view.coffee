@@ -43,8 +43,6 @@ class MS.Views.LogFormModalView extends Backbone.View
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
 
-    console.log(data)
-
     if @parentView # TODO: Remove once old timeline goes away
       @parentView.replaceWith(data)
     else
@@ -56,5 +54,9 @@ class MS.Views.LogFormModalView extends Backbone.View
       else
         @replaceContent(data.responseText)
 
-  updateLogSummaryInList: (summary) ->
-    console.log(summary)
+  updateLogSummaryInList: (dataResponse) ->
+    # Update the log summary inside the timeline table step
+    dataResponse = JSON.parse(dataResponse)
+    summary = dataResponse['summary']['text']
+    logId = dataResponse['logId']
+    $("#timeline-table table .log-summary.project-step-item[data-log-id=#{logId}]").html(summary)
