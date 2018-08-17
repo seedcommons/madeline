@@ -1,9 +1,7 @@
 module MediaHelper
   def media_thumbnail(media_item)
     if media_item.thumbnail?
-      caption_text_exists = media_item.caption && !media_item.caption.text.blank?
-
-      if caption_text_exists
+      if media_item.caption && !media_item.caption.text.blank?
         image_tag(media_item.item.thumb.url, alt: truncate(media_item.caption.text, length: 36))
       else
         image_tag(media_item.item.thumb.url)
