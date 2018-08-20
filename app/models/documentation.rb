@@ -11,4 +11,6 @@
 #
 
 class Documentation < ApplicationRecord
+  include Translatable
+  attr_translatable :summary_content, :page_content
 end

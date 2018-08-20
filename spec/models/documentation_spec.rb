@@ -13,7 +13,7 @@
 require 'rails_helper'
 
 describe Documentation, type: :model do
-  it_should_behave_like 'translatable', ['summary_content', 'page_content']
+  it_should_behave_like 'translatable', %w(summary_content page_content)
 
   it 'has a valid factory' do
     expect(create(:documentation)).to be_valid
