@@ -52,7 +52,7 @@
 #   3. Creation date
 # It should be rare that transactions of the same type and date exist, so the creation date
 # should not be often needed to break ties.
-class Accounting::Transaction < ActiveRecord::Base
+class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry).freeze

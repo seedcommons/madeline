@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   establish_connection :legacy
   include LegacyModel
 

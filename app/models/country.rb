@@ -14,7 +14,7 @@
 #  fk_rails_...  (default_currency_id => currencies.id)
 #
 
-class Country < ActiveRecord::Base
+class Country < ApplicationRecord
   belongs_to :default_currency, class_name: 'Currency'
 
   def division
