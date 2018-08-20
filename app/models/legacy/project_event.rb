@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class ProjectEvent < ActiveRecord::Base
+  class ProjectEvent < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 

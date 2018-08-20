@@ -1,4 +1,4 @@
-class Repayment < ActiveRecord::Base
+class Repayment < ApplicationRecord
   belongs_to :loan, :foreign_key => 'LoanID'
 
   delegate :division, :division=, to: :loan

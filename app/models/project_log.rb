@@ -22,7 +22,7 @@
 #  fk_rails_...  (project_step_id => timeline_entries.id)
 #
 
-class ProjectLog < ActiveRecord::Base
+class ProjectLog < ApplicationRecord
   include Translatable, MediaAttachable, OptionSettable
 
   belongs_to :project_step

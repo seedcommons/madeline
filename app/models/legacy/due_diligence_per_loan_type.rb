@@ -3,7 +3,7 @@
 
 # -*- SkipSchemaAnnotations
 module Legacy
-  class DueDiligencePerLoanType < ActiveRecord::Base
+  class DueDiligencePerLoanType < ApplicationRecord
     establish_connection :legacy
 
     # This new table didn't follow the pluralization convention used by the other mysql tables,

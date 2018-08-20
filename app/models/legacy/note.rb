@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class Note < ActiveRecord::Base
+  class Note < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 

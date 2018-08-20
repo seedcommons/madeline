@@ -33,7 +33,7 @@
 #  fk_rails_...  (schedule_parent_id => timeline_entries.id)
 #
 
-class TimelineEntry < ActiveRecord::Base
+class TimelineEntry < ApplicationRecord
   include Translatable, OptionSettable
 
   has_closure_tree
