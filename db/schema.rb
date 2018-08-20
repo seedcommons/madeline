@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180820154353) do
+ActiveRecord::Schema.define(version: 20180820164459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20180820154353) do
     t.datetime "created_at", null: false
     t.string "html_identifier"
     t.datetime "updated_at", null: false
+    t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|

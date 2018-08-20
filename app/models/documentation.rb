@@ -9,6 +9,10 @@
 #  id                 :integer          not null, primary key
 #  updated_at         :datetime         not null
 #
+# Indexes
+#
+#  index_documentations_on_html_identifier  (html_identifier) UNIQUE
+#
 
 class Documentation < ApplicationRecord
   include Translatable
