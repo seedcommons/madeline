@@ -18,4 +18,14 @@ describe Documentation, type: :model do
   it 'has a valid factory' do
     expect(create(:documentation)).to be_valid
   end
+
+  describe 'uniqueness of html identifier' do
+    let!(:doc1) { create(:documentation, html_identifier: 'chocolate') }
+
+    it 'can not have duplicate html identifiers' do
+      expect {
+        create(:documentation, html_identifier: 'chocolate')
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end
