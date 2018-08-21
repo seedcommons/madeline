@@ -51,6 +51,7 @@ class Admin::DashboardController < Admin::AdminController
     # TODO: Filter steps by current division. See ProjectLog in_division and policy scopes.
     # There is no existing project step filter by division that I saw so far.
     @assigned_steps = ProjectStep.where(agent_id: @person.id)
+    @filtered_assigned_steps = @assigned_steps.where(is_finalized: true, actual_end_date: nil)
   end
 
   private
