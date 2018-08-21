@@ -24,8 +24,11 @@
     header
       h2 = t("dashboard.assigned_steps")
 
-    p = @assigned_steps.length
-    p = @filtered_assigned_steps.length
+    - if @filtered_assigned_steps.length > 0
+      p = @assigned_steps.length
+      p = @filtered_assigned_steps.length
+    - else
+      p = t("dashboard.no_assigned_steps")
 
   section.section.logs
     header

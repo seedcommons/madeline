@@ -3,6 +3,7 @@ en:
     assigned_steps: "Project Steps Assigned to Me"
     logs: "Logs"
     my_projects: "My Projects"
+    no_assigned_steps: "There are no project steps assigned to you."
     show_all_logs: "Manage Logs"
     upcoming_events: "Upcoming Steps"
     users: "Users"
