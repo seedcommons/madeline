@@ -1,0 +1,11 @@
+= simple_form_for [:admin, @documentation] do |f|
+
+  = f.error_notification
+
+  = f.input :html_identifier
+
+  = f.input :calling_controller
+  = f.input :calling_action
+
+  button.btn.btn-default.cancel> type="button" = t :cancel
+  = f.submit t(:save), class: 'submit btn btn-success'
