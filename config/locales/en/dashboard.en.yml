@@ -1,5 +1,6 @@
 en:
   dashboard:
+    assigned_steps: "Project Steps Assigned to Me"
     logs: "Logs"
     my_projects: "My Projects"
     show_all_logs: "Manage Logs"
