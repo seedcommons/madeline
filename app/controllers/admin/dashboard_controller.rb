@@ -9,6 +9,7 @@ class Admin::DashboardController < Admin::AdminController
 
     prep_calendar
     prep_projects_grid_for_current_user
+    prep_assigned_steps
     prep_logs
     prep_projects_grids_for_division_users
   end
@@ -43,6 +44,13 @@ class Admin::DashboardController < Admin::AdminController
   def prep_logs
     @context = "dashboard"
     @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).per(10)
+  end
+
+  def prep_assigned_steps
+    @context = "dashboard"
+    # TODO: Filter steps by current division. See ProjectLog in_division and policy scopes.
+    # There is no existing project step filter by division that I saw so far.
+    @assigned_steps = ProjectStep.where(agent_id: @person.id)
   end
 
   private
