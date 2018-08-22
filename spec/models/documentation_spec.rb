@@ -32,17 +32,4 @@ describe Documentation, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
-
-  describe 'translations are saved properly' do
-    before do
-      doc.summary_content = 'summary'
-      doc.page_content = 'page'
-      doc.save
-    end
-
-    it 'saves' do
-      expect(doc.reload.summary_content.text).to eq('summary')
-      expect(doc.reload.page_content.text).to eq('page')
-    end
-  end
 end
