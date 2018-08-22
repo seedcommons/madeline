@@ -6,6 +6,13 @@
     - g.column name: t('common.id'), attribute: 'id', filter: false
     - g.column name: t('common.updated'), attribute: 'updated_at', filter: false
     /- g.column name: 'Summary', attribute: 'summary', filter: false
+    - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_html: false
+    - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_csv: false do |step|
+      - if step.step_type_value == "milestone"
+        - "<i class='fa fa-fw fa-flag-o project-step-item'></i>".html_safe
+      - else
+         - "<i class='fa fa-fw fa-calendar project-step-item'></i>".html_safe
+
     - g.column name: 'Project', attribute: 'project_id', filter: false, in_html: false
     - g.column name: 'Project', attribute: 'project_id', filter: false, in_csv: false do |step|
       // TODO: Add link to project. Base path may be different for basic projects and loans.
