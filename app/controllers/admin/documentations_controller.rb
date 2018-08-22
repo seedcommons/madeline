@@ -3,6 +3,12 @@ class Admin::DocumentationsController < Admin::AdminController
   def new
     @documentation = Documentation.new(html_identifier: params[:html_identifier])
     authorize @documentation, :new?
+
+    if params[:caller]
+      controller_action = params[:caller].split('#')
+      @documentation.calling_controller = controller_action[0]
+      @documentation.calling_action = controller_action[1]
+    end
   end
 
   def create
