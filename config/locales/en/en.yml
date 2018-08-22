@@ -42,6 +42,10 @@ en:
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
         interest_income_account_id: "Interest Income Account"
+      documentation:
+        html_identifier: "HTML Identifier"
+        calling_controller: "Calling Controller"
+        calling_action: "Calling Action"
       loan:
         division: "Division"
         organization: "Co-op"
