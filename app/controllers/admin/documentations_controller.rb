@@ -12,6 +12,15 @@ class Admin::DocumentationsController < Admin::AdminController
   end
 
   def create
+    @documentation = Documentation.new(documentation_params)
+    authorize @documentation
+
+    if @documentation.save
+      # placeholder till other actions are defined
+      redirect_to root_path, notice: I18n.t(:notice_created)
+    else
+      render :new
+    end
   end
 
   private

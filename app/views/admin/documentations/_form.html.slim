@@ -7,5 +7,13 @@
   = f.input :calling_controller
   = f.input :calling_action
 
+  = f.translatable_inputs do |l|
+    = f.input "summary_content_#{l}".to_sym, as: :text,
+      input_html: {data: {translatable: 'summary_content'}},
+      label: I18n.t('documentation.summary_content', locale: l)
+    = f.input "page_content_#{l}".to_sym, as: :text,
+      input_html: {data: {translatable: 'page_content'}},
+      label: I18n.t('documentation.page_content', locale: l)
+
   button.btn.btn-default.cancel> type="button" = t :cancel
   = f.submit t(:save), class: 'submit btn btn-success'
