@@ -1,19 +1,25 @@
 = define_grid(@recent_project_steps_grid, hide_csv_button: true) do |g|
 
-    / - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
-    /   ordering: false do |step|
-    /     - step.id
-    - g.column name: t('common.id'), attribute: 'id', filter: false
-    /- g.column name: 'Summary', attribute: 'summary', filter: false
-    - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_html: false
-    - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_csv: false do |step|
-      - if step.step_type_value == "milestone"
-        - "<i class='fa fa-fw fa-flag-o project-step-item'></i> #{step.summary}".html_safe
-      - else
-         - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
+  /- g.blank_slate { @recent_project_steps_grid.no_records_at_all = true; "" }
 
-    - g.column name: 'Project', attribute: 'project_id', filter: false, in_html: false
-    - g.column name: 'Project', attribute: 'project_id', filter: false, in_csv: false do |step|
-      // TODO: Add link to project. Base path may be different for basic projects and loans.
-      - step.project.display_name
-    - g.column name: 'Due Date', attribute: 'scheduled_start_date', filter: false
+  / - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
+  /   ordering: false do |step|
+  /     - step.id
+  - g.column name: t('common.id'), attribute: 'id', filter: false
+
+  /- g.column name: 'Summary', attribute: 'summary', filter: false
+  - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_html: false
+  - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_csv: false do |step|
+    - if step.step_type_value == "milestone"
+      - "<i class='fa fa-fw fa-flag-o project-step-item'></i> #{step.summary}".html_safe
+    - else
+       - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
+
+  - g.column name: 'Project', attribute: 'project_id', filter: false, in_html: false
+  - g.column name: 'Project', attribute: 'project_id', filter: false, in_csv: false do |step|
+    - if (step.project.class.name == "Loan")
+      - link_to(step.project.display_name, admin_loan_path(step.project.id))
+    - else
+      - link_to(step.project.display_name, admin_basic_project_path(step.project.id))
+
+  - g.column name: 'Due Date', attribute: 'scheduled_start_date', filter: false
