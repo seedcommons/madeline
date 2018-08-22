@@ -2,12 +2,12 @@ require 'rails_helper'
 
 feature 'documentation' do
   let(:user) { create_admin(create(:division)) }
-  let(:doc) { create(:documentation, html_identifier: 'movies') }
+  let!(:doc) { create(:documentation, html_identifier: 'movies') }
 
   before do
     login_as user
-    doc.summary_content = 'original summary content'
-    doc.page_content = 'original page content'
+    doc.summary_content = { text: 'original summary content' }
+    doc.page_content = { text: 'original page content' }
   end
 
   scenario 'creation' do
@@ -28,7 +28,7 @@ feature 'documentation' do
   end
 
   scenario 'editing' do
-    visit edit_admin_documentation_path(doc)
+    visit admin_documentation_path(html_identifier: doc.html_identifier)
 
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Content', with: 'my page content'
