@@ -1,10 +1,14 @@
 module Accounting
   module Quickbooks
     class DataExtractor
-      def initialize(obj)
-        case obj.qb_object_type
+      def initialize(object)
+        @object = object
+      end
+
+      def extract!
+        case @object.qb_object_type
         when "JournalEntry", "Purchase", "Deposit", "Bill"
-          Accounting::Quickbooks::TransactionExtractor.new(obj)
+          Accounting::Quickbooks::TransactionExtractor.new(@object)
         end
       end
     end
