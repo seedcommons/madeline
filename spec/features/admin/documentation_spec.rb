@@ -2,8 +2,13 @@ require 'rails_helper'
 
 feature 'documentation' do
   let(:user) { create_admin(create(:division)) }
+  let(:doc) { create(:documentation, html_identifier: 'movies') }
 
-  before { login_as user }
+  before do
+    login_as user
+    doc.summary_content = 'original summary content'
+    doc.page_content = 'original page content'
+  end
 
   scenario 'creation' do
     visit new_admin_documentation_path(caller: 'loans#new', html_identifier: 'food')
@@ -20,5 +25,16 @@ feature 'documentation' do
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
     expect(Documentation.last.page_content.text).to eq('my page content')
+  end
+
+  scenario 'editing' do
+    visit edit_admin_documentation_path(doc)
+
+    fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Content', with: 'my page content'
+    click_on 'Save'
+
+    expect(doc.summary_content.text).to eq('my summary content')
+    expect(doc.page_content.text).to eq('my page content')
   end
 end
