@@ -101,7 +101,7 @@ module Translatable
   end
 
   def division_locales
-    return unless respond_to?(:division)
+    return [] unless respond_to?(:division)
     division.locales
   end
 
