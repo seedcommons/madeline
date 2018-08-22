@@ -1,6 +1,6 @@
 module Accounting
   module Quickbooks
-    class DataExtractor
+    class TransactionExtractor
       attr_reader :txn, :loan
 
       def initialize(txn)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Accounting::Quickbooks::DataExtractor, type: :model do
+describe Accounting::Quickbooks::TransactionExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account}
