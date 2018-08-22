@@ -12,5 +12,13 @@ feature 'documentation' do
     expect(page).to have_field('HTML Identifier', with: 'food')
     expect(page).to have_field('Calling Controller', with: 'loans')
     expect(page).to have_field('Calling Action', with: 'new')
+
+    # translatable fields save appropriately
+    fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Content', with: 'my page content'
+    click_on 'Save'
+
+    expect(Documentation.last.summary_content).to eq('my summary content')
+    expect(Documentation.last.page_content).to eq('my page content')
   end
 end
