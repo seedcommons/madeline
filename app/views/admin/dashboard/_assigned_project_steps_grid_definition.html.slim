@@ -9,9 +9,9 @@
     - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_html: false
     - g.column name: 'Summary', attribute: 'step_type_value', filter: false, in_csv: false do |step|
       - if step.step_type_value == "milestone"
-        - "<i class='fa fa-fw fa-flag-o project-step-item'></i>".html_safe
+        - "<i class='fa fa-fw fa-flag-o project-step-item'></i> #{step.summary}".html_safe
       - else
-         - "<i class='fa fa-fw fa-calendar project-step-item'></i>".html_safe
+         - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
 
     - g.column name: 'Project', attribute: 'project_id', filter: false, in_html: false
     - g.column name: 'Project', attribute: 'project_id', filter: false, in_csv: false do |step|
