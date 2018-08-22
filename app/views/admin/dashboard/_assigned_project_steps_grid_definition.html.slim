@@ -1,0 +1,7 @@
+= define_grid(@recent_project_steps_grid, hide_csv_button: true) do |g|
+
+    / - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false,
+    /   ordering: false do |step|
+    /     - step.id
+    - g.column name: t('common.id'), attribute: 'id', filter: false
+    - g.column name: t('common.updated'), attribute: 'updated_at', filter: false

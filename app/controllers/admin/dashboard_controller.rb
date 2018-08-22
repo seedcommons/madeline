@@ -55,6 +55,11 @@ class Admin::DashboardController < Admin::AdminController
     # one month after today's date. Extremely late steps are not displayed.
     @filtered_assigned_steps = @assigned_steps.where(is_finalized: true, actual_end_date: nil,
       scheduled_start_date: (Time.now.midnight - 1.years)..(Time.now.midnight + 1.month))
+    @recent_project_steps_grid = initialize_grid(
+      @filtered_assigned_steps,
+      name: 'assigned_project_steps',
+      enable_export_to_csv: true
+    )
   end
 
   private

@@ -27,6 +27,10 @@
     - if @filtered_assigned_steps.length > 0
       p = @assigned_steps.length
       p = @filtered_assigned_steps.length
+
+      = render "assigned_project_steps_grid_definition"
+      - unless @recent_project_steps_grid.no_records_at_all
+        = render_index_grid(@recent_project_steps_grid)
     - else
       p = t("dashboard.no_assigned_steps")
 
