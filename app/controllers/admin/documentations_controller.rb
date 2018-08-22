@@ -3,7 +3,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def new
     @documentation = Documentation.new(html_identifier: params[:html_identifier])
-    authorize @documentation, :new?
+    authorize @documentation
 
     if params[:caller]
       controller_action = params[:caller].split('#')
@@ -17,7 +17,7 @@ class Admin::DocumentationsController < Admin::AdminController
     authorize @documentation
 
     if @documentation.save
-      # placeholder till other actions are defined
+      # TODO: placeholder till other actions are defined
       redirect_to root_path, notice: I18n.t(:notice_created)
     else
       render :new
