@@ -22,4 +22,14 @@
     - else
       - link_to(step.project.display_name, admin_basic_project_path(step.project.id))
 
-  - g.column name: 'Due Date', attribute: 'scheduled_start_date', filter: false
+  - g.column name: t('dashboard.scheduled_start_date'), attribute: 'scheduled_start_date',
+    filter: false, in_html: false
+  - g.column name: t('dashboard.scheduled_start_date'), attribute: 'scheduled_start_date',
+    filter: false, in_csv: false do |step|
+    - step.display_start_date
+
+  - g.column name: t('dashboard.scheduled_end_date'), attribute: 'scheduled_duration_days',
+    filter: false, in_html: false
+  - g.column name: t('dashboard.scheduled_end_date'), attribute: 'scheduled_duration_days',
+    filter: false, in_csv: false do |step|
+    - step.display_end_date
