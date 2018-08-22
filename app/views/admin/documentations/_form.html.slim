@@ -17,3 +17,10 @@
 
   button.btn.btn-default.cancel> type="button" = t :cancel
   = f.submit t(:save), class: 'submit btn btn-success'
+
+javascript:
+  $(function() {
+    new MS.Views.TranslationsView({
+      el: $('[data-content-translatable="#{@documentation.class.name.underscore}"]')
+    });
+  });
