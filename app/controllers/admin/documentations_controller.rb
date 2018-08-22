@@ -1,4 +1,5 @@
 class Admin::DocumentationsController < Admin::AdminController
+  include TranslationSaveable
 
   def new
     @documentation = Documentation.new(html_identifier: params[:html_identifier])
@@ -26,6 +27,7 @@ class Admin::DocumentationsController < Admin::AdminController
   private
 
   def documentation_params
-    params.require(:documentation).permit(:html_identifier, :calling_action, :calling_controller)
+    params.require(:documentation).permit(*([:html_identifier,
+      :calling_action, :calling_controller] + translation_params(:summary_content, :page_content)))
   end
 end
