@@ -20,10 +20,4 @@ class Documentation < ApplicationRecord
   attr_translatable :summary_content, :page_content
 
   validates :html_identifier, uniqueness: true
-
-  # TODO - remove this dependency
-  # needed for translatable
-  def division
-    Division.root
-  end
 end
