@@ -6,8 +6,8 @@ feature 'documentation' do
 
   before do
     login_as user
-    doc.summary_content = { text: 'original summary content' }
-    doc.page_content = { text: 'original page content' }
+    doc.summary_content = 'original summary content'
+    doc.page_content = 'original page content'
   end
 
   scenario 'creation' do
@@ -21,7 +21,7 @@ feature 'documentation' do
     # translatable fields save appropriately
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Content', with: 'my page content'
-    click_on 'Save'
+    click_on 'Create Documentation'
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
     expect(Documentation.last.page_content.text).to eq('my page content')
@@ -32,9 +32,9 @@ feature 'documentation' do
 
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Content', with: 'my page content'
-    click_on 'Save'
+    click_on 'Update Documentation'
 
-    expect(doc.summary_content.text).to eq('my summary content')
-    expect(doc.page_content.text).to eq('my page content')
+    expect(doc.reload.summary_content.text).to eq('my summary content')
+    expect(doc.reload.page_content.text).to eq('my page content')
   end
 end
