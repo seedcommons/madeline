@@ -15,10 +15,12 @@ feature 'documentation' do
 
     # translatable fields save appropriately
     fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
     click_on 'Save'
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
+    expect(Documentation.last.page_title.text).to eq('my page title')
     expect(Documentation.last.page_content.text).to eq('my page content')
   end
 end
