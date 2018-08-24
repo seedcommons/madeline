@@ -13,7 +13,7 @@ class QuestionSet < ApplicationRecord
 
   has_closure_tree_root :root_group, class_name: "Question"
 
-  attr_translatable :label
+  translates :label
 
   after_create :create_root_group!
 

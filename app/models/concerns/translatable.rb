@@ -47,7 +47,7 @@ module Translatable
     #   :en
     # end
 
-    def attr_translatable(*attributes)
+    def translates(*attributes)
       # attribute methods
       attributes.each do |attribute|
         define_method(attribute) { get_translation(attribute) }
