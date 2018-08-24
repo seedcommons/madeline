@@ -15,6 +15,7 @@ feature 'documentation' do
 
     # translatable fields save appropriately
     fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
     click_on 'Save'
 
