@@ -84,9 +84,7 @@ Rails.application.routes.draw do
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
     get '/loans/:project_id/transactions/:id' => 'accounting/transactions#show', as: 'loan_transaction'
 
-    # html_identifier is needed as a param in only some routes
-    resources :documentations, param: :html_identifier, only: [:new, :create]
-    resources :documentations, only: [:edit, :show, :update]
+    resources :documentations
   end
 
   localized do
