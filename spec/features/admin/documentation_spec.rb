@@ -28,7 +28,7 @@ feature 'documentation' do
   end
 
   scenario 'editing' do
-    visit admin_documentation_path(html_identifier: doc.html_identifier)
+    visit edit_admin_documentation_path(html_identifier: doc.html_identifier)
 
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Content', with: 'my page content'
