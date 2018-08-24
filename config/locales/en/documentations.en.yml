@@ -1,5 +1,6 @@
 en:
   documentation:
     new: 'New Documentation'
+    edit: 'Edit Documentation'
     page_content: "Page Content"
     summary_content: "Summary Content"
