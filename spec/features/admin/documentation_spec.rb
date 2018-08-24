@@ -44,4 +44,12 @@ feature 'documentation' do
     fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
   end
+
+  scenario 'show' do
+    visit admin_documentation_path(doc)
+
+    expect(page).to have_content('original summary content')
+    expect(page).to have_content('original page title')
+    expect(page).to have_content('original page content')
+  end
 end
