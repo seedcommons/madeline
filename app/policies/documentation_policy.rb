@@ -1,7 +1,6 @@
 class DocumentationPolicy < ApplicationPolicy
   def create?
-    # TODO: determine authorization
-    true
+    any_division_admin?
   end
 
   def edit?
@@ -9,10 +8,10 @@ class DocumentationPolicy < ApplicationPolicy
   end
 
   def update?
-    create?
+    edit?
   end
 
   def show?
-    create?
+    any_division_member_or_admin?
   end
 end
