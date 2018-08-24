@@ -60,7 +60,30 @@ module AdminHelper
   end
 
   # Displays Font Awesome icons
-  def icon_tag(class_name)
-    content_tag(:i, "", class: "fa fa-#{class_name}")
+  def icon_tag(class_name, options: {})
+    content_tag(:i, "", id: options[:id], data: options[:data], class: "fa fa-#{class_name} #{options[:extra_classes]}")
+  end
+
+  def documentation_popover(documentations, html_identifier: "")
+    documentation = documentations[html_identifier]
+    if documentation.present?
+      data_content = documentation&.summary_content.to_s
+      if documentation.page_content.present?
+        learn_more_link = link_to t("documentation.learn_more"), admin_documentation_path(documentation)
+        data_content << "<br /><br />" << learn_more_link
+      end
+      action_link = link_to t("documentation.edit"), edit_admin_documentation_path(documentation) if policy(documentation).edit?
+    else
+      new_documentation = Documentation.new
+      return "" unless policy(new_documentation).new?
+      caller_string = "#{controller_name}##{action_name}"
+      data_content = t("documentation.no_documentations")
+      action_link = link_to t("documentation.new"), new_admin_documentation_path(caller: caller_string, html_identifier: html_identifier) if policy(new_documentation).new?
+      extra_classes = "text-muted"
+    end
+    data_hash = { toggle: "popover", content: data_content, html: true, title: action_link }
+    content_tag(:a, tabindex: 0, data: data_hash, class: 'ms-popover') do
+      icon_tag("question-circle", options: {id: html_identifier, extra_classes: extra_classes})
+    end
   end
 end
