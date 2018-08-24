@@ -15,8 +15,14 @@
       input_html: {data: {translatable: 'page_content'}},
       label: I18n.t('documentation.page_content', locale: l)
 
-  button.btn.btn-default.cancel> type="button" = t :cancel
-  = f.submit t(:save), class: 'submit btn btn-success'
+  .actions.form-element
+    - unless @documentation.new_record?
+      - if @documentation.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href='#' = t(:cancel)
+    = f.submit class: 'update-action btn btn-primary'
+  .clearfix
 
 javascript:
   $(function() {
