@@ -2,15 +2,10 @@ require 'rails_helper'
 
 feature 'documentation' do
   let(:user) { create_admin(create(:division)) }
-  let!(:doc) { create(:documentation, html_identifier: 'movies') }
+  let!(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
+    page_title: 'original page title', page_content: 'original page content') }
 
-  before do
-    login_as user
-    doc.summary_content = 'original summary content'
-    doc.page_title = 'original page title'
-    doc.page_content = 'original page content'
-    doc.save
-  end
+  before { login_as user }
 
   scenario 'creation' do
     visit new_admin_documentation_path(caller: 'loans#new', html_identifier: 'food')
@@ -30,7 +25,7 @@ feature 'documentation' do
   end
 
   scenario 'editing', js: true do
-    visit edit_admin_documentation_path(doc.html_identifier)
+    visit edit_admin_documentation_path(doc)
 
     # page is on English locale on load
     expect(page).to have_css('select#documentation_locale_en')
@@ -55,7 +50,7 @@ feature 'documentation' do
   end
 
   scenario 'show' do
-    visit admin_documentation_path(doc.html_identifier)
+    visit admin_documentation_path(doc)
 
     expect(page).to have_content('original page title')
     expect(page).to have_content('original page content')
