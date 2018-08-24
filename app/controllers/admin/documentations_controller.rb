@@ -1,6 +1,8 @@
 class Admin::DocumentationsController < Admin::AdminController
   include TranslationSaveable
 
+  before_action :find_documentation, only: [:edit, :show]
+
   def new
     @documentation = Documentation.new(html_identifier: params[:html_identifier])
     authorize @documentation
@@ -24,11 +26,6 @@ class Admin::DocumentationsController < Admin::AdminController
     end
   end
 
-  def edit
-    @documentation = Documentation.find_by(html_identifier: params[:html_identifier])
-    authorize @documentation
-  end
-
   def update
     @documentation = Documentation.find(params[:html_identifier])
     authorize @documentation
@@ -41,16 +38,16 @@ class Admin::DocumentationsController < Admin::AdminController
     end
   end
 
-  def show
-    @documentation = Documentation.find_by(html_identifier: params[:html_identifier])
-    authorize @documentation
-  end
-
   private
 
   def documentation_params
     params.require(:documentation).permit(*([:html_identifier,
       :calling_action, :calling_controller
     ] + translation_params(:summary_content, :page_content, :page_title)))
+  end
+
+  def find_documentation
+    @documentation = Documentation.find_by(html_identifier: params[:html_identifier])
+    authorize @documentation
   end
 end

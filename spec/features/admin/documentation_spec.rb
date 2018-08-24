@@ -29,9 +29,17 @@ feature 'documentation' do
     expect(Documentation.last.page_content.text).to eq('my page content')
   end
 
-  scenario 'editing' do
-    visit edit_admin_documentation_path(html_identifier: doc.html_identifier)
+  scenario 'editing', js: true do
+    visit edit_admin_documentation_path(doc.html_identifier)
 
+    # page is on English locale on load
+    expect(page).to have_css('select#documentation_locale_en')
+
+    # translations work
+    select 'Español', from: 'documentation_locale_en'
+    expect(page).to have_css('select#documentation_locale_es')
+
+    # testing content
     fill_in_content
     click_on 'Update Documentation'
 
