@@ -20,6 +20,7 @@ feature 'documentation' do
     click_on 'Save'
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
+    expect(Documentation.last.page_title.text).to eq('my page title')
     expect(Documentation.last.page_content.text).to eq('my page content')
   end
 end
