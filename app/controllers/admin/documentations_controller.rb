@@ -41,6 +41,11 @@ class Admin::DocumentationsController < Admin::AdminController
     end
   end
 
+  def show
+    @documentation = Documentation.find_by(html_identifier: params[:html_identifier])
+    authorize @documentation
+  end
+
   private
 
   def documentation_params
