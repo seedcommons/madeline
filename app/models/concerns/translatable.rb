@@ -47,20 +47,24 @@ module Translatable
     #   :en
     # end
 
-    def translates(*attributes)
+    def translates(*attributes, allow_html: false)
       # attribute methods
       attributes.each do |attribute|
         define_method(attribute) { get_translation(attribute) }
-        define_method("#{attribute}=") { |text| set_translation(attribute, text) }
+        define_method("#{attribute}=") { |text| set_translation(attribute, text, allow_html: allow_html) }
         define_method("set_#{attribute}") do |text, locale: I18n.locale|
           set_translation(attribute, text, locale: locale)
         end
         define_method("#{attribute}_translations") { get_translations(attribute) }
-        define_method("#{attribute}_translations=") { |translations| set_translations(attribute, translations) }
+        define_method("#{attribute}_translations=") do |translations|
+          set_translations(attribute, translations, allow_html: allow_html)
+        end
         alias_method "set_#{attribute}_translations", "#{attribute}_translations="
         I18n.available_locales.each do |locale|
           define_method("#{attribute}_#{locale}") { get_translation(attribute, locale: locale) }
-          define_method("#{attribute}_#{locale}=") { |text| set_translation(attribute, text, locale: locale) }
+          define_method("#{attribute}_#{locale}=") do |text|
+            set_translation(attribute, text, locale: locale, allow_html: allow_html)
+          end
           define_method("clear_#{attribute}_#{locale}") { delete_translation(attribute, locale) }
         end
       end
@@ -134,17 +138,17 @@ module Translatable
   # if old_locale is provided and different from locale, then the language for an existing set of translations
   # was changed from one language to another within the edit UI, and we need to match against that existing record
   # when fetching for the update
-  def set_translation(attribute, text, locale: I18n.locale, old_locale: nil)
+  def set_translation(attribute, text, locale: I18n.locale, old_locale: nil, allow_html:)
     translation = get_translation(attribute, locale: old_locale || locale, exact_match: true)
     if translation
-      translation.assign_attributes(text: text, locale: locale)
+      translation.assign_attributes(text: text, locale: locale, allow_html: allow_html)
     else
-      translations.build(translatable_attribute: attribute, locale: locale, text: text)
+      translations.build(translatable_attribute: attribute, locale: locale, text: text, allow_html: allow_html)
     end
     text
   end
 
-  def set_translations(attribute, translations = {})
+  def set_translations(attribute, translations = {}, allow_html:)
     translations.each do |locale, text|
       set_translation(attribute, text, locale: locale)
     end
