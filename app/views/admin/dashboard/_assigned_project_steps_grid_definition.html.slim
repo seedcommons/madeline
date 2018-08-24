@@ -1,5 +1,6 @@
 = define_grid(@recent_project_steps_grid, hide_csv_button: true) do |g|
 
+  - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
   - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false, ordering: false
 
   - g.column name: t('dashboard.step_type_value'), attribute: 'step_type_value', filter: false,
