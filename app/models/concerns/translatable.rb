@@ -53,7 +53,7 @@ module Translatable
         define_method(attribute) { get_translation(attribute) }
         define_method("#{attribute}=") { |text| set_translation(attribute, text, allow_html: allow_html) }
         define_method("set_#{attribute}") do |text, locale: I18n.locale|
-          set_translation(attribute, text, locale: locale)
+          set_translation(attribute, text, locale: locale, allow_html: allow_html)
         end
         define_method("#{attribute}_translations") { get_translations(attribute) }
         define_method("#{attribute}_translations=") do |translations|
@@ -150,7 +150,7 @@ module Translatable
 
   def set_translations(attribute, translations = {}, allow_html:)
     translations.each do |locale, text|
-      set_translation(attribute, text, locale: locale)
+      set_translation(attribute, text, locale: locale, allow_html: allow_html)
     end
   end
 
