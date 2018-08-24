@@ -9,6 +9,7 @@ feature 'documentation' do
     doc.summary_content = 'original summary content'
     doc.page_title = 'original page title'
     doc.page_content = 'original page content'
+    doc.save
   end
 
   scenario 'creation' do
@@ -48,7 +49,6 @@ feature 'documentation' do
   scenario 'show' do
     visit admin_documentation_path(doc.html_identifier)
 
-    expect(page).to have_content('original summary content')
     expect(page).to have_content('original page title')
     expect(page).to have_content('original page content')
   end
