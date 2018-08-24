@@ -7,6 +7,7 @@ feature 'documentation' do
   before do
     login_as user
     doc.summary_content = 'original summary content'
+    doc.page_title = 'original page title'
     doc.page_content = 'original page content'
   end
 
