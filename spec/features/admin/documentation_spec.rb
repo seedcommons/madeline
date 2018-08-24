@@ -2,13 +2,10 @@ require 'rails_helper'
 
 feature 'documentation' do
   let(:user) { create_admin(create(:division)) }
-  let!(:doc) { create(:documentation, html_identifier: 'movies') }
+  let!(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
+    page_title: 'original page title', page_content: 'original page content') }
 
-  before do
-    login_as user
-    doc.summary_content = 'original summary content'
-    doc.page_content = 'original page content'
-  end
+  before { login_as user }
 
   scenario 'creation' do
     visit new_admin_documentation_path(caller: 'loans#new', html_identifier: 'food')
@@ -27,9 +24,17 @@ feature 'documentation' do
     expect(Documentation.last.page_content.text).to eq('my page content')
   end
 
-  scenario 'editing' do
-    visit edit_admin_documentation_path(html_identifier: doc.html_identifier)
+  scenario 'editing', js: true do
+    visit edit_admin_documentation_path(doc)
 
+    # page is on English locale on load
+    expect(page).to have_css('select#documentation_locale_en')
+
+    # translations work
+    select 'Español', from: 'documentation_locale_en'
+    expect(page).to have_css('select#documentation_locale_es')
+
+    # testing content
     fill_in_content
     click_on 'Update Documentation'
 
@@ -42,5 +47,12 @@ feature 'documentation' do
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
+  end
+
+  scenario 'show' do
+    visit admin_documentation_path(doc)
+
+    expect(page).to have_content('original page title')
+    expect(page).to have_content('original page content')
   end
 end

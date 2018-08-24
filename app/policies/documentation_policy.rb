@@ -11,4 +11,8 @@ class DocumentationPolicy < ApplicationPolicy
   def update?
     create?
   end
+
+  def show?
+    create?
+  end
 end

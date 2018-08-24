@@ -84,7 +84,7 @@ Rails.application.routes.draw do
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
     get '/loans/:project_id/transactions/:id' => 'accounting/transactions#show', as: 'loan_transaction'
 
-    resources :documentations, param: :html_identifier
+    resources :documentations
   end
 
   localized do
