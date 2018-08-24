@@ -23,6 +23,7 @@ feature 'documentation' do
     click_on 'Create Documentation'
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
+    expect(Documentation.last.page_title.text).to eq('my page title')
     expect(Documentation.last.page_content.text).to eq('my page content')
   end
 
@@ -33,11 +34,13 @@ feature 'documentation' do
     click_on 'Update Documentation'
 
     expect(doc.reload.summary_content.text).to eq('my summary content')
+    expect(doc.reload.page_title.text).to eq('my page title')
     expect(doc.reload.page_content.text).to eq('my page content')
   end
 
   def fill_in_content
     fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
   end
 end

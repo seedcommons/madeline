@@ -17,7 +17,7 @@
 class Documentation < ApplicationRecord
   include Translatable
 
-  attr_translatable :summary_content, :page_content
+  attr_translatable :summary_content, :page_content, :page_title
 
   validates :html_identifier, uniqueness: true
 end

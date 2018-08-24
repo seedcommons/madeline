@@ -45,6 +45,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def documentation_params
     params.require(:documentation).permit(*([:html_identifier,
-      :calling_action, :calling_controller] + translation_params(:summary_content, :page_content)))
+      :calling_action, :calling_controller
+    ] + translation_params(:summary_content, :page_content, :page_title)))
   end
 end
