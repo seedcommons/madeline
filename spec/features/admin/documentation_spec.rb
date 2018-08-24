@@ -46,7 +46,7 @@ feature 'documentation' do
   end
 
   scenario 'show' do
-    visit admin_documentation_path(doc)
+    visit admin_documentation_path(doc.html_identifier)
 
     expect(page).to have_content('original summary content')
     expect(page).to have_content('original page title')
