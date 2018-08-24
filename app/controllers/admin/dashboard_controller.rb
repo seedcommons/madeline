@@ -58,7 +58,7 @@ class Admin::DashboardController < Admin::AdminController
     @recent_project_steps_grid = initialize_grid(
       @filtered_assigned_steps,
       name: 'assigned_project_steps',
-      enable_export_to_csv: true
+      enable_export_to_csv: false
     )
   end
 

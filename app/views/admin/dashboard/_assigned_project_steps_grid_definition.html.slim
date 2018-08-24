@@ -1,16 +1,19 @@
 = define_grid(@recent_project_steps_grid, hide_csv_button: true) do |g|
 
-  - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false
+  - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false, ordering: false
 
-  - g.column name: t('dashboard.step_type_value'), attribute: 'step_type_value', filter: false, in_html: false
-  - g.column name: t('dashboard.summary'), attribute: 'step_type_value', filter: false, in_csv: false do |step|
+  - g.column name: t('dashboard.step_type_value'), attribute: 'step_type_value', filter: false,
+    in_html: false
+  - g.column name: t('dashboard.summary'), attribute: 'step_type_value', filter: false,
+    in_csv: false, ordering: false do |step|
     - if step.step_type_value == "milestone"
       - "<i class='fa fa-fw fa-flag-o project-step-item'></i> #{step.summary}".html_safe
     - else
        - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
 
   - g.column name: t('dashboard.project'), attribute: 'project_id', filter: false, in_html: false
-  - g.column name: t('dashboard.project'), attribute: 'project_id', filter: false, in_csv: false do |step|
+  - g.column name: t('dashboard.project'), attribute: 'project_id', filter: false,
+    in_csv: false, ordering: false do |step|
     - if (step.project.class.name == "Loan")
       - link_to(step.project.display_name, admin_loan_path(step.project.id))
     - else
@@ -19,11 +22,11 @@
   - g.column name: t('dashboard.scheduled_start_date'), attribute: 'scheduled_start_date',
     filter: false, in_html: false
   - g.column name: t('dashboard.scheduled_start_date'), attribute: 'scheduled_start_date',
-    filter: false, in_csv: false do |step|
+    filter: false, in_csv: false, ordering: false do |step|
     - step.display_start_date
 
   - g.column name: t('dashboard.scheduled_end_date'), attribute: 'scheduled_duration_days',
     filter: false, in_html: false
   - g.column name: t('dashboard.scheduled_end_date'), attribute: 'scheduled_duration_days',
-    filter: false, in_csv: false do |step|
+    filter: false, in_csv: false, ordering: false do |step|
     - step.display_end_date
