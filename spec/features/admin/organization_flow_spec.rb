@@ -73,7 +73,7 @@ feature 'organization flow' do
     visit new_admin_organization_path
     fill_in 'organization_name', with: 'Jayita'
     select country.name
-    click_on 'Create Organization'
+    click_on 'Create Co-op'
 
     expect(page).to have_content('Jayita')
     expect(page).to have_content('Record was successfully created')
