@@ -19,8 +19,7 @@ feature 'documentation' do
     expect(page).to have_field('Calling Action', with: 'new')
 
     # translatable fields save appropriately
-    fill_in 'Summary Content', with: 'my summary content'
-    fill_in 'Page Content', with: 'my page content'
+    fill_in_content
     click_on 'Create Documentation'
 
     expect(Documentation.last.summary_content.text).to eq('my summary content')
@@ -30,11 +29,15 @@ feature 'documentation' do
   scenario 'editing' do
     visit edit_admin_documentation_path(html_identifier: doc.html_identifier)
 
-    fill_in 'Summary Content', with: 'my summary content'
-    fill_in 'Page Content', with: 'my page content'
+    fill_in_content
     click_on 'Update Documentation'
 
     expect(doc.reload.summary_content.text).to eq('my summary content')
     expect(doc.reload.page_content.text).to eq('my page content')
+  end
+
+  def fill_in_content
+    fill_in 'Summary Content', with: 'my summary content'
+    fill_in 'Page Content', with: 'my page content'
   end
 end
