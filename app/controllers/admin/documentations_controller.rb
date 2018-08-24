@@ -24,6 +24,23 @@ class Admin::DocumentationsController < Admin::AdminController
     end
   end
 
+  def edit
+    @documentation = Documentation.find_by(html_identifier: params[:html_identifier])
+    authorize @documentation
+  end
+
+  def update
+    @documentation = Documentation.find(params[:html_identifier])
+    authorize @documentation
+
+    if @documentation.update(documentation_params)
+      # TODO: placeholder till other actions are defined
+      redirect_to root_path, notice: I18n.t(:notice_updated)
+    else
+      render :edit
+    end
+  end
+
   private
 
   def documentation_params
