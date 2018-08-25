@@ -9,5 +9,12 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         described_class.new(txn).extract!
       end
     end
+
+    # Eventually account extraction should move to another subclass
+    # it "calls the right extractor class for Account" do
+    #   account = create(:accounting_account)
+    #   expect(Accounting::Quickbooks::AccountExtractor).to receive(:new).with(account)
+    #   described_class.new(account).extract!
+    # end
   end
 end
