@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe Accounting::Quickbooks::DataExtractor, type: :model do
+  it "raises an error with invalid object type" do
+    txn = create(:accounting_transaction, qb_object_type: "ChocolateStout")
+    expect { described_class.new(txn) }.to raise_error(RuntimeError)
+  end
+
   context '#extract!' do
     %w(JournalEntry Purchase Deposit Bill).each do |obj_type|
       it "calls the right extractor class for #{obj_type}" do
