@@ -48,24 +48,18 @@ FactoryBot.define do
     transient_division
 
     trait :member do
-      transient do
-        division { create(:division) }
-      end
       profile { create(:person, :with_member_access, :with_password) }
 
       after(:create) do |user, evaluator|
-        user.add_role :member, evaluator.division if evaluator.division.present?
+        user.add_role :member, (evaluator&.division || create(:division))
       end
     end
 
     trait :admin do
-      transient do
-        division { create(:division) }
-      end
       profile { create(:person, :with_admin_access, :with_password) }
 
       after(:create) do |user, evaluator|
-        user.add_role :admin, evaluator.division if evaluator.division.present?
+        user.add_role :admin, (evaluator&.division || create(:division))
       end
     end
   end
