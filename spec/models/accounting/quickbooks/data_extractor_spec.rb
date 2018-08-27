@@ -10,7 +10,9 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
     %w(JournalEntry Purchase Deposit Bill).each do |obj_type|
       it "calls the right extractor class for #{obj_type}" do
         txn = create(:accounting_transaction, qb_object_type: obj_type)
-        expect(Accounting::Quickbooks::TransactionExtractor).to receive(:new).with(txn)
+        extractor = double("extractor")
+        expect(Accounting::Quickbooks::TransactionExtractor).to receive(:new).with(txn) { extractor }
+        expect(extractor).to receive(:extract!)
         described_class.new(txn).extract!
       end
     end
