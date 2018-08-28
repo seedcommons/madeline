@@ -1,6 +1,18 @@
 class DocumentationPolicy < ApplicationPolicy
   def create?
-    # set this way until we determine authorization
+    # TODO: determine authorization
     true
+  end
+
+  def edit?
+    create?
+  end
+
+  def update?
+    create?
+  end
+
+  def show?
+    create?
   end
 end
