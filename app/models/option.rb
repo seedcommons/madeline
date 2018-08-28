@@ -20,7 +20,7 @@
 #  fk_rails_...  (option_set_id => option_sets.id)
 #
 
-class Option < ActiveRecord::Base
+class Option < ApplicationRecord
   include Translatable
 
   belongs_to :option_set

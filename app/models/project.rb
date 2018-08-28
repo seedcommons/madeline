@@ -43,7 +43,7 @@
 #  fk_rails_...  (secondary_agent_id => people.id)
 #
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   include Translatable
   include OptionSettable
 
