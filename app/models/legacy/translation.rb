@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-class Translation < ActiveRecord::Base
+class Translation < ApplicationRecord
   establish_connection :legacy
   include LegacyModel
 

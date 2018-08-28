@@ -42,7 +42,7 @@
 #  fk_rails_...  (primary_contact_id => people.id)
 #
 
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable

@@ -25,7 +25,7 @@
 #  fk_rails_...  (uploader_id => people.id)
 #
 
-class Media < ActiveRecord::Base
+class Media < ApplicationRecord
   include Translatable
   include OptionSettable
 

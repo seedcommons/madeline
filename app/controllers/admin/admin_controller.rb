@@ -1,5 +1,6 @@
 class Admin::AdminController < ApplicationController
   include DivisionSelectable
+  include Documentable
 
   layout 'admin/signed_in'
 

@@ -32,7 +32,7 @@
 # parent question"
 
 
-class Question < ActiveRecord::Base
+class Question < ApplicationRecord
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
