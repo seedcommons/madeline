@@ -8,7 +8,7 @@ describe NotePolicy do
   let(:record) { create(:note, notable: org) }
 
   context "division member" do
-    let(:user) { create(:user, :member, division: division) }
+    let!(:user) { create(:user, :member, division: division) }
 
     it { should permit_new_and_create_actions }
 
@@ -18,7 +18,7 @@ describe NotePolicy do
     end
 
     context "own note" do
-      let(:record) { create(:note, author: user.profile, notable: org) }
+      let!(:record) { create(:note, author: user.reload.profile, notable: org) }
 
       it { should permit_action(:edit) }
       it { should permit_action(:update) }
@@ -27,7 +27,7 @@ describe NotePolicy do
   end
 
   context "division admin" do
-    let(:user) { create(:user, :admin, division: division) }
+    let!(:user) { create(:user, :admin, division: division) }
 
     it { should permit_action(:create) }
 

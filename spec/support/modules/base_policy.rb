@@ -14,19 +14,19 @@ shared_examples_for 'base_policy' do |record_type|
   let!(:child_division) { create(:division, parent: division) }
 
   context 'being a member of a parent division' do
-    let(:user) { create(:user, :member, division: parent_division) }
+    let!(:user) { create(:user, :member, division: parent_division) }
 
     permit_all
   end
 
   context 'being an admin of a parent division' do
-    let(:user) { create(:user, :admin, division: parent_division) }
+    let!(:user) { create(:user, :admin, division: parent_division) }
 
     permit_all
   end
 
   context 'being a member of the division' do
-    let(:user) { create(:user, :member, division: division) }
+    let!(:user) { create(:user, :member, division: division) }
 
     permit_all
   end
@@ -38,19 +38,19 @@ shared_examples_for 'base_policy' do |record_type|
   end
 
   context 'being a member of a child division' do
-    let(:user) { create(:user, :admin, division: child_division) }
+    let!(:user) { create(:user, :admin, division: child_division) }
 
     forbid_all_but_index
   end
 
   context 'being an admin of a child division' do
-    let(:user) { create(:user, :admin, division: child_division) }
+    let!(:user) { create(:user, :admin, division: child_division) }
 
     forbid_all_but_index
   end
 
   context 'being a member of a different division' do
-    let(:user) { create(:user, :member) }
+    let!(:user) { create(:user, :member, division: create(:division)) }
 
     forbid_all_but_index
   end

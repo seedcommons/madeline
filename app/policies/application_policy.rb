@@ -88,4 +88,8 @@ class ApplicationPolicy
     user.roles.where(name: 'admin', resource_type: 'Division').any?
   end
 
+  def any_division_member_or_admin?
+    user.roles.where(name: 'member', resource_type: 'Division').any? || any_division_admin?
+  end
+
 end
