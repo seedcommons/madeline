@@ -5,7 +5,7 @@
 # can perhaps sort that out later and force to work from a different source directory
 module Legacy
 
-  class Division < ActiveRecord::Base
+  class Division < ApplicationRecord
     establish_connection :legacy
 
     include LegacyModel

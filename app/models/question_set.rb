@@ -8,7 +8,7 @@
 #  updated_at    :datetime         not null
 #
 
-class QuestionSet < ActiveRecord::Base
+class QuestionSet < ApplicationRecord
   include Translatable
 
   has_closure_tree_root :root_group, class_name: "Question"

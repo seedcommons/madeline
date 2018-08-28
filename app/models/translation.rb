@@ -16,7 +16,7 @@
 #  index_translations_on_translatable_type_and_translatable_id  (translatable_type,translatable_id)
 #
 
-class Translation < ActiveRecord::Base
+class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
   delegate :division, :division=, to: :translatable

@@ -7,8 +7,6 @@ module Translatable
   end
 
   module ClassMethods
-
-    #
     # define convenience methods for assigning and fetching the named attribute
     #
     # equivalent to:
@@ -102,7 +100,10 @@ module Translatable
     translations.map { |t| t.locale.to_sym }.sort
   end
 
-  delegate :locales, to: :division, prefix: true
+  def division_locales
+    return [] unless respond_to?(:division)
+    division.locales
+  end
 
   # Returns locales that have been assigned to the division, or an array
   # containing only the current locale if there are no translations.
