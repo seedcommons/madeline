@@ -33,7 +33,7 @@ class Option < ApplicationRecord
   delegate :division, :division=, to: :option_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
-  attr_translatable :label, :description
+  translates :label, :description
 
   after_create :ensure_value_assigned
 
