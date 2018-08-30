@@ -12,7 +12,7 @@
 #  updated_at   :datetime         not null
 #
 
-class Currency < ActiveRecord::Base
+class Currency < ApplicationRecord
   validates :name, uniqueness: { scope: [:code, :country_code, :short_symbol, :symbol] }
   
   def division

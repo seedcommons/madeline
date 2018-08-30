@@ -165,7 +165,7 @@ class Admin::ProjectStepsController < Admin::AdminController
   private
 
   def project_step_params
-    permitted = params.require(:project_step).permit(*([:is_finalized, :old_start_date,
+    permitted = params.require(:project_step).permit(*([:is_finalized, :old_start_date, :agent_id,
       :old_duration_days, :scheduled_start_date, :actual_end_date, :scheduled_duration_days,
       :step_type_value, :schedule_parent_id, :project_id, :parent_id] + translation_params(:summary,
       :details)))
@@ -202,6 +202,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @mode = params[:action] == "show" ? :show_and_form : :form_only
     @project = @step.project
     @parents = @step.project.timeline_groups_preordered
+    @agents = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @precedents = @step.project.timeline_entries.where("type = 'ProjectStep' AND id != ?", @step.id || 0).by_date
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]

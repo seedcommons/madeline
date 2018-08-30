@@ -16,7 +16,7 @@
 #  fk_rails_...  (updater_id => users.id)
 #
 
-class ResponseSet < ActiveRecord::Base
+class ResponseSet < ApplicationRecord
   attr_accessor :current_user
 
   belongs_to :loan

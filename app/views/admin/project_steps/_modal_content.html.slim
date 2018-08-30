@@ -74,6 +74,10 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         .view-element = @step.schedule_parent.summary_or_none if @step.schedule_parent.present?
         = f.input_field :schedule_parent_id, collection: @precedents, label_method: :summary_or_none, include_blank: true
 
+      = f.input :agent_id
+        .view-element = @step.agent.try(:name)
+        = f.input_field :agent_id, collection: @agents, include_blank: true
+
       // Two column details section
       br
       .row

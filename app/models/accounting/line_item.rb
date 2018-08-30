@@ -28,7 +28,7 @@
 # unique IDs to line items as it does to transactions and accounts. Instead it assigns sequential "line IDs",
 # which we do store.
 # Quickbooks should be considered the authoritative source for line item information.
-class Accounting::LineItem < ActiveRecord::Base
+class Accounting::LineItem < ApplicationRecord
   belongs_to :parent_transaction, class_name: 'Accounting::Transaction', foreign_key: :accounting_transaction_id
   belongs_to :account, class_name: 'Accounting::Account', foreign_key: :accounting_account_id
 

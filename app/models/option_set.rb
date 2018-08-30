@@ -18,7 +18,7 @@
 #  fk_rails_...  (division_id => divisions.id)
 #
 
-class OptionSet < ActiveRecord::Base
+class OptionSet < ApplicationRecord
 
   # beware, for now it is expected that all OptionSets are owned by the root division
   belongs_to :division

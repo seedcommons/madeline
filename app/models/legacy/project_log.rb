@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class ProjectLog < ActiveRecord::Base
+  class ProjectLog < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 
