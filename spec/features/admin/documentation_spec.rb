@@ -1,15 +1,13 @@
 require 'rails_helper'
 
-feature 'documentation' do
+feature 'documentation', js: true do
   let(:division) { create(:division) }
   let(:user) { create_admin(division) }
   let(:project) {  create(:basic_project, division: division) }
-  let!(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
-    page_title: 'original page title', page_content: 'original page content') }
 
   before { login_as user }
 
-  describe 'documentation flow', js: true do
+  describe 'documentation creation flow' do
     scenario 'flow 1 on dashboard' do
       visit admin_dashboard_path
 
@@ -76,6 +74,36 @@ feature 'documentation' do
 
       # redirects to the correct page
       expect(page).to have_content('New Loan')
+
+      # to see saved documentation
+      popover_link.click
+
+      # page opens in another tab
+      # this tests the url is right
+      expect(find_link('Learn more »')[:target]).to eq('_blank')
+      expect(find_link('Learn more »')[:href]).to include(admin_documentation_path(Documentation.last))
+
+      # to edit documentation
+      edit_link = page.find(:css, "a#loans-new-title-edit-link")
+      edit_link.click
+
+      # page is on English locale on load
+      expect(page).to have_css('select#documentation_locale_en')
+
+      # translations work
+      select 'Español', from: 'documentation_locale_en'
+      expect(page).to have_css('select#documentation_locale_es')
+
+      # testing content
+      fill_in_content
+      click_on 'Update Documentation'
+
+      expect(Documentation.last.reload.summary_content.text).to eq('my summary content')
+      expect(Documentation.last.reload.page_title.text).to eq('my page title')
+      expect(Documentation.last.reload.page_content.text).to eq('my page content')
+
+      # redirects to the correct page
+      expect(page).to have_content('New Loan')
     end
 
     scenario 'flow 3 on basic project show' do
@@ -94,29 +122,7 @@ feature 'documentation' do
     end
   end
 
-  scenario 'editing', js: true do
-    visit edit_admin_documentation_path(doc)
-
-    # page is on English locale on load
-    expect(page).to have_css('select#documentation_locale_en')
-
-    # translations work
-    select 'Español', from: 'documentation_locale_en'
-    expect(page).to have_css('select#documentation_locale_es')
-
-    # testing content
-    fill_in_content
-    click_on 'Update Documentation'
-
-    expect(doc.reload.summary_content.text).to eq('my summary content')
-    expect(doc.reload.page_title.text).to eq('my page title')
-    expect(doc.reload.page_content.text).to eq('my page content')
-
-    # redirects to the correct page
-    expect(page).to have_content('Edit Project')
-  end
-
-  scenario 'show' do
+  scenario 'show page' do
     visit admin_documentation_path(doc)
 
     expect(page).to have_content('original page title')
