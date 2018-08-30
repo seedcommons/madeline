@@ -1,3 +1,4 @@
+# TODO - refactor file
 require 'rails_helper'
 
 feature 'documentation', js: true do
