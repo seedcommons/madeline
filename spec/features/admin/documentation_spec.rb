@@ -20,10 +20,16 @@ feature 'documentation', js: true do
       new_link.click
 
       expect(page).to have_content "New Documentation"
+
+      # fields are pre-filled correctly
+      expect(page).to have_field('HTML Identifier', with: 'dashboard-dashboard-title')
+      expect(page).to have_field('Calling Controller', with: 'dashboard')
+      expect(page).to have_field('Calling Action', with: 'dashboard')
+
       fill_in_content
       click_on "Create Documentation"
 
-      expect(page).to have_content "successfully created"
+      documentation_created_successfully
 
       visit admin_dashboard_path
       popover_link.click
@@ -70,9 +76,7 @@ feature 'documentation', js: true do
       fill_in_content
       click_on "Create Documentation"
 
-      expect(Documentation.last.summary_content.text).to eq('my summary content')
-      expect(Documentation.last.page_title.text).to eq('my page title')
-      expect(Documentation.last.page_content.text).to eq('my page content')
+      documentation_created_successfully
 
       # redirects to the correct page
       expect(page).to have_content('New Loan')
@@ -117,7 +121,10 @@ feature 'documentation', js: true do
       new_link = page.find(:css, "a#basic_projects-show-title-new-link")
       new_link.click
 
+      fill_in_content
       click_on "Create Documentation"
+
+      documentation_created_successfully
 
       # redirects to the correct page
       expect(page).to have_content(project.display_name)
@@ -135,5 +142,12 @@ feature 'documentation', js: true do
     fill_in 'Summary Content', with: 'my summary content'
     fill_in 'Page Title', with: 'my page title'
     fill_in 'Page Content', with: 'my page content'
+  end
+
+  def documentation_created_successfully
+    expect(Documentation.last.summary_content.text).to eq('my summary content')
+    expect(Documentation.last.page_title.text).to eq('my page title')
+    expect(Documentation.last.page_content.text).to eq('my page content')
+    expect(page).to have_content "successfully created"
   end
 end
