@@ -63,6 +63,9 @@ feature 'documentation' do
     expect(Documentation.last.summary_content.text).to eq('my summary content')
     expect(Documentation.last.page_title.text).to eq('my page title')
     expect(Documentation.last.page_content.text).to eq('my page content')
+
+    # redirects to the correct page
+    expect(page).to have_content('New Loan')
   end
 
   scenario 'editing', js: true do
