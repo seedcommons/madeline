@@ -17,7 +17,8 @@ class MS.Views.ApplicationView extends Backbone.View
   events: ->
     'click .more': 'toggleExpanded'
     'click .less': 'toggleExpanded'
-    'click .ms-popover': 'showPopover'
+    'click .ms-popover.inactive-popover': 'showPopover'
+    'click .ms-popover.active-popover': 'hidePopover'
     'mouseenter .ms-tooltip.ms-popover': 'showTooltip'
     'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
     'shown.bs.modal .modal': 'preventMultipleModalBackdrops'
@@ -26,14 +27,33 @@ class MS.Views.ApplicationView extends Backbone.View
     @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
 
   showPopover: (e) ->
-    @curPopover = $(e.currentTarget)
-    @curPopover.popover('show')
-    self = this
-    hide = (e) ->
-      unless self.$(e.target).is('.ms-popover')
-        self.$('.ms-popover').popover('hide')
-        self.$el.off 'click', hide # Unregister for performance reasons
-    @$el.on 'click', hide
+    console.log("Showing popover")
+    curPopover = $(e.currentTarget)
+    curPopover.popover('show')
+    curPopover.removeClass("inactive-popover")
+    curPopover.addClass("active-popover")
+    # self = this
+    # console.log("Popover initialized")
+    # hide = (e) ->
+    #   console.log("Entering hide")
+    #   unless self.$(e.target).is('.ms-popover')
+    #     self.$('.ms-popover').popover('hide')
+    #     self.$el.off 'click', hide # Unregister for performance reasons
+    #     console.log("Maybe I'm not hiding")
+    # @$el.on 'click', hide
+
+  hidePopover: (e) ->
+    console.log("Hiding popover")
+    curPopover = $(e.currentTarget)
+    curPopover.popover('hide')
+    curPopover.removeClass("active-popover")
+    curPopover.addClass("inactive-popover")
+    # self = this
+    # console.log("Entering hide")
+    # unless self.$(e.target).is('.ms-popover')
+    #   self.$('.ms-popover').popover('hide')
+    #   self.$el.off 'click', hide # Unregister for performance reasons
+    #   console.log("Maybe I'm not hiding")
 
   showTooltip: (e) ->
     $curPopover = $(e.currentTarget)
