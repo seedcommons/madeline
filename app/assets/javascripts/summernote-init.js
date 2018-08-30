@@ -6,7 +6,7 @@ $(document).on('ready', function() {
         ["style", ["bold", "italic", "underline", "clear"]],
         ["table", ["table"]],
         ["para", ["ul", "ol", "paragraph"]],
-        ['insert', ['link']]
+        ["insert", ["link"]]
       ]
     });
   });
