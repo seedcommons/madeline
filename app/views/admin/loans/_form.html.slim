@@ -8,6 +8,8 @@
     },
   ) do |f|
 
+  - form_identifier = 'loan_details'
+
   = error_notification(f)
 
   - unless f.object.new_record?
@@ -16,10 +18,18 @@
         = @loan.id
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :division,
-    choices: division_select_options(public_only: false), include_blank_choice: false, classes: 'hidden-print')
+    choices: division_select_options(public_only: false), include_blank_choice: false,
+    classes: 'hidden-print', form_identifier: form_identifier)
+
+  = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
+    span = @loan.division.try(:name)
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
-    choices: @organization_choices, include_blank_choice: true, classes: 'hidden-print')
+    choices: @organization_choices, include_blank_choice: true, classes: 'hidden-print',
+    form_identifier: form_identifier)
+
+  = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
+    span = @loan.organization.try(:name)
 
   = hidden_field_tag :from_org, params[:from_org]
 
@@ -27,23 +37,25 @@
     .view-element = @loan.display_name
     = f.input_field :name
     .form-element.instructions = t('loan.default_name_message')
-
-  = f.input t('activerecord.attributes.loan.division'), wrapper_html: {class: 'visible-print-block'}
-    span = @loan.division.try(:name)
-
-  = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}
-    span = @loan.organization.try(:name)
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_name")
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_type")
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
     = render "admin/loans/questionnaires/progress_bar", object: @loan_criteria
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_criteria_progress")
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_status")
 
   = f.input :amount
     .view-element
@@ -52,21 +64,25 @@
       - else
         = @loan.amount
     = f.input_field :amount
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_amount")
 
   = f.input :currency
     .view-element = @loan.display_currency
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
+    .form-element
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency")
 
   = render 'admin/projects/translatable', project: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,
-    choices: @agent_choices, classes: 'hidden-print')
-
-  = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
-    choices: @agent_choices, classes: 'hidden-print')
+    choices: @agent_choices, classes: 'hidden-print', form_identifier: form_identifier)
 
   = f.input t('activerecord.attributes.loan.primary_agent'), wrapper_html: {class: 'visible-print-block'}
     span = @loan.primary_agent.try(:name)
+
+  = authorized_form_field(simple_form: f, model: @loan, field_name: :secondary_agent,
+    choices: @agent_choices, classes: 'hidden-print', form_identifier: form_identifier)
 
   = f.input t('activerecord.attributes.loan.secondary_agent'), wrapper_html: {class: 'visible-print-block'}
       span = @loan.secondary_agent.try(:name)
@@ -103,7 +119,7 @@
     = f.input_field :projected_return
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
-    choices: @representative_choices, classes: 'hidden-print')
+    choices: @representative_choices, classes: 'hidden-print', form_identifier: form_identifier)
 
   = f.input :public_level, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.public_level_label
