@@ -48,12 +48,14 @@
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
     = render "admin/loans/questionnaires/progress_bar", object: @loan_criteria
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_criteria_progress")
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_criteria_progress", options: popover_options)
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_status")
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_status", options: popover_options)
 
   = f.input :amount
     .view-element
@@ -62,12 +64,14 @@
       - else
         = @loan.amount
     = f.input_field :amount
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_amount")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_amount",
+      options: popover_options)
 
   = f.input :currency
     .view-element = @loan.display_currency
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency",
+      options: popover_options)
 
   = render 'admin/projects/translatable', project: @loan, f: f
 
