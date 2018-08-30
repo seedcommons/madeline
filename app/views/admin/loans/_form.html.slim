@@ -1,8 +1,8 @@
 = simple_form_for([:admin, @loan],
     html: { \
-      class: 'form-horizontal organization-record',
+      class: 'form-horizontal form-with-documentation organization-record',
     },
-    wrapper: :horizontal_form_condensed,
+    wrapper: :horizontal_form_condensed_with_documentation,
     defaults: { \
       input_html: {class: 'form-element form-control'},
     },
@@ -36,26 +36,22 @@
   = f.input :name
     .view-element = @loan.display_name
     = f.input_field :name
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_name")
     .form-element.instructions = t('loan.default_name_message')
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_name")
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_type")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_type")
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
     = render "admin/loans/questionnaires/progress_bar", object: @loan_criteria
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_criteria_progress")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_criteria_progress")
 
   = f.input :status, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.try(:status)
     = f.input_field :status_value, collection: Loan.status_options, include_blank: true
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_status")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_status")
 
   = f.input :amount
     .view-element
@@ -64,14 +60,12 @@
       - else
         = @loan.amount
     = f.input_field :amount
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_amount")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_amount")
 
   = f.input :currency
     .view-element = @loan.display_currency
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
-    .form-element
-      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency")
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency")
 
   = render 'admin/projects/translatable', project: @loan, f: f
 

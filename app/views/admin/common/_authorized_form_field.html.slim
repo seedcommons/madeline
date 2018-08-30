@@ -11,6 +11,5 @@
       / Beware, we're assuming that may_edit will always be true if the model_field is null.
       / If that assumption becomes invalid in the future, then we'll need use a 'try' here.
       = model_field.name
-  .form-element
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_#{field_name}")

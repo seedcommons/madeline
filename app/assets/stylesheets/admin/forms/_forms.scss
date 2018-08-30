@@ -186,3 +186,15 @@ label.light {
   font-size: .9em;
   font-style: italic;
 }
+
+.form-horizontal {
+  &.form-with-documentation {
+    .form-control {
+      width: 90%;
+    }
+
+    .ms-documentation {
+      margin-left: .5em;
+    }
+  }
+}
