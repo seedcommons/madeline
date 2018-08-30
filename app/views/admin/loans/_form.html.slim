@@ -9,6 +9,7 @@
   ) do |f|
 
   - form_identifier = 'loan_details'
+  - popover_options = {placement: 'left'}
 
   = error_notification(f)
 
@@ -36,7 +37,8 @@
   = f.input :name
     .view-element = @loan.display_name
     = f.input_field :name
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_name")
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_loan_name", options: popover_options)
     .form-element.instructions = t('loan.default_name_message')
 
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}

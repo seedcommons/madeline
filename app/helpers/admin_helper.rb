@@ -65,8 +65,9 @@ module AdminHelper
     content_tag(:i, "", id: options[:id], data: options[:data], class: "fa fa-#{class_name} #{options[:extra_classes]}")
   end
 
-  def documentation_popover(documentations, html_identifier: "")
+  def documentation_popover(documentations, html_identifier: "", options: {})
     documentation = documentations[html_identifier]
+    placement = options[:placement] || 'right'
     if documentation.present?
       data_content = documentation&.summary_content.to_s
       if documentation.page_content.present?
@@ -84,7 +85,7 @@ module AdminHelper
       extra_classes = "text-muted"
     end
     title_content = content_tag(:span, action_link, class: "text-right")
-    data_hash = { toggle: "popover", content: data_content, html: true, title: title_content }
+    data_hash = { toggle: "popover", content: data_content, html: true, title: title_content, placement: placement }
     content_tag(:a, tabindex: 0, data: data_hash, class: 'ms-popover ms-documentation', id: "#{html_identifier}-link") do
       icon_tag("question-circle", options: {id: html_identifier, extra_classes: extra_classes})
     end
