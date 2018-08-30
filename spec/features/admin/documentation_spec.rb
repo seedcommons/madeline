@@ -1,73 +1,82 @@
 require 'rails_helper'
 
 feature 'documentation' do
-  let(:user) { create_admin(create(:division)) }
+  let(:division) { create(:division) }
+  let(:user) { create_admin(division) }
+  let(:project) {  create(:basic_project, division: division) }
   let!(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
-    page_title: 'original page title', page_content: 'original page content', calling_controller: 'basic_projects',
-    calling_action: 'show'
-  ) }
+    page_title: 'original page title', page_content: 'original page content') }
 
   before { login_as user }
 
-  scenario 'complete documentation flow', js: true do
-    visit admin_dashboard_path
+  describe 'documentation flow', js: true do
+    scenario 'flow 1 on dashboard' do
+      visit admin_dashboard_path
 
-    popover_link = page.find(:css, "a#dashboard-dashboard-title-link")
-    popover_link.click
+      popover_link = page.find(:css, "a#dashboard-dashboard-title-link")
+      popover_link.click
 
-    new_link = page.find(:css, "a#dashboard-dashboard-title-new-link")
-    new_link.click
+      new_link = page.find(:css, "a#dashboard-dashboard-title-new-link")
+      new_link.click
 
-    expect(page).to have_content "New Documentation"
-    fill_in_content
-    click_on "Create Documentation"
+      expect(page).to have_content "New Documentation"
+      fill_in_content
+      click_on "Create Documentation"
 
-    expect(page).to have_content "successfully created"
+      expect(page).to have_content "successfully created"
 
-    visit admin_dashboard_path
-    popover_link.click
+      visit admin_dashboard_path
+      popover_link.click
 
-    expect(page).to have_content 'my summary content'
+      expect(page).to have_content 'my summary content'
 
-    edit_link = page.find(:css, "a#dashboard-dashboard-title-edit-link")
-    edit_link.click
+      edit_link = page.find(:css, "a#dashboard-dashboard-title-edit-link")
+      edit_link.click
 
-    expect(page).to have_content "Edit documentation"
-    fill_in 'Summary Content', with: "EDITED SUMMARY CONTENT"
-    click_on "Update Documentation"
+      expect(page).to have_content "Edit documentation"
+      fill_in 'Summary Content', with: "EDITED SUMMARY CONTENT"
+      click_on "Update Documentation"
 
-    expect(page).to have_content 'successfully updated'
+      expect(page).to have_content 'successfully updated'
 
-    popover_link.click
+      popover_link.click
 
-    expect(page).to have_content "EDITED SUMMARY CONTENT"
+      expect(page).to have_content "EDITED SUMMARY CONTENT"
 
-    documentation_window = window_opened_by { click_link "Learn more »" }
-    within_window documentation_window do
-      expect(page).to have_content "my page title"
-      expect(page).to have_content "my page content"
-      expect(page).not_to have_content "EDITED SUMMARY CONTENT"
+      documentation_window = window_opened_by { click_link "Learn more »" }
+      within_window documentation_window do
+        expect(page).to have_content "my page title"
+        expect(page).to have_content "my page content"
+        expect(page).not_to have_content "EDITED SUMMARY CONTENT"
+      end
     end
-  end
 
-  scenario 'creation' do
-    visit new_admin_documentation_path(caller: 'loans#new', html_identifier: 'food')
+    scenario 'flow 2 on loan form' do
+      visit new_admin_loan_path
 
-    # fields are pre-filled correctly
-    expect(page).to have_field('HTML Identifier', with: 'food')
-    expect(page).to have_field('Calling Controller', with: 'loans')
-    expect(page).to have_field('Calling Action', with: 'new')
+      popover_link = page.find(:css, "a#loans-new-title-link")
+      popover_link.click
 
-    # translatable fields save appropriately
-    fill_in_content
-    click_on 'Create Documentation'
+      new_link = page.find(:css, "a#loans-new-title-new-link")
+      new_link.click
 
-    expect(Documentation.last.summary_content.text).to eq('my summary content')
-    expect(Documentation.last.page_title.text).to eq('my page title')
-    expect(Documentation.last.page_content.text).to eq('my page content')
+      expect(page).to have_content "New Documentation"
 
-    # redirects to the correct page
-    expect(page).to have_content('New Loan')
+      # fields are pre-filled correctly
+      expect(page).to have_field('HTML Identifier', with: 'loans-new-title')
+      expect(page).to have_field('Calling Controller', with: 'loans')
+      expect(page).to have_field('Calling Action', with: 'new')
+
+      fill_in_content
+      click_on "Create Documentation"
+
+      expect(Documentation.last.summary_content.text).to eq('my summary content')
+      expect(Documentation.last.page_title.text).to eq('my page title')
+      expect(Documentation.last.page_content.text).to eq('my page content')
+
+      # redirects to the correct page
+      expect(page).to have_content('New Loan')
+    end
   end
 
   scenario 'editing', js: true do
