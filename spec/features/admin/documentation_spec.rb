@@ -3,7 +3,9 @@ require 'rails_helper'
 feature 'documentation' do
   let(:user) { create_admin(create(:division)) }
   let!(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
-    page_title: 'original page title', page_content: 'original page content') }
+    page_title: 'original page title', page_content: 'original page content', calling_controller: 'basic_projects',
+    calling_action: 'show'
+  ) }
 
   before { login_as user }
 
@@ -85,6 +87,9 @@ feature 'documentation' do
     expect(doc.reload.summary_content.text).to eq('my summary content')
     expect(doc.reload.page_title.text).to eq('my page title')
     expect(doc.reload.page_content.text).to eq('my page content')
+
+    # redirects to the correct page
+    expect(page).to have_content('Edit Project')
   end
 
   scenario 'show' do
