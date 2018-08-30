@@ -47,7 +47,7 @@ module MediaHelper
         end
       end
     else
-      media_title(media_item)
+      media_title(media_item, shorten: shorten)
     end
   end
 

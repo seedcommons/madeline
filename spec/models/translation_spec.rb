@@ -2,6 +2,7 @@
 #
 # Table name: translations
 #
+#  allow_html             :boolean          default(FALSE)
 #  created_at             :datetime
 #  id                     :integer          not null, primary key
 #  locale                 :string

@@ -15,7 +15,7 @@
 #  index_notes_on_notable_type_and_notable_id  (notable_type,notable_id)
 #
 
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
   include ::Translatable
 
   belongs_to :notable, polymorphic: true
@@ -25,7 +25,7 @@ class Note < ActiveRecord::Base
   delegate :name, to: :author, prefix: true
 
   # define accessor like convenience methods for the fields stored in the Translations table
-  attr_translatable :text
+  translates :text
 
   validates :notable, presence: true
   validates :author, presence: true

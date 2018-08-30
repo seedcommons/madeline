@@ -19,10 +19,12 @@ FactoryBot.define do
     end_date { Faker::Date.between(first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
-
-
     trait :featured do
       public_level_value "featured"
+    end
+
+    trait :public do
+      public_level_value "public"
     end
 
     trait :active do
@@ -130,8 +132,9 @@ FactoryBot.define do
 
     trait :with_repayments do
       after(:create) do |loan|
-        paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
-        unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
+        # TODO: Tie to accounting system
+        # paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
+        # unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
       end
     end
 

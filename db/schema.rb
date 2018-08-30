@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621175058) do
+ActiveRecord::Schema.define(version: 20180824150514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -152,6 +152,15 @@ ActiveRecord::Schema.define(version: 20180621175058) do
     t.index ["organization_id"], name: "index_divisions_on_organization_id"
     t.index ["principal_account_id"], name: "index_divisions_on_principal_account_id"
     t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
+  end
+
+  create_table "documentations", force: :cascade do |t|
+    t.string "calling_action"
+    t.string "calling_controller"
+    t.datetime "created_at", null: false
+    t.string "html_identifier"
+    t.datetime "updated_at", null: false
+    t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|
@@ -399,6 +408,7 @@ ActiveRecord::Schema.define(version: 20180621175058) do
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
+    t.boolean "allow_html", default: false
     t.datetime "created_at"
     t.string "locale"
     t.text "text"

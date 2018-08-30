@@ -48,7 +48,7 @@
 #  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   include DivisionBased
 
   has_closure_tree dependent: :restrict_with_exception, order: :name
@@ -91,6 +91,9 @@ class Division < ActiveRecord::Base
   validate :parent_division_and_name
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+  validates :short_name, presence: true, uniqueness: true, if: -> { self.public }
+
+  before_validation :generate_short_name
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
   scope :published, -> { where(public: true) }
@@ -162,5 +165,12 @@ class Division < ActiveRecord::Base
 
   def parent_division_and_name
     errors.add(:parent, :invalid) if parent&.name == name
+  end
+
+  def generate_short_name
+    return if short_name.present?
+
+    self.short_name = name.parameterize
+    self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
   end
 end

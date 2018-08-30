@@ -24,7 +24,7 @@
 # Stores the access token and other necessary information necessary to authenticate
 # Quickbooks API requests.
 # Also responsible for determining if connection is still valid or expired.
-class Accounting::Quickbooks::Connection < ActiveRecord::Base
+class Accounting::Quickbooks::Connection < ApplicationRecord
   belongs_to :division
 
   def self.create_from_access_token(access_token:, division:, params:)
