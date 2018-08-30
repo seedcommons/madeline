@@ -8,12 +8,12 @@
 #  updated_at    :datetime         not null
 #
 
-class QuestionSet < ActiveRecord::Base
+class QuestionSet < ApplicationRecord
   include Translatable
 
   has_closure_tree_root :root_group, class_name: "Question"
 
-  attr_translatable :label
+  translates :label
 
   after_create :create_root_group!
 

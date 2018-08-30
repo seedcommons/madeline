@@ -21,7 +21,7 @@
 #  fk_rails_...  (loan_id => projects.id)
 #
 
-class LoanHealthCheck < ActiveRecord::Base
+class LoanHealthCheck < ApplicationRecord
   belongs_to :loan, class_name: 'Loan', foreign_key: :loan_id
 
   after_create :recalculate

@@ -42,6 +42,10 @@ en:
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
         interest_income_account_id: "Interest Income Account"
+      documentation:
+        calling_action: "Calling Action"
+        calling_controller: "Calling Controller"
+        html_identifier: "HTML Identifier"
       loan:
         division: "Division"
         organization: "Co-op"
@@ -81,6 +85,7 @@ en:
         name: "Name"
         neighborhood: "Neighborhood"
         people: "Members"
+        postal_code: "Postal Code"
         primary_contact: "Primary Contact"
         primary_phone: "Phone"
         referral_source: "Referral Source"
@@ -130,6 +135,7 @@ en:
         item: "Item"
         kind_value: "Kind"
       project_step:
+        agent_id: "Assignee"
         parent_id: "Group"
         schedule_parent_id: "Preceding Step"
         actual_end_date: "Completed Date"
@@ -249,7 +255,10 @@ en:
 
 
   ## Front end ##
+  amount_not_set: "Amount not set"
+  blank: "-"
   country: Country
+  date_not_set: "Date not set"
   division: Division
   show: Show
   show_active: Active
@@ -270,6 +279,7 @@ en:
   summary: Summary
   details: Details
   timeline: Timeline
+  other_loans: Other Loans to This Co-op
   payments: Payments
   past_loans: Past Loans
   no_description_found: No description found.
