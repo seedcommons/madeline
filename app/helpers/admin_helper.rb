@@ -84,7 +84,7 @@ module AdminHelper
     end
     title_content = content_tag(:span, action_link, class: "text-right")
     data_hash = { toggle: "popover", content: data_content, html: true, title: title_content }
-    content_tag(:a, tabindex: 0, data: data_hash, class: 'ms-popover ms-documentation inactive-popover', id: "#{html_identifier}-link") do
+    content_tag(:a, tabindex: 0, data: data_hash, class: 'ms-popover ms-documentation', id: "#{html_identifier}-link") do
       icon_tag("question-circle", options: {id: html_identifier, extra_classes: extra_classes})
     end
   end
