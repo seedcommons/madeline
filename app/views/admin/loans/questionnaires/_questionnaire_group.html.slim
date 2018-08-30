@@ -47,7 +47,7 @@ div
       / Recurse if group, else render
       - if question.group? && !question.leaf?
         = render("admin/loans/questionnaires/questionnaire_group", f: f,
-                response_set: response_set, group: question, parents: parents + [question])
+          response_set: response_set, group: question, parents: parents + [question])
 
       - else
         .answer-wrapper.tree-view
@@ -65,31 +65,31 @@ div
               / standard Rails trick:
               / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
               = hidden_field_tag :"response_set[#{question.attribute_sym}][not_applicable]",
-                      "no"
+                "no"
               = check_box_tag :"response_set[#{question.attribute_sym}][not_applicable]",
-                      "yes", response.not_applicable?
+                "yes", response.not_applicable?
               = label_tag "response_set[#{question.attribute_sym}][not_applicable]",
-                      t("loan.not_applicable")
+                t("loan.not_applicable")
 
           - if response.has_rating?
             - if response.rating.present? && !response.not_applicable?
               .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
             = f.input_field :"#{question.attribute_sym}[rating]", as: :select,
-                    selected: response.rating, collection: Array(1..5), prompt: I18n.t("select_prompt"),
-                    data: {rating: true}
+              selected: response.rating, collection: Array(1..5), prompt: I18n.t("select_prompt"),
+              data: {rating: true}
 
           - if response.has_number?
             - if response.number.present? && !response.not_applicable?
               .view-element.answer = response.number
             = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
-                    value: response.number
+              value: response.number
 
           - tags = %w(table tbody tr td b i u ol ul li p img)
           - if response.has_text?
             - if response.text.present? && !response.not_applicable?
               .view-element.answer = sanitize(response.text, tags: tags)
             = f.input_field :"#{question.attribute_sym}[text]",
-                    value: sanitize(response.text, tags: tags), as: :summernote
+              value: sanitize(response.text, tags: tags), as: :summernote
 
           - if response.has_string?
             - if response.string.present? && !response.not_applicable?
@@ -100,43 +100,43 @@ div
             - if response.boolean.present? && !response.not_applicable?
               .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")
             = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
-                    selected: response.boolean, collection: %i(yes no),
-                    label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
-                    data: {boolean: true}
+              selected: response.boolean, collection: %i(yes no),
+              label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
+              data: {boolean: true}
 
           - if response.has_breakeven?
             - if response.breakeven_report.present? && !response.not_applicable?
               .view-element
                 = render "admin/loans/questionnaires/breakeven_table_report",
-                        report: response.breakeven_report
+                  report: response.breakeven_report
                 = render "admin/loans/questionnaires/breakeven_charts",
-                        report: response.breakeven_report, id: question.id
+                  report: response.breakeven_report, id: question.id
                 - if response.breakeven_report[:periods] > 1
                   = render "admin/loans/questionnaires/breakeven_rampup/main",
-                          report: response.breakeven_report
+                    report: response.breakeven_report
               .form-element
                 = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                        question: question, data: response.breakeven_hash,
-                        total_fixed_costs: response.breakeven_report[:total_fixed_costs]
+                  question: question, data: response.breakeven_hash,
+                  total_fixed_costs: response.breakeven_report[:total_fixed_costs]
             - else
               .form-element
                 = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-                        question: question, data: response.breakeven_hash, total_fixed_costs: 0
+                  question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
           - if response.has_url?
             = render 'admin/loans/questionnaires/linked_document', f: f,
-                    question: question, document: response.linked_document,
-                    not_applicable: response.not_applicable?
+              question: question, document: response.linked_document,
+              not_applicable: response.not_applicable?
 
           - if response.has_business_canvas?
             - unless response.not_applicable? || response.business_canvas_blank?
               .view-element.answer
                 = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-                        question: question, data: response.business_canvas
+                  question: question, data: response.business_canvas
             / The form element will always show in edit mode
             .form-element
               = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-                      question: question, data: response.business_canvas
+                question: question, data: response.business_canvas
 
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
