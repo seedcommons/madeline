@@ -29,7 +29,7 @@ feature 'documentation', js: true do
       fill_in_content
       click_on "Create Documentation"
 
-      documentation_created_successfully
+      documentation_created
 
       visit admin_dashboard_path
       popover_link.click
@@ -76,7 +76,7 @@ feature 'documentation', js: true do
       fill_in_content
       click_on "Create Documentation"
 
-      documentation_created_successfully
+      documentation_created
 
       # redirects to the correct page
       expect(page).to have_content('New Loan')
@@ -124,7 +124,7 @@ feature 'documentation', js: true do
       fill_in_content
       click_on "Create Documentation"
 
-      documentation_created_successfully
+      documentation_created
 
       # redirects to the correct page
       expect(page).to have_content(project.display_name)
@@ -144,7 +144,7 @@ feature 'documentation', js: true do
     fill_in 'Page Content', with: 'my page content'
   end
 
-  def documentation_created_successfully
+  def documentation_created
     expect(Documentation.last.summary_content.text).to eq('my summary content')
     expect(Documentation.last.page_title.text).to eq('my page title')
     expect(Documentation.last.page_content.text).to eq('my page content')
