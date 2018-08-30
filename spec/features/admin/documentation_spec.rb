@@ -77,6 +77,21 @@ feature 'documentation' do
       # redirects to the correct page
       expect(page).to have_content('New Loan')
     end
+
+    scenario 'flow 3 on basic project show' do
+      visit admin_basic_project_path(project)
+
+      popover_link = page.find(:css, "a#basic_projects-show-title-link")
+      popover_link.click
+
+      new_link = page.find(:css, "a#basic_projects-show-title-new-link")
+      new_link.click
+
+      click_on "Create Documentation"
+
+      # redirects to the correct page
+      expect(page).to have_content(project.display_name)
+    end
   end
 
   scenario 'editing', js: true do
