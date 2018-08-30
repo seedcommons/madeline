@@ -193,6 +193,12 @@ label.light {
       width: 90%;
     }
 
+    .language-block {
+      select.locale {
+        width: auto;
+      }
+    }
+
     .ms-documentation {
       margin-left: .5em;
     }
