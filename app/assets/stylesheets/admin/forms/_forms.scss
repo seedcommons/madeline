@@ -193,6 +193,14 @@ label.light {
       width: 90%;
     }
 
+    .form-group {
+      &.boolean, .checkbox {
+        .form-control {
+          width: inherit;
+        }
+      }
+    }
+
     .language-block {
       select.locale {
         width: auto;
