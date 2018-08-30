@@ -1,6 +1,7 @@
 module AdminHelper
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
-    include_blank_choice: true, classes: '', form_identifier: nil)
+    include_blank_choice: true, classes: '', form_identifier: nil, popover_options: {})
+
     model_field = model.send(field_name)
     if model_field
       policy = "#{model_field.class.name}Policy".constantize.new(current_user, model_field)
@@ -20,7 +21,8 @@ module AdminHelper
       # then the paratial code will also need updating to make nil safe.
       may_edit: !model_field || policy.show?,
       classes: classes,
-      form_identifier: form_identifier
+      form_identifier: form_identifier,
+      popover_options: popover_options
     }
   end
 
