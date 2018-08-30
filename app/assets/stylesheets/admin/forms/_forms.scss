@@ -150,6 +150,11 @@ form {
   .help-block {
     display: none;
   }
+
+  // Hide documentation popovers
+  .ms-documentation {
+    display: none;
+  }
 }
 
 .select2-container {
