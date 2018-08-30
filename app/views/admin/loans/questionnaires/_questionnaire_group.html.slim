@@ -43,7 +43,10 @@ div
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
-          = question.explanation.allow_html? ? raw(question.explanation) : simple_format(question.explanation)
+          - if question.explanation.allow_html?
+            = raw(question.explanation)
+          - else
+            = simple_format(question.explanation)
 
       / Recurse if group, else render
       - if question.group? && !question.leaf?
