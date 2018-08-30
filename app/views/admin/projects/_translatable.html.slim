@@ -5,15 +5,19 @@
     = simple_format(project.details)
 
 .form-element
-  = f.translatable_inputs do |l|
-    = f.input :"summary_#{l}",
-      input_html: {data: {translatable: 'common.summary'}},
-      placeholder: I18n.t('common.summary', locale: l),
-      label: I18n.t('common.summary', locale: l)
-    = f.input :"details_#{l}", as: :text,
-      input_html: {rows: 3, data: {translatable: 'common.details'}},
-      placeholder: I18n.t('common.details', locale: l),
-      label: I18n.t('common.details', locale: l)
+  fieldset.translatable-summary-and-details
+    h4 Summary and Details
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "general_summary_and_details", options: {position: 'left'})
+    = f.translatable_inputs do |l|
+      = f.input :"summary_#{l}",
+        input_html: {data: {translatable: 'common.summary'}},
+        placeholder: I18n.t('common.summary', locale: l),
+        label: I18n.t('common.summary', locale: l)
+      = f.input :"details_#{l}", as: :text,
+        input_html: {rows: 3, data: {translatable: 'common.details'}},
+        placeholder: I18n.t('common.details', locale: l),
+        label: I18n.t('common.details', locale: l)
 
 javascript:
   $(function() {
