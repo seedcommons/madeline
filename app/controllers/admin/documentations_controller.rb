@@ -19,8 +19,8 @@ class Admin::DocumentationsController < Admin::AdminController
     authorize @documentation
 
     if @documentation.save
-      # TODO: placeholder till other actions are defined
-      redirect_to root_path, notice: I18n.t(:notice_created)
+      redirect_to controller: @documentation.calling_controller, action: @documentation.calling_action,
+        notice: I18n.t(:notice_created)
     else
       render :new
     end
