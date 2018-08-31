@@ -31,7 +31,7 @@ class ProjectLog < ApplicationRecord
   delegate :division, :division=, :project, to: :project_step
   delegate :name, to: :agent, prefix: true, allow_nil: true
 
-  attr_translatable :summary, :details, :additional_notes, :private_notes
+  translates :summary, :details, :additional_notes, :private_notes
 
   attr_option_settable :progress_metric
 
