@@ -24,7 +24,7 @@
     header
       h2 = t("dashboard.assigned_steps")
 
-    - if @filtered_assigned_steps.length > 0
+    - if @filtered_assigned_steps.present?
       = render "assigned_project_steps_grid_definition"
       - unless @recent_project_steps_grid.no_records_at_all
         = render_index_grid(@recent_project_steps_grid)
