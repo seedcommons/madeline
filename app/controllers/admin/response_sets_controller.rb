@@ -14,12 +14,7 @@ class Admin::ResponseSetsController < Admin::AdminController
         updated_at: @conflicting_response_set.updated_at,
         lock_version: @conflicting_response_set.lock_version,
       }
-
-      @conflict = true
-      @tab = 'questions'
-      @loan = @response_set.loan
-      prep_questionnaire
-      render 'admin/loans/show'
+      handle_conflict
     else
       @response_set.save!
       redirect_to display_path, notice: I18n.t(:notice_created)
@@ -53,11 +48,7 @@ class Admin::ResponseSetsController < Admin::AdminController
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
   rescue ActiveRecord::StaleObjectError
-    @conflict = true
-    @tab = 'questions'
-    @loan = @response_set.loan
-    prep_questionnaire
-    render 'admin/loans/show'
+    handle_conflict
   end
 
   def destroy
@@ -69,6 +60,14 @@ class Admin::ResponseSetsController < Admin::AdminController
   end
 
   private
+
+  def handle_conflict
+    @conflict = true
+    @tab = 'questions'
+    @loan = @response_set.loan
+    prep_questionnaire
+    render 'admin/loans/show'
+  end
 
   def resolve_polymorphic(type, id)
     type.constantize.find(id)
