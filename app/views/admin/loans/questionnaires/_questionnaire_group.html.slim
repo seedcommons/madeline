@@ -85,11 +85,16 @@ div
               value: response.number
 
           - tags = %w(table tbody tr td b i u ol ul li p img)
+
+          / class attr should work automatically but
+          / adding class attr fixed the bug of having both a table and an image
+          - attrs = %w(class style src data-filename _moz_resizing)
+
           - if response.has_text?
             - if response.text.present? && !response.not_applicable?
-              .view-element.answer = sanitize(response.text, tags: tags)
+              .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
             = f.input_field :"#{question.attribute_sym}[text]",
-              value: sanitize(response.text, tags: tags), as: :summernote
+              value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
           - if response.has_string?
             - if response.string.present? && !response.not_applicable?
