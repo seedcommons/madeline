@@ -44,7 +44,7 @@
   = f.input :loan_type, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.loan_type
     = f.input_field :loan_type_value, collection: Loan.loan_type_options, include_blank: true
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_type",
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_loan_type",
       options: popover_options)
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
