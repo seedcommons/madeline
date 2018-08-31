@@ -7,6 +7,47 @@ feature 'documentation' do
 
   before { login_as user }
 
+  scenario 'complete documentation flow', js: true do
+    visit admin_dashboard_path
+
+    popover_link = page.find(:css, "a#dashboard-dashboard-title-link")
+    popover_link.click
+
+    new_link = page.find(:css, "a#dashboard-dashboard-title-new-link")
+    new_link.click
+
+    expect(page).to have_content "New Documentation"
+    fill_in_content
+    click_on "Create Documentation"
+
+    expect(page).to have_content "successfully created"
+
+    visit admin_dashboard_path
+    popover_link.click
+
+    expect(page).to have_content 'my summary content'
+
+    edit_link = page.find(:css, "a#dashboard-dashboard-title-edit-link")
+    edit_link.click
+
+    expect(page).to have_content "Edit documentation"
+    fill_in 'Summary Content', with: "EDITED SUMMARY CONTENT"
+    click_on "Update Documentation"
+
+    expect(page).to have_content 'successfully updated'
+
+    popover_link.click
+
+    expect(page).to have_content "EDITED SUMMARY CONTENT"
+
+    documentation_window = window_opened_by { click_link "Learn more »" }
+    within_window documentation_window do
+      expect(page).to have_content "my page title"
+      expect(page).to have_content "my page content"
+      expect(page).not_to have_content "EDITED SUMMARY CONTENT"
+    end
+  end
+
   scenario 'creation' do
     visit new_admin_documentation_path(caller: 'loans#new', html_identifier: 'food')
 
