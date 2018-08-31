@@ -35,7 +35,7 @@ if defined?(Wice::Defaults)
   Wice::Defaults::CSV_FIELD_SEPARATOR = ','
 
   # Default CSV encoding (p.e. 'CP1252:UTF-8' to make Microsoft Excel(tm) happy)
-  Wice::Defaults::CSV_ENCODING = 'CP1252:UTF-8'
+  Wice::Defaults::CSV_ENCODING = nil
 
   # The strategy when to show the filter.
   # * <tt>:when_filtered</tt> - when the table is the result of filtering
