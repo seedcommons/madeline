@@ -4,7 +4,7 @@ $(document).on('ready', function() {
       height: 300,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
-        ["insert", ["table", "picture"]],
+        ["insert", ["table", "picture", "link"]],
         ["para", ["ul", "ol", "paragraph"]]
       ]
     });
