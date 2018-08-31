@@ -4,8 +4,9 @@ $(document).on('ready', function() {
       height: 300,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
-        ["insert", ["table", "picture"]],
-        ["para", ["ul", "ol", "paragraph"]]
+        ["table", ["table"]],
+        ["para", ["ul", "ol", "paragraph"]],
+        ["insert", ["link", "picture"]]
       ]
     });
   });
