@@ -76,6 +76,17 @@ section.questionnaires {
     margin-bottom: 0;
   }
 
+  .note-editor {
+    .modal-footer .note-btn {
+      background-color: #8C2426;
+      border-color: #781f20;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+  }
+
   .question-label {
     margin-bottom: 1em;
     font-weight: bold;

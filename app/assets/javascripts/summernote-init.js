@@ -5,7 +5,8 @@ $(document).on('ready', function() {
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
         ["table", ["table"]],
-        ["para", ["ul", "ol", "paragraph"]]
+        ["para", ["ul", "ol", "paragraph"]],
+        ["insert", ["link"]]
       ]
     });
   });
