@@ -135,6 +135,7 @@ en:
         item: "Item"
         kind_value: "Kind"
       project_step:
+        agent_id: "Assignee"
         parent_id: "Group"
         schedule_parent_id: "Preceding Step"
         actual_end_date: "Completed Date"

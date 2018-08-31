@@ -37,7 +37,7 @@ class Media < ApplicationRecord
   validates :item, :kind_value, presence: true
   validate :update_item_error
 
-  attr_translatable :caption, :description
+  translates :caption, :description
 
   delegate :division, :division=, to: :media_attachable
 

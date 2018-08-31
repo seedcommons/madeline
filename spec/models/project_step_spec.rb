@@ -40,6 +40,29 @@ describe ProjectStep, type: :model do
     expect(create(:project_step)).to be_valid
   end
 
+  describe 'agents' do
+    let(:project_step) { create(:project_step, agent: agent) }
+
+    context 'saves with agent' do
+      let(:agent) { create(:person, first_name: 'Onyeka') }
+
+      it do
+        expect(project_step).to be_valid
+        expect(project_step.agent).not_to be_nil
+        expect(project_step.agent.first_name).to eq('Onyeka')
+      end
+    end
+
+    context 'saves without agent' do
+      let(:agent) { nil }
+
+      it do
+        expect(project_step).to be_valid
+        expect(project_step.agent).to be_nil
+      end
+    end
+  end
+
   it 'cannot have child steps' do
     step1, step2 = create_list(:project_step, 2)
     expect { step1.add_child(step2) }.to raise_error(ProjectStep::NoChildrenAllowedError)
