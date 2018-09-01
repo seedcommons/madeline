@@ -150,6 +150,11 @@ form {
   .help-block {
     display: none;
   }
+
+  // Hide documentation popovers
+  .ms-documentation {
+    display: none;
+  }
 }
 
 .select2-container {
@@ -185,4 +190,42 @@ label.light {
   padding: .5em 0 0;
   font-size: .9em;
   font-style: italic;
+}
+
+.form-horizontal {
+  &.form-with-documentation {
+    .form-control {
+      width: 90%;
+    }
+
+    .form-group {
+      &.boolean, .checkbox {
+        .form-control {
+          width: inherit;
+        }
+      }
+    }
+
+    .language-block {
+      select.locale {
+        width: auto;
+      }
+    }
+
+    .ms-documentation {
+      margin-left: .5em;
+    }
+  }
+}
+
+fieldset {
+  &.translatable-summary-and-details {
+    border-top: 1px solid $gray2;
+    border-bottom: 1px solid $gray2;
+    margin-bottom: 1em;
+
+    h4 {
+      display: inline-block;
+    }
+  }
 }
