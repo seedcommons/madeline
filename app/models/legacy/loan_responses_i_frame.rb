@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class LoanResponsesIFrame < ActiveRecord::Base
+  class LoanResponsesIFrame < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 

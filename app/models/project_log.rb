@@ -22,7 +22,7 @@
 #  fk_rails_...  (project_step_id => timeline_entries.id)
 #
 
-class ProjectLog < ActiveRecord::Base
+class ProjectLog < ApplicationRecord
   include Translatable, MediaAttachable, OptionSettable
 
   belongs_to :project_step
@@ -31,7 +31,7 @@ class ProjectLog < ActiveRecord::Base
   delegate :division, :division=, :project, to: :project_step
   delegate :name, to: :agent, prefix: true, allow_nil: true
 
-  attr_translatable :summary, :details, :additional_notes, :private_notes
+  translates :summary, :details, :additional_notes, :private_notes
 
   attr_option_settable :progress_metric
 

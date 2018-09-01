@@ -43,7 +43,7 @@
 #  fk_rails_...  (secondary_agent_id => people.id)
 #
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   include Translatable
   include OptionSettable
 
@@ -65,7 +65,7 @@ class Project < ActiveRecord::Base
   scope :visible, -> { where.not(public_level_value: 'hidden') }
 
   # define accessor-like convenience methods for the fields stored in the Translations table
-  attr_translatable :summary, :details
+  translates :summary, :details
   attr_accessor :destroying
 
   validate :check_agents

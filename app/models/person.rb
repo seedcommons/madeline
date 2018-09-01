@@ -47,7 +47,7 @@
 # 'access_role' attribute and 'password'/'password_confirmation' attributes.
 #
 
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
