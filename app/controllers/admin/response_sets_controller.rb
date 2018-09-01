@@ -8,9 +8,7 @@ class Admin::ResponseSetsController < Admin::AdminController
 
     # Check if loan already has a response set (e.g. created in another tab)
     @conflicting_response_set = @response_set.loan.send(@response_set.kind)
-    if params[:discard]
-      redirect_to display_path
-    elsif @conflicting_response_set && !params[:overwrite]
+    if @conflicting_response_set
       @response_set_from_db = {
         updater: @conflicting_response_set.updater,
         updated_at: @conflicting_response_set.updated_at,
