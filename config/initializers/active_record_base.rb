@@ -19,6 +19,4 @@ class ActiveRecord::Base
       self.connection.execute("SELECT setval('#{table_name}_id_seq', (SELECT MAX(id) FROM #{table_name})+#{gap})")
     end
   end
-
-
 end

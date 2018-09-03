@@ -1,5 +1,5 @@
 module Legacy
-  class OrgSnapshotData < ActiveRecord::Base
+  class OrgSnapshotData < ApplicationRecord
     establish_connection :legacy
 
     def self.create_questions

@@ -33,7 +33,7 @@
 # In order to access the system, profile must reference a Person record with 'has_system_access' true.
 # More information about the distinction between User and Person can be found under person.rb.
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
