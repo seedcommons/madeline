@@ -5,6 +5,7 @@ feature 'documentation', js: true do
   let(:division) { create(:division) }
   let(:user) { create_admin(division) }
   let(:project) {  create(:basic_project, division: division) }
+  let(:loan) {  create(:loan, division: division) }
   let(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
     page_title: 'original page title', page_content: 'original page content') }
 
@@ -129,6 +130,44 @@ feature 'documentation', js: true do
 
       # redirects to the correct page
       expect(page).to have_content(project.display_name)
+    end
+
+    scenario 'flow 4 on loan index' do
+      visit admin_loans_path
+
+      popover_link = page.find(:css, "a#loans-index-title-link")
+      popover_link.click
+
+      new_link = page.find(:css, "a#loans-index-title-new-link")
+      new_link.click
+
+      fill_in_content
+      click_on "Create Documentation"
+
+      documentation_created
+
+      # redirects to the correct page
+      expect(page).to have_content("Loans")
+      expect(page).to have_content("New Loan")
+    end
+
+    scenario 'flow 5 on loan detail' do
+      visit admin_loan_path(loan)
+
+      popover_link = page.find(:css, "a#loans-show-title-link")
+      popover_link.click
+
+      new_link = page.find(:css, "a#loans-show-title-new-link")
+      new_link.click
+
+      fill_in_content
+      click_on "Create Documentation"
+
+      documentation_created
+
+      # redirects to the correct page
+      expect(page).to have_content("Edit Loan")
+      expect(page).to have_content("Delete Loan")
     end
   end
 
