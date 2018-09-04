@@ -88,12 +88,17 @@ div
             = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
               value: response.number
 
-          - tags = %w(table tbody tr td b i u ol ul li p a)
+          - tags = %w(table tbody tr td b i u ol ul li p img a)
+
+          / class attr should work automatically but
+          / adding class attr fixed the bug of having both a table and an image
+          - attrs = %w(class style src data-filename _moz_resizing href target)
+
           - if response.has_text?
             - if response.text.present? && !response.not_applicable?
-              .view-element.answer = sanitize(response.text, tags: tags, attributes: %w(href target))
+              .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
             = f.input_field :"#{question.attribute_sym}[text]",
-              value: sanitize(response.text, tags: tags, attributes: %w(href target)), as: :summernote
+              value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
           - if response.has_string?
             - if response.string.present? && !response.not_applicable?
@@ -140,7 +145,7 @@ div
             / The form element will always show in edit mode
             .form-element
               = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-              question: question, data: response.business_canvas
+                question: question, data: response.business_canvas
 
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
