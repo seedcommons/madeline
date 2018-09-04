@@ -42,7 +42,11 @@ div
           .question-label = question.full_number_and_label
 
       - if question.explanation.present?
-        .help-block.hidden-print.tree-view = simple_format(question.explanation.to_s)
+        .help-block.hidden-print.tree-view
+          - if question.explanation.allow_html?
+            = raw(question.explanation)
+          - else
+            = simple_format(question.explanation)
 
       / Recurse if group, else render
       - if question.group? && !question.leaf?

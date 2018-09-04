@@ -7,6 +7,7 @@
 #  created_at         :datetime         not null
 #  html_identifier    :string
 #  id                 :integer          not null, primary key
+#  previous_url       :string
 #  updated_at         :datetime         not null
 #
 # Indexes

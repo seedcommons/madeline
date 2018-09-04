@@ -7,16 +7,18 @@
   = f.input :calling_controller
   = f.input :calling_action
 
+  = f.input :previous_url, as: :hidden
+
   = f.translatable_inputs do |l|
     = f.input "summary_content_#{l}".to_sym, as: :text,
       input_html: {data: {translatable: 'summary_content'}},
-      label: I18n.t('documentation.summary_content', locale: l)
+      label: I18n.t('summary_content', locale: l)
     = f.input "page_title_#{l}".to_sym,
       input_html: {data: {translatable: 'page_title'}},
-      label: I18n.t('documentation.page_title', locale: l)
+      label: I18n.t('page_title', locale: l)
     = f.input "page_content_#{l}".to_sym, as: :text,
       input_html: {data: {translatable: 'page_content'}},
-      label: I18n.t('documentation.page_content', locale: l)
+      label: I18n.t('page_content', locale: l)
 
   .actions.form-element
     - unless @documentation.new_record?
