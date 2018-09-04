@@ -101,13 +101,14 @@ feature 'documentation', js: true do
       select 'Español', from: 'documentation_locale_en'
       expect(page).to have_css('select#documentation_locale_es')
 
+      # revert back to English for test sake
+      select 'English', from: 'documentation_locale_es'
+
       # testing content
-      fill_in_content
+      fill_in 'Page Title', with: 'new page title'
       click_on 'Update Documentation'
 
-      expect(Documentation.last.reload.summary_content.text).to eq('my summary content')
-      expect(Documentation.last.reload.page_title.text).to eq('my page title')
-      expect(Documentation.last.reload.page_content.text).to eq('my page content')
+      expect(Documentation.last.reload.page_title.text).to eq('new page title')
 
       # redirects to the correct page
       expect(page).to have_content('New Loan')
