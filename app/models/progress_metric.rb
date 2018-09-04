@@ -1,2 +1,2 @@
-class ProgressMetric < ActiveRecord::Base
+class ProgressMetric < ApplicationRecord
 end

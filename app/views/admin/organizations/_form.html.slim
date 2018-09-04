@@ -59,6 +59,10 @@
     .view-element = @org.state
     = f.input_field :state
 
+  = f.input :postal_code
+    .view-element = @org.postal_code
+    = f.input_field :postal_code
+
   = f.input :country
     .view-element = @org.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true

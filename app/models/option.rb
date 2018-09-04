@@ -20,7 +20,7 @@
 #  fk_rails_...  (option_set_id => option_sets.id)
 #
 
-class Option < ActiveRecord::Base
+class Option < ApplicationRecord
   include Translatable
 
   belongs_to :option_set
@@ -33,7 +33,7 @@ class Option < ActiveRecord::Base
   delegate :division, :division=, to: :option_set
 
   # define accessor like convenience methods for the fields stored in the Translations table
-  attr_translatable :label, :description
+  translates :label, :description
 
   after_create :ensure_value_assigned
 

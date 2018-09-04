@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-class Loan < ActiveRecord::Base
+class Loan < ApplicationRecord
   establish_connection :legacy
   include LegacyModel
 

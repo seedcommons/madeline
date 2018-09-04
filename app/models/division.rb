@@ -48,7 +48,7 @@
 #  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   include DivisionBased
 
   has_closure_tree dependent: :restrict_with_exception, order: :name

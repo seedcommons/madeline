@@ -67,7 +67,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     if @log.save
       @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
       @expand_logs = true
-      head :ok
+      render json: {summary: @log.summary, logId: @log.id}, status: 200
       notify
     else
       @progress_metrics = ProjectLog.progress_metric_options
