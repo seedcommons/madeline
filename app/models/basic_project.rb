@@ -2,7 +2,10 @@
 #
 # Table name: projects
 #
+#  actual_end_date                       :date
+#  actual_first_interest_payment_date    :date
 #  actual_first_payment_date             :date
+#  actual_return                         :decimal(, )
 #  amount                                :decimal(, )
 #  created_at                            :datetime         not null
 #  currency_id                           :integer
@@ -17,6 +20,7 @@
 #  primary_agent_id                      :integer
 #  projected_end_date                    :date
 #  projected_first_interest_payment_date :date
+#  projected_first_payment_date          :date
 #  projected_return                      :decimal(, )
 #  public_level_value                    :string           not null
 #  rate                                  :decimal(, )

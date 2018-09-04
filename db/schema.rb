@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180904163352) do
+ActiveRecord::Schema.define(version: 20180904203852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -299,7 +299,10 @@ ActiveRecord::Schema.define(version: 20180904163352) do
   end
 
   create_table "projects", id: :serial, force: :cascade do |t|
+    t.date "actual_end_date"
+    t.date "actual_first_interest_payment_date"
     t.date "actual_first_payment_date"
+    t.decimal "actual_return"
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.integer "currency_id"
@@ -313,6 +316,7 @@ ActiveRecord::Schema.define(version: 20180904163352) do
     t.integer "primary_agent_id"
     t.date "projected_end_date"
     t.date "projected_first_interest_payment_date"
+    t.date "projected_first_payment_date"
     t.decimal "projected_return"
     t.string "public_level_value", null: false
     t.decimal "rate"
