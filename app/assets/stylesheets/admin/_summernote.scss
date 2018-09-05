@@ -1,6 +1,8 @@
+// Summernote
+
 .modal {
-  // Fixes a bug where the add link button has a white background with white text
-  &.link-dialog {
+  // Fixes a bug where modal buttons have white backgrounds with white text
+  &.link-dialog, &.in {
     .modal-footer .note-btn {
       background-color: #8C2426;
       border-color: #781f20;
