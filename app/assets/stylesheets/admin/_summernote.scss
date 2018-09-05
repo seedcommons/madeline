@@ -1,0 +1,9 @@
+.modal {
+  // Fixes bug where add link button displayed as white background with white text
+  &.link-dialog {
+    .modal-footer .note-btn {
+      background-color: #8C2426;
+      border-color: #781f20;
+    }
+  }
+}
