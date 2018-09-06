@@ -1,7 +1,11 @@
 class MS.Views.DashboardView extends Backbone.View
   el: '.admin-dashboard .content'
 
-  initialize: ->
+  events:
+    'click .project-step-item': 'stepClick'
+
+  initialize: (params) ->
+    @stepModal = params.stepModal
     @prepTooltips()
 
   # Prepare tooltips on all projects shown for all users in the dashboard
@@ -15,3 +19,6 @@ class MS.Views.DashboardView extends Backbone.View
         placement: 'left'
         toggle: 'popover'
         trigger: 'manual'
+
+  stepClick: (e) ->
+    @stepModal.show(@$(e.target).closest('tr').data('id'))

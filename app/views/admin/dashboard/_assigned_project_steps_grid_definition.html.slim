@@ -1,4 +1,7 @@
-= define_grid(@recent_project_steps_grid, hide_csv_button: true) do |g|
+= define_grid(@recent_project_steps_grid, hide_csv_button: true, class: 'project-step-item') do |g|
+
+  - g.row_attributes do |step|
+    - {data:{id: step.id}}
 
   - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
   - g.column name: t('common.id'), attribute: 'id', filter: false, in_csv: false, ordering: false
@@ -10,12 +13,12 @@
     - if step.step_type_value == "milestone"
       - "<i class='fa fa-fw fa-flag-o project-step-item'></i> #{step.summary}".html_safe
     - else
-       - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
+      - "<i class='fa fa-fw fa-calendar project-step-item'></i> #{step.summary}".html_safe
 
   - g.column name: t('dashboard.project'), attribute: 'project_id', filter: false, in_html: false
   - g.column name: t('dashboard.project'), attribute: 'project_id', filter: false,
     in_csv: false, ordering: false do |step|
-    - if (step.project.class.name == "Loan")
+    - if step.project.class.name == "Loan"
       - link_to(step.project.display_name, admin_loan_path(step.project.id))
     - else
       - link_to(step.project.display_name, admin_basic_project_path(step.project.id))
