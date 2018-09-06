@@ -11,7 +11,8 @@ feature 'documentation', js: true do
 
   before { login_as user }
 
-  describe 'documentation creation flow' do
+  # TODO - reopen when we can test summernote fields on feature specs
+  xdescribe 'documentation creation flow' do
     scenario 'flow 1 on dashboard' do
       visit admin_dashboard_path
 
@@ -75,10 +76,9 @@ feature 'documentation', js: true do
       expect(page).to have_field('Calling Controller', with: 'loans')
       expect(page).to have_field('Calling Action', with: 'new')
 
+      # translatable fields save appropriately
       fill_in_content
-      click_on "Create Documentation"
-
-      documentation_created
+      click_on 'Create Documentation'
 
       # redirects to the correct page
       expect(page).to have_content('New Loan')
