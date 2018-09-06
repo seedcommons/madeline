@@ -54,7 +54,7 @@ class Admin::DashboardController < Admin::AdminController
     # Show only incomplete project steps with a scheduled start date one year before today's date
     # up to two months after today's date. Extremely late steps are not displayed.
     @filtered_assigned_steps = assigned_steps.where(is_finalized: true, actual_end_date: nil,
-      scheduled_start_date: (Time.now.midnight - 1.years)..(Time.now.midnight + 2.months))
+      scheduled_start_date: (Time.now.midnight - 1.year)..(Time.now.midnight + 2.months))
     @recent_project_steps_grid = initialize_grid(
       @filtered_assigned_steps,
       name: 'assigned_project_steps',

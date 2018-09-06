@@ -38,7 +38,7 @@ class TimelineEntry < ApplicationRecord
 
   has_closure_tree
 
-  attr_translatable :summary
+  translates :summary
 
   belongs_to :project, inverse_of: :timeline_entries
   belongs_to :agent, class_name: 'Person'

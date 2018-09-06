@@ -2,4 +2,7 @@ section.calendar
   h1.sr-only = t("calendar.calendar")
   = render "admin/calendar/legend"
 
-  div#calendar data-project-id="#{project.id}"
+  #calendar data-project-id="#{project.id}"
+
+  // This modal is used to display the edit log modal
+  #log-form-modal
