@@ -20,15 +20,15 @@
           input_html: { data: { translatable: 'questions.text' } },
           placeholder: I18n.t('questions.text', locale: l),
           label: t('questions.text', locale: l)
-      = f.input :"explanation_#{l}", as: :text,
-          input_html: { data: { translatable: 'questions.explanation' } },
+      = f.input :"explanation_#{l}", as: :summernote,
+          input_html: { id: 'question_explanation', data: { translatable: 'questions.explanation' } },
           placeholder: I18n.t('questions.explanation', locale: l),
           label: t('questions.explanation', locale: l)
 
     = f.input :status, label: t("questions.active"), as: :boolean, checked_value: 'active',
       unchecked_value: 'inactive'
 
-    = f.input :division_id, collection: current_user.accessible_divisions,
+    = f.input :division_id, collection: division_select_options(public_only: false),
       selected: @question.division.id
 
     = f.input :data_type do

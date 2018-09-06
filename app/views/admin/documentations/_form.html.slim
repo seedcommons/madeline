@@ -1,0 +1,37 @@
+= simple_form_for [:admin, @documentation] do |f|
+
+  = f.error_notification
+
+  = f.input :html_identifier, value: params[:html_identifier]
+
+  = f.input :calling_controller
+  = f.input :calling_action
+
+  = f.input :previous_url, as: :hidden
+
+  = f.translatable_inputs do |l|
+    = f.input "summary_content_#{l}".to_sym, as: :summernote,
+      input_html: {data: {translatable: 'summary_content'}},
+      label: I18n.t('summary_content', locale: l)
+    = f.input "page_title_#{l}".to_sym,
+      input_html: {data: {translatable: 'page_title'}},
+      label: I18n.t('page_title', locale: l)
+    = f.input "page_content_#{l}".to_sym, as: :summernote,
+      input_html: {data: {translatable: 'page_content'}},
+      label: I18n.t('page_content', locale: l)
+
+  .actions.form-element
+    - unless @documentation.new_record?
+      - if @documentation.valid?
+        a.btn.btn-default.show-action = t(:cancel)
+      - else
+        a.btn.btn-default href='#' = t(:cancel)
+    = f.submit class: 'update-action btn btn-primary'
+  .clearfix
+
+javascript:
+  $(function() {
+    new MS.Views.TranslationsView({
+      el: $('[data-content-translatable="#{@documentation.class.name.underscore}"]')
+    });
+  });

@@ -1,6 +1,7 @@
 module AdminHelper
   def authorized_form_field(simple_form: nil, model: nil, field_name: nil, choices: nil,
-    include_blank_choice: true, classes: '')
+    include_blank_choice: true, classes: '', form_identifier: nil, popover_options: {})
+
     model_field = model.send(field_name)
     if model_field
       policy = "#{model_field.class.name}Policy".constantize.new(current_user, model_field)
@@ -19,7 +20,9 @@ module AdminHelper
       # Beware, if the 'may_edit' logic changes and might be false even with a non-nil model_field,
       # then the paratial code will also need updating to make nil safe.
       may_edit: !model_field || policy.show?,
-      classes: classes
+      classes: classes,
+      form_identifier: form_identifier,
+      popover_options: popover_options
     }
   end
 
@@ -60,7 +63,33 @@ module AdminHelper
   end
 
   # Displays Font Awesome icons
-  def icon_tag(class_name)
-    content_tag(:i, "", class: "fa fa-#{class_name}")
+  def icon_tag(class_name, options: {})
+    content_tag(:i, "", id: options[:id], data: options[:data], class: "fa fa-#{class_name} #{options[:extra_classes]}")
+  end
+
+  def documentation_popover(documentations, html_identifier: "", options: {})
+    documentation = documentations[html_identifier]
+    placement = options[:placement] || 'right'
+    if documentation.present?
+      data_content = documentation&.summary_content.to_s
+      if documentation.page_content.present?
+        learn_more_link = link_to t("documentation.learn_more"), admin_documentation_path(documentation), target: :_blank
+        data_content << "<br /><br />" << learn_more_link
+      end
+      action_link = link_to icon_tag("pencil"), edit_admin_documentation_path(documentation), id: "#{html_identifier}-edit-link" if policy(documentation).edit?
+    else
+      new_documentation = Documentation.new
+      return "" unless policy(new_documentation).new?
+      caller_string = "#{controller_name}##{action_name}"
+      data_content = t("documentation.no_documentations")
+      action_link = link_to icon_tag("plus"),
+        new_admin_documentation_path(caller: caller_string, html_identifier: html_identifier), id: "#{html_identifier}-new-link" if policy(new_documentation).new?
+      extra_classes = "text-muted"
+    end
+    title_content = content_tag(:span, action_link, class: "text-right")
+    data_hash = { toggle: "popover", content: data_content, html: true, title: title_content, placement: placement }
+    content_tag(:a, tabindex: 0, data: data_hash, class: 'ms-popover ms-documentation', id: "#{html_identifier}-link") do
+      icon_tag("question-circle", options: {id: html_identifier, extra_classes: extra_classes})
+    end
   end
 end

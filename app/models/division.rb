@@ -48,7 +48,7 @@
 #  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   include DivisionBased
 
   has_closure_tree dependent: :restrict_with_exception, order: :name
@@ -168,7 +168,7 @@ class Division < ActiveRecord::Base
   end
 
   def generate_short_name
-    return if short_name.present?
+    return if short_name.present? && Division.pluck(:short_name).exclude?(self.short_name)
 
     self.short_name = name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
