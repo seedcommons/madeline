@@ -21,4 +21,5 @@ class MS.Views.DashboardView extends Backbone.View
         trigger: 'manual'
 
   stepClick: (e) ->
-    @stepModal.show(@$(e.target).closest('tr').data('id'))
+    if !(@$(e.target).is('a'))
+      @stepModal.show(@$(e.target).closest('tr').data('id'))
