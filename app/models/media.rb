@@ -25,7 +25,7 @@
 #  fk_rails_...  (uploader_id => people.id)
 #
 
-class Media < ActiveRecord::Base
+class Media < ApplicationRecord
   include Translatable
   include OptionSettable
 
@@ -37,7 +37,7 @@ class Media < ActiveRecord::Base
   validates :item, :kind_value, presence: true
   validate :update_item_error
 
-  attr_translatable :caption, :description
+  translates :caption, :description
 
   delegate :division, :division=, to: :media_attachable
 

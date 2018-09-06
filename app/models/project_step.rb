@@ -52,7 +52,7 @@ class ProjectStep < TimelineEntry
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
       inverse_of: :schedule_parent, dependent: :nullify
 
-  attr_translatable :details
+  translates :details
 
   attr_option_settable :step_type
 
