@@ -206,6 +206,13 @@ body.admin {
       .ms-popover {
         display: flex;
         align-items: center;
+        margin-left: .25em;
+        margin-right: .25em;
+
+        &:hover {
+          text-decoration: none;
+          color: #781f20;
+        }
       }
 
       .page-title {
