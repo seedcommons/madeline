@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180820164459) do
+ActiveRecord::Schema.define(version: 20180830171218) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20180820164459) do
     t.string "calling_controller"
     t.datetime "created_at", null: false
     t.string "html_identifier"
+    t.string "previous_url"
     t.datetime "updated_at", null: false
     t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
   end
@@ -408,6 +409,7 @@ ActiveRecord::Schema.define(version: 20180820164459) do
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
+    t.boolean "allow_html", default: false
     t.datetime "created_at"
     t.string "locale"
     t.text "text"

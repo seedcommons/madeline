@@ -1,8 +1,15 @@
 es:
   dashboard:
+    assigned_steps: "Mis Pasos del Proyecto"
     logs: "Apuntes"
     my_projects: "Mis Proyectos"
+    no_assigned_steps: "No hay pasos del proyecto asignado a usted."
+    project: "Proyecto"
+    scheduled_end_date: "Final Proyectado"
+    scheduled_start_date: "Principio Proyectado"
     show_all_logs: "Administrar Apuntes"
+    step_type_value: "Tipo"
+    summary: "Resumen"
     upcoming_events: "Pasos Siguientes"
     users: "Usuarios"
     status_options:

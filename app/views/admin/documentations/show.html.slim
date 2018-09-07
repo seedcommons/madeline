@@ -1,5 +1,4 @@
 - content_for(:title, @documentation.page_title)
 
 section.documentation
-  div.documentation-content
-    = simple_format(@documentation.page_content)
+  div.documentation-content = raw(@documentation.page_content)
