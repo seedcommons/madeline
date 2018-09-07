@@ -41,6 +41,10 @@ es:
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
         interest_income_account_id: "Cuenta de Ingreso de Interés"
+      documentation:
+        calling_action: "Acción Pidiendo"
+        calling_controller: "Controlador Pidiendo"
+        html_identifier: "Identificación del HTML"
       loan:
         division: "División"
         organization: "Cooperativa"
@@ -130,6 +134,7 @@ es:
         item: "Ítem"
         kind_value: "Tipo"
       project_step:
+        agent_id: "Persona Asignado"
         parent_id: "Grupo"
         schedule_parent_id: "Paso Precedente"
         actual_end_date: "Fecha de Finalización"
@@ -333,6 +338,8 @@ es:
   notice_batch_failures: '%{failure_count} registro(s) con fallas.'
   password: "Contraseña"
   optional: "Opcional"
+  page_content: "Contenido de Pagina"
+  page_title: "Título de Pagina"
   print: "Imprimir"
   quickbooks:
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar las cuentas de QuickBooks en %{settings}.'
@@ -347,6 +354,7 @@ es:
   save: "Guardar"
   step: "Paso"
   submit: "Enviar"
+  summary_content: "Contenido de Resumen"
   unauthorized_error: "No tienes autorización para realizar esta acción."
   unknown: "Desconocido"
   update: "Actualizar"
@@ -381,6 +389,7 @@ es:
     second: "2do"
     street_address: "Domicilio"
     summary: "Resumen"
+    summary_and_details: "Resumen y Detalles"
     type: "Tipo"
     updated: "Actualizado"
     website: "Página web"

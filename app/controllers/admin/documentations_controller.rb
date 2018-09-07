@@ -29,7 +29,6 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def update
     if @documentation.update(documentation_params)
-      # TODO: placeholder till other actions are defined
       redirect_to @documentation.previous_url, notice: I18n.t(:notice_updated)
     else
       render :edit
