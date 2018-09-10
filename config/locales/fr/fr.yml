@@ -1,13 +1,38 @@
 fr:
-  locale_name:
-    en: Anglais
-    es: Espanol
-    fr: Français
-  summary: Résumé
-  details: Détails
-
+  cancel: Annuler
+  close: Fermer
   common:
     summary: Résumé
     details: Détails
     caption: Légende
-    description: La description
+    description: La Description
+  details: Détails
+  error: Erreur
+  error_notification: Nous sommes désolés, mais une erreur s'est produite lors du traitement de votre demande.
+  loading: Chargement...
+  locale_name:
+    en: Anglais
+    es: Espanol
+    fr: Français
+  logout: Connectez - Out
+  menu:
+    basic_projects: Projets
+    calendar: Calendrier
+    coops: Les coopératives
+    dashboard: Tableau de Bord
+    divisions: Divisions
+    loans: Prêts
+    questions: Des Questions
+    manage: Gérer
+    people: Membres
+    log: Bûche
+    logs: Journaux
+    accounting_settings: Paramètres de Comptabilité
+  page_content: Contenu de la Page
+  page_title: Titre de la Page
+  summary: Résumé
+  summary_content: Contenu Récapitulatif
+  template:
+    change_division: Division du Changement
+    profile: Profil
+    select_division: Sélectionner une Division
