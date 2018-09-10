@@ -1,13 +1,93 @@
 fr:
+  activerecord:
+    attributes:
+      project:
+        length_months: Durée (mois)
+        name: Prénom
+        primary_agent: Agent Primaire
+        progress: Le Progrès
+        secondary_agent: Agent Secondaire
+        signing_date: Date de Début
+        status: Statut
+        health_check: Bilan de Santé
+    models:
+      loan: Prêt
+      log: Bûche
+      media: Médias
+      organization: Organisation
+      person: Membre
+      project_step: Étape du Projet
+  cancel: Annuler
+  close: Fermer
+  common:
+    add: Ajouter
+    add_language: Ajouter une Langue
+    address_state: Etat
+    caption: Légende
+    condense_all: Condenser Tout
+    created: Créé
+    deleted_user: Utilisateur Supprimé
+    description: La Description
+    details: Détails
+    division: Division
+    divisions: Divisions
+    expand_all: Développer Tout
+    first: 1er
+    hide_all: Cacher Tout
+    id: ID
+    name: Prénom
+    no_name: Sans Nom
+    no_records: Aucun Enregistrement Trouvé.
+    no_records_match: Aucun enregistrement ne correspond. Ajustez les filtres ou utilisez Clear pour réinitialiser les filtres.
+    note: Remarque
+    notes: Remarques
+    parent: Parent
+    print: Impression
+    project: Projet
+    remove: Retirer
+    role: Rôle
+    save: Sauvegarder
+    second: 2ème
+    street_address: Adresse de Rue
+    summary: Résumé
+    summary_and_details: Résumé et Détails
+    type: Type
+    untitled: Sans Titre
+    user: Utilisateur
+    updated: Actualisé
+    view_logs: Regardes les Connexions
+    website: Site Internet
+  details: Détails
+  error: Erreur
+  error_notification: Nous sommes désolés, mais une erreur s'est produite lors du traitement de votre demande.
+  id: ID
+  loading: Chargement...
   locale_name:
     en: Anglais
     es: Espanol
     fr: Français
+  logout: Connectez - Out
+  menu:
+    basic_projects: Projets
+    calendar: Calendrier
+    coops: Les coopératives
+    dashboard: Tableau de Bord
+    divisions: Divisions
+    loans: Prêts
+    questions: Des Questions
+    manage: Gérer
+    people: Membres
+    log: Bûche
+    logs: Journaux
+    accounting_settings: Paramètres de Comptabilité
+  notice_created: L'enregistrement a été Créé Avec Succès.
+  notice_deleted: L'enregistrement a été Dupprimé Avec Succès.
+  notice_updated: L'enregistrement a été Mis à Jour Avec Succès.
+  page_content: Contenu de la Page
+  page_title: Titre de la Page
   summary: Résumé
-  details: Détails
-
-  common:
-    summary: Résumé
-    details: Détails
-    caption: Légende
-    description: La description
+  summary_content: Contenu Récapitulatif
+  template:
+    change_division: Division du Changement
+    profile: Profil
+    select_division: Sélectionner une Division
