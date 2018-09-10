@@ -188,6 +188,7 @@ body.admin {
 
     .title-with-popover {
       display: block;
+      margin-bottom: 1em;
     }
 
     h1, .ms-popover {
@@ -198,7 +199,7 @@ body.admin {
       margin-left: .25em;
 
       i {
-        font-size: 1.5em;
+        font-size: 2em;
       }
 
       &:hover, &:focus {
@@ -221,13 +222,18 @@ body.admin {
 
       .title-with-popover {
         display: flex;
+        margin-bottom: 0;
       }
 
       .ms-popover {
         display: flex;
         align-items: center;
-        margin-left: .25em;
-        margin-right: .25em;
+        margin-left: .5em;
+        margin-right: .75em;
+
+        i {
+          font-size: 1.5em;
+        }
 
         &:hover {
           text-decoration: none;
