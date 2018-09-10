@@ -14,7 +14,9 @@ div
           .page-header
             .title-with-popover
               h1.page-title = yield :title
-              = documentation_popover(@documentations_by_html, html_identifier: "#{controller_name}-#{action_name}-title")
+              = documentation_popover(@documentations_by_html,
+                  html_identifier: "#{controller_name}-#{action_name}-title",
+                  options: {placement: 'bottom'})
             .with-title = yield :with_title
 
           = yield
