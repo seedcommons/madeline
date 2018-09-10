@@ -181,9 +181,31 @@ body.admin {
     }
   }
 
+  // Page title, help system popover, and new button
   .page-header {
     margin-top: 0;
     border: none;
+
+    .title-with-popover {
+      display: block;
+    }
+
+    h1, .ms-popover {
+      display: inline;
+    }
+
+    .ms-documentation {
+      margin-left: .25em;
+
+      i {
+        font-size: 1.5em;
+      }
+
+      &:hover, &:focus {
+        text-decoration: none;
+        color: #781f20;
+      }
+    }
 
     h1 {
       margin-top: 0;
@@ -196,6 +218,10 @@ body.admin {
       display: flex;
       align-items: center;
       width: 100%;
+
+      .title-with-popover {
+        display: flex;
+      }
 
       .ms-popover {
         display: flex;
@@ -211,14 +237,6 @@ body.admin {
 
       .page-title {
         margin: 0;
-      }
-
-      .ms-documentation {
-        margin-right: .5em;
-
-        i {
-          font-size: 1.5em;
-        }
       }
     }
 
