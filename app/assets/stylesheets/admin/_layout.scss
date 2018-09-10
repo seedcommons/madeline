@@ -197,12 +197,6 @@ body.admin {
       align-items: center;
       width: 100%;
 
-      // h1, .ms-popover, .with-title {
-      //   display: flex;
-      //   align-items: center;
-      //   height: 100%;
-      // }
-
       .ms-popover {
         display: flex;
         align-items: center;
@@ -216,7 +210,6 @@ body.admin {
       }
 
       .page-title {
-        // padding: 0;
         margin: 0;
       }
 
@@ -231,7 +224,6 @@ body.admin {
 
     .with-title {
       text-align: right;
-      // vertical-align: bottom;
     }
   }
 }
