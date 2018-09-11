@@ -15,7 +15,7 @@
   .modal-body
     = error_notification(f)
 
-    / TODO - fix bug in translation system and refactor this hack
+    / TODO - improve UI for translation system
     - I18n.available_locales.each do |l|
       = f.input :"label_#{l}", as: :text,
           input_html: {data: {translatable: 'questions.text'}},
