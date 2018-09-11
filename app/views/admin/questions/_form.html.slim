@@ -15,13 +15,14 @@
   .modal-body
     = error_notification(f)
 
-    = f.translatable_inputs do |l|
+    / TODO - fix bug in translation system and refactor this hack
+    - I18n.available_locales.each do |l|
       = f.input :"label_#{l}", as: :text,
-          input_html: { data: { translatable: 'questions.text' } },
+          input_html: {data: {translatable: 'questions.text'}},
           placeholder: t('questions.text', locale: l),
           label: t('questions.text', locale: l)
       = f.input :"explanation_#{l}", as: :summernote,
-          input_html: { id: "question_explanation_#{l}", data: { translatable: 'questions.explanation' } },
+          input_html: {id: "question_explanation_#{l}", data: {translatable: 'questions.explanation'}},
           label: t('questions.explanation', locale: l)
 
     = f.input :status, label: t("questions.active"), as: :boolean, checked_value: 'active',

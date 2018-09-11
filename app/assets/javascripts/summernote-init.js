@@ -16,7 +16,7 @@ $(document).on('ready', function() {
   $('#edit-modal').on( "show.bs.modal", function() {
     $('[data-translatable="questions.explanation"]').summernote({
       dialogsInBody: true,
-      height: 150,
+      height: 50,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
         ["table", ["table"]],
