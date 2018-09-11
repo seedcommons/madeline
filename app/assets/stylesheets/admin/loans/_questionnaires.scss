@@ -187,6 +187,14 @@ section.questionnaires {
       font-weight: normal;
     }
   }
+
+  // Ensure help text is not impacted by overall questionnaire styles
+  .help-block {
+    li {
+      min-height: 0;
+      margin-bottom: 0;
+    }
+  }
 }
 
 .loan-memo-header {
