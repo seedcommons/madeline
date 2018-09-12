@@ -48,9 +48,7 @@ class Admin::DashboardController < Admin::AdminController
 
   def prep_assigned_steps
     @context = "dashboard"
-    # TODO: Filter steps by current division. See ProjectLog in_division and policy scopes.
-    # There is no existing project step filter by division that I saw so far.
-    assigned_steps = ProjectStep.where(agent_id: @person.id)
+    assigned_steps = ProjectStep.in_division(selected_division).where(agent_id: @person.id)
     # Show only incomplete project steps with a scheduled start date one year before today's date
     # up to two months after today's date. Extremely late steps are not displayed.
     @filtered_assigned_steps = assigned_steps.where(is_finalized: true, actual_end_date: nil,
