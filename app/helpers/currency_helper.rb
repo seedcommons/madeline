@@ -4,7 +4,7 @@ module CurrencyHelper
 
     if tooltip
       display_symbol = %Q(<a href="#" onclick="return false" data-toggle="tooltip"
-        class="currency_symbol" title="#{currency.try(:plural_name)}">#{display_symbol}</a>).html_safe
+        class="currency_symbol" title="#{currency_name(currency, count: 2)}">#{display_symbol}</a>).html_safe
     end
 
     # since we want to display all amounts with the symbols in front and dot notation

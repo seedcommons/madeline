@@ -382,6 +382,31 @@ en:
     created: "Created"
     caption: "Caption"
     condense_all: "Condense All"
+    currency:
+      ARS:
+        one: "Argentinean Peso"
+        other: "Argentinean Pesos"
+      USD:
+        one: "U.S. Dollar"
+        other: "U.S. Dollars"
+      GBP:
+        one: "British Pound"
+        other: "British Pounds"
+      NIO:
+        one: "Nicaraguan Cordoba"
+        other: "Nicaraguan Cordobas"
+      MXN:
+        one: "Mexican Peso"
+        other: "Mexican Pesos"
+      GTQ:
+        one: "Guatemalan Quetzal"
+        other: "Guatemalan Quetzals"
+      ZAR:
+        one: "South African Rand"
+        other: "South African Rands"
+      INR:
+        one: "Indian Rupee"
+        other: "Indian Rupees"
     deleted_user: "Deleted User"
     description: "Description"
     details: "Details"

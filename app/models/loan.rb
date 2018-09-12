@@ -136,10 +136,6 @@ class Loan < Project
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
-  def display_currency
-    currency ? currency.try(:name) : ''
-  end
-
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name

@@ -44,8 +44,7 @@
 #
 
 class Project < ApplicationRecord
-  include Translatable
-  include OptionSettable
+  include Translatable, OptionSettable
 
   before_destroy :allow_destroy
 

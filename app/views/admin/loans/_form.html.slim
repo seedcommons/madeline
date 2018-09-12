@@ -69,7 +69,7 @@
       options: popover_options)
 
   = f.input :currency
-    .view-element = @loan.display_currency
+    .view-element = currency_name(@loan.currency, count: 1)
     = f.input_field :currency_id, collection: @currency_choices, include_blank: true
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency",
       options: popover_options)
