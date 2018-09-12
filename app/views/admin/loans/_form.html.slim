@@ -108,10 +108,10 @@
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_signing_date",
       options: popover_options)
 
-  = f.input :actual_first_interest_payment_date, wrapper_html: {class: 'hidden-print'}
-    .view-element = ldate(@loan.actual_first_interest_payment_date)
-    = f.input_field :actual_first_interest_payment_date, as: :date_picker
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_first_interest_payment_date",
+  = f.input :projected_first_payment_date, wrapper_html: {class: 'hidden-print'}
+    .view-element = ldate(@loan.projected_first_payment_date)
+    = f.input_field :projected_first_payment_date, as: :date_picker
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_projected_first_payment_date",
       options: popover_options)
 
   = f.input :actual_first_payment_date, wrapper_html: {class: 'hidden-print'}
@@ -126,16 +126,10 @@
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_projected_first_interest_payment_date",
       options: popover_options)
 
-  = f.input :projected_first_payment_date, wrapper_html: {class: 'hidden-print'}
-    .view-element = ldate(@loan.projected_first_payment_date)
-    = f.input_field :projected_first_payment_date, as: :date_picker
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_projected_first_payment_date",
-      options: popover_options)
-
-  = f.input :actual_end_date, wrapper_html: {class: 'hidden-print'}
-    .view-element = ldate(@loan.actual_end_date)
-    = f.input_field :actual_end_date, as: :date_picker
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_end_date",
+  = f.input :actual_first_interest_payment_date, wrapper_html: {class: 'hidden-print'}
+    .view-element = ldate(@loan.actual_first_interest_payment_date)
+    = f.input_field :actual_first_interest_payment_date, as: :date_picker
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_first_interest_payment_date",
       options: popover_options)
 
   = f.input :projected_end_date, wrapper_html: {class: 'hidden-print'}
@@ -144,17 +138,23 @@
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_projected_end_date",
       options: popover_options)
 
-  = f.input :actual_return, wrapper_html: {class: 'hidden-print'}
-    .view-element = @loan.actual_return
-    = f.input_field :actual_return
-    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_return",
-            options: popover_options)
+  = f.input :actual_end_date, wrapper_html: {class: 'hidden-print'}
+    .view-element = ldate(@loan.actual_end_date)
+    = f.input_field :actual_end_date, as: :date_picker
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_end_date",
+      options: popover_options)
 
   = f.input :projected_return, wrapper_html: {class: 'hidden-print'}
     .view-element = @loan.projected_return
     = f.input_field :projected_return
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_projected_return",
       options: popover_options)
+
+  = f.input :actual_return, wrapper_html: {class: 'hidden-print'}
+    .view-element = @loan.actual_return
+    = f.input_field :actual_return
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_actual_return",
+            options: popover_options)
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :representative,
     choices: @representative_choices, classes: 'hidden-print', form_identifier: form_identifier,
