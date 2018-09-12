@@ -61,8 +61,8 @@ class Question < ApplicationRecord
   has_closure_tree order: 'position', dependent: :destroy
 
   # define accessor like convenience methods for the fields stored in the Translations table
-  attr_translatable :label
-  attr_translatable :explanation
+  translates :label
+  translates :explanation, allow_html: true
 
   validates :data_type, presence: true
 

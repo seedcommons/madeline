@@ -25,7 +25,7 @@ class Note < ApplicationRecord
   delegate :name, to: :author, prefix: true
 
   # define accessor like convenience methods for the fields stored in the Translations table
-  attr_translatable :text
+  translates :text
 
   validates :notable, presence: true
   validates :author, presence: true

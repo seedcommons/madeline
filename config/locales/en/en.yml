@@ -135,6 +135,7 @@ en:
         item: "Item"
         kind_value: "Kind"
       project_step:
+        agent_id: "Assignee"
         parent_id: "Group"
         schedule_parent_id: "Preceding Step"
         actual_end_date: "Completed Date"
@@ -349,6 +350,8 @@ en:
   notice_batch_failures: '%{failure_count} record(s) with failures.'
   password: "Password"
   optional: "Optional"
+  page_content: "Page Content"
+  page_title: "Page Title"
   print: "Print"
   quickbooks:
     accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
@@ -363,6 +366,7 @@ en:
   save: "Save"
   step: "Step"
   submit: "Submit"
+  summary_content: "Summary Content"
   unauthorized_error: "You are not authorized to perform this action."
   unknown: "Unknown"
   update: "Update"
@@ -401,6 +405,7 @@ en:
     second: "2nd"
     street_address: "Street Address"
     summary: "Summary"
+    summary_and_details: "Summary and Details"
     type: "Type"
     updated: "Updated"
     website: "Website"

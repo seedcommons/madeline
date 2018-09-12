@@ -7,6 +7,7 @@
 #  created_at         :datetime         not null
 #  html_identifier    :string
 #  id                 :integer          not null, primary key
+#  previous_url       :string
 #  updated_at         :datetime         not null
 #
 # Indexes
@@ -17,7 +18,7 @@
 class Documentation < ApplicationRecord
   include Translatable
 
-  attr_translatable :summary_content, :page_content
+  translates :summary_content, :page_content, :page_title
 
   validates :html_identifier, uniqueness: true
 end

@@ -1,6 +1,21 @@
 class DocumentationPolicy < ApplicationPolicy
   def create?
-    # set this way until we determine authorization
-    true
+    any_division_admin?
+  end
+
+  def new?
+    create?
+  end
+
+  def edit?
+    create?
+  end
+
+  def update?
+    edit?
+  end
+
+  def show?
+    create?
   end
 end

@@ -76,6 +76,17 @@ section.questionnaires {
     margin-bottom: 0;
   }
 
+  .note-editor {
+    .modal-footer .note-btn {
+      background-color: #8C2426;
+      border-color: #781f20;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+  }
+
   .question-label {
     margin-bottom: 1em;
     font-weight: bold;
@@ -174,6 +185,14 @@ section.questionnaires {
       color: $gray3;
       font-size: $help-text-font-size;
       font-weight: normal;
+    }
+  }
+
+  // Ensure help text is not impacted by overall questionnaire styles
+  .help-block {
+    li {
+      min-height: 0;
+      margin-bottom: 0;
     }
   }
 }

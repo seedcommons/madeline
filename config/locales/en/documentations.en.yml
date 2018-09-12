@@ -1,5 +1,6 @@
 en:
   documentation:
+    edit: "Edit documentation"
+    learn_more: "Learn more »"
     new: 'New Documentation'
-    page_content: "Page Content"
-    summary_content: "Summary Content"
+    no_documentations: "No documentation found."
