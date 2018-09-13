@@ -137,10 +137,10 @@ class Admin::LoansController < Admin::ProjectsController
     params.require(:loan).permit(*(
       [
         :division_id, :organization_id, :loan_type_value, :status_value, :name,
-        :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
-        :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
-        :end_date, :projected_return, :representative_id,
-        :project_type_value, :public_level_value
+        :amount, :currency_id, :primary_agent_id, :secondary_agent_id, :projected_first_payment_date,
+        :length_months, :rate, :signing_date, :actual_first_payment_date, :projected_first_interest_payment_date,
+        :projected_end_date, :projected_return, :representative_id, :actual_first_interest_payment_date,
+        :project_type_value, :actual_end_date, :actual_return, :public_level_value
       ] + translation_params(:summary, :details)
     ))
   end

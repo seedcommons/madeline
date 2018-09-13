@@ -96,8 +96,6 @@ describe Accounting::Quickbooks::DataExtractor, type: :model do
         update_transaction_with_new_quickbooks_data
       end
 
-      before { update_transaction_with_new_quickbooks_data }
-
       it 'updates correctly in Madeline' do
         expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2, 3, 4])
         expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit', 'Credit', 'Debit'])
