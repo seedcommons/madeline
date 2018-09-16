@@ -14,9 +14,9 @@ $(document).on('ready', function() {
   // summernote on question edit modal
   // TODO - find a way to merge summernote config for modals and pages
   $('#edit-modal').on( "show.bs.modal", function() {
-    $('#question_explanation').summernote({
+    $('[data-translatable="questions.explanation"]').summernote({
       dialogsInBody: true,
-      height: 150,
+      height: 50,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
         ["table", ["table"]],

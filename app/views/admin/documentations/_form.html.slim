@@ -9,7 +9,7 @@
 
   = f.input :previous_url, as: :hidden
 
-  / TODO - fix bug in translation system and refactor this hack
+  / TODO - improve UI for translation system
   - I18n.available_locales.each do |l|
     = f.input "summary_content_#{l}".to_sym, as: :summernote,
       input_html: {data: {translatable: 'summary_content'}},
