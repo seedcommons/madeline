@@ -41,11 +41,10 @@ class ProjectGroup < TimelineEntry
   # Optional set of filters to be applied when fetching children.
   attr_reader :filters
 
-  # Causing migration problems. Is this really necessary? ~Fuzzy
-  # validate :has_summary
-
   before_create :ensure_single_root
-  before_update :check_parent_changes
+
+  validate :check_parent_changes, on: :update
+  validate :check_non_root_has_summary
 
   # A step type value is required for timeline entries
   after_initialize :set_step_type_value
@@ -151,10 +150,8 @@ class ProjectGroup < TimelineEntry
 
   private
 
-  def has_summary
-    if !root? && summary.blank?
-      errors.add(:base, :no_summary)
-    end
+  def check_non_root_has_summary
+    errors.add(:base, :no_summary) if !root? && summary.blank?
   end
 
   def ensure_single_root
