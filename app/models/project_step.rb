@@ -57,15 +57,9 @@ class ProjectStep < TimelineEntry
   attr_option_settable :step_type
 
   validates :project_id, :step_type_value, :scheduled_start_date, presence: true
-  validate :unfinalize_allowed
-  validate :validate_scheduled_start_date
-  validate :duration_is_over_0
-  validate :has_summary
+  validate :unfinalize_allowed, :validate_scheduled_start_date, :duration_is_over_0, :has_summary_and_details
 
-  before_update :handle_old_start_date_logic
-  before_update :handle_old_duration_days_logic
-  before_update :handle_schedule_children
-  before_update :handle_scheduled_start_date
+  before_update :handle_old_start_date_logic, :handle_old_duration_days_logic, :handle_schedule_children, :handle_scheduled_start_date
   before_save :handle_finalized_at
   after_commit :recalculate_loan_health
 
@@ -450,7 +444,7 @@ class ProjectStep < TimelineEntry
     errors.add(:scheduled_end_date, :less_than_1) if duration_less_than_one?
   end
 
-  def has_summary
-    errors.add(:base, :no_summary) if summary.blank?
+  def has_summary_and_details
+    errors.add(:base, :no_summary_or_details) if summary.blank? || details.blank?
   end
 end
