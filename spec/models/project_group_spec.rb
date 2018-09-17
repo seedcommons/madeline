@@ -36,16 +36,22 @@
 require 'rails_helper'
 
 describe ProjectGroup, type: :model do
+  let(:p_group) { create(:project_group) }
+
   it 'has a valid factory' do
     expect(create(:project_group)).to be_valid
   end
 
-  it 'is invalid without summary' do
-    expect{ create(:project_group, summary: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+  it 'non root is invalid without summary' do
+    expect{ create(:project_group, parent: p_group, summary: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'root is valid without summary' do
+    expect{ create(:root_project_group) }.not_to raise_error
   end
 
   context 'without children' do
-    subject(:group) { create(:project_group) }
+    subject(:group) { p_group }
 
     let(:step) { create(:project_step) }
 
