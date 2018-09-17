@@ -63,13 +63,17 @@ describe ProjectStep, type: :model do
         end
       end
     end
-    # summary, scheduled start date and details
+
     it 'can not save without scheduled start date' do
       expect{ create(:project_step, scheduled_start_date: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it 'can not save without summary' do
       expect{ create(:project_step, summary: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'can not save without details' do
+      expect{ create(:project_step, details: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
