@@ -40,6 +40,10 @@ describe ProjectGroup, type: :model do
     expect(create(:project_group)).to be_valid
   end
 
+  it 'is invalid without summary' do
+    expect{ create(:project_group, summary: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
   context 'without children' do
     subject(:group) { create(:project_group) }
 
