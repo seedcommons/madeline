@@ -53,10 +53,10 @@ class ProjectStep < TimelineEntry
       inverse_of: :schedule_parent, dependent: :nullify
 
   translates :details
-
+  # summary, scheduled start date and details
   attr_option_settable :step_type
 
-  validates :project_id, :step_type_value, presence: true
+  validates :project_id, :step_type_value, :scheduled_start_date, presence: true
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
   validate :duration_is_over_0
