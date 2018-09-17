@@ -40,26 +40,32 @@ describe ProjectStep, type: :model do
     expect(create(:project_step)).to be_valid
   end
 
-  describe 'agents' do
-    let(:project_step) { create(:project_step, agent: agent) }
+  context 'validation' do
+    describe 'agents' do
+      let(:project_step) { create(:project_step, agent: agent) }
 
-    context 'saves with agent' do
-      let(:agent) { create(:person, first_name: 'Onyeka') }
+      context 'saves with agent' do
+        let(:agent) { create(:person, first_name: 'Onyeka') }
 
-      it do
-        expect(project_step).to be_valid
-        expect(project_step.agent).not_to be_nil
-        expect(project_step.agent.first_name).to eq('Onyeka')
+        it do
+          expect(project_step).to be_valid
+          expect(project_step.agent).not_to be_nil
+          expect(project_step.agent.first_name).to eq('Onyeka')
+        end
+      end
+
+      context 'saves without agent' do
+        let(:agent) { nil }
+
+        it do
+          expect(project_step).to be_valid
+          expect(project_step.agent).to be_nil
+        end
       end
     end
-
-    context 'saves without agent' do
-      let(:agent) { nil }
-
-      it do
-        expect(project_step).to be_valid
-        expect(project_step.agent).to be_nil
-      end
+    # summary, scheduled start date and details
+    it 'can not save without scheduled_start_date' do
+      expect{ create(:project_step, scheduled_start_date: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 
