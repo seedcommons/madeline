@@ -60,6 +60,7 @@ class ProjectStep < TimelineEntry
   validate :unfinalize_allowed
   validate :validate_scheduled_start_date
   validate :duration_is_over_0
+  validate :has_summary
 
   before_update :handle_old_start_date_logic
   before_update :handle_old_duration_days_logic
@@ -447,5 +448,9 @@ class ProjectStep < TimelineEntry
 
   def duration_is_over_0
     errors.add(:scheduled_end_date, :less_than_1) if duration_less_than_one?
+  end
+
+  def has_summary
+    errors.add(:base, :no_summary) if summary.blank?
   end
 end
