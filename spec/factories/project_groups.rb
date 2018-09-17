@@ -66,12 +66,12 @@ class ProjectGroupFactoryHelper
       nodes[:g3] = create_group(nodes[:root])
       nodes[:g3_s3] = create_step(nodes[:g3], "2017-02-01", 5)
       nodes[:g3_s2] = create_step(nodes[:g3], "2017-02-01", 2)
-      nodes[:g3_s4] = create_step(nodes[:g3], nil, nil)
+      nodes[:g3_s4] = create_step(nodes[:g3], "2017-02-01", nil)
       nodes[:g3_s1] = create_step(nodes[:g3], "2017-01-01", 10)
       nodes[:g1] = create_group(nodes[:root])
       nodes[:g1_s1] = create_step(nodes[:g1], "2017-01-01", 5)
       nodes[:g5] = create_group(nodes[:root])
-      nodes[:g5_s1] = create_step(nodes[:g5], nil, 3)
+      nodes[:g5_s1] = create_step(nodes[:g5], "2017-01-01", 3)
       nodes[:g6] = create_group(nodes[:root])
       nodes[:g4] = create_group(nodes[:root])
       nodes[:g4_s1] = create_step(nodes[:g4], "2017-03-01", 1)
@@ -80,7 +80,7 @@ class ProjectGroupFactoryHelper
       nodes[:g2_g2_s1] = create_step(nodes[:g2_g2], "2017-01-10", 5)
       nodes[:g2_g1] = create_group(nodes[:g2])
       nodes[:g2_g1_s1] = create_step(nodes[:g2_g1], "2017-01-01", 5)
-      nodes[:s2] = create_step(nodes[:root], nil, 1)
+      nodes[:s2] = create_step(nodes[:root], "2017-01-01", 1)
       nodes[:s1] = create_step(nodes[:root], "2017-02-28", 30)
     end
   end

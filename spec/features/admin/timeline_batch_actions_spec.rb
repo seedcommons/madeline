@@ -7,12 +7,12 @@ feature 'timeline batch actions', js: true do
 
   # Create a step with a dependent step, which also has a dependent step
   let(:step1) { create(:project_step, project: loan) }
-  let(:step2) { create(:project_step, project: loan, scheduled_start_date: nil, schedule_parent: step1) }
-  let(:step3) { create(:project_step, project: loan, scheduled_start_date: nil, schedule_parent: step2) }
+  let(:step2) { create(:project_step, project: loan, schedule_parent: step1) }
+  let(:step3) { create(:project_step, project: loan, schedule_parent: step2) }
 
   # Create two independent steps, one with and the other without a scheduled start date
   let(:step4) { create(:project_step, project: loan, scheduled_start_date: Date.today, scheduled_duration_days: nil) }
-  let(:step5) { create(:project_step, project: loan, scheduled_start_date: nil, scheduled_duration_days: nil) }
+  let(:step5) { create(:project_step, project: loan, scheduled_duration_days: nil) }
 
   let(:steps) { [step1, step2, step3, step4, step5] }
 
