@@ -38,24 +38,20 @@ module SimpleForm
         <div class="languages" data-content-translatable="#{object_name}">
           <input class="deleted-locales" name="#{object_name}[deleted_locales][]" type="hidden" />
       }.html_safe
-      object.used_and_division_locales.each do |l|
+      # TODO: Fix this to only show defined locales again
+      I18n.available_locales.each do |l|
         # .row is added to language-block to address styling problems
         out += %Q{
           <div class="language-block row" data-locale="#{l}">
-            <a class="remove-language" href="#">#{I18n.t('common.remove')}</a>
+          <fieldset>
+            <legend>#{name_for_locale(l)}</legend>
         }.html_safe
-        out += input :"locale_#{l}", label: false,
-          collection: locale_options,
-          input_html: {class: 'locale'}, include_blank: false
 
         out += template.capture { yield l }
 
-        out += "</div>".html_safe
+        out += "</fieldset></div>".html_safe
       end
-      out += %Q{
-          <a class="add-language" href="#">#{I18n.t('common.add_language')}</a>
-        </div>
-      }.html_safe
+
       out
     end
   end
