@@ -112,13 +112,11 @@ class ProjectStep < TimelineEntry
   end
 
   def scheduled_end_date
-    return if scheduled_start_date.blank?
     return scheduled_start_date if scheduled_duration_days.blank?
     scheduled_start_date + scheduled_duration_days - 1
   end
 
   def original_end_date
-    return unless scheduled_start_date.present?
     return scheduled_start_date unless old_duration_days || scheduled_duration_days
 
     if old_duration_days && old_duration_days > 0
@@ -132,7 +130,7 @@ class ProjectStep < TimelineEntry
 
   # Gets the actual number of days the step too, based on actual end date and scheduled start date
   def actual_duration_days
-    if actual_end_date.present? && scheduled_start_date.present?
+    if actual_end_date.present?
       (actual_end_date - scheduled_start_date).to_i
     else
       nil
