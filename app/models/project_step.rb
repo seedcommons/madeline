@@ -349,6 +349,10 @@ class ProjectStep < TimelineEntry
     parent.depth
   end
 
+  def has_no_summary_or_details
+    summary.blank? || details.blank?
+  end
+
   private
 
   def validate_scheduled_start_date
@@ -426,6 +430,6 @@ class ProjectStep < TimelineEntry
   end
 
   def has_summary_and_details
-    errors.add(:base, :no_summary_or_details) if summary.blank? || details.blank?
+    errors.add(:base, :no_summary_or_details) if has_no_summary_or_details
   end
 end
