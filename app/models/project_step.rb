@@ -59,7 +59,7 @@ class ProjectStep < TimelineEntry
   validates :project_id, :step_type_value, :scheduled_start_date, presence: true
   validate :unfinalize_allowed, :validate_scheduled_start_date, :duration_is_over_0, :has_summary_and_details
 
-  before_update :handle_old_start_date_logic, :handle_old_duration_days_logic, :handle_schedule_children, :handle_scheduled_start_date
+  before_update :handle_old_start_date_logic, :handle_old_duration_days_logic, :handle_schedule_children
   before_save :handle_finalized_at
   after_commit :recalculate_loan_health
 
@@ -226,12 +226,10 @@ class ProjectStep < TimelineEntry
   end
 
   def days_late
-    if scheduled_start_date
-      if completed?
-        (actual_end_date - original_end_date).to_i
-      else
-        ([scheduled_start_date, Date.today].max - original_end_date).to_i
-      end
+    if completed?
+      (actual_end_date - original_end_date).to_i
+    else
+      ([scheduled_start_date, Date.today].max - original_end_date).to_i
     end
   end
 
@@ -404,17 +402,6 @@ class ProjectStep < TimelineEntry
       step.scheduled_start_date = dependent_step_start_date
       step.save!
     end
-  end
-
-  # Checks that old_start_date is not present if scheduled_start_date is blank.
-  # Sets scheduled_start_date to actual_end_date if actual_end_date
-  # is present but scheduled_start_date is blank.
-  def handle_scheduled_start_date
-    return unless persisted?
-    raise ArgumentError if scheduled_start_date.blank? && old_start_date.present?
-    return unless actual_end_date && scheduled_start_date.blank?
-
-    self.scheduled_start_date = actual_end_date
   end
 
   # start and finish are each CSS color strings in hsl format
