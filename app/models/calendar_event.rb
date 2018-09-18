@@ -36,7 +36,7 @@ class CalendarEvent
   end
 
   def self.new_project_step(step)
-    step.scheduled_start_date ? new.initialize_project_step(step) : nil
+    new.initialize_project_step(step)
   end
 
   def self.new_ghost_step(step)

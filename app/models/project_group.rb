@@ -77,11 +77,7 @@ class ProjectGroup < TimelineEntry
 
   def scheduled_duration_days
     return @scheduled_duration_days if defined?(@scheduled_duration_days)
-    @scheduled_duration_days = if scheduled_end_date && scheduled_start_date
-      scheduled_end_date - scheduled_start_date
-    else
-      nil
-    end
+    @scheduled_duration_days = scheduled_end_date ? (scheduled_end_date - scheduled_start_date) : nil
   end
 
   # Copies filters down through all descendant groups and resets memoization of filtered_children.
