@@ -151,6 +151,7 @@ class ProjectGroup < TimelineEntry
   private
 
   def check_non_root_has_summary
+    # adding the non-root check for duplication sake
     errors.add(:base, :no_summary) if !root? && summary.blank?
   end
 

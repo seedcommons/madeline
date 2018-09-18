@@ -74,7 +74,7 @@ RSpec.describe ProjectDuplicator, type: :model do
 
     context 'with project logs' do
       before do
-        grandchild = loan.root_timeline_entry.c[0].c[0]
+        grandchild = loan.root_timeline_entry.c[1].c[0]
         logs = create_list(:project_log, 2, project_step: grandchild)
         grandchild.project_logs << logs
         loan.save!
@@ -107,7 +107,7 @@ RSpec.describe ProjectDuplicator, type: :model do
       # We introduce some schedule dependencies in such a way that one of the dependencies
       # actually goes downward instead of upward.
       # g3_s3 is sorted above s1 because g3 has an early step. But we're going to make g3_s3 depend
-      # on s1, which won't change the sort order, but is a downward depenendency.
+      # on s1, which won't change the sort order, but is a downward dependency.
       g3_s3.update_attributes!(schedule_parent_id: s1.id)
       g5_s1.update_attributes!(schedule_parent_id: g3_s3.id)
     end
@@ -117,9 +117,9 @@ RSpec.describe ProjectDuplicator, type: :model do
         # We need to rebuild these references because we're using these examples for both
         # the old and the new loan.
         root = subject.root_timeline_entry
-        s1 = root.c[3]
-        g3_s3 = root.c[2].c[2]
-        g5_s1 = root.c[5].c[0]
+        s1 = root.c[4]
+        g3_s3 = root.c[3].c[3]
+        g5_s1 = root.c[6].c[0]
 
         expect(s1.scheduled_start_date).to eq Date.parse('2017-02-28')
         expect(s1.scheduled_duration_days).to eq 30
