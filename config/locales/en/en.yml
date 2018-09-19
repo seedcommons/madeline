@@ -138,6 +138,7 @@ en:
       media:
         item: "Item"
         kind_value: "Kind"
+        featured: "Featured"
       project_step:
         agent_id: "Assignee"
         parent_id: "Group"
