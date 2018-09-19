@@ -56,5 +56,11 @@ describe Media, type: :model do
         }.to raise_error("Validation failed: Item can't be blank")
       end
     end
+
+    it 'does not save when non-image type is set to featured' do
+      expect{
+        create(:media, kind_value: 'video', featured: true)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 end
