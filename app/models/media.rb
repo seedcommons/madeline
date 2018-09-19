@@ -38,6 +38,7 @@ class Media < ApplicationRecord
   validates :item, :kind_value, presence: true
   validate :update_item_error
   validate :non_image_cannot_be_featured
+  validate :one_featured_image_per_loan
 
   translates :caption, :description
 
@@ -85,5 +86,14 @@ class Media < ApplicationRecord
 
   def non_image_cannot_be_featured
     errors.add(:featured, :non_image) unless kind_value == 'image'
+  end
+
+  def one_featured_image_per_loan
+    featured_presently = self.class.where(media_attachable_type: 'Project', media_attachable_id: media_attachable_id).
+      find_by(featured: true)
+    if featured_presently
+      featured_presently.assign_attributes(featured: false)
+      featured_presently.save(validate: false)
+    end
   end
 end
