@@ -62,5 +62,20 @@ describe Media, type: :model do
         create(:media, kind_value: 'video', featured: true)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
+
+    describe 'no duplicate featured images for a loan' do
+      let(:loan) { create(:loan) }
+      let!(:media) { create(:media, featured: true, media_attachable_id: loan.id,
+        media_attachable_type: 'Project', kind_value: 'image') }
+      let(:media_2) { build(:media, featured: true, media_attachable_id: loan.id,
+        media_attachable_type: 'Project', kind_value: 'image') }
+
+      it 'can not have more than one featured image on a loan' do
+        media_2.save
+
+        expect(media.reload.featured).to be false
+        expect(media_2.reload.featured).to be true
+      end
+    end
   end
 end
