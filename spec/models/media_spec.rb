@@ -63,6 +63,12 @@ describe Media, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
+    it 'saves when image type is set to featured' do
+      expect{
+        create(:media, kind_value: 'image', featured: true)
+      }.not_to raise_error
+    end
+
     describe 'no duplicate featured images for a loan' do
       let(:loan) { create(:loan) }
       let!(:media_1) { create(:media, featured: true, kind_value: 'image', media_attachable: loan) }
