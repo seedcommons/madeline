@@ -65,16 +65,14 @@ describe Media, type: :model do
 
     describe 'no duplicate featured images for a loan' do
       let(:loan) { create(:loan) }
-      let!(:media) { create(:media, featured: true, media_attachable_id: loan.id,
-        media_attachable_type: 'Project', kind_value: 'image') }
-      let(:media_2) { build(:media, featured: true, media_attachable_id: loan.id,
-        media_attachable_type: 'Project', kind_value: 'image') }
+      let!(:media_1) { create(:media, featured: true, kind_value: 'image', media_attachable: loan) }
+      let(:media_2) { build(:media, featured: true, kind_value: 'image', media_attachable: loan) }
 
       it 'can not have more than one featured image on a loan' do
         media_2.save
 
-        expect(media.reload.featured).to be false
-        expect(media_2.reload.featured).to be true
+        expect(media_1.reload).not_to be_featured
+        expect(media_2.reload).to be_featured
       end
     end
   end
