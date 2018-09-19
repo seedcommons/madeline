@@ -12,17 +12,18 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
   div.modal-body
     - if @mode == :show_and_form
-      .show-actions
-        a.edit-action.view-element
-          i.fa.fa-pencil.fa-large>
-          = t("project_step.edit")
-        a.show-action.form-element
-          i.fa.fa-close.fa-large>
-          = t("cancel_edit")
-        - if @step.persisted?
-          a.delete-action [ data-confirm=t("project_step.confirm_deletion") ]
-            i.fa.fa-trash.fa-large>
-            = t("project_step.delete", count: 1)
+      - unless @from_dashboard
+        .show-actions
+          a.edit-action.view-element
+            i.fa.fa-pencil.fa-large>
+            = t("project_step.edit")
+          a.show-action.form-element
+            i.fa.fa-close.fa-large>
+            = t("cancel_edit")
+          - if @step.persisted?
+            a.delete-action [ data-confirm=t("project_step.confirm_deletion") ]
+              i.fa.fa-trash.fa-large>
+              = t("project_step.delete", count: 1)
       javascript:
         $(function() { new MS.Views.ShowEditView({ el: '.step-fields' }) });
 

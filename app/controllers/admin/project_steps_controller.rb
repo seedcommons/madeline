@@ -31,6 +31,8 @@ class Admin::ProjectStepsController < Admin::AdminController
     @step = ProjectStep.find(params[:id])
     authorize @step
 
+    @from_dashboard = URI(request.referer).path == '/admin/dashboard'
+
     if params[:context] == 'calendar'
       @logs = @step.project_logs
       @context = params[:context]
