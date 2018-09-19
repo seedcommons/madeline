@@ -52,6 +52,8 @@ module SimpleForm
         out += "</fieldset></div>".html_safe
       end
 
+      out += "</div>".html_safe
+
       out
     end
   end
