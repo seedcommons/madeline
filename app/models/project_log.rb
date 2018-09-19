@@ -36,7 +36,8 @@ class ProjectLog < ApplicationRecord
   attr_option_settable :progress_metric
 
   validates :project_step, :date, presence: true
-  validates :summary, translation_presence: true
+  # TODO: Go back to normal presence validator once translation widget is fixed
+  validates :summary, any_translation_presence: true
 
   after_commit :recalculate_loan_health
 
