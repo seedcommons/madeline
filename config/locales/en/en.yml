@@ -191,6 +191,8 @@ en:
           attributes:
             item:
               reattach: "please reattach your image"
+            featured:
+              non_image: "only image attachments can be set to featured"
         timeline_entry:
           attributes:
             scheduled_end_date:
