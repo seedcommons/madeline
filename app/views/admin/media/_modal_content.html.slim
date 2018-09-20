@@ -21,7 +21,7 @@ div.modal-body.media-modal
 
     - if @media.media_attachable.class.name == 'Loan'
       = f.input :featured
-      p#warning data-hide-all=".media-#{@media.id}" href="#"
+      p#warning data-hide-all=".media-#{@media.id}"
         em= t('media.duplication_warning')
 
     = render 'admin/media/translatable', media: @media, f: f
