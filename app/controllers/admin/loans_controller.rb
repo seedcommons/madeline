@@ -126,7 +126,7 @@ class Admin::LoansController < Admin::ProjectsController
     @mode = params[:mode]
     @images = @loan.media.where(kind_value: "image")
     # Group every 8 images
-    @image_list = @images.drop(1).each_slice(8).to_a
+    @image_list = @images.where.not(featured: true).each_slice(8).to_a
     prep_questionnaire(json: false)
     prep_attached_links if @mode != "details-only"
   end
