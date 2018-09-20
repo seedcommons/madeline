@@ -73,10 +73,13 @@ class MS.Views.MediaView extends Backbone.View
 
   showWarning: (e) ->
     mediaID = @$(e.currentTarget).closest('form').find('.media-item').data('media-id')
-    media = '[data-media-id=' + mediaID + ']'
-    mediaText = @$('.media-item' + media).text()
-    bodyText = (document.documentElement.textContent || document.documentElement.innerText)
-    if bodyText.indexOf('featured') > -1 && e.currentTarget.checked && mediaText.indexOf('featured') <= -1
-      @$('#show_warning').removeAttr('data-hide-all')
-    else if !(@$('#show_warning').attr('data-hide-all'))
-      @$('#show_warning').attr('data-hide-all', '.media-' + mediaID)
+    mediaSrc = @$(e.currentTarget).closest('form').find('img')[0].src
+    mediaData = '[data-media-id=' + mediaID + ']'
+    mediaText = @$('.media-item' + mediaData).text()
+
+    if (e.currentTarget.checked && mediaText.indexOf('Featured Image') > -1) || (!e.currentTarget.checked && mediaText.indexOf('Featured Image') < 0)
+      # hide warning if the image is already featured or if the image is not checked and not featured
+      @$('#warning').attr('data-hide-all', '.media-' + mediaID)
+    else if (e.currentTarget.checked && mediaText.indexOf('Featured Image') < 0)
+      # show the warning if there is a featured image and the current one isn't it
+      @$('#warning').removeAttr('data-hide-all')
