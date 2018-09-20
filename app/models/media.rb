@@ -85,7 +85,7 @@ class Media < ApplicationRecord
   end
 
   def non_image_cannot_be_featured
-    errors.add(:featured, :non_image) unless kind_value == 'image'
+    errors.add(:featured, :non_image) if kind_value != 'image' && featured
   end
 
   def one_featured_image_per_loan
