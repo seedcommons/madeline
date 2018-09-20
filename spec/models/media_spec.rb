@@ -47,8 +47,7 @@ describe Media, type: :model do
       it 'raises errors for image without kind' do
         expect{
           create(:media, kind_value: nil)
-        }.to raise_error("Validation failed: Kind can't be blank, Item please reattach your image, "\
-        "Featured only image attachments can be set to featured")
+        }.to raise_error("Validation failed: Kind can't be blank, Item please reattach your image")
       end
 
       it 'raises errors for kind without image' do
