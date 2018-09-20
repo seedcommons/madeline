@@ -14,6 +14,7 @@ class MS.Views.MediaView extends Backbone.View
     'confirm:complete .media-action.delete': 'deleteConfirm'
     'ajax:complete .media-action.proceed': 'deleteComplete'
     'change input#media_item': 'removePreviousMedia'
+    'click #media_featured': 'showWarning'
 
   defineMediaVariables: (link) ->
     @mediaBox = @$(link).closest('.media-browser')
@@ -69,3 +70,13 @@ class MS.Views.MediaView extends Backbone.View
   # Do not display thumbnail of older media file if media file is replaced
   removePreviousMedia: (e) ->
     @$(e.currentTarget).closest('form').find('.media-item').remove()
+
+  showWarning: (e) ->
+    mediaID = @$(e.currentTarget).closest('form').find('.media-item').data('media-id')
+    media = '[data-media-id=' + mediaID + ']'
+    mediaText = @$('.media-item' + media).text()
+    bodyText = (document.documentElement.textContent || document.documentElement.innerText)
+    if bodyText.indexOf('featured') > -1 && e.currentTarget.checked && mediaText.indexOf('featured') <= -1
+      @$('#show_warning').removeAttr('data-hide-all')
+    else if !(@$('#show_warning').attr('data-hide-all'))
+      @$('#show_warning').attr('data-hide-all', '.media-' + mediaID)
