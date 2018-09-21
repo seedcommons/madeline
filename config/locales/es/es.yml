@@ -452,6 +452,7 @@ es:
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
+    featured_image: "Foto principal"
     item: "Ítem"
     media: "Registros Audiovisuales"
     visual_media: "Registros visuales"
