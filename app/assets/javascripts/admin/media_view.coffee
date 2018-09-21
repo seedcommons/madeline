@@ -16,6 +16,9 @@ class MS.Views.MediaView extends Backbone.View
     'change input#media_item': 'removePreviousMedia'
     'click #media_featured': 'showWarning'
 
+  initialize: (params) ->
+    @locale = params.locale
+
   defineMediaVariables: (link) ->
     @mediaBox = @$(link).closest('.media-browser')
     mediaType = @mediaBox.data('media-type')
@@ -76,8 +79,7 @@ class MS.Views.MediaView extends Backbone.View
     mediaSrc = @$(e.currentTarget).closest('form').find('img')[0].src
     mediaData = '[data-media-id=' + mediaID + ']'
     mediaText = @$('.media-item' + mediaData).text()
-    featuredText = I18n.t('media.featured_image')
-    console.log(featuredText)
+    featuredText = I18n.t('media.featured_image', locale: @locale)
 
     if (e.currentTarget.checked && mediaText.indexOf(featuredText) > -1) || (!e.currentTarget.checked && mediaText.indexOf(featuredText) < 0)
       # hide warning if the image is already featured or if the image is not checked and not featured
