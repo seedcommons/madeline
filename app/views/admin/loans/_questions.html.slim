@@ -34,5 +34,8 @@ section.questionnaires
 javascript:
   $(function() {
     new MS.Views.ShowEditView({el: ".questionnaire[data-attrib=#{@attrib}] .block"});
-    new MS.Views.LoanQuestionnairesView({loanId: #{@loan.id}});
+    new MS.Views.LoanQuestionnairesView({
+      loanId: #{@loan.id},
+      locale: "#{I18n.locale}"
+    });
   });
