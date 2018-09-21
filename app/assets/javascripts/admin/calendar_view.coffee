@@ -7,12 +7,13 @@ class MS.Views.CalendarView extends Backbone.View
   initializeCalendar: (params, context, settings) ->
     @$calendar = @$('#calendar')
     @stepModal = params.stepModal
+    @locale = params.locale
     defaultCalendarSettings =
       eventAfterRender: @eventAfterRender.bind(context)
       eventDrop: @eventDrop.bind(context)
       loading: @loading.bind(context)
       events: params.calendarEventsUrl
-      lang: params.locale
+      lang: @locale
       height: 'auto'
       allDayDefault: true
     options = $.extend defaultCalendarSettings, settings
@@ -53,7 +54,7 @@ class MS.Views.CalendarView extends Backbone.View
     else if event.model_type == 'BasicProject' || event.model_type == 'Loan'
       # We use a 1ms timeout so that fullCalendar can finish drawing the event in the new calendar cell.
       setTimeout =>
-        if confirm(I18n.t("loan.move_date_confirm.body"))
+        if confirm(I18n.t("loan.move_date_confirm.body", locale: @locale))
           $.post "/admin/projects/#{event.model_id}/change_date",
             _method: "PATCH"
             which_date: event.event_type
