@@ -66,9 +66,9 @@ class MS.Views.TranslationsView extends Backbone.View
 
       # only translate placeholders for items that have placeholders
       if typeof $(this).attr('placeholder') == 'string'
-        $(this).attr('placeholder', I18n.t(item_name, { locale: locale }))
+        $(this).attr('placeholder', I18n.t(item_name, locale: locale))
 
-      $(this).prev().html(I18n.t(item_name, { locale: locale }))
+      $(this).prev().html(I18n.t(item_name, locale: locale))
 
   availableLocales: ->
     @permittedLocales.filter (l) => @usedLocales().indexOf(l) < 0
