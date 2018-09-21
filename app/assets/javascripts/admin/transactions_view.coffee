@@ -5,8 +5,9 @@ class MS.Views.TransactionsView extends Backbone.View
    'click [data-action="new-transaction"]': 'showTransactionModal'
    'click [data-action="show-transaction"]': 'showTransactionModal'
 
-  new: (loanId) ->
-    @loanId = loanId
+  initialize: (params) ->
+    @loanId = params.loanId
+    @locale = params.locale
 
   showTransactionModal: (e) ->
     e.preventDefault()
@@ -14,7 +15,7 @@ class MS.Views.TransactionsView extends Backbone.View
     action = @$(link).data('action')
 
     unless @transactionModalView
-      @transactionModalView = new MS.Views.TransactionModalView(@loanId)
+      @transactionModalView = new MS.Views.TransactionModalView(@loanId, @locale)
 
     if action == 'show-transaction'
       @transactionModalView.show(@$(link).data('id'), @$(link).data('project-id'))
