@@ -6,7 +6,7 @@ class MS.Views.ApplicationView extends Backbone.View
   el: 'body'
 
   initialize: (params) ->
-    new MS.Views.ErrorHandler()
+    new MS.Views.ErrorHandler({ locale: params.locale })
     new MS.Views.Expander()
     MS.alert = (html) ->
       $alert = $(html).hide()
