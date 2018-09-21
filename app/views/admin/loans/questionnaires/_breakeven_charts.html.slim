@@ -18,6 +18,11 @@
 
 javascript:
   $(function() {
-    $el = $(".summary-chart.breakeven-chart[data-id=#{id}]")
-    new MS.Views.LoanChartsView({el: $el, breakeven_data: #{json report}, id: #{id}});
+    $el = $(".summary-chart.breakeven-chart[data-id=#{id}]");
+    new MS.Views.LoanChartsView({
+      el: $el,
+      breakeven_data: #{json report},
+      id: #{id},
+      locale: "#{I18n.locale}"
+    });
   });
