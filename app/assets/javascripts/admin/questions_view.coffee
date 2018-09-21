@@ -19,6 +19,7 @@ class MS.Views.QuestionsView extends Backbone.View
           .append(@requiredLoanTypesHTML(node))
           .append(@permittedActionsHTML(node))
     @filterSwitchView = new MS.Views.FilterSwitchView()
+    @locale = params.locale
     @addNewItemBlocks()
     @prepTooltips()
 
@@ -99,7 +100,7 @@ class MS.Views.QuestionsView extends Backbone.View
     id = @$(e.target).closest('li').data('id')
     node = @tree.tree('getNodeById', id)
     @$(e.target).closest('a').attr('data-confirm',
-      I18n.t("questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants"))
+      I18n.t("questions.confirm_deletion_#{if node.children.length then '' else 'no_'}descendants", locale: @locale))
 
   deleteNode: (e, resp) ->
     id = @$(e.target).closest('li').data('id')
@@ -149,7 +150,7 @@ class MS.Views.QuestionsView extends Backbone.View
 
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) =>
-      message = I18n.t('questions.not_editable')
+      message = I18n.t('questions.not_editable', locale: @locale)
 
       @$(tip).addClass('ms-popover').popover
         content: message
