@@ -476,6 +476,7 @@ en:
     caption: "%{locale_name} Caption"
     documents: "Documents"
     duplication_warning: "There is already a featured image, you will be overwriting it if you continue"
+    featured_image: "Featured Image"
     add: "Add Media"
     edit: "Edit Media"
     delete: "Delete Media"

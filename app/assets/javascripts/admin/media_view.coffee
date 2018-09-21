@@ -76,8 +76,10 @@ class MS.Views.MediaView extends Backbone.View
     mediaSrc = @$(e.currentTarget).closest('form').find('img')[0].src
     mediaData = '[data-media-id=' + mediaID + ']'
     mediaText = @$('.media-item' + mediaData).text()
+    featuredText = I18n.t('media.featured_image')
+    console.log(featuredText)
 
-    if (e.currentTarget.checked && mediaText.indexOf('Featured Image') > -1) || (!e.currentTarget.checked && mediaText.indexOf('Featured Image') < 0)
+    if (e.currentTarget.checked && mediaText.indexOf(featuredText) > -1) || (!e.currentTarget.checked && mediaText.indexOf(featuredText) < 0)
       # hide warning if the image is already featured or if the image is not checked and not featured
       @$('#warning').attr('data-hide-all', '.media-' + mediaID)
     else if (e.currentTarget.checked && mediaText.indexOf('Featured Image') < 0)
