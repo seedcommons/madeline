@@ -3,6 +3,7 @@
 # Table name: media
 #
 #  created_at            :datetime         not null
+#  featured              :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  item                  :string
 #  item_content_type     :string
@@ -34,6 +35,7 @@ FactoryBot.define do
     caption { Faker::Hipster.paragraph(2) }
     media_attachable_type %w(Organization Person).sample
     transient_division
+    featured false
 
     trait :contract do
       kind_value :contract

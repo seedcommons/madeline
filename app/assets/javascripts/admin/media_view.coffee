@@ -14,6 +14,7 @@ class MS.Views.MediaView extends Backbone.View
     'confirm:complete .media-action.delete': 'deleteConfirm'
     'ajax:complete .media-action.proceed': 'deleteComplete'
     'change input#media_item': 'removePreviousMedia'
+    'click #media_featured': 'showWarning'
 
   defineMediaVariables: (link) ->
     @mediaBox = @$(link).closest('.media-browser')
@@ -69,3 +70,18 @@ class MS.Views.MediaView extends Backbone.View
   # Do not display thumbnail of older media file if media file is replaced
   removePreviousMedia: (e) ->
     @$(e.currentTarget).closest('form').find('.media-item').remove()
+
+  showWarning: (e) ->
+    mediaID = @$(e.currentTarget).closest('form').find('.media-item').data('media-id')
+    mediaSrc = @$(e.currentTarget).closest('form').find('img')[0].src
+    mediaData = '[data-media-id=' + mediaID + ']'
+    mediaText = @$('.media-item' + mediaData).text()
+    featuredText = I18n.t('media.featured_image')
+    console.log(featuredText)
+
+    if (e.currentTarget.checked && mediaText.indexOf(featuredText) > -1) || (!e.currentTarget.checked && mediaText.indexOf(featuredText) < 0)
+      # hide warning if the image is already featured or if the image is not checked and not featured
+      @$('#warning').attr('data-hide-all', '.media-' + mediaID)
+    else if (e.currentTarget.checked && mediaText.indexOf('Featured Image') < 0)
+      # show the warning if there is a featured image and the current one isn't it
+      @$('#warning').removeAttr('data-hide-all')

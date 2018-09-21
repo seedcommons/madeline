@@ -3,6 +3,7 @@
 # Table name: media
 #
 #  created_at            :datetime         not null
+#  featured              :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  item                  :string
 #  item_content_type     :string
@@ -36,6 +37,9 @@ class Media < ApplicationRecord
 
   validates :item, :kind_value, presence: true
   validate :update_item_error
+  validate :non_image_cannot_be_featured
+
+  before_save :one_featured_image_per_loan
 
   translates :caption, :description
 
@@ -79,5 +83,14 @@ class Media < ApplicationRecord
   # there is no clear way to re-render the image when using AJAX
   def update_item_error
     errors.add(:item, :reattach) if error_but_not_item_error?
+  end
+
+  def non_image_cannot_be_featured
+    errors.add(:featured, :non_image) if kind_value != 'image' && featured
+  end
+
+  def one_featured_image_per_loan
+    self.class.where(media_attachable_type: 'Project',
+      media_attachable_id: media_attachable_id).update_all(featured: false) if featured?
   end
 end

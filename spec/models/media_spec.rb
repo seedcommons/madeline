@@ -3,6 +3,7 @@
 # Table name: media
 #
 #  created_at            :datetime         not null
+#  featured              :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  item                  :string
 #  item_content_type     :string
@@ -53,6 +54,31 @@ describe Media, type: :model do
         expect{
           create(:media, item: nil)
         }.to raise_error("Validation failed: Item can't be blank")
+      end
+    end
+
+    it 'does not save when non-image type is set to featured' do
+      expect{
+        create(:media, kind_value: 'video', featured: true)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'saves when image type is set to featured' do
+      expect{
+        create(:media, kind_value: 'image', featured: true)
+      }.not_to raise_error
+    end
+
+    describe 'no duplicate featured images for a loan' do
+      let(:loan) { create(:loan) }
+      let!(:media_1) { create(:media, featured: true, kind_value: 'image', media_attachable: loan) }
+      let(:media_2) { build(:media, featured: true, kind_value: 'image', media_attachable: loan) }
+
+      it 'can not have more than one featured image on a loan' do
+        media_2.save
+
+        expect(media_1.reload).not_to be_featured
+        expect(media_2.reload).to be_featured
       end
     end
   end
