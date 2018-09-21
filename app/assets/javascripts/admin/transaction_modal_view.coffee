@@ -10,7 +10,7 @@ class MS.Views.TransactionModalView extends Backbone.View
     @loanId = params.loanId
     @locale = params.locale
     url = "/admin/accounting/transactions/new"
-    @loadContent(url, loanId, 'new')
+    @loadContent(url, @loanId, 'new')
 
   show: (id, loanId) ->
     @loanId = loanId
