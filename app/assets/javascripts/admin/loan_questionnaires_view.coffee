@@ -4,6 +4,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   initialize: (options) ->
     @loanId = options.loanId
+    @locale = options.locale
     @initializeTree()
     @adjustAllTextareas()
 
@@ -70,7 +71,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   # Note: the grouping of optional questions that happens here and in _questionnaire_group
   # should probably be refactored someday to happen in the model
   groupOptional: (nodes) ->
-    optionalGroupName = I18n.t('questionnaires.optional_questions')
+    optionalGroupName = I18n.t('questionnaires.optional_questions', locale: @locale)
 
     # Recurse, depth first
     for node in nodes
