@@ -5,6 +5,7 @@
 #  calling_action     :string
 #  calling_controller :string
 #  created_at         :datetime         not null
+#  division_id        :integer
 #  html_identifier    :string
 #  id                 :integer          not null, primary key
 #  previous_url       :string
@@ -12,11 +13,19 @@
 #
 # Indexes
 #
+#  index_documentations_on_division_id      (division_id)
 #  index_documentations_on_html_identifier  (html_identifier) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (division_id => divisions.id)
 #
 
 class Documentation < ApplicationRecord
+  include DivisionBased
   include Translatable
+
+  belongs_to :division
 
   translates :summary_content, :page_content, :page_title
 

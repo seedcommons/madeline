@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180918152057) do
+ActiveRecord::Schema.define(version: 20180919170047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -158,9 +158,11 @@ ActiveRecord::Schema.define(version: 20180918152057) do
     t.string "calling_action"
     t.string "calling_controller"
     t.datetime "created_at", null: false
+    t.bigint "division_id"
     t.string "html_identifier"
     t.string "previous_url"
     t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_documentations_on_division_id"
     t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
   end
 
@@ -184,6 +186,7 @@ ActiveRecord::Schema.define(version: 20180918152057) do
 
   create_table "media", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.boolean "featured", default: false, null: false
     t.string "item"
     t.string "item_content_type"
     t.integer "item_file_size"
@@ -462,6 +465,7 @@ ActiveRecord::Schema.define(version: 20180918152057) do
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "documentations", "divisions"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"

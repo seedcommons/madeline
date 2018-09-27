@@ -2,17 +2,16 @@
 
   = f.error_notification
 
-  = f.input :html_identifier, value: params[:html_identifier]
+  = f.input :html_identifier, value: params[:html_identifier], disabled: true
 
-  = f.input :calling_controller
-  = f.input :calling_action
+  = f.input :calling_controller, as: :hidden
+  = f.input :calling_action, as: :hidden
 
   = f.input :previous_url, as: :hidden
 
-  / TODO - fix bug in translation system and refactor this hack
-  - I18n.available_locales.each do |l|
+  = f.translatable_inputs do |l|
     = f.input "summary_content_#{l}".to_sym, as: :summernote,
-      input_html: {data: {translatable: 'summary_content'}},
+      input_html: {data: {translatable: 'summary_content', height: 100}},
       label: I18n.t('summary_content', locale: l)
     = f.input "page_title_#{l}".to_sym,
       input_html: {data: {translatable: 'page_title'}},

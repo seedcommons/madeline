@@ -3,6 +3,7 @@
 # Table name: media
 #
 #  created_at            :datetime         not null
+#  featured              :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  item                  :string
 #  item_content_type     :string
