@@ -191,7 +191,7 @@ module Translatable
       translations = record.send("#{attribute}_translations")
 
       empty_translations = translations.map do |translation| 
-        return if t.text.present?;
+        return if translation.text.present?;
         translation
       end
     
