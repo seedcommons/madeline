@@ -33,7 +33,7 @@ class DivisionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.where(id: accessible_ids)
+      user ? scope.where(id: accessible_ids) : scope.published
     end
 
     # This merges in child divisions of the divisions for which a user has been specifically
@@ -50,6 +50,9 @@ class DivisionPolicy < ApplicationPolicy
     def base_accessible_ids
       user.roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq
     end
-  end
 
+    def accessible_divisions(public_only: false)
+      public_only ? Division.published : user.accessible_divisions
+    end
+  end
 end

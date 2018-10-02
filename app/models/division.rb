@@ -25,7 +25,9 @@
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
+#  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
+#  short_name                     :string
 #  updated_at                     :datetime         not null
 #
 # Indexes
@@ -35,6 +37,7 @@
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
 #  index_divisions_on_organization_id                 (organization_id)
 #  index_divisions_on_principal_account_id            (principal_account_id)
+#  index_divisions_on_short_name                      (short_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -45,10 +48,10 @@
 #  fk_rails_...  (principal_account_id => accounting_accounts.id)
 #
 
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   include DivisionBased
 
-  has_closure_tree dependent: :restrict_with_exception
+  has_closure_tree dependent: :restrict_with_exception, order: :name
   resourcify
   alias_attribute :super_division, :parent
 
@@ -58,7 +61,7 @@ class Division < ActiveRecord::Base
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
-  has_many :loan_questions
+  has_many :questions
   has_many :option_sets, dependent: :destroy
 
   # Bug in closure_tree requires these 2 lines (https://github.com/mceachen/closure_tree/issues/137)
@@ -85,21 +88,33 @@ class Division < ActiveRecord::Base
   has_attached_file :logo, styles: { banner: "840x195>" }
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
 
+  validate :parent_division_and_name
   validates :name, presence: true
   validates :parent, presence: true, if: -> { Division.root.present? && Division.root_id != id }
+  validates :short_name, presence: true, uniqueness: true, if: -> { self.public }
+
+  before_validation :generate_short_name
 
   scope :by_name, -> { order("LOWER(divisions.name)") }
+  scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
   def self.root_id
     result = root.try(:id)
-    logger.info("division root.id: #{result}")
     result
   end
 
   def self.in_division(division)
     division ? division.self_and_descendants : all
+  end
+
+  def self.qb_divisions
+    Accounting::Quickbooks::Connection.all.map(&:division)
+  end
+
+  def self.qb_accessible_divisions
+    qb_divisions.map(&:self_and_descendants).flatten.uniq
   end
 
   # interface compatibility with other models
@@ -146,5 +161,16 @@ class Division < ActiveRecord::Base
   def qb_division
     # Division.root
     qb_connection ? self : parent&.qb_division
+  end
+
+  def parent_division_and_name
+    errors.add(:parent, :invalid) if parent&.name == name
+  end
+
+  def generate_short_name
+    return if short_name.present? && Division.pluck(:short_name).exclude?(self.short_name)
+
+    self.short_name = name.parameterize
+    self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
   end
 end

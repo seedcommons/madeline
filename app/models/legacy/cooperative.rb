@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-class Cooperative < ActiveRecord::Base
+class Cooperative < ApplicationRecord
   establish_connection :legacy
   include LegacyModel
 

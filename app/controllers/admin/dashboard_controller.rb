@@ -9,6 +9,7 @@ class Admin::DashboardController < Admin::AdminController
 
     prep_calendar
     prep_projects_grid_for_current_user
+    prep_assigned_steps
     prep_logs
     prep_projects_grids_for_division_users
   end
@@ -43,6 +44,20 @@ class Admin::DashboardController < Admin::AdminController
   def prep_logs
     @context = "dashboard"
     @logs = ProjectLog.in_division(selected_division).where(agent_id: @person.id).by_date.page(1).per(10)
+  end
+
+  def prep_assigned_steps
+    @context = "dashboard"
+    assigned_steps = ProjectStep.in_division(selected_division).where(agent_id: @person.id)
+    # Show only incomplete project steps with a scheduled start date one year before today's date
+    # up to two months after today's date. Extremely late steps are not displayed.
+    @filtered_assigned_steps = assigned_steps.where(is_finalized: true, actual_end_date: nil,
+      scheduled_start_date: (Time.now.midnight - 1.year)..(Time.now.midnight + 2.months))
+    @recent_project_steps_grid = initialize_grid(
+      @filtered_assigned_steps,
+      name: 'assigned_project_steps',
+      enable_export_to_csv: false
+    )
   end
 
   private

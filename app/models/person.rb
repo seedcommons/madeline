@@ -47,7 +47,7 @@
 # 'access_role' attribute and 'password'/'password_confirmation' attributes.
 #
 
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
@@ -64,6 +64,7 @@ class Person < ActiveRecord::Base
   has_many :representative_loans,  class_name: 'Loan', foreign_key: :representative_id,  dependent: :nullify
   has_many :project_logs, foreign_key: :agent_id, dependent: :nullify
   has_many :timeline_entries, foreign_key: :agent_id, dependent: :nullify
+  has_many :authored_notes, class_name: 'Note', foreign_key: :author_id, dependent: :nullify
   has_one :user, foreign_key: :profile_id, autosave: true, dependent: :destroy
 
   validates :division_id, presence: true

@@ -4,13 +4,13 @@
   }
 
   .group-columns, .group-content, .group-summary {
-    td:first-child {
+    td:first-child, th:first-child {
       padding-left: 2em;
     }
   }
 
   .group-columns {
-    td {
+    td, th {
       border-top: none;
       border-bottom: 2px solid $gray4;
     }

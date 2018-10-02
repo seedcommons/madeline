@@ -78,7 +78,7 @@
     }
   }
 
-  .icon, .summary {
+  .icon, .summary, .more {
     display: inline-block;
     vertical-align: top;
     line-height: 1;
@@ -142,6 +142,7 @@
     &.project-group, &.project-step {
       &:hover {
         background: $gray2;
+        cursor: pointer;
 
         .dropdown {
           .fa {

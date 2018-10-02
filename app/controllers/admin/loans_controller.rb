@@ -1,5 +1,5 @@
 class Admin::LoansController < Admin::ProjectsController
-  include TransactionControllable, TranslationSaveable, QuestionnaireRenderable
+  include TransactionControllable, QuestionnaireRenderable
 
   TABS = %w(details questions timeline timeline_list logs transactions calendar)
 
@@ -84,8 +84,14 @@ class Admin::LoansController < Admin::ProjectsController
     @loan = Loan.new(loan_params)
     authorize @loan
 
+    org_id = params[:loan][:organization_id]
+
     if @loan.save
-      redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
+      if params[:from_org] == 'yes'
+        redirect_to admin_organization_path(org_id), notice: I18n.t(:notice_created)
+      else
+        redirect_to admin_loan_path(@loan), notice: I18n.t(:notice_created)
+      end
     else
       prep_form_vars
       render :new
@@ -131,16 +137,15 @@ class Admin::LoansController < Admin::ProjectsController
     params.require(:loan).permit(*(
       [
         :division_id, :organization_id, :loan_type_value, :status_value, :name,
-        :amount, :currency_id, :primary_agent_id, :secondary_agent_id,
-        :length_months, :rate, :signing_date, :first_payment_date, :first_interest_payment_date,
-        :end_date, :projected_return, :representative_id,
-        :project_type_value, :public_level_value
+        :amount, :currency_id, :primary_agent_id, :secondary_agent_id, :projected_first_payment_date,
+        :length_months, :rate, :signing_date, :actual_first_payment_date, :projected_first_interest_payment_date,
+        :projected_end_date, :projected_return, :representative_id, :actual_first_interest_payment_date,
+        :project_type_value, :actual_end_date, :actual_return, :public_level_value
       ] + translation_params(:summary, :details)
     ))
   end
 
   def prep_form_vars
-    @division_choices = division_choices
     @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
     @currency_choices = Currency.all.order(:name)

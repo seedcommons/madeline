@@ -52,7 +52,7 @@ class ProjectStep < TimelineEntry
   has_many :schedule_children, class_name: 'ProjectStep', foreign_key: :schedule_parent_id,
       inverse_of: :schedule_parent, dependent: :nullify
 
-  attr_translatable :details
+  translates :details
 
   attr_option_settable :step_type
 
@@ -71,6 +71,14 @@ class ProjectStep < TimelineEntry
   # Scheduled end date is calculated
   scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago).where(actual_end_date: nil) }
   scope :recent, -> { where('scheduled_start_date + scheduled_duration_days > ? ', 30.days.ago) }
+
+  def self.in_division(division)
+    if division
+      joins(:project).where(projects: { division_id: division.self_and_descendants.pluck(:id) })
+    else
+      all
+    end
+  end
 
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: project_id)
@@ -385,7 +393,7 @@ class ProjectStep < TimelineEntry
 
     # By default, old_duration_days is set to 0.
     # Only remember old duration if a duration has been set other than the default and then changed.
-    unless old_duration_days > 0
+    unless old_duration_days && old_duration_days > 0
       self.old_duration_days = scheduled_duration_days_was
     end
   end

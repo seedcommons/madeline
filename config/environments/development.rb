@@ -35,13 +35,18 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+
   # For wordpress template
   config.x.wordpress_template = {
-    division_urls: { # get division from request url
-      '/' => :us,
+    base_uri: {
+      us: 'https://theworkingworld.org',
+      argentina: 'https://labase.org',
+      nicaragua: 'https://labase.org',
     },
     template_paths: { # url of blank wordpress page for rails to retrieve
-      us: '/wordpress/rails_template',
+      us: '/us/rails',
+      argentina: '/argentina/rails',
+      nicaragua: '/nicaragua/rails',
     },
   }
 

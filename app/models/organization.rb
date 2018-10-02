@@ -42,7 +42,7 @@
 #  fk_rails_...  (primary_contact_id => people.id)
 #
 
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
@@ -55,8 +55,7 @@ class Organization < ActiveRecord::Base
   has_many :loans, dependent: :destroy
   has_many :people, foreign_key: :primary_organization_id, dependent: :nullify
 
-  validates :name, presence: true
-  validates :division_id, presence: true
+  validates :name, :division, :country, presence: true
 
   validate :primary_contact_is_member
 

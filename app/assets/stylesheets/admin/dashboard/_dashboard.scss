@@ -65,7 +65,9 @@
         display: inline-block;
         width: auto;
       }
+    }
 
+    .recent-projects, .assigned-steps {
       table {
         background: $white;
 
@@ -77,7 +79,7 @@
     }
   }
 
-  .health-message {
+  .tooltip-message {
     .fa {
       font-size: 1.25em;
 

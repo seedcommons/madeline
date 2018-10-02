@@ -29,6 +29,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
+    @transaction.managed = true
+    @transaction.currency_id = @loan.currency_id
     process_transaction_and_handle_errors
 
     # Since the txn has already been saved and/or validated before qb errors are added,

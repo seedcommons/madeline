@@ -14,7 +14,12 @@ section.person.details
             = t("cancel_edit")
         - else
           a href=admin_person_path(@person) = t("cancel_edit")
-      - if policy(@person).destroy?
+      - if policy(@person).destroy? && (@person.project_logs.present? || @person.authored_notes.present?)
+        = link_to [:admin, @person], method: :delete,
+            data: { confirm: t('.with_logs_or_notes.confirm_deletion') }
+          i.fa.fa-trash.fa-large>
+          = t(".delete")
+      - elsif policy(@person).destroy?
         = link_to [:admin, @person], method: :delete,
             data: { confirm: t('.confirm_deletion') }
           i.fa.fa-trash.fa-large>

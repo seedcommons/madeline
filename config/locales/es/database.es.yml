@@ -1,0 +1,49 @@
+es:
+  database:
+    option_sets:
+      basic_project_status:
+        active: 'Activo'
+        completed: 'Completo'
+        changed: 'Cambiado'
+        possible: 'Posible'
+      loan_status:
+        active: 'Activo'
+        completed: 'Completo'
+        frozen: 'Congelado'
+        liquidated: 'Liquidado'
+        prospective: 'Prospectivo'
+        refinanced: 'Refinanciado'
+        relationship: 'Relación'
+        relationship_active: 'Relación Activa'
+      loan_transaction_type:
+        interest: 'Interés'
+        disbursement: 'Desembolso'
+        other: 'Otro'
+        repayment: 'Devolución'
+      loan_type:
+        liquidity_loc: 'Línea de crédito de efectivo'
+        investment_loc: 'Línea de crédito de inversión'
+        investment: 'Préstamo de inversión'
+        evolving: 'Préstamo de evolución'
+        single_liquidity_loc: 'Línea de crédito de efectivo puntual'
+        wc_investment: 'Préstamo de inversión para capital de trabajo'
+        sa_investment: 'Préstamo de inversión de bienes asegurados'
+        community_solar: 'Energía Solar Comunitaria'
+      media_kind:
+        image: 'Imagen'
+        video: 'Vídeo'
+        document: 'Documento'
+        contract: 'Contrato'
+      progress_metric:
+        change_plan: 'Con necesidad de cambiar su plan completamente'
+        change_events: 'Con necesidad de cambiar algunos eventos'
+        behind: 'Atrasado'
+        on_time: 'A tiempo'
+        ahead: 'Adelantado'
+      public_level:
+        featured: 'Destacado'
+        hidden: 'Oculto'
+        public: 'Público'
+      step_type:
+        checkin: 'Check-in'
+        milestone: 'Hito'

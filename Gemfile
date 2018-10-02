@@ -20,6 +20,9 @@ gem 'uri-js-rails' # URI manipulation
 gem 'bootstrap-datepicker-rails'
 gem 'paperclip', '~> 5.2'
 
+# Text editor
+gem 'summernote-rails', '~> 0.8.10.0'
+
 # Authentication / Authorization
 gem 'devise'
 gem 'pundit'
@@ -34,6 +37,7 @@ gem 'daemons'
 # Internationalization
 gem 'rails-i18n'
 gem 'i18n-js', '>= 3.0.0.rc11'
+gem 'devise-i18n'
 
 # Translate urls
 gem 'route_translator', '>=5.5.3'
@@ -145,9 +149,10 @@ group :development do
 
   # Deployment
   gem 'capistrano3-delayed-job', '~> 1.0'
-  gem 'capistrano',  '~> 3.1'
+  gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+  gem 'capistrano-rbenv', '~> 2.1'
 
   # Auto reload browser
   gem 'guard-livereload', '~> 2.5', require: false

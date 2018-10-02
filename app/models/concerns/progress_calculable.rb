@@ -1,4 +1,4 @@
-# Methods for calculating progress towards completion of LoanResponseSets.
+# Methods for calculating progress towards completion of ResponseSets.
 # Assumes including classes implement :required?, :group?, :answered?, :active?, and :children.
 module ProgressCalculable
   extend ActiveSupport::Concern

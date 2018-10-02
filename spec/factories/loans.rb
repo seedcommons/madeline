@@ -3,21 +3,29 @@ FactoryBot.define do
     division { root_division }
     organization
     name { "Loan for " + organization.name }
+    currency { Currency.all.sample || create(:currency) }
     association :primary_agent_id, factory: :person
     association :secondary_agent_id, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
-    public_level_value { ["featured", "hidden"].sample }
+    public_level_value { ["featured", "hidden", "public"].sample }
     amount { rand(5000..50000) }
     rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    end_date { Faker::Date.between(first_payment_date, Date.today) }
+    projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
+    trait :featured do
+      public_level_value "featured"
+    end
+
+    trait :public do
+      public_level_value "public"
+    end
 
     trait :active do
       status_value :active
@@ -32,19 +40,13 @@ FactoryBot.define do
     end
 
     trait :with_translations do
-      after(:create) do |loan|
-        create(:translation, translatable: loan, translatable_attribute: :summary)
-        create(:translation, translatable: loan, translatable_attribute: :details)
-      end
+      summary { Faker::Hipster.sentence }
+      details { Faker::Hipster.paragraph }
     end
 
     trait :with_foreign_translations do
-      after(:create) do |loan|
-        create(:translation,
-          translatable: loan, translatable_attribute: :summary, locale: :es, text: Faker::Lorem.paragraph(2))
-        create(:translation,
-          translatable: loan, translatable_attribute: :details, locale: :es, text: Faker::Lorem.paragraph(2))
-      end
+      summary_es { Faker::Lorem.sentence }
+      details_es { Faker::Lorem.paragraph(2) }
     end
 
     trait :with_loan_media do
@@ -130,8 +132,9 @@ FactoryBot.define do
 
     trait :with_repayments do
       after(:create) do |loan|
-        paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
-        unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
+        # TODO: Tie to accounting system
+        # paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
+        # unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
       end
     end
 
@@ -168,7 +171,7 @@ FactoryBot.define do
     # Assumes a LoanQuestionSet with name 'loan_criteria' and questions `summary` and `workers` exists.
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
-        loan.criteria = create(:loan_response_set,
+        loan.criteria = create(:response_set,
           kind: 'criteria',
           loan: loan,
           custom_data: {summary: 'foo', workers: 5}

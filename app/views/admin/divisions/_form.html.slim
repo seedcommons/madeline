@@ -1,6 +1,6 @@
 = simple_form_for([:admin, @division],
     html: { \
-      class: 'form-horizontal division-record',
+      class: 'form-horizontal form-with-documentation division-record',
     },
     wrapper: :horizontal_form_condensed,
     defaults: { \
@@ -8,23 +8,34 @@
     },
   ) do |f|
 
+  - form_identifier = 'division'
+  - popover_options = {placement: 'left'}
+
   = error_notification(f)
 
   = f.input :name
     .view-element = @division.name
     = f.input_field :name
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_name", options: popover_options)
 
   = f.input :description
     .view-element = @division.description
     = f.input_field :description, as: :text
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_description", options: popover_options)
 
   = f.input :default_currency
     .view-element = @division.default_currency.try(:name)
     = f.input_field :default_currency_id, collection: @currency_choices, include_blank: true
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_default_currency", options: popover_options)
 
   = f.input :locales
     .view-element = @division.locale_names.join(', ')
     = f.input_field :locales, as: :check_boxes, collection: locale_options, include_blank: true, checked: @division.locales
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_locales", options: popover_options)
 
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
@@ -35,11 +46,27 @@
             = @division.parent.name
           - else
             = link_to @division.parent.name, admin_division_path(@division.parent)
-      = f.input_field :parent_id, collection: @parent_choices, include_blank: false
+      = f.input_field :parent_id, collection: division_select_options(public_only: false), include_blank: false
+      = documentation_popover(@documentations_by_html,
+        html_identifier: "#{form_identifier}_parent", options: popover_options)
+
+  = f.input :short_name
+    .view-element = @division.short_name
+    = f.input_field :short_name
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_short_name", options: popover_options)
 
   = f.input :notify_on_new_logs
     .view-element = t "boolean.#{@division.notify_on_new_logs}"
     = f.input_field :notify_on_new_logs, inline_label: t('.notify_on_new_logs')
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_notify_on_new_logs", options: popover_options)
+
+  = f.input :public
+    .view-element = t "boolean.#{@division.public}"
+    = f.input_field :public, inline_label: t('.public')
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_public", options: popover_options)
 
   = f.input :logo
     .view-element
@@ -48,26 +75,38 @@
       - else
         = t("none")
     = f.input_field :logo, as: :file
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_logo", options: popover_options)
 
   = f.input :logo_text
     .view-element = @division.logo_text
     = f.input_field :logo_text
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_logo_text", options: popover_options)
 
   = f.input :banner_bg_color
     .view-element = @division.banner_bg_color
     = f.input_field :banner_bg_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_banner_bg_color", options: popover_options)
 
   = f.input :banner_fg_color
     .view-element = @division.banner_fg_color
     = f.input_field :banner_fg_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_banner_fg_color", options: popover_options)
 
   = f.input :accent_main_color
     .view-element = @division.accent_main_color
     = f.input_field :accent_main_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_accent_main_color", options: popover_options)
 
   = f.input :accent_fg_color
     .view-element = @division.accent_fg_color
     = f.input_field :accent_fg_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_accent_fg_color", options: popover_options)
 
   .actions.form-element
     - unless @division.new_record?

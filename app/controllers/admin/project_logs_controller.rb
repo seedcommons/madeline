@@ -54,13 +54,11 @@ class Admin::ProjectLogsController < Admin::AdminController
   def destroy
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
+    @logs = @step.project_logs
+    @context = params[:context]
     authorize @log
 
-    if params[:context] == 'timeline'
-      destroy_and_render_partial
-    elsif @log.destroy
-      head :ok
-    end
+    destroy_and_render_partial
   end
 
   private
@@ -69,7 +67,7 @@ class Admin::ProjectLogsController < Admin::AdminController
     if @log.save
       @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
       @expand_logs = true
-      head :ok
+      render json: {summary: @log.summary, logId: @log.id}, status: 200
       notify
     else
       @progress_metrics = ProjectLog.progress_metric_options

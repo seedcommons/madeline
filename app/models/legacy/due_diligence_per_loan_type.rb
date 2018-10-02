@@ -3,7 +3,7 @@
 
 # -*- SkipSchemaAnnotations
 module Legacy
-  class DueDiligencePerLoanType < ActiveRecord::Base
+  class DueDiligencePerLoanType < ApplicationRecord
     establish_connection :legacy
 
     # This new table didn't follow the pluralization convention used by the other mysql tables,
@@ -33,7 +33,7 @@ module Legacy
 
     def migration_data
       data = {
-          loan_question_id: due_diligence_id,
+          question_id: due_diligence_id,
           option_id: option_id_for_loan_type(loan_type_id),
           amount: amount
       }

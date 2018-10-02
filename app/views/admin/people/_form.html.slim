@@ -15,7 +15,7 @@
       .view-element
         - if @person.division
           = link_to @person.division.name, admin_division_path(@person.division)
-      = f.input_field :division_id, collection: @division_choices, include_blank: false
+      = f.input_field :division_id, collection: division_select_options(public_only: false), include_blank: false
     - else
       = @person.division.try(:name)
 
@@ -84,25 +84,24 @@
 
   - if policy(@person).update_access?
 
-    = f.input :has_system_access
+    = f.input :has_system_access, wrapper_html: { class: 'with-info' }
       .view-element = translate_boolean(@person.has_system_access)
       = f.input_field :has_system_access
+      i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('member.system_access')}"
 
     / The display of these fields is toggled based on the state of the above system access checkbox
     fieldset id='user_fields'
 
-      = f.input :access_role
+      = f.input :access_role, wrapper_html: { class: 'with-info' }
         - if policy(@person).update_access?
           .view-element = @person.access_role_label
           = f.input_field :access_role, collection: @roles_choices, include_blank: true
+          i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('member.access_role')}"
         - else
           = @person.access_role_label
 
       - if policy(@person).update_password?
         = render "password_fields", f: f
-
-    javascript:
-      $(function() { new MS.Views.PersonView({el: '.person.details'}); });
 
   - elsif policy(@person).update_password?
     / Allow non-admin to update password for self
@@ -120,3 +119,8 @@
         a.btn.btn-default href=admin_person_path(@person) = t(:cancel)
     = f.submit class: 'update-action btn btn-primary'
   .clearfix
+
+  javascript:
+    $(function () {
+      new MS.Views.PersonView({el: '.person'});
+    });

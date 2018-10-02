@@ -14,16 +14,17 @@
     input.select-step[
       type="checkbox"
       class=completed
+      autocomplete="off"
       data-id=entry.id
       data-precedent-id=entry.schedule_parent_id]
 
   td class=classes data-id=entry.id data-action="show"
-    .icon
+    .icon.project-step-item
       - if entry.milestone?
-        i.fa.fa-fw.fa-flag-o
+        i.fa.fa-fw.fa-flag-o.project-step-item
       - elsif entry.checkin?
-        i.fa.fa-fw.fa-calendar
-    .summary = entry.summary
+        i.fa.fa-fw.fa-calendar.project-step-item
+    .summary.project-step-item = entry.summary
 
   td[
     class="#{classes} step-date step-start-date"
@@ -32,7 +33,7 @@
     data-action="show"]
     = ldate(entry.display_start_date, format: :short)
     - if entry.schedule_parent_id
-      i.fa.fa-link
+      i.fa.fa-link.project-step-item
   td[
     class="#{classes} step-date step-end-date"
     data-id=entry.id
@@ -41,7 +42,7 @@
     data-action="show"]
     = ldate(entry.display_end_date, format: :short)
     - unless entry.schedule_children.empty?
-      i.fa.fa-link
+      i.fa.fa-link.project-step-item
 
   td class=classes data-id=entry.id data-action="show"
     - if entry.display_duration_days && entry.display_duration_days > 0
@@ -56,12 +57,7 @@
 
   - latest_logs = entry.latest_logs
   - logs_available = latest_logs.length
-  td.recent-logs class="#{classes} #{logs_available > 0 ? 'has-logs' : ''}" data-id=entry.id data-action="show"
-    - latest_logs.each_with_index do |log, index|
-      p.log-summary = log.summary
-
-      - if index == latest_logs.length - 1
-        div = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
+  = render "admin/timeline/logs", entry: entry, classes: classes, latest_logs: latest_logs, logs_available: logs_available
 
   td[
     class="step-menu-col dropup #{classes} #{logs_available > 0 ? 'logs-available' : ''}"

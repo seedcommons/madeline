@@ -1,5 +1,4 @@
 class Admin::BasicProjectsController < Admin::ProjectsController
-  include TranslationSaveable
 
   def index
     authorize BasicProject
@@ -67,6 +66,9 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     @basic_project = BasicProject.new(basic_project_params)
     authorize @basic_project
 
+    # All basic projects should be hidden
+    @basic_project.public_level_value = 'hidden'
+
     if @basic_project.save
       redirect_to admin_basic_project_path(@basic_project), notice: I18n.t(:notice_created)
     else
@@ -92,7 +94,6 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   def prep_form_vars
     @tab = params[:tab] || 'details'
     @tabs = %w(details timeline timeline_list logs calendar)
-    @division_choices = division_choices
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
   end
 

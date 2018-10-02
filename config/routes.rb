@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :loan_response_sets
+    resources :response_sets
     resources :divisions do
       collection do
         post :select
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         get :duplicate
       end
     end
-    resources :loan_questions do
+    resources :questions do
       patch 'move', on: :member
     end
     resources :notes, only: [:create, :update, :destroy]
@@ -83,13 +83,17 @@ Rails.application.routes.draw do
     get 'dashboard' => 'dashboard#dashboard', as: 'dashboard'
     get '/loans/:id/:tab' => 'loans#show', as: 'loan_tab'
     get '/loans/:project_id/transactions/:id' => 'accounting/transactions#show', as: 'loan_transaction'
+
+    resources :documentations
   end
 
   localized do
-    namespace :public, path: '/' do
+    namespace :public, path: '/:site' do
+    # :site can be 'argentina', 'nicaragua', or 'us'
       resources :loans, only: [:index, :show]
       get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       get 'test' => 'static_pages#test'
+      get 'update' => 'static_pages#update' # Manually update wordpress template
     end
   end
 

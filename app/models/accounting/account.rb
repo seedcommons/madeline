@@ -18,13 +18,14 @@
 # Represents an account as in a typical double-entry accounting system.
 # Accounts defined in the associated Quickbooks instance are synced and cached locally on Madeline.
 # Quickbooks should be considered the authoritative source for account information.
-class Accounting::Account < ActiveRecord::Base
+class Accounting::Account < ApplicationRecord
   QB_OBJECT_TYPE = 'Account'
   belongs_to :project
 
   has_many :transactions, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
   has_many :line_items, inverse_of: :account, foreign_key: :accounting_account_id, dependent: :destroy
 
+  # Eventually this should be incorporated into the DataExtractor class hierarchy
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     account = find_or_initialize_by qb_id: qb_object.id
     account.tap do |a|

@@ -2,30 +2,34 @@
 #
 # Table name: projects
 #
-#  amount                      :decimal(, )
-#  created_at                  :datetime         not null
-#  currency_id                 :integer
-#  custom_data                 :json
-#  division_id                 :integer          not null
-#  end_date                    :date
-#  first_interest_payment_date :date
-#  first_payment_date          :date
-#  id                          :integer          not null, primary key
-#  length_months               :integer
-#  loan_type_value             :string
-#  name                        :string
-#  organization_id             :integer
-#  original_id                 :integer
-#  primary_agent_id            :integer
-#  projected_return            :decimal(, )
-#  public_level_value          :string
-#  rate                        :decimal(, )
-#  representative_id           :integer
-#  secondary_agent_id          :integer
-#  signing_date                :date
-#  status_value                :string
-#  type                        :string           not null
-#  updated_at                  :datetime         not null
+#  actual_end_date                       :date
+#  actual_first_interest_payment_date    :date
+#  actual_first_payment_date             :date
+#  actual_return                         :decimal(, )
+#  amount                                :decimal(, )
+#  created_at                            :datetime         not null
+#  currency_id                           :integer
+#  custom_data                           :json
+#  division_id                           :integer          not null
+#  id                                    :integer          not null, primary key
+#  length_months                         :integer
+#  loan_type_value                       :string
+#  name                                  :string
+#  organization_id                       :integer
+#  original_id                           :integer
+#  primary_agent_id                      :integer
+#  projected_end_date                    :date
+#  projected_first_interest_payment_date :date
+#  projected_first_payment_date          :date
+#  projected_return                      :decimal(, )
+#  public_level_value                    :string           not null
+#  rate                                  :decimal(, )
+#  representative_id                     :integer
+#  secondary_agent_id                    :integer
+#  signing_date                          :date
+#  status_value                          :string
+#  type                                  :string           not null
+#  updated_at                            :datetime         not null
 #
 # Indexes
 #

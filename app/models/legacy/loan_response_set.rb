@@ -1,19 +1,19 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class LoanResponseSet < ActiveRecord::Base
+  class LoanResponseSet < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 
     def self.migrate_all
-      puts "loan response sets: #{self.count}"
+      puts "response sets: #{self.count}"
       all.each(&:migrate)
     end
 
     def self.purge_migrated
       # note, not complete, but sufficient for purpose
-      puts "LoanResponseSet.delete_all"
-      ::LoanResponseSet.delete_all
+      puts "ResponseSet.delete_all"
+      ::ResponseSet.delete_all
     end
 
     def migrate
@@ -30,16 +30,16 @@ module Legacy
       puts "responses count: #{responses.count}"
       responses.each do |response|
         # puts "response id: #{response.id} - question id: #{response.question_id}"
-        field = ::LoanQuestion.find_by(id: response.question_id)
+        field = ::Question.find_by(id: response.question_id)
         if field
-          # puts "question_id: #{response.question_id} - set: #{field.loan_question_set.internal_name}"
-          model = models[field.loan_question_set.internal_name]
+          # puts "question_id: #{response.question_id} - set: #{field.question_set.internal_name}"
+          model = models[field.question_set.internal_name]
           unless model
-            match = /loan_(.*)/.match(field.loan_question_set.internal_name)
-            raise "unexpected custom field set name: #{field.loan_question_set.internal_name}" unless match
+            match = /loan_(.*)/.match(field.question_set.internal_name)
+            raise "unexpected custom field set name: #{field.question_set.internal_name}" unless match
             attrib = match[1]
-            model = loan.send(attrib) || ::LoanResponseSet.new(kind: attrib, loan: loan, custom_data: {})
-            models[field.loan_question_set.internal_name] = model
+            model = loan.send(attrib) || ::ResponseSet.new(kind: attrib, loan: loan, custom_data: {})
+            models[field.question_set.internal_name] = model
           end
           # puts "update: #{field.id} -> #{response.value_hash}"
           value_hash = response.value_hash

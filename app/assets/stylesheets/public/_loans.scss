@@ -180,24 +180,12 @@ li.loan {
   color: #202020;
   margin-top: 15px;
 }
-.carousel-control {
-  top: 50%;
-  &, &:link, &:visited, &:active, &:hover {
-    color: white;
+
+// spanish translation mess up stying on this screen
+@media (min-width: 989px) and (max-width: 1199px) {
+  .navbar-nav > li > a {
+    font-size: 13.5px;
   }
-}
-.carousel-inner {
-  background-color: black;
-}
-.carousel-inner .item {
-  height: 411px;
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-/* Landscape phones and down, shrink height of carousel */
-@media (max-width: 480px) {
-  .carousel-inner .item { height: 250px; }
 }
 
 .loan_description {
@@ -340,5 +328,18 @@ li.loan {
   }
   .due td {
     background-color: #f3f3f3;
+  }
+}
+
+.loans {
+  &.detail_page {
+    section {
+      background: none;
+      padding: 1em 0;
+
+      &.details {
+        padding-top: 3em;
+      }
+    }
   }
 }

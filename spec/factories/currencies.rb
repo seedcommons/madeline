@@ -3,6 +3,7 @@
 # Table name: currencies
 #
 #  code         :string
+#  country_code :string
 #  created_at   :datetime         not null
 #  id           :integer          not null, primary key
 #  name         :string
@@ -13,8 +14,10 @@
 
 FactoryBot.define do
   factory :currency do
+    name "U.S. Dollar"
     code "USD"
     symbol "US$"
     short_symbol "$"
+    country_code "US"
   end
 end

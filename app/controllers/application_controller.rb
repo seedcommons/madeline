@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # overrides 'route_translator' method to reset locale to English
+  skip_around_action :set_locale_from_url
   before_action :set_locale
 
   helper_method :admin_controller?
@@ -42,8 +44,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    return I18n.locale = params[:locale] if params[:locale]
     return I18n.locale = locale_from_header if I18n.available_locales.include?(locale_from_header)
+    return I18n.locale = params[:locale] if params[:locale]
     I18n.locale = I18n.default_locale
   end
 

@@ -14,7 +14,7 @@ en:
     confirm_duplication:
       loan: "This will duplicate the loan and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
     confirm_response_deletion: "WARNING: Are you sure you want to permanently delete these responses?"
-    criteria: "Criteria"
+    criteria: "Credit Memo"
     criteria_not_entered: "Criteria have not been entered yet."
     default_name_message: "If left blank, a name will be automatically generated for this loan."
     delete: "Delete Loan"
@@ -53,12 +53,10 @@ en:
     post_analysis: "Post-Analysis"
     primary_agent: "Point Person"
     print: "Print"
-    print_criteria: "Criteria Only"
+    print_criteria: "Credit Memo Only"
     print_details: "Details Only"
     print_header_title: "Investment Profile and Credit Memo"
     print_memo: "Print Loan Memo"
-    questionnaires: "Questions"
-    questionnaire: "Questionnaire"
     rating: "Score"
     save_responses: "Save Responses"
     shared:
@@ -77,7 +75,7 @@ en:
     steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
     tab:
       details: "Details"
-      questions: "Questions"
+      questions: "Business Planning"
       timeline: "Timeline"
       timeline_list: "Timeline - List"
       logs: "Logs"

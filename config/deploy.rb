@@ -4,14 +4,15 @@ lock '3.10.0'
 set :application, 'madeline'
 
 # If you have problems deploying, use the below https url instead
-# set :repo_url, 'https://github.com/sassafrastech/madeline.git'
-set :repo_url, 'git@github.com:sassafrastech/madeline.git'
+set :repo_url, 'https://github.com/sassafrastech/madeline.git'
+# set :repo_url, 'git@github.com:sassafrastech/madeline_system.git'
 
 set :tmp_dir, '/home/deploy/tmp'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-set :branch, -> { fetch(:stage) }
+# Set a different branch OR tag on the fly with `cap <stage> deploy BRANCH=<branch_or_tag>`
+set :branch, -> { ENV['BRANCH'] || fetch(:stage) }
 
 
 # Default deploy_to directory is /var/www/my_app_name

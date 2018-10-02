@@ -10,6 +10,7 @@
 #  id                          :integer          not null, primary key
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
+#  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
@@ -47,11 +48,11 @@
 # =================
 # Standard order means transactions ordered by:
 #   1. Date, then
-#   2. Type (1. interest, 2. disbursement, 3. repayment), then
+#   2. Type (1. interest, 2. disbursement, 3. repayment, 4. other), then
 #   3. Creation date
 # It should be rare that transactions of the same type and date exist, so the creation date
 # should not be often needed to break ties.
-class Accounting::Transaction < ActiveRecord::Base
+class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry).freeze
@@ -66,9 +67,9 @@ class Accounting::Transaction < ActiveRecord::Base
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
 
-  validates :loan_transaction_type_value, :txn_date, presence: true
-  validates :amount, presence: true, unless: :interest?
-  validates :accounting_account_id, presence: true, unless: :interest?
+  validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
+  validates :amount, presence: true, unless: :interest?, if: :managed?
+  validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
 
   delegate :division, :qb_division, to: :project
 
@@ -83,9 +84,12 @@ class Accounting::Transaction < ActiveRecord::Base
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
 
-    # Beginning attempt to create txns from properly tagged txns in QB
-    # project_id = txn.quickbooks_data.dig('line_items', 0, 'journal_entry_line_detail', 'class_ref', 'name')&.to_i
-    # txn.project_id = project_id if Project.exists?(project_id)
+    # Associate qb txn with loan if loan id (class name) is set in QB
+    if txn.quickbooks_data['line_items']
+      loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
+      associated_loans = Loan.select(:id).where(id: loan_classes)
+      txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
+    end
 
     # Since the data has just come straight from quickbooks, no need to push it back up.
     txn.needs_qb_push = false

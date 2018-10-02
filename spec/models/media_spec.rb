@@ -3,6 +3,7 @@
 # Table name: media
 #
 #  created_at            :datetime         not null
+#  featured              :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
 #  item                  :string
 #  item_content_type     :string
@@ -27,10 +28,33 @@
 
 require 'rails_helper'
 
-describe Media, :type => :model do
-  before { pending 're-implement in new project' }
+describe Media, type: :model do
 
-  it 'has a valid factory' do
-    expect(create(:media)).to be_valid
+  context 'validations' do
+    let(:media) { build(:media, kind_value: nil) }
+
+    describe 'valid' do
+      it 'has a valid factory' do
+        expect(create(:media)).to be_valid
+      end
+    end
+
+    describe 'invalid' do
+      it 'is not valid' do
+        expect(media).not_to be_valid
+      end
+
+      it 'raises errors for image without kind' do
+        expect{
+          create(:media, kind_value: nil)
+        }.to raise_error("Validation failed: Kind can't be blank, Item please reattach your image")
+      end
+
+      it 'raises errors for kind without image' do
+        expect{
+          create(:media, item: nil)
+        }.to raise_error("Validation failed: Item can't be blank")
+      end
+    end
   end
 end

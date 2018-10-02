@@ -26,6 +26,7 @@ es:
         name: "Nombre"
         parent: "División Principal"
         notify_on_new_logs: "Notificar Nuevos Apuntes"
+        public: "Público"
         logo: "Logo"
         logo_text: "Texto del Logo"
         banner_fg_color: "Color del Primer Plano del Banner "
@@ -40,6 +41,10 @@ es:
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
         interest_income_account_id: "Cuenta de Ingreso de Interés"
+      documentation:
+        calling_action: "Acción Pidiendo"
+        calling_controller: "Controlador Pidiendo"
+        html_identifier: "Identificación del HTML"
       loan:
         division: "División"
         organization: "Cooperativa"
@@ -47,15 +52,19 @@ es:
         name: "Nombre"
         loan_type: "Tipo de Préstamo"
         status: "Estado"
-        criteria_progress: "Criterios"
+        criteria_progress: "Memo del Crédito"
         amount: "Monto"
         currency: "Moneda"
         primary_agent: "Responsable"
         secondary_agent: "Colaborador"
         length_months: "Duración (meses)"
-        first_payment_date: "Fecha de 1er Pago "
-        first_interest_payment_date: "Fecha de 1er Pago de Interés"
-        end_date: "Fecha de Finalización "
+        actual_end_date: "Fecha  Actual de Finalización"
+        actual_return: "Retorno Actual"
+        actual_first_interest_payment_date: "Fecha Actual de 1er Pago de Interés"
+        actual_first_payment_date: "Fecha Actual de 1er Pago"
+        projected_first_interest_payment_date: "Fecha Proyectada de 1er Pago de Interés"
+        projected_first_payment_date: "Fecha Proyectada de 1er Pago"
+        projected_end_date: "Fecha Proyectada de Finalización"
         projected_return: "Retorno Proyectado"
         representative: "Representante"
         details: "Detalles"
@@ -79,6 +88,7 @@ es:
         name: "Nombre"
         neighborhood: "Barrio"
         people: "Miembros"
+        postal_code: "Código postal"
         primary_contact: "Contacto Principal"
         primary_phone: "Teléfono"
         referral_source: "Fuente del Contacto"
@@ -109,7 +119,7 @@ es:
         street_address: "Domicilio"
         state: "Estado"
         tax_no: "Nro. de Documento"
-        website: "Página Web"
+        website: "Página web"
       project:
         length_months: "Duración (meses)"
         name: "Nombre"
@@ -128,6 +138,7 @@ es:
         item: "Ítem"
         kind_value: "Tipo"
       project_step:
+        agent_id: "Persona Asignado"
         parent_id: "Grupo"
         schedule_parent_id: "Paso Precedente"
         actual_end_date: "Fecha de Finalización"
@@ -156,11 +167,15 @@ es:
           type: "Tipo"
     errors:
       models:
-        loan:
+        basic_project:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
-        basic_project:
+        division:
+          attributes:
+            parent:
+              invalid: 'División y División Principal no pueden ser las mismas'
+        loan:
           attributes:
             primary_agent:
               same_as_secondary: 'El responsable primero de este proyecto no puede ser el mismo que el responsable segundo'
@@ -170,6 +185,10 @@ es:
           attributes:
             primary_contact:
               invalid: 'El Contacto Principal debe pertenecer a la organización'
+        media:
+          attributes:
+            item:
+              reattach: "Por favor, volver a adjuntar la imagen"
         timeline_entry:
           attributes:
             scheduled_end_date:
@@ -231,6 +250,10 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  amount_not_set: "El monto no está fijo"
+  blank: "-"
+  date_not_set: "La fecha no está fija"
+  division: División
   show: Mostrar
   show_active: Activo
   show_completed: Completo
@@ -250,6 +273,7 @@ es:
   summary: Resumen
   details: Detalles
   timeline: Línea de Tiempo
+  other_loans: 'Otros Préstamos a Esta Cooperativa '
   payments: Devoluciones
   past_loans: Préstamos Anteriores
   no_description_found: No se encontró descripción.
@@ -265,7 +289,7 @@ es:
   images_from_this_project: Imágenes de este proyecto
   cooperative: Cooperativa
   cooperative_name: "Cooperativa %{name} "
-  not_yet_translated: Este texto aún no ha sido traducido. <a href="http://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
+  not_yet_translated: Este texto aún no ha sido traducido. <a href="https://www.theworkingworld.org/us/contact-us">Contáctanos</a> si te gustaría colaborar con la traducción.
   log_completed: Completo
   log_not_yet_completed: Aún incompleto
   show_logs: Mostrar Apuntes
@@ -304,7 +328,6 @@ es:
   id: "ID"
   incomplete: "Incompleto"
   less: "Menos"
-  loans: "Préstamos"
   locked: "Bloqueado"
   login: "Iniciar sesión"
   logout: "Finalizar sesión"
@@ -319,6 +342,8 @@ es:
   notice_batch_failures: '%{failure_count} registro(s) con fallas.'
   password: "Contraseña"
   optional: "Opcional"
+  page_content: "Contenido de Pagina"
+  page_title: "Título de Pagina"
   print: "Imprimir"
   quickbooks:
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar las cuentas de QuickBooks en %{settings}.'
@@ -333,6 +358,7 @@ es:
   save: "Guardar"
   step: "Paso"
   submit: "Enviar"
+  summary_content: "Contenido de Resumen"
   unauthorized_error: "No tienes autorización para realizar esta acción."
   unknown: "Desconocido"
   update: "Actualizar"
@@ -344,6 +370,7 @@ es:
     created: "Creado"
     caption: "Epígrafe"
     condense_all: "Condensar Todo"
+    deleted_user: "Usario Borrado"
     description: "Descripción"
     details: "Detalles"
     division: "División"
@@ -366,6 +393,7 @@ es:
     second: "2do"
     street_address: "Domicilio"
     summary: "Resumen"
+    summary_and_details: "Resumen y Detalles"
     type: "Tipo"
     updated: "Actualizado"
     website: "Página web"
@@ -434,7 +462,7 @@ es:
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
     loans: "Préstamos"
-    loan_questions: "Preguntas de Préstamos"
+    questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
     log: "Apunte"
@@ -551,6 +579,9 @@ es:
     no_system_access: "El usuario no tiene acceso al sistema."
     send_instructions: "Enviar instrucciones"
     waiting_confirmation: "Esperando confirmación para: %{email}"
+  member:
+    system_access: "El acceso al sistema permite a un usuario ingresar a Madeline y ver los préstamos y proyectos a los que tienen acceso según su división."
+    access_role: "Los administradores pueden editar contenido específico que no está disponible para un integrante común, tal como el manejo de las divisiones o la edición de preguntas de préstamos."
   boolean:
     'true': 'Sí'
     'false': 'No'
