@@ -2,6 +2,7 @@
 #
 # Table name: translations
 #
+#  allow_html             :boolean          default(FALSE)
 #  created_at             :datetime
 #  id                     :integer          not null, primary key
 #  locale                 :string
@@ -16,7 +17,7 @@
 #  index_translations_on_translatable_type_and_translatable_id  (translatable_type,translatable_id)
 #
 
-class Translation < ActiveRecord::Base
+class Translation < ApplicationRecord
   belongs_to :translatable, polymorphic: true
 
   delegate :division, :division=, to: :translatable

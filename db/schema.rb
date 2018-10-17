@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621175058) do
+ActiveRecord::Schema.define(version: 20180917073415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -154,6 +154,18 @@ ActiveRecord::Schema.define(version: 20180621175058) do
     t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
   end
 
+  create_table "documentations", force: :cascade do |t|
+    t.string "calling_action"
+    t.string "calling_controller"
+    t.datetime "created_at", null: false
+    t.bigint "division_id"
+    t.string "html_identifier"
+    t.string "previous_url"
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_documentations_on_division_id"
+    t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
+  end
+
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "has_late_steps"
@@ -289,20 +301,24 @@ ActiveRecord::Schema.define(version: 20180621175058) do
   end
 
   create_table "projects", id: :serial, force: :cascade do |t|
+    t.date "actual_end_date"
+    t.date "actual_first_interest_payment_date"
+    t.date "actual_first_payment_date"
+    t.decimal "actual_return"
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.json "custom_data"
     t.integer "division_id", null: false
-    t.date "end_date"
-    t.date "first_interest_payment_date"
-    t.date "first_payment_date"
     t.integer "length_months"
     t.string "loan_type_value"
     t.string "name"
     t.integer "organization_id"
     t.integer "original_id"
     t.integer "primary_agent_id"
+    t.date "projected_end_date"
+    t.date "projected_first_interest_payment_date"
+    t.date "projected_first_payment_date"
     t.decimal "projected_return"
     t.string "public_level_value", null: false
     t.decimal "rate"
@@ -399,6 +415,7 @@ ActiveRecord::Schema.define(version: 20180621175058) do
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
+    t.boolean "allow_html", default: false
     t.datetime "created_at"
     t.string "locale"
     t.text "text"
@@ -447,6 +464,7 @@ ActiveRecord::Schema.define(version: 20180621175058) do
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
+  add_foreign_key "documentations", "divisions"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "media", "people", column: "uploader_id"
   add_foreign_key "option_sets", "divisions"

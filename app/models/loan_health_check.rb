@@ -21,7 +21,7 @@
 #  fk_rails_...  (loan_id => projects.id)
 #
 
-class LoanHealthCheck < ActiveRecord::Base
+class LoanHealthCheck < ApplicationRecord
   belongs_to :loan, class_name: 'Loan', foreign_key: :loan_id
 
   after_create :recalculate
@@ -63,9 +63,9 @@ class LoanHealthCheck < ActiveRecord::Base
   end
 
   def check_sporadic_loan_updates
-    return false unless loan.end_date
+    return false unless loan.projected_end_date
 
-    end_date = loan.end_date.beginning_of_day
+    end_date = loan.projected_end_date.beginning_of_day
     valid_range_count = thirty_day_periods_remaining.times.map do |period|
       end_of_range = end_date - (period * 30).days
       start_of_range = end_date - ((period+1) * 30).days
@@ -90,7 +90,7 @@ class LoanHealthCheck < ActiveRecord::Base
   def thirty_day_periods_remaining
     return nil unless loan
     start_date = ([loan.signing_date || Time.zone.now, Time.zone.now].max).beginning_of_day
-    end_date = loan.end_date.beginning_of_day
+    end_date = loan.projected_end_date.beginning_of_day
     ((end_date - start_date) / (24 * 60 * 60)).round / 30
   end
 end

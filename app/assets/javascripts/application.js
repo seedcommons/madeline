@@ -1,13 +1,9 @@
 // These are scripts required by all parts of the app, including admin and public.
 // This manifest does NOT pull in the admin and public directories.
 
-//= require jquery
-//= require jquery_ujs
-
 //= require i18n
 //= require i18n/translations
 
-//= require bootstrap-sprockets
 //= require jasny-bootstrap
 
 //= require select2-full

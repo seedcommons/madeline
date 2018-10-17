@@ -42,6 +42,10 @@ en:
         principal_account_id: "Principal Account"
         interest_receivable_account_id: "Interest Receivable Account"
         interest_income_account_id: "Interest Income Account"
+      documentation:
+        calling_action: "Calling Action"
+        calling_controller: "Calling Controller"
+        html_identifier: "HTML Identifier"
       loan:
         division: "Division"
         organization: "Co-op"
@@ -55,9 +59,13 @@ en:
         primary_agent: "Point Person"
         secondary_agent: "Second"
         length_months: "Length (months)"
-        first_payment_date: "First Pmt. Date"
-        first_interest_payment_date: "First Int. Pmt. Date"
-        end_date: "End Date"
+        actual_end_date: "Actual End Date"
+        actual_return: "Actual Return"
+        actual_first_interest_payment_date: "Actual First Interest Payment Date"
+        actual_first_payment_date: "Actual First Payment Date"
+        projected_first_interest_payment_date: "Projected First Interest Payment Date"
+        projected_first_payment_date: "Projected First Payment Date"
+        projected_end_date: "Projected End Date"
         projected_return: "Projected Return"
         representative: "Representative"
         details: "Details"
@@ -81,6 +89,7 @@ en:
         name: "Name"
         neighborhood: "Neighborhood"
         people: "Members"
+        postal_code: "Postal Code"
         primary_contact: "Primary Contact"
         primary_phone: "Phone"
         referral_source: "Referral Source"
@@ -130,6 +139,7 @@ en:
         item: "Item"
         kind_value: "Kind"
       project_step:
+        agent_id: "Assignee"
         parent_id: "Group"
         schedule_parent_id: "Preceding Step"
         actual_end_date: "Completed Date"
@@ -251,7 +261,10 @@ en:
 
 
   ## Front end ##
+  amount_not_set: "Amount not set"
+  blank: "-"
   country: Country
+  date_not_set: "Date not set"
   division: Division
   show: Show
   show_active: Active
@@ -272,6 +285,7 @@ en:
   summary: Summary
   details: Details
   timeline: Timeline
+  other_loans: Other Loans to This Co-op
   payments: Payments
   past_loans: Past Loans
   no_description_found: No description found.
@@ -342,6 +356,8 @@ en:
   notice_batch_failures: '%{failure_count} record(s) with failures.'
   password: "Password"
   optional: "Optional"
+  page_content: "Page Content"
+  page_title: "Page Title"
   print: "Print"
   quickbooks:
     accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
@@ -356,6 +372,7 @@ en:
   save: "Save"
   step: "Step"
   submit: "Submit"
+  summary_content: "Summary Content"
   unauthorized_error: "You are not authorized to perform this action."
   unknown: "Unknown"
   update: "Update"
@@ -394,6 +411,7 @@ en:
     second: "2nd"
     street_address: "Street Address"
     summary: "Summary"
+    summary_and_details: "Summary and Details"
     type: "Type"
     updated: "Updated"
     website: "Website"

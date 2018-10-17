@@ -41,6 +41,10 @@ es:
         principal_account_id: "Cuenta Prinicpal"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
         interest_income_account_id: "Cuenta de Ingreso de Interés"
+      documentation:
+        calling_action: "Acción Pidiendo"
+        calling_controller: "Controlador Pidiendo"
+        html_identifier: "Identificación del HTML"
       loan:
         division: "División"
         organization: "Cooperativa"
@@ -54,9 +58,13 @@ es:
         primary_agent: "Responsable"
         secondary_agent: "Colaborador"
         length_months: "Duración (meses)"
-        first_payment_date: "Fecha de 1er Pago "
-        first_interest_payment_date: "Fecha de 1er Pago de Interés"
-        end_date: "Fecha de Finalización "
+        actual_end_date: "Fecha  Actual de Finalización"
+        actual_return: "Retorno Actual"
+        actual_first_interest_payment_date: "Fecha Actual de 1er Pago de Interés"
+        actual_first_payment_date: "Fecha Actual de 1er Pago"
+        projected_first_interest_payment_date: "Fecha Proyectada de 1er Pago de Interés"
+        projected_first_payment_date: "Fecha Proyectada de 1er Pago"
+        projected_end_date: "Fecha Proyectada de Finalización"
         projected_return: "Retorno Proyectado"
         representative: "Representante"
         details: "Detalles"
@@ -80,6 +88,7 @@ es:
         name: "Nombre"
         neighborhood: "Barrio"
         people: "Miembros"
+        postal_code: "Código postal"
         primary_contact: "Contacto Principal"
         primary_phone: "Teléfono"
         referral_source: "Fuente del Contacto"
@@ -129,6 +138,7 @@ es:
         item: "Ítem"
         kind_value: "Tipo"
       project_step:
+        agent_id: "Persona Asignado"
         parent_id: "Grupo"
         schedule_parent_id: "Paso Precedente"
         actual_end_date: "Fecha de Finalización"
@@ -240,6 +250,9 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
+  amount_not_set: "El monto no está fijo"
+  blank: "-"
+  date_not_set: "La fecha no está fija"
   division: División
   show: Mostrar
   show_active: Activo
@@ -260,6 +273,7 @@ es:
   summary: Resumen
   details: Detalles
   timeline: Línea de Tiempo
+  other_loans: 'Otros Préstamos a Esta Cooperativa '
   payments: Devoluciones
   past_loans: Préstamos Anteriores
   no_description_found: No se encontró descripción.
@@ -328,6 +342,8 @@ es:
   notice_batch_failures: '%{failure_count} registro(s) con fallas.'
   password: "Contraseña"
   optional: "Opcional"
+  page_content: "Contenido de Pagina"
+  page_title: "Título de Pagina"
   print: "Imprimir"
   quickbooks:
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar las cuentas de QuickBooks en %{settings}.'
@@ -342,6 +358,7 @@ es:
   save: "Guardar"
   step: "Paso"
   submit: "Enviar"
+  summary_content: "Contenido de Resumen"
   unauthorized_error: "No tienes autorización para realizar esta acción."
   unknown: "Desconocido"
   update: "Actualizar"
@@ -376,6 +393,7 @@ es:
     second: "2do"
     street_address: "Domicilio"
     summary: "Resumen"
+    summary_and_details: "Resumen y Detalles"
     type: "Tipo"
     updated: "Actualizado"
     website: "Página web"

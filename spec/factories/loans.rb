@@ -14,15 +14,17 @@ FactoryBot.define do
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    end_date { Faker::Date.between(first_payment_date, Date.today) }
+    projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
-
-
 
     trait :featured do
       public_level_value "featured"
+    end
+
+    trait :public do
+      public_level_value "public"
     end
 
     trait :active do
@@ -130,8 +132,9 @@ FactoryBot.define do
 
     trait :with_repayments do
       after(:create) do |loan|
-        paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
-        unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
+        # TODO: Tie to accounting system
+        # paid = create_list(:repayment, num_repayments = 2, :paid, loan_id: loan.id)
+        # unpaid = create_list(:repayment, num_repayments = 3, loan_id: loan.id)
       end
     end
 

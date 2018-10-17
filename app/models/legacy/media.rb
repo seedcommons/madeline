@@ -1,7 +1,7 @@
 # -*- SkipSchemaAnnotations
 module Legacy
 
-  class Media < ActiveRecord::Base
+  class Media < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 

@@ -25,7 +25,12 @@ feature 'visit loan index page' do
     end
 
     context 'with both active and completed loans' do
-      let!(:loans) { create_list(:loan, 10, :featured, division: div_us) }
+      let!(:loans) do
+        [
+          create_list(:loan, 3, :active, :featured, division: div_us),
+          create_list(:loan, 3, :completed, :featured, division: div_us)
+        ].flatten
+      end
 
       it 'shows completed loans on their tab' do
         click_link 'Completed'
@@ -54,7 +59,7 @@ feature 'visit loan index page' do
     end
 
     context 'with translations' do
-      let!(:loans) { create_list(:loan, 3, :with_translations, :featured, division: div_us) }
+      let!(:loans) { create_list(:loan, 3, :with_translations, :active, :featured, division: div_us) }
 
       it 'renders translated loan description' do
         click_link 'All'
@@ -65,7 +70,7 @@ feature 'visit loan index page' do
     end
 
     context 'with no local translations' do
-      let!(:loans) { create_list(:loan, 3, :with_foreign_translations, :featured, division: div_us) }
+      let!(:loans) { create_list(:loan, 3, :with_foreign_translations, :active, :featured, division: div_us) }
 
       it 'renders loan description with translation hint' do
         click_link 'All'
@@ -122,17 +127,15 @@ feature 'visit loan index page' do
       end
     end
 
-    context 'show loans filtered by divisions' do
-      scenario '' do
-        click_on 'The Pokémon'
-        within('.no-more-tables') do
-          expect(page).not_to have_content('United States')
-        end
-        expect(page).to have_content('The Pokémon')
-        expect(page).to have_content('The Pikachu')
-        expect(page).to have_select('division', selected: 'The Pokémon')
-        expect(page.current_url).to have_content('/us/loans?division=pkmn')
+    scenario 'show loans filtered by divisions' do
+      click_on 'The Pokémon'
+      within('.no-more-tables') do
+        expect(page).not_to have_content('US loan')
       end
+      expect(page).to have_content('The Pokémon')
+      expect(page).to have_content('The Pikachu')
+      expect(page).to have_select('division', selected: 'The Pokémon')
+      expect(page.current_url).to have_content('/us/loans?division=pkmn')
     end
   end
 end

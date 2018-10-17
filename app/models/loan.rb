@@ -2,30 +2,34 @@
 #
 # Table name: projects
 #
-#  amount                      :decimal(, )
-#  created_at                  :datetime         not null
-#  currency_id                 :integer
-#  custom_data                 :json
-#  division_id                 :integer          not null
-#  end_date                    :date
-#  first_interest_payment_date :date
-#  first_payment_date          :date
-#  id                          :integer          not null, primary key
-#  length_months               :integer
-#  loan_type_value             :string
-#  name                        :string
-#  organization_id             :integer
-#  original_id                 :integer
-#  primary_agent_id            :integer
-#  projected_return            :decimal(, )
-#  public_level_value          :string           not null
-#  rate                        :decimal(, )
-#  representative_id           :integer
-#  secondary_agent_id          :integer
-#  signing_date                :date
-#  status_value                :string
-#  type                        :string           not null
-#  updated_at                  :datetime         not null
+#  actual_end_date                       :date
+#  actual_first_interest_payment_date    :date
+#  actual_first_payment_date             :date
+#  actual_return                         :decimal(, )
+#  amount                                :decimal(, )
+#  created_at                            :datetime         not null
+#  currency_id                           :integer
+#  custom_data                           :json
+#  division_id                           :integer          not null
+#  id                                    :integer          not null, primary key
+#  length_months                         :integer
+#  loan_type_value                       :string
+#  name                                  :string
+#  organization_id                       :integer
+#  original_id                           :integer
+#  primary_agent_id                      :integer
+#  projected_end_date                    :date
+#  projected_first_interest_payment_date :date
+#  projected_first_payment_date          :date
+#  projected_return                      :decimal(, )
+#  public_level_value                    :string           not null
+#  rate                                  :decimal(, )
+#  representative_id                     :integer
+#  secondary_agent_id                    :integer
+#  signing_date                          :date
+#  status_value                          :string
+#  type                                  :string           not null
+#  updated_at                            :datetime         not null
 #
 # Indexes
 #
@@ -59,8 +63,10 @@ class Loan < Project
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
 
   scope :status, ->(status) { where(status_value: status) }
-  scope :active, -> { status('active') }
-  scope :related_loans, -> (loan) { loan.organization.loans.where.not(id: loan.id) }
+  scope :active, -> { status("active") }
+  scope :completed, -> { status("completed") }
+  scope :active_or_completed, -> { where(status_value: %w(active completed)) }
+  scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
 
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
@@ -107,12 +113,11 @@ class Loan < Project
   end
 
   def default_name
-    if organization
-      date = signing_date || created_at.to_date
+    return unless organization.present?
+    date = signing_date || created_at.to_date
 
-      # date will always return a value so there is no need to use ldate
-      "#{organization.name} - #{I18n.l(date)}"
-    end
+    # date will always return a value so there is no need to use ldate
+    "#{organization.name} - #{I18n.l(date)}"
   end
 
   def status
