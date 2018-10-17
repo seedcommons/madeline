@@ -14,9 +14,9 @@ FactoryBot.define do
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    end_date { Faker::Date.between(first_payment_date, Date.today) }
+    projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
     trait :featured do

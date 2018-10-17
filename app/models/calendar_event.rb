@@ -44,7 +44,7 @@ class CalendarEvent
   end
 
   def self.new_project_end(project)
-    project.end_date ? new.initialize_project_end(project) : nil
+    project.projected_end_date ? new.initialize_project_end(project) : nil
   end
 
   def self.filtered_events(date_range: nil, project_filter: nil, project_scope: Project,
@@ -74,8 +74,8 @@ class CalendarEvent
 
   def self.project_date_filter(range, scope = Project)
     # Seems like a nice 'OR' syntax won't be available until Rails 5.
-    # Project.where(signing_date: date_range).or(end_date: date_range)
-    scope.where("signing_date BETWEEN :first AND :last OR end_date between :first AND :last",
+    # Project.where(signing_date: date_range).or(projected_end_date: date_range)
+    scope.where("signing_date BETWEEN :first AND :last OR projected_end_date between :first AND :last",
                 {first: range.first, last: range.last})
   end
 
@@ -135,8 +135,8 @@ class CalendarEvent
   end
 
   def initialize_project_end(project)
-    @start = project.end_date
-    @end = project.end_date
+    @start = project.projected_end_date
+    @end = project.projected_end_date
     @title = I18n.t("loan.end", name: project.display_name)
     @event_type = "project_end"
     @model_type = project.type

@@ -62,7 +62,7 @@ class Question < ApplicationRecord
 
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label
-  translates :explanation
+  translates :explanation, allow_html: true
 
   validates :data_type, presence: true
 

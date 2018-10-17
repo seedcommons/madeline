@@ -174,4 +174,20 @@ module Translatable
       end
     end
   end
+
+  class AnyTranslationPresenceValidator < ActiveModel::EachValidator
+    def validate_each(record, attribute, value)
+      # Ensure at least one translation given is not blank
+      translations = record.send("#{attribute}_translations")
+
+      empty_translations = translations.map do |translation| 
+        return if translation.text.present?;
+        translation
+      end
+    
+      empty_translations.each do |translation|
+        record.errors.add("#{attribute}_#{translation.locale}", :blank)
+      end
+    end
+  end
 end

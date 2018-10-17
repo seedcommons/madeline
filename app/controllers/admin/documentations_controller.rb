@@ -4,8 +4,10 @@ class Admin::DocumentationsController < Admin::AdminController
   before_action :find_documentation, only: [:edit, :show, :update]
 
   def new
-    @documentation = Documentation.new(html_identifier: params[:html_identifier])
+    @documentation = Documentation.new(html_identifier: params[:html_identifier], division: current_division)
     authorize @documentation
+
+    @documentation.previous_url = request.referrer
 
     if params[:caller]
       controller_action = params[:caller].split('#')
@@ -16,11 +18,11 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def create
     @documentation = Documentation.new(documentation_params)
+    @documentation.division = current_division
     authorize @documentation
 
     if @documentation.save
-      # TODO: placeholder till other actions are defined
-      redirect_to root_path, notice: I18n.t(:notice_created)
+      redirect_to @documentation.previous_url, notice: I18n.t(:notice_created)
     else
       render :new
     end
@@ -28,8 +30,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def update
     if @documentation.update(documentation_params)
-      # TODO: placeholder till other actions are defined
-      redirect_to root_path, notice: I18n.t(:notice_updated)
+      redirect_to @documentation.previous_url, notice: I18n.t(:notice_updated)
     else
       render :edit
     end
@@ -39,7 +40,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def documentation_params
     params.require(:documentation).permit(*([:html_identifier,
-      :calling_action, :calling_controller
+      :calling_action, :calling_controller, :previous_url
     ] + translation_params(:summary_content, :page_content, :page_title)))
   end
 

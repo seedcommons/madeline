@@ -127,17 +127,15 @@ feature 'visit loan index page' do
       end
     end
 
-    context 'show loans filtered by divisions' do
-      scenario '' do
-        click_on 'The Pokémon'
-        within('.no-more-tables') do
-          expect(page).not_to have_content('United States')
-        end
-        expect(page).to have_content('The Pokémon')
-        expect(page).to have_content('The Pikachu')
-        expect(page).to have_select('division', selected: 'The Pokémon')
-        expect(page.current_url).to have_content('/us/loans?division=pkmn')
+    scenario 'show loans filtered by divisions' do
+      click_on 'The Pokémon'
+      within('.no-more-tables') do
+        expect(page).not_to have_content('US loan')
       end
+      expect(page).to have_content('The Pokémon')
+      expect(page).to have_content('The Pikachu')
+      expect(page).to have_select('division', selected: 'The Pokémon')
+      expect(page.current_url).to have_content('/us/loans?division=pkmn')
     end
   end
 end

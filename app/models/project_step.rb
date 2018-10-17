@@ -70,6 +70,14 @@ class ProjectStep < TimelineEntry
   # Scheduled end date is calculated
   scope :past_due, -> { where('scheduled_start_date + scheduled_duration_days < ? ', 1.day.ago).where(actual_end_date: nil) }
 
+  def self.in_division(division)
+    if division
+      joins(:project).where(projects: { division_id: division.self_and_descendants.pluck(:id) })
+    else
+      all
+    end
+  end
+
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: project_id)
   end
