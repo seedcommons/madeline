@@ -190,9 +190,13 @@ module Translatable
       # Ensure at least one translation given is not blank
       translations = record.send("#{attribute}_translations")
 
-      translations.each do |t|
-        return if t.text.present?
-        record.errors.add("#{attribute}_#{t.locale}", :blank)
+      empty_translations = translations.map do |translation| 
+        return if translation.text.present?;
+        translation
+      end
+    
+      empty_translations.each do |translation|
+        record.errors.add("#{attribute}_#{translation.locale}", :blank)
       end
     end
   end
