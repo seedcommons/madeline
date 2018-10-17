@@ -181,9 +181,32 @@ body.admin {
     }
   }
 
+  // Page title, help system popover, and new button
   .page-header {
     margin-top: 0;
     border: none;
+
+    .title-with-popover {
+      display: block;
+      margin-bottom: 1em;
+    }
+
+    h1, .ms-popover {
+      display: inline;
+    }
+
+    .ms-documentation {
+      margin-left: .25em;
+
+      i {
+        font-size: 2em;
+      }
+
+      &:hover, &:focus {
+        text-decoration: none;
+        color: #781f20;
+      }
+    }
 
     h1 {
       margin-top: 0;
@@ -193,18 +216,38 @@ body.admin {
   // Page title and New button.
   @media (min-width: 768px) {
     .page-header {
-      display: table;
+      display: flex;
+      align-items: center;
       width: 100%;
 
+      .title-with-popover {
+        display: flex;
+        margin-bottom: 0;
+      }
+
+      .ms-popover {
+        display: flex;
+        align-items: center;
+        margin-left: .5em;
+        margin-right: .75em;
+
+        i {
+          font-size: 1.5em;
+        }
+
+        &:hover {
+          text-decoration: none;
+          color: #781f20;
+        }
+      }
+
       .page-title {
-        display: table-cell;
+        margin: 0;
       }
     }
 
     .with-title {
-      display: table-cell;
       text-align: right;
-      vertical-align: bottom;
     }
   }
 }

@@ -4,7 +4,7 @@ class Admin::DocumentationsController < Admin::AdminController
   before_action :find_documentation, only: [:edit, :show, :update]
 
   def new
-    @documentation = Documentation.new(html_identifier: params[:html_identifier])
+    @documentation = Documentation.new(html_identifier: params[:html_identifier], division: current_division)
     authorize @documentation
 
     @documentation.previous_url = request.referrer
@@ -18,6 +18,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def create
     @documentation = Documentation.new(documentation_params)
+    @documentation.division = current_division
     authorize @documentation
 
     if @documentation.save

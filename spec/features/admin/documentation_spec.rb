@@ -7,7 +7,7 @@ feature 'documentation', js: true do
   let(:project) {  create(:basic_project, division: division) }
   let(:loan) {  create(:loan, division: division) }
   let(:doc) { create(:documentation, html_identifier: 'movies', summary_content: 'original summary content',
-    page_title: 'original page title', page_content: 'original page content') }
+    page_title: 'original page title', page_content: 'original page content', division: division) }
 
   before { login_as user }
 
