@@ -1,0 +1,81 @@
+# Disable defaults
+AllCops:
+  TargetRailsVersion: 5.2
+  Exclude:
+    - "bin/**/*"
+    - "db/schema.rb"
+    - "script/**/*"
+    - "tmp/**/*"
+    - "uploads/**/*"
+    - "vendor/**/*"
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - spec/**/*
+
+Metrics/LineLength:
+  Enabled: true
+  Max: 110
+
+Metrics/MethodLength:
+  Max: 12
+
+Metrics/AbcSize:
+  Max: 30
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+  Exclude:
+    - db/migrate/*
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  IgnoredMethods:
+    - to
+    - not_to
+    - require
+    - raise
+    - validates # Sometimes this is called in a with_options block, confusing the cop.
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Bundler:
+  Enabled: true
+
+Rails:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false

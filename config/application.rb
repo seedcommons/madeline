@@ -47,6 +47,10 @@ module MadelineSystem
         exception_recipients: [ENV['MADELINE_ERROR_EMAILS_TO']]
       }
     end
+
+    config.generators do |g|
+      g.fixture_replacement :factory_bot, suffix: 'factory'
+    end
   end
 
   # This seems to be required for proper rendering of all wice_grid views. (Without, view contents is all html escaped.)
