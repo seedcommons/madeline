@@ -20,7 +20,6 @@ RSpec.describe LoanFilteredQuestion, type: :model do
     let(:children) { described_class.new(q3.reload, loan: loan1, user: user).children }
 
     it 'returns decorated objects' do
-      Rails.logger.ap children
       expect(children.first).to be_a LoanFilteredQuestion
     end
 
