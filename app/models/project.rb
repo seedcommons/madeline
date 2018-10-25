@@ -55,18 +55,18 @@ class Project < ApplicationRecord
 
   # Status values can be found at Loan.status_option_set.options and
   # BasicProject.status_option_set.options
-  OPEN_STATUSES = %w(active changed possible prospective)
+  OPEN_STATUSES = %w(active changed possible prospective).freeze
 
   belongs_to :division
-  belongs_to :primary_agent, class_name: 'Person'
-  belongs_to :secondary_agent, class_name: 'Person'
-  belongs_to :original, class_name: 'Project'
+  belongs_to :primary_agent, class_name: "Person"
+  belongs_to :secondary_agent, class_name: "Person"
+  belongs_to :original, class_name: "Project"
   has_many :timeline_entries, dependent: :destroy
   has_many :project_logs, through: :timeline_entries
-  has_many :transactions, class_name: 'Accounting::Transaction', dependent: :destroy
-  has_many :copies, class_name: 'Project', foreign_key: 'original_id', dependent: :nullify
+  has_many :transactions, class_name: "Accounting::Transaction", dependent: :destroy
+  has_many :copies, class_name: "Project", foreign_key: "original_id", dependent: :nullify
 
-  scope :visible, -> { where.not(public_level_value: 'hidden') }
+  scope :visible, -> { where.not(public_level_value: "hidden") }
 
   # define accessor-like convenience methods for the fields stored in the Translations table
   translates :summary, :details
@@ -112,11 +112,11 @@ class Project < ApplicationRecord
   # Do regular ruby select, to avoid issues with AR caching
   # Note, this means the method returns an array, not an AR::Relation
   def project_steps
-    timeline_entries.order(:scheduled_start_date).select { |e| e.type == 'ProjectStep' }
+    timeline_entries.order(:scheduled_start_date).select { |e| e.type == "ProjectStep" }
   end
 
   def display_name
-    return '' if new_record?
+    return "" if new_record?
     name.blank? ? default_name : name
   end
 
@@ -142,7 +142,7 @@ class Project < ApplicationRecord
   end
 
   def display_agent_names
-    agent_names.join(', ')
+    agent_names.join(", ")
   end
 
   def calendar_events
@@ -151,29 +151,29 @@ class Project < ApplicationRecord
 
   def project_events(order_by = "Completed IS NULL OR Completed = '0000-00-00', Completed, Date")
     @project_events ||= ProjectEvent.includes(project_logs: :progress_metric).
-      where("lower(ProjectTable) = 'projects' and ProjectID = ?", self.ID).order(order_by)
+      where("LOWER(ProjectTable) = 'projects' and ProjectID = ?", self.ID).order(order_by)
     @project_events.reject do |p|
       # Hide past uncompleted project events without logs (for now)
-      !p.completed && p.project_logs.empty? && p.date <= Date.today
+      !p.completed && p.project_logs.empty? && p.date <= Time.zone.today
     end
   end
 
   def health_status_available?
-    return false
+    false
   end
 
   def self.dashboard_order(person_id)
     clauses = []
 
-    clauses << "CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
-                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END"
+    clauses << Arel.sql("CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
+                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END")
 
-    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
-                    "THEN 2 ELSE 3 END"
+    clauses << Arel.sql("CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
+                    "THEN 2 ELSE 3 END")
 
-    clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
+    clauses << Arel.sql("CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END")
 
-    clauses.join(', ')
+    clauses.join(", ")
   end
 
   private

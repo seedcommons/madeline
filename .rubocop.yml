@@ -33,42 +33,32 @@ Layout/MultilineOperationIndentation:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
+Metrics:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: true
-  Exclude:
-    - spec/**/*
 
 Metrics/LineLength:
   Enabled: true
   Max: 110
 
-Metrics/MethodLength:
-  Max: 12
-
-Metrics/AbcSize:
-  Max: 30
-
-Style/AsciiComments:
+Style:
   Enabled: false
-
-Style/Documentation:
-  Enabled: false
-  Exclude:
-    - db/migrate/*
 
 Style/EmptyMethod:
+  Enabled: true
   EnforcedStyle: expanded
 
-Style/MethodCallWithArgsParentheses:
+Style/PercentLiteralDelimiters:
   Enabled: true
-  IgnoredMethods:
-    - to
-    - not_to
-    - require
-    - raise
-    - validates # Sometimes this is called in a with_options block, confusing the cop.
+  PreferredDelimiters:
+    default: ()
+    '%w': ()
+    '%W': ()
 
 Style/StringLiterals:
+  Enabled: true
   EnforcedStyle: double_quotes
 
 Bundler:

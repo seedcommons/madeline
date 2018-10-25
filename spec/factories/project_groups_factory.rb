@@ -7,7 +7,7 @@ FactoryBot.define do
     summary { Faker::Lorem.sentence(3, false, 1).chomp(".") }
 
     factory :root_project_group do
-      summary nil
+      summary { nil }
 
       trait :with_descendants do
         after(:create) do |root|
