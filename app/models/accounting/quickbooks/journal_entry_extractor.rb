@@ -13,6 +13,11 @@ module Accounting
         txn.managed = ms_managed_disbursement_or_repayment || ms_automatic_interest
       end
 
+      def extract_account
+        #QUESTION: ['account_ref']['value'] is an attr on line item, not a transaction.
+        # So there are multiple accounts per transaction, not sure which account to extract here.
+      end
+
       private
 
       def txn_type
