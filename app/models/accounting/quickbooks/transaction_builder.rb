@@ -111,6 +111,7 @@ module Accounting
         class_service.create(qb_class)
       end
 
+      #TODO: ensure this is reconciled with set_managed in JournalEntryExtractor
       def set_journal_number(txn)
         return nil if txn.loan_transaction_type_value == 'other'
         txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
