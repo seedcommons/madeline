@@ -4,14 +4,12 @@ module Accounting
 
       attr_accessor :line_items
       def set_type
-        puts "set type in journal entry ext"
         int_rcv_acct = loan.qb_division.interest_receivable_account
         int_inc_acct = loan.qb_division.interest_income_account
         prin_acct = loan.qb_division.principal_account
 
         @line_items = txn.line_items
         num_li = line_items.size
-        puts "#{num_li} line items"
         if num_li > 3
           txn.loan_transaction_type_value = :other
         elsif num_li == 2 && line_items_include_debit_to_account(int_rcv_acct) && line_items_include_credit_to_account(int_inc_acct)
@@ -26,8 +24,6 @@ module Accounting
       end
 
       def set_managed
-        puts "doc number: #{doc_number}"
-        puts "type: #{txn.loan_transaction_type_value}"
         if ['disbursement', 'repayment'].include?(txn.loan_transaction_type_value) && doc_number && doc_number.include?('MS-Managed')
           txn.managed = true
         elsif txn.loan_transaction_type_value == 'interest' && doc_number && doc_number.include?('MS-Automatic')
@@ -46,13 +42,11 @@ module Accounting
 
       def line_items_include_debit_to_account(account)
         li = line_item_by_account_id(account.id)
-        puts "debit li: #{li}"
         li && li.debit?
       end
 
       def line_items_include_credit_to_account(account)
         li = line_item_by_account_id(account.id)
-        puts "credit li: #{li}"
         li && li.credit?
       end
 
