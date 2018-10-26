@@ -85,8 +85,9 @@ module Accounting
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
-        extractor = Accounting::Quickbooks::TransactionExtractor.new(txn)
-        extractor.extract!
+        Accounting::Quickbooks::DataExtractor.new(txn).extract!
+        # extractor = Accounting::Quickbooks::TransactionExtractor.new(txn)
+        # extractor.extract!
         txn.save!
         txn
       end
