@@ -10,7 +10,7 @@ module Accounting
       end
 
       def set_managed
-        txn.managed = ms_managed_disbursement_or_repayment || ms_automatic_interest
+        txn.managed = ms_managed || ms_automatic
       end
 
       def extract_account
@@ -62,12 +62,12 @@ module Accounting
         txn.quickbooks_data['doc_number']
       end
 
-      def ms_managed_disbursement_or_repayment
-        ['disbursement', 'repayment'].include?(txn.loan_transaction_type_value) && doc_number && doc_number.include?('MS-Managed')
+      def ms_managed
+        doc_number.present? && doc_number.include?('MS-Managed')
       end
 
-      def ms_automatic_interest
-        txn.loan_transaction_type_value == 'interest' && doc_number && doc_number.include?('MS-Automatic')
+      def ms_automatic
+        doc_number.present? && doc_number.include?('MS-Automatic')
       end
     end
   end
