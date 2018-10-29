@@ -424,6 +424,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
               'create_time' => '2017-04-18T10:14:30.000-07:00',
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-04-18',
+            'doc_number' => 'Random stuff',
             'total' => '12.30',
             'private_note' => 'Random stuff' }
         end
