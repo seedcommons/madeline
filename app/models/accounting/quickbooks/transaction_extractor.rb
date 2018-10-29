@@ -12,10 +12,10 @@ module Accounting
         extract_account
         extract_additional_metadata
         extract_line_items
+        set_managed
         calculate_amount
         add_implicit_line_items
         set_type
-        set_managed
       end
 
       def extract_account
