@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Extract JournalEntry format quickbook transactions
 module Accounting
   module Quickbooks
     class JournalEntryExtractor < TransactionExtractor
@@ -9,7 +12,7 @@ module Accounting
       end
 
       def set_managed
-        txn.managed = ms_managed || ms_automatic
+        txn.managed = doc_number_matches('MS-Managed') || doc_number_matches('MS-Automatic')
       end
 
       def extract_account
@@ -24,8 +27,6 @@ module Accounting
           txn.line_items.find(&:debit?).account
         when 'disbursement'
           txn.line_items.find(&:credit?).account
-        else
-          nil
         end
       end
 
@@ -48,17 +49,13 @@ module Accounting
         end
       end
 
-      def line_item_by_account_id(account_id)
-        line_items.find {|li| li.account.id == account_id}
-      end
-
       def line_items_include_debit_to_acct(account)
-        li = line_item_by_account_id(account.id)
+        li = line_items.find { |li| li.account == account }
         li && li.debit?
       end
 
       def line_items_include_credit_to_acct(account)
-        li = line_item_by_account_id(account.id)
+        li = line_items.find { |li| li.account == account }
         li && li.credit?
       end
 
@@ -66,16 +63,9 @@ module Accounting
         line_items.any? { |li| li.posting_type == posting_type }
       end
 
-      def doc_number
-        txn.quickbooks_data['doc_number']
-      end
-
-      def ms_managed
-        doc_number.present? && doc_number.include?('MS-Managed')
-      end
-
-      def ms_automatic
-        doc_number.present? && doc_number.include?('MS-Automatic')
+      def doc_number_matches(string)
+        doc_number = txn.quickbooks_data['doc_number']
+        doc_number.present? && doc_number.include?(string)
       end
     end
   end
