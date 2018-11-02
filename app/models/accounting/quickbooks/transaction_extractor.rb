@@ -8,14 +8,25 @@ module Accounting
         @loan = txn.project
       end
 
+      # TODO: if below order does not work for bill, purchase, or deposit,
+      # consider returning to this order:
+      # extract_account
+      # extract_additional_metadata
+      # extract_line_items
+      # set_managed
+      # calculate_amount
+      # add_implicit_line_items
+      # set_type
+      #
+      # (and move below order to journal_entry_extractor override)
       def extract!
-        extract_account
         extract_additional_metadata
         extract_line_items
+        set_type
+        extract_account
         set_managed
         calculate_amount
         add_implicit_line_items
-        set_type
       end
 
       def extract_account
