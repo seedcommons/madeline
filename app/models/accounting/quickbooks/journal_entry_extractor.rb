@@ -12,7 +12,7 @@ module Accounting
       end
 
       def set_managed
-        txn.managed = doc_number_matches('MS-Managed') || doc_number_matches('MS-Automatic')
+        txn.managed = doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic')
       end
 
       def extract_account
@@ -63,7 +63,7 @@ module Accounting
         line_items.any? { |li| li.posting_type == posting_type }
       end
 
-      def doc_number_matches(string)
+      def doc_number_includes(string)
         doc_number = txn.quickbooks_data['doc_number']
         doc_number.present? && doc_number.include?(string)
       end
