@@ -1,7 +1,6 @@
 module Accounting
   module Quickbooks
     class JournalEntryExtractor < TransactionExtractor
-
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
@@ -22,9 +21,9 @@ module Accounting
       def account
         case txn.loan_transaction_type_value
         when 'repayment'
-          txn.line_items.select{|li| li.debit?}.first.account
+          txn.line_items.find(&:debit?).account
         when 'disbursement'
-          txn.line_items.select{|li| li.credit?}.first.account
+          txn.line_items.find(&:credit?).account
         else
           nil
         end
@@ -50,8 +49,7 @@ module Accounting
       end
 
       def line_item_by_account_id(account_id)
-        index = line_items.find_index {|li| li.account.id == account_id}
-        index.present? ? line_items[index] : nil
+        line_items.find {|li| li.account.id == account_id}
       end
 
       def line_items_include_debit_to_acct(account)
@@ -65,7 +63,7 @@ module Accounting
       end
 
       def line_items_contain_at_least_one(posting_type)
-        !line_items.select { |li| li.posting_type == posting_type }.empty?
+        line_items.any? { |li| li.posting_type == posting_type }
       end
 
       def doc_number
