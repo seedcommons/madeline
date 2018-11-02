@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Extract JournalEntry format quickbook transactions
 module Accounting
   module Quickbooks
+    # Extract JournalEntry format quickbook transactions
     class JournalEntryExtractor < TransactionExtractor
       attr_accessor :line_items
       delegate :qb_division, to: :loan
@@ -50,12 +50,12 @@ module Accounting
       end
 
       def line_items_include_debit_to_acct(account)
-        li = line_items.find { |li| li.account == account }
+        li = line_items.find { |i| i.account == account }
         li && li.debit?
       end
 
       def line_items_include_credit_to_acct(account)
-        li = line_items.find { |li| li.account == account }
+        li = line_items.find { |i| i.account == account }
         li && li.credit?
       end
 
