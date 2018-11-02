@@ -206,8 +206,6 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
             'private_note' => 'Random stuff' }
         end
 
-        #QUESTION: should this spec still be expecting 'managed' true and not false? If should expect false,
-        # remove doc_number and set up separate spec for Madeline txn coming back from qb.
         it "has type interest and is managed" do
           expect(txn.loan_transaction_type_value).to eq('interest')
           expect(txn.account).to be nil
@@ -253,11 +251,9 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
             'private_note' => 'Random stuff' }
         end
 
-        #QUESTION: should this spec still be expecting 'managed' true and not false? If should expect false,
-        # remove doc_number and set up separate spec for Madeline txn coming back from qb.
         it do
           expect(txn.loan_transaction_type_value).to eq('disbursement')
-          expect(txn.account).to eq (txn_acct)
+          expect(txn.account).to eq txn_acct
           expect(txn.managed).to be true
         end
       end
@@ -312,11 +308,9 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
             'private_note' => 'Random stuff' }
         end
 
-        #QUESTION: should this spec still be expecting 'managed' true and not false? If should expect false,
-        # remove doc_number and set up separate spec for Madeline txn coming back from qb.
         it do
           expect(txn.loan_transaction_type_value).to eq('repayment')
-          expect(txn.account).to eq(txn_acct)
+          expect(txn.account).to eq txn_acct
           expect(txn.managed).to be true
         end
       end
@@ -467,7 +461,6 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
 
         it do
           expect(txn.loan_transaction_type_value).to eq('other')
-          expect(txn.account).to be nil
           expect(txn.managed).to be false
         end
       end

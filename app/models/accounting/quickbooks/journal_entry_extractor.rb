@@ -5,18 +5,6 @@ module Accounting
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
-      #TODO: can this be unified with base class implementation?
-      # extracting account depends on set_type. set_type depends on extract_line_items
-      def extract!
-        extract_additional_metadata
-        extract_line_items
-        set_type
-        extract_account
-        set_managed
-        calculate_amount
-        add_implicit_line_items
-      end
-
       def set_type
         txn.loan_transaction_type_value = txn_type
       end
@@ -62,7 +50,7 @@ module Accounting
       end
 
       def line_item_by_account_id(account_id)
-        index = line_items.find_index{|li| li.account.id == account_id}
+        index = line_items.find_index {|li| li.account.id == account_id}
         index.present? ? line_items[index] : nil
       end
 
@@ -77,7 +65,7 @@ module Accounting
       end
 
       def line_items_contain_at_least_one(posting_type)
-        !line_items.select{ |li| li.posting_type == posting_type }.empty?
+        !line_items.select { |li| li.posting_type == posting_type }.empty?
       end
 
       def doc_number
