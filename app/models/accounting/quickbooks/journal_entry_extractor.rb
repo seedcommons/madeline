@@ -5,6 +5,18 @@ module Accounting
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
+      #TODO: can this be unified with base class implementation?
+      # extracting account depends on set_type. set_type depends on extract_line_items
+      def extract!
+        extract_additional_metadata
+        extract_line_items
+        set_type
+        extract_account
+        set_managed
+        calculate_amount
+        add_implicit_line_items
+      end
+
       def set_type
         txn.loan_transaction_type_value = txn_type
       end
@@ -14,11 +26,21 @@ module Accounting
       end
 
       def extract_account
-        #QUESTION: ['account_ref']['value'] is an attr on line item, not a transaction.
-        # So there are multiple accounts per transaction, not sure which account to extract here.
+        txn.account = account
       end
 
       private
+
+      def account
+        case txn.loan_transaction_type_value
+        when 'repayment'
+          txn.line_items.select{|li| li.debit?}.first.account
+        when 'disbursement'
+          txn.line_items.select{|li| li.credit?}.first.account
+        else
+          nil
+        end
+      end
 
       def txn_type
         @line_items = txn.line_items
