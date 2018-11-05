@@ -3,14 +3,9 @@ env:
 parserOptions:
   ecmaFeatures:
     jsx: true
-plugins:
-  - react
 extends:
   - eslint:recommended
-  - plugin:react/all
 globals:
-  React: true
-  ELMO: true
   $: true
   I18n: true
   console: true
