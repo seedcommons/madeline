@@ -55,19 +55,19 @@ FactoryBot.define do
   end
 
   trait :with_member_access do
-    has_system_access true
-    access_role :member
+    has_system_access { true }
+    access_role { :member }
   end
 
   trait :with_admin_access do
-    has_system_access true
-    access_role :admin
+    has_system_access { true }
+    access_role { :admin }
     with_password
   end
 
   trait :with_password do
-    password 'xxxxxxxx'
-    password_confirmation 'xxxxxxxx'
+    password { 'xxxxxxxx' }
+    password_confirmation { 'xxxxxxxx' }
   end
 
 end

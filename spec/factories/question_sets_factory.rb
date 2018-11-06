@@ -10,7 +10,7 @@
 
 FactoryBot.define do
   factory :question_set do
-    internal_name Faker::Lorem.words(2).join('_').downcase
+    internal_name { Faker::Lorem.words(2).join('_').downcase }
 
     after(:create) do |model|
       model.set_label(Faker::Lorem.words(2).join(' '))
@@ -28,7 +28,7 @@ FactoryBot.define do
     end
 
     trait :loan_criteria do
-      internal_name 'loan_criteria'
+      internal_name { 'loan_criteria' }
       after(:create) do |model|
         model.set_label('Loan Criteria Questionnaire')
         create(:question, parent: model.root_group, question_set: model,
@@ -39,7 +39,7 @@ FactoryBot.define do
     end
 
     trait :loan_post_analysis do
-      internal_name 'loan_post_analysis'
+      internal_name { 'loan_post_analysis' }
       after(:create) do |model|
         model.set_label('Loan Post Analysis')
         create(:question, parent: model.root_group, question_set: model,
