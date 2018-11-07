@@ -35,7 +35,7 @@ FactoryBot.define do
     caption { Faker::Hipster.paragraph(2) }
     media_attachable_type { %w(Organization Person).sample }
     transient_division
-    featured false
+    featured { false }
 
     trait :contract do
       kind_value { :contract }
