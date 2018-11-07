@@ -3,22 +3,22 @@ class Admin::OrganizationsController < Admin::AdminController
     authorize Organization
     @organizations_grid = initialize_grid(
       policy_scope(Organization),
-      include: [:country, :division, :primary_contact, :people],
+      include: %i[country division primary_contact people],
       conditions: division_index_filter,
-      order: 'name',
+      order: "name",
       custom_order: {
         "organizations.name" => "LOWER(organizations.name)",
         "organizations.city" => "LOWER(organizations.city)"
       },
       per_page: 50,
-      name: 'organizations',
+      name: "organizations",
       enable_export_to_csv: true
     )
 
     @csv_mode = true
     @enable_export_to_csv = true
 
-    export_grid_if_requested('organizations': 'organizations_grid_definition') do
+    export_grid_if_requested("organizations": "organizations_grid_definition") do
       # This block only executes if CSV is not being returned
       @csv_mode = false
     end
@@ -96,19 +96,19 @@ class Admin::OrganizationsController < Admin::AdminController
 
     @loans_grid = initialize_grid(
       @org.active_loans,
-      order: 'projects.signing_date',
-      order_direction: 'desc',
-      name: 'loans',
+      order: "projects.signing_date",
+      order_direction: "desc",
+      name: "loans",
       per_page: 10
     )
   end
 
   def get_country_name(division)
-    if division.currency_id
-      currency = Currency.find(division.currency_id)
-      country = Country.find_by(iso_code: currency.country_code)
-      country.name
-    end
+    return unless division.currency_id
+
+    currency = Currency.find(division.currency_id)
+    country = Country.find_by(iso_code: currency.country_code)
+    country.name
   end
   helper_method :get_country_name
 end

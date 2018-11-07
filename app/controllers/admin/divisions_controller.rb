@@ -1,10 +1,10 @@
 class Admin::DivisionsController < Admin::AdminController
-  before_action :find_division, only: [:show, :update, :destroy]
+  before_action :find_division, only: %i[show update destroy]
 
   def select
     redisplay_url = params[:redisplay_url] || root_path
     division_id = params[:division_id]
-    set_selected_division_id(division_id)
+    save_selected_division_to_session(division_id)
     division = Division.find_safe(division_id)
     authorize division || current_division
     redirect_to redisplay_url
@@ -16,23 +16,22 @@ class Admin::DivisionsController < Admin::AdminController
       policy_scope(Division.where.not(parent: nil)),
       include: [:default_currency],
       conditions: index_filter,
-      order: 'name',
+      order: "name",
       per_page: 50,
-      name: 'divisions',
+      name: "divisions",
       enable_export_to_csv: true,
       custom_order: {
         "divisions.name" => "LOWER(divisions.name)",
         # Order by tree depth and then division name when ordering by parent.
-        "parents_divisions.name" =>
-          "(SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = divisions.id),"\
-          "parents_divisions.name"
+        "parents_divisions.name" => "(SELECT MAX(generations) FROM division_hierarchies
+          WHERE descendant_id = divisions.id), parents_divisions.name"
       }
     )
 
     @csv_mode = true
     @enable_export_to_csv = true
 
-    export_grid_if_requested('divisions': 'divisions_grid_definition') do
+    export_grid_if_requested("divisions": "divisions_grid_definition") do
       # This block only executes if CSV is not being returned.
       @csv_mode = false
     end
@@ -101,7 +100,7 @@ class Admin::DivisionsController < Admin::AdminController
     @division = Division.find(params[:id])
   end
 
-  def set_selected_division_id(id)
+  def save_selected_division_to_session(id)
     id = nil if id.blank?
     session[:selected_division_id] = id
   end

@@ -19,6 +19,6 @@
 FactoryBot.define do
   factory :response_set do
     loan
-    kind 'criteria'
+    kind { 'criteria' }
   end
 end

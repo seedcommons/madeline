@@ -22,7 +22,7 @@ FactoryBot.define do
 
     # compatibility with policy specs
     transient do
-      division nil
+      division { nil }
     end
   end
 end
