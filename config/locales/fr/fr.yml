@@ -1,13 +1,231 @@
 fr:
+  activerecord:
+    attributes:
+      loan:
+        amount: Montant
+        criteria_progress: Note de Crédit
+        currency: Devise
+        details: Détails
+        division: Division
+        end_date: Date de Fin
+        first_interest_payment_date: Date de Paiement du Premier Intérêt
+        first_payment_date: Date du Premier Paiement
+        id: ID
+        length_months: Durée (mois)
+        loan_type: Type de Prêt
+        name: Prénom
+        organization: Les Coopérative
+        primary_agent: Personne Point
+        projected_return: Retour Projeté
+        public_level: Niveau Public
+        rate: Taux
+        representative: Représentant
+        secondary_agent: Seconde
+        signing_date: Date de Signature
+        status: Statut
+        summary: Résumé
+      project:
+        length_months: Durée (mois)
+        name: Prénom
+        primary_agent: Agent Primaire
+        progress: Le Progrès
+        secondary_agent: Agent Secondaire
+        signing_date: Date de Début
+        status: Statut
+        health_check: Bilan de Santé
+    models:
+      loan: Prêt
+      log: Bûche
+      media: Médias
+      organization: Organisation
+      person: Membre
+      project_step: Étape du Projet
+  all: Tout
+  cancel: Annuler
+  cancel_edit: Annuler Modifier
+  clear: Clair
+  close: Fermer
+  common:
+    add: Ajouter
+    add_language: Ajouter une Langue
+    address_state: Etat
+    caption: Légende
+    condense_all: Condenser Tout
+    created: Créé
+    deleted_user: Utilisateur Supprimé
+    description: La Description
+    details: Détails
+    division: Division
+    divisions: Divisions
+    expand_all: Développer Tout
+    first: 1er
+    hide_all: Cacher Tout
+    id: ID
+    name: Prénom
+    no_name: Sans Nom
+    no_records: Aucun Enregistrement Trouvé.
+    no_records_match: Aucun enregistrement ne correspond. Ajustez les filtres ou utilisez Clear pour réinitialiser les filtres.
+    note: Remarque
+    notes: Remarques
+    parent: Parent
+    print: Impression
+    project: Projet
+    remove: Retirer
+    role: Rôle
+    save: Sauvegarder
+    second: 2ème
+    street_address: Adresse de Rue
+    summary: Résumé
+    summary_and_details: Résumé et Détails
+    type: Type
+    untitled: Sans Titre
+    user: Utilisateur
+    updated: Actualisé
+    view_logs: Regardes les Connexions
+    website: Site Internet
+  completed: Terminé
+  coop: Coopérative
+  days: "days"
+  details: Détails
+  dropdown_toggle: Toggle Dropdown
+  error: Erreur
+  error_notification: Nous sommes désolés, mais une erreur s'est produite lors du traitement de votre demande.
+  export_to_csv: Exporter au format CSV
+  filter: Filtrer
+  filter_by: "Filtrer par:"
+  id: ID
+  incomplete: Incomplet
+  loading: Chargement...
   locale_name:
     en: Anglais
     es: Espanol
     fr: Français
-  summary: Résumé
-  details: Détails
+  logout: Connectez - Out
+  media:
+    confirm_deletion: Êtes-vous sûr de vouloir supprimer cet élément multimédia?
+    caption: "%{locale_name} Légende"
+    documents: Documents
+    add: Ajouter des médias
+    edit: Modifier les médias
+    delete: Supprimer le média
+    item: Article
+    media: Médias
+    visual_media: Média Visuel
+  menu:
+    basic_projects: Projets
+    calendar: Calendrier
+    coops: Les coopératives
+    dashboard: Tableau de Bord
+    divisions: Divisions
+    loans: Prêts
+    questions: Des Questions
+    manage: Gérer
+    people: Membres
+    log: Bûche
+    logs: Journaux
+    accounting_settings: Paramètres de Comptabilité
+  none: Aucun
+  notice_created: L'enregistrement a été Créé Avec Succès.
+  notice_deleted: L'enregistrement a été Dupprimé Avec Succès.
+  notice_updated: L'enregistrement a été Mis à Jour Avec Succès.
+  page_content: Contenu de la Page
+  page_title: Titre de la Page
+  project_step:
+    add: Ajouter Étape
+    add_dependent_step: Ajouter une Étape Dépendante
+    add_log: Ajouter un Journal
+    all_types: Tous les Types
+    all_statuses: Tous les Statuts
+    all_completion_statuses: Tous les Statuts
+    after: Après
+    completion_status:
+      draft: Brouillon
+      finalized: Finalisé
+      complete: Achevée
+      incomplete: Incomplet
+    confirm_deletion: Êtes-vous sûr de vouloir supprimer cette étape du projet?
+    days: Journée(s)
+    delete:
+      one: Supprimer L'étape
+      other: Supprimer les Étapes
+    duplicate: Dupliquer
+    duplicate_step: Étape en Double
+    duration_days: "%{duration}d"
+    edit: Modifier L'étape
+    end: "Fin:"
+    every: "Chaque:"
+    batch_delete_confirm: Êtes-vous sûr de vouloir supprimer ces étapes du projet?
+    batch_finalize_confirm: Êtes-vous sûr de vouloir finaliser ces étapes du projet?
+    finalized: "Finalisé:"
+    finalize:
+      one: Finaliser L'étape
+      other: Finaliser les Étapes
+    labels:
+      completed: "Terminé:"
+      duration: "Durée:"
+      finalized: "Finalisé:"
+      scheduled: "Prévu:"
+      start_date: "Date de Début:"
+      status: "Statut:"
+      old_start_date: "Ancienne date de début:"
+    logs: Journaux
+    months: Moi(s)
+    move: Étape de Déplacement
+    no_status: [Pas de Statut]
+    no_steps: Ce calendrier n'a pas encore de pas.
+    no_steps_match: Aucune étape de chronologie ne correspond aux filtres ci-dessus.
+    occurrences: occurrence(s)
+    once: Une Fois Que
+    on_label: "Sur:"
+    on_text: Sur
+    project_step:
+      one:  étape du projet
+      other: étapes du projet
+    repeat: Répéter...
+    timeline: Chronologie
+    timeline_table:
+      draft: Brouillon
+      duration: Durée
+      end: Fin
+      group: Groupe
+      logs: Journaux
+      preceding_step: Étape Précédente
+      start: Début
+      status: Statut
+      step: Étape
+    status:
+      completed: Terminé
+      completed_late: "Terminé %{days} d tard"
+      early: De bonne heure
+      late: En retard
+      not_completed: Pas encore terminé
+      days_early: "%{days} jours plus tôt"
+      days_late: "%{days} jours de retard"
+      on_time: À temps
+      changed_times:
+        one: Changé une fois
+        other: "Changé %{count} fois"
+    unfinalize_disallowed: La définalisation n'est pas autorisée. Plus de 24 heures se sont écoulées depuis la finalisation.
+    view_logs: Regardes les connexions
+    weeks: Semaine(s)
 
-  common:
-    summary: Résumé
-    details: Détails
-    caption: Légende
-    description: La description
+  reply_no: Non
+  reply_yes: Qui
+  status: Statut
+  summary: Résumé
+  summary_content: Contenu Récapitulatif
+  template:
+    change_division: Division du Changement
+    profile: Profil
+    select_division: Sélectionner une Division
+  # TODO - set this to correct French time format
+  time:
+    formats:
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'

@@ -57,7 +57,7 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     name { Faker::Address.city }
     parent { root_division }
-    public true
+    public { true }
 
     trait :with_accounts do
       association :principal_account, factory: :accounting_account

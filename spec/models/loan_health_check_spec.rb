@@ -124,7 +124,7 @@ RSpec.describe LoanHealthCheck, type: :model do
         end
 
         context 'and no end date' do
-          let(:loan) { create(:loan, :prospective, end_date: nil) }
+          let(:loan) { create(:loan, :prospective, projected_end_date: nil) }
 
           it { is_expected.to_not include :late_steps }
         end
@@ -137,7 +137,7 @@ RSpec.describe LoanHealthCheck, type: :model do
 
         context 'created 30+ days ago' do
           context 'ending in 30 days' do
-            let(:loan) { create(:loan, :prospective, end_date: 30.days.from_now) }
+            let(:loan) { create(:loan, :prospective, projected_end_date: 30.days.from_now) }
 
             context 'with no future steps' do
               it { is_expected.to include :sporadic_loan_updates }
@@ -145,7 +145,7 @@ RSpec.describe LoanHealthCheck, type: :model do
           end
 
           context 'ending in 90 days' do
-            let(:loan) { create(:loan, :prospective, signing_date: signing_date, end_date: 90.days.from_now) }
+            let(:loan) { create(:loan, :prospective, signing_date: signing_date, projected_end_date: 90.days.from_now) }
             let(:signing_date) { Date.today }
 
             context 'with no future steps' do

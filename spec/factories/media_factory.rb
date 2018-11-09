@@ -30,13 +30,13 @@ require 'open-uri'
 FactoryBot.define do
   factory :media do
     item { File.open(Rails.root.join('spec', 'support', 'assets', 'images', 'the_swing.jpg')) }
-    kind_value "image"
+    kind_value { "image" }
     caption { Faker::Hipster.paragraph(2) }
-    media_attachable_type %w(Organization Person).sample
+    media_attachable_type { %w(Organization Person).sample }
     transient_division
 
     trait :contract do
-      kind_value :contract
+      kind_value { :contract }
     end
   end
 end

@@ -36,7 +36,8 @@ class ProjectLog < ApplicationRecord
   attr_option_settable :progress_metric
 
   validates :project_step, :date, presence: true
-  validates :summary, translation_presence: true
+  # TODO: Go back to normal presence validator once translation widget is fixed
+  validates :summary, any_translation_presence: true
 
   after_commit :recalculate_loan_health
 
@@ -67,7 +68,7 @@ class ProjectLog < ApplicationRecord
   end
 
   def self.by_date
-    order('date IS NULL, date DESC, created_at DESC')
+    order(Arel.sql("date IS NULL, date DESC, created_at DESC"))
   end
 
   def recalculate_loan_health

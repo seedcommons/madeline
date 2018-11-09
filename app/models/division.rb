@@ -95,7 +95,7 @@ class Division < ApplicationRecord
 
   before_validation :generate_short_name
 
-  scope :by_name, -> { order("LOWER(divisions.name)") }
+  scope :by_name, -> { Arel.sql(order("LOWER(divisions.name)")) }
   scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
@@ -168,7 +168,7 @@ class Division < ApplicationRecord
   end
 
   def generate_short_name
-    return if short_name.present?
+    return if short_name.present? && Division.pluck(:short_name).exclude?(self.short_name)
 
     self.short_name = name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)

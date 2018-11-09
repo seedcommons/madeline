@@ -14,29 +14,29 @@ FactoryBot.define do
     length_months { rand(1..36) }
     association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
-    end_date { Faker::Date.between(first_payment_date, Date.today) }
+    projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
+    projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
     projected_return { amount + (amount * rate * length_months/12) }
 
     trait :featured do
-      public_level_value "featured"
+      public_level_value { "featured" }
     end
 
     trait :public do
-      public_level_value "public"
+      public_level_value { "public" }
     end
 
     trait :active do
-      status_value :active
+      status_value { :active }
     end
 
     trait :completed do
-      status_value :completed
+      status_value { :completed }
     end
 
     trait :prospective do
-      status_value :prospective
+      status_value { :prospective }
     end
 
     trait :with_translations do
@@ -102,7 +102,7 @@ FactoryBot.define do
 
     trait :with_a_number_of_recent_project_steps do
       transient do
-        step_count 5
+        step_count { 5 }
       end
 
       after(:create) do |loan, evaluator|
@@ -113,7 +113,7 @@ FactoryBot.define do
 
     trait :with_a_number_of_old_project_steps do
       transient do
-        old_step_count 5
+        old_step_count { 5 }
       end
 
       after(:create) do |loan, evaluator|

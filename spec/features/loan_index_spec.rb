@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 feature 'visit loan index page' do
-  let!(:loan_us) { create(:loan, :active, :featured, name: 'US loan') }
-  let!(:loan_pkmn) { create(:loan, :active, :featured, name: 'Pokémon loan') }
-  let!(:loan_pika) { create(:loan, :active, :featured, name: 'Pikachu Loan') }
-  let!(:loan_kale) { create(:loan, :active, :featured, name: 'Kale Loan') }
+  let!(:div_us) { create(:division, name: "United States", short_name: "us") }
+  let!(:div_pkmn) { create(:division, name: "The Pokémon", short_name: "pkmn") }
+  let!(:div_pika) { create(:division, name: "The Pikachu", short_name: "pika", parent: div_pkmn) }
+  let!(:div_kale) { create(:division, name: "The Kale", short_name: "kale", public: false) }
 
-  let!(:div_us) { create(:division, name: "United States", short_name: "us", loans: [loan_us]) }
-  let!(:div_pkmn) { create(:division, name: "The Pokémon", short_name: "pkmn", loans: [loan_pkmn]) }
-  let!(:div_pika) { create(:division, name: "The Pikachu", short_name: "pika", loans: [loan_pika], parent: div_pkmn) }
-  let!(:div_kale) { create(:division, name: "The Kale", short_name: "kale", loans: [loan_kale], public: false) }
+  let!(:loan_us) { create(:loan, :active, :featured, name: 'US loan', division: div_us) }
+  let!(:loan_pkmn) { create(:loan, :active, :featured, name: 'Pokémon loan', division: div_pkmn) }
+  let!(:loan_pika) { create(:loan, :active, :featured, name: 'Pikachu Loan', division: div_pika) }
+  let!(:loan_kale) { create(:loan, :active, :featured, name: 'Kale Loan', division: div_kale) }
 
   let!(:loans) { [loan_us, loan_pkmn, loan_pika, loan_kale] }
 
@@ -17,7 +17,7 @@ feature 'visit loan index page' do
     before { visit public_loans_path("us", division: "all") }
 
     it 'shows active loans' do
-      active_loans = loans.select{ |loan| loan.status_value == 'active' }.reject{ |loan| loan.name == 'Kale Loan' }
+      active_loans = loans.select { |loan| loan.status_value == 'active' }.reject { |loan| loan.name == 'Kale Loan' }
       expect(active_loans).to be_present
       active_loans.each do |loan|
         check_loan_content(loan)
@@ -34,7 +34,7 @@ feature 'visit loan index page' do
 
       it 'shows completed loans on their tab' do
         click_link 'Completed'
-        completed_loans = loans.select{ |loan| loan.status_value == 'completed' }
+        completed_loans = loans.select { |loan| loan.status_value == 'completed' }
         completed_loans.each do |loan|
           check_loan_content(loan)
         end
@@ -127,17 +127,15 @@ feature 'visit loan index page' do
       end
     end
 
-    context 'show loans filtered by divisions' do
-      scenario '' do
-        click_on 'The Pokémon'
-        within('.no-more-tables') do
-          expect(page).not_to have_content('United States')
-        end
-        expect(page).to have_content('The Pokémon')
-        expect(page).to have_content('The Pikachu')
-        expect(page).to have_select('division', selected: 'The Pokémon')
-        expect(page.current_url).to have_content('/us/loans?division=pkmn')
+    scenario 'show loans filtered by divisions' do
+      click_on 'The Pokémon'
+      within('.no-more-tables') do
+        expect(page).not_to have_content('US loan')
       end
+      expect(page).to have_content('The Pokémon')
+      expect(page).to have_content('The Pikachu')
+      expect(page).to have_select('division', selected: 'The Pokémon')
+      expect(page.current_url).to have_content('/us/loans?division=pkmn')
     end
   end
 end

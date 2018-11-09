@@ -24,6 +24,9 @@ module ApplicationHelper
 
   def ldate(date, format: nil)
     date ? l(date, format: format) : ""
+  rescue I18n::MissingTranslationData
+    # if the format doesn't exist, just use the default
+    l(date)
   end
 
   # Converts given object/value to json and runs through html_safe.
