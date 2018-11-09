@@ -68,7 +68,7 @@ class ProjectLog < ApplicationRecord
   end
 
   def self.by_date
-    order('date IS NULL, date DESC, created_at DESC')
+    order(Arel.sql("date IS NULL, date DESC, created_at DESC"))
   end
 
   def recalculate_loan_health
