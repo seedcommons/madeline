@@ -1,0 +1,66 @@
+# frozen_string_literal: true
+
+module Accounting
+  module Quickbooks
+    # Extract JournalEntry format quickbook transactions
+    class PurchaseExtractor < TransactionExtractor
+      attr_accessor :line_items
+      delegate :qb_division, to: :loan
+
+      def set_type
+        txn.loan_transaction_type_value = 'disbursement'
+      end
+
+      def set_managed
+        txn.managed = false
+      end
+
+      def extract_account
+        id = txn.quickbooks_data["account_ref"]["value"]
+        txn.account = Account.find(id)
+      end
+
+      def extract_line_items
+        puts "extract #{txn.quickbooks_data['line_items'].count} line items"
+        txn.quickbooks_data['line_items'].each do |li|
+          txn.line_item_with_id(li['id'].to_i).assign_attributes(
+            amount: li['amount'],
+            posting_type: posting_type_from_line_item(li),
+            description: li['description']
+          )
+          puts "added line item. #{txn.line_items.size}"
+        end
+        txn.txn_date = txn.quickbooks_data['txn_date']
+        txn.private_note = txn.quickbooks_data['private_note']
+        txn.total = txn.quickbooks_data['total']
+
+        txn.currency = lookup_currency
+      end
+
+      def add_implicit_line_items
+        txn.line_items << LineItem.new(
+          account: txn.account,
+          amount: txn.amount,
+          posting_type: 'Credit'
+         )
+      end
+
+      def calculate_amount
+        txn.amount = txn.total
+        # QUESTION: alternative is to Calculate
+        # the net debit for the principal account
+        # and use that as the amount. How?
+      end
+
+      # li is raw qb data
+      def account_from_line_item(li)
+        Accounting::Account.find_by(qb_id: li['account_based_expense_line_detail']['account_ref']['value'])
+      end
+
+      # li is raw qb data
+      def posting_type_from_line_item(li)
+        li['account_based_expense_line_detail']['posting_type']
+      end
+    end
+  end
+end

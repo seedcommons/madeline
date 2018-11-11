@@ -46,8 +46,9 @@ module Accounting
       end
 
       def extract_line_items
+        puts "extract #{txn.quickbooks_data['line_items'].count} line items"
         txn.quickbooks_data['line_items'].each do |li|
-          acct = Accounting::Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
+          acct = account_from_line_item(li)
 
           # skip if line item does not have an account in Madeline
           next unless acct
@@ -55,14 +56,27 @@ module Accounting
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
-            posting_type: li['journal_entry_line_detail']['posting_type']
+            posting_type: posting_type_from_line_item(li)
           )
+          puts "added line item. #{tx.line_items.size}"
         end
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
 
         txn.currency = lookup_currency
+      end
+
+      # to be overridden
+      # li is raw qb data
+      def account_from_line_item(li)
+        Accounting::Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
+      end
+
+      # to be overridden
+      # li is raw qb data
+      def posting_type_from_line_item(li)
+        li['journal_entry_line_detail']['posting_type']
       end
 
       def set_managed
@@ -75,7 +89,7 @@ module Accounting
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
         # which are computed from a special subset of line items (see the Transaction model for more detail).
         # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
-        # but that is ok.
+        # but that is ok. QUESTION: is this still ok?
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
       end
 
