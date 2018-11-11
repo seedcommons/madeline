@@ -9,6 +9,8 @@ module Accounting
           @extractor = Accounting::Quickbooks::JournalEntryExtractor.new(@object)
         when "Purchase"
           @extractor = Accounting::Quickbooks::PurchaseExtractor.new(@object)
+        when "Bill"
+          @extractor = Accounting::Quickbooks::BillExtractor.new(@object)
         else
           raise "DataExtractor instantiated with invalid object"
         end
