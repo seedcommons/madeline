@@ -45,7 +45,6 @@ en:
     options:
       question:
         data_type:
-          string: Short Answer
           text: Paragraph
           list: Multiple Choice
           group: Group

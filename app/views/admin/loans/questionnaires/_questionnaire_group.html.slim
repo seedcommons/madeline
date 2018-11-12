@@ -100,11 +100,6 @@ div
             = f.input_field :"#{question.attribute_sym}[text]",
               value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
-          - if response.has_string?
-            - if response.string.present? && !response.not_applicable?
-              .view-element.answer = simple_format(response.string)
-            = f.input_field :"#{question.attribute_sym}[string]", value: response.string
-
           - if response.has_boolean?
             - if response.boolean.present? && !response.not_applicable?
               .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")

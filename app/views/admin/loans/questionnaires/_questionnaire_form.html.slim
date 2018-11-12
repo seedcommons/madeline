@@ -24,9 +24,11 @@
         / `new_lock_version` is the lock_version of the updated record in the db. This is here in
         / case someone made further changes since the warning was displayed. 
         = hidden_field_tag(:new_lock_version, @response_set_from_db[:lock_version])
-        .buttons
-          => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
-          => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
+        / Hide buttons for conflict on create - optimistic locking doesn't really work on create
+        - unless response_set.new_record?
+          .buttons
+            => f.submit t('loan.response_set.overwrite_changes'), name: 'overwrite', class: 'btn btn-default'
+            => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
 
     = f.hidden_field(:loan_id)
     = f.hidden_field(:kind)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Accounting::Quickbooks::TransactionExtractor, type: :model do
+describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account}
@@ -10,7 +10,7 @@ describe Accounting::Quickbooks::TransactionExtractor, type: :model do
   let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
 
-  # This is example JSON that might be returned by the QB API.
+  # This is example Journal entry JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
   let(:quickbooks_data) do
     { 'line_items' =>
@@ -202,11 +202,13 @@ describe Accounting::Quickbooks::TransactionExtractor, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-04-18',
             'total' => '12.30',
+            'doc_number' => 'MS-Automatic',
             'private_note' => 'Random stuff' }
         end
 
-        it do
+        it "has type interest and is managed" do
           expect(txn.loan_transaction_type_value).to eq('interest')
+          expect(txn.account).to be nil
           expect(txn.managed).to be true
         end
       end
@@ -245,11 +247,13 @@ describe Accounting::Quickbooks::TransactionExtractor, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-04-18',
             'total' => '12.30',
+            'doc_number' => 'MS-Managed',
             'private_note' => 'Random stuff' }
         end
 
         it do
           expect(txn.loan_transaction_type_value).to eq('disbursement')
+          expect(txn.account).to eq txn_acct
           expect(txn.managed).to be true
         end
       end
@@ -300,11 +304,13 @@ describe Accounting::Quickbooks::TransactionExtractor, type: :model do
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-04-18',
             'total' => '12.30',
+            'doc_number' => 'MS-Managed',
             'private_note' => 'Random stuff' }
         end
 
         it do
           expect(txn.loan_transaction_type_value).to eq('repayment')
+          expect(txn.account).to eq txn_acct
           expect(txn.managed).to be true
         end
       end
@@ -415,12 +421,14 @@ describe Accounting::Quickbooks::TransactionExtractor, type: :model do
               'create_time' => '2017-04-18T10:14:30.000-07:00',
               'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
             'txn_date' => '2017-04-18',
+            'doc_number' => 'Random stuff',
             'total' => '12.30',
             'private_note' => 'Random stuff' }
         end
 
         it do
           expect(txn.loan_transaction_type_value).to eq('other')
+          expect(txn.account).to be nil
           expect(txn.managed).to be false
         end
       end
