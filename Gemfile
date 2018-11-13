@@ -122,7 +122,7 @@ group :development do
   gem "rubocop-rspec"
 
   # Deployment
-  gem "capistrano", "~> 3.1"
+  gem "capistrano", "~> 3.11.0"
   gem "capistrano-passenger"
   gem "capistrano-rails", "~> 1.1"
   gem "capistrano-rbenv", "~> 2.1"
