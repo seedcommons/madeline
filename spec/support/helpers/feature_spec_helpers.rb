@@ -52,7 +52,11 @@ module FeatureSpecHelpers
       find('.edit-action').click
       expect(page).to have_css("##{subject.model_name.element}_#{field_to_change}", visible: true)
       fill_in("#{subject.model_name.element}[#{field_to_change}]", with: "Changed #{subject.model_name.human} Name")
-      click_button "Update #{subject.model_name.human}"
+
+      # hack since we are changing Organization (table name) to Co-op (new string)
+      model_name = subject.model_name.human == 'Organization' ? 'Co-op' : subject.model_name.human
+      click_button "Update #{model_name}"
+
       expect(page).to have_content("Changed #{subject.model_name.human} Name")
       expect(page).to have_content('Record was successfully updated.')
     end

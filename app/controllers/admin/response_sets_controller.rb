@@ -3,10 +3,22 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   def create
     @response_set = ResponseSet.new(current_user: current_user)
-    @response_set.assign_attributes(response_set_params)
+    @response_set.assign_attributes(response_set_params.merge(updater_id: current_user.id))
     authorize @response_set
-    @response_set.save!
-    redirect_to display_path, notice: I18n.t(:notice_created)
+
+    # Check if loan already has a response set (e.g. created in another tab)
+    @conflicting_response_set = @response_set.loan.send(@response_set.kind)
+    if @conflicting_response_set
+      @response_set_from_db = {
+        updater: @conflicting_response_set.updater,
+        updated_at: @conflicting_response_set.updated_at,
+        lock_version: @conflicting_response_set.lock_version,
+      }
+      handle_conflict
+    else
+      @response_set.save!
+      redirect_to display_path, notice: I18n.t(:notice_created)
+    end
   end
 
   def update
@@ -36,11 +48,7 @@ class Admin::ResponseSetsController < Admin::AdminController
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
   rescue ActiveRecord::StaleObjectError
-    @conflict = true
-    @tab = 'questions'
-    @loan = @response_set.loan
-    prep_questionnaire
-    render 'admin/loans/show'
+    handle_conflict
   end
 
   def destroy
@@ -52,6 +60,14 @@ class Admin::ResponseSetsController < Admin::AdminController
   end
 
   private
+
+  def handle_conflict
+    @conflict = true
+    @tab = 'questions'
+    @loan = @response_set.loan
+    prep_questionnaire
+    render 'admin/loans/show'
+  end
 
   def resolve_polymorphic(type, id)
     type.constantize.find(id)

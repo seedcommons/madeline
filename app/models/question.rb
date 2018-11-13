@@ -36,7 +36,7 @@ class Question < ApplicationRecord
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
-  DATA_TYPES = %i(string text number range group boolean breakeven business_canvas)
+  DATA_TYPES = %i(text number range group boolean breakeven business_canvas)
 
   # These methods are troublesome because they circumvent eager loading and also cause leaks in
   # decoration. We can do without them! Better to use children and parent to walk the tree and get
@@ -58,7 +58,7 @@ class Question < ApplicationRecord
   has_many :loan_types, class_name: 'Option', through: :loan_question_requirements
 
   # note, the custom field form layout can be hierarchically nested
-  has_closure_tree order: 'position', dependent: :destroy
+  has_closure_tree order: 'position', numeric_order: true, dependent: :destroy
 
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label

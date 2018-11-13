@@ -1,0 +1,71 @@
+# Disable defaults
+AllCops:
+  TargetRailsVersion: 5.2
+  Exclude:
+    - "bin/**/*"
+    - "db/schema.rb"
+    - "script/**/*"
+    - "tmp/**/*"
+    - "uploads/**/*"
+    - "vendor/**/*"
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: true
+
+Metrics/LineLength:
+  Enabled: true
+  Max: 110
+
+Style:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: true
+  EnforcedStyle: expanded
+
+Style/PercentLiteralDelimiters:
+  Enabled: true
+  PreferredDelimiters:
+    default: ()
+    '%w': ()
+    '%W': ()
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Bundler:
+  Enabled: true
+
+Rails:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false

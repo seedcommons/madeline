@@ -5,9 +5,9 @@
 #  calling_action     :string
 #  calling_controller :string
 #  created_at         :datetime         not null
-#  division_id        :integer
+#  division_id        :bigint(8)
 #  html_identifier    :string
-#  id                 :integer          not null, primary key
+#  id                 :bigint(8)        not null, primary key
 #  previous_url       :string
 #  updated_at         :datetime         not null
 #
