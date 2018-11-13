@@ -3,15 +3,14 @@ require 'rails_helper'
 describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
-  let(:prin_acct) { division.principal_account}
+  let(:prin_acct) { division.principal_account }
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
 
-  # This is example Journal entry JSON that might be returned by the QB API.
-  # The data are taken from the docs/example_calculation.xlsx file, row 7.
+  # This is example purchase JSON that might be returned by the QB API.
   let(:quickbooks_data) do
     {
       "line_items": [
@@ -86,13 +85,8 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
     }
   end
 
-  #let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
-  #subject { described_class.new(txn) }
-
   context 'extract!' do
-
     it 'updates correctly in Madeline' do
-
       txn = create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data)
       Accounting::Quickbooks::PurchaseExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
@@ -102,24 +96,7 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       expect(txn.line_items[1].account).to eq txn.account
       expect(txn.line_items[1].credit?).to be true
       expect(txn.account).to eq txn_acct
-      # # amount
       expect(txn.amount).to equal_money(33458.43)
-
-
     end
-
-
-    # def update_transaction_with_new_quickbooks_data
-    #   txn.update(quickbooks_data: quickbooks_data)
-    #   subject.extract!
-    #   txn.save!
-    #   txn.reload
-    # end
-    #
-    # def expect_line_item_amounts(amounts)
-    #   amounts.each_with_index do |amt, i|
-    #     expect(txn.line_items[i].amount).to equal_money(amt)
-    #   end
-    # end
   end
 end

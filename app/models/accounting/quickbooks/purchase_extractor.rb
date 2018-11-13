@@ -21,19 +21,16 @@ module Accounting
       end
 
       def extract_line_items
-        puts "extract #{txn.quickbooks_data['line_items'].count} line items"
         txn.quickbooks_data['line_items'].each do |li|
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             amount: li['amount'],
-            posting_type: posting_type_from_line_item(li),
+            posting_type: li[qb_li_detail_key]['posting_type'],
             description: li['description']
           )
-          puts "added line item. #{txn.line_items.size}"
         end
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
-
         txn.currency = lookup_currency
       end
 
@@ -42,7 +39,7 @@ module Accounting
           account: txn.account,
           amount: txn.amount,
           posting_type: 'Credit'
-         )
+        )
       end
 
       def calculate_amount
@@ -52,14 +49,8 @@ module Accounting
         # and use that as the amount. How?
       end
 
-      # li is raw qb data
-      def account_from_line_item(li)
-        Accounting::Account.find_by(qb_id: li['account_based_expense_line_detail']['account_ref']['value'])
-      end
-
-      # li is raw qb data
-      def posting_type_from_line_item(li)
-        li['account_based_expense_line_detail']['posting_type']
+      def qb_li_detail_key
+        'account_based_expense_line_detail'
       end
     end
   end
