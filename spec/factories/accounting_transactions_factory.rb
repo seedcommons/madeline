@@ -43,37 +43,37 @@ FactoryBot.define do
     # division is not an attribute here but we need to access the accounts associated
     # this is only for some traits below
     transient do
-      division nil
+      division { nil }
     end
 
     sequence(:qb_id)
-    qb_object_type 'JournalEntry'
+    qb_object_type { 'JournalEntry' }
     quickbooks_data { {} }
-    loan_transaction_type_value %w(interest disbursement repayment).sample
+    loan_transaction_type_value { %w(interest disbursement repayment).sample }
     txn_date { Faker::Date.between(30.days.ago, Date.today) }
     amount { Faker::Number.decimal(4, 2) }
     account
     project
-    managed true
+    managed { true }
 
     trait :interest do
-      loan_transaction_type_value 'interest'
-      amount 3.25
+      loan_transaction_type_value { 'interest' }
+      amount { 3.25 }
     end
 
     trait :disbursement do
-      loan_transaction_type_value 'disbursement'
-      amount 100
+      loan_transaction_type_value { 'disbursement' }
+      amount { 100 }
     end
 
     trait :repayment do
-      loan_transaction_type_value 'repayment'
-      amount 23.7
+      loan_transaction_type_value { 'repayment' }
+      amount { 23.7 }
     end
 
     trait :interest_with_line_items do
-      loan_transaction_type_value 'interest'
-      amount 3.25
+      loan_transaction_type_value { 'interest' }
+      amount { 3.25 }
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: evaluator.division.interest_receivable_account,
@@ -84,8 +84,8 @@ FactoryBot.define do
     end
 
     trait :disbursement_with_line_items do
-      loan_transaction_type_value 'disbursement'
-      amount 100
+      loan_transaction_type_value { 'disbursement' }
+      amount { 100 }
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,
@@ -96,8 +96,8 @@ FactoryBot.define do
     end
 
     trait :repayment_with_line_items do
-      loan_transaction_type_value 'repayment'
-      amount 23.7
+      loan_transaction_type_value { 'repayment' }
+      amount { 23.7 }
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,
@@ -110,7 +110,7 @@ FactoryBot.define do
     end
 
     trait :unmanaged do
-      managed false
+      managed { false }
     end
   end
 end

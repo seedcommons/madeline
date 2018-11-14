@@ -20,23 +20,23 @@ FactoryBot.define do
     projected_return { amount + (amount * rate * length_months/12) }
 
     trait :featured do
-      public_level_value "featured"
+      public_level_value { "featured" }
     end
 
     trait :public do
-      public_level_value "public"
+      public_level_value { "public" }
     end
 
     trait :active do
-      status_value :active
+      status_value { :active }
     end
 
     trait :completed do
-      status_value :completed
+      status_value { :completed }
     end
 
     trait :prospective do
-      status_value :prospective
+      status_value { :prospective }
     end
 
     trait :with_translations do
@@ -102,7 +102,7 @@ FactoryBot.define do
 
     trait :with_a_number_of_recent_project_steps do
       transient do
-        step_count 5
+        step_count { 5 }
       end
 
       after(:create) do |loan, evaluator|
@@ -113,7 +113,7 @@ FactoryBot.define do
 
     trait :with_a_number_of_old_project_steps do
       transient do
-        old_step_count 5
+        old_step_count { 5 }
       end
 
       after(:create) do |loan, evaluator|
