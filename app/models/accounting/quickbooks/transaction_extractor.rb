@@ -78,7 +78,7 @@ module Accounting
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
         # which are computed from a special subset of line items (see the Transaction model for more detail).
         # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
-        # but that is ok. QUESTION: is this still ok?
+        # but that is ok because we do not push amount back to QB.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
       end
 

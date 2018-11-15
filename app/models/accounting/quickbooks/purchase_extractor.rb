@@ -42,11 +42,10 @@ module Accounting
         )
       end
 
+      # Using total assumes that all line items in txn are for accts in Madeline.
+      # This assumption is safe because we never push amount to QB. 
       def calculate_amount
         txn.amount = txn.total
-        # QUESTION: alternative is to Calculate
-        # the net debit for the principal account
-        # and use that as the amount. How?
       end
 
       def qb_li_detail_key
