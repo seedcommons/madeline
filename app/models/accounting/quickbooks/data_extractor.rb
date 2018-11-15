@@ -5,7 +5,7 @@ module Accounting
         @object = object
 
         case @object.qb_object_type
-        when "JournalEntry", "Deposit", "Bill"
+        when "JournalEntry", "Deposit"
           @extractor = Accounting::Quickbooks::JournalEntryExtractor.new(@object)
         when "Purchase"
           @extractor = Accounting::Quickbooks::PurchaseExtractor.new(@object)

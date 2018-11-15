@@ -17,19 +17,19 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
       {
         "id": "1",
         "line_num": nil,
-        "description": "Sassafras hours",
-        "amount": "21263.0",
+        "description": "stuff",
+        "amount": "32476.1",
         "detail_type": "AccountBasedExpenseLineDetail",
         "account_based_expense_line_detail": {
           "customer_ref": nil,
           "class_ref": {
-            "value": "7000000000000495553",
-            "name": "Programs:Madeline",
+            "value": "2000000000003635778",
+            "name": "Name",
             "type": nil
           },
           "account_ref": {
-            "value": "701",
-            "name": "Contract Services:Outside Contract Services",
+            "value": "402",
+            "name": "Services",
             "type": nil
           },
           "billable_status": "NotBillable",
@@ -45,19 +45,19 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
       {
         "id": "2",
         "line_num": nil,
-        "description": "No charge hours",
-        "amount": "-671.0",
+        "description": "Desc",
+        "amount": "-641.0",
         "detail_type": "AccountBasedExpenseLineDetail",
         "account_based_expense_line_detail": {
           "customer_ref": nil,
           "class_ref": {
-            "value": "7000000000000495553",
-            "name": "Programs:Madeline",
+            "value": "400000000003634837",
+            "name": "Other stuff",
             "type": nil
           },
           "account_ref": {
-            "value": "701",
-            "name": "Contract Services:Outside Contract Services",
+            "value": "402",
+            "name": "Services",
             "type": nil
           },
           "billable_status": "NotBillable",
@@ -73,19 +73,19 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
       {
          "id": "3",
          "line_num": nil,
-         "description": "AWS production and staging server hosting",
-         "amount": "25.75",
+         "description": "Desc",
+         "amount": "29.35",
          "detail_type": "AccountBasedExpenseLineDetail",
          "account_based_expense_line_detail": {
            "customer_ref": nil,
            "class_ref": {
-             "value": "7000000000000495553",
-             "name": "Programs:Madeline",
+             "value": "2000000000003635778",
+             "name": "Name",
              "type": nil
            },
            "account_ref": {
-             "value": "730",
-             "name": "Other Expenses:Service Fees",
+             "value": "430",
+             "name": "Fees",
              "type": nil
            },
            "billable_status": "NotBillable",
@@ -106,18 +106,18 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
        "create_time": "2018-07-17T16:27:28.000-07:00",
        "last_updated_time": "2018-07-17T16:38:06.000-07:00"
      },
-     "doc_number": "664",
-     "txn_date": "2018-01-12",
+     "doc_number": "667",
+     "txn_date": "2018-04-13",
      "department_ref": nil,
      "private_note": nil,
      "vendor_ref": {
        "value": "3637",
-       "name": "Sassafras Tech Collective",
+       "name": "Vendor",
        "type": nil
      },
      "payer_ref": nil,
      "sales_term_ref": {
-       "value": "30",
+       "value": "31",
        "name": nil,
        "type": nil
      },
@@ -127,14 +127,14 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
        "name": "Accounts Payable",
        "type": nil
      },
-     "due_date": "2018-02-11",
+     "due_date": "2018-5-13",
      "remit_to_address": nil,
      "ship_address": nil,
      "exchange_rate": nil,
      "balance": "0.0",
      "bill_email": nil,
      "reply_email": nil,
-     "total": "20617.75",
+     "total": "20527.35",
      "currency_ref": {
        "value": "USD",
        "name": "United States Dollar",
@@ -143,13 +143,8 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
    }
   end
 
-  #let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
-  #subject { described_class.new(txn) }
-
   context 'extract!' do
-
     it 'updates correctly in Madeline' do
-
       txn = create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data)
       Accounting::Quickbooks::BillExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
@@ -158,24 +153,7 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
       expect(txn.line_items.last.account).to eq txn.account
       expect(txn.line_items.last.credit?).to be true
       expect(txn.account).to eq txn_acct
-      # # amount
-      expect(txn.amount).to equal_money(20617.75)
-
-
+      expect(txn.amount).to equal_money(20527.35)
     end
-
-
-    # def update_transaction_with_new_quickbooks_data
-    #   txn.update(quickbooks_data: quickbooks_data)
-    #   subject.extract!
-    #   txn.save!
-    #   txn.reload
-    # end
-    #
-    # def expect_line_item_amounts(amounts)
-    #   amounts.each_with_index do |amt, i|
-    #     expect(txn.line_items[i].amount).to equal_money(amt)
-    #   end
-    # end
   end
 end
