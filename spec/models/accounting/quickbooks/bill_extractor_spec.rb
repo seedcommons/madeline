@@ -10,8 +10,7 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
   let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
 
-  # This is example Journal entry JSON that might be returned by the QB API.
-  # The data are taken from the docs/example_calculation.xlsx file, row 7.
+  # This is example bill JSON that might be returned by the QB API.
   let(:quickbooks_data) do
     {"line_items": [
       {
