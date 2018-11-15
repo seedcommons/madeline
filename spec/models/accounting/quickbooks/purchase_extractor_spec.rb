@@ -17,22 +17,22 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
         {
           "id": "1",
           "line_num": nil,
-          "description": '#7801128037',
-          "amount": "33458.43",
+          "description": '#738209',
+          "amount": "12345.67",
           "detail_type": "AccountBasedExpenseLineDetail",
           "account_based_expense_line_detail": {
             "customer_ref": {
-              "value": "4111",
-              "name": "New Era Windows, LLC",
+              "value": "1414",
+              "name": "Ice Cream Galor, LLC",
               "type": nil
             },
             "class_ref": {
-              "value": "7000000000000495550",
-              "name": "Loan Products:Loan ID 1344",
+              "value": "6000000000000324540",
+              "name": "Loan Products:Loan ID 8989",
               "type": nil
             },
             "account_ref": {
-              "value": "709",
+              "value": "905",
               "name": "Other Long-Term Assets:Loans Receivable",
               "type": nil
             },
@@ -52,11 +52,11 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       "id": "23531",
       "sync_token": 1,
       "meta_data": {
-        "create_time": "2018-07-17T16:31:32.000-07:00",
-        "last_updated_time": "2018-07-17T16:42:32.000-07:00"
+        "create_time": "2018-05-03T13:37:22.000-07:00",
+        "last_updated_time": "2018-06-13T12:52:22.000-07:00"
       },
-      "doc_number": "1397",
-      "txn_date": "2018-07-09",
+      "doc_number": "5438",
+      "txn_date": "2018-06-12",
       "private_note": nil,
       "account_ref": {
         "value": txn_acct.id,
@@ -66,12 +66,12 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       "txn_tax_detail": nil,
       "payment_type": "Check",
       "entity_ref": {
-        "value": "3594",
-        "name": "VEKA",
+        "value": "7893",
+        "name": "ABC",
         "type": "Vendor"
       },
       "remit_to_address": nil,
-      "total": "33458.43",
+      "total": "12345.67",
       "print_status": "NotSet",
       "department_ref": nil,
       "currency_ref": {
@@ -92,11 +92,11 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
       expect(txn.managed).to be false
       expect(txn.line_items.size).to eq 2
-      expect(txn.line_items[0].description).to eq '#7801128037'
+      expect(txn.line_items[0].description).to eq '#738209'
       expect(txn.line_items[1].account).to eq txn.account
       expect(txn.line_items[1].credit?).to be true
       expect(txn.account).to eq txn_acct
-      expect(txn.amount).to equal_money(33458.43)
+      expect(txn.amount).to equal_money(12345.67)
     end
   end
 end
