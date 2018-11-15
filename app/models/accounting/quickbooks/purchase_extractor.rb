@@ -43,7 +43,7 @@ module Accounting
       end
 
       # Using total assumes that all line items in txn are for accts in Madeline.
-      # This assumption is safe because we never push amount to QB. 
+      # This assumption is safe because we never push amount to QB.
       def calculate_amount
         txn.amount = txn.total
       end
