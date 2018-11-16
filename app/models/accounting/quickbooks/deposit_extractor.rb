@@ -12,8 +12,8 @@ module Accounting
       end
 
       def extract_account
-        id = txn.quickbooks_data["deposit_to_account_ref"]["value"]
-        txn.account = Account.find(id)
+        qb_id = txn.quickbooks_data["deposit_to_account_ref"]["value"]
+        txn.account = Accounting::Account.find_by(qb_id: qb_id)
       end
 
       def add_implicit_line_items

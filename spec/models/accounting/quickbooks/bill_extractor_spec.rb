@@ -122,7 +122,7 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
      },
      "attachable_ref": nil,
      "ap_account_ref": {
-       "value": txn_acct.id,
+       "value": txn_acct.qb_id,
        "name": "Accounts Payable",
        "type": nil
      },

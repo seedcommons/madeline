@@ -59,7 +59,7 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       "txn_date": "2018-06-12",
       "private_note": nil,
       "account_ref": {
-        "value": txn_acct.id,
+        "value": txn_acct.qb_id,
         "name": txn_acct.name,
         "type": nil
       },

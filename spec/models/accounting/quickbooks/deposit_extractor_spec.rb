@@ -93,7 +93,7 @@ describe Accounting::Quickbooks::DepositExtractor, type: :model do
       "txn_status": nil,
       "txn_tax_detail": nil,
       "deposit_to_account_ref": {
-        "value": txn_acct.id,
+        "value": txn_acct.qb_id,
         "name": txn_acct.name,
         "type": nil
       },
