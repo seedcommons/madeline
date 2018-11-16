@@ -18,11 +18,6 @@ module Accounting
         add_implicit_line_items
       end
 
-      def extract_account
-        # do nothing in TransactionExtract
-        # can be overridden in subclasses
-      end
-
       def extract_additional_metadata
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
@@ -37,14 +32,14 @@ module Accounting
       def extract_line_items
         txn.quickbooks_data['line_items'].each do |li|
           acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
-
           # skip if line item does not have an account in Madeline
           next unless acct
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
-            posting_type: li[qb_li_detail_key]['posting_type']
+            posting_type: li[qb_li_detail_key]['posting_type'],
+            description: li['description']
           )
         end
         txn.txn_date = txn.quickbooks_data['txn_date']
@@ -53,8 +48,13 @@ module Accounting
         txn.currency = lookup_currency
       end
 
-      def qb_li_detail_key
-        'journal_entry_line_detail'
+      def set_type
+        txn.loan_transaction_type_value = :other
+      end
+
+      def extract_account
+        # do nothing in TransactionExtract
+        # can be overridden in subclasses
       end
 
       def set_managed
@@ -76,8 +76,8 @@ module Accounting
         # can be overridden in subclasses
       end
 
-      def set_type
-        txn.loan_transaction_type_value = :other
+      def qb_li_detail_key
+        'journal_entry_line_detail'
       end
 
       private

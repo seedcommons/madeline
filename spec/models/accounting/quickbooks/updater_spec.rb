@@ -7,7 +7,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
-  let(:prin_acct) { division.principal_account}
+  let(:prin_acct) { division.principal_account }
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }

@@ -27,13 +27,13 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
               "type": nil
             },
             "class_ref": {
-              "value": "6000000000000324540",
-              "name": "Loan Products:Loan ID 8989",
+              "value": loan.id,
+              "name": loan.name,
               "type": nil
             },
             "account_ref": {
-              "value": "905",
-              "name": "Other Long-Term Assets:Loans Receivable",
+              "value": random_acct.qb_id,
+              "name": random_acct.name,
               "type": nil
             },
             "billable_status": "NotBillable",
@@ -59,7 +59,7 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
       "txn_date": "2018-06-12",
       "private_note": nil,
       "account_ref": {
-        "value": txn_acct.id,
+        "value": txn_acct.qb_id,
         "name": txn_acct.name,
         "type": nil
       },
@@ -85,9 +85,10 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
     }
   end
 
+  let(:txn) { create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data) }
+
   context 'extract!' do
     it 'updates correctly in Madeline' do
-      txn = create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data)
       Accounting::Quickbooks::PurchaseExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
       expect(txn.managed).to be false
