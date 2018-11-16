@@ -2,17 +2,17 @@
 
 module Accounting
   module Quickbooks
-    # Extract Purchase format quickbook transactions
-    class PurchaseExtractor < TransactionExtractor
+    # Extract Deposit format quickbook transactions
+    class DepositExtractor < TransactionExtractor
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
       def set_type
-        txn.loan_transaction_type_value = 'disbursement'
+        txn.loan_transaction_type_value = 'repayment'
       end
 
       def extract_account
-        qb_id = txn.quickbooks_data["account_ref"]["value"]
+        qb_id = txn.quickbooks_data["deposit_to_account_ref"]["value"]
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
       end
 
@@ -26,12 +26,12 @@ module Accounting
         txn.line_items << LineItem.new(
           account: txn.account,
           amount: txn.amount,
-          posting_type: 'Credit'
+          posting_type: 'Debit'
         )
       end
 
       def qb_li_detail_key
-        'account_based_expense_line_detail'
+        'deposit_line_detail'
       end
     end
   end

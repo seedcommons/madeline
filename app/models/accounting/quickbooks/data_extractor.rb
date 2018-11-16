@@ -5,10 +5,14 @@ module Accounting
         @object = object
 
         case @object.qb_object_type
-        when "JournalEntry", "Deposit", "Bill"
+        when "JournalEntry"
           @extractor = Accounting::Quickbooks::JournalEntryExtractor.new(@object)
         when "Purchase"
           @extractor = Accounting::Quickbooks::PurchaseExtractor.new(@object)
+        when "Bill"
+          @extractor = Accounting::Quickbooks::BillExtractor.new(@object)
+        when "Deposit"
+          @extractor = Accounting::Quickbooks::DepositExtractor.new(@object)
         else
           raise "DataExtractor instantiated with invalid object"
         end

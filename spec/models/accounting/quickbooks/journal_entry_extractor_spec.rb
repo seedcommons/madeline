@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
-  let(:prin_acct) { division.principal_account}
+  let(:prin_acct) { division.principal_account }
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
