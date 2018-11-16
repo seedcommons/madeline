@@ -2,7 +2,7 @@
 
 module Accounting
   module Quickbooks
-    # Extract JournalEntry format quickbook transactions
+    # Extract Purchase format quickbook transactions
     class PurchaseExtractor < TransactionExtractor
       attr_accessor :line_items
       delegate :qb_division, to: :loan

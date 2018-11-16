@@ -2,7 +2,7 @@
 
 module Accounting
   module Quickbooks
-    # Extract JournalEntry format quickbook transactions
+    # Extract Deposit format quickbook transactions
     class DepositExtractor < TransactionExtractor
       attr_accessor :line_items
       delegate :qb_division, to: :loan
