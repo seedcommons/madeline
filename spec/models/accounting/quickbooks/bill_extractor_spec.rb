@@ -27,8 +27,8 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
             "type": nil
           },
           "account_ref": {
-            "value": "402",
-            "name": "Services",
+            "value": random_acct.qb_id,
+            "name": random_acct.name,
             "type": nil
           },
           "billable_status": "NotBillable",
@@ -55,8 +55,8 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
             "type": nil
           },
           "account_ref": {
-            "value": "402",
-            "name": "Services",
+            "value": random_acct.qb_id,
+            "name": random_acct.name,
             "type": nil
           },
           "billable_status": "NotBillable",
@@ -83,8 +83,8 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
              "type": nil
            },
            "account_ref": {
-             "value": "430",
-             "name": "Fees",
+             "value": random_acct.qb_id,
+             "name": random_acct.name,
              "type": nil
            },
            "billable_status": "NotBillable",

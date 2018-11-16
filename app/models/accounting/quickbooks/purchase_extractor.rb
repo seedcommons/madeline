@@ -11,27 +11,9 @@ module Accounting
         txn.loan_transaction_type_value = 'disbursement'
       end
 
-      def set_managed
-        txn.managed = false
-      end
-
       def extract_account
         id = txn.quickbooks_data["account_ref"]["value"]
         txn.account = Account.find(id)
-      end
-
-      def extract_line_items
-        txn.quickbooks_data['line_items'].each do |li|
-          txn.line_item_with_id(li['id'].to_i).assign_attributes(
-            amount: li['amount'],
-            posting_type: li[qb_li_detail_key]['posting_type'],
-            description: li['description']
-          )
-        end
-        txn.txn_date = txn.quickbooks_data['txn_date']
-        txn.private_note = txn.quickbooks_data['private_note']
-        txn.total = txn.quickbooks_data['total']
-        txn.currency = lookup_currency
       end
 
       def add_implicit_line_items

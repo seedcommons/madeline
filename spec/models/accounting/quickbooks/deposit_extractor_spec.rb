@@ -27,13 +27,13 @@ describe Accounting::Quickbooks::DepositExtractor, type: :model do
             "type": "CUSTOMER"
           },
           "class_ref": {
-            "value": "6000000000000438270",
-            "name": "Loan",
+            "value": loan.id,
+            "name": loan.name,
             "type": nil
           },
           "account_ref": {
-            "value": "709",
-            "name": "Loan Receivable",
+            "value": random_acct.qb_id,
+            "name": random_acct.name,
             "type": nil
           },
           "payment_method_ref": nil,
@@ -56,13 +56,13 @@ describe Accounting::Quickbooks::DepositExtractor, type: :model do
             "type": "CUSTOMER"
           },
           "class_ref": {
-            "value": "6000000000000438270",
-            "name": "Loan",
+            "value": loan.id,
+            "name": loan.name,
             "type": nil
           },
           "account_ref": {
-            "value": "205",
-            "name": "Accounts Receivable 123",
+            "value": random_acct.qb_id,
+            "name": random_acct.name,
             "type": nil
           },
           "payment_method_ref": nil,
