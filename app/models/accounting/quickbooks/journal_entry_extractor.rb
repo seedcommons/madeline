@@ -11,24 +11,15 @@ module Accounting
         txn.loan_transaction_type_value = txn_type
       end
 
-      def set_managed
-        txn.managed = doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic')
-      end
-
       def extract_account
         txn.account = account
       end
 
-      private
-
-      def account
-        case txn.loan_transaction_type_value
-        when 'repayment'
-          txn.line_items.find(&:debit?).account
-        when 'disbursement'
-          txn.line_items.find(&:credit?).account
-        end
+      def set_managed
+        txn.managed = doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic')
       end
+
+      private
 
       def txn_type
         @line_items = txn.line_items
@@ -61,6 +52,15 @@ module Accounting
 
       def line_items_contain_at_least_one(posting_type)
         line_items.any? { |li| li.posting_type == posting_type }
+      end
+
+      def account
+        case txn.loan_transaction_type_value
+        when 'repayment'
+          txn.line_items.find(&:debit?).account
+        when 'disbursement'
+          txn.line_items.find(&:credit?).account
+        end
       end
 
       def doc_number_includes(string)
