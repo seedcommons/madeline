@@ -13,71 +13,14 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
   # This is example bill JSON that might be returned by the QB API.
   let(:quickbooks_data) do
     {
-      "line_items":
-        [
-          {
-            "id": "1",
-            "line_num": nil,
-            "description": "stuff",
-            "amount": "32476.1",
-            "detail_type": "AccountBasedExpenseLineDetail",
-            "account_based_expense_line_detail": {
-              "customer_ref": nil,
-              "class_ref": {
-                "value": "2000000000003635778",
-                "name": "Name",
-                "type": nil
-              },
-              "account_ref": {
-                "value": random_acct.qb_id,
-                "name": random_acct.name,
-                "type": nil
-              },
-              "billable_status": "NotBillable",
-              "tax_amount": nil,
-              "tax_code_ref": {
-                "value": "NON",
-                "name": nil,
-                "type": nil
-              }
-            },
-            "item_based_expense_line_detail": nil
-          },
-          {
-            "id": "2",
-            "line_num": nil,
-            "description": "Desc",
-            "amount": "-641.0",
-            "detail_type": "AccountBasedExpenseLineDetail",
-            "account_based_expense_line_detail": {
-              "customer_ref": nil,
-              "class_ref": {
-                "value": "400000000003634837",
-                "name": "Other stuff",
-                "type": nil
-              },
-              "account_ref": {
-                "value": random_acct.qb_id,
-                "name": random_acct.name,
-                "type": nil
-              },
-              "billable_status": "NotBillable",
-              "tax_amount": nil,
-              "tax_code_ref": {
-                "value": "NON",
-                "name": nil,
-                "type": nil
-              }
-            },
-            "item_based_expense_line_detail": nil
-          },
-          {
-            "id": "3",
-            "line_num": nil,
-            "description": "Desc",
-            "amount": "29.35",
-            "detail_type": "AccountBasedExpenseLineDetail",
-            "account_based_expense_line_detail": {
+      "line_items": [
+        {
+          "id": "1",
+          "line_num": nil,
+          "description": "stuff",
+          "amount": "32476.1",
+          "detail_type": "AccountBasedExpenseLineDetail",
+          "account_based_expense_line_detail": {
             "customer_ref": nil,
             "class_ref": {
               "value": "2000000000003635778",
@@ -96,10 +39,66 @@ describe Accounting::Quickbooks::BillExtractor, type: :model do
               "name": nil,
               "type": nil
             }
-           },
-           "item_based_expense_line_detail": nil
-          }
-        ],
+          },
+          "item_based_expense_line_detail": nil
+        },
+        {
+          "id": "2",
+          "line_num": nil,
+          "description": "Desc",
+          "amount": "-641.0",
+          "detail_type": "AccountBasedExpenseLineDetail",
+          "account_based_expense_line_detail": {
+            "customer_ref": nil,
+            "class_ref": {
+              "value": "400000000003634837",
+              "name": "Other stuff",
+              "type": nil
+            },
+            "account_ref": {
+              "value": random_acct.qb_id,
+              "name": random_acct.name,
+              "type": nil
+            },
+            "billable_status": "NotBillable",
+            "tax_amount": nil,
+            "tax_code_ref": {
+              "value": "NON",
+              "name": nil,
+              "type": nil
+            }
+          },
+          "item_based_expense_line_detail": nil
+        },
+        {
+          "id": "3",
+          "line_num": nil,
+          "description": "Desc",
+          "amount": "29.35",
+          "detail_type": "AccountBasedExpenseLineDetail",
+          "account_based_expense_line_detail": {
+            "customer_ref": nil,
+            "class_ref": {
+              "value": "2000000000003635778",
+              "name": "Name",
+              "type": nil
+            },
+            "account_ref": {
+              "value": random_acct.qb_id,
+              "name": random_acct.name,
+              "type": nil
+            },
+            "billable_status": "NotBillable",
+            "tax_amount": nil,
+            "tax_code_ref": {
+              "value": "NON",
+              "name": nil,
+              "type": nil
+            }
+          },
+          "item_based_expense_line_detail": nil
+        }
+      ],
       "global_tax_calculation": nil,
       "id": "16788",
       "sync_token": 2,
