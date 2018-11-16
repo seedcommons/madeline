@@ -77,9 +77,12 @@ module ApplicationHelper
 
   # app version number
   def app_version_number
-    describe_tags = `git describe`
+    git_describe_tags = `git describe`
+    git_branch = `git rev-parse --abbrev-ref HEAD`
+    version_git = "#{git_describe_tags} (#{git_branch.strip})"
     version_file = File.read(Rails.root.join("VERSION"))
-    @app_version ||= (describe_tags || version_file)
+    @app_version = version_git unless Rails.env.production?
+    @app_version ||= version_file
   end
 
   def division_select_options(include_root: true, include_all: false, public_only: true)
