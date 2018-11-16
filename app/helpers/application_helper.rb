@@ -77,12 +77,20 @@ module ApplicationHelper
 
   # app version number
   def app_version_number
-    git_describe_tags = `git describe`
-    git_branch = `git rev-parse --abbrev-ref HEAD`
-    version_git = "#{git_describe_tags} (#{git_branch.strip})"
-    version_file = File.read(Rails.root.join("VERSION"))
-    @app_version_number = version_git unless Rails.env.production?
-    @app_version_number ||= version_file
+    case Rails.env
+    when "staging"
+      git_revision = File.read(Rails.root.join("REVISION"))
+      git_branch = File.read(Rails.root.join("BRANCH"))
+      version_file = File.read(Rails.root.join("VERSION"))
+      version = "#{version_file}-#{git_revision} (#{git_branch})"
+    when "development"
+      git_describe_tags = `git describe`
+      git_branch = `git rev-parse --abbrev-ref HEAD`
+      version = "#{git_describe_tags} (#{git_branch.strip})"
+    else "production"
+      version = File.read(Rails.root.join("VERSION"))
+    end
+    @app_version_number ||= version
   end
 
   def division_select_options(include_root: true, include_all: false, public_only: true)
