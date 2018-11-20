@@ -42,7 +42,6 @@ es:
     options:
       question:
         data_type:
-          string: Respuesta Corta
           text: Párrafo
           list: Multiple Choice
           group: Grupo

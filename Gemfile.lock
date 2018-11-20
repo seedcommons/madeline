@@ -499,7 +499,7 @@ DEPENDENCIES
   bootstrap-sass
   bullet
   byebug
-  capistrano (~> 3.1)
+  capistrano (~> 3.11.0)
   capistrano-passenger
   capistrano-rails (~> 1.1)
   capistrano-rbenv (~> 2.1)
