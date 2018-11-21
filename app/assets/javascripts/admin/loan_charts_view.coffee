@@ -5,6 +5,7 @@ class MS.Views.LoanChartsView extends Backbone.View
     @breakevenFixedCosts = @breakevenData["fixed_costs"]
     @breakevenProductionCosts = @breakevenData["cogs"]
     @breakevenRevenue = @breakevenData["revenue"]
+    @locale = params.locale
     @defaultChartOptions = {
       height: 200,
       width: '100%',
@@ -39,11 +40,13 @@ class MS.Views.LoanChartsView extends Backbone.View
     google.charts.setOnLoadCallback @breakevenCostsChart.bind @
 
   breakevenRevenueChart: ->
-    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product'), I18n.t('loan.breakeven.revenue'), @breakevenRevenue)
+    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product', locale: @locale),
+      I18n.t('loan.breakeven.revenue', locale: @locale), @breakevenRevenue)
     @drawPieChartIntoElement('.breakeven-revenue-chart', chartTable)
 
   breakevenProductionCostsChart: ->
-    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product'), I18n.t('loan.breakeven.production_cost'), @breakevenProductionCosts)
+    chartTable = @defaultChartTable(I18n.t('loan.breakeven.product', locale: @locale),
+      I18n.t('loan.breakeven.production_cost', locale: @locale), @breakevenProductionCosts)
     @drawPieChartIntoElement('.breakeven-production-cost-chart', chartTable)
 
   breakevenProductProfitChart: ->
@@ -51,8 +54,8 @@ class MS.Views.LoanChartsView extends Backbone.View
 
   breakevenFixedCostsChart: ->
     data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1)
-    data.addColumn 'number', I18n.t('loan.breakeven.amount')
+    data.addColumn 'string', I18n.t('loan.breakeven.fixed_costs', count: 1, locale: @locale)
+    data.addColumn 'number', I18n.t('loan.breakeven.amount', locale: @locale)
 
     for key,cost of @breakevenFixedCosts
       name = cost.name
@@ -63,8 +66,8 @@ class MS.Views.LoanChartsView extends Backbone.View
 
   breakevenCostsChart: ->
     data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.item')
-    data.addColumn 'number', I18n.t('loan.breakeven.cost')
+    data.addColumn 'string', I18n.t('loan.breakeven.item', locale: @locale)
+    data.addColumn 'number', I18n.t('loan.breakeven.cost', locale: @locale)
     data.addRow ["Cost of Good Sold", @breakevenData["total_cogs"]]
     data.addRow ["Fixed Costs", @breakevenData["total_fixed_costs"]]
 
@@ -85,8 +88,8 @@ class MS.Views.LoanChartsView extends Backbone.View
       profitData[name]['profit'] = profitData[name]['revenue'] - cost
 
     data = new google.visualization.DataTable()
-    data.addColumn 'string', I18n.t('loan.breakeven.product')
-    data.addColumn 'number', I18n.t('loan.breakeven.profit')
+    data.addColumn 'string', I18n.t('loan.breakeven.product', locale: @locale)
+    data.addColumn 'number', I18n.t('loan.breakeven.profit', locale: @locale)
 
     for key,product of profitData
       name = key
@@ -131,8 +134,8 @@ class MS.Views.LoanChartsView extends Backbone.View
   # All fixed costs are a shade of a different base color
   # breakevenTotalCostsChart: ->
   #   columns = [
-  #     {"label":I18n.t('loan.breakeven.item'),"type":"string"},
-  #     {"label":I18n.t('loan.breakeven.cost'),"type":"number"}
+  #     {"label":I18n.t('loan.breakeven.item', locale: @locale),"type":"string"},
+  #     {"label":I18n.t('loan.breakeven.cost', locale: @locale),"type":"number"}
   #   ]
   #   rows = []
   #

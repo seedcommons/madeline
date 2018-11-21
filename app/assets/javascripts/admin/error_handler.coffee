@@ -2,10 +2,11 @@ class MS.Views.ErrorHandler extends Backbone.View
 
   el: 'body'
 
-  initialize: ->
+  initialize: (params) ->
     MS.loadingIndicator = @$('#glb-load-ind')
     MS.errorModal = @$('#glb-error-modal')
-    @errorModalDefaultText = I18n.t('error_notification')
+    @locale = params.locale
+    @errorModalDefaultText = I18n.t('error_notification', locale: @locale)
     @handleAjaxErrors()
 
   showErrorModal: (error = @errorModalDefaultText) ->
@@ -29,6 +30,6 @@ class MS.Views.ErrorHandler extends Backbone.View
       MS.loadingIndicator.hide()
       switch status
         when 403
-          @showErrorModal I18n.t('unauthorized_error')
+          @showErrorModal I18n.t('unauthorized_error', locale: @locale)
         else
           @showErrorModal()

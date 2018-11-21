@@ -8,17 +8,6 @@ module Accounting
         @loan = txn.project
       end
 
-      # TODO: if below order does not work for bill, purchase, or deposit,
-      # consider returning to this order:
-      # extract_account
-      # extract_additional_metadata
-      # extract_line_items
-      # set_managed
-      # calculate_amount
-      # add_implicit_line_items
-      # set_type
-      #
-      # (and move below order to journal_entry_extractor override)
       def extract!
         extract_additional_metadata
         extract_line_items
@@ -27,11 +16,6 @@ module Accounting
         set_managed
         calculate_amount
         add_implicit_line_items
-      end
-
-      def extract_account
-        # do nothing in TransactionExtract
-        # can be overridden in subclasses
       end
 
       def extract_additional_metadata
@@ -47,22 +31,30 @@ module Accounting
 
       def extract_line_items
         txn.quickbooks_data['line_items'].each do |li|
-          acct = Accounting::Account.find_by(qb_id: li['journal_entry_line_detail']['account_ref']['value'])
-
+          acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
           # skip if line item does not have an account in Madeline
           next unless acct
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
-            posting_type: li['journal_entry_line_detail']['posting_type']
+            posting_type: li[qb_li_detail_key]['posting_type'],
+            description: li['description']
           )
         end
         txn.txn_date = txn.quickbooks_data['txn_date']
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
-
         txn.currency = lookup_currency
+      end
+
+      def set_type
+        txn.loan_transaction_type_value = :other
+      end
+
+      def extract_account
+        # do nothing in TransactionExtract
+        # can be overridden in subclasses
       end
 
       def set_managed
@@ -75,7 +67,7 @@ module Accounting
         # However, we define our 'amount' as the sum of the change_in_interest and change_in_principal,
         # which are computed from a special subset of line items (see the Transaction model for more detail).
         # This may mean that our amount may differ from the amount shown in Quickbooks for this transaction,
-        # but that is ok.
+        # but that is ok because we do not push amount back to QB.
         txn.amount = (txn.change_in_interest + txn.change_in_principal).abs
       end
 
@@ -84,8 +76,8 @@ module Accounting
         # can be overridden in subclasses
       end
 
-      def set_type
-        txn.loan_transaction_type_value = :other
+      def qb_li_detail_key
+        'journal_entry_line_detail'
       end
 
       private
