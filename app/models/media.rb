@@ -92,6 +92,7 @@ class Media < ApplicationRecord
   def one_featured_image_per_loan
     self.class.where(
       media_attachable_type: 'Project',
-      media_attachable_id: media_attachable_id).update_all(featured: false) if featured?
+      media_attachable_id: media_attachable_id)
+      .update_all(featured: false) if featured?
   end
 end
