@@ -77,4 +77,8 @@ module MediaHelper
   def media_documents(media)
     media.select do |media_item| !media_item.visual? end
   end
+
+  def media_image(media)
+     image_tag(media.item.thumb.url)
+  end
 end
