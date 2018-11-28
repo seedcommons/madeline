@@ -79,6 +79,6 @@ module MediaHelper
   end
 
   def media_image(media)
-     image_tag(media.item.thumb.url)
+    image_tag(media.item.url)
   end
 end
