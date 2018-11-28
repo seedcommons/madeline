@@ -84,9 +84,10 @@
 
     img {
       // Image fills as much as it can vertically and horizontally inside its container
+      height: 100%;
       max-height: 100%;
+      width: auto;
       max-width: 100%;
-      padding: .1in;
     }
   }
 }
