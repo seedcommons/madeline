@@ -12,7 +12,7 @@ section data-container="loan"
     - if @images
       - if featured_image = @images.find_by(featured: true)
         section.featured-image
-          = image_tag(featured_image.item)
+          = media_image(featured_image)
 
       - unless @image_list.empty?
         - @image_list.each_with_index do |images, index|
@@ -21,7 +21,7 @@ section data-container="loan"
             .image-list
               - images.each do |image|
                 .img-container
-                  = image_tag(image.item)
+                  = media_image(image)
 
   - if @mode != "details-only"
     section.loan.criteria.show-view

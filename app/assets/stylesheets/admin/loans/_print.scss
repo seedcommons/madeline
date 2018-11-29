@@ -26,10 +26,19 @@
     }
 
     .featured-image {
+      display: block;
+      height: 3.5in;
+      margin: 0 auto;
+      text-align: center;
+      width: auto;
+
       img {
-        display: block;
-        width: 70%;
-        margin: 0 auto;
+        border: 1px solid $gray3;
+        display: inline-block;
+        height: auto;
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
       }
     }
 
@@ -68,25 +77,26 @@
 
   .images {
     .image-list {
+      align-items: flex-start;
       display: flex;
       flex-direction: row;
-      align-items: flex-start;
       flex-wrap: wrap;
     }
 
     .img-container {
-      height: 2in;
-      width: 3.5in;
-      margin: .1in;
       border: 1px solid $gray3;
+      height: 2in;
+      margin: .1in;
       text-align: center;
+      width: 3.5in;
     }
 
     img {
       // Image fills as much as it can vertically and horizontally inside its container
+      height: auto;
       max-height: 100%;
       max-width: 100%;
-      padding: .1in;
+      width: auto;
     }
   }
 }
