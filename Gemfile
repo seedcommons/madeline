@@ -69,6 +69,7 @@ gem "remotipart", "~> 1.2" # File uploads for remote: true forms
 gem "simple_form"
 gem "summernote-rails", "~> 0.8.10.0" # Text editor
 gem "whenever", "~> 0.9", require: false # Improved syntax for creating cron jobs
+gem "awesome_print"
 
 group :development, :test do
   # Load environment variables from .env file in development
