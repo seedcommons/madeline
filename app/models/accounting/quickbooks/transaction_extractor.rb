@@ -31,7 +31,7 @@ module Accounting
 
       def extract_line_items
         10.times { Rails.logger.info("--------------------------") }
-        Rails.logger.ap quickbooks_data.awesome_inspect
+        Rails.logger.ap txn.quickbooks_data.awesome_inspect
         10.times { Rails.logger.info("--------------------------") }
 
         txn.quickbooks_data['line_items'].each do |li|
