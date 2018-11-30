@@ -14,9 +14,6 @@ div.modal-body.media-modal
           = media_title(@media, shorten: false)
 
     = f.input :item
-    - if @media.thumbnail?
-      /= image_tag @media.item.thumb.url
-      = media_thumbnail(@media)
 
     = f.input :kind_value, collection: Media.kind_options, include_blank: true
 
