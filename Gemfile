@@ -90,7 +90,7 @@ group :development, :test do
   gem "annotate"
 
   # Better console printing
-  gem "awesome_print"
+  # gem "awesome_print"
   gem "hirb"
 
   # Specs and Test Coverage
