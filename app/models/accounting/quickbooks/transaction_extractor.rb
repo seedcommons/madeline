@@ -30,14 +30,18 @@ module Accounting
       end
 
       def extract_line_items
+        10.times { Rails.logger.info("--------------------------") }
+        Rails.logger.debug li[qb_li_detail_key].inspect
+        10.times { Rails.logger.info("--------------------------") }
+
         txn.quickbooks_data['line_items'].each do |li|
           acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          10.times { Rails.logger.debug("--------------------------") }
+          10.times { Rails.logger.info("--------------------------") }
           Rails.logger.debug li[qb_li_detail_key].inspect
-          10.times { Rails.logger.debug("--------------------------") }
+          10.times { Rails.logger.info("--------------------------") }
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
