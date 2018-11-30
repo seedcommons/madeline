@@ -35,7 +35,9 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
 
+          10.times { Rails.logger.debug("--------------------------") }
           Rails.logger.debug li[qb_li_detail_key].inspect
+          10.times { Rails.logger.debug("--------------------------") }
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
