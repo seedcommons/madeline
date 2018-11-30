@@ -92,7 +92,7 @@ class Accounting::Transaction < ApplicationRecord
         class_name = li.dig(detail_type, 'class_ref', 'name')
         class_name
       end
-      loan_classes = loan_classes.map { |lc| lc.match(QB_LOAN_CLASS_REGEX).captures.first }
+      loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
       txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
     end
