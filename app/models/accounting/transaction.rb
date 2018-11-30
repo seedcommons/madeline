@@ -89,7 +89,7 @@ class Accounting::Transaction < ApplicationRecord
     if txn.quickbooks_data['line_items']
       loan_classes = txn.quickbooks_data['line_items'].map do |li|
         detail_type = li['detail_type'].underscore
-        class_name = li[detail_type]['class_ref']['name']
+        class_name = li.dig(detail_type, 'class_ref', 'name')
         class_name
       end
       loan_classes = loan_classes.map { |lc| lc.match(QB_LOAN_CLASS_REGEX).captures.first }
