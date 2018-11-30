@@ -56,6 +56,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
+  QB_LOAN_CLASS_REGEX = /Loan Products:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
@@ -86,7 +87,12 @@ class Accounting::Transaction < ApplicationRecord
 
     # Associate qb txn with loan if loan id (class name) is set in QB
     if txn.quickbooks_data['line_items']
-      loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
+      loan_classes = txn.quickbooks_data['line_items'].map do |li|
+        detail_type = li['detail_type'].underscore
+        class_name = li[detail_type]['class_ref']['name']
+        class_name
+      end
+      loan_classes = loan_classes.map { |lc| lc.match(QB_LOAN_CLASS_REGEX).captures.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
       txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
     end
