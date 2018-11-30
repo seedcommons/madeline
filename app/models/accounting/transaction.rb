@@ -88,7 +88,7 @@ class Accounting::Transaction < ApplicationRecord
     # Associate qb txn with loan if loan id (class name) is set in QB
     if txn.quickbooks_data['line_items']
       loan_classes = txn.quickbooks_data['line_items'].map do |li|
-        detail_type = li['detail_type'].underscore
+        detail_type = li['detail_type']&.underscore
         class_name = li.dig(detail_type, 'class_ref', 'name')
         class_name
       end
