@@ -35,7 +35,7 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
 
-          puts li[qb_li_detail_key].awesome_inspect
+          puts li[qb_li_detail_key].inspect
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
