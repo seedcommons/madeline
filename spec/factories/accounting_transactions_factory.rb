@@ -113,4 +113,59 @@ FactoryBot.define do
       managed { false }
     end
   end
+
+  factory :transaction_json, class: FactoryStruct do
+    transient do
+      credit_accounts { create_list(:accounting_account, 1) }
+      debit_accounts { create_list(:accounting_account, 1) }
+      date { Faker::Time.between(3.years.ago, 1.week.ago) }
+      loan { create(:loan) }
+      type { "JournalEntry" }
+      total { (rand(10000..999999999) / 100.0).round(2) }
+    end
+
+    skip_create
+
+    sequence(:id, 1000) { |n| n }
+    sync_token { 0 }
+    doc_number { "MS-Managed" }
+    private_note { Faker::Hipster.paragraph }
+
+    after(:build) do |txn, evaluator|
+      create_time = Faker::Time.between(evaluator.date.midnight, (evaluator.date + 1).midnight)
+      txn.meta_data = {
+        "create_time" => create_time.strftime("%FT%H%M%S.%L%:z"),
+        "last_updated_time" => Faker::Time.between(create_time, 1.hour.ago).strftime("%FT%H%M%S.%L%:z")
+      }
+      txn.txn_date = evaluator.date.strftime("%F")
+      txn.line_items = []
+
+      credit_accounts = evaluator.credit_accounts
+      credit_totals = evaluator.total.partition(credit_accounts.count)
+
+      credit_accounts.each_with_index do |acct, i|
+        txn.line_items << build(:line_item_json,
+          loan: evaluator.loan,
+          account: acct,
+          posting_type: "Credit",
+          detail_type: "#{evaluator.type}LineDetail",
+          amount: credit_totals[i]
+        )
+      end
+
+      debit_accounts = evaluator.debit_accounts
+      debit_totals = evaluator.total.partition(debit_accounts.count)
+
+      debit_accounts.each_with_index do |acct, i|
+        txn.line_items << build(:line_item_json,
+          loan: evaluator.loan,
+          account: acct,
+          posting_type: "Debit",
+          detail_type: "#{evaluator.type}LineDetail",
+          amount: debit_totals[i]
+        )
+      end
+      txn.total = evaluator.total
+    end
+  end
 end
