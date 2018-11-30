@@ -31,7 +31,7 @@ module Accounting
 
       def extract_line_items
         10.times { Rails.logger.info("--------------------------") }
-        Rails.logger.ap txn
+        Rails.logger.info txn.awesome_inspect
         10.times { Rails.logger.info("--------------------------") }
 
         txn.quickbooks_data['line_items'].each do |li|
@@ -40,7 +40,7 @@ module Accounting
           next unless acct
 
           10.times { Rails.logger.info("--------------------------") }
-          Rails.logger.ap li
+          Rails.logger.info li.awesome_inspect
           10.times { Rails.logger.info("--------------------------") }
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
