@@ -32,4 +32,35 @@ FactoryBot.define do
     description { Faker::Hipster.sentence(4).chomp(".") }
     amount { Faker::Number.decimal(4, 2) }
   end
+
+  factory :line_item_json, class: FactoryStruct do
+    skip_create
+
+    transient do
+      account { create(:accounting_account) }
+      loan { create(:loan) }
+      detail_type { "JournalEntryLineDetail" }
+      posting_type { ['Credit', 'Debit'].sample}
+    end
+
+    sequence(:id, 0) { |n| n }
+    amount { Faker::Number.decimal(2) }
+
+    after(:build) do |li, evaluator|
+      li.detail_type = evaluator.detail_type
+      li.send("#{evaluator.detail_type.underscore}=", {
+        "posting_type" => evaluator.posting_type,
+        "entity" => {
+          "type" => "Customer",
+          "entity_ref" => { "value" => rand(1..999), "name" => Faker::App.name, "type" => nil }
+        },
+        "account_ref" => { "value" => evaluator.account.id, "name" => evaluator.account.name, "type" => nil },
+        "class_ref" => {
+          "value" => (rand(1..99999) + 5000000000000000000),
+          "name" => "Loan Products:Loan ID #{evaluator.loan.id}"
+        },
+        "department_ref" => nil
+      })
+    end
+  end
 end
