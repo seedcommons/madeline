@@ -190,13 +190,13 @@ en:
         media:
           attributes:
             item:
-              reattach: "please reattach your image"
+              reattach: "Please reattach your image."
             featured:
-              non_image: "only image attachments can be set to featured"
+              non_image: "Only image attachments can be set to featured."
         timeline_entry:
           attributes:
             scheduled_end_date:
-              less_than_1: "The scheduled duration of a step cannot be less than 1 day"
+              less_than_1: "The scheduled duration of a step cannot be less than 1 day."
 
   simple_form:
     hints:
