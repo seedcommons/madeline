@@ -15,8 +15,15 @@ class ApplicationController < ActionController::Base
 
   helper_method :admin_controller?
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   def admin_controller?
     false
+  end
+
+  def user_not_authorized
+    flash[:error] = t('unauthorized_error')
+    redirect_to(request.referrer || root_path)
   end
 
   protected
