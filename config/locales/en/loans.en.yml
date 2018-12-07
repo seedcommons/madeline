@@ -57,6 +57,8 @@ en:
     print_details: "Details Only"
     print_header_title: "Investment Profile and Credit Memo"
     print_memo: "Print Loan Memo"
+    public:
+      not_authorized: "You are not authorized to view the loan you requested."
     rating: "Score"
     save_responses: "Save Responses"
     shared:

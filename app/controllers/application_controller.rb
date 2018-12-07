@@ -22,8 +22,22 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    flash[:error] = t('unauthorized_error')
-    redirect_to(request.referrer || root_path)
+    path = Rails.application.routes.recognize_path(request.env['PATH_INFO'])
+    path_controller = path[:controller]
+    path_action = path[:action]
+
+    # Public loan pages have a different flow when not authorized
+    if path_controller == "public/loans" && path_action == "show"
+      public_loan_not_authorized(path)
+    else
+      flash[:error] = t('unauthorized_error')
+      redirect_to(request.referrer || root_path)
+    end
+  end
+
+  def public_loan_not_authorized(path)
+    flash[:error] = t('loan.public.not_authorized')
+    redirect_to(public_loans_path(path[:site]))
   end
 
   protected
