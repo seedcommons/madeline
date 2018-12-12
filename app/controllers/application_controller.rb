@@ -31,13 +31,13 @@ class ApplicationController < ActionController::Base
       public_loan_not_authorized(path)
     else
       flash[:error] = t('unauthorized_error')
-      redirect_to(request.referrer || root_path)
+      redirect_to((request.referrer || root_path), status: 401)
     end
   end
 
   def public_loan_not_authorized(path)
     flash[:error] = t('loan.public.not_authorized')
-    redirect_to(public_loans_path(path[:site]))
+    redirect_to(public_loans_path(path[:site]), status: 401)
   end
 
   protected
