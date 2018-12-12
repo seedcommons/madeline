@@ -3,8 +3,3 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-agent: *
 # Disallow: /
-
-User-agent: Googlebot
-Disallow: /us/loans/
-Disallow: /argentina/prestamos/
-Disallow: /nicaragua/prestamos/
