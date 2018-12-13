@@ -139,32 +139,75 @@ FactoryBot.define do
       }
       txn.txn_date = evaluator.date.strftime("%F")
       txn.line_items = []
-
-      credit_accounts = evaluator.credit_accounts
-      credit_totals = evaluator.total.partition(credit_accounts.count)
-
-      credit_accounts.each_with_index do |acct, i|
-        txn.line_items << build(:line_item_json,
-          loan: evaluator.loan,
-          account: acct,
-          posting_type: "Credit",
-          detail_type: "#{evaluator.type}LineDetail",
-          amount: credit_totals[i]
-        )
+      txn_type = evaluator.type
+      txn_type_line_detail = case txn_type
+      when "Purchase", "Bill"
+        "AccountBasedExpenseLineDetail"
+      else
+        "#{txn_type}LineDetail"
       end
 
-      debit_accounts = evaluator.debit_accounts
-      debit_totals = evaluator.total.partition(debit_accounts.count)
+      case txn_type
+      when "JournalEntry"
+        credit_accounts = evaluator.credit_accounts
+        credit_totals = evaluator.total.partition(credit_accounts.count)
 
-      debit_accounts.each_with_index do |acct, i|
+        debit_accounts = evaluator.debit_accounts
+        debit_totals = evaluator.total.partition(debit_accounts.count)
+
+        credit_accounts.each_with_index do |acct, i|
+          txn.line_items << build(:line_item_json,
+            loan: evaluator.loan,
+            account: acct,
+            posting_type: "Credit",
+            detail_type: txn_type_line_detail,
+            txn_type: txn_type,
+            amount: credit_totals[i]
+          )
+        end
+        debit_accounts.each_with_index do |acct, i|
+          txn.line_items << build(:line_item_json,
+            loan: evaluator.loan,
+            account: acct,
+            posting_type: "Debit",
+            detail_type: txn_type_line_detail,
+            txn_type: txn_type,
+            amount: debit_totals[i]
+          )
+        end
+      when "Purchase", "Bill"
+        credit_account = evaluator.credit_accounts.first
+        credit_total = evaluator.total
+
+        debit_account = evaluator.debit_accounts.first
+        debit_total = evaluator.total
+
         txn.line_items << build(:line_item_json,
           loan: evaluator.loan,
-          account: acct,
+          account: debit_account,
           posting_type: "Debit",
-          detail_type: "#{evaluator.type}LineDetail",
-          amount: debit_totals[i]
+          detail_type: txn_type_line_detail,
+          txn_type: txn_type,
+          amount: debit_total
         )
+
+        li = build(:line_item_json,
+          loan: evaluator.loan,
+          account: credit_account,
+          posting_type: "Credit",
+          detail_type: txn_type_line_detail,
+          txn_type: txn_type,
+          amount: credit_total
+        )
+        account_data = li[txn_type_line_detail.underscore].delete("account_ref") if txn_type == "Bill"
+        li[txn_type_line_detail.underscore]["ap_account_ref"] = account_data
+        li[txn_type_line_detail.underscore].each do |attr, val|
+          txn.send("#{attr}=", val)
+        end
+      when "Deposit"
+
       end
+
       txn.total = evaluator.total
     end
   end
