@@ -30,6 +30,10 @@ module Accounting
         )
       end
 
+      def existing_li_posting_type
+        "Credit"
+      end
+
       def qb_li_detail_key
         'deposit_line_detail'
       end

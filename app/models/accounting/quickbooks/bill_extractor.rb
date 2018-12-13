@@ -10,6 +10,7 @@ module Accounting
       def extract_account
         qb_id = txn.quickbooks_data["ap_account_ref"]["value"]
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
+        txn.account
       end
     end
   end

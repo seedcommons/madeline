@@ -30,8 +30,12 @@ module Accounting
         )
       end
 
+      def existing_li_posting_type
+        "Debit"
+      end
+
       def qb_li_detail_key
-        'account_based_expense_line_detail'
+        "account_based_expense_line_detail"
       end
     end
   end
