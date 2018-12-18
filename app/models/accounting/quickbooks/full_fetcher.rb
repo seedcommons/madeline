@@ -18,8 +18,7 @@ module Accounting
         ::Accounting::Account.delete_all
 
         started_fetch_at = Time.zone.now
-
-        #::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name("Loan Products")
+        ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name("Loan Products")
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
 
