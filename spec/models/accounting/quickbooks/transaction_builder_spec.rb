@@ -90,6 +90,8 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
     expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
     expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
     expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
+    # parent_ref on a qb class is not queryable in qb api, so not tested here; must use qb
+    # to verify that parent class set correctly
     expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
     expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
   end
