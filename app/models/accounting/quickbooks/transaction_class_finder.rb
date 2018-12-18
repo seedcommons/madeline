@@ -6,8 +6,10 @@ module Accounting
     # The API does support batch requests for queries, but quickbooks-ruby does not.
     class TransactionClassFinder
       attr_reader :qb_connection
+      attr_accessor :division
 
       def initialize(division)
+        @division = division
         @qb_connection = division.qb_connection
       end
 
