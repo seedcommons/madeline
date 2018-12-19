@@ -32,7 +32,6 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     ])
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
-
   let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(division) }
   let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher,
     new: account_fetcher).as_stubbed_const }
