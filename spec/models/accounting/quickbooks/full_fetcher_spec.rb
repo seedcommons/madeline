@@ -32,12 +32,14 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     ])
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
+
   let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(division) }
   let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher,
     new: account_fetcher).as_stubbed_const }
   let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(division) }
   let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher,
     new: transaction_fetcher).as_stubbed_const }
+  let(:transaction_class_finder_stub) { double("find_by_name": nil) }
 
   subject { described_class.new(division) }
 
@@ -48,6 +50,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
 
       expect(division.accounts.count).to eq 3
 
+      expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
       expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
       expect(account_fetcher).to receive(:fetch).and_call_original
 
@@ -86,7 +89,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
         division = Division.root
 
         expect(division.interest_receivable_account).not_to be_nil
-
+        expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
         expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
         expect(account_fetcher).to receive(:fetch).and_call_original
 
