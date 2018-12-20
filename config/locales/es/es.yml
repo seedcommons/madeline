@@ -137,6 +137,7 @@ es:
       media:
         item: "Ítem"
         kind_value: "Tipo"
+        featured: "Imagen Destacada"
       project_step:
         agent_id: "Persona Asignado"
         parent_id: "Grupo"
@@ -189,10 +190,12 @@ es:
           attributes:
             item:
               reattach: "Por favor, volver a adjuntar la imagen"
+            featured:
+              non_image: "solamente los anexos que son las imagenes pueden ser la imagen destacada"
         timeline_entry:
           attributes:
             scheduled_end_date:
-              less_than_1: "La duración proyectada de un paso no puede ser menor a 1 día"
+              less_than_1: "La duración proyectada de un paso no puede ser menor a 1 día."
   simple_form:
     hints:
       division:
@@ -449,10 +452,11 @@ es:
     confirm_deletion: "¿Realmente quieres borrar esta foto?"
     caption: "Epígrafe para %{locale_name} "
     documents: "Documentos"
+    duplication_warning: "Ya hay una imagen destacada. Si usted quiere continuar, la imagen destacada va a sobreescribir."
+    featured_image: "Imagen Destacada"
     add: "Agregar Foto"
     edit: "Editar Fotos"
     delete: "Borrar Foto(s)"
-    featured_image: "Foto principal"
     item: "Ítem"
     media: "Registros Audiovisuales"
     visual_media: "Registros visuales"

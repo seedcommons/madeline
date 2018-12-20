@@ -90,6 +90,11 @@ $media-block-width: 100px;
 }
 
 .media-modal {
+  form {
+    // Overide JS-added styling caused by Twitter Bootstrap that moves content to the left
+    padding-left: 1em;
+  }
+
   div.media-item {
     display: block;
   }

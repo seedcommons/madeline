@@ -15,8 +15,25 @@ class ApplicationController < ActionController::Base
 
   helper_method :admin_controller?
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   def admin_controller?
     false
+  end
+
+  def user_not_authorized
+    path = Rails.application.routes.recognize_path(request.env['PATH_INFO'])
+    path_controller = path[:controller]
+    path_action = path[:action]
+
+    # Public loan pages have a different error message
+    if path_controller == "public/loans" && path_action == "show"
+      flash[:error] = t('loan.public.not_authorized')
+    else
+      flash[:error] = t('unauthorized_error')
+    end
+
+    render("application/error_page", status: 401)
   end
 
   protected
