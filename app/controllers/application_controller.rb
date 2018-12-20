@@ -26,18 +26,14 @@ class ApplicationController < ActionController::Base
     path_controller = path[:controller]
     path_action = path[:action]
 
-    # Public loan pages have a different flow when not authorized
+    # Public loan pages have a different error message
     if path_controller == "public/loans" && path_action == "show"
-      public_loan_not_authorized(path)
+      flash[:error] = t('loan.public.not_authorized')
     else
       flash[:error] = t('unauthorized_error')
-      redirect_to((request.referer || root_path), status: 401)
     end
-  end
 
-  def public_loan_not_authorized(path)
-    flash[:error] = t('loan.public.not_authorized')
-    redirect_to(public_loans_path(path[:site]), status: 401)
+    render("application/error_page", status: 401)
   end
 
   protected
