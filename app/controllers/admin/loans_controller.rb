@@ -128,10 +128,16 @@ module Admin
       authorize(@loan, :show?)
       @print_view = true
       @mode = params[:mode]
+
       @images = @loan.media.where(kind_value: "image")
-      # Group every 8 images
       @featured_image = @images.find_by(featured: true) || @images.first
-      @image_list = @images.where.not(id: @featured_image.id).each_slice(8).to_a
+      if @featured_image
+        # Group every 8 images
+        @image_list = @images.where.not(id: @featured_image.id).each_slice(8).to_a
+      else
+        @image_list = @images
+      end
+
       prep_questionnaire(json: false)
       prep_attached_links if @mode != "details-only"
     end
