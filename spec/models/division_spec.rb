@@ -28,6 +28,7 @@
 #  public                         :boolean          default(FALSE), not null
 #  qb_id                          :string
 #  qb_parent_class_id             :string
+#  qb_parent_class_name           :string
 #  short_name                     :string
 #  updated_at                     :datetime         not null
 #
