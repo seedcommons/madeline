@@ -9,7 +9,7 @@ section data-container="loan"
       h2 = t('loan.details')
       = render "admin/loans/details", loan: @loan
 
-    - if @images
+    - if @images && !@images.empty?
       - if @featured_image
         section.featured-image
           = media_image(@featured_image)
