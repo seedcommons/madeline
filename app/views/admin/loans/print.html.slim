@@ -10,7 +10,7 @@ section data-container="loan"
       = render "admin/loans/details", loan: @loan
 
     - if @images
-      - if featured_image = @images.find_by(featured: true)
+      - if featured_image = @images.find_by(featured: true) || @images.first
         section.featured-image
           = media_image(featured_image)
 
