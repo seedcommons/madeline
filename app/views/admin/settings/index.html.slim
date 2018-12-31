@@ -62,6 +62,7 @@ section.block
       = f.input :principal_account_id, collection: @accounts
       = f.input :interest_receivable_account_id, collection: @accounts
       = f.input :interest_income_account_id, collection: @accounts
+      = f.input :qb_parent_class_name, type: :text
 
       .text-right
         = f.submit t(:save), class: "btn btn-primary"
