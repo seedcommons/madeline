@@ -10,9 +10,9 @@ section data-container="loan"
       = render "admin/loans/details", loan: @loan
 
     - if @images
-      - if featured_image = @images.find_by(featured: true) || @images.first
+      - if @featured_image
         section.featured-image
-          = media_image(featured_image)
+          = media_image(@featured_image)
 
       - unless @image_list.empty?
         - @image_list.each_with_index do |images, index|
