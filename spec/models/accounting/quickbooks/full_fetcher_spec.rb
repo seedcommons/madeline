@@ -51,7 +51,9 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
       expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
       expect(account_fetcher).to receive(:fetch).and_call_original
 
-      expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+      transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
+      expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
+        .and_return(qb_transaction_service)
       expect(transaction_fetcher).to receive(:fetch).and_call_original
 
       expect(qb_connection).to receive :update_attribute
@@ -88,7 +90,9 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
         expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
         expect(account_fetcher).to receive(:fetch).and_call_original
 
-        expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+        transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
+        expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
+          .and_return(qb_transaction_service)
         expect(transaction_fetcher).to receive(:fetch).and_call_original
 
         expect(qb_connection).to receive :update_attribute

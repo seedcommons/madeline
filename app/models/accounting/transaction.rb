@@ -55,7 +55,7 @@
 class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
-  QB_OBJECT_TYPES = %w(JournalEntry).freeze
+  QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
