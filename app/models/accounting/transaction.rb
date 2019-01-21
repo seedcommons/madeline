@@ -55,7 +55,9 @@
 class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
-  QB_OBJECT_TYPES = %w(JournalEntry).freeze
+  QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
+  QB_PARENT_CLASS = "Loan Products"
+  QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
   LOAN_INTEREST_TYPE = 'interest'
 
@@ -81,12 +83,20 @@ class Accounting::Transaction < ApplicationRecord
   scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
+    @@txn_logger = Logger.new("#{Rails.root.join("log", "transaction.log")}")
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
 
     # Associate qb txn with loan if loan id (class name) is set in QB
     if txn.quickbooks_data['line_items']
-      loan_classes = txn.quickbooks_data['line_items'].map { |li| li['journal_entry_line_detail']['class_ref']['name'] }
+      loan_classes = txn.quickbooks_data['line_items'].map do |li|
+        detail_type = li['detail_type']&.underscore
+        class_name = li.dig(detail_type, 'class_ref', 'name')
+        @@txn_logger.error "<#{txn.id}: #{class_name}>" if class_name
+        class_name
+      end
+      @@txn_logger.error(loan_classes) if loan_classes.any?(&:present?)
+      loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
       txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
     end

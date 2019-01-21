@@ -38,6 +38,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
   let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(division) }
   let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher,
     new: transaction_fetcher).as_stubbed_const }
+  let(:transaction_class_finder_stub) { double("find_by_name": nil) }
 
   subject { described_class.new(division) }
 
@@ -48,10 +49,13 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
 
       expect(division.accounts.count).to eq 3
 
+      expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
       expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
       expect(account_fetcher).to receive(:fetch).and_call_original
 
-      expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+      transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
+      expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
+        .and_return(qb_transaction_service)
       expect(transaction_fetcher).to receive(:fetch).and_call_original
 
       expect(qb_connection).to receive :update_attribute
@@ -84,11 +88,13 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
         division = Division.root
 
         expect(division.interest_receivable_account).not_to be_nil
-
+        expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
         expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
         expect(account_fetcher).to receive(:fetch).and_call_original
 
-        expect(transaction_fetcher).to receive(:service).and_return(qb_transaction_service)
+        transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
+        expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
+          .and_return(qb_transaction_service)
         expect(transaction_fetcher).to receive(:fetch).and_call_original
 
         expect(qb_connection).to receive :update_attribute

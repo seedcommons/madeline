@@ -113,6 +113,7 @@ describe Accounting::Quickbooks::DepositExtractor, type: :model do
       expect(txn.line_items.last.debit?).to be true
       expect(txn.account).to eq txn_acct
       expect(txn.amount).to equal_money(849.41)
+      expect { txn.save! }.not_to raise_error
     end
   end
 end

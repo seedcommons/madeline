@@ -60,9 +60,9 @@ FactoryBot.define do
     public { true }
 
     trait :with_accounts do
-      association :principal_account, factory: :accounting_account
-      association :interest_receivable_account, factory: :accounting_account
-      association :interest_income_account, factory: :accounting_account
+      principal_account { create(:accounting_account, name: "Principal Account #{rand(1..9999)}") }
+      interest_receivable_account { create(:accounting_account, name: "Interest Receivable #{rand(1..9999)}") }
+      interest_income_account { create(:accounting_account, name: "Interest Income #{rand(1..9999)}") }
 
       after(:create) do |division|
         # This is needed for Division#qb_division to work properly

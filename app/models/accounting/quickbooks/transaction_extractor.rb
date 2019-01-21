@@ -34,11 +34,13 @@ module Accounting
           acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
           # skip if line item does not have an account in Madeline
           next unless acct
+          posting_type = li[qb_li_detail_key]['posting_type']
+          posting_type ||= existing_li_posting_type unless posting_type.present?
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
-            posting_type: li[qb_li_detail_key]['posting_type'],
+            posting_type: posting_type,
             description: li['description']
           )
         end

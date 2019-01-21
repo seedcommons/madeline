@@ -9,9 +9,10 @@
 module Accounting
   module Quickbooks
     class TransactionBuilder
-      attr_reader :qb_connection, :principal_account
+      attr_reader :qb_division, :qb_connection, :principal_account
 
       def initialize(qb_division = Division.root)
+        @qb_division = qb_division
         @qb_connection = qb_division.qb_connection
         @principal_account = qb_division.principal_account
       end
@@ -106,8 +107,9 @@ module Accounting
         return loan_ref if loan_ref
 
         qb_class = ::Quickbooks::Model::Class.new
-        qb_class.name = loan_id
-
+        qb_class.name = "Loan ID #{loan_id}"
+        # QB api requires the parent class id to be an integer even tho elsewhere it is treated as str
+        qb_class.parent_ref = ::Quickbooks::Model::BaseReference.new(qb_division.qb_parent_class_id.to_i)
         class_service.create(qb_class)
       end
 
