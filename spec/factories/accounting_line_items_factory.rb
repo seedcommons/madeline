@@ -40,7 +40,7 @@ FactoryBot.define do
       account { nil }
       loan { create(:loan) }
       detail_type { "JournalEntryLineDetail" }
-      posting_type { ['Credit', 'Debit'].sample}
+      posting_type { ['Credit', 'Debit'].sample }
     end
 
     sequence(:id, 0) { |n| n }
