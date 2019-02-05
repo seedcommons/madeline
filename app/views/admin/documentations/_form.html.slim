@@ -2,7 +2,7 @@
 
   = f.error_notification
 
-  = f.input :html_identifier, value: params[:html_identifier], disabled: true
+  = f.input :html_identifier, value: @documentation.html_identifier, readonly: true
 
   = f.input :calling_controller, as: :hidden
   = f.input :calling_action, as: :hidden
