@@ -58,7 +58,7 @@ es:
     print_header_title: "Perfil de Inversión y Memo de Crédito"
     print_memo: "Imprimir Memo de Préstamo"
     public:
-      not_authorized: "No tienes autorización para ver el prestamo que lo pidió."
+      not_authorized: "No tienes autorización para ver el prestamo solicitado."
     rating: "Puntuación"
     save_responses: "Guardar Respuestas"
     shared:
