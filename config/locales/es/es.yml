@@ -42,8 +42,8 @@ es:
         interest_receivable_account_id: "Cuenta de Interés Recibido"
         interest_income_account_id: "Cuenta de Ingreso de Interés"
       documentation:
-        calling_action: "Acción Pidiendo"
-        calling_controller: "Controlador Pidiendo"
+        calling_action: "Acción de Llamada"
+        calling_controller: "Controlador de Llamada"
         html_identifier: "Identificación del HTML"
       loan:
         division: "División"
@@ -58,10 +58,10 @@ es:
         primary_agent: "Responsable"
         secondary_agent: "Colaborador"
         length_months: "Duración (meses)"
-        actual_end_date: "Fecha  Actual de Finalización"
-        actual_return: "Retorno Actual"
-        actual_first_interest_payment_date: "Fecha Actual de 1er Pago de Interés"
-        actual_first_payment_date: "Fecha Actual de 1er Pago"
+        actual_end_date: "Fecha  Real de Finalización"
+        actual_return: "Retorno Real"
+        actual_first_interest_payment_date: "Fecha Real de 1er Pago de Interés"
+        actual_first_payment_date: "Fecha Real de 1er Pago"
         projected_first_interest_payment_date: "Fecha Proyectada de 1er Pago de Interés"
         projected_first_payment_date: "Fecha Proyectada de 1er Pago"
         projected_end_date: "Fecha Proyectada de Finalización"
@@ -139,7 +139,7 @@ es:
         kind_value: "Tipo"
         featured: "Imagen Destacada"
       project_step:
-        agent_id: "Persona Asignado"
+        agent_id: "Persona Asignada"
         parent_id: "Grupo"
         schedule_parent_id: "Paso Precedente"
         actual_end_date: "Fecha de Finalización"
@@ -191,7 +191,7 @@ es:
             item:
               reattach: "Por favor, volver a adjuntar la imagen"
             featured:
-              non_image: "solamente los anexos que son las imagenes pueden ser la imagen destacada"
+              non_image: "solo archivos adjuntos de imágenes pueden ser destacados"
         timeline_entry:
           attributes:
             scheduled_end_date:
@@ -253,9 +253,9 @@ es:
       my_only: '%b %Y'
     moment_formats:
       default: 'MMM D, YYYY'
-  amount_not_set: "El monto no está fijo"
+  amount_not_set: "Monto aún no establecido"
   blank: "-"
-  date_not_set: "La fecha no está fija"
+  date_not_set: "Fecha aún no establecida"
   division: División
   show: Mostrar
   show_active: Activo
@@ -345,8 +345,8 @@ es:
   notice_batch_failures: '%{failure_count} registro(s) con fallas.'
   password: "Contraseña"
   optional: "Opcional"
-  page_content: "Contenido de Pagina"
-  page_title: "Título de Pagina"
+  page_content: "Contenido de Página"
+  page_title: "Título de Página"
   print: "Imprimir"
   quickbooks:
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar las cuentas de QuickBooks en %{settings}.'
@@ -452,7 +452,7 @@ es:
     confirm_deletion: "¿Realmente quieres borrar esta foto?"
     caption: "Epígrafe para %{locale_name} "
     documents: "Documentos"
-    duplication_warning: "Ya hay una imagen destacada. Si usted quiere continuar, la imagen destacada va a sobreescribir."
+    duplication_warning: "Ya hay una imagen destacada. Si continúa, la imagen destacada va a ser sobreescrita."
     featured_image: "Imagen Destacada"
     add: "Agregar Foto"
     edit: "Editar Fotos"
