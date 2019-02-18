@@ -86,6 +86,7 @@ class Accounting::Transaction < ApplicationRecord
     @@txn_logger = Logger.new("#{Rails.root.join("log", "transaction.log")}")
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
+    txn.txn_date = txn.quickbooks_data['txn_date']
 
     # Associate qb txn with loan if loan id (class name) is set in QB
     if txn.quickbooks_data['line_items']
