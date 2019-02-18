@@ -103,7 +103,7 @@ module Accounting
       # We use the Quickbooks 'classes' to store the loan IDs.
       # This method finds or creates a QB class to hold a given loan ID.
       def find_or_create_qb_class(loan_id:)
-        loan_ref = class_service.find_by(:name, loan_id).first
+        loan_ref = class_service.find_by(:name, "Loan ID #{loan_id}").first
         return loan_ref if loan_ref
 
         qb_class = ::Quickbooks::Model::Class.new

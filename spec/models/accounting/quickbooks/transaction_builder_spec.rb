@@ -106,7 +106,7 @@ RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
   end
 
   it 'creates JournalEntry with a reference to the existing loan' do
-    expect(class_service).to receive(:find_by).with(:name, loan_id)
+    expect(class_service).to receive(:find_by).with(:name, "Loan ID #{loan_id}")
     subject.build_for_qb transaction
   end
 end
