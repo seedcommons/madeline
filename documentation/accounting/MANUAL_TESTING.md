@@ -14,7 +14,7 @@
   1. Click 'Add Transaction'
      1. Type: Disbursement
      1. Date: Today (default)
-     1. Bank Acct: Any
+     1. Bank Acct: any Asset account (e.g. La Base 1527 when using TWW data)
      1. Amount: 100
      1. Description: Default is fine
      1. Memo: Random text
@@ -25,7 +25,7 @@
   1. Click 'Add Transaction'
      1. Type: Repayment
      1. Date: One year from now
-     1. Bank Acct: Any
+     1. Bank Acct: any Asset account (e.g. La Base 1527 when using TWW data)
      1. Amount: 50
      1. Click 'Add'
   1. The page will refresh.
