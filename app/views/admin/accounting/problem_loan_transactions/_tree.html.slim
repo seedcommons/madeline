@@ -1,0 +1,13 @@
+ul
+  - tree.each do |key, value|
+    li
+      dl
+        dt= key
+        - if value.respond_to?(:each)
+          - if value.is_a? Hash
+            = render partial: "tree", locals: {tree: value}
+        - if value.is_a? Array
+          - value.each do |item|
+            = render partial: "tree", locals: {tree: item}
+        - else
+          dd= value

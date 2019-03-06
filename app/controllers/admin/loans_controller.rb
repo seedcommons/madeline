@@ -181,6 +181,7 @@ module Admin
 
     def prep_transactions
       @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
+      @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
       prep_transaction_form
 
       initialize_transactions_grid(@loan)

@@ -14,6 +14,7 @@ module Accounting
         accounts = clear_accounts!
 
         ::Accounting::LineItem.delete_all
+        ::Accounting::ProblemLoanTransaction.delete_all
         ::Accounting::Transaction.delete_all
         ::Accounting::Account.delete_all
 

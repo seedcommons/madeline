@@ -68,6 +68,7 @@ class Accounting::Transaction < ApplicationRecord
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
+  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, dependent: :destroy
 
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
@@ -83,7 +84,6 @@ class Accounting::Transaction < ApplicationRecord
   scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
-    @@txn_logger = Logger.new("#{Rails.root.join("log", "transaction.log")}")
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
     txn.txn_date = txn.quickbooks_data['txn_date']
@@ -93,13 +93,19 @@ class Accounting::Transaction < ApplicationRecord
       loan_classes = txn.quickbooks_data['line_items'].map do |li|
         detail_type = li['detail_type']&.underscore
         class_name = li.dig(detail_type, 'class_ref', 'name')
-        @@txn_logger.error "<#{txn.id}: #{class_name}>" if class_name
         class_name
       end
-      @@txn_logger.error(loan_classes) if loan_classes.any?(&:present?)
       loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
-      txn.project_id = associated_loans.count == 1 ? associated_loans.first.id : nil
+
+
+      if associated_loans.count > 1
+        associated_loans.each do |loan|
+          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn)
+        end
+      else
+        txn.project_id = associated_loans&.first&.id
+      end
     end
 
     # Since the data has just come straight from quickbooks, no need to push it back up.

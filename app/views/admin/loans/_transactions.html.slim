@@ -1,9 +1,11 @@
 section.transactions
+  - if @broken_transactions
+    .alert.alert-danger
+      = t('problem_loan_transaction.alert_msg_html', count: @broken_transactions.count, link: link_to(t('problem_loan_transaction.alert_msg_link', count: @broken_transactions.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
   .show-actions.hidden-print
     - if @add_transaction_available
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
         data: {action: "new-transaction", project_id: @loan.id}
-
   - if @transaction_list_hidden
     .no-records-msg = t('common.no_records')
   - else

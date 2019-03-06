@@ -1,0 +1,19 @@
+en:
+  problem_loan_transaction:
+    index:
+      title: Broken Transactions
+    show:
+      title: "Broken Transaction #%{id} for loans %{associated_loan_ids}"
+    id: ID
+    txn_id: TXN ID
+    qb_id: QB ID
+    date: Date
+    loan_id: Loan ID
+    associated_loans: Associated Loans
+    quickbooks_data: Raw Quickbooks Data
+    alert_msg_link:
+      one: review the broken transaction
+      other: review the broken transactions
+    alert_msg_html:
+      one: There is a transactions assocated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please %{link}, correct the transaction in quickbooks, and reset your quickbooks data.
+      other: There are %{count} transactions assocated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please review %{link}, correct the transaction in quickbooks, and reset your quickbooks data.
