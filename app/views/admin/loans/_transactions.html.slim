@@ -1,5 +1,5 @@
 section.transactions
-  - if @broken_transactions
+  - if @broken_transactions.present?
     .alert.alert-danger
       = t('problem_loan_transaction.alert_msg_html', count: @broken_transactions.count, link: link_to(t('problem_loan_transaction.alert_msg_link', count: @broken_transactions.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
   .show-actions.hidden-print
