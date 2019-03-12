@@ -1,0 +1,18 @@
+- content_for(:title, t("problem_loan_transaction.show.title", id: @plt.qb_id, associated_loan_ids: @plt.associated_loan_ids.join(", ")))
+
+table.table.table-bordered
+  tr
+    th= t("problem_loan_transaction.txn_id")
+    td= @plt.txn_id
+  tr
+    th= t("problem_loan_transaction.qb_id")
+    td= @plt.qb_id
+  tr
+    th= t("problem_loan_transaction.date")
+    td= @plt.txn_date
+  tr
+    th= t("problem_loan_transaction.associated_loans")
+    td= @plt.associated_loan_ids.map { |loan_id| link_to loan_id, admin_loan_path(loan_id) }.join(", ").html_safe
+
+h3= t("problem_loan_transaction.quickbooks_data")
+= @plt.quickbooks_data.awesome_inspect(html: true, plain: true)
