@@ -68,7 +68,7 @@ class Accounting::Transaction < ApplicationRecord
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
     foreign_key: :accounting_transaction_id, dependent: :destroy
-  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, dependent: :destroy
+  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?

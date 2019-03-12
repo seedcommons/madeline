@@ -5,7 +5,7 @@ module Accounting
     # Extract JournalEntry format quickbook transactions
     class JournalEntryExtractor < TransactionExtractor
       attr_accessor :line_items
-      delegate :qb_division, to: :loan, allow_nil: true
+      delegate :qb_division, to: :loan
 
       def set_type
         txn.loan_transaction_type_value = txn_type
@@ -25,7 +25,6 @@ module Accounting
         @line_items = txn.line_items
         num_li = line_items.size
         return :other if num_li > 3
-        qb_division ||= Division.root
         int_rcv_acct = qb_division.interest_receivable_account
         int_inc_acct = qb_division.interest_income_account
         prin_acct = qb_division.principal_account
