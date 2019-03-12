@@ -33,7 +33,10 @@ module Accounting
         @service ||= ::Quickbooks::Service::Customer.new(qb_connection.auth_details)
       end
 
-      def create_qb_customer_in_qb
+      def create_qb_customer_in_qb(qb_display_name)
+        qb_customer = ::Quickbooks::Model::Customer.new
+        qb_customer.display_name = qb_display_name
+        service.create(qb_customer)
       end
 
       # Here there are two cases where we create the new customer in qb with a name different than the Madeline org name:
@@ -46,26 +49,16 @@ module Accounting
         begin
           query_result = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}")
           if query_result.entries.empty?
-            qb_customer = ::Quickbooks::Model::Customer.new
-            qb_customer.display_name = normalized_name
-
-            new_qb_customer = service.create(qb_customer)
-
+            new_qb_customer = create_qb_customer_in_qb(normalized_name)
             new_qb_customer.id
           else
-            organization.qb_id = query_result.entries.first.id
-            organization.save
-            organization.qb_id
+            query_result.entries.first.id
           end
         rescue ::Quickbooks::IntuitRequestException => e
           if e.message =~ /^Duplicate Name Exists Error/
             # we know duplicate is not customer bc was not found above (it is a vendor or other entity)
             normalized_customer_name = "#{normalized_name} (Customer)"
-            qb_customer = ::Quickbooks::Model::Customer.new
-            qb_customer.display_name = normalized_customer_name
-
-            new_qb_customer = service.create(qb_customer)
-
+            new_qb_customer = create_qb_customer_in_qb(normalized_customer_name)
             new_qb_customer.id
           else
             raise e
