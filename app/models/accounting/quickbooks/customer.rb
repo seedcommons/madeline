@@ -33,24 +33,43 @@ module Accounting
         @service ||= ::Quickbooks::Service::Customer.new(qb_connection.auth_details)
       end
 
+      def create_qb_customer_in_qb
+      end
+
+      # Here there are two cases where we create the new customer in qb with a name different than the Madeline org name:
+      # a) the name contains invalid characters or b) the name is already taken in qb by some entity other than customer.
+      # we depend on the fact that the qb_id is saved in Madeline when the qb customer is created,
+      # and that the id, not the org name, is used to identify the qb customer in the future.
       def find_or_create_qb_customer_id
         return organization.qb_id if organization.qb_id.present?
-
         normalized_name = organization.name.tr(':', '_')
+        begin
+          query_result = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}")
+          if query_result.entries.empty?
+            qb_customer = ::Quickbooks::Model::Customer.new
+            qb_customer.display_name = normalized_name
 
-        qb_customer = ::Quickbooks::Model::Customer.new
-        qb_customer.display_name = normalized_name
+            new_qb_customer = service.create(qb_customer)
 
-        new_qb_customer = service.create(qb_customer)
+            new_qb_customer.id
+          else
+            organization.qb_id = query_result.entries.first.id
+            organization.save
+            organization.qb_id
+          end
+        rescue ::Quickbooks::IntuitRequestException => e
+          if e.message =~ /^Duplicate Name Exists Error/
+            # we know duplicate is not customer bc was not found above (it is a vendor or other entity)
+            normalized_customer_name = "#{normalized_name} (Customer)"
+            qb_customer = ::Quickbooks::Model::Customer.new
+            qb_customer.display_name = normalized_customer_name
 
-        new_qb_customer.id
-      rescue ::Quickbooks::IntuitRequestException => e
-        if e.message =~ /^Duplicate Name Exists Error/
-          id = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}").first.id
-          raise e unless id
-          id
-        else
-          raise e
+            new_qb_customer = service.create(qb_customer)
+
+            new_qb_customer.id
+          else
+            raise e
+          end
         end
       end
     end
