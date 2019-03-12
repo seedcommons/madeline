@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       end
 
       resources :transactions
+      resources :problem_loan_transactions, only: [:index, :show]
     end
 
     get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'

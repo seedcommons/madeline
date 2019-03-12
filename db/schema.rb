@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_14_203101) do
+ActiveRecord::Schema.define(version: 2019_02_18_194448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,15 @@ ActiveRecord::Schema.define(version: 2018_12_14_203101) do
     t.datetime "updated_at", null: false
     t.index ["accounting_account_id"], name: "index_accounting_line_items_on_accounting_account_id"
     t.index ["accounting_transaction_id"], name: "index_accounting_line_items_on_accounting_transaction_id"
+  end
+
+  create_table "accounting_problem_loan_transactions", force: :cascade do |t|
+    t.bigint "accounting_transaction_id"
+    t.datetime "created_at", null: false
+    t.bigint "project_id"
+    t.datetime "updated_at", null: false
+    t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
+    t.index ["project_id"], name: "index_accounting_problem_loan_transactions_on_project_id"
   end
 
   create_table "accounting_quickbooks_connections", id: :serial, force: :cascade do |t|
@@ -456,6 +465,8 @@ ActiveRecord::Schema.define(version: 2018_12_14_203101) do
 
   add_foreign_key "accounting_line_items", "accounting_accounts"
   add_foreign_key "accounting_line_items", "accounting_transactions"
+  add_foreign_key "accounting_problem_loan_transactions", "accounting_transactions"
+  add_foreign_key "accounting_problem_loan_transactions", "projects"
   add_foreign_key "accounting_quickbooks_connections", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"

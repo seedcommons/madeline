@@ -144,3 +144,11 @@ a, input[type="checkbox"], input[type="radio"], select {
   font-style: italic;
   color: $gray8;
 }
+
+table.table.table-bordered.middle-aligned {
+  tr {
+    th, td {
+      vertical-align: middle;
+    }
+  }
+}
