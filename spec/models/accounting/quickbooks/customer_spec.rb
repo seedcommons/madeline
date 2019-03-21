@@ -36,7 +36,7 @@ RSpec.describe Accounting::Quickbooks::Customer, type: :model do
       end
 
       context "and qb customer is not in qb either" do
-        let(:qb_query_result) { double(entries: [])}
+        let(:qb_query_result) { double(entries: []) }
 
         context "and creating customer with this name succeeds" do
           before do
@@ -77,7 +77,7 @@ RSpec.describe Accounting::Quickbooks::Customer, type: :model do
 
       context "where qb customer is in qb already" do
         let(:qb_customer_result) { double(id: qb_customer_id) }
-        let(:qb_query_result) { double(entries: [qb_customer_result])}
+        let(:qb_query_result) { double(entries: [qb_customer_result]) }
 
         it "saves customer info in madeline" do
           reference = subject.reference
