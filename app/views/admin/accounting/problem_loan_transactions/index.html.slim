@@ -8,6 +8,7 @@ table.table.table-bordered.middle-aligned
       th= t("problem_loan_transaction.qb_id")
       th= t("problem_loan_transaction.date")
       th= t("problem_loan_transaction.loan_id")
+      th= t("problem_loan_transaction.error_message")
 
   tbody
     - @plts.each do |txn_id, plts|
@@ -20,3 +21,4 @@ table.table.table-bordered.middle-aligned
             td{rowspan=count}= link_to plt.qb_id, admin_accounting_problem_loan_transaction_path(plt)
             td{rowspan=count}= link_to plt.txn_date, admin_accounting_problem_loan_transaction_path(plt)
           td= link_to plt.loan_id, admin_loan_path(plt.loan_id)
+          td= t(plt.error_message)

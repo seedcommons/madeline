@@ -16,7 +16,7 @@ module Accounting
       end
 
       def set_managed
-        txn.managed = doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic')
+        txn.managed = txn.loan_transaction_type_value != "other" && (doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic'))
       end
 
       private
@@ -28,7 +28,6 @@ module Accounting
         int_rcv_acct = qb_division.interest_receivable_account
         int_inc_acct = qb_division.interest_income_account
         prin_acct = qb_division.principal_account
-
         if num_li == 2 && line_items_include_debit_to_acct(int_rcv_acct) && line_items_include_credit_to_acct(int_inc_acct)
           :interest
         elsif num_li == 2 && line_items_contain_at_least_one('Credit') && line_items_include_debit_to_acct(prin_acct)
@@ -55,11 +54,15 @@ module Accounting
       end
 
       def account
+        #pp txn.line_items
         case txn.loan_transaction_type_value
         when 'repayment'
           txn.line_items.find(&:debit?).account
         when 'disbursement'
           txn.line_items.find(&:credit?).account
+        when 'other'
+          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, error_message: :journal_entry_type_other_account_not_set)
+          nil
         end
       end
 
