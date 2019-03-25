@@ -54,7 +54,6 @@ module Accounting
       end
 
       def account
-        #pp txn.line_items
         case txn.loan_transaction_type_value
         when 'repayment'
           txn.line_items.find(&:debit?).account
