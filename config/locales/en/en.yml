@@ -507,6 +507,10 @@ en:
     nth_weekday: "The %{nth} %{weekday}"
     the_day: "The %{day}"
 
+  problem_loan_transaction:
+    journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items for accuracy."
+    has_multiple_loans: "Transaction associated with multiple loans"
+
   project_step:
     add: "Add Step"
     add_dependent_step: "Add Dependent Step"

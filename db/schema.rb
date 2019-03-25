@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_03_20_140509) do
   create_table "accounting_problem_loan_transactions", force: :cascade do |t|
     t.bigint "accounting_transaction_id"
     t.datetime "created_at", null: false
-    t.string "error_message"
+    t.string "error_message", null: false
     t.bigint "project_id"
     t.datetime "updated_at", null: false
     t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
