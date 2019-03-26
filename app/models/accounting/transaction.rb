@@ -101,7 +101,7 @@ class Accounting::Transaction < ApplicationRecord
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn)
+          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, error_message: :has_multiple_loans)
         end
       else
         txn.project_id = associated_loans&.first&.id
