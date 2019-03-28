@@ -77,7 +77,7 @@ Set "Interest Income Account" to Interest Income
      1. Click on the customer, whose display name is the id (e.g. zecb98905). 
      1. Click "Make Active" in the upper right. This will make the edit button appear. 
      1. Click "Edit"
-     1. Update the display name to be the name of the co-op in Quickbooks. You may be alerted that the name is already being used and asked if the customers should be merged. In this case, select yes. 
+     1. Update the display name to be the name of the co-op in Quickbooks. You may be alerted that the name is already being used and asked if the customers should be merged. In this case, select "no" and add "(Customer)" to the end of the name. If similar happens with real data, TWW staff will need to manually combine the two customers in QB.  
      1. Reload transactions in Quickbooks. The error should be gone. 
 
 #### How to update test quickbooks data
