@@ -16,7 +16,8 @@ Set "Interest Income Account" to Interest Income
   1. Inside Madeline, click `Loans` from the main menu and choose a loan with no transactions from the table.
      1. A loan with no transactions will not show a list of transactions in the `Transactions` tab (when viewing a specific loan).
   1. Click on the loan you want to open. The loan's `Details` tab is initially shown.
-  1. Note the number in the `Rate` field in the loan's `Details`.
+  1. Note the number in the `Rate` field in the loan's `Details` and make sure it is set. 
+  1. Make sure the signing date is set.
   2. Click the `Transactions` tab.
 
 #### Add Disbursement
