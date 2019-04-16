@@ -101,4 +101,10 @@ Rails.application.routes.draw do
   get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')
+
+  require 'sidekiq/web'
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
+  end if Rails.env.production?
+  mount Sidekiq::Web => 'admin/jobs'
 end
