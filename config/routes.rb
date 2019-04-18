@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   # Disallow registration, wire up custom devise sessions controller
   devise_for :users, skip: [:registrations], controllers: { sessions: :sessions }
@@ -58,6 +60,10 @@ Rails.application.routes.draw do
       end
     end
 
+    authenticate :user do
+      mount Sidekiq::Web => '/jobs'
+    end
+
     scope '/:attachable_type/:attachable_id' do
       resources :media
     end
@@ -101,10 +107,4 @@ Rails.application.routes.draw do
   get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')
-
-  require 'sidekiq/web'
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
-  end if Rails.env.production?
-  mount Sidekiq::Web => 'admin/jobs'
 end
