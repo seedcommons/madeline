@@ -34,12 +34,12 @@ Then run `bundle exec sidekiq` from the project directory
 
 ### Testing mailers
 
-To test sending mail, install and run mailcatcher, then run delayed_job:
+To test sending mail, install and run mailcatcher, then run background jobs with sidekiq:
 
 ```
 gem install mailcatcher
 mailcatcher
-bin/delayed_job start
+bundle exec sidekiq
 ```
 
 ## Data migration
