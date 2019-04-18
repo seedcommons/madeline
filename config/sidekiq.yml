@@ -1,2 +1,6 @@
 :queues:
   - [default, 1]
+:verbose: false #update to true when separate logfile
+:pidfile: ./tmp/pids/sidekiq.pid
+#:logfile: ./log/sidekiq.log
+#:concurrency:  25

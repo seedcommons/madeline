@@ -1,16 +1,15 @@
 class PingController < ApplicationController
   def index
-    if dj_pid = (File.read(File.join(Rails.root, "tmp/pids/delayed_job.pid")).to_i rescue nil)
-      @dj = (Process.kill(0, dj_pid) && true rescue false)
+    if background_jobs_pid = (File.read(File.join(Rails.root, "tmp/pids/sidekiq.pid")).to_i rescue nil)
+      @sidekiq_running = (Process.kill(0, background_jobs_pid) && true rescue false)
     else
-      @dj = false
+      @sidekiq_running = false
     end
 
-    @count = Delayed::Job.count
+    @count = Sidekiq::Queue.new.size
+    @stuck = Sidekiq::RetrySet.new.size > 0
 
-    @stuck = Delayed::Job.where.not(failed_at: nil).count > 0
-
-    @ok = !@stuck && @dj
+    @ok = !@stuck && @sidekiq_running
 
     render layout: nil, formats: :text, status: @ok ? 200 : 503
   end
