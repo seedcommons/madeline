@@ -17,6 +17,7 @@ require 'capybara-screenshot/rspec'
 require 'devise'
 require 'pundit/rspec'
 require 'pundit/matchers'
+require 'sidekiq/testing'
 
 # So we don't need to prepare test db every time
 ActiveRecord::Migration.maintain_test_schema!
