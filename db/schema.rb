@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_25_194635) do
+ActiveRecord::Schema.define(version: 2019_04_19_151240) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -395,6 +394,17 @@ ActiveRecord::Schema.define(version: 2019_03_25_194635) do
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true
     t.index ["name"], name: "index_roles_on_name"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "job_class", limit: 255, null: false
+    t.string "provider_job_id"
+    t.string "job_type_value", limit: 255, null: false
+    t.string "activity_message_value", limit: 65536, null: false
+    t.datetime "job_started_at"
+    t.datetime "job_enqueued_for_retry_at"
+    t.datetime "job_failed_at"
+    t.datetime "job_completed_at"
   end
 
   create_table "timeline_entries", id: :serial, force: :cascade do |t|
