@@ -1,5 +1,9 @@
 # Populates the option set table with basic values. Called by seeds.rb.
 class OptionSetCreator
+  def self.create_all
+    new.create_all
+  end
+
   def create_all
     create_loan_status
     create_basic_project_status
@@ -164,6 +168,13 @@ class OptionSetCreator
       es: I18n.t('database.option_sets.loan_type.community_solar', locale: 'es')
     }
     community_solar.save
+
+    conversion_phased = loan_type.options.find_or_create_by(value: 'conversion_phased')
+    conversion_phased.label_translations = {
+      en: I18n.t('database.option_sets.loan_type.conversion_phased', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_type.conversion_phased', locale: 'es')
+    }
+    conversion_phased.save
   end
 
   def create_public_level
