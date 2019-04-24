@@ -6,5 +6,6 @@ class ApplicationJob < ActiveJob::Base
   # https://github.com/isaacseymour/activejob-retry.
   rescue_from(StandardError) do |exception|
     ExceptionNotifier.notify_exception(exception, data: {job: to_yaml})
+    raise exception
   end
 end
