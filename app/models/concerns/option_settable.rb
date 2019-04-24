@@ -33,8 +33,8 @@ module OptionSettable
             option_set_for(attr_name)
           end
 
-          define_method("#{attr_name}_options") do
-            option_set_for(attr_name).translated_list
+          define_method("#{attr_name}_options") do | reorder: false |
+            option_set_for(attr_name).translated_list(reorder: reorder)
           end
 
           define_method("#{attr_name}_option_label") do |value|
