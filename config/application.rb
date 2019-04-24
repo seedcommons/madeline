@@ -40,7 +40,7 @@ module MadelineSystem
     config.action_mailer.default_url_options = { host: ENV['MADELINE_HOSTNAME'] }
 
     # Send email on errors
-    unless Rails.env.test?
+    unless Rails.env.test? || Rails.env.development?
       Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
         email_prefix: "[Madeline #{Rails.env.to_s.capitalize}] ",
         sender_address: %{"Madeline" <#{ENV['MADELINE_EMAIL_FROM']}>},
