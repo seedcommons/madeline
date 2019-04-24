@@ -29,6 +29,7 @@ en:
         wc_investment: 'Working capital investment loan'
         sa_investment: 'Secured asset investment loan'
         community_solar: 'Community solar'
+        conversion_phased: 'Conversion, Phased Diligence'
       media_kind:
         image: 'Image'
         video: 'Video'
