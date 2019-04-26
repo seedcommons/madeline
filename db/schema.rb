@@ -400,10 +400,11 @@ ActiveRecord::Schema.define(version: 2019_04_19_151240) do
   create_table "tasks", force: :cascade do |t|
     t.string "activity_message_value", limit: 65536, null: false
     t.string "job_class", limit: 255, null: false
-    t.datetime "job_completed_at"
+    t.boolean "job_dead", default: false, null: false
     t.datetime "job_enqueued_for_retry_at"
-    t.datetime "job_failed_at"
+    t.datetime "job_last_failed_at"
     t.datetime "job_started_at"
+    t.datetime "job_succeeded_at"
     t.string "job_type_value", limit: 255, null: false
     t.string "provider_job_id"
   end
