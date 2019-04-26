@@ -9,8 +9,12 @@ class  TaskJob < ApplicationJob
   end
 
   def perform_task_job(args)
-    puts "perform task job in task job"
     raise NotImplementedError
+  end
+
+  rescue_from(StandardError) do |exception|
+    task_for_job(self).update_attribute(:job_failed_at, Time.current)
+    super
   end
 
   private
