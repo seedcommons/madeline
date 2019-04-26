@@ -1,25 +1,27 @@
 require "rails_helper"
 
 describe TaskJob do
-  let(:task) { create(:task) }
+  let(:task) { create(:task, job_class: job_class) }
 
   describe "#perform" do
-    subject(:operation_job) do
-      Class.new(described_class) do
-        def perform(operation, *args)
-        end
+    context "job succeeds" do
+      let(:job_class) { TestJob }
+      it "sets start time on task" do
+        task.job_class.constantize.perform_now(task_id: task.id)
+        expect(task.reload.job_started_at).not_to be_nil
+      end
+
+      it "marks task as completed" do
+        task.job_class.constantize.perform_now(task_id: task.id)
+        expect(task.reload.job_completed_at).not_to be_nil
       end
     end
 
-    it "sets start time on " do
-      subject.perform_now(operation)
-      expect(operation.reload.job_started_at).not_to be_nil
-    end
-
-    context "job succeeds" do
-      it "marks operation as completed" do
-        subject.perform_now(operation)
-        expect(operation.reload.job_completed_at).not_to be_nil
+    context "job fails" do
+      let(:job_class) { TestFailureJob }
+      it "does not mark task as completed" do
+        expect {task_to_fail.job_class.constantize.perform_now(task_id: task.id)}.to raise_error
+        expect(task.reload.job_completed_at).to be_nil
       end
     end
   end
