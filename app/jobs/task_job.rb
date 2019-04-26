@@ -5,7 +5,7 @@ class  TaskJob < ApplicationJob
 
   def perform(args)
     perform_task_job(args)
-    task_for_job(self).update_attribute(:job_completed_at, Time.current)
+    task_for_job(self).update_attribute(:job_succeeded_at, Time.current)
   end
 
   def perform_task_job(args)
@@ -13,7 +13,7 @@ class  TaskJob < ApplicationJob
   end
 
   rescue_from(StandardError) do |exception|
-    task_for_job(self).update_attribute(:job_failed_at, Time.current)
+    task_for_job(self).update_attribute(:job_last_failed_at, Time.current)
     super
   end
 
