@@ -29,7 +29,7 @@
 
 Some things, like loan health checks, require background jobs to be running.
 
-To run jobs, you'll need to start redis, with `redis-server`
+To run jobs, you'll need to start redis.
 Then run `bundle exec sidekiq` from the project directory
 
 ### Testing mailers
