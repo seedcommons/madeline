@@ -1,6 +1,6 @@
 class PingController < ApplicationController
   def index
-    if (background_jobs_pid = (File.read(Rails.root.join("tmp","pids","sidekiq.pid")).to_i rescue nil))
+    if (background_jobs_pid = (File.read(Rails.root.join("tmp", "pids", "sidekiq.pid")).to_i rescue nil))
       @sidekiq_running = (Process.kill(0, background_jobs_pid) && true rescue false)
     else
       @sidekiq_running = false
