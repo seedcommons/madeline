@@ -17,8 +17,6 @@
 class Task < ApplicationRecord
   def enqueue
     job = job_class.constantize.perform_later(task_id: id)
-    pp "ENQUEUE"
-    pp job
     self.update_attribute(:provider_job_id, job.provider_job_id)
   end
 
@@ -35,7 +33,7 @@ class Task < ApplicationRecord
   end
 
   def start
-    self.update_attribute(:job_first_started_at, Time.current)
+    self.update_attribute(:job_first_started_at, Time.current) if self.job_first_started_at.nil?
     self.increment(:num_attempts, by = 1).save
   end
 
