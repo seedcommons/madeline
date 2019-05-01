@@ -37,4 +37,8 @@ class Translation < ApplicationRecord
   def strip
     text
   end
+
+  def <=>(other)
+    self.text <=> other.text
+  end
 end

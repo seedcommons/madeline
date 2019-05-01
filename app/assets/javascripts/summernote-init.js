@@ -20,7 +20,7 @@ $(document).on('ready', function() {
       height: 150,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
-        ["table", ["table"]],
+        ["insert", ["table", "picture", "link", "video"]],
         ["para", ["ul", "ol", "paragraph"]]
       ]
     })

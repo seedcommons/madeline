@@ -38,8 +38,12 @@ class OptionSet < ApplicationRecord
   end
 
   # Returns a list of options suitable for input to `options_for_select`
-  def translated_list
-    options.map { |option| [option.label, option.value] }
+  def translated_list(reorder: true)
+    if reorder
+      options.sort_by(&:label).map { |option| [option.label, option.value] }
+    else
+      options.map { |option| [option.label, option.value] }
+    end
   end
 
   def option_by_value(value)

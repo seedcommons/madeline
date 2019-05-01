@@ -75,4 +75,15 @@ task :write_branch do
   end
 end
 
+desc "Update the OptionSets"
+task :update_option_sets do
+  on release_roles(:all) do
+    within release_path do
+      with rails_env: fetch(:rails_env) do
+        execute(:bundle, :exec, :rails, :runner, 'OptionSetCreator.create_all')
+      end
+    end
+  end
+end
+
 after "deploy:updating", "write_branch"

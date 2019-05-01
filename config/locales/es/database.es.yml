@@ -29,6 +29,7 @@ es:
         wc_investment: 'Préstamo de inversión para capital de trabajo'
         sa_investment: 'Préstamo de inversión de bienes asegurados'
         community_solar: 'Energía Solar Comunitaria'
+        conversion_phased:
       media_kind:
         image: 'Imagen'
         video: 'Vídeo'
