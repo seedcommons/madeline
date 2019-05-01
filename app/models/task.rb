@@ -34,27 +34,40 @@ class Task < ApplicationRecord
     end
   end
 
+  def start
+    self.update_attribute(:job_first_started_at, Time.current)
+    self.increment(:num_attempts, by = 1).save
+  end
+
+  def end_successfully
+    self.update_attribute(:job_succeeded_at, Time.current)
+  end
+
+  def record_failure
+    self.update_attribute(:job_last_failed_at, Time.current)
+  end
+
   protected
-  
+
   def waiting_for_retry?
-    job_enqueued_for_retry_at.present? && job_started_at.present? && job_enqueued_for_retry_at > job_started_at
+    job_enqueued_for_retry_at.present? && job_first_started_at.present? && job_enqueued_for_retry_at > job_first_started_at
   end
 
   private
 
   def pending?
-    job_started_at.nil?
+    job_first_started_at.nil?
   end
 
   def in_progress?
-    job_started_at.present? && job_succeeded_at.nil? && !waiting_for_retry?
+    job_first_started_at.present? && job_succeeded_at.nil? && !waiting_for_retry?
   end
 
   def succeeded?
-    job_started_at.present? && job_succeeded_at.present?
+    job_first_started_at.present? && job_succeeded_at.present?
   end
 
   def stalled?
-    job_started_at.present? && job_succeeded_at.nil? && waiting_for_retry?
+    job_first_started_at.present? && job_succeeded_at.nil? && waiting_for_retry?
   end
 end

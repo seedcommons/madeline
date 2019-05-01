@@ -8,7 +8,13 @@ describe TaskJob do
       let(:job_class) { TestJob }
       it "sets start time on task" do
         task.job_class.constantize.perform_now(task_id: task.id)
-        expect(task.reload.job_started_at).not_to be_nil
+        first_start_time = task.reload.job_first_started_at
+        expect(first_start_time).not_to be_nil
+      end
+
+      it "sets num_attempts on task" do
+        task.job_class.constantize.perform_now(task_id: task.id)
+        expect(task.reload.num_attempts).to eq 1
       end
 
       it "marks task as completed" do
@@ -22,7 +28,7 @@ describe TaskJob do
       it "does not mark task as completed" do
         expect {task.job_class.constantize.perform_now(task_id: task.id)}.to raise_error StandardError
         pp task
-        expect(task.reload.job_started_at).not_to be_nil
+        expect(task.reload.job_first_started_at).not_to be_nil
         expect(task.reload.job_succeeded_at).to be_nil
         expect(task.reload.job_last_failed_at).not_to be_nil
       end

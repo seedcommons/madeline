@@ -38,14 +38,14 @@ describe Task, :type => :model do
     end
 
     context "started but not completed, failed, or stalled" do
-      let(:task) { create(:task, provider_job_id: 1, job_started_at: Time.current) }
+      let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current) }
       it "should be in_progress" do
         expect(task.status).to eq :in_progress
       end
     end
 
     context "has completed successfully" do
-      let(:task) { create(:task, provider_job_id: 1, job_started_at: Time.current - 1.minute, job_succeeded_at: Time.current) }
+      let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current - 1.minute, job_succeeded_at: Time.current) }
       it "should be succeeded" do
         expect(task.status).to eq :succeeded
       end
@@ -54,7 +54,7 @@ describe Task, :type => :model do
     context "has started, failed and enqueued for retry" do
       let(:task) { create(:task,
         provider_job_id: 1,
-        job_started_at: Time.current - 1.minute,
+        job_first_started_at: Time.current - 1.minute,
         job_last_failed_at: Time.current - 1.second,
         job_enqueued_for_retry_at: Time.current
       ) }

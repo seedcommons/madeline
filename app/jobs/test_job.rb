@@ -1,5 +1,5 @@
 class TestJob < TaskJob
-  def perform_task_job(args)
+  def perform(args)
     Rails.logger.debug "This is the test job!"
   end
   # def perform(args)

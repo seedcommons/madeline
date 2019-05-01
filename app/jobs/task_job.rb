@@ -1,20 +1,17 @@
 class  TaskJob < ApplicationJob
   before_perform do |job|
-    task_for_job(job).update_attribute(:job_started_at, Time.current)
+    task_for_job(job).start
   end
 
-  def perform(args)
-    perform_task_job(args)
-    task_for_job(self).update_attribute(:job_succeeded_at, Time.current)
-  end
-
-  def perform_task_job(args)
-    raise NotImplementedError
+  around_perform do |job, perform_block|
+    perform_block.call
+    task_for_job(job).end_successfully
   end
 
   rescue_from(StandardError) do |exception|
-    task_for_job(self).update_attribute(:job_last_failed_at, Time.current)
-    super
+    task_for_job(self).record_failure
+    ExceptionNotifier.notify_exception(exception, data: {job: to_yaml})
+    raise exception
   end
 
   private
