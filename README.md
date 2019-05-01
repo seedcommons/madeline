@@ -6,6 +6,7 @@
 * mysql (for migrating legacy data)
 * PhantomJS 2.1.x or higher
 * ImageMagick for image processing
+* Redis for Sidekiq job queue
 
 ## Getting Started
     git clone git@github.com:sassafrastech/madeline_system.git
@@ -24,18 +25,21 @@
 ### Creating a test user from the rails console
     Person.create(division_id: 99, email: 'test@theworkingworld.org', first_name: 'Test', has_system_access: true, password: 'test1234', password_confirmation: 'test1234', access_role: 'admin')
 
-### Delayed job
+### Background Jobs
 
-Some things, like loan health checks, require delayed_job to be running. Run delayed_job with `bin/delayed_job start`.
+Some things, like loan health checks, require background jobs to be running.
+
+To run jobs, you'll need to start redis.
+Then run `bundle exec sidekiq` from the project directory
 
 ### Testing mailers
 
-To test sending mail, install and run mailcatcher, then run delayed_job:
+To test sending mail, install and run mailcatcher, then run background jobs with sidekiq:
 
 ```
 gem install mailcatcher
 mailcatcher
-bin/delayed_job start
+bundle exec sidekiq
 ```
 
 ## Data migration

@@ -1,7 +1,5 @@
 <% content_for(:title){ "Ping" } -%>
 Madeline
 App is running.
-Delayed Job is <%= @dj ? "" : "NOT " %>running.
-There are <%= @count %> jobs in the queue.
-There <%= @stuck ? "ARE" : "are no" %> stuck jobs.
-Everything is <%= @ok ? "OK" : "NOT OK" %>.
+Background jobs are <%= @sidekiq_running ? "" : "NOT " %>running.
+<%= "There are #{@count} jobs in the queue." if @sidekiq_running %>

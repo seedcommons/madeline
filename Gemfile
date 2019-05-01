@@ -34,8 +34,10 @@ gem "rolify"
 
 gem "slim" # Slim template language
 
+# Jobs and tasks
 gem "daemons"
 gem "delayed_job_active_record"
+gem 'sidekiq'
 
 # Internationalization
 gem "devise-i18n"
@@ -127,6 +129,7 @@ group :development do
   gem "capistrano-passenger"
   gem "capistrano-rails", "~> 1.1"
   gem "capistrano-rbenv", "~> 2.1"
+  gem 'capistrano-sidekiq', require: false
   gem "capistrano3-delayed-job", "~> 1.0"
 
   # Auto reload browser

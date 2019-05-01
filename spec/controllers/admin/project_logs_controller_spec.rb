@@ -17,7 +17,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
         it "enqueues and sends notification email" do
           expect do
             post :create, params: {project_log: log.attributes, notify: '1'}
-            Delayed::Worker.new.work_off
+            Sidekiq::Worker.drain_all
           end.to change { ActionMailer::Base.deliveries.size }.by(2)
         end
       end
@@ -26,7 +26,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
         it "doesn't send email" do
           expect do
             post :create, params: {project_log: log.attributes}
-            Delayed::Worker.new.work_off
+            Sidekiq::Worker.drain_all
           end.to change { ActionMailer::Base.deliveries.size }.by(0)
         end
       end
@@ -36,7 +36,7 @@ RSpec.describe Admin::ProjectLogsController, type: :controller do
       it "doesn't send email" do
         expect do
           post :create, params: {project_log: log.attributes, notify: '1'}
-          Delayed::Worker.new.work_off
+          Sidekiq::Worker.drain_all
         end.to change { ActionMailer::Base.deliveries.size }.by(0)
       end
     end

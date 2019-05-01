@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   # Disallow registration, wire up custom devise sessions controller
   devise_for :users, skip: [:registrations], controllers: { sessions: :sessions }
@@ -56,6 +58,10 @@ Rails.application.routes.draw do
       member do
         patch :simple_move
       end
+    end
+
+    authenticate :user, lambda { |u| u.has_role?(:admin, Division.root) } do
+      mount Sidekiq::Web => '/jobs'
     end
 
     scope '/:attachable_type/:attachable_id' do
