@@ -510,6 +510,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass
   bullet
+  bundler (>= 2.0.1)
   byebug
   capistrano (~> 3.11.0)
   capistrano-passenger
