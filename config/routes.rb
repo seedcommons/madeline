@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       end
     end
 
-    authenticate :user do
+    authenticate :user, lambda { |u| u.has_role?(:admin, Division.root) } do
       mount Sidekiq::Web => '/jobs'
     end
 
