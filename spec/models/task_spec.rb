@@ -18,12 +18,18 @@ require 'rails_helper'
 
 describe Task, :type => :model do
   describe "#enqueue" do
-    let(:task) { create(:task, job_class: RecalculateLoanHealthJob) }
+    let(:task) { create(:task) }
     it "creates a job and stores initial information" do
       task.enqueue
       task.reload
       expect(task.provider_job_id).not_to be_nil
       expect(task.status).to eq :pending
+    end
+
+    it "enqueues job with job_params expanded" do
+      ActiveJob::Base.queue_adapter = :test
+      args = {a: 1, b: 2}
+      expect{ task.enqueue(job_params: args) }.to have_enqueued_job.with({a: 1, b: 2, task_id: task.id})
     end
   end
 
