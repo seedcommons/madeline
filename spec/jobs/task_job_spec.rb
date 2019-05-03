@@ -4,7 +4,6 @@ describe TaskJob do
   let(:task) { create(:task, job_class: Class) }
 
   describe "#perform" do
-
     context "job succeeds" do
       subject(:task_job) do
         Class.new(described_class) do
@@ -35,7 +34,7 @@ describe TaskJob do
       end
       it "records failure" do
         expect_any_instance_of(Task).to receive(:record_failure)
-        expect {subject.perform_now(task_id: task.id)}.to raise_error StandardError
+        expect { subject.perform_now(task_id: task.id) }.to raise_error StandardError
       end
     end
   end

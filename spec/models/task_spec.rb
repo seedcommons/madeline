@@ -17,7 +17,6 @@
 require 'rails_helper'
 
 describe Task, :type => :model do
-
   describe "#enqueue" do
     let(:task) { create(:task, job_class: RecalculateLoanHealthJob) }
     it "creates a job and stores initial information" do
@@ -29,9 +28,8 @@ describe Task, :type => :model do
   end
 
   describe "#status" do
-
     context "not started" do
-      let(:task) { create(:task, provider_job_id: 1 ) }
+      let(:task) { create(:task, provider_job_id: 1) }
       it "should be pending" do
         expect(task.status).to eq :pending
       end
@@ -52,12 +50,13 @@ describe Task, :type => :model do
     end
 
     context "has started, failed and not yet succeeded" do
-      let(:task) { create(:task,
-        provider_job_id: 1,
-        job_first_started_at: Time.current - 1.minute,
-        job_last_failed_at: Time.current - 1.second,
-        job_enqueued_for_retry_at: Time.current
-      ) }
+      let(:task) {
+        create(:task,
+          provider_job_id: 1,
+          job_first_started_at: Time.current - 1.minute,
+          job_last_failed_at: Time.current - 1.second,
+          job_enqueued_for_retry_at: Time.current)
+      }
 
       it "should be stalled" do
         expect(task.status).to eq :stalled
