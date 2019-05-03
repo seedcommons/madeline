@@ -15,8 +15,9 @@
 #
 
 class Task < ApplicationRecord
-  def enqueue
-    job = job_class.constantize.perform_later(task_id: id)
+
+  def enqueue(job_params: {})
+    job = job_class.constantize.perform_later(task_id: id, **job_params)
     self.update_attribute(:provider_job_id, job.provider_job_id)
   end
 
