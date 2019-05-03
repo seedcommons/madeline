@@ -1,4 +1,4 @@
-class  TaskJob < ApplicationJob
+class TaskJob < ApplicationJob
   before_perform do |job|
     task_for_job(job).start
   end
