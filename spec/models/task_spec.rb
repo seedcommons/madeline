@@ -29,7 +29,7 @@ describe Task, :type => :model do
     it "enqueues job with job_params expanded" do
       ActiveJob::Base.queue_adapter = :test
       args = {a: 1, b: 2}
-      expect{ task.enqueue(job_params: args) }.to have_enqueued_job.with({a: 1, b: 2, task_id: task.id})
+      expect { task.enqueue(job_params: args) }.to have_enqueued_job.with({a: 1, b: 2, task_id: task.id})
     end
   end
 
