@@ -14,37 +14,37 @@ section.block
       html: {class: 'form-horizontal'},
       wrapper: :horizontal_form_expanded,
     ) do |f|
-
-    = f.input "connection_status" do
-      .read-only
-        - if @division.quickbooks_connected?
-          = t("quickbooks.connection.connected")
-        - else
-          = t("quickbooks.connection.not_connected")
-    - if @division.quickbooks_connected?
-      = f.input "disconnect" do
+    - unless Rails.env.production?
+      = f.input "connection_status" do
         .read-only
-          = link_to(t("quickbooks.connection.disconnect"),
-            disconnect_admin_accounting_quickbooks_path)
-      = f.input "last_updated_at" do
-        .read-only
-          - if @last_updated_at
-            = ldate(@last_updated_at, format: :long)
+          - if @division.quickbooks_connected?
+            = t("quickbooks.connection.connected")
           - else
-            = t("quickbooks.connection.never_synced")
+            = t("quickbooks.connection.not_connected")
+      - if @division.quickbooks_connected?
+        = f.input "disconnect" do
+          .read-only
+            = link_to(t("quickbooks.connection.disconnect"),
+              disconnect_admin_accounting_quickbooks_path)
+        = f.input "last_updated_at" do
+          .read-only
+            - if @last_updated_at
+              = ldate(@last_updated_at, format: :long)
+            - else
+              = t("quickbooks.connection.never_synced")
 
-      / There is a bug where the reset button removes all transactions from a loans page
-      / when the data is reset. Until we can fix this bug, the reset button needs to be hidden.
+        / There is a bug where the reset button removes all transactions from a loans page
+        / when the data is reset. Until we can fix this bug, the reset button needs to be hidden.
 
-      / = f.input "data_reset" do
-        .read-only.flex-container
-          div => link_to(t("quickbooks.connection.data_reset"),
-            reset_data_admin_accounting_quickbooks_path, class: "btn btn-default new-button reset-button")
-          p.help-block = t("quickbooks.connection.data_reset_information")
-    - else
-      = f.input "connect" do
-        / this will display a button that the user clicks to start the flow
-        ipp:connectToIntuit
+        / = f.input "data_reset" do
+          .read-only.flex-container
+            div => link_to(t("quickbooks.connection.data_reset"),
+              reset_data_admin_accounting_quickbooks_path, class: "btn btn-default new-button reset-button")
+            p.help-block = t("quickbooks.connection.data_reset_information")
+      - else
+        = f.input "connect" do
+          / this will display a button that the user clicks to start the flow
+          ipp:connectToIntuit
 
 - if @accounts && !@accounts.empty?
   section.block
