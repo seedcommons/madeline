@@ -28,7 +28,7 @@
       filter: false do |loan|
       - t("loan.months", number: loan.length_months.to_s)
     - g.column name: t('activerecord.attributes.loan.loan_type'), attribute: 'loan_type_value',
-      custom_filter: Loan.loan_type_options, detach_with_id: :loan_type_filter do |loan|
+      custom_filter: Loan.loan_type_options(reorder: true), detach_with_id: :loan_type_filter do |loan|
       - loan.loan_type
     - g.column name: t('activerecord.attributes.loan.amount'), attribute: 'amount',
       filter: false, in_csv: false do |loan|
