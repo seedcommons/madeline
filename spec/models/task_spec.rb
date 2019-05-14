@@ -3,6 +3,7 @@
 # Table name: tasks
 #
 #  activity_message_value    :string(65536)    not null
+#  created_at                :datetime         not null
 #  id                        :bigint(8)        not null, primary key
 #  job_class                 :string(255)      not null
 #  job_enqueued_for_retry_at :datetime
@@ -12,11 +13,12 @@
 #  job_type_value            :string(255)      not null
 #  num_attempts              :integer          default(0), not null
 #  provider_job_id           :string
+#  updated_at                :datetime         not null
 #
 
 require 'rails_helper'
 
-describe Task, :type => :model do
+RSpec.describe Task, type: :model do
   describe "#enqueue" do
     let(:task) { create(:task) }
     it "creates a job and stores initial information" do

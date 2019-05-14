@@ -10,6 +10,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.datetime :job_enqueued_for_retry_at
       t.datetime :job_succeeded_at
       t.integer :num_attempts, null: false, default: 0
+      t.timestamps
     end
   end
 end

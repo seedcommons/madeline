@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_151240) do
+ActiveRecord::Schema.define(version: 2019_05_14_201210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -399,6 +399,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_151240) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "activity_message_value", limit: 65536, null: false
+    t.datetime "created_at", null: false
     t.string "job_class", limit: 255, null: false
     t.datetime "job_enqueued_for_retry_at"
     t.datetime "job_first_started_at"
@@ -407,6 +408,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_151240) do
     t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false
     t.string "provider_job_id"
+    t.datetime "updated_at", null: false
   end
 
   create_table "timeline_entries", id: :serial, force: :cascade do |t|
