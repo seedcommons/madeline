@@ -2,18 +2,19 @@
 #
 # Table name: tasks
 #
-#  activity_message_value    :string(65536)    not null
-#  created_at                :datetime         not null
-#  id                        :bigint(8)        not null, primary key
-#  job_class                 :string(255)      not null
-#  job_enqueued_for_retry_at :datetime
-#  job_first_started_at      :datetime
-#  job_last_failed_at        :datetime
-#  job_succeeded_at          :datetime
-#  job_type_value            :string(255)      not null
-#  num_attempts              :integer          default(0), not null
-#  provider_job_id           :string
-#  updated_at                :datetime         not null
+#  activity_message_value :string(65536)    not null
+#  created_at             :datetime         not null
+#  id                     :bigint(8)        not null, primary key
+#  job_class              :string(255)      not null
+#  job_first_started_at   :datetime
+#  job_last_failed_at     :datetime
+#  job_last_started_at    :datetime
+#  job_retried_at         :datetime
+#  job_succeeded_at       :datetime
+#  job_type_value         :string(255)      not null
+#  num_attempts           :integer          default(0), not null
+#  provider_job_id        :string
+#  updated_at             :datetime         not null
 #
 
 require 'rails_helper'
@@ -44,7 +45,17 @@ RSpec.describe Task, type: :model do
     end
 
     context "started but not completed, failed, or stalled" do
-      let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current) }
+      let(:task) do
+        create(
+          :task,
+          provider_job_id: 1,
+          job_first_started_at: Time.current,
+          job_last_started_at: Time.current,
+          job_last_failed_at: nil,
+          job_succeeded_at: nil
+        )
+      end
+
       it "should be in_progress" do
         expect(task.status).to eq :in_progress
       end
@@ -57,17 +68,34 @@ RSpec.describe Task, type: :model do
       end
     end
 
-    context "has started, failed and not yet succeeded" do
+    context "has started, failed since, and not yet succeeded" do
       let(:task) {
         create(:task,
           provider_job_id: 1,
           job_first_started_at: Time.current - 1.minute,
+          job_last_started_at: Time.current - 1.minute,
           job_last_failed_at: Time.current - 1.second,
-          job_enqueued_for_retry_at: Time.current)
+          job_retried_at: Time.current)
       }
 
       it "should be stalled" do
         expect(task.status).to eq :stalled
+      end
+    end
+
+    context "has started, failed since, and started again" do
+      let(:task) {
+        create(:task,
+          provider_job_id: 1,
+          job_succeeded_at: nil,
+          job_first_started_at: Time.current - 1.minute,
+          job_last_started_at: Time.current - 1.second,
+          job_last_failed_at: Time.current - 10.seconds,
+          job_retried_at: Time.current - 1. second)
+      }
+
+      it "should be in progress" do
+        expect(task.status).to eq :in_progress
       end
     end
   end

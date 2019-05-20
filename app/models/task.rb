@@ -2,18 +2,19 @@
 #
 # Table name: tasks
 #
-#  activity_message_value    :string(65536)    not null
-#  created_at                :datetime         not null
-#  id                        :bigint(8)        not null, primary key
-#  job_class                 :string(255)      not null
-#  job_enqueued_for_retry_at :datetime
-#  job_first_started_at      :datetime
-#  job_last_failed_at        :datetime
-#  job_succeeded_at          :datetime
-#  job_type_value            :string(255)      not null
-#  num_attempts              :integer          default(0), not null
-#  provider_job_id           :string
-#  updated_at                :datetime         not null
+#  activity_message_value :string(65536)    not null
+#  created_at             :datetime         not null
+#  id                     :bigint(8)        not null, primary key
+#  job_class              :string(255)      not null
+#  job_first_started_at   :datetime
+#  job_last_failed_at     :datetime
+#  job_last_started_at    :datetime
+#  job_retried_at         :datetime
+#  job_succeeded_at       :datetime
+#  job_type_value         :string(255)      not null
+#  num_attempts           :integer          default(0), not null
+#  provider_job_id        :string
+#  updated_at             :datetime         not null
 #
 
 class Task < ApplicationRecord
@@ -36,6 +37,7 @@ class Task < ApplicationRecord
 
   def start
     self.update_attribute(:job_first_started_at, Time.current) if self.job_first_started_at.nil?
+    self.update_attribute(:job_last_started_at, Time.current)
     self.increment(:num_attempts).save
   end
 
@@ -50,7 +52,7 @@ class Task < ApplicationRecord
   protected
 
   def waiting_for_retry?
-    job_enqueued_for_retry_at.present? && job_first_started_at.present? && job_enqueued_for_retry_at > job_first_started_at
+    job_retried_at.present? && job_last_started_at.present? && job_retried_at > job_last_started_at
   end
 
   private
@@ -60,14 +62,19 @@ class Task < ApplicationRecord
   end
 
   def in_progress?
-    job_first_started_at.present? && job_succeeded_at.nil? && !waiting_for_retry?
+    puts job_last_failed_at
+    job_first_started_at.present? &&
+      job_succeeded_at.nil? &&
+      (job_last_failed_at.nil? || (job_last_started_at > job_last_failed_at))
   end
 
   def succeeded?
-    job_first_started_at.present? && job_succeeded_at.present?
+    job_succeeded_at.present?
   end
 
   def stalled?
-    job_first_started_at.present? && job_succeeded_at.nil? && waiting_for_retry?
+    job_last_failed_at.present? &&
+      job_last_started_at.present? &&
+      job_last_started_at < job_last_failed_at
   end
 end
