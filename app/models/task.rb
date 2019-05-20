@@ -62,7 +62,6 @@ class Task < ApplicationRecord
   end
 
   def in_progress?
-    puts job_last_failed_at
     job_first_started_at.present? &&
       job_succeeded_at.nil? &&
       (job_last_failed_at.nil? || (job_last_started_at > job_last_failed_at))
@@ -70,11 +69,5 @@ class Task < ApplicationRecord
 
   def succeeded?
     job_succeeded_at.present?
-  end
-
-  def stalled?
-    job_last_failed_at.present? &&
-      job_last_started_at.present? &&
-      job_last_started_at < job_last_failed_at
   end
 end

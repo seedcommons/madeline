@@ -67,37 +67,6 @@ RSpec.describe Task, type: :model do
         expect(task.status).to eq :succeeded
       end
     end
-
-    context "has started, failed since, and not yet succeeded" do
-      let(:task) {
-        create(:task,
-          provider_job_id: 1,
-          job_first_started_at: Time.current - 1.minute,
-          job_last_started_at: Time.current - 1.minute,
-          job_last_failed_at: Time.current - 1.second,
-          job_retried_at: Time.current)
-      }
-
-      it "should be stalled" do
-        expect(task.status).to eq :stalled
-      end
-    end
-
-    context "has started, failed since, and started again" do
-      let(:task) {
-        create(:task,
-          provider_job_id: 1,
-          job_succeeded_at: nil,
-          job_first_started_at: Time.current - 1.minute,
-          job_last_started_at: Time.current - 1.second,
-          job_last_failed_at: Time.current - 10.seconds,
-          job_retried_at: Time.current - 1. second)
-      }
-
-      it "should be in progress" do
-        expect(task.status).to eq :in_progress
-      end
-    end
   end
 
   describe "life cycle updates" do
