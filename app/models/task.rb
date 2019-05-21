@@ -34,16 +34,16 @@ class Task < ApplicationRecord
     end
   end
 
-  def start
+  def start!
     self.update_attribute(:job_first_started_at, Time.current) if self.job_first_started_at.nil?
     self.increment(:num_attempts).save
   end
 
-  def end_successfully
+  def finish!
     self.update_attribute(:job_succeeded_at, Time.current)
   end
 
-  def record_failure
+  def fail!
     self.update_attribute(:job_last_failed_at, Time.current)
   end
 

@@ -14,7 +14,7 @@ describe TaskJob do
 
       it "task is started" do
         # use expect any instance of because the task is necessarily reloaded from db in the job callback
-        expect_any_instance_of(Task).to receive(:start)
+        expect_any_instance_of(Task).to receive(:start!)
         subject.perform_now(task_id: task.id)
       end
 
@@ -27,13 +27,13 @@ describe TaskJob do
     context "job fails" do
       subject(:task_job) do
         Class.new(described_class) do
-          def perform(_task_data, *args)
+          def perform(_task_data, *_args)
             raise StandardError
           end
         end
       end
       it "records failure" do
-        expect_any_instance_of(Task).to receive(:record_failure)
+        expect_any_instance_of(Task).to receive(:fail!)
         expect { subject.perform_now(task_id: task.id) }.to raise_error StandardError
       end
     end
