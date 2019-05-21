@@ -8,7 +8,6 @@
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_last_started_at    :datetime
 #  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
@@ -30,14 +29,13 @@ class Task < ApplicationRecord
       :in_progress
     elsif succeeded?
       :succeeded
-    elsif stalled?
-      :stalled
+    elsif failed?
+      :failed
     end
   end
 
   def start
     self.update_attribute(:job_first_started_at, Time.current) if self.job_first_started_at.nil?
-    self.update_attribute(:job_last_started_at, Time.current)
     self.increment(:num_attempts).save
   end
 
@@ -49,12 +47,6 @@ class Task < ApplicationRecord
     self.update_attribute(:job_last_failed_at, Time.current)
   end
 
-  protected
-
-  def waiting_for_retry?
-    job_retried_at.present? && job_last_started_at.present? && job_retried_at > job_last_started_at
-  end
-
   private
 
   def pending?
@@ -64,10 +56,14 @@ class Task < ApplicationRecord
   def in_progress?
     job_first_started_at.present? &&
       job_succeeded_at.nil? &&
-      (job_last_failed_at.nil? || (job_last_started_at > job_last_failed_at))
+      job_last_failed_at.nil?
   end
 
   def succeeded?
     job_succeeded_at.present?
+  end
+
+  def failed?
+    job_last_failed_at.present? && job_succeeded_at.nil?
   end
 end

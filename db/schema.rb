@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_17_194128) do
+ActiveRecord::Schema.define(version: 2019_05_20_200700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -403,8 +403,6 @@ ActiveRecord::Schema.define(version: 2019_05_17_194128) do
     t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"
-    t.datetime "job_last_started_at"
-    t.datetime "job_retried_at"
     t.datetime "job_succeeded_at"
     t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false

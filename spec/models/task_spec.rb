@@ -8,7 +8,6 @@
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_last_started_at    :datetime
 #  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
@@ -50,7 +49,6 @@ RSpec.describe Task, type: :model do
           :task,
           provider_job_id: 1,
           job_first_started_at: Time.current,
-          job_last_started_at: Time.current,
           job_last_failed_at: nil,
           job_succeeded_at: nil
         )
@@ -65,6 +63,13 @@ RSpec.describe Task, type: :model do
       let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current - 1.minute, job_succeeded_at: Time.current) }
       it "should be succeeded" do
         expect(task.status).to eq :succeeded
+      end
+    end
+
+    context "has failed" do
+      let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current - 1.minute, job_last_failed_at: Time.current) }
+      it "should be failed" do
+        expect(task.status).to eq :failed
       end
     end
   end
