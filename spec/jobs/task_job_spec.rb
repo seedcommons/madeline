@@ -27,7 +27,7 @@ describe TaskJob do
     context "job fails" do
       subject(:task_job) do
         Class.new(described_class) do
-          def perform(task_data, *args)
+          def perform(_task_data, *args)
             raise StandardError
           end
         end
