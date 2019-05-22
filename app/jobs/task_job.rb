@@ -1,5 +1,4 @@
 class TaskJob < ApplicationJob
-
   around_perform do |job, perform_block|
     task_for_job(job).start!
     perform_block.call
