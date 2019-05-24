@@ -1,5 +1,5 @@
 <% content_for(:title){ "Ping" } -%>
 Madeline
 App is running.
-Background jobs are <%= @sidekiq_running ? "" : "NOT " %>running.
+Background jobs are <%= @sidekiq_running ? "" : "NOT " %>running with <%= @process_count %> processes.
 <%= "There are #{@count} jobs in the queue." if @sidekiq_running %>
