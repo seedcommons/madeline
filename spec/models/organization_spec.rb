@@ -62,4 +62,33 @@ describe Organization, type: :model do
       expect { create(:organization, primary_contact: contact, people: [contact]) }.to_not raise_error
     end
   end
+
+  describe "geography" do
+    let!(:country_us) { create(:country, name: 'United States') }
+    let!(:country_not_us) { create(:country, name: 'Argentina') }
+
+    describe 'postal_code' do
+      it "should be required  for US organizations" do
+        org = build(:organization, country: country_us, state: "IN", postal_code: nil)
+        expect(org.valid?).to be false
+      end
+
+      it "should not be required  for non-US organizations" do
+        org = build(:organization, country: country_not_us, postal_code: nil)
+        expect(org.valid?).to be true
+      end
+    end
+
+    describe "state" do
+      it "should be required  for US organization" do
+        org = build(:organization, country: country_us, state: nil)
+        expect(org.valid?).to be false
+      end
+
+      it "should not be required  for non-US organizations" do
+        org = build(:organization, country: country_not_us, state: nil)
+        expect(org.valid?).to be true
+      end
+    end
+  end
 end

@@ -58,6 +58,7 @@ class Organization < ApplicationRecord
   validates :name, :division, :country, presence: true
 
   validate :primary_contact_is_member
+  validate :us_required_fields
 
   def loans_count
     loans.size
@@ -76,4 +77,14 @@ class Organization < ApplicationRecord
     errors.add(:primary_contact, :invalid)
   end
 
+  def us_required_fields
+    return if !country_is_us?
+    return if postal_code.present? && state.present?
+    errors.add(:postal_code, :required_for_us)
+  end
+
+  def country_is_us?
+    us_id = Country.find_by(name: 'United States').try(:id)
+    us_id.present? && country_id == us_id
+  end
 end
