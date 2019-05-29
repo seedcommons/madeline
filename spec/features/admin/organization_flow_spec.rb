@@ -71,7 +71,6 @@ feature 'organization flow' do
 
   scenario 'new coops come with countries' do
     visit new_admin_organization_path
-    save_and_open_page
     fill_in 'organization_name', with: 'Jayita'
     fill_in 'organization_postal_code', with: '47905' # req'd for country
     fill_in 'organization_state', with: 'IN'
