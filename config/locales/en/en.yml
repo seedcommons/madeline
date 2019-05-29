@@ -185,8 +185,12 @@ en:
           no_summary: "Summary is required."
         organization:
           attributes:
+            postal_code:
+              required_for_us: 'Postal code is required when the country is United States'
             primary_contact:
               invalid: 'Primary Contact needs to belong to organization'
+            state:
+              required_for_us: 'State is required when the country is United States'
         media:
           attributes:
             item:
