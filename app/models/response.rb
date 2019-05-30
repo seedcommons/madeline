@@ -7,7 +7,7 @@ class Response
 
   delegate :group?, :active?, :required?, to: :question
 
-  TYPES = %i(text string number rating boolean url breakeven business_canvas)
+  TYPES = %i(text string number percentage rating boolean url breakeven business_canvas)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access

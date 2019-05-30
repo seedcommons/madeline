@@ -50,6 +50,7 @@ en:
           group: Group
           translatable: Translatable
           number: Number
+          percentage: Percentage
           range: Range
           boolean: Yes/No
           breakeven: Breakeven Table

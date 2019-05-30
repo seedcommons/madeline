@@ -83,10 +83,15 @@ div
               data: {rating: true}
 
           - if response.has_number?
+            span = "NUMBER"
+            = response.has_percentage?
             - if response.number.present? && !response.not_applicable?
               .view-element.answer = response.number
             = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
               value: response.number
+            - if response.has_percentage?
+              span = "Percentage"
+
 
           - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
