@@ -1,5 +1,5 @@
 :queues:
-  - [mailer, 2]
+  - [mailers, 2]
   - [default, 1]
 :verbose: true
 :logfile: ./log/sidekiq.log
