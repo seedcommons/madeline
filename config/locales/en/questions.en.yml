@@ -51,6 +51,7 @@ en:
           translatable: Translatable
           number: Number
           percentage: Percentage
+          currency: Currency
           range: Range
           boolean: Yes/No
           breakeven: Breakeven Table

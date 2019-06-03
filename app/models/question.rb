@@ -36,7 +36,7 @@ class Question < ApplicationRecord
   include Translatable
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
-  DATA_TYPES = %i(text number percentage range group boolean breakeven business_canvas)
+  DATA_TYPES = %i(text number percentage currency range group boolean breakeven business_canvas)
 
   # These methods are troublesome because they circumvent eager loading and also cause leaks in
   # decoration. We can do without them! Better to use children and parent to walk the tree and get
@@ -119,6 +119,8 @@ class Question < ApplicationRecord
       result = [:rating, :text]
     elsif data_type == 'percentage'
       result = [:number, :percentage]
+    elsif data_type == 'currency'
+      result = [:number, :currency]
     else
       result = [data_type.to_sym]
     end
