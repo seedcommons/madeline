@@ -14,7 +14,8 @@ class PercentageInput < SimpleForm::Inputs::NumericInput
       # out << @builder.text_field(attribute_name, merged_input_options)
       # out << @builder.label("%", class: "percentage_input")
       out = ActiveSupport::SafeBuffer.new
-      out << @builder.label(attribute_name, class: "percentage_input") {
+      # including form-element class means all of this is hidden on edit
+      out << @builder.label(attribute_name, class: "percentage_input form-element") {
         @builder.text_field(attribute_name, merged_input_options) + " %"
       }
   end
