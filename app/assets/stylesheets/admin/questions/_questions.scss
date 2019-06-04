@@ -78,6 +78,11 @@ section.questionnaires li.jqtree_common .jqtree-element
 .linked-document .help-block {
   margin: .25em 0;
 }
-.percentage_value {
-  float: right;
+
+.percentage_input {
+  display: inline-flex;
+  align-items: baseline;
+  input.percentage {
+    margin-right: .5em;
+  }
 }
