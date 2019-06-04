@@ -84,7 +84,7 @@ div
 
           - if response.has_number?
             - if response.has_percentage?
-              span = "%"
+              span class=[:percentage_value] = "%"
             - if response.number.present? && !response.not_applicable?
               .view-element.answer = response.number
             = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
