@@ -7,14 +7,14 @@ class Response
 
   delegate :group?, :active?, :required?, to: :question
 
-  TYPES = %i(text string number percentage currency rating boolean url breakeven business_canvas)
+  TYPES = %i(boolean breakeven business_canvas currency number percentage rating string text url)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @question = question
     @response_set = response_set
-    %w(text string number boolean rating url start_cell end_cell business_canvas not_applicable).each do |i|
+    %w(boolean business_canvas end_cell number rating start_cell not_applicable string text url).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
     end
     @breakeven = remove_blanks(data[:breakeven])
@@ -52,6 +52,14 @@ class Response
     define_method("has_#{type}?") do
       field_attributes.include?(type)
     end
+  end
+
+  def currency
+    loan.currency.try(:code)
+    # elsif loan.division.currency.present?
+    #   loan.division.currency.symbol
+    # elsif loan.division.organization.country.currency.present?
+    #   loan.division.organization.country.currency.symbol
   end
 
   # Checks if response is blank, including any descendants if this is a group.

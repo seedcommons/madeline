@@ -45,18 +45,18 @@ en:
     options:
       question:
         data_type:
-          text: Paragraph
-          list: Multiple Choice
-          group: Group
-          translatable: Translatable
-          number: Number
-          percentage: Percentage
-          currency: Currency
-          range: Range
           boolean: Yes/No
           breakeven: Breakeven Table
           breakeven_data: Breakeven Table
           business_canvas: Business Model Canvas
+          currency: Currency
+          group: Group
+          list: Multiple Choice
+          number: Number
+          percentage: Percentage
+          range: Range
+          text: Paragraph
+          translatable: Translatable
         override_associations:
           "false": "Inherits from Group"
           "true": "Overrides Group"
