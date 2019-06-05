@@ -83,12 +83,14 @@ div
               data: {rating: true}
 
           - if response.has_number?
-            - input_type = response.has_percentage? ? :percentage : :decimal
+            - if response.has_currency?
+              span = "#{response.currency}"
+            - input_type = response.has_percentage? ? :decorated_numeric : :decimal
             - read_only_display_value = response.has_percentage? ? "#{response.number}%" : response.number
             - if response.number.present? && !response.not_applicable?
               .view-element.answer = read_only_display_value
             = f.input_field :"#{question.attribute_sym}[number]", as: input_type,
-              value: response.number
+              value: response.number, prefix: "it", postfix: "worked!"
 
           - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 

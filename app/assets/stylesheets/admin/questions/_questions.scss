@@ -79,9 +79,13 @@ section.questionnaires li.jqtree_common .jqtree-element
   margin: .25em 0;
 }
 
-.answer-wrapper.tree-view .input-with-postfix.form-element {
+.answer-wrapper.tree-view .decorated-numeric-input.form-element {
   align-items: baseline;
   display: inline-flex;
+
+  span.input-prefix {
+    margin-right: 0.5em;
+  }
 
   span.input-postfix {
     margin-left: 0.5em;
