@@ -54,14 +54,6 @@ class Response
     end
   end
 
-  def currency
-    loan.currency.try(:code)
-    # elsif loan.division.currency.present?
-    #   loan.division.currency.symbol
-    # elsif loan.division.organization.country.currency.present?
-    #   loan.division.organization.country.currency.symbol
-  end
-
   # Checks if response is blank, including any descendants if this is a group.
   def blank?
     if group?
