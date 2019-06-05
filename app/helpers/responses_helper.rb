@@ -2,7 +2,7 @@ module ResponsesHelper
   def display_value_for_number(response)
     return if !response.has_number?
     if response.has_currency?
-      "#{display_prefix(response)}#{response.number} #{display_postfix(response)}"
+      "#{prefix(response)}#{response.number} #{postfix(response)}"
     elsif response.has_percentage?
       "#{response.number}%"
     else
@@ -10,17 +10,17 @@ module ResponsesHelper
     end
   end
 
-  def display_prefix(response)
+  def prefix(response)
     if response.has_currency?
       response.loan.currency.try(:short_symbol)
     end
   end
 
-  def display_postfix(response)
-    if response.has_percentage?
-      "%"
-    elsif response.has_currency?
+  def postfix(response)
+    if response.has_currency?
       response.loan.currency.try(:code)
+    elsif response.has_percentage?
+      "%"
     end
   end
 end
