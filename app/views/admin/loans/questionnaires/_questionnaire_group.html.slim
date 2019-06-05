@@ -83,12 +83,10 @@ div
               data: {rating: true}
 
           - if response.has_number?
-            - prefix = response.display_prefix
-            - postfix = response.display_postfix
             - if response.number.present? && !response.not_applicable?
-              .view-element.answer = response.display_value_for_number
+              .view-element.answer = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
-              value: response.number, prefix: prefix, postfix: postfix
+              value: response.number, prefix: display_prefix(response), postfix: display_postfix(response)
 
           - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
