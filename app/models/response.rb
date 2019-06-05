@@ -54,6 +54,16 @@ class Response
     end
   end
 
+  def display_value_for_number
+    if has_currency?
+      "#{display_prefix}#{number} #{display_postfix}"
+    elsif has_percentage?
+      "#{number}%"
+    else
+      number
+    end
+  end
+
   def display_prefix
     if has_currency?
       loan.currency.try(:short_symbol)

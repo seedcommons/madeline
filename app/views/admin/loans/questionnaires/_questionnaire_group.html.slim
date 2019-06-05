@@ -86,8 +86,7 @@ div
             - prefix = response.display_prefix
             - postfix = response.display_postfix
             - if response.number.present? && !response.not_applicable?
-              - read_only_display_value = ([prefix, response.number, postfix].reject(&:blank?).join(""))
-              .view-element.answer = read_only_display_value
+              .view-element.answer = response.display_value_for_number
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix, postfix: postfix
 
