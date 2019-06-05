@@ -9,6 +9,7 @@ class PercentageInput < SimpleForm::Inputs::NumericInput
 
     merged_input_options = merge_wrapper_options(input_html_options, wrapper_options)
     # end copied from source
+
     template.content_tag(:div, class: 'percentage-input form-element') do
       template.concat @builder.text_field(attribute_name, merged_input_options)
       template.concat span_percentage
