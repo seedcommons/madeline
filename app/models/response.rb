@@ -54,6 +54,20 @@ class Response
     end
   end
 
+  def display_prefix
+    if has_currency?
+      loan.currency.try(:short_symbol)
+    end
+  end
+
+  def display_postfix
+    if has_percentage?
+      "%"
+    elsif has_currency?
+      loan.currency.try(:code)
+    end
+  end
+
   def currency
     loan.currency.try(:code)
     # elsif loan.division.currency.present?

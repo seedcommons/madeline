@@ -14,13 +14,17 @@ class DecoratedNumericInput < SimpleForm::Inputs::NumericInput
     postfix = options[:postfix]
 
     template.content_tag(:div, class: 'decorated-numeric-input form-element') do
-      template.concat(template.content_tag(:span, class: 'input-prefix') do
-        template.concat prefix
-      end)
+      if prefix.present?
+        template.concat(template.content_tag(:span, class: 'input-prefix') do
+          template.concat prefix
+        end)
+      end
       template.concat @builder.text_field(attribute_name, merged_input_options)
-      template.concat(template.content_tag(:span, class: 'input-postfix') do
-        template.concat postfix
-      end)
+      if postfix.present?
+        template.concat(template.content_tag(:span, class: 'input-postfix') do
+          template.concat postfix
+        end)
+      end
     end
   end
 end
