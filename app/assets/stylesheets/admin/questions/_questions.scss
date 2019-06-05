@@ -80,9 +80,10 @@ section.questionnaires li.jqtree_common .jqtree-element
 }
 
 .answer-wrapper.tree-view .percentage-input.form-element {
-  display: inline-flex;
   align-items: baseline;
+  display: inline-flex;
+
   input.percentage {
-    margin-right: .5em;
+    margin-right: 0.5em;
   }
 }
