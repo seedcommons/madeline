@@ -16,11 +16,5 @@ end
 # built in script job type is not updated for rails 4 and higher
 job_type :script, 'cd :path && RAILS_ENV=:environment bundle exec bin/:task :output'
 every :reboot do
-  script 'delayed_job restart'
-end
-
-# built in script job type is not updated for rails 4 and higher
-job_type :script, 'cd :path && RAILS_ENV=:environment bundle exec bin/:task :output'
-every :reboot do
   script 'sidekiq'
 end
