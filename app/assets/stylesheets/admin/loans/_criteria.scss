@@ -18,11 +18,15 @@
 
 .loan.criteria.show-view {
   .question {
-    &[data-level="2"], &[data-level="3"], &[data-level="4"] {
+    &[data-level="2"],
+    &[data-level="3"],
+    &[data-level="4"] {
       margin-left: 2.5em;
     }
 
-    &[data-level="5"], &[data-level="6"], &[data-level="7"] {
+    &[data-level="5"],
+    &[data-level="6"],
+    &[data-level="7"] {
       margin-left: 1em;
     }
   }
