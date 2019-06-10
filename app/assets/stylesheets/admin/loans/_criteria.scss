@@ -1,0 +1,39 @@
+.criteria {
+  h1 {
+
+  }
+
+  h2 {
+
+  }
+
+  h3 {
+
+  }
+
+  h4 {
+    font-size: 1.5em;
+  }
+
+  h5 {
+    font-size: 1.25em;
+  }
+
+  h6 {
+    font-size: 1.2em;
+  }
+
+  .question-label {
+    font-size: 1.15em;
+  }
+}
+
+.loan.criteria.show-view {
+  [data-level="2"], [data-level="3"], [data-level="4"] {
+    margin-left: 2.5em;
+  }
+
+  [data-level="5"], [data-level="6"], [data-level="7"] {
+    margin-left: 1em;
+  }
+}
