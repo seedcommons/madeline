@@ -4,6 +4,8 @@
 #
 #  accounting_account_id       :integer
 #  amount                      :decimal(, )
+#  change_in_interest          :decimal(15, 2)
+#  change_in_principal         :decimal(15, 2)
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  description                 :string
