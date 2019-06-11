@@ -197,6 +197,8 @@ RSpec.describe Accounting::Transaction, type: :model do
 
     describe '#change_in_principal and #change_in_interest' do
       it 'calculates correctly' do
+        transaction.calculate_deltas
+        transaction.save
         expect(transaction.reload.change_in_principal).to equal_money(-0.13)
         expect(transaction.reload.change_in_interest).to equal_money(-0.93)
       end
