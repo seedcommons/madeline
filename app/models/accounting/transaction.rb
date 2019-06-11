@@ -131,19 +131,10 @@ class Accounting::Transaction < ApplicationRecord
     self.quickbooks_data = qb_obj.as_json
   end
 
-  def change_in_principal
-    # TODO: Make project required and get rid of these guard clauses
-    return 0 unless project
-
-    # See InterestCalculator for more documentation on principal/interest accounts.
-    @change_in_principal ||= net_debit_for_account(qb_division&.principal_account_id)
-  end
-
-  def change_in_interest
-    return 0 unless project
-
-    # See InterestCalculator for more documentation on principal/interest accounts.
-     @change_in_interest ||= net_debit_for_account(qb_division&.interest_receivable_account_id)
+  def calculate_deltas
+    raise Accounting::TransactionMissingProjectError unless project
+    self.change_in_interest = net_debit_for_account(qb_division&.interest_receivable_account_id)
+    self.change_in_principal = net_debit_for_account(qb_division&.principal_account_id)
   end
 
   def total_balance
@@ -153,6 +144,8 @@ class Accounting::Transaction < ApplicationRecord
   # Calculates balance fields based on line items.
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
+    # need to do calculate_deltas in case that this is called from updater
+    calculate_deltas
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
 
