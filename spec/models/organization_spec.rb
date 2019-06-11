@@ -64,8 +64,8 @@ describe Organization, type: :model do
   end
 
   describe "geography" do
-    let!(:country_us) { create(:country, name: 'United States') }
-    let!(:country_not_us) { create(:country, name: 'Argentina') }
+    let!(:country_us) { create(:country, iso_code: 'US') }
+    let!(:country_not_us) { create(:country, iso_code: 'AR') }
 
     describe 'postal_code' do
       it "should be required  for US organizations" do

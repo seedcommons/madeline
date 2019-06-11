@@ -58,7 +58,10 @@ class Organization < ApplicationRecord
   validates :name, :division, :country, presence: true
 
   validate :primary_contact_is_member
-  validate :us_required_fields
+  with_options if: ->(org) { org.country.iso_code == "US" } do |us_org|
+    us_org.validates :state, presence: true
+    us_org.validates :postal_code, presence: true
+  end
 
   def loans_count
     loans.size
