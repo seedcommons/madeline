@@ -89,9 +89,4 @@ class Organization < ApplicationRecord
       errors.add(:state, :required_for_us)
     end
   end
-
-  def country_is_us?
-    us_id = Country.find_by(name: 'United States').try(:id)
-    us_id.present? && country_id == us_id
-  end
 end
