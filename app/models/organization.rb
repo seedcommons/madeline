@@ -78,15 +78,4 @@ class Organization < ApplicationRecord
 
     errors.add(:primary_contact, :invalid)
   end
-
-  def us_required_fields
-    return if !country_is_us?
-    return if postal_code.present? && state.present?
-    if postal_code.blank?
-      errors.add(:postal_code, :required_for_us)
-    end
-    if state.blank?
-      errors.add(:state, :required_for_us)
-    end
-  end
 end
