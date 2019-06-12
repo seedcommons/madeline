@@ -38,7 +38,6 @@ gem "slim" # Slim template language
 
 # Jobs and tasks
 gem "daemons"
-gem "delayed_job_active_record"
 gem 'sidekiq'
 
 # Internationalization
@@ -132,7 +131,6 @@ group :development do
   gem "capistrano-rails", "~> 1.1"
   gem "capistrano-rbenv", "~> 2.1"
   gem 'capistrano-sidekiq', require: false
-  gem "capistrano3-delayed-job", "~> 1.0"
 
   # Auto reload browser
   gem "guard-livereload", "~> 2.5", require: false
