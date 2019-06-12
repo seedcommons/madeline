@@ -1,18 +1,19 @@
 .criteria, .post_analysis {
   h4 {
-    font-size: 1.5em;
+    font-size: 1.6em;
   }
 
   h5 {
-    font-size: 1.25em;
+    font-size: 1.4em;
   }
 
-  h6 {
+  h6,
+  [data-level="3"] h5 {
     font-size: 1.2em;
   }
 
   .question-label {
-    font-size: 1.15em;
+    font-size: 1.1em;
   }
 }
 
