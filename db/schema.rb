@@ -90,9 +90,9 @@ ActiveRecord::Schema.define(version: 2019_06_07_155057) do
 
   create_table "countries", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "default_currency_id"
-    t.string "iso_code", limit: 2
-    t.string "name"
+    t.integer "default_currency_id", null: false
+    t.string "iso_code", limit: 2, null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
   end
 
