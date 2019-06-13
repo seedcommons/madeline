@@ -3,10 +3,10 @@
 # Table name: countries
 #
 #  created_at          :datetime         not null
-#  default_currency_id :integer
+#  default_currency_id :integer          not null
 #  id                  :integer          not null, primary key
-#  iso_code            :string(2)
-#  name                :string
+#  iso_code            :string(2)        not null
+#  name                :string           not null
 #  updated_at          :datetime         not null
 #
 # Foreign Keys

@@ -84,9 +84,9 @@ div
 
           - if response.has_number?
             - if response.number.present? && !response.not_applicable?
-              .view-element.answer = response.number
-            = f.input_field :"#{question.attribute_sym}[number]", as: :decimal,
-              value: response.number
+              .view-element.answer = display_value_for_number(response)
+            = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
+              value: response.number, prefix: prefix(response), postfix: postfix(response)
 
           - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
