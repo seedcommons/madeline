@@ -51,5 +51,6 @@ FactoryBot.define do
     sector { Faker::Company.profession }
     industry { Faker::Company.profession }
     postal_code { Faker::Address.postcode }
+    state { Faker::Address.state }
   end
 end

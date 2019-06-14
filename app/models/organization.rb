@@ -58,6 +58,9 @@ class Organization < ApplicationRecord
   validates :name, :division, :country, presence: true
 
   validate :primary_contact_is_member
+  with_options if: ->(org) { org.country.iso_code == "US" } do |us_org|
+    us_org.validates :state, :postal_code, presence: true
+  end
 
   def loans_count
     loans.size
@@ -75,5 +78,4 @@ class Organization < ApplicationRecord
 
     errors.add(:primary_contact, :invalid)
   end
-
 end

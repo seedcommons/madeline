@@ -2,6 +2,6 @@
   - [mailers, 2]
   - [default, 1]
 :verbose: true
-:pidfile: ./tmp/pids/sidekiq.pid
 :logfile: ./log/sidekiq.log
+:max_retries: 0
 #:concurrency:  25
