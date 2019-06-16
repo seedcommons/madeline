@@ -9,12 +9,12 @@
   }
 
   .calendar-event {
-    margin-bottom: 0.25em;
-    padding: 0.05em 0.25em 0;
-    max-height: 4em;
-    overflow: hidden;
-    font-size: 1.2rem;
     cursor: default;
+    font-size: 1.2rem;
+    margin-bottom: 0.25em;
+    max-height: 4em;
+    padding: 0.05em 0.25em 0;
+    overflow: hidden;
 
     &:hover {
       cursor: pointer;
@@ -148,7 +148,8 @@
     font-size: 0.9em;
 
     .column {
-      padding: 0 0.5em 0 0;
+      padding: 0;
+      padding-right: 0.5em;
 
       &.col-lg-12 {
         padding-bottom: 0.5em;
