@@ -73,7 +73,7 @@ class MS.Views.CalendarView extends Backbone.View
       'data-html': 'true',
       'data-toggle': 'popover',
       'data-content': legendContent,
-      'data-title': 'Legend'
+      'data-title': I18n.t('calendar.legend', locale: @locale)
       })
     @$('.fc-legend-button').popover
       placement: 'left'
