@@ -2,8 +2,6 @@ div.modal.fade tabindex="-1" role="dialog" aria-labelledby="" data-backdrop="sta
   div.modal-dialog.modal-lg
     div.modal-content
       div.modal-header
-        button.close type="button" data-dismiss="modal" aria-label== t(:close)
-          span aria-hidden="true" &times;
         h4.modal-title = t(@step_move.context == "calendar_drag" ? ".move" : ".add_log")
       div.modal-body
         = simple_form_for([:admin, @step_move], remote: true,
