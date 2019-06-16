@@ -9,8 +9,8 @@
   }
 
   .calendar-event {
-    margin-bottom: .25em;
-    padding: .05em .25em 0;
+    margin-bottom: 0.25em;
+    padding: 0.05em 0.25em 0;
     max-height: 4em;
     overflow: hidden;
     font-size: 1.2rem;
@@ -36,7 +36,7 @@
       background: inherit;
 
       .fa {
-        padding-right: .25em;
+        padding-right: 0.25em;
       }
     }
   }
@@ -74,7 +74,7 @@
       float: right;
 
       .fa {
-        margin-right: .25em;
+        margin-right: 0.25em;
       }
     }
   }
@@ -145,22 +145,22 @@
 
   .cal-legend {
     display: none;
-    font-size: .9em;
+    font-size: 0.9em;
 
     .column {
-      padding: 0 .5em 0 0;
+      padding: 0 0.5em 0 0;
 
       &.col-lg-12 {
-        padding-bottom: .5em;
+        padding-bottom: 0.5em;
       }
     }
 
     .legend-text {
-      margin-left: .5em;
+      margin-left: 0.5em;
     }
 
     .fa {
-      padding: .2em;
+      padding: 0.2em;
     }
 
     .milestone {
