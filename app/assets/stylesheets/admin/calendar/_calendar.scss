@@ -147,40 +147,16 @@
     display: none;
     font-size: .9em;
 
-    table {
-      width: auto;
-    }
-
-    tr {
-      padding-bottom: .25em;
-    }
-
-    td {
-      span {
-        display: inline-block;
-        width: 1.5em;
-        text-align: center;
-      }
-    }
-
-    th {
-      font-weight: normal;
-      padding-bottom: .25em;
-      padding-left: .5em;
-      text-align: left;
-    }
-
-    td, th {
-      border: none;
-      width: auto;
-
-      &.bold {
-        font-weight: bold;
-      }
-    }
-
     .column {
-      padding: .5em;
+      padding: 0 .5em 0 0;
+
+      &.col-lg-12 {
+        padding-bottom: .5em;
+      }
+    }
+
+    .legend-text {
+      margin-left: .5em;
     }
 
     .fa {
@@ -220,7 +196,7 @@
 
   .popover {
     width: auto;
-    max-width: 600px;
+    max-width: 700px;
 
     .cal-legend {
       display: block;
