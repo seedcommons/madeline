@@ -17,6 +17,10 @@
 #
 
 class Task < ApplicationRecord
+
+  scope :full_fetcher, -> { where(job_class: 'FullFetcherJob') }
+  scope :most_recent_first, -> { order("created_at DESC") }
+
   def enqueue(job_params: {})
     job = job_class.constantize.perform_later(job_params.merge(task_id: id))
     self.update_attribute(:provider_job_id, job.provider_job_id)
