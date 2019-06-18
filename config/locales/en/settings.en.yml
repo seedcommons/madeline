@@ -19,6 +19,5 @@ en:
     fetch_status:
       failed: "The latest background job for fetching QuickBooks data failed."
       in_progress: "The latest background job for fetching QuickBooks data is in progress."
-      none: "There is no latest background job for fetching QuickBooks data."
       pending: "The latest background job for fetching QuickBooks data is pending."
       succeeded: "The latest background job for fetching QuickBooks data succeeded."

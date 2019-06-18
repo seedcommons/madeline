@@ -15,9 +15,7 @@
 #  provider_job_id        :string
 #  updated_at             :datetime         not null
 #
-
 class Task < ApplicationRecord
-
   scope :full_fetcher, -> { where(job_class: 'FullFetcherJob') }
   scope :most_recent_first, -> { order("created_at DESC") }
 
