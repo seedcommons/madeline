@@ -34,7 +34,8 @@ section.block
               = t("quickbooks.connection.never_synced")
         = f.input "qb_data_import" do
           .read-only
-            = t("quickbooks.fetch_status.#{@fetch_task.status}")
+            - if @fetch_task.present?
+              = t("quickbooks.fetch_status.#{@fetch_task.status}")
 
         / There is a bug where the reset button removes all transactions from a loans page
         / when the data is reset. Until we can fix this bug, the reset button needs to be hidden.
