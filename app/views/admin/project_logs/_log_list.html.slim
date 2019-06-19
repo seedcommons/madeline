@@ -77,7 +77,7 @@
                       = t(:delete)
 
         - if log.summary
-          span.summary = log.summary
+          span.summary = sanitize(log.summary)
 
         - if log.has_more? && @context != 'dashboard'
           a data-expands="more-#{log.id}" = t(:more)
@@ -86,15 +86,15 @@
           div data-expandable="more-#{log.id}"
             - if log.details.present?
               .extra
-                = simple_format log.details.to_s
+                = simple_format sanitize(log.details).to_s
 
             - if log.additional_notes.present?
               .extra
-                = simple_format content_tag(:strong, t('log.additional_notes')) << log.additional_notes.to_s
+                = simple_format content_tag(:strong, t('log.additional_notes')) << sanitize(log.additional_notes).to_s
 
             - if log.private_notes.present?
               .extra
-                = simple_format content_tag(:strong, t('log.private_notes')) << log.private_notes.to_s
+                = simple_format content_tag(:strong, t('log.private_notes')) << sanitize(log.private_notes).to_s
 
             - if log.media.present?
               .extra.media-container.row
