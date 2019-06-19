@@ -82,9 +82,13 @@
             span = strip_tags(log.summary)
 
         - if log.has_more? && @context != 'dashboard'
-          div
-            a data-expands="more-#{log.id}" = t(:more)
-            a data-hides="more-#{log.id}" = t(:less)
+          div.log-expand-ctrls
+            a data-expands="more-#{log.id}"
+              span = t(:more)
+              i.fa.fa-arrow-down
+            a data-hides="more-#{log.id}"
+              span = t(:less)
+              i.fa.fa-arrow-up
 
           div data-expandable="more-#{log.id}"
             - if log.details.present?
