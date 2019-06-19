@@ -49,6 +49,10 @@ class Task < ApplicationRecord
     self.update_attribute(:job_last_failed_at, Time.current)
   end
 
+  def succeeded?
+    job_succeeded_at.present?
+  end
+  
   private
 
   def pending?
@@ -59,10 +63,6 @@ class Task < ApplicationRecord
     job_first_started_at.present? &&
       job_succeeded_at.nil? &&
       job_last_failed_at.nil?
-  end
-
-  def succeeded?
-    job_succeeded_at.present?
   end
 
   def failed?

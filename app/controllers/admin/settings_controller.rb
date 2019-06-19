@@ -4,7 +4,7 @@ class Admin::SettingsController < Admin::AdminController
     authorize :setting
 
     @division = current_division.root
-    @accounts = ::Accounting::Account.all if @division.quickbooks_connected?
+    @accounts = ::Accounting::Account.all
     @last_updated_at = @division.qb_connection.last_updated_at if @division.quickbooks_connected?
     @fetch_task = Task.full_fetcher.most_recent_first.first
   end
