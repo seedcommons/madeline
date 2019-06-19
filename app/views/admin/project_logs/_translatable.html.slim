@@ -1,10 +1,11 @@
 = f.translatable_inputs do |l|
 
   = f.input :"summary_#{l}",
-    as: :summernote,
+    as: :text,
     input_html: {data: {translatable: 'common.summary'}},
     placeholder: I18n.t('common.summary', locale: l),
     label: I18n.t('common.summary', locale: l)
+
   = f.input :"details_#{l}",
     as: :summernote,
     input_html: {rows: 3, data: {translatable: 'common.details'}},
