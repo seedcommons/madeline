@@ -26,6 +26,10 @@ module Accounting
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
 
         restore_accounts!(accounts)
+       rescue StandardError => error
+         @qb_connection.destroy
+         ExceptionNotifier.notify_exception(error, data: {})
+         raise error
       end
 
       private

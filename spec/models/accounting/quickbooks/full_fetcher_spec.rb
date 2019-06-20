@@ -1,3 +1,4 @@
+
 require "rails_helper"
 
 describe Accounting::Quickbooks::FullFetcher, type: :model do
@@ -68,6 +69,15 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
       # Accounts should be restored with the same QB ids but they should have different DB ids
       expect(division.accounts.count).to eq 3
       expect(stored_account_ids).not_to match_array new_account_ids
+    end
+
+    context "there's an error" do
+      it "deletes qb connection and reraises error" do
+        allow(subject).to receive(:restore_accounts!).and_raise(StandardError)
+        expect(qb_connection.present?).to be true
+        expect { subject.fetch_all }.to raise_error
+        expect(division.reload.qb_connection).to be_nil
+      end
     end
 
     context "with missing division account" do
