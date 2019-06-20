@@ -72,8 +72,10 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     end
 
     context "there's an error" do
-      it "deletes qb connection and reraises error" do
+      it "deletes qb connection, clears qb data, and reraises error" do
         allow(subject).to receive(:restore_accounts!).and_raise(StandardError)
+        expect(subject).to receive(:delete_qb_data).twice
+        expect(subject).to receive(:clear_division_accounts).twice
         expect(qb_connection.present?).to be true
         expect { subject.fetch_all }.to raise_error
         expect(division.reload.qb_connection).to be_nil

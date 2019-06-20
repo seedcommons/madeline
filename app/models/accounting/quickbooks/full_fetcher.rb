@@ -13,10 +13,7 @@ module Accounting
       def fetch_all
         accounts = clear_accounts!
 
-        ::Accounting::LineItem.delete_all
-        ::Accounting::ProblemLoanTransaction.delete_all
-        ::Accounting::Transaction.delete_all
-        ::Accounting::Account.delete_all
+        delete_qb_data
 
         started_fetch_at = Time.zone.now
         ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
@@ -27,12 +24,21 @@ module Accounting
 
         restore_accounts!(accounts)
        rescue StandardError => error
+         delete_qb_data
+         clear_division_accounts
          @qb_connection.destroy
          ExceptionNotifier.notify_exception(error, data: {})
          raise error
       end
 
       private
+
+      def delete_qb_data
+        ::Accounting::LineItem.delete_all
+        ::Accounting::ProblemLoanTransaction.delete_all
+        ::Accounting::Transaction.delete_all
+        ::Accounting::Account.delete_all
+      end
 
       # Set this division's accounts to nil and return a hash of the QB ids of the removed accounts
       def clear_accounts!
@@ -41,12 +47,16 @@ module Accounting
           interest_receivable: division.interest_receivable_account&.qb_id,
           interest_income: division.interest_income_account&.qb_id,
         }
+        clear_division_accounts
+        accounts_qb_ids
+      end
+
+      def clear_division_accounts
         division.update(
           principal_account_id: nil,
           interest_receivable_account_id: nil,
           interest_income_account_id: nil,
         )
-        accounts_qb_ids
       end
 
       # Restore all divisions' accounts to the ones passed in. Argument is expected to be a hash of
