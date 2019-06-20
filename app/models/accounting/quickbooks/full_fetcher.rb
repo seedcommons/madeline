@@ -12,26 +12,28 @@ module Accounting
 
       def fetch_all
         accounts = clear_accounts!
-
         delete_qb_data
+        fetch_qb_data
+        restore_accounts!(accounts)
+      rescue StandardError => error
+        @qb_connection.destroy
+        ExceptionNotifier.notify_exception(error, data: {})
+        raise error
+      end
 
+      private
+
+      def fetch_qb_data
         started_fetch_at = Time.zone.now
         ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
-
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
-
-        restore_accounts!(accounts)
-       rescue StandardError => error
-         delete_qb_data
-         clear_division_accounts
-         @qb_connection.destroy
-         ExceptionNotifier.notify_exception(error, data: {})
-         raise error
+      rescue StandardError => error
+        delete_qb_data
+        clear_division_accounts
+        raise error # to be caught in fetch_all
       end
-
-      private
 
       def delete_qb_data
         ::Accounting::LineItem.delete_all
