@@ -16,11 +16,12 @@
   .modal-body {
     padding: 30px;
   }
+}
 
-  // Fix placement of close button inside modal
-  .modal-header {
-    .modal-title, .close {
-      display: inline-block;
-    }
+
+// Fix placement of close button inside Summernote modal
+.modal-header {
+  .modal-title, .close {
+    display: inline-block;
   }
 }
