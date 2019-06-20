@@ -64,6 +64,7 @@ class MS.Views.LogFormModalView extends Backbone.View
 
   addSummernoteToForm: () ->
     @$('textarea.summernote').summernote({
+      dialogsInBody: true,
       height: 150,
       toolbar: [
         ["style", ["bold", "italic", "underline", "clear"]],
