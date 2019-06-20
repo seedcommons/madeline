@@ -5,7 +5,6 @@ class MS.Views.LogFormModalView extends Backbone.View
     # TODO: Remove @parentView stuff once old timeline goes away
     @parentView = options.parentView
     @done = (->) # Empty function
-    @summernoteInitalized = false;
 
   events:
     'click [data-action="submit"]': 'submitForm'
@@ -64,15 +63,11 @@ class MS.Views.LogFormModalView extends Backbone.View
     $("#timeline-table table .log-summary.project-step-item[data-log-id=#{logId}]").html(summary)
 
   addSummernoteToForm: () ->
-    console.log("The modal opened")
-    console.log(@$('#project_log_summary_en'))
-    unless @summernoteInitalized
-      @$('textarea').summernote({
-        height: 150,
-        toolbar: [
-          ["style", ["bold", "italic", "underline", "clear"]],
-          ["insert", ["table", "picture", "link", "video"]],
-          ["para", ["ul", "ol", "paragraph"]]
-        ]
-      })
-    @summernoteInitalized = true
+    @$('textarea.summernote').summernote({
+      height: 150,
+      toolbar: [
+        ["style", ["bold", "italic", "underline", "clear"]],
+        ["insert", ["table", "picture", "link", "video"]],
+        ["para", ["ul", "ol", "paragraph"]]
+      ]
+    })
