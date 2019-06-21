@@ -62,7 +62,7 @@ class MS.Views.LogFormModalView extends Backbone.View
     logId = dataResponse['logId']
     $("#timeline-table table .log-summary.project-step-item[data-log-id=#{logId}]").html(summary)
 
-  addSummernoteToForm: () ->
+  addSummernoteToForm: ->
     @$('textarea.summernote').summernote({
       dialogsInBody: true,
       height: 150,
