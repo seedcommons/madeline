@@ -26,9 +26,9 @@
       label: I18n.t('log.private_notes', locale: l)
 
   div.actions
-    - if f.object.additional_notes.blank?
+    - if f.object.get_translation(:additional_notes, locale: l).blank?
       a.action data-expands='additional_notes' = t('log.additional_notes')
-    - if f.object.private_notes.blank?
+    - if f.object.get_translation(:private_notes, locale: l).blank?
       a.action data-expands='private_notes' = t('log.private_notes')
 
   .clearfix
