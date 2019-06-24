@@ -16,8 +16,10 @@
 #  updated_at             :datetime         not null
 #
 class Task < ApplicationRecord
-  scope :full_fetcher, -> { where(job_class: 'FullFetcherJob') }
-  scope :most_recent_first, -> { order("created_at DESC") }
+  TASK_JOB_TYPES = %i(full_fetcher)
+  
+  scope :full_fetcher, -> { where(job_type_value: :full_fetcher) }
+  scope :by_creation_time, -> (direction = :asc) { order(created_at: direction) }
 
   def enqueue(job_params: {})
     job = job_class.constantize.perform_later(job_params.merge(task_id: id))
@@ -52,7 +54,7 @@ class Task < ApplicationRecord
   def succeeded?
     job_succeeded_at.present?
   end
-  
+
   private
 
   def pending?

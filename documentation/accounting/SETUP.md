@@ -83,14 +83,15 @@ If any documentation is missing in this guide for setting up QuickBooks with Mad
 1. Copy the OAuth Consumer Key and OAuth Consumer Secret into your `.env` file inside your Madeline environment. Use `.env.example` as a template.
 
 #### Authorize Madeline and QuickBooks connection
+1. In your Madeline environment, you must be set up for background jobs (see main README)
+   1. If this is not set up, your QuickBooks data import will always be 'pending.'
 1. In your Madeline environment click `Manage > Accounting Settings` in the main menu.
 1. Click the `Connect to QuickBooks` button. A popup opens.
 1. Sign into your Intuit Developer account.
 1. Click the `Authorize` button to share data between QuickBooks and Madeline.
 1. A message should appear from Madeline that you can now close the window.
 1. Close the window. Refresh the main Madeline window. The QuickBooks settings page should show `QuickBooks Status`
-as `Connected`.
-1. Click `Full Sync`. Once completed, a message will flash indicating that QuickBooks data has been synchronized.
+as `Connected`, and `Quickbooks Data Import` as `in progress`. Refresh until you see it has succeeded.
 
 #### Connect QuickBooks Accounts
 1. Follow the steps in the *Create QuickBooks accounts inside the app's sandbox* section above, if you have not done so already.
