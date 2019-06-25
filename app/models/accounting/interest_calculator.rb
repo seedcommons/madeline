@@ -95,24 +95,32 @@ module Accounting
             case tx.loan_transaction_type_value
               when "interest"
                 tx.amount = accrued_interest(prev_tx, tx)
-                line_item_for(tx, int_rcv_acct).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  int_rcv_acct,
                   qb_line_id: 0,
                   posting_type: "Debit",
                   amount: tx.amount
                 )
-                line_item_for(tx, int_inc_acct).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  int_inc_acct,
                   qb_line_id: 1,
                   posting_type: "Credit",
                   amount: tx.amount
                 )
 
               when "disbursement"
-                line_item_for(tx, prin_acct).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  prin_acct,
                   qb_line_id: 0,
                   posting_type: "Debit",
                   amount: tx.amount
                 )
-                line_item_for(tx, tx.account).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  tx.account,
                   qb_line_id: 1,
                   posting_type: "Credit",
                   amount: tx.amount
@@ -120,22 +128,30 @@ module Accounting
 
               when "repayment"
                 int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-                line_item_for(tx, tx.account).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  tx.account,
                   qb_line_id: 0,
                   posting_type: "Debit",
                   amount: tx.amount
                 )
-                line_item_for(tx, prin_acct).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  prin_acct,
                   qb_line_id: 1,
                   posting_type: "Credit",
                   amount: tx.amount - int_part
                 )
-                line_item_for(tx, int_rcv_acct).assign_attributes(
+                line_item_with_attrs_for(
+                  tx,
+                  int_rcv_acct,
                   qb_line_id: 2,
                   posting_type: "Credit",
                   amount: int_part
                 )
             end
+            pp "INTEREST CALCULATOR"
+            pp tx.line_items
 
             # Since we may have just adjusted line items upon which the change_in_principal and
             # change_in_interest depend, it is important that we recalculate balances now.
@@ -191,6 +207,15 @@ module Accounting
 
     def daily_rate
       @daily_rate ||= loan.interest_rate / 365.0
+    end
+
+    def line_item_with_attrs_for(tx, acct, qb_line_id: nil, posting_type: nil, amount: nil)
+      return if amount == 0
+      line_item_for(tx, acct).assign_attributes(
+        qb_line_id: qb_line_id,
+        posting_type: posting_type,
+        amount: amount
+      )
     end
 
     # Finds or creates line item for transaction and account.

@@ -85,18 +85,17 @@ describe Accounting::InterestCalculator do
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(117.50)
-        expect(t3.reload.interest_balance).to equal_money (0.77) # 0.70 + 0.07
+        expect(t3.reload.interest_balance).to equal_money(0.77) # 0.70 + 0.07
 
         # t4 --------------------------------------------------------
-        expect(t4.line_items.size).to eq(3)
+        # 0.0 amount to prin_acct should not be a line item
+        expect(t4.line_items.size).to eq(2)
 
         # account details
         expect(t4.line_item_for(t4.account).amount).to equal_money(0.50)
         expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.0)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(117.50)
@@ -204,7 +203,7 @@ describe Accounting::InterestCalculator do
         expect(t3.reload.interest_balance).to equal_money (0.97)
 
         # t4 --------------------------------------------------------
-        expect(t4.line_items.size).to eq(3)
+        expect(t4.line_items.size).to eq(2)
 
         # The line items here stay the same so no need to push.
         expect(t0.needs_qb_push).to be false
@@ -214,8 +213,6 @@ describe Accounting::InterestCalculator do
         expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
-        expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(152.50)
