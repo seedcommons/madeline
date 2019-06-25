@@ -258,7 +258,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment' do
+      describe 'repayment with non zero amounts to principal and interest receivable' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -315,6 +315,119 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
         end
       end
 
+      describe 'repayment with zero debit to principal' do
+        let(:quickbooks_data) do
+          { 'line_items' =>
+            [{ 'id' => '0',
+              'description' => 'Eba',
+              'amount' => '0.0',
+              'detail_type' => 'JournalEntryLineDetail',
+              'journal_entry_line_detail' => {
+                'posting_type' => 'Debit',
+                'entity' => {
+                  'type' => 'Customer',
+                  'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
+                'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                'department_ref' => nil } },
+              { 'id' => '1',
+                'description' => 'Eba',
+                'amount' => '10.99',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Credit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '2',
+                'description' => 'Repayment',
+                'amount' => '1.31',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Debit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } }],
+            'id' => '167',
+            'sync_token' => 0,
+            'meta_data' => {
+              'create_time' => '2017-04-18T10:14:30.000-07:00',
+              'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
+            'txn_date' => '2017-04-18',
+            'total' => '12.30',
+            'doc_number' => 'MS-Managed',
+            'private_note' => 'Random stuff' }
+        end
+
+        it do
+          expect(txn.loan_transaction_type_value).to eq('repayment')
+          expect(txn.account).to eq txn_acct
+          expect(txn.managed).to be true
+        end
+      end
+
+      describe 'repayment with zero debit to interest receivable' do
+        let(:quickbooks_data) do
+          { 'line_items' =>
+            [{ 'id' => '0',
+              'description' => 'Eba',
+              'amount' => '10.99',
+              'detail_type' => 'JournalEntryLineDetail',
+              'journal_entry_line_detail' => {
+                'posting_type' => 'Credit',
+                'entity' => {
+                  'type' => 'Customer',
+                  'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
+                'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                'department_ref' => nil } },
+              { 'id' => '1',
+                'description' => 'Eba',
+                'amount' => '0.00',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Debit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } },
+              { 'id' => '2',
+                'description' => 'Repayment',
+                'amount' => '1.31',
+                'detail_type' => 'JournalEntryLineDetail',
+                'journal_entry_line_detail' => {
+                  'posting_type' => 'Debit',
+                  'entity' => {
+                    'type' => 'Customer',
+                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
+                  'account_ref' => { 'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil },
+                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
+                  'department_ref' => nil } }],
+            'id' => '167',
+            'sync_token' => 0,
+            'meta_data' => {
+              'create_time' => '2017-04-18T10:14:30.000-07:00',
+              'last_updated_time' => '2017-04-18T10:14:30.000-07:00' },
+            'txn_date' => '2017-04-18',
+            'total' => '12.30',
+            'doc_number' => 'MS-Managed',
+            'private_note' => 'Random stuff' }
+        end
+
+        it do
+          expect(txn.loan_transaction_type_value).to eq('repayment')
+          expect(txn.account).to eq txn_acct
+          expect(txn.managed).to be true
+        end
+      end
       context 'too many  line items' do
         # this has all possible scenario for interest, disbursement, repayment and random
         let(:quickbooks_data) do
