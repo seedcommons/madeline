@@ -22,20 +22,21 @@ section.block
           - else
             = t("quickbooks.connection.not_connected")
       - if @division.quickbooks_connected?
+        = f.input "data_import_status" do
+          .read-only
+            - if @fetch_task.present?
+              = t("quickbooks.fetch_status.#{@fetch_task.status}")
+        - if @fetch_task && @fetch_task.succeeded?
+          = f.input "last_updated_at" do
+            .read-only
+              - if @last_updated_at
+                = ldate(@last_updated_at, format: :long)
+              - else
+                = t("quickbooks.connection.never_synced")
         = f.input "disconnect" do
           .read-only
             = link_to(t("quickbooks.connection.disconnect"),
               disconnect_admin_accounting_quickbooks_path)
-        = f.input "last_updated_at" do
-          .read-only
-            - if @last_updated_at
-              = ldate(@last_updated_at, format: :long)
-            - else
-              = t("quickbooks.connection.never_synced")
-        = f.input "qb_data_import" do
-          .read-only
-            - if @fetch_task.present?
-              = t("quickbooks.fetch_status.#{@fetch_task.status}")
 
         / There is a bug where the reset button removes all transactions from a loans page
         / when the data is reset. Until we can fix this bug, the reset button needs to be hidden.
