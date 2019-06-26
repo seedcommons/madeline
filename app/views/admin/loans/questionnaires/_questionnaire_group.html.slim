@@ -4,6 +4,8 @@ div
   - optional_encountered = false
   - optionals_exist = group.children.any?(&:optional?)
   - requireds_exist = group.children.any?(&:required?)
+  - numericals_exist = group.children.any?(&:numerical?)
+  /= numericals_exist
 
   - group.children.each do |question|
     / Add page break for top-level groups with answered questions
@@ -38,6 +40,30 @@ div
           - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
           *header_tag
             = question.full_number_and_label
+        - elsif question.numerical?
+          // SCRATCH
+            / = question.inspect
+            / Siblings
+              // Silbiling has same parent id
+              // The next sibling is position + 1
+
+          // If the immediate preceding sibling is also numerical, do not add table tag
+          // If the immediate preceding sibling is not numerical, add table tag
+          // If there is no sibling, add table tag
+          <div class="view-element answer">
+            <table class="table">
+          // End of if statement
+
+          // Add a table row for the question information
+          tr
+            td = question.full_number
+            td = question.label
+            td = display_value_for_number(response)
+
+          // If the immediate sibling after is also numerical, do not close the table tag
+          // If immediate sibling after is not numerical, close the table tag
+          // If there is no sibling, close the table tag
+          </table></div>
         - else
           .question-label = question.full_number_and_label
 
@@ -83,8 +109,8 @@ div
               data: {rating: true}
 
           - if response.has_number?
-            - if response.number.present? && !response.not_applicable?
-              .view-element.answer = display_value_for_number(response)
+            / - if response.number.present? && !response.not_applicable?
+            /   .view-element.answer = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)
 
