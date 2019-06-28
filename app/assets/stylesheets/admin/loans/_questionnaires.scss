@@ -191,6 +191,37 @@ section.questionnaires {
       margin-bottom: 0;
     }
   }
+
+  .numerical-answer {
+    margin: 0;
+    width: 50em;
+
+    table {
+      border-top: 1px solid $table-border-color;
+      margin: 0;
+      text-align: left;
+      width: 100%;
+    }
+
+    td,
+    tr {
+      border: 1px solid $table-border-color;
+      padding: .5em;
+    }
+
+    .question-number {
+      width: 5em;
+    }
+
+    .number-response {
+      width: 20em;
+    }
+
+    .number-question-label,
+    .question-number {
+      font-weight: bold;
+    }
+  }
 }
 
 .loan-memo-header {
