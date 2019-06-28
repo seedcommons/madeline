@@ -54,6 +54,7 @@ class MS.Views.LogFormModalView extends Backbone.View
         @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
+        @addSummernoteToForm()
 
   updateLogSummaryInList: (dataResponse) ->
     # Update the log summary inside the timeline table step
