@@ -95,15 +95,20 @@ div
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)
 
-          - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
-          / class attr should work automatically but
-          / adding class attr fixed the bug of having both a table and an image
-          - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
           - if response.has_text?
+            / Display response as rich text. Specify which html is allowed.
+            - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
+
+            / Class attr should work automatically but
+            / adding class attr fixed the bug of having both a table and an image
+            - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
+
             - if response.text.present? && !response.not_applicable?
               .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
+
+            / Display input as Summernote field
             = f.input_field :"#{question.attribute_sym}[text]",
               value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
