@@ -17,7 +17,6 @@ module Accounting
         restore_accounts!(accounts)
       rescue StandardError => error
         @qb_connection.destroy
-        ExceptionNotifier.notify_exception(error, data: {})
         raise error
       end
 
