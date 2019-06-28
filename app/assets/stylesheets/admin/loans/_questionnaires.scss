@@ -197,7 +197,6 @@ section.questionnaires {
     width: 50em;
 
     table {
-      border-top: 1px solid $table-border-color;
       margin: 0;
       text-align: left;
       width: 100%;
@@ -206,20 +205,19 @@ section.questionnaires {
     td,
     tr {
       border: 1px solid $table-border-color;
-      padding: .5em;
+      padding: 0.5em;
+    }
+
+    .number-question-label {
+      font-weight: bold;
     }
 
     .question-number {
-      width: 5em;
+      margin-right: 0.5em;
     }
 
     .number-response {
       width: 20em;
-    }
-
-    .number-question-label,
-    .question-number {
-      font-weight: bold;
     }
   }
 }

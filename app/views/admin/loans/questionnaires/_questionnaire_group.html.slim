@@ -103,28 +103,13 @@ div
               data: {rating: true}
 
           - if response.has_number?
-            / - if response.number.present? && !response.not_applicable?
-            /   .view-element.answer = display_value_for_number(response)
-
-            // SCRATCH
-            / = question.inspect
-            / = question.position
-              / Siblings
-                // Silbiling has same parent id
-                // The next sibling is position + 1
-
-            // Add a table row for the question information
             .view-element.answer.numerical-answer
               table.table
                 tr
-                  td.question-number = question.full_number
-                  td.number-question-label = question.label
+                  td.number-question-label
+                    span.question-number = question.full_number
+                    = question.label
                   td.number-response = display_value_for_number(response)
-                  // td = @previous_question_numerical
-            / tr
-            /   td = question.full_number
-            /   td = question.label
-            /   td = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)
 
