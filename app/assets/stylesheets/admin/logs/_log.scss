@@ -1,6 +1,6 @@
 .log {
   .summary {
-    margin: 0 .5em 0 0;
+    padding: 0 0 0.5em;
   }
 
   .extra {
@@ -14,5 +14,9 @@
     p:last-of-type {
       margin-bottom: 0;
     }
+  }
+
+  .log-notes {
+    margin-left: 1em;
   }
 }
