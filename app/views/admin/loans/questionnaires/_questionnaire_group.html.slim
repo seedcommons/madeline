@@ -4,10 +4,6 @@ div
   - optional_encountered = false
   - optionals_exist = group.children.any?(&:optional?)
   - requireds_exist = group.children.any?(&:required?)
-  - numericals_exist = group.children.any?(&:numerical?)
-  /= numericals_exist
-
-  - @previous_question_numerical = false
 
   - group.children.each do |question|
     / Add page break for top-level groups with answered questions
@@ -38,26 +34,12 @@ div
         - if !question.leaf?
           = render "admin/loans/questionnaires/progress_bar", object: response
 
-        // p = @previous_question_numerical ? "Prev ? Numerical" : "Prev ? Not Numerical"
-
-        / - if question.numerical?
-        /   // If the immediate preceding sibling is also numerical, do not add table tag - ACCOUNTED FOR
-        /   // If the immediate preceding sibling is not numerical, add table tag - ACCONTED FOR
-        /   // If there is no sibling, add table tag - ACCOUNTED FOR
-        /   - unless @previous_question_numerical
-        /     <div class="view-element answer"><table class="table">
-        / - else
-        /   - if @previous_question_numerical
-        /     // If the immediate sibling after is also numerical, do not close the table tag - ACCOUNTED FOR
-        /     // If immediate sibling after is not numerical, close the table tag - ACCOUNTED FOR
-        /     // If there is no sibling, close the table tag - ACCOUNTED FOR
-        /     </table></div>
-
         - if question.data_type == 'group'
           - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
           *header_tag
             = question.full_number_and_label
         - elsif question.numerical?
+          // The question's label is displayed with the question's answer
         - else
           .question-label = question.full_number_and_label
 
@@ -169,8 +151,6 @@ div
 
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
-
-    - question.numerical? ? @previous_question_numerical = true : @previous_question_numerical = false
 
   - if optional_encountered && @print_view
     </fieldset>
