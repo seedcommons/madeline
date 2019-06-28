@@ -1,7 +1,7 @@
 $(document).on('ready', function() {
   // summernote on pages
   $('[data-provider="summernote"]').each(function() {
-    height = $(this).data("height")
+    height = $(this).data("height");
     $(this).summernote({
       height: height || 300,
       toolbar: [
