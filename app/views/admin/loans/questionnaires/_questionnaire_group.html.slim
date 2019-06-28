@@ -88,6 +88,9 @@ div
             - if response.number.present? && !response.not_applicable?
               .view-element.answer.numerical-answer
                 table.table
+                  caption.sr-only
+                    /= t()
+                    = "Question number " + question.full_number + " question and response"
                   tr
                     td.number-question-label
                       span.question-number = question.full_number
