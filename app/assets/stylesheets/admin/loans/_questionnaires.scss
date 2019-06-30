@@ -202,10 +202,15 @@ section.questionnaires {
       width: 100%;
     }
 
-    td,
-    tr {
+    td {
       border: 1px solid $table-border-color;
       padding: 0.5em;
+    }
+
+    .sibling-table {
+      td {
+        border-top: none;
+      }
     }
 
     .number-question-label {
