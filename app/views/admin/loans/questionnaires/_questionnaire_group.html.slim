@@ -91,8 +91,7 @@ div
               .view-element.answer.numerical-answer.visible-print-block
                 table.table class=(@previous_question_numerical ? 'sibling-table' : '')
                   caption.sr-only
-                    /= t()
-                    = "Question number " + question.full_number + " question and response"
+                    = t("questions.table.caption", number: question.full_number)
                   tr
                     td.question-number = question.full_number
                     td.number-question-label = question.label
