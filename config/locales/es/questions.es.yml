@@ -42,16 +42,18 @@ es:
     options:
       question:
         data_type:
-          text: Párrafo
-          list: Multiple Choice
-          group: Grupo
-          translatable: Traducible
-          number: Número
-          range: Rango
           boolean: Sí/No
           breakeven: Tabla de Punto de Equilibrio
           breakeven_data: Tabla de Punto de Equilibrio
           business_canvas: 'Lienzo del Modelo de Negocios '
+          currency: Moneda
+          group: Grupo
+          list: Multiple Choice
+          number: Número
+          percentage: Porcentaje
+          range: Rango
+          text: Párrafo
+          translatable: Traducible
         override_associations:
           'false': "Hereda del Grupo"
           'true': "Reemplaza al Grupo"

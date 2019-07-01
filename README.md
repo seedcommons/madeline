@@ -103,3 +103,13 @@ On server:
 ### QuickBooks configuration
 
 Please see the `documentation/accounting` folder for instructions for setting up QuickBooks.
+
+### Installing and Running Redis
+
+#### Install Redis
+
+1. If using a Mac, `brew install redis`.
+
+#### Run Redis
+
+1. Run `redis-server`.

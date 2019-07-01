@@ -1,44 +1,38 @@
 div#legend-content
   div.cal-legend
-    div.row
-      div.column.col-lg-6
-        table.legend-block
-          tr
-            td
-            th.draft = t("calendar.draft")
-          tr
-            td
-            th = t("calendar.finalized")
-          tr
-            td
-            th.bold = t("calendar.status.incomplete")
-          tr
-            td: i.fa.fa-calendar-check-o
-            th = t("calendar.check_in")
-          tr
-            td: span.milestone: i.fa.fa-flag
-            th = t("calendar.milestone")
-          tr
-            td: span: i.fa.fa-pencil-square-o
-            th = t("calendar.num_of_logs")
-
-      div.column.col-lg-6
-        table.legend-block
-          tr
-            td: span.early: i.fa.fa-check
-            th = t("calendar.status.early")
-          tr
-            td: span.ontime: i.fa.fa-check
-            th = t("calendar.status.on_time")
-          tr
-            td: span.late: i.fa.fa-clock-o
-            th = t("calendar.status.late")
-          tr
-            td: span.verylate: i.fa.fa-clock-o
-            th = t("calendar.status.very_late")
-          tr
-            td: span.superlate: i.fa.fa-clock-o
-            th = t("calendar.status.super_late")
-          tr
-            td: span: i.fa.fa-link
-            th = t("calendar.has_precedent")
+    div.column.col-lg-6
+      div
+        span.draft = t("calendar.draft")
+      div
+        span = t("calendar.finalized")
+      div
+        span.bold = t("calendar.status.incomplete")
+      div
+        i.fa.fa-calendar-check-o
+        span.legend-text = t("calendar.check_in")
+      div.milestone
+        i.fa.fa-flag
+        span.legend-text = t("calendar.milestone")
+      div
+        i.fa.fa-pencil-square-o
+        span.legend-text = t("calendar.num_of_logs")
+    div.column.col-lg-6
+      div
+        span.early: i.fa.fa-check
+        span.legend-text = t("calendar.status.early")
+      div
+        span.ontime: i.fa.fa-check
+        span.legend-text = t("calendar.status.on_time")
+      div
+        span.late: i.fa.fa-clock-o
+        span.legend-text = t("calendar.status.late")
+      div
+        span.verylate: i.fa.fa-clock-o
+        span.legend-text = t("calendar.status.very_late")
+      div
+        span.superlate: i.fa.fa-clock-o
+        span.legend-text = t("calendar.status.super_late")
+    div.column.col-lg-12
+      div
+        span: i.fa.fa-link
+        span.legend-text = t("calendar.has_precedent")

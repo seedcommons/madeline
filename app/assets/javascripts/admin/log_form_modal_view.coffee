@@ -9,6 +9,7 @@ class MS.Views.LogFormModalView extends Backbone.View
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:complete': 'submitSuccess'
+    'show.bs.modal .modal': 'addSummernoteToForm'
 
   showEdit: (logId, stepId, done) ->
     MS.loadingIndicator.show()
@@ -53,6 +54,7 @@ class MS.Views.LogFormModalView extends Backbone.View
         @done = (->) # Reset to empty function.
       else
         @replaceContent(data.responseText)
+        @addSummernoteToForm()
 
   updateLogSummaryInList: (dataResponse) ->
     # Update the log summary inside the timeline table step
@@ -60,3 +62,14 @@ class MS.Views.LogFormModalView extends Backbone.View
     summary = dataResponse['summary']['text']
     logId = dataResponse['logId']
     $("#timeline-table table .log-summary.project-step-item[data-log-id=#{logId}]").html(summary)
+
+  addSummernoteToForm: ->
+    @$('textarea.summernote').summernote({
+      dialogsInBody: true,
+      height: 150,
+      toolbar: [
+        ["style", ["bold", "italic", "underline", "clear"]],
+        ["insert", ["table", "picture", "link", "video"]],
+        ["para", ["ul", "ol", "paragraph"]]
+      ]
+    })
