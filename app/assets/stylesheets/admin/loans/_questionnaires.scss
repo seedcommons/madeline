@@ -225,6 +225,16 @@ section.questionnaires {
       width: 20em;
     }
   }
+
+  .question {
+    margin-top: 0.5em;
+
+    &[data-type="currency"],
+    &[data-type="number"],
+    &[data-type="percentage"] {
+      margin-top: 0;
+    }
+  }
 }
 
 .loan-memo-header {
