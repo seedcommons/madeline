@@ -32,17 +32,18 @@ module Accounting
           :interest
         elsif num_li == 2 && line_items_contain_at_least_one('Credit') && line_items_include_debit_to_acct(prin_acct)
           :disbursement
-        elsif num_li == 3 && line_items_contain_at_least_one('Debit') && credit_or_zero_debit_to(prin_acct)
+        elsif num_li >= 2 && line_items_contain_at_least_one('Debit') && credit_to_one_of([prin_acct, int_rcv_acct])
           :repayment
         else
           :other
         end
       end
 
-      def credit_or_zero_debit_to(account)
-        return true if line_items_include_credit_to_acct(account)
-        li = line_items.find { |i| i.account == account }
-        li.amount == 0
+      def credit_to_one_of(accounts)
+        accounts.each do |a|
+          return true if line_items_include_credit_to_acct(a)
+        end
+        false
       end
 
       def line_items_include_debit_to_acct(account)

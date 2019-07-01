@@ -127,7 +127,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
       end
     end
 
-    context 'removing a credit and and adjusting the other credit in quickbooks' do
+    context 'removing a credit and adjusting the other credit in quickbooks' do
       before do
         quickbooks_data['line_items'][0]['amount'] = '9.68'
         quickbooks_data['line_items'][2]['amount'] = '9.68'
@@ -258,7 +258,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment with non zero amounts to principal and interest receivable' do
+      describe 'repayment with amounts to both principal and interest receivable' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -315,21 +315,10 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment with zero debit to principal' do
+      describe 'repayment with amount only to interest receivable' do
         let(:quickbooks_data) do
           { 'line_items' =>
-            [{ 'id' => '0',
-              'description' => 'Eba',
-              'amount' => '0.0',
-              'detail_type' => 'JournalEntryLineDetail',
-              'journal_entry_line_detail' => {
-                'posting_type' => 'Debit',
-                'entity' => {
-                  'type' => 'Customer',
-                  'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-                'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
-                'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-                'department_ref' => nil } },
+            [
               { 'id' => '1',
                 'description' => 'Eba',
                 'amount' => '10.99',
@@ -372,7 +361,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment with zero debit to interest receivable' do
+      describe 'repayment with amount only to principal' do
         let(:quickbooks_data) do
           { 'line_items' =>
             [{ 'id' => '0',
@@ -387,18 +376,6 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'account_ref' => { 'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil },
                 'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
                 'department_ref' => nil } },
-              { 'id' => '1',
-                'description' => 'Eba',
-                'amount' => '0.00',
-                'detail_type' => 'JournalEntryLineDetail',
-                'journal_entry_line_detail' => {
-                  'posting_type' => 'Debit',
-                  'entity' => {
-                    'type' => 'Customer',
-                    'entity_ref' => { 'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil } },
-                  'account_ref' => { 'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil },
-                  'class_ref' => { 'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil },
-                  'department_ref' => nil } },
               { 'id' => '2',
                 'description' => 'Repayment',
                 'amount' => '1.31',

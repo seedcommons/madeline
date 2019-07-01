@@ -153,6 +153,7 @@ class Accounting::Transaction < ApplicationRecord
   # Calculates balance fields based on line items.
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
+    #assert(debits_equal_credits)
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
 
@@ -161,6 +162,17 @@ class Accounting::Transaction < ApplicationRecord
     if total_balance < 0 && !Rails.env.test?
       raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
     end
+  end
+
+  def debits_equal_credits
+    debit_sum = sum_lis_with_posting_type(:debit)
+    credit_sum = sum_lis_with_posting_type(:debit)
+    credit_sum == debit_sum
+  end
+
+  def sum_lis_with_posting_type(posting_type)
+    lis = line_items.select { |li| li.posting_type == posting_type }
+    lis
   end
 
   def prev_balance

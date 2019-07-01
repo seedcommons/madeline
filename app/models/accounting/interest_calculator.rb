@@ -152,6 +152,7 @@ module Accounting
             end
             pp "INTEREST CALCULATOR"
             pp tx.line_items
+            check_credits_equal_debits(tx, prev_tx)
 
             # Since we may have just adjusted line items upon which the change_in_principal and
             # change_in_interest depend, it is important that we recalculate balances now.
@@ -186,6 +187,18 @@ module Accounting
     private
 
     delegate :qb_division, to: :loan
+
+    def check_credits_equal_debits(txn, prev_tx)
+      puts "ASSERT ASSERT ASSERT"
+      if sum_by_posting_type(txn, 'Credit') != sum_by_posting_type(txn, 'Debit')
+        raise Accounting::UnequalCreditDebitError(txn.line_items.to_json)
+      end
+    end
+
+    def sum_by_posting_type(txn, posting_type)
+      lis = txn.line_items.select { |li| li.posting_type == posting_type }
+      (lis.map(&:amount)).sum
+    end
 
     def transactions
       @transactions ||= loan.transactions.standard_order.to_a
