@@ -38,11 +38,11 @@ div
           - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
           *header_tag
             = question.full_number_and_label
-        - elsif question.numerical?
-          // The question's label is displayed with the question's answer
-          .question-label.form-element = question.full_number_and_label
         - else
-          .question-label = question.full_number_and_label
+          // For numerical questions in print view, the question's label is displayed with
+          // the question's answer.
+          .question-label class=(question.numerical? ? 'hidden-print' : '')
+            = question.full_number_and_label
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
@@ -87,7 +87,8 @@ div
 
           - if response.has_number?
             - if response.number.present? && !response.not_applicable?
-              .view-element.answer.numerical-answer
+              .view-element.answer.hidden-print = display_value_for_number(response)
+              .view-element.answer.numerical-answer.visible-print-block
                 table.table class=(@previous_question_numerical ? 'sibling-table' : '')
                   caption.sr-only
                     /= t()
