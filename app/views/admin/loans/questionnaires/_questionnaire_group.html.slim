@@ -94,9 +94,8 @@ div
                     /= t()
                     = "Question number " + question.full_number + " question and response"
                   tr
-                    td.number-question-label
-                      span.question-number = question.full_number
-                      = question.label
+                    td.question-number = question.full_number
+                    td.number-question-label = question.label
                     td.number-response = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)

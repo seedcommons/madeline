@@ -213,12 +213,13 @@ section.questionnaires {
       }
     }
 
-    .number-question-label {
-      font-weight: bold;
+    .question-number {
+      width: 6em;
     }
 
+    .number-question-label,
     .question-number {
-      margin-right: 0.5em;
+      font-weight: bold;
     }
 
     .number-response {
