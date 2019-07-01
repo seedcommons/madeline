@@ -40,6 +40,7 @@ div
             = question.full_number_and_label
         - elsif question.numerical?
           // The question's label is displayed with the question's answer
+          .question-label.form-element = question.full_number_and_label
         - else
           .question-label = question.full_number_and_label
 
