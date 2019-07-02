@@ -151,7 +151,7 @@ module Accounting
                 )
             end
             pp "INTEREST CALCULATOR"
-            pp tx.line_items
+            pp tx.reload.line_items
             check_credits_equal_debits(tx, prev_tx)
 
             # Since we may have just adjusted line items upon which the change_in_principal and
@@ -223,12 +223,17 @@ module Accounting
     end
 
     def line_item_with_attrs_for(tx, acct, qb_line_id: nil, posting_type: nil, amount: nil)
-      return if amount == 0
-      line_item_for(tx, acct).assign_attributes(
-        qb_line_id: qb_line_id,
-        posting_type: posting_type,
-        amount: amount
-      )
+      if amount == 0
+        puts "DELETE LINE ITEM THAT SHOULD HAVE AMT 0"
+        tx.line_item_for(acct).destroy
+        nil
+      else
+        line_item_for(tx, acct).assign_attributes(
+          qb_line_id: qb_line_id,
+          posting_type: posting_type,
+          amount: amount
+        )
+      end
     end
 
     # Finds or creates line item for transaction and account.
