@@ -2,8 +2,6 @@
 / mode == :show_and_form means we are starting out in show mode and allowing the user to switch to edit
 section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') data-id=@step.id
   div.modal-header
-    button type="button" class="close cancel" aria-label== t(:cancel)
-      span aria-hidden="true" &times;
     h4.modal-title
       .view-element
         = @step.summary_or_none

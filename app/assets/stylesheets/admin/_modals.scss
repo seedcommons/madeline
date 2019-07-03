@@ -6,3 +6,12 @@
     width: 800px;
   }
 }
+
+// Fix placement of close button inside Summernote modals
+// Styles are applied to all modals
+.modal-header {
+  .modal-title,
+  .close {
+    display: inline-block;
+  }
+}

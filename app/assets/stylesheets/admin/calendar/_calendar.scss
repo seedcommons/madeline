@@ -9,12 +9,12 @@
   }
 
   .calendar-event {
-    margin-bottom: .25em;
-    padding: .05em .25em 0;
+    cursor: default;
+    font-size: 1.2rem;
+    margin-bottom: 0.25em;
     max-height: 4em;
     overflow: hidden;
-    font-size: 1.2rem;
-    cursor: default;
+    padding: 0.05em 0.25em 0;
 
     &:hover {
       cursor: pointer;
@@ -36,7 +36,7 @@
       background: inherit;
 
       .fa {
-        padding-right: .25em;
+        padding-right: 0.25em;
       }
     }
   }
@@ -74,7 +74,7 @@
       float: right;
 
       .fa {
-        margin-right: .25em;
+        margin-right: 0.25em;
       }
     }
   }
@@ -145,46 +145,23 @@
 
   .cal-legend {
     display: none;
-    font-size: .9em;
-
-    table {
-      width: auto;
-    }
-
-    tr {
-      padding-bottom: .25em;
-    }
-
-    td {
-      span {
-        display: inline-block;
-        width: 1.5em;
-        text-align: center;
-      }
-    }
-
-    th {
-      font-weight: normal;
-      padding-bottom: .25em;
-      padding-left: .5em;
-      text-align: left;
-    }
-
-    td, th {
-      border: none;
-      width: auto;
-
-      &.bold {
-        font-weight: bold;
-      }
-    }
+    font-size: 0.9em;
 
     .column {
-      padding: .5em;
+      padding: 0;
+      padding-right: 0.5em;
+
+      &.col-lg-12 {
+        padding-bottom: 0.5em;
+      }
+    }
+
+    .legend-text {
+      margin-left: 0.5em;
     }
 
     .fa {
-      padding: .2em;
+      padding: 0.2em;
     }
 
     .milestone {
@@ -220,7 +197,7 @@
 
   .popover {
     width: auto;
-    max-width: 600px;
+    max-width: 700px;
 
     .cal-legend {
       display: block;

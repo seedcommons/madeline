@@ -1,10 +1,8 @@
 // Id is only used in the old timeline
-div.modal.fade.duplicate-step tabindex="-1" aria-labelledby="duplicate-step-label" id="duplicate-step-modal-#{step.id}"
+div.modal.fade.duplicate-step tabindex="-1" aria-labelledby="duplicate-step-label" id="duplicate-step-modal-#{step.id}" data-backdrop="static"
   div.modal-dialog
     div.modal-content
       div.modal-header
-        button type="button" class="close" data-dismiss="modal" aria-label== t(:cancel)
-          span aria-hidden="true" &times;
         h4.modal-title id="duplicate-step-label"
           = t("project_step.duplicate_step")
 
