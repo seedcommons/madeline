@@ -15,8 +15,12 @@
 #  provider_job_id        :string
 #  updated_at             :datetime         not null
 #
-
 class Task < ApplicationRecord
+  TASK_JOB_TYPES = %i(full_fetcher)
+
+  scope :full_fetcher, -> { where(job_type_value: :full_fetcher) }
+  scope :by_creation_time, ->(direction = :asc) { order(created_at: direction) }
+
   def enqueue(job_params: {})
     job = job_class.constantize.perform_later(job_params.merge(task_id: id))
     self.update_attribute(:provider_job_id, job.provider_job_id)
@@ -47,6 +51,10 @@ class Task < ApplicationRecord
     self.update_attribute(:job_last_failed_at, Time.current)
   end
 
+  def succeeded?
+    job_succeeded_at.present?
+  end
+
   private
 
   def pending?
@@ -57,10 +65,6 @@ class Task < ApplicationRecord
     job_first_started_at.present? &&
       job_succeeded_at.nil? &&
       job_last_failed_at.nil?
-  end
-
-  def succeeded?
-    job_succeeded_at.present?
   end
 
   def failed?
