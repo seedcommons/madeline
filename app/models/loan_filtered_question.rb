@@ -47,8 +47,4 @@ class LoanFilteredQuestion < FilteredQuestion
   def response_set
     @response_set ||= loan.send(question_set.kind)
   end
-
-  def numerical?
-    (data_type == "number") || (data_type == "currency") || (data_type == "percentage")
-  end
 end

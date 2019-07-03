@@ -41,7 +41,7 @@ div
         - else
           // For numerical questions in print view, the question's label is displayed with
           // the question's answer.
-          .question-label class=(question.numerical? ? 'hidden-print' : '')
+          .question-label class=(response.has_number? ? 'hidden-print' : '')
             = question.full_number_and_label
 
       - if question.explanation.present?
@@ -98,8 +98,6 @@ div
                     td.number-response = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)
-
-
 
           - if response.has_text?
             / Display response as rich text. Specify which html is allowed.
@@ -161,7 +159,7 @@ div
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
 
-    - question.numerical? ? @previous_question_numerical = true : @previous_question_numerical = false
+    - response.has_number? ? @previous_question_numerical = true : @previous_question_numerical = false
 
   - if optional_encountered && @print_view
     </fieldset>
