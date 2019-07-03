@@ -15,7 +15,13 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       division: Division.root,
       params: params
     )
-    Accounting::Quickbooks::FullFetcher.new(current_division.qb_division).fetch_all
+
+    Task.create(
+      job_class: FullFetcherJob,
+      job_type_value: :full_fetcher,
+      activity_message_value: 'fetching_quickbooks_data'
+    ).enqueue(job_params: {division_id: current_division.qb_division.id})
+
 
     flash[:notice] = t('quickbooks.connection.link_message')
   end
@@ -24,12 +30,6 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     authorize :'accounting/quickbooks', :disconnect?
     Division.root.qb_connection.destroy
     redirect_to admin_accounting_settings_path, notice: t('quickbooks.connection.disconnect_message')
-  end
-
-  def reset_data
-    authorize :'accounting/quickbooks', :reset_data?
-    Accounting::Quickbooks::FullFetcher.new(current_division.qb_division).fetch_all
-    redirect_to admin_accounting_settings_path, notice: t('quickbooks.connection.data_reset_message')
   end
 
   def connected

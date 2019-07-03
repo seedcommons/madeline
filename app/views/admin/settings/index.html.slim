@@ -22,16 +22,21 @@ section.block
           - else
             = t("quickbooks.connection.not_connected")
       - if @division.quickbooks_connected?
+        = f.input "data_import_status" do
+          .read-only
+            - if @fetch_task.present?
+              = t("quickbooks.fetch_status.#{@fetch_task.status}")
+        - if @fetch_task && @fetch_task.succeeded?
+          = f.input "last_updated_at" do
+            .read-only
+              - if @last_updated_at
+                = ldate(@last_updated_at, format: :long)
+              - else
+                = t("quickbooks.connection.never_synced")
         = f.input "disconnect" do
           .read-only
             = link_to(t("quickbooks.connection.disconnect"),
               disconnect_admin_accounting_quickbooks_path)
-        = f.input "last_updated_at" do
-          .read-only
-            - if @last_updated_at
-              = ldate(@last_updated_at, format: :long)
-            - else
-              = t("quickbooks.connection.never_synced")
 
         / There is a bug where the reset button removes all transactions from a loans page
         / when the data is reset. Until we can fix this bug, the reset button needs to be hidden.
@@ -46,25 +51,26 @@ section.block
           / this will display a button that the user clicks to start the flow
           ipp:connectToIntuit
 
-- if @accounts && !@accounts.empty?
-  section.block
-    h2 = t("quickbooks.accounts.accounts")
-    p.help-block.note = t("quickbooks.accounts.note")
+- if @division.quickbooks_connected? && @fetch_task && @fetch_task.succeeded?
+  - if @accounts && !@accounts.empty?
+    section.block
+      h2 = t("quickbooks.accounts.accounts")
+      p.help-block.note = t("quickbooks.accounts.note")
 
-    = simple_form_for([:admin, @division],
-        url: admin_accounting_settings_path,
-        method: 'patch',
-        html: {class: 'form-horizontal'},
-        wrapper: :horizontal_form_expanded,
-      ) do |f|
+      = simple_form_for([:admin, @division],
+          url: admin_accounting_settings_path,
+          method: 'patch',
+          html: {class: 'form-horizontal'},
+          wrapper: :horizontal_form_expanded,
+        ) do |f|
 
-      = error_notification(f)
-      = f.input :principal_account_id, collection: @accounts
-      = f.input :interest_receivable_account_id, collection: @accounts
-      = f.input :interest_income_account_id, collection: @accounts
+        = error_notification(f)
+        = f.input :principal_account_id, collection: @accounts
+        = f.input :interest_receivable_account_id, collection: @accounts
+        = f.input :interest_income_account_id, collection: @accounts
 
-      .text-right
-        = f.submit t(:save), class: "btn btn-primary"
+        .text-right
+          = f.submit t(:save), class: "btn btn-primary"
 
   section.alert.alert-warning
     = t('quickbooks.class_location_notice')
