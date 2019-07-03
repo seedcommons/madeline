@@ -159,8 +159,14 @@ div
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
 
-    - if response.has_number? && response.number.present? && !response.not_applicable?
-      - @previous_question_numerical = true
+    - if response.has_number?
+      - if response.number.present? && !response.not_applicable?
+        - @previous_question_numerical = true
+      - else
+        - if @previous_question_numerical
+          - @previous_question_numerical = true
+        - else
+          - @previous_question_numerical = false
     - else
       - @previous_question_numerical = false
 
