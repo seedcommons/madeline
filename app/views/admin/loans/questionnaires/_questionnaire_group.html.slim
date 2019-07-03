@@ -159,7 +159,10 @@ div
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
 
-    - response.has_number? ? @previous_question_numerical = true : @previous_question_numerical = false
+    - if response.has_number? && response.number.present? && !response.not_applicable?
+      - @previous_question_numerical = true
+    - else
+      - @previous_question_numerical = false
 
   - if optional_encountered && @print_view
     </fieldset>
