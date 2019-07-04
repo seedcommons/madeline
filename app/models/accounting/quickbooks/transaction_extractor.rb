@@ -14,6 +14,7 @@ module Accounting
         set_type
         extract_account
         set_managed
+        set_deltas
         calculate_amount
         add_implicit_line_items
       end
@@ -27,6 +28,10 @@ module Accounting
             txn.line_items.destroy(li) unless qb_ids.include?(li.qb_line_id)
           end
         end
+      end
+
+      def set_deltas
+        txn.calculate_deltas
       end
 
       def extract_line_items
