@@ -1,0 +1,9 @@
+en:
+  task:
+    index:
+      activity_message: "Message"
+      attachment: "Attachment"
+      id: "ID"
+      status: "Status"
+      title: "Tasks"
+      type: "Task Type"
