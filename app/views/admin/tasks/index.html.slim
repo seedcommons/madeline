@@ -13,8 +13,8 @@ table.table.table-bordered.middle-aligned
     - @tasks.each_with_index do |task, index|
         tr
           td= task.id
-          td= task.job_type_value
+          td= t("task.type.#{task.job_type_value}")
           td= task.status
-          td= task.activity_message_value
+          td= t("task.activity_message.#{task.activity_message_value}")
           td= "attachment placeholder"
 .pagination = paginate @tasks, param_name: 'pg'

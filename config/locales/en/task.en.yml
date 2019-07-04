@@ -1,5 +1,7 @@
 en:
   task:
+    activity_message:
+      fetching_quickbooks_data: "Fetching Quickbooks Data"
     index:
       activity_message: "Message"
       attachment: "Attachment"
@@ -7,3 +9,5 @@ en:
       status: "Status"
       title: "Tasks"
       type: "Task Type"
+    type:
+      full_fetcher: "Quickbooks Import"
