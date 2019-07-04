@@ -10,4 +10,9 @@
     // Each media item has a 15px bottom margin but we don't want that on the bottom row.
     margin-bottom: -15px;
   }
+
+  // Ensures there is spacing between additional and private notes.
+  .language-block div.form-group:last-of-type {
+    margin-bottom: 15px;
+  }
 }
