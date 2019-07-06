@@ -27,7 +27,7 @@
 
 ### Background Jobs
 
-Some things, like loan health checks, require background jobs to be running.
+Some things, including connecting to Quickbooks, loan health checks, and email require background jobs to be running.
 
 To run jobs, you'll need to start redis.
 Then run `bundle exec sidekiq` from the project directory
@@ -103,3 +103,13 @@ On server:
 ### QuickBooks configuration
 
 Please see the `documentation/accounting` folder for instructions for setting up QuickBooks.
+
+### Installing and Running Redis
+
+#### Install Redis
+
+1. If using a Mac, `brew install redis`.
+
+#### Run Redis
+
+1. Run `redis-server`.
