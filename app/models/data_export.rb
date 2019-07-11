@@ -1,0 +1,2 @@
+class DataExport < ApplicationRecord
+end

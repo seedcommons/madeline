@@ -1,0 +1,2 @@
+class StandardDataExport < DataExport
+end
