@@ -27,7 +27,7 @@
       <p><%=raw @log.private_notes %></p>
     <% end -%>
 
-    <%= admin_loan_url(@log.project) %>/timeline
+    <%= link_to("Timeline for #{@log.project.display_name}", admin_loan_url(@log.project) + "/timeline") %>
 
     <p><%= t('notification_mailer.new_log.contact') %></p>
   </body>
