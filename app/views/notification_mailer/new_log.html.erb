@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p><%= t('notification_mailer.new_log.created', project: @log.project.display_name, agent: @log.agent.name) %>:</p>
+
+    <p><b><%= t :step %>:</b> <%= @log.project_step.summary %></p>
+
+    <p><b><%= t :status %>:</b> <%= @log.progress_metric %></p>
+
+    <p><b><%= t :summary %>:</b> <%= @log.summary -%></p>
+
+    <% if @log.details.present? -%>
+      <p><b><%= t :details %>:</b></p>
+      <p><%=raw @log.details %></p>
+    <% end -%>
+
+    <% if @log.additional_notes.present? -%>
+      <p><b><%= t 'log.additional_notes' %>:</b></p>
+      <p><%=raw @log.additional_notes %></p>
+    <% end -%>
+
+    <% if @log.private_notes.present? -%>
+      <p><b><%= t 'log.private_notes' %>:</b></p>
+      <p><%=raw @log.private_notes %></p>
+    <% end -%>
+
+    <%= admin_loan_url(@log.project) %>/timeline
+
+    <p><%= t('notification_mailer.new_log.contact') %></p>
+  </body>
+</html>
