@@ -93,19 +93,19 @@
               .extra
                 h5 = t('common.details')
                 div.log-notes
-                  = raw(log.details)
+                  = render_translation(log.details)
 
             - if log.additional_notes.present?
               .extra
                 h5 = t('log.additional_notes')
                 div.log-notes
-                  = raw(log.additional_notes)
+                  = render_translation(log.additional_notes)
 
             - if log.private_notes.present?
               .extra
                 h5 = t('log.private_notes')
                 div.log-notes
-                  = raw(log.private_notes)
+                  = render_translation(log.private_notes)
 
             - if log.media.present?
               .extra.media-container.row
