@@ -27,10 +27,10 @@
       <p><%=raw @log.private_notes %></p>
     <% end %>
 
-    <p><b><%= t('notification_mailer.new_log.view_on_site.html') %></b></p>
+    <p><b><%= t('notification_mailer.new_log.view_on_site.html') %>:</b></p>
 
-    <p><b><%= t('notification_mailer.new_log.logs') %></b> <%= link_to(admin_loan_url(@log.project) + "/logs", admin_loan_url(@log.project) + "/logs") %></p>
-    <p><b><%= t('notification_mailer.new_log.timeline') %></b> <%= link_to( admin_loan_url(@log.project) + "/timeline", admin_loan_url(@log.project) + "/timeline") %></p>
+    <p><b><%= t('notification_mailer.new_log.logs') %>:</b> <%= link_to(admin_loan_url(@log.project) + "/logs", admin_loan_url(@log.project) + "/logs") %></p>
+    <p><b><%= t('notification_mailer.new_log.timeline') %>:</b> <%= link_to( admin_loan_url(@log.project) + "/timeline", admin_loan_url(@log.project) + "/timeline") %></p>
 
     <p><%= t('notification_mailer.new_log.contact') %></p>
   </body>
