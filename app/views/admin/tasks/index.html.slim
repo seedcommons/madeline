@@ -3,10 +3,10 @@
 table.table.table-bordered.middle-aligned
   thead
     tr
-      th= t("task.id")
-      th= t("task.type")
-      th= t("task.status")
-      th= t("task.activity_message")
+      th= t("task.header.id")
+      th= t("task.header.type")
+      th= t("task.header.status")
+      th= t("task.header.activity_message")
 
   tbody
     - @tasks.each_with_index do |task, index|
