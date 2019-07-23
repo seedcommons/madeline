@@ -9,7 +9,7 @@ feature 'visit tasks index page' do
     let(:division) { Division.root }
     let(:user) { create_admin(division) }
     let(:tasks) {
-      3.times {create(:task)}
+      3.times { create(:task) }
     }
 
     it 'shows tasks in descending order of creation' do
