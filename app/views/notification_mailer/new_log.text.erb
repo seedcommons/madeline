@@ -6,10 +6,10 @@
 
 <%= t :summary %>: <%= @log.summary %>
 
-<%= t('notification_mailer.view_on_site.plain_text') %>
+<%= t('notification_mailer.new_log.view_on_site.plain_text') %>
 
-Logs: <%= admin_loan_url(@log.project) %>/logs
+<%= t('notification_mailer.new_log.logs') %> <%= admin_loan_url(@log.project) %>/logs
 
-Timeline: <%= admin_loan_url(@log.project) %>/timeline
+<%= t('notification_mailer.new_log.timeline') %> <%= admin_loan_url(@log.project) %>/timeline
 
 <%= t('notification_mailer.new_log.contact') %>

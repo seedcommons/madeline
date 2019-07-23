@@ -12,25 +12,25 @@
 
     <p><b><%= t :summary %>:</b> <%= @log.summary -%></p>
 
-    <% if @log.details.present? -%>
+    <% if @log.details.present? %>
       <p><b><%= t :details %>:</b></p>
       <p><%=raw @log.details %></p>
-    <% end -%>
+    <% end %>
 
-    <% if @log.additional_notes.present? -%>
+    <% if @log.additional_notes.present? %>
       <p><b><%= t 'log.additional_notes' %>:</b></p>
       <p><%=raw @log.additional_notes %></p>
-    <% end -%>
+    <% end %>
 
-    <% if @log.private_notes.present? -%>
+    <% if @log.private_notes.present? %>
       <p><b><%= t 'log.private_notes' %>:</b></p>
       <p><%=raw @log.private_notes %></p>
-    <% end -%>
+    <% end %>
 
-    <p><b><%= t('notification_mailer.view_on_site.html') %></b></p>
+    <p><b><%= t('notification_mailer.new_log.view_on_site.html') %></b></p>
 
-    <p><b>Logs:</b> <%= link_to(admin_loan_url(@log.project) + "/logs", admin_loan_url(@log.project) + "/logs") %></p>
-    <p><b>Timeline:</b> <%= link_to( admin_loan_url(@log.project) + "/timeline", admin_loan_url(@log.project) + "/timeline") %></p>
+    <p><b><%= t('notification_mailer.new_log.logs') %></b> <%= link_to(admin_loan_url(@log.project) + "/logs", admin_loan_url(@log.project) + "/logs") %></p>
+    <p><b><%= t('notification_mailer.new_log.timeline') %></b> <%= link_to( admin_loan_url(@log.project) + "/timeline", admin_loan_url(@log.project) + "/timeline") %></p>
 
     <p><%= t('notification_mailer.new_log.contact') %></p>
   </body>
