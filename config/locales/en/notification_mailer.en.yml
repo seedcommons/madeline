@@ -1,6 +1,11 @@
 en:
   notification_mailer:
     new_log:
-      subject: "[Madeline] New log on %{project}"
-      created: "A new log has been created on %{project} by %{agent}"
       contact: "Reply to this email to contact the author of the log."
+      created: "A new log has been created on %{project} by %{agent}"
+      logs: "Logs:"
+      subject: "[Madeline] New log on %{project}"
+      timeline: "Timeline:"
+      view_on_site:
+        html: "View the log on Madeline:"
+        plain_text: "To view the log's details, additional notes, and private notes, view the log on Madeline:"
