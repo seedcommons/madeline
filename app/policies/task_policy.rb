@@ -1,5 +1,5 @@
 class TaskPolicy < ApplicationPolicy
   def index?
-    true
+    any_division_admin?
   end
 end
