@@ -15,11 +15,6 @@
 
 class DataExport < ApplicationRecord
   def process_data
-    self.custom_data = [
-      ["H1", "H2", "H3"],
-      ["a", "1", "z"],
-      ["b", "2", "y"]
-    ]
-    self.save
+    raise NotImplementedError
   end
 end

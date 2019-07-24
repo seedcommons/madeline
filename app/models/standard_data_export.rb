@@ -14,4 +14,13 @@
 #
 
 class StandardDataExport < DataExport
+  def process_data
+    self.custom_data = [
+      ["H1", "H2", "H3"],
+      ["a", "1", "z"],
+      ["b", "2", "y"]
+    ]
+    self.save
+    # call service to create csv
+  end
 end

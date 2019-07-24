@@ -15,10 +15,12 @@
 
 require 'rails_helper'
 
-RSpec.describe DataExport, type: :model do
+RSpec.describe StandardDataExport, type: :model do
   describe "process data" do
-    let(:data_export) { create(:data_export) }
+    let(:data_export) { create(:standard_data_export) }
     it "adds data to data export" do
+      expect(data_export.custom_data).to be_nil
+      expect(data_export.type).to eq "StandardDataExport"
       data_export.process_data
       expect(data_export.custom_data).not_to be_nil
     end

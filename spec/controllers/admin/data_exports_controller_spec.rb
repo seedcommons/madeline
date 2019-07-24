@@ -17,6 +17,7 @@ RSpec.describe Admin::DataExportsController, type: :controller do
         locale_code: "en" # move to controller?
       }}
       expect(DataExport.count).to eq 1
+      expect(DataExport.first.type).to eq "StandardDataExport"
       expect(Task.count).to eq 1
     end
   end
