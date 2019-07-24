@@ -9,6 +9,6 @@ en:
         id: "ID"
         status: "Status"
         type: "Task Type"
-      title: "Tasks"    
+      title: "Tasks"
     type:
       full_fetcher: "Quickbooks Import"
