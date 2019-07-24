@@ -14,6 +14,8 @@
 #
 
 class DataExport < ApplicationRecord
+  mount_uploader :attachment, DataExportAttachmentUploader
+  
   def process_data
     raise NotImplementedError
   end

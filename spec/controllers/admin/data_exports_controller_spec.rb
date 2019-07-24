@@ -8,7 +8,7 @@ RSpec.describe Admin::DataExportsController, type: :controller do
   end
 
   describe "create" do
-    it "creates a data export" do
+    it "creates a standard data export" do
       post :create, params: {data_export: {
         name: "Test Standard Data Export",
         start_date: 1.year.ago,

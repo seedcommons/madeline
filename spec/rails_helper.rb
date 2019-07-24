@@ -87,8 +87,10 @@ RSpec.configure do |config|
     if Rails.env.test?
       tmp_uploads_path = Rails.root.join('public', 'uploads', 'tmp')
       test_uploads_path = Rails.root.join('public', 'uploads', 'test')
+      test_export_path = Rails.root.join('public', 'exports', 'test')
       FileUtils.rm_rf(Dir[tmp_uploads_path])
       FileUtils.rm_rf(Dir[test_uploads_path])
+      FileUtils.rm_rf(Dir[test_export_path])
     end
   end
 

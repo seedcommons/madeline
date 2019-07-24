@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_05_173448) do
+ActiveRecord::Schema.define(version: 2019_07_24_161606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2019_07_05_173448) do
   end
 
   create_table "data_exports", force: :cascade do |t|
+    t.string "attachment"
     t.datetime "created_at", null: false
     t.json "custom_data"
     t.date "end_date"

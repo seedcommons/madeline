@@ -21,6 +21,13 @@ class StandardDataExport < DataExport
       ["b", "2", "y"]
     ]
     self.save
-    # call service to create csv
+    filename = "#{self.name.gsub(/\s+/, "")}.csv"
+    DataExportService.to_csv(self.custom_data, path, filename)
+    self.attachment = Pathname.new(File.join(path, filename)).open
+    self.save
+  end
+
+  def path
+    File.join("exports", Rails.env)
   end
 end

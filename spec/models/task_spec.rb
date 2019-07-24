@@ -8,7 +8,6 @@
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null

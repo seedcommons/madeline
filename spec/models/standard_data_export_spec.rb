@@ -2,6 +2,7 @@
 #
 # Table name: data_exports
 #
+#  attachment  :string
 #  created_at  :datetime         not null
 #  custom_data :json
 #  end_date    :date
@@ -23,6 +24,15 @@ RSpec.describe StandardDataExport, type: :model do
       expect(data_export.type).to eq "StandardDataExport"
       data_export.process_data
       expect(data_export.custom_data).not_to be_nil
+    end
+
+    it "creates attachment" do
+      expect(data_export.attachment.file).to be_nil
+      data_export.process_data
+      expect(data_export.attachment.file).not_to be_nil
+      puts data_export.attachment.read
+      puts data_export.attachment.path
+      expect(data_export.attachment.read).to include("H2")
     end
   end
 end
