@@ -2,11 +2,11 @@ module ResponsesHelper
   def display_value_for_number(response)
     return if !response.has_number?
     if response.has_currency?
-      "#{prefix(response)}#{format_number(response.number)} #{postfix(response)}"
+      "#{prefix(response)}#{number_with_delimiter(response.number)} #{postfix(response)}"
     elsif response.has_percentage?
-      "#{format_number(response.number)}%"
+      "#{number_with_delimiter(response.number)}%"
     else
-      format_number(response.number)
+      number_with_delimiter(response.number)
     end
   end
 
