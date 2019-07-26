@@ -253,7 +253,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mimemagic (0.3.3)
-    mini_magick (4.9.2)
+    mini_magick (4.9.5)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
@@ -539,7 +539,7 @@ DEPENDENCIES
   i18n-js (>= 3.0.0.rc11)
   jquery-rails
   jquery-ui-rails
-  mini_magick
+  mini_magick (>= 4.9.4)
   momentjs-rails
   mysql2
   paperclip (~> 5.2)
