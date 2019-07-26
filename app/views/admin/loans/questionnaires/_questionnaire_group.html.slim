@@ -39,7 +39,10 @@ div
           *header_tag
             = question.full_number_and_label
         - else
-          .question-label = question.full_number_and_label
+          // For numerical questions in print view, the question's label is displayed with
+          // the question's answer.
+          .question-label class=(response.has_number? ? 'hidden-print' : '')
+            = question.full_number_and_label
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
@@ -84,19 +87,30 @@ div
 
           - if response.has_number?
             - if response.number.present? && !response.not_applicable?
-              .view-element.answer = display_value_for_number(response)
+              .view-element.answer.hidden-print = display_value_for_number(response)
+              .view-element.answer.numerical-answer.visible-print-block
+                table.table class=(@previous_number_table ? 'sibling-table' : '')
+                  caption.sr-only
+                    = t("questions.table.caption", number: question.full_number)
+                  tr
+                    td.question-number = question.full_number
+                    td.number-question-label = question.label
+                    td.number-response = display_value_for_number(response)
             = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
               value: response.number, prefix: prefix(response), postfix: postfix(response)
 
-          - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
-
-          / class attr should work automatically but
-          / adding class attr fixed the bug of having both a table and an image
-          - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
-
           - if response.has_text?
+            / Display response as rich text. Specify which html is allowed.
+            - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
+
+            / Class attr should work automatically but
+            / adding class attr fixed the bug of having both a table and an image
+            - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
+
             - if response.text.present? && !response.not_applicable?
               .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
+
+            / Display input as Summernote field
             = f.input_field :"#{question.attribute_sym}[text]",
               value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
@@ -144,6 +158,19 @@ div
 
           - if !response.group? && response.blank?
             .view-element.answer.blank = t("loan.no_answer")
+
+    - if response.has_number?
+      - if response.number.present? && !response.not_applicable?
+        - @previous_number_table = true
+      - else
+        / Empty and not applicable responses do not show in print loan memo
+        / If a number table was displayed before the current response, keep track of previous table
+        - if @previous_number_table
+          - @previous_number_table = true
+        - else
+          - @previous_number_table = false
+    - else
+      - @previous_number_table = false
 
   - if optional_encountered && @print_view
     </fieldset>

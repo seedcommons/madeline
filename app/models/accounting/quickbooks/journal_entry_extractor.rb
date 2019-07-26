@@ -32,11 +32,17 @@ module Accounting
           :interest
         elsif num_li == 2 && line_items_contain_at_least_one('Credit') && line_items_include_debit_to_acct(prin_acct)
           :disbursement
-        elsif num_li == 3 && line_items_contain_at_least_one('Debit') && line_items_include_credit_to_acct(prin_acct)
+        elsif num_li == 3 && line_items_contain_at_least_one('Debit') && credit_or_zero_debit_to(prin_acct)
           :repayment
         else
           :other
         end
+      end
+
+      def credit_or_zero_debit_to(account)
+        return true if line_items_include_credit_to_acct(account)
+        li = line_items.find { |i| i.account == account }
+        li.amount == 0
       end
 
       def line_items_include_debit_to_acct(account)
@@ -56,7 +62,8 @@ module Accounting
       def account
         case txn.loan_transaction_type_value
         when 'repayment'
-          txn.line_items.find(&:debit?).account
+          debited_accounts = txn.line_items.select(&:debit?).map(&:account)
+          debited_accounts.find { |a| a != qb_division.principal_account && a != qb_division.interest_receivable_account }
         when 'disbursement'
           txn.line_items.find(&:credit?).account
         when 'other'

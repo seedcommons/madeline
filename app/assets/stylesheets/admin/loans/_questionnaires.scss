@@ -191,6 +191,51 @@ section.questionnaires {
       margin-bottom: 0;
     }
   }
+
+  .numerical-answer {
+    margin: 0;
+    width: 50em;
+
+    table {
+      margin: 0;
+      text-align: left;
+      width: 100%;
+    }
+
+    td {
+      border: 1px solid $table-border-color;
+      padding: 0.5em;
+    }
+
+    .sibling-table {
+      td {
+        border-top: 0;
+      }
+    }
+
+    .question-number {
+      width: 6em;
+    }
+
+    .number-question-label,
+    .question-number {
+      font-weight: bold;
+    }
+
+    .number-response {
+      width: 20em;
+    }
+  }
+
+  .question {
+    margin-top: 0.5em;
+
+    &[data-type="currency"],
+    &[data-type="number"],
+    &[data-type="percentage"] {
+      margin-top: 0;
+    }
+  }
 }
 
 .loan-memo-header {
