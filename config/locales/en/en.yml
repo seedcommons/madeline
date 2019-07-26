@@ -486,18 +486,19 @@ en:
     visual_media: "Visual Media"
 
   menu:
+    accounting_settings: "Accounting Settings"
     basic_projects: "Projects"
     calendar: "Calendar"
     coops: "Co-ops"
     dashboard: "Dashboard"
     divisions: "Divisions"
     loans: "Loans"
+    log: "Log"
+    logs: "Logs"
     questions: "Questions"
     manage: "Manage"
     people: "Members"
-    log: "Log"
-    logs: "Logs"
-    accounting_settings: "Accounting Settings"
+    tasks: "Tasks"
   number:
     nth:
       num_1: "first"
