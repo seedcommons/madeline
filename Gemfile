@@ -26,7 +26,7 @@ gem "uri-js-rails" # URI manipulation
 
 # File attachments
 gem "carrierwave"
-gem "mini_magick"
+gem "mini_magick", ">= 4.9.4"
 gem "paperclip", "~> 5.2"
 
 # Authentication / Authorization
