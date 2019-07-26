@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       end
     end
     resources :project_groups
-
+    resources :tasks
     resources :timeline_step_moves do
       member do
         patch :simple_move

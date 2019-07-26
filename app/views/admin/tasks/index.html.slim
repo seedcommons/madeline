@@ -1,0 +1,18 @@
+- content_for(:title, t("task.index.title"))
+
+table.table.table-bordered.middle-aligned
+  thead
+    tr
+      th= t("task.header.id")
+      th= t("task.header.type")
+      th= t("task.header.status")
+      th= t("task.header.activity_message")
+
+  tbody
+    - @tasks.each_with_index do |task, index|
+        tr
+          td= task.id
+          td= t("task.type.#{task.job_type_value}")
+          td= task.status
+          td= t("task.activity_message.#{task.activity_message_value}")
+.pagination = paginate @tasks, param_name: 'pg'
