@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p><%= t('notification_mailer.new_log.created', project: @log.project.display_name, agent: @log.agent.name) %>:</p>
+
+    <p><b><%= t :step %>:</b> <%= @log.project_step.summary %></p>
+
+    <p><b><%= t :status %>:</b> <%= @log.progress_metric %></p>
+
+    <p><b><%= t :summary %>:</b> <%= @log.summary -%></p>
+
+    <% if @log.details.present? %>
+      <p><b><%= t :details %>:</b></p>
+      <p><%=raw @log.details %></p>
+    <% end %>
+
+    <% if @log.additional_notes.present? %>
+      <p><b><%= t 'log.additional_notes' %>:</b></p>
+      <p><%=raw @log.additional_notes %></p>
+    <% end %>
+
+    <% if @log.private_notes.present? %>
+      <p><b><%= t 'log.private_notes' %>:</b></p>
+      <p><%=raw @log.private_notes %></p>
+    <% end %>
+
+    <p><b><%= t('notification_mailer.new_log.view_on_site.html') %>:</b></p>
+
+    <p><b><%= t('notification_mailer.new_log.logs') %>:</b> <%= link_to(admin_loan_url(@log.project) + "/logs", admin_loan_url(@log.project) + "/logs") %></p>
+    <p><b><%= t('notification_mailer.new_log.timeline') %>:</b> <%= link_to( admin_loan_url(@log.project) + "/timeline", admin_loan_url(@log.project) + "/timeline") %></p>
+
+    <p><%= t('notification_mailer.new_log.contact') %></p>
+  </body>
+</html>
