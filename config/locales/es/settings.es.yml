@@ -16,3 +16,8 @@ es:
       data_reset_message: "Ha sido reiniciado tu cache de los datos de QuickBooks."
       data_reset_information: "Si tienes problemas con los datos de QuickBooks, hacer click en Reiniciar para vaciar la copia del cache en Madeline y reestablecerla desde los datos de QuickBooks."
       link_message: "Has conectado exitosamente tu cuenta de QuickBooks. Nota: Necesitas selectar tus cuentas antes de poder agregar transacciones."
+    fetch_status:
+      failed: "Importación de los datos de QuickBooks resultó fallida."
+      in_progress: "Importación de los datos de QuickBooks en curso."
+      pending: "Importación de los datos de QuickBooks ha quedado pendiente."
+      succeeded: "Importación de los datos de QuickBooks tuvo éxito."
