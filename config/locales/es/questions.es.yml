@@ -10,6 +10,8 @@ es:
     manage: "Manejar Preguntas del Préstamo"
     move_error: "El ítem no pudo moverse debido a un error"
     not_editable: "Esta pregunta o grupo ha sido heredado de una división superior, por lo que no puede cambiarse."
+    table:
+      caption: "Pregunta número %{number} pregunta y respuesta"
     text: "Título"
   linked_document:
     cell_end: Celda Final
