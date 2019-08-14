@@ -7,6 +7,7 @@ en:
         activity_message: "Message"
         attachment: "Attachment"
         created_at: "Created At"
+        error_info: "Error Information"
         id: "ID"
         job_first_started_at: "Job First Started At"
         job_last_failed_at: "Job Last Failed At"

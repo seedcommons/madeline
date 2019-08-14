@@ -4,17 +4,18 @@
 #
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
+#  error_info             :string(65536)
 #  id                     :bigint(8)        not null, primary key
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null
 #  provider_job_id        :string
 #  updated_at             :datetime         not null
 #
+
 class Task < ApplicationRecord
   TASK_JOB_TYPES = %i(full_fetcher)
 
@@ -47,16 +48,16 @@ class Task < ApplicationRecord
     self.update_attribute(:job_succeeded_at, Time.current)
   end
 
-  def fail!
-    self.update_attribute(:job_last_failed_at, Time.current)
+  def fail!(error)
+    error_info = "#{error.message}: #{error.backtrace.join("\n")}"
+    self.update_attributes(
+      job_last_failed_at: Time.current,
+      error_info: error_info
+    )
   end
 
   def succeeded?
     job_succeeded_at.present?
-  end
-
-  def error
-    "aaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
   end
 
   private

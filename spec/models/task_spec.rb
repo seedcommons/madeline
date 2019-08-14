@@ -4,11 +4,11 @@
 #
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
+#  error_info             :string(65536)
 #  id                     :bigint(8)        not null, primary key
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null
@@ -103,9 +103,12 @@ RSpec.describe Task, type: :model do
 
     describe "#fail!" do
       it "records failure" do
+        error = StandardError.new("Error message")
+        error.set_backtrace(caller)
         expect(task.job_last_failed_at).to be_nil
-        task.fail!
+        task.fail!(error)
         expect(task.reload.job_last_failed_at).not_to be_nil
+        expect(task.error_info).not_to be_nil
       end
     end
   end
