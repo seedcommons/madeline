@@ -6,9 +6,16 @@ en:
       header:
         activity_message: "Message"
         attachment: "Attachment"
+        created_at: "Created At"
         id: "ID"
+        job_first_started_at: "Job First Started At"
+        job_last_failed_at: "Job Last Failed At"
         status: "Status"
         type: "Task Type"
+
+
       title: "Tasks"
+    show:
+      title: "Task #%{id}"
     type:
       full_fetcher: "Quickbooks Import"
