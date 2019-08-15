@@ -12,8 +12,6 @@ en:
         job_last_failed_at: "Job Last Failed At"
         status: "Status"
         type: "Task Type"
-
-
       title: "Tasks"
     show:
       title: "Task #%{id}"
