@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_14_205752) do
+ActiveRecord::Schema.define(version: 2019_06_11_164918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,18 +105,6 @@ ActiveRecord::Schema.define(version: 2019_08_14_205752) do
     t.string "name"
     t.string "short_symbol"
     t.string "symbol"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "data_exports", force: :cascade do |t|
-    t.string "attachment"
-    t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.date "end_date"
-    t.string "locale_code"
-    t.string "name"
-    t.date "start_date"
-    t.string "type"
     t.datetime "updated_at", null: false
   end
 
@@ -399,7 +387,6 @@ ActiveRecord::Schema.define(version: 2019_08_14_205752) do
   create_table "tasks", force: :cascade do |t|
     t.string "activity_message_value", limit: 65536, null: false
     t.datetime "created_at", null: false
-    t.string "error_info", limit: 65536
     t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"

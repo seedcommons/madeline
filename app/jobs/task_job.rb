@@ -6,7 +6,7 @@ class TaskJob < ApplicationJob
   end
 
   rescue_from(StandardError) do |error|
-    task_for_job(self).fail!(error)
+    task_for_job(self).fail!
     ExceptionNotifier.notify_exception(error, data: {job: to_yaml})
     raise error
   end
