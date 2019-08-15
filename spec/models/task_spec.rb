@@ -4,11 +4,11 @@
 #
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
+#  error_info             :string(65536)
 #  id                     :bigint(8)        not null, primary key
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
 #  job_last_failed_at     :datetime
-#  job_retried_at         :datetime
 #  job_succeeded_at       :datetime
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null
