@@ -1,7 +1,9 @@
 en:
   task:
+    link_to_details: "See task details"
     activity_message:
       fetching_quickbooks_data: "Fetching Quickbooks Data"
+      error_with_custom_data_html: "This job completed with errors on sub-steps. %{link} for more information."
     index:
       header:
         activity_message: "Message"

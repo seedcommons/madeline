@@ -6,7 +6,7 @@ class UpdateAllLoansJob < TaskJob
     Sidekiq::Logging.logger.info("There are #{loans.count} loans")
     updater = Accounting::Quickbooks::Updater.new
     updater.sync_for_loan_update
-    loans[0..20].each do |loan|
+    loans.each do |loan|
       begin
         updater.update_loan(loan)
       rescue StandardError => error
@@ -14,8 +14,10 @@ class UpdateAllLoansJob < TaskJob
         next
       end
     end
-    error_message_string = error_messages.each { |e| "#{e[:loan_id]}: #{e[:message]}" }.join('\n\n')
-    Sidekiq::Logging.logger.info(error_message_string)
-    Task.find(job_params[:task_id]).update_attribute(:activity_message_value, error_message_string)
+    Sidekiq::Logging.logger.info(error_messages.to_s)
+    Task.find(job_params[:task_id]).update_attributes(
+      custom_data: {errors: error_messages},
+      activity_message_value: "error_with_custom_data_html"
+    )
   end
 end
