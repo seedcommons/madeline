@@ -8,4 +8,14 @@ namespace :madeline do
       activity_message_value: 'updating loans'
     ).enqueue
   end
+
+  desc "for testing update loan task"
+
+  task update_loans_task: :environment do
+    Task.create(
+      job_class: UpdateAllLoansJob,
+      job_type_value: 'update_all_loans_job',
+      activity_message_value: 'updating loans'
+    ).enqueue
+  end
 end
