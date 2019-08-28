@@ -1,5 +1,5 @@
 class AddCustomDataToLoans < ActiveRecord::Migration
   def change
-    add_column :loans, :custom_data, :json
+    add_column :loans, :custom_error_data, :json
   end
 end

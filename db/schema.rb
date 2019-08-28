@@ -399,7 +399,7 @@ ActiveRecord::Schema.define(version: 2019_08_27_200442) do
   create_table "tasks", force: :cascade do |t|
     t.string "activity_message_value", limit: 65536, null: false
     t.datetime "created_at", null: false
-    t.json "custom_data"
+    t.json "custom_error_data"
     t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"

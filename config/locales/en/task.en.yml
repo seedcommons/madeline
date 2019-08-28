@@ -3,17 +3,23 @@ en:
     link_to_details: "See task details"
     activity_message:
       fetching_quickbooks_data: "Fetching Quickbooks Data"
-      error_with_custom_data_html: "This job completed with errors on sub-steps. %{link} for more information."
+      finished_with_custom_error_data: "This task completed with errors. See custom error data for details."
+    custom_error_data:
+      help: "See loan, its co-op, or its transactions for more information."
+      link_to_details: "Click here to see error information"
+      loan_id: "Loan ID"
+      loan_error: "Error in Updating Loan"
+      not_applicable: "N/A"
+    header:
+      activity_message: "Message"
+      created_at: "Created At"
+      custom_error_data: "Error Details"
+      id: "ID"
+      job_first_started_at: "Job First Started At"
+      job_last_failed_at: "Job Last Failed At"
+      status: "Status"
+      type: "Task Type"
     index:
-      header:
-        activity_message: "Message"
-        attachment: "Attachment"
-        created_at: "Created At"
-        id: "ID"
-        job_first_started_at: "Job First Started At"
-        job_last_failed_at: "Job Last Failed At"
-        status: "Status"
-        type: "Task Type"
       title: "Tasks"
     show:
       title: "Task #%{id}"
