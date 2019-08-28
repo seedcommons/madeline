@@ -14,7 +14,6 @@ module Accounting
         @qb_connection = qb_connection
       end
 
-
       # If the loan parameter is given, this method extracts QB data for Transactions
       # related to ONLY the given loan. See extract_qb_data for more details.
       #
