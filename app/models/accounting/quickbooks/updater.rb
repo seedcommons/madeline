@@ -14,21 +14,33 @@ module Accounting
         @qb_connection = qb_connection
       end
 
+
+      # If the loan parameter is given, this method extracts QB data for Transactions
+      # related to ONLY the given loan. See extract_qb_data for more details.
+      #
+      # This argument can either be a single loan or an array of loans
+      def update(loans = nil)
+        qb_sync_for_loan_update
+        if loans
+          # check if loan is one object or multiple
+          loans = [loans] if loans.is_a? Loan
+          loans.each do |loan|
+            update_loan(loan)
+          end
+        end
+      end
+
       # Fetches all changes from Quickbooks since the last update.
       # Note that *all* changes are pulled from Quickbooks even if the `loan` parameter is given.
       # Fetched data is initially stored in the objects' qb_data attribute, but NOT copied into the
       # associated attributes.
       #
-      # If the loan parameter is given, this method also extracts QB data for Transactions
-      # related to ONLY the given loan. See extract_qb_data for more details.
-      #
-      # Raises a DataResetRequiredError if there are updates
+      # `changes` method raises a DataResetRequiredError if there are updates
       # too far in the past for the `since` method to access.
       #
-      # This argument can either be a single loan or an array of loans
-      def update(loans = nil)
+      def qb_sync_for_loan_update
         raise NotConnectedError unless qb_connection
-        #return if too_soon_to_run_again?
+        return if too_soon_to_run_again?
 
         changes.each do |type, qb_objects|
           qb_objects.each do |qb_object|
@@ -47,31 +59,6 @@ module Accounting
         # make it frustrating for users who want to deliberately re-run the updater.
         # The other function of last_updated_at is to check if a full sync needs to be run,
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
-        qb_connection.update_attribute(:last_updated_at, Time.now)
-
-        if loans
-          # check if loan is one object or multiple
-          loans = [loans] if loans.is_a? Loan
-
-          loans.each do |loan|
-            update_loan(loan)
-          end
-        end
-      end
-
-      def sync_for_loan_update
-        raise NotConnectedError unless qb_connection
-        #return if too_soon_to_run_again?
-
-        changes.each do |type, qb_objects|
-          qb_objects.each do |qb_object|
-            if should_be_deleted?(qb_object)
-              delete_qb_object(qb_object_type: type, qb_object: qb_object)
-            else
-              create_or_update(qb_object_type: type, qb_object: qb_object)
-            end
-          end
-        end
         qb_connection.update_attribute(:last_updated_at, Time.now)
       end
 

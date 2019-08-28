@@ -1,10 +1,10 @@
 class UpdateAllLoansJob < TaskJob
   def perform(job_params)
     errors_by_loan = []
-    loans = Loan.all[0..30]
+    loans = Loan.all
     Sidekiq::Logging.logger.info("There are #{loans.count} loans")
     updater = Accounting::Quickbooks::Updater.new
-    updater.sync_for_loan_update
+    updater.qb_sync_for_loan_update
     loans.each do |loan|
       begin
         updater.update_loan(loan)
