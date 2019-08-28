@@ -100,6 +100,7 @@ class Division < ApplicationRecord
   scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
+  delegate :company_name, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
   def self.root_id
     result = root.try(:id)
