@@ -4,6 +4,8 @@ en:
     activity_message:
       fetching_quickbooks_data: "Fetching Quickbooks Data"
       finished_with_custom_error_data: "This task completed with errors. See custom error data for details."
+      syncing_with_quickbooks: "Syncing with Quickbooks"
+      updating_all_loans: "Updating every loan"
     custom_error_data:
       help: "See loan, its co-op, or its transactions for more information."
       link_to_details: "Click here to see error information"
@@ -23,5 +25,10 @@ en:
       title: "Tasks"
     show:
       title: "Task #%{id}"
+    status:
+      failed: "Failed"
+      in_progress: "In progress"
+      pending: "Pending"
+      succeeded: "Succeeded"
     type:
       full_fetcher: "Quickbooks Import"

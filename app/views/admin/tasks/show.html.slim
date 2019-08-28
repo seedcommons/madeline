@@ -9,7 +9,7 @@ table.table.table-bordered
     td= t("task.type.#{@task.job_type_value}")
   tr
     th= t("task.header.status")
-    td= @task.status
+    td= t("task.status.#{@task.status}")
   tr
     th= t("task.header.activity_message")
     td= t("task.activity_message.#{@task.activity_message_value}")
