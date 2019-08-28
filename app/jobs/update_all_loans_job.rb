@@ -3,9 +3,9 @@ class UpdateAllLoansJob < TaskJob
     errors_by_loan = []
     loans = Loan.all
     updater = Accounting::Quickbooks::Updater.new
-    Task.find(job_params[:task_id]).update_attribute(:activity_message_value, "syncing_with_quickbooks")
+    Task.update_activity_message(job_params[:task_id], "syncing_with_quickbooks")
     updater.qb_sync_for_loan_update
-    Task.find(job_params[:task_id]).update_attribute(:activity_message_value, "updating_all_loans")
+    Task.update_activity_message(job_params[:task_id], "updating_all_loans")
     loans.each do |loan|
       begin
         updater.update_loan(loan)

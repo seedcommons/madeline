@@ -1,14 +1,13 @@
 en:
   task:
-    link_to_details: "See task details"
     activity_message:
       fetching_quickbooks_data: "Fetching Quickbooks Data"
-      finished_with_custom_error_data: "This task completed with errors. See custom error data for details."
+      finished_with_custom_error_data: "This task completed with errors. See error details."
       syncing_with_quickbooks: "Syncing with Quickbooks"
       updating_all_loans: "Updating every loan"
     custom_error_data:
       help: "See loan, its co-op, or its transactions for more information."
-      link_to_details: "Click here to see error information"
+      link_to_details: "Click here to see error details"
       loan_id: "Loan ID"
       loan_error: "Error in Updating Loan"
       not_applicable: "N/A"

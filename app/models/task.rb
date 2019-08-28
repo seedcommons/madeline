@@ -22,6 +22,10 @@ class Task < ApplicationRecord
   scope :full_fetcher, -> { where(job_type_value: :full_fetcher) }
   scope :by_creation_time, ->(direction = :asc) { order(created_at: direction) }
 
+  def self.update_activity_message(task_id, message)
+    self.find(task_id).update_attribute(:activity_message_value, message)
+  end
+
   def enqueue(job_params: {})
     job = job_class.constantize.perform_later(job_params.merge(task_id: id))
     self.update_attribute(:provider_job_id, job.provider_job_id)
