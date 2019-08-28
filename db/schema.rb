@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_11_164918) do
+ActiveRecord::Schema.define(version: 2019_08_28_050143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -394,7 +394,10 @@ ActiveRecord::Schema.define(version: 2019_06_11_164918) do
     t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false
     t.string "provider_job_id"
+    t.bigint "taskable_id"
+    t.string "taskable_type"
     t.datetime "updated_at", null: false
+    t.index ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id"
   end
 
   create_table "timeline_entries", id: :serial, force: :cascade do |t|
