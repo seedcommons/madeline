@@ -1,0 +1,5 @@
+en:
+  data_exports:
+    default_name: "%{type} on %{current_date}"
+    types:
+      data_export: "Data Export"
