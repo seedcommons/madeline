@@ -1,5 +1,5 @@
 class UpdateAllLoansJob < TaskJob
-  def perform(job_params)
+  def perform(_job_params)
     task = task_for_job(self)
     errors_by_loan = []
     loans = Loan.all

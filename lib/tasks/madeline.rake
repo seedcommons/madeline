@@ -9,9 +9,9 @@ namespace :madeline do
     ).enqueue
   end
 
-  desc "for testing update loan task"
+  desc "Update all loans. The whenever gem runs this rake task at least daily."
 
-  task update_loans_task: :environment do
+  task enqueue_update_loans_task: :environment do
     Task.create(
       job_class: UpdateAllLoansJob,
       job_type_value: 'update_all_loans_job',
