@@ -1,6 +1,6 @@
 class UpdateAllLoansJob < TaskJob
   def perform(job_params)
-    task = Task.find(job_params[:task_id])
+    task = task_for_job(self)
     errors_by_loan = []
     loans = Loan.all
     updater = Accounting::Quickbooks::Updater.new
@@ -17,5 +17,23 @@ class UpdateAllLoansJob < TaskJob
     end
     task.update(custom_error_data: errors_by_loan)
     task.set_activity_message("finished_with_custom_error_data")
+  end
+
+  rescue_from(Accounting::Quickbooks::NotConnectedError) do |error|
+    task_for_job(self).set_activity_message("error_quickbooks_not_connected")
+    record_failure_and_raise_error(error)
+  end
+
+  rescue_from(Accounting::Quickbooks::DataResetRequiredError) do |error|
+    task_for_job(self).set_activity_message("error_data_reset_required")
+    record_failure_and_raise_error(error)
+  end
+
+  private
+
+  def record_failure_and_raise_error(error)
+    task_for_job(self).fail!
+    ExceptionNotifier.notify_exception(error, data: {job: to_yaml})
+    raise error
   end
 end
