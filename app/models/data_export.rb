@@ -34,9 +34,16 @@ class DataExport < ApplicationRecord
     "data_export" => "DataExport"
   }
 
+  # Process data should be defined on subclasses,
+  # generate a 2D array with the desired data,
+  # and save it in the `data` field
+  def process_data
+    raise NotImplementedError
+  end
+
   def to_csv!
     raise ArgumentError, "No data found" unless data.present?
-    raise TypeError, "Data invalid" unless (data.is_a?(Array) && data.first.is_a?(Array))
+    raise TypeError, "Data should be a 2D Array" unless (data.is_a?(Array) && data.first.is_a?(Array))
 
     temp_file = Tempfile.new("#{name}.csv")
     CSV.open(temp_file.path, "wb") do |csv|
@@ -58,7 +65,7 @@ class DataExport < ApplicationRecord
     self.name ||= I18n.t(
       "data_exports.default_name",
       type: I18n.t("data_exports.types.#{export_type_key}"),
-      current_date: I18n.l(Time.zone.now, format: :short)
+      current_time: I18n.l(Time.zone.now, format: :long)
     )
   end
 end
