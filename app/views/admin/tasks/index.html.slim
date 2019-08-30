@@ -15,6 +15,6 @@ table.table.table-bordered.middle-aligned
           td= link_to task.id, admin_task_path(task.id)
           td= t("task.type.#{task.job_type_value}")
           td= t("task.status.#{task.status}")
-          td= t("task.activity_message.#{task.activity_message_value}", link: link_to(t("task.link_to_details"), admin_task_path(task.id)))
+          td= task.activity_message
           td= task.custom_error_data.present? ? link_to(t("task.custom_error_data.link_to_details"), admin_task_path(task.id)) : t("task.custom_error_data.not_applicable")
 .pagination = paginate @tasks, param_name: 'pg'

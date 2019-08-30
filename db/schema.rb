@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_27_200442) do
+ActiveRecord::Schema.define(version: 2019_08_30_133140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -397,6 +397,7 @@ ActiveRecord::Schema.define(version: 2019_08_27_200442) do
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.json "activity_message_data"
     t.string "activity_message_value", limit: 65536, null: false
     t.datetime "created_at", null: false
     t.json "custom_error_data"

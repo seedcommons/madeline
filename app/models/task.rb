@@ -2,6 +2,7 @@
 #
 # Table name: tasks
 #
+#  activity_message_data  :json
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
 #  custom_error_data      :json
@@ -54,6 +55,15 @@ class Task < ApplicationRecord
 
   def succeeded?
     job_succeeded_at.present?
+  end
+
+  # Supports interpolating data only available within the task job
+  def set_activity_message(message, data = nil)
+    self.update(activity_message_value: message, activity_message_data: data)
+  end
+
+  def activity_message
+    I18n.t("task.activity_message.#{activity_message_value}", activity_message_data.try(:symbolize_keys))
   end
 
   private

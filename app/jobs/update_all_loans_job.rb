@@ -4,10 +4,10 @@ class UpdateAllLoansJob < TaskJob
     errors_by_loan = []
     loans = Loan.all
     updater = Accounting::Quickbooks::Updater.new
-    task.update(activity_message_value: "syncing_with_quickbooks")
+    task.set_activity_message("syncing_with_quickbooks")
     updater.qb_sync_for_loan_update
-    task.update(activity_message_value: "updating_all_loans")
-    loans.each do |loan|
+    loans.each_with_index do |loan, index|
+      task.set_activity_message("updating_all_loans", {so_far: (index), total: loans.count})
       begin
         updater.update_loan(loan)
       rescue StandardError => error
@@ -15,9 +15,7 @@ class UpdateAllLoansJob < TaskJob
         next
       end
     end
-    Task.find(job_params[:task_id]).update(
-      custom_error_data: errors_by_loan,
-      activity_message_value: "finished_with_custom_error_data"
-    )
+    task.update(custom_error_data: errors_by_loan)
+    task.set_activity_message("finished_with_custom_error_data")
   end
 end

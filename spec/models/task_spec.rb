@@ -2,6 +2,7 @@
 #
 # Table name: tasks
 #
+#  activity_message_data  :json
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
 #  custom_error_data      :json
