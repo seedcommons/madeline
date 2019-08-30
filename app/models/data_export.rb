@@ -26,13 +26,29 @@ class DataExport < ApplicationRecord
   include DivisionBased
 
   belongs_to :division
-  has_many :attachments, as: :media_attachable, dependent: :nullify
+  has_many :attachments, as: :media_attachable, dependent: :nullify, class_name: "Media"
 
   before_save :set_name
 
   DATA_EXPORT_TYPES = {
     "data_export" => "DataExport"
   }
+
+  def to_csv!
+    raise ArgumentError, "No data found" unless data.present?
+    raise TypeError, "Data invalid" unless (data.is_a?(Array) && data.first.is_a?(Array))
+
+    temp_file = Tempfile.new("#{name}.csv")
+    CSV.open(temp_file.path, "wb") do |csv|
+      data.each do |row|
+        csv << row
+      end
+    end
+
+    media = Media.new(item: temp_file, kind_value: 'document')
+    attachments << media
+    save!
+  end
 
   private
 
