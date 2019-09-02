@@ -17,12 +17,20 @@ describe StandardLoanDataExport, type: :model do
     it "should create data attr with correct headers" do
       export.process_data
       data = export.reload.data
+      h_to_i = header_to_index(data)
       expect(data).not_to be nil
       loan_row = data[1]
-      expect(loan_row[0]).to eq loan.id
-      expect(loan_row[1]).to eq loan.name
-      expect(loan_row[2]).to eq loan.division.name
+      expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
+      expect(loan_row[h_to_i['Name']]).to eq loan.name
+      expect(loan_row[h_to_i['Division']]).to eq loan.division.name
     end
+  end
+
+  def header_to_index(data)
+    headers = data[0]
+    header_to_index = {}
+    headers.each_with_index{|h, i| header_to_index[h] = i}
+    header_to_index
   end
 
 
