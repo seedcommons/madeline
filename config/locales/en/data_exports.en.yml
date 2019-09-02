@@ -3,3 +3,8 @@ en:
     default_name: "%{type} on %{current_time}"
     types:
       data_export: "Data Export"
+  standard_loan_data_exports:
+    headers:
+      loan_id: "Loan ID"
+      name: "Name"
+      division: "Division"
