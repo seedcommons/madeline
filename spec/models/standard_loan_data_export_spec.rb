@@ -6,24 +6,51 @@ describe StandardLoanDataExport, type: :model do
   end
 
   describe "process_data" do
-    let!(:division) { create(:division, :with_accounts) }
-    let(:loan) { create(:loan, :active, division: division, rate: 3.0) }
-    let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
-      project: loan, txn_date: "2019-01-01", division: division) }
-      let(:export) {
-        create(:standard_loan_data_export, data: nil)
-      }
+    describe "headers" do
+      let!(:division) { create(:division, :with_accounts) }
+      let(:loan) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+        project: loan, txn_date: "2019-01-01", division: division) }
+        let(:export) {
+          create(:standard_loan_data_export, data: nil)
+        }
 
-    it "should create data attr with correct headers" do
-      export.process_data
-      data = export.reload.data
-      h_to_i = header_to_index(data)
-      expect(data).not_to be nil
-      loan_row = data[1]
-      expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
-      expect(loan_row[h_to_i['Name']]).to eq loan.name
-      expect(loan_row[h_to_i['Division']]).to eq loan.division.name
+      it "should create data attr with correct headers" do
+        export.process_data
+        data = export.reload.data
+        h_to_i = header_to_index(data)
+        expect(data).not_to be nil
+        loan_row = data[1]
+        expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
+        expect(loan_row[h_to_i['Name']]).to eq loan.name
+        expect(loan_row[h_to_i['Division']]).to eq loan.division.name
+      end
     end
+
+    describe "loans" do
+      let!(:division) { create(:division, :with_accounts) }
+      let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+        project: loan0, txn_date: "2019-01-01", division: division) }
+        let(:export) {
+          create(:standard_loan_data_export, data: nil)
+        }
+      let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+        project: loan2, txn_date: "2019-01-01", division: division) }
+        let(:export) {
+          create(:standard_loan_data_export, data: nil)
+        }
+      it "should handle loans with and without transactions" do
+        export.process_data
+        data = export.reload.data
+        expect(data.size).to eq 4
+        # add expectations about calculated fields - filled for 0 and 2, nil for 1
+      end
+    end
+
+    
   end
 
   def header_to_index(data)

@@ -84,6 +84,7 @@ class Accounting::Transaction < ApplicationRecord
     order(:txn_date, "options.position", :created_at)
   }
   scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
+  scope :by_type, lambda { |type| where(loan_transaction_type_value: type) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)

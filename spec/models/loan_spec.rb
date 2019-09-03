@@ -240,5 +240,36 @@ describe Loan, type: :model do
         end
       end
     end
+
+    describe '.sum_of_disbursements' do
+      context "no transactions" do
+        it "returns nil" do
+          expect(loan.sum_of_disbursements).to be_nil
+        end
+      end
+
+      context "multiple transactions some of which are disbursemsnts" do
+        let(:loan) { create(:loan, :active, rate: 3.0) }
+        let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
+          project: loan, txn_date: "2019-01-01") }
+          let(:export) {
+            create(:standard_loan_data_export, data: nil)
+          }
+        let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 20.0,
+          project: loan, txn_date: "2019-01-01") }
+          let(:export) {
+            create(:standard_loan_data_export, data: nil)
+          }
+        let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 30.0,
+          project: loan, txn_date: "2019-01-01") }
+          let(:export) {
+            create(:standard_loan_data_export, data: nil)
+          }
+
+        it "returns sum of disbursements only" do
+          expect(loan.sum_of_disbursements).to eq 40
+        end
+      end
+    end
   end
 end

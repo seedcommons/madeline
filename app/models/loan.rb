@@ -211,4 +211,8 @@ class Loan < Project
   def health_status_available?
     return !health_check.nil?
   end
+
+  def sum_of_disbursements
+    transactions.by_type("disbursement").map { |t| t.amount }.sum
+  end
 end
