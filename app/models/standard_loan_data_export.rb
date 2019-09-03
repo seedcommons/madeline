@@ -37,7 +37,9 @@ class StandardLoanDataExport < DataExport
         cooperative: l.organization.try(:name),
         country: l.organization.try(:country).try(:name),
         postal_code: l.organization.try(:postal_code),
-        status: l.status
+        status: l.status,
+        sum_of_disbursements: l.sum_of_disbursements,
+        sum_of_repayments: l.sum_of_repayments
       }
       data_row = Array(HEADERS.size)
       row_as_hash.each { |k, v| data_row[HEADERS.index(k.to_s)] = v }
