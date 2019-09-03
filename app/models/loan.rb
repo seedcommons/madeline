@@ -213,6 +213,12 @@ class Loan < Project
   end
 
   def sum_of_disbursements
+    return nil if transactions.empty?
     transactions.by_type("disbursement").map { |t| t.amount }.sum
+  end
+
+  def sum_of_repayments
+    return nil if transactions.empty?
+    transactions.by_type("repayment").map { |t| t.amount }.sum
   end
 end
