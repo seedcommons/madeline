@@ -50,7 +50,6 @@
 require 'rails_helper'
 
 describe Loan, type: :model do
-
   it_should_behave_like 'translatable', ['summary', 'details']
   it_should_behave_like 'media_attachable'
   it_should_behave_like 'option_settable', ['status', 'loan_type', 'public_level']
@@ -97,7 +96,7 @@ describe Loan, type: :model do
         end
       end
 
-      #JE todo: confirm if this logic is  still relevant
+      # JE todo: confirm if this logic is  still relevant
       context 'without country' do
         before do
           @division = create(:division)
@@ -136,7 +135,7 @@ describe Loan, type: :model do
     end
 
     describe '.signing_date_long' do
-      let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11))}
+      let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11)) }
       it 'returns long formatted date' do
         expect(loan.signing_date_long).to eq "November 11, 2011"
       end
@@ -149,8 +148,8 @@ describe Loan, type: :model do
         # to explicitly guarantee existence of the root division for any unit tests which use option sets
         root_division
         option_set = Loan.status_option_set
-        option_set.options.create(value: 'active', label_translations: { en: 'Active' })
-        option_set.options.create(value: 'completed', label_translations: { en: 'Completed' })
+        option_set.options.create(value: 'active', label_translations: {en: 'Active'})
+        option_set.options.create(value: 'completed', label_translations: {en: 'Completed'})
       end
       context 'with active loan' do
         let(:loan) { create(:loan, :active) }
@@ -219,7 +218,6 @@ describe Loan, type: :model do
           expect(loan.featured_pictures(limit = 10)).to eq sorted_pics
         end
       end
-
     end
 
     describe '.health_check' do
@@ -241,7 +239,7 @@ describe Loan, type: :model do
       end
     end
 
-    describe '.sum_of_disbursements and .sum_of_repayments' do
+    describe 'calculated fields: .sum_of_repayments, .sum_of_disbursements, .change_in_interest, .change_in_principal' do
       context "no transactions" do
         it "returns nil" do
           expect(loan.sum_of_disbursements).to be_nil
@@ -257,25 +255,37 @@ describe Loan, type: :model do
         }
         let(:loan) { create(:loan, :active, rate: 3.0) }
         # dollar amounts in these transactions are not realistic
-        let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
-          project: loan, txn_date: "2019-01-01", change_in_interest: 0.10, change_in_principal: 11) }
-        let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 20.0,
-          project: loan, txn_date: "2019-01-02", change_in_interest: -0.20, change_in_principal: -12) }
-        let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 30.0,
-          project: loan, txn_date: "2019-01-03", change_in_interest: 0.30, change_in_principal: 13) }
-        let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 40.0,
-          project: loan, txn_date: "2019-01-04", change_in_interest: -0.40, change_in_principal: -14) }
-        let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 50.0,
-          project: loan, txn_date: "2019-01-05", change_in_interest: 0.50, change_in_principal: 15) }
-        let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 60.0,
-          project: loan, txn_date: "2019-01-06", change_in_interest: -0.60, change_in_principal: -16) }
+        let!(:t0) {
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
+                                          project: loan, txn_date: "2019-01-01", change_in_interest: 0.10, change_in_principal: 11)
+        }
+        let!(:t1) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 20.0,
+                                          project: loan, txn_date: "2019-01-02", change_in_interest: -0.20, change_in_principal: -12)
+        }
+        let!(:t2) {
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 30.0,
+                                          project: loan, txn_date: "2019-01-03", change_in_interest: 0.30, change_in_principal: 13)
+        }
+        let!(:t3) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 40.0,
+                                          project: loan, txn_date: "2019-01-04", change_in_interest: -0.40, change_in_principal: -14)
+        }
+        let!(:t4) {
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 50.0,
+                                          project: loan, txn_date: "2019-01-05", change_in_interest: 0.50, change_in_principal: 15)
+        }
+        let!(:t5) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 60.0,
+                                          project: loan, txn_date: "2019-01-06", change_in_interest: -0.60, change_in_principal: -16)
+        }
 
         it "returns sum of that type of transaction only" do
           expect(loan.sum_of_disbursements).to eq 90
           expect(loan.sum_of_repayments).to eq 120
         end
 
-        it "limits by date, inclusive" do
+        it "limit by date, inclusive" do
           expect(loan.sum_of_disbursements(start_date: Date.parse('2019-01-04'))).to eq 50
           expect(loan.sum_of_repayments(start_date: Date.parse('2019-01-04'))).to eq 100
           expect(loan.sum_of_disbursements(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 80
@@ -290,10 +300,6 @@ describe Loan, type: :model do
           expect(loan.change_in_principal(end_date: Date.parse('2019-01-05'))).to eq 13
         end
       end
-    end
-
-    describe ".change_in_interest and .change_in_principal" do
-
     end
   end
 end
