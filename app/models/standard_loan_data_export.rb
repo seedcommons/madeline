@@ -38,8 +38,10 @@ class StandardLoanDataExport < DataExport
         country: l.organization.try(:country).try(:name),
         postal_code: l.organization.try(:postal_code),
         status: l.status,
-        sum_of_disbursements: l.sum_of_disbursements,
-        sum_of_repayments: l.sum_of_repayments
+        sum_of_disbursements: l.sum_of_disbursements(start_date: start_date, end_date: end_date),
+        sum_of_repayments: l.sum_of_repayments(start_date: start_date, end_date: end_date),
+        change_in_interest: l.change_in_interest(start_date: start_date, end_date: end_date),
+        change_in_principal: l.change_in_principal(start_date: start_date, end_date: end_date)
       }
       data_row = Array(HEADERS.size)
       row_as_hash.each { |k, v| data_row[HEADERS.index(k.to_s)] = v }
