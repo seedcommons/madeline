@@ -48,6 +48,8 @@ class StandardLoanDataExport < DataExport
     self.update(data: data)
   end
 
+  private
+
   def headers
     # get locale
     HEADERS.map do |h|

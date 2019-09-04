@@ -82,7 +82,6 @@ class Loan < Project
   before_create :build_health_check
   after_commit :recalculate_loan_health
 
-
   def self.default_filter
     {status: 'active', country: 'all'}
   end
@@ -212,13 +211,23 @@ class Loan < Project
     return !health_check.nil?
   end
 
-  def sum_of_disbursements
+  def sum_of_disbursements(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.by_type("disbursement").map { |t| t.amount }.sum
+    transactions.by_type("disbursement").in_date_range(start_date, end_date).map { |t| t.amount }.sum
   end
 
-  def sum_of_repayments
+  def sum_of_repayments(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.by_type("repayment").map { |t| t.amount }.sum
+    transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.amount }.sum
+  end
+
+  def change_in_interest(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+  end
+
+  def change_in_principal(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
   end
 end

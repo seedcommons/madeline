@@ -85,6 +85,19 @@ class Accounting::Transaction < ApplicationRecord
   }
   scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
   scope :by_type, lambda { |type| where(loan_transaction_type_value: type) }
+  scope :in_date_range, lambda { |since_date, until_date|
+    if since_date.present? && until_date.present?
+      where(txn_date: (since_date..until_date))
+    elsif since_date.present?
+      where("txn_date >= ?", since_date)
+    elsif until_date.present?
+      where("txn_date <= ?", until_date)
+    else
+      all
+    end
+  }
+
+
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
