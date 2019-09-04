@@ -14,6 +14,7 @@ en:
       change_in_principal: "Change in Principal"
       cooperative: "Coop"
       country: "Country"
+      currency: "Currency"
       division: "Division"
       loan_id: "Loan ID"
       loan_type: "Loan Type"

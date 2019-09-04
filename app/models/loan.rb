@@ -68,6 +68,7 @@ class Loan < Project
   scope :active_or_completed, -> { where(status_value: %w(active completed)) }
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
 
+  delegate :name, :country, :postal_code, to: :organization, prefix: :coop
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment

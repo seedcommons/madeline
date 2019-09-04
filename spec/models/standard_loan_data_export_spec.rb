@@ -24,6 +24,9 @@ describe StandardLoanDataExport, type: :model do
         expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
         expect(loan_row[h_to_i['Name']]).to eq loan.name
         expect(loan_row[h_to_i['Division']]).to eq loan.division.name
+        expect(loan_row[h_to_i['Country']]).to eq loan.coop_country.name
+        expect(loan_row[h_to_i['Currency']]).to eq loan.currency.name
+        expect(loan_row[h_to_i['Zip']]).to eq loan.coop_postal_code
       end
     end
 
