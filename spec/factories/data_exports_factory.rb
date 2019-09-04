@@ -10,6 +10,6 @@ FactoryBot.define do
   end
 
   factory :standard_loan_data_export, parent: :data_export, class: 'StandardLoanDataExport' do
-    type {StandardLoanDataExport}
+    type { StandardLoanDataExport }
   end
 end

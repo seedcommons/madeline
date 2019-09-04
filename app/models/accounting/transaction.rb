@@ -69,7 +69,7 @@ class Accounting::Transaction < ApplicationRecord
 
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
-    foreign_key: :accounting_transaction_id, dependent: :destroy
+                        foreign_key: :accounting_transaction_id, dependent: :destroy
   has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
@@ -80,8 +80,8 @@ class Accounting::Transaction < ApplicationRecord
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
-      AND options.value = accounting_transactions.loan_transaction_type_value").
-    order(:txn_date, "options.position", :created_at)
+      AND options.value = accounting_transactions.loan_transaction_type_value")
+      .order(:txn_date, "options.position", :created_at)
   }
   scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
   scope :by_type, lambda { |type| where(loan_transaction_type_value: type) }
@@ -97,8 +97,6 @@ class Accounting::Transaction < ApplicationRecord
     end
   }
 
-
-
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
@@ -113,7 +111,6 @@ class Accounting::Transaction < ApplicationRecord
       end
       loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
-
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
