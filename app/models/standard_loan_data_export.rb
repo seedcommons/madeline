@@ -75,7 +75,7 @@ class StandardLoanDataExport < DataExport
 
   def header_row
     HEADERS.map do |h|
-      I18n.t("standard_loan_data_exports.headers.#{h}")
+      I18n.t("standard_loan_data_exports.headers.#{h}", locale: locale_code)
     end
   end
 end
