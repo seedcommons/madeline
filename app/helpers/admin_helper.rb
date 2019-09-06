@@ -72,7 +72,7 @@ module AdminHelper
     placement = options[:placement] || 'right'
     if documentation.present?
       data_content = documentation&.summary_content.to_s
-      if documentation.page_content.present?
+      if documentation.page_content.present? && policy(documentation).show?
         learn_more_link = link_to t("documentation.learn_more"), admin_documentation_path(documentation), target: :_blank
         data_content << "<br /><br />" << learn_more_link
       end
