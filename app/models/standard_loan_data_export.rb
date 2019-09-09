@@ -27,40 +27,52 @@ class StandardLoanDataExport < DataExport
 
   # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
   def process_data
+    @child_errors = []
     data = []
     data << header_row
     Loan.find_each do |l|
-      row_as_hash = {
-        loan_id: l.id,
-        name: l.name,
-        division: l.division.try(:name),
-        cooperative: l.coop_name,
-        country: l.coop_country.try(:name),
-        postal_code: l.coop_postal_code,
-        status: l.status,
-        actual_end_date: l.actual_end_date,
-        actual_first_payment_date: l.actual_first_payment_date,
-        actual_first_interest_payment_date: l.actual_first_interest_payment_date,
-        projected_end_date: l.projected_end_date,
-        projected_first_payment_date: l.projected_first_payment_date,
-        projected_first_interest_payment_date: l.projected_first_interest_payment_date,
-        signing_date: l.signing_date,
-        loan_type: l.type,
-        currency: l.currency.try(:name),
-        amount: l.amount,
-        primary_agent: l.primary_agent,
-        secondary_agent: l.secondary_agent,
-        sum_of_disbursements: l.sum_of_disbursements(start_date: start_date, end_date: end_date),
-        sum_of_repayments: l.sum_of_repayments(start_date: start_date, end_date: end_date),
-        change_in_principal: l.change_in_principal(start_date: start_date, end_date: end_date),
-        change_in_interest: l.change_in_interest(start_date: start_date, end_date: end_date)
-      }
-      data << hash_to_row(row_as_hash)
+      begin
+        data << hash_to_row(loan_data_as_hash(l))
+      rescue => e
+        @child_errors << { loan_id: l.id, message: e.message }
+        next
+      end
     end
     self.update(data: data)
+    unless @child_errors.empty?
+      raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
+    end
   end
 
   private
+
+  def loan_data_as_hash(l)
+    {
+      loan_id: l.id,
+      name: l.name,
+      division: l.division.try(:name),
+      cooperative: l.coop_name,
+      country: l.coop_country.try(:name),
+      postal_code: l.coop_postal_code,
+      status: l.status,
+      actual_end_date: l.actual_end_date,
+      actual_first_payment_date: l.actual_first_payment_date,
+      actual_first_interest_payment_date: l.actual_first_interest_payment_date,
+      projected_end_date: l.projected_end_date,
+      projected_first_payment_date: l.projected_first_payment_date,
+      projected_first_interest_payment_date: l.projected_first_interest_payment_date,
+      signing_date: l.signing_date,
+      loan_type: l.type,
+      currency: l.currency.try(:name),
+      amount: l.amount,
+      primary_agent: l.primary_agent,
+      secondary_agent: l.secondary_agent,
+      sum_of_disbursements: l.sum_of_disbursements(start_date: start_date, end_date: end_date),
+      sum_of_repayments: l.sum_of_repayments(start_date: start_date, end_date: end_date),
+      change_in_principal: l.change_in_principal(start_date: start_date, end_date: end_date),
+      change_in_interest: l.change_in_interest(start_date: start_date, end_date: end_date)
+    }
+  end
 
   # decouples order in HEADERS constant from order values are added to data row
   def hash_to_row(hash)

@@ -85,6 +85,40 @@ describe StandardLoanDataExport, type: :model do
         expect(data[4][h_to_i["Change in Principal"]]).to eq "3.0"
       end
     end
+
+    describe "error handling" do
+      before do
+        @times_called = 0
+        expect(export).to receive(:loan_data_as_hash).exactly(3).times do
+          @times_called += 1
+          if @times_called == 0
+            {loan_id: "1", name: "A", cooperative: "Z"} # generic data row
+          elsif @times_called == 1
+            raise(::StandardError, 'a test error')
+          else
+            {loan_id: "3", name: "C", cooperative: "X"}
+          end
+        end
+      end
+
+      let(:export) {
+        create(:standard_loan_data_export, data: nil, start_date: Date.parse('2018-12-31'), end_date: Date.parse('2019-01-31'))
+      }
+      let!(:division) { create(:division, :with_accounts) }
+      let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:t0) {
+        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.00,
+                                        project: loan0, txn_date: "2019-01-01", division: division, change_in_interest: 0.1, change_in_principal: 1)
+      }
+      let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }
+      let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
+
+      it "records error and continues, then raises DataExportError with child errors" do
+        expect{ export.process_data }.to raise_error DataExportError
+        # expect child errors to contain one errors
+        # expect data to have 3 rows including headers
+      end
+    end
   end
 
   def header_to_index(data)
