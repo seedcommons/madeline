@@ -109,15 +109,16 @@ ActiveRecord::Schema.define(version: 2019_08_30_133140) do
   end
 
   create_table "data_exports", force: :cascade do |t|
-    t.string "attachment"
     t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.date "end_date"
-    t.string "locale_code"
-    t.string "name"
-    t.date "start_date"
-    t.string "type"
+    t.json "data"
+    t.bigint "division_id", null: false
+    t.datetime "end_date"
+    t.string "locale_code", null: false
+    t.string "name", null: false
+    t.datetime "start_date"
+    t.string "type", null: false
     t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_data_exports_on_division_id"
   end
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
@@ -408,7 +409,10 @@ ActiveRecord::Schema.define(version: 2019_08_30_133140) do
     t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false
     t.string "provider_job_id"
+    t.bigint "taskable_id"
+    t.string "taskable_type"
     t.datetime "updated_at", null: false
+    t.index ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id"
   end
 
   create_table "timeline_entries", id: :serial, force: :cascade do |t|
@@ -487,6 +491,7 @@ ActiveRecord::Schema.define(version: 2019_08_30_133140) do
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
+  add_foreign_key "data_exports", "divisions"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"

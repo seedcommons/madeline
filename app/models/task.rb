@@ -14,11 +14,19 @@
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null
 #  provider_job_id        :string
+#  taskable_id            :bigint(8)
+#  taskable_type          :string
 #  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_tasks_on_taskable_type_and_taskable_id  (taskable_type,taskable_id)
 #
 
 class Task < ApplicationRecord
   TASK_JOB_TYPES = %i(full_fetcher)
+
+  belongs_to :taskable, polymorphic: true
 
   scope :full_fetcher, -> { where(job_type_value: :full_fetcher) }
   scope :by_creation_time, ->(direction = :asc) { order(created_at: direction) }

@@ -14,7 +14,13 @@
 #  job_type_value         :string(255)      not null
 #  num_attempts           :integer          default(0), not null
 #  provider_job_id        :string
+#  taskable_id            :bigint(8)
+#  taskable_type          :string
 #  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_tasks_on_taskable_type_and_taskable_id  (taskable_type,taskable_id)
 #
 
 require 'rails_helper'
