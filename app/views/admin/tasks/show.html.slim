@@ -1,0 +1,27 @@
+- content_for(:title, t("task.show.title", id: @task.id))
+
+table.table.table-bordered
+  tr
+    th= t("task.header.id")
+    td= @task.id
+  tr
+    th= t("task.header.type")
+    td= t("task.type.#{@task.job_type_value}")
+  tr
+    th= t("task.header.status")
+    td= @task.status
+  tr
+    th= t("task.header.activity_message")
+    td= t("task.activity_message.#{@task.activity_message_value}")
+  tr
+    th= t("task.header.created_at")
+    td= @task.created_at
+  tr
+    th= t("task.header.job_first_started_at")
+    td= @task.job_first_started_at
+  tr
+    th= t("task.header.job_last_failed_at")
+    td= @task.job_last_failed_at
+  tr
+    th= t("task.header.error")
+    td= @task.error

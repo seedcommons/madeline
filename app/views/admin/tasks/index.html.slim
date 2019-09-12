@@ -11,7 +11,7 @@ table.table.table-bordered.middle-aligned
   tbody
     - @tasks.each_with_index do |task, index|
         tr
-          td= task.id
+          td= link_to task.id, admin_task_path(task.id)
           td= t("task.type.#{task.job_type_value}")
           td= task.status
           td= t("task.activity_message.#{task.activity_message_value}")
