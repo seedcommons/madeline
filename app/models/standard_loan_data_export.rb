@@ -1,4 +1,5 @@
 class StandardLoanDataExport < DataExport
+
   HEADERS = [
     'loan_id',
     'name',
@@ -34,7 +35,7 @@ class StandardLoanDataExport < DataExport
       begin
         data << hash_to_row(loan_data_as_hash(l))
       rescue => e
-        @child_errors << { loan_id: l.id, message: e.message }
+        @child_errors << {loan_id: l.id, message: e.message}
         next
       end
     end
