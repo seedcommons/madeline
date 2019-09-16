@@ -6,7 +6,7 @@ en:
       accounts: "QuickBooks Accounts"
       note: "These account settings only apply to future transactions."
     connection:
-      connected: "Connected"
+      connected: "Connected to %{company_name}"
       connection: "QuickBooks Connection"
       disconnect: "Disconnect"
       not_connected: "Not Connected"

@@ -103,3 +103,8 @@ as `Connected`, and `Quickbooks Data Import` as `in progress`. Refresh until you
    1. Interest Receivable Account: Interest Receivable
    1. Interest Income Account: Interest Income
 1. Click `Save`. A successfully updated flash message will appear.
+
+#### Switching between sandbox and actual quickbooks companies on your local development environment:
+1. Make sure you have the correct oauth consumer key and oauth consumer secret set in your .env file. For example, the sandbox variables are QB_SANDBOX_OAUTH_CONSUMER_KEY
+1. Also in your .env file, set the QB_SANDBOX_MODE to 1 to use sandbox and 0 to use actual quickbooks companies 
+1. Ask a team member for values for the consumer key and consumer secret if needed. 
