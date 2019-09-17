@@ -83,9 +83,9 @@ class Accounting::Transaction < ApplicationRecord
       AND options.value = accounting_transactions.loan_transaction_type_value")
       .order(:txn_date, "options.position", :created_at)
   }
-  scope :interest_type, -> { where(loan_transaction_type_value: LOAN_INTEREST_TYPE) }
-  scope :by_type, lambda { |type| where(loan_transaction_type_value: type) }
-  scope :in_date_range, lambda { |since_date, until_date|
+  scope :interest_type, -> { by_type(LOAN_INTEREST_TYPE) }
+  scope :by_type, ->(type) { where(loan_transaction_type_value: type) }
+  scope :in_date_range, ->(since_date, until_date) do
     if since_date.present? && until_date.present?
       where(txn_date: (since_date..until_date))
     elsif since_date.present?
@@ -95,7 +95,7 @@ class Accounting::Transaction < ApplicationRecord
     else
       all
     end
-  }
+  end
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
