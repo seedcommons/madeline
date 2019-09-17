@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_11_164918) do
+ActiveRecord::Schema.define(version: 2019_08_30_133140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -106,6 +106,19 @@ ActiveRecord::Schema.define(version: 2019_06_11_164918) do
     t.string "short_symbol"
     t.string "symbol"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "data_exports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "data"
+    t.bigint "division_id", null: false
+    t.datetime "end_date"
+    t.string "locale_code", null: false
+    t.string "name", null: false
+    t.datetime "start_date"
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_data_exports_on_division_id"
   end
 
   create_table "division_hierarchies", id: false, force: :cascade do |t|
@@ -385,8 +398,10 @@ ActiveRecord::Schema.define(version: 2019_06_11_164918) do
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.json "activity_message_data"
     t.string "activity_message_value", limit: 65536, null: false
     t.datetime "created_at", null: false
+    t.json "custom_error_data"
     t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"
@@ -394,7 +409,10 @@ ActiveRecord::Schema.define(version: 2019_06_11_164918) do
     t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false
     t.string "provider_job_id"
+    t.bigint "taskable_id"
+    t.string "taskable_type"
     t.datetime "updated_at", null: false
+    t.index ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id"
   end
 
   create_table "timeline_entries", id: :serial, force: :cascade do |t|
@@ -473,6 +491,7 @@ ActiveRecord::Schema.define(version: 2019_06_11_164918) do
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
+  add_foreign_key "data_exports", "divisions"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"

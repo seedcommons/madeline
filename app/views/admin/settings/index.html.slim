@@ -18,7 +18,7 @@ section.block
       = f.input "connection_status" do
         .read-only
           - if @division.quickbooks_connected?
-            = t("quickbooks.connection.connected")
+            = t("quickbooks.connection.connected", company_name: @division.quickbooks_company_name)
           - else
             = t("quickbooks.connection.not_connected")
       - if @division.quickbooks_connected?
