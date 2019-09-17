@@ -59,4 +59,19 @@ class Accounting::Quickbooks::Connection < ApplicationRecord
   def access_token
     Accounting::Quickbooks::Consumer.new.access_token(token: token, secret: secret)
   end
+
+  def company_name
+    begin
+      company_info_service = ::Quickbooks::Service::CompanyInfo.new(self.auth_details)
+      query_result = company_info_service.query("select * from CompanyInfo")
+      if query_result.entries.present?
+        query_result.entries.first.company_name
+      else
+        "Unknown"
+      end
+    rescue StandardError
+      # don't handle error if unable to get company name
+      "Unknown"
+    end
+  end
 end

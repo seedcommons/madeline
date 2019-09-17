@@ -1,14 +1,37 @@
 en:
   task:
     activity_message:
+      error_data_reset_required: "Error: Quickbooks data reset required"
+      error_quickbooks_not_connected: "Error: Quickbooks not connected"
+      failed: "Task failed with an internal error. An administrator has been notified."
       fetching_quickbooks_data: "Fetching Quickbooks Data"
+      finished_with_custom_error_data: "This task completed with errors. See error details."
+      syncing_with_quickbooks: "Syncing with Quickbooks"
+      task_enqueued: "This task has been enqueued"
+      updating_all_loans: "Updating %{total} loans. %{so_far} loans updated so far."
+    custom_error_data:
+      help: "See loan, its co-op, or its transactions for more information."
+      link_to_details: "Click here to see error details"
+      loan_id: "Loan ID"
+      loan_error: "Error in Updating Loan"
+      not_applicable: "N/A"
+    header:
+      activity_message: "Message"
+      created_at: "Created At"
+      custom_error_data: "Error Details"
+      id: "ID"
+      job_first_started_at: "Job First Started At"
+      job_last_failed_at: "Job Last Failed At"
+      status: "Status"
+      type: "Task Type"
     index:
-      header:
-        activity_message: "Message"
-        attachment: "Attachment"
-        id: "ID"
-        status: "Status"
-        type: "Task Type"
       title: "Tasks"
+    show:
+      title: "Task #%{id}"
+    status:
+      failed: "Failed"
+      in_progress: "In progress"
+      pending: "Pending"
+      succeeded: "Succeeded"
     type:
       full_fetcher: "Quickbooks Import"

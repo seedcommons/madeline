@@ -5,7 +5,17 @@ namespace :madeline do
     Task.create(
       job_class: MonthlyInterestAccrualJob,
       job_type_value: 'monthly_interest_accrual_job',
-      activity_message_value: 'updating loans'
+      activity_message_value: 'task_enqueued'
+    ).enqueue
+  end
+
+  desc "Update all loans. The whenever gem runs this rake task at least daily."
+
+  task enqueue_update_loans_task: :environment do
+    Task.create(
+      job_class: UpdateAllLoansJob,
+      job_type_value: 'update_all_loans_job',
+      activity_message_value: 'task_enqueued'
     ).enqueue
   end
 end
