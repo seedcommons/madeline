@@ -224,11 +224,11 @@ class Loan < Project
 
   def change_in_interest(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+    transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_interest || 0) }.sum
   end
 
   def change_in_principal(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
+    transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_principal || 0) }.sum
   end
 end

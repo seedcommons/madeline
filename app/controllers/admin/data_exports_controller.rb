@@ -8,6 +8,8 @@ class Admin::DataExportsController < Admin::AdminController
   def create
     # TODO: update to take form params (issue 10017); adding here to create taskable association
     @data_export = StandardLoanDataExport.create(
+      division_id: division.id,
+      locale_code: "en",
       start_date: Date.parse("2019-01-01"),
       end_date: Date.parse("2019-09-01")
     )
