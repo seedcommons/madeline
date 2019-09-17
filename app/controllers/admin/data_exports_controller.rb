@@ -6,13 +6,17 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def create
-    # this will be updated to take form params; adding here to create taskable association
+    # TODO: update to take form params (issue 10017); adding here to create taskable association
+    @data_export = StandardLoanDataExport.create(
+      start_date: Date.parse("2019-01-01"),
+      end_date: Date.parse("2019-09-01")
+    )
     Task.create(
       job_class: DataExportTaskJob,
       job_type_value: 'data_export_task_job',
       activity_message_value: 'task_enqueued',
       taskable: @data_export
-    ).enqueue
+    ).enqueue(job_params: {data_export_id: @data_export.id})
   end
 
   private
