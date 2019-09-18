@@ -69,6 +69,10 @@ class Loan < Project
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
 
   delegate :name, :country, :postal_code, to: :organization, prefix: :coop
+  delegate :name, to: :primary_agent, prefix: true, allow_nil: true
+  delegate :name, to: :secondary_agent, prefix: true, allow_nil: true
+  delegate :text, to: :status, prefix: true, allow_nil: true
+
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
@@ -224,11 +228,21 @@ class Loan < Project
 
   def change_in_interest(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_interest || 0) }.sum
+    changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_interest) }
+    if changes.any? { |i| i.nil? }
+      raise Accounting::TransactionDataMissingError
+    else
+      changes.sum
+    end
   end
 
   def change_in_principal(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_principal || 0) }.sum
+    changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_principal) }
+    if changes.any? { |i| i.nil? }
+      raise Accounting::TransactionDataMissingError
+    else
+      changes.sum
+    end
   end
 end
