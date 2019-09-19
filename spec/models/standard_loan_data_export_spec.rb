@@ -138,7 +138,7 @@ describe StandardLoanDataExport, type: :model do
       let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
 
       it "records error and continues, then raises DataExportError with child errors" do
-        expect{ export.process_data }.to raise_error DataExportError
+        expect { export.process_data }.to raise_error DataExportError
         # expect child errors to contain one errors
         # expect data to have 3 rows including headers
       end

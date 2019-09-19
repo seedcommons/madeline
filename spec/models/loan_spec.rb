@@ -299,6 +299,11 @@ describe Loan, type: :model do
           expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 0.3
           expect(loan.change_in_principal(end_date: Date.parse('2019-01-05'))).to eq 13
         end
+
+        it "raises error if at least one transaction has nil value for change_in_interest" do
+          t4.update(change_in_interest: nil)
+          expect { loan.change_in_interest(start_date: Date.parse('2019-01-01')) }.to raise_error(Accounting::TransactionDataMissingError, "Loan has transactions missing data. Do you need to run a QB update?")
+        end
       end
     end
   end

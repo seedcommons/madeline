@@ -1,5 +1,4 @@
 class StandardLoanDataExport < DataExport
-
   HEADERS = [
     'loan_id',
     'name',
@@ -47,31 +46,31 @@ class StandardLoanDataExport < DataExport
 
   private
 
-  def loan_data_as_hash(l)
+  def loan_data_as_hash(loan)
     {
-      loan_id: l.id,
-      name: l.name,
-      division: l.division.try(:name),
-      cooperative: l.coop_name,
-      country: l.coop_country.try(:name),
-      postal_code: l.coop_postal_code,
-      status: l.status_text,
-      actual_end_date: l.actual_end_date,
-      actual_first_payment_date: l.actual_first_payment_date,
-      actual_first_interest_payment_date: l.actual_first_interest_payment_date,
-      projected_end_date: l.projected_end_date,
-      projected_first_payment_date: l.projected_first_payment_date,
-      projected_first_interest_payment_date: l.projected_first_interest_payment_date,
-      signing_date: l.signing_date,
-      loan_type: l.type,
-      currency: l.currency.try(:name),
-      amount: l.amount,
-      primary_agent: l.primary_agent_name,
-      secondary_agent: l.secondary_agent_name,
-      sum_of_disbursements: l.sum_of_disbursements(start_date: start_date, end_date: end_date),
-      sum_of_repayments: l.sum_of_repayments(start_date: start_date, end_date: end_date),
-      change_in_principal: l.change_in_principal(start_date: start_date, end_date: end_date),
-      change_in_interest: l.change_in_interest(start_date: start_date, end_date: end_date)
+      loan_id: loan.id,
+      name: loan.name,
+      division: loan.division.try(:name),
+      cooperative: loan.coop_name,
+      country: loan.coop_country.try(:name),
+      postal_code: loan.coop_postal_code,
+      status: loan.status_text,
+      actual_end_date: loan.actual_end_date,
+      actual_first_payment_date: loan.actual_first_payment_date,
+      actual_first_interest_payment_date: loan.actual_first_interest_payment_date,
+      projected_end_date: loan.projected_end_date,
+      projected_first_payment_date: loan.projected_first_payment_date,
+      projected_first_interest_payment_date: loan.projected_first_interest_payment_date,
+      signing_date: loan.signing_date,
+      loan_type: loan.type,
+      currency: loan.currency.try(:name),
+      amount: loan.amount,
+      primary_agent: loan.primary_agent_name,
+      secondary_agent: loan.secondary_agent_name,
+      sum_of_disbursements: loan.sum_of_disbursements(start_date: start_date, end_date: end_date),
+      sum_of_repayments: loan.sum_of_repayments(start_date: start_date, end_date: end_date),
+      change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
+      change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date)
     }
   end
 

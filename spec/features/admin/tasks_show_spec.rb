@@ -14,7 +14,6 @@ feature 'visit tasks show page page' do
 
     it 'displays custom error data' do
       visit admin_task_path(task.id)
-      save_and_open_page
       expect(page).to have_content('Error Details')
     end
   end

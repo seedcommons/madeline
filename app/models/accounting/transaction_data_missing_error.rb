@@ -1,7 +1,7 @@
 module Accounting
   class TransactionDataMissingError < StandardError
     def message
-      "Loan has transactions with no change in interest. Do you need to run a QB update?"
+      I18n.t('loan.errors.transaction_data_missing')
     end
   end
 end
