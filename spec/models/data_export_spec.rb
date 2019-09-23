@@ -64,5 +64,11 @@ describe DataExport, type: :model do
         expect { export.to_csv! }.to raise_error TypeError
       end
     end
+
+    context "with invalid locale" do
+      it "errors" do
+        expect(DataExport.new(locale_code: "ice cream").valid?).to be false
+      end
+    end
   end
 end

@@ -30,6 +30,8 @@ class DataExport < ApplicationRecord
 
   before_save :set_name
 
+  validate :locale_code_available
+
   DATA_EXPORT_TYPES = {
     "standard_loan_data_export" => "StandardLoanDataExport"
   }
@@ -67,5 +69,9 @@ class DataExport < ApplicationRecord
       type: I18n.t("data_exports.types.#{export_type_key}"),
       current_time: I18n.l(Time.zone.now, format: :long)
     )
+  end
+
+  def locale_code_available
+    errors.add(:locale_code, :invalid) unless I18n.available_locales.include?(locale_code.to_sym)
   end
 end
