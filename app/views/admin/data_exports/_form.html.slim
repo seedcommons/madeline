@@ -21,7 +21,7 @@
   = f.input :locale_code
     .view-element
       = @data_export.locale_code
-    = f.input_field :locale_code
+    = f.input_field :locale_code, collection: I18n.available_locales
   .actions.form-element
     - unless @data_export.new_record?
       - if @data_export.valid?

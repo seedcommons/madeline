@@ -6,7 +6,7 @@ feature 'data export flow' do
   before do
     login_as(user, scope: :user)
   end
-  scenario "" do
+  scenario "create basic export" do
     visit new_admin_data_export_path
     click_on "Standard Loan Data Export"
     fill_in 'Start date', with: Date.today.beginning_of_year.to_s
@@ -33,8 +33,6 @@ feature 'data export flow' do
 
   # something about divisions???
 
-  # errors if locale invalid
-
-  #TODO IN FUTURE ISSUES: there will be a show page
+    #TODO IN FUTURE ISSUES: there will be a show page
   end
 end
