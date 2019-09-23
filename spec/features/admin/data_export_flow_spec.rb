@@ -18,21 +18,16 @@ feature 'data export flow' do
     #TODO replace with show page check
     saved_data_export = DataExport.first
     expect(saved_data_export.name).to eq "Test"
+  end
 
-      # when I submit, then the data export is saved
+  scenario "dates and name are optional" do
+    visit new_admin_data_export_path
+    click_on "Standard Loan Data Export"
+    expect(page).to have_field('Locale code', with: 'en')
+    click_on "Create Data export"
 
-  # the form will have a default name
-
-  # the form will have a default locale
-
-  # I can change the name
-
-  # I can change the locale
-
-  # start date and end date are optional
-
-  # something about divisions???
-
-    #TODO IN FUTURE ISSUES: there will be a show page
+    #TODO replace with show page check
+    saved_data_export = DataExport.first
+    expect(saved_data_export.name).to include("Data Export")
   end
 end

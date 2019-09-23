@@ -41,7 +41,6 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def data_export_create_params
-    pp params
     params.require(:data_export).permit(:type, :division_id, :locale_code, :name)
   end
 end

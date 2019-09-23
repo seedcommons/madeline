@@ -63,12 +63,11 @@ class DataExport < ApplicationRecord
 
   def set_name
     export_type_key = DATA_EXPORT_TYPES.invert[self.type.to_s]
-
-    self.name ||= I18n.t(
+    self.name = I18n.t(
       "data_exports.default_name",
       type: I18n.t("data_exports.types.#{export_type_key}"),
       current_time: I18n.l(Time.zone.now, format: :long)
-    )
+    ) if self.name.blank?
   end
 
   def locale_code_available
