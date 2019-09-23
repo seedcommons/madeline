@@ -28,9 +28,8 @@ class DataExport < ApplicationRecord
   belongs_to :division
   has_many :attachments, as: :media_attachable, dependent: :nullify, class_name: "Media"
 
-  before_save :set_name
-
   validate :locale_code_available
+  validates :name, presence: true
 
   DATA_EXPORT_TYPES = {
     "standard_loan_data_export" => "StandardLoanDataExport"
@@ -59,9 +58,7 @@ class DataExport < ApplicationRecord
     save!
   end
 
-  private
-
-  def set_name
+  def set_default_name
     export_type_key = DATA_EXPORT_TYPES.invert[self.type.to_s]
     self.name = I18n.t(
       "data_exports.default_name",
@@ -69,6 +66,8 @@ class DataExport < ApplicationRecord
       current_time: I18n.l(Time.zone.now, format: :long)
     ) if self.name.blank?
   end
+
+  private
 
   def locale_code_available
     errors.add(:locale_code, :invalid) unless I18n.available_locales.include?(locale_code.to_sym)

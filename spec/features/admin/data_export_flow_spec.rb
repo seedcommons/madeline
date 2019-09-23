@@ -6,7 +6,7 @@ feature 'data export flow' do
   before do
     login_as(user, scope: :user)
   end
-  scenario "create basic export" do
+  scenario "create export with custom name and choose dates" do
     visit new_admin_data_export_path
     click_on "Standard Loan Data Export"
     fill_in 'Start date', with: Date.today.beginning_of_year.to_s
@@ -20,7 +20,7 @@ feature 'data export flow' do
     expect(saved_data_export.name).to eq "Test"
   end
 
-  scenario "dates and name are optional" do
+  scenario "dates are optional and name is prefilled" do
     visit new_admin_data_export_path
     click_on "Standard Loan Data Export"
     expect(page).to have_field('Locale code', with: 'en')
