@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :data_export do
     division { root_division }
-    name { nil }
+    name { "Test Data Export" }
     start_date { nil }
     end_date { nil }
     locale_code { "en" }
