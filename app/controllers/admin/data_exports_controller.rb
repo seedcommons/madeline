@@ -18,7 +18,6 @@ class Admin::DataExportsController < Admin::AdminController
     @export_class = data_export_create_params[:type].constantize
     @data_export = @export_class.new(data_export_create_params)
     authorize @data_export
-    # TODO: update to take form params (issue 10017); adding here to create taskable association
     if @data_export.save
       Task.create(
         job_class: DataExportTaskJob,
