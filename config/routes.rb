@@ -14,9 +14,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    #parens lets this named param be optional
-    # could not find a way to have the param come after data_exports AND have path helpers etc work
-    scope '(:type)' do
+    scope '(:type)' do # parens lets this param be optional
       resources :data_exports
     end
     resources :response_sets
