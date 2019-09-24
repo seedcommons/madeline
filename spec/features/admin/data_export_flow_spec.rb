@@ -20,7 +20,7 @@ feature 'data export flow' do
     expect(saved_data_export.name).to eq "Test"
   end
 
-  scenario "dates are optional and name is prefilled" do
+  scenario "dates and name are optional and name has reasonable default" do
     visit new_admin_data_export_path
     click_on "Standard Loan Data Export"
     expect(page).to have_field('Locale code', with: 'en')

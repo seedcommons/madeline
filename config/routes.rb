@@ -14,9 +14,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    scope '(:type)' do # parens lets this param be optional
-      resources :data_exports
-    end
+    resources :data_exports, path_names: {new: '(/:type)/new'}
     resources :response_sets
     resources :divisions do
       collection do

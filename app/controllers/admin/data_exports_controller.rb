@@ -8,7 +8,6 @@ class Admin::DataExportsController < Admin::AdminController
         locale_code: I18n.locale,
         division: current_division
       )
-      @data_export.set_default_name
     else
       render :choose_type
     end
