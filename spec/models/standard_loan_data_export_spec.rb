@@ -29,6 +29,10 @@ describe StandardLoanDataExport, type: :model do
     expect(build(:data_export)).to be_valid
   end
 
+  before do
+    OptionSetCreator.new.create_loan_status
+  end
+
   describe "process_data" do
     describe "headers" do
       let!(:division) { create(:division, :with_accounts) }

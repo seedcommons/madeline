@@ -6,10 +6,20 @@ require 'rails_helper'
 RSpec.describe Accounting::Quickbooks::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 1982547353 }
-  let(:division) { create(:division, :with_accounts) }
-  let(:prin_acct) { division.principal_account }
-  let(:int_inc_acct) { division.interest_income_account }
-  let(:int_rcv_acct) { division.interest_receivable_account }
+  let!(:qb_connection) { create(:accounting_quickbooks_connection) }
+  let!(:prin_acct) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
+  let!(:int_rcv_acct) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
+  let!(:int_inc_acct) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }
+  let!(:division) do
+    division = Division.root
+    division.update(
+      principal_account: prin_acct,
+      interest_receivable_account: int_rcv_acct,
+      interest_income_account: int_inc_acct,
+      qb_connection: qb_connection,
+    )
+    division
+  end
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:loan) { create(:loan, division: division) }
   let(:journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: qb_id, as_json: quickbooks_data) }
