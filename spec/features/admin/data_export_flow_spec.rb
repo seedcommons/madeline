@@ -15,7 +15,7 @@ feature 'data export flow' do
     expect(page).to have_field('Locale code', with: 'en')
     click_on "Create Data export"
 
-    #TODO replace with show page check
+    # TODO replace with show page check
     saved_data_export = DataExport.first
     expect(saved_data_export.name).to eq "Test"
   end
@@ -26,7 +26,7 @@ feature 'data export flow' do
     expect(page).to have_field('Locale code', with: 'en')
     click_on "Create Data export"
 
-    #TODO replace with show page check
+    # TODO replace with show page check
     saved_data_export = DataExport.first
     expect(saved_data_export.name).to include("Data Export")
   end
