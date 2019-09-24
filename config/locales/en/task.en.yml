@@ -14,7 +14,7 @@ en:
       help: "See loan, its co-op, or its transactions for more information."
       link_to_details: "Click here to see error details"
       loan_id: "Loan ID"
-      loan_error: "Error in Updating Loan"
+      loan_error: "Loan Error"
       not_applicable: "N/A"
     header:
       activity_message: "Message"
