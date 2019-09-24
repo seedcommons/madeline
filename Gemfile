@@ -102,7 +102,7 @@ group :development, :test do
   gem "capybara-screenshot", "~> 1.0"
   gem "database_cleaner", "~> 1.5"
   gem "factory_bot_rails"
-  gem "faker"
+  gem "faker", "~> 1.0"
   gem "poltergeist", "~> 1.0"
   gem "pundit-matchers"
   gem "rspec-rails"
