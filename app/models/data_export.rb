@@ -55,7 +55,6 @@ class DataExport < ApplicationRecord
     end
 
     media = Media.new(item: temp_file, kind_value: 'document')
-    media = Media.new(item: temp_file, kind_value: 'document')
     attachments << media
     save!
   end
