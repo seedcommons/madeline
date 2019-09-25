@@ -25,7 +25,7 @@ gem "uglifier", ">= 1.3.0"
 gem "uri-js-rails" # URI manipulation
 
 # File attachments
-gem "carrierwave"
+gem "carrierwave", "~> 1.0"
 gem "mini_magick", ">= 4.9.4"
 gem "paperclip", "~> 5.2"
 
@@ -44,7 +44,7 @@ gem 'sidekiq'
 gem "devise-i18n"
 gem "i18n-js", ">= 3.0.0.rc11"
 gem "rails-i18n"
-gem "route_translator", ">=5.5.3"
+gem "route_translator", "~> 5.5"
 
 # Model hierarchical data
 gem "closure_tree"
@@ -102,7 +102,7 @@ group :development, :test do
   gem "capybara-screenshot", "~> 1.0"
   gem "database_cleaner", "~> 1.5"
   gem "factory_bot_rails"
-  gem "faker", "~> 1.0"
+  gem "faker", "1.9.4"
   gem "poltergeist", "~> 1.0"
   gem "pundit-matchers"
   gem "rspec-rails"
