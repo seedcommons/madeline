@@ -1,6 +1,7 @@
 en:
   task:
     activity_message:
+      data_export_in_progress: "Data export is running."
       error_data_reset_required: "Error: Quickbooks data reset required"
       error_quickbooks_not_connected: "Error: Quickbooks not connected"
       error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
