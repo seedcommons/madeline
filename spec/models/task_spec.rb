@@ -2,8 +2,10 @@
 #
 # Table name: tasks
 #
+#  activity_message_data  :json
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
+#  custom_error_data      :json
 #  id                     :bigint(8)        not null, primary key
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime

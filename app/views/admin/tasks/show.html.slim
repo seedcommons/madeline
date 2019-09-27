@@ -9,7 +9,7 @@ table.table.table-bordered
     td= t("task.type.#{@task.job_type_value}")
   tr
     th= t("task.header.status")
-    td= @task.status
+    td= t("task.status.#{@task.status}")
   tr
     th= t("task.header.activity_message")
     td= t("task.activity_message.#{@task.activity_message_value}")
@@ -22,6 +22,18 @@ table.table.table-bordered
   tr
     th= t("task.header.job_last_failed_at")
     td= @task.job_last_failed_at
-  tr
-    th= t("task.header.error")
-    td= @task.error
+
+- if @task.custom_error_data.present?
+  section.block
+    h2 = t("task.header.custom_error_data")
+    p.help-block.note = t("task.custom_error_data.help")
+    table.table.table-bordered.middle-aligned
+      thead
+        tr
+          th= t("task.custom_error_data.loan_id")
+          th= t("task.custom_error_data.loan_error")
+      tbody
+        - @task.custom_error_data.each_with_index do |item, index|
+            tr
+              td= link_to item["loan_id"], admin_loan_path(item["loan_id"])
+              td= item["message"]

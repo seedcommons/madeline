@@ -7,12 +7,14 @@ table.table.table-bordered.middle-aligned
       th= t("task.header.type")
       th= t("task.header.status")
       th= t("task.header.activity_message")
+      th= t("task.header.custom_error_data")
 
   tbody
     - @tasks.each_with_index do |task, index|
         tr
           td= link_to task.id, admin_task_path(task.id)
           td= t("task.type.#{task.job_type_value}")
-          td= task.status
-          td= t("task.activity_message.#{task.activity_message_value}")
+          td= t("task.status.#{task.status}")
+          td= task.activity_message
+          td= task.custom_error_data.present? ? link_to(t("task.custom_error_data.link_to_details"), admin_task_path(task.id)) : t("task.custom_error_data.not_applicable")
 .pagination = paginate @tasks, param_name: 'pg'

@@ -2,8 +2,10 @@
 #
 # Table name: tasks
 #
+#  activity_message_data  :json
 #  activity_message_value :string(65536)    not null
 #  created_at             :datetime         not null
+#  custom_error_data      :json
 #  id                     :bigint(8)        not null, primary key
 #  job_class              :string(255)      not null
 #  job_first_started_at   :datetime
@@ -63,8 +65,13 @@ class Task < ApplicationRecord
     job_succeeded_at.present?
   end
 
-  def error
-    "Error placeholder"
+  # Supports interpolating data only available within the task job
+  def set_activity_message(message, data = nil)
+    self.update(activity_message_value: message, activity_message_data: data)
+  end
+
+  def activity_message
+    I18n.t("task.activity_message.#{activity_message_value}", activity_message_data.try(:symbolize_keys))
   end
 
   private

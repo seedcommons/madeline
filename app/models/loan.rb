@@ -68,6 +68,7 @@ class Loan < Project
   scope :active_or_completed, -> { where(status_value: %w(active completed)) }
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
 
+  delegate :name, :country, :postal_code, to: :organization, prefix: :coop
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
@@ -81,7 +82,6 @@ class Loan < Project
 
   before_create :build_health_check
   after_commit :recalculate_loan_health
-
 
   def self.default_filter
     {status: 'active', country: 'all'}
@@ -210,5 +210,25 @@ class Loan < Project
 
   def health_status_available?
     return !health_check.nil?
+  end
+
+  def sum_of_disbursements(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.by_type("disbursement").in_date_range(start_date, end_date).map { |t| t.amount }.sum
+  end
+
+  def sum_of_repayments(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.amount }.sum
+  end
+
+  def change_in_interest(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+  end
+
+  def change_in_principal(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
   end
 end
