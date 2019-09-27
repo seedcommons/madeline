@@ -23,6 +23,8 @@
 #
 
 class DataExport < ApplicationRecord
+  # TODO: data exports required to be performed by root admins. This is a workaround
+  # because more nuanced permissions will be difficult
   include DivisionBased
 
   belongs_to :division
