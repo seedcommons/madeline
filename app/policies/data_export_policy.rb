@@ -1,9 +1,17 @@
 class DataExportPolicy < ApplicationPolicy
+  def index?
+    division_admin(division: Division.root)
+  end
+  
+  def show?
+    division_admin(division: Division.root)
+  end
+
   def new?
-    true
+    division_admin(division: Division.root)
   end
 
   def create?
-    true
+    division_admin(division: Division.root)
   end
 end
