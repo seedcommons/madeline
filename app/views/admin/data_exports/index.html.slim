@@ -1,0 +1,4 @@
+- content_for(:title, 'Reports')
+
+- content_for :with_title
+  = link_to "New Standard Loan Data Export", new_admin_data_export_path("standard_loan_data_export"), class: 'btn btn-default new-button'
