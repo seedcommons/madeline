@@ -29,6 +29,10 @@ class Admin::DataExportsController < Admin::AdminController
     end
   end
 
+  def index
+    authorize :data_export
+  end
+
   private
 
   def set_export_class_on_new
