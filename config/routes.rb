@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resources :basic_projects, path: 'basic-projects'
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
-    resources :data_exports, path_names: {new: '(/:type)/new'}
+    resources :data_exports, path_names: {new: '(/:type)/new'}, as: "reports", path: "reports"
     resources :response_sets
     resources :divisions do
       collection do
