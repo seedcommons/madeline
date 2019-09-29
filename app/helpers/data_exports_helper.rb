@@ -5,7 +5,7 @@ module DataExportsHelper
     if data_export.attachments.length > 0
       media_count = 1
       data_export.attachments.each do |attachment|
-        text += "<p><a href='#{attachment.item}'>File #{media_count}</a></p>"
+        text += "<p><a href='#{attachment.item}'>#{t('data_export.file', n: media_count)}</a></p>"
         media_count  += 1
       end
     end

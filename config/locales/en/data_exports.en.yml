@@ -1,6 +1,7 @@
 en:
   data_export:
     attachments: "Attachments"
+    file: "File %{n}"
     status: "Export Status"
     task: "Associated Task"
   data_exports:
