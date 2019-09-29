@@ -36,6 +36,7 @@ class Admin::DataExportsController < Admin::AdminController
 
     @data_exports_grid = initialize_grid(
       policy_scope(DataExport),
+      include: [:attachments],
       order_direction: "desc",
       per_page: 50,
       name: "data_exports",
