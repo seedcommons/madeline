@@ -31,6 +31,24 @@ class Admin::DataExportsController < Admin::AdminController
 
   def index
     authorize :data_export
+
+    @data_exports = DataExport.all
+
+    @data_exports_grid = initialize_grid(
+      policy_scope(DataExport),
+      order_direction: "desc",
+      per_page: 50,
+      name: "data_exports",
+      enable_export_to_csv: true
+    )
+
+    @csv_mode = true
+    @enable_export_to_csv = true
+
+    export_grid_if_requested('data_exports': 'data_exports_grid_definition') do
+      # This block only executes if CSV is not being returned
+      @csv_mode = false
+    end
   end
 
   private

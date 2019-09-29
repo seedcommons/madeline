@@ -1,0 +1,12 @@
+/ = define_grid(@data_exports_grid, hide_csv_button: true,
+/     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
+/
+/     - g.blank_slate { @data_exports_grid.no_records_at_all = true; "" }
+
+= define_grid(@data_exports_grid, hide_csv_button: true) do |g|
+
+    - g.blank_slate { @data_exports_grid.no_records_at_all = true; "" }
+
+    - g.column name: 'ID', attribute: 'id', filter: false
+    - g.column name: 'Start Date', attribute: 'start_date', filter: false
+    - g.column name: 'End Date', attribute: 'end_date', filter: false
