@@ -6,6 +6,9 @@ en:
     task: "Associated Task"
   data_exports:
     default_name: "%{type} on %{current_time}"
+    index_heading: "Reports"
+    new_export:
+      standard_loan_data_export: "New Standard Loan Data Export"
     types:
       data_export: "Data Export"
       standard_loan_data_export: "Standard Loan Data Export"
