@@ -21,6 +21,11 @@ en:
         secondary_agent: "Secondary Agent"
         signing_date: "Start Date"
         status: "Status"
+      data_export:
+        created_at: "Exported Created"
+        end_date: "Report End Date"
+        name: "Name"
+        start_date: "Report Start Date"
       division:
         description: "Description"
         default_currency: "Default Currency"

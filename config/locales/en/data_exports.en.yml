@@ -1,4 +1,8 @@
 en:
+  data_export:
+    attachments: "Attachments"
+    status: "Export Status"
+    task: "Associated Task"
   data_exports:
     default_name: "%{type} on %{current_time}"
     types:
