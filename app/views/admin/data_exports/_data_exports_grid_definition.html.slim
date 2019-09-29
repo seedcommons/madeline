@@ -1,23 +1,18 @@
-/ = define_grid(@data_exports_grid, hide_csv_button: true,
-/     html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
-/
-/     - g.blank_slate { @data_exports_grid.no_records_at_all = true; "" }
-
 = define_grid(@data_exports_grid, hide_csv_button: true) do |g|
+  - g.blank_slate { @data_exports_grid.no_records_at_all = true; "" }
 
-    - g.blank_slate { @data_exports_grid.no_records_at_all = true; "" }
-
-    - g.column name: 'ID', attribute: 'id', filter: false
-    - g.column name: 'Name', attribute: 'name', filter: false
-    - g.column name: 'Exported Created', attribute: 'created_at', filter: false
-    - g.column name: "Export Status", filter: false do |data_export|
-      - data_export.task.status
-    - g.column name: "Associated Task", filter: false, in_csv: false do |data_export|
-      - link_to(data_export.task.id, admin_task_path(data_export.task.id))
-    - g.column name: "Associated Task", filter: false, in_csv: true, in_html: false do |data_export|
-      - data_export.task.id
-    - g.column name: 'Report Start Date', attribute: 'start_date', filter: false
-    - g.column name: 'Report End Date', attribute: 'end_date', filter: false
-    /- g.column name: 'Attachments', attribute: 'attachments', filter: false
-    - g.column name: "Attachments", filter: false do |data_export|
-      - display_attachments_list(data_export)
+  - g.column name: 'ID', attribute: 'id', filter: false
+  - g.column name: 'Name', attribute: 'name', filter: false
+  - g.column name: 'Exported Created', attribute: 'created_at', filter: false
+  - g.column name: "Export Status", filter: false do |data_export|
+    - data_export.task.status
+  - g.column name: "Associated Task", filter: false, in_csv: false do |data_export|
+    - link_to(data_export.task.id, admin_task_path(data_export.task.id))
+  - g.column name: "Associated Task", filter: false, in_csv: true, in_html: false do |data_export|
+    - data_export.task.id
+  - g.column name: 'Report Start Date', attribute: 'start_date', filter: false
+  - g.column name: 'Report End Date', attribute: 'end_date', filter: false
+  - g.column name: "Attachments", filter: false, in_csv: false do |data_export|
+    - display_attachments_list(data_export)
+  - g.column name: "Attachments", filter: false, in_csv: true, in_html: false do |data_export|
+    - data_export.attachments.length
