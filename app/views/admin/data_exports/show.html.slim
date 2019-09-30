@@ -10,6 +10,15 @@ table.table.table-bordered
     th= "Attachments"
     td= display_attachments_list(@data_export)
 
+- if @data_export.attachments.length > 0
+  h2 Attachments
+
+  .media-browser.col-lg-12
+    - @data_export.attachments.each do |attachment|
+        div.media-item
+          .thumb
+            = link_to report_thumbnail(attachment), attachment.item.url
+
 h2 Task Information
 
 table.table.table-bordered

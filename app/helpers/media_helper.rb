@@ -14,6 +14,13 @@ module MediaHelper
     end
   end
 
+  def report_thumbnail(media_item)
+    content_tag(:div, class: "media-block") do
+      concat(content_tag(:div, media_title(media_item)))
+      concat(icon(media_icon_class(media_item)))
+    end
+  end
+
   def media_title(media_item, shorten: true)
     full_name = File.basename(media_item.item.file.path)
 
@@ -64,6 +71,8 @@ module MediaHelper
         "file-word-o"
       when ".docx"
         "file-word-o"
+      when ".csv"
+        "table"
       else
         "file-text-o"
       end
