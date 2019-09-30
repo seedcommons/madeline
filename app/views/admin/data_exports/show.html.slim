@@ -16,7 +16,7 @@ table.table.table-bordered
         admin_division_path(@data_export.division_id)
   tr
     th= t("data_export.type")
-    td= @data_export.type
+    td= t("data_exports.type.#{@data_export.type.underscore}")
   tr
     th= t("activerecord.attributes.data_export.start_date")
     td= @data_export.start_date
