@@ -16,17 +16,17 @@ module MediaHelper
 
   def report_thumbnail(media_item)
     content_tag(:div, class: "media-block") do
-      concat(content_tag(:div, media_title(media_item)))
+      concat(content_tag(:div, media_title(media_item, length: 20)))
       concat(icon(media_icon_class(media_item)))
     end
   end
 
-  def media_title(media_item, shorten: true)
+  def media_title(media_item, shorten: true, length: 12)
     full_name = File.basename(media_item.item.file.path)
 
     if shorten
       ext = File.extname(media_item.item.file.path)
-      file_name = truncate(File.basename(media_item.item.file.path, ext), length: 12)
+      file_name = truncate(File.basename(media_item.item.file.path, ext), length: length)
       content_tag(:div, class: "media-title", title: full_name) do
         concat(content_tag(:span, file_name))
         concat(content_tag(:div, ext.downcase))

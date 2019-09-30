@@ -1,4 +1,5 @@
 $media-block-width: 100px;
+$report-media-block-width: auto;
 
 .media-browser, .media-modal {
   .section {
@@ -43,7 +44,7 @@ $media-block-width: 100px;
 
   .thumb {
     position: relative;
-    max-width: 100px;
+    max-width: $media-block-width;
     margin-bottom: 15px;
     margin-right: 15px;
 
@@ -86,6 +87,26 @@ $media-block-width: 100px;
         text-decoration: none;
       }
     }
+  }
+}
+
+.media-browser.report-media {
+  align-items: stretch;
+  display: flex;
+  height: 100%;
+
+  .media-block {
+    height: $report-media-block-width;
+    padding: .5rem;
+    width: $report-media-block-width;
+  }
+
+  .media-title {
+    width: $report-media-block-width;
+  }
+
+  .thumb {
+    max-width: $report-media-block-width;
   }
 }
 
