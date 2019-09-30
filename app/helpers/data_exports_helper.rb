@@ -8,7 +8,7 @@ module DataExportsHelper
         text += "</a></p>"
         media_count += 1
       end
-      return text.html_safe
+      return sanitize(text, tags: %w(a p), attributes: %w(href))
     end
   end
 end
