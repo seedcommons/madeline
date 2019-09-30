@@ -41,7 +41,7 @@ class Task < ApplicationRecord
       :pending
     elsif in_progress?
       :in_progress
-    elsif custom_error_data.present?
+    elsif completed_with_errors?
       :completed_with_errors
     elsif succeeded?
       :succeeded
@@ -69,6 +69,10 @@ class Task < ApplicationRecord
 
   def succeeded?
     job_succeeded_at.present?
+  end
+
+  def completed_with_errors?
+    custom_error_data.present? && (succeeded? || failed?)
   end
 
   # Supports interpolating data only available within the task job
