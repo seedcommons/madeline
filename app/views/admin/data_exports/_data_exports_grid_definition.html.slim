@@ -5,7 +5,7 @@
   - g.column name: t('activerecord.attributes.data_export.name'), attribute: 'name', filter: false
   - g.column name: t('activerecord.attributes.data_export.created_at'), attribute: 'created_at', filter: false
   - g.column name: t('data_export.status'), filter: false do |data_export|
-    - data_export.task.status
+    - t("task.status.#{data_export.task.status}")
   - g.column name: t('data_export.associated_task'), filter: false, in_csv: false do |data_export|
     - link_to(data_export.task.id, admin_task_path(data_export.task.id))
   - g.column name: t('data_export.associated_task'), filter: false, in_csv: true, in_html: false do |data_export|
