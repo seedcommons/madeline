@@ -1,32 +1,31 @@
 - content_for(:title, @data_export.name)
 
-h2 Report Information
+h2= t("data_export.info")
 
 table.table.table-bordered
   tr
-    th= t('common.id')
+    th= t("common.id")
     td= @data_export.id
   tr
-    th= t('activerecord.attributes.data_export.created_at')
+    th= t("activerecord.attributes.data_export.created_at")
     td= @data_export.created_at
   tr
-    th= t('common.division')
+    th= t("common.division")
     td
       = link_to Division.find(@data_export.division_id).name,
         admin_division_path(@data_export.division_id)
   tr
-    th= "Report Type"
-    td
-      = @data_export.type
+    th= t("data_export.type")
+    td= @data_export.type
   tr
-    th= t('activerecord.attributes.data_export.start_date')
+    th= t("activerecord.attributes.data_export.start_date")
     td= @data_export.start_date
   tr
-    th= t('activerecord.attributes.data_export.end_date')
+    th= t("activerecord.attributes.data_export.end_date")
     td= @data_export.end_date
 
 - if @data_export.attachments.length > 0
-  h2= t('data_export.attachments')
+  h2= t("data_export.attachments")
 
   .media-browser.col-lg-12.report-media
     - @data_export.attachments.each do |attachment|
@@ -34,11 +33,11 @@ table.table.table-bordered
           .thumb
             = link_to report_thumbnail(attachment), attachment.item.url
 
-h2= t('data_export.task')
+h2= t("data_export.task")
 
 table.table.table-bordered
   tr
-    th= "Task ID"
+    th= t("data_export.task_id")
     td= link_to @data_export.task.id, admin_task_path(@data_export.task.id)
   tr
     th= t("task.header.status")
@@ -49,7 +48,7 @@ table.table.table-bordered
 
 - if @data_export.task.custom_error_data.present?
   section.block
-    h3 = "Task Error Details"
+    h3 = t("data_export.task_error_details")
     p.help-block.note = t("task.custom_error_data.help")
     table.table.table-bordered.middle-aligned
       thead
