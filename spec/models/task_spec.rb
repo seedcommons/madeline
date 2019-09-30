@@ -79,6 +79,13 @@ RSpec.describe Task, type: :model do
         expect(task.status).to eq :failed
       end
     end
+
+    context "has finished with child errors" do
+      let(:task) { create(:task, provider_job_id: 1, job_first_started_at: Time.current - 1.minute, job_last_failed_at: Time.current, custom_error_data: [{loan_id: "1", message: "test"}]) }
+      it "should be finished with errors" do
+        expect(task.status).to eq :completed_with_errors
+      end
+    end
   end
 
   describe "life cycle updates" do

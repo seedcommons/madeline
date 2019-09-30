@@ -15,8 +15,7 @@ class UpdateAllLoansJob < TaskJob
         next
       end
     end
-    task.update(custom_error_data: errors_by_loan)
-    task.set_activity_message("finished_with_custom_error_data")
+    task.add_errors(errors_by_loan)
   end
 
   rescue_from(Accounting::Quickbooks::NotConnectedError) do |error|

@@ -35,5 +35,6 @@ en:
       in_progress: "In progress"
       pending: "Pending"
       succeeded: "Succeeded"
+      completed_with_errors: "Completed with errors"
     type:
       full_fetcher: "Quickbooks Import"

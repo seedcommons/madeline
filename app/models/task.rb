@@ -41,6 +41,8 @@ class Task < ApplicationRecord
       :pending
     elsif in_progress?
       :in_progress
+    elsif custom_error_data.present?
+      :completed_with_errors
     elsif succeeded?
       :succeeded
     elsif failed?
@@ -59,6 +61,10 @@ class Task < ApplicationRecord
 
   def fail!
     self.update_attribute(:job_last_failed_at, Time.current)
+  end
+
+  def add_errors(errors)
+    self.update(custom_error_data: errors, activity_message_value: "finished_with_custom_error_data")
   end
 
   def succeeded?
