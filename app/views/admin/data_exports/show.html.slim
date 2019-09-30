@@ -1,0 +1,39 @@
+- content_for(:title, @data_export.name)
+
+h2 Report Information
+
+table.table.table-bordered
+  tr
+    th= t("task.header.id")
+    td= @data_export.id
+  tr
+    th= "Attachments"
+    td= display_attachments_list(@data_export)
+
+h2 Task Information
+
+table.table.table-bordered
+  tr
+    th= "Task ID"
+    td= @data_export.task.id
+  tr
+    th= t("task.header.status")
+    td= t("task.status.#{@data_export.task.status}")
+  tr
+    th= t("task.header.activity_message")
+    td= t("task.activity_message.#{@data_export.task.activity_message_value}")
+
+- if @data_export.task.custom_error_data.present?
+  section.block
+    h3 = "Task Error Details"
+    p.help-block.note = t("task.custom_error_data.help")
+    table.table.table-bordered.middle-aligned
+      thead
+        tr
+          th= t("task.custom_error_data.loan_id")
+          th= t("task.custom_error_data.loan_error")
+      tbody
+        - @data_export.task.custom_error_data.each_with_index do |item, index|
+            tr
+              td= link_to item["loan_id"], admin_loan_path(item["loan_id"])
+              td= item["message"]

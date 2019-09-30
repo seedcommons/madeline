@@ -53,6 +53,11 @@ class Admin::DataExportsController < Admin::AdminController
     end
   end
 
+  def show
+    @data_export = DataExport.find(params[:id])
+    authorize @data_export
+  end
+
   private
 
   def set_export_class_on_new
