@@ -69,7 +69,7 @@ class DataExport < ApplicationRecord
   end
 
   def task
-    Task.where(taskable_id: self.id).first
+    Task.find_by(taskable_id: self.id)
   end
 
   private
