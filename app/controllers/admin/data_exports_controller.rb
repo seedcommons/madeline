@@ -24,7 +24,10 @@ class Admin::DataExportsController < Admin::AdminController
         activity_message_value: 'task_enqueued',
         taskable: @data_export
       ).enqueue(job_params: {data_export_id: @data_export.id})
+      flash[:notice] = t("data_exports.create_success")
+      redirect_to admin_data_exports_path
     else
+      flash[:error] = t("data_exports.create_error")
       render :new
     end
   end
@@ -64,6 +67,6 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def data_export_create_params
-    params.require(:data_export).permit(:type, :division_id, :locale_code, :name)
+    params.require(:data_export).permit(:type, :division_id, :locale_code, :name, :start_date, :end_date)
   end
 end
