@@ -22,7 +22,7 @@ en:
         signing_date: "Start Date"
         status: "Status"
       data_export:
-        created_at: "Exported Created"
+        created_at: "Export Created"
         end_date: "Report End Date"
         name: "Name"
         start_date: "Report Start Date"
