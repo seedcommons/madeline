@@ -1,13 +1,13 @@
 en:
   data_export:
     attachments: "Attachments"
-    info: "Report Information"
+    info: "Data Export Information"
     file: "File %{n}"
     status: "Export Status"
     task: "Associated Task"
     task_id: "Task ID"
     task_error_details: "Task Error Details"
-    type: "Report Type"
+    type: "Data Export Type"
   data_exports:
     create_success: "Data export created successfully."
     default_name: "%{type} on %{current_time}"
