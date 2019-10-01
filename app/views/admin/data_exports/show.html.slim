@@ -7,9 +7,6 @@ table.table.table-bordered
     th= t("common.id")
     td= @data_export.id
   tr
-    th= t("activerecord.attributes.data_export.created_at")
-    td= @data_export.created_at
-  tr
     th= t("common.division")
     td
       = link_to Division.find(@data_export.division_id).name,
@@ -23,6 +20,9 @@ table.table.table-bordered
   tr
     th= t("activerecord.attributes.data_export.end_date")
     td= @data_export.end_date
+  tr
+    th= t("activerecord.attributes.data_export.created_at")
+    td= @data_export.created_at
 
 - if @data_export.attachments.length > 0
   h2= t("data_export.attachments")

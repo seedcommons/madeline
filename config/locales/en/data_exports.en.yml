@@ -1,7 +1,7 @@
 en:
   data_export:
     attachments: "Attachments"
-    info: "Data Export Information"
+    info: "Details"
     file: "File %{n}"
     status: "Export Status"
     task: "Associated Task"
