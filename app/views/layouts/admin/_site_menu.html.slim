@@ -18,4 +18,6 @@ li
     - if policy(:setting).index?
       li = link_to t('menu.accounting_settings'), admin_accounting_settings_path
     li = link_to t('menu.tasks'), admin_tasks_path
-    li = link_to "Reports", admin_data_exports_path
+    // If this user is authorized for reports index, then show the link
+    - if policy(DataExport).index?
+      li = link_to "Reports", admin_data_exports_path
