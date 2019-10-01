@@ -1,5 +1,5 @@
 $media-block-width: 100px;
-$report-media-block-width: auto;
+$data-export-media-block-width: auto;
 
 .media-browser, .media-modal {
   .section {
@@ -89,23 +89,23 @@ $report-media-block-width: auto;
     }
   }
 
-  &.report-media {
+  &.data-export-media {
     align-items: stretch;
     display: flex;
     height: 100%;
 
     .media-block {
-      height: $report-media-block-width;
+      height: $data-export-media-block-width;
       padding: 0.5rem;
-      width: $report-media-block-width;
+      width: $data-export-media-block-width;
     }
 
     .media-title {
-      width: $report-media-block-width;
+      width: $data-export-media-block-width;
     }
 
     .thumb {
-      max-width: $report-media-block-width;
+      max-width: $data-export-media-block-width;
     }
   }
 }

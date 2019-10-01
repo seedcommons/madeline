@@ -27,11 +27,11 @@ table.table.table-bordered
 - if @data_export.attachments.length > 0
   h2= t("data_export.attachments")
 
-  .media-browser.col-lg-12.report-media
+  .media-browser.col-lg-12.data-export-media
     - @data_export.attachments.each do |attachment|
         div.media-item
           .thumb
-            = link_to report_thumbnail(attachment), attachment.item.url
+            = link_to data_export_thumbnail(attachment), attachment.item.url
 
 h2= t("data_export.task")
 
