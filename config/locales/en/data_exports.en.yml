@@ -5,7 +5,7 @@ en:
     status: "Export Status"
     task: "Associated Task"
   data_exports:
-    create_success: "Data export created successfully."
+    create_success: "Data export initiated."
     default_name: "%{type} on %{current_time}"
     index_heading: "Data Exports"
     new_export:
