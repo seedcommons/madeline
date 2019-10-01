@@ -28,7 +28,7 @@ en:
     end: "End %{name}"
     end_date: "End Date"
     errors:
-      transaction_data_missing: "Loan has transactions missing data. Do you need to run a QB update?"
+      transaction_data_missing: "Loan has transactions missing data. Either there were errors updating the loan, or the loan needs to be updated."
     finalize: "Finalize"
     forward: "+ forward"
     id: "Loan ID"

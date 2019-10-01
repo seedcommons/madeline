@@ -9,7 +9,7 @@ en:
     task_error_details: "Task Error Details"
     type: "Data Export Type"
   data_exports:
-    create_success: "Data export created successfully."
+    create_success: "Data export initiated."
     default_name: "%{type} on %{current_time}"
     index_heading: "Data Exports"
     new_export:
