@@ -88,25 +88,25 @@ $report-media-block-width: auto;
       }
     }
   }
-}
 
-.media-browser.report-media {
-  align-items: stretch;
-  display: flex;
-  height: 100%;
+  &.report-media {
+    align-items: stretch;
+    display: flex;
+    height: 100%;
 
-  .media-block {
-    height: $report-media-block-width;
-    padding: .5rem;
-    width: $report-media-block-width;
-  }
+    .media-block {
+      height: $report-media-block-width;
+      padding: 0.5rem;
+      width: $report-media-block-width;
+    }
 
-  .media-title {
-    width: $report-media-block-width;
-  }
+    .media-title {
+      width: $report-media-block-width;
+    }
 
-  .thumb {
-    max-width: $report-media-block-width;
+    .thumb {
+      max-width: $report-media-block-width;
+    }
   }
 }
 
