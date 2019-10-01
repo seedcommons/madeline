@@ -93,6 +93,7 @@ $data-export-media-block-width: auto;
     align-items: stretch;
     display: flex;
     height: 100%;
+    padding: 0;
 
     .media-block {
       height: $data-export-media-block-width;

@@ -47,7 +47,7 @@ table.table.table-bordered
     td= t("task.activity_message.#{@data_export.task.activity_message_value}")
 
 - if @data_export.task.custom_error_data.present?
-  section.block
+  section
     h3 = t("data_export.task_error_details")
     p.help-block.note = t("task.custom_error_data.help")
     table.table.table-bordered.middle-aligned
