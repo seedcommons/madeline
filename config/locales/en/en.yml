@@ -23,9 +23,9 @@ en:
         status: "Status"
       data_export:
         created_at: "Exported Created"
-        end_date: "Report End Date"
+        end_date: "Data Export End Date"
         name: "Name"
-        start_date: "Report Start Date"
+        start_date: "Data Export Start Date"
       division:
         description: "Description"
         default_currency: "Default Currency"
