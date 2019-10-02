@@ -24,9 +24,41 @@ class Admin::DataExportsController < Admin::AdminController
         activity_message_value: 'task_enqueued',
         taskable: @data_export
       ).enqueue(job_params: {data_export_id: @data_export.id})
+      flash[:notice] = t("data_exports.create_success")
+      redirect_to admin_data_exports_path
     else
+      flash[:error] = t("data_exports.create_error")
       render :new
     end
+  end
+
+  def index
+    authorize :data_export
+
+    @data_exports = DataExport.all
+
+    @data_exports_grid = initialize_grid(
+      policy_scope(DataExport),
+      include: [:attachments],
+      order: "created_at",
+      order_direction: "desc",
+      per_page: 50,
+      name: "data_exports",
+      enable_export_to_csv: true
+    )
+
+    @csv_mode = true
+    @enable_export_to_csv = true
+
+    export_grid_if_requested('data_exports': 'data_exports_grid_definition') do
+      # This block only executes if CSV is not being returned
+      @csv_mode = false
+    end
+  end
+
+  def show
+    @data_export = DataExport.find(params[:id])
+    authorize @data_export
   end
 
   private
@@ -40,6 +72,6 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def data_export_create_params
-    params.require(:data_export).permit(:type, :division_id, :locale_code, :name)
+    params.require(:data_export).permit(:type, :division_id, :locale_code, :name, :start_date, :end_date)
   end
 end

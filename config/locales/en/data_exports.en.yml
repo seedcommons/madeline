@@ -1,6 +1,19 @@
 en:
+  data_export:
+    attachments: "Attachments"
+    info: "Details"
+    file: "File %{n}"
+    status: "Export Status"
+    task: "Associated Task"
+    task_id: "Task ID"
+    task_error_details: "Task Error Details"
+    type: "Data Export Type"
   data_exports:
+    create_success: "Data export initiated."
     default_name: "%{type} on %{current_time}"
+    index_heading: "Data Exports"
+    new_export:
+      standard_loan_data_export: "New Standard Loan Data Export"
     types:
       data_export: "Data Export"
       standard_loan_data_export: "Standard Loan Data Export"

@@ -70,6 +70,10 @@ class DataExport < ApplicationRecord
     )
   end
 
+  def task
+    Task.find_by(taskable_id: self.id)
+  end
+
   private
 
   def set_name
