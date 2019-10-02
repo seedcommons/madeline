@@ -152,3 +152,8 @@ table.table.table-bordered.middle-aligned {
     }
   }
 }
+
+.table.rowlink td:not(.rowlink-skip) a,
+.table .rowlink td:not(.rowlink-skip) a {
+  text-decoration: underline;
+}
