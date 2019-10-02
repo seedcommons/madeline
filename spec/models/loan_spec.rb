@@ -302,7 +302,7 @@ describe Loan, type: :model do
 
         it "raises error if at least one transaction has nil value for change_in_interest" do
           t4.update(change_in_interest: nil)
-          expect { loan.change_in_interest(start_date: Date.parse('2019-01-01')) }.to raise_error(Accounting::TransactionDataMissingError, "Loan has transactions missing data. Do you need to run a QB update?")
+          expect { loan.change_in_interest(start_date: Date.parse('2019-01-01')) }.to raise_error(Accounting::TransactionDataMissingError, I18n.t("loan.errors.transaction_data_missing"))
         end
       end
     end
