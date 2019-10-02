@@ -15,7 +15,7 @@ feature 'data export flow' do
     fill_in 'Name', with: "Test"
     expect(page).to have_field('Locale code', with: 'en')
     click_on "Create Data export"
-    expect(page).to have_content "Data export initiated."
+    expect(page).to have_content "Successfully queued data export."
     expect(page).to have_content "Test"
     # TODO replace with show page check
     saved_data_export = DataExport.first
