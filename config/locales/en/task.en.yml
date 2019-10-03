@@ -1,12 +1,14 @@
 en:
   task:
     activity_message:
+      completed: "Complete"
       error_data_reset_required: "Error: Quickbooks data reset required"
       error_quickbooks_not_connected: "Error: Quickbooks not connected"
       error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
       failed: "Task failed with an internal error. An administrator has been notified."
       fetching_quickbooks_data: "Fetching Quickbooks Data"
       finished_with_custom_error_data: "This task completed with errors. See error details."
+      in_progress: "In progress"
       syncing_with_quickbooks: "Syncing with Quickbooks"
       task_enqueued: "This task has been enqueued"
       updating_all_loans: "Updating %{total} loans. %{so_far} loans updated so far."
