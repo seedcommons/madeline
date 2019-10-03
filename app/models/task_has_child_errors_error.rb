@@ -1,0 +1,2 @@
+class TaskHasChildErrorsError < StandardError
+end
