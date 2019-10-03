@@ -1,0 +1,13 @@
+- content_for(:title, t("data_exports.index_heading"))
+
+- content_for :with_title
+  = link_to t("data_exports.new_export.standard_loan_data_export"),
+    new_admin_data_export_path("standard_loan_data_export"), class: 'btn btn-default new-button'
+
+= render "data_exports_grid_definition"
+
+/ External Filters
+/ - unless @data_exports_grid.no_records_at_all
+/   header.block.index-table
+
+= render_index_grid(@data_exports_grid)

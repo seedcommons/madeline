@@ -35,4 +35,20 @@ describe UpdateAllLoansJob do
       expect(task.reload.activity_message_value).to eq "error_data_reset_required"
     end
   end
+
+  context "accounts are not set" do
+    subject(:task_job) do
+      Class.new(described_class) do
+        def perform(_task_data, *_args)
+          raise Accounting::Quickbooks::AccountsNotSelectedError
+        end
+      end
+    end
+
+    it "should fail and have specific activity message" do
+      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::Quickbooks::AccountsNotSelectedError
+      expect(task.reload.status).to eq :failed
+      expect(task.reload.activity_message_value).to eq "error_quickbooks_accounts_not_selected"
+    end
+  end
 end

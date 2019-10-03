@@ -23,15 +23,19 @@
 #
 
 class DataExport < ApplicationRecord
+  # TODO: data exports required to be performed by root admins. This is a workaround
+  # because more nuanced permissions will be difficult
   include DivisionBased
 
   belongs_to :division
   has_many :attachments, as: :media_attachable, dependent: :nullify, class_name: "Media"
 
+  validate :locale_code_available
+
   before_save :set_name
 
   DATA_EXPORT_TYPES = {
-    "data_export" => "DataExport"
+    "standard_loan_data_export" => "StandardLoanDataExport"
   }
 
   # Process data should be defined on subclasses,
@@ -42,10 +46,10 @@ class DataExport < ApplicationRecord
   end
 
   def to_csv!
-    raise ArgumentError, "No data found" unless data.present?
+    raise ArgumentError, "No data found" if data.blank?
     raise TypeError, "Data should be a 2D Array" unless (data.is_a?(Array) && data.first.is_a?(Array))
 
-    temp_file = Tempfile.new("#{name}.csv")
+    temp_file = Tempfile.new([name, '.csv'])
     CSV.open(temp_file.path, "wb") do |csv|
       data.each do |row|
         csv << row
@@ -57,15 +61,26 @@ class DataExport < ApplicationRecord
     save!
   end
 
-  private
-
-  def set_name
+  def default_name
     export_type_key = DATA_EXPORT_TYPES.invert[self.type.to_s]
-
-    self.name ||= I18n.t(
+    I18n.t(
       "data_exports.default_name",
       type: I18n.t("data_exports.types.#{export_type_key}"),
       current_time: I18n.l(Time.zone.now, format: :long)
     )
+  end
+
+  def task
+    Task.find_by(taskable_id: self.id)
+  end
+
+  private
+
+  def set_name
+    self.name = default_name if self.name.blank?
+  end
+
+  def locale_code_available
+    errors.add(:locale_code, :invalid) unless I18n.available_locales.include?(locale_code.to_sym)
   end
 end

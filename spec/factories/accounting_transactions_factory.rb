@@ -55,6 +55,8 @@ FactoryBot.define do
     account
     project
     managed { true }
+    change_in_interest { Faker::Number.decimal(4, 2) }
+    change_in_principal { Faker::Number.decimal(4, 2) }
 
     trait :interest do
       loan_transaction_type_value { 'interest' }

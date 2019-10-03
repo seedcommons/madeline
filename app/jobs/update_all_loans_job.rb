@@ -29,6 +29,11 @@ class UpdateAllLoansJob < TaskJob
     record_failure_and_raise_error(error)
   end
 
+  rescue_from(Accounting::Quickbooks::AccountsNotSelectedError) do |error|
+    task_for_job(self).set_activity_message("error_quickbooks_accounts_not_selected")
+    record_failure_and_raise_error(error)
+  end
+
   private
 
   def record_failure_and_raise_error(error)

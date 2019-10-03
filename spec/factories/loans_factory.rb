@@ -4,8 +4,8 @@ FactoryBot.define do
     organization
     name { "Loan for " + organization.name }
     currency { Currency.all.sample || create(:currency) }
-    association :primary_agent_id, factory: :person
-    association :secondary_agent_id, factory: :person
+    association :primary_agent, factory: :person
+    association :secondary_agent, factory: :person
     status_value { ["active", "frozen", "liquidated", "completed"].sample }
     loan_type_value { ["liquidity_loc", "investment_loc", "investment", "evolving", "single_liquidity_loc", "wc_investment", "sa_investment"].sample }
     public_level_value { ["featured", "hidden", "public"].sample }
