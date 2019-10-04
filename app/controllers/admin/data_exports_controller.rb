@@ -22,7 +22,7 @@ class Admin::DataExportsController < Admin::AdminController
     if @data_export.save
       Task.create(
         job_class: DataExportTaskJob,
-        job_type_value: 'data_export_task_job',
+        job_type_value: 'data_export',
         activity_message_value: 'task_enqueued',
         taskable: @data_export
       ).enqueue(job_params: {data_export_id: @data_export.id})

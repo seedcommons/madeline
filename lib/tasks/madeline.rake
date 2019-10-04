@@ -4,7 +4,7 @@ namespace :madeline do
   task enqueue_monthly_interest_accrual_task: :environment do
     Task.create(
       job_class: MonthlyInterestAccrualJob,
-      job_type_value: 'monthly_interest_accrual_job',
+      job_type_value: 'monthly_interest_accrual',
       activity_message_value: 'task_enqueued'
     ).enqueue
   end
@@ -14,7 +14,7 @@ namespace :madeline do
   task enqueue_update_loans_task: :environment do
     Task.create(
       job_class: UpdateAllLoansJob,
-      job_type_value: 'update_all_loans_job',
+      job_type_value: 'update_all_loans',
       activity_message_value: 'task_enqueued'
     ).enqueue
   end

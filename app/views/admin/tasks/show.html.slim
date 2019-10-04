@@ -1,4 +1,4 @@
-- content_for(:title, t("task.show.title", id: @task.id))
+- content_for(:title, t("task.show.title", type: t("task.type.#{@task.job_type_value}"), id: @task.id))
 
 table.table.table-bordered
   tr
@@ -15,13 +15,10 @@ table.table.table-bordered
     td= t("task.activity_message.#{@task.activity_message_value}")
   tr
     th= t("task.header.created_at")
-    td= @task.created_at
+    td= l(@task.created_at, format: :long)
   tr
-    th= t("task.header.job_first_started_at")
-    td= @task.job_first_started_at
-  tr
-    th= t("task.header.job_last_failed_at")
-    td= @task.job_last_failed_at
+    th= t("task.header.duration")
+    td= formatted_duration(@task.duration)
 
 - if @task.custom_error_data.present?
   section.block

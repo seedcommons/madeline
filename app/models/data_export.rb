@@ -74,6 +74,10 @@ class DataExport < ApplicationRecord
     Task.find_by(taskable_id: self.id)
   end
 
+  def self.model_name
+    ActiveModel::Name.new(self, nil, "DataExport")
+  end
+
   private
 
   def set_name
