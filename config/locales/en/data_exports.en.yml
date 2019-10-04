@@ -14,6 +14,7 @@ en:
     default_name: "%{type} on %{current_time}"
     index_heading: "Data Exports"
     new_export:
+      general: "New Data Export"
       standard_loan_data_export: "New Standard Loan Data Export"
     types:
       data_export: "Data Export"

@@ -1,7 +1,7 @@
 - content_for(:title, t("data_exports.index_heading"))
 
 - content_for :with_title
-  = link_to t("data_exports.new_export.standard_loan_data_export"),
+  = link_to t("data_exports.new_export.general"),
     new_admin_data_export_path("standard_loan_data_export"), class: 'btn btn-default new-button'
 
 = render "data_exports_grid_definition"
