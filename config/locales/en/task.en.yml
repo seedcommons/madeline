@@ -37,6 +37,11 @@ en:
       in_progress: "In progress"
       pending: "Pending"
       succeeded: "Succeeded"
+    taskable:
+      type:
+        data_export: "Data Export"
+      type_with_id:
+        data_export: "Data Export #%{number}"
     type:
       full_fetcher: "Quickbooks Import"
       data_export: "Data Export"
