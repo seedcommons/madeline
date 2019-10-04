@@ -16,13 +16,14 @@ table.table.table-bordered
     td= t("data_exports.type.#{@data_export.type.underscore}")
   tr
     th= t("activerecord.attributes.data_export.start_date")
-    td= @data_export.start_date
+    td= ldate(@data_export.start_date, format: :long)
+
   tr
     th= t("activerecord.attributes.data_export.end_date")
-    td= @data_export.end_date
+    td= ldate(@data_export.end_date, format: :long)
   tr
     th= t("activerecord.attributes.data_export.created_at")
-    td= @data_export.created_at
+    td= ldate(@data_export.created_at, format: :long)
 
 - if @data_export.attachments.length > 0
   h2= t("data_export.attachments")
