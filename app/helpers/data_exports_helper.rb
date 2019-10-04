@@ -5,7 +5,7 @@ module DataExportsHelper
       data_export.attachments.each do |attachment|
         text += "<p><a href='#{attachment.item}'>"
         text += "<i class='fa fas fa-download'></i>"
-        text += "<span>#{media_title(attachment, shorten: true, length: 12)}</span>"
+        text += "<span>#{media_title(attachment, shorten: true, length: 8)}</span>"
         text += "</a></p>"
       end
       return sanitize(text, tags: %w(a p i), attributes: %w(class href))
