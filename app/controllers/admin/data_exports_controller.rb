@@ -8,6 +8,8 @@ class Admin::DataExportsController < Admin::AdminController
         locale_code: I18n.locale,
         division: current_division
       )
+    elsif DataExport::DATA_EXPORT_TYPES.count == 1
+      redirect_to new_admin_data_export_path(type: DataExport::DATA_EXPORT_TYPES.keys.first)
     else
       render :choose_type
     end
@@ -20,7 +22,7 @@ class Admin::DataExportsController < Admin::AdminController
     if @data_export.save
       Task.create(
         job_class: DataExportTaskJob,
-        job_type_value: 'data_export_task_job',
+        job_type_value: 'data_export',
         activity_message_value: 'task_enqueued',
         taskable: @data_export
       ).enqueue(job_params: {data_export_id: @data_export.id})
@@ -44,11 +46,11 @@ class Admin::DataExportsController < Admin::AdminController
       order_direction: "desc",
       per_page: 50,
       name: "data_exports",
-      enable_export_to_csv: true
+      enable_export_to_csv: false
     )
 
-    @csv_mode = true
-    @enable_export_to_csv = true
+    @csv_mode = false
+    @enable_export_to_csv = false
 
     export_grid_if_requested('data_exports': 'data_exports_grid_definition') do
       # This block only executes if CSV is not being returned

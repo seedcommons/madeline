@@ -48,6 +48,17 @@ class Task < ApplicationRecord
     end
   end
 
+  def duration
+    case status
+    when :pending, :in_progress
+      Time.zone.now - created_at
+    when :succeeded
+      job_succeeded_at - created_at
+    when :failed
+      job_last_failed_at - created_at
+    end
+  end
+
   def start!
     self.update_attribute(:job_first_started_at, Time.current) if self.job_first_started_at.nil?
     self.increment(:num_attempts).save
