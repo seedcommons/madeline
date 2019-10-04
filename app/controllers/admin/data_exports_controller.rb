@@ -44,11 +44,11 @@ class Admin::DataExportsController < Admin::AdminController
       order_direction: "desc",
       per_page: 50,
       name: "data_exports",
-      enable_export_to_csv: true
+      enable_export_to_csv: false
     )
 
-    @csv_mode = true
-    @enable_export_to_csv = true
+    @csv_mode = false
+    @enable_export_to_csv = false
 
     export_grid_if_requested('data_exports': 'data_exports_grid_definition') do
       # This block only executes if CSV is not being returned
