@@ -4,10 +4,11 @@
   = link_to t("data_exports.new_export.general"),
     new_admin_data_export_path(), class: 'btn btn-default new-button'
 
-= render "data_exports_grid_definition"
+.data-exports-index
+  = render "data_exports_grid_definition"
 
-/ External Filters
-/ - unless @data_exports_grid.no_records_at_all
-/   header.block.index-table
+  / External Filters
+  / - unless @data_exports_grid.no_records_at_all
+  /   header.block.index-table
 
-= render_index_grid(@data_exports_grid)
+  = render_index_grid(@data_exports_grid)
