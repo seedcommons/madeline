@@ -9,6 +9,7 @@ en:
     task_id_num: "Task ID #%{number}"
     task_error_details: "Task Error Details"
     type: "Data Export Type"
+    download: "Download CSV"
   data_exports:
     choose_type: "Choose Type"
     create_success: "Successfully queued data export."

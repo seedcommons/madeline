@@ -8,6 +8,8 @@ class Admin::DataExportsController < Admin::AdminController
         locale_code: I18n.locale,
         division: current_division
       )
+    elsif DataExport::DATA_EXPORT_TYPES.count == 1
+      redirect_to new_admin_data_export_path(type: DataExport::DATA_EXPORT_TYPES.keys.first)
     else
       render :choose_type
     end
