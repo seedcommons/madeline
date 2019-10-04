@@ -6,6 +6,7 @@ en:
     status: "Export Status"
     task: "Associated Task"
     task_id: "Task ID"
+    task_id_num: "Task ID #%{number}"
     task_error_details: "Task Error Details"
     type: "Data Export Type"
   data_exports:
