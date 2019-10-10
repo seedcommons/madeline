@@ -17,9 +17,9 @@ class MediaItemUploader < CarrierWave::Uploader::Base
     process convert: 'png'
   end
   #TODO: Identify appropriate dimensions for these versions
-  version :small
-  version :medium
-  version :large
+  version :small, :if => :image?
+  version :medium, :if => :image?
+  version :large, :if => :image?
 
   # the directory where uploaded files will be stored.
   def store_dir
@@ -31,7 +31,7 @@ class MediaItemUploader < CarrierWave::Uploader::Base
 
   protected
   def image?(new_file)
-    new_file.content_type =~ IMAGE_REGEX
+    !(new_file.content_type =~ IMAGE_REGEX).nil?
   end
 
   def set_size_and_type_on_model

@@ -6,7 +6,7 @@ es:
       accounts: "Cuentas de QuickBooks"
       note: "Esta configuración de cuentas solo se aplicarán a transacciones futuras."
     connection:
-      connected: "Conectado"
+      connected: "Conectado a %{company_name}"
       connection: "Conexión QuickBooks"
       disconnect: "Desconectar"
       not_connected: "Desconectado"

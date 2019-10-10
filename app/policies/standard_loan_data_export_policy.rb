@@ -1,0 +1,2 @@
+class StandardLoanDataExportPolicy < DataExportPolicy
+end

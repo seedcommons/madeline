@@ -18,4 +18,8 @@ module TimeLanguageHelper
 
     components.join(", ")
   end
+
+  def formatted_duration(duration_in_seconds)
+    Time.at(duration_in_seconds).utc.strftime("%Hh %Mm %Ss")
+  end
 end

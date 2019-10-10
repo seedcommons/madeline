@@ -1,11 +1,14 @@
 en:
   task:
     activity_message:
+      completed: "Complete"
       error_data_reset_required: "Error: Quickbooks data reset required"
       error_quickbooks_not_connected: "Error: Quickbooks not connected"
+      error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
       failed: "Task failed with an internal error. An administrator has been notified."
       fetching_quickbooks_data: "Fetching Quickbooks Data"
       finished_with_custom_error_data: "This task completed with errors. See error details."
+      in_progress: "In progress"
       syncing_with_quickbooks: "Syncing with Quickbooks"
       task_enqueued: "This task has been enqueued"
       updating_all_loans: "Updating %{total} loans. %{so_far} loans updated so far."
@@ -13,7 +16,7 @@ en:
       help: "See loan, its co-op, or its transactions for more information."
       link_to_details: "Click here to see error details"
       loan_id: "Loan ID"
-      loan_error: "Error in Updating Loan"
+      loan_error: "Loan Error"
       not_applicable: "N/A"
     header:
       activity_message: "Message"
@@ -23,15 +26,27 @@ en:
       job_first_started_at: "Job First Started At"
       job_last_failed_at: "Job Last Failed At"
       status: "Status"
+      related: "Related"
       type: "Task Type"
     index:
       title: "Tasks"
     show:
-      title: "Task #%{id}"
+      title: "%{type} Task #%{id}"
     status:
       failed: "Failed"
       in_progress: "In progress"
       pending: "Pending"
       succeeded: "Succeeded"
+    taskable:
+      type:
+        data_export: "Data Export"
+      type_with_id:
+        data_export: "Data Export #%{number}"
     type:
       full_fetcher: "Quickbooks Import"
+      data_export: "Data Export"
+      data_export_task_job: "Data Export"
+      monthly_interest_accrual: "Monthly Interest Accrual"
+      monthly_interest_accrual_job: "Monthly Interest Accrual"
+      update_all_loans: "Update All Loans"
+      update_all_loans_job: "Update All Loans"

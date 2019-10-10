@@ -13,7 +13,10 @@ style type="text/css"
     }
 
     /* General links */
-    a, .btn-link {
+    a,
+    .btn-link,
+    .table.rowlink td:not(.rowlink-skip) a,
+    .table .rowlink td:not(.rowlink-skip) a {
       color: #{colors[:accent_main]};
     }
 
@@ -21,7 +24,11 @@ style type="text/css"
     a:hover,
     a:focus,
     .btn-link:hover,
-    .btn-link:focus {
+    .btn-link:focus,
+    .table.rowlink td:not(.rowlink-skip) a:hover,
+    .table.rowlink td:not(.rowlink-skip) a:focus,
+    .table .rowlink td:not(.rowlink-skip) a:hover,
+    .table .rowlink td:not(.rowlink-skip) a:focus {
       color: #{colors[:accent_darkened]};
     }
 
