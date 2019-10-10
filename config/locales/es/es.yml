@@ -20,6 +20,11 @@ es:
         secondary_agent: "Agente Secundario"
         signing_date: "Fecha de Inicio"
         status: "Estado"
+      data_export:
+        created_at: "Creado"
+        end_date: "Fecha de Finalización de Exportación de los Datos"
+        name: "Nombre"
+        start_date: "Fecha de Inicio de Exportación de los Datos"
       division:
         description: "Descripción"
         default_currency: "Moneda Predeterminada"
@@ -466,6 +471,7 @@ es:
     basic_projects: "Proyectos"
     calendar: "Calendario"
     coops: "Cooperativas"
+    data_exports: "Exportaciones de los Datos"
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
     loans: "Préstamos"

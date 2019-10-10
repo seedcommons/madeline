@@ -27,6 +27,8 @@ es:
     edit: "Editar Préstamo"
     end: "Finalizar %{name}"
     end_date: "Fecha de Finalización "
+    errors:
+      transaction_data_missing: "Prestamo tiene las transacciones con los datos ausentes. El prestamo necesita actualizar o hay errores en el prestamo."
     finalize: "Finalizar"
     forward: "+ hacia adelante"
     id: "Nro. ID de Préstamo"
