@@ -39,6 +39,7 @@ module Accounting
       #
       def qb_sync_for_loan_update
         raise NotConnectedError unless qb_connection
+        raise AccountsNotSelectedError unless Division.root.qb_accounts_selected?
         return if too_soon_to_run_again?
 
         changes.each do |type, qb_objects|

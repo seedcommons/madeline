@@ -1,0 +1,63 @@
+- content_for(:title, @data_export.name)
+
+h2= t("data_export.info")
+
+table.table.table-bordered
+  tr
+    th= t("common.id")
+    td= @data_export.id
+  tr
+    th= t("common.division")
+    td
+      = link_to Division.find(@data_export.division_id).name,
+        admin_division_path(@data_export.division_id)
+  tr
+    th= t("data_export.type")
+    td= t("data_exports.type.#{@data_export.type.underscore}")
+  tr
+    th= t("activerecord.attributes.data_export.start_date")
+    td= ldate(@data_export.start_date, format: :long)
+
+  tr
+    th= t("activerecord.attributes.data_export.end_date")
+    td= ldate(@data_export.end_date, format: :long)
+  tr
+    th= t("activerecord.attributes.data_export.created_at")
+    td= ldate(@data_export.created_at, format: :long)
+
+- if @data_export.attachments.length > 0
+  h2= t("data_export.attachments")
+
+  .media-browser.col-lg-12.data-export-media
+    - @data_export.attachments.each do |attachment|
+        div.media-item
+          .thumb
+            = link_to data_export_thumbnail(attachment), attachment.item.url
+
+h2= t("data_export.task")
+
+table.table.table-bordered
+  tr
+    th= t("data_export.task_id")
+    td= link_to @data_export.task.id, admin_task_path(@data_export.task.id)
+  tr
+    th= t("task.header.status")
+    td= t("task.status.#{@data_export.task.status}")
+  tr
+    th= t("task.header.activity_message")
+    td= t("task.activity_message.#{@data_export.task.activity_message_value}")
+
+- if @data_export.task.custom_error_data.present?
+  section
+    h3 = t("data_export.task_error_details")
+    p.help-block.note = t("task.custom_error_data.help")
+    table.table.table-bordered.middle-aligned
+      thead
+        tr
+          th= t("task.custom_error_data.loan_id")
+          th= t("task.custom_error_data.loan_error")
+      tbody
+        - @data_export.task.custom_error_data.each_with_index do |item, index|
+            tr
+              td= link_to item["loan_id"], admin_loan_path(item["loan_id"])
+              td= item["message"]

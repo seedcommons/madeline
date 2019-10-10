@@ -68,6 +68,9 @@ class Loan < Project
   scope :active_or_completed, -> { where(status_value: %w(active completed)) }
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
 
+  delegate :name, :country, :postal_code, to: :organization, prefix: :coop
+  delegate :name, to: :division, prefix: true
+
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
@@ -81,7 +84,6 @@ class Loan < Project
 
   before_create :build_health_check
   after_commit :recalculate_loan_health
-
 
   def self.default_filter
     {status: 'active', country: 'all'}
@@ -113,7 +115,7 @@ class Loan < Project
   end
 
   def default_name
-    return unless organization.present?
+    return if organization.blank?
     date = signing_date || created_at.to_date
 
     # date will always return a value so there is no need to use ldate
@@ -136,7 +138,7 @@ class Loan < Project
   def country
     # TODO: Temporary fix sets country to US when not found
     # @country ||= Country.where(name: self.division.super_division.country).first || Country.where(name: 'United States').first
-    #todo: beware code that expected a country to always exist can break if US country not included in seed.data
+    # todo: beware code that expected a country to always exist can break if US country not included in seed.data
     @country ||= organization.try(:country) || Country.where(iso_code: 'US').first
   end
 
@@ -210,5 +212,29 @@ class Loan < Project
 
   def health_status_available?
     return !health_check.nil?
+  end
+
+  def sum_of_disbursements(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.by_type("disbursement").in_date_range(start_date, end_date).map { |t| t.amount }.sum
+  end
+
+  def sum_of_repayments(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.amount }.sum
+  end
+
+  def change_in_interest(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_interest) }
+    raise Accounting::TransactionDataMissingError if changes.any?(&:blank?)
+    changes.sum
+  end
+
+  def change_in_principal(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_principal) }
+    raise Accounting::TransactionDataMissingError if changes.any?(&:blank?)
+    changes.sum
   end
 end

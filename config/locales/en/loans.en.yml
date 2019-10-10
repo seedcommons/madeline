@@ -27,6 +27,8 @@ en:
     edit: "Edit Loan"
     end: "End %{name}"
     end_date: "End Date"
+    errors:
+      transaction_data_missing: "Loan has transactions missing data. Either there were errors updating the loan, or the loan needs to be updated."
     finalize: "Finalize"
     forward: "+ forward"
     id: "Loan ID"
@@ -92,14 +94,14 @@ en:
     transaction_schedule: "Schedule"
 
     business_model:
-      key_partners: "￼￼Key Partners"
-      key_activities: "￼￼￼Key Activities"
-      key_resources: "￼￼￼￼Key Resources"
-      value_propositions: "￼￼￼￼￼￼￼￼￼Value Propositions"
+      key_partners: "Key Partners"
+      key_activities: "Key Activities"
+      key_resources: "Key Resources"
+      value_propositions: "Value Propositions"
       customer_relationships: "Customer Relationships"
-      channels: "￼￼￼Channels"
-      customer_segments: "￼￼￼Customer Segments"
-      cost_structure: "￼￼￼￼Cost Structure"
+      channels: "Channels"
+      customer_segments: "Customer Segments"
+      cost_structure: "Cost Structure"
       revenue_streams: "Revenue Streams"
       explanations:
         key_partners: "Who are our Key Partners?\nWho are our key suppliers?\nWhich Key Resources are we acquiring from partners?\nWhich Key Activities do partners perform?"

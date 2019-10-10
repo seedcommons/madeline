@@ -15,8 +15,7 @@ class UpdateAllLoansJob < TaskJob
         next
       end
     end
-    task.update(custom_error_data: errors_by_loan)
-    task.set_activity_message("finished_with_custom_error_data")
+    handle_child_errors(task, errors_by_loan)
   end
 
   rescue_from(Accounting::Quickbooks::NotConnectedError) do |error|
@@ -29,7 +28,24 @@ class UpdateAllLoansJob < TaskJob
     record_failure_and_raise_error(error)
   end
 
+  rescue_from(Accounting::Quickbooks::AccountsNotSelectedError) do |error|
+    task_for_job(self).set_activity_message("error_quickbooks_accounts_not_selected")
+    record_failure_and_raise_error(error)
+  end
+
+  rescue_from(TaskHasChildErrorsError) do |error|
+    task_for_job(self).set_activity_message("finished_with_custom_error_data")
+    record_failure_and_raise_error(error)
+  end
+
   private
+
+  def handle_child_errors(task, errors_by_loan)
+    unless errors_by_loan.empty?
+      task.update(custom_error_data: errors_by_loan)
+      raise TaskHasChildErrorsError.new("Some loans failed to update.")
+    end
+  end
 
   def record_failure_and_raise_error(error)
     task_for_job(self).fail!
