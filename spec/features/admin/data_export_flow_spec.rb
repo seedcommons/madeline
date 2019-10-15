@@ -5,7 +5,7 @@ feature 'data export flow' do
   before do
     login_as(user, scope: :user)
   end
-  scenario "create export with custom name and choose dates" do
+  scenario "create export with custom name and choose dates and choose a different locale" do
     start_date = Time.zone.today.beginning_of_year
     end_date = Time.zone.today
     visit new_admin_data_export_path
@@ -15,6 +15,7 @@ feature 'data export flow' do
     fill_in 'data_export_end_date', with: Time.zone.today.to_s
     fill_in 'Name', with: "Test"
     expect(page).to have_field('Locale code', with: 'en')
+    select "es", from: 'Locale code'
     click_on "Create Data export"
     expect(page).to have_content "Successfully queued data export."
     expect(page).to have_content "Test"
@@ -23,6 +24,7 @@ feature 'data export flow' do
     expect(saved_data_export.name).to eq "Test"
     expect(saved_data_export.start_date).to eq start_date.beginning_of_day
     expect(saved_data_export.end_date).to eq end_date.beginning_of_day
+    expect(saved_data_export.locale_code).to eq 'es'
   end
 
   scenario "dates and name are optional and name has reasonable default" do
