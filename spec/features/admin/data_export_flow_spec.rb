@@ -19,7 +19,7 @@ feature 'data export flow' do
     click_on "Create Data export"
     expect(page).to have_content "Successfully queued data export."
     expect(page).to have_content "Test"
-    # TODO replace with show page check
+    expect(page).to have_content "Pending"
     saved_data_export = DataExport.first
     expect(saved_data_export.name).to eq "Test"
     expect(saved_data_export.start_date).to eq start_date.beginning_of_day
@@ -32,7 +32,7 @@ feature 'data export flow' do
     # TODO: find better way to test the special-case behavior when there is only one type
     # click_on "Standard Loan Data Export"
     expect(page).to have_field('Locale code', with: 'en')
-    click_on "Create Data export"
+    click_on "Create Data Export"
 
     # TODO replace with show page check
     saved_data_export = DataExport.first
