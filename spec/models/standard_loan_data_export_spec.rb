@@ -66,11 +66,14 @@ describe StandardLoanDataExport, type: :model do
         let(:export) {
           create(:standard_loan_data_export, data: nil, locale_code: "es")
         }
-        it "headers are translated" do
+        it "translates headers and values" do
           export.process_data
           data = export.reload.data
+          h_to_i = header_to_index(data)
           headers = data[0]
-          expect(headers[1]).to eq "Nombre" 
+          expect(headers[1]).to eq "Nombre"
+          loan_row = data[1]
+          expect(loan_row[h_to_i['Estado']]).to eq "Activo"
         end
       end
     end

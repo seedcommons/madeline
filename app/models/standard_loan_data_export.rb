@@ -51,20 +51,22 @@ class StandardLoanDataExport < DataExport
 
   # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
   def process_data
-    @child_errors = []
-    data = []
-    data << header_row
-    Loan.find_each do |l|
-      begin
-        data << hash_to_row(loan_data_as_hash(l))
-      rescue => e
-        @child_errors << {loan_id: l.id, message: e.message}
-        next
+    I18n.with_locale(locale_code) do
+      @child_errors = []
+      data = []
+      data << header_row
+      Loan.find_each do |l|
+        begin
+          data << hash_to_row(loan_data_as_hash(l))
+        rescue => e
+          @child_errors << {loan_id: l.id, message: e.message}
+          next
+        end
       end
-    end
-    self.update(data: data)
-    unless @child_errors.empty?
-      raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
+      self.update(data: data)
+      unless @child_errors.empty?
+        raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
+      end
     end
   end
 
