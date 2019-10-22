@@ -18,7 +18,7 @@ feature 'data export flow' do
     fill_in 'Name', with: "Test"
     expect(page).to have_field('Locale code', with: 'en')
     select "es", from: 'Locale code'
-    click_on "Create Data export" #TODO get Elizabeth's help making this upper case in markup, not just css
+    click_on "Create Data Export"
     expect(page).to have_content "Successfully queued data export."
     expect(page).to have_content "Test"
     expect(page).to have_content "Pending"
@@ -32,7 +32,7 @@ feature 'data export flow' do
   scenario "dates and name are optional and name has reasonable default" do
     visit new_admin_data_export_path
     expect(page).to have_field('Locale code', with: 'en')
-    click_on "Create Data export"
+    click_on "Create Data Export"
     expect(page).to have_content('Standard Loan Data Export on')
   end
 end
