@@ -21,6 +21,7 @@
 #
 #  fk_rails_...  (division_id => divisions.id)
 #
+# Note: translation is tested and handled in the DataExportService
 
 require 'rails_helper'
 
@@ -60,21 +61,6 @@ describe StandardLoanDataExport, type: :model do
         expect(loan_row[h_to_i['Status']]).to eq 'Active'
         expect(loan_row[h_to_i['Primary Agent']]).to eq loan.primary_agent.name
         expect(loan_row[h_to_i['Secondary Agent']]).to eq loan.secondary_agent.name
-      end
-
-      context "locale is not english" do
-        let(:export) {
-          create(:standard_loan_data_export, data: nil, locale_code: "es")
-        }
-        it "translates headers and values" do
-          export.process_data
-          data = export.reload.data
-          h_to_i = header_to_index(data)
-          headers = data[0]
-          expect(headers[1]).to eq "Nombre"
-          loan_row = data[1]
-          expect(loan_row[h_to_i['Estado']]).to eq "Activo"
-        end
       end
     end
 
