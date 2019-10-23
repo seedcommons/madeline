@@ -15,7 +15,11 @@ class UpdateAllLoansJob < TaskJob
         next
       end
     end
-    handle_child_errors(task, errors_by_loan)
+    if errors_by_loan.empty?
+      task_for_job(self).set_activity_message("completed")
+    else
+      handle_child_errors(task, errors_by_loan)
+    end
   end
 
   rescue_from(Accounting::Quickbooks::NotConnectedError) do |error|
