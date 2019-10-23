@@ -11,8 +11,6 @@ feature 'data export flow' do
     visit admin_data_exports_path
     click_on "New Data Export"
 
-    # TODO: find better way to test the special-case behavior when there is only one type
-    # click_on "Standard Loan Data Export"
     fill_in 'data_export_start_date', with: Time.zone.today.beginning_of_year.to_s
     fill_in 'data_export_end_date', with: Time.zone.today.to_s
     fill_in 'Name', with: "Test"
@@ -22,10 +20,14 @@ feature 'data export flow' do
     expect(page).to have_content "Successfully queued data export."
     expect(page).to have_content "Test"
     expect(page).to have_content "Pending"
+    click_on "1" # link to data export show page
+    expect(page).to have_content "Jan 1" # start time
+    expect(page).to have_content "#{Time.zone.today.year} 12:00 AM" # end time
+    expect(page).to have_title "Test"
+    expect(page).to have_content "Associated Task"
+    click_on "1" # link to task show
+    expect(page).to have_content "Data Export Task"
     saved_data_export = DataExport.first
-    expect(saved_data_export.name).to eq "Test"
-    expect(saved_data_export.start_date).to eq start_date.beginning_of_day
-    expect(saved_data_export.end_date).to eq end_date.beginning_of_day
     expect(saved_data_export.locale_code).to eq 'es'
   end
 
