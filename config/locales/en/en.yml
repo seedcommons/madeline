@@ -24,6 +24,7 @@ en:
       data_export:
         created_at: "Created"
         end_date: "Data Export End Date"
+        locale_code: "Language"
         name: "Name"
         start_date: "Data Export Start Date"
       division:
