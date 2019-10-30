@@ -21,6 +21,7 @@
 #
 #  fk_rails_...  (division_id => divisions.id)
 #
+# Note: translation is tested and handled in the DataExportService
 
 require 'rails_helper'
 
