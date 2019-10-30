@@ -6,6 +6,7 @@ en:
 
   activerecord:
     models:
+      data_export: "Data Export"
       media: "Media"
       log: "Log"
       organization: "Organization"
