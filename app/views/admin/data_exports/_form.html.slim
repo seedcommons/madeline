@@ -15,7 +15,7 @@
   = f.input :locale_code
     .view-element
       = @data_export.locale_code
-    = f.input_field :locale_code, collection: I18n.available_locales
+    = f.input_field :locale_code, collection: (I18n.available_locales.map { |l| [t("locale_name.#{l}"), l] })
   = f.input :start_date
     .view-element = ldate(@data_export.start_date)
     = f.input_field :start_date, as: :date_picker
