@@ -1,7 +1,7 @@
 namespace :one_time_changes do
   desc "A one time task responding to Nov 2019 request to update loan date fields."
   task adjust_loan_dates: :environment do
-    Loan.all.each do |l|
+    Loan.find_each do |l|
       if l.actual_end_date.nil? && l.projected_end_date && l.projected_end_date < Time.zone.today
         new_actual = l.projected_end_date
         new_projected = nil
