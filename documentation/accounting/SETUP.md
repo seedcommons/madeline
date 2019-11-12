@@ -60,12 +60,12 @@ If any documentation is missing in this guide for setting up QuickBooks with Mad
     <tr>
       <td>Accounts receivable</td>
       <td>Accounts receivable</td>
-      <td>Interest Receivable</td>
+      <td>Loans Receivable</td>
     </tr>
     <tr>
       <td>Accounts receivable</td>
       <td>Accounts receivable</td>
-      <td>Loans Receivable</td>
+      <td>Interest Receivable</td>
     </tr>
     <tr>
       <td>Income</td>
