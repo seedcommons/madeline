@@ -5,33 +5,12 @@
 1. Run `rake dev:db_reset`. (This deletes all data and creates fake data.)
 2. Sign in with the admin user. Credentials appear in the console when the above rake command is run.
 
-### Set up a QuickBooks app
-
-In order to test any of the QuickBooks features, you will need to create an Intuit Developer account and sandbox.
-
-If any documentation is missing in this guide for setting up QuickBooks with Madeline, the following resources may be helpful:
-
-* [Integrating Rails and QuickBooks Online](http://minimul.com/integrating-rails-and-quickbooks-online-via-the-version-3-api-part-1.html) by minimul
-* [QuickBooks Online documentation](https://developer.intuit.com/docs/00_quickbooks_online/1_get_started/00_get_started) by Intuit Developer
-
-#### Create or sign in to an Intuit Developer account
-1. Visit the [Intuit Developer](https://developer.intuit.com/) site.
-1. Click `Sign In` if you have an account or `Sign Up` if you don't have an account. Sign in or sign up.
-
-#### Open your Intuit Developer app
-1. While signed into Intuit Developer, click on `My Apps` in the main menu.
-1. If you've already created an app for Madeline testing, click on the appropriate app. If not, continue to the *Create an Intuit Developer app* section below.
-1. A dashboard for your project will appear after creating or opening your QuickBooks app.
-
-#### Create an Intuit Developer app
-1. Create an app if you have not already. Click on `Create new app.`
-1. Click on `Select APIs` under `Just start coding`.
-1. Select `Accounting` and click `Create app`.
-1. A dashboard for your project will appear after creating the app.
+At this time, Madeline only supports accounting with the quickbooks app set up by Sassafras.  
 
 ### Open QuickBooks sandbox
+1. Log into Intuit Developer account associated with the project (talk to team for information)
 1. Go to Sandbox (under Account dropdown). It may take a moment to load.
-1. You will see a sandbox company. Click `Go to company`.
+1. You will see sandbox companies. Click `Go to company` for the one you want to use.
 1. A new window will open for a sandbox version of QuickBooks.
 
 #### Adjust Company account settings
