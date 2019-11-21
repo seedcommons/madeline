@@ -41,7 +41,7 @@
           = grid_filter(@loans_grid, :signing_date_filter)
 
       .filter
-        label = t("loan.end_date")
+        label = t("loan.actual_end_date")
         .filter-content.dates
           = grid_filter(@loans_grid, :actual_end_date_filter)
 
