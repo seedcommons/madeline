@@ -16,7 +16,7 @@ class Accounting::Customer < ApplicationRecord
     logger.error "Create qb customer: #{qb_object_type}, #{qb_object.as_json}"
     customer = find_or_initialize_by qb_id: qb_object.id
     customer.tap do |c|
-      c.update_attributes!(
+      c.update!(
         name: qb_object.display_name,
         quickbooks_data: qb_object.as_json
       )
