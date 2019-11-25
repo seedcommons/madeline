@@ -12,6 +12,7 @@ module Accounting
 
       def initialize(qb_connection = Division.root.qb_connection)
         @qb_connection = qb_connection
+        @connected = @qb_connection.connected?
       end
 
       # If the loan parameter is given, this method extracts QB data for Transactions
@@ -38,7 +39,7 @@ module Accounting
       # too far in the past for the `since` method to access.
       #
       def qb_sync_for_loan_update
-        raise NotConnectedError unless qb_connection
+        raise NotConnectedError unless @connected
         raise AccountsNotSelectedError unless Division.root.qb_accounts_selected?
         return if too_soon_to_run_again?
 
