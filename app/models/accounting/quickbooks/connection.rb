@@ -45,6 +45,7 @@ class Accounting::Quickbooks::Connection < ApplicationRecord
     qb_refresh_token = self.refresh_token
     qb_consumer = Accounting::Quickbooks::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, qb_access_token, {:refresh_token => qb_refresh_token})
+    oauth2_token
   end
 
   def refresh_token!
