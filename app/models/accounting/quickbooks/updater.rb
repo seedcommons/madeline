@@ -12,7 +12,7 @@ module Accounting
 
       def initialize(qb_connection = Division.root.qb_connection)
         @qb_connection = qb_connection
-        @connected = @qb_connection.connected?
+        @connected = @qb_connection&.connected?
       end
 
       # If the loan parameter is given, this method extracts QB data for Transactions
