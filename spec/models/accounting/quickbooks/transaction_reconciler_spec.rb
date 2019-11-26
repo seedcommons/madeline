@@ -17,6 +17,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   before do
     allow(subject).to receive(:service).and_return(service)
     allow(subject).to receive(:builder).and_return(builder)
+    allow(created_journal_entry).to receive(:as_json).and_return({id: '115'})
   end
 
   context 'with needs_qb_push set to false' do
