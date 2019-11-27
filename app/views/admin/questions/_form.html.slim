@@ -37,6 +37,9 @@
     = f.input :has_embeddable_media
       = f.input_field :has_embeddable_media, as: :boolean
 
+    = f.input :display_in_summary
+      = f.input_field :display_in_summary, as: :boolean
+
     = render "loan_types", f: f
 
     - if f.object.new_record?
