@@ -30,7 +30,7 @@ en:
     questions:
       index:
         title: "Loan Questions"
-        add_item: "Add question or group"
+        add_item: "Add Question or Group"
         edit_item: "Edit Item"
         delete_item: "Delete Item"
       form:
@@ -43,7 +43,7 @@ en:
         data_type: Data Type
         display_in_summary: Display in Loan Memo Summary
         division: Division
-        has_embeddable_media: Allow files or links to be attached
+        has_embeddable_media: Allow Files or Links to Be Attached
         loan_types: Required for Loan Types
     options:
       question:
