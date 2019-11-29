@@ -78,6 +78,10 @@ class QuestionSet < ApplicationRecord
     result
   end
 
+  def summary_questions
+    return questions.where(display_in_summary: true)
+  end
+
   private
 
   # This is private because it is needed to allow the inverse association on Question, but
