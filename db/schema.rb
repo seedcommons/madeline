@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 2019_11_27_202532) do
   end
 
   create_table "accounting_quickbooks_connections", id: :serial, force: :cascade do |t|
+    t.string "access_token"
     t.datetime "created_at", null: false
     t.integer "division_id", null: false
     t.datetime "last_updated_at"
     t.string "realm_id", null: false
-    t.string "secret", null: false
-    t.string "token", null: false
+    t.string "refresh_token"
     t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_quickbooks_connections_on_division_id"
