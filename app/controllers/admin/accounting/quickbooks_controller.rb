@@ -2,7 +2,14 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   # Kicks off oauth flow by redirecting to Intuit with request token.
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
-    redirect_to("https://appcenter.intuit.com/Connect/Begin?oauth_token=#{fetch_qb_request_token}")
+    redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+    grant_url = qb_consumer.auth_code.authorize_url(
+      redirect_uri: redirect_uri,
+      resposne_type: "code",
+      state: SecureRandom.hex(12),
+      scope: "com.intuit.quickbooks.accounting"
+    )
+    redirect_to grant_url
   end
 
   def oauth_callback
@@ -10,18 +17,25 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     @header_disabled = true
 
     # Fetch and store the access token and other necessary authentication information.
-    Accounting::Quickbooks::Connection.create_from_access_token(
-      access_token: fetch_qb_access_token,
-      division: Division.root,
-      params: params
-    )
+    if params[:state]
+      redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+      response = qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
+      if response
+        Accounting::Quickbooks::Connection.create(
+          access_token: response.token,
+          refresh_token: response.refresh_token,
+          realm_id: params[:realmId],
+          division: Division.root,
+          token_expires_at: Time.zone.at(response.expires_at)
+        )
+      end
+    end
 
     Task.create(
       job_class: FullFetcherJob,
       job_type_value: :full_fetcher,
       activity_message_value: 'fetching_quickbooks_data'
     ).enqueue(job_params: {division_id: current_division.qb_division.id})
-
 
     flash[:notice] = t('quickbooks.connection.link_message')
     flash[:alert] = t('quickbooks.connection.import_in_progress_message')
@@ -43,24 +57,5 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
   def qb_consumer
     @qb_consumer ||= Accounting::Quickbooks::Consumer.new
-  end
-
-  # Gets a request token from Quickbooks, which is required to begin the oauth flow.
-  # The request token encodes the oauth callback URL to which the user will be redirected once they
-  # authenticate with Intuit.
-  # Also stores the request token in the session so it can be used when getting an access token.
-  def fetch_qb_request_token
-    callback = oauth_callback_admin_accounting_quickbooks_url
-    request_token = qb_consumer.request_token(oauth_callback: callback)
-    session[:qb_request_token] = Marshal.dump(request_token)
-    request_token.token
-  end
-
-  # Gets an access token from Quickbooks, which is what we actually use to do day-to-day API requests.
-  def fetch_qb_access_token
-    qb_consumer.verify_access_token(
-      qb_request_token: Marshal.load(session[:qb_request_token]),
-      oauth_verifier: params[:oauth_verifier]
-    )
   end
 end
