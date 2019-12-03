@@ -50,7 +50,8 @@
   / copied into the jqtree
   = simple_fields_for(response_set, defaults: {input_html: {class: 'form-element form-control'}}) do |f|
     - if summary_view
-      = render "admin/loans/questionnaires/questionnaire_summary",
+      = render "admin/loans/questionnaires/summary_header"
+      = render "admin/loans/questionnaires/summary_group",
         f: f, response_set: response_set, group: @root, parents: [], indices: []
     - else
       = render "admin/loans/questionnaires/questionnaire_group",
