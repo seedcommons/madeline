@@ -1,0 +1,67 @@
+/ Note: the grouping of optional questions that happens here and in LoanQuestionnairesView
+/ should probably be refactored someday to happen in the model
+div
+  p Summary Template
+  - optional_encountered = false
+  - optionals_exist = group.children.any?(&:optional?)
+  - requireds_exist = group.children.any?(&:required?)
+
+  - group.children.each do |question|
+    / Add page break for top-level groups with answered questions
+    / Also add page break for business model canvas answered question
+    - response = response_set.response(question)
+    - if response.present? && (question.business_canvas? || question.top_level_group?)
+      / Close and reopen fieldset with new group/page
+      - if optional_encountered && @print_view
+        </fieldset>
+        - reopen_fieldset = true
+
+      / Page header for print view
+      = render "admin/loans/questionnaires/page_header"
+
+    - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && !question.required?
+    - if @print_view && (reopen_fieldset || (start_of_optional_group && response.present?))
+      - optional_encountered = true; reopen_fieldset = false
+      <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
+
+    - css_class = question.required? ? 'required' : 'optional'
+
+    / Don't print unanswered questions or groups
+    - css_class += ' hidden-print' if response.blank? || response.not_applicable?
+    - css_class += " #{question.status}"
+
+    .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
+      span.tree-view
+        - if !question.leaf?
+          = render "admin/loans/questionnaires/progress_bar", object: response
+
+        - if question.data_type == 'group'
+          - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
+          *header_tag
+            = question.full_number_and_label
+        - else
+          // For numerical questions in print view, the question's label is displayed with
+          // the question's answer.
+          .question-label class=(response.has_number? ? 'hidden-print' : '')
+            = question.full_number_and_label
+
+      - if question.explanation.present?
+        .help-block.hidden-print.tree-view
+          - if question.explanation.allow_html?
+            = raw(question.explanation)
+          - else
+            = simple_format(question.explanation)
+
+      / Recurse if group, else render
+      - if question.group? && !question.leaf?
+        = render("admin/loans/questionnaires/questionnaire_group", f: f,
+          response_set: response_set, group: question, parents: parents + [question])
+
+      - else
+        .answer-wrapper.tree-view
+          = render("admin/loans/questionnaires/answer", f: f, response: response, question: question)
+
+    = render("admin/loans/questionnaires/number_handling", response: response)
+
+  - if optional_encountered && @print_view
+    </fieldset>
