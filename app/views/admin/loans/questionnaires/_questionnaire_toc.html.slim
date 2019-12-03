@@ -1,5 +1,5 @@
 ul
-  - if @response_set.question_set.summary_questions.length > 0
+  - if @response_set.question_set.summary_questions?
     li = t("loan.summary")
   - group.child_groups.each do |child|
     - response = response_set.response(child)
