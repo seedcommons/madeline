@@ -6,3 +6,6 @@ when "0"
 else
   Quickbooks.sandbox_mode = !Rails.env.production?
 end
+
+Quickbooks.logger = ActiveSupport::Logger.new Rails.root.join("log", "quickbooks_gem_#{Rails.env}.log")
+Quickbooks.log = true

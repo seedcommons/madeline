@@ -24,7 +24,7 @@ RSpec.describe Accounting::Quickbooks::TransactionFetcher, type: :model do
 
   it 'should create Accounting::Transaction record' do
     service = instance_double(Quickbooks::Service::JournalEntry, all: [
-      instance_double(Quickbooks::Model::JournalEntry, id: 99)
+      instance_double(Quickbooks::Model::JournalEntry, id: 99, as_json: self)
     ])
     allow(subject).to receive(:service).with('JournalEntry').and_return(service)
 
