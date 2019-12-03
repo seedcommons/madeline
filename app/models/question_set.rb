@@ -78,8 +78,8 @@ class QuestionSet < ApplicationRecord
     result
   end
 
-  def summary_questions
-    return questions.where(display_in_summary: true)
+  def summary_questions?
+    questions.where(display_in_summary: true).count > 0
   end
 
   private
