@@ -197,7 +197,7 @@ section.questionnaires {
     width: 50em;
 
     table {
-      margin: 0;
+      margin: 1em 0 0 0;
       text-align: left;
       width: 100%;
     }
@@ -208,6 +208,8 @@ section.questionnaires {
     }
 
     .sibling-table {
+      margin-top: 0;
+
       td {
         border-top: 0;
       }
