@@ -60,18 +60,7 @@ div
         .answer-wrapper.tree-view
           = render("admin/loans/questionnaires/answer", f: f, response: response, question: question)
 
-    - if response.has_number?
-      - if response.number.present? && !response.not_applicable?
-        - @previous_number_table = true
-      - else
-        / Empty and not applicable responses do not show in print loan memo
-        / If a number table was displayed before the current response, keep track of previous table
-        - if @previous_number_table
-          - @previous_number_table = true
-        - else
-          - @previous_number_table = false
-    - else
-      - @previous_number_table = false
+    = render("admin/loans/questionnaires/number_handling", response: response)
 
   - if optional_encountered && @print_view
     </fieldset>
