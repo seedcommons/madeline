@@ -1,6 +1,6 @@
 div.loan-summary
   = render "admin/loans/questionnaires/page_header"
-  h3 Summary
+  h3 = t("loan.summary")
 
   - group.children.each do |question|
     - if question.display_in_summary == true

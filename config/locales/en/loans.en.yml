@@ -79,6 +79,7 @@ en:
       frozen: "Frozen"
       liquidated: "Liquidated"
     steps_notice: "Some of the selected steps depend on other steps you did not select. The dates on these steps will not be adjusted."
+    summary: "Summary"
     tab:
       details: "Details"
       questions: "Business Planning"
