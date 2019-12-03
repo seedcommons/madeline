@@ -1,5 +1,6 @@
 en:
   loan:
+    actual_end_date: "Actual End Date"
     adjust_dates: "Adjust Dates"
     adjust_scheduled_dates: "Adjust Scheduled Dates"
     agent:
@@ -59,6 +60,7 @@ en:
     print_details: "Details Only"
     print_header_title: "Investment Profile and Credit Memo"
     print_memo: "Print Loan Memo"
+    projected_end_date: "Projected End Date"
     public:
       not_authorized: "You are not authorized to view the loan you requested."
     rating: "Score"
