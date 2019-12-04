@@ -1,4 +1,6 @@
 ul
+  - if @response_set.question_set.summary_questions?
+    li = t("loan.summary")
   - group.child_groups.each do |child|
     - response = response_set.response(child)
     li data-level=child.depth data-type=child.data_type class=('hidden-print' if response.blank? || response.not_applicable?)

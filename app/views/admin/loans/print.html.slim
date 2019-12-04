@@ -34,6 +34,8 @@ section data-container="loan"
           group: @root,
           response_set: @response_set
         = render "admin/loans/questionnaires/questionnaire_form",
-          response_set: @response_set, attrib: :criteria
+          response_set: @response_set, summary_view: true, attrib: :criteria
+        = render "admin/loans/questionnaires/questionnaire_form",
+          response_set: @response_set, summary_view: false, attrib: :criteria
       - else
         = t('loan.criteria_not_entered')

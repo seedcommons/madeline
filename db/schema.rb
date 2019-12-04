@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_041017) do
+ActiveRecord::Schema.define(version: 2019_11_27_202532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -362,6 +362,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_041017) do
   create_table "questions", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "data_type", null: false
+    t.boolean "display_in_summary", default: false, null: false
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
     t.string "internal_name"
