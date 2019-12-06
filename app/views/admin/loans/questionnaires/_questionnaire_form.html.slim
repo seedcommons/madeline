@@ -1,4 +1,7 @@
 .questionnaire-form
+  // Set summary view default value
+  - summary_view = summary_view || false
+
   / We manually specify the form URL here because we need to pass the filter QS param
   / in case the form validation fails and the ResponseSetsController has to render.
   = simple_form_for([:admin, response_set],
@@ -14,7 +17,7 @@
     = hidden_field_tag :filter, attrib
 
     = error_notification(f)
-    
+
     - if @conflict
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes_html',
@@ -22,7 +25,7 @@
             updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
             updated_at: ldate(@response_set_from_db[:updated_at], format: :long))
         / `new_lock_version` is the lock_version of the updated record in the db. This is here in
-        / case someone made further changes since the warning was displayed. 
+        / case someone made further changes since the warning was displayed.
         = hidden_field_tag(:new_lock_version, @response_set_from_db[:lock_version])
         / Hide buttons for conflict on create - optimistic locking doesn't really work on create
         - unless response_set.new_record?
@@ -46,6 +49,10 @@
   / Render form fields outside form so they don't get double submitted after being
   / copied into the jqtree
   = simple_fields_for(response_set, defaults: {input_html: {class: 'form-element form-control'}}) do |f|
-
-    = render "admin/loans/questionnaires/questionnaire_group",
-      f: f, response_set: response_set, group: @root, parents: [], indices: []
+    - if summary_view
+      = render "admin/loans/questionnaires/summary_header"
+      = render "admin/loans/questionnaires/summary_group",
+        f: f, response_set: response_set, group: @root, parents: [], indices: []
+    - else
+      = render "admin/loans/questionnaires/questionnaire_group",
+        f: f, response_set: response_set, group: @root, parents: [], indices: []
