@@ -33,8 +33,9 @@ section data-container="loan"
         = render "admin/loans/questionnaires/questionnaire_toc",
           group: @root,
           response_set: @response_set
-        = render "admin/loans/questionnaires/questionnaire_form",
-          response_set: @response_set, summary_view: true, attrib: :criteria
+        - if @response_set.question_set.summary_questions?
+          = render "admin/loans/questionnaires/questionnaire_form",
+            response_set: @response_set, summary_view: true, attrib: :criteria
         = render "admin/loans/questionnaires/questionnaire_form",
           response_set: @response_set, summary_view: false, attrib: :criteria
       - else
