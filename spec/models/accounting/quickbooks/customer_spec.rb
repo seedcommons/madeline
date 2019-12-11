@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::Customer, type: :model do
+RSpec.describe Accounting::Quickbooks::CustomerOld, type: :model do
   let(:qb_customer_id) { '91234' }
   let(:qb_new_customer) { instance_double(Quickbooks::Model::Customer, id: qb_customer_id) }
   let(:service) { instance_double(Quickbooks::Service::Customer) }

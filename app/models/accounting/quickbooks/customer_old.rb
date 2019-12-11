@@ -4,7 +4,7 @@
 # for a link to this object in a transaction or other QB object.
 module Accounting
   module Quickbooks
-    class Customer
+    class CustomerOld
       attr_reader :qb_connection, :organization
 
       def initialize(qb_connection:, organization:)
