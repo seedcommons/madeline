@@ -42,8 +42,10 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     new: transaction_fetcher).as_stubbed_const }
   let(:transaction_class_finder_stub) { double("find_by_name": nil) }
   let(:customer_fetcher) { Accounting::Quickbooks::CustomerFetcher.new(division) }
-  let!(:customer_fetcher_class) { class_double(Accounting::Quickbooks::CustomerFetcher,
-    new: customer_fetcher).as_stubbed_const }
+  let!(:customer_fetcher_class) {
+    class_double(Accounting::Quickbooks::CustomerFetcher,
+      new: customer_fetcher).as_stubbed_const
+  }
   let(:customer_class_finder_stub) { double("find_by_name": nil) }
 
   subject { described_class.new(division) }
