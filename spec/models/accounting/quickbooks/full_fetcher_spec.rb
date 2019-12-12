@@ -33,6 +33,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
     ])
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
+  let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
   let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(division) }
   let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher,
     new: account_fetcher).as_stubbed_const }
@@ -40,6 +41,10 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
   let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher,
     new: transaction_fetcher).as_stubbed_const }
   let(:transaction_class_finder_stub) { double("find_by_name": nil) }
+  let(:customer_fetcher) { Accounting::Quickbooks::CustomerFetcher.new(division) }
+  let!(:customer_fetcher_class) { class_double(Accounting::Quickbooks::CustomerFetcher,
+    new: customer_fetcher).as_stubbed_const }
+  let(:customer_class_finder_stub) { double("find_by_name": nil) }
 
   subject { described_class.new(division) }
 
@@ -53,6 +58,8 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
       expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
       expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
       expect(account_fetcher).to receive(:fetch).and_call_original
+      expect(customer_fetcher).to receive(:service).with("Customer").and_return(qb_customer_service)
+      expect(customer_fetcher).to receive(:fetch).and_call_original
 
       transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
       expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
@@ -103,6 +110,8 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
         expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
         expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
         expect(account_fetcher).to receive(:fetch).and_call_original
+        expect(customer_fetcher).to receive(:service).with("Customer").and_return(qb_customer_service)
+        expect(customer_fetcher).to receive(:fetch).and_call_original
 
         transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
         expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
