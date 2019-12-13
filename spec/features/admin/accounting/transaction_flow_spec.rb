@@ -7,6 +7,7 @@ feature 'transaction flow', :accounting do
   let(:division) { Division.root }
   let!(:loan) { create(:loan, division: division) }
   let(:user) { create_admin(division) }
+  let!(:customers) { create_list(:customer, 3) }
 
   before do
     Division.root.update_attributes!(
@@ -82,10 +83,12 @@ feature 'transaction flow', :accounting do
 
   def fill_txn_form(omit_amount: false)
     click_on 'Add Transaction'
+    save_and_open_page
     select 'Disbursement', from: 'Type of Transaction'
     fill_in 'Date', with: Date.today.to_s
     fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
+    select customers.sample.name, from: 'Quickbooks Customer'
     fill_in 'Description', with: 'Palm trees'
     fill_in 'Memo', with: 'Chunky monkey'
   end
