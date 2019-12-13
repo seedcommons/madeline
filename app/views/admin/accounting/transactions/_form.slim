@@ -22,6 +22,14 @@
     .view-element = ldate(@transaction.txn_date)
     = f.input_field :txn_date, as: :date_picker
 
+
+  .form-element
+    = f.association :customer, collection: @customers
+  .view-element
+    = f.input :customer
+      - if @transaction.customer
+        = @transaction.customer.name
+
   .form-element
     = f.association :account, collection: @accounts
   .view-element

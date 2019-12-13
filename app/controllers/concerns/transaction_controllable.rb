@@ -25,6 +25,7 @@ module TransactionControllable
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
+    @customers = Accounting::Customer.all
   end
 
   # Runs the given block and handles any Quickbooks errors.
