@@ -23,7 +23,8 @@ class Accounting::Customer < ApplicationRecord
     end
   end
 
-  # The gem does not implement a helper method for _id like account or class.
+  # The quickbooks-ruby gem does not implement a helper method for _id like account or class,
+  # and in qb api line items need entity, not customer_id.
   def reference
     entity = ::Quickbooks::Model::Entity.new
     entity.type = 'Customer'

@@ -83,7 +83,6 @@ feature 'transaction flow', :accounting do
 
   def fill_txn_form(omit_amount: false)
     click_on 'Add Transaction'
-    save_and_open_page
     select 'Disbursement', from: 'Type of Transaction'
     fill_in 'Date', with: Date.today.to_s
     fill_in 'Amount', with: '12.34' unless omit_amount
