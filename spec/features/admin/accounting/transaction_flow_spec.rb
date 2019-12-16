@@ -44,6 +44,8 @@ feature 'transaction flow', :accounting do
         fill_txn_form
         page.find('a[data-action="submit"]').click
         expect(page).to have_content('Palm trees')
+        page.find('tr.odd', match: :first).click
+        expect(page).to have_content(customers[0].name)
       end
 
       scenario 'with validation error' do
@@ -87,7 +89,7 @@ feature 'transaction flow', :accounting do
     fill_in 'Date', with: Date.today.to_s
     fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
-    select customers.sample.name, from: 'Quickbooks Customer'
+    select customers[0].name, from: 'Quickbooks Customer'
     fill_in 'Description', with: 'Palm trees'
     fill_in 'Memo', with: 'Chunky monkey'
   end
