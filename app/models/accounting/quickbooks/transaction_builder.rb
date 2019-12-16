@@ -33,7 +33,7 @@ module Accounting
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
-        qb_customer_ref = customer_reference(transaction.project.organization)
+        qb_customer_ref = customer_reference(transaction)
         qb_department_ref = department_reference(transaction.project)
 
         # We use the journal entry class field to store the loan ID.
@@ -62,8 +62,8 @@ module Accounting
 
       private
 
-      def customer_reference(organization)
-        Customer.new(organization: organization, qb_connection: qb_connection).reference
+      def customer_reference(transaction)
+        transaction.customer.reference
       end
 
       def department_reference(loan)
