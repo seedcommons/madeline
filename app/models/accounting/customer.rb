@@ -13,7 +13,6 @@
 class Accounting::Customer < ApplicationRecord
   QB_OBJECT_TYPE = 'Customer'
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
-    logger.error "Create qb customer: #{qb_object_type}, #{qb_object.as_json}"
     customer = find_or_initialize_by qb_id: qb_object.id
     customer.tap do |c|
       c.update!(

@@ -44,7 +44,7 @@ feature 'transaction flow', :accounting do
         fill_txn_form
         page.find('a[data-action="submit"]').click
         expect(page).to have_content('Palm trees')
-        page.find('tr.odd', match: :first).click
+        page.find('tr.odd', match: :first).click # first transaction in table; click to open modal
         expect(page).to have_content(customers[0].name)
       end
 
