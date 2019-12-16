@@ -54,6 +54,7 @@ FactoryBot.define do
     amount { Faker::Number.decimal(4, 2) }
     account
     project
+    customer
     managed { true }
     change_in_interest { Faker::Number.decimal(4, 2) }
     change_in_principal { Faker::Number.decimal(4, 2) }

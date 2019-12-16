@@ -22,4 +22,13 @@ class Accounting::Customer < ApplicationRecord
       )
     end
   end
+
+  # The gem does not implement a helper method for _id like account or class.
+  def reference
+    entity = ::Quickbooks::Model::Entity.new
+    entity.type = 'Customer'
+    entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
+    entity.entity_ref = entity_ref
+    entity
+  end
 end
