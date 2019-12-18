@@ -28,7 +28,7 @@ es:
     questions:
       index:
         title: "Preguntas del Préstamo"
-        add_item: "Agregar pregunta o grupo"
+        add_item: "Agregar Pregunta o Grupo"
         edit_item: "Editar ítem"
         delete_item: "Borrar ítem"
       form:
@@ -38,8 +38,9 @@ es:
     labels:
       question:
         data_type: Tipo de Dato
+        display_in_summary: Mostrar en Resumen del Memo del Préstamo
         division: División
-        has_embeddable_media: Permitir adjuntar archivos o links
+        has_embeddable_media: Permitir Adjuntar Archivos o Links
         loan_types: Requerido para Tipos de Préstamos
     options:
       question:
