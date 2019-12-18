@@ -1,5 +1,6 @@
 es:
   loan:
+    actual_end_date: "Fecha Real de Finalización"
     adjust_dates: "Modificar fechas"
     adjust_scheduled_dates: "Modificar Fechas Previstas"
     agent:
@@ -28,7 +29,7 @@ es:
     end: "Finalizar %{name}"
     end_date: "Fecha de Finalización "
     errors:
-      transaction_data_missing: "Prestamo tiene las transacciones con los datos ausentes. El prestamo necesita actualizar o hay errores en el prestamo."
+      transaction_data_missing: "Este préstamo tiene transacciones con datos ausentes. O el prestamo debe ser actualizarse, o hubo errores en la actualización del prestamo."
     finalize: "Finalizar"
     forward: "+ hacia adelante"
     id: "Nro. ID de Préstamo"
@@ -59,6 +60,7 @@ es:
     print_details: "Solo Detalles"
     print_header_title: "Perfil de Inversión y Memo de Crédito"
     print_memo: "Imprimir Memo de Préstamo"
+    projected_end_date: "Fecha Proyectada de Finalización"
     public:
       not_authorized: "No tienes autorización para ver el prestamo solicitado."
     rating: "Puntuación"
@@ -77,6 +79,7 @@ es:
       frozen: "Congelado"
       liquidated: "Liquidado"
     steps_notice: "Algunos de los pasos seleccionados dependen de pasos que no seleccionaste. Las fechas de esos pasos no se ajustarán."
+    summary: "Resumen"
     tab:
       details: "Detalles"
       questions: "Planificación de negocios"
