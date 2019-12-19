@@ -6,7 +6,7 @@
   - css_class += ' hidden-print' if response.blank? || response.not_applicable?
   - css_class += " #{question.status}"
 
-  .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
+  .question data-type=question.data_type data-id=question.id class=css_class
     span.tree-view
       - if question.display_in_summary == true
         - if question.data_type == 'group'
