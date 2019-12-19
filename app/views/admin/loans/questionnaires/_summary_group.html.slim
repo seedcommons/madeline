@@ -25,9 +25,9 @@
     - if question.group? && !question.leaf?
       = render("admin/loans/questionnaires/summary_group", f: f,
         response_set: response_set, group: question, parents: parents + [question])
-
     - elsif question.display_in_summary == true
       .answer-wrapper.tree-view
         = render("admin/loans/questionnaires/answer", f: f, response: response, question: question)
-
-  = render("admin/loans/questionnaires/number_handling", response: response)
+      - @previous_number_table = true
+    - else
+      - @previous_number_table = false
