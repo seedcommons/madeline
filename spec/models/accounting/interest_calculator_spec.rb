@@ -7,25 +7,38 @@ describe Accounting::InterestCalculator do
   let(:customer) { create(:accounting_customer) }
 
   describe 'general operation' do
-    let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
-      project: loan, txn_date: "2017-01-01", division: division, customer: customer) }
-    let!(:t1) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
-      project: loan, txn_date: "2017-01-04", division: division, customer: customer) }
-    let!(:t2) { create(:accounting_transaction, loan_transaction_type_value: "disbursement",
-      amount: 17.50, project: loan, txn_date: "2017-01-04", division: division, customer: customer) }
-    let!(:t3) { create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
-      project: loan, txn_date: "2017-01-31", division: division, customer: customer) }
-    let!(:t4) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 0.50,
-      project: loan, txn_date: "2017-01-31", division: division, customer: customer) }
-    let!(:t5) { create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
-      project: loan, txn_date: "2017-01-31", division: division, customer: customer) }
-    let!(:t6) { create(:accounting_transaction, :unmanaged, :repayment_with_line_items,
-      loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division) }
+    let!(:t0) {
+      create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+                                      project: loan, txn_date: "2017-01-01", division: division, customer: customer)
+    }
+    let!(:t1) {
+      create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
+                                      project: loan, txn_date: "2017-01-04", division: division, customer: customer)
+    }
+    let!(:t2) {
+      create(:accounting_transaction, loan_transaction_type_value: "disbursement",
+                                      amount: 17.50, project: loan, txn_date: "2017-01-04", division: division, customer: customer)
+    }
+    let!(:t3) {
+      create(:accounting_transaction, loan_transaction_type_value: "interest", amount: nil,
+                                      project: loan, txn_date: "2017-01-31", division: division, customer: customer)
+    }
+    let!(:t4) {
+      create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 0.50,
+                                      project: loan, txn_date: "2017-01-31", division: division, customer: customer)
+    }
+    let!(:t5) {
+      create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 12.30,
+                                      project: loan, txn_date: "2017-01-31", division: division, customer: customer)
+    }
+    let!(:t6) {
+      create(:accounting_transaction, :unmanaged, :repayment_with_line_items,
+        loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division)
+    }
     let(:all_txns) { [t0, t1, t2, t3, t4, t5, t6] }
     let!(:prin_acct) { division.principal_account }
     let!(:int_rcv_acct) { division.interest_receivable_account }
     let!(:int_inc_acct) { division.interest_income_account }
-
 
     describe 'initial creation and update' do
       it do
@@ -133,7 +146,6 @@ describe Accounting::InterestCalculator do
         # balances
         expect(t6.reload.principal_balance).to equal_money(93.62) # 105.47 - 11.85
         expect(t6.reload.interest_balance).to equal_money(-11.85)
-
 
         ##############################################################################################
         # Recalculation after change of second disbursement to larger number
@@ -264,10 +276,14 @@ describe Accounting::InterestCalculator do
 
   describe 'creation of interest txns' do
     # There should be an interest txn between t0 and t1, but not before t0
-    let!(:t0) { create(:accounting_transaction, :disbursement, amount: 10000.0,
-      project: loan, txn_date: "2018-01-01", division: division, customer: customer) }
-    let!(:t1) { create(:accounting_transaction, :disbursement, amount: 20000.0,
-      project: loan, txn_date: "2018-01-04", division: division, customer: customer) }
+    let!(:t0) {
+      create(:accounting_transaction, :disbursement, amount: 10000.0,
+                                                     project: loan, txn_date: "2018-01-01", division: division, customer: customer)
+    }
+    let!(:t1) {
+      create(:accounting_transaction, :disbursement, amount: 20000.0,
+                                                     project: loan, txn_date: "2018-01-04", division: division, customer: customer)
+    }
     let(:all_txns) { [t0, t1] }
 
     it 'creates an interest txn before another txn' do
