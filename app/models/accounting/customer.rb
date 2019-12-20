@@ -26,7 +26,7 @@ class Accounting::Customer < ApplicationRecord
   # and in qb api line items need entity, not customer_id.
   def reference
     entity = ::Quickbooks::Model::Entity.new
-    entity.type = 'Customer'
+    entity.type = Accounting::Customer::QB_OBJECT_TYPE
     entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
     entity.entity_ref = entity_ref
     entity
