@@ -11,12 +11,6 @@ every 1.day, at: '2am' do
   rake "madeline:enqueue_update_loans_task"
 end
 
-# runs job at 2am every start of month
-# https://github.com/javan/whenever/issues/13 for more details
-every 1.month, at: 'start of the month at 1am' do
-  rake "madeline:enqueue_monthly_interest_accrual_task"
-end
-
 # built in script job type is not updated for rails 4 and higher
 job_type :script, 'cd :path && RAILS_ENV=:environment bundle exec bin/:task :output'
 every :reboot do
