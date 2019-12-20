@@ -237,4 +237,13 @@ class Loan < Project
     raise Accounting::TransactionDataMissingError if changes.any?(&:blank?)
     changes.sum
   end
+
+  def default_quickbooks_customer_id
+    customer_ids_by_freq = transactions.group_by(&:accounting_customer_id)
+    if customer_ids_by_freq.empty?
+      nil
+    else
+      customer_ids_by_freq.max_by { |_customer_id, txns| txns.count }.first.to_i
+    end
+  end
 end
