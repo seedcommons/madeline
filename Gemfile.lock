@@ -319,7 +319,7 @@ GEM
       oauth (~> 0.4.7)
       oauth2 (~> 1.4)
       roxml (= 4.0.0)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-livereload (0.3.17)
       rack
     rack-protection (2.0.5)
