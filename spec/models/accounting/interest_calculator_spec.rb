@@ -4,7 +4,7 @@ require 'rails_helper'
 describe Accounting::InterestCalculator do
   let!(:division) { create(:division, :with_accounts) }
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
-  let(:customer) {create(:accounting_customer)}
+  let(:customer) { create(:accounting_customer) }
 
   describe 'general operation' do
     let!(:t0) { create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
