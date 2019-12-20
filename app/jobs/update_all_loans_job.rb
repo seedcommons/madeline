@@ -4,8 +4,8 @@ class UpdateAllLoansJob < TaskJob
     errors_by_loan = []
     loans = Loan.all
     updater = Accounting::Quickbooks::Updater.new
-    task.set_activity_message("syncing_with_quickbooks")
     updater.qb_sync_for_loan_update
+    task.set_activity_message("syncing_with_quickbooks")
     loans.each_with_index do |loan, index|
       task.set_activity_message("updating_all_loans", {so_far: (index), total: loans.count})
       begin
