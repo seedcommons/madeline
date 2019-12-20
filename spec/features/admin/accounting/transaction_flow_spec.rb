@@ -87,7 +87,7 @@ feature 'transaction flow', :accounting do
     fill_in 'Date', with: Date.today.to_s
     fill_in 'Amount', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
-    select customers[0].name, from: 'Quickbooks Customer'
+    select customers.sample.name, from: 'Quickbooks Customer'
     fill_in 'Description', with: 'Palm trees'
     fill_in 'Memo', with: 'Chunky monkey'
   end
