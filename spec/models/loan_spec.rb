@@ -306,5 +306,25 @@ describe Loan, type: :model do
         end
       end
     end
+
+    describe 'default quickbooks customer' do
+      let(:customer_a) { create(:customer) }
+      let(:customer_b) { create(:customer) }
+
+      context "existing txns" do
+        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b) }
+        let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a) }
+        let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b) }
+        it 'assigns customer most commonly used in existing txns on loan' do
+          expect(loan.default_quickbooks_customer_id).to eql customer_b.id
+        end
+      end
+
+      context "no txns on loan" do
+        it "returns nil without erroring" do
+          expect(loan.default_quickbooks_customer_id).to eql nil
+        end
+      end
+    end
   end
 end
