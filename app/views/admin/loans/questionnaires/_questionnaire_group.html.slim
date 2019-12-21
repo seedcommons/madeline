@@ -38,6 +38,8 @@ div
           - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
           *header_tag
             = question.full_number_and_label
+          // If a group, stop grouping number items into previous table.
+          - @previous_number_table = false
         - else
           // For numerical questions in print view, the question's label is displayed with
           // the question's answer.

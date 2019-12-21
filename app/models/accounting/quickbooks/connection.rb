@@ -2,13 +2,13 @@
 #
 # Table name: accounting_quickbooks_connections
 #
+#  access_token     :string
 #  created_at       :datetime         not null
 #  division_id      :integer          not null
 #  id               :integer          not null, primary key
 #  last_updated_at  :datetime
 #  realm_id         :string           not null
-#  secret           :string           not null
-#  token            :string           not null
+#  refresh_token    :string
 #  token_expires_at :datetime         not null
 #  updated_at       :datetime         not null
 #
@@ -27,37 +27,39 @@
 class Accounting::Quickbooks::Connection < ApplicationRecord
   belongs_to :division
 
-  def self.create_from_access_token(access_token:, division:, params:)
-    create(
-      token: access_token.token,
-      secret: access_token.secret,
-      division: division,
-      realm_id: params['realmId'],
-      token_expires_at: 180.days.from_now
-    )
-  end
-
   def connected?
-    !expired? && token.present? && secret.present? && realm_id.present?
+    !expired? && access_token && refresh_token && realm_id
   end
 
   def expired?
-    return token_expires_at < Time.zone.now if token_expires_at
-    false
+    if token_expires_at < Time.zone.now
+      refresh_token!
+      return token_expires_at < Time.zone.now
+    else
+      false
+    end
   end
 
-  def renewable?
-    return token_expires_at < 30.days.from_now if token_expires_at && connected?
-    false
+  def token
+    qb_access_token = self.access_token
+    qb_refresh_token = self.refresh_token
+    qb_consumer = Accounting::Quickbooks::Consumer.new.oauth_consumer
+    oauth2_token = OAuth2::AccessToken.new(qb_consumer, qb_access_token, {:refresh_token => qb_refresh_token})
+    oauth2_token
+  end
+
+  def refresh_token!
+    qb_consumer = Accounting::Quickbooks::Consumer.new.oauth_consumer
+    oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
+    refreshed = oauth2_token.refresh!.to_hash
+    self.access_token = refreshed[:access_token]
+    self.refresh_token = refreshed[:refresh_token]
+    self.token_expires_at = Time.zone.at(refreshed[:expires_at])
+    self.save!
   end
 
   def auth_details
-    {access_token: access_token, company_id: realm_id}
-  end
-
-  # Returns an access token object based on the stored (string-type) token and secret values from Quickbooks.
-  def access_token
-    Accounting::Quickbooks::Consumer.new.access_token(token: token, secret: secret)
+    {access_token: token, company_id: realm_id}
   end
 
   def company_name

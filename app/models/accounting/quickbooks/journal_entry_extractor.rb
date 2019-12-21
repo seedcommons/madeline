@@ -67,8 +67,6 @@ module Accounting
         when 'disbursement'
           txn.line_items.find(&:credit?).account
         when 'other'
-          # use find or create to avoid repeat entries
-          ::Accounting::ProblemLoanTransaction.find_or_create_by(loan: loan, accounting_transaction: txn, error_message: :journal_entry_type_other_account_not_set)
           nil
         end
       end
