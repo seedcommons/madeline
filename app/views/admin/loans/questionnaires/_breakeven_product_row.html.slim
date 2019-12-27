@@ -21,6 +21,7 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td.editable
     = render 'admin/loans/questionnaires/tooltip_editable_field'
     input.percentage-of-sales name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+    span %
   td.locked
     = render 'admin/loans/questionnaires/tooltip_calculated_field'
     input.quantity type="number" value=product[:quantity] disabled=true
