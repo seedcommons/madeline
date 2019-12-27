@@ -71,10 +71,13 @@ table.breakeven-table-rampup {
     word-wrap: break-word;
   }
 
-  .fa {
-    color: $gray6;
+  .tooltip-container {
     display: block;
     text-align: right;
+
+    .fa {
+      color: $gray6;
+    }
   }
 
   .narrow {
