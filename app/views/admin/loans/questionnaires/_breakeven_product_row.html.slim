@@ -11,7 +11,7 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
     textarea name="#{prefix}[description]" = product[:description]
   td.editable
     = render 'admin/loans/questionnaires/tooltip_editable_field'
-    textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit') = product[:unit]
+    textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
   td.editable
     = render 'admin/loans/questionnaires/tooltip_editable_field'
     input.price name="#{prefix}[price]" type="number" value=product[:price]
