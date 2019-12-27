@@ -39,10 +39,10 @@ table.breakeven-table-rampup {
     border: 1px solid transparent;
     border-radius: 0.25em;
     background: none;
-    display: inline-block;
+    display: block;
     height: 100%;
     max-width: 100%;
-    width: auto;
+    width: 100%;
   }
 
   .editable {
@@ -72,8 +72,9 @@ table.breakeven-table-rampup {
   }
 
   .fa {
-    display: inline-block;
-    vertical-align: top;
+    color: $gray6;
+    display: block;
+    text-align: right;
   }
 
   .narrow {
