@@ -6,18 +6,18 @@
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
       thead
         tr
-          th = t("loan.breakeven.product_name")
-          th.wide = t("loan.breakeven.description")
-          th
+          th scope="col" = t("loan.breakeven.product_name")
+          th.wide scope="col" = t("loan.breakeven.description")
+          th scope="col"
             = t("loan.breakeven.unit")
             i.fa.ms-tooltip.fa-info-circle data-message=I18n.t('loan.breakeven.placeholders.unit')
-          th = t("loan.breakeven.price")
-          th = t("loan.breakeven.cost")
-          th = t("loan.breakeven.percentage_of_sales")
-          th = t("loan.breakeven.quantity")
-          th = t("loan.breakeven.revenue")
-          th = t("loan.breakeven.total_cost")
-          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
+          th scope="col" = t("loan.breakeven.price")
+          th scope="col" = t("loan.breakeven.cost")
+          th scope="col" = t("loan.breakeven.percentage_of_sales")
+          th.quantity-col scope="col" = t("loan.breakeven.quantity")
+          th scope="col" = t("loan.breakeven.revenue")
+          th scope="col" = t("loan.breakeven.total_cost")
+          th.narrow scope="col": .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
