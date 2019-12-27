@@ -36,11 +36,16 @@ table.breakeven-table-rampup {
   }
 
   input, input[type="number"], textarea {
-    border: none;
+    border: 1px solid transparent;
+    border-radius: 0.25em;
     background: none;
     display: inline-block;
-    width: 82%;
     height: 100%;
+    width: 80%;
+
+    &:hover, &:active {
+      border-color: $gray3;
+    }
   }
 
   input[type="number"], input.percentage {
@@ -52,9 +57,14 @@ table.breakeven-table-rampup {
   }
 
   textarea {
+    min-height: 3em;
     overflow-y: visible;
     word-wrap: break-word;
-    // min-height: 3em;
+  }
+
+  .fa {
+    display: inline-block;
+    vertical-align: top;
   }
 
   .narrow {
@@ -65,27 +75,27 @@ table.breakeven-table-rampup {
     width: 20%;
   }
 
-  .editable, .locked {
-    &:before {
-      color: $gray6;
-      display: inline-block;
-      font-family: FontAwesome;
-      font-size: 0.75em;
-      text-align: right;
-      vertical-align: top;
-    }
-  }
-  .locked {
-    &:before {
-      content: "\f023";
-    }
-  }
-
-  .editable {
-    &:before {
-      content: "\f040";
-    }
-  }
+  // .editable, .locked {
+  //   &:before {
+  //     color: $gray6;
+  //     display: inline-block;
+  //     font-family: FontAwesome;
+  //     font-size: 0.75em;
+  //     text-align: right;
+  //     vertical-align: top;
+  //   }
+  // }
+  // .locked {
+  //   &:before {
+  //     content: "\f023";
+  //   }
+  // }
+  //
+  // .editable {
+  //   &:before {
+  //     content: "\f040";
+  //   }
+  // }
 }
 
 .business-model-canvas {
