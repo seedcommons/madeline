@@ -41,10 +41,19 @@ table.breakeven-table-rampup {
     background: none;
     display: inline-block;
     height: 100%;
-    width: 80%;
+    max-width: 100%;
+    width: auto;
+  }
 
-    &:hover, &:active {
-      border-color: $gray3;
+  .editable {
+    input, input[type="number"], textarea {
+      &:hover, &:active {
+        border-color: $gray3;
+      }
+
+      &:focus {
+        border-color: $yellow2;
+      }
     }
   }
 
