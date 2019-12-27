@@ -156,7 +156,7 @@ en:
       rampup: "Rampup"
       units: "Unit of Periods"
       periods: "Periods to Breakeven"
-      percentage_of_sales: "% of Volume"
+      percentage_of_sales: "Percent of Volume"
       total_cost: "Total Cost"
 
     breakeven_rampup:
