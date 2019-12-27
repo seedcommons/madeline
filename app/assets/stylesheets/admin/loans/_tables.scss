@@ -55,6 +55,11 @@ table.breakeven-table-rampup {
         border-color: $yellow2;
       }
     }
+
+    .percentage-of-sales {
+      display: inline-block;
+      width: 80%;
+    }
   }
 
   input[type="number"], input.percentage {
