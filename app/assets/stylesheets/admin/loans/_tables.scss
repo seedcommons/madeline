@@ -89,22 +89,17 @@ table.breakeven-table-rampup {
   }
 }
 
-.breakeven-tables {
-  .editable-table {
-    // table-layout: fixed;
+[data-table="products"] {
+  table-layout: fixed;
+  width: auto;
 
-    th {
-      &.quantity-col {
-        width: 7em;
-      }
-    }
+  th {
+    width: 7em;
   }
 
-  .editable {
-    .percentage-of-sales {
-      display: inline-block;
-      width: 80%;
-    }
+  .percentage-of-sales {
+    display: inline-block;
+    width: 80%;
   }
 }
 
@@ -163,5 +158,11 @@ table.breakeven-table-rampup {
     width: 100%;
     min-height: 8em;
     flex: 1 1 auto;
+  }
+}
+
+th {
+  .ms-tooltip {
+    margin-left: 0.25em;
   }
 }
