@@ -1,6 +1,6 @@
 table.breakeven-table-rampup {
-  width: auto;
   min-width: 0;
+  width: auto;
 
   th {
     min-width: 11em;
@@ -17,12 +17,12 @@ table.breakeven-table-rampup {
 }
 
 .editable-table {
+  background: $white;
+  margin-top: 1em;
+  min-width: 60rem;
   table-layout: fixed;
   width: 100%;
-  margin-top: 1em;
-  background: $white;
   word-wrap: break-word;
-  min-width: 60rem;
 
   thead {
     tr {
@@ -31,14 +31,14 @@ table.breakeven-table-rampup {
   }
 
   td, tr {
-    width: auto;
     overflow-y: visible;
+    width: auto;
   }
 
   input, input[type="number"], textarea {
+    background: none;
     border: 1px solid transparent;
     border-radius: 0.25em;
-    background: none;
     display: block;
     height: 100%;
     max-width: 100%;
@@ -107,9 +107,9 @@ table.breakeven-table-rampup {
   border: 1px solid;
 
   .canvas-row {
-    flex-wrap: wrap;
-    display: flex;
     align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
 
     @media only screen and (max-width: 767px) {
@@ -118,19 +118,17 @@ table.breakeven-table-rampup {
   }
 
   .canvas-col {
-    flex: 1;
-
     display: flex;
+    flex: 1;
     flex-direction: column;
   }
 
   .canvas-cell {
-    flex: 1 1 auto;
     border: 1px solid;
-    padding: 4px;
-
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
+    padding: 4px;
 
     &.half-height {
       min-height: 24em;
@@ -153,11 +151,11 @@ table.breakeven-table-rampup {
   }
 
   textarea {
-    border: none;
     background: none;
-    width: 100%;
-    min-height: 8em;
+    border: none;
     flex: 1 1 auto;
+    min-height: 8em;
+    width: 100%;
   }
 }
 
