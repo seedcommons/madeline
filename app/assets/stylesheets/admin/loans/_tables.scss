@@ -97,9 +97,11 @@ table.breakeven-table-rampup {
     width: 7em;
   }
 
-  .percentage-of-sales {
-    display: inline-block;
-    width: 80%;
+  input[type="number"] {
+    &.percentage-of-sales {
+      display: inline-block;
+      width: 80%;
+    }
   }
 }
 
