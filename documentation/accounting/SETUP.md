@@ -61,6 +61,13 @@ At this time, Madeline only supports accounting with the quickbooks app set up b
 1. Inside the project dashboard, click on the `Keys` tab.
 1. Copy the OAuth Consumer Key and OAuth Consumer Secret into your `.env` file inside your Madeline environment. Use `.env.example` as a template.
 
+#### Authorize redirect URI for your development environment 
+Oauth2 on Quickbooks requires that redirect URIs be whitelisted. So far, we have had the most luck with setting up our development server to use https and a domain name like madeline.test.
+1. In the Quickbooks development interface, navigate to the app, then to Development - Keys & Oauth2.
+1. Under redirect URIs, add your development uri followed by `/admin/accounting-settings` (e.g. `https://madeline.test/admin/accounting-settings`)
+1. Note: alternatively you can configure your local server to use `https://madeline.test/admin/accounting-settings` which is already authorized.
+1. Note: redirect URIs for production, rather than development or sandbox, qb companies must also have a real top level domain.
+
 #### Authorize Madeline and QuickBooks connection
 1. In your Madeline environment, you must be set up for background jobs (see main README)
    1. If this is not set up, your QuickBooks data import will always be 'pending.'
