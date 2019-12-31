@@ -166,9 +166,9 @@ class Accounting::Transaction < ApplicationRecord
 
     # as in https://redmine.sassafras.coop/issues/7703, testing this would take time
     # it could be added as a future TODO
-    if total_balance < 0 && !Rails.env.test?
-      raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
-    end
+    # if total_balance < 0 && !Rails.env.test?
+    #   raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
+    # end
   end
 
   def prev_balance
