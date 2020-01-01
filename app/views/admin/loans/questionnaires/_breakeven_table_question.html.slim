@@ -42,7 +42,7 @@
       tbody
         tr.ui-state-default data-group="rampup"
           td
-            input (name="response_set[#{question.attribute_sym}][breakeven][periods]"
+            input.form-control (name="response_set[#{question.attribute_sym}][breakeven][periods]"
               type="number" value=data[:periods])
           td
             = select_tag("response_set[#{question.attribute_sym}][breakeven][units]",

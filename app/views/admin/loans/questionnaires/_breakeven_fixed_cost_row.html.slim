@@ -3,8 +3,8 @@
 - prefix = "response_set[#{question.attribute_sym}][breakeven][fixed_costs][]"
 
 tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
-  td: input name="#{prefix}[name]" value=cost[:name]
-  td: input.amount name="#{prefix}[amount]" type="number" value=cost[:amount]
+  td: input.form-control name="#{prefix}[name]" value=cost[:name]
+  td: input.amount.form-control name="#{prefix}[amount]" type="number" value=cost[:amount]
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash
