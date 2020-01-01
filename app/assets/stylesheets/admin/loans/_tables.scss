@@ -37,7 +37,7 @@ table.breakeven-table-rampup {
 
   input, input[type="number"], textarea {
     background: none;
-    border: 1px solid transparent;
+    border: 1px solid $gray5;
     border-radius: 0.25em;
     display: block;
     height: 100%;
@@ -45,14 +45,18 @@ table.breakeven-table-rampup {
     width: 100%;
   }
 
+  .locked {
+    input, input[type="number"], textarea {
+      border-color: transparent;
+    }
+  }
+
   .editable {
     input, input[type="number"], textarea {
-      &:hover, &:active {
-        border-color: $gray3;
-      }
-
-      &:focus {
-        border-color: $yellow2;
+      &:active,
+      &:focus,
+      &:hover {
+        border-color: $gray4;
       }
     }
   }
@@ -97,10 +101,14 @@ table.breakeven-table-rampup {
     width: 7em;
   }
 
-  input[type="number"] {
-    &.percentage-of-sales {
+  .percentage-of-sales {
+    input[type="number"] {
       display: inline-block;
       width: 80%;
+    }
+
+    span {
+      margin-left: 0.25em;
     }
   }
 }
