@@ -37,18 +37,10 @@ table.breakeven-table-rampup {
 
   input, input[type="number"], textarea {
     background: none;
-    border: 1px solid $gray5;
-    border-radius: 0.25em;
     display: block;
     height: 100%;
     max-width: 100%;
     width: 100%;
-
-    &:active,
-    &:focus,
-    &:hover {
-      border-color: $gray4;
-    }
 
     &[disabled] {
       border-color: transparent;
