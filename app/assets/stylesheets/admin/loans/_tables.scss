@@ -43,10 +43,8 @@ table.breakeven-table-rampup {
     height: 100%;
     max-width: 100%;
     width: 100%;
-  }
 
-  .locked {
-    input, input[type="number"], textarea {
+    &[disabled] {
       border-color: transparent;
     }
   }
