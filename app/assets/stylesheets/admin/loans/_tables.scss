@@ -44,17 +44,19 @@ table.breakeven-table-rampup {
     max-width: 100%;
     width: 100%;
 
+    &:active,
+    &:focus,
+    &:hover {
+      border-color: $gray4;
+    }
+
     &[disabled] {
       border-color: transparent;
-    }
-  }
 
-  .editable {
-    input, input[type="number"], textarea {
       &:active,
       &:focus,
       &:hover {
-        border-color: $gray4;
+        border-color: transparent;
       }
     }
   }
