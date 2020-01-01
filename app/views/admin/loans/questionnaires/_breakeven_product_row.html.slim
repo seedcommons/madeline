@@ -4,34 +4,34 @@
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    textarea.name name="#{prefix}[name]" = product[:name]
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    textarea.name.form-control name="#{prefix}[name]" = product[:name]
   td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    textarea name="#{prefix}[description]" = product[:description]
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    textarea.form-control name="#{prefix}[description]" = product[:description]
   td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    textarea name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    textarea.form-control name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
   td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    input.price name="#{prefix}[price]" type="number" value=product[:price]
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    input.price.form-control name="#{prefix}[price]" type="number" value=product[:price]
   td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    input.cost name="#{prefix}[cost]" type="number" value=product[:cost]
-  td.editable
-    = render 'admin/loans/questionnaires/tooltip_editable_field'
-    input.percentage-of-sales name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    input.cost.form-control name="#{prefix}[cost]" type="number" value=product[:cost]
+  td.editable.percentage-of-sales
+    /= render 'admin/loans/questionnaires/tooltip_editable_field'
+    input.form-control name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
     span %
   td.locked
-    = render 'admin/loans/questionnaires/tooltip_calculated_field'
+    /= render 'admin/loans/questionnaires/tooltip_calculated_field'
     input.quantity type="number" value=product[:quantity] disabled=true
     input.quantity_display_value name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
     input.total_fixed_costs type="hidden" value=total_fixed_costs
   td.locked
-    = render 'admin/loans/questionnaires/tooltip_calculated_field'
+    /= render 'admin/loans/questionnaires/tooltip_calculated_field'
     input.revenue type="number" name="#{prefix}[revenue]" disabled=true
   td.locked
-    = render 'admin/loans/questionnaires/tooltip_calculated_field'
+    /= render 'admin/loans/questionnaires/tooltip_calculated_field'
     input.total_cost type="number" name="#{prefix}[total_cost]" disabled=true
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
