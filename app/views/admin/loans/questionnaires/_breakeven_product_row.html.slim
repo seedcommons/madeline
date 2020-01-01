@@ -4,17 +4,17 @@
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td
-    textarea.name.form-control name="#{prefix}[name]" = product[:name]
+    textarea.name.form-control.form-element name="#{prefix}[name]" = product[:name]
   td
-    textarea.form-control name="#{prefix}[description]" = product[:description]
+    textarea.form-control.form-element name="#{prefix}[description]" = product[:description]
   td
-    textarea.form-control name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
+    textarea.form-control.form-element name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
   td
-    input.price.form-control name="#{prefix}[price]" type="number" value=product[:price]
+    input.price.form-control.form-element name="#{prefix}[price]" type="number" value=product[:price]
   td
-    input.cost.form-control name="#{prefix}[cost]" type="number" value=product[:cost]
+    input.cost.form-control.form-element name="#{prefix}[cost]" type="number" value=product[:cost]
   td.percentage-of-sales
-    input.form-control name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+    input.form-control.form-element name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
     span %
   td
     input.quantity type="number" value=product[:quantity] disabled=true
