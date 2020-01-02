@@ -316,13 +316,20 @@ describe Loan, type: :model do
         let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a) }
         let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b) }
         it 'assigns customer most commonly used in existing txns on loan' do
-          expect(loan.default_quickbooks_customer_id).to eql customer_b.id
+          expect(loan.default_accounting_customer).to eql customer_b
         end
       end
 
-      context "no txns on loan" do
-        it "returns nil without erroring" do
-          expect(loan.default_quickbooks_customer_id).to eql nil
+      context "no txns on loan but loans organization matches a customer" do
+        let!(:customer_match) { create(:customer, name: loan.organization.name) }
+        it "returns customer with matching name" do
+          expect(loan.default_accounting_customer).to eql customer_match
+        end
+      end
+
+      context "no txns on loan and loan organization does not match a customer" do
+        it "returns nil" do
+          expect(loan.default_accounting_customer).to eql nil
         end
       end
     end

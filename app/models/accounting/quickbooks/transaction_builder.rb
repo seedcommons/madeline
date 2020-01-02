@@ -63,6 +63,7 @@ module Accounting
       private
 
       def customer_reference(transaction)
+        ensure_accounting_customer_set(transaction)
         transaction.customer.reference
       end
 
@@ -111,6 +112,12 @@ module Accounting
         # QB api requires the parent class id to be an integer even tho elsewhere it is treated as str
         qb_class.parent_ref = ::Quickbooks::Model::BaseReference.new(qb_division.qb_parent_class_id.to_i)
         class_service.create(qb_class)
+      end
+
+      def ensure_accounting_customer_set(transaction)
+        return if transaction.customer.present
+        customer = loan.default_accounting_customer || CustomerBuilder.new(qb_division).new_accounting_customer_for(loan.organization)
+        transaction.update_attributes(customer: customer)
       end
 
       def set_journal_number(txn)
