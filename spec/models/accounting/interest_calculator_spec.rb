@@ -292,7 +292,6 @@ describe Accounting::InterestCalculator do
       expect(inttxn).not_to be_nil
       expect(inttxn.amount).to equal_money(6.58)
       expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
-      expect(inttxn.customer).to eq t0.customer
     end
 
     it 'creates an interest txn on the end of each month' do
