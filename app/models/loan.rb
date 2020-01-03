@@ -239,11 +239,12 @@ class Loan < Project
   end
 
   def default_accounting_customer
-    customer_ids_by_freq = transactions.group_by(&:accounting_customer_id)
+    customer_ids_by_freq = transactions.select{|t| t.accounting_customer_id.present?}.group_by(&:accounting_customer_id)
     if customer_ids_by_freq.empty?
       Accounting::Customer.find_by(name: organization.name)
     else
       id = customer_ids_by_freq.max_by { |_customer_id, txns| txns.count }.first.to_i
+
       Accounting::Customer.find(id)
     end
   end

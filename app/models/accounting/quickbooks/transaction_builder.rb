@@ -115,8 +115,8 @@ module Accounting
       end
 
       def ensure_accounting_customer_set(transaction)
-        return if transaction.customer.present
-        customer = loan.default_accounting_customer || CustomerBuilder.new(qb_division).new_accounting_customer_for(loan.organization)
+        return if transaction.customer.present?
+        customer = transaction.project.default_accounting_customer || CustomerBuilder.new(qb_division).new_accounting_customer_for(transaction.project.organization)
         transaction.update_attributes(customer: customer)
       end
 
