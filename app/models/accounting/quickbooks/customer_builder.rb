@@ -33,7 +33,7 @@ module Accounting
           if query_result.entries.empty?
             create_customer_in_qb(normalized_name)
           else
-            create_or_update_from_qb_object!('Customer', query_result.entries.first)
+            Accounting::Customer.create_or_update_from_qb_object!('Customer', query_result.entries.first)
           end
         rescue ::Quickbooks::IntuitRequestException => e
           if e.message =~ /^Duplicate Name Exists Error/
@@ -50,7 +50,7 @@ module Accounting
         qb_customer = ::Quickbooks::Model::Customer.new
         qb_customer.display_name = qb_display_name
         new_qb_customer = service.create(qb_customer)
-        create_or_update_from_qb_object!('Customer', new_qb_customer)
+        Accounting::Customer.create_or_update_from_qb_object!('Customer', new_qb_customer)
       end
     end
   end

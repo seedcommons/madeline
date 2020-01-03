@@ -85,8 +85,7 @@ module Accounting
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
           currency_id: loan.currency_id,
           description: I18n.t('transactions.interest_description', loan_id: loan.id),
-          managed: true,
-          accounting_customer_id: loan.default_accounting_customer.try(:id)
+          managed: true
         ) if add_int_tx?(txns_by_date[date], prev_tx)
 
         txns.concat(txns_by_date[date]) if txns_by_date[date]
