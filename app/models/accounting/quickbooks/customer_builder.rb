@@ -21,28 +21,14 @@ module Accounting
         @service ||= ::Quickbooks::Service::Customer.new(qb_connection.auth_details)
       end
 
-      # There are two cases where we create the new customer in qb with a name different than the Madeline org name:
-      # a) the name contains invalid characters or b) the name is already taken in qb by some entity other than customer.
-      # we depend on the fact that the qb_id is saved in Madeline when the qb customer is created,
-      # and that the id, not the org name, is used to identify the qb customer in the future.
       def find_or_create_customer_in_qb(name)
         normalized_name = name.tr(':', '_')
         # Look at existing customers in qb (for case that Accounting::Customer table is stale)
-        begin
-          query_result = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}")
-          if query_result.entries.empty?
-            create_customer_in_qb(normalized_name)
-          else
-            Accounting::Customer.create_or_update_from_qb_object!('Customer', query_result.entries.first)
-          end
-        rescue ::Quickbooks::IntuitRequestException => e
-          if e.message =~ /^Duplicate Name Exists Error/
-            # we know duplicate is not customer bc was not found above (it is a vendor or other entity)
-            normalized_customer_name = "#{normalized_name} (Customer)"
-            create_customer_in_qb(normalized_customer_name)
-          else
-            raise e
-          end
+        query_result = service.find_by(:display_name, "#{normalized_name.gsub("'", "\\\\'")}")
+        if query_result.entries.empty?
+          create_customer_in_qb(normalized_name)
+        else
+          Accounting::Customer.create_or_update_from_qb_object!('Customer', query_result.entries.first)
         end
       end
 
