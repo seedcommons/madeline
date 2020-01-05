@@ -114,10 +114,15 @@ module Accounting
         class_service.create(qb_class)
       end
 
+      # a transaction does not need a customer unless/until it is built for quickbooks
+      # a txn can be created multiple ways (e.g. by user, interest calculator, qb import)
+      # and at various points the customer is not available to set anyway
+      # so we do this ensure step here in the one place it's needed and where the last
+      # fallback options that involve retrieving or creating a customer via quickbooks is doable.
       def ensure_accounting_customer_set(transaction)
         return if transaction.customer.present?
         customer = transaction.project.default_accounting_customer || CustomerBuilder.new(qb_division).new_accounting_customer_for(transaction.project.organization)
-        transaction.update_attributes(customer: customer)
+        transaction.update(customer: customer)
       end
 
       def set_journal_number(txn)
