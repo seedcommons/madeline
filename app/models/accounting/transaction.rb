@@ -163,10 +163,7 @@ class Accounting::Transaction < ApplicationRecord
     calculate_deltas
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
-
-    # as in https://redmine.sassafras.coop/issues/7703, testing this would take time
-    # it could be added as a future TODO
-    if total_balance < 0 && !Rails.env.test?
+    if managed && total_balance < 0 && !Rails.env.test?
       raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
     end
   end
