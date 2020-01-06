@@ -238,13 +238,13 @@ class Loan < Project
     changes.sum
   end
 
-  def default_accounting_customer
-    customer_ids_by_freq = transactions.select { |t| t.accounting_customer_id.present? }.group_by(&:accounting_customer_id)
-    if customer_ids_by_freq.empty?
+  def default_accounting_customer_for_transaction(transaction)
+    transactions_with_type = transactions.standard_order.by_type(transaction.loan_transaction_type_value)
+    transactions_to_refer_to = transactions_with_type.select { |t| t.customer.present? }
+    if transactions_to_refer_to.empty?
       Accounting::Customer.find_by(name: organization.name)
     else
-      id = customer_ids_by_freq.max_by { |_customer_id, txns| txns.count }.first.to_i
-      Accounting::Customer.find(id)
+      transactions_to_refer_to.last.customer
     end
   end
 end
