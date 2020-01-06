@@ -121,7 +121,7 @@ module Accounting
       # fallback options that involve retrieving or creating a customer via quickbooks is doable.
       def ensure_accounting_customer_set(transaction)
         return if transaction.customer.present?
-        customer = transaction.project.default_accounting_customer || CustomerBuilder.new(qb_division).new_accounting_customer_for(transaction.project.organization)
+        customer = transaction.project.default_accounting_customer_for_transaction(transaction) || CustomerBuilder.new(qb_division).new_accounting_customer_for(transaction.project.organization)
         transaction.update(customer: customer)
       end
 
