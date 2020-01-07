@@ -35,8 +35,10 @@ table.breakeven-table-rampup {
     width: auto;
   }
 
-  input, input[type="number"], textarea {
-    background: none;
+  input,
+  input[type="number"],
+  textarea {
+    background: 0;
     display: block;
     height: 100%;
     max-width: 100%;
@@ -53,7 +55,8 @@ table.breakeven-table-rampup {
     }
   }
 
-  input[type="number"], input.percentage {
+  input[type="number"],
+  input.percentage {
     text-align: right;
   }
 
