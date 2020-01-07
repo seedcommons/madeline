@@ -310,12 +310,12 @@ describe Loan, type: :model do
     describe 'default quickbooks customer for transaction' do
       let(:customer_a) { create(:customer) }
       let(:customer_b) { create(:customer) }
-      let(:new_transaction) { build(:accounting_transaction, loan_transaction_type_value: :interest)}
+      let(:new_transaction) { build(:accounting_transaction, loan_transaction_type_value: :interest) }
 
       context "existing txns" do
-        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Date.today - 2.days, loan_transaction_type_value: :interest) }
-        let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a, txn_date: Date.today - 1.day, loan_transaction_type_value: :interest) }
-        let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Date.today, loan_transaction_type_value: :other) }
+        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 2.days, loan_transaction_type_value: :interest) }
+        let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a, txn_date: Time.zone.today - 1.day, loan_transaction_type_value: :interest) }
+        let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today, loan_transaction_type_value: :other) }
         it 'assigns customer that most recent txn of same type has' do
           expect(loan.default_accounting_customer_for_transaction(new_transaction)).to eql customer_a
         end
