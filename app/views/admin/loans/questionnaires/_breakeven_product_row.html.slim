@@ -10,20 +10,20 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td
     textarea.form-control.form-element name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
   td
-    input.price.form-control.form-element name="#{prefix}[price]" type="number" value=product[:price]
+    input.price.form-control.form-element data-breakeven-item="price" name="#{prefix}[price]" type="number" value=product[:price]
   td
-    input.cost.form-control.form-element name="#{prefix}[cost]" type="number" value=product[:cost]
+    input.cost.form-control.form-element data-breakeven-item="cost" name="#{prefix}[cost]" type="number" value=product[:cost]
   td.percentage-of-sales
-    input.form-control.form-element name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+    input.form-control.form-element data-breakeven-item="percentage-of-sales" name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
     span %
   td
-    input.quantity type="number" value=product[:quantity] disabled=true
-    input.quantity_display_value name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
-    input.total_fixed_costs type="hidden" value=total_fixed_costs
+    input.quantity data-breakeven-item="quantity" type="number" value=product[:quantity] disabled=true
+    input.quantity_display_value data-breakeven-item="quantity_display_value" name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
+    input.total_fixed_costs data-breakeven-item="total_fixed_costs" type="hidden" value=total_fixed_costs
   td
-    input.revenue type="number" name="#{prefix}[revenue]" disabled=true
+    input.revenue data-breakeven-item="revenue" type="number" name="#{prefix}[revenue]" disabled=true
   td
-    input.total_cost type="number" name="#{prefix}[total_cost]" disabled=true
+    input.total_cost data-breakeven-item="total_cost" type="number" name="#{prefix}[total_cost]" disabled=true
   td: .actions
     a.delete data-action="delete" title=I18n.t('loan.breakeven.remove_row')
       i.fa.fa-trash
