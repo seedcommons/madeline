@@ -8,17 +8,22 @@ tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td
     textarea.form-control.form-element name="#{prefix}[description]" = product[:description]
   td
-    textarea.form-control.form-element name="#{prefix}[unit]" placeholder=I18n.t('loan.breakeven.placeholders.unit_short') = product[:unit]
+    textarea.form-control.form-element (name="#{prefix}[unit]"
+      placeholder=I18n.t('loan.breakeven.placeholders.unit_short')) = product[:unit]
   td
-    input.price.form-control.form-element data-breakeven-item="price" name="#{prefix}[price]" type="number" value=product[:price]
+    input.price.form-control.form-element (data-breakeven-item="price" name="#{prefix}[price]"
+      type="number" value=product[:price])
   td
-    input.cost.form-control.form-element data-breakeven-item="cost" name="#{prefix}[cost]" type="number" value=product[:cost]
+    input.cost.form-control.form-element (data-breakeven-item="cost" name="#{prefix}[cost]"
+      type="number" value=product[:cost])
   td.percentage-of-sales
-    input.form-control.form-element data-breakeven-item="percentage-of-sales" name="#{prefix}[percentage_of_sales]" type="number" value=product[:percentage_of_sales]
+    input.form-control.form-element (data-breakeven-item="percentage-of-sales" type="number"
+      name="#{prefix}[percentage_of_sales]" value=product[:percentage_of_sales])
     span %
   td
     input.quantity data-breakeven-item="quantity" type="number" value=product[:quantity] disabled=true
-    input.quantity_display_value data-breakeven-item="quantity_display_value" name="#{prefix}[quantity]" value=product[:quantity] type="hidden"
+    input.quantity_display_value (data-breakeven-item="quantity_display_value" type="hidden"
+      name="#{prefix}[quantity]" value=product[:quantity])
     input.total_fixed_costs data-breakeven-item="total_fixed_costs" type="hidden" value=total_fixed_costs
   td
     input.revenue data-breakeven-item="revenue" type="number" name="#{prefix}[revenue]" disabled=true
