@@ -86,6 +86,12 @@ table.breakeven-table-rampup {
   .wide {
     width: 20%;
   }
+
+  &.breakeven-table-rampup {
+    input {
+      height: 34px;
+    }
+  }
 }
 
 .table.editable-table {
@@ -111,15 +117,6 @@ table.breakeven-table-rampup {
     width: 15em;
   }
 }
-
-.editable-table {
-  &.breakeven-table-rampup {
-    input {
-      height: 34px;
-    }
-  }
-}
-
 
 [data-table="products"] {
   .percentage-of-sales {
