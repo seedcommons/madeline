@@ -96,6 +96,16 @@ table.breakeven-table-rampup {
   }
 }
 
+.table.editable-table {
+  .form-element {
+    margin: 0;
+  }
+
+  .form-control {
+    padding: 0.25em;
+  }
+}
+
 [data-table="products"] {
   table-layout: fixed;
   width: auto;
