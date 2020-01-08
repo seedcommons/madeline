@@ -60,7 +60,7 @@ class MS.Views.BreakevenView extends Backbone.View
     @totalFixedCostsChanged()
 
   prepTooltips: ->
-    @$('.ms-tooltip').each (index, tip) =>
+    @$('.ms-tooltip').each (index, tip) ->
       message = $(tip).closest('[data-message]').data('message')
       $(tip).addClass('ms-popover').popover
         content: message
