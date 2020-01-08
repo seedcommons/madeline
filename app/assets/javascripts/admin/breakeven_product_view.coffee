@@ -18,7 +18,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
 
     @updateDom()
 
-  changed: () ->
+  changed: ->
     @_price = @readFromDom('price')
     @_cost = @readFromDom('cost')
     @_percentageOfSales = @readPercentageOfSalesFromDom()
@@ -59,7 +59,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
   readPercentageOfSalesFromDom: ->
     @readFromDom('percentage-of-sales') / 100
 
-  removeRow: () ->
+  removeRow: ->
     @trigger 'breakevenProductView.removed', @
 
   revenue: ->
