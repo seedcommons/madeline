@@ -3,9 +3,9 @@ class MS.Views.BreakevenProductView extends Backbone.View
   # The view is called from the editiable table view.
 
   events:
-    'change input.price': 'changed'
-    'change input.cost': 'changed'
-    'change input.percentage-of-sales': 'changed'
+    'change input[data-breakeven-item="price"]': 'changed'
+    'change input[data-breakeven-item="cost"]': 'changed'
+    'change input[data-breakeven-item="percentage-of-sales"]': 'changed'
     'click td [data-action="delete"]': 'removeRow'
 
   initialize: (options) ->
@@ -55,12 +55,12 @@ class MS.Views.BreakevenProductView extends Backbone.View
     @readFromDom('percentage-of-sales') / 100
 
   readFromDom: (fieldName) ->
-    value = @$(".#{fieldName}").val()
+    value = @$("[data-breakeven-item='#{fieldName}']").val()
     parseFloat(value)
 
   writeToDom: (fieldName, value) ->
     valueForDom = @getValueForDom(value)
-    @$(".#{fieldName}").val(valueForDom).text(valueForDom)
+    @$("[data-breakeven-item='#{fieldName}']").val(valueForDom).text(valueForDom)
 
   getValueForDom: (value) ->
     if @isValid()
