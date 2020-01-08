@@ -42,8 +42,8 @@
       tbody
         tr.ui-state-default data-group="rampup"
           td
-            input.form-control (name="response_set[#{question.attribute_sym}][breakeven][periods]"
-              type="number" value=data[:periods])
+            input.form-control.form-element (type="number" value=data[:periods]
+              name="response_set[#{question.attribute_sym}][breakeven][periods]")
           td
             = select_tag("response_set[#{question.attribute_sym}][breakeven][units]",
               options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),
