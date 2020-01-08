@@ -3,12 +3,12 @@
   .table-container
     h4.title = t("loan.breakeven.products", count: 2)
 
-    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
+    table.table.table-condensed.table-striped.table-bordered.editable-table.editable-table-fixed data-table="products"
       thead
         tr
-          th.wide-fixed scope="col" = t("loan.breakeven.product_name")
-          th.wide-fixed scope="col" = t("loan.breakeven.description")
-          th.wide-fixed scope="col"
+          th.wide scope="col" = t("loan.breakeven.product_name")
+          th.wide scope="col" = t("loan.breakeven.description")
+          th scope="col"
             = t("loan.breakeven.unit")
             i.fa.ms-tooltip.fa-info-circle data-message=I18n.t('loan.breakeven.placeholders.unit')
           th scope="col" = t("loan.breakeven.price")
@@ -17,7 +17,7 @@
           th scope="col" = t("loan.breakeven.quantity")
           th scope="col" = t("loan.breakeven.revenue")
           th scope="col" = t("loan.breakeven.total_cost")
-          th.narrow-fixed scope="col": .actions: a data-action="add": i.fa.fa-plus-circle
+          th.narrow scope="col": .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
