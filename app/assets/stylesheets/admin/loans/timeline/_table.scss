@@ -37,7 +37,7 @@
     .col {
       // border: 1px solid orange;
       margin-bottom: 1em;
-      min-height: 3em;
+      min-height: 2.5em;
     }
 
     .top-actions a,
@@ -57,7 +57,7 @@
     }
 
     .top-actions {
-      padding-bottom: 15px;
+      // padding-bottom: 15px;
 
       @media (min-width: $media-breakpoint-xl-min) {
         float: right;
