@@ -37,7 +37,6 @@
     $timeline-header-spacing: 0.75em;
 
     .column {
-      // border: 1px solid orange;
       margin-bottom: $timeline-header-spacing;
       min-height: 2.5em;
     }
@@ -59,8 +58,6 @@
     }
 
     .top-actions {
-      // padding-bottom: 15px;
-
       @media (min-width: $media-breakpoint-xl-min) {
         float: right;
         text-align: right;
