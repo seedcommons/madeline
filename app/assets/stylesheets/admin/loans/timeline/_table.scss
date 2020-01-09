@@ -35,32 +35,45 @@
 
   .timeline-header {
     .col {
+      // border: 1px solid orange;
       margin-bottom: 1em;
       min-height: 3em;
     }
 
+    .top-actions a,
+    .batch-actions .btn-group,
+    form.filters select {
+      margin-right: .75em;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    .top-actions,
+    .batch-actions,
+    form.filters {
+      text-align: left;
+    }
+
     .top-actions {
-      float: right;
       padding-bottom: 15px;
 
-      a {
-        margin-left: .75em;
+      @media (min-width: $media-breakpoint-xl-min) {
+        float: right;
+        text-align: right;
       }
     }
 
     .batch-actions {
-      float: left;
-
-      .btn-group {
-        margin-right: .75em;
+      @media (min-width: $media-breakpoint-xl-min) {
+        float: left;
       }
     }
 
     form.filters {
-      text-align: center;
-
-      select {
-        margin-left: .75em;
+      @media (min-width: $media-breakpoint-xl-min) {
+        text-align: center;
       }
     }
   }
