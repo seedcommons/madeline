@@ -8,6 +8,10 @@
     input, select, span {
       margin: 4px;
     }
+
+    input[type="date"].form-control {
+      line-height: inherit;
+    }
   }
 
   .repeat-options {
