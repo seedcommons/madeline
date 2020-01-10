@@ -58,14 +58,14 @@
     }
 
     .top-actions {
-      @media (min-width: $media-breakpoint-xl-min) {
+      @media (min-width: $screen-xl-min) {
         float: right;
         text-align: right;
       }
     }
 
     .batch-actions {
-      @media (min-width: $media-breakpoint-xl-min) {
+      @media (min-width: $screen-xl-min) {
         float: left;
       }
     }
@@ -79,13 +79,13 @@
         }
       }
 
-      @media (min-width: $media-breakpoint-md-min) {
+      @media (min-width: $screen-md-min) {
         select {
           margin-bottom: 0;
         }
       }
 
-      @media (min-width: $media-breakpoint-xl-min) {
+      @media (min-width: $screen-xl-min) {
         text-align: center;
       }
     }
