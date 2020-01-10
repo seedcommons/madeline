@@ -1,9 +1,12 @@
-$media-breakpoint-sm-min: 576px;
-$media-breakpoint-md-min: 768px;
-$media-breakpoint-lg-min: 992px;
-$media-breakpoint-xl-min: 1200px;
+// Bootstrap Breakpoints
+// Most of these variables are pulled in from Bootstrap
 
-$media-breakpoint-xs-max: 575.98px;
-$media-breakpoint-sm-max: 767.98px;
-$media-breakpoint-md-max: 991.98px;
-$media-breakpoint-lg-max: 1199.98px;
+// $screen-sm-min: 576px;
+// $screen-md-min: 768px;
+// $screen-lg-min: 992px;
+$screen-xl-min: 1200px; // Does not exist in version of the Bootstrap being used
+
+// $screen-xs-max: 575.98px;
+// $screen-sm-max: 767.98px;
+// $screen-md-max: 991.98px;
+// $screen-lg-max: 1199.98px;
