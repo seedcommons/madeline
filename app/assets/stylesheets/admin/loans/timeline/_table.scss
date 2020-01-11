@@ -34,6 +34,11 @@
   }
 
   .timeline-header {
+    .col {
+      margin-bottom: 1em;
+      min-height: 3em;
+    }
+
     .top-actions {
       float: right;
       padding-bottom: 15px;
