@@ -73,10 +73,10 @@
     form.filters {
       select {
         margin-bottom: $timeline-header-spacing;
+      }
 
-        &:last-of-type {
-          margin-bottom: 0;
-        }
+      select:last-of-type {
+        margin-bottom: 0;
       }
 
       @media (min-width: $screen-sm-min) {
