@@ -27,6 +27,7 @@ module Accounting
         ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
+        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
       rescue StandardError => error
         delete_qb_data
@@ -39,6 +40,7 @@ module Accounting
         ::Accounting::ProblemLoanTransaction.delete_all
         ::Accounting::Transaction.delete_all
         ::Accounting::Account.delete_all
+        ::Accounting::Customer.delete_all
       end
 
       # Set this division's accounts to nil and return a hash of the QB ids of the removed accounts
