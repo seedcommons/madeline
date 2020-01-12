@@ -4,4 +4,14 @@
       padding-top: 0;
     }
   }
+
+  .transaction-amount {
+    input {
+      width: 10em;
+    }
+
+    .currency {
+      margin-left: 0.5em;
+    }
+  }
 }
