@@ -113,11 +113,12 @@ module Accounting
       end
 
       def types
-        Transaction::QB_OBJECT_TYPES + [Account::QB_OBJECT_TYPE]
+        Transaction::QB_OBJECT_TYPES + [Account::QB_OBJECT_TYPE] + [Customer::QB_OBJECT_TYPE]
       end
 
       def ar_model_for(qb_object_type)
         return Account if Account::QB_OBJECT_TYPE == qb_object_type
+        return Customer if Customer::QB_OBJECT_TYPE == qb_object_type
         Transaction
       end
 
