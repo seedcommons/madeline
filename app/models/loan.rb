@@ -242,6 +242,6 @@ class Loan < Project
     reference_transaction = transactions.by_type(transaction.loan_transaction_type_value).most_recent_first.first
     reference_transaction ||= transactions.by_type([:repayment, :disbursement]).most_recent_first.first
     customer = reference_transaction.customer if reference_transaction.present?
-    customer or Accounting::Customer.find_by(name: organization.name)
+    customer || Accounting::Customer.find_by(name: organization.name)
   end
 end
