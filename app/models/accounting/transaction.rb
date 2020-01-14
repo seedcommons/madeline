@@ -98,6 +98,7 @@ class Accounting::Transaction < ApplicationRecord
       all
     end
   end
+  scope :most_recent_first, -> { order(txn_date: :desc) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
