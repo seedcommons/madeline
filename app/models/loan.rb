@@ -239,17 +239,9 @@ class Loan < Project
   end
 
   def default_accounting_customer_for_transaction(transaction)
-    transactions_with_type = transactions.standard_order.by_type(transaction.loan_transaction_type_value)
-    # first look for transactions with same type and a customer set
-    transactions_to_refer_to = transactions_with_type.select { |t| t.customer.present? }
-    if transactions_to_refer_to.empty?
-      # for example, loan has one disbursement, and one repayment, but no interest txns yet
-      transactions_to_refer_to = transactions.standard_order.select { |t| t.customer.present? }
-    end
-    if transactions_to_refer_to.empty?
-      Accounting::Customer.find_by(name: organization.name)
-    else
-      transactions_to_refer_to.last.customer
-    end
+    reference_transaction = transactions.by_type(transaction.loan_transaction_type_value).most_recent_first.first
+    reference_transaction ||= transactions.by_type([:repayment, :disbursement]).most_recent_first.first
+    customer = reference_transaction.customer if reference_transaction.present?
+    customer or Accounting::Customer.find_by(name: organization.name)
   end
 end
