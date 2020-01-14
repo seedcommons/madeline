@@ -99,6 +99,7 @@ class Accounting::Transaction < ApplicationRecord
     end
   end
   scope :most_recent_first, -> { order(txn_date: :desc) }
+  scope :with_customer, -> { where.not(accounting_customer_id: nil) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
