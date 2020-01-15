@@ -34,33 +34,59 @@
   }
 
   .timeline-header {
-    .col {
-      margin-bottom: 1em;
-      min-height: 3em;
+    $timeline-header-spacing: 0.75em;
+
+    .column {
+      margin-bottom: $timeline-header-spacing;
+      min-height: 2.5em;
+    }
+
+    .top-actions a,
+    .batch-actions .btn-group,
+    form.filters select {
+      margin-right: $timeline-header-spacing;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+    .top-actions,
+    .batch-actions,
+    form.filters {
+      text-align: left;
     }
 
     .top-actions {
-      float: right;
-      padding-bottom: 15px;
-
-      a {
-        margin-left: .75em;
+      @media (min-width: $screen-xl-min) {
+        float: right;
+        text-align: right;
       }
     }
 
     .batch-actions {
-      float: left;
-
-      .btn-group {
-        margin-right: .75em;
+      @media (min-width: $screen-xl-min) {
+        float: left;
       }
     }
 
     form.filters {
-      text-align: center;
-
       select {
-        margin-left: .75em;
+        margin-bottom: $timeline-header-spacing;
+      }
+
+      select:last-of-type {
+        margin-bottom: 0;
+      }
+
+      @media (min-width: $screen-sm-min) {
+        select {
+          margin-bottom: 0;
+        }
+      }
+
+      @media (min-width: $screen-xl-min) {
+        text-align: center;
       }
     }
   }
