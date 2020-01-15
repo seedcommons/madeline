@@ -20,7 +20,7 @@ module Accounting
       end
 
       # set customer if available, leave blank if not
-      def set_customer
+      def extract_customer
         @line_items = txn.quickbooks_data["line_items"]
         li = @line_items.first unless @line_items.empty?
         details = li['journal_entry_line_detail'] if li

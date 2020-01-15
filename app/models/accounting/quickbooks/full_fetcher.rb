@@ -24,8 +24,8 @@ module Accounting
 
       def fetch_qb_data
         started_fetch_at = Time.zone.now
-        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
+        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)

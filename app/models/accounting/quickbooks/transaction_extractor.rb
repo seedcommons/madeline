@@ -14,7 +14,7 @@ module Accounting
         set_type
         extract_account
         set_managed
-        set_customer
+        extract_customer
         set_deltas
         calculate_amount
         add_implicit_line_items
