@@ -16,6 +16,13 @@ table.breakeven-table-rampup {
   }
 }
 
+.breakeven-tables {
+  .table-container {
+    overflow-x: scroll;
+    width: auto;
+  }
+}
+
 .editable-table {
   background: $white;
   margin-top: 1em;
