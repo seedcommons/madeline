@@ -24,10 +24,10 @@ module Accounting
 
       def fetch_qb_data
         started_fetch_at = Time.zone.now
+        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
         ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
         ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
-        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
       rescue StandardError => error
         delete_qb_data
@@ -75,7 +75,6 @@ module Accounting
             Accounting::Account.find_by(qb_id: accounts_qb_ids[:interest_income]),
         )
       end
-
     end
   end
 end

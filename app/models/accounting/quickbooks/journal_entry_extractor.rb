@@ -19,6 +19,19 @@ module Accounting
         txn.managed = txn.loan_transaction_type_value != "other" && (doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic'))
       end
 
+      # set customer if available, leave blank if not
+      def set_customer
+        @line_items = txn.quickbooks_data["line_items"]
+        li = @line_items.first unless @line_items.empty?
+        details = li['journal_entry_line_detail'] if li
+        entity = details['entity'] if details
+        return if entity.nil? || entity['type'] != 'Customer'
+        customer_ref = entity['entity_ref']
+        return if customer_ref.nil?
+        customer_qb_id = customer_ref['value']
+        txn.customer = Accounting::Customer.find_by(qb_id: customer_qb_id)
+      end
+
       private
 
       def txn_type
