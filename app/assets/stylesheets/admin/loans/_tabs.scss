@@ -35,7 +35,7 @@
 }
 
 // Responsive tabs for small screens
-@media (max-width: $screen-xs-max) {
+@media (max-width: $screen-md-max) {
   .nav-tabs {
     display: flex;
     flex-wrap: wrap;
