@@ -11,7 +11,7 @@
 #
 
 class Accounting::Customer < ApplicationRecord
-  has_many :transactions, inverse_of: :customer, foreign_key: :accounting_customer_id
+  has_many :transactions, inverse_of: :customer, foreign_key: :accounting_customer_id, dependent: :nullify
   QB_OBJECT_TYPE = 'Customer'
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     customer = find_or_initialize_by qb_id: qb_object.id
