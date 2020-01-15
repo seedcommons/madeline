@@ -13,7 +13,8 @@
       line-height: inherit;
     }
 
-    input[name="duplication[num_of_occurrences]"] {
+    input[name="duplication[num_of_occurrences]"],
+    input[name="duplication[time_unit_frequency]"] {
       width: 8em;
     }
   }
