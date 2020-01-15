@@ -8,6 +8,15 @@
     input, select, span {
       margin: 4px;
     }
+
+    input[type="date"].form-control {
+      line-height: inherit;
+    }
+
+    input[name="duplication[num_of_occurrences]"],
+    input[name="duplication[time_unit_frequency]"] {
+      width: 8em;
+    }
   }
 
   .repeat-options {
