@@ -32,7 +32,7 @@ class MS.Views.BreakevenProductView extends Backbone.View
     if @isValid()
       value.toFixed()
     else
-        ''
+      ''
 
   isValid: ->
     !isNaN(@revenue()) && !isNaN(@ps())
