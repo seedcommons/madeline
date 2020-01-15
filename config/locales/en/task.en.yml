@@ -46,7 +46,5 @@ en:
       full_fetcher: "Quickbooks Import"
       data_export: "Data Export"
       data_export_task_job: "Data Export"
-      monthly_interest_accrual: "Monthly Interest Accrual"
-      monthly_interest_accrual_job: "Monthly Interest Accrual"
       update_all_loans: "Update All Loans"
       update_all_loans_job: "Update All Loans"
