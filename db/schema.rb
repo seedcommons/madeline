@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(version: 2019_11_27_202532) do
     t.index ["qb_id"], name: "index_accounting_accounts_on_qb_id"
   end
 
+  create_table "accounting_customers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.json "quickbooks_data"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "accounting_line_items", id: :serial, force: :cascade do |t|
     t.integer "accounting_account_id", null: false
     t.integer "accounting_transaction_id", null: false
