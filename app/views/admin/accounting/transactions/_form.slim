@@ -35,7 +35,9 @@
         = format_currency(@transaction.amount, @loan.currency, tooltip: false)
       - else
         = @transaction.amount
-    = f.input_field :amount
+    .transaction-amount.form-element
+      = f.input_field :amount
+      span.currency = @loan.currency.present? ? @loan.currency.try(:code) : ""
 
   = f.input :description
     .view-element = @transaction.description
