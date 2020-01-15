@@ -1,6 +1,5 @@
 .table-responsive.editable-tables.breakeven-tables
-
-  .table-container
+  .table-container.table-responsive
     h4.title = t("loan.breakeven.products", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table.editable-table-fixed data-table="products"
@@ -31,7 +30,7 @@
 
         = render 'admin/loans/questionnaires/breakeven_product_totals', total_fixed_costs: total_fixed_costs, question: question
 
-  .table-container
+  .table-container.table-responsive
     h4.title = t("loan.breakeven.rampup")
 
     table.table.table-condensed.table-striped.table-bordered.editable-table.breakeven-table-rampup data-table="rampup"
@@ -49,7 +48,7 @@
               options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),
               class: "select form-element form-control")
 
-  .table-container
+  .table-container.table-responsive
     h4.title = t("loan.breakeven.fixed_costs", count: 2)
 
     table.table.table-condensed.table-striped.table-bordered.editable-table data-table="fixed_costs"
