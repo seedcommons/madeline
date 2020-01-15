@@ -2,10 +2,11 @@ class UpdateAllLoansJob < TaskJob
   def perform(_job_params)
     task = task_for_job(self)
     errors_by_loan = []
-    loans = Loan.all
+    divisions = Division.qb_accessible_divisions
+    loans = divisions.map { |i| i.loans.active }.flatten.compact
     updater = Accounting::Quickbooks::Updater.new
-    task.set_activity_message("syncing_with_quickbooks")
     updater.qb_sync_for_loan_update
+    task.set_activity_message("syncing_with_quickbooks")
     loans.each_with_index do |loan, index|
       task.set_activity_message("updating_all_loans", {so_far: (index), total: loans.count})
       begin

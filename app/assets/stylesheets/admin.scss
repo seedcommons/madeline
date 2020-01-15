@@ -9,6 +9,7 @@
 
 // Our styles
 @import "admin/colors"; // Colors and variables should be loaded first.
+@import "admin/breakpoints";
 @import "admin/variables";
 @import "admin/layout"; // May be necessary to import layout first, not sure.
 @import "admin/**/*";
