@@ -66,7 +66,7 @@ class Accounting::Transaction < ApplicationRecord
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
-  belongs_to :customer, foreign_key: :accounting_customer_id
+  belongs_to :customer, inverse_of: :transactions, foreign_key: :accounting_customer_id
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
