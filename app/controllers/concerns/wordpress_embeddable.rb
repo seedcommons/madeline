@@ -17,7 +17,7 @@ module WordpressEmbeddable
 
   def update
     skip_authorization
-    update_template
+    check_template
     redirect_to controller: "loans", action: "index", site: params[:site]
   end
 

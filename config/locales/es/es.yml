@@ -5,6 +5,7 @@ es:
     fr: Francés
   activerecord:
     models:
+      data_export: "Exportación de los Datos"
       media: "Fotos"
       log: "Apunte"
       organization: "Organización"
@@ -23,6 +24,7 @@ es:
       data_export:
         created_at: "Creado"
         end_date: "Fecha de Finalización de Exportación de los Datos"
+        locale_code: "Idioma"
         name: "Nombre"
         start_date: "Fecha de Inicio de Exportación de los Datos"
       division:
