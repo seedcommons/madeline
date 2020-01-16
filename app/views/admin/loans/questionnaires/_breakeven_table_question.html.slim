@@ -1,21 +1,22 @@
-.table-responsive.editable-tables.breakeven-tables
-
+.editable-tables.breakeven-tables
   .table-container
     h4.title = t("loan.breakeven.products", count: 2)
 
-    table.table.table-condensed.table-striped.table-bordered.editable-table data-table="products"
+    table.table.table-condensed.table-striped.table-bordered.editable-table.editable-table-fixed data-table="products"
       thead
         tr
-          th = t("loan.breakeven.product_name")
-          th.wide = t("loan.breakeven.description")
-          th = t("loan.breakeven.unit")
-          th = t("loan.breakeven.price")
-          th = t("loan.breakeven.cost")
-          th = t("loan.breakeven.percentage_of_sales")
-          th = t("loan.breakeven.quantity")
-          th = t("loan.breakeven.revenue")
-          th = t("loan.breakeven.total_cost")
-          th.narrow: .actions: a data-action="add": i.fa.fa-plus-circle
+          th.wide scope="col" = t("loan.breakeven.product_name")
+          th.wide scope="col" = t("loan.breakeven.description")
+          th scope="col"
+            = t("loan.breakeven.unit")
+            i.fa.ms-tooltip.fa-info-circle data-message=I18n.t('loan.breakeven.placeholders.unit')
+          th scope="col" = t("loan.breakeven.price")
+          th scope="col" = t("loan.breakeven.cost")
+          th scope="col" = t("loan.breakeven.percentage_of_sales")
+          th scope="col" = t("loan.breakeven.quantity")
+          th scope="col" = t("loan.breakeven.revenue")
+          th scope="col" = t("loan.breakeven.total_cost")
+          th.narrow scope="col": .actions: a data-action="add": i.fa.fa-plus-circle
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
@@ -40,8 +41,8 @@
       tbody
         tr.ui-state-default data-group="rampup"
           td
-            input (name="response_set[#{question.attribute_sym}][breakeven][periods]"
-              type="number" value=data[:periods])
+            input.form-control.form-element (type="number" value=data[:periods]
+              name="response_set[#{question.attribute_sym}][breakeven][periods]")
           td
             = select_tag("response_set[#{question.attribute_sym}][breakeven][units]",
               options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),

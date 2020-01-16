@@ -50,7 +50,7 @@ feature 'transaction flow', :accounting do
         visit "/admin/loans/#{loan.id}/transactions"
         fill_txn_form(omit_amount: true)
         page.find('a[data-action="submit"]').click
-        expect(page).to have_content("Amount can't be blank")
+        expect(page).to have_content("Amount #{loan.currency.code} can't be blank")
       end
 
       scenario 'with qb error during Updater' do
@@ -85,7 +85,7 @@ feature 'transaction flow', :accounting do
     click_on 'Add Transaction'
     select 'Disbursement', from: 'Type of Transaction'
     fill_in 'Date', with: Date.today.to_s
-    fill_in 'Amount', with: '12.34' unless omit_amount
+    fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
     select customers.sample.name, from: 'Quickbooks Customer'
     fill_in 'Description', with: 'Palm trees'
