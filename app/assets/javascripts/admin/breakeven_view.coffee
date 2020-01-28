@@ -6,6 +6,7 @@ class MS.Views.BreakevenView extends Backbone.View
     'change .editable-table[data-table="fixed_costs"] input.amount': 'totalFixedCostsChanged'
 
   initialize: (e) ->
+    @prepTooltips()
     tables = @$('.editable-table').map (index, table) =>
       new MS.Views.EditableTableView(el: table)
 
@@ -57,3 +58,13 @@ class MS.Views.BreakevenView extends Backbone.View
         @products.splice(index,1)
 
     @totalFixedCostsChanged()
+
+  prepTooltips: ->
+    @$('.ms-tooltip').each (index, tip) ->
+      message = $(tip).closest('[data-message]').data('message')
+      $(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: 'right'
+        toggle: 'popover'
+        trigger: 'manual'

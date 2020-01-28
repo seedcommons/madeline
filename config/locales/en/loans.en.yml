@@ -133,6 +133,7 @@ en:
       net_margin: "Net Margin"
       placeholders:
         unit: "E.g. liters, bushels, items"
+        unit_short: "unit name"
       price: "Price"
       product: "Product"
       products: "Products"
@@ -155,7 +156,7 @@ en:
       rampup: "Rampup"
       units: "Unit of Periods"
       periods: "Periods to Breakeven"
-      percentage_of_sales: "% of Volume"
+      percentage_of_sales: "Percent of Volume"
       total_cost: "Total Cost"
 
     breakeven_rampup:

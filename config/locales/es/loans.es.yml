@@ -131,6 +131,7 @@ es:
       net_margin: "Margen Neto"
       placeholders:
         unit: "Por ej., litros, kg, ítems"
+        unit_short: "nombre de unidad"
       price: "Precio"
       product: "Producto"
       products: "Productos"
@@ -153,7 +154,7 @@ es:
       rampup: "Período de Amortización"
       units: "Unidad de los Períodos"
       periods: "Períodos hasta el Punto de Equilibrio"
-      percentage_of_sales: "% de Volumen "
+      percentage_of_sales: "Porcentaje de Volumen"
       total_cost: "Costo Total"
     breakeven_rampup:
       cost_of_goods: "Costo de los Bienes Vendidos"
