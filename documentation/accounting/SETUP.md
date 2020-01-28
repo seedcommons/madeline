@@ -13,7 +13,7 @@ At this time, Madeline only supports accounting with the quickbooks app set up b
 1. You will see sandbox companies. Click `Go to company` for the one you want to use.
 1. A new window will open for a sandbox version of QuickBooks.
 
-#### Adjust Company account settings
+#### Adjust company account settings
 1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
 1. Click on the gear icon to the upper right.
 1. Click on `Company Settings`.
@@ -21,6 +21,15 @@ At this time, Madeline only supports accounting with the quickbooks app set up b
 1. Make sure `Track classes` is enabled with `One to each row in transaction` selected in `Assign classes`.
 1. Make sure `Track locations` is enabled with `Location label` set to `Division`.
 
+#### Set Up Required Class
+
+1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
+1. Click on the gear icon to the upper right.
+1. Click on `All Lists` under the `Lists` section.
+1. Click on `Classes`.
+1. Click `New` to open the new class form.
+1. In the form, add `Loan Products` inside the `Name` field.
+1. Click `Save`.
 
 #### Create QuickBooks accounts inside the app's sandbox
 1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
@@ -61,7 +70,7 @@ At this time, Madeline only supports accounting with the quickbooks app set up b
 1. Inside the project dashboard, click on the `Keys` tab.
 1. Copy the OAuth Consumer Key and OAuth Consumer Secret into your `.env` file inside your Madeline environment. Use `.env.example` as a template.
 
-#### Authorize redirect URI for your development environment 
+#### Authorize redirect URI for your development environment
 Oauth2 on Quickbooks requires that redirect URIs be whitelisted. So far, we have had the most luck with setting up our development server to use https and a domain name like madeline.test.
 1. In the Quickbooks development interface, navigate to the app, then to Development - Keys & Oauth2.
 1. Under redirect URIs, add your development uri followed by `/admin/accounting-settings` (e.g. `https://madeline.test/admin/accounting-settings`)
