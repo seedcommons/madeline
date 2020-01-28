@@ -1,7 +1,7 @@
 - link_params = { project_id: project.id }
 
 header.timeline-header.row
-  .col-sm-4
+  .column.col-xs-12.col-sm-12.col-md-4.col-lg-4
     form accept-charset="UTF-8" method="post"
       input name="_method" type="hidden"
       = hidden_field_tag :authenticity_token, form_authenticity_token
@@ -32,7 +32,7 @@ header.timeline-header.row
           / Once the old timeline list goes away, the modal_id can be removed.
           = render "admin/timeline/batch_actions", modal_id: 'adjust-dates-modal'
 
-  .col-sm-4
+  .column.col-xs-12.col-sm-12.col-md-8.col-lg-4
     form.form-inline.filters
       = select_tag :type,
         options_for_select(@type_options),
@@ -44,7 +44,7 @@ header.timeline-header.row
         include_blank: I18n.t("project_step.all_completion_statuses"),
         class: "form-control"
 
-  .col-sm-4
+  .column.col-xs-12.col-sm-12.col-md-12.col-lg-4
     .item.top-actions
       a.btn.btn-default.timeline-action data-action="new-group" href="#" = t(".new_group")
       a.btn.btn-primary.timeline-action data-action="new-step" href="#" = t(".new_step")
