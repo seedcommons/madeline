@@ -306,5 +306,43 @@ describe Loan, type: :model do
         end
       end
     end
+
+    describe 'default quickbooks customer for transaction' do
+      let(:customer_a) { create(:customer) }
+      let(:customer_b) { create(:customer) }
+      let(:new_transaction) { build(:accounting_transaction, loan_transaction_type_value: :interest) }
+
+      context "existing txns of same type with a customer" do
+        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 2.days, loan_transaction_type_value: :interest) }
+        let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a, txn_date: Time.zone.today - 1.day, loan_transaction_type_value: :interest) }
+        let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today, loan_transaction_type_value: :other) }
+        it 'assigns customer that most recent txn of same type has' do
+          expect(loan.default_accounting_customer_for_transaction(new_transaction)).to eql customer_a
+        end
+      end
+
+      context "existing txns only of a different type" do
+        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 3.days, loan_transaction_type_value: :disbursement) }
+        let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a, txn_date: Time.zone.today - 2.days, loan_transaction_type_value: :repayment) }
+        let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 1.day, loan_transaction_type_value: :other) }
+        it 'assigns customer that most recent txn of repayment or disbursement type that has a customer' do
+          expect(loan.default_accounting_customer_for_transaction(new_transaction)).to eql customer_a
+        end
+      end
+
+      context "no repayment, disbursement, or same type txns on loan but loans organization matches a customer" do
+        let!(:txn) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 1.day, loan_transaction_type_value: :other) }
+        let!(:customer_match) { create(:customer, name: loan.organization.name) }
+        it "returns customer with matching name" do
+          expect(loan.default_accounting_customer_for_transaction(new_transaction)).to eql customer_match
+        end
+      end
+
+      context "no txns on loan and loan organization does not match a customer" do
+        it "returns nil" do
+          expect(loan.default_accounting_customer_for_transaction(new_transaction)).to eql nil
+        end
+      end
+    end
   end
 end

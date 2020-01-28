@@ -22,6 +22,14 @@
     .view-element = ldate(@transaction.txn_date)
     = f.input_field :txn_date, as: :date_picker
 
+
+  .form-element
+    = f.association :customer, collection: @customers
+  .view-element
+    = f.input :customer
+      - if @transaction.customer
+        = @transaction.customer.name
+
   .form-element
     = f.association :account, collection: @accounts
   .view-element
@@ -35,7 +43,9 @@
         = format_currency(@transaction.amount, @loan.currency, tooltip: false)
       - else
         = @transaction.amount
-    = f.input_field :amount
+    .transaction-amount.form-element
+      = f.input_field :amount
+      span.currency = @loan.currency.present? ? @loan.currency.try(:code) : ""
 
   = f.input :description
     .view-element = @transaction.description

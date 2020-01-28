@@ -33,7 +33,7 @@ module Accounting
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
-        qb_customer_ref = customer_reference(transaction.project.organization)
+        qb_customer_ref = customer_reference(transaction)
         qb_department_ref = department_reference(transaction.project)
 
         # We use the journal entry class field to store the loan ID.
@@ -62,8 +62,9 @@ module Accounting
 
       private
 
-      def customer_reference(organization)
-        Customer.new(organization: organization, qb_connection: qb_connection).reference
+      def customer_reference(transaction)
+        ensure_accounting_customer_set(transaction)
+        transaction.customer.reference
       end
 
       def department_reference(loan)
@@ -111,6 +112,17 @@ module Accounting
         # QB api requires the parent class id to be an integer even tho elsewhere it is treated as str
         qb_class.parent_ref = ::Quickbooks::Model::BaseReference.new(qb_division.qb_parent_class_id.to_i)
         class_service.create(qb_class)
+      end
+
+      # a transaction does not need a customer unless/until it is built for quickbooks
+      # a txn can be created multiple ways (e.g. by user, interest calculator, qb import)
+      # and at various points the customer is not available to set anyway
+      # so we do this ensure step here in the one place it's needed and where the last
+      # fallback options that involve retrieving or creating a customer via quickbooks is doable.
+      def ensure_accounting_customer_set(transaction)
+        return if transaction.customer.present?
+        customer = transaction.project.default_accounting_customer_for_transaction(transaction) || CustomerBuilder.new(qb_division).new_accounting_customer_for(transaction.project.organization)
+        transaction.update(customer: customer)
       end
 
       def set_journal_number(txn)

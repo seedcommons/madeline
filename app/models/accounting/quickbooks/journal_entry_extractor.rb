@@ -42,7 +42,7 @@ module Accounting
       def credit_or_zero_debit_to(account)
         return true if line_items_include_credit_to_acct(account)
         li = line_items.find { |i| i.account == account }
-        li.amount == 0
+        li && li.amount == 0
       end
 
       def line_items_include_debit_to_acct(account)

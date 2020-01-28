@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_202532) do
+ActiveRecord::Schema.define(version: 2019_12_12_213304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(version: 2019_11_27_202532) do
     t.json "quickbooks_data"
     t.datetime "updated_at", null: false
     t.index ["qb_id"], name: "index_accounting_accounts_on_qb_id"
+  end
+
+  create_table "accounting_customers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.json "quickbooks_data"
+    t.datetime "updated_at", null: false
   end
 
   create_table "accounting_line_items", id: :serial, force: :cascade do |t|
@@ -63,6 +71,7 @@ ActiveRecord::Schema.define(version: 2019_11_27_202532) do
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
     t.integer "accounting_account_id"
+    t.string "accounting_customer_id"
     t.decimal "amount"
     t.decimal "change_in_interest", precision: 15, scale: 2
     t.decimal "change_in_principal", precision: 15, scale: 2

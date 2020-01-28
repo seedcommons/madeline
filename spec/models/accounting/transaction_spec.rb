@@ -3,6 +3,7 @@
 # Table name: accounting_transactions
 #
 #  accounting_account_id       :integer
+#  accounting_customer_id      :string
 #  amount                      :decimal(, )
 #  change_in_interest          :decimal(15, 2)
 #  change_in_principal         :decimal(15, 2)

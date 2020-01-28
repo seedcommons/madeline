@@ -218,6 +218,7 @@ es:
         amount: "Monto"
         change_in_interest: "Cambio en el interés"
         change_in_principal: "Cambio en el capital principal"
+        customer: "Cliente de QuickBooks"
         description: "Descripción"
         interest_balance: "Saldo del interés"
         loan_transaction_type_value: "Tipo de Transacción"

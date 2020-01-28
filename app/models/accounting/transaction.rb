@@ -3,6 +3,7 @@
 # Table name: accounting_transactions
 #
 #  accounting_account_id       :integer
+#  accounting_customer_id      :string
 #  amount                      :decimal(, )
 #  change_in_interest          :decimal(15, 2)
 #  change_in_principal         :decimal(15, 2)
@@ -65,6 +66,7 @@ class Accounting::Transaction < ApplicationRecord
 
   belongs_to :account, inverse_of: :transactions, foreign_key: :accounting_account_id
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
+  belongs_to :customer, inverse_of: :transactions, foreign_key: :accounting_customer_id
   belongs_to :currency
 
   attr_option_settable :loan_transaction_type
@@ -96,6 +98,8 @@ class Accounting::Transaction < ApplicationRecord
       all
     end
   end
+  scope :most_recent_first, -> { order(txn_date: :desc) }
+  scope :with_customer, -> { where.not(accounting_customer_id: nil) }
 
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
@@ -161,10 +165,7 @@ class Accounting::Transaction < ApplicationRecord
     calculate_deltas
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
-
-    # as in https://redmine.sassafras.coop/issues/7703, testing this would take time
-    # it could be added as a future TODO
-    if total_balance < 0 && !Rails.env.test?
+    if managed && total_balance < 0 && !Rails.env.test?
       raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
     end
   end
