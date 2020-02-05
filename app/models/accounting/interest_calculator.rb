@@ -51,6 +51,7 @@ module Accounting
     attr_reader :loan, :prin_acct, :int_rcv_acct, :int_inc_acct
 
     def initialize(loan)
+      @closed_books_date = Time.zone.now.beginning_of_year# (Time.zone.now - 1.year).beginning_of_year
       @loan = loan
       @prin_acct = qb_division.principal_account
       @int_rcv_acct = qb_division.interest_receivable_account
@@ -94,47 +95,15 @@ module Accounting
           if tx.managed?
             case tx.loan_transaction_type_value
               when "interest"
-                tx.amount = accrued_interest(prev_tx, tx)
-                line_item_for(tx, int_rcv_acct).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, int_inc_acct).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount
-                )
-
+                update_interest_txn(prev_tx, tx, int_rcv_acct)
               when "disbursement"
-                line_item_for(tx, prin_acct).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, tx.account).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount
-                )
-
+                update_disbursement_txn(tx, prin_acct)
               when "repayment"
-                int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-                line_item_for(tx, tx.account).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, prin_acct).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount - int_part
-                )
-                line_item_for(tx, int_rcv_acct).assign_attributes(
-                  qb_line_id: 2,
-                  posting_type: "Credit",
-                  amount: int_part
-                )
+                update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
+            end
+
+            if changed?(tx) && tx.txn_date <= @closed_books_date
+              record_and_rollback_changes(tx)
             end
 
             # Since we may have just adjusted line items upon which the change_in_principal and
@@ -170,6 +139,65 @@ module Accounting
     private
 
     delegate :qb_division, to: :loan
+
+    def record_and_rollback_changes(tx)
+      puts "RECORD AND ROLLBACK"
+      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: tx, error_message: :attemped_change_before_closed_books_date)
+      new_line_items = tx.line_items.select(&:new_record?)
+      new_line_items.each { |li| tx.line_items.delete(li) }
+      tx.line_items.each(&:restore_attributes)
+      tx.restore_attributes
+    end
+
+    def changed?(tx)
+      tx.changed? || tx.line_items.any? { |li| li.changed? || li.new_record? }
+    end
+
+    def update_interest_txn(prev_tx, tx, int_rcv_acct)
+      tx.amount = accrued_interest(prev_tx, tx)
+      line_item_for(tx, int_rcv_acct).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: tx.amount
+      )
+      line_item_for(tx, int_inc_acct).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: tx.amount
+      )
+    end
+
+    def update_disbursement_txn(tx, prin_acct)
+      line_item_for(tx, prin_acct).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: tx.amount
+      )
+      line_item_for(tx, tx.account).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: tx.amount
+      )
+    end
+
+    def update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
+      int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
+      line_item_for(tx, tx.account).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: tx.amount
+      )
+      line_item_for(tx, prin_acct).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: tx.amount - int_part
+      )
+      line_item_for(tx, int_rcv_acct).assign_attributes(
+        qb_line_id: 2,
+        posting_type: "Credit",
+        amount: int_part
+      )
+    end
 
     def transactions
       @transactions ||= loan.transactions.standard_order.to_a
@@ -207,7 +235,7 @@ module Accounting
     def add_int_tx?(txs, prev_tx)
       return true if txs.nil?
       if txs
-       return true if prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+        return true if prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
       end
     end
   end
