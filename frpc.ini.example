@@ -1,0 +1,9 @@
+[common]
+server_addr = frp.example.coop
+server_port = 7000
+token = your secret token
+
+[madeline - edit me]
+type = http
+local_port = 3000
+subdomain = madeline - edit me

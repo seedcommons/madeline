@@ -46,6 +46,19 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
+  def update_all
+    authorize ::Accounting::Transaction, :update?
+    @task = Task.create(
+      job_class: UpdateAllLoansJob,
+      job_type_value: 'update_all_loans',
+      activity_message_value: 'task_enqueued'
+    ).enqueue
+
+    flash[:notice] = t("admin.loans.transactions.update_queued_html", url: admin_task_path(@task))
+
+    redirect_back(fallback_location: admin_loans_path)
+  end
+
   private
 
   # Saves transaction record and runs updater.

@@ -32,6 +32,7 @@ config/initializers/local_config.rb
 coverage/
 .byebug_history
 .env
+frpc.ini
 ~$*
 frpc.ini
 

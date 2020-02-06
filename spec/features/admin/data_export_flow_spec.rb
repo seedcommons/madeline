@@ -25,6 +25,7 @@ feature 'data export flow' do
     expect(page).to have_content "#{Time.zone.today.year} 12:00 AM" # end time
     expect(page).to have_title "Test"
     expect(page).to have_content "Associated Task"
+    screenshot_and_save_page
     click_on "1" # link to task show
     expect(page).to have_content "Data Export Task"
     saved_data_export = DataExport.first
