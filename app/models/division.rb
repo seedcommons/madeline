@@ -6,6 +6,7 @@
 #  accent_main_color              :string
 #  banner_bg_color                :string
 #  banner_fg_color                :string
+#  closed_books_date              :date
 #  created_at                     :datetime         not null
 #  currency_id                    :integer
 #  custom_data                    :json

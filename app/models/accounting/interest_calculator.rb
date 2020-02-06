@@ -51,11 +51,11 @@ module Accounting
     attr_reader :loan, :prin_acct, :int_rcv_acct, :int_inc_acct
 
     def initialize(loan)
-      @closed_books_date = Time.zone.now.beginning_of_year# (Time.zone.now - 1.year).beginning_of_year
       @loan = loan
       @prin_acct = qb_division.principal_account
       @int_rcv_acct = qb_division.interest_receivable_account
       @int_inc_acct = qb_division.interest_income_account
+      @closed_books_date = qb_division.closed_books_date || "1900-01-01" # default until required in accounting settings
     end
 
     def recalculate
@@ -63,7 +63,7 @@ module Accounting
 
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first&.txn_date
-      last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
+      last_date = loan.status_value == 'active' ? Time.zone.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
       last_day_in_months = month_boundaries(first_date, last_date)
@@ -97,6 +97,7 @@ module Accounting
               when "interest"
                 update_interest_txn(prev_tx, tx, int_rcv_acct)
               when "disbursement"
+                # this is where disbursements newly created in Madeline get their line items set up
                 update_disbursement_txn(tx, prin_acct)
               when "repayment"
                 update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
@@ -233,10 +234,20 @@ module Accounting
     end
 
     def add_int_tx?(txs, prev_tx)
-      return true if txs.nil?
-      if txs
-        return true if prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+      if txs.nil? # this is an end of month day with no txns
+        if prev_tx.txn_date > @closed_books_date
+          return true
+        else
+          ::Accounting::ProblemLoanTransaction.create(transaction: prev_tx, error: :no_end_of_month_int_txn_before_closed_books_date)
+        end
+      elsif prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+        if prev_tx.txn_date > @closed_books_date
+          return true
+        else
+          ::Accounting::ProblemLoanTransaction.create(transaction: prev_tx, error: :attempted_new_int_txn_before_closed_books_date)
+        end
       end
+      false
     end
   end
 end

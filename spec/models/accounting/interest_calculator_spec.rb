@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
-  let!(:division) { create(:division, :with_accounts) }
+  let!(:division) { create(:division, :with_accounts, closed_books_date: "2016-01-01") }
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
 
