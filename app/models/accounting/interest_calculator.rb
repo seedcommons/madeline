@@ -141,58 +141,58 @@ module Accounting
 
     delegate :qb_division, to: :loan
 
-    def record_and_rollback_changes(tx)
-      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: tx, error_message: :attemped_change_before_closed_books_date)
-      new_line_items = tx.line_items.select(&:new_record?)
-      new_line_items.each { |li| tx.line_items.delete(li) }
-      tx.line_items.each(&:restore_attributes)
-      tx.restore_attributes
+    def record_and_rollback_changes(txn)
+      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, error_message: :attemped_change_before_closed_books_date)
+      new_line_items = txn.line_items.select(&:new_record?)
+      new_line_items.each { |li| txn.line_items.delete(li) }
+      txn.line_items.each(&:restore_attributes)
+      txn.restore_attributes
     end
 
-    def changed?(tx)
-      tx.changed? || tx.line_items.any? { |li| li.changed? || li.new_record? }
+    def changed?(txn)
+      txn.changed? || txn.line_items.any? { |li| li.changed? || li.new_record? }
     end
 
-    def update_interest_txn(prev_tx, tx, int_rcv_acct)
-      tx.amount = accrued_interest(prev_tx, tx)
-      line_item_for(tx, int_rcv_acct).assign_attributes(
+    def update_interest_txn(prev_txn, txn, int_rcv_acct)
+      txn.amount = accrued_interest(prev_txn, txn)
+      line_item_for(txn, int_rcv_acct).assign_attributes(
         qb_line_id: 0,
         posting_type: "Debit",
-        amount: tx.amount
+        amount: txn.amount
       )
-      line_item_for(tx, int_inc_acct).assign_attributes(
+      line_item_for(txn, int_inc_acct).assign_attributes(
         qb_line_id: 1,
         posting_type: "Credit",
-        amount: tx.amount
+        amount: txn.amount
       )
     end
 
-    def update_disbursement_txn(tx, prin_acct)
-      line_item_for(tx, prin_acct).assign_attributes(
+    def update_disbursement_txn(txn, prin_acct)
+      line_item_for(txn, prin_acct).assign_attributes(
         qb_line_id: 0,
         posting_type: "Debit",
-        amount: tx.amount
+        amount: txn.amount
       )
-      line_item_for(tx, tx.account).assign_attributes(
+      line_item_for(txn, txn.account).assign_attributes(
         qb_line_id: 1,
         posting_type: "Credit",
-        amount: tx.amount
+        amount: txn.amount
       )
     end
 
-    def update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
-      int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-      line_item_for(tx, tx.account).assign_attributes(
+    def update_repayment_txn(txn, prev_txn, prin_acct, int_rcv_acct)
+      int_part = [txn.amount, prev_txn.try(:interest_balance) || 0].min
+      line_item_for(txn, txn.account).assign_attributes(
         qb_line_id: 0,
         posting_type: "Debit",
-        amount: tx.amount
+        amount: txn.amount
       )
-      line_item_for(tx, prin_acct).assign_attributes(
+      line_item_for(txn, prin_acct).assign_attributes(
         qb_line_id: 1,
         posting_type: "Credit",
-        amount: tx.amount - int_part
+        amount: txn.amount - int_part
       )
-      line_item_for(tx, int_rcv_acct).assign_attributes(
+      line_item_for(txn, int_rcv_acct).assign_attributes(
         qb_line_id: 2,
         posting_type: "Credit",
         amount: int_part
