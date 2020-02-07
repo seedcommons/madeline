@@ -142,7 +142,6 @@ module Accounting
     delegate :qb_division, to: :loan
 
     def record_and_rollback_changes(tx)
-      puts "RECORD AND ROLLBACK"
       ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: tx, error_message: :attemped_change_before_closed_books_date)
       new_line_items = tx.line_items.select(&:new_record?)
       new_line_items.each { |li| tx.line_items.delete(li) }
