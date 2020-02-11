@@ -69,8 +69,14 @@ section.block
         = f.input :interest_receivable_account_id, collection: @accounts
         = f.input :interest_income_account_id, collection: @accounts
 
+        h2 = t("division.closed_books_date")
+        p.help-block.note = t("quickbooks.closed_books_date.note")
+        
+        = f.input :closed_books_date, as: :date_picker
+
         .text-right
           = f.submit t(:save), class: "btn btn-primary"
+
 
   section.alert.alert-warning
     = t('quickbooks.class_location_notice')

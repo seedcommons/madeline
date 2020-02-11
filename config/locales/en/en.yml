@@ -41,6 +41,7 @@ en:
         banner_bg_color: "Banner BG Color"
         accent_main_color: "Accent Color"
         accent_fg_color: "Accent FG Text Color"
+        closed_books_date: "Closed Books Date"
         connection_status: "QuickBooks Status"
         connect: "Connect to QuickBooks"
         last_updated_at: "QuickBooks Data Last Imported"
