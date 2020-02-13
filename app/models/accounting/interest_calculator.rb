@@ -150,7 +150,7 @@ module Accounting
     end
 
     def changed?(txn)
-      txn.changed? || txn.line_items.any? { |li| li.changed? || li.new_record? }
+      txn.changed? || txn.line_items.any?(&:type_or_amt_changed?)
     end
 
     def update_interest_txn(prev_txn, txn, int_rcv_acct)
