@@ -36,7 +36,7 @@ module Accounting
         qb_customer = ::Quickbooks::Model::Customer.new
         qb_customer.display_name = qb_display_name
         new_qb_customer = service.create(qb_customer)
-        Accounting::Customer.create_or_update_from_qb_object!('Customer', new_qb_customer)
+        Accounting::Customer.create_or_update_from_qb_object!(qb_object_type: 'Customer', qb_object: new_qb_customer)
       end
     end
   end
