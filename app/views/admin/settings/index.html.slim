@@ -52,6 +52,8 @@ section.block
           ipp:connectToIntuit
 
 - if @division.quickbooks_connected? && @fetch_task && @fetch_task.succeeded?
+  - form_identifier = 'accounting_settings'
+  - popover_options = {placement: 'right'}
   - if @accounts && !@accounts.empty?
     section.block
       h2 = t("quickbooks.accounts.accounts")
@@ -68,8 +70,10 @@ section.block
         = f.input :principal_account_id, collection: @accounts
         = f.input :interest_receivable_account_id, collection: @accounts
         = f.input :interest_income_account_id, collection: @accounts
-
-        h2 = t("division.closed_books_date")
+        .title-with-popover
+          h2 = t("division.closed_books_date")
+          = documentation_popover(@documentations_by_html,
+            html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
         p.help-block.note = t("quickbooks.closed_books_date.note")
 
         = f.input :closed_books_date, as: :date_picker
