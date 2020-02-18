@@ -178,6 +178,10 @@ en:
           type: "Type"
     errors:
       models:
+        accounting/transaction:
+            attributes:
+              txn_date:
+                closed_books_date: "Date must be after the Closed Books Date in Accounting Settings."
         basic_project:
           attributes:
             primary_agent:

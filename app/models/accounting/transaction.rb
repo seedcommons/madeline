@@ -77,6 +77,8 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
+  validate :respect_closed_books_date
+
 
   delegate :division, :qb_division, to: :project
 
@@ -193,6 +195,10 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   private
+  def respect_closed_books_date
+    return if txn_date > division.closed_books_date
+    errors.add(:txn_date, :closed_books_date)
+  end
 
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
