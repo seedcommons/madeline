@@ -37,7 +37,7 @@ RSpec.describe Accounting::Quickbooks::AccountFetcher, type: :model do
       let!(:qb_account) { instance_double(Quickbooks::Model::Account, id: 333, name: name, classification: classification) }
 
       it 'should create Accounting::Account record' do
-        expect { fetcher.fetch  }.to change { Accounting::Account.all.count }.by(1)
+        expect { subject }.to change { Accounting::Account.all.count }.by(1)
       end
     end
 
