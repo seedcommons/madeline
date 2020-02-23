@@ -30,7 +30,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
 
-
     # the txn model must be able to create managed txns before
     # the closed books date that are imported from qb (e.g. from full fetcher)
     # but user should not be able to create

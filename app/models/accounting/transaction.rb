@@ -193,11 +193,6 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   private
-  def respect_closed_books_date
-    return if txn_date > division.closed_books_date
-    errors.add(:txn_date, :closed_books_date)
-  end
-
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
   # which is increased by a credit, a negative number indicates the account is increasing.
