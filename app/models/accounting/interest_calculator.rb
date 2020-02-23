@@ -237,7 +237,7 @@ module Accounting
         if prev_tx.txn_date > @closed_books_date
           return true
         else
-          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.loan, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, level: :warning)
+          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, level: :warning)
         end
       elsif prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
         if prev_tx.txn_date > @closed_books_date

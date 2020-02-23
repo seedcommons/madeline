@@ -70,6 +70,7 @@ class Loan < Project
 
   delegate :name, :country, :postal_code, to: :organization, prefix: :coop
   delegate :name, to: :division, prefix: true
+  delegate :closed_books_date, to: :division
 
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols

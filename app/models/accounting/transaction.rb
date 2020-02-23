@@ -77,7 +77,6 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
-  validate :respect_closed_books_date, if: :managed?
 
 
   delegate :division, :qb_division, to: :project
