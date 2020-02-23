@@ -30,10 +30,13 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
 
-    # the txn model must be able to save managed txns before
-    # the closed books date that are imported from qb
+
+    # the txn model must be able to create managed txns before
+    # the closed books date that are imported from qb (e.g. from full fetcher)
     # but user should not be able to create
-    # a txn before the closed book date via the Madeline interface
+    # a txn before the closed book date via the Madeline interface.
+    # bc there is no way to distinguish Madeline-created from qb-imported
+    # at model level, we do this check here.
     unless respects_closed_books_date(@transaction)
       @transaction.errors.add(:txn_date, :closed_books_date)
       prep_transaction_form
