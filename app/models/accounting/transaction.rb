@@ -78,7 +78,6 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
 
-
   delegate :division, :qb_division, to: :project
 
   scope :standard_order, -> {

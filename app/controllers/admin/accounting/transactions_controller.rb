@@ -29,12 +29,18 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
+
+    # the txn model must be able to save managed txns before
+    # the closed books date that are imported from qb
+    # but user should not be able to create
+    # a txn before the closed book date via the Madeline interface
     unless respects_closed_books_date(@transaction)
       @transaction.errors.add(:txn_date, :closed_books_date)
       prep_transaction_form
       render_modal_partial(status: 422)
       return
     end
+
     @transaction.managed = true
     @transaction.currency_id = @loan.currency_id
     process_transaction_and_handle_errors
@@ -53,10 +59,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   private
 
-  # the txn model must be able to save managed txns before
-  # the closed books date that are imported from qb
-  # but should error if user is trying to create
-  # a txn before the qb date via the Madeline interface
   def respects_closed_books_date(txn)
     txn.project.closed_books_date.nil? || (txn.txn_date > txn.project.closed_books_date)
   end
