@@ -4,8 +4,8 @@ table.table.table-bordered.middle-aligned
   thead
     tr
       th= t("problem_loan_transaction.loan_id")
-      th= t("problem_loan_transaction.level")
-      th= t("problem_loan_transaction.message")
+      th= t("problem_loan_transaction.message.header")
+      th= t("problem_loan_transaction.level.header")
       th= t("problem_loan_transaction.num_txns_with_message")
       th= t("problem_loan_transaction.details")
 
@@ -18,8 +18,8 @@ table.table.table-bordered.middle-aligned
         tr
           - if index == 0
             td{rowspan=num_rows}= link_to loan_id, admin_accounting_problem_loan_transactions_path(loan_id: loan_id)
-          td= txns.first.level
-          td= msg
+          td= t("problem_loan_transaction.#{msg}")
+          td= t("problem_loan_transaction.level.#{txns.first.level}")
           td = txns.count
           - if index == 0
             td{rowspan=num_rows}= link_to "Click to see all transaction errors and warnings for this loan.", admin_accounting_problem_loan_transactions_path(loan_id: loan_id)

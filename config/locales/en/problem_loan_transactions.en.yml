@@ -1,7 +1,9 @@
 en:
   problem_loan_transaction:
     index:
-      title: Transactions with Errors or Warnings
+      title: "Transactions with Errors or Warnings for Loan %{loan_id}"
+    index_by_loan:
+      title: Loans with Transaction Errors or Warnings
     show:
       title: "Broken Transaction #%{id} for loans %{associated_loan_ids}"
     id: ID
@@ -9,7 +11,13 @@ en:
     qb_id: QB ID
     date: Date
     loan_id: Loan ID
-    level: Level
+    level:
+      header: Level
+      error: Error
+      warning: Warning
+    message:
+      header: Message
+    num_txns_with_message: Number of Transactions with this Message for this Loan
     associated_loans: Associated Loans
     quickbooks_data: Raw Quickbooks Data
     error_msg_link:
