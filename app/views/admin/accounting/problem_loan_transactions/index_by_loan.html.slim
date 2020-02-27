@@ -1,0 +1,25 @@
+- content_for(:title, t("problem_loan_transaction.index_by_loan.title"))
+
+table.table.table-bordered.middle-aligned
+  thead
+    tr
+      th= t("problem_loan_transaction.loan_id")
+      th= t("problem_loan_transaction.level")
+      th= t("problem_loan_transaction.message")
+      th= t("problem_loan_transaction.num_txns_with_message")
+      th= t("problem_loan_transaction.details")
+
+  tbody
+    - @plts.each do |loan_id, txns|
+      - total = txns.count
+      - txns_by_message = txns.group_by(&:message)
+      - num_rows = txns_by_message.count
+      - txns_by_message.each_with_index do |(msg, txns), index|
+        tr
+          - if index == 0
+            td{rowspan=num_rows}= link_to loan_id, admin_accounting_problem_loan_transactions_path(loan_id: loan_id)
+          td= txns.first.level
+          td= msg
+          td = txns.count
+          - if index == 0
+            td{rowspan=num_rows}= link_to "Click to see all transaction errors and warnings for this loan.", admin_accounting_problem_loan_transactions_path(loan_id: loan_id)
