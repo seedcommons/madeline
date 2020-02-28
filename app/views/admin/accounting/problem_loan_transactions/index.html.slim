@@ -22,5 +22,5 @@ table.table.table-bordered.middle-aligned
             td{rowspan=count}= link_to plt.qb_id, admin_accounting_problem_loan_transaction_path(plt)
             td{rowspan=count}= link_to plt.txn_date, admin_accounting_problem_loan_transaction_path(plt)
           td= link_to plt.loan_id, admin_loan_path(plt.loan_id)
-          td= t("problem_loan_transaction.#{plt.message}")
+          td= t("problem_loan_transaction.#{plt.message}", (plt.custom_data.present? ? plt.custom_data.symbolize_keys : {}))
           td= t("problem_loan_transaction.#{plt.level}")
