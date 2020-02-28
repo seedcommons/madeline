@@ -142,7 +142,7 @@ module Accounting
     delegate :qb_division, to: :loan
 
     def record_and_rollback_changes(txn)
-      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attemped_change_before_closed_books_date, level: :warning)
+      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attemped_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
       new_line_items = txn.line_items.select(&:new_record?)
       new_line_items.each { |li| txn.line_items.delete(li) }
       txn.line_items.each(&:restore_attributes)
@@ -237,13 +237,13 @@ module Accounting
         if prev_tx.txn_date > @closed_books_date
           return true
         else
-          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, level: :warning)
+          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
         end
       elsif prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
         if prev_tx.txn_date > @closed_books_date
           return true
         else
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: prev_tx, message: :attempted_new_int_txn_before_closed_books_date, level: :warning)
+          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: prev_tx, message: :attempted_new_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
         end
       end
       false

@@ -37,7 +37,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # bc there is no way to distinguish Madeline-created from qb-imported
     # at model level, we do this check here.
     unless respects_closed_books_date(@transaction)
-      @transaction.errors.add(:txn_date, :closed_books_date)
+      @transaction.errors.add(:txn_date, :closed_books_date, date: @transaction.project.closed_books_date)
       prep_transaction_form
       render_modal_partial(status: 422)
       return
