@@ -17,7 +17,7 @@ en:
       warning: Warning
     message:
       header: Message
-    num_txns_with_message: Number of Transactions with this Message for this Loan
+    num_txns_with_message: Number of Transactions with Similar Messages for this Loan
     associated_loans: Associated Loans
     quickbooks_data: Raw Quickbooks Data
     error_msg_link:
