@@ -9,6 +9,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
+  let!(:customer) { create(:customer) }
 
   # This is example Journal entry JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
@@ -22,7 +23,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
           'posting_type' => 'Credit',
           'entity' => {
             'type' => 'Customer',
-            'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+            'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
           },
           'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
           'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -36,7 +37,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
           'posting_type' => 'Credit',
           'entity' => {
             'type' => 'Customer',
-            'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+            'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
           },
           'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
           'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -50,7 +51,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
           'posting_type' => 'Debit',
           'entity' => {
             'type' => 'Customer',
-            'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+            'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
           },
           'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
           'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -82,7 +83,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
             'posting_type' => 'Credit',
             'entity' => {
               'type' => 'Customer',
-              'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+              'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
             },
             'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
             'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -98,7 +99,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
             'posting_type' => 'Debit',
             'entity' => {
               'type' => 'Customer',
-              'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+              'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
             },
             'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
             'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -116,6 +117,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
 
         # Amount is calculated from line items so this tests all of those calculations.
         expect(txn.amount).to equal_money(13.30)
+        expect(txn.customer).to eq customer
       end
     end
 
@@ -192,7 +194,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -206,7 +208,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_inc_acct.qb_id, 'name' => int_inc_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -242,7 +244,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -256,7 +258,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -292,7 +294,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -306,7 +308,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -320,7 +322,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -356,7 +358,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -370,7 +372,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -384,7 +386,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -420,7 +422,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -434,7 +436,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -448,7 +450,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -484,7 +486,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -498,7 +500,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_inc_acct.qb_id, 'name' => int_inc_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -512,7 +514,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => int_rcv_acct.qb_id, 'name' => int_rcv_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -526,7 +528,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -540,7 +542,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -554,7 +556,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Debit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -568,7 +570,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => prin_acct.qb_id, 'name' => prin_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -582,7 +584,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => random_acct.name, 'name' => random_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
@@ -618,7 +620,7 @@ describe Accounting::Quickbooks::JournalEntryExtractor, type: :model do
                 'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
-                  'entity_ref' => {'value' => '1', 'name' => "Amy's Bird Sanctuary", 'type' => nil}
+                  'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
                 'account_ref' => {'value' => txn_acct.qb_id, 'name' => txn_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},

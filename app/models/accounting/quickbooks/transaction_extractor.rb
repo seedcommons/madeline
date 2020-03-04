@@ -14,6 +14,7 @@ module Accounting
         set_type
         extract_account
         set_managed
+        extract_customer
         set_deltas
         calculate_amount
         add_implicit_line_items
@@ -60,6 +61,11 @@ module Accounting
       end
 
       def extract_account
+        # do nothing in TransactionExtract
+        # can be overridden in subclasses
+      end
+
+      def extract_customer
         # do nothing in TransactionExtract
         # can be overridden in subclasses
       end
