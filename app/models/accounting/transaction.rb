@@ -216,6 +216,6 @@ class Accounting::Transaction < ApplicationRecord
 
   def respect_closed_books_date
     return if division.closed_books_date.nil? || txn_date > division.closed_books_date
-    errors.add(:txn_date, :closed_books_date, date: division.closed_books_date )
+    errors.add(:txn_date, :closed_books_date, date: division.closed_books_date)
   end
 end

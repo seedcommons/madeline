@@ -54,7 +54,6 @@ feature 'transaction flow', :accounting do
       end
 
       context 'closed books date set' do
-
         before do
           division.update(closed_books_date: Time.zone.today - 1. month)
         end
