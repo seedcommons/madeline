@@ -29,20 +29,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
-
-    # the txn model must be able to create managed txns before
-    # the closed books date that are imported from qb (e.g. from full fetcher)
-    # but user should not be able to create
-    # a txn before the closed book date via the Madeline interface.
-    # bc there is no way to distinguish Madeline-created from qb-imported
-    # at model level, we do this check here.
-    unless respects_closed_books_date(@transaction)
-      @transaction.errors.add(:txn_date, :closed_books_date, date: @transaction.project.closed_books_date)
-      prep_transaction_form
-      render_modal_partial(status: 422)
-      return
-    end
-
+    @transaction.user_created = true
     @transaction.managed = true
     @transaction.currency_id = @loan.currency_id
     process_transaction_and_handle_errors
@@ -60,10 +47,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   private
-
-  def respects_closed_books_date(txn)
-    txn.project.closed_books_date.nil? || (txn.txn_date > txn.project.closed_books_date)
-  end
 
   # Saves transaction record and runs updater.
   # Does nothing if transaction is invalid.

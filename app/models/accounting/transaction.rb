@@ -74,9 +74,17 @@ class Accounting::Transaction < ApplicationRecord
                         foreign_key: :accounting_transaction_id, dependent: :destroy
   has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
+  # user-created txns are sent to qb and have qb data before
+  # they are :created. This is set in the transactions controller
+  # to distinguish transactions originating in the Madeline UI vs QB
+  # This is different than 'managed' because a managed transactions
+  # can be imported from qb (e.g. on a qb import)
+  attr_accessor :user_created
+
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
+  validate :respect_closed_books_date, if: :user_created
 
   delegate :division, :qb_division, to: :project
 
@@ -204,5 +212,10 @@ class Accounting::Transaction < ApplicationRecord
         0
       end
     end
+  end
+
+  def respect_closed_books_date
+    return if division.closed_books_date.nil? || txn_date > division.closed_books_date
+    errors.add(:txn_date, :closed_books_date, date: division.closed_books_date)
   end
 end
