@@ -2,7 +2,8 @@ require 'rails_helper'
 
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
-  let!(:division) { create(:division, :with_accounts) }
+  let(:closed_books_date) { "2016-01-01" }
+  let!(:division) { create(:division, :with_accounts, closed_books_date: closed_books_date) }
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
 
@@ -100,7 +101,7 @@ describe Accounting::InterestCalculator do
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(117.50)
-        expect(t3.reload.interest_balance).to equal_money (0.77) # 0.70 + 0.07
+        expect(t3.reload.interest_balance).to equal_money(0.77) # 0.70 + 0.07
 
         # t4 --------------------------------------------------------
         expect(t4.line_items.size).to eq(3)
@@ -215,7 +216,7 @@ describe Accounting::InterestCalculator do
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(152.50)
-        expect(t3.reload.interest_balance).to equal_money (0.97)
+        expect(t3.reload.interest_balance).to equal_money(0.97)
 
         # t4 --------------------------------------------------------
         expect(t4.line_items.size).to eq(3)
@@ -272,6 +273,23 @@ describe Accounting::InterestCalculator do
         expect(t6.reload.interest_balance).to equal_money(-11.85)
       end
     end
+
+    describe 'respecting closed books date' do
+      describe "after closed books date" do
+        it 'does update txns' do
+          recalculate_and_reload
+          expect(all_txns.map(&:needs_qb_push)).to eq [true, true, true, true, true, true, false]
+        end
+      end
+
+      describe "before closed books date" do
+        let(:closed_books_date) { "2020-01-01" }
+        it 'does not update txns' do
+          recalculate_and_reload
+          expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
+        end
+      end
+    end
   end
 
   describe 'creation of interest txns' do
@@ -286,22 +304,37 @@ describe Accounting::InterestCalculator do
     }
     let(:all_txns) { [t0, t1] }
 
-    it 'creates an interest txn before another txn' do
-      recalculate_and_reload
-      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-04')
-      expect(inttxn).not_to be_nil
-      expect(inttxn.amount).to equal_money(6.58)
-      expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
+    describe "after closed books date" do
+      it 'creates an interest txn before another txn' do
+        recalculate_and_reload
+        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-04')
+        expect(inttxn).not_to be_nil
+        expect(inttxn.amount).to equal_money(6.58)
+        expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
+      end
+
+      it 'creates an interest txn on the end of each month' do
+        recalculate_and_reload
+        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
+        expect(inttxn).not_to be_nil
+        # Principal balance should be 30000
+        # Days since previous txn (1/4 to 1/31) = 27
+        # .08/365 * 30000 * 27 = 177.53
+        expect(inttxn.amount).to equal_money(177.53)
+      end
     end
 
-    it 'creates an interest txn on the end of each month' do
-      recalculate_and_reload
-      inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
-      expect(inttxn).not_to be_nil
-      # Principal balance should be 30000
-      # Days since previous txn (1/4 to 1/31) = 27
-      # .08/365 * 30000 * 27 = 177.53
-      expect(inttxn.amount).to equal_money(177.53)
+    describe "before closed books date" do
+      let(:closed_books_date) { "2020-01-01" }
+      it "does not create an interest txn before another txn" do
+        recalculate_and_reload
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: '2018-01-04')).to be false
+      end
+
+      it "does not create an interest txn on the end of a month" do
+        recalculate_and_reload
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: '2018-01-31')).to be false
+      end
     end
   end
 

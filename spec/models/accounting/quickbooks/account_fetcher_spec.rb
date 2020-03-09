@@ -30,8 +30,15 @@ RSpec.describe Accounting::Quickbooks::AccountFetcher, type: :model do
       allow(fetcher).to receive(:service).with('Account').and_return(service)
     end
 
-    it 'should create Accounting::Account record' do
-      expect { subject }.to change { Accounting::Account.all.count }.by(1)
+    describe "new qb id" do
+      # an qb_id not used elsewhere is needed because rspec order is not guaranteed, so
+      # that another spec does not create an account with the same qb_id
+      # (in which case find_or_create finds and does not create, and this spec would fail)
+      let!(:qb_account) { instance_double(Quickbooks::Model::Account, id: 333, name: name, classification: classification) }
+
+      it 'should create Accounting::Account record' do
+        expect { subject }.to change { Accounting::Account.all.count }.by(1)
+      end
     end
 
     it 'the account created has correct name' do

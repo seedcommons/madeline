@@ -41,6 +41,7 @@ en:
         banner_bg_color: "Banner BG Color"
         accent_main_color: "Accent Color"
         accent_fg_color: "Accent FG Text Color"
+        closed_books_date: "Closed Books Date"
         connection_status: "QuickBooks Status"
         connect: "Connect to QuickBooks"
         last_updated_at: "QuickBooks Data Last Imported"
@@ -177,6 +178,10 @@ en:
           type: "Type"
     errors:
       models:
+        accounting/transaction:
+            attributes:
+              txn_date:
+                closed_books_date: "Date must be after the Closed Books Date, %{date}, in Accounting Settings."
         basic_project:
           attributes:
             primary_agent:
@@ -507,6 +512,7 @@ en:
     questions: "Questions"
     manage: "Manage"
     people: "Members"
+    problem_transactions: "Transaction Errors"
     tasks: "Tasks"
   number:
     nth:
@@ -521,7 +527,9 @@ en:
   problem_loan_transaction:
     journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items for accuracy."
     has_multiple_loans: "Transaction associated with multiple loans"
-
+    attemped_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
   project_step:
     add: "Add Step"
     add_dependent_step: "Add Dependent Step"
