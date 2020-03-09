@@ -55,7 +55,7 @@ module Accounting
       @prin_acct = qb_division.principal_account
       @int_rcv_acct = qb_division.interest_receivable_account
       @int_inc_acct = qb_division.interest_income_account
-      @closed_books_date = qb_division.closed_books_date || "1900-01-01" # default until required in accounting settings
+      @closed_books_date = qb_division.closed_books_date || Date.parse("1900-01-01") # default, since not reqd in accounting settings
     end
 
     def recalculate
