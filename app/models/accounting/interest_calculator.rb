@@ -55,6 +55,7 @@ module Accounting
       @prin_acct = qb_division.principal_account
       @int_rcv_acct = qb_division.interest_receivable_account
       @int_inc_acct = qb_division.interest_income_account
+      @closed_books_date = qb_division.closed_books_date || Date.parse("1900-01-01") # default, since not reqd in accounting settings
     end
 
     def recalculate
@@ -62,7 +63,7 @@ module Accounting
 
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first&.txn_date
-      last_date = loan.status_value == 'active' ? Date.today : transactions.last&.txn_date
+      last_date = loan.status_value == 'active' ? Time.zone.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
       last_day_in_months = month_boundaries(first_date, last_date)
@@ -86,7 +87,7 @@ module Accounting
           currency_id: loan.currency_id,
           description: I18n.t('transactions.interest_description', loan_id: loan.id),
           managed: true
-        ) if add_int_tx?(txns_by_date[date], prev_tx)
+        ) if add_int_tx?(txns_by_date[date], prev_tx, loan)
 
         txns.concat(txns_by_date[date]) if txns_by_date[date]
 
@@ -94,47 +95,16 @@ module Accounting
           if tx.managed?
             case tx.loan_transaction_type_value
               when "interest"
-                tx.amount = accrued_interest(prev_tx, tx)
-                line_item_for(tx, int_rcv_acct).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, int_inc_acct).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount
-                )
-
+                update_interest_txn(prev_tx, tx, int_rcv_acct)
               when "disbursement"
-                line_item_for(tx, prin_acct).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, tx.account).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount
-                )
-
+                # this is where disbursements newly created in Madeline get their line items set up
+                update_disbursement_txn(tx, prin_acct)
               when "repayment"
-                int_part = [tx.amount, prev_tx.try(:interest_balance) || 0].min
-                line_item_for(tx, tx.account).assign_attributes(
-                  qb_line_id: 0,
-                  posting_type: "Debit",
-                  amount: tx.amount
-                )
-                line_item_for(tx, prin_acct).assign_attributes(
-                  qb_line_id: 1,
-                  posting_type: "Credit",
-                  amount: tx.amount - int_part
-                )
-                line_item_for(tx, int_rcv_acct).assign_attributes(
-                  qb_line_id: 2,
-                  posting_type: "Credit",
-                  amount: int_part
-                )
+                update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
+            end
+
+            if changed?(tx) && tx.txn_date <= @closed_books_date
+              record_and_rollback_changes(tx)
             end
 
             # Since we may have just adjusted line items upon which the change_in_principal and
@@ -171,6 +141,64 @@ module Accounting
 
     delegate :qb_division, to: :loan
 
+    def record_and_rollback_changes(txn)
+      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attemped_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
+      new_line_items = txn.line_items.select(&:new_record?)
+      new_line_items.each { |li| txn.line_items.delete(li) }
+      txn.line_items.each(&:restore_attributes)
+      txn.restore_attributes
+    end
+
+    def changed?(txn)
+      txn.changed? || txn.line_items.any?(&:type_or_amt_changed?)
+    end
+
+    def update_interest_txn(prev_txn, txn, int_rcv_acct)
+      txn.amount = accrued_interest(prev_txn, txn)
+      line_item_for(txn, int_rcv_acct).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: txn.amount
+      )
+      line_item_for(txn, int_inc_acct).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: txn.amount
+      )
+    end
+
+    def update_disbursement_txn(txn, prin_acct)
+      line_item_for(txn, prin_acct).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: txn.amount
+      )
+      line_item_for(txn, txn.account).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: txn.amount
+      )
+    end
+
+    def update_repayment_txn(txn, prev_txn, prin_acct, int_rcv_acct)
+      int_part = [txn.amount, prev_txn.try(:interest_balance) || 0].min
+      line_item_for(txn, txn.account).assign_attributes(
+        qb_line_id: 0,
+        posting_type: "Debit",
+        amount: txn.amount
+      )
+      line_item_for(txn, prin_acct).assign_attributes(
+        qb_line_id: 1,
+        posting_type: "Credit",
+        amount: txn.amount - int_part
+      )
+      line_item_for(txn, int_rcv_acct).assign_attributes(
+        qb_line_id: 2,
+        posting_type: "Credit",
+        amount: int_part
+      )
+    end
+
     def transactions
       @transactions ||= loan.transactions.standard_order.to_a
     end
@@ -204,11 +232,21 @@ module Accounting
       (d1..d2).select { |d| d == d.end_of_month }
     end
 
-    def add_int_tx?(txs, prev_tx)
-      return true if txs.nil?
-      if txs
-       return true if prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+    def add_int_tx?(txs, prev_tx, loan)
+      if txs.nil? # this is an end of month day with no txns
+        if prev_tx.txn_date > @closed_books_date
+          return true
+        else
+          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
+        end
+      elsif prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
+        if prev_tx.txn_date > @closed_books_date
+          return true
+        else
+          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: prev_tx, message: :attempted_new_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
+        end
       end
+      false
     end
   end
 end

@@ -3,14 +3,27 @@
     h2 {
       margin: 0;
       font-size: 1.4em;
+      display: inline;
     }
 
     .note {
       font-style: italic;
+      font-size: 1em;
+      margin-bottom: 0.6em;
     }
 
     .form-horizontal {
       margin-top: 1em;
+    }
+
+    .form-control {
+      width: 90%;
+    }
+
+    @media (min-width: 786px) {
+      .form-control {
+        width: 40%;
+      }
     }
 
     .read-only {

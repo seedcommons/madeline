@@ -4,8 +4,10 @@
 #
 #  accounting_transaction_id :bigint(8)
 #  created_at                :datetime         not null
-#  error_message             :string           not null
+#  custom_data               :json
 #  id                        :bigint(8)        not null, primary key
+#  level                     :string
+#  message                   :string           not null
 #  project_id                :bigint(8)
 #  updated_at                :datetime         not null
 #

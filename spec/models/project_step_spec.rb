@@ -69,13 +69,13 @@ describe ProjectStep, type: :model do
   end
 
   it 'cannot be unfinalized after 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.now - 25.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.zone.now - 25.hours)
     step.is_finalized = false
     expect(step).to be_invalid
   end
 
   it 'can be unfinalized within 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.now - 23.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.zone.now - 22.hours)
     step.is_finalized = false
     expect(step).to be_valid
   end

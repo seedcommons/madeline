@@ -53,6 +53,30 @@ feature 'transaction flow', :accounting do
         expect(page).to have_content("Amount #{loan.currency.code} can't be blank")
       end
 
+      context 'closed books date set' do
+        before do
+          division.update(closed_books_date: Time.zone.today - 1. month)
+        end
+
+        scenario 'date before closed books date' do
+          visit "/admin/loans/#{loan.id}/transactions"
+          fill_txn_form(date: Time.zone.today - 1.year)
+          page.find('a[data-action="submit"]').click
+          expect(page).to have_content("Date must be after the Closed Books Date")
+        end
+
+        scenario 'date after closed books date' do
+          visit "/admin/loans/#{loan.id}/transactions"
+          fill_txn_form(date: Time.zone.today)
+          page.find('a[data-action="submit"]').click
+          expect(page).to have_content("Palm trees")
+        end
+
+        after do
+          division.update(closed_books_date: nil)
+        end
+      end
+
       scenario 'with qb error during Updater' do
         # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
@@ -81,10 +105,10 @@ feature 'transaction flow', :accounting do
     end
   end
 
-  def fill_txn_form(omit_amount: false)
+  def fill_txn_form(omit_amount: false, date: Time.zone.today)
     click_on 'Add Transaction'
     select 'Disbursement', from: 'Type of Transaction'
-    fill_in 'Date', with: Date.today.to_s
+    fill_in 'Date', with: date.to_s
     fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
     select customers.sample.name, from: 'Quickbooks Customer'

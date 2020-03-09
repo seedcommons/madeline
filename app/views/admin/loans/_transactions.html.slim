@@ -1,7 +1,14 @@
 section.transactions
   - if @broken_transactions.present?
-    .alert.alert-danger
-      = t('problem_loan_transaction.alert_msg_html', count: @broken_transactions.count, link: link_to(t('problem_loan_transaction.alert_msg_link', count: @broken_transactions.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
+    - txns_with_errors = @broken_transactions.select { |t| t.level == "error" }
+    - txns_with_warnings = @broken_transactions.select { |t| t.level == "warning" }
+    - unless txns_with_errors.empty?
+      .alert.alert-danger
+        = t('problem_loan_transaction.error_msg_html', count: txns_with_errors.count, link: link_to(t('problem_loan_transaction.error_msg_link', count: txns_with_errors.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
+    - unless txns_with_warnings.empty?
+      .alert.alert-warning
+        = t('problem_loan_transaction.warning_msg_html', count: txns_with_warnings.count, link: link_to(t('problem_loan_transaction.warning_msg_link', count: txns_with_warnings.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
+
   .show-actions.hidden-print
     - if @add_transaction_available
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",

@@ -71,6 +71,7 @@ module TransactionControllable
         raise Quickbooks::InvalidModelException.new(msg)
       end
     else
+      Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
       Accounting::Quickbooks::Updater.new.update(project)
     end
   end

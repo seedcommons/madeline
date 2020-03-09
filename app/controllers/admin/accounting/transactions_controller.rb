@@ -29,6 +29,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find(transaction_params[:project_id])
     authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
+    @transaction.user_created = true
     @transaction.managed = true
     @transaction.currency_id = @loan.currency_id
     process_transaction_and_handle_errors

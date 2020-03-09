@@ -22,3 +22,5 @@ en:
       in_progress: "QuickBooks data import in progress."
       pending: "QuickBooks data import pending."
       succeeded: "QuickBooks data import succeeded."
+    closed_books_date:
+      note: "Madeline will not create transactions or modify Quickbooks transactions before the closed books date."
