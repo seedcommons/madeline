@@ -28,6 +28,14 @@ module Accounting
             update_loan(loan)
           end
         end
+        # We record last_updated_at as the time the update *finishes* because last_updated_at
+        # is used to avoid runs that immediately follow each other as in the case of a transaction creation
+        # followed by a transaction listing. If we record the time the update *started* and the update
+        # takes some time, we would need to increase the MIN_TIME_BETWEEN_UPDATES value and that might
+        # make it frustrating for users who want to deliberately re-run the updater.
+        # The other function of last_updated_at is to check if a full sync needs to be run,
+        # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
+        qb_connection.update_attribute(:last_updated_at, Time.now)
       end
 
       # Fetches all changes from Quickbooks since the last update.
@@ -52,15 +60,6 @@ module Accounting
             end
           end
         end
-
-        # We record last_updated_at as the time the update *finishes* because last_updated_at
-        # is used to avoid runs that immediately follow each other as in the case of a transaction creation
-        # followed by a transaction listing. If we record the time the update *started* and the update
-        # takes some time, we would need to increase the MIN_TIME_BETWEEN_UPDATES value and that might
-        # make it frustrating for users who want to deliberately re-run the updater.
-        # The other function of last_updated_at is to check if a full sync needs to be run,
-        # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
-        qb_connection.update_attribute(:last_updated_at, Time.now)
       end
 
       # updates single loan

@@ -67,6 +67,7 @@ class Loan < Project
   scope :completed, -> { status("completed") }
   scope :active_or_completed, -> { where(status_value: %w(active completed)) }
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
+  scope :changed_since, ->(date) { where("updated_at > :date", date: date) }
 
   delegate :name, :country, :postal_code, to: :organization, prefix: :coop
   delegate :name, to: :division, prefix: true
