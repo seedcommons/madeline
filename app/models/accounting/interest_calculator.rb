@@ -142,7 +142,7 @@ module Accounting
     delegate :qb_division, to: :loan
 
     def record_and_rollback_changes(txn)
-      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attemped_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
+      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attempted_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
       new_line_items = txn.line_items.select(&:new_record?)
       new_line_items.each { |li| txn.line_items.delete(li) }
       txn.line_items.each(&:restore_attributes)
