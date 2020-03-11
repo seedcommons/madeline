@@ -208,5 +208,5 @@ en:
         create_success: "Transaction successfully created."
         new_transaction: "Add Transaction"
         update: "Update Transaction"
-        update_all: "Update Transactions"
+        update_changed: "Update Transactions"
         update_queued_html: "Transaction update queued successfully, <a href='%{url}'>view progress</a>."

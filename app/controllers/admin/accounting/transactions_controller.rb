@@ -46,11 +46,11 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
-  def update_all
+  def update_changed
     authorize ::Accounting::Transaction, :update?
     @task = Task.create(
-      job_class: UpdateAllLoansJob,
-      job_type_value: 'update_all_loans',
+      job_class: UpdateChangedLoansJob,
+      job_type_value: 'update_changed_loans',
       activity_message_value: 'task_enqueued'
     ).enqueue
 

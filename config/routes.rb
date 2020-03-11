@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 
       resources :transactions do
         collection do
-          patch :update_all
+          patch :update_changed
         end
       end
       resources :problem_loan_transactions, only: [:index, :show]
