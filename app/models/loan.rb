@@ -204,7 +204,7 @@ class Loan < Project
   end
 
   def active?
-    status_value == 'active'
+    status_value == STATUS_ACTIVE_VALUE
   end
 
   def healthy?
