@@ -123,6 +123,7 @@ class Accounting::Transaction < ApplicationRecord
       end
       loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
+      associated_loans.map(&:touch)
 
       if associated_loans.count > 1
         associated_loans.each do |loan|

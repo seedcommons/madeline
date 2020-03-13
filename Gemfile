@@ -103,6 +103,7 @@ group :development, :test do
   gem "database_cleaner", "~> 1.5"
   gem "factory_bot_rails"
   gem "faker"
+  gem "letter_opener"
   gem "poltergeist", "~> 1.0"
   gem "pundit-matchers"
   gem "rspec-rails"

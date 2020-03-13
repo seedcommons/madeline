@@ -2,8 +2,6 @@ module TransactionControllable
   extend ActiveSupport::Concern
 
   def initialize_transactions_grid(project = nil)
-    run_updater_and_handle_errors(project: project)
-
     @transactions = Accounting::Transaction
     @transactions = @transactions.where(project_id: project.id) if project
     @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
@@ -32,6 +30,7 @@ module TransactionControllable
   # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
   # Notifies admins if error is not part of normal operation.
   # Sets the @data_reset_required variable if a DataResetRequiredError error is raised.
+  # This is only used for creating new transactions
   def handle_qb_errors
     begin
       yield
@@ -77,12 +76,6 @@ module TransactionControllable
   end
 
   private
-
-  def run_updater_and_handle_errors(project:)
-    if error = handle_qb_errors { run_updater(project: project) }
-      flash.now[:error] = error
-    end
-  end
 
   def set_whether_add_txn_is_allowed
     @add_transaction_available = current_division.qb_division&.qb_accounts_selected? && !@data_reset_required

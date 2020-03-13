@@ -1,4 +1,4 @@
-class UpdateAllLoansJob < TaskJob
+class UpdateChangedLoansJob < TaskJob
   def perform(_job_params)
     task = task_for_job(self)
     errors_by_loan = []
@@ -6,10 +6,10 @@ class UpdateAllLoansJob < TaskJob
     updater = Accounting::Quickbooks::Updater.new
     updater.qb_sync_for_loan_update
 
-    loans = divisions.map { |i| i.loans }.flatten.compact
+    loans = divisions.map { |i| i.loans.changed_since(updater.qb_connection.last_updated_at).active }.flatten.compact
     task.set_activity_message("syncing_with_quickbooks")
     loans.each_with_index do |loan, index|
-      task.set_activity_message("updating_loans", {so_far: (index), total: loans.count})
+      task.set_activity_message("updating_loans", so_far: (index), total: loans.count)
       begin
         updater.update_loan(loan)
       rescue StandardError => error

@@ -16,7 +16,7 @@ module Accounting
         fetch_qb_data
         restore_accounts!(accounts)
       rescue StandardError => error
-        @qb_connection.destroy
+        @qb_connection&.destroy
         raise error
       end
 

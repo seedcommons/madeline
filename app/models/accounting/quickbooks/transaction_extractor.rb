@@ -37,7 +37,11 @@ module Accounting
 
       def extract_line_items
         txn.quickbooks_data['line_items'].each do |li|
-          acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
+          begin
+            acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
+          rescue
+            ::Accounting::ProblemLoanTransaction.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {})
+          end
           # skip if line item does not have an account in Madeline
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']

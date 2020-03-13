@@ -27,7 +27,8 @@ feature 'transaction flow', :accounting do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    describe 'transaction listing' do
+    # TODO: Figure out whether this makes sense as a test case anymore
+    xdescribe 'transaction listing' do
       scenario 'with qb error during Updater' do
         Rails.configuration.x.test.raise_qb_error_during_updater = 'qb fail on index'
         visit "/admin/loans/#{loan.id}/transactions"

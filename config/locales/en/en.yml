@@ -525,9 +525,10 @@ en:
     the_day: "The %{day}"
 
   problem_loan_transaction:
-    journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items for accuracy."
+    unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in Quickbooks."
+    journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in Quickbooks for accuracy."
     has_multiple_loans: "Transaction associated with multiple loans"
-    attemped_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
   project_step:
