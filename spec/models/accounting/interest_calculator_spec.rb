@@ -290,6 +290,14 @@ describe Accounting::InterestCalculator do
         end
       end
     end
+
+    describe 'non active loan' do
+      let(:loan) { create(:loan, :completed, division: division, rate: 8.0) }
+      it 'does not update txns' do
+        recalculate_and_reload
+        expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
+      end
+    end
   end
 
   describe 'creation of interest txns' do

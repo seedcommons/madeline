@@ -12,7 +12,7 @@ table.table.table-bordered
     td= t("task.status.#{@task.status}")
   tr
     th= t("task.header.activity_message")
-    td= t("task.activity_message.#{@task.activity_message_value}")
+    td= t("task.activity_message.#{@task.activity_message}")
   tr
     th= t("task.header.created_at")
     td= l(@task.created_at, format: :long)

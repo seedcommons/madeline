@@ -11,7 +11,7 @@ en:
       in_progress: "In progress"
       syncing_with_quickbooks: "Syncing with Quickbooks"
       task_enqueued: "This task has been enqueued"
-      updating_all_loans: "Updating %{total} loans. %{so_far} loans updated so far."
+      updating_loans: "Updating %{total} loans. %{so_far} loans updated so far."
     custom_error_data:
       help: "See loan, its co-op, or its transactions for more information."
       link_to_details: "Click here to see error details"
@@ -48,3 +48,5 @@ en:
       data_export_task_job: "Data Export"
       update_all_loans: "Update All Loans"
       update_all_loans_job: "Update All Loans"
+      update_changed_loans: "Update Changed Loans"
+      update_changed_loans_job: "Update Changed Loans"

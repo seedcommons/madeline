@@ -83,7 +83,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :transactions
+      resources :transactions do
+        collection do
+          patch :update_changed
+        end
+      end
       resources :problem_loan_transactions, only: [:index, :show]
     end
 
