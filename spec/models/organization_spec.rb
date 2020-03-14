@@ -63,6 +63,13 @@ describe Organization, type: :model do
     end
   end
 
+  describe 'name' do
+    let(:organization) { create(:organization, name: " test ")}
+    it 'strips white space from name' do
+      expect(organization.reload.name).to eq "test"
+    end
+  end
+
   describe "geography" do
     let!(:country_us) { create(:country, iso_code: 'US') }
     let!(:country_not_us) { create(:country, iso_code: 'AR') }

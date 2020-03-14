@@ -20,6 +20,7 @@ gem "momentjs-rails"
 gem "rails-backbone"
 gem "sass-rails", "~> 5.0"
 gem "select2-rails"
+gem "strip_attributes", "< 2.0"
 gem "therubyracer", platforms: :ruby
 gem "uglifier", ">= 1.3.0"
 gem "uri-js-rails" # URI manipulation
