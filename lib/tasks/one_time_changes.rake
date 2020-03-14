@@ -10,4 +10,19 @@ namespace :one_time_changes do
       end
     end
   end
+
+  desc "Resave all organizations to run any new callbacks and
+  check against any new validations. Created to be run manually
+  on each server after deploying 10407, in which whitespace is stripped on save"
+  task resave_all_organizations: :environment do
+    org_ids_with_errors = {}
+    Organization.find_each do |o|
+      begin
+       o.save!
+     rescue
+       org_ids_with_errors[o.id] = o.errors.messages
+     end
+    end
+    pp org_ids_with_errors
+  end
 end
