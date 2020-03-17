@@ -229,13 +229,13 @@ describe Loan, type: :model do
 
       context 'existing loan' do
         before do
-          #creating the loan enqueues RecalculateLoanHealthJob, so need to do it outside of the spec
+          # creating the loan enqueues RecalculateLoanHealthJob, so need to do it outside of the spec
           loan
         end
         context 'update to field other than updated_at' do
           it 'enqueues loan health check' do
             ActiveJob::Base.queue_adapter = :test
-            expect { loan.update_attribute(:projected_end_date, Date.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
+            expect { loan.update_attribute(:projected_end_date, Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
           end
         end
 

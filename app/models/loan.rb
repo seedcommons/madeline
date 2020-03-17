@@ -121,7 +121,7 @@ class Loan < Project
 
   def recalculate_loan_health
     # if at least one date field (besides updated_at) changed
-    if previous_changes.keys.select{|k| k.match("_date")}.count > 0
+    if previous_changes.keys.select { |k| k.match("_date") }.count > 0
       RecalculateLoanHealthJob.perform_later(loan_id: id)
     end
   end
