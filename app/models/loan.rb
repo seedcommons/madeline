@@ -86,9 +86,12 @@ class Loan < Project
 
   before_create :build_health_check
 
+  # other models use after_commit for recalculate_loan_health step
   # after_save lets us positively identify changes to date fields that
-  # affect loan health. in Rails 5, the touch method used in txn model
-  # has all fields appear in prev changes as of after_commit
+  # affect loan health. In Rails 5, the touch method used in txn model
+  # has all fields appear in prev changes in after_commit and there is
+  # no way to distinguish between `touch` vs changes to date fields
+  # This can probably be cleaned up in Rails 6 - see https://github.com/rails/rails/issues/30466
   after_save :recalculate_loan_health
 
   def self.default_filter
