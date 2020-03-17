@@ -14,6 +14,7 @@ class MS.Views.ApplicationView extends Backbone.View
     MS.dateFormats = params.dateFormats
     $.fn.datepicker.defaults.language = params.locale
     @initializePopovers()
+    @initializeAutocompleteSelect()
 
   events: ->
     'click .more': 'toggleExpanded'
@@ -41,3 +42,6 @@ class MS.Views.ApplicationView extends Backbone.View
   preventMultipleModalBackdrops: ->
     if (@$(".modal-backdrop").length > 1)
       @$(".modal-backdrop").not(':first').remove()
+
+  initializeAutocompleteSelect: ->
+    $('.autocomplete-select').select2();
