@@ -85,7 +85,11 @@ class Loan < Project
   validates :organization, :public_level_value, presence: true
 
   before_create :build_health_check
-  after_commit :recalculate_loan_health
+
+  # after_save lets us positively identify changes to date fields that
+  # affect loan health. in Rails 5, the touch method used in txn model
+  # has all fields appear in prev changes as of after_commit
+  after_save :recalculate_loan_health
 
   def self.default_filter
     {status: 'active', country: 'all'}
@@ -113,7 +117,8 @@ class Loan < Project
   end
 
   def recalculate_loan_health
-    unless previous_changes.keys.size == 1 && previous_changes.keys.first == "updated_at"
+    # if at least one date field (besides updated_at) changed
+    if previous_changes.keys.select{|k| k.match("_date")}.count > 0
       RecalculateLoanHealthJob.perform_later(loan_id: id)
     end
   end

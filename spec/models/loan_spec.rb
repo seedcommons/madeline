@@ -239,11 +239,12 @@ describe Loan, type: :model do
           end
         end
 
-        context 'update to only updated_at field' do
+        context 'touch' do
+          # loan.touch is used in transaction model when importing qb txns
+          # this only updates updated_at attr and should not trigger loan health check
           it 'does not enqueue loan health check' do
             ActiveJob::Base.queue_adapter = :test
-            expect { loan.update_attribute(:updated_at, Time.zone.now) }.not_to have_enqueued_job(RecalculateLoanHealthJob)
-
+            expect { loan.touch }.not_to have_enqueued_job(RecalculateLoanHealthJob)
           end
         end
       end

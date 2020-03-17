@@ -123,8 +123,7 @@ class Accounting::Transaction < ApplicationRecord
       end
       loan_classes = loan_classes.map { |lc| lc&.match(QB_LOAN_CLASS_REGEX)&.captures&.first }
       associated_loans = Loan.select(:id).where(id: loan_classes)
-      #TODO replace w/ touch in Rails 6. see https://github.com/rails/rails/issues/30466
-      associated_loans.map{ |l| l.update_attribute(:updated_at, Time.zone.now) }
+      associated_loans.map(&:touch)
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
