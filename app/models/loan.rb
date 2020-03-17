@@ -113,7 +113,9 @@ class Loan < Project
   end
 
   def recalculate_loan_health
-    RecalculateLoanHealthJob.perform_later(loan_id: id)
+    unless previous_changes.keys.size == 1 && previous_changes.keys.first == "updated_at"
+      RecalculateLoanHealthJob.perform_later(loan_id: id)
+    end
   end
 
   def default_name
