@@ -44,4 +44,4 @@ class MS.Views.ApplicationView extends Backbone.View
       @$(".modal-backdrop").not(':first').remove()
 
   initializeAutocompleteSelect: ->
-    $('.autocomplete-select').select2();
+    $('.autocomplete-select').select2()
