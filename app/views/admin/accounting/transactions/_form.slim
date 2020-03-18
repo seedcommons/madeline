@@ -74,3 +74,13 @@
 
   .view-element = f.input :qb_record_id
     = @transaction.qb_id
+
+javascript:
+  $(function() {
+    $('#accounting_transaction_accounting_customer_id').select2({
+      dropdownParent: $('#transaction-modal')
+    });
+    $('#accounting_transaction_accounting_account_id').select2({
+      dropdownParent: $('#transaction-modal')
+    });
+  });
