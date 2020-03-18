@@ -14,7 +14,6 @@
 #  id                                    :integer          not null, primary key
 #  length_months                         :integer
 #  loan_type_value                       :string
-#  modifying_qb_data_enabled             :boolean          default(TRUE)
 #  name                                  :string
 #  organization_id                       :integer
 #  original_id                           :integer
@@ -29,6 +28,7 @@
 #  secondary_agent_id                    :integer
 #  signing_date                          :date
 #  status_value                          :string
+#  txns_read_only                        :boolean          default(FALSE), not null
 #  type                                  :string           not null
 #  updated_at                            :datetime         not null
 #

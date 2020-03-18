@@ -14,7 +14,6 @@
 #  id                                    :integer          not null, primary key
 #  length_months                         :integer
 #  loan_type_value                       :string
-#  modifying_qb_data_enabled             :boolean          default(TRUE)
 #  name                                  :string
 #  organization_id                       :integer
 #  original_id                           :integer
@@ -29,6 +28,7 @@
 #  secondary_agent_id                    :integer
 #  signing_date                          :date
 #  status_value                          :string
+#  txns_read_only                        :boolean          default(FALSE), not null
 #  type                                  :string           not null
 #  updated_at                            :datetime         not null
 #
@@ -142,32 +142,32 @@ describe Loan, type: :model do
       end
     end
 
-    describe '.transaction_recalculation_allowed?' do
+    describe '.txn_modification_allowed?' do
       describe 'loan is not active' do
         let(:loan) { create(:loan, :completed) }
         it 'returns false' do
-          expect(loan.transaction_recalculation_allowed?). to be false
+          expect(loan.txn_modification_allowed?). to be false
         end
       end
 
-      describe 'loan is active and modifying qb data enabled' do
+      describe 'loan is active and and txns are not read only' do
         let(:loan) { create(:loan, :active) }
         it 'returns true' do
-          expect(loan.transaction_recalculation_allowed?). to be true
+          expect(loan.txn_modification_allowed?). to be true
         end
       end
 
-      describe 'loan is active and but modifying qb data is disabled' do
-        let(:loan) { create(:loan, :active, modifying_qb_data_enabled: false) }
+      describe 'loan is active and and txns are read only' do
+        let(:loan) { create(:loan, :active, txns_read_only: true) }
         it 'returns false' do
-          expect(loan.transaction_recalculation_allowed?). to be false
+          expect(loan.txn_modification_allowed?). to be false
         end
       end
 
-      describe 'loan is not active and modifying qb data is disabled' do
-        let(:loan) { create(:loan, :completed, modifying_qb_data_enabled: false) }
+      describe 'loan is not active and txns are read only' do
+        let(:loan) { create(:loan, :completed, txns_read_only: true) }
         it 'returns false' do
-          expect(loan.transaction_recalculation_allowed?). to be false
+          expect(loan.txn_modification_allowed?). to be false
         end
       end
     end

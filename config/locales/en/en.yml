@@ -79,7 +79,7 @@ en:
         representative: "Representative"
         details: "Details"
         public_level: "Public Level"
-        modifying_qb_data_enabled: "Modifying QB Data Enabled"
+        txns_read_only: "Transactions Read-Only"
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
@@ -378,11 +378,14 @@ en:
   quickbooks:
     accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
+    modifying_transactions_not_allowed: 'Transactions are read-only because the loan is not active, transactions are set to read-only for this loan, or both.'
     class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
+
     service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
+
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"

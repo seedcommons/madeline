@@ -5,7 +5,7 @@ feature 'transaction flow', :accounting do
   # Right now, the TransactionPolicy requires admin privileges on Division.root, and Accounts are
   # not scoped to division.
   let(:division) { Division.root }
-  let!(:loan) { create(:loan, division: division) }
+  let!(:loan) { create(:loan, :active, division: division) }
   let(:user) { create_admin(division) }
   let!(:customers) { create_list(:customer, 3) }
 
@@ -68,6 +68,7 @@ feature 'transaction flow', :accounting do
 
         scenario 'date after closed books date' do
           visit "/admin/loans/#{loan.id}/transactions"
+          save_and_open_page
           fill_txn_form(date: Time.zone.today)
           page.find('a[data-action="submit"]').click
           expect(page).to have_content("Palm trees")

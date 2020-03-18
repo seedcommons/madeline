@@ -336,7 +336,6 @@ ActiveRecord::Schema.define(version: 2020_03_18_174510) do
     t.integer "division_id", null: false
     t.integer "length_months"
     t.string "loan_type_value"
-    t.boolean "modifying_qb_data_enabled", default: true
     t.string "name"
     t.integer "organization_id"
     t.integer "original_id"
@@ -351,6 +350,7 @@ ActiveRecord::Schema.define(version: 2020_03_18_174510) do
     t.integer "secondary_agent_id"
     t.date "signing_date"
     t.string "status_value"
+    t.boolean "txns_read_only", default: false, null: false
     t.string "type", null: false
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_projects_on_currency_id"
