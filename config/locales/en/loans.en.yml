@@ -37,6 +37,7 @@ en:
     loan_type: "Loan Type"
     media: "Loan Media"
     memo: "Loan Memo"
+    modifying_qb_data_enabled_tooltip: "When checked, admins and Madeline automatic interest calculations may create or alter QB data for this loan when it is active. When unchecked, QB data will be imported read-only."
     months: "%{number} mo."
     move_date_confirm:
       title: "Move Date?"

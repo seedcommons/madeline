@@ -144,7 +144,7 @@ module Admin
           amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_first_interest_payment_date
           projected_end_date projected_return representative_id actual_first_interest_payment_date
-          project_type_value actual_end_date actual_return public_level_value
+          project_type_value actual_end_date actual_return public_level_value modifying_qb_data_enabled
         ] + translation_params(:summary, :details)
       ))
     end

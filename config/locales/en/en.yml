@@ -79,6 +79,7 @@ en:
         representative: "Representative"
         details: "Details"
         public_level: "Public Level"
+        modifying_qb_data_enabled: "Modifying QB Data Enabled"
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
