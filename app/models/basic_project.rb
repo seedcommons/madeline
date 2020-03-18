@@ -14,6 +14,7 @@
 #  id                                    :integer          not null, primary key
 #  length_months                         :integer
 #  loan_type_value                       :string
+#  modifying_qb_data_enabled             :boolean          default(TRUE)
 #  name                                  :string
 #  organization_id                       :integer
 #  original_id                           :integer

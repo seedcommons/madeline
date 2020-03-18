@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_160741) do
+ActiveRecord::Schema.define(version: 2020_03_18_174510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -336,6 +336,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_160741) do
     t.integer "division_id", null: false
     t.integer "length_months"
     t.string "loan_type_value"
+    t.boolean "modifying_qb_data_enabled", default: true
     t.string "name"
     t.integer "organization_id"
     t.integer "original_id"

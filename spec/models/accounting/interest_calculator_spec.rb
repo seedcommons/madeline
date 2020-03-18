@@ -291,9 +291,9 @@ describe Accounting::InterestCalculator do
       end
     end
 
-    describe 'non active loan' do
-      let(:loan) { create(:loan, :completed, division: division, rate: 8.0) }
+    describe 'transaction recalculation is not allowed' do
       it 'does not update txns' do
+        expect(loan).to receive(:transaction_recalculation_allowed?).and_return false
         recalculate_and_reload
         expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
       end

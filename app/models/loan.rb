@@ -14,6 +14,7 @@
 #  id                                    :integer          not null, primary key
 #  length_months                         :integer
 #  loan_type_value                       :string
+#  modifying_qb_data_enabled             :boolean          default(TRUE)
 #  name                                  :string
 #  organization_id                       :integer
 #  original_id                           :integer
@@ -255,5 +256,9 @@ class Loan < Project
     reference_transaction ||= transactions.by_type([:repayment, :disbursement]).with_customer.most_recent_first.first
     customer = reference_transaction.customer if reference_transaction.present?
     customer || Accounting::Customer.find_by(name: organization.name)
+  end
+
+  def transaction_recalculation_allowed?
+    active? && modifying_qb_data_enabled
   end
 end

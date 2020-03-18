@@ -59,7 +59,7 @@ module Accounting
     end
 
     def recalculate
-      return unless @loan.active?
+      return unless @loan.transaction_recalculation_allowed?
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)

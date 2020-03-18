@@ -14,6 +14,7 @@
 #  id                                    :integer          not null, primary key
 #  length_months                         :integer
 #  loan_type_value                       :string
+#  modifying_qb_data_enabled             :boolean          default(TRUE)
 #  name                                  :string
 #  organization_id                       :integer
 #  original_id                           :integer
@@ -138,6 +139,36 @@ describe Loan, type: :model do
       let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11)) }
       it 'returns long formatted date' do
         expect(loan.signing_date_long).to eq "November 11, 2011"
+      end
+    end
+
+    describe '.transaction_recalculation_allowed?' do
+      describe 'loan is not active' do
+        let(:loan) { create(:loan, :completed) }
+        it 'returns false' do
+          expect(loan.transaction_recalculation_allowed?). to be false
+        end
+      end
+
+      describe 'loan is active and modifying qb data enabled' do
+        let(:loan) { create(:loan, :active) }
+        it 'returns true' do
+          expect(loan.transaction_recalculation_allowed?). to be true
+        end
+      end
+
+      describe 'loan is active and but modifying qb data is disabled' do
+        let(:loan) { create(:loan, :active, modifying_qb_data_enabled: false) }
+        it 'returns false' do
+          expect(loan.transaction_recalculation_allowed?). to be false
+        end
+      end
+
+      describe 'loan is not active and modifying qb data is disabled' do
+        let(:loan) { create(:loan, :completed, modifying_qb_data_enabled: false) }
+        it 'returns false' do
+          expect(loan.transaction_recalculation_allowed?). to be false
+        end
       end
     end
 
