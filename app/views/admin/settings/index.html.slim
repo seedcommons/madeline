@@ -75,7 +75,11 @@ section.block
           = documentation_popover(@documentations_by_html,
             html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
         - help_note_type = @division.closed_books_date.present? ? "note_set" : "note_not_set"
-        p.help-block.note = t("quickbooks.closed_books_date.#{help_note_type}", current_date: @division.closed_books_date )
+        / p.help-block.note = t("quickbooks.closed_books_date.#{help_note_type}", current_date: @division.closed_books_date )
+        p.help-block.note
+          = "Madeline will not create transactions or modify Quickbooks transactions before the closed books date, currently set to 2015-12-31."
+        p.alert.alert-warning
+          = "Attention: Setting the closed books date to before 2015-12-31 will cause Madeline to create new transactions and modify transactions before 2015-12-31 in QuickBooks. These actions cannot be undone."
 
         = f.input :closed_books_date, as: :date_picker
 
