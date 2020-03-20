@@ -13,6 +13,7 @@ class MS.Views.ApplicationView extends Backbone.View
       $alert.appendTo($('.alerts')).show('fast')
     MS.dateFormats = params.dateFormats
     $.fn.datepicker.defaults.language = params.locale
+    @prepTooltips()
     @initializePopovers()
     @initializeAutocompleteSelects()
 
@@ -45,3 +46,13 @@ class MS.Views.ApplicationView extends Backbone.View
 
   initializeAutocompleteSelects: ->
     $('.autocomplete-select').select2()
+
+  prepTooltips: ->
+    @$('.ms-tooltip').each (index, tip) =>
+      message = $(tip).closest('[data-message]').data('message')
+      $(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: 'right'
+        toggle: 'popover'
+        trigger: 'manual'
