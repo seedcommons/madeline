@@ -13,9 +13,9 @@ class MS.Views.ApplicationView extends Backbone.View
       $alert.appendTo($('.alerts')).show('fast')
     MS.dateFormats = params.dateFormats
     $.fn.datepicker.defaults.language = params.locale
-    @prepTooltips()
-    @initializePopovers()
     @initializeAutocompleteSelects()
+    @initializePopovers()
+    @prepTooltips()
 
   events: ->
     'click .more': 'toggleExpanded'
@@ -24,28 +24,17 @@ class MS.Views.ApplicationView extends Backbone.View
     'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
     'shown.bs.modal .modal': 'preventMultipleModalBackdrops'
 
-  toggleExpanded: (e) ->
-    @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
+  hideTooltip: (e) ->
+    $curPopover = $(e.currentTarget)
+    $curPopover.popover('hide')
+
+  initializeAutocompleteSelects: ->
+    $('.autocomplete-select').select2()
 
   initializePopovers: ->
     # Popovers are a Bootstrap component.
     # Bootstrap handles showing and hiding popovers.
     $('.ms-popover').popover()
-
-  showTooltip: (e) ->
-    $curPopover = $(e.currentTarget)
-    $curPopover.popover('show')
-
-  hideTooltip: (e) ->
-    $curPopover = $(e.currentTarget)
-    $curPopover.popover('hide')
-
-  preventMultipleModalBackdrops: ->
-    if (@$(".modal-backdrop").length > 1)
-      @$(".modal-backdrop").not(':first').remove()
-
-  initializeAutocompleteSelects: ->
-    $('.autocomplete-select').select2()
 
   prepTooltips: ->
     @$('.ms-tooltip').each (index, tip) =>
@@ -56,3 +45,14 @@ class MS.Views.ApplicationView extends Backbone.View
         placement: 'right'
         toggle: 'popover'
         trigger: 'manual'
+
+  preventMultipleModalBackdrops: ->
+    if (@$(".modal-backdrop").length > 1)
+      @$(".modal-backdrop").not(':first').remove()
+
+  showTooltip: (e) ->
+    $curPopover = $(e.currentTarget)
+    $curPopover.popover('show')
+
+  toggleExpanded: (e) ->
+    @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
