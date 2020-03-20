@@ -67,9 +67,9 @@ section.block
         ) do |f|
 
         = error_notification(f)
-        = f.input :principal_account_id, collection: @accounts
-        = f.input :interest_receivable_account_id, collection: @accounts
-        = f.input :interest_income_account_id, collection: @accounts
+        = f.input :principal_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+        = f.input :interest_receivable_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+        = f.input :interest_income_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
         .title-with-popover
           h2 = t("division.closed_books_date")
           = documentation_popover(@documentations_by_html,
