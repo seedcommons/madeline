@@ -75,7 +75,11 @@ section.block
           = documentation_popover(@documentations_by_html,
             html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
         - help_note_type = @division.closed_books_date.present? ? "note_set" : "note_not_set"
-        p.help-block.note = t("quickbooks.closed_books_date.#{help_note_type}", current_date: @division.closed_books_date)
+        - help_type = @division.closed_books_date.present? ? "date_set" : "date_not_set"
+        p.help-block.note
+          = t("quickbooks.closed_books_date.note.#{help_type}", current_date: @division.closed_books_date)
+        p.alert.alert-warning
+          = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
 
         = f.input :closed_books_date, as: :date_picker
 

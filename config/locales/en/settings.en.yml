@@ -23,6 +23,12 @@ en:
       pending: "QuickBooks data import pending."
       succeeded: "QuickBooks data import succeeded."
     closed_books_date:
+      note:
+        date_not_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date."
+        date_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date, currently set to %{current_date}."
+      alert:
+        date_not_set: "Attention: When a closed books date is set, Madeline will create and modify QuickBooks transactions after the closed books date. These actions cannot be undone."
+        date_set: "Attention: Setting the closed books date to before %{current_date} will cause Madeline to create new transactions and modify transactions before %{current_date} in QuickBooks. These actions cannot be undone."
       note_not_set: "Madeline will not create transactions or modify Quickbooks transactions before the closed books date. Attention: Madeline will create and modify Quickbooks transactions after the closed books date, and these actions cannot be undone."
       note_set: "Madeline will not create transactions or modify Quickbooks transactions before the closed books date, currently set to %{current_date}.
         Attention: Setting the closed books date to before %{current_date} will cause Madeline to create new transactions and modify transactions before %{current_date} in QuickBooks and these actions cannot be undone."
