@@ -36,6 +36,24 @@ feature 'transaction flow', :accounting do
       end
     end
 
+    context "loan's transactions are read-only" do
+      let!(:loan) { create(:loan, txns_read_only: true, division: division) }
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_content('Transactions are read-only')
+        expect(page).not_to have_button('Add Transaction')
+      end
+    end
+
+    context "loan is not active" do
+      let!(:loan) { create(:loan, :completed, division: division) }
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_content('Transactions are read-only')
+        expect(page).not_to have_button('Add Transaction')
+      end
+    end
+
     describe 'new transaction' do
       # This spec does not test TransactionBuilder, InterestCalculator, Updater, or other QB classes
       # because stubbing out all the necessary things was not practical at the time.
@@ -68,7 +86,6 @@ feature 'transaction flow', :accounting do
 
         scenario 'date after closed books date' do
           visit "/admin/loans/#{loan.id}/transactions"
-          save_and_open_page
           fill_txn_form(date: Time.zone.today)
           page.find('a[data-action="submit"]').click
           expect(page).to have_content("Palm trees")
