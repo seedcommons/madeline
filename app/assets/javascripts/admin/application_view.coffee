@@ -20,11 +20,11 @@ class MS.Views.ApplicationView extends Backbone.View
   events: ->
     'click .more': 'toggleExpanded'
     'click .less': 'toggleExpanded'
-    'mouseenter .ms-tooltip.ms-popover': 'showTooltip'
-    'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
+    'mouseenter .ms-tooltip.ms-popover': 'showPopover'
+    'mouseleave .ms-tooltip.ms-popover': 'hidePopover'
     'shown.bs.modal .modal': 'preventMultipleModalBackdrops'
 
-  hideTooltip: (e) ->
+  hidePopover: (e) ->
     $curPopover = $(e.currentTarget)
     $curPopover.popover('hide')
 
@@ -32,11 +32,13 @@ class MS.Views.ApplicationView extends Backbone.View
     $('.autocomplete-select').select2()
 
   initializePopovers: ->
+    # Popovers are used for admin-generated documentation. When clicked, the popover appears.
     # Popovers are a Bootstrap component.
-    # Bootstrap handles showing and hiding popovers.
     $('.ms-popover').popover()
 
   prepTooltips: ->
+    # Tooltips share developer-generated information and are displayed on hover.
+    # Tooltips are a Bootstrap component.
     @$('.ms-tooltip').each (index, tip) =>
       message = $(tip).closest('[data-message]').data('message')
       $(tip).addClass('ms-popover').popover
@@ -50,7 +52,7 @@ class MS.Views.ApplicationView extends Backbone.View
     if (@$(".modal-backdrop").length > 1)
       @$(".modal-backdrop").not(':first').remove()
 
-  showTooltip: (e) ->
+  showPopover: (e) ->
     $curPopover = $(e.currentTarget)
     $curPopover.popover('show')
 
