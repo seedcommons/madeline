@@ -29,6 +29,7 @@ RSpec.describe Task, type: :model do
   describe "#enqueue" do
     let(:task) { create(:task) }
     it "creates a job and stores initial information" do
+      ActiveJob::Base.queue_adapter = :sidekiq
       task.enqueue
       task.reload
       expect(task.provider_job_id).not_to be_nil

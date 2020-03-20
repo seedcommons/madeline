@@ -226,6 +226,28 @@ describe Loan, type: :model do
           expect(loan.health_check).to_not be nil
         end
       end
+
+      context 'existing loan' do
+        before do
+          # creating the loan enqueues RecalculateLoanHealthJob, so need to do it outside of the spec
+          loan
+        end
+        context 'update to field other than updated_at' do
+          it 'enqueues loan health check' do
+            ActiveJob::Base.queue_adapter = :test
+            expect { loan.update_attribute(:projected_end_date, Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
+          end
+        end
+
+        context 'touch' do
+          # loan.touch is used in transaction model when importing qb txns
+          # this only updates updated_at attr and should not trigger loan health check
+          it 'does not enqueue loan health check' do
+            ActiveJob::Base.queue_adapter = :test
+            expect { loan.touch }.not_to have_enqueued_job(RecalculateLoanHealthJob)
+          end
+        end
+      end
     end
 
     describe '.healthy?' do
