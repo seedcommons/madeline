@@ -58,6 +58,17 @@ feature 'transaction flow', :accounting do
       end
     end
 
+    context "loan's qb_division has are qb_read-only on" do
+      before do
+        Division.root.update_attribute(:qb_read_only, true)
+      end
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        # expect "Add Transaction" to not be available
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+      end
+    end
+
     context "loan is not active" do
       let!(:loan) { create(:loan, :completed, division: division) }
       scenario 'create new transaction button is hidden' do
