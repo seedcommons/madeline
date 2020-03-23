@@ -59,6 +59,7 @@ module Accounting
     end
 
     def recalculate
+      return if @loan.qb_division.qb_read_only
       return unless @loan.txn_modification_allowed?
       prev_tx = nil
 
