@@ -8,6 +8,7 @@ module TransactionControllable
     @project = project
 
     check_if_qb_accounts_selected
+    check_if_division_is_read_only
     check_if_txn_modification_allowed
     set_whether_add_txn_is_allowed
     set_whether_txn_list_is_visible
@@ -99,6 +100,12 @@ module TransactionControllable
   def check_if_txn_modification_allowed
     unless @project && @project.txn_modification_allowed? || flash.now[:error].present?
       flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed', settings: settings_link).html_safe
+    end
+  end
+
+  def check_if_division_is_read_only
+    if @project.qb_division.qb_read_only
+      flash.now[:alert] = t('quickbooks.qb_division_read_only')
     end
   end
 
