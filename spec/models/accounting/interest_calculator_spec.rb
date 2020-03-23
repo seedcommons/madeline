@@ -3,7 +3,7 @@ require 'rails_helper'
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
   let(:closed_books_date) { "2016-01-01" }
-  let!(:division) { create(:division, :with_accounts, closed_books_date: closed_books_date) }
+  let!(:division) { create(:division, :with_accounts, closed_books_date: closed_books_date, qb_read_only: false) }
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
 
@@ -271,6 +271,24 @@ describe Accounting::InterestCalculator do
         # balances
         expect(t6.reload.principal_balance).to equal_money(128.82) # 140.67 - 11.85
         expect(t6.reload.interest_balance).to equal_money(-11.85)
+      end
+    end
+
+    describe 'division level read-only setting' do
+      describe 'is on' do
+        let!(:division) { create(:division, :with_accounts, qb_read_only: true) }
+        it 'does not update txns' do
+          recalculate_and_reload
+          expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
+        end
+      end
+
+      describe 'is off' do
+        let!(:division) { create(:division, :with_accounts, qb_read_only: false) }
+        it 'does update txns' do
+          recalculate_and_reload
+          expect(all_txns.map(&:needs_qb_push)).to eq [true, true, true, true, true, true, false]
+        end
       end
     end
 

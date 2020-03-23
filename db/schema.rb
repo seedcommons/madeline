@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_18_174510) do
+ActiveRecord::Schema.define(version: 2020_03_23_220437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2020_03_18_174510) do
     t.boolean "public", default: false, null: false
     t.string "qb_id"
     t.string "qb_parent_class_id"
+    t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
