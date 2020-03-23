@@ -23,6 +23,6 @@ class Admin::SettingsController < Admin::AdminController
 
   def settings_params
     params.require(:division).permit(:principal_account_id, :interest_receivable_account_id,
-      :interest_income_account_id, :closed_books_date)
+      :interest_income_account_id, :closed_books_date, :qb_read_only)
   end
 end
