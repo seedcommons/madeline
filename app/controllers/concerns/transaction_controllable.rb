@@ -80,7 +80,10 @@ module TransactionControllable
   private
 
   def set_whether_add_txn_is_allowed
-    @add_transaction_available = current_division.qb_division&.qb_accounts_selected? && !@data_reset_required && @project.txn_modification_allowed?
+    @add_transaction_available = (current_division.qb_division&.qb_accounts_selected? &&
+       !@data_reset_required &&
+       !@project.qb_division.qb_read_only &&
+       @project.txn_modification_allowed?)
   end
 
   def set_whether_txn_list_is_visible
