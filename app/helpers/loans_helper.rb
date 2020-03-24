@@ -4,6 +4,6 @@ module LoansHelper
   end
 
   def txn_mode_options
-    Loan::TXN_MODES.map{ |m| [t("activerecord.attributes.loan.#{m}"), m] }
+    Loan::TXN_MODES.map { |m| [t("activerecord.attributes.loan.#{m}"), m] }
   end
 end

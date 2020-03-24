@@ -95,7 +95,7 @@ module TransactionControllable
 
   def check_if_txn_modification_allowed
     unless @project && @project.txn_modification_allowed? || flash.now[:error].present?
-      flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed', settings: settings_link).html_safe
+      flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
     end
   end
 
