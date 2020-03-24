@@ -39,12 +39,13 @@ class MS.Views.ApplicationView extends Backbone.View
   prepTooltips: ->
     # Tooltips share developer-generated information and are displayed on hover.
     # Tooltips are a Bootstrap component.
-    @$('.ms-tooltip').each (index, tip) =>
+    @$('.ms-tooltip').each (index, tip) ->
       message = $(tip).closest('[data-message]').data('message')
+      placement = $(tip).closest('[data-placement]').data('placement') || 'right'
       $(tip).addClass('ms-popover').popover
         content: message
         html: true
-        placement: 'right'
+        placement: placement
         toggle: 'popover'
         trigger: 'manual'
 
