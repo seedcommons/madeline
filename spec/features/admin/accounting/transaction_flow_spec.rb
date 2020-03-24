@@ -37,7 +37,7 @@ feature 'transaction flow', :accounting do
     end
 
     context "loan's transactions are read-only" do
-      let!(:loan) { create(:loan, txns_read_only: true, division: division) }
+      let!(:loan) { create(:loan, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
       scenario 'create new transaction button is hidden' do
         visit "/admin/loans/#{loan.id}/transactions"
         expect(page).to have_content('Transactions are read-only')

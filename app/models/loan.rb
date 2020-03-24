@@ -28,7 +28,7 @@
 #  secondary_agent_id                    :integer
 #  signing_date                          :date
 #  status_value                          :string
-#  txns_read_only                        :boolean          default(FALSE), not null
+#  txn_handling_mode                     :string           default("automatic"), not null
 #  type                                  :string           not null
 #  updated_at                            :datetime         not null
 #
@@ -55,6 +55,9 @@ class Loan < Project
   DEFAULT_STEP_NAME = '[default]'
   STATUS_ACTIVE_VALUE = 'active'
   STATUS_COMPLETED_VALUE = 'completed'
+  TXN_MODES = %i(automatic read_only)
+  TXN_MODE_AUTO = 'automatic'
+  TXN_MODE_READ_ONLY = 'read_only'
 
   belongs_to :organization
   belongs_to :currency
@@ -113,6 +116,10 @@ class Loan < Project
     scoped = scoped.where(division: division_ids)
 
     scoped
+  end
+
+  def self.txn_mode_choices
+    TXN_MODES
   end
 
   # Rate is entered as a percent
@@ -258,7 +265,11 @@ class Loan < Project
     customer || Accounting::Customer.find_by(name: organization.name)
   end
 
+  def txns_read_only?
+    txn_handling_mode == TXN_MODE_READ_ONLY
+  end
+
   def txn_modification_allowed?
-    active? && !txns_read_only
+    active? && !txns_read_only?
   end
 end

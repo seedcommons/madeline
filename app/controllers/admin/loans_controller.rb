@@ -144,7 +144,7 @@ module Admin
           amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_first_interest_payment_date
           projected_end_date projected_return representative_id actual_first_interest_payment_date
-          project_type_value actual_end_date actual_return public_level_value txns_read_only
+          project_type_value actual_end_date actual_return public_level_value txn_handling_mode
         ] + translation_params(:summary, :details)
       ))
     end
@@ -157,6 +157,7 @@ module Admin
       @representative_choices = representative_choices
       @loan_criteria = @loan.criteria
       @loan_criteria.current_user = current_user if @loan_criteria
+      @txn_mode_choices = Loan.txn_mode_choices
     end
 
     def representative_choices

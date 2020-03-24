@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 2020_03_18_174510) do
     t.integer "secondary_agent_id"
     t.date "signing_date"
     t.string "status_value"
-    t.boolean "txns_read_only", default: false, null: false
+    t.string "txn_handling_mode", default: "automatic", null: false
     t.string "type", null: false
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_projects_on_currency_id"
