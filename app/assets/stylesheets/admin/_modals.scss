@@ -15,3 +15,11 @@
     display: inline-block;
   }
 }
+
+// Fix a bug where Select2 sets the width of autocomplete selects to its own determined width.
+// The width selected by Select2 can be variable and too narrow to display the content well.
+.modal {
+  .select2 {
+    width: 100% !important;
+  }
+}

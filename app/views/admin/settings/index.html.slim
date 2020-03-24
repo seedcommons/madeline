@@ -67,14 +67,18 @@ section.block
         ) do |f|
 
         = error_notification(f)
-        = f.input :principal_account_id, collection: @accounts
-        = f.input :interest_receivable_account_id, collection: @accounts
-        = f.input :interest_income_account_id, collection: @accounts
+        = f.input :principal_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+        = f.input :interest_receivable_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+        = f.input :interest_income_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
         .title-with-popover
           h2 = t("division.closed_books_date")
           = documentation_popover(@documentations_by_html,
             html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
-        p.help-block.note = t("quickbooks.closed_books_date.note")
+        - help_type = @division.closed_books_date.present? ? "date_set" : "date_not_set"
+        p.help-block.note
+          = t("quickbooks.closed_books_date.note.#{help_type}", current_date: @division.closed_books_date)
+        p.alert.alert-warning
+          = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
 
         = f.input :closed_books_date, as: :date_picker
 
