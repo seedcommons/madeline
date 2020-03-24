@@ -169,9 +169,9 @@
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_public_level",
       options: popover_options)
 
-  = f.input :txn_handling_mode
-    .view-element = @loan.txn_handling_mode
-    = f.input_field :txn_handling_mode, collection: @txn_mode_choices, selected: (@loan.txn_handling_mode || Loan.TXN_MODE_AUTO)
+  = f.input t('activerecord.attributes.loan.txn_handling_mode')
+    .view-element = t("loan.#{@loan.txn_handling_mode}")
+    = f.input_field :txn_handling_mode, collection: @txn_mode_choices, as: :radio_buttons
     i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('loan.txn_mode_tooltip')}"
 
   .actions.form-element

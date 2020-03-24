@@ -4,6 +4,7 @@ module Admin
   class LoansController < Admin::ProjectsController
     include QuestionnaireRenderable
     include TransactionControllable
+    include LoansHelper
 
     TABS = %w(details questions timeline timeline_list logs transactions calendar).freeze
 
@@ -157,7 +158,7 @@ module Admin
       @representative_choices = representative_choices
       @loan_criteria = @loan.criteria
       @loan_criteria.current_user = current_user if @loan_criteria
-      @txn_mode_choices = Loan.txn_mode_choices
+      @txn_mode_choices = txn_mode_options
     end
 
     def representative_choices
