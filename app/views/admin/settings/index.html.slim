@@ -14,7 +14,6 @@ section.block
       html: {class: 'form-horizontal'},
       wrapper: :horizontal_form_expanded,
     ) do |f|
-    - unless Rails.env.production?
       = f.input "connection_status" do
         .read-only
           - if @division.quickbooks_connected?
@@ -81,7 +80,7 @@ section.block
           = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
 
         = f.input :closed_books_date, as: :date_picker
-        = f.input :qb_read_only 
+        = f.input :qb_read_only
 
         .text-right
           = f.submit t(:save), class: "btn btn-primary"
