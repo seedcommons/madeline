@@ -380,7 +380,7 @@ en:
   quickbooks:
     accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
-    modifying_transactions_not_allowed: 'Transactions are read-only because the loan is not active, transactions are set to read-only for this loan, or both.'
+    modifying_transactions_not_allowed: 'Transactions are read-only because the loan is not active, transactions are in read_only mode for this loan, or both.'
     class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"

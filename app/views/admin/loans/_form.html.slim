@@ -171,8 +171,9 @@
 
   = f.input t('activerecord.attributes.loan.txn_handling_mode')
     .view-element = t("loan.#{@loan.txn_handling_mode}")
-    = f.input_field :txn_handling_mode, collection: @txn_mode_choices, as: :radio_buttons
-    i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('loan.txn_mode_tooltip')}"
+    .form-element
+      = f.input_field :txn_handling_mode, collection: @txn_mode_choices, as: :radio_buttons
+      i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('loan.txn_mode_tooltip')}"
 
   .actions.form-element
     - unless @loan.new_record?
