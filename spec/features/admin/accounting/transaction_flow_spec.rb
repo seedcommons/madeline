@@ -42,7 +42,8 @@ feature 'transaction flow', :accounting do
       scenario 'create new transaction button is hidden' do
         visit "/admin/loans/#{loan.id}/transactions"
         expect(page).to have_content('Transactions are read-only')
-        expect(page).not_to have_button('Add Transaction')
+        # expect "Add Transaction" to not be available
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
       end
     end
 
