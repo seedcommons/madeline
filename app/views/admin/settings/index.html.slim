@@ -54,7 +54,7 @@ section.block
   - form_identifier = 'accounting_settings'
   - popover_options = {placement: 'right'}
   - if @accounts && !@accounts.empty?
-    section.block.accounting-settings-form
+    section.block
       h2 = t("settings.accounting")
       = simple_form_for([:admin, @division],
           url: admin_accounting_settings_path,
