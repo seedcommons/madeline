@@ -47,7 +47,7 @@ feature 'transaction flow', :accounting do
       end
     end
 
-    context "loan's qb_division has are qb_read-only on" do
+    context "loan's qb_division has qb_read-only on" do
       before do
         Division.root.update_attribute(:qb_read_only, true)
       end
