@@ -172,8 +172,10 @@
   = f.input t('activerecord.attributes.loan.txn_handling_mode')
     .view-element = t("loan.#{@loan.txn_handling_mode}")
     .form-element
-      = f.input_field :txn_handling_mode, collection: @txn_mode_choices, as: :radio_buttons
       i.fa.ms-tooltip.fa-info-circle.form-element data-message="#{t('loan.txn_mode_tooltip')}"
+      = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_txn_handling_mode",
+        options: popover_options)
+      = f.input_field :txn_handling_mode, collection: @txn_mode_choices, as: :radio_buttons
 
   .actions.form-element
     - unless @loan.new_record?
