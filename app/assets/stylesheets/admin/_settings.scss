@@ -1,9 +1,9 @@
 .admin-settings {
   section {
     h2, h3 {
-      margin: 0;
-      font-size: 1.4em;
       display: inline;
+      font-size: 1.4em;
+      margin: 0;
     }
 
     h3 {
@@ -12,13 +12,13 @@
 
     fieldset {
       border: 1px solid $table-border-color;
-      padding: 0.5em;
       margin: 0.5em;
+      padding: 0.5em;
     }
 
     .note {
-      font-style: italic;
       font-size: 1em;
+      font-style: italic;
       margin-bottom: 0.6em;
     }
 
