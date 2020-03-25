@@ -14,7 +14,6 @@ section.block
       html: {class: 'form-horizontal'},
       wrapper: :horizontal_form_expanded,
     ) do |f|
-    - unless Rails.env.production?
       = f.input "connection_status" do
         .read-only
           - if @division.quickbooks_connected?
@@ -56,9 +55,7 @@ section.block
   - popover_options = {placement: 'right'}
   - if @accounts && !@accounts.empty?
     section.block
-      h2 = t("quickbooks.accounts.accounts")
-      p.help-block.note = t("quickbooks.accounts.note")
-
+      h2 = t("settings.accounting")
       = simple_form_for([:admin, @division],
           url: admin_accounting_settings_path,
           method: 'patch',
@@ -66,21 +63,34 @@ section.block
           wrapper: :horizontal_form_expanded,
         ) do |f|
 
-        = error_notification(f)
-        = f.input :principal_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
-        = f.input :interest_receivable_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
-        = f.input :interest_income_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
-        .title-with-popover
-          h2 = t("division.closed_books_date")
-          = documentation_popover(@documentations_by_html,
-            html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
-        - help_type = @division.closed_books_date.present? ? "date_set" : "date_not_set"
-        p.help-block.note
-          = t("quickbooks.closed_books_date.note.#{help_type}", current_date: @division.closed_books_date)
-        p.alert.alert-warning
-          = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
+        fieldset
+          h3 = t("quickbooks.accounts.accounts")
+          p.help-block.note = t("quickbooks.accounts.note")
+          = error_notification(f)
+          = f.input :principal_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+          = f.input :interest_receivable_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+          = f.input :interest_income_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
 
-        = f.input :closed_books_date, as: :date_picker
+        fieldset
+          .title-with-popover
+            h3 = t("division.closed_books_date")
+            = documentation_popover(@documentations_by_html,
+              html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
+          - help_type = @division.closed_books_date.present? ? "date_set" : "date_not_set"
+          p.help-block.note
+            = t("quickbooks.closed_books_date.note.#{help_type}", current_date: @division.closed_books_date)
+          p.alert.alert-warning
+            = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
+          = f.input :closed_books_date, as: :date_picker
+
+        fieldset
+          .title-with-popover
+            h3 = t("quickbooks.qb_read_only.qb_read_only")
+            = documentation_popover(@documentations_by_html,
+              html_identifier: "#{form_identifier}_qb_read_only", options: popover_options)
+          p.help-block.note
+            = t("quickbooks.qb_read_only.note")
+          = f.input :qb_read_only
 
         .text-right
           = f.submit t(:save), class: "btn btn-primary"

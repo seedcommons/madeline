@@ -196,6 +196,10 @@ label.light {
   &.form-with-documentation {
     .form-control {
       width: 90%;
+
+      &.radio_buttons {
+        width: auto;
+      }
     }
 
     .form-group {

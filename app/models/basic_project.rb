@@ -28,6 +28,7 @@
 #  secondary_agent_id                    :integer
 #  signing_date                          :date
 #  status_value                          :string
+#  txn_handling_mode                     :string           default("automatic"), not null
 #  type                                  :string           not null
 #  updated_at                            :datetime         not null
 #

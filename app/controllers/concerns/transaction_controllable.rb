@@ -5,8 +5,10 @@ module TransactionControllable
     @transactions = Accounting::Transaction
     @transactions = @transactions.where(project_id: project.id) if project
     @transactions = @transactions.includes(:account, :project, :currency, :line_items).standard_order
+    @project = project
 
     check_if_qb_accounts_selected
+    check_if_txn_modification_allowed
     set_whether_add_txn_is_allowed
     set_whether_txn_list_is_visible
 
@@ -78,7 +80,10 @@ module TransactionControllable
   private
 
   def set_whether_add_txn_is_allowed
-    @add_transaction_available = current_division.qb_division&.qb_accounts_selected? && !@data_reset_required
+    @add_transaction_available = (current_division.qb_division&.qb_accounts_selected? &&
+       !@data_reset_required &&
+       !@project.qb_division.qb_read_only &&
+       @project.txn_modification_allowed?)
   end
 
   def set_whether_txn_list_is_visible
@@ -88,6 +93,12 @@ module TransactionControllable
   def check_if_qb_accounts_selected
     unless current_division.qb_division&.qb_accounts_selected? || flash.now[:error].present?
       flash.now[:alert] = t('quickbooks.accounts_not_selected', settings: settings_link).html_safe
+    end
+  end
+
+  def check_if_txn_modification_allowed
+    unless @project && @project.txn_modification_allowed? || flash.now[:error].present?
+      flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
     end
   end
 

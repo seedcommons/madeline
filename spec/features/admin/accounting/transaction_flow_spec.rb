@@ -5,7 +5,7 @@ feature 'transaction flow', :accounting do
   # Right now, the TransactionPolicy requires admin privileges on Division.root, and Accounts are
   # not scoped to division.
   let(:division) { Division.root }
-  let!(:loan) { create(:loan, division: division) }
+  let!(:loan) { create(:loan, :active, division: division) }
   let(:user) { create_admin(division) }
   let!(:customers) { create_list(:customer, 3) }
 
@@ -13,7 +13,8 @@ feature 'transaction flow', :accounting do
     Division.root.update_attributes!(
       principal_account: create(:account),
       interest_income_account: create(:account),
-      interest_receivable_account: create(:account)
+      interest_receivable_account: create(:account),
+      qb_read_only: false
     )
     login_as(user, scope: :user)
   end
@@ -33,6 +34,37 @@ feature 'transaction flow', :accounting do
         Rails.configuration.x.test.raise_qb_error_during_updater = 'qb fail on index'
         visit "/admin/loans/#{loan.id}/transactions"
         expect(page).to have_alert('Some data may be out of date. (Error: qb fail on index)')
+      end
+    end
+
+    context "loan's transactions are read-only" do
+      let!(:loan) { create(:loan, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_content('Transactions are read-only')
+        # expect "Add Transaction" to not be available
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+      end
+    end
+
+    context "loan's qb_division has qb_read-only on" do
+      before do
+        Division.root.update_attribute(:qb_read_only, true)
+      end
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        # expect "Add Transaction" to not be available
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+      end
+    end
+
+    context "loan is not active" do
+      let!(:loan) { create(:loan, :completed, division: division) }
+      scenario 'create new transaction button is hidden' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_content('Transactions are read-only')
+        # expect "Add Transaction" to not be available
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
       end
     end
 

@@ -28,6 +28,7 @@
 #  secondary_agent_id                    :integer
 #  signing_date                          :date
 #  status_value                          :string
+#  txn_handling_mode                     :string           default("automatic"), not null
 #  type                                  :string           not null
 #  updated_at                            :datetime         not null
 #
@@ -138,6 +139,36 @@ describe Loan, type: :model do
       let(:loan) { create(:loan, signing_date: Date.civil(2011, 11, 11)) }
       it 'returns long formatted date' do
         expect(loan.signing_date_long).to eq "November 11, 2011"
+      end
+    end
+
+    describe '.txn_modification_allowed?' do
+      describe 'loan is not active' do
+        let(:loan) { create(:loan, :completed) }
+        it 'returns false' do
+          expect(loan.txn_modification_allowed?). to be false
+        end
+      end
+
+      describe 'loan is active and and txns are not read only' do
+        let(:loan) { create(:loan, :active) }
+        it 'returns true' do
+          expect(loan.txn_modification_allowed?). to be true
+        end
+      end
+
+      describe 'loan is active and and txns are read only' do
+        let(:loan) { create(:loan, :active, txn_handling_mode: Loan::TXN_MODE_READ_ONLY) }
+        it 'returns false' do
+          expect(loan.txn_modification_allowed?). to be false
+        end
+      end
+
+      describe 'loan is not active and txns are read only' do
+        let(:loan) { create(:loan, :completed, txn_handling_mode: Loan::TXN_MODE_READ_ONLY) }
+        it 'returns false' do
+          expect(loan.txn_modification_allowed?). to be false
+        end
       end
     end
 
