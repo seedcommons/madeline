@@ -84,7 +84,12 @@ section.block
           = f.input :closed_books_date, as: :date_picker
 
         fieldset
-          h3 = "Other Settings"
+          .title-with-popover
+            h3 = t("quickbooks.qb_read_only.qb_read_only")
+            = documentation_popover(@documentations_by_html,
+              html_identifier: "#{form_identifier}_qb_read_only", options: popover_options)
+          p.help-block.note
+            = t("quickbooks.qb_read_only.note")
           = f.input :qb_read_only
 
         .text-right
