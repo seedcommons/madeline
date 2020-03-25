@@ -21,7 +21,6 @@ class MS.Views.QuestionsView extends Backbone.View
     @filterSwitchView = new MS.Views.FilterSwitchView()
     @locale = params.locale
     @addNewItemBlocks()
-    @prepTooltips()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -147,17 +146,6 @@ class MS.Views.QuestionsView extends Backbone.View
       $('.links-block').html()
     else
       $('.actions-disabled-block').html()
-
-  prepTooltips: ->
-    @$('.ms-tooltip').each (index, tip) =>
-      message = I18n.t('questions.not_editable', locale: @locale)
-
-      @$(tip).addClass('ms-popover').popover
-        content: message
-        html: true
-        placement: 'left'
-        toggle: 'popover'
-        trigger: 'manual'
 
   # Update tree with data returned from server
   # Remember the state of which nodes are expanded (subtrees)

@@ -13,8 +13,9 @@ class MS.Views.ApplicationView extends Backbone.View
       $alert.appendTo($('.alerts')).show('fast')
     MS.dateFormats = params.dateFormats
     $.fn.datepicker.defaults.language = params.locale
-    @initializePopovers()
     @initializeAutocompleteSelects()
+    @initializePopovers()
+    @prepTooltips()
 
   events: ->
     'click .more': 'toggleExpanded'
@@ -23,25 +24,38 @@ class MS.Views.ApplicationView extends Backbone.View
     'mouseleave .ms-tooltip.ms-popover': 'hideTooltip'
     'shown.bs.modal .modal': 'preventMultipleModalBackdrops'
 
-  toggleExpanded: (e) ->
-    @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
-
-  initializePopovers: ->
-    # Popovers are a Bootstrap component.
-    # Bootstrap handles showing and hiding popovers.
-    $('.ms-popover').popover()
-
-  showTooltip: (e) ->
-    $curPopover = $(e.currentTarget)
-    $curPopover.popover('show')
-
   hideTooltip: (e) ->
     $curPopover = $(e.currentTarget)
     $curPopover.popover('hide')
+
+  initializeAutocompleteSelects: ->
+    $('.autocomplete-select').select2()
+
+  initializePopovers: ->
+    # Popovers are used for documentation.
+    # By default, when clicked, the popover appears.
+    # Popovers are a Bootstrap component.
+    $('.ms-popover').popover()
+
+  prepTooltips: ->
+    # Tooltips share developer-generated information.
+    @$('.ms-tooltip').each (index, tip) ->
+      message = $(tip).closest('[data-message]').data('message')
+      placement = $(tip).closest('[data-placement]').data('placement') || 'right'
+      $(tip).addClass('ms-popover').popover
+        content: message
+        html: true
+        placement: placement
+        toggle: 'popover'
+        trigger: 'manual'
 
   preventMultipleModalBackdrops: ->
     if (@$(".modal-backdrop").length > 1)
       @$(".modal-backdrop").not(':first').remove()
 
-  initializeAutocompleteSelects: ->
-    $('.autocomplete-select').select2()
+  showTooltip: (e) ->
+    $curPopover = $(e.currentTarget)
+    $curPopover.popover('show')
+
+  toggleExpanded: (e) ->
+    @$(e.currentTarget).closest(".expandable").toggleClass("expanded")
