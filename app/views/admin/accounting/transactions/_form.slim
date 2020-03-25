@@ -16,7 +16,8 @@
     .view-element
       - if @transaction.loan_transaction_type_value
         = @transaction.loan_transaction_type_value.capitalize
-    = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
+    .form-element
+      = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
