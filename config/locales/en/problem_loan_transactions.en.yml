@@ -19,7 +19,7 @@ en:
       header: Message
     num_txns_with_message: Number of Transactions with Similar Messages for this Loan
     associated_loans: Associated Loans
-    quickbooks_data: Raw Quickbooks Data
+    quickbooks_data: Raw QuickBooks Data
     error_msg_link:
       one: review the broken transaction
       other: review the broken transactions
