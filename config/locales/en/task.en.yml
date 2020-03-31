@@ -2,14 +2,14 @@ en:
   task:
     activity_message:
       completed: "Complete"
-      error_data_reset_required: "Error: Quickbooks data reset required"
-      error_quickbooks_not_connected: "Error: Quickbooks not connected"
+      error_data_reset_required: "Error: QuickBooks data reset required"
+      error_quickbooks_not_connected: "Error: QuickBooks not connected"
       error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
       failed: "Task failed with an internal error. An administrator has been notified."
-      fetching_quickbooks_data: "Fetching Quickbooks Data"
+      fetching_quickbooks_data: "Fetching QuickBooks Data"
       finished_with_custom_error_data: "This task completed with errors. See error details."
       in_progress: "In progress"
-      syncing_with_quickbooks: "Syncing with Quickbooks"
+      syncing_with_quickbooks: "Syncing with QuickBooks"
       task_enqueued: "This task has been enqueued"
       updating_loans: "Updating %{total} loans. %{so_far} loans updated so far."
     custom_error_data:
@@ -43,7 +43,7 @@ en:
       type_with_id:
         data_export: "Data Export #%{number}"
     type:
-      full_fetcher: "Quickbooks Import"
+      full_fetcher: "QuickBooks Import"
       data_export: "Data Export"
       data_export_task_job: "Data Export"
       update_all_loans: "Update All Loans"

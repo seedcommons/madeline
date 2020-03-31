@@ -19,13 +19,13 @@ en:
       header: Message
     num_txns_with_message: Number of Transactions with Similar Messages for this Loan
     associated_loans: Associated Loans
-    quickbooks_data: Raw Quickbooks Data
+    quickbooks_data: Raw QuickBooks Data
     error_msg_link:
       one: review the broken transaction
       other: review the broken transactions
     error_msg_html:
-      one: There is a transaction associated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please %{link}, correct the transaction in quickbooks, and reset your quickbooks data.
-      other: There are %{count} transactions associated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please review %{link}, correct the transaction in quickbooks, and reset your quickbooks data.
+      one: There is a transaction associated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please %{link}, correct the transaction in QuickBooks, and reset your QuickBooks data.
+      other: There are %{count} transactions associated with this loan which cannot be processed by Madeline. Your loan balances may not be correct. Please review %{link}, correct the transaction in QuickBooks, and reset your QuickBooks data.
     warning_msg_link:
       one: review the transaction with a warning
       other: review the transactions with warnings
