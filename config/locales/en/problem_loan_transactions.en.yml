@@ -30,5 +30,5 @@ en:
       one: review the transaction with a warning
       other: review the transactions with warnings
     warning_msg_html:
-      one: There is a transaction assocated with this loan that has a warning. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed the transaction is correct.
-      other: There are %{count} transactions associated with this loan that have warnings. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
+      one: There is a warning associated with transactions for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed the transaction is correct.
+      other: There are %{count} warnings associated with transactions for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
