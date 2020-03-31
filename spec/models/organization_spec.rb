@@ -64,7 +64,7 @@ describe Organization, type: :model do
   end
 
   describe 'name' do
-    let(:organization) { create(:organization, name: " test ")}
+    let(:organization) { create(:organization, name: " test ") }
     it 'strips white space from name' do
       expect(organization.reload.name).to eq "test"
     end
