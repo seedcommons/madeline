@@ -100,14 +100,6 @@ module ApplicationHelper
     options += options_tree(divisions.hash_tree, include_root: include_root, public_only: public_only)
   end
 
-  # For wicegrid custom filters
-  def access_role_filter
-    roles = %i(admin member none)
-    roles.map { |i| [I18n.t("simple_form.options.person.access_role.#{i}"), i] }
-    roles_filter = roles.map { |i| [I18n.t("simple_form.options.person.access_role.#{i}"), i] }
-    return roles_filter
-  end
-
   private
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be
