@@ -90,6 +90,8 @@ section.block
               html_identifier: "#{form_identifier}_qb_read_only", options: popover_options)
           p.help-block.note
             = t("quickbooks.qb_read_only.note")
+          p.alert.alert-warning
+            = t("quickbooks.qb_read_only.alert")
           = f.input :qb_read_only
 
         .text-right
