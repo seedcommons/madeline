@@ -35,6 +35,11 @@
         .filter-content
           = grid_filter(@people_grid, :access_filter)
 
+      / .filter
+      /   label = "Role"
+      /   .filter-content
+      /     = grid_filter(@people_grid, :access_role_filter)
+
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="people"
           = t("clear")
