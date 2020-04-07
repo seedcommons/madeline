@@ -27,5 +27,5 @@
       response_set: response_set, group: question, parents: parents + [question])
   - elsif display_question
     .answer-wrapper.tree-view
-      = render("admin/loans/questionnaires/answer", f: f, response: response, question: question)
+      = render("admin/loans/questionnaires/answer", f: f, response: response, question: question, display_context: "summary")
     = render("admin/loans/questionnaires/summary_number_handling", response: response)
