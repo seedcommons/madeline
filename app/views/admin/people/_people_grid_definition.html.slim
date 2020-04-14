@@ -46,7 +46,7 @@
       in_html: false, filter: false
     - g.column name: t("people.shared.has_system_access"), attribute: 'has_system_access',
       detach_with_id: :access_filter
-    - g.column name: t('activerecord.attributes.person.access_role'), attribute: 'has_system_access' do |person|
+    - g.column name: t('activerecord.attributes.person.access_role') do |person|
       - person.access_role_label
 
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
