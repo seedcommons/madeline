@@ -30,5 +30,6 @@ en:
         date_not_set: "Attention: When a closed books date is set, Madeline will create and modify QuickBooks transactions after the closed books date. These actions cannot be undone."
         date_set: "Attention: Setting the closed books date to before %{current_date} will cause Madeline to create new transactions and modify transactions before %{current_date} in QuickBooks. These actions cannot be undone."
     qb_read_only:
-      qb_read_only: "Read-Only Accounting Data"
+      alert: "Attention: Switching off read-only accounting will cause Madeline to add automated transactions to QuickBooks data."
       note: "When set to read-only, transaction creation and automatic interest calculation is disabled. When not set to read-only mode, Madeline will automatically calculate interest for loans and admins may create transactions on loans. In both modes, QuickBooks data is regularly imported and available to view."
+      qb_read_only: "Read-Only Accounting Data"
