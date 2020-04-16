@@ -70,7 +70,7 @@ feature 'loan flow' do
     end
   end
 
-  scenario 'loan can not be created with the same person as pry and sec agent' do
+  scenario 'loan can not be created with the same person as pri and sec agent' do
     visit new_admin_loan_path
     select user.name, from: 'loan_primary_agent_id'
     select user.name, from: 'loan_secondary_agent_id'
