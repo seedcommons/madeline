@@ -19,7 +19,7 @@ namespace :one_time_changes do
     # ProgressMetric and Repayment models do not have tables
     # Media does not have user-facing fields and takes a long time to resave
     classes_to_skip = %w(Project ProgressMetric Media Repayment)
-    if Rails.env == 'development'
+    if Rails.env.development?
       Rails.application.eager_load!
     end
     klasses = ApplicationRecord.subclasses
