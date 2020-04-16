@@ -11,18 +11,40 @@ namespace :one_time_changes do
     end
   end
 
-  desc "Resave all organizations to run any new callbacks and
+  desc "Resave all records (except excluded tables including Proejcts) to run any new callbacks and
   check against any new validations. Created to be run manually
   on each server after deploying 10407, in which whitespace is stripped on save"
-  task resave_all_organizations: :environment do
-    org_ids_with_errors = {}
-    Organization.find_each do |o|
-      begin
-       o.save!
-     rescue
-       org_ids_with_errors[o.id] = o.errors.messages
-     end
+  task resave_all_records: :environment do
+    # Projects excluded because 'updated_at' on loans used in accounting logic.
+    # ProgressMetric and Repayment models do not have tables
+    # Media does not have user-facing fields and takes a long time to resave
+    classes_to_skip = %w(Project ProgressMetric Media Repayment)
+    if Rails.env == 'development'
+      Rails.application.eager_load!
     end
-    pp org_ids_with_errors
+    klasses = ApplicationRecord.subclasses
+    puts "Resaving records for #{klasses.count} classes . . .\n\n"
+    klasses.each do |klass|
+      name = klass.name
+      if classes_to_skip.include?(name) || name.match?("Legacy")
+        puts "SKIPPING class #{name}\n\n"
+      else
+        puts "BEGIN updating records of class #{name}. . . "
+        records_with_errors = {}
+        klass.find_each do |record|
+          begin
+            record.save!
+          rescue
+            records_with_errors [record.id] = record.errors.messages
+          end
+        end
+        if records_with_errors.empty?
+          puts "No errors raised while resaving records of class #{name}"
+        else
+          pp records_with_errors
+        end
+        puts "END updating records of class #{name}.\n\n"
+      end
+    end
   end
 end
