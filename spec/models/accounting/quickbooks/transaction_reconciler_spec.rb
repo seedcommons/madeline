@@ -11,7 +11,7 @@ RSpec.describe Accounting::Quickbooks::TransactionReconciler, type: :model do
   let(:transaction) { create(:accounting_transaction, qb_id: qb_id) }
 
   subject do
-    described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account))
+    described_class.new(instance_double(Division, qb_connection: connection, principal_account: principal_account, qb_read_only: false))
   end
 
   before do
