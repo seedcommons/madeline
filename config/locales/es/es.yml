@@ -40,6 +40,8 @@ es:
         banner_bg_color: "Color de Fondo del Banner "
         accent_main_color: "Color de Acentos"
         accent_fg_color: "Color del Texto del Primer Plano de Acentos"
+        closed_books_date: "Fecha de Cierre de Contabilidad"
+        qb_read_only: "Tratar Datos de QB como de Sólo Lectura"
         connection_status: "Estado de QuickBooks"
         connect: "Conectar a QuickBooks"
         last_updated_at: "Datos de QuickBooks importados la última vez"
@@ -77,6 +79,9 @@ es:
         representative: "Representante"
         details: "Detalles"
         public_level: "Nivel Público"
+        txn_handling_mode: "Modo de Transacción"
+        automatic: "Automático"
+        read_only: "Sólo Lectura"
         rate: "Tasa"
         signing_date: "Fecha de Firma"
         summary: "Resumen"
@@ -176,6 +181,10 @@ es:
           type: "Tipo"
     errors:
       models:
+        accounting/transaction:
+          attributes:
+            txn_date:
+              closed_books_date: "La fecha debe ser posterior a la Fecha de Cierre de la Contabilidad, %{date}, en Configuración de Contabilidad."
         basic_project:
           attributes:
             primary_agent:
@@ -360,6 +369,7 @@ es:
   quickbooks:
     accounts_not_selected: 'Antes de poder agregar transacciones, necesitas seleccionar las cuentas de QuickBooks en %{settings}.'
     authorization_failure: "Debes conectarte a QuickBooks antes de acceder a transacciones. Por favor ir a %{settings} para conectar."
+    modifying_transactions_not_allowed: 'Las transacciones son de sólo lectura porque el préstamo no está activo, las transacciones de este préstamo están en modo de sólo lectura, o ambas cosas.'
     class_location_notice: "NOTA: Antes de poder agregar transacciones, debes asegurarte de que Clases y Locaciones (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
     data_reset_required: "Se requiere reiniciar los datos de QuickBooks antes de poder acceder a las transacciones. Por favor ir a %{settings} para reiniciar."
     misc: "Hubo un error en la comunicacíon con QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados. (Error: %{msg})"
@@ -483,6 +493,7 @@ es:
     questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
+    problem_transactions: "Errores de Transacción "
     tasks: "Tareas"
   number:
     nth:
@@ -494,8 +505,12 @@ es:
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
   problem_loan_transaction:
-    journal_entry_type_other_account_not_set: "Transacción del tipo Otro no tiene una cuenta fijada. Por favor, revisar los ítems de línea para lograr precisión."
+    unprocessable_account: "La transacción contiene un elemento de línea con una cuenta imposible de procesar. Por favor, revisar y corregir en QuickBooks."
+    journal_entry_type_other_account_not_set: "Esta transacción del tipo Otro no tiene una cuenta asignada. Por favor, revisar los elementos de línea en QuickBooks para lograr precisión."
     has_multiple_loans: "Transacción asociada a múltiples préstamos."
+    attempted_change_before_closed_books_date: "Madeline habría alterado esta transacción (fechada %{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera."
+    no_end_of_month_int_txn_before_closed_books_date: "Madeline habría agregado una transacción de interés a fin de mes luego de ésta (fechada%{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera. "
+    attempted_new_int_txn_before_closed_books_date: "Madeline habría agregado una transacción de interés en la misma fecha que ésta (%{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera."
   project_step:
     add: "Agregar Paso"
     add_dependent_step: "Agregar Paso Dependiente"
