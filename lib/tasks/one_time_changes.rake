@@ -20,7 +20,12 @@ namespace :one_time_changes do
     # Media does not have user-facing fields and takes a long time to resave
     classes_to_skip = %w(Project ProgressMetric Media Repayment)
     if Rails.env.development?
-      Rails.application.eager_load!
+      Dir[Rails.root + 'app/models/*.rb'].each do |path|
+        require path
+      end
+      Dir[Rails.root + 'app/models/accounting/*.rb'].each do |path|
+        require path
+      end
     end
     klasses = ApplicationRecord.subclasses
     puts "Resaving records for #{klasses.count} classes . . .\n\n"
