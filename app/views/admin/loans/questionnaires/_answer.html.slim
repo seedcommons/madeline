@@ -95,5 +95,5 @@
     = render 'admin/loans/questionnaires/business_model_canvas', f: f,
       question: question, data: response.business_canvas
 
-- if !response.group? && response.blank?
+- if display_context != "summary" && !response.group? && response.blank?
   .view-element.answer.blank = t("loan.no_answer")

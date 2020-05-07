@@ -37,6 +37,7 @@ es:
     loan_type: "Tipo de Préstamo"
     media: "Fotos del Préstamo"
     memo: "Memo del Préstamo"
+    txn_mode_tooltip: "Cuando sea automático, Madeline creará interés y los administradores pueden crear transacciones. Cuando sea en modo sólo lectura, la creación de transacciones y el cálculo automático de intereses están desactivados, pero los datos de QB igual se importarán y estarán disponibles para ver."
     months: "%{number} meses "
     move_date_confirm:
       title: "Mover Fecha?"
@@ -198,3 +199,5 @@ es:
         create_success: "La transacción fue creada correctamente."
         new_transaction: "Agregar Transacción"
         update: "Actualizar Transacción"
+        update_changed: "Actualizar Transacciones"
+        update_queued_html: "La actualización de la transacción ha sido colocada en la cola, <a href='%{url}'>ver progreso </a>."
