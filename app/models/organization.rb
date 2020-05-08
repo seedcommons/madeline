@@ -43,7 +43,7 @@
 #
 
 class Organization < ApplicationRecord
-  include Contactable  # this is a placeholder concern for the shared aspects between Organization and People.
+  include Contactable # this is a placeholder concern for the shared aspects between Organization and People.
   include Notable
   include MediaAttachable
   include DivisionBased
