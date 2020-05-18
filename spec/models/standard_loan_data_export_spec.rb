@@ -56,6 +56,10 @@ describe StandardLoanDataExport, type: :model do
         expect(loan_row[h_to_i['Division']]).to eq loan.division.name
         expect(loan_row[h_to_i['Country']]).to eq loan.coop_country.name
         expect(loan_row[h_to_i['Currency']]).to eq loan.currency.name
+        expect(loan_row[h_to_i['Street Address']]).to eq loan.coop_street_address
+        expect(loan_row[h_to_i['State']]).to eq loan.coop_state
+        expect(loan_row[h_to_i['City']]).to eq loan.coop_city
+        expect(loan_row[h_to_i['State']]).to eq loan.coop_state
         expect(loan_row[h_to_i['Zip']]).to eq loan.coop_postal_code
         expect(loan_row[h_to_i['Status']]).to eq 'Active'
         expect(loan_row[h_to_i['Primary Agent']]).to eq loan.primary_agent.name
