@@ -272,4 +272,8 @@ class Loan < Project
   def txn_modification_allowed?
     active? && !txns_read_only?
   end
+
+  def num_problem_loan_txns_by_level(level)
+    Accounting::ProblemLoanTransaction.where(project_id: id, level: level).size
+  end
 end

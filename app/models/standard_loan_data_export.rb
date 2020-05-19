@@ -46,6 +46,8 @@ class StandardLoanDataExport < DataExport
     'amount',
     'primary_agent',
     'secondary_agent',
+    'num_accounting_warnings',
+    'num_accounting_errors',
     'sum_of_disbursements',
     'sum_of_repayments',
     'change_in_principal',
@@ -66,6 +68,7 @@ class StandardLoanDataExport < DataExport
       end
     end
     self.update(data: data)
+
     unless @child_errors.empty?
       raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
     end
@@ -97,6 +100,8 @@ class StandardLoanDataExport < DataExport
       amount: loan.amount,
       primary_agent: loan.primary_agent&.name,
       secondary_agent: loan.secondary_agent&.name,
+      num_accounting_warnings: loan.num_problem_loan_txns_by_level(:warning),
+      num_accounting_errors: loan.num_problem_loan_txns_by_level(:error),
       sum_of_disbursements: loan.sum_of_disbursements(start_date: start_date, end_date: end_date),
       sum_of_repayments: loan.sum_of_repayments(start_date: start_date, end_date: end_date),
       change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
