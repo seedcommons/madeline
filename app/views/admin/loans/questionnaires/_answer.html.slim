@@ -46,10 +46,13 @@
   / adding class attr fixed the bug of having both a table and an image
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
+  a.form-element Edit Response
+
   - if response.text.present? && !response.not_applicable?
-      a.form-element Edit Response
       h6.form-element Current Response
       .answer = sanitize(response.text, tags: tags, attributes: attrs)
+  - else
+      .answer.blank.form-element = t("loan.no_answer")
 
   / Display input as Summernote field
   / = f.input_field :"#{question.attribute_sym}[text]",
