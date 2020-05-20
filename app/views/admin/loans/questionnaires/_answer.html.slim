@@ -47,11 +47,12 @@
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
   - if response.text.present? && !response.not_applicable?
-    .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
+      h5.form-element Current Response
+      .answer = sanitize(response.text, tags: tags, attributes: attrs)
 
   / Display input as Summernote field
-  = f.input_field :"#{question.attribute_sym}[text]",
-    value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
+  / = f.input_field :"#{question.attribute_sym}[text]",
+  /   value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
 
 - if response.has_boolean?
   - if response.boolean.present? && !response.not_applicable?
