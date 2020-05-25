@@ -114,7 +114,7 @@ section.questionnaires {
     margin-left: 1em;
     margin-bottom: 1em;
 
-    &.blank {
+    &.blank, &.no-response {
       font-style: italic;
     }
   }

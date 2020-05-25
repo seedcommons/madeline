@@ -6,13 +6,12 @@ class MS.Views.RichTextModalView extends Backbone.View
     MS.loadingIndicator.show()
     @clearModalContent()
 
-    question = e.currentTarget.closest('.question')
-    @question = question
+    @question = e.currentTarget.closest('.question')
 
     questionContent = {
-      label: question.getElementsByClassName('question-label')[0].innerHTML,
-      helpText: question.getElementsByClassName('help-block')[0].innerHTML,
-      answer: question.getElementsByClassName('rt-answer')[0].innerHTML
+      label: @question.getElementsByClassName('question-label')[0].innerHTML,
+      helpText: @question.getElementsByClassName('help-block')[0].innerHTML,
+      answer: @question.getElementsByClassName('rt-answer')[0].innerHTML
     }
 
     @replaceModalContent(questionContent)
@@ -44,9 +43,18 @@ class MS.Views.RichTextModalView extends Backbone.View
     MS.loadingIndicator.hide()
 
   updateResponse: ->
-    console.log("Update Response")
     newAnswer = @$el.find('.rtm-answer').summernote('code')
-    console.log(newAnswer)
-    console.log(@question)
+    newAnswer = newAnswer.trim()
+
+    $(@question).find('.current-response-heading').removeClass('hidden')
+    $(@question).find('.answer.no-response').removeClass('hidden')
+
+    if newAnswer.length == 0
+      newAnswer = ""
+      $(@question).find('.current-response-heading').addClass('hidden')
+    else
+      $(@question).find('.answer.no-response').addClass('hidden')
+
     @question.getElementsByClassName('rt-answer')[0].innerHTML = newAnswer
+
     @done = @$el.modal('hide')

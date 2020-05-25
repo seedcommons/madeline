@@ -53,10 +53,11 @@
     = " " + "Edit Response"
 
   - if response.text.present? && !response.not_applicable?
-      h6.form-element Current Response
-      .answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
-  - else
-    .answer.rt-answer
+    .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
+
+  h6.form-element.current-response-heading class=(response.text.present? ? "" : "hidden") Current Response
+  .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
+  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
 
   / Display input as Summernote field
   / = f.input_field :"#{question.attribute_sym}[text]",
@@ -105,7 +106,4 @@
       question: question, data: response.business_canvas
 
 - if display_context != "summary" && !response.group? && response.blank?
-  - if response.has_text?
-    .answer.blank = t("loan.no_answer")
-  - else
-    .view-element.answer.blank = t("loan.no_answer")
+  .view-element.answer.blank = t("loan.no_answer")
