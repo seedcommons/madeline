@@ -114,4 +114,5 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   openRichTextModal: (e) ->
     console.log("Edit response clicked")
-    new MS.Views.RichTextModalView()
+    options = {}
+    new MS.Views.RichTextModalView(e, options)
