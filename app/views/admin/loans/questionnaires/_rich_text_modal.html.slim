@@ -8,7 +8,7 @@
         h5.rt-label Question short description
         p.rt-help Question long description
 
-        .rt-answer Summernote with question answer
+        = text_area_tag(:rt_answer, "Summernote with question answer", class: "rt-answer")
 
       div.modal-footer
         a.btn.btn-default.cancel data-dismiss="modal" = t(:cancel)
