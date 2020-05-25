@@ -31,6 +31,8 @@ section.questionnaires
       = render partial: "admin/loans/questionnaires/questionnaire_form",
                locals: {response_set: @response_set, attrib: @attrib}
 
+= render partial: "admin/loans/questionnaires/rich_text_modal"
+
 javascript:
   $(function() {
     new MS.Views.ShowEditView({el: ".questionnaire[data-attrib=#{@attrib}] .block"});
