@@ -7,6 +7,7 @@ class MS.Views.RichTextModalView extends Backbone.View
     @clearModalContent()
 
     question = e.currentTarget.closest('.question')
+    @question = question
 
     questionContent = {
       label: question.getElementsByClassName('question-label')[0].innerHTML,
@@ -15,6 +16,9 @@ class MS.Views.RichTextModalView extends Backbone.View
     }
 
     @replaceModalContent(questionContent)
+
+  events:
+    'click [data-action="submit"]': 'updateResponse'
 
   clearModalContent: ->
     @$el.find('.rtm-label').html('')
@@ -38,3 +42,11 @@ class MS.Views.RichTextModalView extends Backbone.View
   showModal: () ->
     @$el.modal('show')
     MS.loadingIndicator.hide()
+
+  updateResponse: ->
+    console.log("Update Response")
+    newAnswer = @$el.find('.rtm-answer').summernote('code')
+    console.log(newAnswer)
+    console.log(@question)
+    @question.getElementsByClassName('rt-answer')[0].innerHTML = newAnswer
+    @done = @$el.modal('hide')
