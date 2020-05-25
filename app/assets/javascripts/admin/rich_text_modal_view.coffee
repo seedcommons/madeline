@@ -4,6 +4,7 @@ class MS.Views.RichTextModalView extends Backbone.View
 
   initialize: (e, options) ->
     MS.loadingIndicator.show()
+    @prepUnsavedChangesWarning()
     @clearModalContent()
 
     @question = e.currentTarget.closest('.question')
@@ -57,4 +58,11 @@ class MS.Views.RichTextModalView extends Backbone.View
 
     @question.getElementsByClassName('rt-answer')[0].innerHTML = newAnswer
 
-    @done = @$el.modal('hide')
+    @done = @updateSuccess()
+
+  updateSuccess: ->
+    @$el.modal('hide')
+    $('#rt-changes-warning').removeClass('hidden')
+
+  prepUnsavedChangesWarning: ->
+    $('#rt-changes-warning').appendTo('.alerts')
