@@ -23,6 +23,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'paste .answer-wrapper textarea': 'adjustTextArea'
     'cut .answer-wrapper textarea': 'adjustTextArea'
     'clear .answer-wrapper textarea': 'adjustTextArea'
+    'click .edit-rt-response': 'openRichTextModal'
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
@@ -110,3 +111,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   adjustAllTextareas: ->
     @$('.answer-wrapper textarea').trigger('change')
+
+  openRichTextModal: (e) ->
+    console.log("Edit response clicked")

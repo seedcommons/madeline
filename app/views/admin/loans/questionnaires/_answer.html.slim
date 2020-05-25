@@ -46,7 +46,9 @@
   / adding class attr fixed the bug of having both a table and an image
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
-  a.form-element Edit Response
+  /  a.form-element.edit-rt-response data-question-id="" data-response-id="" data-current-response==response.text Edit Response
+
+  a.form-element.edit-rt-response data-question-id="" data-response-id="" Edit Response
 
   - if response.text.present? && !response.not_applicable?
       h6.form-element Current Response
