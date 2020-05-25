@@ -48,7 +48,9 @@
 
   /  a.form-element.edit-rt-response data-question-id="" data-response-id="" data-current-response==response.text Edit Response
 
-  a.form-element.edit-rt-response data-question-id="" data-response-id="" Edit Response
+  a.form-element.edit-rt-response data-question-id="" data-response-id=""
+    = icon_tag("pencil")
+    = " " + "Edit Response"
 
   - if response.text.present? && !response.not_applicable?
       h6.form-element Current Response
