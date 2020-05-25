@@ -5,10 +5,10 @@
         h4.modal-title  Edit Response
 
       div.modal-body
-        h5.rt-label Question short description
-        p.rt-help Question long description
+        h5.rtm-label
+        p.rtm-help
 
-        = text_area_tag(:rt_answer, "Summernote with question answer", class: "rt-answer")
+        = text_area_tag(:rtm_answer, "", class: "rtm-answer")
 
       div.modal-footer
         a.btn.btn-default.cancel data-dismiss="modal" = t(:cancel)

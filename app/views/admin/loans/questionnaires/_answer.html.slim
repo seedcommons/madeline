@@ -54,9 +54,9 @@
 
   - if response.text.present? && !response.not_applicable?
       h6.form-element Current Response
-      .answer = sanitize(response.text, tags: tags, attributes: attrs)
+      .answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
   - else
-      .answer.blank.form-element = t("loan.no_answer")
+    .answer.rt-answer
 
   / Display input as Summernote field
   / = f.input_field :"#{question.attribute_sym}[text]",
@@ -105,4 +105,7 @@
       question: question, data: response.business_canvas
 
 - if display_context != "summary" && !response.group? && response.blank?
-  .view-element.answer.blank = t("loan.no_answer")
+  - if response.has_text?
+    .answer.blank = t("loan.no_answer")
+  - else
+    .view-element.answer.blank = t("loan.no_answer")
