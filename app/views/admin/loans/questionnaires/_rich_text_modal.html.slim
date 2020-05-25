@@ -1,0 +1,16 @@
+.modal.wider id="rich-text-modal"
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        h4.modal-title  Edit Response
+
+      div.modal-body
+        h5 Question short description
+        p Question long description
+
+        p Summernote with question answer
+
+      div.modal-footer
+        a.btn.btn-default.cancel data-dismiss="modal" = t(:cancel)
+        a.btn.btn-primary data-action="submit"
+          = "Edit Response"
