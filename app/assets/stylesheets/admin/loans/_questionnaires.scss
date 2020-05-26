@@ -255,3 +255,11 @@ section.questionnaires {
     width: auto;
   }
 }
+
+#rich-text-modal {
+  @media (min-width: $screen-md-min) {
+    .modal-dialog {
+      width: 80%;
+    }
+  }
+}
