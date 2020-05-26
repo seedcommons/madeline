@@ -57,6 +57,7 @@ class MS.Views.RichTextModalView extends Backbone.View
       $(@question).find('.answer.no-response').addClass('hidden')
 
     @question.getElementsByClassName('rt-answer')[0].innerHTML = newAnswer
+    @question.getElementsByClassName('rt-response')[0].value = newAnswer
 
     @done = @updateSuccess()
 
