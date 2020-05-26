@@ -113,6 +113,4 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @$('.answer-wrapper textarea').trigger('change')
 
   openRichTextModal: (e) ->
-    console.log("Edit response clicked")
-    options = {}
-    new MS.Views.RichTextModalView(e, options)
+    new MS.Views.RichTextModalView(e)

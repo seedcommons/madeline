@@ -2,7 +2,7 @@ class MS.Views.RichTextModalView extends Backbone.View
 
   el: '#rich-text-modal'
 
-  initialize: (e, options) ->
+  initialize: (e) ->
     MS.loadingIndicator.show()
     @prepUnsavedChangesWarning()
     @clearModalContent()
