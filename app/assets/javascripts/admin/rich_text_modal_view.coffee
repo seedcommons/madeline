@@ -7,12 +7,13 @@ class MS.Views.RichTextModalView extends Backbone.View
     @prepUnsavedChangesWarning()
     @clearModalContent()
 
-    @question = e.currentTarget.closest('.question')
+    question = e.currentTarget.closest('.question')
+    @$question = $(question)
 
     questionContent = {
-      label: @question.getElementsByClassName('question-label')[0].innerHTML,
-      helpText: @question.getElementsByClassName('help-block')[0].innerHTML,
-      answer: @question.getElementsByClassName('rt-answer')[0].innerHTML
+      label: @$question.find('.question-label').html(),
+      helpText: @$question.find('.help-block').html(),
+      answer: @$question.find('.rt-answer').html()
     }
 
     @replaceModalContent(questionContent)
@@ -47,17 +48,17 @@ class MS.Views.RichTextModalView extends Backbone.View
     newAnswer = @$el.find('.rtm-answer').summernote('code')
     newAnswer = newAnswer.trim()
 
-    $(@question).find('.current-response-heading').removeClass('hidden')
-    $(@question).find('.answer.no-response').removeClass('hidden')
+    @$question.find('.current-response-heading').removeClass('hidden')
+    @$question.find('.answer.no-response').removeClass('hidden')
 
     if newAnswer.length == 0
       newAnswer = ""
-      $(@question).find('.current-response-heading').addClass('hidden')
+      @$question.find('.current-response-heading').addClass('hidden')
     else
-      $(@question).find('.answer.no-response').addClass('hidden')
+      @$question.find('.answer.no-response').addClass('hidden')
 
-    @question.getElementsByClassName('rt-answer')[0].innerHTML = newAnswer
-    @question.getElementsByClassName('rt-response')[0].value = newAnswer
+    @$question.find('.rt-answer').html(newAnswer)
+    @$question.find('.rt-response').val(newAnswer)
 
     @done = @updateSuccess()
 
