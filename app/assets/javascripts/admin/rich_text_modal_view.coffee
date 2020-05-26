@@ -36,10 +36,10 @@ class MS.Views.RichTextModalView extends Backbone.View
   replaceModalContent: (questionContent) ->
     @$el.find('.rtm-label').html(questionContent.label)
     @$el.find('.rtm-help').html(questionContent.helpText)
-    @$el.find('.rtm-answer').summernote('code', questionContent.answer);
+    @$el.find('.rtm-answer').summernote('code', questionContent.answer)
     @done = @showModal()
 
-  showModal: () ->
+  showModal: ->
     @$el.modal('show')
     MS.loadingIndicator.hide()
 
