@@ -39,14 +39,13 @@
     value: response.number, prefix: prefix(response), postfix: postfix(response)
 
 - if response.has_text?
-  / Display response as rich text. Specify which html is allowed.
+  / Display response as rich text.
+
+  / Specify which html tags are allowed.
   - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
-  / Class attr should work automatically but
-  / adding class attr fixed the bug of having both a table and an image
+  / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
-
-  /  a.form-element.edit-rt-response data-question-id="" data-response-id="" data-current-response==response.text Edit Response
 
   a.form-element.edit-rt-response data-question-id="" data-response-id=""
     = icon_tag("pencil")
