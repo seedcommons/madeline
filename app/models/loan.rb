@@ -274,6 +274,7 @@ class Loan < Project
   end
 
   def num_problem_loan_txns_by_level(level)
+    return nil if transactions.empty?
     Accounting::ProblemLoanTransaction.where(project_id: id, level: level).size
   end
 end
