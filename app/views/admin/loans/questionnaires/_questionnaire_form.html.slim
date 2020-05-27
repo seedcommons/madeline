@@ -38,7 +38,7 @@
     = f.hidden_field(:lock_version)
 
     - unless @print_view
-      .jqtree data-data=@questions_json class=attrib
+      / .jqtree data-data=@questions_json class=attrib
 
     .actions.form-element
       - unless response_set.new_record?

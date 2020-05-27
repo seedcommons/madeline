@@ -5,7 +5,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @locale = options.locale
-    @initializeTree()
+    # @initializeTree()
     @adjustAllTextareas()
 
     @$('.breakeven-tables').map (index, breakeven) =>
