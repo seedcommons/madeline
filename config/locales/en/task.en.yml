@@ -7,7 +7,7 @@ en:
       error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
       failed: "Task failed with an internal error. An administrator has been notified."
       fetching_quickbooks_data: "Fetching QuickBooks Data"
-      finished_with_custom_error_data: "This task completed with errors. See error details."
+      finished_with_custom_error_data: "This task completed with errors. See task error details."
       in_progress: "In progress"
       syncing_with_quickbooks: "Syncing with QuickBooks"
       task_enqueued: "This task has been enqueued"
