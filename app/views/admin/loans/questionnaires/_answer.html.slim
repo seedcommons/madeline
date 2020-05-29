@@ -39,19 +39,28 @@
     value: response.number, prefix: prefix(response), postfix: postfix(response)
 
 - if response.has_text?
-  / Display response as rich text. Specify which html is allowed.
+  / Display response as rich text.
+
+  / Specify which html tags are allowed.
   - tags = %w(table tbody tr td b i u ol ul li p img a iframe)
 
-  / Class attr should work automatically but
-  / adding class attr fixed the bug of having both a table and an image
+  / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
+
+  a.form-element.edit-rt-response data-question-id="" data-response-id=""
+    = icon_tag("pencil")
+    = " " + t("loan.question.edit")
 
   - if response.text.present? && !response.not_applicable?
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
 
-  / Display input as Summernote field
+  h6.form-element.current-response-heading class=(response.text.present? ? "" : "hidden")
+    = t("loan.question.current_response")
+  .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
+  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
+
   = f.input_field :"#{question.attribute_sym}[text]",
-    value: sanitize(response.text, tags: tags, attributes: attrs), as: :summernote
+    value: sanitize(response.text, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
 
 - if response.has_boolean?
   - if response.boolean.present? && !response.not_applicable?

@@ -6,8 +6,8 @@ table.table.table-bordered.middle-aligned
       th= t("task.header.id")
       th= t("task.header.type")
       th= t("task.header.duration")
-      th= t("task.header.status")
       th= t("task.header.activity_message")
+      th= t("task.header.status")
       th= t("task.header.related")
       th= t("task.header.custom_error_data")
 
@@ -17,8 +17,8 @@ table.table.table-bordered.middle-aligned
           td= link_to task.id, admin_task_path(task.id)
           td= link_to t("task.type.#{task.job_type_value}"), admin_task_path(task.id)
           td= formatted_duration(*task.duration)
-          td= t("task.status.#{task.status}")
           td= task.activity_message
+          td= t("task.status.#{task.status}")
           td= link_to(t("task.taskable.type_with_id.#{task.taskable.class.model_name.to_s.underscore}", number: task.taskable_id), [:admin, task.taskable]) if task.taskable.present?
           td= task.custom_error_data.present? ? link_to(t("task.custom_error_data.link_to_details"), admin_task_path(task.id)) : t("task.custom_error_data.not_applicable")
 .pagination = paginate @tasks, param_name: 'pg'

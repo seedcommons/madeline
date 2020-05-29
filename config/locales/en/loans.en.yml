@@ -53,6 +53,7 @@ en:
       one: "Click to open the document in a new tab."
       other: "Click to open each document in a new tab."
     optional_amount: "Optional amount"
+    pending_changes: "You have pending changes in this form. Please remember to save your changes."
     popup_blocker: "You may need to disable your popup blocker or enable all popups from this site in order to view your documents."
     post_analysis: "Post-Analysis"
     primary_agent: "Point Person"
@@ -64,6 +65,9 @@ en:
     projected_end_date: "Projected End Date"
     public:
       not_authorized: "You are not authorized to view the loan you requested."
+    question:
+      current_response: "Current Response"
+      edit: "Edit Response"
     rating: "Score"
     save_responses: "Save Responses"
     shared:

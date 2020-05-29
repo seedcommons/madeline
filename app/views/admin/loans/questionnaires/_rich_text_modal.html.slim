@@ -1,0 +1,15 @@
+.modal.wider id="rich-text-modal"
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        h4.modal-title = t("loan.question.edit")
+
+      div.modal-body
+        h5.rtm-label
+        p.rtm-help
+
+        = text_area_tag(:rtm_answer, "", class: "rtm-answer")
+
+      div.modal-footer
+        a.btn.btn-default.cancel data-dismiss="modal" = t(:cancel)
+        a.btn.btn-primary data-action="submit" = t("loan.question.edit")
