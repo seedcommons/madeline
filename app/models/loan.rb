@@ -73,7 +73,7 @@ class Loan < Project
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
   scope :changed_since, ->(date) { where("updated_at > :date", date: date) }
 
-  delegate :name, :country, :postal_code, to: :organization, prefix: :coop
+  delegate :name, :country, :street_address, :city, :state, :postal_code, to: :organization, prefix: :coop
   delegate :name, to: :division, prefix: true
   delegate :closed_books_date, to: :division
 
@@ -271,5 +271,10 @@ class Loan < Project
 
   def txn_modification_allowed?
     active? && !txns_read_only?
+  end
+
+  def num_problem_loan_txns_by_level(level)
+    return nil if transactions.empty?
+    Accounting::ProblemLoanTransaction.where(project_id: id, level: level).size
   end
 end
