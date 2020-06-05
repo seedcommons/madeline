@@ -159,7 +159,7 @@ section.questionnaires {
     padding: 1em;
     // Use built-in Sass function and color fallback
     background: $gray2;
-    background: rgba($gray2, 0.5);
+    background: rgba($gray2, 0.7);
     text-align: right;
 
     $questionnaire-actions-offset: 2 * $content-wrapper-padding;
@@ -257,7 +257,7 @@ section.questionnaires {
   }
 }
 
-#rich-text-modal {
+.rich-text-modal {
   @media (min-width: $screen-md-min) {
     .modal-dialog {
       width: 80%;
@@ -271,4 +271,9 @@ section.questionnaires {
   .rtm-label {
     font-size: 1.1em;
   }
+}
+
+.unsaved-changes-warning {
+  font-style: italic;
+  font-weight: bold;
 }
