@@ -159,7 +159,7 @@ section.questionnaires {
     padding: 1em;
     // Use built-in Sass function and color fallback
     background: $gray2;
-    background: rgba($gray2, 0.5);
+    background: rgba($gray2, 0.7);
     text-align: right;
 
     $questionnaire-actions-offset: 2 * $content-wrapper-padding;
