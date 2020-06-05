@@ -41,7 +41,7 @@
       .jqtree data-data=@questions_json class=attrib
 
     .actions.form-element
-      p#unsaved-changes-warning.hidden You have pending changes in this form. Please remember to save your changes.
+      p#unsaved-changes-warning.hidden = t("loan.pending_changes_short")
       - unless response_set.new_record?
         a.btn.btn-default.show-action = t(:cancel)
       = f.submit t("loan.save_responses"), class: 'update-action btn btn-primary'
