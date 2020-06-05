@@ -257,7 +257,7 @@ section.questionnaires {
   }
 }
 
-#rich-text-modal {
+.rich-text-modal {
   @media (min-width: $screen-md-min) {
     .modal-dialog {
       width: 80%;
@@ -273,7 +273,7 @@ section.questionnaires {
   }
 }
 
-#unsaved-changes-warning {
+.unsaved-changes-warning {
   font-style: italic;
   font-weight: bold;
 }
