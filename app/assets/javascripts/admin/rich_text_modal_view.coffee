@@ -65,6 +65,7 @@ class MS.Views.RichTextModalView extends Backbone.View
   updateSuccess: ->
     @$el.modal('hide')
     $('#rt-changes-warning').removeClass('hidden')
+    $('#unsaved-changes-warning').removeClass('hidden')
 
   prepUnsavedChangesWarning: ->
     $('#rt-changes-warning').appendTo('.alerts')
