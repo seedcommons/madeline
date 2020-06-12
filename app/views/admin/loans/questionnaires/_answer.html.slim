@@ -47,10 +47,7 @@
   / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
-  / = question.inspect
-  / = response.response_set.custom_data[question.id.to_s]
-
-  a.form-element.edit-rt-response data-question-id="#{question.id}"
+  a.form-element.edit-rt-response
     = icon_tag("pencil")
     = " " + t("loan.question.edit")
 

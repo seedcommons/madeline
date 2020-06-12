@@ -22,7 +22,6 @@ class MS.Views.RichTextModalView extends Backbone.View
     })
 
   prepForm: (e) ->
-    console.log(e)
     @clearModalContent()
 
     MS.loadingIndicator.show()
