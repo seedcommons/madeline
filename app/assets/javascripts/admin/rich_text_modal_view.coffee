@@ -22,9 +22,8 @@ class MS.Views.RichTextModalView extends Backbone.View
     })
 
   prepForm: (e) ->
-    @clearModalContent()
-
     MS.loadingIndicator.show()
+    @clearModalContent()
     question = e.currentTarget.closest('.question')
     @$question = $(question)
 
@@ -35,6 +34,9 @@ class MS.Views.RichTextModalView extends Backbone.View
     }
 
     @done = @replaceModalContent(questionContent)
+
+  prepUnsavedChangesWarning: ->
+    $('#rt-changes-warning').appendTo('.alerts')
 
   replaceModalContent: (questionContent) ->
     @$el.find('.rtm-label').html(questionContent.label)
@@ -68,6 +70,3 @@ class MS.Views.RichTextModalView extends Backbone.View
     @$el.modal('hide')
     $('#rt-changes-warning').removeClass('hidden')
     $('#unsaved-changes-warning').removeClass('hidden')
-
-  prepUnsavedChangesWarning: ->
-    $('#rt-changes-warning').appendTo('.alerts')
