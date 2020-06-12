@@ -2,21 +2,22 @@ class MS.Views.RichTextModalView extends Backbone.View
 
   el: '#rich-text-modal'
 
-  initialize: (e) ->
-    MS.loadingIndicator.show()
+  initialize: ->
+
     @prepUnsavedChangesWarning()
     @clearModalContent()
 
-    question = e.currentTarget.closest('.question')
-    @$question = $(question)
-
-    questionContent = {
-      label: @$question.find('.question-label').html(),
-      helpText: @$question.find('.help-block').html(),
-      answer: @$question.find('.rt-answer').html()
-    }
-
-    @replaceModalContent(questionContent)
+    # MS.loadingIndicator.show()
+    # question = e.currentTarget.closest('.question')
+    # @$question = $(question)
+    #
+    # questionContent = {
+    #   label: @$question.find('.question-label').html(),
+    #   helpText: @$question.find('.help-block').html(),
+    #   answer: @$question.find('.rt-answer').html()
+    # }
+    #
+    # @replaceModalContent(questionContent)
 
   events:
     'click [data-action="submit"]': 'updateResponse'
@@ -33,6 +34,9 @@ class MS.Views.RichTextModalView extends Backbone.View
       minHeight: 200,
       focus: true
     })
+
+  prepForm: (e) ->
+    console.log(e)
 
   replaceModalContent: (questionContent) ->
     @$el.find('.rtm-label').html(questionContent.label)
