@@ -7,6 +7,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @locale = options.locale
     @initializeTree()
     @adjustAllTextareas()
+    @richTextModalView = new MS.Views.RichTextModalView()
 
     @$('.breakeven-tables').map (index, breakeven) =>
       new MS.Views.BreakevenView(el: breakeven)
@@ -113,4 +114,4 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     @$('.answer-wrapper textarea').trigger('change')
 
   openRichTextModal: (e) ->
-    new MS.Views.RichTextModalView(e)
+    @richTextModalView.prepForm(e)
