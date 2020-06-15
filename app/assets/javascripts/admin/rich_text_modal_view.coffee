@@ -2,21 +2,8 @@ class MS.Views.RichTextModalView extends Backbone.View
 
   el: '#rich-text-modal'
 
-  initialize: (e) ->
-    MS.loadingIndicator.show()
+  initialize: ->
     @prepUnsavedChangesWarning()
-    @clearModalContent()
-
-    question = e.currentTarget.closest('.question')
-    @$question = $(question)
-
-    questionContent = {
-      label: @$question.find('.question-label').html(),
-      helpText: @$question.find('.help-block').html(),
-      answer: @$question.find('.rt-answer').html()
-    }
-
-    @replaceModalContent(questionContent)
 
   events:
     'click [data-action="submit"]': 'updateResponse'
@@ -33,6 +20,23 @@ class MS.Views.RichTextModalView extends Backbone.View
       minHeight: 200,
       focus: true
     })
+
+  prepForm: (e) ->
+    MS.loadingIndicator.show()
+    @clearModalContent()
+    question = e.currentTarget.closest('.question')
+    @$question = $(question)
+
+    questionContent = {
+      label: @$question.find('.question-label').html(),
+      helpText: @$question.find('.help-block').html(),
+      answer: @$question.find('.rt-answer').html()
+    }
+
+    @done = @replaceModalContent(questionContent)
+
+  prepUnsavedChangesWarning: ->
+    $('#rt-changes-warning').appendTo('.alerts')
 
   replaceModalContent: (questionContent) ->
     @$el.find('.rtm-label').html(questionContent.label)
@@ -66,6 +70,3 @@ class MS.Views.RichTextModalView extends Backbone.View
     @$el.modal('hide')
     $('#rt-changes-warning').removeClass('hidden')
     $('#unsaved-changes-warning').removeClass('hidden')
-
-  prepUnsavedChangesWarning: ->
-    $('#rt-changes-warning').appendTo('.alerts')
