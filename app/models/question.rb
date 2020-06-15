@@ -35,6 +35,7 @@
 
 class Question < ApplicationRecord
   include Translatable
+  using Romanize
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
   DATA_TYPES = %i(boolean breakeven business_canvas currency group number percentage range text)
@@ -151,18 +152,28 @@ class Question < ApplicationRecord
   end
 
   def full_number
-    return @full_number if defined?(@full_number)
-    @full_number = if number.nil? || parent.nil?
-      nil
-    elsif parent.root?
+    @full_number ||= outline_number
+  end
+
+  def outline_number
+    case (self.depth - 1) % 6
+    when 0
+      number.romanize
+    when 1
+      ('A'..'Z').to_a[number - 1]
+    when 2
+      number.romanize.downcase
+    when 3
+      ('a'..'z').to_a[number - 1]
+    when 4
       number.to_s
-    elsif parent.full_number
-      "#{parent.full_number}.#{number}"
+    when 5
+      "(" + ('a'..'z').to_a[number - 1] + ")"
     end
   end
 
   def full_number_and_label
-    [full_number, label].compact.join(" ")
+    [full_number, label].compact.join(". ")
   end
 
   # See comment above on constant definition.
