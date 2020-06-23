@@ -17,6 +17,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  before_action :set_raven_context
+  
+
   def admin_controller?
     false
   end
@@ -71,4 +74,9 @@ class ApplicationController < ActionController::Base
       lang_header.scan(/^[a-z]{2}/).first.to_sym
     end
   end
+
+   def set_raven_context
+     Raven.user_context(id: session[:current_user_id]) # or anything else in session
+     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+   end
 end

@@ -51,6 +51,10 @@ module MadelineSystem
     config.generators do |g|
       g.fixture_replacement :factory_bot, suffix: 'factory'
     end
+
+    Raven.configure do |config|
+      config.dsn = ENV['SENTRY_DSN']
+    end
   end
 
   # This seems to be required for proper rendering of all wice_grid views. (Without, view contents is all html escaped.)

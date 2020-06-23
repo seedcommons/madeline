@@ -439,6 +439,8 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     shellany (0.0.1)
     sidekiq (5.2.6)
       connection_pool (~> 2.2, >= 2.2.2)
@@ -582,6 +584,7 @@ DEPENDENCIES
   seed_dump
   select2-rails
   selenium-webdriver (~> 2.0)
+  sentry-raven
   sidekiq
   simple_form
   simplecov
@@ -597,4 +600,4 @@ DEPENDENCIES
   wice_grid!
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
