@@ -156,6 +156,7 @@ class Question < ApplicationRecord
   end
 
   def outline_number
+    return unless number
     case (self.depth - 1) % 6
     when 0
       number.romanize

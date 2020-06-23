@@ -164,14 +164,14 @@ describe Question, :type => :model do
     let!(:f4) { create_question(set: set, parent: lqroot, name: "f4", type: "text") }
 
     it "should be correct for all nodes" do
-      expect(f1.reload.full_number).to eq "1"
+      expect(f1.reload.full_number).to eq "I"
       expect(f2.reload.full_number).to be_nil
-      expect(f3.reload.full_number).to eq "2"
+      expect(f3.reload.full_number).to eq "II"
       expect(f31.reload.full_number).to be_nil
-      expect(f32.reload.full_number).to eq "2.1"
-      expect(f33.reload.full_number).to eq "2.2"
-      expect(f331.reload.full_number).to eq "2.2.1"
-      expect(f4.reload.full_number).to eq "3"
+      expect(f32.reload.full_number).to eq "A"
+      expect(f33.reload.full_number).to eq "B"
+      expect(f331.reload.full_number).to eq "i"
+      expect(f4.reload.full_number).to eq "III"
     end
   end
 end
