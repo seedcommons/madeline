@@ -310,6 +310,8 @@ GEM
     pry-rails (0.3.5)
       pry (>= 0.9.10)
     public_suffix (3.0.3)
+    puma (4.3.5)
+      nio4r (~> 2.0)
     pundit (2.0.0)
       activesupport (>= 3.0.0)
     pundit-matchers (1.6.0)
@@ -566,6 +568,7 @@ DEPENDENCIES
   pry (= 0.10.4)
   pry-nav (= 0.2.4)
   pry-rails (= 0.3.5)
+  puma
   pundit
   pundit-matchers
   quickbooks-ruby

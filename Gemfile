@@ -139,6 +139,9 @@ group :development do
   gem "guard-livereload", "~> 2.5", require: false
   gem "rack-livereload"
 
+  # development server
+  gem "puma"
+
   gem "term-ansicolor", "~> 1.3.0"
 
   # Mask password at command line
