@@ -14,7 +14,7 @@ module Romanize
     4 => "IV",
     1 => "I"
   }
-  
+
   refine Integer do
     def romanize
       num = self
