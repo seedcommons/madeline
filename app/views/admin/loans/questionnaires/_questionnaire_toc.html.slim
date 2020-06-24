@@ -1,4 +1,4 @@
-ul
+ul.toc
   - if @response_set.question_set.summary_questions? && group == @root
     li = t("loan.summary")
   - group.child_groups.each do |child|
