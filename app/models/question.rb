@@ -151,6 +151,8 @@ class Question < ApplicationRecord
     end
   end
 
+  # name kept due to compatibility issues
+  # TODO: remove during question refactor
   def full_number
     @full_number ||= outline_number
   end
