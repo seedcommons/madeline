@@ -79,6 +79,20 @@ table.key-value {
       }
     }
   }
+
+  .footer {
+    margin-top: 1em;
+    text-align: center;
+
+    .version {
+      font-size: 0.8em;
+      font-style: italic;
+    }
+
+    @media print {
+      display: none;
+    }
+  }
 }
 
 section.details {
