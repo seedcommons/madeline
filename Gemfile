@@ -70,6 +70,8 @@ gem "goldiloader" # Eager loading
 gem "gon" # Passing controller data to JS
 gem "quickbooks-ruby"
 gem "remotipart", "~> 1.2" # File uploads for remote: true forms
+gem "scout_apm"
+gem "sentry-raven"
 gem "simple_form"
 gem "summernote-rails", "~> 0.8.10.0" # Text editor
 gem "whenever", "~> 0.9", require: false # Improved syntax for creating cron jobs
@@ -137,6 +139,9 @@ group :development do
   # Auto reload browser
   gem "guard-livereload", "~> 2.5", require: false
   gem "rack-livereload"
+
+  # development server
+  gem "puma"
 
   gem "term-ansicolor", "~> 1.3.0"
 
