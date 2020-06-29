@@ -36,6 +36,7 @@
 class Question < ApplicationRecord
   include Translatable
   using Romanize
+  using Letterize
 
   OVERRIDE_ASSOCIATIONS_OPTIONS = %i(false true)
   DATA_TYPES = %i(boolean breakeven business_canvas currency group number percentage range text)
@@ -163,15 +164,15 @@ class Question < ApplicationRecord
     when 0
       number.romanize
     when 1
-      ('A'..'Z').to_a[number - 1]
+      number.letterize
     when 2
-      number.romanize.downcase
-    when 3
-      ('a'..'z').to_a[number - 1]
-    when 4
       number.to_s
+    when 3
+      number.letterize.downcase
+    when 4
+      number.romanize.downcase
     when 5
-      "(" + ('a'..'z').to_a[number - 1] + ")"
+      "(" + number.letterize.downcase + ")"
     end
   end
 

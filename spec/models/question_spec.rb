@@ -170,7 +170,7 @@ describe Question, :type => :model do
       expect(f31.reload.full_number).to be_nil
       expect(f32.reload.full_number).to eq "A"
       expect(f33.reload.full_number).to eq "B"
-      expect(f331.reload.full_number).to eq "i"
+      expect(f331.reload.full_number).to eq "1"
       expect(f4.reload.full_number).to eq "III"
     end
   end
