@@ -5,27 +5,31 @@
   / Don't print unanswered questions or groups
   - css_class += ' hidden-print' if response.blank? || response.not_applicable?
   - css_class += " #{question.status}"
-  - display_question = question.display_in_summary == true
+  - display_group = question.summary_group?
+  - display_question = question.display_in_summary == true || display_group
 
   - if display_question
-    .question data-type=question.data_type data-id=question.id class=css_class
+    .question data-type=question.data_type data-level=question.depth data-id=question.id class=css_class
       span.tree-view
         - if question.data_type == 'group'
-          - header_tag = {tag: :h5}
-          *header_tag
+          .question-label
             = question.full_number_and_label
-          / If a group, stop grouping number items into previous table.
+
+          // If a group, stop grouping number items into previous table.
           - @previous_number_table = false
         - else
-          // For numerical questions, the question's label is displayed with the question's answer.
+          // For numerical questions in print view, the question's label is displayed with
+          // the question's answer.
           .question-label class=(response.has_number? ? 'hidden-print' : '')
             = question.full_number_and_label
 
-  / Recurse if group, else render
-  - if question.group? && !question.leaf?
-    = render("admin/loans/questionnaires/summary_group", f: f,
-      response_set: response_set, group: question, parents: parents + [question])
-  - elsif display_question
-    .answer-wrapper.tree-view
-      = render("admin/loans/questionnaires/answer", f: f, response: response, question: question, display_context: "summary")
+      // Recurse if group, else render
+      - if display_group
+        = render("admin/loans/questionnaires/summary_group", f: f,
+          response_set: response_set, group: question, parents: parents + [question])
+
+      - elsif display_question
+        .answer-wrapper.tree-view
+          = render("admin/loans/questionnaires/answer", f: f, response: response, question: question, display_context: "summary")
+
     = render("admin/loans/questionnaires/summary_number_handling", response: response)
