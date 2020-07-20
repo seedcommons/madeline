@@ -56,6 +56,8 @@ module Admin
       when "logs"
         prep_logs(@loan)
       when "transactions"
+        # requires additional level of validation beyond approrpiate loan access
+        authorize :'accounting/transaction', :index?
         prep_transactions
       when "calendar"
         @locale = I18n.locale
