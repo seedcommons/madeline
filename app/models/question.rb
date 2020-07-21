@@ -95,6 +95,13 @@ class Question < ApplicationRecord
     data_type == 'group'
   end
 
+  def summary_group?
+    return false unless group?
+    return false if children.none?
+    return true if children.any?(&:display_in_summary)
+    children.any?(&:summary_group?)
+  end
+
   def top_level_group?
     group? && top_level?
   end

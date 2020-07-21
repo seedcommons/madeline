@@ -35,16 +35,19 @@ div
           = render "admin/loans/questionnaires/progress_bar", object: response
 
         - if question.data_type == 'group'
-          - header_tag = {tag: %i(h3 h4 h5)[question.depth] || :h5}
+          - header_tag = {tag: %i(h2 h3 h4 h5)[question.depth] || :h5}
           *header_tag
             = question.full_number_and_label
+
           // If a group, stop grouping number items into previous table.
           - @previous_number_table = false
         - else
           // For numerical questions in print view, the question's label is displayed with
           // the question's answer.
-          .question-label class=(response.has_number? ? 'hidden-print' : '')
-            = question.full_number_and_label
+          - header_tag = {tag: %i(h2 h3 h4 h5)[question.depth] || :h5}
+          *header_tag
+            .question-label class=(response.has_number? ? 'hidden-print' : '')
+              = question.full_number_and_label
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
