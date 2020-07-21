@@ -77,6 +77,9 @@ gem "summernote-rails", "~> 0.8.10.0" # Text editor
 gem "whenever", "~> 0.9", require: false # Improved syntax for creating cron jobs
 gem "awesome_print"
 
+# Watches for inefficient queries and recommends eager loading
+gem "bullet"
+
 group :development, :test do
   # Load environment variables from .env file in development
   gem "dotenv-rails"
@@ -86,9 +89,6 @@ group :development, :test do
   gem "pry", "0.10.4"
   gem "pry-nav", "0.2.4"
   gem "pry-rails", "0.3.5"
-
-  # Watches for inefficient queries and recommends eager loading
-  gem "bullet"
 
   # Report number of queries in server log
   gem "sql_queries_count"
