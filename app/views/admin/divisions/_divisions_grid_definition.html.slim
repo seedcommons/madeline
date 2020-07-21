@@ -11,6 +11,8 @@
     in_html: false, filter: false
   - g.column name: t("divisions.shared.parent"), attribute: 'name', table_alias: 'parents_divisions',
     assoc: :parent, filter: false
+  - g.column name: t("activerecord.attributes.division.public"), attribute: 'public', detach_with_id: :public_filter do |division|
+    - t(division.public ? "boolean.true" : "boolean.false")
   - g.column name: t("activerecord.attributes.division.default_currency"), attribute: 'name',
     assoc: :default_currency, in_html: false, filter: false do |division|
     - division.default_currency.name if division.default_currency

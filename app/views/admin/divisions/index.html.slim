@@ -15,6 +15,11 @@
         .filter-content
           = grid_filter(@divisions_grid, :name_filter)
 
+      .larger-text-box.filter
+        label = t("public")
+        .filter-content
+          = grid_filter(@divisions_grid, :public_filter)
+
       .actions
         button.btn.btn-link.wg-external-reset-button data-grid-name="divisions"
           = t("clear")
