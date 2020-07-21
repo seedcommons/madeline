@@ -64,7 +64,9 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(object.children, **@args)
+    self.class.decorate_collection(object.children.
+      includes(:division).
+      includes(:question_set), **@args)
   end
 
   def allowed?
