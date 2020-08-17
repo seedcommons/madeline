@@ -113,9 +113,9 @@ feature 'visit loan index page' do
       end
 
       context 'with no selection' do
-        scenario 'use site division by default' do
+        scenario 'show all loans by default' do
           visit public_loans_path("us")
-          expect(page).not_to have_content(loan_pkmn.name)
+          expect(page).to have_content(loan_pkmn.name)
           expect(page).to have_content(loan_us.name)
         end
       end

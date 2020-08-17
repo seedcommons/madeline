@@ -291,7 +291,7 @@ en:
   show_all: All
   loan_active: Active
   loan_completed: Completed
-  no_loans_found: No loans found.
+  no_loans_found: No loans found. Try a different search. 
   more_details: More details
   project_with: "Project with %{name}"
   project_id: "Project %{id}"
