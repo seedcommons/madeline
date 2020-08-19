@@ -135,7 +135,7 @@ module Accounting
       end
 
       def max_updated_at
-        30.days.ago - 1.minute
+        1.year.ago - 1.minute
       end
 
       def last_updated_at
