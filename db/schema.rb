@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_185639) do
+ActiveRecord::Schema.define(version: 2020_08_19_191153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -274,7 +274,6 @@ ActiveRecord::Schema.define(version: 2020_08_19_185639) do
     t.string "postal_code"
     t.integer "primary_contact_id"
     t.string "primary_phone"
-    t.string "qb_id"
     t.string "referral_source"
     t.string "secondary_phone"
     t.string "sector"
