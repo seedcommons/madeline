@@ -1,4 +1,4 @@
-class Admin::Accounting::QBController < Admin::AdminController
+class Admin::Accounting::QuickbooksController < Admin::AdminController
   # Kicks off oauth flow by redirecting to Intuit with request token.
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
