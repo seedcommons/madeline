@@ -132,7 +132,7 @@ RSpec.describe Accounting::QB::Updater, type: :model do
     end
 
     context 'when last_updated_at is 31 days ago' do
-      let(:last_updated_at) { 31.days.ago }
+      let(:last_updated_at) { 370.days.ago }
 
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::QB::DataResetRequiredError)
