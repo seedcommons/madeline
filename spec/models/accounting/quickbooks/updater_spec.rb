@@ -3,7 +3,7 @@ require 'rails_helper'
 # TODO: find a way to stub less of this workflow/add more unit tests.
 # The specs are not catching when the update method receives a loan or an array of loans
 
-RSpec.describe Accounting::Quickbooks::Updater, type: :model do
+RSpec.describe Accounting::QB::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 1982547353 }
   let!(:qb_connection) { create(:accounting_quickbooks_connection) }
@@ -119,14 +119,14 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
 
     context 'when last_updated_at is nil' do
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
+        expect { subject.update }.to raise_error(Accounting::QB::DataResetRequiredError)
       end
 
       context 'when qb_connection is nil' do
         subject { described_class.new(nil) }
 
         it 'throws error' do
-          expect { subject.update }.to raise_error(Accounting::Quickbooks::NotConnectedError)
+          expect { subject.update }.to raise_error(Accounting::QB::NotConnectedError)
         end
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe Accounting::Quickbooks::Updater, type: :model do
       let(:last_updated_at) { 31.days.ago }
 
       it 'throws error' do
-        expect { subject.update }.to raise_error(Accounting::Quickbooks::DataResetRequiredError)
+        expect { subject.update }.to raise_error(Accounting::QB::DataResetRequiredError)
       end
     end
 

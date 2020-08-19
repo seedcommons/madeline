@@ -1,4 +1,4 @@
-class Accounting::QuickbooksPolicy < ApplicationPolicy
+class Accounting::QBPolicy < ApplicationPolicy
   def authenticate?
     division_admin(division: Division.root)
   end

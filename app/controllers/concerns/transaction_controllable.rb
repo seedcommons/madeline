@@ -36,7 +36,7 @@ module TransactionControllable
   def handle_qb_errors
     begin
       yield
-    rescue Accounting::Quickbooks::DataResetRequiredError => e
+    rescue Accounting::QB::DataResetRequiredError => e
       Rails.logger.error e
       @data_reset_required = true
       error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
@@ -44,7 +44,7 @@ module TransactionControllable
       Rails.logger.error e
       error_msg = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
-      Accounting::Quickbooks::NotConnectedError,
+      Accounting::QB::NotConnectedError,
       Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
       @qb_not_connected = true
@@ -57,7 +57,7 @@ module TransactionControllable
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
       error_msg = t('quickbooks.misc', msg: e)
-    rescue Accounting::Quickbooks::NegativeBalanceError => e
+    rescue Accounting::QB::NegativeBalanceError => e
       Rails.logger.error e
       error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
     end
@@ -73,7 +73,7 @@ module TransactionControllable
       end
     else
       Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
-      Accounting::Quickbooks::Updater.new.update(project)
+      Accounting::QB::Updater.new.update(project)
     end
   end
 

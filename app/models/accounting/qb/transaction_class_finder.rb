@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class FindError < StandardError; end
 
     # This class is responsible for batching up Quickbooks API calls into separate types.

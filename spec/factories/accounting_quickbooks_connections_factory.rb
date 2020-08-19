@@ -22,7 +22,7 @@
 #
 
 FactoryBot.define do
-  factory :accounting_quickbooks_connection, class: 'Accounting::Quickbooks::Connection' do
+  factory :accounting_quickbooks_connection, class: 'Accounting::QB::Connection' do
     division { root_division }
     realm_id { 'xxx' }
     access_token { 'xxx' }

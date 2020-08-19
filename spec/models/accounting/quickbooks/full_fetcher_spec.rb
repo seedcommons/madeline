@@ -1,7 +1,7 @@
 
 require "rails_helper"
 
-describe Accounting::Quickbooks::FullFetcher, type: :model do
+describe Accounting::QB::FullFetcher, type: :model do
   let!(:qb_connection) { create(:accounting_quickbooks_connection) }
   let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
   let!(:interest_receivable_account) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
@@ -34,16 +34,16 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
   let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
-  let(:account_fetcher) { Accounting::Quickbooks::AccountFetcher.new(division) }
-  let!(:account_fetcher_class) { class_double(Accounting::Quickbooks::AccountFetcher,
+  let(:account_fetcher) { Accounting::QB::AccountFetcher.new(division) }
+  let!(:account_fetcher_class) { class_double(Accounting::QB::AccountFetcher,
     new: account_fetcher).as_stubbed_const }
-  let(:transaction_fetcher) { Accounting::Quickbooks::TransactionFetcher.new(division) }
-  let!(:transaction_fetcher_class) { class_double(Accounting::Quickbooks::TransactionFetcher,
+  let(:transaction_fetcher) { Accounting::QB::TransactionFetcher.new(division) }
+  let!(:transaction_fetcher_class) { class_double(Accounting::QB::TransactionFetcher,
     new: transaction_fetcher).as_stubbed_const }
   let(:transaction_class_finder_stub) { double("find_by_name": nil) }
-  let(:customer_fetcher) { Accounting::Quickbooks::CustomerFetcher.new(division) }
+  let(:customer_fetcher) { Accounting::QB::CustomerFetcher.new(division) }
   let!(:customer_fetcher_class) {
-    class_double(Accounting::Quickbooks::CustomerFetcher,
+    class_double(Accounting::QB::CustomerFetcher,
       new: customer_fetcher).as_stubbed_const
   }
   let(:customer_class_finder_stub) { double("find_by_name": nil) }
@@ -57,7 +57,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
 
       expect(division.accounts.count).to eq 3
 
-      expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
+      expect(::Accounting::QB::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
       expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
       expect(account_fetcher).to receive(:fetch).and_call_original
       expect(customer_fetcher).to receive(:service).with("Customer").and_return(qb_customer_service)
@@ -82,7 +82,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
 
     context "qb fetch errors" do
       it "deletes qb connection, clears qb data, and reraises error" do
-        allow(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_raise(StandardError, "some qb error")
+        allow(::Accounting::QB::TransactionClassFinder).to receive(:new).and_raise(StandardError, "some qb error")
         expect(subject).to receive(:delete_qb_data).twice
         expect(subject).to receive(:clear_division_accounts).twice
         expect(qb_connection.present?).to be true
@@ -109,7 +109,7 @@ describe Accounting::Quickbooks::FullFetcher, type: :model do
         division = Division.root
 
         expect(division.interest_receivable_account).not_to be_nil
-        expect(::Accounting::Quickbooks::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
+        expect(::Accounting::QB::TransactionClassFinder).to receive(:new).and_return(transaction_class_finder_stub)
         expect(account_fetcher).to receive(:service).with("Account").and_return(qb_account_service)
         expect(account_fetcher).to receive(:fetch).and_call_original
         expect(customer_fetcher).to receive(:service).with("Customer").and_return(qb_customer_service)

@@ -3,7 +3,7 @@
 # Represents a QB Department object and can create a reference object
 # for a link to this object in a transaction or other QB object.
 module Accounting
-  module Quickbooks
+  module QB
     class Department
       attr_reader :qb_connection, :division
 

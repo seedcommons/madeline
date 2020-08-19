@@ -79,8 +79,8 @@ namespace :tww do
 
   desc "migrate some test data from quickbooks"
   task migrate_test_qbo: :environment do
-    Accounting::Quickbooks::AccountFetcher.new(Division.root).fetch
-    Accounting::Quickbooks::TransactionFetcher.new(Division.root).fetch
+    Accounting::QB::AccountFetcher.new(Division.root).fetch
+    Accounting::QB::TransactionFetcher.new(Division.root).fetch
 
     Accounting::Transaction.update_all(accounting_account_id: nil, project_id: nil)
 

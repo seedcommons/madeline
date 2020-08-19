@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Accounting::Quickbooks::DepositExtractor, type: :model do
+describe Accounting::QB::DepositExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account }
@@ -104,7 +104,7 @@ describe Accounting::Quickbooks::DepositExtractor, type: :model do
   context 'extract!' do
     it 'updates correctly in Madeline' do
       txn = create(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data)
-      Accounting::Quickbooks::DepositExtractor.new(txn).extract!
+      Accounting::QB::DepositExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'repayment'
       expect(txn.managed).to be false
       expect(txn.line_items.size).to eq 3

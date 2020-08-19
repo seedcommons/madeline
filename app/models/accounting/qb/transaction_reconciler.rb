@@ -1,6 +1,6 @@
 # Responsible for updating or creating transaction entries in Quickbooks.
 module Accounting
-  module Quickbooks
+  module QB
     class TransactionReconciler
       def initialize(qb_division = Division.root)
         @qb_division = qb_division

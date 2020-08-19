@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Accounting
-  module Quickbooks
+  module QB
     # Extract Deposit format quickbook transactions
     class DepositExtractor < TransactionExtractor
       attr_accessor :line_items

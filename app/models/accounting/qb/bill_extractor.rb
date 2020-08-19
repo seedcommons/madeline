@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Accounting
-  module Quickbooks
+  module QB
     # Extract Bill format quickbook transactions
     class BillExtractor < PurchaseExtractor
       attr_accessor :line_items

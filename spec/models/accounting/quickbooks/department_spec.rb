@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::Department, type: :model do
+RSpec.describe Accounting::QB::Department, type: :model do
   let(:department_name) { 'A division with a name' }
   let(:qb_department_id) { '91234' }
   let(:qb_new_department) { instance_double(Quickbooks::Model::Department, id: qb_department_id) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::AccountFetcher, type: :model do
+RSpec.describe Accounting::QB::AccountFetcher, type: :model do
   let(:division) { create(:division, :with_accounts) }
   subject { described_class.new(division) }
 

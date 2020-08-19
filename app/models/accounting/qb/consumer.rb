@@ -2,7 +2,7 @@
 # The project Readme contains detailed instructions on how to configure these.
 # See Quickbooks::Connection for details on how authentication information is stored.
 module Accounting
-  module Quickbooks
+  module QB
     class Consumer
       def initialize
         if ::Quickbooks.sandbox_mode

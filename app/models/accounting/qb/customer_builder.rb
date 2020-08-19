@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class CustomerBuilder
       attr_reader :qb_division, :qb_connection, :principal_account
 

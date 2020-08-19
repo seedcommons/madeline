@@ -175,7 +175,7 @@ class Accounting::Transaction < ApplicationRecord
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
     if managed && total_balance < 0 && !Rails.env.test?
-      raise Accounting::Quickbooks::NegativeBalanceError.new(prev_balance: prev_balance)
+      raise Accounting::QB::NegativeBalanceError.new(prev_balance: prev_balance)
     end
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
+describe Accounting::QB::PurchaseExtractor, type: :model do
   let(:qb_id) { 1982547353 }
   let(:division) { create(:division, :with_accounts) }
   let(:prin_acct) { division.principal_account }
@@ -23,7 +23,7 @@ describe Accounting::Quickbooks::PurchaseExtractor, type: :model do
 
   context 'extract!' do
     it 'updates correctly in Madeline' do
-      Accounting::Quickbooks::PurchaseExtractor.new(txn).extract!
+      Accounting::QB::PurchaseExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
       expect(txn.managed).to be false
       expect(txn.line_items.size).to eq 2

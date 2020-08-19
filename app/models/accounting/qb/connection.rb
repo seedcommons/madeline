@@ -24,7 +24,7 @@
 # Stores the access token and other necessary information necessary to authenticate
 # Quickbooks API requests.
 # Also responsible for determining if connection is still valid or expired.
-class Accounting::Quickbooks::Connection < ApplicationRecord
+class Accounting::QB::Connection < ApplicationRecord
   belongs_to :division
 
   def connected?
@@ -43,13 +43,13 @@ class Accounting::Quickbooks::Connection < ApplicationRecord
   def token
     qb_access_token = self.access_token
     qb_refresh_token = self.refresh_token
-    qb_consumer = Accounting::Quickbooks::Consumer.new.oauth_consumer
+    qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, qb_access_token, {:refresh_token => qb_refresh_token})
     oauth2_token
   end
 
   def refresh_token!
-    qb_consumer = Accounting::Quickbooks::Consumer.new.oauth_consumer
+    qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
     refreshed = oauth2_token.refresh!.to_hash
     self.access_token = refreshed[:access_token]

@@ -3,7 +3,7 @@
 # yet, FullFetcher will need to be run first.
 # Updater also kicks off the recalculation process in InterestCalculator once it is done fetching.
 module Accounting
-  module Quickbooks
+  module QB
 
     class Updater
       attr_reader :qb_connection
@@ -93,7 +93,7 @@ module Accounting
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
 
-        Accounting::Quickbooks::DataExtractor.new(txn).extract!
+        Accounting::QB::DataExtractor.new(txn).extract!
         txn.save!
         txn
       end

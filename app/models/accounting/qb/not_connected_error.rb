@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class NotConnectedError < StandardError
     end
   end

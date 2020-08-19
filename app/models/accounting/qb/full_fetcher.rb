@@ -1,7 +1,7 @@
 # Does a full reset with Quickbooks for Accounts and Transactions. Creates new objects as needed, and
 # updates existing objects.
 module Accounting
-  module Quickbooks
+  module QB
     class FullFetcher
       attr_reader :qb_connection, :division
 
@@ -24,10 +24,10 @@ module Accounting
 
       def fetch_qb_data
         started_fetch_at = Time.zone.now
-        ::Accounting::Quickbooks::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
-        ::Accounting::Quickbooks::CustomerFetcher.new(division).fetch
-        ::Accounting::Quickbooks::AccountFetcher.new(division).fetch
-        ::Accounting::Quickbooks::TransactionFetcher.new(division).fetch
+        ::Accounting::QB::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
+        ::Accounting::QB::CustomerFetcher.new(division).fetch
+        ::Accounting::QB::AccountFetcher.new(division).fetch
+        ::Accounting::QB::TransactionFetcher.new(division).fetch
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
       rescue StandardError => error
         delete_qb_data

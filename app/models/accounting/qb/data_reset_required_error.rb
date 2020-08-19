@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class DataResetRequiredError < StandardError
     end
   end

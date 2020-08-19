@@ -71,7 +71,7 @@ class Division < ApplicationRecord
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
-  has_one :qb_connection, class_name: 'Accounting::Quickbooks::Connection', dependent: :destroy
+  has_one :qb_connection, class_name: 'Accounting::QB::Connection', dependent: :destroy
 
   belongs_to :principal_account, class_name: "Accounting::Account"
   belongs_to :interest_receivable_account, class_name: "Accounting::Account"
@@ -114,7 +114,7 @@ class Division < ApplicationRecord
   end
 
   def self.qb_divisions
-    Accounting::Quickbooks::Connection.all.map(&:division)
+    Accounting::QB::Connection.all.map(&:division)
   end
 
   def self.qb_accessible_divisions

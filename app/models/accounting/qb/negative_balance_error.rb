@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class NegativeBalanceError < StandardError
       attr_accessor :prev_balance
 

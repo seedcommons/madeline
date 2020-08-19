@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     class FetchError < StandardError; end
 
     # This class is responsible for batching up Quickbooks API calls into separate types.

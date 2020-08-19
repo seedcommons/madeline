@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Accounting::Quickbooks::TransactionBuilder, type: :model do
+RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
   let(:department_service) { instance_double(Quickbooks::Service::Department) }
-  let(:connection) { instance_double(Accounting::Quickbooks::Connection) }
+  let(:connection) { instance_double(Accounting::QB::Connection) }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
   let(:office_account) { create(:accounting_account, qb_id: qb_office_account_id) }

@@ -7,7 +7,7 @@
 # department (QB equivalent for Division), and class (QB equivalent for Loan) if corresponding
 # objects don't exist yet in Quickbooks.
 module Accounting
-  module Quickbooks
+  module QB
     class TransactionBuilder
       attr_reader :qb_division, :qb_connection, :principal_account
 

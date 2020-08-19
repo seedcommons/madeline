@@ -1,5 +1,5 @@
 module Accounting
-  module Quickbooks
+  module QB
     # Responsible for grabbing all quickbooks customers and inserting or updating Accounting::Customer
     class CustomerFetcher < FetcherBase
       def types
