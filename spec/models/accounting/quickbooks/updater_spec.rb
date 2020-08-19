@@ -6,7 +6,7 @@ require 'rails_helper'
 RSpec.describe Accounting::QB::Updater, type: :model do
   let(:generic_service) { instance_double(Quickbooks::Service::ChangeDataCapture, since: double(all_types: [])) }
   let(:qb_id) { 1982547353 }
-  let!(:qb_connection) { create(:accounting_quickbooks_connection) }
+  let!(:qb_connection) { create(:accounting_qb_connection) }
   let!(:prin_acct) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset") }
   let!(:int_rcv_acct) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
   let!(:int_inc_acct) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }

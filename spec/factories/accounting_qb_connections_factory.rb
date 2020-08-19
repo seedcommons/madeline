@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: accounting_quickbooks_connections
+# Table name: accounting_qb_connections
 #
 #  created_at       :datetime         not null
 #  division_id      :integer          not null
@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  index_accounting_quickbooks_connections_on_division_id  (division_id)
+#  index_accounting_qb_connections_on_division_id  (division_id)
 #
 # Foreign Keys
 #
@@ -22,7 +22,7 @@
 #
 
 FactoryBot.define do
-  factory :accounting_quickbooks_connection, class: 'Accounting::QB::Connection' do
+  factory :accounting_qb_connection, class: 'Accounting::QB::Connection' do
     division { root_division }
     realm_id { 'xxx' }
     access_token { 'xxx' }

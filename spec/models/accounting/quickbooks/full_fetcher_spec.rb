@@ -2,7 +2,7 @@
 require "rails_helper"
 
 describe Accounting::QB::FullFetcher, type: :model do
-  let!(:qb_connection) { create(:accounting_quickbooks_connection) }
+  let!(:qb_connection) { create(:accounting_qb_connection) }
   let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
   let!(:interest_receivable_account) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
   let!(:interest_income_account) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }

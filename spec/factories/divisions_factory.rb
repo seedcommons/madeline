@@ -66,7 +66,7 @@ FactoryBot.define do
 
       after(:create) do |division|
         # This is needed for Division#qb_division to work properly
-        division.qb_connection = create(:accounting_quickbooks_connection, division: division)
+        division.qb_connection = create(:accounting_qb_connection, division: division)
       end
     end
   end
