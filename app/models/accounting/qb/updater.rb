@@ -4,7 +4,6 @@
 # Updater also kicks off the recalculation process in InterestCalculator once it is done fetching.
 module Accounting
   module QB
-
     class Updater
       attr_reader :qb_connection
 

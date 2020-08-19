@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: accounting_quickbooks_connections
+# Table name: accounting_qb_connections
 #
 #  access_token     :string
 #  created_at       :datetime         not null
@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  index_accounting_quickbooks_connections_on_division_id  (division_id)
+#  index_accounting_qb_connections_on_division_id  (division_id)
 #
 # Foreign Keys
 #
