@@ -4,6 +4,7 @@
 #
 #  accent_fg_color                :string
 #  accent_main_color              :string
+#  accounting_qb_department_id    :bigint(8)
 #  banner_bg_color                :string
 #  banner_fg_color                :string
 #  closed_books_date              :date
@@ -27,7 +28,6 @@
 #  parent_id                      :integer
 #  principal_account_id           :integer
 #  public                         :boolean          default(FALSE), not null
-#  qb_id                          :string
 #  qb_parent_class_id             :string
 #  qb_read_only                   :boolean          default(TRUE), not null
 #  short_name                     :string
@@ -35,6 +35,7 @@
 #
 # Indexes
 #
+#  index_divisions_on_accounting_qb_department_id     (accounting_qb_department_id)
 #  index_divisions_on_currency_id                     (currency_id)
 #  index_divisions_on_interest_income_account_id      (interest_income_account_id)
 #  index_divisions_on_interest_receivable_account_id  (interest_receivable_account_id)
@@ -44,6 +45,7 @@
 #
 # Foreign Keys
 #
+#  fk_rails_...  (accounting_qb_department_id => accounting_qb_departments.id)
 #  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (interest_income_account_id => accounting_accounts.id)
 #  fk_rails_...  (interest_receivable_account_id => accounting_accounts.id)

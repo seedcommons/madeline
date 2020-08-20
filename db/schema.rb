@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_194935) do
+ActiveRecord::Schema.define(version: 2020_08_20_154550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2020_08_19_194935) do
   create_table "divisions", id: :serial, force: :cascade do |t|
     t.string "accent_fg_color"
     t.string "accent_main_color"
+    t.bigint "accounting_qb_department_id"
     t.string "banner_bg_color"
     t.string "banner_fg_color"
     t.date "closed_books_date"
@@ -173,11 +174,11 @@ ActiveRecord::Schema.define(version: 2020_08_19_194935) do
     t.integer "parent_id"
     t.integer "principal_account_id"
     t.boolean "public", default: false, null: false
-    t.string "qb_id"
     t.string "qb_parent_class_id"
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
     t.datetime "updated_at", null: false
+    t.index ["accounting_qb_department_id"], name: "index_divisions_on_accounting_qb_department_id"
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
@@ -517,6 +518,7 @@ ActiveRecord::Schema.define(version: 2020_08_19_194935) do
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
+  add_foreign_key "divisions", "accounting_qb_departments"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "documentations", "divisions"

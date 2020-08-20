@@ -34,12 +34,12 @@ RSpec.describe Accounting::QB::DepartmentBuilder, type: :model do
       allow(service).to receive(:create).and_return(qb_new_department)
 
       subject.reference
-      expect(Division.where(qb_id: qb_department_id).count).to eq 1
+      expect(Division.where(accounting_qb_department_id: qb_department_id).count).to eq 1
     end
   end
 
   context 'when qb department does exist' do
-    let(:division) { create(:division, qb_id: qb_department_id) }
+    let(:division) { create(:division, accounting_qb_department_id: qb_department_id) }
     let(:service) { instance_double(Quickbooks::Service::Department, create: nil) }
 
     it 'does not create a department' do
