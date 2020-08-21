@@ -73,10 +73,12 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
 
   create_table "accounting_qb_departments", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "division_id"
     t.string "name", null: false
     t.string "qb_id", null: false
     t.json "quickbooks_data"
     t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_accounting_qb_departments_on_division_id"
   end
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
@@ -151,7 +153,6 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
   create_table "divisions", id: :serial, force: :cascade do |t|
     t.string "accent_fg_color"
     t.string "accent_main_color"
-    t.bigint "accounting_qb_department_id"
     t.string "banner_bg_color"
     t.string "banner_fg_color"
     t.date "closed_books_date"
@@ -178,7 +179,6 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
     t.datetime "updated_at", null: false
-    t.index ["accounting_qb_department_id"], name: "index_divisions_on_accounting_qb_department_id"
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
@@ -510,6 +510,7 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
   add_foreign_key "accounting_problem_loan_transactions", "accounting_transactions"
   add_foreign_key "accounting_problem_loan_transactions", "projects"
   add_foreign_key "accounting_qb_connections", "divisions"
+  add_foreign_key "accounting_qb_departments", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"
@@ -518,7 +519,6 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
-  add_foreign_key "divisions", "accounting_qb_departments"
   add_foreign_key "divisions", "currencies"
   add_foreign_key "divisions", "organizations"
   add_foreign_key "documentations", "divisions"
