@@ -71,7 +71,8 @@ class Division < ApplicationRecord
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
   has_one :qb_connection, class_name: 'Accounting::QB::Connection', dependent: :destroy
-  has_one :accounting_qb_department, class_name: 'Accounting::QB::Department'
+  has_one :qb_department, class_name: 'Accounting::QB::Department'
+  accepts_nested_attributes_for :qb_department
 
   belongs_to :principal_account, class_name: "Accounting::Account"
   belongs_to :interest_receivable_account, class_name: "Accounting::Account"
@@ -103,6 +104,8 @@ class Division < ApplicationRecord
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
   delegate :company_name, to: :qb_connection, prefix: :quickbooks, allow_nil: true
+
+  attr_accessor :qb_department_id # allows this field in simple_form
 
   def self.root_id
     result = root.try(:id)

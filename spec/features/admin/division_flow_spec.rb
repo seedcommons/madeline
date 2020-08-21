@@ -38,4 +38,19 @@ feature 'division flow' do
     click_on 'Update Division'
     expect(page).to have_content('jay')
   end
+
+  context 'editing qb department' do
+
+    let!(:departments) { %w(Dep1 Dep2 Dep3).map do |name|
+        create(:department, name: name)
+      end
+      }
+    scenario 'set department' do
+      visit admin_division_path(division)
+      find('.edit-action').click
+      select 'Dep2', from: 'division_qb_department_id'
+      click_on 'Update Division'
+      expect(page.find('.division_qb_department_id .view-element')).to have_content('Dep2')
+    end
+  end
 end
