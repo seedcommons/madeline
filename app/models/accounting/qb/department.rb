@@ -40,9 +40,17 @@ class Accounting::QB::Department < ApplicationRecord
     department.assign_division
   end
 
+  def self.reference(division)
+    qb_department_id = division.qb_department.try(:qb_id)
+    return if qb_department_id.blank?
+    ::Quickbooks::Model::BaseReference.new(qb_department_id)
+  end
+
   def assign_division
     candidate_divisions = Division.where("name like ?", "%#{self.name}%")
     return if candidate_divisions.empty?
     update_attributes(division: candidate_divisions.first)
   end
+
+
 end

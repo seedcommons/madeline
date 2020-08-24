@@ -54,5 +54,25 @@ RSpec.describe Accounting::QB::Department, type: :model do
         expect(Accounting::QB::Department.first.division_id).to be nil
       end
     end
+
+    context "building a reference" do
+      context 'given a division that does have a qb department' do
+        let(:qb_department) { create(:department) }
+        let(:division) { create(:division, qb_department: qb_department) }
+        it 'returns proper department reference' do
+          reference = ::Accounting::QB::Department.reference(division)
+          expect(reference).to be_a(Quickbooks::Model::BaseReference)
+          expect(reference.value).to eq qb_department.qb_id
+        end
+      end
+
+      context 'given a division with no qb department' do
+        let(:division) { create(:division, qb_department: nil) }
+        it 'returns nil' do
+          reference = ::Accounting::QB::Department.reference(division)
+          expect(reference).to be_nil
+        end
+      end
+    end
   end
 end
