@@ -68,7 +68,9 @@ module Accounting
       end
 
       def department_reference(loan)
-        Department.new(division: loan.division, qb_connection: qb_connection).reference
+        if loan.division.qb_department_id.present?
+          DepartmentBuilder.new(qb_connection: qb_connection).reference(loan.division.qb_department.qb_id)
+        end
       end
 
       def service
