@@ -11,6 +11,7 @@ module TransactionControllable
     check_if_txn_modification_allowed
     set_whether_add_txn_is_allowed
     set_whether_txn_list_is_visible
+    check_if_qb_division_set
 
     @enable_export_to_csv = true
     @transactions_grid = initialize_grid(@transactions,
@@ -99,6 +100,12 @@ module TransactionControllable
   def check_if_txn_modification_allowed
     unless @project && @project.txn_modification_allowed? || flash.now[:error].present?
       flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
+    end
+  end
+
+  def check_if_qb_division_set
+    unless @project.division && @project.division.qb_department.present? || flash.now[:error].present?
+      flash[:notice] = t('quickbooks.department_not_set')
     end
   end
 

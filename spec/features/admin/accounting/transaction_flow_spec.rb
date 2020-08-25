@@ -68,6 +68,28 @@ feature 'transaction flow', :accounting do
       end
     end
 
+    context "loan's division has no qb department set'" do
+      let!(:loan) { create(:loan, :active, division: division) }
+      scenario 'warning is visible' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to have_content("This loan's division has no QB division set.")
+        # expect "Add Transaction" to be available
+        expect(page).to have_selector('.btn[data-action="new-transaction"]')
+      end
+    end
+
+    context "loan's division has qb department set'" do
+      let(:department) { create(:department) }
+      let!(:loan) { create(:loan, :active, division: division) }
+      scenario 'warning is visible' do
+        loan.division.update(qb_department: department)
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).to_not have_content("This loan's division has no QB division set.")
+        # expect "Add Transaction" to be available
+        expect(page).to have_selector('.btn[data-action="new-transaction"]')
+      end
+    end
+
     describe 'new transaction' do
       # This spec does not test TransactionBuilder, InterestCalculator, Updater, or other QB classes
       # because stubbing out all the necessary things was not practical at the time.
