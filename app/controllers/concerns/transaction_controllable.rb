@@ -16,8 +16,7 @@ module TransactionControllable
     @enable_export_to_csv = true
     @transactions_grid = initialize_grid(@transactions,
       enable_export_to_csv: @enable_export_to_csv,
-      name: 'transactions'
-    )
+      name: 'transactions')
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 
@@ -45,16 +44,16 @@ module TransactionControllable
       Rails.logger.error e
       error_msg = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
-      Accounting::QB::NotConnectedError,
-      Quickbooks::AuthorizationFailure => e
+           Accounting::QB::NotConnectedError,
+           Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
       @qb_not_connected = true
       error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
     rescue Quickbooks::InvalidModelException,
-      Quickbooks::Forbidden,
-      Quickbooks::ThrottleExceeded,
-      Quickbooks::TooManyRequests,
-      Quickbooks::IntuitRequestException => e
+           Quickbooks::Forbidden,
+           Quickbooks::ThrottleExceeded,
+           Quickbooks::TooManyRequests,
+           Quickbooks::IntuitRequestException => e
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
       error_msg = t('quickbooks.misc', msg: e)

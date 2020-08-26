@@ -53,6 +53,4 @@ class Accounting::QB::Department < ApplicationRecord
     return if candidate_divisions.empty?
     update_attributes(division: candidate_divisions.first)
   end
-
-
 end

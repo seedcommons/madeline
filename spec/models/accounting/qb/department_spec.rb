@@ -23,8 +23,8 @@ require 'rails_helper'
 
 RSpec.describe Accounting::QB::Department, type: :model do
   describe "department" do
-    let(:division_name) {"Test QB Dept"}
-    let(:dept_name) {"Test QB Dept Loans"}
+    let(:division_name) { "Test QB Dept" }
+    let(:dept_name) { "Test QB Dept Loans" }
     let(:qb_department_object) {
       instance_double(Quickbooks::Model::Department,
         id: 123,
