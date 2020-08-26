@@ -71,7 +71,7 @@ class Division < ApplicationRecord
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
   has_one :qb_connection, class_name: 'Accounting::QB::Connection', dependent: :destroy
-  has_one :qb_department, class_name: 'Accounting::QB::Department'
+  has_one :qb_department, class_name: 'Accounting::QB::Department', dependent: :nullify, inverse_of: :division
   accepts_nested_attributes_for :qb_department
 
   belongs_to :principal_account, class_name: "Accounting::Account"
