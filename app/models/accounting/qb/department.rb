@@ -51,6 +51,6 @@ class Accounting::QB::Department < ApplicationRecord
     target_division_name = self.name.gsub(QB_LOANS_DEPT_SUFFIX, "")
     candidate_divisions = Division.where("name like ?", "%#{target_division_name}%")
     return if candidate_divisions.empty?
-    update_attributes(division: candidate_divisions.first)
+    update(division: candidate_divisions.first)
   end
 end

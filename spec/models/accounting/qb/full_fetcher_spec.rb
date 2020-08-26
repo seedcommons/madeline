@@ -3,7 +3,7 @@ require "rails_helper"
 
 describe Accounting::QB::FullFetcher, type: :model do
   let!(:qb_connection) { create(:accounting_qb_connection) }
-  let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset")  }
+  let!(:principal_account) { create(:accounting_account, name: "Principal Account", qb_account_classification: "Asset") }
   let!(:interest_receivable_account) { create(:accounting_account, name: "Interest Rcvbl Account", qb_account_classification: "Asset") }
   let!(:interest_income_account) { create(:accounting_account, name: "Interest Income Account", qb_account_classification: "Revenue") }
   let!(:division) do
@@ -36,11 +36,15 @@ describe Accounting::QB::FullFetcher, type: :model do
   let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
   let(:qb_department_service) { instance_double(Quickbooks::Service::Department, all: []) }
   let(:account_fetcher) { Accounting::QB::AccountFetcher.new(division) }
-  let!(:account_fetcher_class) { class_double(Accounting::QB::AccountFetcher,
-    new: account_fetcher).as_stubbed_const }
+  let!(:account_fetcher_class) {
+    class_double(Accounting::QB::AccountFetcher,
+      new: account_fetcher).as_stubbed_const
+  }
   let(:transaction_fetcher) { Accounting::QB::TransactionFetcher.new(division) }
-  let!(:transaction_fetcher_class) { class_double(Accounting::QB::TransactionFetcher,
-    new: transaction_fetcher).as_stubbed_const }
+  let!(:transaction_fetcher_class) {
+    class_double(Accounting::QB::TransactionFetcher,
+      new: transaction_fetcher).as_stubbed_const
+  }
   let(:transaction_class_finder_stub) { double("find_by": nil) }
   let(:customer_fetcher) { Accounting::QB::CustomerFetcher.new(division) }
   let!(:customer_fetcher_class) {
@@ -58,7 +62,6 @@ describe Accounting::QB::FullFetcher, type: :model do
 
   describe "#fetch_all" do
     it "removes and restores accounts" do
-
       stored_account_ids = division.accounts.map(&:id)
 
       expect(division.accounts.count).to eq 3
@@ -105,7 +108,7 @@ describe Accounting::QB::FullFetcher, type: :model do
           instance_double(Quickbooks::Model::Account,
             id: principal_account.qb_id,
             name: principal_account.name,
-            classification: principal_account.qb_account_classification ),
+            classification: principal_account.qb_account_classification),
           instance_double(Quickbooks::Model::Account,
             id: interest_income_account.qb_id,
             name: interest_income_account.name,
