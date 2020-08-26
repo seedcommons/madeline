@@ -26,6 +26,7 @@
 
 class Accounting::QB::Department < ApplicationRecord
   QB_OBJECT_TYPE = 'Department'
+  QB_LOANS_DEPT_SUFFIX = ' Loans'
 
   belongs_to :division, optional: true, class_name: "Division"
 
@@ -47,7 +48,8 @@ class Accounting::QB::Department < ApplicationRecord
   end
 
   def assign_division
-    candidate_divisions = Division.where("name like ?", "%#{self.name}%")
+    target_division_name = self.name.gsub(QB_LOANS_DEPT_SUFFIX, "")
+    candidate_divisions = Division.where("name like ?", "%#{target_division_name}%")
     return if candidate_divisions.empty?
     update_attributes(division: candidate_divisions.first)
   end
