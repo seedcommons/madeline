@@ -53,7 +53,7 @@ class Admin::DivisionsController < Admin::AdminController
     authorize @division
     division_params = prep_division_params
     qb_department_id = division_params.delete(:qb_department_id)
-    @division.update_attributes(division_params)
+    @division.update(division_params)
     @division.qb_department = ::Accounting::QB::Department.find(qb_department_id) if qb_department_id.present?
     if @division.save
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)

@@ -41,13 +41,13 @@ describe Accounting::QB::FullFetcher, type: :model do
   let(:transaction_fetcher) { Accounting::QB::TransactionFetcher.new(division) }
   let!(:transaction_fetcher_class) { class_double(Accounting::QB::TransactionFetcher,
     new: transaction_fetcher).as_stubbed_const }
-  let(:transaction_class_finder_stub) { double("find_by_name": nil) }
+  let(:transaction_class_finder_stub) { double("find_by": nil) }
   let(:customer_fetcher) { Accounting::QB::CustomerFetcher.new(division) }
   let!(:customer_fetcher_class) {
     class_double(Accounting::QB::CustomerFetcher,
       new: customer_fetcher).as_stubbed_const
   }
-  let(:department_class_finder_stub) { double("find_by_name": nil) }
+  let(:department_class_finder_stub) { double("find_by": nil) }
   let(:department_fetcher) { Accounting::QB::DepartmentFetcher.new(division) }
   let!(:department_fetcher_class) {
     class_double(Accounting::QB::DepartmentFetcher,

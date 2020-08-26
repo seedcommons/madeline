@@ -9,7 +9,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def new
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id], txn_date: Date.today)
+    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id], txn_date: Time.zone.today)
     authorize @transaction, :new?
 
     prep_transaction_form
