@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_20_154550) do
+ActiveRecord::Schema.define(version: 2020_08_27_170232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,14 @@ ActiveRecord::Schema.define(version: 2020_08_20_154550) do
     t.json "quickbooks_data"
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_qb_departments_on_division_id"
+  end
+
+  create_table "accounting_qb_vendors", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.json "quickbooks_data"
+    t.datetime "updated_at", null: false
   end
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
