@@ -35,6 +35,7 @@ describe Accounting::QB::FullFetcher, type: :model do
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
   let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
   let(:qb_department_service) { instance_double(Quickbooks::Service::Department, all: []) }
+  let(:qb_vendor_service) { instance_double(Quickbooks::Service::Vendor, all: []) }
   let(:account_fetcher) { Accounting::QB::AccountFetcher.new(division) }
   let!(:account_fetcher_class) {
     class_double(Accounting::QB::AccountFetcher,
@@ -51,11 +52,15 @@ describe Accounting::QB::FullFetcher, type: :model do
     class_double(Accounting::QB::CustomerFetcher,
       new: customer_fetcher).as_stubbed_const
   }
-  let(:department_class_finder_stub) { double("find_by": nil) }
   let(:department_fetcher) { Accounting::QB::DepartmentFetcher.new(division) }
   let!(:department_fetcher_class) {
     class_double(Accounting::QB::DepartmentFetcher,
       new: department_fetcher).as_stubbed_const
+  }
+  let(:vendor_fetcher) { Accounting::QB::VendorFetcher.new(division) }
+  let!(:vendor_fetcher_class) {
+    class_double(Accounting::QB::VendorFetcher,
+      new: vendor_fetcher).as_stubbed_const
   }
 
   subject { described_class.new(division) }
@@ -73,6 +78,8 @@ describe Accounting::QB::FullFetcher, type: :model do
       expect(customer_fetcher).to receive(:fetch).and_call_original
       expect(department_fetcher).to receive(:service).with("Department").and_return(qb_department_service)
       expect(department_fetcher).to receive(:fetch).and_call_original
+      expect(vendor_fetcher).to receive(:service).with("Vendor").and_return(qb_vendor_service)
+      expect(vendor_fetcher).to receive(:fetch).and_call_original
 
       transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
       expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times
@@ -127,6 +134,8 @@ describe Accounting::QB::FullFetcher, type: :model do
         expect(customer_fetcher).to receive(:fetch).and_call_original
         expect(department_fetcher).to receive(:service).with("Department").and_return(qb_department_service)
         expect(department_fetcher).to receive(:fetch).and_call_original
+        expect(vendor_fetcher).to receive(:service).with("Vendor").and_return(qb_department_service)
+        expect(vendor_fetcher).to receive(:fetch).and_call_original
 
         transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
         expect(transaction_fetcher).to receive(:service).exactly(transaction_type_count).times

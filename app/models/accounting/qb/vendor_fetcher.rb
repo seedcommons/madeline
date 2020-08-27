@@ -1,6 +1,6 @@
 module Accounting
   module QB
-    # Responsible for grabbing all quickbooks vendors and inserting or updating Accounting::Customer
+    # Responsible for grabbing all quickbooks vendors and inserting or updating Accounting::QB::Vendor
     class VendorFetcher < FetcherBase
       def types
         [Accounting::QB::Vendor::QB_OBJECT_TYPE]
