@@ -95,7 +95,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
 
     new_project = ProjectDuplicator.new(@basic_project).duplicate
 
-    redirect_to(admin_basic_project_path(new_project), notice: I18n.t("loan.duplicated_message"))
+    redirect_to(admin_basic_project_path(new_project), notice: I18n.t("basic_project.duplicated_message"))
   end
 
   private

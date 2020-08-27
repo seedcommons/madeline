@@ -7,6 +7,7 @@ en:
     confirm_duplication: "This will duplicate the project and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
     delete: "Delete Project"
     duplicate: "Duplicate Project"
+    duplicated_message: "The project was successfully duplicated."
     edit: "Edit Project"
     months: "%{number} mo."
     new: "New Project"
