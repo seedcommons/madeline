@@ -29,6 +29,7 @@ module Accounting
         ::Accounting::QB::AccountFetcher.new(division).fetch
         ::Accounting::QB::TransactionFetcher.new(division).fetch
         ::Accounting::QB::DepartmentFetcher.new(division).fetch
+        ::Accounting::QB::VendorFetcher.new(division).fetch
         qb_connection.update_attribute(:last_updated_at, started_fetch_at)
       rescue StandardError => error
         delete_qb_data
@@ -43,6 +44,7 @@ module Accounting
         ::Accounting::Account.delete_all
         ::Accounting::Customer.delete_all
         ::Accounting::QB::Department.delete_all
+        ::Accounting::QB::Vendor.delete_all
       end
 
       # Set this division's accounts to nil and return a hash of the QB ids of the removed accounts
