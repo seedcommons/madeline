@@ -51,8 +51,11 @@ class Admin::DivisionsController < Admin::AdminController
 
   def update
     authorize @division
-
-    if @division.update(division_params)
+    division_params = prep_division_params # TODO: find a neater way to set dept based on dept_id
+    qb_department_id = division_params.delete(:qb_department_id)
+    @division.update(division_params)
+    @division.qb_department = ::Accounting::QB::Department.find(qb_department_id) if qb_department_id.present?
+    if @division.save
       redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)
     else
       prep_form_vars
@@ -61,6 +64,7 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def create
+    division_params = prep_division_params
     @division = Division.new(division_params)
     if @division.parent
       authorize @division
@@ -91,8 +95,8 @@ class Admin::DivisionsController < Admin::AdminController
 
   private
 
-  def division_params
-    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :parent_id, :public,
+  def prep_division_params
+    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :qb_department_id, :parent_id, :public,
       :banner_fg_color, :banner_bg_color, :short_name, :accent_main_color, :accent_fg_color, :notify_on_new_logs, locales: [])
   end
 
@@ -113,6 +117,7 @@ class Admin::DivisionsController < Admin::AdminController
   def prep_form_vars
     @currency_choices = Currency.order(:name)
     @parent_choices = parent_choices(@division)
+    @qb_department_choices = ::Accounting::QB::Department.order(:name)
   end
 
   # List of other divisions which the current user has access to and are allowed to be assigned

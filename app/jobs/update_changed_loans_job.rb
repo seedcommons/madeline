@@ -3,7 +3,7 @@ class UpdateChangedLoansJob < TaskJob
     task = task_for_job(self)
     errors_by_loan = []
     divisions = Division.qb_accessible_divisions
-    updater = Accounting::Quickbooks::Updater.new
+    updater = Accounting::QB::Updater.new
     updater.qb_sync_for_loan_update
 
     loans = divisions.map { |i| i.loans.changed_since(updater.qb_connection.last_updated_at).active }.flatten.compact
@@ -24,17 +24,17 @@ class UpdateChangedLoansJob < TaskJob
     end
   end
 
-  rescue_from(Accounting::Quickbooks::NotConnectedError) do |error|
+  rescue_from(Accounting::QB::NotConnectedError) do |error|
     task_for_job(self).set_activity_message("error_quickbooks_not_connected")
     record_failure_and_raise_error(error)
   end
 
-  rescue_from(Accounting::Quickbooks::DataResetRequiredError) do |error|
+  rescue_from(Accounting::QB::DataResetRequiredError) do |error|
     task_for_job(self).set_activity_message("error_data_reset_required")
     record_failure_and_raise_error(error)
   end
 
-  rescue_from(Accounting::Quickbooks::AccountsNotSelectedError) do |error|
+  rescue_from(Accounting::QB::AccountsNotSelectedError) do |error|
     task_for_job(self).set_activity_message("error_quickbooks_accounts_not_selected")
     record_failure_and_raise_error(error)
   end

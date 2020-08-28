@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_220437) do
+ActiveRecord::Schema.define(version: 2020_08_20_154550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_220437) do
     t.index ["project_id"], name: "index_accounting_problem_loan_transactions_on_project_id"
   end
 
-  create_table "accounting_quickbooks_connections", id: :serial, force: :cascade do |t|
+  create_table "accounting_qb_connections", id: :serial, force: :cascade do |t|
     t.string "access_token"
     t.datetime "created_at", null: false
     t.integer "division_id", null: false
@@ -68,7 +68,17 @@ ActiveRecord::Schema.define(version: 2020_03_23_220437) do
     t.string "refresh_token"
     t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["division_id"], name: "index_accounting_quickbooks_connections_on_division_id"
+    t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id"
+  end
+
+  create_table "accounting_qb_departments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "division_id"
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.json "quickbooks_data"
+    t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_accounting_qb_departments_on_division_id"
   end
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
@@ -165,7 +175,6 @@ ActiveRecord::Schema.define(version: 2020_03_23_220437) do
     t.integer "parent_id"
     t.integer "principal_account_id"
     t.boolean "public", default: false, null: false
-    t.string "qb_id"
     t.string "qb_parent_class_id"
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
@@ -274,7 +283,6 @@ ActiveRecord::Schema.define(version: 2020_03_23_220437) do
     t.string "postal_code"
     t.integer "primary_contact_id"
     t.string "primary_phone"
-    t.string "qb_id"
     t.string "referral_source"
     t.string "secondary_phone"
     t.string "sector"
@@ -501,7 +509,8 @@ ActiveRecord::Schema.define(version: 2020_03_23_220437) do
   add_foreign_key "accounting_line_items", "accounting_transactions"
   add_foreign_key "accounting_problem_loan_transactions", "accounting_transactions"
   add_foreign_key "accounting_problem_loan_transactions", "projects"
-  add_foreign_key "accounting_quickbooks_connections", "divisions"
+  add_foreign_key "accounting_qb_connections", "divisions"
+  add_foreign_key "accounting_qb_departments", "divisions"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"

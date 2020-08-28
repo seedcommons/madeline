@@ -21,7 +21,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       redirect_uri = oauth_callback_admin_accounting_quickbooks_url
       response = qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
       if response
-        Accounting::Quickbooks::Connection.create(
+        Accounting::QB::Connection.create(
           access_token: response.token,
           refresh_token: response.refresh_token,
           realm_id: params[:realmId],
@@ -56,6 +56,6 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   private
 
   def qb_consumer
-    @qb_consumer ||= Accounting::Quickbooks::Consumer.new
+    @qb_consumer ||= Accounting::QB::Consumer.new
   end
 end

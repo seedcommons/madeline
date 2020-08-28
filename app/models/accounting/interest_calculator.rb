@@ -206,7 +206,7 @@ module Accounting
     end
 
     def reconciler
-      @reconciler ||= Accounting::Quickbooks::TransactionReconciler.new(qb_division)
+      @reconciler ||= Accounting::QB::TransactionReconciler.new(qb_division)
     end
 
     # Calculates the interest accrued between the date of the last transaction and the current one.

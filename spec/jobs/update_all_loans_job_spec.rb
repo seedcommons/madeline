@@ -25,13 +25,13 @@ describe UpdateAllLoansJob do
     subject(:task_job) do
       Class.new(described_class) do
         def perform(_task_data, *_args)
-          raise Accounting::Quickbooks::NotConnectedError
+          raise Accounting::QB::NotConnectedError
         end
       end
     end
 
     it "should fail and have specific activity message" do
-      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::Quickbooks::NotConnectedError
+      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::QB::NotConnectedError
       expect(task.reload.status).to eq :failed
       expect(task.reload.activity_message_value).to eq "error_quickbooks_not_connected"
     end
@@ -41,13 +41,13 @@ describe UpdateAllLoansJob do
     subject(:task_job) do
       Class.new(described_class) do
         def perform(_task_data, *_args)
-          raise Accounting::Quickbooks::DataResetRequiredError
+          raise Accounting::QB::DataResetRequiredError
         end
       end
     end
 
     it "should fail and have specific activity message" do
-      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::Quickbooks::DataResetRequiredError
+      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::QB::DataResetRequiredError
       expect(task.reload.status).to eq :failed
       expect(task.reload.activity_message_value).to eq "error_data_reset_required"
     end
@@ -57,13 +57,13 @@ describe UpdateAllLoansJob do
     subject(:task_job) do
       Class.new(described_class) do
         def perform(_task_data, *_args)
-          raise Accounting::Quickbooks::AccountsNotSelectedError
+          raise Accounting::QB::AccountsNotSelectedError
         end
       end
     end
 
     it "should fail and have specific activity message" do
-      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::Quickbooks::AccountsNotSelectedError
+      expect { subject.perform_now(task_id: task.id) }.to raise_error Accounting::QB::AccountsNotSelectedError
       expect(task.reload.status).to eq :failed
       expect(task.reload.activity_message_value).to eq "error_quickbooks_accounts_not_selected"
     end
