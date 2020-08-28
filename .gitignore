@@ -36,8 +36,6 @@ coverage/
 frpc.ini
 ~$*
 frpc.ini
-app/views/bin
-bin/update
 
 # This is where layouts fetched dynamically from the public wordpress site are kept.
 /app/views/layouts/public/wordpress/**/*.erb
