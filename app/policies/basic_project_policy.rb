@@ -1,5 +1,5 @@
 class BasicProjectPolicy < ProjectPolicy
   def duplicate?
-    true
+    show?
   end
 end
