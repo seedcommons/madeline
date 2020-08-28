@@ -51,7 +51,7 @@ class Admin::DivisionsController < Admin::AdminController
 
   def update
     authorize @division
-    division_params = prep_division_params
+    division_params = prep_division_params # TODO: find a neater way to set dept based on dept_id
     qb_department_id = division_params.delete(:qb_department_id)
     @division.update(division_params)
     @division.qb_department = ::Accounting::QB::Department.find(qb_department_id) if qb_department_id.present?
