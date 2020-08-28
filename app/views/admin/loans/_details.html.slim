@@ -20,7 +20,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
     / Duplicate
     - if @loan.valid?
       = link_to duplicate_admin_loan_path,
-        data: { confirm: t("loan.confirm_duplication.#{@loan.class.name.downcase}") }
+        data: { confirm: t("loan.confirm_duplication") }
         i.fa.fa-clone>
         = t("loan.duplicate")
 

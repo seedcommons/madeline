@@ -15,6 +15,12 @@ section.details class=(@basic_project.valid? ? "show-view" : " edit-view")
           data: { confirm: t("basic_project.confirm_deletion") }
         i.fa.fa-trash.fa-large>
         = t("basic_project.delete")
+    / Duplicate
+    - if @basic_project.valid?
+      = link_to duplicate_admin_basic_project_path,
+        data: { confirm: t("basic_project.confirm_duplication") }
+        i.fa.fa-clone>
+        = t("basic_project.duplicate")
 
   = render "form"
 

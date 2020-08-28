@@ -39,4 +39,11 @@ feature 'basic project flow' do
     click_on 'Delete Project'
     expect(page).to have_content('Record was successfully deleted')
   end
+
+  scenario 'project with groups can be duplicated' do
+    visit admin_basic_project_path(basic_project)
+    click_on 'Duplicate Project'
+    expect(page).to have_content('The project was successfully duplicated.')
+    expect(page).to have_content("Copy of #{basic_project.name}")
+  end
 end

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :basic_projects, path: 'basic-projects'
+    resources :basic_projects, path: 'basic-projects' do
+      member do
+        get :duplicate
+      end
+    end
     resources :calendar, only: [:index]
     resources :calendar_events, only: [:index]
     resources :data_exports, path_names: {new: '(/:type)/new'}, path: "data-exports"
