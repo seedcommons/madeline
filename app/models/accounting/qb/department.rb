@@ -26,7 +26,6 @@
 
 class Accounting::QB::Department < ApplicationRecord
   QB_OBJECT_TYPE = 'Department'
-  QB_LOANS_DEPT_SUFFIX = ' Loans'
 
   belongs_to :division, optional: true, class_name: "Division"
 
@@ -38,19 +37,11 @@ class Accounting::QB::Department < ApplicationRecord
         quickbooks_data: qb_object.as_json
       )
     end
-    department.assign_division
   end
 
   def self.reference(division)
     qb_department_id = division.qb_department.try(:qb_id)
     return if qb_department_id.blank?
     ::Quickbooks::Model::BaseReference.new(qb_department_id)
-  end
-
-  def assign_division
-    target_division_name = self.name.gsub(QB_LOANS_DEPT_SUFFIX, "")
-    candidate_divisions = Division.where("name like ?", "%#{target_division_name}%")
-    return if candidate_divisions.empty?
-    update(division: candidate_divisions.first)
   end
 end
