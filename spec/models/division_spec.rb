@@ -27,7 +27,6 @@
 #  parent_id                      :integer
 #  principal_account_id           :integer
 #  public                         :boolean          default(FALSE), not null
-#  qb_id                          :string
 #  qb_parent_class_id             :string
 #  qb_read_only                   :boolean          default(TRUE), not null
 #  short_name                     :string

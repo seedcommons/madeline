@@ -27,7 +27,6 @@
 #  parent_id                      :integer
 #  principal_account_id           :integer
 #  public                         :boolean          default(FALSE), not null
-#  qb_id                          :string
 #  qb_parent_class_id             :string
 #  qb_read_only                   :boolean          default(TRUE), not null
 #  short_name                     :string
@@ -71,7 +70,9 @@ class Division < ApplicationRecord
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
-  has_one :qb_connection, class_name: 'Accounting::Quickbooks::Connection', dependent: :destroy
+  has_one :qb_connection, class_name: 'Accounting::QB::Connection', dependent: :destroy, inverse_of: :division
+  has_one :qb_department, class_name: 'Accounting::QB::Department', dependent: :nullify, inverse_of: :division
+  accepts_nested_attributes_for :qb_department
 
   belongs_to :principal_account, class_name: "Accounting::Account"
   belongs_to :interest_receivable_account, class_name: "Accounting::Account"
@@ -104,6 +105,8 @@ class Division < ApplicationRecord
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true
   delegate :company_name, to: :qb_connection, prefix: :quickbooks, allow_nil: true
 
+  attr_accessor :qb_department_id # allows this field in simple_form
+
   def self.root_id
     result = root.try(:id)
     result
@@ -114,7 +117,7 @@ class Division < ApplicationRecord
   end
 
   def self.qb_divisions
-    Accounting::Quickbooks::Connection.all.map(&:division)
+    Accounting::QB::Connection.all.map(&:division)
   end
 
   def self.qb_accessible_divisions

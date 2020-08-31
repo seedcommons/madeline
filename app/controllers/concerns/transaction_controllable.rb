@@ -11,12 +11,12 @@ module TransactionControllable
     check_if_txn_modification_allowed
     set_whether_add_txn_is_allowed
     set_whether_txn_list_is_visible
+    check_if_qb_division_set
 
     @enable_export_to_csv = true
     @transactions_grid = initialize_grid(@transactions,
       enable_export_to_csv: @enable_export_to_csv,
-      name: 'transactions'
-    )
+      name: 'transactions')
     export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
   end
 
@@ -36,7 +36,7 @@ module TransactionControllable
   def handle_qb_errors
     begin
       yield
-    rescue Accounting::Quickbooks::DataResetRequiredError => e
+    rescue Accounting::QB::DataResetRequiredError => e
       Rails.logger.error e
       @data_reset_required = true
       error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
@@ -44,20 +44,20 @@ module TransactionControllable
       Rails.logger.error e
       error_msg = t('quickbooks.service_unavailable')
     rescue Quickbooks::MissingRealmError,
-      Accounting::Quickbooks::NotConnectedError,
-      Quickbooks::AuthorizationFailure => e
+           Accounting::QB::NotConnectedError,
+           Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
       @qb_not_connected = true
       error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
     rescue Quickbooks::InvalidModelException,
-      Quickbooks::Forbidden,
-      Quickbooks::ThrottleExceeded,
-      Quickbooks::TooManyRequests,
-      Quickbooks::IntuitRequestException => e
+           Quickbooks::Forbidden,
+           Quickbooks::ThrottleExceeded,
+           Quickbooks::TooManyRequests,
+           Quickbooks::IntuitRequestException => e
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
       error_msg = t('quickbooks.misc', msg: e)
-    rescue Accounting::Quickbooks::NegativeBalanceError => e
+    rescue Accounting::QB::NegativeBalanceError => e
       Rails.logger.error e
       error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
     end
@@ -73,7 +73,7 @@ module TransactionControllable
       end
     else
       Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
-      Accounting::Quickbooks::Updater.new.update(project)
+      Accounting::QB::Updater.new.update(project)
     end
   end
 
@@ -99,6 +99,12 @@ module TransactionControllable
   def check_if_txn_modification_allowed
     unless @project && @project.txn_modification_allowed? || flash.now[:error].present?
       flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
+    end
+  end
+
+  def check_if_qb_division_set
+    unless @project.division && @project.division.qb_department.present? || flash.now[:error].present?
+      flash[:notice] = t('quickbooks.department_not_set')
     end
   end
 

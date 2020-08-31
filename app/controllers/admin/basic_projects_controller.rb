@@ -89,6 +89,15 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     end
   end
 
+  def duplicate
+    @basic_project = BasicProject.find(params[:id])
+    authorize @basic_project
+
+    new_project = ProjectDuplicator.new(@basic_project).duplicate
+
+    redirect_to(admin_basic_project_path(new_project), notice: I18n.t("basic_project.duplicated_message"))
+  end
+
   private
 
   def prep_form_vars
