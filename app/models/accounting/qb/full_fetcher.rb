@@ -24,7 +24,7 @@ module Accounting
 
       def fetch_qb_data
         started_fetch_at = Time.zone.now
-        ::Accounting::QB::TransactionClassFinder.new(division).find_by(name: ::Accounting::Transaction::QB_PARENT_CLASS)
+        ::Accounting::QB::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
         ::Accounting::QB::CustomerFetcher.new(division).fetch
         ::Accounting::QB::AccountFetcher.new(division).fetch
         ::Accounting::QB::TransactionFetcher.new(division).fetch
