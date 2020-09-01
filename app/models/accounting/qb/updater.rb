@@ -111,7 +111,11 @@ module Accounting
       end
 
       def types
-        Transaction::QB_OBJECT_TYPES + [Account::QB_OBJECT_TYPE] + [Customer::QB_OBJECT_TYPE]
+        Transaction::QB_OBJECT_TYPES +
+          [Account::QB_OBJECT_TYPE] +
+          [Customer::QB_OBJECT_TYPE] +
+          [Vendor::QB_OBJECT_TYPE] +
+          [Department::QB_OBJECT_TYPE]
       end
 
       def ar_model_for(qb_object_type)
