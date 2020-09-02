@@ -25,7 +25,6 @@ feature 'division flow' do
   scenario 'divisions can not have duplicate short names' do
     visit admin_divisions_path
     click_on 'New Division'
-    save_and_open_page
     fill_in 'division_name', with: 'Jay'
     fill_in 'Short Name', with: 'cream'
     click_on 'Create Division'
