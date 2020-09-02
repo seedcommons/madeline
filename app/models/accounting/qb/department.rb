@@ -39,9 +39,7 @@ class Accounting::QB::Department < ApplicationRecord
     end
   end
 
-  def self.reference(division)
-    qb_department_id = division.qb_department.try(:qb_id)
-    return if qb_department_id.blank?
-    ::Quickbooks::Model::BaseReference.new(qb_department_id)
+  def self.reference(qb_department)
+    ::Quickbooks::Model::BaseReference.new(qb_department.qb_id)
   end
 end
