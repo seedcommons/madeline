@@ -87,6 +87,7 @@ class Accounting::Transaction < ApplicationRecord
   validate :respect_closed_books_date, if: :user_created
 
   delegate :division, :qb_division, to: :project
+  delegate :qb_department, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
