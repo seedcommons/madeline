@@ -72,9 +72,9 @@ feature 'transaction flow', :accounting do
     context "loan's division has no qb department set'" do
       before { division.update(qb_department: nil) }
       let!(:loan) { create(:loan, :active, division: division) }
-      scenario 'warning is visible' do
+      scenario 'warning is visible and Create Transactions button hidden' do
         visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_content("This loan's division has no QB division set.")
+        expect(page).to have_content("Please set the QB division on the Madeline division in order to create transactions.")
         # expect "Add Transaction" to be available
         expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
       end
