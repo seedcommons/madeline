@@ -271,7 +271,7 @@ class Loan < Project
   end
 
   def txn_modification_allowed?
-    active? && !txns_read_only?
+    active? && !txns_read_only? && self.qb_department.present?
   end
 
   def num_problem_loan_txns_by_level(level)

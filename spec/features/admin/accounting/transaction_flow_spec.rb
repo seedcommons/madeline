@@ -76,7 +76,7 @@ feature 'transaction flow', :accounting do
         visit "/admin/loans/#{loan.id}/transactions"
         expect(page).to have_content("This loan's division has no QB division set.")
         # expect "Add Transaction" to be available
-        expect(page).to have_selector('.btn[data-action="new-transaction"]')
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
       end
     end
 
