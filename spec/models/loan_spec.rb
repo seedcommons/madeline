@@ -150,8 +150,9 @@ describe Loan, type: :model do
         end
       end
 
-      describe 'loan is active and and txns are not read only' do
-        let(:loan) { create(:loan, :active) }
+      describe 'loan is active, txns are not read only, and qb_dept set' do
+        let(:division) { create(:division, :with_qb_dept) }
+        let(:loan) { create(:loan, :active, division: division) }
         it 'returns true' do
           expect(loan.txn_modification_allowed?). to be true
         end

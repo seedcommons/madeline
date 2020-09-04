@@ -69,6 +69,10 @@ FactoryBot.define do
         division.qb_connection = create(:accounting_qb_connection, division: division)
       end
     end
+
+    trait :with_qb_dept do
+      qb_department { create(:department) }
+    end
   end
 end
 
