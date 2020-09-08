@@ -17,9 +17,69 @@ module Accounting
         @principal_account = qb_division.principal_account
       end
 
+      def build_for_qb(transaction)
+        if transaction.is_a_check?
+          build_check_for_qb(transaction)
+        else
+          build_je_for_qb(transaction)
+        end
+      end
+
+      # Creates a Purchase of type check for QB based on disbursement txn object in Madeline.
+      # A check in QB has one line item whereas a disbursement txn has two LIs in Madeline.
+      def build_check_for_qb(transaction)
+        p = ::Quickbooks::Model::Purchase.new
+
+        # If transaction already exists in QB, these are required
+        if transaction.qb_id
+          p.id = transaction.qb_id
+          p.sync_token = transaction.quickbooks_data['sync_token']
+        else
+          p.doc_number = set_journal_number(transaction)
+        end
+
+        p.private_note = transaction.private_note
+        p.txn_date = transaction.txn_date if transaction.txn_date.present?
+        # p.account_ref = transaction.account.try(:reference)
+        # p.account_id = 1987 # stub w expense account id; transaction.account.qb_id
+        p.department_ref = department_reference(transaction.project)
+        p.payment_type = "Check"
+        p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
+        p.total = transaction.amount
+
+        qb_customer_ref = customer_reference(transaction)
+        qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
+
+        # no posting type on AccountBasedExpenseLineItems in QB
+        p.line_items << build_check_line_item(
+          id: nil,
+          amount: transaction.amount,
+          description: transaction.description,
+          qb_customer_ref: qb_customer_ref,
+          qb_class_id: qb_class_id
+        )
+        p
+      end
+
+      def build_check_line_item(id:, amount:, description:, qb_customer_ref:, qb_class_id:)
+        line_item = ::Quickbooks::Model::PurchaseLineItem.new
+        line_item.detail_type = 'AccountBasedExpenseLineDetail'
+        line_item.id = id
+        detail = ::Quickbooks::Model::AccountBasedExpenseLineDetail.new
+        # detail.account_ref = @principal_account.reference
+        # detail.account_id = 1797 # stub w expense account id;@principal_account.qb_id # always prin account
+        detail.class_id = qb_class_id # ref in documentation
+        detail.customer_ref = qb_customer_ref # not sure if this still makes sense on a check?
+        detail.billable_status = "NotBillable"
+        line_item.account_based_expense_line_detail = detail
+        line_item.amount = amount
+        line_item.description = description
+        line_item
+      end
+
       # Creates a transaction for Quickbooks based on a Transaction object created in Madeline. Line
       # items in QB mirror line items in Madeline.
-      def build_for_qb(transaction)
+      def build_je_for_qb(transaction)
         je = ::Quickbooks::Model::JournalEntry.new
 
         # If transaction already exists in QB, these are required
@@ -45,7 +105,7 @@ module Accounting
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
         transaction.line_items.each_with_index do |li, i|
-          je.line_items << build_line_item(
+          je.line_items << build_je_line_item(
             id: i,
             amount: li.amount,
             posting_type: li.posting_type,
@@ -86,7 +146,7 @@ module Accounting
 
       # Builds a Quickbooks `Line` object, which represents a Quickbooks line item, not to be confused
       # with a Madeline LineItem.
-      def build_line_item(id:, amount:, posting_type:, description:, qb_account_id:,
+      def build_je_line_item(id:, amount:, posting_type:, description:, qb_account_id:,
         qb_customer_ref:, qb_department_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::Line.new
         line_item.detail_type = 'JournalEntryLineDetail'

@@ -7,6 +7,7 @@
 #  amount                      :decimal(, )
 #  change_in_interest          :decimal(15, 2)
 #  change_in_principal         :decimal(15, 2)
+#  check_number                :string
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  description                 :string
@@ -19,7 +20,9 @@
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
+#  qb_object_subtype           :string
 #  qb_object_type              :string           default("JournalEntry"), not null
+#  qb_vendor_id                :integer
 #  quickbooks_data             :json
 #  total                       :decimal(, )
 #  txn_date                    :date

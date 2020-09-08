@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_170232) do
+ActiveRecord::Schema.define(version: 2020_09_04_152644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 2020_08_27_170232) do
     t.decimal "amount"
     t.decimal "change_in_interest", precision: 15, scale: 2
     t.decimal "change_in_principal", precision: 15, scale: 2
+    t.string "check_number"
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.string "description"
@@ -106,7 +107,9 @@ ActiveRecord::Schema.define(version: 2020_08_27_170232) do
     t.string "private_note"
     t.integer "project_id"
     t.string "qb_id"
+    t.string "qb_object_subtype"
     t.string "qb_object_type", default: "JournalEntry", null: false
+    t.integer "qb_vendor_id"
     t.json "quickbooks_data"
     t.decimal "total"
     t.date "txn_date"
