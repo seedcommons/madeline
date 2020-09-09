@@ -89,6 +89,8 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
+  validates :check_number, presence: true, if: :is_a_check?
+  validates :qb_vendor_id, presence: true, if: :is_a_check?
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project

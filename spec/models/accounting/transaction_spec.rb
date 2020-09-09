@@ -164,6 +164,43 @@ RSpec.describe Accounting::Transaction, type: :model do
           end.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
+
+      context "with type check" do
+        let(:transaction_params) do
+          {
+            amount: 10,
+            txn_date: '2017-10-31',
+            private_note: 'a memo',
+            description: 'desc',
+            project_id: loan.id,
+            loan_transaction_type_value: transaction_type,
+            qb_object_type: "Purchase",
+            qb_object_subtype: "Check",
+            qb_vendor_id: vendor_id,
+            check_number: check_number
+          }
+        end
+
+        context "no check number" do
+          let(:check_number) { nil }
+          let(:vendor_id) { 1 }
+          it 'requires a check number to save' do
+            expect do
+              create(:accounting_transaction, transaction_params)
+            end.to raise_error(ActiveRecord::RecordInvalid)
+          end
+        end
+        
+        context "no vendor" do
+          let(:check_number) { 1 }
+          let(:vendor_id) { nil }
+          it 'requires a vendor to save' do
+            expect do
+              create(:accounting_transaction, transaction_params)
+            end.to raise_error(ActiveRecord::RecordInvalid)
+          end
+        end
+      end
     end
 
     context 'when interest transaction' do
