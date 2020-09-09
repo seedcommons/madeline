@@ -71,6 +71,7 @@ class Accounting::Transaction < ApplicationRecord
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :customer, inverse_of: :transactions, foreign_key: :accounting_customer_id
   belongs_to :currency
+  belongs_to :vendor, class_name: "Accounting::QB::Vendor", foreign_key: :qb_vendor_id
 
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
