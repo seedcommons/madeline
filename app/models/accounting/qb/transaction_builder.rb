@@ -28,6 +28,7 @@ module Accounting
       # Creates a Purchase of type check for QB based on disbursement txn object in Madeline.
       # A check in QB has one line item whereas a disbursement txn has two LIs in Madeline.
       def build_check_for_qb(transaction)
+        raise StandardError, I18n.t('quickbooks.principal_account_incompatible_with_checks') unless @principal_account.qb_account_classification == "Expenses"
         p = ::Quickbooks::Model::Purchase.new
 
         # If transaction already exists in QB, these are required
@@ -40,8 +41,7 @@ module Accounting
 
         p.private_note = transaction.private_note
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
-        # p.account_ref = transaction.account.try(:reference)
-        # p.account_id = 1987 # stub w expense account id; transaction.account.qb_id
+        p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
         p.payment_type = "Check"
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
@@ -66,8 +66,7 @@ module Accounting
         line_item.detail_type = 'AccountBasedExpenseLineDetail'
         line_item.id = id
         detail = ::Quickbooks::Model::AccountBasedExpenseLineDetail.new
-        # detail.account_ref = @principal_account.reference
-        # detail.account_id = 1797 # stub w expense account id;@principal_account.qb_id # always prin account
+        detail.account_ref = @principal_account.reference
         detail.class_id = qb_class_id # ref in documentation
         detail.customer_ref = qb_customer_ref # not sure if this still makes sense on a check?
         detail.billable_status = "NotBillable"
@@ -93,7 +92,7 @@ module Accounting
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
 
-        qb_customer_ref = customer_reference(transaction)
+        qb_customer_ref = customer_entity(transaction)
         qb_department_ref = department_reference(transaction.project)
 
         # We use the journal entry class field to store the loan ID.
@@ -122,6 +121,13 @@ module Accounting
 
       private
 
+      # for jes
+      def customer_entity(transaction)
+        ensure_accounting_customer_set(transaction)
+        transaction.customer.entity
+      end
+
+      # for checks
       def customer_reference(transaction)
         ensure_accounting_customer_set(transaction)
         transaction.customer.reference
