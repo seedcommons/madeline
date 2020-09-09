@@ -206,6 +206,10 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
+  def is_a_check?
+    qb_object_subtype == "Check"
+  end
+
   private
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
