@@ -59,7 +59,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
 
   before do
     allow(subject).to receive(:class_service).and_return(class_service)
-    allow(subject).to receive(:customer_reference).and_return(customer_reference)
+    allow(subject).to receive(:customer_entity).and_return(customer_entity)
     allow(subject).to receive(:department_reference).and_return(department_reference)
 
     # since transaction does not exist yet
@@ -68,7 +68,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
 
   let(:qb_customer_id) { '91234' }
   let(:qb_department_id) { '4012' }
-  let(:customer_reference) { instance_double(Quickbooks::Model::Entity) }
+  let(:customer_entity) { instance_double(Quickbooks::Model::Entity) }
   let(:department_reference) { instance_double(Quickbooks::Model::BaseReference, value: qb_department_id) }
   let(:customer_name) { 'A cooperative with a name' }
   let(:organization) { create(:organization, name: customer_name, qb_id: nil) }
@@ -87,7 +87,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
 
     details = list.map { |i| i.journal_entry_line_detail }
     expect(details.map { |i| i.posting_type }.uniq).to match_array %w(Debit Credit)
-    expect(details.map { |i| i.entity }.uniq).to eq [customer_reference]
+    expect(details.map { |i| i.entity }.uniq).to eq [customer_entity]
     expect(details.map { |i| i.class_ref.value }.uniq).to eq [loan_id]
     # parent_ref on a qb class is not queryable in qb api, so not tested here; must use qb
     # to verify that parent class set correctly
