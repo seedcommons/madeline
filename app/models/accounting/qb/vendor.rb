@@ -11,6 +11,7 @@
 #
 
 class Accounting::QB::Vendor < ApplicationRecord
+  has_many :transactions, inverse_of: :vendor, foreign_key: :qb_vendor_id, dependent: :nullify
   QB_OBJECT_TYPE = 'Vendor'
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     vendor = find_or_initialize_by qb_id: qb_object.id
