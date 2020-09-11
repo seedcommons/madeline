@@ -89,8 +89,9 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  validates :check_number, presence: true, if: :is_a_check?
-  validates :qb_vendor_id, presence: true, if: :is_a_check?
+  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do |check_txn|
+    check_txn.validates :check_number, :qb_vendor_id, presence: true
+  end
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
@@ -208,8 +209,8 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
-  def is_a_check?
-    qb_object_subtype == "Check"
+  def subtype?(subtype)
+    qb_object_subtype == subtype
   end
 
   private

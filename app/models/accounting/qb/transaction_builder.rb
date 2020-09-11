@@ -18,7 +18,7 @@ module Accounting
       end
 
       def build_for_qb(transaction)
-        if transaction.is_a_check?
+        if transaction.subtype?("Check")
           build_check_for_qb(transaction)
         else
           build_je_for_qb(transaction)
@@ -199,7 +199,7 @@ module Accounting
       def set_journal_number(txn)
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
-        txn.is_a_check? ? "#{check_number} #{ms_status}" : ms_status
+        txn.subtype?("Check") ? "#{check_number} #{ms_status}" : ms_status
       end
     end
   end
