@@ -14,11 +14,9 @@ set :tmp_dir, '/home/deploy/tmp'
 # Set a different branch OR tag on the fly with `cap <stage> deploy BRANCH=<branch_or_tag>`
 set :branch, -> { ENV['BRANCH'] || fetch(:stage) }
 
-
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
 set :deploy_to, -> { "/var/www/rails/madeline/#{fetch(:stage)}" }
-
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -36,12 +34,10 @@ set :deploy_to, -> { "/var/www/rails/madeline/#{fetch(:stage)}" }
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 set :linked_files, %w{config/database.yml config/secrets.yml config/scout_apm.yml}
 
-
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-#set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/images public/assets}
+# set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/images public/assets}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads public/system}
-
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -50,11 +46,10 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads public/sy
 # set :keep_releases, 5
 
 # Namespace crontab entries
-set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
-set :whenever_environment, ->{ fetch(:rails_env) }
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
+set :whenever_environment, -> { fetch(:rails_env) }
 
 namespace :deploy do
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
@@ -63,7 +58,6 @@ namespace :deploy do
       # end
     end
   end
-
 end
 
 desc "Write the branch to a .branch file in the release that was deployed"
