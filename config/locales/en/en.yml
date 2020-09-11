@@ -50,6 +50,8 @@ en:
         disconnect: "Disconnect from QuickBooks"
         data_import_status: "Data Import Status"
         principal_account_id: "Principal Account"
+        qb_department_id: "QB Division"
+        short_name: "Short Name"
         interest_receivable_account_id: "Interest Receivable Account"
         interest_income_account_id: "Interest Income Account"
       documentation:
@@ -235,6 +237,7 @@ en:
         loan_transaction_type_value: "Type of Transaction"
         principal_balance: "Principal Balance"
         private_note: "Memo"
+        qb_department: "QB Division"
         qb_record_id: "QuickBooks Record ID"
         total_balance: "Total Balance"
         txn_date: "Date"
@@ -384,9 +387,8 @@ en:
     modifying_transactions_not_allowed: 'Transactions are read-only because the loan is not active, transactions are in read-only mode for this loan, or both.'
     class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
-    department_not_set: "This loan's division has no QB division set. Transactions will have no QB division. Update the QB division on the Madeline division to fix this."
+    department_not_set: "Please set the QB division on this loan's Madeline division in order to create transactions."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
-
     service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
 

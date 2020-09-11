@@ -30,6 +30,13 @@
       - if @transaction.customer
         = @transaction.customer.name
 
+  = f.input :qb_department
+    .form-element
+      = (@transaction.qb_department ? @transaction.qb_department.name : t('quickbooks.department_not_set'))
+    .view-element
+      - if @transaction.qb_department
+        = @transaction.qb_department.name
+
   .form-element
     = f.association :account, collection: @accounts
   .view-element

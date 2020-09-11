@@ -76,6 +76,7 @@ class Loan < Project
   delegate :name, :country, :street_address, :city, :state, :postal_code, to: :organization, prefix: :coop
   delegate :name, to: :division, prefix: true
   delegate :closed_books_date, to: :division
+  delegate :qb_department, to: :division
 
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
@@ -270,7 +271,7 @@ class Loan < Project
   end
 
   def txn_modification_allowed?
-    active? && !txns_read_only?
+    active? && !txns_read_only? && self.qb_department.present?
   end
 
   def num_problem_loan_txns_by_level(level)

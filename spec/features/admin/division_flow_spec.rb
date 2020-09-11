@@ -25,15 +25,15 @@ feature 'division flow' do
   scenario 'divisions can not have duplicate short names' do
     visit admin_divisions_path
     click_on 'New Division'
-    fill_in 'Name', with: 'Jay'
-    fill_in 'Short name', with: 'cream'
+    fill_in 'division_name', with: 'Jay'
+    fill_in 'Short Name', with: 'cream'
     click_on 'Create Division'
     expect(page).to have_content('jay-iamauuid2018')
 
     # on edit
     visit admin_division_path(Division.last)
     find('.edit-action').click
-    fill_in 'Short name', with: 'cream'
+    fill_in 'Short Name', with: 'cream'
     click_on 'Update Division'
     expect(page).to have_content('jay')
   end

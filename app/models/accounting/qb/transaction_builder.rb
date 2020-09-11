@@ -68,8 +68,11 @@ module Accounting
       end
 
       def department_reference(loan)
-        if loan.division.qb_department.present?
-          Department.reference(loan.division)
+        if loan.qb_department.present?
+          Department.reference(loan.qb_department)
+        else
+          # Users are also blocked by UI from to creating a txn without a dept
+          raise StandardError, I18n.t('quickbooks.department_not_set')
         end
       end
 

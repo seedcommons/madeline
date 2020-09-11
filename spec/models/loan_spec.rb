@@ -143,29 +143,41 @@ describe Loan, type: :model do
     end
 
     describe '.txn_modification_allowed?' do
-      describe 'loan is not active' do
-        let(:loan) { create(:loan, :completed) }
+      describe 'loan is not active, qb_dept set' do
+        let(:division) { create(:division, :with_qb_dept) }
+        let(:loan) { create(:loan, :completed, division: division) }
         it 'returns false' do
           expect(loan.txn_modification_allowed?). to be false
         end
       end
 
-      describe 'loan is active and and txns are not read only' do
-        let(:loan) { create(:loan, :active) }
+      describe 'loan is active, txns are not read only, and qb_dept set' do
+        let(:division) { create(:division, :with_qb_dept) }
+        let(:loan) { create(:loan, :active, division: division) }
         it 'returns true' do
           expect(loan.txn_modification_allowed?). to be true
         end
       end
 
-      describe 'loan is active and and txns are read only' do
-        let(:loan) { create(:loan, :active, txn_handling_mode: Loan::TXN_MODE_READ_ONLY) }
+      describe 'loan is active, txns are not read only, but no qb_dept set' do
+        let(:division) { create(:division) }
+        let(:loan) { create(:loan, :active, division: division) }
+        it 'returns true' do
+          expect(loan.txn_modification_allowed?). to be false
+        end
+      end
+
+      describe 'loan is active, qb_dept set, and txns are read only' do
+        let(:division) { create(:division, :with_qb_dept) }
+        let(:loan) { create(:loan, :active, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
         it 'returns false' do
           expect(loan.txn_modification_allowed?). to be false
         end
       end
 
-      describe 'loan is not active and txns are read only' do
-        let(:loan) { create(:loan, :completed, txn_handling_mode: Loan::TXN_MODE_READ_ONLY) }
+      describe 'loan has qb_dept set, is not active and txns are read only' do
+        let(:division) { create(:division, :with_qb_dept) }
+        let(:loan) { create(:loan, :completed, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
         it 'returns false' do
           expect(loan.txn_modification_allowed?). to be false
         end

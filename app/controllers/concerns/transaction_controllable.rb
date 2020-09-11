@@ -104,7 +104,7 @@ module TransactionControllable
 
   def check_if_qb_division_set
     unless @project.division && @project.division.qb_department.present? || flash.now[:error].present?
-      flash[:notice] = t('quickbooks.department_not_set')
+      flash[:alert] = t('quickbooks.department_not_set')
     end
   end
 
