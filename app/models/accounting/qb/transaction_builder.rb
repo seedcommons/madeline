@@ -199,7 +199,7 @@ module Accounting
       def set_journal_number(txn)
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
-        txn.subtype?("Check") ? "#{check_number} #{ms_status}" : ms_status
+        txn.subtype?("Check") ? "#{txn.check_number} #{ms_status}" : ms_status
       end
     end
   end
