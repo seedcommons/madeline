@@ -7,6 +7,7 @@
 #  amount                      :decimal(, )
 #  change_in_interest          :decimal(15, 2)
 #  change_in_principal         :decimal(15, 2)
+#  check_number                :string
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  description                 :string
@@ -19,7 +20,9 @@
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
+#  qb_object_subtype           :string
 #  qb_object_type              :string           default("JournalEntry"), not null
+#  qb_vendor_id                :integer
 #  quickbooks_data             :json
 #  total                       :decimal(, )
 #  txn_date                    :date
@@ -159,6 +162,43 @@ RSpec.describe Accounting::Transaction, type: :model do
           expect do
             create(:accounting_transaction, transaction_params.merge(qb_id: 123))
           end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context "with type check" do
+        let(:transaction_params) do
+          {
+            amount: 10,
+            txn_date: '2017-10-31',
+            private_note: 'a memo',
+            description: 'desc',
+            project_id: loan.id,
+            loan_transaction_type_value: transaction_type,
+            qb_object_type: "Purchase",
+            qb_object_subtype: "Check",
+            qb_vendor_id: vendor_id,
+            check_number: check_number
+          }
+        end
+
+        context "no check number" do
+          let(:check_number) { nil }
+          let(:vendor_id) { 1 }
+          it 'requires a check number to save' do
+            expect do
+              create(:accounting_transaction, transaction_params)
+            end.to raise_error(ActiveRecord::RecordInvalid)
+          end
+        end
+        
+        context "no vendor" do
+          let(:check_number) { 1 }
+          let(:vendor_id) { nil }
+          it 'requires a vendor to save' do
+            expect do
+              create(:accounting_transaction, transaction_params)
+            end.to raise_error(ActiveRecord::RecordInvalid)
+          end
         end
       end
     end

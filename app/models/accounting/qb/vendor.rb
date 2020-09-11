@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: accounting_customers
+# Table name: accounting_qb_vendors
 #
 #  created_at      :datetime         not null
 #  id              :bigint(8)        not null, primary key
@@ -11,6 +11,7 @@
 #
 
 class Accounting::QB::Vendor < ApplicationRecord
+  has_many :transactions, inverse_of: :vendor, foreign_key: :qb_vendor_id, dependent: :nullify
   QB_OBJECT_TYPE = 'Vendor'
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     vendor = find_or_initialize_by qb_id: qb_object.id
@@ -25,10 +26,9 @@ class Accounting::QB::Vendor < ApplicationRecord
   # The quickbooks-ruby gem does not implement a helper method for _id like account or class,
   # and in qb api line items need entity, not vendor_id.
   def reference
-    entity = ::Quickbooks::Model::Entity.new
-    entity.type = Accounting::QB::Vendor::QB_OBJECT_TYPE
     entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
-    entity.entity_ref = entity_ref
-    entity
+    entity_ref.type = Accounting::QB::Vendor::QB_OBJECT_TYPE
+    entity_ref.name = self.name
+    entity_ref
   end
 end
