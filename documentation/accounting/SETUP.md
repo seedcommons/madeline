@@ -17,7 +17,7 @@ At this time, Madeline only supports accounting with the quickbooks app set up b
 1. Follow *Open QuickBooks sandbox*, if you are not inside QuickBooks.
 1. Click on the gear icon to the upper right.
 1. Click on `Company Settings`.
-1. Inside the `Company` tab (default), scroll to the `Categories` section. Click the pencil icon.
+1. Inside the `Advanced` tab, scroll to the `Categories` section. Click the pencil icon.
 1. Make sure `Track classes` is enabled with `One to each row in transaction` selected in `Assign classes`.
 1. Make sure `Track locations` is enabled with `Location label` set to `Division`.
 
