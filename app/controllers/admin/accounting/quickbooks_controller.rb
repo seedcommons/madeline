@@ -5,7 +5,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     redirect_uri = oauth_callback_admin_accounting_quickbooks_url
     grant_url = qb_consumer.auth_code.authorize_url(
       redirect_uri: redirect_uri,
-      resposne_type: "code",
+      response_type: "code",
       state: SecureRandom.hex(12),
       scope: "com.intuit.quickbooks.accounting"
     )

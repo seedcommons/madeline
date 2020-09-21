@@ -24,6 +24,7 @@
 #  qb_object_type              :string           default("JournalEntry"), not null
 #  qb_vendor_id                :integer
 #  quickbooks_data             :json
+#  sync_token                  :string
 #  total                       :decimal(, )
 #  txn_date                    :date
 #  updated_at                  :datetime         not null
