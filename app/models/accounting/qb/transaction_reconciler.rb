@@ -10,6 +10,7 @@ module Accounting
 
       # Creates or updates a transaction in QB based on a Transaction object created in Madeline.
       def reconcile(transaction)
+        Rails::Debug.logger.ap "STARTING RECONCILER for trnasaction #{transaction.id}"
         return unless transaction.needs_qb_push?
 
         je = builder.build_for_qb(transaction)
@@ -17,6 +18,14 @@ module Accounting
         # If the transaction already has a qb_id then it already exists in QB, so we should update it.
         # Otherwise we create it.
         raise StandardError, "DO NOT WRITE IN READ ONLY MODE" if @qb_division.qb_read_only
+
+        if transaction.qb_id
+          current_qb_je = service.find_by(:id, transaction.qb_id).first
+          Rails::Debug.logger.ap "SYNC TOKEN: #{transaction.sync_token}"
+          Rails::Debug.logger.ap "REMOTE SYNC TOKEN: #{current_qb_je['sync_token']}"
+        end
+
+        Rails::Debug.logger.ap "PUSHING TXN #{transaction.id} to QB with QB ID #{transaction.qb_id}"
         je = transaction.qb_id ? service.update(je, sparse: true) : service.create(je)
 
         transaction.set_qb_push_flag!(false)

@@ -8,6 +8,15 @@ div.modal-header
       = @transaction.description
 
 div.modal-body
+  .show-actions
+    a.edit-action.view-element
+      i.fa.fa-pencil.fa-large>
+      = t("transaction.edit")
+    a.show-action.form-element
+      i.fa.fa-close.fa-large>
+      = t("cancel_edit")
+  javascript:
+    $(function() { new MS.Views.ShowEditView({ el: '#transaction-modal' }) });
   = render "admin/accounting/transactions/form"
 
 div.modal-footer

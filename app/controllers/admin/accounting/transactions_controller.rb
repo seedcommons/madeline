@@ -46,6 +46,31 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
+  def update
+    @loan = Loan.find(transaction_params[:project_id])
+    @transaction = ::Accounting::Transaction.find_by(id: params[:id])
+    authorize(@transaction, :update?)
+    Rails::Debug.logger.ap "CONTROLLER: TRANSACTION #{@transaction.id} SYNC TOKEN #{@transaction.sync_token}"
+    @transaction.attributes = transaction_params
+    Rails::Debug.logger.ap "CONTROLLER: TRANSACTION #{@transaction.id} SYNC TOKEN #{@transaction.sync_token}"
+
+    # Treat this like a new transaction
+    @transaction.quickbooks_data = nil
+    @transaction.line_items.destroy_all
+    @transaction.needs_qb_push = true
+
+    process_transaction_and_handle_errors
+
+    if @transaction.errors.any?
+      prep_transaction_form
+      render_modal_partial(status: 422)
+    else
+      # The JS modal view will reload the index page if we return 200, so we set a flash message.
+      flash[:notice] = t("admin.loans.transactions.update_success")
+      head :ok
+    end
+  end
+
   def update_changed
     authorize ::Accounting::Transaction, :update?
     @task = Task.create(

@@ -18,6 +18,7 @@ module Accounting
       end
 
       def build_for_qb(transaction)
+        Rails::Debug.logger.ap "BUILDING TXN #{transaction.id} FOR QB"
         if transaction.subtype?("Check")
           build_check_for_qb(transaction)
         else
@@ -84,10 +85,9 @@ module Accounting
         # If transaction already exists in QB, these are required
         if transaction.qb_id
           je.id = transaction.qb_id
-          je.sync_token = transaction.quickbooks_data['sync_token']
+          je.sync_token = transaction.sync_token
         end
         je.doc_number = set_journal_number(transaction)
-
 
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
@@ -138,7 +138,7 @@ module Accounting
           Department.reference(loan.qb_department)
         else
           # Users are also blocked by UI from to creating a txn without a dept
-          raise StandardError, I18n.t('quickbooks.department_not_set')
+          raise StandardError, I18n.t('quickbooks.department_not_set', url: admin_division_path(@project.division)).html_safe
         end
       end
 
@@ -197,6 +197,7 @@ module Accounting
       end
 
       def set_journal_number(txn)
+        Rails::Debug.logger.ap "SETTING JOURNAL NUMBER FOR SUBTYPE #{txn.qb_object_subtype}"
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
         txn.subtype?("Check") ? "#{txn.check_number} #{ms_status}" : ms_status

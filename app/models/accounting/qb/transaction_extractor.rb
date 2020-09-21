@@ -21,6 +21,8 @@ module Accounting
       end
 
       def extract_additional_metadata
+        txn.sync_token = txn.quickbooks_data['sync_token']
+
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }

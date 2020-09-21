@@ -61,6 +61,7 @@ module Accounting
     def recalculate
       return if @loan.qb_division.qb_read_only
       return unless @loan.txn_modification_allowed?
+      Rails::Debug.logger.ap "RECALCULATING INTEREST"
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)
@@ -94,6 +95,7 @@ module Accounting
         txns.concat(txns_by_date[date]) if txns_by_date[date]
 
         txns.each do |tx|
+          Rails::Debug.logger.ap "PROCESSING INTEREST FOR TXN #{tx.id} [#{tx.txn_date}] in amount #{tx.amount}"
           if tx.managed?
             case tx.loan_transaction_type_value
               when "interest"
@@ -121,6 +123,7 @@ module Accounting
             # Note that if the flag is already set we leave it as true even if no changes
             # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
             # even if we don't change anything here.
+            Rails::Debug.logger.ap "NEEDS QB PUSH TXN #{tx.id} #{tx.needs_qb_push}"
             tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
 
             # This should save the transaction and all its line items.

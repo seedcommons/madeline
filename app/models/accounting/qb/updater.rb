@@ -19,6 +19,7 @@ module Accounting
       #
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
+        Rails::Debug.logger.ap "START UPDATER"
         qb_sync_for_loan_update
         if loans
           # check if loan is one object or multiple
@@ -63,6 +64,7 @@ module Accounting
 
       # updates single loan
       def update_loan(loan)
+        Rails::Debug.logger.ap "UPDATING LOAN #{loan.name} (##{loan.id})"
         if loan.transactions.present?
           update_ledger(loan)
           InterestCalculator.new(loan).recalculate
@@ -77,13 +79,16 @@ module Accounting
       end
 
       def update_ledger(loan)
+        Rails::Debug.logger.ap "UPDATING LEDGER"
         prev_tx = nil
         loan.transactions.standard_order.each do |txn|
+          Rails::Debug.logger.ap "PROCESSING TXN ##{txn.id} [#{txn.txn_date}] for amount #{txn.amount}"
           extract_qb_data(txn)
           txn.reload.calculate_balances(prev_tx: prev_tx)
           txn.save!
           prev_tx = txn
         end
+        Rails::Debug.logger.ap "END UPDATING LEDGER"
       end
 
       # Extracts data for a given Transaction from the JSON in `quickbooks_data`
@@ -91,6 +96,7 @@ module Accounting
       # Creates/deletes LineItems as needed.
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
+        Rails::Debug.logger.ap "EXTRACTING QB DATA FOR TXN ##{txn.id} [#{txn.txn_date}] for amount #{txn.amount}"
 
         Accounting::QB::DataExtractor.new(txn).extract!
         txn.save!

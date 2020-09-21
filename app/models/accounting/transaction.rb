@@ -24,6 +24,7 @@
 #  qb_object_type              :string           default("JournalEntry"), not null
 #  qb_vendor_id                :integer
 #  quickbooks_data             :json
+#  sync_token                  :string
 #  total                       :decimal(, )
 #  txn_date                    :date
 #  updated_at                  :datetime         not null
@@ -163,6 +164,7 @@ class Accounting::Transaction < ApplicationRecord
     self.qb_id = qb_obj.id
     self.qb_object_type = qb_obj.class.name.demodulize
     self.quickbooks_data = qb_obj.as_json
+    self.sync_token = qb_obj.sync_token
   end
 
   def calculate_deltas
@@ -178,6 +180,7 @@ class Accounting::Transaction < ApplicationRecord
   # Calculates balance fields based on line items.
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
+    Rails::Debug.logger.ap "CALCULATING BALANCES"
     # need to do calculate_deltas in case that this is called from updater
     calculate_deltas
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal

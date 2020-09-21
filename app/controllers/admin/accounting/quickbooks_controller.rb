@@ -3,9 +3,10 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
     redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+    Rails.logger.ap redirect_uri
     grant_url = qb_consumer.auth_code.authorize_url(
       redirect_uri: redirect_uri,
-      resposne_type: "code",
+      response_type: "code",
       state: SecureRandom.hex(12),
       scope: "com.intuit.quickbooks.accounting"
     )
@@ -19,6 +20,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     # Fetch and store the access token and other necessary authentication information.
     if params[:state]
       redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+      Rails.logger.ap redirect_uri
       response = qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
       if response
         Accounting::QB::Connection.create(
