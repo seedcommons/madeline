@@ -4,9 +4,11 @@ class MS.Views.TransactionModalView extends Backbone.View
   events:
     'click [data-action="submit"]': 'submitForm'
     'ajax:complete form': 'submitComplete'
-    'change #accounting_transaction_loan_transaction_type_value': 'setDescription'
+    'change .accounting_transaction_loan_transaction_type_value': 'updateDisbursementFieldVisibility'
+    'change .accounting_transaction_qb_object_subtype': 'updateCheckFieldVisibility'
 
   initialize: (params) ->
+    console.log("in initialize")
     @loanId = params.loanId
     @locale = params.locale
     url = "/admin/accounting/transactions/new"
@@ -38,6 +40,31 @@ class MS.Views.TransactionModalView extends Backbone.View
     else
       MS.loadingIndicator.hide()
       @$('.modal-content').html(data.responseText)
+
+  updateDisbursementFieldVisibility: (e) ->
+    console.log("Updating disb field visibility")
+    console.log(e.target.value)
+    if e.target.value == "disbursement"
+      @$('.accounting_transaction_qb_object_subtype').show()
+      console.log("show subtype")
+    else
+      @$('.accounting_transaction_qb_object_subtype').hide()
+      console.log("hide subtype")
+      @$('.accounting_transaction_qb_vendor').hide()
+      @$('.accounting_transaction_check_number').hide()
+      console.log("hide vendor")
+      console.log("hide check number")
+
+  updateCheckFieldVisibility: (e) ->
+    console.log("Updating check field visibility")
+    console.log(e.target.value)
+    if e.target.value == "Check"
+      console.log("show check number")
+      @$('.accounting_transaction_check_number').show()
+    else
+      console.log("hide check_number")
+      @$('.accounting_transaction_check_number').hide()
+
 
   setDescription: (e) ->
     if e.target.value != ''

@@ -24,7 +24,7 @@
       - if @transaction.qb_object_subtype
         = @transaction.qb_object_subtype.capitalize
     .form-element
-      = f.input_field :qb_object_subtype, collection: ["Check", "JournalEntry"], as: :radio_buttons
+      = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)

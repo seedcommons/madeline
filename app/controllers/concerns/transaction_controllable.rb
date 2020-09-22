@@ -24,6 +24,7 @@ module TransactionControllable
     @loan_transaction_types = Accounting::Transaction.loan_transaction_type_options.select do |option|
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
+    @qb_subtypes = [["Check", "Check"], ["None", nil]]
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
     @customers = Accounting::Customer.all.order(:name)
     @vendors = Accounting::QB::Vendor.all.order(:name)
