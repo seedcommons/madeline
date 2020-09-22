@@ -26,6 +26,7 @@ module TransactionControllable
     end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
     @customers = Accounting::Customer.all.order(:name)
+    @vendors = Accounting::QB::Vendor.all.order(:name)
   end
 
   # Runs the given block and handles any Quickbooks errors.

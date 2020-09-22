@@ -19,6 +19,13 @@
     .form-element
       = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
 
+  = f.input :qb_object_subtype
+    .view-element
+      - if @transaction.qb_object_subtype
+        = @transaction.qb_object_subtype.capitalize
+    .form-element
+      = f.input_field :qb_object_subtype, collection: ["Check", "JournalEntry"], as: :radio_buttons
+
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
     = f.input_field :txn_date, as: :date_picker
@@ -29,6 +36,13 @@
     = f.input :customer
       - if @transaction.customer
         = @transaction.customer.name
+
+  .form-element
+    = f.association :vendor, collection: @vendors
+  .view-element
+    = f.input :vendor
+      - if @transaction.vendor
+        = @transaction.vendor.name
 
   = f.input :qb_department
     .form-element
@@ -54,9 +68,14 @@
       = f.input_field :amount
       span.currency = @loan.currency.present? ? @loan.currency.try(:code) : ""
 
+
   = f.input :description
     .view-element = @transaction.description
     = f.input_field :description
+
+  = f.input :check_number
+    .view-element = @transaction.check_number
+    = f.input_field :check_number
 
   / Memo
   = f.input :private_note
