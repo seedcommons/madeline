@@ -108,8 +108,8 @@ feature 'transaction flow', :accounting do
         expect(page).to have_content('Check Number')
         fill_in 'Check Number', with: 123
         select vendors.sample.name, from: 'Vendor'
-        fill_in 'Date', with: date.to_s
-        fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
+        fill_in 'Date', with: Time.zone.today.to_s
+        fill_in 'accounting_transaction[amount]', with: '12.34'
         select accounts.sample.name, from: 'Bank Account'
         select customers.sample.name, from: 'QuickBooks Customer'
         fill_in 'Description', with: 'Test check'

@@ -8,7 +8,6 @@ class MS.Views.TransactionModalView extends Backbone.View
     'change .accounting_transaction_qb_object_subtype': 'updateCheckFieldVisibility'
 
   initialize: (params) ->
-    console.log("in initialize")
     @loanId = params.loanId
     @locale = params.locale
     url = "/admin/accounting/transactions/new"
