@@ -23,6 +23,8 @@ class MS.Views.TransactionModalView extends Backbone.View
     $.get url, project_id: loanId, (html) =>
       @replaceContent(html, action)
       @$el.modal('show')
+      @$('.disbursement-only').hide()
+      @$('.check-only').hide()
 
   replaceContent: (html, action) ->
     @$el.find('.modal-content').html(html)
@@ -52,7 +54,7 @@ class MS.Views.TransactionModalView extends Backbone.View
       @$('.disbursement-only').hide()
       #@$('.accounting_transaction_qb_object_subtype').hide()
       console.log("hide subtype")
-  
+
       console.log("hide vendor")
       console.log("hide check number")
 
