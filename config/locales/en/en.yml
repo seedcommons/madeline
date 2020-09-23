@@ -231,6 +231,7 @@ en:
         amount: "Amount"
         change_in_interest: "Change in Interest"
         change_in_principal: "Change in Principal"
+        check_number: "Check Number"
         customer: "QuickBooks Customer"
         description: "Description"
         interest_balance: "Interest Balance"
@@ -238,9 +239,11 @@ en:
         principal_balance: "Principal Balance"
         private_note: "Memo"
         qb_department: "QB Division"
+        qb_object_subtype: "Subtype of Transaction"
         qb_record_id: "QuickBooks Record ID"
         total_balance: "Total Balance"
         txn_date: "Date"
+        vendor: "Vendor"
       timeline_step_move:
         move_type: "Which Date?"
     options:
