@@ -45,13 +45,14 @@ class MS.Views.TransactionModalView extends Backbone.View
     console.log("Updating disb field visibility")
     console.log(e.target.value)
     if e.target.value == "disbursement"
-      @$('.accounting_transaction_qb_object_subtype').show()
+      #@$('.accounting_transaction_qb_object_subtype').show()
+      @$('.disbursement-only').show()
       console.log("show subtype")
     else
-      @$('.accounting_transaction_qb_object_subtype').hide()
+      @$('.disbursement-only').hide()
+      #@$('.accounting_transaction_qb_object_subtype').hide()
       console.log("hide subtype")
-      @$('.accounting_transaction_qb_vendor').hide()
-      @$('.accounting_transaction_check_number').hide()
+  
       console.log("hide vendor")
       console.log("hide check number")
 
@@ -59,11 +60,13 @@ class MS.Views.TransactionModalView extends Backbone.View
     console.log("Updating check field visibility")
     console.log(e.target.value)
     if e.target.value == "Check"
+      @$('.check-only').show()
       console.log("show check number")
-      @$('.accounting_transaction_check_number').show()
+    #  @$('.accounting_transaction_check_number').show()
     else
+      @$('.check-only').hide()
       console.log("hide check_number")
-      @$('.accounting_transaction_check_number').hide()
+    #  @$('.accounting_transaction_check_number').hide()
 
 
   setDescription: (e) ->
