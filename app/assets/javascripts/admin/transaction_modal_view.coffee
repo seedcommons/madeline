@@ -43,18 +43,22 @@ class MS.Views.TransactionModalView extends Backbone.View
       MS.loadingIndicator.hide()
       @$('.modal-content').html(data.responseText)
 
+  clearCheckField: ->
+    @$('#accounting_transaction_qb_object_subtype_check').prop("checked", false)
+    @$('.check-only').hide()
+
   updateDisbursementFieldVisibility: (e) ->
     if e.target.value == "disbursement"
       @$('.disbursement-only').show()
     else
       @$('.disbursement-only').hide()
-      @$('.check-only').hide()
+      @clearCheckField()
 
   updateCheckFieldVisibility: (e) ->
     if e.target.value == "Check"
       @$('.check-only').show()
     else
-      @$('.check-only').hide()
+      @clearCheckField()
 
   setDescription: (e) ->
     if e.target.value != ''
