@@ -18,10 +18,6 @@ module Accounting
         # Otherwise we create it.
         raise StandardError, "DO NOT WRITE IN READ ONLY MODE" if @qb_division.qb_read_only
 
-        if transaction.qb_id
-          current_qb_je = service.find_by(:id, transaction.qb_id).first
-        end
-
         je = transaction.qb_id ? service.update(je, sparse: true) : service.create(je)
 
         transaction.set_qb_push_flag!(false)

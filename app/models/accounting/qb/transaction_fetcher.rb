@@ -8,7 +8,6 @@ module Accounting
       end
 
       def find_or_create(qb_object_type:, qb_object:)
-        puts qb_object.inspect
         Accounting::Transaction.create_or_update_from_qb_object!(
           qb_object_type: qb_object_type,
           qb_object: qb_object
