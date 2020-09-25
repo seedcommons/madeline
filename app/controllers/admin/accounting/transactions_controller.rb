@@ -102,7 +102,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def transaction_params
     params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
-      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value, :accounting_customer_id)
+      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value, :accounting_customer_id, :qb_vendor_id, :qb_object_subtype, :check_number)
   end
 
   def render_modal_partial(status: 200)

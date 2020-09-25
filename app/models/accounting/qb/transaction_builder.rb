@@ -28,7 +28,6 @@ module Accounting
       # Creates a Purchase of type check for QB based on disbursement txn object in Madeline.
       # A check in QB has one line item whereas a disbursement txn has two LIs in Madeline.
       def build_check_for_qb(transaction)
-        raise StandardError, I18n.t('quickbooks.principal_account_incompatible_with_checks') unless @principal_account.qb_account_classification == "Expenses"
         p = ::Quickbooks::Model::Purchase.new
 
         # If transaction already exists in QB, these are required
