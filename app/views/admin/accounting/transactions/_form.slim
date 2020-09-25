@@ -22,8 +22,9 @@
   .form-element.disbursement-only
     = f.input :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
   .view-element
-    - if @transaction.qb_object_subtype
-      = @transaction.qb_object_subtype.capitalize
+    = f.input :qb_object_subtype
+      - if @transaction.qb_object_subtype
+        = @transaction.qb_object_subtype.capitalize
 
   .form-element.disbursement-only
     = f.association :vendor, collection: @vendors
@@ -34,8 +35,10 @@
 
   .form-element.check-only
     = f.input :check_number
-  .view-element = @transaction.check_number
-    = f.input_field :check_number
+  .view-element
+    = f.input :check_number
+      - if @transaction.check_number
+        = @transaction.check_number
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
