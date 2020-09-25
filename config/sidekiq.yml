@@ -4,4 +4,4 @@
 :verbose: true
 :logfile: ./log/sidekiq.log
 :max_retries: 0
-#:concurrency:  25
+:concurrency:  10
