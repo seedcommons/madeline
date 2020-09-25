@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Accounting::QB::TransactionReconciler, type: :model do
   let(:connection) { instance_double(Accounting::QB::Connection) }
-  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115') }
+  let(:created_journal_entry) { instance_double(Quickbooks::Model::JournalEntry, id: '115', sync_token: "1") }
   let(:builder) { instance_double(Accounting::QB::TransactionBuilder, build_for_qb: created_journal_entry) }
   let(:qb_principal_account_id) { '92' }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }

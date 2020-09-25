@@ -32,7 +32,7 @@
 
   = f.input :qb_department
     .form-element
-      = (@transaction.qb_department ? @transaction.qb_department.name : t('quickbooks.department_not_set'))
+      = (@transaction.qb_department ? @transaction.qb_department.name : t('quickbooks.department_not_set', url: admin_division_path(@project.division)).html_safe)
     .view-element
       - if @transaction.qb_department
         = @transaction.qb_department.name
