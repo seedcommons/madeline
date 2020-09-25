@@ -5,6 +5,7 @@ feature 'transaction flow', :accounting do
   # Right now, the TransactionPolicy requires admin privileges on Division.root, and Accounts are
   # not scoped to division.
   let(:division) { Division.root }
+  let!(:qb_dept) { create(:department, name: "Test QB Department", division: division) }
   let!(:loan) { create(:loan, :active, division: division) }
   let(:user) { create_admin(division) }
   let!(:customers) { create_list(:customer, 3) }
@@ -23,6 +24,7 @@ feature 'transaction flow', :accounting do
     let(:acct_1) { create(:accounting_account) }
     let(:acct_2) { create(:accounting_account) }
     let!(:accounts) { [acct_1, acct_2] }
+    let!(:vendors) { create_list(:vendor, 2) }
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
@@ -69,24 +71,13 @@ feature 'transaction flow', :accounting do
     end
 
     context "loan's division has no qb department set'" do
+      before { division.update(qb_department: nil) }
       let!(:loan) { create(:loan, :active, division: division) }
-      scenario 'warning is visible' do
+      scenario 'warning is visible and Create Transactions button hidden' do
         visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_content("This loan's division has no QB division set.")
+        expect(page).to have_content("Please set the QB division on this loan's Madeline division in order to create transactions.")
         # expect "Add Transaction" to be available
-        expect(page).to have_selector('.btn[data-action="new-transaction"]')
-      end
-    end
-
-    context "loan's division has qb department set'" do
-      let(:department) { create(:department) }
-      let!(:loan) { create(:loan, :active, division: division) }
-      scenario 'warning is visible' do
-        loan.division.update(qb_department: department)
-        visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to_not have_content("This loan's division has no QB division set.")
-        # expect "Add Transaction" to be available
-        expect(page).to have_selector('.btn[data-action="new-transaction"]')
+        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
       end
     end
 
@@ -97,8 +88,34 @@ feature 'transaction flow', :accounting do
       scenario 'creates new transaction' do
         visit "/admin/loans/#{loan.id}/transactions"
         fill_txn_form
+        expect(page).to have_content('Test QB Department')
         page.find('a[data-action="submit"]').click
         expect(page).to have_content('Palm trees')
+      end
+
+      scenario 'disbursement and check fields' do
+        visit "/admin/loans/#{loan.id}/transactions"
+        click_on 'Add Transaction'
+        expect(page).not_to have_content('Subtype')
+        expect(page).not_to have_content('Vendor')
+        expect(page).not_to have_content('Check Number')
+        choose 'Disbursement'
+        expect(page).to have_content('Subtype')
+        expect(page).to have_content('Vendor')
+        expect(page).not_to have_content('Check Number')
+        choose 'Check'
+        expect(page).to have_content('Subtype')
+        expect(page).to have_content('Check Number')
+        fill_in 'Check Number', with: 123
+        select vendors.sample.name, from: 'Vendor'
+        fill_in 'Date', with: Time.zone.today.to_s
+        fill_in 'accounting_transaction[amount]', with: '12.34'
+        select accounts.sample.name, from: 'Bank Account'
+        select customers.sample.name, from: 'QuickBooks Customer'
+        fill_in 'Description', with: 'Test check'
+        fill_in 'Memo', with: 'Chunky monkey'
+        page.find('a[data-action="submit"]').click
+        expect(page).to have_content('Test check')
       end
 
       scenario 'with validation error' do

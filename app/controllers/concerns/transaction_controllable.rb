@@ -24,8 +24,10 @@ module TransactionControllable
     @loan_transaction_types = Accounting::Transaction.loan_transaction_type_options.select do |option|
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
+    @qb_subtypes = [["Check", "Check"], ["None", nil]]
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
     @customers = Accounting::Customer.all.order(:name)
+    @vendors = Accounting::QB::Vendor.all.order(:name)
   end
 
   # Runs the given block and handles any Quickbooks errors.
@@ -104,7 +106,7 @@ module TransactionControllable
 
   def check_if_qb_division_set
     unless @project.division && @project.division.qb_department.present? || flash.now[:error].present?
-      flash[:notice] = t('quickbooks.department_not_set')
+      flash[:alert] = t('quickbooks.department_not_set', url: admin_division_path(@project.division)).html_safe
     end
   end
 

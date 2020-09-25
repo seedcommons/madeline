@@ -40,4 +40,13 @@ class Accounting::Account < ApplicationRecord
   def self.asset_accounts
     where(qb_account_classification: 'Asset').order(:name)
   end
+
+  # The quickbooks-ruby gem's helper account_id does not seem
+  # to work for creating check txns.
+  def reference
+    entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
+    entity_ref.type = Accounting::Account::QB_OBJECT_TYPE
+    entity_ref.name = self.name
+    entity_ref
+  end
 end

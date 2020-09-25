@@ -25,11 +25,18 @@ class Accounting::Customer < ApplicationRecord
 
   # The quickbooks-ruby gem does not implement a helper method for _id like account or class,
   # and in qb api line items need entity, not customer_id.
-  def reference
+  def entity
     entity = ::Quickbooks::Model::Entity.new
     entity.type = Accounting::Customer::QB_OBJECT_TYPE
     entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
     entity.entity_ref = entity_ref
     entity
+  end
+
+  def reference
+    entity_ref = ::Quickbooks::Model::BaseReference.new(self.qb_id)
+    entity_ref.type = Accounting::Customer::QB_OBJECT_TYPE
+    entity_ref.name = self.name
+    entity_ref
   end
 end

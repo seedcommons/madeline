@@ -19,6 +19,27 @@
     .form-element
       = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
 
+  .form-element.disbursement-only
+    = f.input :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
+  .view-element
+    = f.input :qb_object_subtype
+      - if @transaction.qb_object_subtype
+        = @transaction.qb_object_subtype.capitalize
+
+  .form-element.disbursement-only
+    = f.association :vendor, collection: @vendors
+  .view-element
+    = f.input :vendor
+      - if @transaction.vendor
+        = @transaction.vendor.name
+
+  .form-element.check-only
+    = f.input :check_number
+  .view-element
+    = f.input :check_number
+      - if @transaction.check_number
+        = @transaction.check_number
+
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
     = f.input_field :txn_date, as: :date_picker
@@ -29,6 +50,13 @@
     = f.input :customer
       - if @transaction.customer
         = @transaction.customer.name
+
+  = f.input :qb_department
+    .form-element
+      = (@transaction.qb_department ? @transaction.qb_department.name : t('quickbooks.department_not_set', url: admin_division_path(@project.division)).html_safe)
+    .view-element
+      - if @transaction.qb_department
+        = @transaction.qb_department.name
 
   .form-element
     = f.association :account, collection: @accounts
@@ -46,6 +74,7 @@
     .transaction-amount.form-element
       = f.input_field :amount
       span.currency = @loan.currency.present? ? @loan.currency.try(:code) : ""
+
 
   = f.input :description
     .view-element = @transaction.description

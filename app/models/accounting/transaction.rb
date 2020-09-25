@@ -7,6 +7,7 @@
 #  amount                      :decimal(, )
 #  change_in_interest          :decimal(15, 2)
 #  change_in_principal         :decimal(15, 2)
+#  check_number                :string
 #  created_at                  :datetime         not null
 #  currency_id                 :integer
 #  description                 :string
@@ -19,8 +20,11 @@
 #  private_note                :string
 #  project_id                  :integer
 #  qb_id                       :string
+#  qb_object_subtype           :string
 #  qb_object_type              :string           default("JournalEntry"), not null
+#  qb_vendor_id                :integer
 #  quickbooks_data             :json
+#  sync_token                  :string
 #  total                       :decimal(, )
 #  txn_date                    :date
 #  updated_at                  :datetime         not null
@@ -68,6 +72,7 @@ class Accounting::Transaction < ApplicationRecord
   belongs_to :project, inverse_of: :transactions, foreign_key: :project_id
   belongs_to :customer, inverse_of: :transactions, foreign_key: :accounting_customer_id
   belongs_to :currency
+  belongs_to :vendor, inverse_of: :transactions, class_name: "Accounting::QB::Vendor", foreign_key: :qb_vendor_id
 
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
@@ -85,8 +90,12 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
+  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do |check_txn|
+    check_txn.validates :check_number, :qb_vendor_id, presence: true
+  end
 
   delegate :division, :qb_division, to: :project
+  delegate :qb_department, to: :project
 
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
@@ -155,6 +164,7 @@ class Accounting::Transaction < ApplicationRecord
     self.qb_id = qb_obj.id
     self.qb_object_type = qb_obj.class.name.demodulize
     self.quickbooks_data = qb_obj.as_json
+    self.sync_token = qb_obj.sync_token
   end
 
   def calculate_deltas
@@ -199,6 +209,10 @@ class Accounting::Transaction < ApplicationRecord
 
   def set_qb_push_flag!(value)
     update_column(:needs_qb_push, value)
+  end
+
+  def subtype?(subtype)
+    qb_object_subtype == subtype
   end
 
   private
