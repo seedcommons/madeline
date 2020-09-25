@@ -16,7 +16,12 @@ module Accounting
         # If the transaction already has a qb_id then it already exists in QB, so we should update it.
         # Otherwise we create it.
         raise StandardError, "DO NOT WRITE IN READ ONLY MODE" if @qb_division.qb_read_only
+<<<<<<< HEAD
         qb_txn = transaction.qb_id ? service(transaction).update(qb_txn, sparse: true) : service(transaction).create(qb_txn)
+=======
+
+        je = transaction.qb_id ? service.update(je, sparse: true) : service.create(je)
+>>>>>>> develop
 
         transaction.set_qb_push_flag!(false)
 
