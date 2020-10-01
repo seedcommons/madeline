@@ -78,9 +78,12 @@ module Accounting
 
       def update_ledger(loan)
         prev_tx = nil
+        Rails::Debug.logger.ap(loan.transactions.standard_order.pluck(:id, :loan_transaction_type_value, :txn_date, :amount))
         loan.transactions.standard_order.each do |txn|
           extract_qb_data(txn)
-          txn.reload.calculate_balances(prev_tx: prev_tx)
+          Rails::Debug.logger.ap("calc bal in update_ledger for #{txn.loan_transaction_type_value} txn #{txn.id} on #{txn.txn_date} with total bal #{txn.reload.total_balance}")
+          #Rails::Debug.logger.ap(loan.transactions.reload.standard_order.pluck(:id, :loan_transaction_type_value, :txn_date, :amount))
+          txn.reload.calculate_balances(prev_tx: prev_tx) if txn.line_items.present?
           txn.save!
           prev_tx = txn
         end
