@@ -180,12 +180,27 @@ class Accounting::Transaction < ApplicationRecord
   # Calculates balance fields based on line items.
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
-    # need to do calculate_deltas in case that this is called from updater
-    calculate_deltas
-    self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
-    self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
-    if managed && total_balance < 0 && !Rails.env.test?
-      raise Accounting::QB::NegativeBalanceError.new(prev_balance: prev_balance)
+    if self.line_items.present?
+      # need to do calculate_deltas in case that this is called from updater
+      calculate_deltas
+      self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
+      self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
+      if managed && total_balance < 0 && !Rails.env.test?
+        raise Accounting::QB::NegativeBalanceError.new(prev_balance: prev_balance)
+      end
+    else
+      # Line items are only missing if this txn is coming from madeline UI creation or edit,
+      # and this is called from the updater.rb
+      # (since line items are extracted immediately from QB in  data_extractor.rb).
+      # Balances for this txn cannot be calculated without line items.
+      # This txn's balances will be corrected when calculate_balances is called from the interest calculator,
+      # which creates this txn's line items.
+      # In the meantime, we need to pass prev txn's balances fwd so this txn's total balance is not zero and
+      # later repayments do not raise negative balance errors.
+      # A full remedy to this problem would involve refactoring the whole txn flow to decouple line item
+      # creation from interest calculation.
+      self.principal_balance = prev_tx.try(:principal_balance)
+      self.interest_balance = prev_tx.try(:interest_balance)
     end
   end
 
