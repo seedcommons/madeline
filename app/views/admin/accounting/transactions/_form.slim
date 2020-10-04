@@ -17,7 +17,10 @@
       - if @transaction.loan_transaction_type_value
         = @transaction.loan_transaction_type_value.capitalize
     .form-element
-      = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons, disabled: !@transaction.new_record?
+      - if @transaction.new_record?
+        = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
+      - else
+        = @transaction.loan_transaction_type_value.capitalize
 
   .form-element.disbursement-only
     = f.input :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
