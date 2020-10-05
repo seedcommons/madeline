@@ -123,7 +123,6 @@ module Accounting
             # even if we don't change anything here.
             tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
 
-
             # This should save the transaction and all its line items.
             tx.save!
 
