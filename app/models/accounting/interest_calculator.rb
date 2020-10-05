@@ -96,22 +96,22 @@ module Accounting
         txns.each do |tx|
           if tx.managed?
             case tx.loan_transaction_type_value
-              when "interest"
-                update_interest_txn(prev_tx, tx, int_rcv_acct)
-              when "disbursement"
-                # this is where disbursements newly created in Madeline get their line items set up
-                update_disbursement_txn(tx, prin_acct)
-              when "repayment"
-                update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
+            when "interest"
+              update_interest_txn(prev_tx, tx, int_rcv_acct)
+            when "disbursement"
+              # this is where disbursements newly created in Madeline get their line items set up
+              update_disbursement_txn(tx, prin_acct)
+            when "repayment"
+              update_repayment_txn(tx, prev_tx, prin_acct, int_rcv_acct)
             end
 
             if changed?(tx) && tx.txn_date <= @closed_books_date
               record_and_rollback_changes(tx)
+            else
+              # Since we may have just adjusted line items upon which the change_in_principal and
+              # change_in_interest depend, it is important that we recalculate balances now.
+              tx.calculate_balances(prev_tx: prev_tx)
             end
-
-            # Since we may have just adjusted line items upon which the change_in_principal and
-            # change_in_interest depend, it is important that we recalculate balances now.
-            tx.calculate_balances(prev_tx: prev_tx)
 
             # Before we save, check if the transaction's line items have changed and
             # set the needs_qb_push flag. We ignore changes to the transaction's balances since these
@@ -122,6 +122,7 @@ module Accounting
             # occurred. The transaction may have changed earlier (e.g. via the UI) and may need a push
             # even if we don't change anything here.
             tx.needs_qb_push = tx.needs_qb_push || tx.line_items.any?(&:type_or_amt_changed?)
+
 
             # This should save the transaction and all its line items.
             tx.save!
