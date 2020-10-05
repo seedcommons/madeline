@@ -178,28 +178,28 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   # Calculates balance fields based on line items.
+  # Called from both updater and interest calculator
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
     if self.line_items.present?
-      Rails::Debug.logger.ap("line items present")
-      # need to do calculate_deltas in case that this is called from updater
+      # if this is a txn just created or edited in Madeline and its lis are present,
+      # then calculate_balances was called from interest calculator
       calculate_deltas
       self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
       self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
       if managed && total_balance < 0 && !Rails.env.test?
-        Rails::Debug.logger.ap("Previous")
-        Rails::Debug.logger.ap(prev_tx)
-        Rails::Debug.logger.ap("Current")
-        Rails::Debug.logger.ap(self)
         raise Accounting::QB::NegativeBalanceError.new(prev_balance: prev_balance)
       end
     elsif prev_tx.present?
-      # Line items are only missing if this txn is coming from madeline UI creation or edit,
-      # and this is called from the updater.rb
-      # (since line items are extracted immediately from QB in  data_extractor.rb).
-      # Balances for this txn cannot be calculated without line items.
-      # This txn's balances will be corrected when calculate_balances is called from the interest calculator,
-      # which creates this txn's line items.
+      # If lis are missing, then this txn is coming from madeline UI creation or edit,
+      # and calculate_balances was called from the updater.rb (since lis are extracted immediat
+      # ely from QB in  data_extractor.rb). If prev_tx is present, this is not the
+      # first transaction in the list for the loan.
+      #
+      # Deltas for this txn cannot be calculated without lis, so when calculate_balances runs
+      # from updater, balances will not be correct yet. These balances will be corrected
+      # when calculate_balances is called from the interest calculator,
+      # which creates this txn's lis.
       # In the meantime, we need to pass prev txn's balances fwd so this txn's total balance is not zero and
       # later repayments do not raise negative balance errors.
       # A full remedy to this problem would involve refactoring the whole txn flow to decouple line item
@@ -208,8 +208,11 @@ class Accounting::Transaction < ApplicationRecord
       self.principal_balance = prev_tx.try(:principal_balance)
       self.interest_balance = prev_tx.try(:interest_balance)
     else
-      # we are editing the first transaction in a loan, int calc has not run yet, and its balance cannot be
-      # set to 0 before its line items are created, or repayments in the future will trigger negative balance
+      # If no line items, and no prev txn, we are creating or editing the first transaction in a loan,
+      # int calc has not run yet. In the case we are editing a txn, its balances cannot be
+      # set to 0 before its line items are created, or any repayments that may exist in the
+      # future will trigger negative balance. In the case its just created, no operation leaves
+      # the balances at zero.
     end
   end
 
