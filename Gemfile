@@ -29,7 +29,6 @@ gem "uri-js-rails" # URI manipulation
 gem "carrierwave", "~> 2.0"
 gem "fog-aws"
 gem "mini_magick", ">= 4.9.4"
-gem "paperclip", "~> 5.2"
 
 # Authentication / Authorization
 gem "devise"
