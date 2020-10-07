@@ -39,12 +39,13 @@
     .form-element
       = f.input_field :vendor, collection: @vendors
 
-  .form-element.check-only
-    = f.input :check_number
-  .view-element
-    = f.input :check_number
+  = f.input :check_number, wrapper_html: {class: 'check-only'}
+    .view-element
       - if @transaction.check_number
         = @transaction.check_number
+    .form-element
+      = f.input_field :check_number
+
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
