@@ -22,29 +22,32 @@
       - else
         = @transaction.loan_transaction_type_value.capitalize
 
-  = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
-    .view-element
-      - if @transaction.qb_object_subtype
-        = @transaction.qb_object_subtype.capitalize
-    .form-element
-      - if @transaction.new_record?
-        = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
-      - elsif @transaction.qb_object_subtype == "Check"
+  - if @transaction.new_record? || @transaction.subtype?("check")
+    = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
+      .view-element
+        - if @transaction.qb_object_subtype
           = @transaction.qb_object_subtype.capitalize
+      .form-element
+        - if @transaction.new_record?
+          = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
+        - elsif @transaction.qb_object_subtype == "Check"
+            = @transaction.qb_object_subtype.capitalize
 
-  = f.input :vendor, wrapper_html: {class: 'disbursement-only'}
-    .view-element
-      - if @transaction.vendor
-        = @transaction.vendor.name
-    .form-element
-      = f.input_field :vendor, collection: @vendors
+  - if @transaction.new_record? || @transaction.type?("disbursement")
+      .view-element
+        - if @transaction.vendor
+          = f.input :vendor
+            = @transaction.vendor.name
+      .form-element
+        = f.association :vendor, collection: @vendors, wrapper_html: {class: 'disbursement-only'}
 
-  = f.input :check_number, wrapper_html: {class: 'check-only'}
-    .view-element
-      - if @transaction.check_number
-        = @transaction.check_number
-    .form-element
-      = f.input_field :check_number
+  - if @transaction.new_record? || @transaction.subtype?("Check")
+    = f.input :check_number, wrapper_html: {class: 'check-only'}
+      .view-element
+        - if @transaction.check_number
+          = @transaction.check_number
+      .form-element
+        = f.input_field :check_number
 
 
   = f.input :txn_date
