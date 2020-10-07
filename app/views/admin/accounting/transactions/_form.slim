@@ -22,6 +22,9 @@
       - else
         = @transaction.loan_transaction_type_value.capitalize
 
+  // if new record, let js handle displaying or not.
+  // if not, only display if check because subtype null isn't meaningful to users
+  // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.subtype?("check")
     = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
       .view-element
@@ -30,9 +33,10 @@
       .form-element
         - if @transaction.new_record?
           = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
-        - elsif @transaction.qb_object_subtype == "Check"
-            = @transaction.qb_object_subtype.capitalize
+        - else
+          = @transaction.qb_object_subtype.capitalize
 
+  // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.type?("disbursement")
       .view-element
         - if @transaction.vendor
@@ -41,6 +45,7 @@
       .form-element
         = f.association :vendor, collection: @vendors, wrapper_html: {class: 'disbursement-only'}
 
+  // .check-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.subtype?("Check")
     = f.input :check_number, wrapper_html: {class: 'check-only'}
       .view-element
@@ -48,7 +53,6 @@
           = @transaction.check_number
       .form-element
         = f.input_field :check_number
-
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
