@@ -22,16 +22,16 @@
       - else
         = @transaction.loan_transaction_type_value.capitalize
 
-  .view-element
-    = f.input :qb_object_subtype
+  = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
+    .view-element
       - if @transaction.qb_object_subtype
         = @transaction.qb_object_subtype.capitalize
-  .form-element.disbursement-only
-    - if @transaction.new_record?
-      = f.input :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
-    - elsif @transaction.qb_object_subtype == "Check"
-      = f.input :qb_object_subtype
-        = @transaction.qb_object_subtype.capitalize
+    .form-element
+      - if @transaction.new_record?
+        = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
+      - elsif @transaction.qb_object_subtype == "Check"
+        = f.input :qb_object_subtype
+          = @transaction.qb_object_subtype.capitalize
 
 
   .form-element.disbursement-only
