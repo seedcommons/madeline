@@ -58,7 +58,8 @@ class Media < ApplicationRecord
   end
 
   def thumbnail?
-    kind_value == "image" && item_content_type.include?("image")
+    return false unless kind_value == "image" && item_content_type.include?("image")
+    item.thumb.url.present?
   end
 
   def recalculate_loan_health
