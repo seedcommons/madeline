@@ -22,8 +22,9 @@ class MS.Views.TransactionModalView extends Backbone.View
     $.get url, project_id: loanId, (html) =>
       @replaceContent(html, action)
       @$el.modal('show')
-      @$('.disbursement-only').hide()
-      @$('.check-only').hide()
+      if action == "new"
+        @$('.disbursement-only').hide()
+        @$('.check-only').hide()
 
   replaceContent: (html, action) ->
     @$el.find('.modal-content').html(html)
