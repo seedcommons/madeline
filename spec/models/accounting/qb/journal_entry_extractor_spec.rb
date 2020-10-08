@@ -168,7 +168,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
 
     def expect_line_item_amounts(amounts)
       amounts.each_with_index do |amt, i|
-        expect(txn.line_items[i].amount).to equal_money(amt)
+        expect(txn.line_items.order(:qb_line_id)[i].amount).to equal_money(amt)
       end
     end
 
