@@ -12,7 +12,7 @@
 
   = f.hidden_field :project_id
 
-  = f.input :loan_transaction_type_value
+  = f.input :loan_transaction_type_value, wrapper_html: @transaction.new_record? ? {class: "principal-form-field"} : {} 
     .view-element
       - if @transaction.loan_transaction_type_value
         = @transaction.loan_transaction_type_value.capitalize
