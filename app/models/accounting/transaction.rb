@@ -212,6 +212,10 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
+  def type?(type)
+    loan_transaction_type_value == type
+  end
+
   def subtype?(subtype)
     qb_object_subtype == subtype
   end
