@@ -26,9 +26,9 @@ gem "uglifier", ">= 1.3.0"
 gem "uri-js-rails" # URI manipulation
 
 # File attachments
-gem "carrierwave"
+gem "carrierwave", "~> 2.0"
+gem "fog-aws"
 gem "mini_magick", ">= 4.9.4"
-gem "paperclip", "~> 5.2"
 
 # Authentication / Authorization
 gem "devise"

@@ -16,6 +16,7 @@
 #  interest_receivable_account_id :integer
 #  internal_name                  :string
 #  locales                        :json
+#  logo                           :string
 #  logo_content_type              :string
 #  logo_file_name                 :string
 #  logo_file_size                 :integer

@@ -33,7 +33,7 @@ module Accounting
         # If transaction already exists in QB, these are required
         if transaction.qb_id
           p.id = transaction.qb_id
-          p.sync_token = transaction.quickbooks_data['sync_token']
+          p.sync_token = transaction.sync_token
         else
           p.doc_number = set_journal_number(transaction)
         end

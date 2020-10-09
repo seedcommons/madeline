@@ -96,15 +96,15 @@ feature 'transaction flow', :accounting do
       scenario 'disbursement and check fields' do
         visit "/admin/loans/#{loan.id}/transactions"
         click_on 'Add Transaction'
-        expect(page).not_to have_content('Subtype')
+        expect(page).not_to have_content('Disbursement Type')
         expect(page).not_to have_content('Vendor')
         expect(page).not_to have_content('Check Number')
         choose 'Disbursement'
-        expect(page).to have_content('Subtype')
+        expect(page).to have_content('Disbursement Type')
         expect(page).to have_content('Vendor')
         expect(page).not_to have_content('Check Number')
         choose 'Check'
-        expect(page).to have_content('Subtype')
+        expect(page).to have_content('Disbursement Type')
         expect(page).to have_content('Check Number')
         fill_in 'Check Number', with: 123
         select vendors.sample.name, from: 'Vendor'

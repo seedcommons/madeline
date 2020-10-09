@@ -79,6 +79,7 @@
       - else
         = t("none")
     = f.input_field :logo, as: :file
+    = f.input_field :logo_cache, as: :hidden
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_logo", options: popover_options)
 
