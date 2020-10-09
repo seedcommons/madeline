@@ -64,7 +64,9 @@ module Accounting
       # updates single loan
       def update_loan(loan)
         if loan.transactions.present?
-          update_ledger(loan)
+          loan.transactions.standard_order.each do |txn|
+            extract_qb_data(txn)
+          end
           InterestCalculator.new(loan).recalculate
         end
       end
@@ -74,16 +76,6 @@ module Accounting
       def too_soon_to_run_again?
         return false if qb_connection.last_updated_at.nil?
         Time.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
-      end
-
-      def update_ledger(loan)
-        prev_tx = nil
-        loan.transactions.standard_order.each do |txn|
-          extract_qb_data(txn)
-          txn.reload.calculate_balances(prev_tx: prev_tx)
-          txn.save!
-          prev_tx = txn
-        end
       end
 
       # Extracts data for a given Transaction from the JSON in `quickbooks_data`

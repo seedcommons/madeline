@@ -178,9 +178,10 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   # Calculates balance fields based on line items.
+  # Called from both updater and interest calculator
   # Does NOT save the object.
   def calculate_balances(prev_tx: nil)
-    # need to do calculate_deltas in case that this is called from updater
+    raise StandardError, "Do not calculate balances without line items." if self.line_items.blank?
     calculate_deltas
     self.principal_balance = (prev_tx.try(:principal_balance) || 0) + change_in_principal
     self.interest_balance = (prev_tx.try(:interest_balance) || 0) + change_in_interest
@@ -211,11 +212,16 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
+  def type?(type)
+    loan_transaction_type_value == type
+  end
+
   def subtype?(subtype)
     qb_object_subtype == subtype
   end
 
   private
+
   # Debits minus credits for the given account. Returns a negative number if this transaction is a
   # net credit to the passed in account. Note that for non-asset accounts such as interest income,
   # which is increased by a credit, a negative number indicates the account is increasing.
