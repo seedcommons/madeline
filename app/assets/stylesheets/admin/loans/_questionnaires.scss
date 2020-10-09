@@ -12,6 +12,7 @@ section.questionnaires {
     border: none;
     margin-bottom: 3px;
     padding-bottom: 0.1px; // prevent margin collapse
+    scroll-margin-top: 100px;
 
     &.jqtree-folder.jqtree-closed {
       margin-bottom: 3px;
