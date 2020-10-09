@@ -6,9 +6,6 @@ class MediaItemUploader < CarrierWave::Uploader::Base
   IMAGE_REGEX = %r{\Aimage\/.*\z}i
   VIDEO_REGEX = %r{\Avideo\/.*\z}i
 
-  # the kind of storage to use for this uploader
-  storage :file
-
   process :set_size_and_type_on_model
   process :set_height_and_width_on_model, if: :image?
 

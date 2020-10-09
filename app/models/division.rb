@@ -16,6 +16,7 @@
 #  interest_receivable_account_id :integer
 #  internal_name                  :string
 #  locales                        :json
+#  logo                           :string
 #  logo_content_type              :string
 #  logo_file_name                 :string
 #  logo_file_size                 :integer
@@ -87,10 +88,7 @@ class Division < ApplicationRecord
 
   belongs_to :organization  # the organization which represents this loan agent division
 
-  # Logo will be resized to 65px height on screen, but for higher pixel density devices we don't want to
-  # go below 3x that. Wide logos are acceptable, up to about 280px logical.
-  has_attached_file :logo, styles: { banner: "840x195>" }
-  validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
+  mount_uploader :logo, LogoUploader
 
   validate :parent_division_and_name
   validates :name, presence: true
