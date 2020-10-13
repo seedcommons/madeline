@@ -35,9 +35,9 @@ shared_examples_for 'media_attachable' do
         'zero' => create(:media,  media_attachable: owner_model, sort_order: 0),
         'sort_order-11' => create(:media, media_attachable: owner_model, sort_order: 11),
         'sort_order-33a' => create(:media, media_attachable: owner_model, sort_order: 33,
-          remote_item_url: 'http://fixtures.sassafras.coop/pants1.png'),
+          file_name: 'the_swing1.jpg'),
         'sort_order-33b' => create(:media, media_attachable: owner_model, sort_order: 33,
-          remote_item_url: 'http://fixtures.sassafras.coop/pants2.png')
+          file_name: 'the_swing2.jpg')
       }
 
       @sorted_items = [media['sort_order-11'], media['sort_order-33a'], media['sort_order-33b'], media['zero'], media['null']]
