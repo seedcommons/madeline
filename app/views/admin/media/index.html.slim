@@ -1,0 +1,21 @@
+- content_for(:title, controller_name)
+
+- visuals = media_visuals(@media)
+- documents = media_documents(@media)
+
+.media-browser.col-lg-12 data-media-type="MediaObject"
+  - if documents.any?
+    .section
+      h4 = t("media.documents")
+
+      - documents.each do |media_item|
+        = render "admin/media/media_item", media_item: media_item, link_params: { attachable_type: media_item.media_attachable_type, attachable_id: media_item.media_attachable_id }
+
+  - if visuals.any?
+    .section
+      h4 = t("media.visual_media")
+
+      - visuals.each do |media_item|
+        = render "admin/media/media_item", media_item: media_item, link_params: { attachable_type: media_item.media_attachable_type, attachable_id: media_item.media_attachable_id }
+
+  .pagination = paginate @media
