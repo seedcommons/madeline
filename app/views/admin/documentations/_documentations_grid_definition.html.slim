@@ -1,0 +1,14 @@
+= define_grid(@documentations_grid, show_filters: :no, hide_csv_button: true, html: {class: 'rowlink table-hover', data: {link: 'row'}}) do |g|
+  - g.blank_slate t('common.no_records')
+  - g.column name: t('common.id'), attribute: 'id' do |doc|
+    - link_to doc.id, edit_admin_documentation_path(doc.id)
+  - g.column name: t('page_title') do |doc|
+    - doc.page_title
+  - g.column name: t('summary_content') do |doc|
+    - doc.summary_content.to_s.html_safe
+  - g.column name: t('activerecord.attributes.documentation.calling_controller'), attribute: 'calling_controller' do |doc|
+    - doc.calling_controller.humanize
+  - g.column name: t('activerecord.attributes.documentation.calling_action'), attribute: 'calling_action' do |doc|
+    - doc.calling_action.humanize
+  - g.column name: t('activerecord.attributes.documentation.html_identifier'), attribute: 'html_identifier' do |doc|
+    - doc.html_identifier
