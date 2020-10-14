@@ -12,9 +12,11 @@ module Accounting
 
       def fetch_all
         accounts = clear_accounts!
+        department_division_map = clear_department_associations!
         delete_qb_data
         fetch_qb_data
         restore_accounts!(accounts)
+        restore_department_associations!(department_division_map)
       rescue StandardError => error
         @qb_connection&.destroy
         raise error
@@ -66,6 +68,14 @@ module Accounting
         )
       end
 
+      def clear_department_associations!
+        department_division_map = {}
+        Accounting::QB::Department.all.each do |d|
+          department_division_map[d.qb_id] = d.division_id
+        end
+        department_division_map
+      end
+
       # Restore all divisions' accounts to the ones passed in. Argument is expected to be a hash of
       # the form returned by `#clear_accounts!`. NOTE: If a previously selected account no longer
       # exists after the full sync from QB, it will be set to nil. This is by design.
@@ -78,6 +88,12 @@ module Accounting
           interest_income_account:
             Accounting::Account.find_by(qb_id: accounts_qb_ids[:interest_income]),
         )
+      end
+
+      def restore_department_associations!(department_division_map)
+        Accounting::QB::Department.all.each do |d|
+          d.update_attribute(:division_id, department_division_map[d.qb_id])
+        end
       end
     end
   end
