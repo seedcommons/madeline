@@ -11,12 +11,13 @@ describe Accounting::QB::BillExtractor, type: :model do
   let(:loan) { create(:loan, division: division) }
 
   let(:quickbooks_data) do
-    create(:transaction_json,
+    create(
+      :transaction_json,
       loan: loan,
       debit_accounts: [prin_acct],
       credit_accounts: [txn_acct],
       type: "Bill",
-      total: 20527.35, 
+      total: 20527.35,
       doc_number: "from qb"
     )
   end
