@@ -32,7 +32,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     when "timeline"
       prep_timeline(@basic_project)
     when "timeline_list"
-      @steps = @basic_project.project_steps
+      raise ActionController::RoutingError.new("Not Found")
     when 'logs'
       prep_logs(@basic_project)
     when "calendar"
@@ -40,7 +40,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
       @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
     end
 
-    @tabs = %w(details timeline timeline_list logs calendar)
+    @tabs = %w(details timeline logs calendar)
   end
 
   def new
@@ -102,7 +102,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
 
   def prep_form_vars
     @tab = params[:tab] || 'details'
-    @tabs = %w(details timeline timeline_list logs calendar)
+    @tabs = %w(details timeline logs calendar)
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
   end
 
