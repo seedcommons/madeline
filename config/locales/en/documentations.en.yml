@@ -1,4 +1,6 @@
 en:
+  menu:
+    documentations: Documentation
   documentation:
     index: "Help Pages"
     edit: "Edit documentation"
