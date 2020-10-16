@@ -15,6 +15,11 @@ module Accounting
         delete_qb_data
         fetch_qb_data
         restore_accounts!(accounts)
+        Task.create(
+          job_class: UpdateAllLoansJob,
+          job_type_value: 'update_all_loans',
+          activity_message_value: 'task_enqueued'
+        ).enqueue
       rescue StandardError => error
         @qb_connection&.destroy
         raise error
