@@ -16,6 +16,7 @@ describe Accounting::QB::FullFetcher, type: :model do
     )
     division
   end
+  let!(:qb_department) { create(:department, division: division, name: "Test Dept") }
   let(:qb_account_service) do
     instance_double(Quickbooks::Service::Account, all: [
       instance_double(Quickbooks::Model::Account,
@@ -34,7 +35,12 @@ describe Accounting::QB::FullFetcher, type: :model do
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
   let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
-  let(:qb_department_service) { instance_double(Quickbooks::Service::Department, all: []) }
+  let(:qb_department_service) { instance_double(Quickbooks::Service::Department, all: [
+      instance_double(Quickbooks::Model::Department,
+        id: qb_department.qb_id,
+        name: qb_department.name
+      )
+    ]) }
   let(:qb_vendor_service) { instance_double(Quickbooks::Service::Vendor, all: []) }
   let(:account_fetcher) { Accounting::QB::AccountFetcher.new(division) }
   let!(:account_fetcher_class) {
@@ -66,8 +72,9 @@ describe Accounting::QB::FullFetcher, type: :model do
   subject { described_class.new(division) }
 
   describe "#fetch_all" do
-    it "removes and restores accounts" do
+    it "removes and restores accounts, restores division-dept associations" do
       stored_account_ids = division.accounts.map(&:id)
+      expect(division.qb_department.name).to eq "Test Dept"
 
       expect(division.accounts.count).to eq 3
 
@@ -96,6 +103,7 @@ describe Accounting::QB::FullFetcher, type: :model do
       # Accounts should be restored with the same QB ids but they should have different DB ids
       expect(division.accounts.count).to eq 3
       expect(stored_account_ids).not_to match_array new_account_ids
+      expect(division.qb_department.name).to eq qb_department.name
     end
 
     context "qb fetch errors" do
@@ -134,7 +142,7 @@ describe Accounting::QB::FullFetcher, type: :model do
         expect(customer_fetcher).to receive(:fetch).and_call_original
         expect(department_fetcher).to receive(:service).with("Department").and_return(qb_department_service)
         expect(department_fetcher).to receive(:fetch).and_call_original
-        expect(vendor_fetcher).to receive(:service).with("Vendor").and_return(qb_department_service)
+        expect(vendor_fetcher).to receive(:service).with("Vendor").and_return(qb_vendor_service)
         expect(vendor_fetcher).to receive(:fetch).and_call_original
 
         transaction_type_count = Accounting::Transaction::QB_OBJECT_TYPES.count
