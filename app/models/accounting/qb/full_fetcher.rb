@@ -70,7 +70,7 @@ module Accounting
 
       def clear_department_associations!
         department_division_map = {}
-        Accounting::QB::Department.all.each do |d|
+        Accounting::QB::Department.find_each do |d|
           department_division_map[d.qb_id] = d.division_id
         end
         department_division_map
@@ -91,7 +91,7 @@ module Accounting
       end
 
       def restore_department_associations!(department_division_map)
-        Accounting::QB::Department.all.each do |d|
+        Accounting::QB::Department.find_each do |d|
           d.update_attribute(:division_id, department_division_map[d.qb_id])
         end
       end

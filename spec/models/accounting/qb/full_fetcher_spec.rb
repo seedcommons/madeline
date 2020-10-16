@@ -35,12 +35,13 @@ describe Accounting::QB::FullFetcher, type: :model do
   end
   let(:qb_transaction_service) { instance_double(Quickbooks::Service::JournalEntry, all: []) }
   let(:qb_customer_service) { instance_double(Quickbooks::Service::Customer, all: []) }
-  let(:qb_department_service) { instance_double(Quickbooks::Service::Department, all: [
+  let(:qb_department_service) {
+    instance_double(Quickbooks::Service::Department, all: [
       instance_double(Quickbooks::Model::Department,
         id: qb_department.qb_id,
-        name: qb_department.name
-      )
-    ]) }
+        name: qb_department.name)
+    ])
+  }
   let(:qb_vendor_service) { instance_double(Quickbooks::Service::Vendor, all: []) }
   let(:account_fetcher) { Accounting::QB::AccountFetcher.new(division) }
   let!(:account_fetcher_class) {
