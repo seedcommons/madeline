@@ -12,33 +12,47 @@
 
   = f.hidden_field :project_id
 
-  = f.input :loan_transaction_type_value
+  = f.input :loan_transaction_type_value, wrapper_html: @transaction.new_record? ? {class: "principal-form-field"} : {}
     .view-element
       - if @transaction.loan_transaction_type_value
         = @transaction.loan_transaction_type_value.capitalize
     .form-element
-      = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
+      - if @transaction.new_record?
+        = f.input_field :loan_transaction_type_value, collection: @loan_transaction_types, as: :radio_buttons
+      - else
+        = @transaction.loan_transaction_type_value.capitalize
 
-  .form-element.disbursement-only
-    = f.input :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
-  .view-element
-    = f.input :qb_object_subtype
-      - if @transaction.qb_object_subtype
-        = @transaction.qb_object_subtype.capitalize
+  // if new record, let js handle displaying or not.
+  // if not, only display if check because subtype null isn't meaningful to users
+  // .disbursement-only class lets js control display when new record
+  - if @transaction.new_record? || @transaction.subtype?("Check")
+    = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
+      .view-element
+        - if @transaction.qb_object_subtype
+          = @transaction.qb_object_subtype.capitalize
+      .form-element
+        - if @transaction.new_record?
+          = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
+        - else
+          = @transaction.qb_object_subtype.capitalize
 
-  .form-element.disbursement-only
-    = f.association :vendor, collection: @vendors
-  .view-element
-    = f.input :vendor
-      - if @transaction.vendor
-        = @transaction.vendor.name
+  // .disbursement-only class lets js control display when new record
+  - if @transaction.new_record? || @transaction.type?("disbursement")
+      .view-element
+        - if @transaction.vendor
+          = f.input :vendor
+            = @transaction.vendor.name
+      .form-element
+        = f.association :vendor, collection: @vendors, wrapper_html: {class: 'disbursement-only'}
 
-  .form-element.check-only
-    = f.input :check_number
-  .view-element
-    = f.input :check_number
-      - if @transaction.check_number
-        = @transaction.check_number
+  // .check-only class lets js control display when new record
+  - if @transaction.new_record? || @transaction.subtype?("Check")
+    = f.input :check_number, wrapper_html: {class: 'check-only'}
+      .view-element
+        - if @transaction.check_number
+          = @transaction.check_number
+      .form-element
+        = f.input_field :check_number
 
   = f.input :txn_date
     .view-element = ldate(@transaction.txn_date)
