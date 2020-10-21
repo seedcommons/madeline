@@ -50,7 +50,7 @@ describe StandardLoanDataExport, type: :model do
         data = export.reload.data
         h_to_i = header_to_index(data)
         expect(data).not_to be nil
-        loan_row = data[1]
+        loan_row = data[2] # second row is legend for questions
         expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
         expect(loan_row[h_to_i['Name']]).to eq loan.name
         expect(loan_row[h_to_i['Division']]).to eq loan.division.name
@@ -101,7 +101,7 @@ describe StandardLoanDataExport, type: :model do
         export.process_data
         data = export.reload.data
         h_to_i = header_to_index(data)
-        expect(data.size).to eq 5
+        expect(data.size).to eq 6 # header, legend, 4 loans
         expect(data[1][h_to_i["Sum of Disbursements"]]).to eq "10.0"
         expect(data[2][h_to_i["Sum of Disbursements"]]).to be_nil
         expect(data[3][h_to_i["Sum of Disbursements"]]).to eq "20.55"
