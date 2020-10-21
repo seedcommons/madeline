@@ -59,13 +59,15 @@ class StandardLoanDataExport < DataExport
     @child_errors = []
     data = []
     data << header_row
-    data << legend_row(header_row) #TODO don't run this method twice
-    Loan.find_each do |l|
+    data << legend_row
+    loans = Loan.all
+    loans = [Loan.find(3100)]
+    loans.each do |l|
       begin
         data << hash_to_row(loan_data_as_hash(l))
-      rescue => e
-        @child_errors << {loan_id: l.id, message: e.message}
-        next
+      # rescue => e
+      #   @child_errors << {loan_id: l.id, message: e.message}
+      #   next
       end
     end
     self.update(data: data)
@@ -128,7 +130,7 @@ class StandardLoanDataExport < DataExport
     result
   end
 
-  def legend_row(header_row)
+  def legend_row
     legend = []
     header_row.each do |h|
       # if h is not a question id, add nil to array
@@ -138,6 +140,15 @@ class StandardLoanDataExport < DataExport
     legend
   end
 
+  def header_row
+    @headers = @headers || make_header_row
+    @headers
+  end
+
+  def headers_key
+    @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
+  end
+
   def questions_map
     q_data_types = ['number', 'percentage', 'rating', 'currency']
     q_id_to_label_map = {}
@@ -145,25 +156,31 @@ class StandardLoanDataExport < DataExport
     q_id_to_label_map
   end
 
-  def headers
-    headers = BASE_HEADERS
-    headers + questions_map.keys.sort
-  end
-
   # decouples order in HEADERS constant from order values are added to data row
   def hash_to_row(hash)
-    data_row = Array(headers.size)
+    pp hash
+    pp header_row.size
+    data_row = []
     hash.each { |k, v| insert_in_row(k, data_row, v) }
     data_row
   end
 
   def insert_in_row(column_name, row_array, value)
-    row_array[headers.index(column_name.to_s)] = value
+    begin
+      row_array[headers_key.index(column_name.to_s)] = value
+    rescue StandardError => e
+      pp header_row
+      pp column_name
+      pp row_array
+      pp value
+      raise e
+    end
   end
 
-  def header_row
-    BASE_HEADERS.map do |h|
+  def make_header_row
+    headers = BASE_HEADERS.map do |h|
       I18n.t("standard_loan_data_exports.headers.#{h}")
     end
+    headers + questions_map.keys.sort
   end
 end
