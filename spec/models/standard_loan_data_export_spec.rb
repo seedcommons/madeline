@@ -102,22 +102,22 @@ describe StandardLoanDataExport, type: :model do
         data = export.reload.data
         h_to_i = header_to_index(data)
         expect(data.size).to eq 6 # header, legend, 4 loans
-        expect(data[1][h_to_i["Sum of Disbursements"]]).to eq "10.0"
-        expect(data[2][h_to_i["Sum of Disbursements"]]).to be_nil
-        expect(data[3][h_to_i["Sum of Disbursements"]]).to eq "20.55"
-        expect(data[4][h_to_i["Sum of Disbursements"]]).to eq 0
-        expect(data[1][h_to_i["Sum of Repayments"]]).to eq 0
-        expect(data[2][h_to_i["Sum of Repayments"]]).to be_nil
-        expect(data[3][h_to_i["Sum of Repayments"]]).to eq 0
-        expect(data[4][h_to_i["Sum of Repayments"]]).to eq "20.0"
-        expect(data[1][h_to_i["Change in Interest"]]).to eq "0.1"
-        expect(data[2][h_to_i["Change in Interest"]]).to be_nil
-        expect(data[3][h_to_i["Change in Interest"]]).to eq "0.2"
-        expect(data[4][h_to_i["Change in Interest"]]).to eq "0.3"
-        expect(data[1][h_to_i["Change in Principal"]]).to eq "1.0"
-        expect(data[2][h_to_i["Change in Principal"]]).to be_nil
-        expect(data[3][h_to_i["Change in Principal"]]).to eq "2.0"
-        expect(data[4][h_to_i["Change in Principal"]]).to eq "3.0"
+        expect(data[2][h_to_i["Sum of Disbursements"]]).to eq "10.0"
+        expect(data[3][h_to_i["Sum of Disbursements"]]).to be_nil
+        expect(data[4][h_to_i["Sum of Disbursements"]]).to eq "20.55"
+        expect(data[5][h_to_i["Sum of Disbursements"]]).to eq 0
+        expect(data[2][h_to_i["Sum of Repayments"]]).to eq 0
+        expect(data[3][h_to_i["Sum of Repayments"]]).to be_nil
+        expect(data[4][h_to_i["Sum of Repayments"]]).to eq 0
+        expect(data[5][h_to_i["Sum of Repayments"]]).to eq "20.0"
+        expect(data[2][h_to_i["Change in Interest"]]).to eq "0.1"
+        expect(data[3][h_to_i["Change in Interest"]]).to be_nil
+        expect(data[4][h_to_i["Change in Interest"]]).to eq "0.2"
+        expect(data[5][h_to_i["Change in Interest"]]).to eq "0.3"
+        expect(data[2][h_to_i["Change in Principal"]]).to eq "1.0"
+        expect(data[3][h_to_i["Change in Principal"]]).to be_nil
+        expect(data[4][h_to_i["Change in Principal"]]).to eq "2.0"
+        expect(data[5][h_to_i["Change in Principal"]]).to eq "3.0"
       end
     end
 
