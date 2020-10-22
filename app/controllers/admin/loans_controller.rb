@@ -6,7 +6,7 @@ module Admin
     include TransactionControllable
     include LoansHelper
 
-    TABS = %w(details questions timeline timeline_list logs transactions calendar).freeze
+    TABS = %w(details questions timeline logs transactions calendar).freeze
 
     def index
       # Note, current_division is used when creating new entities and is guaranteed to return a value.
@@ -52,7 +52,7 @@ module Admin
       when "timeline"
         prep_timeline(@loan)
       when "timeline_list"
-        @steps = @loan.project_steps
+        raise ActionController::RoutingError.new("Not Found")
       when "logs"
         prep_logs(@loan)
       when "transactions"
