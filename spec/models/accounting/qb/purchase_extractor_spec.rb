@@ -16,7 +16,8 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
       debit_accounts: [prin_acct],
       credit_accounts: [txn_acct],
       type: "Purchase",
-      total: 12345.67
+      total: 12345.67,
+      doc_number: "from qb"
     )
   end
   let(:txn) { Accounting::Transaction.create_or_update_from_qb_object!(qb_object_type: "Purchase", qb_object: quickbooks_data) }

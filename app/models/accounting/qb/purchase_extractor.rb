@@ -37,6 +37,10 @@ module Accounting
       def qb_li_detail_key
         "account_based_expense_line_detail"
       end
+
+      def set_managed
+        txn.managed = txn.loan_transaction_type_value != "other" && (doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic'))
+      end
     end
   end
 end

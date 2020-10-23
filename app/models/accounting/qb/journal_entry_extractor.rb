@@ -83,11 +83,6 @@ module Accounting
           nil
         end
       end
-
-      def doc_number_includes(string)
-        doc_number = txn.quickbooks_data['doc_number']
-        doc_number.present? && doc_number.include?(string)
-      end
     end
   end
 end
