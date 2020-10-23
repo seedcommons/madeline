@@ -86,7 +86,7 @@ module ApplicationHelper
     when "development"
       git_describe_tags = `git describe`
       git_branch = `git rev-parse --abbrev-ref HEAD`
-      version = "#{git_describe_tags} (#{git_branch.strip})"
+      version = "#{git_describe_tags.strip} (#{git_branch.strip})"
     else
       version = File.read(Rails.root.join("VERSION"))
     end
