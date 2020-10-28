@@ -59,9 +59,9 @@ class StandardLoanDataExport < DataExport
     @child_errors = []
     data = []
     data << header_row
-    data << legend_row
+    data << question_id_row
     loans = Loan.all
-    loans = [Loan.find(3100)]
+    loans = Loan.where(division_id: 101)
     loans.each do |l|
       begin
         data << hash_to_row(loan_data_as_hash(l))
@@ -130,14 +130,10 @@ class StandardLoanDataExport < DataExport
     result
   end
 
-  def legend_row
-    legend = []
-    header_row.each do |h|
-      # if h is not a question id, add nil to array
-      # if h is a question id, add question label
-      legend << questions_map[h]
-    end
-    legend
+  def question_id_row
+    row = ['Question ID']
+    row[BASE_HEADERS.size - 1] = nil
+    row + questions_map.keys.sort
   end
 
   def header_row
@@ -181,6 +177,6 @@ class StandardLoanDataExport < DataExport
     headers = BASE_HEADERS.map do |h|
       I18n.t("standard_loan_data_exports.headers.#{h}")
     end
-    headers + questions_map.keys.sort
+    headers + questions_map.keys.sort.map{ |k| questions_map[k] }
   end
 end
