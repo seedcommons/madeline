@@ -60,14 +60,12 @@ class StandardLoanDataExport < DataExport
     data = []
     data << header_row
     data << question_id_row
-    loans = Loan.all
-    loans = Loan.where(division_id: 101)
-    loans.each do |l|
+    loans.find_each do |l|
       begin
         data << hash_to_row(loan_data_as_hash(l))
-      # rescue => e
-      #   @child_errors << {loan_id: l.id, message: e.message}
-      #   next
+      rescue => e
+        @child_errors << {loan_id: l.id, message: e.message}
+        next
       end
     end
     self.update(data: data)
@@ -114,7 +112,7 @@ class StandardLoanDataExport < DataExport
   end
 
   def response_hash(l)
-    return {} unless l.criteria.present?
+    return {} if l.criteria.blank?
     result = {}
     response_set = l.criteria
     response_set.custom_data.each do |q_id, response_data|
