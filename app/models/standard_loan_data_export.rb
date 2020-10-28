@@ -60,11 +60,11 @@ class StandardLoanDataExport < DataExport
     data = []
     data << header_row
     data << question_id_row
-    loans.find_each do |l|
+    Loan.find_each do |loan|
       begin
-        data << hash_to_row(loan_data_as_hash(l))
+        data << hash_to_row(loan_data_as_hash(loan))
       rescue => e
-        @child_errors << {loan_id: l.id, message: e.message}
+        @child_errors << {loan_id: loan.id, message: e.message}
         next
       end
     end
@@ -111,13 +111,13 @@ class StandardLoanDataExport < DataExport
     result.merge(response_hash(loan))
   end
 
-  def response_hash(l)
-    return {} if l.criteria.blank?
+  def response_hash(loan)
+    return {} if loan.criteria.blank?
     result = {}
-    response_set = l.criteria
+    response_set = loan.criteria
     response_set.custom_data.each do |q_id, response_data|
       if questions_map.keys.include?(q_id)
-        response = Response.new(loan: l, question: Question.find(q_id), response_set: response_set, data: response_data)
+        response = Response.new(loan: loan, question: Question.find(q_id), response_set: response_set, data: response_data)
         if response.has_rating?
           result[q_id] = response.rating
         elsif response.has_number?
@@ -136,11 +136,13 @@ class StandardLoanDataExport < DataExport
 
   def header_row
     @headers = @headers || make_header_row
-    @headers
   end
 
-  def headers_key
-    @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
+  def make_header_row
+    headers = BASE_HEADERS.map do |h|
+      I18n.t("standard_loan_data_exports.headers.#{h}")
+    end
+    headers + questions_map.keys.sort.map { |k| questions_map[k] }
   end
 
   def questions_map
@@ -150,7 +152,11 @@ class StandardLoanDataExport < DataExport
     q_id_to_label_map
   end
 
-  # decouples order in HEADERS constant from order values are added to data row
+  # Methods below decouple order in BASE_HEADERS constant from order values are added to data row
+  def headers_key
+    @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
+  end
+
   def hash_to_row(hash)
     data_row = []
     hash.each { |k, v| insert_in_row(k, data_row, v) }
@@ -159,12 +165,5 @@ class StandardLoanDataExport < DataExport
 
   def insert_in_row(column_name, row_array, value)
     row_array[headers_key.index(column_name.to_s)] = value
-  end
-
-  def make_header_row
-    headers = BASE_HEADERS.map do |h|
-      I18n.t("standard_loan_data_exports.headers.#{h}")
-    end
-    headers + questions_map.keys.sort.map { |k| questions_map[k] }
   end
 end
