@@ -146,35 +146,25 @@ class StandardLoanDataExport < DataExport
   def questions_map
     q_data_types = ['number', 'percentage', 'rating', 'currency']
     q_id_to_label_map = {}
-    Question.where(data_type: q_data_types).each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
+    Question.where(data_type: q_data_types).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
     q_id_to_label_map
   end
 
   # decouples order in HEADERS constant from order values are added to data row
   def hash_to_row(hash)
-    pp hash
-    pp header_row.size
     data_row = []
     hash.each { |k, v| insert_in_row(k, data_row, v) }
     data_row
   end
 
   def insert_in_row(column_name, row_array, value)
-    begin
-      row_array[headers_key.index(column_name.to_s)] = value
-    rescue StandardError => e
-      pp header_row
-      pp column_name
-      pp row_array
-      pp value
-      raise e
-    end
+    row_array[headers_key.index(column_name.to_s)] = value
   end
 
   def make_header_row
     headers = BASE_HEADERS.map do |h|
       I18n.t("standard_loan_data_exports.headers.#{h}")
     end
-    headers + questions_map.keys.sort.map{ |k| questions_map[k] }
+    headers + questions_map.keys.sort.map { |k| questions_map[k] }
   end
 end
