@@ -47,7 +47,8 @@ describe DataExportService do
         data = data_export.reload.data
         headers = data[0]
         status_index = headers.index("Estado")
-        expect(data[1][status_index]).to eq "Activo"
+        # use second row because second row of standard loan data export has question ids
+        expect(data[2][status_index]).to eq "Activo"
       end
     end
   end
