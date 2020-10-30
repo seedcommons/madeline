@@ -135,7 +135,7 @@ class StandardLoanDataExport < DataExport
   end
 
   def header_row
-    @headers ||= make_header_row
+    @header_row ||= make_header_row
   end
 
   def make_header_row
