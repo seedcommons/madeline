@@ -50,7 +50,7 @@ describe StandardLoanDataExport, type: :model do
         data = export.reload.data
         h_to_i = header_to_index(data)
         expect(data).not_to be nil
-        loan_row = data[2] # second row is legend for questions
+        loan_row = data[2] # second row has question ids
         expect(loan_row[h_to_i['Loan ID']]).to eq loan.id
         expect(loan_row[h_to_i['Name']]).to eq loan.name
         expect(loan_row[h_to_i['Division']]).to eq loan.division.name
