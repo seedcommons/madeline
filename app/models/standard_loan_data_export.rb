@@ -129,13 +129,13 @@ class StandardLoanDataExport < DataExport
   end
 
   def question_id_row
-    row = ['Question ID']
+    row = [I18n.t("standard_loan_data_exports.headers.question_id")]
     row[BASE_HEADERS.size - 1] = nil
     row + questions_map.keys.sort
   end
 
   def header_row
-    @headers = @headers || make_header_row
+    @headers ||= make_header_row
   end
 
   def make_header_row
@@ -146,6 +146,10 @@ class StandardLoanDataExport < DataExport
   end
 
   def questions_map
+    @questions_map ||= make_questions_map
+  end
+
+  def make_questions_map
     q_data_types = ['number', 'percentage', 'rating', 'currency']
     q_id_to_label_map = {}
     Question.where(data_type: q_data_types).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
