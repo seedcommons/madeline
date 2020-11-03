@@ -11,16 +11,18 @@ en:
     type: "Data Export Type"
     download: "Download CSV"
   data_exports:
-    choose_type: "Choose Type"
+    choose_type: "Choose Data Export Type"
     create_success: "Successfully queued data export."
     default_name: "%{type} on %{current_time}"
     index_heading: "Data Exports"
     new_export:
       general: "New Data Export"
       standard_loan_data_export: "New Standard Loan Data Export"
+      enhanced_loan_data_export: "Enhanced Loan Data Export"
     types:
       data_export: "Data Export"
       standard_loan_data_export: "Standard Loan Data Export"
+      enhanced_loan_data_export: "Enhanced Loan Data Export"
   standard_loan_data_exports:
     headers:
       actual_end_date: "Actual End Date"
