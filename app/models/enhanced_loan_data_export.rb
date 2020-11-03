@@ -22,7 +22,7 @@
 #  fk_rails_...  (division_id => divisions.id)
 #
 
-class StandardLoanDataExport < DataExport
+class EnhancedLoanDataExport < DataExport
   BASE_HEADERS = [
     'loan_id',
     'name',
