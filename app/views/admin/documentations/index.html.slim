@@ -1,4 +1,16 @@
 - content_for(:title, t('documentation.index'))
 
-= render "documentations_grid_definition"
-= render_index_grid(@documentations_grid)
+- @documentations.each do |calling_controller, documentation_list|
+  h2= t("controllers.admin.#{calling_controller}")
+  - documentation_list.each do |documentation|
+    table.table
+      thead
+        tr
+          td= documentation_title(documentation)
+          td= documentation_location(documentation)
+          td= documentation_division(documentation)
+          td.text-right= documentation_edit(documentation)
+      tbody
+        tr
+          td colspan=4
+            = documentation_content(documentation)

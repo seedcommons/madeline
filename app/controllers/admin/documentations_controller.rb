@@ -4,9 +4,8 @@ class Admin::DocumentationsController < Admin::AdminController
   before_action :find_documentation, only: [:edit, :show, :update]
 
   def index
-    @documentations_grid = initialize_grid(
-      policy_scope(Documentation)
-    )
+    @documentations = policy_scope(Documentation.includes(:division)).group_by(&:calling_controller)
+    Rails::Debug.logger.ap @documentations
     authorize Documentation
   end
 

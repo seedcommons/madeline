@@ -6,3 +6,21 @@
     max-width: 95%;
   }
 }
+
+body.admin-documentations.action-index {
+  .content {
+    table.table {
+      border: 1px solid #EFEFEF;
+
+      span.label {
+        font-weight:  bold;
+      }
+
+      thead {
+        tr {
+          background-color: #EFEFEF;
+        }
+      }
+    }
+  }
+}
