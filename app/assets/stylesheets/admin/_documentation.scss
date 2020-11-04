@@ -10,15 +10,15 @@
 body.admin-documentations.action-index {
   .content {
     table.table {
-      border: 1px solid #EFEFEF;
+      border: 1px solid $background-gray;
 
       span.label {
-        font-weight:  bold;
+        font-weight: bold;
       }
 
       thead {
         tr {
-          background-color: #EFEFEF;
+          background-color: $background-gray;
         }
       }
     }
