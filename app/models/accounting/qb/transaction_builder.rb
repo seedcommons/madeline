@@ -34,10 +34,8 @@ module Accounting
         if transaction.qb_id
           p.id = transaction.qb_id
           p.sync_token = transaction.sync_token
-        else
-          p.doc_number = set_journal_number(transaction)
         end
-
+        p.doc_number = set_journal_number(transaction)
         p.private_note = transaction.private_note
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
@@ -50,7 +48,7 @@ module Accounting
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
         # no posting type on AccountBasedExpenseLineItems in QB
-        p.line_items << build_check_line_item(
+        p.line_items << build_purchase_line_item(
           id: nil,
           amount: transaction.amount,
           description: transaction.description,
@@ -60,7 +58,7 @@ module Accounting
         p
       end
 
-      def build_check_line_item(id:, amount:, description:, qb_customer_ref:, qb_class_id:)
+      def build_purchase_line_item(id:, amount:, description:, qb_customer_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::PurchaseLineItem.new
         line_item.detail_type = 'AccountBasedExpenseLineDetail'
         line_item.id = id

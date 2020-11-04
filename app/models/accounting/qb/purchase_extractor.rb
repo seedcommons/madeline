@@ -16,6 +16,31 @@ module Accounting
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
       end
 
+      def extract_subtype
+        txn.qb_object_subtype = txn.quickbooks_data["payment_type"]
+      end
+
+      def extract_customer
+        @line_items = txn.quickbooks_data["line_items"]
+        li = @line_items.first unless @line_items.empty?
+        details = li[qb_li_detail_key] if li
+        customer_ref = details['customer_ref'] if details
+        return if customer_ref.nil?
+        txn.customer = Accounting::Customer.find_by(qb_id: customer_ref['value'])
+      end
+
+      def extract_vendor
+        @line_items = txn.quickbooks_data["line_items"]
+        li = @line_items.first unless @line_items.empty?
+        details = li[qb_li_detail_key] if li
+        entity = details['entity'] if details
+        return if entity.nil? || entity['type'] != 'Vendor'
+        vendor_ref = entity['entity_ref']
+        return if vendor_ref.nil?
+        vendor_qb_id = vendor_ref['value']
+        txn.vendor = Accounting::QB::Vendor.find_by(qb_id: vendor_qb_id)
+      end
+
       # Using total assumes that all line items in txn are for accts in Madeline.
       # This assumption is safe because we never push amount to QB.
       def calculate_amount
