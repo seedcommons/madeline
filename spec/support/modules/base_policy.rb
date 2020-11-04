@@ -74,6 +74,11 @@ def forbid_all_but_index
   permit_actions [:index]
 end
 
+def permit_all_but_index
+  permit_actions [:create, :show, :edit, :update, :destroy]
+  forbid_actions [:index]
+end
+
 def permit_actions(actions)
   actions.each do |action|
     if action == :index && defined?(record_type)
