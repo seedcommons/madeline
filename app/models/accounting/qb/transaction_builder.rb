@@ -18,8 +18,8 @@ module Accounting
       end
 
       def build_for_qb(transaction)
-        if transaction.subtype?("Check")
-          build_check_for_qb(transaction)
+        if transaction.type?("disburesment")
+          build_purchase_for_qb(transaction)
         else
           build_je_for_qb(transaction)
         end
@@ -27,7 +27,7 @@ module Accounting
 
       # Creates a Purchase of type check for QB based on disbursement txn object in Madeline.
       # A check in QB has one line item whereas a disbursement txn has two LIs in Madeline.
-      def build_check_for_qb(transaction)
+      def build_purchase_for_qb(transaction)
         p = ::Quickbooks::Model::Purchase.new
 
         # If transaction already exists in QB, these are required
@@ -40,7 +40,7 @@ module Accounting
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        p.payment_type = "Check"
+        p.payment_type = transaction.subtype?(:check) ? "Check" : nil
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 
