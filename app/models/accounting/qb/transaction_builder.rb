@@ -34,10 +34,8 @@ module Accounting
         if transaction.qb_id
           p.id = transaction.qb_id
           p.sync_token = transaction.sync_token
-        else
-          p.doc_number = set_journal_number(transaction)
         end
-
+        p.doc_number = set_journal_number(transaction)
         p.private_note = transaction.private_note
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
