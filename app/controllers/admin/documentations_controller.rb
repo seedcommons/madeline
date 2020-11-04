@@ -5,7 +5,6 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def index
     @documentations = policy_scope(Documentation.includes(:division)).group_by(&:calling_controller)
-    Rails::Debug.logger.ap @documentations
     authorize Documentation
   end
 
