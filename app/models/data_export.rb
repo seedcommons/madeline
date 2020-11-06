@@ -35,7 +35,8 @@ class DataExport < ApplicationRecord
   before_save :set_name
 
   DATA_EXPORT_TYPES = {
-    "standard_loan_data_export" => "StandardLoanDataExport"
+    "standard_loan_data_export" => "StandardLoanDataExport",
+    "enhanced_loan_data_export" => "EnhancedLoanDataExport"
   }
 
   # Process data should be defined on subclasses,
