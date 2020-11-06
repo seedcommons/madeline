@@ -18,7 +18,7 @@ module Accounting
       end
 
       def build_for_qb(transaction)
-        if transaction.type?("disburesment")
+        if transaction.type?("disbursement")
           build_purchase_for_qb(transaction)
         else
           build_je_for_qb(transaction)
@@ -40,7 +40,7 @@ module Accounting
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        p.payment_type = transaction.subtype?(:check) ? "Check" : nil
+        p.payment_type = transaction.qb_object_subtype
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 

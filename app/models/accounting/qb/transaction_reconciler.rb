@@ -40,7 +40,7 @@ module Accounting
       end
 
       def service(m_txn)
-        m_txn.subtype?("Check") ? purchase_service : je_service
+        m_txn.type?("disbursement") ? purchase_service : je_service
       end
 
       def purchase_service
