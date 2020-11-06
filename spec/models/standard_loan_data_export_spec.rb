@@ -101,7 +101,7 @@ describe StandardLoanDataExport, type: :model do
         export.process_data
         data = export.reload.data
         h_to_i = header_to_index(data)
-        expect(data.size).to eq 5
+        expect(data.size).to eq 5 # header plus 4 loans
         expect(data[1][h_to_i["Sum of Disbursements"]]).to eq "10.0"
         expect(data[2][h_to_i["Sum of Disbursements"]]).to be_nil
         expect(data[3][h_to_i["Sum of Disbursements"]]).to eq "20.55"

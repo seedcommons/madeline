@@ -11,6 +11,8 @@ feature 'data export flow' do
     visit admin_data_exports_path
     click_on "New Data Export"
 
+    click_on "Standard Loan Data Export"
+
     fill_in 'data_export_start_date', with: Time.zone.today.beginning_of_year.to_s
     fill_in 'data_export_end_date', with: Time.zone.today.to_s
     fill_in 'Name', with: "Test"
@@ -33,6 +35,7 @@ feature 'data export flow' do
 
   scenario "dates and name are optional and name has reasonable default" do
     visit new_admin_data_export_path
+    click_on "Standard Loan Data Export"
     expect(page).to have_field(I18n.t("activerecord.attributes.data_export.locale_code"), with: 'en')
     click_on "Create Data Export"
     expect(page).to have_content('Standard Loan Data Export on')

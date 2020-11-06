@@ -3,11 +3,16 @@ class Admin::DocumentationsController < Admin::AdminController
 
   before_action :find_documentation, only: [:edit, :show, :update]
 
+  def index
+    @documentations = policy_scope(Documentation.includes(:division)).group_by(&:calling_controller)
+    authorize Documentation
+  end
+
   def new
     @documentation = Documentation.new(html_identifier: params[:html_identifier], division: current_division)
     authorize @documentation
 
-    @documentation.previous_url = request.referrer
+    @documentation.previous_url = request.referer
 
     if params[:caller]
       controller_action = params[:caller].split('#')
