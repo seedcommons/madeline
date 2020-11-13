@@ -23,6 +23,7 @@
 #
 
 class EnhancedLoanDataExport < DataExport
+  Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
   BASE_HEADERS = [
     'loan_id',
     'name',
@@ -112,12 +113,13 @@ class EnhancedLoanDataExport < DataExport
   end
 
   def response_hash(loan)
-    return {} if loan.criteria.blank?
     result = {}
-    response_set = loan.criteria
+    response_set = ResponseSet.find_by(loan_id: loan.id)
+    return result if response_set.nil?
     response_set.custom_data.each do |q_id, response_data|
-      if questions_map.keys.include?(q_id)
-        response = Response.new(loan: loan, question: Question.find(q_id), response_set: response_set, data: response_data)
+      question = memoized_questions[q_id.to_i]
+      if question.present?
+        response = Response.new(loan: loan, question: question, response_set: response_set, data: response_data)
         if response.has_rating?
           result[q_id] = response.rating
         elsif response.has_number?
@@ -146,17 +148,21 @@ class EnhancedLoanDataExport < DataExport
   end
 
   def questions_map
-    @questions_map ||= make_questions_map
+    @questions_map ||= make_questions_label_map
   end
 
-  def make_questions_map
-    q_data_types = ['number', 'percentage', 'rating', 'currency']
+  # map q_ids as strings (so that they can be treated same as base headers in #insert_in_row) to labels
+  def make_questions_label_map
     q_id_to_label_map = {}
-    Question.where(data_type: q_data_types).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
+    Question.where(data_type: Q_DATA_TYPES).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
     q_id_to_label_map
   end
 
-  # Methods below decouple order in BASE_HEADERS constant from order values are added to data row
+  def memoized_questions
+    @memoized_questions ||= Question.where(data_type: Q_DATA_TYPES).index_by(&:id)
+  end
+
+  # Methods below decouple order in BASE_HEADERS constant and question map from the order in which values are added to data row
   def headers_key
     @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
   end
