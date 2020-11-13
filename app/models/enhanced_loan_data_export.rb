@@ -120,12 +120,10 @@ class EnhancedLoanDataExport < DataExport
   def response_hash(loan)
     result = {}
     response_set = ResponseSet.find_by(loan_id: loan.id)
-    custom_data = response_set.try(:custom_data)
-    return result if custom_data.blank?
-    custom_data.each do |q_id, response_data|
-      if questions_map.keys.include?(q_id)
-        question = memoized_questions[q_id.to_i]
-        raise StandardError, "Q #{q_id} NOT FOUND" if question.blank?
+    return result if response_set.nil?
+    response_set.custom_data.each do |q_id, response_data|
+      question = memoized_questions[q_id.to_i]
+      if question.present?
         response = Response.new(loan: loan, question: question, response_set: response_set, data: response_data)
         if response.has_rating?
           result[q_id] = response.rating
@@ -158,6 +156,7 @@ class EnhancedLoanDataExport < DataExport
     @questions_map ||= make_questions_label_map
   end
 
+  # map q_ids as strings (so that they can be treated same as base headers in #insert_in_row) to labels
   def make_questions_label_map
     q_id_to_label_map = {}
     Question.where(data_type: Q_DATA_TYPES).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
@@ -165,17 +164,10 @@ class EnhancedLoanDataExport < DataExport
   end
 
   def memoized_questions
-    @memoized_questions ||= memoize_questions
+    @memoized_questions ||= Question.where(data_type: Q_DATA_TYPES).index_by(&:id)
   end
 
-  def memoize_questions
-    pp "Memoizing questions . . . "
-    memoized_question_map = Question.where(data_type: Q_DATA_TYPES).index_by(&:id)
-    pp memoized_question_map
-    memoized_question_map
-  end
-
-  # Methods below decouple order in BASE_HEADERS constant from order values are added to data row
+  # Methods below decouple order in BASE_HEADERS constant and question map from the order in which values are added to data row
   def headers_key
     @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
   end
