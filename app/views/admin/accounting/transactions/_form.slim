@@ -25,16 +25,16 @@
   // if new record, let js handle displaying or not.
   // if not, only display if check because subtype null isn't meaningful to users
   // .disbursement-only class lets js control display when new record
-  - if @transaction.new_record? || @transaction.subtype?("Check")
+  - if @transaction.new_record? || @transaction.type?("disbursement")
     = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
       .view-element
         - if @transaction.qb_object_subtype
-          = @transaction.qb_object_subtype.capitalize
+          = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
       .form-element
         - if @transaction.new_record?
           = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
         - else
-          = @transaction.qb_object_subtype.capitalize
+          = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
 
   // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.type?("disbursement")

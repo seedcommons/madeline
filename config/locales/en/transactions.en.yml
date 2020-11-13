@@ -1,0 +1,6 @@
+en:
+  transactions:
+    qb_object_subtype:
+      cash: "Cash"
+      check: "Check"
+      creditcard: "Credit Card"

@@ -63,6 +63,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
+  QB_PAYMENT_TYPES = %w(Check Cash CreditCard).freeze
   QB_PARENT_CLASS = "Loan Products"
   QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)

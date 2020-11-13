@@ -11,10 +11,10 @@ module Accounting
       # Creates or updates a transaction in QB based on a Transaction object created in Madeline.
       def reconcile(transaction)
         return unless transaction.needs_qb_push?
-        if transaction.qb_id.present?
-          current_qb_je = service(transaction).find_by(:id, transaction.qb_id).first
-          Rails::Debug.logger.ap("doc num from qb: #{current_qb_je.doc_number}")
-        end
+        # if transaction.qb_id.present?
+        #   current_qb_je = service(transaction).find_by(:id, transaction.qb_id).first
+        #   Rails::Debug.logger.ap("doc num from qb: #{current_qb_je.doc_number}")
+        # end
         qb_txn = builder.build_for_qb(transaction)
 
 
@@ -40,7 +40,7 @@ module Accounting
       end
 
       def service(m_txn)
-        m_txn.type?("disbursement") ? purchase_service : je_service
+        m_txn.qb_object_type == "Purchase" ? purchase_service : je_service
       end
 
       def purchase_service
