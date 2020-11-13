@@ -23,6 +23,8 @@
 #
 
 class EnhancedLoanDataExport < DataExport
+
+  Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
   BASE_HEADERS = [
     'loan_id',
     'name',
@@ -60,13 +62,17 @@ class EnhancedLoanDataExport < DataExport
     data = []
     data << header_row
     data << question_id_row
+    num_loans_so_far = 0
     Loan.find_each do |loan|
+      pp "loan #{loan.id}"
       begin
         data << hash_to_row(loan_data_as_hash(loan))
       rescue => e
         @child_errors << {loan_id: loan.id, message: e.message}
         next
       end
+      num_loans_so_far = num_loans_so_far + 1
+      pp "loans so far: #{num_loans_so_far}"
     end
     self.update(data: data)
 
@@ -112,12 +118,15 @@ class EnhancedLoanDataExport < DataExport
   end
 
   def response_hash(loan)
-    return {} if loan.criteria.blank?
     result = {}
-    response_set = loan.criteria
-    response_set.custom_data.each do |q_id, response_data|
+    response_set = ResponseSet.find_by(loan_id: loan.id)
+    custom_data = response_set.try(:custom_data)
+    return result if custom_data.blank?
+    custom_data.each do |q_id, response_data|
       if questions_map.keys.include?(q_id)
-        response = Response.new(loan: loan, question: Question.find(q_id), response_set: response_set, data: response_data)
+        question = memoized_questions[q_id.to_i]
+        raise StandardError, "Q #{q_id} NOT FOUND" if question.blank?
+        response = Response.new(loan: loan, question: question, response_set: response_set, data: response_data)
         if response.has_rating?
           result[q_id] = response.rating
         elsif response.has_number?
@@ -146,14 +155,24 @@ class EnhancedLoanDataExport < DataExport
   end
 
   def questions_map
-    @questions_map ||= make_questions_map
+    @questions_map ||= make_questions_label_map
   end
 
-  def make_questions_map
-    q_data_types = ['number', 'percentage', 'rating', 'currency']
+  def make_questions_label_map
     q_id_to_label_map = {}
-    Question.where(data_type: q_data_types).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
+    Question.where(data_type: Q_DATA_TYPES).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
     q_id_to_label_map
+  end
+
+  def memoized_questions
+    @memoized_questions ||= memoize_questions
+  end
+
+  def memoize_questions
+    pp "Memoizing questions . . . "
+    memoized_question_map = Question.where(data_type: Q_DATA_TYPES).index_by(&:id)
+    pp memoized_question_map
+    memoized_question_map
   end
 
   # Methods below decouple order in BASE_HEADERS constant from order values are added to data row
