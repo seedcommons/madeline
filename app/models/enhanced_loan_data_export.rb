@@ -62,17 +62,13 @@ class EnhancedLoanDataExport < DataExport
     data = []
     data << header_row
     data << question_id_row
-    num_loans_so_far = 0
     Loan.find_each do |loan|
-      pp "loan #{loan.id}"
       begin
         data << hash_to_row(loan_data_as_hash(loan))
       rescue => e
         @child_errors << {loan_id: loan.id, message: e.message}
         next
       end
-      num_loans_so_far = num_loans_so_far + 1
-      pp "loans so far: #{num_loans_so_far}"
     end
     self.update(data: data)
 
