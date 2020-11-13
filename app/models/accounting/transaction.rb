@@ -94,6 +94,8 @@ class Accounting::Transaction < ApplicationRecord
     check_txn.validates :check_number, :qb_vendor_id, presence: true
   end
 
+  before_validation :set_qb_object_type
+
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
 
@@ -210,6 +212,13 @@ class Accounting::Transaction < ApplicationRecord
 
   def set_qb_push_flag!(value)
     update_column(:needs_qb_push, value)
+  end
+
+  # if new disbursement w/out qb id, override db-level default of JournalEntry
+  def set_qb_object_type
+    if self.loan_transaction_type_value == "disbursement" && self.qb_id.nil?
+      self.qb_object_type = "Purchase"
+    end
   end
 
   def type?(type)

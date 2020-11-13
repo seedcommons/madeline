@@ -18,10 +18,10 @@ module Accounting
       end
 
       def build_for_qb(transaction)
-        if transaction.type?("disbursement")
-          build_purchase_for_qb(transaction)
-        else
+        if transaction.qb_object_type == "JournalEntry"
           build_je_for_qb(transaction)
+        elsif transaction.qb_object_type == "Purchase"
+          build_purchase_for_qb(transaction)
         end
       end
 
