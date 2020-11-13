@@ -54,10 +54,6 @@ en:
         short_name: "Short Name"
         interest_receivable_account_id: "Interest Receivable Account"
         interest_income_account_id: "Interest Income Account"
-      documentation:
-        calling_action: "Calling Action"
-        calling_controller: "Calling Controller"
-        html_identifier: "HTML Identifier"
       loan:
         division: "Division"
         organization: "Co-op"

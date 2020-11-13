@@ -11,7 +11,7 @@ describe DocumentationPolicy do
   context "documentation belongs to user's division" do
     let(:record) { create(:documentation, division: division) }
 
-    it { should permit_all }
+    it { should permit_all_but_index }
   end
 
   context "documentation belongs to ancestor of user's division" do

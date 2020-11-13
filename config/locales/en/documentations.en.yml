@@ -1,6 +1,18 @@
 en:
+  menu:
+    documentations: Documentation
   documentation:
-    edit: "Edit documentation"
+    index: "Documentation"
+    edit: "Edit"
     learn_more: "Learn more »"
     new: 'New Documentation'
     no_documentations: "No documentation found."
+    location: Location
+  activerecord:
+    models:
+      documentation: Documentation
+    attributes:
+      documentation:
+        calling_action: "Calling Action"
+        calling_controller: "Calling Controller"
+        html_identifier: "HTML Identifier"

@@ -1,0 +1,23 @@
+en:
+  controllers:
+    admin:
+      basic_projects: Projects
+      calendar: Calendar
+      calendar_events: Calendar Events
+      dashboard: Dashboard
+      data_exports: Data Exports
+      divisions: Divisions
+      documentations: Documentation
+      loans: Loans
+      media: Media
+      notes: Notes
+      organizations: Co-ops
+      people: Members
+      project_logs: Logs
+      project_steps: Steps
+      projects: Projects
+      questions: Questions
+      response_sets: Responses
+      settings: Settings
+      tasks: Tasks
+      timeline_step_moves: Timeline Steps
