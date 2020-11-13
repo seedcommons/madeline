@@ -23,7 +23,6 @@
 #
 
 class EnhancedLoanDataExport < DataExport
-
   Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
   BASE_HEADERS = [
     'loan_id',
