@@ -84,14 +84,11 @@ Rails.application.routes.draw do
           get :disconnect
           get :reset_data
           get :connected
-        end
-      end
-
-      resources :transactions do
-        collection do
           patch :update_changed
         end
       end
+
+      resources :transactions
       resources :problem_loan_transactions, only: [:index, :show]
     end
 

@@ -14,4 +14,8 @@ class Accounting::QuickbooksPolicy < ApplicationPolicy
   def reset_data?
     division_admin(division: Division.root)
   end
+
+  def update?
+    division_admin(division: Division.root)
+  end
 end

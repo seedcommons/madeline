@@ -215,5 +215,3 @@ en:
         new_transaction: "Add Transaction"
         edit_transaction: "Edit Transaction"
         update: "Update Transaction"
-        update_changed: "Update Transactions"
-        update_queued_html: "Transaction update queued successfully, <a href='%{url}'>view progress</a>."

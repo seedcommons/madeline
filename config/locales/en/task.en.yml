@@ -48,5 +48,5 @@ en:
       data_export_task_job: "Data Export"
       update_all_loans: "Update All Loans"
       update_all_loans_job: "Update All Loans"
-      update_changed_loans: "Update Changed Loans"
-      update_changed_loans_job: "Update Changed Loans"
+      fetch_quickbooks_changes: "Fetch QuickBooks Changes"
+      fetch_quickbooks_changes_job: "Fetch QuickBooks Changes"

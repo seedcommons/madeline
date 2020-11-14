@@ -49,6 +49,7 @@ en:
         data_reset: "Reset Cached QuickBooks Data"
         disconnect: "Disconnect from QuickBooks"
         data_import_status: "Data Import Status"
+        fetch_from_quickbooks: "QuickBooks Fetch"
         principal_account_id: "Principal Account"
         qb_department_id: "QB Division"
         short_name: "Short Name"

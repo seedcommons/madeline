@@ -1,4 +1,4 @@
-class UpdateChangedLoansJob < TaskJob
+class FetchQuickbooksChangesJob < TaskJob
   def perform(_job_params)
     task = task_for_job(self)
     errors_by_loan = []
