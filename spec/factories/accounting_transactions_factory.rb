@@ -2,25 +2,32 @@
 #
 # Table name: accounting_transactions
 #
-#  accounting_account_id       :integer
-#  amount                      :decimal(, )
-#  created_at                  :datetime         not null
-#  currency_id                 :integer
-#  description                 :string
 #  id                          :integer          not null, primary key
+#  amount                      :decimal(, )
+#  change_in_interest          :decimal(15, 2)
+#  change_in_principal         :decimal(15, 2)
+#  check_number                :string
+#  description                 :string
 #  interest_balance            :decimal(, )      default(0.0)
 #  loan_transaction_type_value :string
 #  managed                     :boolean          default(FALSE), not null
 #  needs_qb_push               :boolean          default(TRUE), not null
 #  principal_balance           :decimal(, )      default(0.0)
 #  private_note                :string
-#  project_id                  :integer
-#  qb_id                       :string
+#  qb_object_subtype           :string
 #  qb_object_type              :string           default("JournalEntry"), not null
 #  quickbooks_data             :json
+#  sync_token                  :string
 #  total                       :decimal(, )
 #  txn_date                    :date
+#  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
+#  accounting_account_id       :integer
+#  accounting_customer_id      :string
+#  currency_id                 :integer
+#  project_id                  :integer
+#  qb_id                       :string
+#  qb_vendor_id                :integer
 #
 # Indexes
 #

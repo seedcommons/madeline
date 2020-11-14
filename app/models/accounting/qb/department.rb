@@ -2,13 +2,13 @@
 #
 # Table name: accounting_qb_departments
 #
-#  created_at      :datetime         not null
-#  division_id     :bigint(8)
-#  id              :bigint(8)        not null, primary key
+#  id              :bigint           not null, primary key
 #  name            :string           not null
-#  qb_id           :string           not null
 #  quickbooks_data :json
+#  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  division_id     :bigint
+#  qb_id           :string           not null
 #
 # Indexes
 #

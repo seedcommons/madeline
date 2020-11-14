@@ -2,21 +2,22 @@
 #
 # Table name: questions
 #
-#  created_at            :datetime         not null
-#  data_type             :string           not null
-#  division_id           :integer          not null
-#  has_embeddable_media  :boolean          default(FALSE), not null
 #  id                    :integer          not null, primary key
+#  data_type             :string           not null
+#  display_in_summary    :boolean          default(FALSE), not null
+#  has_embeddable_media  :boolean          default(FALSE), not null
 #  internal_name         :string
 #  migration_position    :integer
 #  number                :integer
 #  override_associations :boolean          default(FALSE), not null
-#  parent_id             :integer
 #  position              :integer
-#  question_set_id       :integer
 #  required              :boolean          default(FALSE), not null
 #  status                :string           default("active"), not null
+#  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  division_id           :integer          not null
+#  parent_id             :integer
+#  question_set_id       :integer
 #
 # Indexes
 #
