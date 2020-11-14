@@ -7,7 +7,7 @@
   = f.input :calling_controller, as: :hidden
   = f.input :calling_action, as: :hidden
 
-  = f.input :previous_url, as: :hidden
+  = hidden_field_tag :previous_url, @previous_url
 
   = f.translatable_inputs do |l|
     = f.input "summary_content_#{l}".to_sym, as: :summernote,

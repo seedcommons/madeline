@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_07_160952) do
+ActiveRecord::Schema.define(version: 2020_11_14_111327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -206,7 +206,6 @@ ActiveRecord::Schema.define(version: 2020_10_07_160952) do
     t.datetime "created_at", null: false
     t.bigint "division_id"
     t.string "html_identifier"
-    t.string "previous_url"
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_documentations_on_division_id"
     t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
