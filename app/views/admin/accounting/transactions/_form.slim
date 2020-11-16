@@ -23,15 +23,15 @@
         = @transaction.loan_transaction_type_value.capitalize
 
   // if new record, let js handle displaying or not.
-  // if not, only display if check because subtype null isn't meaningful to users
+  // if not, only display if Purchase because subtype null isn't meaningful to users
   // .disbursement-only class lets js control display when new record
-  - if @transaction.new_record? || @transaction.type?("disbursement")
+  - if @transaction.new_record? || @transaction.qb_object_type == "Purchase"
     = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
       .view-element
         - if @transaction.qb_object_subtype
           = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
       .form-element
-        - if @transaction.new_record?
+        - if @transaction.new_record? # QB API can't support changing payment type on txns
           = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
         - else
           = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
