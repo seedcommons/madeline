@@ -17,8 +17,15 @@ module Accounting
       end
 
       def extract_subtype
-        pp "extracting subtype :#{txn.quickbooks_data["payment_type"]}"
-        txn.qb_object_subtype = txn.quickbooks_data["payment_type"]
+        payment_type = txn.quickbooks_data["payment_type"]
+        txn.qb_object_subtype = payment_type.to_s if payment_type.present?
+      end
+
+      def extract_check_number
+        if txn.subtype?("Check")
+          doc_number = txn.quickbooks_data["doc_number"]
+          txn.check_number = doc_number.remove("MS-Managed").strip if doc_number.present?
+        end
       end
 
       def extract_customer
