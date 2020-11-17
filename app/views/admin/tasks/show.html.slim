@@ -1,4 +1,4 @@
-- content_for(:title, t("task.show.title", type: t("task.type.#{@task.job_type_value}"), id: @task.id))
+- content_for(:title, t("task.show.title", type: t("task.type.#{@task.job_type_value}").html_safe, id: @task.id).html_safe)
 
 table.table.table-bordered
   tr
