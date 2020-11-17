@@ -67,7 +67,17 @@ module Accounting
           loan.transactions.standard_order.each do |txn|
             extract_qb_data(txn)
           end
-          InterestCalculator.new(loan).recalculate
+          if loan.txn_modification_allowed?
+            # in this case balances are calculated as part of InterestCalculator
+            InterestCalculator.new(loan).recalculate
+          else
+            prev_tx = nil
+            loan.transactions.standard_order.each do |txn|
+              txn.calculate_balances(prev_tx: prev_tx)
+              txn.save!
+              prev_tx = txn
+            end
+          end
         end
       end
 
