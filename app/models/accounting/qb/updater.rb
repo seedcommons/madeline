@@ -113,6 +113,8 @@ module Accounting
       def ar_model_for(qb_object_type)
         return Account if Account::QB_OBJECT_TYPE == qb_object_type
         return Customer if Customer::QB_OBJECT_TYPE == qb_object_type
+        return Vendor if Vendor::QB_OBJECT_TYPE == qb_object_type
+        return Department if Department::QB_OBJECT_TYPE == qb_object_type
         Transaction
       end
 
