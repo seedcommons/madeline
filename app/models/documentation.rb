@@ -2,14 +2,13 @@
 #
 # Table name: documentations
 #
+#  id                 :bigint           not null, primary key
 #  calling_action     :string
 #  calling_controller :string
-#  created_at         :datetime         not null
-#  division_id        :bigint(8)
 #  html_identifier    :string
-#  id                 :bigint(8)        not null, primary key
-#  previous_url       :string
+#  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  division_id        :bigint
 #
 # Indexes
 #

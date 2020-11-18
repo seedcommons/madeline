@@ -2,19 +2,17 @@
 #
 # Table name: divisions
 #
+#  id                             :integer          not null, primary key
 #  accent_fg_color                :string
 #  accent_main_color              :string
 #  banner_bg_color                :string
 #  banner_fg_color                :string
-#  created_at                     :datetime         not null
-#  currency_id                    :integer
+#  closed_books_date              :date
 #  custom_data                    :json
 #  description                    :text
-#  id                             :integer          not null, primary key
-#  interest_income_account_id     :integer
-#  interest_receivable_account_id :integer
 #  internal_name                  :string
 #  locales                        :json
+#  logo                           :string
 #  logo_content_type              :string
 #  logo_file_name                 :string
 #  logo_file_size                 :integer
@@ -22,13 +20,18 @@
 #  logo_updated_at                :datetime
 #  name                           :string
 #  notify_on_new_logs             :boolean          default(FALSE)
+#  public                         :boolean          default(FALSE), not null
+#  qb_read_only                   :boolean          default(TRUE), not null
+#  short_name                     :string
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  currency_id                    :integer
+#  interest_income_account_id     :integer
+#  interest_receivable_account_id :integer
 #  organization_id                :integer
 #  parent_id                      :integer
 #  principal_account_id           :integer
-#  public                         :boolean          default(FALSE), not null
-#  qb_id                          :string
-#  short_name                     :string
-#  updated_at                     :datetime         not null
+#  qb_parent_class_id             :string
 #
 # Indexes
 #
