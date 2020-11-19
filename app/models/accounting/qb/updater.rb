@@ -75,7 +75,7 @@ module Accounting
       # Creates/deletes LineItems as needed.
       def extract_qb_data(loan)
         if loan.transactions.present?
-          loan.transactions.standard_order.each do |txn|
+          loan.transactions.each do |txn|
             if txn.quickbooks_data.present?
               Accounting::QB::DataExtractor.new(txn).extract!
               txn.save!
