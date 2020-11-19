@@ -63,40 +63,41 @@ module Accounting
 
       # updates single loan
       def update_loan(loan)
+        extract_qb_data(loan)
+        InterestCalculator.new(loan).recalculate
+        calculate_balances(loan)
+      end
+
+      private
+
+      # Extracts data for txns from the JSON in `quickbooks_data`
+      # into each Transaction's attributes and associated LineItems.
+      # Creates/deletes LineItems as needed.
+      def extract_qb_data(loan)
         if loan.transactions.present?
           loan.transactions.standard_order.each do |txn|
-            extract_qb_data(txn)
-          end
-          if loan.txn_modification_allowed?
-            # in this case balances are calculated as part of InterestCalculator
-            InterestCalculator.new(loan).recalculate
-          else
-            prev_tx = nil
-            loan.transactions.standard_order.each do |txn|
-              txn.calculate_balances(prev_tx: prev_tx)
+            if txn.quickbooks_data.present?
+              Accounting::QB::DataExtractor.new(txn).extract!
               txn.save!
-              prev_tx = txn
             end
           end
         end
       end
 
-      private
+      def calculate_balances(loan)
+        if loan.transactions.present?
+          prev_tx = nil
+          loan.transactions.standard_order.each do |txn|
+            txn.calculate_balances(prev_tx: prev_tx)
+            txn.save!
+            prev_tx = txn
+          end
+        end
+      end
 
       def too_soon_to_run_again?
         return false if qb_connection.last_updated_at.nil?
-        Time.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
-      end
-
-      # Extracts data for a given Transaction from the JSON in `quickbooks_data`
-      # into the Transaction's attributes and associated LineItems.
-      # Creates/deletes LineItems as needed.
-      def extract_qb_data(txn)
-        return unless txn.quickbooks_data.present?
-
-        Accounting::QB::DataExtractor.new(txn).extract!
-        txn.save!
-        txn
+        Time.zone.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
       end
 
       def changes
