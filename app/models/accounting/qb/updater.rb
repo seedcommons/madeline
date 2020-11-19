@@ -61,7 +61,13 @@ module Accounting
         end
       end
 
-      # updates single loan
+      # To update a loan, we first must extract any new qb data on its txns.
+      # Then we run the interest calculator, which depends on extracted qb data.
+      # Though interest calculation calculates balances on any loans whose interest
+      # is calculated, we call calculate balances again after the interest calculation
+      # because not all loans have their interest calculated in 'recalculate', but all loans need
+      # their balances calculated. Note: attempting to calculate balances
+      # on all loans before interest calculation has caused problems in the past.
       def update_loan(loan)
         extract_qb_data(loan)
         InterestCalculator.new(loan).recalculate
