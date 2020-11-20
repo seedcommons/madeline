@@ -2,15 +2,15 @@
 #
 # Table name: accounting_qb_connections
 #
-#  created_at       :datetime         not null
-#  division_id      :integer          not null
 #  id               :integer          not null, primary key
+#  access_token     :string
 #  last_updated_at  :datetime
-#  realm_id         :string           not null
-#  secret           :string           not null
-#  token            :string           not null
+#  refresh_token    :string
 #  token_expires_at :datetime         not null
+#  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  division_id      :integer          not null
+#  realm_id         :string           not null
 #
 # Indexes
 #

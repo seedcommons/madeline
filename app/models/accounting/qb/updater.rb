@@ -61,32 +61,49 @@ module Accounting
         end
       end
 
-      # updates single loan
+      # To update a loan, we first must extract any new qb data on its txns.
+      # Then we run the interest calculator, which depends on extracted qb data.
+      # Though interest calculation calculates balances on any loans whose interest
+      # is calculated, we call calculate balances again after the interest calculation
+      # because not all loans have their interest calculated in 'recalculate', but all loans need
+      # their balances calculated. Note: attempting to calculate balances
+      # on all loans before interest calculation has caused problems in the past.
       def update_loan(loan)
-        if loan.transactions.present?
-          loan.transactions.standard_order.each do |txn|
-            extract_qb_data(txn)
-          end
-          InterestCalculator.new(loan).recalculate
-        end
+        extract_qb_data(loan)
+        InterestCalculator.new(loan).recalculate
+        calculate_balances(loan)
       end
 
       private
 
-      def too_soon_to_run_again?
-        return false if qb_connection.last_updated_at.nil?
-        Time.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
+      # Extracts data for txns from the JSON in `quickbooks_data`
+      # into each Transaction's attributes and associated LineItems.
+      # Creates/deletes LineItems as needed.
+      def extract_qb_data(loan)
+        if loan.transactions.present?
+          loan.transactions.standard_order.each do |txn|
+            if txn.quickbooks_data.present?
+              Accounting::QB::DataExtractor.new(txn).extract!
+              txn.save!
+            end
+          end
+        end
       end
 
-      # Extracts data for a given Transaction from the JSON in `quickbooks_data`
-      # into the Transaction's attributes and associated LineItems.
-      # Creates/deletes LineItems as needed.
-      def extract_qb_data(txn)
-        return unless txn.quickbooks_data.present?
+      def calculate_balances(loan)
+        if loan.transactions.present?
+          prev_tx = nil
+          loan.transactions.standard_order.each do |txn|
+            txn.calculate_balances(prev_tx: prev_tx)
+            txn.save!
+            prev_tx = txn
+          end
+        end
+      end
 
-        Accounting::QB::DataExtractor.new(txn).extract!
-        txn.save!
-        txn
+      def too_soon_to_run_again?
+        return false if qb_connection.last_updated_at.nil?
+        Time.zone.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
       end
 
       def changes
@@ -113,6 +130,8 @@ module Accounting
       def ar_model_for(qb_object_type)
         return Account if Account::QB_OBJECT_TYPE == qb_object_type
         return Customer if Customer::QB_OBJECT_TYPE == qb_object_type
+        return Vendor if Vendor::QB_OBJECT_TYPE == qb_object_type
+        return Department if Department::QB_OBJECT_TYPE == qb_object_type
         Transaction
       end
 
