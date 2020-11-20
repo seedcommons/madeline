@@ -24,6 +24,7 @@ module Accounting
       end
 
       def extract_additional_metadata
+        Rails::Debug.logger.ap("extracting metadata . . . ")
         txn.sync_token = txn.quickbooks_data['sync_token']
 
         # If we have more line items than are in Quickbooks, we delete the extras.
@@ -41,6 +42,7 @@ module Accounting
       end
 
       def extract_line_items
+        Rails::Debug.logger.ap("extracting line items . . . ")
         txn.quickbooks_data['line_items'].each do |li|
           begin
             acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
@@ -50,6 +52,7 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
+          # for purchase, this puts debit on li coming from qb; if disb, this li has prin acct
           posting_type ||= existing_li_posting_type unless posting_type.present?
 
           txn.line_item_with_id(li['id'].to_i).assign_attributes(

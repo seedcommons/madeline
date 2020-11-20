@@ -19,7 +19,9 @@ module Accounting
       #
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
+        Rails::Debug.logger.ap("updating loan . . . ")
         qb_sync_for_loan_update
+        Rails::Debug.logger.ap("done w qb sync . . . ")
         if loans
           # check if loan is one object or multiple
           loans = [loans] if loans.is_a? Loan
@@ -65,6 +67,7 @@ module Accounting
       def update_loan(loan)
         if loan.transactions.present?
           loan.transactions.standard_order.each do |txn|
+            Rails::Debug.logger.ap("about to extract qb data")
             extract_qb_data(txn)
           end
           InterestCalculator.new(loan).recalculate
@@ -83,7 +86,7 @@ module Accounting
       # Creates/deletes LineItems as needed.
       def extract_qb_data(txn)
         return unless txn.quickbooks_data.present?
-
+        Rails::Debug.logger.ap("txn has qb data - extracting . . .  ")
         Accounting::QB::DataExtractor.new(txn).extract!
         txn.save!
         txn

@@ -8,9 +8,18 @@ module Accounting
       delegate :qb_division, to: :loan
 
       def set_type
-        txn.loan_transaction_type_value = 'disbursement'
+        Rails::Debug.logger.ap("purchase extractor: setting type . .. ")
+        prin_acct = qb_division.principal_account
+        if txn.line_items.first.account == prin_acct
+          Rails::Debug.logger.ap("set to disb")
+          txn.loan_transaction_type_value = :disbursement
+        else
+          Rails::Debug.logger.ap("set to other")
+          txn.loan_transaction_type_value = :other
+        end
       end
 
+      # txn account
       def extract_account
         qb_id = txn.quickbooks_data["account_ref"]["value"]
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
@@ -51,10 +60,18 @@ module Accounting
       end
 
       def add_implicit_line_items
-        txn.line_items << LineItem.new(
-          account: txn.account,
+        Rails::Debug.logger.ap( "adding implict line items. Existing are:")
+        Rails::Debug.logger.ap(txn.line_items)
+        # retrieve madeline line item w posting type credit, or make a new one,
+        # then assign attrs
+        li = txn.line_items.detect { |li| li.posting_type == "Credit"} || txn.line_items.build(posting_type: "Credit")
+        pp Rails::Debug.logger.ap("assigning attrs to li:")
+        pp Rails::Debug.logger.ap(li)
+        li.assign_attributes(
+          account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
           amount: txn.amount,
-          posting_type: 'Credit'
+          # posting type found or set above
+          # no description available, since this is based on txn's account, not an li in qb
         )
       end
 
