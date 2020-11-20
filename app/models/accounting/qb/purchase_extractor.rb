@@ -66,8 +66,8 @@ module Accounting
         # retrieve madeline line item w posting type credit, or make a new one,
         # then assign attrs
         li = txn.line_items.detect { |li| li.posting_type == "Credit"} || txn.line_items.build(posting_type: "Credit")
-        pp Rails::Debug.logger.ap("assigning attrs to li:")
-        pp Rails::Debug.logger.ap(li)
+        Rails::Debug.logger.ap("assigning attrs to li:")
+        Rails::Debug.logger.ap(li)
         li.assign_attributes(
           account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
           amount: txn.amount,

@@ -84,15 +84,10 @@ module Accounting
       def extract_qb_data(loan)
         if loan.transactions.present?
           loan.transactions.standard_order.each do |txn|
-<<<<<<< HEAD
-            Rails::Debug.logger.ap("about to extract qb data")
-            extract_qb_data(txn)
-=======
             if txn.quickbooks_data.present?
               Accounting::QB::DataExtractor.new(txn).extract!
               txn.save!
             end
->>>>>>> develop
           end
         end
       end
@@ -110,22 +105,7 @@ module Accounting
 
       def too_soon_to_run_again?
         return false if qb_connection.last_updated_at.nil?
-<<<<<<< HEAD
-        Time.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
-      end
-
-      # Extracts data for a given Transaction from the JSON in `quickbooks_data`
-      # into the Transaction's attributes and associated LineItems.
-      # Creates/deletes LineItems as needed.
-      def extract_qb_data(txn)
-        return unless txn.quickbooks_data.present?
-        Rails::Debug.logger.ap("txn has qb data - extracting . . .  ")
-        Accounting::QB::DataExtractor.new(txn).extract!
-        txn.save!
-        txn
-=======
         Time.zone.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
->>>>>>> develop
       end
 
       def changes
