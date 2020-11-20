@@ -91,7 +91,7 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do |check_txn|
+  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.qb_object_subtype == "Check" } do |check_txn|
     check_txn.validates :check_number, :qb_vendor_id, presence: true
   end
 

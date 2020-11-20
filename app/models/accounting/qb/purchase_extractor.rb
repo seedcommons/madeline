@@ -60,6 +60,7 @@ module Accounting
       end
 
       def add_implicit_line_items
+        return unless txn.type?("disbursement")
         Rails::Debug.logger.ap( "adding implict line items. Existing are:")
         Rails::Debug.logger.ap(txn.line_items)
         # retrieve madeline line item w posting type credit, or make a new one,
