@@ -10,7 +10,9 @@ module Accounting
       def set_type
         Rails::Debug.logger.ap("purchase extractor: setting type . .. ")
         prin_acct = qb_division.principal_account
-        if txn.line_items.first.account == prin_acct
+
+        candidate_prin_acct_debit = txn.line_items.detect { |li| li.posting_type == "Debit"}
+        if candidate_prin_acct_debit && candidate_prin_acct_debit.account == prin_acct
           Rails::Debug.logger.ap("set to disb")
           txn.loan_transaction_type_value = :disbursement
         else
@@ -70,14 +72,15 @@ module Accounting
         Rails::Debug.logger.ap(li)
         li.assign_attributes(
           account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
-          amount: txn.amount,
+          amount: txn.amount
           # posting type found or set above
           # no description available, since this is based on txn's account, not an li in qb
         )
       end
 
-      def existing_li_posting_type
-        "Debit"
+      def existing_li_posting_type(madeline_li)
+        Rails::Debug.logger.ap("getting existign posting type: #{madeline_li.posting_type}")
+        madeline_li.posting_type || "Debit"
       end
 
       def qb_li_detail_key

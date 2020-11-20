@@ -42,7 +42,9 @@ module Accounting
       end
 
       def extract_line_items
-        Rails::Debug.logger.ap("extracting line items . . . ")
+        Rails::Debug.logger.ap("existing line items:")
+        Rails::Debug.logger.ap(txn.line_items)
+        Rails::Debug.logger.ap("extracting qb line items . . . ")
         txn.quickbooks_data['line_items'].each do |li|
           begin
             acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
@@ -53,9 +55,10 @@ module Accounting
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
           # for purchase, this puts debit on li coming from qb; if disb, this li has prin acct
-          posting_type ||= existing_li_posting_type unless posting_type.present?
-
-          txn.line_item_with_id(li['id'].to_i).assign_attributes(
+          madeline_li = txn.line_item_with_id(li['id'].to_i)
+          posting_type ||= existing_li_posting_type(madeline_li) # do not overwrite posting type of li already in madeline
+          Rails::Debug.logger.ap("posting type: #{posting_type}")
+          madeline_li.assign_attributes(
             account: acct,
             amount: li['amount'],
             posting_type: posting_type,

@@ -30,8 +30,8 @@ module Accounting
         )
       end
 
-      def existing_li_posting_type
-        "Credit"
+      def existing_li_posting_type(madeline_li)
+        madeline_li.posting_type || "Credit"
       end
 
       def qb_li_detail_key
