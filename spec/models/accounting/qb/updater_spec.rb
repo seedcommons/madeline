@@ -265,13 +265,14 @@ RSpec.describe Accounting::QB::Updater, type: :model do
 
   describe 'extract_qb_data' do
     let(:txn) {
-      build(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data,
-                                     loan_transaction_type_value: nil, account: txn_acct)
+      build(:accounting_transaction, project: loan, quickbooks_data: quickbooks_data)
     }
 
     it 'data persists from the extractor to the updater' do
-      # the quickbooks_data variable on line 19 matches a repayment type
-      expect(subject.send(:extract_qb_data, txn).loan_transaction_type_value).to eq('repayment')
+      # the quickbooks_data variable matches a repayment type
+      txn.save(validate: false) # mimic create_or_update_from_qb_object in transaction model
+      subject.send(:extract_qb_data, loan)
+      expect(loan.transactions.first.reload.loan_transaction_type_value).to eq('repayment')
     end
   end
 end

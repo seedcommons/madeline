@@ -33,3 +33,7 @@ en:
       alert: "Attention: Switching off read-only accounting will cause Madeline to add automated transactions to QuickBooks data."
       note: "When set to read-only, transaction creation and automatic interest calculation is disabled. When not set to read-only mode, Madeline will automatically calculate interest for loans and admins may create transactions on loans. In both modes, QuickBooks data is regularly imported and available to view."
       qb_read_only: "Read-Only Accounting Data"
+    update:
+      update_changed: "Fetch changes from QuickBooks"
+      update_queued_html: "QuickBooks fetch queued successfully, <a href='%{url}'>view progress</a>."
+      update_changed_details: "Manually fetch data (including Accounts, Customers, Departments, Transactions, and Vendors) that has changed from QuickBooks since the last complete sync."

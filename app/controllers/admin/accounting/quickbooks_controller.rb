@@ -53,6 +53,19 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     render json: @quickbooks_connected
   end
 
+  def update_changed
+    authorize :'accounting/quickbooks', :update?
+    @task = Task.create(
+      job_class: FetchQuickbooksChangesJob,
+      job_type_value: 'fetch_quickbooks_changes',
+      activity_message_value: 'task_enqueued'
+    ).enqueue
+
+    flash[:notice] = t("quickbooks.update.update_queued_html", url: admin_task_path(@task))
+
+    redirect_back(fallback_location: admin_loans_path)
+  end
+
   private
 
   def qb_consumer

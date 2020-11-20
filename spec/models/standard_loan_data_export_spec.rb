@@ -2,16 +2,16 @@
 #
 # Table name: data_exports
 #
-#  created_at  :datetime         not null
+#  id          :bigint           not null, primary key
 #  data        :json
-#  division_id :bigint(8)        not null
 #  end_date    :datetime
-#  id          :bigint(8)        not null, primary key
 #  locale_code :string           not null
 #  name        :string           not null
 #  start_date  :datetime
 #  type        :string           not null
+#  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  division_id :bigint           not null
 #
 # Indexes
 #
