@@ -171,12 +171,10 @@ module Accounting
 
     def update_disbursement_txn(txn, prin_acct)
       line_item_for(txn, prin_acct).assign_attributes(
-        qb_line_id: 0,
         posting_type: "Debit",
         amount: txn.amount
       )
       line_item_for(txn, txn.account).assign_attributes(
-        qb_line_id: 1,
         posting_type: "Credit",
         amount: txn.amount
       )
