@@ -55,10 +55,9 @@ module Accounting
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
           # for purchase, this puts debit on li coming from qb; if disb, this li has prin acct
-          madeline_li = txn.line_item_with_id(li['id'].to_i)
-          posting_type ||= existing_li_posting_type(madeline_li) # do not overwrite posting type of li already in madeline
+          posting_type ||= existing_li_posting_type unless posting_type.present
           Rails::Debug.logger.ap("posting type: #{posting_type}")
-          madeline_li.assign_attributes(
+          txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
             posting_type: posting_type,
@@ -118,6 +117,10 @@ module Accounting
       def add_implicit_line_items
         # do nothing in TransactionExtract
         # can be overridden in subclasses
+      end
+
+      def find_or_build_madeline_li(qb_li)
+        txn.line_item_with_id(qb_li['id'].to_i)
       end
 
       def qb_li_detail_key

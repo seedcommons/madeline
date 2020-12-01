@@ -211,6 +211,10 @@ class Accounting::Transaction < ApplicationRecord
     line_items.detect { |li| li.qb_line_id == id } || line_items.build(qb_line_id: id)
   end
 
+  def line_item_with_posting_type(type)
+    line_items.detect { |li| li.posting_type == type } || line_items.build(posting_type: type)
+  end
+
   def set_qb_push_flag!(value)
     update_column(:needs_qb_push, value)
   end

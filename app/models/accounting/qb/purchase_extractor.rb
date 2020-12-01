@@ -7,6 +7,35 @@ module Accounting
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
+      def extract_line_items
+        Rails::Debug.logger.ap("existing line items:")
+        Rails::Debug.logger.ap(txn.line_items)
+        Rails::Debug.logger.ap("extracting qb line items . . . ")
+        txn.quickbooks_data['line_items'].each do |li|
+          begin
+            acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
+          rescue
+            ::Accounting::ProblemLoanTransaction.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {})
+          end
+          # skip if line item does not have an account in Madeline
+          next unless acct
+          posting_type = li[qb_li_detail_key]['posting_type']
+          Rails::Debug.logger.ap("posting type: #{posting_type}")
+          mad_li = txn.line_item_with_posting_type(posting_type)
+          mad_li.assign_attributes(
+            account: acct,
+            amount: li['amount'],
+            description: li['description'],
+            qb_id: li['id'].to_i
+          )
+        end
+        txn.txn_date = txn.quickbooks_data['txn_date']
+        txn.private_note = txn.quickbooks_data['private_note']
+        txn.total = txn.quickbooks_data['total']
+        txn.currency = lookup_currency
+      end
+
+
       def set_type
         Rails::Debug.logger.ap("purchase extractor: setting type . .. ")
         prin_acct = qb_division.principal_account
@@ -67,19 +96,25 @@ module Accounting
         Rails::Debug.logger.ap(txn.line_items)
         # retrieve madeline line item w posting type credit, or make a new one,
         # then assign attrs
-        li = txn.line_items.detect { |li| li.posting_type == "Credit"} || txn.line_items.build(posting_type: "Credit")
+        li = txn.line_item_with_posting_type("Credit")
         Rails::Debug.logger.ap("assigning attrs to li:")
         Rails::Debug.logger.ap(li)
         li.assign_attributes(
           account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
           amount: txn.amount
+          # no qb id because there is no corresponding qb li
           # posting type found or set above
           # no description available, since this is based on txn's account, not an li in qb
         )
       end
 
+      def find_or_build_madeline_li(qb_li)
+        txn.line_item_with_posting_type(qb_li['posting_type'])
+      end
+
       def existing_li_posting_type(madeline_li)
-        Rails::Debug.logger.ap("getting existign posting type: #{madeline_li.posting_type}")
+        # this used to always return "Debit"
+        Rails::Debug.logger.ap("getting existing posting type: #{madeline_li.posting_type}")
         madeline_li.posting_type || "Debit"
       end
 
