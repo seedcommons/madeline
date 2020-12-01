@@ -73,10 +73,6 @@ module Accounting
         )
       end
 
-      def find_or_build_madeline_li(qb_li)
-        txn.line_item_with_posting_type(qb_li['posting_type'])
-      end
-
       def existing_li_posting_type
         "Debit"
       end

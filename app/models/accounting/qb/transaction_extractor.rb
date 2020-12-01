@@ -119,10 +119,6 @@ module Accounting
         # can be overridden in subclasses
       end
 
-      def find_or_build_madeline_li(qb_li)
-        txn.line_item_with_id(qb_li['id'].to_i)
-      end
-
       def qb_li_detail_key
         'journal_entry_line_detail'
       end
