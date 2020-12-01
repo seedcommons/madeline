@@ -55,7 +55,7 @@ module Accounting
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
           # for purchase, this puts debit on li coming from qb; if disb, this li has prin acct
-          posting_type ||= existing_li_posting_type unless posting_type.present
+          posting_type ||= existing_li_posting_type unless posting_type.present?
           Rails::Debug.logger.ap("posting type: #{posting_type}")
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
