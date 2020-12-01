@@ -171,10 +171,12 @@ module Accounting
 
     def update_disbursement_txn(txn, prin_acct)
       line_item_for(txn, prin_acct).assign_attributes(
+        qb_line_id: 1,
         posting_type: "Debit",
         amount: txn.amount
       )
       line_item_for(txn, txn.account).assign_attributes(
+        # no qb line id bc this li will not be created in qb
         posting_type: "Credit",
         amount: txn.amount
       )
@@ -224,7 +226,14 @@ module Accounting
     # Finds or creates line item for transaction and account.
     # Guarantees that the LineItem object returned will be in `tx`s `line_items` array (not a separate copy).
     def line_item_for(tx, acct)
-      tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
+      candidate = tx.line_item_for(acct)
+      if candidate.present?
+        Rails::Debug.logger.ap("Int Calc: li found for #{acct.name}") if tx.loan_transaction_type_value == 'disbursement'
+        return candidate
+      else
+        Rails::Debug.logger.ap("Int Calc: li NOT found for #{acct.name}, making new one") if tx.loan_transaction_type_value == 'disbursement'
+        tx.line_items.build(account: acct, description: tx.description)
+      end
     end
 
     # Get the month boundaries between two dates

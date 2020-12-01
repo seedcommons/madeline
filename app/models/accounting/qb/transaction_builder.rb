@@ -49,7 +49,7 @@ module Accounting
 
         # no posting type on AccountBasedExpenseLineItems in QB
         p.line_items << build_purchase_line_item(
-          id: nil,
+          id: transaction.line_item_for(@principal_account).qb_line_id,
           amount: transaction.amount,
           description: transaction.description,
           qb_customer_ref: qb_customer_ref,

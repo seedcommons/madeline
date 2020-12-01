@@ -10,6 +10,7 @@ module Accounting
 
       def extract!
         extract_additional_metadata
+        remove_unmatched_madeline_lis
         extract_line_items
         set_type
         extract_account
@@ -26,13 +27,33 @@ module Accounting
       def extract_additional_metadata
         Rails::Debug.logger.ap("extracting metadata . . . ")
         txn.sync_token = txn.quickbooks_data['sync_token']
+      end
 
+      def remove_unmatched_madeline_lis
+        Rails::Debug.logger.ap("removing unmatched madeline lis . . . ")
         # If we have more line items than are in Quickbooks, we delete the extras.
+        Rails::Debug.logger.ap("num qb lis: #{txn.quickbooks_data['line_items'].count}")
+        Rails::Debug.logger.ap("num madeline lis: #{txn.line_items.count}")
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
+          mad_line_item_ids_to_destroy = []
+          Rails::Debug.logger.ap("unmatched lis found ")
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
-
+          Rails::Debug.logger.ap("qb line ids: #{qb_ids}")
+          # txn.line_items.where.not(qb_line_id: qb_ids).map do |li|
+          #   Rails::Debug.logger.ap("destroying li: #{li.to_json}")
+          #   li.destroy
+          # end
           txn.line_items.each do |li|
-            txn.line_items.destroy(li) unless qb_ids.include?(li.qb_line_id)
+            Rails::Debug.logger.ap("consider removing li w/ line id #{li.qb_line_id}")
+            unless qb_ids.include?(li.qb_line_id)
+              Rails::Debug.logger.ap("removing madeline li: #{li.to_json} ")
+              mad_line_item_ids_to_destroy << li.id
+            else
+              Rails::Debug.logger.ap("keeping madeline li: #{li.to_json} ")
+            end
+          end
+          mad_line_item_ids_to_destroy.each do |mad_id|
+            txn.line_items.destroy(Accounting::LineItem.find(mad_id))
           end
         end
       end

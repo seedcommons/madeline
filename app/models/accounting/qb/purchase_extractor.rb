@@ -62,6 +62,7 @@ module Accounting
       end
 
       def add_implicit_line_items
+        Rails::Debug.logger.ap("adding implicit line item . . .")
         return unless txn.type?("disbursement")
         txn.line_items << LineItem.new(
           account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
@@ -71,6 +72,7 @@ module Accounting
           # posting type found or set above
           # no description available, since this is based on txn's account, not an li in qb
         )
+        Rails::Debug.logger.ap(txn.line_items)
       end
 
       def existing_li_posting_type
