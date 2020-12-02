@@ -19,9 +19,7 @@ module Accounting
       #
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
-        Rails::Debug.logger.ap("updating loan . . . ")
         qb_sync_for_loan_update
-        Rails::Debug.logger.ap("done w qb sync . . . ")
         if loans
           # check if loan is one object or multiple
           loans = [loans] if loans.is_a? Loan
@@ -48,7 +46,6 @@ module Accounting
       # too far in the past for the `since` method to access.
       #
       def qb_sync_for_loan_update
-        Rails::Debug.logger.ap("qb_sync_for_loan_update")
         raise NotConnectedError unless @connected
         raise AccountsNotSelectedError unless Division.root.qb_accounts_selected?
         return if too_soon_to_run_again?
@@ -83,7 +80,6 @@ module Accounting
       # into each Transaction's attributes and associated LineItems.
       # Creates/deletes LineItems as needed.
       def extract_qb_data(loan)
-        Rails::Debug.logger.ap("extract for loan #{loan.id}")
         if loan.transactions.present?
           loan.transactions.standard_order.each do |txn|
             if txn.quickbooks_data.present?

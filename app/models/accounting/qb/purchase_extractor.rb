@@ -8,15 +8,11 @@ module Accounting
       delegate :qb_division, to: :loan
 
       def set_type
-        Rails::Debug.logger.ap("purchase extractor: setting type . .. ")
         prin_acct = qb_division.principal_account
-
-        candidate_prin_acct_debit = txn.line_items.detect { |li| li.posting_type == "Debit"}
+        candidate_prin_acct_debit = txn.line_items.detect { |li| li.posting_type == "Debit" }
         if candidate_prin_acct_debit && candidate_prin_acct_debit.account == prin_acct
-          Rails::Debug.logger.ap("set to disb")
           txn.loan_transaction_type_value = :disbursement
         else
-          Rails::Debug.logger.ap("set to other")
           txn.loan_transaction_type_value = :other
         end
       end
@@ -62,17 +58,14 @@ module Accounting
       end
 
       def add_implicit_line_items
-        Rails::Debug.logger.ap("adding implicit line item . . .")
         return unless txn.type?("disbursement")
         txn.line_items << LineItem.new(
           account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
           amount: txn.amount,
           posting_type: 'Credit'
           # no qb line_item id because there is no corresponding qb li
-          # posting type found or set above
           # no description available, since this is based on txn's account, not an li in qb
         )
-        Rails::Debug.logger.ap(txn.line_items)
       end
 
       def existing_li_posting_type

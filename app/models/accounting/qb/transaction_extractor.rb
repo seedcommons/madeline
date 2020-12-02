@@ -25,32 +25,18 @@ module Accounting
       end
 
       def extract_additional_metadata
-        Rails::Debug.logger.ap("extracting metadata . . . ")
         txn.sync_token = txn.quickbooks_data['sync_token']
       end
 
       def remove_unmatched_madeline_lis
-        Rails::Debug.logger.ap("removing unmatched madeline lis . . . . ")
         # If we have more line items than are in Quickbooks, we delete the extras.
-        Rails::Debug.logger.ap("num qb lis: #{txn.quickbooks_data['line_items'].count}")
-        Rails::Debug.logger.ap("num madeline lis: #{txn.line_items.count}")
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           mad_line_item_ids_to_destroy = []
-          Rails::Debug.logger.ap("unmatched lis found ")
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
-          Rails::Debug.logger.ap("qb line ids: #{qb_ids}")
-          # txn.line_items.where.not(qb_line_id: qb_ids).map do |li|
-          #   Rails::Debug.logger.ap("destroying li: #{li.to_json}")
-          #   li.destroy
-          # end
+          # TODO: test following in place of block below
+          # txn.line_items.where.not(qb_line_id: qb_ids).destroy_all
           txn.line_items.each do |li|
-            Rails::Debug.logger.ap("consider removing li w/ line id #{li.qb_line_id}")
-            unless qb_ids.include?(li.qb_line_id)
-              Rails::Debug.logger.ap("removing madeline li: #{li.to_json} ")
-              mad_line_item_ids_to_destroy << li.id
-            else
-              Rails::Debug.logger.ap("keeping madeline li: #{li.to_json} ")
-            end
+            mad_line_item_ids_to_destroy << li.id unless qb_ids.include?(li.qb_line_id)
           end
           mad_line_item_ids_to_destroy.each do |mad_id|
             txn.line_items.destroy(Accounting::LineItem.find(mad_id))
@@ -63,9 +49,6 @@ module Accounting
       end
 
       def extract_line_items
-        Rails::Debug.logger.ap("existing line items:")
-        Rails::Debug.logger.ap(txn.line_items)
-        Rails::Debug.logger.ap("extracting qb line items . . . ")
         txn.quickbooks_data['line_items'].each do |li|
           begin
             acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
@@ -75,9 +58,7 @@ module Accounting
           # skip if line item does not have an account in Madeline
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
-          # for purchase, this puts debit on li coming from qb; if disb, this li has prin acct
           posting_type ||= existing_li_posting_type unless posting_type.present?
-          Rails::Debug.logger.ap("posting type: #{posting_type}")
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],

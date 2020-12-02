@@ -228,10 +228,8 @@ module Accounting
     def line_item_for(tx, acct)
       candidate = tx.line_item_for(acct)
       if candidate.present?
-        Rails::Debug.logger.ap("Int Calc: li found for #{acct.name}") if tx.loan_transaction_type_value == 'disbursement'
         return candidate
       else
-        Rails::Debug.logger.ap("Int Calc: li NOT found for #{acct.name}, making new one") if tx.loan_transaction_type_value == 'disbursement'
         tx.line_items.build(account: acct, description: tx.description)
       end
     end
