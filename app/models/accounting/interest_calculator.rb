@@ -226,12 +226,7 @@ module Accounting
     # Finds or creates line item for transaction and account.
     # Guarantees that the LineItem object returned will be in `tx`s `line_items` array (not a separate copy).
     def line_item_for(tx, acct)
-      candidate = tx.line_item_for(acct)
-      if candidate.present?
-        return candidate
-      else
-        tx.line_items.build(account: acct, description: tx.description)
-      end
+      tx.line_item_for(acct) || tx.line_items.build(account: acct, description: tx.description)
     end
 
     # Get the month boundaries between two dates
