@@ -60,7 +60,7 @@ module Accounting
       def add_implicit_line_items
         return unless txn.type?("disbursement")
         txn.line_items << LineItem.new(
-          account: txn.account, # generally correct; on a purchase disb we want a credit on txn acct
+          account: txn.account,
           amount: txn.amount,
           posting_type: 'Credit'
           # no qb line_item id because there is no corresponding qb li
