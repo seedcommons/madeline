@@ -30,7 +30,7 @@ module Accounting
       end
 
       def remove_unmatched_madeline_lis
-        Rails::Debug.logger.ap("removing unmatched madeline lis . . . ")
+        Rails::Debug.logger.ap("removing unmatched madeline lis . . . . ")
         # If we have more line items than are in Quickbooks, we delete the extras.
         Rails::Debug.logger.ap("num qb lis: #{txn.quickbooks_data['line_items'].count}")
         Rails::Debug.logger.ap("num madeline lis: #{txn.line_items.count}")
