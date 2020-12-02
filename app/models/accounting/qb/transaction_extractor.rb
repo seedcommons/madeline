@@ -33,8 +33,8 @@ module Accounting
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
           mad_line_item_ids_to_destroy = []
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
-          # TODO: test following in place of block below
-          # txn.line_items.where.not(qb_line_id: qb_ids).destroy_all
+          # chose not use where.not(qb_line_id: qb_ids).destroy all out of an abundance of caution
+          # any errors in this code can be hard to detect and cause incorrect calculations
           txn.line_items.each do |li|
             mad_line_item_ids_to_destroy << li.id unless qb_ids.include?(li.qb_line_id)
           end
