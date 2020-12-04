@@ -17,6 +17,6 @@ class MS.Views.TransactionsView extends Backbone.View
       @transactionModalView = new MS.Views.TransactionModalView({loanId: @loanId, locale: @locale})
 
     if action == 'new-transaction'
-      @transactionModalView.show(null, "new")
+      @transactionModalView.showModal(null, "new")
     else
-      @transactionModalView.show(@$(link).data('id'), "show")
+      @transactionModalView.showModal(@$(link).data('id'), "show")

@@ -11,8 +11,7 @@ class MS.Views.TransactionModalView extends Backbone.View
     @loanId = params.loanId
     @locale = params.locale # need this later for description, keep
 
-  show: (txn_id, action) ->
-    console.log("refactored_show")
+  showModal: (txn_id, action) ->
     if action == "new"
       url = "/admin/accounting/transactions/new"
     else
