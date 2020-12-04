@@ -13,11 +13,14 @@ class MS.Views.TransactionsView extends Backbone.View
     e.preventDefault()
     link = e.currentTarget
     action = @$(link).data('action')
-
+    console.log(action)
     unless @transactionModalView
+      console.log("instantiating new txn modal view")
       @transactionModalView = new MS.Views.TransactionModalView({loanId: @loanId, locale: @locale})
 
     if action == 'new-transaction'
-      @transactionModalView.initialize({loanId: @$(link).data('project-id'), locale: @locale})
+      @transactionModalView.refactored_show(null, "new")
+      #@transactionModalView = new MS.Views.TransactionModalView({loanId: @loanId, locale: @locale})
+      #@transactionModalView.initialize({loanId: @$(link).data('project-id'), locale: @locale})
     else
-      @transactionModalView.show(@$(link).data('id'), @$(link).data('project-id'))
+      @transactionModalView.refactored_show(@$(link).data('id'), "show")

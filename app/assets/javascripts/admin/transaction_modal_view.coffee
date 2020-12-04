@@ -9,12 +9,24 @@ class MS.Views.TransactionModalView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
-    @locale = params.locale
-    url = "/admin/accounting/transactions/new"
-    @loadContent(url, @loanId, 'new')
+    @locale = params.locale # need this later for description, keep
+    #url = "/admin/accounting/transactions/new"
+    #@loadContent(url, @loanId, 'new')
+
+  refactored_show: (txn_id, action) ->
+    console.log("refactored_show")
+    if action == "new"
+      url = "/admin/accounting/transactions/new"
+    else
+      url = "/admin/loans/#{@loanId}/transactions/#{txn_id}"
+    @loadContent(url, @loanId, action)
+
 
   show: (id, loanId) ->
+    # DO need id, because it is determined dynamically based on which row the user clicked
+    # theoretically we shouldn't need the loan id here; can use @loanId set in initialize via constructor
     @loanId = loanId
+    # console.log("take a beat in show")
     url = "/admin/loans/#{loanId}/transactions/#{id}"
     @loadContent(url, loanId, 'show')
 
