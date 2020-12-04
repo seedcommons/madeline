@@ -9,7 +9,7 @@ class MS.Views.TransactionModalView extends Backbone.View
 
   initialize: (params) ->
     @loanId = params.loanId
-    @locale = params.locale # need this later for description, keep
+    @locale = params.locale
 
   showModal: (txn_id, action) ->
     if action == "new"
