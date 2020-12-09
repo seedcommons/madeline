@@ -25,6 +25,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'cut .answer-wrapper textarea': 'adjustTextArea'
     'clear .answer-wrapper textarea': 'adjustTextArea'
     'click .edit-rt-response': 'openRichTextModal'
+    'click a.deep-link': 'scrollElementToView'
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
@@ -115,3 +116,15 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   openRichTextModal: (e) ->
     @richTextModalView.prepForm(e)
+
+  scrollElementToView: (e) ->
+    e.preventDefault()
+
+    scrollTargetId = @$(e.target).data("outline-id")
+    sectionId = @$(e.target).data("section-id")
+    # jqtreeNode = @$("#jqtree").tree('getNodeById', linkId)
+    # @$('#jqtree').tree('openNode', jqtreeNode)
+    jqtreeNodeToOpen = @$("#jqtree").tree('getNodeById', sectionId)
+    @$('#jqtree').tree('openNode', jqtreeNodeToOpen)
+    # need to toggle node if closed
+    $("li[data-id=\"#{  scrollTargetId}\"]")[0].scrollIntoView(true)

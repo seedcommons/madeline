@@ -12,6 +12,9 @@ section.questionnaires
         admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
         class: "btn btn-default #{'active' if @attrib == 'post_analysis'}",
         data: {filter: "post_analysis"}
+  div.outline
+    = link_to "Link to Group", {}, class: "deep-link", data: { id: 321 }
+    = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
 
   div.questionnaire data-attrib=@attrib class=@attrib
     section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
