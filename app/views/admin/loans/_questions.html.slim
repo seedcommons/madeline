@@ -12,29 +12,31 @@ section.questionnaires
         admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
         class: "btn btn-default #{'active' if @attrib == 'post_analysis'}",
         data: {filter: "post_analysis"}
-  div.outline
-    = link_to "Link to Group", {}, class: "deep-link", data: { id: 321 }
-    = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
+  h2 = t("loan.#{@attrib}")
+  div.container
+    div.row
+      div.col-sm.outline
+        h4 = "Outline"
+        = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
 
-  div.questionnaire data-attrib=@attrib class=@attrib
-    section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
-      .show-actions
-        - if policy(@loan).update? && @response_set.persisted?
-          a.edit-action.view-element href="javascript:void(0)"
-            i.fa.fa-pencil.fa-large>
-            = t(".edit")
-          a.show-action.form-element href="javascript:void(0)"
-            = t("cancel_edit")
-          = link_to [:admin, @response_set], method: :delete,
-            data: { confirm: t("loan.confirm_response_deletion") }
-            i.fa.fa-trash.fa-large>
-            = t(".delete")
+      div.questionnaire.col-lg data-attrib=@attrib class=@attrib
+        section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
+          .show-actions
+            - if policy(@loan).update? && @response_set.persisted?
+              a.edit-action.view-element href="javascript:void(0)"
+                i.fa.fa-pencil.fa-large>
+                = t(".edit")
+              a.show-action.form-element href="javascript:void(0)"
+                = t("cancel_edit")
+              = link_to [:admin, @response_set], method: :delete,
+                data: { confirm: t("loan.confirm_response_deletion") }
+                i.fa.fa-trash.fa-large>
+                = t(".delete")
 
-      h2 = t("loan.#{@attrib}")
-      = render partial: "admin/loans/questionnaires/questionnaire_form",
-               locals: {response_set: @response_set, attrib: @attrib}
+          = render partial: "admin/loans/questionnaires/questionnaire_form",
+                   locals: {response_set: @response_set, attrib: @attrib}
 
-= render partial: "admin/loans/questionnaires/rich_text_modal"
+  = render partial: "admin/loans/questionnaires/rich_text_modal"
 
 p.alert.alert-warning.hidden#rt-changes-warning
   button.close data-dismiss="alert" type="button"  &times;
@@ -47,5 +49,23 @@ javascript:
     new MS.Views.LoanQuestionnairesView({
       loanId: #{@loan.id},
       locale: "#{I18n.locale}"
+    });
+  });
+
+  $(function() {
+    var $sidebar   = $(".outline"),
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 15;
+    $window.scroll(function() {
+      if ($window.scrollTop() > offset.top) {
+          $sidebar.stop().animate({
+              marginTop: $window.scrollTop() - offset.top + topPadding
+          });
+      } else {
+          $sidebar.stop().animate({
+              marginTop: 0
+          });
+      }
     });
   });
