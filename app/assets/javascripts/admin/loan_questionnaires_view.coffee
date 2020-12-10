@@ -126,5 +126,5 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     # @$('#jqtree').tree('openNode', jqtreeNode)
     jqtreeNodeToOpen = @$("#jqtree").tree('getNodeById', sectionId)
     @$('#jqtree').tree('openNode', jqtreeNodeToOpen)
-    # need to toggle node if closed
+    # TODO: call following in on_finished callback as third art to openNode
     $("li[data-id=\"#{  scrollTargetId}\"]")[0].scrollIntoView(true)

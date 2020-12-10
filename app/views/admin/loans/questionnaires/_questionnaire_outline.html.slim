@@ -1,5 +1,5 @@
-ul.outline
-    - if LoanFilteredQuestion.new(question, loan: @loan, user: @current_user).required?
+ul
+    - if LoanFilteredQuestion.new(question, loan: @loan, user: @current_user).required? && depth > 0
       li
         = link_to "#{question.full_number_and_label}", {}, class: "deep-link", data: { outline_id: question.id, section_id: section_id }
     - if question.group? && depth < 2
