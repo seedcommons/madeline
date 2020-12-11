@@ -7,6 +7,22 @@ module Accounting
       attr_accessor :line_items
       delegate :qb_division, to: :loan
 
+      def extract!
+        extract_additional_metadata
+        remove_unmatched_madeline_lis
+        extract_line_items
+        set_type
+        extract_account
+        set_managed
+        extract_customer
+        extract_vendor
+        extract_subtype
+        extract_check_number
+        set_deltas
+        calculate_amount
+        add_implicit_line_items
+      end
+
       def set_type
         prin_acct = qb_division.principal_account
         candidate_prin_acct_debit = txn.line_items.detect { |li| li.posting_type == "Debit" }
