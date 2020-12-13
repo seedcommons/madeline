@@ -40,7 +40,7 @@
     - unless @print_view
       .jqtree data-data=@questions_json class=attrib id="jqtree"
 
-    .actions.form-element
+    .actions.form-element#editBar
       p#unsaved-changes-warning.unsaved-changes-warning.hidden = t("loan.pending_changes_short")
       - unless response_set.new_record?
         a.btn.btn-default.show-action = t(:cancel)

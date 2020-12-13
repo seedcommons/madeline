@@ -12,31 +12,32 @@ section.questionnaires
         admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
         class: "btn btn-default #{'active' if @attrib == 'post_analysis'}",
         data: {filter: "post_analysis"}
-  h2 = t("loan.#{@attrib}")
-  div.container
-    div.row
-      div.col-sm.outline
-        h4 = "Outline"
-        = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
 
-      div.questionnaire.col-lg data-attrib=@attrib class=@attrib
-        section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
-          .show-actions
-            - if policy(@loan).update? && @response_set.persisted?
-              a.edit-action.view-element href="javascript:void(0)"
-                i.fa.fa-pencil.fa-large>
-                = t(".edit")
-              a.show-action.form-element href="javascript:void(0)"
-                = t("cancel_edit")
-              = link_to [:admin, @response_set], method: :delete,
-                data: { confirm: t("loan.confirm_response_deletion") }
-                i.fa.fa-trash.fa-large>
-                = t(".delete")
+  div.questionnaire data-attrib=@attrib class=@attrib
+    section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
+      .show-actions
+        - if policy(@loan).update? && @response_set.persisted?
+          a.edit-action.view-element href="javascript:void(0)"
+            i.fa.fa-pencil.fa-large>
+            = t(".edit")
+          a.show-action.form-element href="javascript:void(0)"
+            = t("cancel_edit")
+          = link_to [:admin, @response_set], method: :delete,
+            data: { confirm: t("loan.confirm_response_deletion") }
+            i.fa.fa-trash.fa-large>
+            = t(".delete")
 
-          = render partial: "admin/loans/questionnaires/questionnaire_form",
-                   locals: {response_set: @response_set, attrib: @attrib}
+      h2 = t("loan.#{@attrib}")
+      div.container
+        div.row
+          div.col-sm.outline
+            h4 = "Outline"
+            = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
+          div.col-lg
+            = render partial: "admin/loans/questionnaires/questionnaire_form",
+                     locals: {response_set: @response_set, attrib: @attrib}
 
-  = render partial: "admin/loans/questionnaires/rich_text_modal"
+= render partial: "admin/loans/questionnaires/rich_text_modal"
 
 p.alert.alert-warning.hidden#rt-changes-warning
   button.close data-dismiss="alert" type="button"  &times;
@@ -57,12 +58,26 @@ javascript:
         $outlineHeight = $(".outline ul").height()
         $window    = $(window),
         offset     = $sidebar.offset(),
-        topPadding = 0;
+        topPadding = 15;
     $window.scroll(function() {
       if ($window.scrollTop() > (offset.top + $outlineHeight)) {
           $sidebar.css('margin-top', $window.scrollTop() - offset.top + topPadding)
       } else {
           $sidebar.css('margin-top', 0)
       }
+    });
+  });
+
+  $(function() {
+    var $editBar = $("#editBar")
+        $window    = $(window)
+    resizeEditBar = function () {
+      $editBar.css('width', $editBar.parent().width())
+    }
+    resizeEditBar()
+    $window.resize(function() {
+      console.log("resized! parent is this wide:")
+      console.log($editBar.parent().width())
+      $editBar.css('width', $editBar.parent().width())
     });
   });

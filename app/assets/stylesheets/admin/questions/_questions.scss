@@ -1,20 +1,33 @@
-.container .row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+.container {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 
-  .outline {
-    background-color: white;
-    padding: 10px;
-    width: 100%;
-    border-radius: 4px;
-    margin-top: 7px;
-  }
+  .row {
+    .col-sm {
+      width: 20%;
+      margin-top: 7px;
+    }
+    .col-lg {
+      width: 78%;
+    }
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 
-  .outline ul {
-    list-style-type:none;
-    li {
-      padding-bottom: 10px;
+    .outline {
+      background-color: white;
+      padding: 10px;
+      //width: 100%;
+      border-radius: 4px;
+      margin-top: 7px;
+
+      ul {
+        list-style-type:none;
+        li {
+          padding-bottom: 10px;
+        }
+      }
     }
   }
 
@@ -30,6 +43,7 @@
       }
     }
   }
+}
 
   .questionnaire {
     .block {
@@ -37,7 +51,6 @@
       padding-top: 0;
     }
   }
-}
 
 .loan-questions {
   .filter-switch {
