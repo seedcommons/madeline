@@ -63,6 +63,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
+  QB_PAYMENT_TYPES = %w(Check Cash CreditCard).freeze
   QB_PARENT_CLASS = "Loan Products"
   QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
@@ -90,9 +91,11 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do |check_txn|
+  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.qb_object_subtype == "Check" } do |check_txn|
     check_txn.validates :check_number, :qb_vendor_id, presence: true
   end
+
+  before_validation :set_qb_object_type
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
@@ -210,6 +213,13 @@ class Accounting::Transaction < ApplicationRecord
 
   def set_qb_push_flag!(value)
     update_column(:needs_qb_push, value)
+  end
+
+  # if new disbursement w/out qb id, override db-level default of JournalEntry
+  def set_qb_object_type
+    if self.loan_transaction_type_value == "disbursement" && self.qb_id.nil?
+      self.qb_object_type = "Purchase"
+    end
   end
 
   def type?(type)

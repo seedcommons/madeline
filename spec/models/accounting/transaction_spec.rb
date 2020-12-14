@@ -166,7 +166,21 @@ RSpec.describe Accounting::Transaction, type: :model do
         end
       end
 
+      it "has qb object type purchase when new" do
+        txn = Accounting::Transaction.new(transaction_params)
+        txn.save
+        expect(txn.reload.qb_object_type).to eq "Purchase"
+      end
+
+      it "has qb object type je if was je and has qb_id" do
+        txn = Accounting::Transaction.new(transaction_params.merge(qb_id: "1", qb_object_type: "JournalEntry"))
+        txn.save
+        expect(txn.reload.qb_object_type).to eq "JournalEntry"
+      end
+
       context "with type check" do
+        let(:check_number) { 1 }
+        let(:vendor_id) { 1 }
         let(:transaction_params) do
           {
             amount: 10,
@@ -175,7 +189,6 @@ RSpec.describe Accounting::Transaction, type: :model do
             description: 'desc',
             project_id: loan.id,
             loan_transaction_type_value: transaction_type,
-            qb_object_type: "Purchase",
             qb_object_subtype: "Check",
             qb_vendor_id: vendor_id,
             check_number: check_number
@@ -184,16 +197,14 @@ RSpec.describe Accounting::Transaction, type: :model do
 
         context "no check number" do
           let(:check_number) { nil }
-          let(:vendor_id) { 1 }
           it 'requires a check number to save' do
             expect do
               create(:accounting_transaction, transaction_params)
             end.to raise_error(ActiveRecord::RecordInvalid)
           end
         end
-        
+
         context "no vendor" do
-          let(:check_number) { 1 }
           let(:vendor_id) { nil }
           it 'requires a vendor to save' do
             expect do

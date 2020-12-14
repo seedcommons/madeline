@@ -10,6 +10,7 @@ module Accounting
 
       def extract!
         extract_additional_metadata
+        remove_unmatched_madeline_lis
         extract_line_items
         set_type
         extract_account
@@ -22,13 +23,20 @@ module Accounting
 
       def extract_additional_metadata
         txn.sync_token = txn.quickbooks_data['sync_token']
+      end
 
+      def remove_unmatched_madeline_lis
         # If we have more line items than are in Quickbooks, we delete the extras.
         if txn.quickbooks_data['line_items'].count < txn.line_items.count
+          mad_line_item_ids_to_destroy = []
           qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
-
+          # chose not use where.not(qb_line_id: qb_ids).destroy all out of an abundance of caution
+          # any errors in this code can be hard to detect and cause incorrect calculations
           txn.line_items.each do |li|
-            txn.line_items.destroy(li) unless qb_ids.include?(li.qb_line_id)
+            mad_line_item_ids_to_destroy << li.id unless qb_ids.include?(li.qb_line_id)
+          end
+          mad_line_item_ids_to_destroy.each do |mad_id|
+            txn.line_items.destroy(Accounting::LineItem.find(mad_id))
           end
         end
       end
@@ -48,7 +56,6 @@ module Accounting
           next unless acct
           posting_type = li[qb_li_detail_key]['posting_type']
           posting_type ||= existing_li_posting_type unless posting_type.present?
-
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
             account: acct,
             amount: li['amount'],
