@@ -18,16 +18,16 @@ module Accounting
       end
 
       def build_for_qb(transaction)
-        if transaction.subtype?("Check")
-          build_check_for_qb(transaction)
-        else
+        if transaction.qb_object_type == "JournalEntry"
           build_je_for_qb(transaction)
+        elsif transaction.qb_object_type == "Purchase"
+          build_purchase_for_qb(transaction)
         end
       end
 
       # Creates a Purchase of type check for QB based on disbursement txn object in Madeline.
       # A check in QB has one line item whereas a disbursement txn has two LIs in Madeline.
-      def build_check_for_qb(transaction)
+      def build_purchase_for_qb(transaction)
         p = ::Quickbooks::Model::Purchase.new
 
         # If transaction already exists in QB, these are required
@@ -40,7 +40,7 @@ module Accounting
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        p.payment_type = "Check"
+        p.payment_type = transaction.qb_object_subtype
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 
@@ -48,8 +48,8 @@ module Accounting
         qb_class_id = find_or_create_qb_class(loan_id: transaction.project_id).id
 
         # no posting type on AccountBasedExpenseLineItems in QB
-        p.line_items << build_check_line_item(
-          id: nil,
+        p.line_items << build_purchase_line_item(
+          id: transaction.line_item_for(@principal_account).qb_line_id,
           amount: transaction.amount,
           description: transaction.description,
           qb_customer_ref: qb_customer_ref,
@@ -58,7 +58,7 @@ module Accounting
         p
       end
 
-      def build_check_line_item(id:, amount:, description:, qb_customer_ref:, qb_class_id:)
+      def build_purchase_line_item(id:, amount:, description:, qb_customer_ref:, qb_class_id:)
         line_item = ::Quickbooks::Model::PurchaseLineItem.new
         line_item.detail_type = 'AccountBasedExpenseLineDetail'
         line_item.id = id
