@@ -10,13 +10,13 @@ class MS.Views.TransactionModalView extends Backbone.View
   initialize: (params) ->
     @loanId = params.loanId
     @locale = params.locale
-    url = "/admin/accounting/transactions/new"
-    @loadContent(url, @loanId, 'new')
 
-  show: (id, loanId) ->
-    @loanId = loanId
-    url = "/admin/loans/#{loanId}/transactions/#{id}"
-    @loadContent(url, loanId, 'show')
+  showModal: (txn_id, action) ->
+    if action == "new"
+      url = "/admin/accounting/transactions/new"
+    else
+      url = "/admin/loans/#{@loanId}/transactions/#{txn_id}"
+    @loadContent(url, @loanId, action)
 
   loadContent: (url, loanId, action) ->
     $.get url, project_id: loanId, (html) =>
