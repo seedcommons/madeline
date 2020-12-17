@@ -50,7 +50,7 @@ class DataExport < ApplicationRecord
     raise ArgumentError, "No data found" if data.blank?
     raise TypeError, "Data should be a 2D Array" unless (data.is_a?(Array) && data.first.is_a?(Array))
 
-    temp_file = Tempfile.new([name, '.csv'])
+    temp_file = Tempfile.new([name.parameterize, '.csv'])
     CSV.open(temp_file.path, "wb") do |csv|
       data.each do |row|
         csv << row
