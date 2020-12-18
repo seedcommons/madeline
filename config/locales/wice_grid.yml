@@ -12,8 +12,10 @@ en:
     reset_filter_tooltip: Reset
     boolean_filter_true_label: "Yes"
     boolean_filter_false_label: "No"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: From
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -60,8 +62,10 @@ es:
     reset_filter_tooltip: Reset
     boolean_filter_true_label: "Si"
     boolean_filter_false_label: "No"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Desde
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -108,8 +112,10 @@ is:
     reset_filter_tooltip: Hreinsa
     boolean_filter_true_label: Já
     boolean_filter_false_label: Nei
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Frá
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -155,8 +161,10 @@ nl:
     reset_filter_tooltip: Terugstellen
     boolean_filter_true_label: ja
     boolean_filter_false_label: neen
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Vanaf
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -201,8 +209,10 @@ fr:
     reset_filter_tooltip: Effacer
     boolean_filter_true_label: oui
     boolean_filter_false_label: non
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: De
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -247,8 +257,10 @@ ru:
     reset_filter_tooltip: Сброс
     boolean_filter_true_label: да
     boolean_filter_false_label: нет
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: С
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -294,8 +306,10 @@ pt:
     reset_filter_tooltip: Reinicializar
     boolean_filter_true_label: sim
     boolean_filter_false_label: não
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: De
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -340,8 +354,10 @@ pt-BR:
     reset_filter_tooltip: Reinicializar
     boolean_filter_true_label: sim
     boolean_filter_false_label: não
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     date_selector_tooltip_from: De
     date_selector_tooltip_to: a
     negation_checkbox_title: Excluir
@@ -378,8 +394,10 @@ sk:
     reset_filter_tooltip: Zrušiť filtre
     boolean_filter_true_label: "áno"
     boolean_filter_false_label: "nie"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Dátum od
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -424,8 +442,10 @@ cz:
     reset_filter_tooltip: Zrušit filtr
     boolean_filter_true_label: "áno"
     boolean_filter_false_label: "ne"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Dátum od
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -470,8 +490,10 @@ de:
     reset_filter_tooltip: Reset
     boolean_filter_true_label: "Ja"
     boolean_filter_false_label: "Nein"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: Von
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -516,8 +538,10 @@ zh:
     reset_filter_tooltip: 清除过滤
     boolean_filter_true_label: "是"
     boolean_filter_false_label: "否"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: 从
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -562,8 +586,10 @@ ja:
     reset_filter_tooltip: リセット
     boolean_filter_true_label: "yes"
     boolean_filter_false_label: "no"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     # Title of the icon clicking on which will show the calendar to set the FROM date.
     date_selector_tooltip_from: From
     # Title of the icon clicking on which will show the calendar to set the TO date.
@@ -610,8 +636,10 @@ it:
     reset_filter_tooltip: Cancella
     boolean_filter_true_label: "si"
     boolean_filter_false_label: "no"
-    previous_label: «
-    next_label: »
+    first_label: «
+    previous_label: ‹
+    next_label: ›
+    last_label: »
     date_selector_tooltip_from: Da
     date_selector_tooltip_to: A
     negation_checkbox_title: Escludi
