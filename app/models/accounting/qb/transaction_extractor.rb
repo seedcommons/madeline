@@ -67,6 +67,7 @@ module Accounting
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
         txn.currency = lookup_currency
+        txn.description = txn.line_items.first.try(:description)
       end
 
       def set_type
