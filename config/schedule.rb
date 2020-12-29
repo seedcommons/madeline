@@ -9,13 +9,11 @@ every 1.day, at: '3am' do
   runner 'RecalculateAllLoanHealthJob.perform_later'
 end
 
-case @environment
-when 'production'
-  every 1.day, at: '2am' do
+every 1.day, at: '2am' do
+  case @environment
+  when 'production'
     rake "madeline:enqueue_update_loans_task"
-  end
-when 'staging'
-  every 1.day, at: '2am' do
+  when 'staging'
     rbenv_rake "madeline:enqueue_update_loans_task"
   end
 end
