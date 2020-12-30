@@ -37,6 +37,14 @@
       padding-left: 15px;
       padding-top: 10px;
     }
+    .optional_link {
+      font-style: italic;
+    }
+    a:focus {
+      color:#000000;
+      font-weight: bold;
+      text-decoration: none;
+    }
   }
 }
 

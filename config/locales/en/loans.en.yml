@@ -209,6 +209,10 @@ en:
       questions:
         edit: "Edit Responses"
         delete: "Delete All Responses"
+        outline:
+          header: "Outline"
+          optional: "Optional Qs"
+          miscellaneous: "Misc."
       transactions:
         create_success: "Transaction successfully created."
         update_success: "Transaction successfully updated."

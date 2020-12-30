@@ -31,7 +31,7 @@ section.questionnaires
       div.container
         div.row
           div.col-sm.outline
-            h4 = "Outline"
+            h4 = t("admin.loans.questions.outline.header")
             = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
           div.col-lg
             = render partial: "admin/loans/questionnaires/questionnaire_form",
