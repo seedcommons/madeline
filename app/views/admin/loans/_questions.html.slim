@@ -32,7 +32,7 @@ section.questionnaires
         div.row
           div.col-sm.outline
             h4 = "Outline"
-            = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent_id: "root"
+            = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
           div.col-lg
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}

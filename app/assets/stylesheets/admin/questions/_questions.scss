@@ -33,14 +33,9 @@
 
   .outline > ul {
     padding-left: 0;
-    > ul {
-      padding-left: 0;
-      > ul {
-        padding-left: 15px;
-        > ul {
-          padding-left: 15px;
-        }
-      }
+    ul {
+      padding-left: 15px;
+      padding-top: 10px;
     }
   }
 }

@@ -1,11 +1,11 @@
 - if questions.present? && depth < 2 # base case is questions is nil
  ul
    - questions.select(&:required?).each do |q|
-    - section_id = ((depth == 0) ? q.id : parent_id)
+    - section_id = ((depth == 0) ? q.id : parent.id)
     li
       = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
-      = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent_id: q.id)
+      = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
-     - optional_group_id = "optional_group_#{parent_id}"
+     - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"
      li
        = link_to "Optional Questions", {}, class: "deep-link", data: { outline_id: optional_group_id, section_id: optional_group_id }
