@@ -95,7 +95,7 @@ class Accounting::Transaction < ApplicationRecord
     validates :check_number, presence: true
   end
   # validate that all disbursements created in Madeline's transaction form have a vendor
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.quickbooks_data.blank? } do
+  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
     validates :qb_vendor_id, presence: true
   end
 
