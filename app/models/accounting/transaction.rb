@@ -246,7 +246,8 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   def respect_closed_books_date
-    return if division.closed_books_date.nil? || txn_date > division.closed_books_date
-    errors.add(:txn_date, :closed_books_date, date: division.closed_books_date)
+    cbd = Loan.find(project_id).qb_division.closed_books_date
+    return if cbd.nil? || txn_date > cbd
+    errors.add(:txn_date, :closed_books_date, date: cbd)
   end
 end
