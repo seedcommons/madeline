@@ -68,15 +68,15 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
     let!(:txn_2) do
       create(:accounting_transaction,
+        :disbursement,
         txn_date: Date.today,
-        loan_transaction_type_value: 'disbursement',
         created_at: Time.now - 2.minutes
       )
     end
     let!(:txn_3) do
       create(:accounting_transaction,
+        :disbursement,
         txn_date: Date.today - 3,
-        loan_transaction_type_value: 'disbursement',
         created_at: Time.now - 3.minutes
       )
     end
@@ -136,6 +136,7 @@ RSpec.describe Accounting::Transaction, type: :model do
   end
 
   describe 'qb_id' do
+    let(:vendor) { create(:vendor) }
     let(:transaction_params) do
       {
         amount: nil,
@@ -143,6 +144,7 @@ RSpec.describe Accounting::Transaction, type: :model do
         private_note: 'a memo',
         description: 'desc',
         project_id: loan.id,
+        qb_vendor_id: vendor.id,
         loan_transaction_type_value: transaction_type
       }
     end
@@ -229,7 +231,7 @@ RSpec.describe Accounting::Transaction, type: :model do
   end
 
   context 'with line items' do
-    let(:transaction) { create(:accounting_transaction, project: loan) }
+    let(:transaction) { create(:accounting_transaction, :repayment, project: loan) }
     let(:txn) { transaction }
     let(:int_inc_acct) { transaction.division.interest_income_account }
     let(:int_rcv_acct) { transaction.division.interest_receivable_account }

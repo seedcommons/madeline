@@ -10,7 +10,7 @@ describe Accounting::InterestCalculator do
 
   describe 'general operation' do
     let!(:t0) {
-      create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
+      create(:accounting_transaction, :disbursement, amount: 100.0,
                                       project: loan, txn_date: "2017-01-01", division: division, customer: customer)
     }
     let!(:t1) {
@@ -18,7 +18,7 @@ describe Accounting::InterestCalculator do
                                       project: loan, txn_date: "2017-01-04", division: division, customer: customer)
     }
     let!(:t2) {
-      create(:accounting_transaction, loan_transaction_type_value: "disbursement",
+      create(:accounting_transaction, :disbursement,
                                       amount: 17.50, project: loan, txn_date: "2017-01-04", division: division, customer: customer)
     }
     let!(:t3) {
