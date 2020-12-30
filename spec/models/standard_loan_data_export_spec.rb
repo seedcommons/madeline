@@ -38,7 +38,7 @@ describe StandardLoanDataExport, type: :model do
       let!(:division) { create(:division, :with_accounts) }
       let(:loan) { create(:loan, :active, division: division, rate: 3.0) }
       let!(:t0) {
-        create(:accounting_transaction, :disbursement, amount: 100.0,
+        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
                                         project: loan, txn_date: "2019-01-01", division: division)
       }
       let(:export) {
@@ -74,13 +74,13 @@ describe StandardLoanDataExport, type: :model do
       let!(:division) { create(:division, :with_accounts) }
       let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
       let!(:t0) {
-        create(:accounting_transaction, :disbursement, amount: 10.00,
+        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.00,
                                         project: loan0, txn_date: "2019-01-01", division: division, change_in_interest: 0.1, change_in_principal: 1)
       }
       let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }
       let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
       let!(:t2) {
-        create(:accounting_transaction, :disbursement, amount: 20.55,
+        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 20.55,
                                         project: loan2, txn_date: "2019-01-01", division: division, change_in_interest: 0.2, change_in_principal: 2)
       }
       let!(:loan3) { create(:loan, :active, division: division, rate: 3.0) }
@@ -142,7 +142,7 @@ describe StandardLoanDataExport, type: :model do
       let!(:division) { create(:division, :with_accounts) }
       let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
       let!(:t0) {
-        create(:accounting_transaction, :disbursement, amount: 10.00,
+        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.00,
                                         project: loan0, txn_date: "2019-01-01", division: division, change_in_interest: 0.1, change_in_principal: 1)
       }
       let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }

@@ -14,7 +14,6 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
   let(:memo) { 'I am a memo' }
   let(:description) { 'I am a line item description' }
   let(:qb_bank_account_id) { '89' }
-  let(:qb_vendor) { create(:vendor) }
   let(:qb_principal_account_id) { '92' }
   let(:qb_office_account_id) { '1' }
   let(:date) { nil }
@@ -26,8 +25,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
       description: description,
       account: bank_account,
       loan_transaction_type_value: 'Disbursement',
-      txn_date: date,
-      qb_vendor_id: qb_vendor.id
+      txn_date: date
     )
   end
 

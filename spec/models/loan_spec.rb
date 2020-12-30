@@ -321,7 +321,7 @@ describe Loan, type: :model do
         let(:loan) { create(:loan, :active, rate: 3.0) }
         # dollar amounts in these transactions are not realistic
         let!(:t0) {
-          create(:accounting_transaction, :disbursement, amount: 10.0,
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
                                           project: loan, txn_date: "2019-01-01", change_in_interest: 0.10, change_in_principal: 11)
         }
         let!(:t1) {
@@ -329,7 +329,7 @@ describe Loan, type: :model do
                                           project: loan, txn_date: "2019-01-02", change_in_interest: -0.20, change_in_principal: -12)
         }
         let!(:t2) {
-          create(:accounting_transaction, :disbursement, amount: 30.0,
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 30.0,
                                           project: loan, txn_date: "2019-01-03", change_in_interest: 0.30, change_in_principal: 13)
         }
         let!(:t3) {
@@ -337,7 +337,7 @@ describe Loan, type: :model do
                                           project: loan, txn_date: "2019-01-04", change_in_interest: -0.40, change_in_principal: -14)
         }
         let!(:t4) {
-          create(:accounting_transaction, :disbursement, amount: 50.0,
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 50.0,
                                           project: loan, txn_date: "2019-01-05", change_in_interest: 0.50, change_in_principal: 15)
         }
         let!(:t5) {
@@ -387,7 +387,7 @@ describe Loan, type: :model do
       end
 
       context "existing txns only of a different type" do
-        let!(:txn_1) { create(:accounting_transaction, :disbursement, project: loan, customer: customer_b, txn_date: Time.zone.today - 3.days) }
+        let!(:txn_1) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 3.days, loan_transaction_type_value: :disbursement) }
         let!(:txn_2) { create(:accounting_transaction, project: loan, customer: customer_a, txn_date: Time.zone.today - 2.days, loan_transaction_type_value: :repayment) }
         let!(:txn_3) { create(:accounting_transaction, project: loan, customer: customer_b, txn_date: Time.zone.today - 1.day, loan_transaction_type_value: :other) }
         it 'assigns customer that most recent txn of repayment or disbursement type that has a customer' do

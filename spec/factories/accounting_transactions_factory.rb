@@ -56,7 +56,7 @@ FactoryBot.define do
     sequence(:qb_id)
     qb_object_type { 'JournalEntry' }
     quickbooks_data { {} }
-    loan_transaction_type_value { %w(interest repayment).sample }
+    loan_transaction_type_value { %w(interest disbursement repayment).sample }
     txn_date { Faker::Date.between(30.days.ago, Date.today) }
     amount { Faker::Number.decimal(4, 2) }
     account
@@ -74,7 +74,6 @@ FactoryBot.define do
     trait :disbursement do
       loan_transaction_type_value { 'disbursement' }
       amount { 100 }
-      vendor { create(:vendor) }
     end
 
     trait :repayment do
@@ -97,7 +96,6 @@ FactoryBot.define do
     trait :disbursement_with_line_items do
       loan_transaction_type_value { 'disbursement' }
       amount { 100 }
-      vendor { create(:vendor) }
 
       after(:create) do |txn, evaluator|
         create(:line_item, parent_transaction: txn, account: txn.account,

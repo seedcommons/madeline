@@ -150,7 +150,7 @@ feature 'transaction flow', :accounting do
       end
 
       scenario 'with qb error during Updater' do
-        # This process should not create any transactions
+        # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
         expect do
           visit "/admin/loans/#{loan.id}/transactions"
@@ -179,7 +179,7 @@ feature 'transaction flow', :accounting do
 
   def fill_txn_form(omit_amount: false, date: Time.zone.today)
     click_on 'Add Transaction'
-    choose "Repayment"
+    choose 'Disbursement'
     fill_in 'Date', with: date.to_s
     fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
