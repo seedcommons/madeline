@@ -91,8 +91,12 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.qb_object_subtype == "Check" } do |check_txn|
-    check_txn.validates :check_number, :qb_vendor_id, presence: true
+  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do |check_txn|
+    check_txn.validates :check_number, presence: true
+  end
+  # validate that all disbursements created in Madeline's transaction form have a vendor
+  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.quickbooks_data.blank? } do |disb|
+    disb.validates :qb_vendor_id, presence: true
   end
 
   before_validation :set_qb_object_type
