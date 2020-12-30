@@ -33,15 +33,18 @@
 
   .outline > ul {
     padding-left: 0;
+
     ul {
       padding-left: 15px;
       padding-top: 10px;
     }
-    .optional_link {
+
+    .optional-link {
       font-style: italic;
     }
+
     a:focus {
-      color:#000000;
+      color: black;
       font-weight: bold;
       text-decoration: none;
     }

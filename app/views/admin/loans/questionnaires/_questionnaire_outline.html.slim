@@ -7,6 +7,6 @@
       = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
      - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"
-     li.optional_link
+     li.optional-link
        - postfix = depth == 0 ? t("admin.loans.questions.outline.miscellaneous") : parent.full_number_and_label
        = link_to "#{t("admin.loans.questions.outline.optional")}: #{postfix}", {}, class: "deep-link", data: { outline_id: optional_group_id, section_id: optional_group_id }
