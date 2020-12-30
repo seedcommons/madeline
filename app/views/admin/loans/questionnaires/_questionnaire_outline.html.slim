@@ -1,8 +1,13 @@
 ul
-    - if LoanFilteredQuestion.new(question, loan: @loan, user: @current_user).required? && depth > 0
+    - if depth > 0
       li
-        = link_to "#{question.full_number_and_label}", {}, class: "deep-link", data: { outline_id: question.id, section_id: section_id }
+        - if LoanFilteredQuestion.new(question, loan: @loan, user: @current_user).required?
+          = link_to "#{question.full_number_and_label}", {}, class: "deep-link", data: { outline_id: question.id, section_id: section_id }
     - if question.group? && depth < 2
       - question.children.each do |c|
         - section_id = c.id if depth == 0 # only set at top level
         = render("admin/loans/questionnaires/questionnaire_outline", question: c, depth: depth + 1, section_id: section_id)
+        - if question.children.any?(&:optional?)
+          - optional_group_id = "optional_group_#{section_id}"
+          li
+            = link_to "Optional Questions", {}, class: "deep-link", data: { outline_id: optional_group_id, section_id: optional_group_id }

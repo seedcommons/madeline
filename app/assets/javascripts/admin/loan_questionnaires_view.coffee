@@ -59,8 +59,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
         $question = @$(".question[data-id=#{node.id}]")
         $li.attr('data-id', node.id)
             .addClass($question.attr('class'))
-
-        if node.id == 'optional_group'
+        if node.id.toString().includes('optional_group')
           $li.addClass('optional-group')
         else
           $li.find('.jqtree-title')
@@ -68,22 +67,23 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
     # Load the data into each tree from its 'data-data' attribute.
     @tree.each (index, tree) =>
-      data = @groupOptional($(tree).data 'data')
+      data = @groupOptional($(tree).data('data'), 'root')
       $(tree).tree 'loadData', data
 
   # Note: the grouping of optional questions that happens here and in _questionnaire_group
   # should probably be refactored someday to happen in the model
-  groupOptional: (nodes) ->
+  groupOptional: (nodes, parentId) ->
     optionalGroupName = I18n.t('questionnaires.optional_questions', locale: @locale)
 
     # Recurse, depth first
     for node in nodes
       if node.children?.length
-        node.children = @groupOptional(node.children)
+        node.children = @groupOptional(node.children, node.id)
 
     if nodes.some( (el) -> el.optional ) && !nodes.every( (el) -> el.optional )
       # Add optional group to this level
-      nodes.push { id: 'optional_group', name: optionalGroupName, children: [] }
+      console.log(parentId)
+      nodes.push { id: "optional_group_#{parentId}", name: optionalGroupName, children: [] }
       optionalGroup = nodes[nodes.length - 1]
 
       for node in nodes
