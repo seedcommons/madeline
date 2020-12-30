@@ -212,7 +212,7 @@ en:
         outline:
           header: "Outline"
           optional: "Optional Qs"
-          miscellaneous: "Misc."
+          miscellaneous: "Miscellaneous"
       transactions:
         create_success: "Transaction successfully created."
         update_success: "Transaction successfully updated."
