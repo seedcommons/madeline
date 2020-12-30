@@ -8,4 +8,5 @@
    - if questions.any?(&:optional?)
      - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"
      li
-       = link_to "Optional Questions", {}, class: "deep-link", data: { outline_id: optional_group_id, section_id: optional_group_id }
+       - prefix = depth == 0 ? "All Other" : parent.label
+       = link_to "#{prefix} Optional Questions", {}, class: "deep-link", data: { outline_id: optional_group_id, section_id: optional_group_id }
