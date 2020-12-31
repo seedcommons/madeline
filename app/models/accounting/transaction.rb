@@ -91,7 +91,7 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" } do
+  with_options if: ->(txn) { txn.qb_object_subtype == "Check" && txn.user_created } do
     validates :check_number, presence: true
   end
   # validate that all disbursements created in Madeline's transaction form have a vendor
