@@ -28,8 +28,14 @@ section.questionnaires
             = t(".delete")
 
       h2 = t("loan.#{@attrib}")
-      = render partial: "admin/loans/questionnaires/questionnaire_form",
-               locals: {response_set: @response_set, attrib: @attrib}
+      div.container
+        div.row
+          div.col-sm.outline
+            h4 = "Outline"
+            = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
+          div.col-lg
+            = render partial: "admin/loans/questionnaires/questionnaire_form",
+                     locals: {response_set: @response_set, attrib: @attrib}
 
 = render partial: "admin/loans/questionnaires/rich_text_modal"
 
@@ -44,5 +50,34 @@ javascript:
     new MS.Views.LoanQuestionnairesView({
       loanId: #{@loan.id},
       locale: "#{I18n.locale}"
+    });
+  });
+
+  $(function() {
+    var $sidebar   = $(".outline"),
+        $outlineHeight = $(".outline ul").height()
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 15;
+    $window.scroll(function() {
+      if ($window.scrollTop() > (offset.top + $outlineHeight)) {
+          $sidebar.css('margin-top', $window.scrollTop() - offset.top + topPadding)
+      } else {
+          $sidebar.css('margin-top', 0)
+      }
+    });
+  });
+
+  $(function() {
+    var $editBar = $("#editBar")
+        $window    = $(window)
+    resizeEditBar = function () {
+      $editBar.css('width', $editBar.parent().width())
+    }
+    resizeEditBar()
+    $window.resize(function() {
+      console.log("resized! parent is this wide:")
+      console.log($editBar.parent().width())
+      $editBar.css('width', $editBar.parent().width())
     });
   });
