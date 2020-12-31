@@ -206,9 +206,9 @@ RSpec.describe Accounting::Transaction, type: :model do
 
         context "no vendor" do
           let(:vendor_id) { nil }
-          it 'requires a vendor to save' do
+          it 'requires a vendor to save when created by user' do
             expect do
-              create(:accounting_transaction, transaction_params)
+              create(:accounting_transaction, transaction_params.merge({user_created: true}))
             end.to raise_error(ActiveRecord::RecordInvalid)
           end
         end
