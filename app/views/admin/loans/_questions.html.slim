@@ -31,8 +31,8 @@ section.questionnaires
       div.container
         div.row
           div.col-sm.outline
-            h4 = "Outline"
-            = render "admin/loans/questionnaires/questionnaire_outline", question: @root, depth: 0, section_id: nil
+            h4 = t("admin.loans.questions.outline.header")
+            = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
           div.col-lg
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
@@ -57,13 +57,15 @@ javascript:
     var $sidebar   = $(".outline"),
         $outlineHeight = $(".outline ul").height()
         $window    = $(window),
+        $containerHeight = $("#questions").height()
         offset     = $sidebar.offset(),
         topPadding = 15;
     $window.scroll(function() {
       if ($window.scrollTop() > (offset.top + $outlineHeight)) {
-          $sidebar.css('margin-top', $window.scrollTop() - offset.top + topPadding)
+        percentage = $window.scrollTop()/$containerHeight
+        $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
       } else {
-          $sidebar.css('margin-top', 0)
+        $sidebar.css('margin-top',0)
       }
     });
   });

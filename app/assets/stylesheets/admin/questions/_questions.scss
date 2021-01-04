@@ -1,29 +1,31 @@
 .container {
-  width: 100%;
   padding-left: 0;
   padding-right: 0;
+  width: 100%;
 
   .row {
     .col-sm {
-      width: 20%;
       margin-top: 7px;
+      width: 20%;
     }
+
     .col-lg {
       width: 78%;
     }
+
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 
     .outline {
-      background-color: white;
-      padding: 10px;
-      //width: 100%;
+      background-color: $white;
       border-radius: 4px;
       margin-top: 7px;
+      padding: 10px;
 
       ul {
-        list-style-type:none;
+        list-style-type: none;
+
         li {
           padding-bottom: 10px;
         }
@@ -33,24 +35,30 @@
 
   .outline > ul {
     padding-left: 0;
-    > ul {
-      padding-left: 0;
-      > ul {
-        padding-left: 15px;
-        > ul {
-          padding-left: 15px;
-        }
-      }
+
+    ul {
+      padding-left: 15px;
+      padding-top: 10px;
+    }
+
+    .optional-link {
+      font-style: italic;
+    }
+
+    a:focus {
+      color: $black;
+      font-weight: bold;
+      text-decoration: none;
     }
   }
 }
 
-  .questionnaire {
-    .block {
-      margin-top: 0;
-      padding-top: 0;
-    }
+.questionnaire {
+  .block {
+    margin-top: 0;
+    padding-top: 0;
   }
+}
 
 .loan-questions {
   .filter-switch {
