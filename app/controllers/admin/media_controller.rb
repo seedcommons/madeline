@@ -4,7 +4,7 @@ class Admin::MediaController < Admin::AdminController
   before_action :find_attachable, :find_media, :authorize_media, except: [:index]
 
   def index
-    @media = policy_scope(Media).page(params[:page])
+    @media = policy_scope(Media).page(params[:page]).per(9)
     authorize @media
   end
 

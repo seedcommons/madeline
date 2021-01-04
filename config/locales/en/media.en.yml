@@ -27,3 +27,10 @@ en:
     item: "Item"
     media: "Media"
     visual_media: "Visual Media"
+
+    block:
+      id: ID
+      kind: Kind
+      filename: File name
+      date_uploaded: Uploaded
+      source: Source

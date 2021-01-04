@@ -28,6 +28,12 @@ module Admin
       end
     end
 
+    def show
+      @project = Project.find(params[:id])
+      authorize @project, :show?
+      redirect_to admin_loan_path(params[:id])
+    end
+
     protected
 
     def prep_timeline(project)
