@@ -82,7 +82,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
     if nodes.some( (el) -> el.optional ) && !nodes.every( (el) -> el.optional )
       # Add optional group to this level
-      console.log(parentId)
       nodes.push {id: "optional_group_#{parentId}", name: optionalGroupName, children: []}
       optionalGroup = nodes[nodes.length - 1]
 
