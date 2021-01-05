@@ -49,6 +49,7 @@ module Accounting
         txn.quickbooks_data['line_items'].each do |li|
           begin
             acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
+            raise StandardError "unprocessable_account" if acct.nil?
           rescue
             ::Accounting::ProblemLoanTransaction.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {})
           end
@@ -67,6 +68,7 @@ module Accounting
         txn.private_note = txn.quickbooks_data['private_note']
         txn.total = txn.quickbooks_data['total']
         txn.currency = lookup_currency
+        txn.description = txn.line_items.first.try(:description)
       end
 
       def set_type

@@ -53,10 +53,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @transaction.attributes = transaction_params
 
     # Treat this like a new transaction
+    @transaction.user_created = true
     @transaction.quickbooks_data = nil
     @transaction.line_items.destroy_all
     @transaction.needs_qb_push = true
-
     process_transaction_and_handle_errors
 
     if @transaction.errors.any?
