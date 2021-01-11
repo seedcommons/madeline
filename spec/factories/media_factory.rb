@@ -41,6 +41,10 @@ FactoryBot.define do
       kind_value { :contract }
     end
 
+    trait :random_image do
+      item { open(Faker::Avatar.image) }
+    end
+
     transient do
       file_name { 'the_swing.jpg' }
     end

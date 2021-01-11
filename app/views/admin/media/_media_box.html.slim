@@ -22,6 +22,6 @@
           dd= attachable_type(media_item)
         .detail-group
           dt= t('media.block.source')
-          dd= link_to media_item.media_attachable.name, polymorphic_path([:admin, media_item.media_attachable_type.tableize.singularize], id: media_item.media_attachable_id)
+          dd= link_to media_item&.media_attachable&.name, polymorphic_path([:admin, media_item.media_attachable_type.tableize.singularize], id: media_item.media_attachable_id)
 
     / = media_item.item.public_methods.awesome_inspect(html: true)

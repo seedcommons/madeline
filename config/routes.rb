@@ -69,11 +69,11 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/jobs'
     end
 
-    resources :media, only: [:index]
-
     scope '/:attachable_type/:attachable_id' do
       resources :media
     end
+
+    resources :media, only: [:index], as: :media_gallery
 
     get 'accounting-settings' => 'settings#index'
     patch 'accounting-settings' => 'settings#update'
