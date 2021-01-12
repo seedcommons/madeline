@@ -133,10 +133,14 @@ $data-export-media-block-width: auto;
 .media-gallery {
   background-color: $gray5;
 
+  .media-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
   .media {
     padding: 5px;
     margin-top: 0;
-
     .media-box {
       background-color: $white;
       padding: 0.5em;
@@ -151,6 +155,7 @@ $data-export-media-block-width: auto;
       font-style:  italic;
       font-size: 0.8em;
       margin-top: 0.5em;
+      height: 1em;
     }
 
     dl {

@@ -7,8 +7,7 @@
   .pagination = page_entries_info @media
 
   .media-container
-    .row
-      - @media.each do |media_item|
-        = render "admin/media/media_box", media_item: media_item, link_params: { attachable_type: media_item.media_attachable_type, attachable_id: media_item.media_attachable_id }
+    - @media.each do |media_item|
+      = render "admin/media/media_box", media_item: media_item, link_params: { attachable_type: media_item.media_attachable_type, attachable_id: media_item.media_attachable_id }
 
   .pagination = paginate @media
