@@ -17,32 +17,63 @@
     // background-color is user configurable, defined in custom_colors partial
   }
 
-  .progress {
-    width: 200px !important;
-    display: inline-block;
-    margin-bottom: 0;
-
-    // Force colors for printing.
-    -webkit-print-color-adjust: exact;
-    background-color: #f5f5f5 !important;
-  }
+  // .progress {
+  //   width: 200px !important;
+  //   display: inline-block;
+  //   margin-bottom: 0;
+  //
+  //   // Force colors for printing.
+  //   -webkit-print-color-adjust: exact;
+  //   background-color: #f5f5f5 !important;
+  // }
 }
 
 // Additional styles specific to the questionnaire screen and print views.
 .questionnaire-form {
   .progress-wrapper {
-    float: right;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .progress-light {
+      background-color: $yellow3;
+      border: solid 3px;
+      border-color: $yellow3;
+      border-radius: 50%;
+      display: inline-flex;
+      height: 1.3em;
+      margin-left: 8px;
+      width: 1.3em;
+
+      &[data-pct="0"] {
+        background-color: $red2;
+        border-color: $red2;
+      }
+
+      &[data-pct="100"] {
+        background-color: $green3;
+        border-color: $green3;
+      }
+
+      &.optional {
+        background-color: transparent;
+      }
+
+
+    }
 
     .progress-pct {
       text-align: right;
       color: gray;
+      display: inline-flex;
+      padding-left: 8px;
     }
 
-    .progress-bar {
-      &.progress-optional {
-        // !important is added to force color for printing.
-        background-color: gray !important;
-      }
-    }
+    // .progress-bar {
+    //   &.progress-optional {
+    //     // !important is added to force color for printing.
+    //     background-color: gray !important;
+    //   }
+    // }
   }
 }

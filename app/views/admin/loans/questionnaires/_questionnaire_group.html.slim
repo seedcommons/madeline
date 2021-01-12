@@ -31,8 +31,7 @@ div
 
     .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
       span.tree-view
-        - if !question.leaf?
-          = render "admin/loans/questionnaires/progress_bar", object: response
+
 
         - if question.data_type == 'group'
           - header_tag = {tag: %i(h2 h3 h4 h5)[question.depth] || :h5}
@@ -48,6 +47,8 @@ div
           *header_tag
             .question-label class=(response.has_number? ? 'hidden-print' : '')
               = question.full_number_and_label
+        - if !question.leaf?
+          = render "admin/loans/questionnaires/progress_bar", object: response
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
