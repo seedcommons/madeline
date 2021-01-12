@@ -10,22 +10,6 @@
     padding-right: 5px;
     vertical-align: top;
   }
-
-  .progress-bar {
-    // Force colors for printing.
-    -webkit-print-color-adjust: exact;
-    // background-color is user configurable, defined in custom_colors partial
-  }
-
-  // .progress {
-  //   width: 200px !important;
-  //   display: inline-block;
-  //   margin-bottom: 0;
-  //
-  //   // Force colors for printing.
-  //   -webkit-print-color-adjust: exact;
-  //   background-color: #f5f5f5 !important;
-  // }
 }
 
 // Additional styles specific to the questionnaire screen and print views.
@@ -58,22 +42,13 @@
       &.optional {
         background-color: transparent;
       }
-
-
     }
 
     .progress-pct {
-      text-align: right;
-      color: gray;
+      color: $gray3;
       display: inline-flex;
       padding-left: 8px;
+      text-align: right;
     }
-
-    // .progress-bar {
-    //   &.progress-optional {
-    //     // !important is added to force color for printing.
-    //     background-color: gray !important;
-    //   }
-    // }
   }
 }

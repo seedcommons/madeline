@@ -10,6 +10,10 @@ en:
     manage: "Manage Loan Questions"
     move_error: "The item could not be moved due to an error"
     not_editable: "This question or group is inherited from a parent division, so it can't be changed."
+    progress:
+      complete: "Complete"
+      normal: "Required"
+      optional: "Optional"
     table:
       caption: "Question number %{number} question and response"
     text: "Title"
