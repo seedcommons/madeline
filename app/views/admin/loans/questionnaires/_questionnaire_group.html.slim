@@ -48,7 +48,7 @@ div
             .question-label class=(response.has_number? ? 'hidden-print' : '')
               = question.full_number_and_label
         - if !question.leaf?
-          = render "admin/loans/questionnaires/progress_bar", object: response
+          = render "admin/loans/questionnaires/progress", object: response
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
