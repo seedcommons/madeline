@@ -1,3 +1,10 @@
+.now-editing{
+  float: left;
+  vertical-align: center;
+  color: $red2;
+  font-style: italic;
+}
+
 .edit-action {
   float: right;
   padding-right: 8px;
