@@ -47,9 +47,12 @@
   / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
-  a.form-element.edit-rt-response
-    = icon_tag("pencil")
-    = " " + t("loan.question.edit")
+  a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
+    i.fa.fa-pencil.fa-large.ms-tooltip(
+      data-message="#{t("questions.edit_rich_text")}"
+      data-placement='left'
+      aria-hidden="true"
+     )
 
   - if response.text.present? && !response.not_applicable?
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)

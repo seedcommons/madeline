@@ -67,9 +67,9 @@ en:
       not_authorized: "You are not authorized to view the loan you requested."
     question:
       current_response: "Current Response"
-      edit: "Edit Response"
+      edit: "Update Response"
     rating: "Score"
-    save_responses: "Save Responses"
+    save_responses: "Save Changes"
     shared:
       new: "New Loan"
     signing_date: "Signing Date"
