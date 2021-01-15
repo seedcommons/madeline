@@ -52,7 +52,6 @@ class MS.Views.RichTextModalView extends Backbone.View
     newAnswer = @$el.find('.rtm-answer').summernote('code')
     newAnswer = newAnswer.trim()
 
-    @$question.find('.current-response-heading').removeClass('hidden')
     @$question.find('.answer.no-response').removeClass('hidden')
 
     if newAnswer.length == 0

@@ -57,8 +57,6 @@
   - if response.text.present? && !response.not_applicable?
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
 
-  h6.form-element.current-response-heading class=(response.text.present? ? "" : "hidden")
-    = t("loan.question.current_response")
   .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
   .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
 
