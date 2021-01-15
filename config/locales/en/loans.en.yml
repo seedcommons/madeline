@@ -207,7 +207,6 @@ en:
   admin:
     loans:
       questions:
-        edit: "Edit Responses"
         delete: "Delete All Responses"
         outline:
           header: "Outline"

@@ -52,9 +52,13 @@ div
           - if policy(@loan).update? && @response_set.persisted?
             a.edit-action.view-element(
               href="javascript:void(0)"
-              aria-label="#{t("admin.loans.questions.edit")}"
+              aria-label="#{t("questions.edit_one")}"
             )
-              i.fa.fa-pencil.fa-large aria-hidden="true"
+              i.fa.fa-pencil.fa-large.ms-tooltip(
+                data-message="#{t("questions.edit_one")}"
+                data-placement='left'
+                aria-hidden="true"
+               )
 
       - if question.explanation.present?
         .help-block.hidden-print.tree-view
