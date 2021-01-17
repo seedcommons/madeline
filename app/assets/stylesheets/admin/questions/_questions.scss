@@ -1,3 +1,19 @@
+.outline-toggle {
+  background: teal;
+  width: 8px;
+  height: 8px;
+  float:right;
+}
+
+.inner {
+    overflow: hidden;
+    display: none;
+
+    &.expanded {
+      display: block;
+    }
+}
+
 .now-editing{
   float: left;
   vertical-align: center;
@@ -69,6 +85,15 @@
   .block {
     margin-top: 0;
     padding-top: 0;
+  }
+  .help-block {
+    color: $red2;
+    width: 90%;
+    &.collapsed {
+      height: 1.5em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }
 
