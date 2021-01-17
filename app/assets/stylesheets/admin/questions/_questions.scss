@@ -3,6 +3,7 @@
 .arrow-down {
   width: 0;
   height: 0;
+  margin-right: 4px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 8px solid $red2;
@@ -11,9 +12,13 @@
 .arrow-right {
   width: 0;
   height: 0;
+  margin-right: 8px;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
   border-left: 8px solid $red2;
+}
+.leaf {
+  padding-left: 15px;
 }
 
 .outline {
@@ -46,7 +51,6 @@
 
 .outline-toggle {
   float: left;
-  margin-right: 4px;
 }
 
 .inner {
