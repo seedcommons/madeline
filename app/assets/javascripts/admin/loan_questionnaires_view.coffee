@@ -132,10 +132,8 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   handleOutlineToggle: (e) ->
     e.preventDefault()
     target = @$(e.target).parent() #div's li
-    console.log(target)
     listToToggle = @$(target).children('ul')[0]
     @$(listToToggle).toggleClass('expanded')
     # handle arrows
     @$(@$(target).children('.outline-toggle')).toggleClass('arrow-right')
     @$(@$(target).children('.outline-toggle')).toggleClass('arrow-down')
-    

@@ -52,10 +52,10 @@ div
           - if policy(@loan).update? && @response_set.persisted?
             a.edit-action.view-element(
               href="javascript:void(0)"
-              aria-label="#{t("questions.edit_one")}"
+              aria-label="#{t("questions.edit_all")}"
             )
               i.fa.fa-pencil.fa-large.ms-tooltip(
-                data-message="#{t("questions.edit_one")}"
+                data-message="#{t("questions.edit_all")}"
                 data-placement='left'
                 aria-hidden="true"
                )
