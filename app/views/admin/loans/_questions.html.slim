@@ -60,15 +60,10 @@ javascript:
         originalYPosition = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
       offset     = $sidebar.offset()
-      console.log("offset ")
-      console.log(offset)
-      console.log("window scrolltop " + $window.scrollTop())
       $outlineHeight = $(".outline ul").height()
-      console.log("outline h " + $outlineHeight)
-      console.log("============")
       $containerHeight = $("#questions").height()
       if ($window.scrollTop() > originalYPosition){
-        if ($window.scrollTop() > (offset.top + $outlineHeight)){
+        if ($outlineHeight > $window.innerHeight()){
           percentage = $window.scrollTop()/$containerHeight
           $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
         }else{
