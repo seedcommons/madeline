@@ -55,15 +55,25 @@ javascript:
 
   $(function() {
     var $sidebar   = $(".outline"),
-        $outlineHeight = $(".outline ul").height()
         $window    = $(window),
-        $containerHeight = $("#questions").height()
-        offset     = $sidebar.offset(),
         topPadding = 15;
+        originalYPosition = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
-      if ($window.scrollTop() > (offset.top + $outlineHeight)) {
-        percentage = $window.scrollTop()/$containerHeight
-        $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
+      offset     = $sidebar.offset()
+      console.log("offset ")
+      console.log(offset)
+      console.log("window scrolltop " + $window.scrollTop())
+      $outlineHeight = $(".outline ul").height()
+      console.log("outline h " + $outlineHeight)
+      console.log("============")
+      $containerHeight = $("#questions").height()
+      if ($window.scrollTop() > originalYPosition){
+        if ($window.scrollTop() > (offset.top + $outlineHeight)){
+          percentage = $window.scrollTop()/$containerHeight
+          $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
+        }else{
+          $sidebar.css('margin-top', $window.scrollTop() - originalYPosition)
+        }
       } else {
         $sidebar.css('margin-top',0)
       }
