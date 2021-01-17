@@ -57,17 +57,18 @@ javascript:
     var $sidebar   = $(".outline"),
         $window    = $(window),
         topPadding = 15;
-        originalYPosition = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
+        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
       offset     = $sidebar.offset()
       $outlineHeight = $(".outline ul").height()
       $containerHeight = $("#questions").height()
-      if ($window.scrollTop() > originalYPosition){
+      if ($window.scrollTop() > originalYAdjustment){
         if ($outlineHeight > $window.innerHeight()){
           percentage = $window.scrollTop()/$containerHeight
-          $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
+          adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
+          $sidebar.css('margin-top', $window.scrollTop() - adjustment)
         }else{
-          $sidebar.css('margin-top', $window.scrollTop() - originalYPosition)
+          $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
         }
       } else {
         $sidebar.css('margin-top',0)
