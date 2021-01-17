@@ -4,7 +4,7 @@
     - section_id = ((depth == 0) ? q.id : parent.id)
     li
       = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
-      div.outline-toggle
+      div.outline-toggle.arrow-right
       = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
      - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"
