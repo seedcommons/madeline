@@ -68,6 +68,9 @@
   vertical-align: center;
   color: $red2;
   font-style: italic;
+  i {
+    padding-right: .2em;
+  }
 }
 
 .edit-action {
