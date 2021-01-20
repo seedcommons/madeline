@@ -1,11 +1,14 @@
 - if questions.present? && depth < 5 # base case is questions is nil
- ul class=("#{(depth == 0) ? "" : "inner"} #{(depth == 0) ? "" : "inner"} ")
+ ul data-expandable="#{depth == 0 ? "" : "outline#{parent.id}"}"
    - questions.select(&:required?).each do |q|
     - has_children = q.children.count > 0
     - section_id = ((depth == 0) ? q.id : parent.id)
     li class="#{ has_children ? "" : "leaf"}"
       = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
-      div class="outline-toggle #{ has_children ? "arrow-right" : ""}"
+      - if has_children
+        = fa_icon("caret-right", data: {expands:"outline#{q.id}"})
+        = fa_icon("caret-down", data: {hides:"outline#{q.id}"})
+      / div class="outline-toggle #{ has_children ? "arrow-right" : ""}"
       = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
      - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"

@@ -18,7 +18,7 @@
   border-left: 8px solid $red2;
 }
 .leaf {
-  padding-left: 15px;
+  padding-left: 10px;
 }
 
 .outline {
@@ -49,8 +49,11 @@
   }
 }
 
-.outline-toggle {
+i.fa {
+  color: $red2;
   float: left;
+  font-size: larger;
+  padding-right: .2em;
 }
 
 .inner {
