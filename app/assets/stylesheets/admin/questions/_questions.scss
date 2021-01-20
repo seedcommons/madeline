@@ -1,22 +1,4 @@
 //OUTLINE CSS - MOVE TO NEW FILE
-
-.arrow-down {
-  width: 0;
-  height: 0;
-  margin-right: 4px;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid $red2;
-}
-
-.arrow-right {
-  width: 0;
-  height: 0;
-  margin-right: 8px;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 8px solid $red2;
-}
 .leaf {
   padding-left: 10px;
 }
@@ -54,15 +36,6 @@ i.fa {
   float: left;
   font-size: larger;
   padding-right: .2em;
-}
-
-.inner {
-    overflow: hidden;
-    display: none;
-
-    &.expanded {
-      display: block;
-    }
 }
 
 // END OUTLINE CSS
