@@ -2,8 +2,9 @@ class MS.Views.RichTextModalView extends Backbone.View
 
   el: '#rich-text-modal'
 
-  initialize: ->
+  initialize: (options) ->
     @prepUnsavedChangesWarning()
+    @eventService = options.eventService
 
   events:
     'click [data-action="submit"]': 'updateResponse'
@@ -69,3 +70,4 @@ class MS.Views.RichTextModalView extends Backbone.View
     @$el.modal('hide')
     $('#rt-changes-warning').removeClass('hidden')
     $('#unsaved-changes-warning').removeClass('hidden')
+    @eventService.trigger("rtAnswerChange", {q: @$question})

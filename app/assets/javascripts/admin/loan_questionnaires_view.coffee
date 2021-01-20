@@ -5,11 +5,16 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   initialize: (options) ->
     @loanId = options.loanId
     @locale = options.locale
+    @dirtyRichTextAnswersExist = false
     @initializeTree()
     @adjustAllTextareas()
-    @richTextModalView = new MS.Views.RichTextModalView()
-
-    @$('.breakeven-tables').map (index, breakeven) =>
+    @eventService = {}
+    _.extend(@eventService, Backbone.Events)
+    @eventService.on("rtAnswerChange", (obj)  =>
+      @dirtyRichTextAnswersExist = true
+    )
+    @richTextModalView = new MS.Views.RichTextModalView({eventService: @eventService})
+    @$('.breakeven-tables').map (index, breakeven) ->
       new MS.Views.BreakevenView(el: breakeven)
 
   events:
@@ -26,6 +31,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'clear .answer-wrapper textarea': 'adjustTextArea'
     'click .edit-rt-response': 'openRichTextModal'
     'click a.deep-link': 'scrollElementToView'
+    'change input': 'formUpdated'
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
@@ -115,6 +121,13 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
 
   openRichTextModal: (e) ->
     @richTextModalView.prepForm(e)
+
+  formUpdated: (e) ->
+    if @$('.questionnaire-form form').dirtyForms('isDirty')
+      @$('#unsaved-changes-warning').removeClass('hidden')
+    else
+      if !@dirtyRichTextAnswersExist
+        @$('#unsaved-changes-warning').addClass('hidden')
 
   scrollElementToView: (e) ->
     e.preventDefault()
