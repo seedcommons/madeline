@@ -145,6 +145,11 @@ $data-export-media-block-width: auto;
       background-color: $white;
       padding: 0.5em;
       vertical-align: top;
+      .media-caption span {
+        display: block;
+        height: 1.3em;
+        overflow: hidden;
+      }
     }
 
     .thumb {
@@ -166,19 +171,17 @@ $data-export-media-block-width: auto;
 
       dt {
         float: left;
-        width: 40%;
+        width: 30%;
         padding: 0;
         margin: 0;
-
-
       }
 
       dd {
         float: left;
-        width: 60%;
+        width: 70%;
         padding: 0;
         margin: 0;
-
+        overflow-wrap: break-word;
         &.filename {
           font-style: italic;
         }
