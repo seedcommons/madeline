@@ -129,3 +129,83 @@ $data-export-media-block-width: auto;
     width: auto;
   }
 }
+
+.media-gallery {
+  background-color: $gray5;
+
+  .media-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .media {
+    padding: 5px;
+    margin-top: 0;
+    .media-box {
+      background-color: $white;
+      padding: 0.5em;
+      vertical-align: top;
+      .media-caption span {
+        display: block;
+        height: 1.3em;
+        overflow: hidden;
+      }
+    }
+
+    .thumb {
+      border: 5px solid $gray4;
+    }
+
+    .caption {
+      font-style:  italic;
+      font-size: 0.8em;
+      margin-top: 0.5em;
+      height: 1em;
+    }
+
+    dl {
+      width: 100%;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+
+      dt {
+        float: left;
+        width: 30%;
+        padding: 0;
+        margin: 0;
+      }
+
+      dd {
+        float: left;
+        width: 70%;
+        padding: 0;
+        margin: 0;
+        overflow-wrap: break-word;
+        &.filename {
+          font-style: italic;
+        }
+      }
+    }
+
+    .extension, .media-block {
+      display: block;
+      width: $media-block-width;
+      height: $media-block-width;
+      padding-top: 32px;
+      background-color: $gray2;
+      color: $gray3;
+      text-align: center;
+    }
+
+    .extension {
+      font-size: 1.4em;
+    }
+
+    .media-block {
+      i {
+        font-size: 1.4em;
+      }
+    }
+  }
+}

@@ -2,15 +2,24 @@ module MediaHelper
   def media_thumbnail(media_item)
     if media_item.thumbnail?
       if media_item.caption && !media_item.caption.text.blank?
-        image_tag(media_item.item.thumb.url, alt: truncate(media_item.caption.text, length: 36))
+        image_tag(media_item.item.thumb.url, alt: truncate(media_item.caption.text, length: 36), class: 'media-object')
       else
-        image_tag(media_item.item.thumb.url)
+        image_tag(media_item.item.thumb.url, class: 'media-object')
       end
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
         concat(icon(media_icon_class(media_item)))
       end
+    end
+  end
+
+  def attachable_type(media_item)
+    attachable = media_item.media_attachable
+    if attachable.respond_to?(:type)
+      attachable.type
+    else
+      media_item.media_attachable_type
     end
   end
 

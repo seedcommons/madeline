@@ -4,8 +4,8 @@ Bullet.unused_eager_loading_enable = false
 
 if Rails.env.development?
   Bullet.alert = false
-  Bullet.console = true
-  Bullet.add_footer = true
+  Bullet.console = false
+  Bullet.add_footer = false
   Bullet.sentry = false
   Bullet.skip_html_injection = false
 elsif Rails.env.staging?

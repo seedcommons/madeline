@@ -5,6 +5,8 @@ li = link_to t('menu.coops'), admin_organizations_path
 li = link_to t('menu.calendar'), admin_calendar_index_path
 - if policy(Person).index?
   li = link_to t('menu.people'), admin_people_path
+- if policy(Media).index?
+  li = link_to t('menu.media'), admin_media_gallery_index_path
 li = link_to t('menu.basic_projects'), admin_basic_projects_path
 
 li
