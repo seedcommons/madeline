@@ -3,6 +3,7 @@ en:
   # style shortcuts.
   project_log:
     project_log: "Project log"
+    name: "#%{id} on %{date} - %{project}"
   project_logs:
     more: "More..."
     shared:

@@ -1,7 +1,14 @@
 class Admin::MediaController < Admin::AdminController
   include TranslationSaveable
 
-  before_action :find_attachable, :find_media, :authorize_media
+  SUPPORTED_TYPES = ["ProjectLog", "Project", "Organization"]
+
+  before_action :find_attachable, :find_media, :authorize_media, except: [:index]
+
+  def index
+    @media = policy_scope(Media.where(media_attachable_type: SUPPORTED_TYPES).order(created_at: :desc)).page(params[:page]).per(9)
+    authorize @media
+  end
 
   def new
     render_modal_partial
