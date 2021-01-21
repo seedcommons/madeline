@@ -12,6 +12,7 @@ section.questionnaires {
     border: none;
     margin-bottom: 3px;
     padding-bottom: 0.1px; // prevent margin collapse
+    scroll-margin-top: 100px;
 
     &.jqtree-folder.jqtree-closed {
       margin-bottom: 3px;
@@ -151,7 +152,6 @@ section.questionnaires {
     // When position is fixed, the entire webpage/viewport is the parent element
     position: fixed;
     bottom: 0;
-    right: $content-wrapper-padding;
     display: block;
     margin: 0 0 $content-wrapper-padding;
     padding: 1em;
