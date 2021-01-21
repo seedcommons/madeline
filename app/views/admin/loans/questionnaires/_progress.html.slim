@@ -1,0 +1,20 @@
+- pct = object.try(:progress_pct) || 0
+
+- status_message = "#{t("questions.progress.#{object.try(:progress_type)}")}, #{pct}% #{t("questions.progress.complete")}"
+.progress-wrapper.ms-tooltip(
+  data-message="#{status_message}"
+  data-placement='left'
+ )
+
+  // Progress light rules: 
+  // not started: red
+  // in progress: yellow
+  // complete: green
+  // required: solid
+  // optional: open
+  .progress-light(
+    class="#{object.try(:progress_type)}"
+    data-pct="#{pct}"
+  )
+  .progress-pct
+    = "#{pct}%"
