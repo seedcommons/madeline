@@ -132,6 +132,7 @@ $data-export-media-block-width: auto;
 
 .media-gallery {
   background-color: $gray5;
+  min-width: 1500px; 
 
   .media-container {
     display: grid;
@@ -142,9 +143,14 @@ $data-export-media-block-width: auto;
     padding: 5px;
     margin-top: 0;
     .media-box {
+      display: flex;
       background-color: $white;
       padding: 0.5em;
       vertical-align: top;
+      height: 12.5em;
+      .media-left {
+        width: min-content;
+      }
       .media-caption span {
         display: block;
         height: 1.3em;
