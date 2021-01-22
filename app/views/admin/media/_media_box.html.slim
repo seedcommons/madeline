@@ -13,7 +13,7 @@
           dd= media_item.kind_label
         .detail-group
           dt= t('media.block.filename')
-          dd= media_item.item.file.identifier
+          dd= media_item.item.file.filename
         .detail-group
           dt= t('media.block.date_uploaded')
           dd= l(media_item.created_at, format: :long)
