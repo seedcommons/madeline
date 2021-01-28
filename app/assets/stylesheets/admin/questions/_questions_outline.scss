@@ -1,0 +1,43 @@
+
+.leaf {
+  padding-left: 14px;
+}
+
+.outline {
+  background-color: $white;
+  border-radius: 4px;
+  margin-top: 7px;
+  padding: 10px;
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      padding-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 15px;
+      padding-top: 10px;
+    }
+  }
+
+  .optional-link {
+    font-style: italic;
+  }
+
+  .expansion-control {
+    color: $red2;
+    font-size: 1.5em;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  a:focus {
+    color: $black;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}
+// END OUTLINE CSS
