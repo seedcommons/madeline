@@ -37,11 +37,13 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def answered?
-    response_set && response_set.response(self).present?
+    return @answered if defined?(@answered)
+    @answered = response_set && response_set.response(self).present?
   end
 
   def visible?
-    super && (status == 'active' || (status == 'inactive' && answered?))
+    return @visible if defined?(@visible)
+    @visible = super && (status == 'active' || (status == 'inactive' && answered?))
   end
 
   def response_set
