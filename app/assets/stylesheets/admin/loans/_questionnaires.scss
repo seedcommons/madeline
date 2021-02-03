@@ -99,6 +99,38 @@ section.questionnaires {
     font-style: italic;
     font-size: $help-text-font-size;
     color: $gray3;
+
+    .expansion-control {
+      float: left;
+      font-size: 1.5em;
+      &.expand {
+        padding-right: 7px;
+      }
+      &.collapse {
+        padding-right: 3px;
+      }
+    }
+
+    &.collapsed {
+      height: 1.2em;
+      overflow: hidden;
+      padding-right: 4px;
+      .expansion-control.expand {
+        display: block;
+      }
+      .expansion-control.collapse {
+        display: none;
+      }
+    }
+    &.expanded {
+      height: inherited;
+      .expansion-control.expand {
+        display: none;
+      }
+      .expansion-control.collapse {
+        display: block;
+      }
+    }
   }
 
   input[type="number"] {
