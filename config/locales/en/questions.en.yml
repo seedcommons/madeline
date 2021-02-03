@@ -11,6 +11,7 @@ en:
     edit_rich_text: "Edit Text"
     explanation: "Explanation"
     manage: "Manage Loan Questions"
+    missing_required_answer: "This is a required question."
     move_error: "The item could not be moved due to an error"
     not_editable: "This question or group is inherited from a parent division, so it can't be changed."
     progress:
