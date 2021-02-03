@@ -66,6 +66,10 @@ section.questionnaires {
 .questionnaire-form {
   $help-text-font-size: 12px;
 
+  hr {
+    border-top-width: 3px;
+  }
+
   li {
     min-height: 3em;
     margin-bottom: 1em;
@@ -174,10 +178,10 @@ section.questionnaires {
 
   .not-applicable {
     font-style: italic;
+    color: $red2;
 
     label {
       margin-left: .5em;
-      color: $gray3;
       font-size: $help-text-font-size;
       font-weight: normal;
     }
