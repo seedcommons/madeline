@@ -96,6 +96,7 @@ section.questionnaires {
   }
 
   .help-block {
+    display: inherit; // in most forms, help blocks are hidden in show-view mode
     font-style: italic;
     font-size: $help-text-font-size;
     color: $gray3;
