@@ -37,10 +37,6 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
   toggleExpansion: (e) ->
     e.preventDefault
     target = @$(e.currentTarget)
-    console.log(target)
-    console.log(@$(target))
-    console.log(@$(target.parent()))
-    console.log(@$(target.parent()).toggleClass)
     @$(target.parent()).toggleClass("collapsed expanded")
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
