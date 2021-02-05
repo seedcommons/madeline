@@ -1,9 +1,16 @@
 // Styles for the overall admin template
 $site-header-height: 85px;
 $site-header-padding: 10px;
+$menu-height: 20px;
+
+#site-menu {
+  position: fixed;
+  left: 0px;
+  top: $site-header-height;
+}
 
 body.admin {
-  padding-top: $site-header-height;
+  padding-top: $site-header-height + $menu-height + $site-header-padding * 2;
 
   // Navbar styles for desktop and mobile.
   #site-header {
@@ -108,6 +115,7 @@ body.admin {
 
       // This is the slide-down menu for mobile.
       #navbar-menu {
+
         border-top: 1px solid #eee;
 
         ul.nav {
