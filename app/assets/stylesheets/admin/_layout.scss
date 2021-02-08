@@ -7,6 +7,10 @@ $menu-height: 20px;
   position: fixed;
   left: 0px;
   top: $site-header-height;
+  width: 100%;
+  .container-fluid {
+    background-color: $red2;
+  }
 }
 
 body.admin {
