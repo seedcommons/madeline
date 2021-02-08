@@ -18,9 +18,9 @@ body.admin {
 
   // Navbar styles for desktop and mobile.
   #site-header {
-    padding: $site-header-padding;
-    height: $site-header-height;
     border: 0; // Hide default border to remove 1px line.
+    height: $site-header-height;
+    padding: $site-header-padding;
 
     .container-fluid {
       padding: 0; // Override bootstrap default, which adds extra padding.
@@ -64,12 +64,6 @@ body.admin {
       font-size: 12px;
     }
 
-    // Styles specific to sm size.
-    @media (min-width: 768px) {
-      .nav-xs {
-        display: none;
-      }
-
       .division-brand {
         text-align: center;
       }
@@ -79,7 +73,6 @@ body.admin {
 
         li {
           list-style-type: none;
-          //display: inline-block;
           &.select-division {
             display: block;
           }
@@ -105,47 +98,10 @@ body.admin {
           font-size: 16px;
         }
       }
-    }
-
-    // Styles specific to xs size.
-    @media (max-width: 767px) {
-      .nav-sm {
-        display: none;
-      }
-
-      .navbar-toggle {
-        margin: 0;
-      }
-
-      // This is the slide-down menu for mobile.
-      #navbar-menu {
-
-        border-top: 1px solid #eee;
-
-        ul.nav {
-          // Something somewhere is setting top margin to 7.5px, which messes things up.
-          margin-top: 0;
-          margin-bottom: 0;
-        }
-
-        hr {
-          margin: 0;
-        }
-
-        .select_division_form {
-          margin: 0 15px;
-        }
-      }
-    }
   }
 
   // Sidebar
 
-  // Hide for mobile, show later
-  .sidebar {
-    display: none;
-    background-color: white;
-  }
 
   @media (min-width: 768px) {
     .sidebar {
@@ -165,38 +121,8 @@ body.admin {
     }
   }
 
-  // Sidebar navigation
-  .nav-sidebar {
-    margin-right: -21px; // 20px padding + 1px border
-    margin-bottom: 20px;
-    margin-left: -20px;
-
-    .active > a, .active > a:hover, .active > a:focus {
-      color: #fff;
-      background-color: #428bca;
-    }
-
-    li {
-      a {
-        padding-right: 20px;
-        padding-left: 20px;
-      }
-    }
-
-    // Collapsable sub menu within side menu.
-    .submenu {
-      padding-left: 15px;
-      font-size: 93%;
-    }
-  }
-
   .content-wrapper {
-    margin-left: $sidebar-width;
     padding: $content-wrapper-padding;
-
-    @media (max-width: 767px) {
-      margin-left: 0;
-    }
   }
 
   // Page title, help system popover, and new button
