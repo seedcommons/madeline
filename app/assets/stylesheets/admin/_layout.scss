@@ -36,7 +36,8 @@ body.admin {
     a.navbar-toggle {
       border: 0;
       padding: 3px;
-      position: absolute;
+      position: fixed;
+      top: calc($site-header-height - 45px);
     }
 
     .header-grid {
@@ -44,7 +45,7 @@ body.admin {
       grid-template-columns: repeat(3, 33%);
       justify-content: space-evenly;
 
-      @media(max-width: 767.98px) {
+      @media(max-width: 768px) {
         grid-template-columns: minmax(0, 0) minmax(auto, 75%) minmax(auto, auto);
 
         .ftc-triple-spiral {
