@@ -8,9 +8,6 @@ $menu-height: 20px;
   left: 0px;
   top: $site-header-height;
   width: 100%;
-  .container-fluid {
-    background-color: $red2;
-  }
 }
 
 body.admin {
@@ -18,12 +15,31 @@ body.admin {
 
   // Navbar styles for desktop and mobile.
   #site-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
     border: 0; // Hide default border to remove 1px line.
     height: $site-header-height;
     padding: $site-header-padding;
 
-    .container-fluid {
-      padding: 0; // Override bootstrap default, which adds extra padding.
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 33%);
+      @media(max-width: 768px) {
+        .ftc-triple-spiral {
+          display: none;
+        }
+        grid-template-columns: minmax(0,0) minmax(auto, 75%) minmax(auto, auto)
+      }
+      justify-content: space-evenly;
+    }
+
+    .logo-grid {
+      display: grid;
+      grid-template-columns: minmax(auto, 42px) auto;
+
     }
 
     // This is the main area of the navbar but doesn't include the slide-down mobile menu.

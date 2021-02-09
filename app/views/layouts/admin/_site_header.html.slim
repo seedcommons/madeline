@@ -1,17 +1,16 @@
 - division = selected_division
-nav id="site-header" class="navbar navbar-fixed-top navbar-dark"
-  div class="container-fluid"
-    ul class="nav justify-content-center"
-      li class="nav-item"
-        .madeline-logo.col-sm-4
-          .ftc-triple-spiral
-          - unless division.present?
-            .madeline Madeline
-      li class="nav-item"
-          = render("layouts/admin/division_brand", size: "sm")
-      li class="nav-item user-div-info"
-        ul
-          = render("layouts/admin/user_div_info", size: "xs")
+div id="site-header" class=""
+  div class="header-grid"
+    div class="grid-item"
+      .madeline-logo.logo-grid
+        .ftc-triple-spiral
+        - unless division.present?
+          .madeline Madeline
+    div class="grid-item"
+        = render("layouts/admin/division_brand", size: "sm")
+    div class="grid-item"
+      ul class="user-div-info"
+        = render("layouts/admin/user_div_info", size: "xs")
 nav id="site-menu" class="navbar navbar-default navbar-light"
   div class="container-fluid"
     ul class="nav navbar-nav"

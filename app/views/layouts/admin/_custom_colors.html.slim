@@ -6,11 +6,18 @@
 - colors = admin_custom_colors # Helper method
 
 style type="text/css"
+
   | /* Navbar and links */
     nav, nav a, nav a:hover, nav a:focus {
       color: #{colors[:banner_fg]};
       background-color: #{colors[:banner_bg]};
     }
+
+    /* site header */
+      #site-header, #site-header a, #site-header a:hover, #site-header a:focus  {
+        color: #{colors[:banner_fg]};
+        background-color: #{colors[:banner_bg]};
+      }
 
     /* General links */
     a,
