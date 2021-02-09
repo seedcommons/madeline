@@ -7,10 +7,10 @@ div id="site-header" class=""
         - unless division.present?
           .madeline Madeline
     div class="grid-item"
-        = render("layouts/admin/division_brand", size: "sm")
+        = render("layouts/admin/division_brand")
     div class="grid-item"
       ul class="user-div-info"
-        = render("layouts/admin/user_div_info", size: "xs")
+        = render("layouts/admin/user_div_info")
 nav id="site-menu" class="navbar navbar-light"
   ul class="nav navbar-nav"
     = render "layouts/admin/site_menu"

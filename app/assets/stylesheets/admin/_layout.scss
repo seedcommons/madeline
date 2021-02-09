@@ -10,9 +10,6 @@ $menu-height: 20px;
   top: $site-header-height;
   width: 100%;
   z-index: 2000;
-
-  @media(max-width: 768px) {
-  }
 }
 
 body.admin {
