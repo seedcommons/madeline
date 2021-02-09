@@ -10,6 +10,9 @@ $menu-height: 20px;
   top: $site-header-height;
   width: 100%;
   z-index: 2000;
+  .submenu {
+    padding-left: 20px;
+  }
 }
 
 body.admin {
@@ -25,6 +28,15 @@ body.admin {
     top: 0;
     width: 100%;
     z-index: 2000;
+
+    // Bootstrap handles hiding the navbar toggle above mobile size
+    // and handles collapsing and expanding the menu with it.
+    // Here we override default styling of the bootstrap nav toggle. 
+    a.navbar-toggle {
+      border: 0;
+      padding: 3px;
+      position: absolute;
+    }
 
     .header-grid {
       display: grid;
@@ -50,13 +62,8 @@ body.admin {
 
     }
 
-    // This is the main area of the navbar but doesn't include the slide-down mobile menu.
-    // These styles are common to xs and sm sizes.
-    // See _madeline_logo.scss for logo styles.
-
+    // This is the main area of the header
       .division-brand {
-        // Deliberately not subtracting second padding so overflow is obvious.
-        height: $site-header-height - $site-header-padding;
         overflow-y: hidden;
 
         .with-logo {

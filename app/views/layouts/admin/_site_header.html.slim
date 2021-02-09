@@ -8,9 +8,12 @@ div id="site-header" class=""
           .madeline Madeline
     div class="grid-item"
         = render("layouts/admin/division_brand")
+        a.navbar-toggle.collapsed data-toggle="collapse" data-target="#site-menu-collapsible" aria-expanded="false"
+          = fa_icon "caret-down", text: "Menu"
     div class="grid-item"
       ul class="user-div-info"
         = render("layouts/admin/user_div_info")
-nav id="site-menu" class="navbar navbar-light"
-  ul class="nav navbar-nav"
-    = render "layouts/admin/site_menu"
+div.collapse.navbar-collapse id="site-menu-collapsible"
+  nav id="site-menu" class="navbar navbar-light"
+    ul class="nav navbar-nav"
+      = render "layouts/admin/site_menu"
