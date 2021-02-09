@@ -32,7 +32,7 @@ body.admin {
 
     // Bootstrap handles hiding the navbar toggle above mobile size
     // and handles collapsing and expanding the menu with it.
-    // Here we override default styling of the bootstrap nav toggle.
+    // Here we place the bootstrap nav toggle in the header and override default bs styleson
     a.navbar-toggle {
       border: 0;
       padding: 3px;
@@ -45,7 +45,7 @@ body.admin {
       grid-template-columns: repeat(3, 33%);
       justify-content: space-evenly;
 
-      @media(max-width: 768px) {
+      @media(max-width: 767.98px) {
         grid-template-columns: minmax(0, 0) minmax(auto, 75%) minmax(auto, auto);
 
         .ftc-triple-spiral {
@@ -92,7 +92,7 @@ body.admin {
         }
       }
 
-    // This form appears both in the header and the slide-down menu.
+    // This form appears in the header
     .select_division_form select {
       font-size: 12px;
     }
@@ -136,7 +136,7 @@ body.admin {
   .content-wrapper {
     padding: $content-wrapper-padding;
 
-    @media(max-width: $screen-sm-max) {
+    @media(max-width: 767.98px) {
       padding-left: 0;
       padding-right: 0;
     }
