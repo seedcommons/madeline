@@ -4,6 +4,7 @@ $site-header-padding: 10px;
 $menu-height: 20px;
 
 #site-menu {
+  z-index: 2000;
   position: fixed;
   left: 0px;
   top: $site-header-height;
