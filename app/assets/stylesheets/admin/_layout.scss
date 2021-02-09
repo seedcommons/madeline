@@ -4,11 +4,15 @@ $site-header-padding: 10px;
 $menu-height: 20px;
 
 #site-menu {
-  z-index: 2000;
+  left: 0;
+  padding-left: 10px;
   position: fixed;
-  left: 0px;
   top: $site-header-height;
   width: 100%;
+  z-index: 2000;
+
+  @media(max-width: 768px) {
+  }
 }
 
 body.admin {
@@ -16,25 +20,31 @@ body.admin {
 
   // Navbar styles for desktop and mobile.
   #site-header {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    right: 0;
     border: 0; // Hide default border to remove 1px line.
     height: $site-header-height;
     padding: $site-header-padding;
-
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 2000;
 
     .header-grid {
       display: grid;
       grid-template-columns: repeat(3, 33%);
-      @media(max-width: 768px) {
+      justify-content: space-evenly;
+
+      @media(max-width: $screen-md-min) {
+        grid-template-columns: minmax(0, 0) minmax(auto, 75%) minmax(auto, auto);
+
         .ftc-triple-spiral {
           display: none;
         }
-        grid-template-columns: minmax(0,0) minmax(auto, 75%) minmax(auto, auto)
+
+        .division-brand {
+          text-align: left;
+        }
       }
-      justify-content: space-evenly;
     }
 
     .logo-grid {
