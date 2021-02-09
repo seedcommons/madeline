@@ -44,7 +44,7 @@ body.admin {
       grid-template-columns: repeat(3, 33%);
       justify-content: space-evenly;
 
-      @media(max-width: $screen-md-min) {
+      @media(max-width: 767.98px) {
         grid-template-columns: minmax(0, 0) minmax(auto, 75%) minmax(auto, auto);
 
         .ftc-triple-spiral {
@@ -70,7 +70,7 @@ body.admin {
         .with-logo {
           img {
             height: $site-header-height - 2 * $site-header-padding;
-            max-width: 256px; // So that logo is not wider than its column at $screen-md-min.
+            max-width: 256px; // So that logo is not wider than its column at 768px.
           }
 
           &.with-text {
@@ -134,8 +134,8 @@ body.admin {
 
   .content-wrapper {
     padding: $content-wrapper-padding;
-    
-    @media(max-width: $screen-md-min) {
+
+    @media(max-width: $screen-sm-max) {
       padding-left: 0;
       padding-right: 0;
     }
@@ -174,7 +174,7 @@ body.admin {
   }
 
   // Page title and New button.
-  @media (min-width: $screen-md-min) {
+  @media (min-width: 768px) {
     .page-header {
       display: flex;
       align-items: center;

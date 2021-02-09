@@ -23,7 +23,7 @@ section.questionnaires li.jqtree_common
     margin: 2em auto 1em;
     text-align: center;
 
-    @media (min-width: $screen-md-min) {
+    @media (min-width: 768px) {
       width: 48%;
     }
   }
