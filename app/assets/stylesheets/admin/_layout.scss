@@ -62,7 +62,7 @@ body.admin {
         .with-logo {
           img {
             height: $site-header-height - 2 * $site-header-padding;
-            max-width: 256px; // So that logo is not wider than its column at 768px.
+            max-width: 256px; // So that logo is not wider than its column at $screen-md-min.
           }
 
           &.with-text {
@@ -126,6 +126,10 @@ body.admin {
 
   .content-wrapper {
     padding: $content-wrapper-padding;
+    @media(max-width: $screen-md-min) {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
 
   // Page title, help system popover, and new button
@@ -161,7 +165,7 @@ body.admin {
   }
 
   // Page title and New button.
-  @media (min-width: 768px) {
+  @media (min-width: $screen-md-min) {
     .page-header {
       display: flex;
       align-items: center;

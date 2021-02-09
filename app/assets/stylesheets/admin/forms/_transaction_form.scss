@@ -1,5 +1,5 @@
 .transaction-form {
-  @media (min-width: 768px) {
+  @media (min-width: $screen-md-min) {
     .control-label {
       padding-top: 0;
     }

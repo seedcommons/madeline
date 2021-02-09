@@ -163,7 +163,7 @@ section.questionnaires {
     $questionnaire-actions-offset: 2 * $content-wrapper-padding;
     width: calc(100% - #{$questionnaire-actions-offset});
 
-    @media (min-width: 768px) {
+    @media (min-width: $screen-md-min) {
       width: calc(100% - (#{$questionnaire-actions-offset}));
     }
 
