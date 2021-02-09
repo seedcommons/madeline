@@ -10,6 +10,7 @@ $menu-height: 20px;
   top: $site-header-height;
   width: 100%;
   z-index: 2000;
+
   .submenu {
     padding-left: 20px;
   }
@@ -31,7 +32,7 @@ body.admin {
 
     // Bootstrap handles hiding the navbar toggle above mobile size
     // and handles collapsing and expanding the menu with it.
-    // Here we override default styling of the bootstrap nav toggle. 
+    // Here we override default styling of the bootstrap nav toggle.
     a.navbar-toggle {
       border: 0;
       padding: 3px;
@@ -133,9 +134,10 @@ body.admin {
 
   .content-wrapper {
     padding: $content-wrapper-padding;
+    
     @media(max-width: $screen-md-min) {
-      padding-left: 0px;
-      padding-right: 0px;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
