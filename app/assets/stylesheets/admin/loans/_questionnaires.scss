@@ -94,7 +94,6 @@ section.questionnaires {
   .help-block {
     font-style: italic;
     font-size: $help-text-font-size;
-    color: $gray3;
   }
 
   input[type="number"] {
@@ -113,9 +112,13 @@ section.questionnaires {
     margin-left: 1em;
     margin-bottom: 1em;
 
-    &.blank,
-    &.no-response {
+    &.blank{
+      .fa {
+        font-size: 1em;
+        padding-right: 5px;
+      }
       font-style: italic;
+      font-weight: bold;
     }
   }
 
