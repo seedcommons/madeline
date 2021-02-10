@@ -1,0 +1,27 @@
+.media data-media-id="#{media_item.id}"
+  .media-box
+    .media-left
+      .thumb= link_to media_thumbnail(media_item), media_item.item.url
+      .caption= media_caption(media_item)
+    .media-body
+      dl
+        .detail-group
+          dt= t('media.block.id')
+          dd= media_item.id
+        .detail-group
+          dt= t('media.block.kind')
+          dd= media_item.kind_label
+        .detail-group
+          dt= t('media.block.filename')
+          dd= media_item.item.file.filename
+        .detail-group
+          dt= t('media.block.date_uploaded')
+          dd= l(media_item.created_at, format: :long)
+        .detail-group
+          dt= t('media.block.source_type')
+          dd= attachable_type(media_item)
+        .detail-group
+          dt= t('media.block.source')
+          dd= link_to media_item&.media_attachable&.name, polymorphic_path([:admin, media_item.media_attachable_type.tableize.singularize], id: media_item.media_attachable_id)
+
+    / = media_item.item.public_methods.awesome_inspect(html: true)
