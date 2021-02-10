@@ -1,0 +1,13 @@
+- content_for(:title, controller_name.humanize)
+
+/ - visuals = media_visuals(@media)
+/ - documents = media_documents(@media)
+
+.media-gallery.col-lg-12 data-media-type="MediaObject"
+  .pagination = page_entries_info @media
+
+  .media-container
+    - @media.each do |media_item|
+      = render "admin/media/media_box", media_item: media_item, link_params: { attachable_type: media_item.media_attachable_type, attachable_id: media_item.media_attachable_id }
+
+  .pagination = paginate @media

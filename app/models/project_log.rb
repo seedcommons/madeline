@@ -47,6 +47,10 @@ class ProjectLog < ApplicationRecord
     include_association :translations
   end
 
+  def name
+    I18n.t('project_log.name', date: I18n.l(date), id: id, project: project.name)
+  end
+
   def self.filter_by(params)
     if params[:step].present?
       where(project_step_id: params[:step])
