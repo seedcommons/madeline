@@ -61,7 +61,7 @@ div
              )
 
       - if question.explanation.present?
-        .help-block.hidden-print.tree-view
+        .help-block.hidden-print.tree-view.custom_dark_accent
           - if question.explanation.allow_html?
             = raw(question.explanation)
           - else
