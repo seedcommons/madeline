@@ -1,7 +1,7 @@
 class Admin::MediaController < Admin::AdminController
   include TranslationSaveable
 
-  SUPPORTED_TYPES = ["ProjectLog", "Project", "Organization"]
+  SUPPORTED_TYPES = ["Project", "Organization"]
 
   before_action :find_attachable, :find_media, :authorize_media, except: [:index]
 
