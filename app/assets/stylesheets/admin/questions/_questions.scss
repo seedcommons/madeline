@@ -1,11 +1,9 @@
 .now-editing {
-  color: $red2;
   float: left;
   font-style: italic;
   vertical-align: center;
 
   i.fa {
-    color: $red2;
     float: left;
     font-size: larger;
     padding-right: 0.2em;
@@ -44,7 +42,6 @@
     padding-top: 0;
   }
   .help-block {
-    color: $red2;
     width: 90%;
 
     &.collapsed {
