@@ -15,8 +15,6 @@ class Admin::ProjectLogsController < Admin::AdminController
     @log = ProjectLog.find(params[:id])
     @step = @log.project_step
     authorize @log
-
-    # redirect_to admin_loan_tab_path(@step.project, tab: :logs)
   end
 
   def new
