@@ -1,3 +1,20 @@
+.now-editing {
+  float: left;
+  font-style: italic;
+  vertical-align: center;
+
+  i.fa {
+    float: left;
+    font-size: larger;
+    padding-right: 0.2em;
+  }
+}
+
+.edit-action {
+  float: right;
+  padding-right: 5px;
+}
+
 .container {
   padding-left: 0;
   padding-right: 0;
@@ -16,40 +33,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
-    .outline {
-      background-color: $white;
-      border-radius: 4px;
-      margin-top: 7px;
-      padding: 10px;
-
-      ul {
-        list-style-type: none;
-
-        li {
-          padding-bottom: 10px;
-        }
-      }
-    }
-  }
-
-  .outline > ul {
-    padding-left: 0;
-
-    ul {
-      padding-left: 15px;
-      padding-top: 10px;
-    }
-
-    .optional-link {
-      font-style: italic;
-    }
-
-    a:focus {
-      color: $black;
-      font-weight: bold;
-      text-decoration: none;
-    }
   }
 }
 
@@ -57,6 +40,15 @@
   .block {
     margin-top: 0;
     padding-top: 0;
+  }
+  .help-block {
+    width: 90%;
+
+    &.collapsed {
+      height: 1.5em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 }
 
