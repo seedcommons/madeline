@@ -4,7 +4,7 @@
 
 section.log-list
   .logs-index.post-list
-    = render "admin/project_logs/log", log: @log, step_modal_context: "show"
+    = render "admin/project_logs/log", log: @log, step_modal_context: false
 
 div#log-form-modal
 = render "admin/media/modal"
