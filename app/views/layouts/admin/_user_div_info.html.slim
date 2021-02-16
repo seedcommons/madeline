@@ -10,8 +10,7 @@ li
 li
   = link_to destroy_user_session_path, method: :delete, title: t("logout")
     i.fa.fa-sign-out>
-    - if size == "xs"
-      = t("logout")
+    = t("logout")
 
 li.select-division
   = link_to "javascript:void(0)", "data-expands": "division-dropdown"

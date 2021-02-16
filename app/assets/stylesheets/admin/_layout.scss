@@ -1,42 +1,89 @@
 // Styles for the overall admin template
-$navbar-height: 85px;
-$navbar-padding: 10px;
+$site-header-height: 85px;
+$site-header-padding: 10px;
+$menu-height: 20px;
+
+#site-menu {
+  left: 0;
+  padding-left: 10px;
+  position: fixed;
+  top: $site-header-height;
+  width: 100%;
+  z-index: 2000;
+
+  .submenu {
+    padding-left: 20px;
+  }
+}
 
 body.admin {
-  padding-top: $navbar-height;
+  padding-top: $site-header-height + $menu-height + $site-header-padding * 2;
 
   // Navbar styles for desktop and mobile.
-  nav {
-    padding: $navbar-padding;
-    height: $navbar-height;
+  #site-header {
     border: 0; // Hide default border to remove 1px line.
+    height: $site-header-height;
+    padding: $site-header-padding;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 2000;
 
-    .container-fluid {
-      padding: 0; // Override bootstrap default, which adds extra padding.
+    // Bootstrap handles hiding the navbar toggle above mobile size
+    // and handles collapsing and expanding the menu with it.
+    // Here we place the bootstrap nav toggle in the header and override default bs styleson
+    a.navbar-toggle {
+      border: 0;
+      padding: 3px;
+      position: fixed;
+      top: 45px;
     }
 
-    // This is the main area of the navbar but doesn't include the slide-down mobile menu.
-    // These styles are common to xs and sm sizes.
-    // See _madeline_logo.scss for logo styles.
-    .navbar-main {
+    .header-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 33%);
+      justify-content: space-evenly;
+
+      @media(max-width: 767.98px) {
+        grid-template-columns: minmax(0, 0) minmax(auto, 75%) minmax(auto, auto);
+
+        .ftc-triple-spiral {
+          display: none;
+        }
+
+        .division-brand {
+          text-align: left;
+        }
+      }
+    }
+
+    .logo-grid {
+      display: grid;
+      grid-template-columns: minmax(auto, 42px) auto;
+
+    }
+
+    // This is the main area of the header
       .division-brand {
-        // Deliberately not subtracting second padding so overflow is obvious.
-        height: $navbar-height - $navbar-padding;
         overflow-y: hidden;
 
         .with-logo {
           img {
-            height: $navbar-height - 2 * $navbar-padding;
+            height: $site-header-height - 2 * $site-header-padding;
             max-width: 256px; // So that logo is not wider than its column at 768px.
           }
 
           &.with-text {
             img {
-              height: $navbar-height - 2 * $navbar-padding - 20px;
+              height: $site-header-height - 2 * $site-header-padding - 20px;
             }
 
             .logo-text {
               font-size: 14px;
+              @media(max-width: 767.98px) {
+                display: none;
+              }
             }
           }
         }
@@ -47,29 +94,28 @@ body.admin {
           line-height: 1.2;
         }
       }
-    }
 
-    // This form appears both in the header and the slide-down menu.
+    // This form appears in the header
     .select_division_form select {
       font-size: 12px;
     }
-
-    // Styles specific to sm size.
-    @media (min-width: 768px) {
-      .nav-xs {
-        display: none;
-      }
 
       .division-brand {
         text-align: center;
       }
 
       .user-div-info {
-        text-align: right;
+        float: right;
 
         li {
           list-style-type: none;
-          display: inline-block;
+          &.select-division {
+            display: block;
+          }
+
+          select {
+            margin-bottom: 1em;
+          }
         }
 
         form {
@@ -88,96 +134,15 @@ body.admin {
           font-size: 16px;
         }
       }
-    }
-
-    // Styles specific to xs size.
-    @media (max-width: 767px) {
-      .nav-sm {
-        display: none;
-      }
-
-      .navbar-toggle {
-        margin: 0;
-      }
-
-      // This is the slide-down menu for mobile.
-      #navbar-menu {
-        border-top: 1px solid #eee;
-
-        ul.nav {
-          // Something somewhere is setting top margin to 7.5px, which messes things up.
-          margin-top: 0;
-          margin-bottom: 0;
-        }
-
-        hr {
-          margin: 0;
-        }
-
-        .select_division_form {
-          margin: 0 15px;
-        }
-      }
-    }
-  }
-
-  // Sidebar
-
-  // Hide for mobile, show later
-  .sidebar {
-    display: none;
-    background-color: white;
-  }
-
-  @media (min-width: 768px) {
-    .sidebar {
-      position: fixed;
-      top: $navbar-height;
-      bottom: 0;
-      left: 0;
-      z-index: 1000;
-      width: $sidebar-width;
-      display: block;
-      padding: 20px;
-      overflow-x: hidden;
-      overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-      border-right: 1px solid #eee;
-      margin-top: 20px;
-      padding: 0 20px;
-    }
-  }
-
-  // Sidebar navigation
-  .nav-sidebar {
-    margin-right: -21px; // 20px padding + 1px border
-    margin-bottom: 20px;
-    margin-left: -20px;
-
-    .active > a, .active > a:hover, .active > a:focus {
-      color: #fff;
-      background-color: #428bca;
-    }
-
-    li {
-      a {
-        padding-right: 20px;
-        padding-left: 20px;
-      }
-    }
-
-    // Collapsable sub menu within side menu.
-    .submenu {
-      padding-left: 15px;
-      font-size: 93%;
-    }
   }
 
   .content-wrapper {
-    margin-left: $sidebar-width;
     padding: $content-wrapper-padding;
+    margin-top: $content-wrapper-padding;
 
-    @media (max-width: 767px) {
-      margin-left: 0;
+    @media(max-width: 767.98px) {
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
