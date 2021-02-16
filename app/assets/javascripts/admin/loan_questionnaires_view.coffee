@@ -32,6 +32,12 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     'click .edit-rt-response': 'openRichTextModal'
     'click a.deep-link': 'scrollElementToView'
     'change input': 'formUpdated'
+    'click .help-block .expansion-control': 'toggleExpansion'
+
+  toggleExpansion: (e) ->
+    e.preventDefault
+    target = @$(e.currentTarget)
+    @$(target.parent()).toggleClass("collapsed expanded")
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.
   notifyExpandListeners: (e) ->
