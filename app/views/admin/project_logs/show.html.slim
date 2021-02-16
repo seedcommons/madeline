@@ -1,0 +1,20 @@
+- content_for :title, @log ? @log.name : t(".title")
+
+- refresh_url = @log ? "/admin/logs/#{@log.id}" : "/admin/logs"
+
+section.log-list
+  .logs-index.post-list
+    = render "admin/project_logs/log", log: @log, step_modal_context: "show"
+
+div#log-form-modal
+= render "admin/media/modal"
+
+javascript:
+  $(function() {
+    new MS.Views.LogListView({
+      el: 'section.log-list',
+      refreshUrl: #{json refresh_url},
+      logFormModal: $('#log-form-modal'),
+      reloadOnSave: true
+    });
+  });
