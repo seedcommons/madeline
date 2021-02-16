@@ -6,25 +6,8 @@
 - colors = admin_custom_colors # Helper method
 
 style type="text/css"
-  |
-    /* For customizing */
-    .custom_dark_accent {
-      color: #{colors[:accent_darkened]};
-    }
 
-    /* Navbar and links */
-    nav, nav a, nav a:hover, nav a:focus {
-      color: #{colors[:banner_fg]};
-      background-color: #{colors[:banner_bg]};
-    }
-
-    /* site header */
-      #site-header, #site-header a, #site-header a:hover, #site-header a:focus  {
-        color: #{colors[:banner_fg]};
-        background-color: #{colors[:banner_bg]};
-      }
-
-    /* General links */
+  | /* General links */
     a,
     .btn-link,
     .table.rowlink td:not(.rowlink-skip) a,
@@ -89,4 +72,19 @@ style type="text/css"
     .open > .btn-primary.dropdown-toggle.focus {
       color: #{colors[:accent_fg_text]};
       background-color: #{colors[:accent_darkened]};
+    }
+
+    /* site header */
+    #site-header, #site-header a, #site-header a:hover, #site-header a:focus  {
+      color: #{colors[:banner_fg]};
+      background-color: #{colors[:banner_bg]};
+    }
+
+    #site-menu, #site-menu a {
+      color: #{colors[:banner_fg]};
+      background-color: #{colors[:banner_bg]};
+    }
+
+    #site-menu ul li a:hover  {
+      text-decoration: underline;
     }
