@@ -3,7 +3,7 @@ class MS.Views.LogListView extends Backbone.View
   initialize: (options) ->
     new MS.Views.AutoLoadingIndicatorView()
     @refreshUrl = options.refreshUrl
-    @logFormModalView = new MS.Views.LogFormModalView(el: options.logFormModal)
+    @logFormModalView = new MS.Views.LogFormModalView(el: options.logFormModal, reloadOnSave: options.reloadOnSave)
 
   events:
     'click .log [data-action="edit"]': 'openEditLog'
