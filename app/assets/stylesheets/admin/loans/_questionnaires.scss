@@ -66,6 +66,13 @@ section.questionnaires {
 .questionnaire-form {
   $help-text-font-size: 12px;
 
+  hr {
+    border-top-color: $gray4;
+    border-top-width: 2px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
   li {
     min-height: 3em;
     margin-bottom: 1em;
@@ -92,8 +99,41 @@ section.questionnaires {
   }
 
   .help-block {
+    display: inherit; // in most forms, help blocks are hidden in show-view mode
     font-style: italic;
     font-size: $help-text-font-size;
+
+    .expansion-control {
+      float: left;
+      font-size: 1.5em;
+      &.expand {
+        padding-right: 7px;
+      }
+      &.collapse {
+        padding-right: 3px;
+      }
+    }
+
+    &.collapsed {
+      height: 1.2em;
+      overflow: hidden;
+      padding-right: 4px;
+      .expansion-control.expand {
+        display: block;
+      }
+      .expansion-control.collapse {
+        display: none;
+      }
+    }
+    &.expanded {
+      height: inherited;
+      .expansion-control.expand {
+        display: none;
+      }
+      .expansion-control.collapse {
+        display: block;
+      }
+    }
   }
 
   input[type="number"] {
@@ -180,7 +220,6 @@ section.questionnaires {
 
     label {
       margin-left: .5em;
-      color: $gray3;
       font-size: $help-text-font-size;
       font-weight: normal;
     }

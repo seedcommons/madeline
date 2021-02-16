@@ -61,11 +61,14 @@ div
              )
 
       - if question.explanation.present?
-        .help-block.hidden-print.tree-view.custom_dark_accent
-          - if question.explanation.allow_html?
-            = raw(question.explanation)
-          - else
-            = simple_format(question.explanation)
+        - explanation_to_render = question.explanation.allow_html? ?  raw(question.explanation) : simple_format(question.explanation)
+        - is_long = explanation_to_render.length > 260
+        .help-block.hidden-print.tree-view.custom_dark_accent class="#{ is_long ? "collapsed" : ""}"
+          - if is_long
+            = fa_icon("caret-right", class: "expansion-control expand")
+            = fa_icon("caret-down", class: "expansion-control collapse")
+          = explanation_to_render
+
 
       / Recurse if group, else render
       - if question.group? && !question.leaf?
