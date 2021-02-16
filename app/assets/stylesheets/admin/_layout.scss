@@ -37,7 +37,7 @@ body.admin {
       border: 0;
       padding: 3px;
       position: fixed;
-      top: calc($site-header-height - 45px);
+      top: 45px;
     }
 
     .header-grid {
@@ -81,6 +81,9 @@ body.admin {
 
             .logo-text {
               font-size: 14px;
+              @media(max-width: 767.98px) {
+                display: none;
+              }
             }
           }
         }
@@ -135,6 +138,7 @@ body.admin {
 
   .content-wrapper {
     padding: $content-wrapper-padding;
+    margin-top: $content-wrapper-padding;
 
     @media(max-width: 767.98px) {
       padding-left: 0;
