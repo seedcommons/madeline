@@ -1,4 +1,4 @@
-.not-applicable
+.not-applicable.custom_dark_accent
   - if response.not_applicable?
     .view-element.answer = t("loan.not_applicable")
 
@@ -47,15 +47,12 @@
   / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
-  a.form-element.edit-rt-response
-    = icon_tag("pencil")
-    = " " + t("loan.question.edit")
+  a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
+    =t("questions.edit_rich_text")
 
   - if response.text.present? && !response.not_applicable?
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
 
-  h6.form-element.current-response-heading class=(response.text.present? ? "" : "hidden")
-    = t("loan.question.current_response")
   .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
   .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
 
@@ -103,6 +100,9 @@
   .form-element
     = render 'admin/loans/questionnaires/business_model_canvas', f: f,
       question: question, data: response.business_canvas
+- if display_context != "summary" && !response.group? && response.blank? && question.required?
+  .view-element.answer.blank.custom_dark_accent
+    = fa_icon "exclamation-circle"
+    = t("questions.missing_required_answer")
 
-- if display_context != "summary" && !response.group? && response.blank?
-  .view-element.answer.blank = t("loan.no_answer")
+hr class="solid"

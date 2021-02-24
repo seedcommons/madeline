@@ -5,6 +5,7 @@ class MS.Views.LogFormModalView extends Backbone.View
     # TODO: Remove @parentView stuff once old timeline goes away
     @parentView = options.parentView
     @done = (->) # Empty function
+    @reloadOnSave = options.reloadOnSave
 
   events:
     'click [data-action="submit"]': 'submitForm'
@@ -43,18 +44,22 @@ class MS.Views.LogFormModalView extends Backbone.View
 
   submitSuccess: (e, data) ->
     MS.loadingIndicator.hide()
-
-    if @parentView # TODO: Remove once old timeline goes away
-      @parentView.replaceWith(data)
+    if @reloadOnSave
+      @$('.modal').modal('hide')
+      window.location.reload()
     else
-      if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
-        @$('.modal').modal('hide')
-        @updateLogSummaryInList(data.responseText)
-        @done()
-        @done = (->) # Reset to empty function.
+      if @parentView # TODO: Remove once old timeline goes away
+        @parentView.replaceWith(data)
       else
-        @replaceContent(data.responseText)
-        @addSummernoteToForm()
+        if parseInt(data.status) == 200 # data.status is sometimes a string, sometimes an int!?
+          @$('.modal').modal('hide')
+          console.log(data.responseText)
+          @updateLogSummaryInList(data.responseText)
+          @done()
+          @done = (->) # Reset to empty function.
+        else
+          @replaceContent(data.responseText)
+          @addSummernoteToForm()
 
   updateLogSummaryInList: (dataResponse) ->
     # Update the log summary inside the timeline table step

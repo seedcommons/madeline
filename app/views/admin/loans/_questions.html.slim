@@ -15,17 +15,13 @@ section.questionnaires
 
   div.questionnaire data-attrib=@attrib class=@attrib
     section.block class=(@response_set.persisted? && @response_set.valid? && !@conflict ? 'show-view' : 'edit-view')
-      .show-actions
-        - if policy(@loan).update? && @response_set.persisted?
-          a.edit-action.view-element href="javascript:void(0)"
-            i.fa.fa-pencil.fa-large>
-            = t(".edit")
-          a.show-action.form-element href="javascript:void(0)"
-            = t("cancel_edit")
-          = link_to [:admin, @response_set], method: :delete,
-            data: { confirm: t("loan.confirm_response_deletion") }
-            i.fa.fa-trash.fa-large>
-            = t(".delete")
+      //hide delete link and see if there are any complaints before removing entirely
+      / .show-actions
+      /   - if policy(@loan).update? && @response_set.persisted?
+      /     = link_to [:admin, @response_set], method: :delete,
+      /       data: { confirm: t("loan.confirm_response_deletion") }
+      /       i.fa.fa-trash.fa-large>
+      /       = t(".delete")
 
       h2 = t("loan.#{@attrib}")
       div.container
@@ -55,15 +51,21 @@ javascript:
 
   $(function() {
     var $sidebar   = $(".outline"),
-        $outlineHeight = $(".outline ul").height()
         $window    = $(window),
-        $containerHeight = $("#questions").height()
-        offset     = $sidebar.offset(),
         topPadding = 15;
+        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
-      if ($window.scrollTop() > (offset.top + $outlineHeight)) {
-        percentage = $window.scrollTop()/$containerHeight
-        $sidebar.css('margin-top', $window.scrollTop() - $outlineHeight * percentage)
+      offset     = $sidebar.offset()
+      $outlineHeight = $(".outline ul").height()
+      $containerHeight = $("#questions").height()
+      if ($window.scrollTop() > originalYAdjustment){
+        if ($outlineHeight > $window.innerHeight()){
+          percentage = $window.scrollTop()/$containerHeight
+          adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
+          $sidebar.css('margin-top', $window.scrollTop() - adjustment)
+        }else{
+          $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
+        }
       } else {
         $sidebar.css('margin-top',0)
       }

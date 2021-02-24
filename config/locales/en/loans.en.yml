@@ -43,7 +43,6 @@ en:
       body: "Are you sure you want to change the loan date?"
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
-    no_answer: "No answer given."
     not_applicable: "Not applicable"
     num_of_links:
       one: "There is %{count} linked document."
@@ -67,9 +66,9 @@ en:
       not_authorized: "You are not authorized to view the loan you requested."
     question:
       current_response: "Current Response"
-      edit: "Edit Response"
+      edit: "Update Response"
     rating: "Score"
-    save_responses: "Save Responses"
+    save_responses: "Save Changes"
     shared:
       new: "New Loan"
     signing_date: "Signing Date"
@@ -207,7 +206,6 @@ en:
   admin:
     loans:
       questions:
-        edit: "Edit Responses"
         delete: "Delete All Responses"
         outline:
           header: "Outline"
