@@ -26,7 +26,7 @@ section.questionnaires
       h2 = t("loan.#{@attrib}")
       div.container
         div.row
-          div.col-sm.outline
+          div.outline
             h4 data-hides="outline-container"
               = "<<"
             h4 data-expands="outline-container"
@@ -34,7 +34,7 @@ section.questionnaires
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.col-lg
+          div.hello
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
 
