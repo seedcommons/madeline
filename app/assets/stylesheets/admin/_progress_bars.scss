@@ -10,34 +10,12 @@
     padding-right: 5px;
     vertical-align: top;
   }
-}
-
-.hello {
-  display: inline;
-}
-// Additional styles specific to the questionnaire screen and print views.
-.outline .progress-wrapper .progress-light {
-  height: .8em;
-  width: .8em;
-}
-
-.questionnaire-form .progress-wrapper .progress-light {
-  height: 1.3em;
-  margin-left: 8px;
-  width: 1.3em;
-}
-
-.progress-wrapper {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: flex-start;
 
   .progress-light {
     background-color: $yellow3;
     border: solid 3px;
     border-color: $yellow3;
     border-radius: 50%;
-    display: inline-flex;
 
     &[data-pct="0"] {
       background-color: $red2;
@@ -52,6 +30,42 @@
     &.optional {
       background-color: transparent;
     }
+  }
+}
+
+// Additional styles specific to the questionnaire form and outline
+.outline {
+  .outline-item {
+    width: 100%;
+    display: inline-block;
+    li {
+      display: inline;
+    }
+  }
+  .progress-wrapper {
+    display: inline;
+    .progress-light {
+      display: inline-block;
+      float: right;
+      height: .8em;
+      margin-top: .2em;
+      width: .8em;
+    }
+  }
+}
+
+
+
+.questionnaire-form .progress-wrapper {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .progress-light {
+    display: inline-flex;
+    height: 1.3em;
+    margin-left: 8px;
+    width: 1.3em;
   }
 
   .progress-pct {
