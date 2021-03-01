@@ -6,7 +6,7 @@
   data-placement='left'
  )
 
-  // Progress light rules: 
+  // Progress light rules:
   // not started: red
   // in progress: yellow
   // complete: green
@@ -16,5 +16,6 @@
     class="#{object.try(:progress_type)}"
     data-pct="#{pct}"
   )
-  .progress-pct
-    = "#{pct}%"
+  - if display_pct
+    .progress-pct
+      = "#{pct}%"

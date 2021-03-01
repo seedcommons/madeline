@@ -4,11 +4,13 @@
     - has_children = q.children.count > 0
     - section_id = ((depth == 0) ? q.id : parent.id)
     li class="#{ has_children ? "" : "leaf"}"
-      - if has_children
-        = fa_icon("caret-right", class: "expansion-control custom_dark_accent ", data: {expands:"outline#{q.id}"})
-        = fa_icon("caret-down", class: "expansion-control custom_dark_accent", data: {hides:"outline#{q.id}"})
-      = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
-      / div class="outline-toggle #{ has_children ? "arrow-right" : ""}"
+      span class="hello"
+        - if has_children
+          = fa_icon("caret-right", class: "expansion-control custom_dark_accent ", data: {expands:"outline#{q.id}"})
+          = fa_icon("caret-down", class: "expansion-control custom_dark_accent", data: {hides:"outline#{q.id}"})
+        = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
+        = render("admin/loans/questionnaires/progress", object: q.response_set.response(q), display_pct: false)
+        / div class="outline-toggle #{ has_children ? "arrow-right" : ""}"
       = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
      - optional_group_id = depth == 0 ? "optional_group_root" : "optional_group_#{parent.id}"
