@@ -27,10 +27,10 @@ section.questionnaires
       div.container
         div.row
           div.outline
-            h4 data-hides="outline-container"
-              = "<<"
-            h4 data-expands="outline-container"
-              = ">>"
+            h5.expansion-control
+              = fa_icon("chevron-left", data: {hides: "outline-container"})
+            h5.expansion-control
+              = fa_icon("chevron-right", data: {expands: "outline-container"})
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root

@@ -19,6 +19,9 @@
   padding-left: 0;
   padding-right: 0;
   width: 100%;
+  h5.expansion-control {
+    float: right;
+  }
   .row {
     display: grid;
     grid-template-columns: auto minmax(70%, auto);
