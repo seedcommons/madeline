@@ -38,15 +38,19 @@
 
 // Additional styles specific to the questionnaire form and outline
 .outline {
+
   .outline-item {
-    width: 100%;
     display: inline-block;
+    width: 100%;
+
     li {
       display: inline;
     }
   }
+
   .progress-wrapper {
     display: inline;
+
     .progress-light {
       display: inline-block;
       float: right;
