@@ -19,8 +19,11 @@
   padding-left: 0;
   padding-right: 0;
   width: 100%;
-  h5.expansion-control {
+  .outline-expansion-control {
     float: right;
+    &.small {
+      padding-top: 10px;
+    }
   }
   .row {
     display: grid;
