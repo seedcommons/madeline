@@ -48,7 +48,7 @@
       options: popover_options)
 
   = f.input :criteria_progress, wrapper_html: {class: 'hidden-print view-element'}
-    = render "admin/loans/questionnaires/progress", object: @loan_criteria, display_pct: true
+    = render "admin/loans/questionnaires/progress", object: @loan_criteria, display_pct: true, details_context: true
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_criteria_progress", options: popover_options)
 

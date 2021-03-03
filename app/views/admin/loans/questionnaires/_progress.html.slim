@@ -16,6 +16,7 @@
     class="#{object.try(:progress_type)}"
     data-pct="#{pct}"
   )
+  - details_context ||= false 
   - if display_pct
     .progress-pct
-      = "#{pct}%"
+      = "#{pct}% #{details_context ? t("questions.progress.complete") : ""}"
