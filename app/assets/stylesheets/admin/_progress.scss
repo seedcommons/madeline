@@ -1,21 +1,17 @@
-// General progress bar styles.
 .progress-wrapper {
-  // !important flags for width directives below are needed to override an overly inclusive
-  // print style setting widths of all divs to 6in. Should refactor later.
-  width: 250px !important;
-
-  .progress-pct {
-    width: 35px !important; // This line shouldn't be necessary at all after refactor.
-    display: inline-block;
-    padding-right: 5px;
-    vertical-align: top;
-  }
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
 
   .progress-light {
     background-color: $yellow3;
     border: solid 3px;
     border-color: $yellow3;
     border-radius: 50%;
+    display: inline-flex;
+    height: 1.3em;
+    margin: 0 8px;
+    width: 1.3em;
 
     &[data-pct="0"] {
       background-color: $red2;
@@ -29,6 +25,13 @@
 
     &.optional {
       background-color: transparent;
+    }
+
+    .progress-pct {
+      color: $gray3;
+      display: inline-flex;
+      padding-left: 8px;
+      text-align: right;
     }
   }
 }
@@ -51,27 +54,5 @@
       margin-top: .5em;
       width: .8em;
     }
-  }
-}
-
-
-
-.questionnaire-form .progress-wrapper {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: flex-start;
-
-  .progress-light {
-    display: inline-flex;
-    height: 1.3em;
-    margin-left: 8px;
-    width: 1.3em;
-  }
-
-  .progress-pct {
-    color: $gray3;
-    display: inline-flex;
-    padding-left: 8px;
-    text-align: right;
   }
 }
