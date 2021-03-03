@@ -61,7 +61,7 @@ javascript:
         originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
       offset     = $sidebar.offset()
-      $outlineHeight = $(".outline ul").height()
+      $outlineHeight = $(".outline-container").height()
       $containerHeight = $("#questions").height()
       if ($window.scrollTop() > originalYAdjustment){
         if ($outlineHeight > $window.innerHeight()){
