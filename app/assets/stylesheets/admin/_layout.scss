@@ -10,7 +10,7 @@ $menu-height: 20px;
   position: fixed;
   top: $site-header-height;
   width: 100%;
-  z-index: 2000;
+  z-index: 1040;
 
 
   .submenu {
@@ -30,7 +30,7 @@ body.admin {
     right: 0;
     top: 0;
     width: 100%;
-    z-index: 2000;
+    z-index: 1040;
 
     // Bootstrap handles hiding the navbar toggle above mobile size
     // and handles collapsing and expanding the menu with it.
