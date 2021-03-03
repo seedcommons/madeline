@@ -50,9 +50,12 @@ feature 'organization flow' do
     click_on 'New Note'
     fill_in 'Note', with: 'You had better work'
     click_on 'Save'
+    save_and_open_page
 
     # user logs out
-    click_on 'Logout'
+    #TODO next line is workaround for phantomjs bug. id #logout can be removed
+    # and simpler syntax can be used after moving off of phantomjs
+    find("#logout").trigger('click')
 
     # admin user logs in
     fill_in 'user_email', with: admin.email
