@@ -34,7 +34,7 @@ section.questionnaires
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.hello
+          div.questionnaire-wrapper
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
 
