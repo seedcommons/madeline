@@ -48,7 +48,7 @@ div
             .question-label class=(response.has_number? ? 'hidden-print' : '')
               = question.full_number_and_label
         - if !question.leaf?
-          = render "admin/loans/questionnaires/progress", object: response
+          = render "admin/loans/questionnaires/progress", object: response, display_pct: true
         - if policy(@loan).update? && @response_set.persisted?
           a.edit-action.view-element(
             href="javascript:void(0)"
@@ -58,6 +58,7 @@ div
               data-message="#{t("questions.edit_all")}"
               data-placement='left'
               aria-hidden="true"
+              class="hidden-print"
              )
 
       - if question.explanation.present?

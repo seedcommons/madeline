@@ -41,6 +41,11 @@ class LoanFilteredQuestion < FilteredQuestion
     @answered = response_set && response_set.response(self).present?
   end
 
+  def progress_pct
+    return @progress_pct if defined?(@progress_pct)
+    @progress_pct = self.response_set.response(self).progress_pct
+  end
+
   def visible?
     return @visible if defined?(@visible)
     @visible = super && (status == 'active' || (status == 'inactive' && answered?))
