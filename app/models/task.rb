@@ -83,7 +83,11 @@ class Task < ApplicationRecord
   end
 
   def activity_message
-    I18n.t("task.activity_message.#{activity_message_value}", activity_message_data.try(:symbolize_keys))
+    if activity_message_data.present?
+      I18n.t("task.activity_message.#{activity_message_value}", activity_message_data.symbolize_keys)
+    else
+      I18n.t("task.activity_message.#{activity_message_value}")
+    end
   end
 
   private
