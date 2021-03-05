@@ -207,7 +207,7 @@ section.questionnaires {
     width: calc(100% - #{$questionnaire-actions-offset});
 
     @media (min-width: 768px) {
-      width: calc(100% - (#{$sidebar-width} + #{$questionnaire-actions-offset}));
+      width: calc(100% - (#{$questionnaire-actions-offset}));
     }
 
     a {
@@ -298,7 +298,7 @@ section.questionnaires {
 }
 
 .rich-text-modal {
-  @media (min-width: $screen-md-min) {
+  @media (min-width: 768px) {
     .modal-dialog {
       width: 80%;
     }

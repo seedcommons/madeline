@@ -8,10 +8,9 @@ li
     = current_user.try(:name) || t("common.user")
 
 li
-  = link_to destroy_user_session_path, method: :delete, title: t("logout")
+  = link_to destroy_user_session_path, method: :delete, title: t("logout"), id: "logout"
     i.fa.fa-sign-out>
-    - if size == "xs"
-      = t("logout")
+    = t("logout")
 
 li.select-division
   = link_to "javascript:void(0)", "data-expands": "division-dropdown"
