@@ -26,7 +26,7 @@ gem "uglifier", ">= 1.3.0"
 gem "uri-js-rails" # URI manipulation
 
 # File attachments
-gem "carrierwave", "~> 2.0"
+gem "carrierwave", "~> 2.1"
 gem "fog-aws"
 gem "mini_magick", ">= 4.9.4"
 

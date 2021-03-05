@@ -1,6 +1,6 @@
 / The division logo/text area in the banner.
 - division = selected_division
-.division-brand.col-sm-4.col-xs-10
+.division-brand
   - if division.present?
     - if division.logo.present?
       .with-logo class="#{division.try(:has_logo_text?) ? "with-text" : nil}"
@@ -9,7 +9,3 @@
           .logo-text = division.logo_text
     - else
       .without-logo = division.logo_text || division.name
-  - elsif size == "xs" # In 'sm' mode this gets shown elsewhere.
-    .madeline-logo
-      .ftc-triple-spiral
-      .madeline Madeline

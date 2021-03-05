@@ -26,10 +26,15 @@ section.questionnaires
       h2 = t("loan.#{@attrib}")
       div.container
         div.row
-          div.col-sm.outline
-            h4 = t("admin.loans.questions.outline.header")
-            = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.col-lg
+          div.outline
+            div.outline-expansion-control.small
+              = fa_icon("chevron-left", data: {hides: "outline-container"})
+            h5.outline-expansion-control
+              = fa_icon("chevron-right", data: {expands: "outline-container"})
+            div.outline-container data-expandable="outline-container"
+              h4 = t("admin.loans.questions.outline.header")
+              = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
+          div.questionnaire-wrapper
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
 
@@ -56,7 +61,7 @@ javascript:
         originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
     $window.scroll(function() {
       offset     = $sidebar.offset()
-      $outlineHeight = $(".outline ul").height()
+      $outlineHeight = $(".outline-container").height()
       $containerHeight = $("#questions").height()
       if ($window.scrollTop() > originalYAdjustment){
         if ($outlineHeight > $window.innerHeight()){
@@ -67,7 +72,7 @@ javascript:
           $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
         }
       } else {
-        $sidebar.css('margin-top',0)
+        $sidebar.css('margin-top',"7px")
       }
     });
   });
