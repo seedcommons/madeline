@@ -19,20 +19,24 @@
   padding-left: 0;
   padding-right: 0;
   width: 100%;
-
+  .outline-expansion-control {
+    float: right;
+    &.small {
+      padding-top: 10px;
+    }
+  }
   .row {
-    .col-sm {
-      margin-top: 7px;
-      width: 20%;
+    display: grid;
+    grid-template-columns: auto minmax(70%, auto);
+    gap: 10px;
+    .outline {
+      grid-row: 1 / 1;
+      grid-column: 1 / 2;
     }
-
-    .col-lg {
-      width: 78%;
+    .questionnaire-wrapper {
+      grid-row: 1 / 1;
+      grid-column: 2 / 2;
     }
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
   }
 }
 
