@@ -9,7 +9,7 @@
           = fa_icon("caret-right", class: "expansion-control custom_dark_accent ", data: {expands:"outline#{q.id}"})
           = fa_icon("caret-down", class: "expansion-control custom_dark_accent", data: {hides:"outline#{q.id}"})
         = link_to "#{q.full_number_and_label}", {}, class: "deep-link", data: { outline_id: q.id, section_id: section_id }
-        = render("admin/loans/questionnaires/progress", object: q.response_set.response(q), display_pct: false)
+        = render("admin/loans/questionnaires/progress", object: @response_set.response(q), display_pct: false)
         / div class="outline-toggle #{ has_children ? "arrow-right" : ""}"
       = render("admin/loans/questionnaires/questionnaire_outline", questions: q.children, depth: depth + 1, parent: q)
    - if questions.any?(&:optional?)
