@@ -20,6 +20,7 @@
   padding-right: 0;
   width: 100%;
   .outline-expansion-control {
+    cursor: pointer;
     float: right;
     &.small {
       padding-top: 10px;
@@ -27,7 +28,7 @@
   }
   .row {
     display: grid;
-    grid-template-columns: auto minmax(70%, auto);
+    grid-template-columns: auto minmax(70%, 100%);
     gap: 10px;
     .outline {
       grid-row: 1 / 1;
