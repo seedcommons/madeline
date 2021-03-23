@@ -100,6 +100,33 @@ module ApplicationHelper
     options += options_tree(divisions.hash_tree, include_root: include_root, public_only: public_only)
   end
 
+  def custom_colors
+    return @custom_colors if @custom_colors
+    colors = {}
+    selected_division =  @selected_division || selected_division
+
+    colors[:banner_fg] = selected_division && selected_division.banner_fg_color || "white"
+    colors[:banner_bg] = selected_division && selected_division.banner_bg_color || "#8C2426"
+    colors[:accent_main] = selected_division && selected_division.accent_main_color || colors[:banner_bg]
+    colors[:accent_fg_text] = selected_division && selected_division.accent_fg_color || colors[:banner_fg]
+
+    # These two colors are derived from the user configurable ones using the Chroma gem.
+    colors[:accent_darkened] = begin
+      colors[:accent_main].paint.darken(5)
+    rescue Chroma::Errors::UnrecognizedColor
+      colors[:accent_main]
+    end
+
+    colors[:banner_fg_transp] = begin
+      # Add alpha channel
+      colors[:banner_fg].paint.tap { |c| c.rgb.a = 0.3 }.to_rgb
+    rescue Chroma::Errors::UnrecognizedColor
+      colors[:banner_fg]
+    end
+
+    @custom_colors = colors
+  end
+
   private
 
   # Takes a hash of the form created by closure_tree's hash_tree method and generates options to be

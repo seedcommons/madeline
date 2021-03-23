@@ -112,6 +112,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: :public, path: nil, as: :public do
+    get '/division/:short_name' => 'divisions#show', as: :division
+  end
+
   get '/ping', to: 'ping#index'
 
   root to: redirect(path: '/admin/dashboard')
