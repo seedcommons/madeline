@@ -45,8 +45,7 @@
         = fa_icon "exclamation-circle"
         = t("questions.currently_editing")
       p#unsaved-changes-warning.unsaved-changes-warning.hidden = t("loan.pending_changes_short")
-      - unless response_set.new_record?
-        a.btn.btn-default.show-action = t(:cancel)
+      a.btn.btn-default.show-action = t(:cancel)
       = f.submit t("loan.save_responses"), class: 'update-action btn btn-primary'
     .clearfix
 
