@@ -50,7 +50,7 @@ div
         - if !question.leaf?
           = render "admin/loans/questionnaires/progress", object: response, display_pct: true
         - if policy(@loan).update?
-          a.edit-action(
+          a.edit-action.edit-all(
             href="javascript:void(0)"
             aria-label="#{t("questions.edit_all")}"
           )
