@@ -1,0 +1,5 @@
+h1= @division.name
+- @loans.each do |loan|
+  h3= loan.display_name
+  p= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+= paginate @loans

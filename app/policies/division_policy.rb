@@ -5,7 +5,7 @@ class DivisionPolicy < ApplicationPolicy
   end
 
   def show?
-    division_member_or_admin(division: @record)
+    user ? division_member_or_admin(division: @record) : @record.public
   end
 
   def create?
