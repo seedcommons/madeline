@@ -49,7 +49,7 @@ div
               = question.full_number_and_label
         - if !question.leaf?
           = render "admin/loans/questionnaires/progress", object: response, display_pct: true
-        - if policy(@loan).update? && @response_set.persisted?
+        - if policy(@loan).update?
           a.edit-action.view-element(
             href="javascript:void(0)"
             aria-label="#{t("questions.edit_all")}"
