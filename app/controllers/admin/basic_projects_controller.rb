@@ -1,5 +1,7 @@
 class Admin::BasicProjectsController < Admin::ProjectsController
 
+  TABS = %w(details timeline logs calendar).freeze
+
   def index
     authorize BasicProject
 
@@ -25,22 +27,23 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   def show
     @basic_project = BasicProject.find(params[:id])
     authorize @basic_project
+    @tab = params[:tab]
 
-    case @tab = params[:tab] || "details"
-    when "details"
-      prep_form_vars
+    case @tab
     when "timeline"
       prep_timeline(@basic_project)
     when "timeline_list"
       raise ActionController::RoutingError.new("Not Found")
-    when 'logs'
+    when "logs"
       prep_logs(@basic_project)
     when "calendar"
       @locale = I18n.locale
       @calendar_events_url = "/admin/calendar_events?project_id=#{@basic_project.id}"
+    else
+      # Ensure @tab defaults to details if it's set to something unrecognized.
+      @tab = "details"
+      prep_form_vars
     end
-
-    @tabs = %w(details timeline logs calendar)
   end
 
   def new
@@ -101,8 +104,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   private
 
   def prep_form_vars
-    @tab = params[:tab] || 'details'
-    @tabs = %w(details timeline logs calendar)
+    @tab ||= "details"
     @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
   end
 

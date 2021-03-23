@@ -2,7 +2,7 @@
 
 .basic-project
   ul.nav.nav-tabs
-    - @tabs.each do |tab|
+    - Admin::BasicProjectsController::TABS.each do |tab|
       li role="presentation" class==("active" if tab == @tab)
         = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
 

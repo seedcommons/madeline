@@ -41,12 +41,10 @@ module Admin
     def show
       @loan = Loan.find(params[:id])
       authorize(@loan)
-      @active_tab = params[:tab].presence || "details"
       @relocate_alerts = true # Show alerts inside tab
+      @tab = params[:tab]
 
-      case @tab = params[:tab] || "details"
-      when "details"
-        prep_form_vars
+      case @tab
       when "questions"
         prep_questionnaire
       when "timeline"
@@ -62,6 +60,10 @@ module Admin
       when "calendar"
         @locale = I18n.locale
         @calendar_events_url = "/admin/calendar_events?project_id=#{@loan.id}"
+      else
+        # Ensure @tab defaults to details if it's set to something unrecognized.
+        @tab = "details"
+        prep_form_vars
       end
 
       render(partial: "admin/loans/details") if request.xhr?
