@@ -16,7 +16,8 @@ set :branch, -> { ENV['BRANCH'] || fetch(:stage) }
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
-set :deploy_to, -> { "/var/www/rails/madeline/#{fetch(:stage)}" }
+set :deploy_to, -> { "/home/deploy/madeline/" }
+
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -32,7 +33,7 @@ set :deploy_to, -> { "/var/www/rails/madeline/#{fetch(:stage)}" }
 
 # Default value for :linked_files is []
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-set :linked_files, %w{config/database.yml config/secrets.yml config/scout_apm.yml}
+set :linked_files, %w{config/database.yml config/secrets.yml config/scout_apm.yml .rbenv-vars}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
