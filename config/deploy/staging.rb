@@ -6,7 +6,7 @@
 # server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
-server 'madeline-staging.sassafras.coop', user: 'deploy', roles: %w{app db web}
+server '104.131.40.32', user: 'deploy', roles: %w{app db web}
 set :deploy_to, -> { "/home/deploy/madeline/" }
 set :linked_files, %w{config/database.yml config/secrets.yml config/scout_apm.yml .rbenv-vars}
 
