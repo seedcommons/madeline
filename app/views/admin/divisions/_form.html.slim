@@ -72,6 +72,12 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_public", options: popover_options)
 
+  - if @division.public?
+    .form-element
+      = f.label :public_url
+      - public_url = public_division_url(short_name: @division.short_name)
+      = link_to(public_url, public_url)
+
   = f.input :logo
     .view-element
       - if @division.logo.present?

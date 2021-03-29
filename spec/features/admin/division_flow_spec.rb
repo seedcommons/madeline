@@ -41,6 +41,13 @@ feature 'division flow' do
     expect(page).to have_content('cream', 'uuid')
   end
 
+  # good place to add spec about changing the shortname
+  scenario 'visit public page' do
+    visit admin_division_path(division)
+    click_on "public_url"
+    expect(page).to have_content(division.name)
+  end
+
   context 'editing qb department' do
     let!(:departments) {
       %w(Dep1 Dep2 Dep3).map do |name|
