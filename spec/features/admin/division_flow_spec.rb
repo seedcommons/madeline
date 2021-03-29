@@ -44,7 +44,7 @@ feature 'division flow' do
   # good place to add spec about changing the shortname
   scenario 'visit public page' do
     visit admin_division_path(division)
-    click_on "public_url"
+    find(".division_public_url a", match: :first).click 
     expect(page).to have_content(division.name)
   end
 
