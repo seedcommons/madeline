@@ -42,10 +42,30 @@ feature 'division flow' do
   end
 
   # good place to add spec about changing the shortname
-  scenario 'visit public page' do
+  scenario 'visit public page after changing short name' do
     visit admin_division_path(division)
-    find(".division_public_url a", match: :first).click 
+
+    #confirm short name is not "newshort" yet
+    public_url_section = find(".division_public_url a", match: :first)
+      expect(public_url_section).not_to have_content("newshort")
+
+    # visit public page with current shortname
+    find(".division_public_url a", match: :first).click
     expect(page).to have_content(division.name)
+    expect(URI.parse(current_url)).to have_content(division.short_name)
+
+    # return to admin division form and update shortname
+    visit admin_division_path(division)
+    fill_in 'Short Name', with: 'newshort'
+    click_on 'Update Division'
+
+    # confirm shortname update took effect in public url
+    visit admin_division_path(division)
+    public_url_section = find(".division_public_url a", match: :first)
+      expect(public_url_section).to have_content("newshort")
+    find(".division_public_url a", match: :first).click
+
+    expect(URI.parse(current_url)).to have_content("newshort")
   end
 
   context 'editing qb department' do
