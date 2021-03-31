@@ -54,7 +54,9 @@
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
 
   .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
-  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
+  .form-element.answer.blank.no-response.custom_dark_accent class=(!response.text.present? ? "" : "hidden")
+      = fa_icon "exclamation-circle"
+      = t("questions.missing_required_answer")
 
   = f.input_field :"#{question.attribute_sym}[text]",
     value: sanitize(response.text, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
