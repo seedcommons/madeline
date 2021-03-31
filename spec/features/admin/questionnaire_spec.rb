@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # TODO: look for a way around targeting summernote textarea
-xfeature 'questionnaire', js: true do
+feature 'questionnaire', js: true do
   let!(:division) { create(:division) }
   let(:user) { create_member(division) }
   let(:loan) { create(:loan, division: division) }
@@ -15,28 +15,46 @@ xfeature 'questionnaire', js: true do
     it "works" do
       # create
       visit admin_loan_tab_path(loan, 'questions')
-      fill_in('response_set[summary[text]]', with: 'kittens jumping on rainbows')
-      click_button 'Save Responses'
-      expect(page).to have_content 'successfully created'
-      expect(page).to have_content 'kittens jumping on rainbows'
-      expect(criteria.summary.text).to eq 'kittens jumping on rainbows'
 
-      # edit
-      click_link('Edit Responses')
-      fill_in('response_set[summary[text]]', with: 'sexy unicorns')
-      click_button 'Save Responses'
-      expect(page).to have_content 'successfully updated'
-      expect(page).to have_content 'sexy unicorns'
-      expect(page).not_to have_content 'Warning'
-      expect(criteria.summary.text).to eq 'sexy unicorns'
+      # check that edit-all button turns on edit mode
+      expect(page).not_to have_content("Now editing")
+      page.find(".edit-all", match: :first).click
+      expect(page).to have_content("Now editing")
+      save_and_open_page
 
-      # delete
-      accept_confirm { click_link('Delete All Responses') }
-      expect(page).to have_content 'successfully deleted'
-      expect(page).not_to have_content 'sexy unicorns'
-      # After deletion, should be in edit mode
-      expect(page).not_to have_content 'Edit Responses'
-      expect(page).to have_selector 'input[value="Save Responses"]'
+      # cancel button is visible in edit mode
+      edit_bar = page.find("#editBar")
+      edit_bar.find(".cancel-edit").click()
+      expect(page).not_to have_content("Now editing")
+
+      # save changes button is visible in edit mode
+      page.find(".edit-all", match: :first).click
+      expect(page).to have_content("Now editing")
+      click_button 'Save Changes'
+      expect(page).not_to have_content("Now editing")
+
+      #fill_in('response_set[summary[text]]', with: 'kittens jumping on rainbows')
+      # click_button 'Save Responses'
+      # expect(page).to have_content 'successfully created'
+      # expect(page).to have_content 'kittens jumping on rainbows'
+      # expect(criteria.summary.text).to eq 'kittens jumping on rainbows'
+      #
+      # # edit
+      # click_link('Edit Responses')
+      # fill_in('response_set[summary[text]]', with: 'sexy unicorns')
+      # click_button 'Save Responses'
+      # expect(page).to have_content 'successfully updated'
+      # expect(page).to have_content 'sexy unicorns'
+      # expect(page).not_to have_content 'Warning'
+      # expect(criteria.summary.text).to eq 'sexy unicorns'
+      #
+      # # delete
+      # accept_confirm { click_link('Delete All Responses') }
+      # expect(page).to have_content 'successfully deleted'
+      # expect(page).not_to have_content 'sexy unicorns'
+      # # After deletion, should be in edit mode
+      # expect(page).not_to have_content 'Edit Responses'
+      # expect(page).to have_selector 'input[value="Save Responses"]'
     end
   end
 
