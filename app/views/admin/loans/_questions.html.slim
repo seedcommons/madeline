@@ -28,9 +28,9 @@ section.questionnaires
       div.container
         div.row
           div.outline
-            div.outline-expansion-control.small
+            div.outline-expansion-control.small.hider
               = fa_icon("chevron-left", data: {hides: "outline-container"})
-            h5.outline-expansion-control
+            h5.outline-expansion-control.expander
               = fa_icon("chevron-right", data: {expands: "outline-container"})
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
