@@ -43,10 +43,10 @@ feature 'questionnaire', js: true do
   end
 
   context 'with conflicting changes' do
-    #TODO reimplement
+    # TODO reimplement
   end
 
-  #  finds and reloads/creates criteria and assigns current user
+  # finds and reloads/creates criteria and assigns current user
   def criteria
     c = loan.criteria ? loan.criteria.reload : loan.create_criteria
     c.current_user = user
