@@ -31,16 +31,26 @@
     }
   }
   .row {
-    display: grid;
-    grid-template-columns: auto minmax(70%, 100%);
-    gap: 10px;
     .outline {
-      grid-row: 1 / 1;
-      grid-column: 1 / 2;
+      display: inline-block;
+      min-height: 300px;
+      vertical-align: top;
+      &.collapsed {
+        width: $q-outline-collapsed-width;
+      }
+      &.expanded {
+        width: $q-outline-expanded-width;
+      }
     }
     .questionnaire-wrapper {
-      grid-row: 1 / 1;
-      grid-column: 2 / 2;
+      display: inline-block;
+      margin-left: 10px;
+      &.larger {
+        width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-collapsed-width});
+      }
+      &.smaller {
+        width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-expanded-width});
+      }
     }
   }
 }

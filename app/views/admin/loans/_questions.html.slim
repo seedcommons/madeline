@@ -27,7 +27,7 @@ section.questionnaires
       h2 = t("loan.#{@attrib}")
       div.container
         div.row
-          div.outline
+          div.outline.collapsed
             div.outline-expansion-control.small.hider
               = fa_icon("chevron-left", data: {hides: "outline-container"})
             h5.outline-expansion-control.expander
@@ -35,7 +35,7 @@ section.questionnaires
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.questionnaire-wrapper
+          div.questionnaire-wrapper.larger
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
 
