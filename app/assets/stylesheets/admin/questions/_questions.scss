@@ -44,6 +44,7 @@
     }
 
     .questionnaire-wrapper {
+      // below variable used to sync the dynamic size of fixed-position edit bar and the questionnaire it overlays
       $questionnaire-width-adjustment: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3)) ;
       display: inline-block;
       margin-left: $tab-pane-padding;
