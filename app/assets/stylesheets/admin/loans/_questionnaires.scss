@@ -194,35 +194,6 @@ section.questionnaires {
     }
   }
 
-  .form-element.actions#editBar {
-    // When position is fixed, the entire webpage/viewport is the parent element
-    position: fixed;
-    bottom: 0;
-    display: block;
-    padding: 1em;
-    // Use built-in Sass function and color fallback
-    background: $gray2;
-    background: rgba($gray2, 0.7);
-    text-align: right;
-
-    $questionnaire-actions-offset: 2 * $content-wrapper-padding;
-    // width: calc(100% - #{$questionnaire-actions-offset});
-    //
-    // @media (min-width: 768px) {
-    //   width: calc(100% - (#{$questionnaire-actions-offset}));
-    // }
-
-    a {
-      float: none;
-    }
-    &.larger {
-      width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-collapsed-width});
-    }
-    &.smaller {
-      width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-expanded-width});
-    }
-  }
-
   .not-applicable {
     font-style: italic;
 
