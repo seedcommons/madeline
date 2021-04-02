@@ -30,14 +30,17 @@
       padding-top: 10px;
     }
   }
+
   .row {
     .outline {
       display: inline-block;
       min-height: calc(50vw);
       vertical-align: top;
+
       &.collapsed {
         width: $q-outline-collapsed-width;
       }
+
       &.expanded {
         width: $q-outline-expanded-width;
       }
@@ -69,9 +72,11 @@
         a {
           float: none;
         }
+
         &.larger {
           width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-collapsed-width});
         }
+
         &.smaller {
           width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-expanded-width});
         }
