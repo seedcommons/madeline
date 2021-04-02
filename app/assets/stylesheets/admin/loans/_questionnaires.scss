@@ -199,7 +199,6 @@ section.questionnaires {
     position: fixed;
     bottom: 0;
     display: block;
-    margin: 0 0 $content-wrapper-padding;
     padding: 1em;
     // Use built-in Sass function and color fallback
     background: $gray2;
@@ -217,10 +216,10 @@ section.questionnaires {
       float: none;
     }
     &.larger {
-      width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-collapsed-width});
+      width: calc(100% - (#{$content-wrapper-padding})*4 - #{$q-outline-collapsed-width});
     }
     &.smaller {
-      width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-expanded-width});
+      width: calc(100% - (#{$content-wrapper-padding})*4 - #{$q-outline-expanded-width});
     }
   }
 

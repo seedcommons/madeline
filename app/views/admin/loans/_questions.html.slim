@@ -77,17 +77,3 @@ javascript:
       }
     });
   });
-
-  $(function() {
-    var $editBar = $("#editBar")
-        $window    = $(window)
-    resizeEditBar = function () {
-      $editBar.css('width', $editBar.parent().width())
-    }
-    resizeEditBar()
-    $window.resize(function() {
-      console.log("resized! parent is this wide:")
-      console.log($editBar.parent().width())
-      $editBar.css('width', $editBar.parent().width())
-    });
-  });
