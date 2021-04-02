@@ -216,10 +216,10 @@ section.questionnaires {
       float: none;
     }
     &.larger {
-      width: calc(100% - (#{$content-wrapper-padding})*4 - #{$q-outline-collapsed-width});
+      width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-collapsed-width});
     }
     &.smaller {
-      width: calc(100% - (#{$content-wrapper-padding})*4 - #{$q-outline-expanded-width});
+      width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-expanded-width});
     }
   }
 

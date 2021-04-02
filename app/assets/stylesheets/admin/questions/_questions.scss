@@ -44,12 +44,12 @@
     }
     .questionnaire-wrapper {
       display: inline-block;
-      margin-left: 10px;
+      margin-left: $tab-pane-padding;
       &.larger {
-        width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-collapsed-width});
+        width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-collapsed-width});
       }
       &.smaller {
-        width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-expanded-width});
+        width: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3) - #{$q-outline-expanded-width});
       }
     }
   }
