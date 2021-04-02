@@ -33,7 +33,7 @@
   .row {
     .outline {
       display: inline-block;
-      min-height: 300px;
+      min-height: calc(50vw);
       vertical-align: top;
       &.collapsed {
         width: $q-outline-collapsed-width;
@@ -62,8 +62,8 @@
         display: block;
         padding: 1em;
         // Use built-in Sass function and color fallback
-        background: magenta; //#$gray2;
-        background: magenta;//rgba($gray2, 0.7);
+        background: $gray2;
+        background: rgba($gray2, 0.7);
         text-align: right;
 
         a {
