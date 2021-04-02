@@ -45,6 +45,7 @@ class MS.Views.LoanQuestionnairesView extends Backbone.View
     e.preventDefault
     $('.outline').toggleClass("collapsed expanded")
     $('.questionnaire-wrapper').toggleClass("smaller larger")
+    $('#editBar').toggleClass("smaller larger")
 
 
   # Add a custom event for tree expansion. This event is listened to by LoanChartsView.

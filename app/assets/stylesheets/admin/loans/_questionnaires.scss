@@ -194,7 +194,7 @@ section.questionnaires {
     }
   }
 
-  .form-element.actions {
+  .form-element.actions#editBar {
     // When position is fixed, the entire webpage/viewport is the parent element
     position: fixed;
     bottom: 0;
@@ -207,14 +207,20 @@ section.questionnaires {
     text-align: right;
 
     $questionnaire-actions-offset: 2 * $content-wrapper-padding;
-    width: calc(100% - #{$questionnaire-actions-offset});
-
-    @media (min-width: 768px) {
-      width: calc(100% - (#{$questionnaire-actions-offset}));
-    }
+    // width: calc(100% - #{$questionnaire-actions-offset});
+    //
+    // @media (min-width: 768px) {
+    //   width: calc(100% - (#{$questionnaire-actions-offset}));
+    // }
 
     a {
       float: none;
+    }
+    &.larger {
+      width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-collapsed-width});
+    }
+    &.smaller {
+      width: calc(100% - (#{$content-wrapper-padding}) - #{$q-outline-expanded-width});
     }
   }
 
