@@ -59,7 +59,7 @@ javascript:
     var $sidebar   = $(".outline"),
         $window    = $(window),
         topPadding = 15;
-        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
+        originalYAdjustment = $sidebar.offset().top - $("#site-header").height() - $("#site-menu").height()- topPadding
     $window.scroll(function() {
       offset     = $sidebar.offset()
       $outlineHeight = $(".outline-container").height()
