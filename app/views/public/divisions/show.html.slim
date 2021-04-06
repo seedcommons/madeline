@@ -1,5 +1,16 @@
-h1= @division.name
-- @loans.each do |loan|
-  h3= loan.display_name
-  p= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
-= paginate @loans
+.custom_fg_bg.public-header
+  .logo-grid
+    .ftc-triple-spiral
+    .division-name
+      = @division.name
+.public-container
+  .public-row
+    = @division.description
+  .public-row
+    h1 Active Loans
+  - @loans.each do |loan|
+    .public-row 
+      h3.custom_dark_accent= loan.display_name
+      p.custom_dark_accent= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+  .public-row
+    = paginate @loans

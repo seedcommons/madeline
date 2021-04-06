@@ -1,0 +1,26 @@
+$edge-margin: calc(10vw);
+
+.public-header {
+  font-size: xx-large;
+  font-weight: bolder;
+  padding: .4em 0;
+}
+
+.logo-grid {
+  display: grid;
+  grid-template-columns: minmax(auto, 42px) auto;
+  margin: 0 $edge-margin 0 $edge-margin;
+}
+
+.division-name {
+  margin-top: -.15em;
+}
+
+.public-container {
+  display: grid;
+  margin: 0 $edge-margin 0 $edge-margin;
+
+  .public-row {
+
+  }
+}
