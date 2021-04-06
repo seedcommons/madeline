@@ -10,7 +10,7 @@
     h1 Active Loans
   - @loans.each do |loan|
     .public-row
-      h3.custom-dark-accent= loan.display_name
-      p.custom-dark-accent= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+      h3= loan.display_name
+      p= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
   .public-row
     = paginate @loans
