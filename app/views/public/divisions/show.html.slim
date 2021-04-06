@@ -1,16 +1,16 @@
-.custom_fg_bg.public-header
+.public-header
   .logo-grid
     .ftc-triple-spiral
     .division-name
       = @division.name
 .public-container
-  .public-row
+  .public-row.description
     = @division.description
   .public-row
     h1 Active Loans
   - @loans.each do |loan|
-    .public-row 
-      h3.custom_dark_accent= loan.display_name
-      p.custom_dark_accent= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+    .public-row
+      h3.custom-dark-accent= loan.display_name
+      p.custom-dark-accent= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
   .public-row
     = paginate @loans

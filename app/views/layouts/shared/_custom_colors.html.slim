@@ -8,18 +8,17 @@
 style type="text/css"
 
   | /* For customizing */
-    .custom_dark_accent {
+    :root {
+      --custom-fg-color: #{colors[:banner_fg]};
+      --custom-bg-color: #{colors[:banner_bg]};
+      --custom-accent-main: #{colors[:accent_main]};
+      --custom-accent-darkened: #{colors[:accent_darkened]};
+    }
+
+    .custom-dark-accent {
       color: #{colors[:accent_darkened]};
     }
 
-    .custom_accent_main {
-      color: #{colors[:accent_main]};
-    }
-
-    .custom_fg_bg {
-      background: #{colors[:banner_bg]};
-      color: #{colors[:banner_fg]};
-    }
 
     /* General links */
     a,
