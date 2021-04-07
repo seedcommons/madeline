@@ -73,6 +73,13 @@ describe Organization, type: :model do
     let!(:country_us) { create(:country, iso_code: 'US') }
     let!(:country_not_us) { create(:country, iso_code: 'AR') }
 
+    describe "country" do
+      it "should be required" do
+        org = build(:organization, country: nil)
+        expect(org.valid?).to be false
+      end
+    end
+
     describe 'postal_code' do
       it "should be required  for US organizations" do
         org = build(:organization, country: country_us, state: "IN", postal_code: nil)
