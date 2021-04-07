@@ -18,26 +18,24 @@ feature 'questionnaire', js: true do
 
       # check that edit-all button turns on edit mode
       expect(page).not_to have_content("Now editing")
-      page.find(".edit-all", match: :first).click
+      first(".edit-all").click()
       expect(page).to have_content("Now editing")
 
       # cancel button is visible in edit mode
-      edit_bar = page.find("#editBar")
-      edit_bar.find(".cancel-edit").click()
+      first("#editBar .cancel-edit").click
       expect(page).not_to have_content("Now editing")
 
       # save changes button is visible in edit mode
-      page.find(".edit-all", match: :first).click
+      first(".edit-all").click()
       expect(page).to have_content("Now editing")
-      click_button 'Save Changes'
+      click_button('Save Changes')
       expect(page).not_to have_content("Now editing")
 
       # test outline expansion
-      outline = page.find(".outline")
       expect(page).not_to have_content("Outline")
-      outline.find(".expander").click()
+      page.find(".outline .expander").click()
       expect(page).to have_content("Outline")
-      outline.find(".hider").click()
+      page.find(".outline .hider").click()
       expect(page).not_to have_content("Outline")
     end
   end
