@@ -30,6 +30,6 @@ $row-padding: calc(5vh);
 
   .public-row {
     padding: $row-padding 0;
-    border-bottom: solid var(--custom-fg-color);
+    border-bottom: 1px solid var(--custom-fg-color);
   }
 }

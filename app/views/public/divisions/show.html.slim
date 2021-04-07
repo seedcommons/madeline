@@ -10,7 +10,16 @@
     h1 Active Loans
   - @loans.each do |loan|
     .public-row
-      h3= loan.display_name
-      p= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+      - images = loan.images
+      - if images
+        - if featured_image = images.find_by(featured: true)
+          .featured-image
+            = media_image(featured_image)
+          h3= loan.display_name
+          p= "Loan amount:"
+          p= format_currency(loan.amount, loan.currency) if loan.amount && loan.currency
+          p= "Signing date:"
+          p= loan.signing_date
+
   .public-row
     = paginate @loans

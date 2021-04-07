@@ -167,6 +167,10 @@ class Loan < Project
     currency ? currency.try(:name) : ''
   end
 
+  def images
+    media.where(kind_value: "image")
+  end
+
   def location
     if self.organization.try(:city).present?
       self.organization.city + ', ' + self.country.name
