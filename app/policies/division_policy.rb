@@ -33,12 +33,25 @@ class DivisionPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      user ? scope.where(id: accessible_ids) : scope.published
+      if user
+        resolve_admin
+      else
+        resolve_public
+      end
+    end
+
+    def resolve_admin
+      scope.where(id: accessible_ids)
+    end
+
+    def resolve_public
+      scope.published
     end
 
     # This merges in child divisions of the divisions for which a user has been specifically
     # granted access.
     def accessible_ids
+      base_accessible_ids = user.roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq
       all_ids = base_accessible_ids.map do |id|
         division = Division.find_safe(id)
         division.self_and_descendants.pluck(:id) if division
@@ -46,13 +59,12 @@ class DivisionPolicy < ApplicationPolicy
       all_ids.flatten.uniq.compact
     end
 
-    # List of division hierarchy nodes for which user has been granted access.
-    def base_accessible_ids
-      user.roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq
-    end
-
     def accessible_divisions(public_only: false)
-      public_only ? Division.published : user.accessible_divisions
+      if public_only
+        resolve_public
+      else
+        resolve_admin
+      end
     end
   end
 end

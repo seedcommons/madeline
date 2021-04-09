@@ -74,8 +74,9 @@ class User < ApplicationRecord
     profile.try(:division_id)
   end
 
+  # TODO: why can we not rely on profile.has_system_access?
   def has_some_access?
-    division_scope.base_accessible_ids.present?
+    roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq.present?
   end
 
   # Require a user to have access to at least some division in order to login.
