@@ -1,0 +1,2 @@
+class AdminLoanPolicy < LoanPolicy
+end

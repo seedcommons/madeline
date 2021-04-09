@@ -11,7 +11,7 @@ module Admin
     def index
       # Note, current_division is used when creating new entities and is guaranteed to return a value.
       # selected_division is used for index filtering, and may be unassigned.
-      authorize(Loan)
+      authorize(Loan, policy_class: AdminLoanPolicy)
 
       @loans_grid = initialize_grid(
         policy_scope(Loan),
@@ -40,7 +40,7 @@ module Admin
 
     def show
       @loan = Loan.find(params[:id])
-      authorize(@loan)
+      authorize @loan, policy_class: AdminLoanPolicy
       @relocate_alerts = true # Show alerts inside tab
       @tab = params[:tab]
 
@@ -72,13 +72,13 @@ module Admin
     def new
       @loan = Loan.new(division: current_division, currency: current_division.default_currency)
       @loan.organization_id = params[:organization_id] if params[:organization_id]
-      authorize(@loan)
+      authorize @loan, policy_class: AdminLoanPolicy
       prep_form_vars
     end
 
     def update
       @loan = Loan.find(params[:id])
-      authorize(@loan)
+      authorize @loan, policy_class: AdminLoanPolicy
       @loan.assign_attributes(loan_params)
 
       if @loan.save
@@ -91,7 +91,7 @@ module Admin
 
     def create
       @loan = Loan.new(loan_params)
-      authorize(@loan)
+      authorize @loan, policy_class: AdminLoanPolicy
 
       org_id = params[:loan][:organization_id]
 
@@ -109,7 +109,7 @@ module Admin
 
     def destroy
       @loan = Loan.find(params[:id])
-      authorize(@loan)
+      authorize @loan, policy_class: AdminLoanPolicy
 
       if @loan.destroy
         redirect_to(admin_loans_path, notice: I18n.t(:notice_deleted))
@@ -121,7 +121,7 @@ module Admin
 
     def duplicate
       @loan = Loan.find(params[:id])
-      authorize(@loan, :new?)
+      authorize(@loan, :new?, policy_class: AdminLoanPolicy)
 
       new_loan = ProjectDuplicator.new(@loan).duplicate
 
@@ -130,7 +130,7 @@ module Admin
 
     def print
       @loan = Loan.find(params[:id])
-      authorize(@loan, :show?)
+      authorize(@loan, :show?, policy_class: AdminLoanPolicy)
       @print_view = true
       @mode = params[:mode]
       @images = @loan.media.where(kind_value: "image")
