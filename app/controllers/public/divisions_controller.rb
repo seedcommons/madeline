@@ -5,6 +5,6 @@ class Public::DivisionsController < Public::PublicController
     @division = Division.find_by(short_name: params[:short_name])
     @selected_division = @division
     authorize @division
-    @loans = policy_scope(@division.loans).page(params[:page]).per(2)
+    @loans = policy_scope(@division.loans.active_or_completed).page(params[:page]).per(5)
   end
 end
