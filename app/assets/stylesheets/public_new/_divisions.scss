@@ -6,17 +6,17 @@ $row-padding: calc(5vh);
   color: var(--custom-fg-color);
   font-size: xx-large;
   font-weight: bolder;
-  padding: .4em 0;
+  padding: 0.4em 0;
 }
 
 .logo-grid {
   display: grid;
   grid-template-columns: minmax(auto, 42px) auto;
-  margin: 0 $edge-margin 0 $edge-margin;
+  margin: 0 $edge-margin;
 }
 
 .division-name {
-  margin-top: -.15em;
+  margin-top: -0.15em;
 }
 
 .description {
@@ -27,11 +27,11 @@ $row-padding: calc(5vh);
 .public-container {
   color: var(--custom-fg-color);
   display: grid;
-  margin: 0 $edge-margin 0 $edge-margin;
+  margin: 0 $edge-margin;
 
   .public-row {
-    padding: $row-padding 0;
     border-bottom: 1px solid var(--custom-fg-color);
+    padding: $row-padding 0;
   }
 }
 
