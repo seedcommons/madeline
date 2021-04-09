@@ -112,7 +112,6 @@ Rails.application.routes.draw do
       # format, Rails is able guess it successfully.
       constraints format: 'html' do
         resources :loans, only: [:index, :show]
-        get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       end
       get 'test' => 'static_pages#test'
       get 'update' => 'static_pages#update' # Manually update wordpress template

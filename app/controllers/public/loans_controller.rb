@@ -1,18 +1,23 @@
 class Public::LoansController < Public::PublicController
   include WordpressEmbeddable
-  after_action :verify_authorized
+
 
   def index
-    params[:division] ||= Division.root.short_name
-    @params = { status: params[:status], pg: params[:pg], division: params[:division] }
-    @loans = policy_scope(Loan.filter_by_params(params).
-          includes(:organization, division: :parent).
-          page(params[:pg]).per(20).
-          order('signing_date DESC'))
-    authorize @loans
+    division = params[:division] || division_for_site(params[:site])
+    redirect_to controller: "divisions", action: "show", short_name: division
+  end
 
-    # Set last loan list URL for 'Back to Loan List' link
-    session[:loans_path] = request.fullpath
+  def division_for_site(site)
+    case site.downcase
+      when "us"
+        "seed-commons"
+      when "nicaragua"
+        "la-base-nicaragua"
+      when "argentina"
+        "la-base-argentina"
+      else
+        "seed-commons"
+      end
   end
 
   def show
