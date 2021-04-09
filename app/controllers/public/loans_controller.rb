@@ -1,7 +1,4 @@
 class Public::LoansController < Public::PublicController
-  include WordpressEmbeddable
-
-
   def index
     division = params[:division] || division_for_site(params[:site])
     redirect_to controller: "divisions", action: "show", short_name: division
