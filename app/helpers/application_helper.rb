@@ -93,7 +93,7 @@ module ApplicationHelper
     @app_version_number ||= version
   end
 
-  def division_select_options(include_root: true, include_all: false, public_only: true)
+  def division_select_options(include_root: true, include_all: false, public_only: false)
     divisions = division_scope.accessible_divisions(public_only: public_only)
     options = []
     options << [I18n.t("divisions.shared.all"), (public_only ? 'all' : nil)] if include_all

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RouteTranslator do
-
   it "should route US loans page correctly" do
     expect(get "/us/loans").to route_to(
       controller: "public/loans",
