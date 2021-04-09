@@ -25,11 +25,25 @@ $row-padding: calc(5vh);
 }
 
 .public-container {
+  color: var(--custom-fg-color);
   display: grid;
   margin: 0 $edge-margin 0 $edge-margin;
 
   .public-row {
     padding: $row-padding 0;
     border-bottom: 1px solid var(--custom-fg-color);
+  }
+}
+
+.loan-row {
+  .featured-image {
+    display: inline-block;
+    float: left;
+    padding: 0 3% 3% 0;
+  }
+
+  .loan-summary {
+    display: inline-block;
+    float: left;
   }
 }
