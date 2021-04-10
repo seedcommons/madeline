@@ -1,21 +1,21 @@
 class Public::DivisionsController < Public::PublicController
   layout 'public/main'
 
-  rescue_from Pundit::NotAuthorizedError, with: :find_public_parent
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def show
     @division = Division.find_by(short_name: params[:short_name])
     @selected_division = @division
     authorize @division
     # assume this division is public . ..
-    divisions_to_show = @division.self_and_descendants.pluck(:id)
-    @loans = policy_scope(Loan.where(division: divisions_to_show ).active_or_completed).page(params[:page]).per(5)
+    # loan scope handles filtering loans based on whether their division is public, their status, and their public level value
+    divisions_to_include = @division.self_and_descendants&.map(&:id)
+    @loans = policy_scope(Loan.where(division: ivisions_to_include).page(params[:page]).per(5)
   end
 
   private
 
-  def find_public_parent
-    # find nearest public parent
-    # redirect to taht page
+  def user_not_authorized
+    flash[:error] = t('public.divisions.not_authorized')
   end
 end

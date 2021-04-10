@@ -1,8 +1,8 @@
 class LoanPolicy < ProjectPolicy
   def show?
-    if user # madeline admin
+    if user # madeline, so use divisionowned
       super
-    else # public pages
+    else # public pages, so don't use divisionowned
       record.public_level_value != "hidden" &&
         %w(active completed).include?(record.status_value) &&
         record.division.public
@@ -11,10 +11,11 @@ class LoanPolicy < ProjectPolicy
 
   class Scope < DivisionOwnedScope
     def resolve
-      if user # madeline
+      if user # madeline, so use divisionowned
         super
-      else # public pages
+      else # public pages, so don't use divisionowned
         publicly_visible(scope)
+      end
     end
 
     def publicly_visible(scope)
