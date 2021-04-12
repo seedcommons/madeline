@@ -3,7 +3,6 @@
 module Admin
   class LoansController < Admin::ProjectsController
     include QuestionnaireRenderable
-    include TransactionControllable
     include LoansHelper
 
     TABS = %w(details questions timeline logs transactions calendar).freeze
@@ -186,11 +185,49 @@ module Admin
     end
 
     def prep_transactions
-      @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
       @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
-      prep_transaction_form
+      @transactions = ::Accounting::Transaction.where(project: @loan)
+      @transactions.includes(:account, :project, :currency, :line_items).standard_order
 
-      initialize_transactions_grid(@loan)
+      check_if_qb_accounts_selected
+      check_if_txn_modification_allowed
+      set_whether_add_txn_is_allowed
+      set_whether_txn_list_is_visible
+      check_if_qb_division_set
+
+      @enable_export_to_csv = true
+      @transactions_grid = initialize_grid(@transactions, enable_export_to_csv: @enable_export_to_csv,
+                                                          per_page: 100, name: 'transactions')
+      export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
+    end
+
+    def check_if_qb_accounts_selected
+      unless current_division.qb_division&.qb_accounts_selected? || flash.now[:error].present?
+        flash.now[:alert] = t('quickbooks.accounts_not_selected', settings: settings_link).html_safe
+      end
+    end
+
+    def check_if_txn_modification_allowed
+      unless @loan && @loan.txn_modification_allowed? || flash.now[:error].present?
+        flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
+      end
+    end
+
+    def check_if_qb_division_set
+      unless @loan.division && @loan.division.qb_department.present? || flash.now[:error].present?
+        flash[:alert] = t('quickbooks.department_not_set', url: admin_division_path(@loan.division)).html_safe
+      end
+    end
+
+    def set_whether_add_txn_is_allowed
+      @add_transaction_available = (current_division.qb_division&.qb_accounts_selected? &&
+         !@data_reset_required &&
+         !@loan.qb_division.qb_read_only &&
+         @loan.txn_modification_allowed?)
+    end
+
+    def set_whether_txn_list_is_visible
+      @transaction_list_hidden = @qb_not_connected || @data_reset_required || @transactions.count == 0
     end
   end
 end

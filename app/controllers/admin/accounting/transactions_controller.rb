@@ -1,12 +1,4 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
-  include TransactionControllable
-
-  def index
-    authorize :'accounting/transaction', :index?
-
-    initialize_transactions_grid
-  end
-
   def new
     @loan = Loan.find_by(id: params[:project_id])
     @transaction = ::Accounting::Transaction.new(project_id: params[:project_id], txn_date: Time.zone.today)
@@ -89,10 +81,76 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def transaction_params
     params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
-      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value, :accounting_customer_id, :qb_vendor_id, :qb_object_subtype, :check_number)
+      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
+      :accounting_customer_id, :qb_vendor_id, :qb_object_subtype, :check_number)
   end
 
   def render_modal_partial(status: 200)
     render partial: "admin/accounting/transactions/modal_content", status: status
+  end
+
+  def prep_transaction_form
+    @loan_transaction_types = Accounting::Transaction.loan_transaction_type_options.select do |option|
+      Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
+    end
+    @qb_subtypes = Accounting::Transaction::QB_PAYMENT_TYPES.map do |t|
+      [I18n.t("transactions.qb_object_subtype.#{t.downcase}"), t]
+    end
+    @accounts = Accounting::Account.asset_accounts - Division.root.accounts
+    @customers = Accounting::Customer.all.order(:name)
+    @vendors = Accounting::QB::Vendor.all.order(:name)
+  end
+
+  # Runs the given block and handles any Quickbooks errors.
+  # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
+  # Notifies admins if error is not part of normal operation.
+  # Sets the @data_reset_required variable if a DataResetRequiredError error is raised.
+  # This is only used for creating new transactions
+  def handle_qb_errors
+    begin
+      yield
+    rescue Accounting::QB::DataResetRequiredError => e
+      Rails.logger.error e
+      @data_reset_required = true
+      error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
+    rescue Quickbooks::ServiceUnavailable => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.service_unavailable')
+    rescue Quickbooks::MissingRealmError,
+           Accounting::QB::NotConnectedError,
+           Quickbooks::AuthorizationFailure => e
+      Rails.logger.error e
+      @qb_not_connected = true
+      error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
+    rescue Quickbooks::InvalidModelException,
+           Quickbooks::Forbidden,
+           Quickbooks::ThrottleExceeded,
+           Quickbooks::TooManyRequests,
+           Quickbooks::IntuitRequestException => e
+      Rails.logger.error e
+      ExceptionNotifier.notify_exception(e)
+      error_msg = t('quickbooks.misc', msg: e)
+    rescue Accounting::QB::NegativeBalanceError => e
+      Rails.logger.error e
+      error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
+    end
+    error_msg
+  end
+
+  def run_updater(project:)
+    # Stub the Updater in test mode
+    if Rails.env.test?
+      # Raise an error if requested by the specs
+      if msg = Rails.configuration.x.test.raise_qb_error_during_updater
+        raise Quickbooks::InvalidModelException.new(msg)
+      end
+    else
+      Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
+      Accounting::QB::Updater.new.update(project)
+    end
+  end
+
+  def settings_link
+    view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
   end
 end
