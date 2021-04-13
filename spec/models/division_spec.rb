@@ -83,4 +83,45 @@ describe Division, type: :model do
       expect(division_3.short_name).to eq('-iamauuid2018')
     end
   end
+
+  describe '#qb_division' do
+    subject { division.qb_division }
+
+    context 'for root division' do
+      let(:division) { root_division }
+
+      context 'with no qb connection' do
+        it { is_expected.to be_nil }
+      end
+
+      context 'with connection on root division' do
+        let!(:connection) { create(:accounting_qb_connection, division: division) }
+        it { is_expected.to eq(division) }
+      end
+    end
+
+    context 'for descendant division' do
+      let(:parent) { create(:division, parent: root_division) }
+      let(:division) { create(:division, parent: parent) }
+
+      context 'with no qb connection' do
+        it { is_expected.to be_nil }
+      end
+
+      context 'with connection on self' do
+        let!(:connection) { create(:accounting_qb_connection, division: division) }
+        it { is_expected.to eq(division) }
+      end
+
+      context 'with connection on parent division' do
+        let!(:connection) { create(:accounting_qb_connection, division: parent) }
+        it { is_expected.to eq(parent) }
+      end
+
+      context 'with connection on root division' do
+        let!(:connection) { create(:accounting_qb_connection, division: root_division) }
+        it { is_expected.to eq(root_division) }
+      end
+    end
+  end
 end
