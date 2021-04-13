@@ -5,17 +5,19 @@ describe LoanPolicy do
   it_should_behave_like 'division_owned_scope', :loan
 
   subject { LoanPolicy.new(user, Loan.where(conditions)) }
-  let!(:division) { create(:division) }
-  let!(:loan1) { create(:loan, :active, division: division, public_level_value: 'featured') }
-  let!(:loan2) { create(:loan, :active, division: division, public_level_value: 'featured') }
-  let!(:loan3) { create(:loan, :active, division: division, public_level_value: 'hidden') }
+  let!(:public_division) { create(:division) }
+  let!(:featured_active_loan) { create(:loan, :active, division: public_division, public_level_value: 'featured') }
+  let!(:featured_completed_loan) { create(:loan, :active, division: public_division, public_level_value: 'featured') }
+  let!(:featured_other_loan) { create(:loan, status: "prospective", division: public_division, public_level_value: 'featured') }
+  let!(:hidden_active_loan) { create(:loan, :active, division: public_division, public_level_value: 'hidden') }
+  let!(:hidden_division) { create(:division, public: false, parent: public_division) }
+  let!(:non_hidden_loan_on_hidden_division) {create(:loan, :active, division: hidden_division, public_level_value: 'featured') }
 
-  describe 'with user' do
-    let!(:user) { create(:user, :admin, division: division) }
-    before { user.accessible_division_ids }
+  describe 'with user, as in madeline usage' do
+    let!(:user) { create(:user, :admin, division: public_division) }
 
     it 'returns the correct loans' do
-      expect(loan_scope(user).resolve).to contain_exactly(loan1, loan2, loan3)
+      expect(loan_scope(user).resolve).to contain_exactly(featured_active_loan, featured_completed_loan, hidden_active_loan)
     end
 
     it 'allows the show action' do
@@ -23,12 +25,11 @@ describe LoanPolicy do
     end
   end
 
-  describe 'without user' do
+  describe 'without user, as in public usage' do
     let!(:user) { nil }
-    before { user.try(:accessible_division_ids) }
 
     it 'returns the correct loans' do
-      expect(loan_scope(user).resolve).to contain_exactly(loan1, loan2)
+      expect(loan_scope(user).resolve).to contain_exactly(featured_active_loan, featured_completed_loan)
     end
 
     it 'allows the show action' do
