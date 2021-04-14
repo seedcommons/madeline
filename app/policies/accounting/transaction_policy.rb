@@ -4,11 +4,11 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def show?
-    user == :machine || division_admin(division: division)
+    machine_user_or_qb_division_admin?
   end
 
   def create?
-    (user == :machine || division_admin(division: division)) && read_only_reasons.none?
+    machine_user_or_qb_division_admin? && read_only_reasons.none?
   end
 
   def update?
@@ -20,6 +20,7 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def read_only_reasons
+    return [] unless machine_user_or_qb_division_admin?
     reasons = []
     reasons << :accounts_not_selected unless qb_division&.qb_accounts_selected?
     reasons << :division_transactions_read_only if qb_division&.qb_read_only?
@@ -29,8 +30,14 @@ class Accounting::TransactionPolicy < ApplicationPolicy
     reasons
   end
 
+  private
+
   # Rails 6 will add a private flag for delegate. For now this is what we have.
   private(*delegate(:loan, to: :record))
   private(*delegate(:qb_division, to: :loan))
   private(*delegate(:division, to: :loan))
+
+  def machine_user_or_qb_division_admin?
+    user == :machine || division_admin(division: division)
+  end
 end

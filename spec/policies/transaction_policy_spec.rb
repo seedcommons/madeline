@@ -11,14 +11,25 @@ describe Accounting::TransactionPolicy do
   let(:described_transaction) { Accounting::Transaction.new(project: loan) }
   subject(:policy) { described_class.new(user, described_transaction) }
 
+  shared_examples_for 'returns no reasons even if issues other than user role' do
+    it { expect(policy.read_only_reasons).to be_empty }
+
+    context 'with other issues present' do
+      let(:loan_trait) { :completed }
+      it { expect(policy.read_only_reasons).to be_empty }
+    end
+  end
+
   context 'with non-admin' do
     let(:user) { create(:user) }
     forbid_all
+    it_behaves_like 'returns no reasons even if issues other than user role'
   end
 
   context 'with admin of wrong division' do
     let(:user) { create(:user, :admin, division: create(:division)) }
     forbid_all
+    it_behaves_like 'returns no reasons even if issues other than user role'
   end
 
   shared_examples_for 'admin or machine user' do
