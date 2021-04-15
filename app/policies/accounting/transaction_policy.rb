@@ -4,11 +4,11 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def show?
-    machine_user_or_qb_division_admin?
+    machine_user_or_appropriate_division_admin?
   end
 
   def create?
-    machine_user_or_qb_division_admin? && read_only_reasons.none?
+    machine_user_or_appropriate_division_admin? && read_only_reasons.none?
   end
 
   def update?
@@ -20,7 +20,9 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def read_only_reasons
-    return [] unless machine_user_or_qb_division_admin?
+    # We don't show reasons to people without permission to create transactions because
+    # they would not be able to create transactions even if these things were fixed.
+    return [] unless machine_user_or_appropriate_division_admin?
     reasons = []
     reasons << :accounts_not_selected unless qb_division&.qb_accounts_selected?
     reasons << :division_transactions_read_only if qb_division&.qb_read_only?
@@ -37,7 +39,11 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   private(*delegate(:qb_division, to: :loan))
   private(*delegate(:division, to: :loan))
 
-  def machine_user_or_qb_division_admin?
-    user == :machine || division_admin(division: division)
+  def machine_user_or_appropriate_division_admin?
+    # If qb_division is nil, it means no qb_connection has been set up on any of division's ancestors.
+    # In that case, we check for admin on the current division. This is because in the case where
+    # there is no existing QB connection on any ancestor, the current division admin could theoretically
+    # connect their division to QuickBooks directly and then create transactions.
+    user == :machine || division_admin(division: qb_division || division)
   end
 end

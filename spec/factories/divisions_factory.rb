@@ -67,14 +67,18 @@ FactoryBot.define do
       interest_receivable_account { create(:accounting_account, name: "Interest Receivable #{rand(1..9999)}") }
       interest_income_account { create(:accounting_account, name: "Interest Income #{rand(1..9999)}") }
 
-      after(:create) do |division|
-        # This is needed for Division#qb_division to work properly
-        division.qb_connection = create(:accounting_qb_connection, division: division)
-      end
+      # This is needed for Division#qb_division to work properly
+      with_qb_connection
     end
 
     trait :with_qb_dept do
       qb_department { create(:department) }
+    end
+
+    trait :with_qb_connection do
+      after(:create) do |division|
+        division.qb_connection = create(:accounting_qb_connection, division: division)
+      end
     end
   end
 end
