@@ -41,49 +41,49 @@ describe Accounting::TransactionPolicy do
   context 'with admin of division and no parent_division' do
     let(:user) { create(:user, :admin, division: division) }
     let(:division) { create(:division, :with_qb_dept, parent: Division.root) } # Root has no qb connection
-    forbid_all_but_show
+    forbid_all_but_read
     it { expect(policy.read_only_reasons).to contain_exactly(:qb_not_connected) }
   end
 
   shared_examples_for 'appropriate admin or machine user' do
     context 'with all other things in order' do
-      permit_actions [:show, :create, :update]
-      forbid_actions [:index, :destroy]
+      permit_actions [:index, :show, :create, :update]
+      forbid_actions [:destroy]
     end
 
     context 'with no qb_connection on parent or child division' do
       let(:parent_division) { create(:division) }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:qb_not_connected) }
     end
 
     context 'with accounts not selected' do
       let(:parent_division) { create(:division, :with_qb_connection, qb_read_only: false) }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:accounts_not_selected) }
     end
 
     context 'with division transactions read only' do
       let(:parent_division) { create(:division, :with_accounts, qb_read_only: true) }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:division_transactions_read_only) }
     end
 
     context 'with department not set' do
       let(:division) { create(:division, parent: parent_division) }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:department_not_set) }
     end
 
     context 'with loan inactive' do
       let(:loan_trait) { :completed }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:loan_not_active) }
     end
 
     context 'with loan transactions read only' do
       let(:loan_txn_mode) { Loan::TXN_MODE_READ_ONLY }
-      forbid_all_but_show
+      forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:loan_transactions_read_only) }
     end
 
@@ -91,7 +91,7 @@ describe Accounting::TransactionPolicy do
       let(:loan_trait) { :completed }
       let(:loan_txn_mode) { Loan::TXN_MODE_READ_ONLY }
 
-      forbid_all_but_show
+      forbid_all_but_read
 
       it do
         expect(policy.read_only_reasons).to contain_exactly(:loan_not_active, :loan_transactions_read_only)

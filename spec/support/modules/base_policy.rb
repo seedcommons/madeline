@@ -74,9 +74,9 @@ def forbid_all_but_index
   permit_actions [:index]
 end
 
-def forbid_all_but_show
-  forbid_actions [:index, :create, :edit, :update, :destroy]
-  permit_actions [:show]
+def forbid_all_but_read
+  forbid_actions [:create, :edit, :update, :destroy]
+  permit_actions [:index, :show]
 end
 
 def permit_all_but_index

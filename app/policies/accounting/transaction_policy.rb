@@ -1,6 +1,6 @@
 class Accounting::TransactionPolicy < ApplicationPolicy
   def index?
-    false
+    machine_user_or_appropriate_division_admin?
   end
 
   def show?
