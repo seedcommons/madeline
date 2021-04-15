@@ -30,15 +30,6 @@ feature 'transaction flow', :accounting do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    # TODO: Figure out whether this makes sense as a test case anymore
-    xdescribe 'transaction listing' do
-      scenario 'with qb error during Updater' do
-        Rails.configuration.x.test.raise_qb_error_during_updater = 'qb fail on index'
-        visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_alert('Some data may be out of date. (Error: qb fail on index)')
-      end
-    end
-
     context "loan's transactions are read-only" do
       let!(:loan) { create(:loan, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
       scenario 'create new transaction button is hidden' do
