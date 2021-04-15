@@ -24,8 +24,12 @@ class Accounting::TransactionPolicy < ApplicationPolicy
     # they would not be able to create transactions even if these things were fixed.
     return [] unless machine_user_or_appropriate_division_admin?
     reasons = []
-    reasons << :accounts_not_selected unless qb_division&.qb_accounts_selected?
-    reasons << :division_transactions_read_only if qb_division&.qb_read_only?
+    if qb_division
+      reasons << :accounts_not_selected unless qb_division.qb_accounts_selected?
+      reasons << :division_transactions_read_only if qb_division.qb_read_only?
+    else
+      reasons << :qb_not_connected
+    end
     reasons << :department_not_set unless division.qb_department?
     reasons << :loan_not_active unless loan.active?
     reasons << :loan_transactions_read_only if loan.txns_read_only?

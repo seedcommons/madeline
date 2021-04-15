@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Accounting::TransactionPolicy do
-  let(:qb_division) { create(:division, :with_accounts, qb_read_only: false) }
-  let(:division) { create(:division, :with_qb_dept, parent: qb_division) }
+  let(:parent_division) { create(:division, :with_accounts, qb_read_only: false) }
+  let(:division) { create(:division, :with_qb_dept, parent: parent_division) }
   let(:loan_trait) { :active }
   let(:loan_txn_mode) { Loan::TXN_MODE_AUTO }
   let(:loan) { create(:loan, loan_trait, division: division, txn_handling_mode: loan_txn_mode) }
@@ -32,18 +32,17 @@ describe Accounting::TransactionPolicy do
     it_behaves_like 'returns no reasons even if issues other than user role'
   end
 
-  context 'with admin of division but not qb_division' do
+  context 'with admin of division but not parent_division' do
     let(:user) { create(:user, :admin, division: division) }
     forbid_all
     it_behaves_like 'returns no reasons even if issues other than user role'
   end
 
-  context 'with admin of division and no qb_division' do
+  context 'with admin of division and no parent_division' do
     let(:user) { create(:user, :admin, division: division) }
     let(:division) { create(:division, :with_qb_dept, parent: Division.root) } # Root has no qb connection
-    permit_actions [:show]
-    forbid_actions [:index, :create, :update, :destroy]
-    it { expect(policy.read_only_reasons).to contain_exactly(:accounts_not_selected) }
+    forbid_all_but_show
+    it { expect(policy.read_only_reasons).to contain_exactly(:qb_not_connected) }
   end
 
   shared_examples_for 'appropriate admin or machine user' do
@@ -52,20 +51,26 @@ describe Accounting::TransactionPolicy do
       forbid_actions [:index, :destroy]
     end
 
+    context 'with no qb_connection on parent or child division' do
+      let(:parent_division) { create(:division) }
+      forbid_all_but_show
+      it { expect(policy.read_only_reasons).to contain_exactly(:qb_not_connected) }
+    end
+
     context 'with accounts not selected' do
-      let(:qb_division) { create(:division, :with_qb_connection, qb_read_only: false) }
+      let(:parent_division) { create(:division, :with_qb_connection, qb_read_only: false) }
       forbid_all_but_show
       it { expect(policy.read_only_reasons).to contain_exactly(:accounts_not_selected) }
     end
 
     context 'with division transactions read only' do
-      let(:qb_division) { create(:division, :with_accounts, qb_read_only: true) }
+      let(:parent_division) { create(:division, :with_accounts, qb_read_only: true) }
       forbid_all_but_show
       it { expect(policy.read_only_reasons).to contain_exactly(:division_transactions_read_only) }
     end
 
     context 'with department not set' do
-      let(:division) { create(:division, parent: qb_division) }
+      let(:division) { create(:division, parent: parent_division) }
       forbid_all_but_show
       it { expect(policy.read_only_reasons).to contain_exactly(:department_not_set) }
     end
@@ -94,8 +99,8 @@ describe Accounting::TransactionPolicy do
     end
   end
 
-  context 'with admin of qb_division' do
-    let(:user) { create(:user, :admin, division: qb_division) }
+  context 'with admin of parent_division' do
+    let(:user) { create(:user, :admin, division: parent_division) }
     it_behaves_like 'appropriate admin or machine user'
   end
 
