@@ -54,7 +54,8 @@ module Admin
         prep_logs(@loan)
       when "transactions"
         # requires additional level of validation beyond approrpiate loan access
-        authorize :'accounting/transaction', :index?
+        @sample_transaction = ::Accounting::Transaction.new(project: @loan)
+        authorize @sample_transaction, :index?
         prep_transactions
       when "calendar"
         @locale = I18n.locale
@@ -188,10 +189,8 @@ module Admin
       @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
       @transactions = ::Accounting::Transaction.where(project: @loan)
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
-
       check_if_qb_accounts_selected
       check_if_txn_modification_allowed
-      set_whether_add_txn_is_allowed
       set_whether_txn_list_is_visible
       check_if_qb_division_set
 
@@ -217,13 +216,6 @@ module Admin
       unless @loan.division && @loan.division.qb_department.present? || flash.now[:error].present?
         flash[:alert] = t('quickbooks.department_not_set', url: admin_division_path(@loan.division)).html_safe
       end
-    end
-
-    def set_whether_add_txn_is_allowed
-      @add_transaction_available = (current_division.qb_division&.qb_accounts_selected? &&
-         !@data_reset_required &&
-         !@loan.qb_division.qb_read_only &&
-         @loan.txn_modification_allowed?)
     end
 
     def set_whether_txn_list_is_visible
