@@ -10,10 +10,10 @@ section.transactions
         = t('problem_loan_transaction.warning_msg_html', count: txns_with_warnings.count, link: link_to(t('problem_loan_transaction.warning_msg_link', count: txns_with_warnings.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
 
   .show-actions.hidden-print
-    - if @add_transaction_available
+    - if policy(@sample_transaction).create?
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
         data: {action: "new-transaction", project_id: @loan.id}
-  - if @transaction_list_hidden
+  - if @transactions.empty?
     .no-records-msg = t('common.no_records')
   - else
     = render "admin/accounting/transactions/transactions_grid_definition"
