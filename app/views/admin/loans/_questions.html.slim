@@ -27,7 +27,7 @@ section.questionnaires
       h2 = t("loan.#{@attrib}")
       div.container
         div.row
-          div.outline
+          div.outline.collapsed
             div.outline-expansion-control.small.hider
               = fa_icon("chevron-left", data: {hides: "outline-container"})
             h5.outline-expansion-control.expander
@@ -35,7 +35,7 @@ section.questionnaires
             div.outline-container data-expandable="outline-container"
               h4 = t("admin.loans.questions.outline.header")
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.questionnaire-wrapper
+          div.questionnaire-wrapper.larger
             = render partial: "admin/loans/questionnaires/questionnaire_form",
                      locals: {response_set: @response_set, attrib: @attrib}
 
@@ -52,42 +52,5 @@ javascript:
     new MS.Views.LoanQuestionnairesView({
       loanId: #{@loan.id},
       locale: "#{I18n.locale}"
-    });
-  });
-
-  $(function() {
-    var $sidebar   = $(".outline"),
-        $window    = $(window),
-        topPadding = 15;
-        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
-    $window.scroll(function() {
-      offset     = $sidebar.offset()
-      $outlineHeight = $(".outline-container").height()
-      $containerHeight = $("#questions").height()
-      if ($window.scrollTop() > originalYAdjustment){
-        if ($outlineHeight > $window.innerHeight()){
-          percentage = $window.scrollTop()/$containerHeight
-          adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
-          $sidebar.css('margin-top', $window.scrollTop() - adjustment)
-        }else{
-          $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
-        }
-      } else {
-        $sidebar.css('margin-top',"7px")
-      }
-    });
-  });
-
-  $(function() {
-    var $editBar = $("#editBar")
-        $window    = $(window)
-    resizeEditBar = function () {
-      $editBar.css('width', $editBar.parent().width())
-    }
-    resizeEditBar()
-    $window.resize(function() {
-      console.log("resized! parent is this wide:")
-      console.log($editBar.parent().width())
-      $editBar.css('width', $editBar.parent().width())
     });
   });

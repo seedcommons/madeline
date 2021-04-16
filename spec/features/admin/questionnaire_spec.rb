@@ -22,7 +22,7 @@ feature 'questionnaire', js: true do
       expect(page).to have_content("Now editing")
 
       # cancel button is visible in edit mode
-      first("#editBar .cancel-edit").click
+      first("#edit-bar .cancel-edit").click
       expect(page).not_to have_content("Now editing")
 
       # save changes button is visible in edit mode
