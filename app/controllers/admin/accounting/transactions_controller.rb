@@ -1,8 +1,8 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
   def new
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = ::Accounting::Transaction.new(project_id: params[:project_id], txn_date: Time.zone.today)
-    authorize @transaction, :new?
+    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
+    authorize(@transaction, :new?)
 
     prep_transaction_form
     render_modal_partial
@@ -11,16 +11,16 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def show
     @loan = Loan.find_by(id: params[:project_id])
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
-    authorize @transaction, :show?
+    authorize(@transaction, :show?)
 
     prep_transaction_form
     render_modal_partial
   end
 
   def create
-    @loan = Loan.find(transaction_params[:project_id])
-    authorize(@loan, :update?)
     @transaction = ::Accounting::Transaction.new(transaction_params)
+    authorize(@transaction, :create?)
+    @loan = @transaction.project
     @transaction.user_created = true
     @transaction.managed = true
     @transaction.currency_id = @loan.currency_id
@@ -39,9 +39,9 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def update
-    @loan = Loan.find(transaction_params[:project_id])
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize(@transaction, :update?)
+    @loan = @transaction.project
     @transaction.attributes = transaction_params
 
     # Treat this like a new transaction
