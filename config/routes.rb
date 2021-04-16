@@ -90,7 +90,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :transactions
+      resources :transactions, except: [:index, :destroy]
       resources :problem_loan_transactions, only: [:index, :show]
     end
 

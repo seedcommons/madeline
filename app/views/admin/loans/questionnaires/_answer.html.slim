@@ -54,7 +54,8 @@
     .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
 
   .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
-  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden") = t("loan.no_answer")
+  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden")
+     = t("loan.no_answer")
 
   = f.input_field :"#{question.attribute_sym}[text]",
     value: sanitize(response.text, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"

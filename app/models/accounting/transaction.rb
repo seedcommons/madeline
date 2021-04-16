@@ -104,6 +104,9 @@ class Accounting::Transaction < ApplicationRecord
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
 
+  # If BasicProjects can't have txns we should probably rename the association.
+  alias loan project
+
   scope :standard_order, -> {
     joins("LEFT OUTER JOIN options ON options.option_set_id = #{loan_transaction_type_option_set.id}
       AND options.value = accounting_transactions.loan_transaction_type_value")

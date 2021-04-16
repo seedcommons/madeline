@@ -371,9 +371,7 @@ en:
   page_title: "Page Title"
   print: "Print"
   quickbooks:
-    accounts_not_selected: 'Before you can add transactions, you need to select QuickBooks accounts on the %{settings} page.'
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
-    modifying_transactions_not_allowed: 'Transactions are read-only because the loan is not active, transactions are in read-only mode for this loan, or both.'
     class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
     department_not_set: "Please set the QB division on <a href=\"%{url}\">this loan's Madeline division</a> in order to create transactions."
@@ -381,6 +379,14 @@ en:
     principal_account_incompatible_with_checks: "The principal account must have type Expenses in Quickbooks in order to create check disbursements."
     service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
+    read_only_html: "You can't add transactions because: %{reasons}."
+    read_only_reasons:
+      qb_not_connected_html: "QuickBooks is not connected"
+      accounts_not_selected_html: "QuickBooks accounts are not selected on the division '%{qb_division}' (see %{accounting_settings_link})"
+      division_transactions_read_only_html: "transactions are in read-only mode for the division '%{qb_division}' (see %{accounting_settings_link})"
+      department_not_set_html: "the QB department is not set on the division '%{current_division}' (see %{qb_division_settings_link})"
+      loan_not_active_html: "this loan is not active"
+      loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -423,6 +429,7 @@ en:
     role: "Role"
     save: "Save"
     second: "2nd"
+    settings: "settings"
     street_address: "Street Address"
     summary: "Summary"
     summary_and_details: "Summary and Details"

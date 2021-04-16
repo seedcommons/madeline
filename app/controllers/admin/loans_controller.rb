@@ -3,7 +3,6 @@
 module Admin
   class LoansController < Admin::ProjectsController
     include QuestionnaireRenderable
-    include TransactionControllable
     include LoansHelper
 
     TABS = %w(details questions timeline logs transactions calendar).freeze
@@ -55,7 +54,8 @@ module Admin
         prep_logs(@loan)
       when "transactions"
         # requires additional level of validation beyond approrpiate loan access
-        authorize :'accounting/transaction', :index?
+        @sample_transaction = ::Accounting::Transaction.new(project: @loan)
+        authorize @sample_transaction, :index?
         prep_transactions
       when "calendar"
         @locale = I18n.locale
@@ -186,11 +186,27 @@ module Admin
     end
 
     def prep_transactions
-      @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
       @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
-      prep_transaction_form
+      @transactions = ::Accounting::Transaction.where(project: @loan)
+      @transactions.includes(:account, :project, :currency, :line_items).standard_order
+      @enable_export_to_csv = true
+      @transactions_grid = initialize_grid(@transactions, enable_export_to_csv: @enable_export_to_csv,
+                                                          per_page: 100, name: 'transactions')
+      export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
+      show_reasons_if_read_only
+    end
 
-      initialize_transactions_grid(@loan)
+    def show_reasons_if_read_only
+      return if (reasons = policy(@sample_transaction).read_only_reasons).empty?
+      args = {}
+      args[:current_division] = @loan.division.name
+      args[:qb_division] = @loan.qb_division&.name
+      args[:qb_division_settings_link] =
+        view_context.link_to(t('common.settings'), admin_division_path(@loan.division))
+      args[:accounting_settings_link] =
+        view_context.link_to(t('common.settings'), admin_accounting_settings_path)
+      reasons = reasons.map { |r| t("quickbooks.read_only_reasons.#{r}_html", args) }.join("; ")
+      flash.now[:alert] = t('quickbooks.read_only_html', reasons: reasons)
     end
   end
 end

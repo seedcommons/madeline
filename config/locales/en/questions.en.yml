@@ -8,7 +8,7 @@ en:
     currently_editing: "Now editing"
     delete_error: "The item could not be deleted due to an error"
     edit_all: "Enter Edit Mode"
-    edit_rich_text: "Edit Text"
+    edit_rich_text: "Edit Answer"
     explanation: "Explanation"
     manage: "Manage Loan Questions"
     missing_required_answer: "This is a required question."

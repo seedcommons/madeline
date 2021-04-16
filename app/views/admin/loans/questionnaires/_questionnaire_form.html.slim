@@ -40,12 +40,12 @@
     - unless @print_view
       .jqtree data-data=@questions_json class=attrib id="jqtree"
 
-    .actions.form-element#editBar
+    .actions.form-element.larger#edit-bar
       h3.now-editing.custom_dark_accent
         = fa_icon "exclamation-circle"
         = t("questions.currently_editing")
       p#unsaved-changes-warning.unsaved-changes-warning.hidden = t("loan.pending_changes_short")
-      a.btn.btn-default.show-action = t(:cancel)
+      a.btn.btn-default.show-action.cancel-edit = t(:cancel)
       = f.submit t("loan.save_responses"), class: 'update-action btn btn-primary'
     .clearfix
 

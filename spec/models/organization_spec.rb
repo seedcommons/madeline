@@ -2,16 +2,13 @@
 #
 # Table name: organizations
 #
+#  id                 :integer          not null, primary key
 #  alias              :string
 #  city               :string
 #  contact_notes      :text
-#  country_id         :integer
-#  created_at         :datetime         not null
 #  custom_data        :json
-#  division_id        :integer
 #  email              :string
 #  fax                :string
-#  id                 :integer          not null, primary key
 #  industry           :string
 #  is_recovered       :boolean
 #  last_name          :string
@@ -19,7 +16,6 @@
 #  name               :string
 #  neighborhood       :string
 #  postal_code        :string
-#  primary_contact_id :integer
 #  primary_phone      :string
 #  referral_source    :string
 #  secondary_phone    :string
@@ -27,8 +23,12 @@
 #  state              :string
 #  street_address     :text
 #  tax_no             :string
-#  updated_at         :datetime         not null
 #  website            :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  country_id         :integer          not null
+#  division_id        :integer
+#  primary_contact_id :integer
 #
 # Indexes
 #
@@ -72,6 +72,13 @@ describe Organization, type: :model do
   describe "geography" do
     let!(:country_us) { create(:country, iso_code: 'US') }
     let!(:country_not_us) { create(:country, iso_code: 'AR') }
+
+    describe "country" do
+      it "should be required" do
+        org = build(:organization, country: nil)
+        expect(org).to be_invalid
+      end
+    end
 
     describe 'postal_code' do
       it "should be required  for US organizations" do
