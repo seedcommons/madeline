@@ -312,7 +312,7 @@ describe Accounting::InterestCalculator do
 
     describe 'transaction recalculation is not allowed' do
       it 'does not update txns' do
-        expect(loan).to receive(:txn_modification_allowed?).and_return false
+        expect(Accounting::TransactionPolicy).to receive(:new).and_return double(create?: false)
         recalculate_and_reload
         expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
       end
