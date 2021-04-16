@@ -13,7 +13,7 @@ section.transactions
     - if policy(@sample_transaction).create?
       = link_to t(".new_transaction"), "#", class: "btn btn-primary",
         data: {action: "new-transaction", project_id: @loan.id}
-  - if @transaction_list_hidden
+  - if @transactions.empty?
     .no-records-msg = t('common.no_records')
   - else
     = render "admin/accounting/transactions/transactions_grid_definition"

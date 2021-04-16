@@ -189,13 +189,11 @@ module Admin
       @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
       @transactions = ::Accounting::Transaction.where(project: @loan)
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
-      set_whether_txn_list_is_visible
-      show_reasons_if_read_only
-
       @enable_export_to_csv = true
       @transactions_grid = initialize_grid(@transactions, enable_export_to_csv: @enable_export_to_csv,
                                                           per_page: 100, name: 'transactions')
       export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
+      show_reasons_if_read_only
     end
 
     def show_reasons_if_read_only
@@ -209,10 +207,6 @@ module Admin
         view_context.link_to(t('common.settings'), admin_accounting_settings_path)
       reasons = reasons.map { |r| t("quickbooks.read_only_reasons.#{r}_html", args) }.join("; ")
       flash.now[:alert] = t('quickbooks.read_only_html', reasons: reasons)
-    end
-
-    def set_whether_txn_list_is_visible
-      @transaction_list_hidden = @qb_not_connected || @data_reset_required || @transactions.count == 0
     end
   end
 end

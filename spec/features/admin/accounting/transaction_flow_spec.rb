@@ -31,27 +31,47 @@ feature 'transaction flow', :accounting do
     end
 
     describe 'list transactions' do
-      context 'when transactions are writable' do
-        scenario 'create new transaction button is visble, no notice shown' do
+      context 'when transactions present' do
+        let!(:transactions) { create_list(:accounting_transaction, 2, project: loan, description: "Pants") }
+
+        scenario 'shows transactions' do
           visit "/admin/loans/#{loan.id}/transactions"
-          expect(page).not_to have_content("You can't add transactions")
-          expect(page).to have_selector('.btn[data-action="new-transaction"]')
+          amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
+          expect(page).to have_content(amt)
+          expect(page).to have_content("Pants")
+        end
+
+        context 'when transactions are writable' do
+          scenario 'create new transaction button is visble, no notice shown' do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).not_to have_content("You can't add transactions")
+            expect(page).to have_selector('.btn[data-action="new-transaction"]')
+          end
+        end
+
+        context "when transactions are not writable" do
+          let!(:loan) { create(:loan, :completed, division: division) }
+
+          before do
+            Division.root.update_attribute(:qb_read_only, true)
+          end
+
+          scenario 'create new transaction button is hidden and reasons are shown' do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).to have_content("You can't add transactions because: transactions are in read-only "\
+              "mode for the division '#{loan.qb_division.name}' (see settings); "\
+              "this loan is not active")
+            expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+          end
         end
       end
 
-      context "when transactions are not writable" do
-        let!(:loan) { create(:loan, :completed, division: division) }
-
-        before do
-          Division.root.update_attribute(:qb_read_only, true)
-        end
-
-        scenario 'create new transaction button is hidden and reasons are shown' do
+      context 'when transactions not present but still writable' do
+        scenario 'shows no records notice and new txn button' do
           visit "/admin/loans/#{loan.id}/transactions"
-          expect(page).to have_content("You can't add transactions because: transactions are in read-only "\
-            "mode for the division '#{loan.qb_division.name}' (see settings); "\
-            "this loan is not active")
-          expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+          expect(page).to have_content("No records")
+          expect(page).not_to have_content("You can't add transactions")
+          expect(page).to have_selector('.btn[data-action="new-transaction"]')
         end
       end
     end
