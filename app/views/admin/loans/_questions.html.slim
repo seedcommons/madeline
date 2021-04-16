@@ -54,3 +54,26 @@ javascript:
       locale: "#{I18n.locale}"
     });
   });
+
+  $(function() {
+    var $sidebar   = $(".outline"),
+        $window    = $(window),
+        topPadding = 15;
+        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
+    $window.scroll(function() {
+      offset     = $sidebar.offset()
+      $outlineHeight = $(".outline-container").height()
+      $containerHeight = $("#questions").height()
+      if ($window.scrollTop() > originalYAdjustment){
+        if ($outlineHeight > $window.innerHeight()){
+          percentage = $window.scrollTop()/$containerHeight
+          adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
+          $sidebar.css('margin-top', $window.scrollTop() - adjustment)
+        }else{
+          $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
+        }
+      } else {
+        $sidebar.css('margin-top',"7px")
+      }
+    });
+  });
