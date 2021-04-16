@@ -38,7 +38,7 @@ describe Accounting::TransactionPolicy do
     it_behaves_like 'returns no reasons even if issues other than user role'
   end
 
-  context 'with admin of division and no parent_division' do
+  context 'with admin of division and no qb connection (so no qb_division)' do
     let(:user) { create(:user, :admin, division: division) }
     let(:division) { create(:division, :with_qb_dept, parent: Division.root) } # Root has no qb connection
     forbid_all_but_read
