@@ -189,10 +189,8 @@ module Admin
       @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
       @transactions = ::Accounting::Transaction.where(project: @loan)
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
-      check_if_qb_accounts_selected
-      check_if_txn_modification_allowed
       set_whether_txn_list_is_visible
-      check_if_qb_division_set
+      show_reasons_if_read_only
 
       @enable_export_to_csv = true
       @transactions_grid = initialize_grid(@transactions, enable_export_to_csv: @enable_export_to_csv,
@@ -200,22 +198,17 @@ module Admin
       export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
     end
 
-    def check_if_qb_accounts_selected
-      unless current_division.qb_division&.qb_accounts_selected? || flash.now[:error].present?
-        flash.now[:alert] = t('quickbooks.accounts_not_selected', settings: settings_link).html_safe
-      end
-    end
-
-    def check_if_txn_modification_allowed
-      unless @loan && @loan.txn_modification_allowed? || flash.now[:error].present?
-        flash.now[:alert] = t('quickbooks.modifying_transactions_not_allowed')
-      end
-    end
-
-    def check_if_qb_division_set
-      unless @loan.division && @loan.division.qb_department.present? || flash.now[:error].present?
-        flash[:alert] = t('quickbooks.department_not_set', url: admin_division_path(@loan.division)).html_safe
-      end
+    def show_reasons_if_read_only
+      return if (reasons = policy(@sample_transaction).read_only_reasons).empty?
+      args = {}
+      args[:current_division] = @loan.division.name
+      args[:qb_division] = @loan.qb_division&.name
+      args[:qb_division_settings_link] =
+        view_context.link_to(t('common.settings'), admin_division_path(@loan.division))
+      args[:accounting_settings_link] =
+        view_context.link_to(t('common.settings'), admin_accounting_settings_path)
+      reasons = reasons.map { |r| t("quickbooks.read_only_reasons.#{r}_html", args) }.join("; ")
+      flash.now[:alert] = t('quickbooks.read_only_html', reasons: reasons)
     end
 
     def set_whether_txn_list_is_visible

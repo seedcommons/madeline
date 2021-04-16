@@ -30,45 +30,29 @@ feature 'transaction flow', :accounting do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    context "loan's transactions are read-only" do
-      let!(:loan) { create(:loan, txn_handling_mode: Loan::TXN_MODE_READ_ONLY, division: division) }
-      scenario 'create new transaction button is hidden' do
-        visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_content('Transactions are read-only')
-        # expect "Add Transaction" to not be available
-        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+    describe 'list transactions' do
+      context 'when transactions are writable' do
+        scenario 'create new transaction button is visble, no notice shown' do
+          visit "/admin/loans/#{loan.id}/transactions"
+          expect(page).not_to have_content("You can't add transactions")
+          expect(page).to have_selector('.btn[data-action="new-transaction"]')
+        end
       end
-    end
 
-    context "loan's qb_division has qb_read-only on" do
-      before do
-        Division.root.update_attribute(:qb_read_only, true)
-      end
-      scenario 'create new transaction button is hidden' do
-        visit "/admin/loans/#{loan.id}/transactions"
-        # expect "Add Transaction" to not be available
-        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
-      end
-    end
+      context "when transactions are not writable" do
+        let!(:loan) { create(:loan, :completed, division: division) }
 
-    context "loan is not active" do
-      let!(:loan) { create(:loan, :completed, division: division) }
-      scenario 'create new transaction button is hidden' do
-        visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_content('Transactions are read-only')
-        # expect "Add Transaction" to not be available
-        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
-      end
-    end
+        before do
+          Division.root.update_attribute(:qb_read_only, true)
+        end
 
-    context "loan's division has no qb department set'" do
-      before { division.update(qb_department: nil) }
-      let!(:loan) { create(:loan, :active, division: division) }
-      scenario 'warning is visible and Create Transactions button hidden' do
-        visit "/admin/loans/#{loan.id}/transactions"
-        expect(page).to have_content("Please set the QB division on this loan's Madeline division in order to create transactions.")
-        # expect "Add Transaction" to be available
-        expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+        scenario 'create new transaction button is hidden and reasons are shown' do
+          visit "/admin/loans/#{loan.id}/transactions"
+          expect(page).to have_content("You can't add transactions because: transactions are in read-only "\
+            "mode for the division '#{loan.qb_division.name}' (see settings); "\
+            "this loan is not active")
+          expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+        end
       end
     end
 
