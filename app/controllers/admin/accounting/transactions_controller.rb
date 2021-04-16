@@ -18,7 +18,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def create
-    @transaction = ::Accounting::Transaction.new(transaction_params)
+    @transaction = ::Accounting::Transaction.new(transaction_params.merge(project_id: params[:project_id]))
     authorize(@transaction, :create?)
     @loan = @transaction.project
     @transaction.user_created = true
@@ -80,7 +80,9 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def transaction_params
-    params.require(:accounting_transaction).permit(:project_id, :account_id, :amount,
+    # We don't permit project_id because that's a privilege escalation issue. For update, it should
+    # already be set and can't be changed. For create, we get it from the query string manually.
+    params.require(:accounting_transaction).permit(:account_id, :amount,
       :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
       :accounting_customer_id, :qb_vendor_id, :qb_object_subtype, :check_number)
   end
