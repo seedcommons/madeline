@@ -43,6 +43,7 @@ en:
       body: "Are you sure you want to change the loan date?"
     move_dates: "Move scheduled dates"
     move_date_direction: "Move date forward or backward?"
+    no_answer: "[No answer]"
     not_applicable: "Not applicable"
     num_of_links:
       one: "There is %{count} linked document."
