@@ -151,6 +151,9 @@ section.questionnaires {
   .answer {
     margin-left: 1em;
     margin-bottom: 1em;
+    &.no-response {
+      color: $gray3;
+    }
 
     &.blank{
       .fa {

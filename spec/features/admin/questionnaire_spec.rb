@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # TODO: look for a way around targeting summernote textarea
-xfeature 'questionnaire', js: true do
+feature 'questionnaire', js: true do
   let!(:division) { create(:division) }
   let(:user) { create_member(division) }
   let(:loan) { create(:loan, division: division) }
@@ -15,66 +15,36 @@ xfeature 'questionnaire', js: true do
     it "works" do
       # create
       visit admin_loan_tab_path(loan, 'questions')
-      fill_in('response_set[summary[text]]', with: 'kittens jumping on rainbows')
-      click_button 'Save Responses'
-      expect(page).to have_content 'successfully created'
-      expect(page).to have_content 'kittens jumping on rainbows'
-      expect(criteria.summary.text).to eq 'kittens jumping on rainbows'
 
-      # edit
-      click_link('Edit Responses')
-      fill_in('response_set[summary[text]]', with: 'sexy unicorns')
-      click_button 'Save Responses'
-      expect(page).to have_content 'successfully updated'
-      expect(page).to have_content 'sexy unicorns'
-      expect(page).not_to have_content 'Warning'
-      expect(criteria.summary.text).to eq 'sexy unicorns'
+      # check that edit-all button turns on edit mode
+      expect(page).not_to have_content("Now editing")
+      first(".edit-all").click()
+      expect(page).to have_content("Now editing")
 
-      # delete
-      accept_confirm { click_link('Delete All Responses') }
-      expect(page).to have_content 'successfully deleted'
-      expect(page).not_to have_content 'sexy unicorns'
-      # After deletion, should be in edit mode
-      expect(page).not_to have_content 'Edit Responses'
-      expect(page).to have_selector 'input[value="Save Responses"]'
+      # cancel button is visible in edit mode
+      first("#editBar .cancel-edit").click
+      expect(page).not_to have_content("Now editing")
+
+      # save changes button is visible in edit mode
+      first(".edit-all").click()
+      expect(page).to have_content("Now editing")
+      click_button('Save Changes')
+      expect(page).not_to have_content("Now editing")
+
+      # test outline expansion
+      expect(page).not_to have_content("Outline")
+      page.find(".outline .expander").click()
+      expect(page).to have_content("Outline")
+      page.find(".outline .hider").click()
+      expect(page).not_to have_content("Outline")
     end
   end
 
   context 'with conflicting changes' do
-    let(:response_set) { criteria }
-
-    before do
-      response_set.summary = {text: 'dragon'}
-      response_set.save!
-
-      visit admin_loan_tab_path(loan, 'questions')
-      click_link('Edit Responses')
-      fill_in('response_set[summary[text]]', with: 'gnashing teeth')
-      response_set.touch
-      click_button 'Save Responses'
-    end
-
-    it "raises an error and discard button works" do
-      # Check that warning message is displayed
-      expect(page).to have_content 'Warning'
-      expect(page).to have_selector 'input[type="submit"][name="overwrite"]'
-
-      # Check that discard button works
-      find('input[type="submit"][name="discard"]').click
-      expect(page).not_to have_content 'Warning'
-      expect(page).to have_content 'dragon'
-      expect(criteria.summary.text).to eq 'dragon'
-    end
-
-    it "overwrite button works" do
-      find('input[type="submit"][name="overwrite"]').click
-      expect(page).to have_content 'successfully updated'
-      expect(page).to have_content 'gnashing teeth'
-      expect(criteria.summary.text).to eq 'gnashing teeth'
-    end
+    # TODO reimplement
   end
 
-  #  finds and reloads/creates criteria and assigns current user
+  # finds and reloads/creates criteria and assigns current user
   def criteria
     c = loan.criteria ? loan.criteria.reload : loan.create_criteria
     c.current_user = user
