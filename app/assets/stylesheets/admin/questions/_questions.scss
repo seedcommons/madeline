@@ -31,17 +31,60 @@
       padding-top: 10px;
     }
   }
+
   .row {
-    display: grid;
-    grid-template-columns: auto minmax(70%, 100%);
-    gap: 10px;
     .outline {
-      grid-row: 1 / 1;
-      grid-column: 1 / 2;
+      display: inline-block;
+      min-height: calc(50vw);
+      vertical-align: top;
+
+      &.collapsed {
+        width: $q-outline-collapsed-width;
+      }
+
+      &.expanded {
+        width: $q-outline-expanded-width;
+      }
     }
+
     .questionnaire-wrapper {
-      grid-row: 1 / 1;
-      grid-column: 2 / 2;
+      // below variable used to sync the dynamic size of fixed-position edit bar and the questionnaire it overlays
+      $questionnaire-width-adjustment: calc(100vw - (#{$content-wrapper-padding} * 3) - (#{$tab-pane-padding} * 3));
+      display: inline-block;
+      margin-left: $tab-pane-padding;
+
+      &.larger {
+        width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-collapsed-width});
+      }
+
+      &.smaller {
+        width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-expanded-width});
+      }
+
+      .form-element.actions#edit-bar {
+        // When position is fixed, the entire webpage/viewport is the parent element
+        background: $gray2;
+        background: rgba($gray2, 0.7);
+        bottom: 0;
+        display: block;
+        padding: 1em;
+        position: fixed;
+        // Use built-in Sass function and color fallback
+
+        text-align: right;
+
+        a {
+          float: none;
+        }
+
+        &.larger {
+          width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-collapsed-width});
+        }
+
+        &.smaller {
+          width: calc(#{$questionnaire-width-adjustment} - #{$q-outline-expanded-width});
+        }
+      }
     }
   }
 }

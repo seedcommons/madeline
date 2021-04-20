@@ -30,7 +30,7 @@ class MS.Views.Expander extends Backbone.View
 
     # Hide the 'expand' control and show the 'hide' control.
     @$("[data-hides='#{targetName}']").show()
-    @$(e.currentTarget).hide()
+    $link.hide()
 
     # If [data-expand-all] and [data-hide-all] exist in same menu, show [data-expand-all] control.
     $link.siblings('[data-expand-all]').show()
@@ -47,7 +47,7 @@ class MS.Views.Expander extends Backbone.View
     @$("[data-expandable='#{targetName}']").hide('fast')
 
     # Hide the 'hide' control and show the 'expand' control.
-    @$(e.currentTarget).hide()
+    $link.hide()
     @$("[data-expands='#{targetName}']").show()
 
     # If [data-expand-all] and [data-hide-all] exist in same menu, hide these controls.

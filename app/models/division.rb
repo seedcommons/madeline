@@ -168,6 +168,10 @@ class Division < ApplicationRecord
     qb_connection ? self : parent&.qb_division
   end
 
+  def qb_department?
+    qb_department.present?
+  end
+
   def parent_division_and_name
     errors.add(:parent, :invalid) if parent&.name == name
   end

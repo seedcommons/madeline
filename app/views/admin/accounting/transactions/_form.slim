@@ -10,7 +10,7 @@
 
   = error_notification(f)
 
-  = f.hidden_field :project_id
+  = hidden_field_tag(:project_id, @loan.id)
 
   = f.input :loan_transaction_type_value, wrapper_html: @transaction.new_record? ? {class: "principal-form-field"} : {}
     .view-element

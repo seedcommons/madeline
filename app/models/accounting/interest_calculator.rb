@@ -59,8 +59,7 @@ module Accounting
     end
 
     def recalculate
-      return if @loan.qb_division.qb_read_only
-      return unless @loan.txn_modification_allowed?
+      return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan)).create?
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)

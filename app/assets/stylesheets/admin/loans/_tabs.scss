@@ -6,7 +6,7 @@
 }
 
 .tab-pane {
-  padding: 1em;
+  padding: $tab-pane-padding;
 
   &.active {
     background: $background-gray;
