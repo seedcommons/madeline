@@ -20,7 +20,7 @@
               = link_to t(:show_completed), {}.merge(status: 'completed', pg: nil)
             li class=('active' if status_filter == 'all')
               = link_to t(:show_all), {}.merge(status: 'all', pg: nil)
-        .country
+        .division-select
           = label_tag(:division, "#{t :division}: ")
           = select_tag(:division, options_for_select(division_select_options(include_all: true), 'bred'),
               onchange: "this.form.submit()")
