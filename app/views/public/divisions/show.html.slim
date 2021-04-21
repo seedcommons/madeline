@@ -1,8 +1,7 @@
 .public-header
-  .logo-grid
-    .ftc-triple-spiral
-    .division-name
-      = @division.name
+  .division-name
+    = @division.name
+    // TODO use logo if available
 .public-container
   .public-row.description
     = @division.description
@@ -10,7 +9,7 @@
     h1 =t("public.divisions.loan_header")
   .public-row
     - if @loans.empty?
-      .col-xs-12.empty = t :no_loans_found
+      = t :no_loans_found
     - else
       .col-xs-12.loans
         table.table.loan_list_wrap.table-bordered.no-more-tables

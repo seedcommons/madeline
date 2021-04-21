@@ -9,14 +9,9 @@ $row-padding: calc(5vh);
   padding: 0.4em 0;
 }
 
-.logo-grid {
-  display: grid;
-  grid-template-columns: minmax(auto, 42px) auto;
-  margin: 0 $edge-margin;
-}
-
 .division-name {
   margin-top: -0.15em;
+  text-align: center;
 }
 
 .description {
