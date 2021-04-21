@@ -6,6 +6,24 @@
   .description
     = @division.description
   h1 =t("public.divisions.loan_header")
+  .loan_filters
+    //TODO: update to depend on request
+    - status_filter = 'active'
+    .col-xs-12
+      = form_tag({}, {method: "get"}) do
+        .show
+          ul.nav.nav-pills
+            li.disabled #{t :show}:
+            li class=('active' if status_filter == 'active')
+              = link_to t(:show_active), {}.merge(status: nil, pg: nil)
+            li class=('active' if status_filter == 'completed')
+              = link_to t(:show_completed), {}.merge(status: 'completed', pg: nil)
+            li class=('active' if status_filter == 'all')
+              = link_to t(:show_all), {}.merge(status: 'all', pg: nil)
+        .country
+          = label_tag(:division, "#{t :division}: ")
+          = select_tag(:division, options_for_select(division_select_options(include_all: true), 'bred'),
+              onchange: "this.form.submit()")
   - if @loans.empty?
     = t :no_loans_found
   - else
