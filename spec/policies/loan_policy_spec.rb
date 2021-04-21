@@ -12,7 +12,7 @@ describe LoanPolicy do
   let!(:public_div_hidden_active_loan) { create(:loan, :active, division: public_division, public_level_value: 'hidden') }
   let!(:hidden_division) { create(:division, public: false, parent: public_division) }
 
-  describe 'with user, as in madeline usage' do
+  describe 'with admin user, as in madeline usage' do
     let!(:user) { create(:user, :admin, division: public_division) }
 
     it 'returns the correct loans' do
@@ -29,8 +29,8 @@ describe LoanPolicy do
     end
   end
 
-  describe 'without user, as in public usage' do
-    let!(:user) { nil }
+  describe 'in public usage' do
+    let!(:user) { :public }
 
     it 'returns the correct loans' do
       expect(loan_scope(user).resolve).to contain_exactly(

@@ -10,7 +10,7 @@ class Public::DivisionsController < Public::PublicController
     # assume this division is public . ..
     # loan scope handles filtering loans based on whether their division is public, their status, and their public level value
     divisions_to_include = @division.self_and_descendants&.map(&:id)
-    @loans = policy_scope(Loan.where(division: divisions_to_include)).page(params[:page]).per(5)
+    @loans = LoanPolicy::Scope.new(:public, Loan.where(division: divisions_to_include)).resolve.page(params[:page]).per(5)
   end
 
   private
