@@ -15,30 +15,13 @@ $row-padding: calc(5vh);
 }
 
 .description {
+  border-bottom: 1px solid var(--custom-fg-color);
   color: var(--custom-fg-color);
   font-size: small;
+  padding: $row-padding 0;
 }
 
 .public-container {
   color: var(--custom-fg-color);
-  display: grid;
   margin: 0 $edge-margin;
-
-  .public-row {
-    border-bottom: 1px solid var(--custom-fg-color);
-    padding: $row-padding 0;
-  }
-}
-
-.loan-row {
-  .featured-image {
-    display: inline-block;
-    float: left;
-    padding: 0 3% 3% 0;
-  }
-
-  .loan-summary {
-    display: inline-block;
-    float: left;
-  }
 }
