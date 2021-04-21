@@ -8,18 +8,18 @@
   h1 =t("public.divisions.loan_header")
   .loan_filters
     //TODO: update to depend on request
-    - status_filter = 'active'
     .col-xs-12
       = form_tag({}, {method: "get"}) do
+        - status_filter = @params[:status] || 'all'
         .show
           ul.nav.nav-pills
             li.disabled #{t :show}:
             li class=('active' if status_filter == 'active')
-              = link_to t(:show_active), {}.merge(status: nil, pg: nil)
+              = link_to t(:show_active), @params.merge(status: 'active', pg: nil)
             li class=('active' if status_filter == 'completed')
-              = link_to t(:show_completed), {}.merge(status: 'completed', pg: nil)
+              = link_to t(:show_completed), @params.merge(status: 'completed', pg: nil)
             li class=('active' if status_filter == 'all')
-              = link_to t(:show_all), {}.merge(status: 'all', pg: nil)
+              = link_to t(:show_all), @params.merge(status: 'all', pg: nil)
         .division-select
           = label_tag(:division, "#{t :division}: ")
           = select_tag(:division, options_for_select(division_select_options(include_all: true), 'bred'),
