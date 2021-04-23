@@ -40,10 +40,11 @@
               h5.coop_name
                 a href="" = loan.display_name
               p.about_coop = render_translation(loan.summary)
-              p.detail_link.pull-right
-                a.no_line href=""
-                  span.hover_line> = t :more_details
-                  i.fa.fa-chevron-right
+              // TODO: add back when new loan page done
+              / p.detail_link.pull-right
+              /   a.no_line href=""
+              /     span.hover_line> = t :more_details
+              /     i.fa.fa-chevron-right
             td.facts.loan_item_facts
               .division
                 i.fa.fa-fw.fa-users>
