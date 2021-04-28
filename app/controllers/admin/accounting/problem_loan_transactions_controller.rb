@@ -14,8 +14,8 @@ module Admin
       end
 
       def show
-        authorize :'accounting/problem_loan_transaction', :show?
         @plt = ::Accounting::ProblemLoanTransaction.find(params[:id])
+        authorize @plt
       end
     end
   end

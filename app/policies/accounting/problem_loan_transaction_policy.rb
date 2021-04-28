@@ -1,2 +1,2 @@
-class Accounting::ProblemLoanTransactionPolicy < Accounting::TransactionPolicy
+class Accounting::ProblemLoanTransactionPolicy < ApplicationPolicy
 end
