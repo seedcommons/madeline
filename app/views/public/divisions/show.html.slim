@@ -28,7 +28,7 @@
     = t :no_loans_found
   - else
     .col-xs-12.loans
-      table.table.loan_list_wrap.table-bordered.no-more-tables
+      table.table.loan_list_wrap.table-bordered.no-more-tables#public-division-page
         - @loans.each do |loan|
           tr.loans_items.well.loan_list_item_wrap style=("opacity: 0.9;")
             td.loan_item_thumb
@@ -36,9 +36,9 @@
                 .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
             td.loan_item_desc
               h4
-                a href="" = loan.organization.name
+                = loan.organization.name
               h5.coop_name
-                a href="" = loan.display_name
+                = loan.display_name
               p.about_coop = render_translation(loan.summary)
               // TODO: add back when new loan page done
               / p.detail_link.pull-right

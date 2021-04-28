@@ -13,6 +13,8 @@ style type="text/css"
       --custom-bg-color: #{colors[:banner_bg]};
       --custom-accent-main: #{colors[:accent_main]};
       --custom-accent-darkened: #{colors[:accent_darkened]};
+      --custom-fg-color-transp: #{colors[:banner_fg_transp]};
+      --custom-accent-fg-text: #{colors[:accent_fg_text]};
     }
 
 
@@ -21,7 +23,7 @@ style type="text/css"
     .btn-link,
     .table.rowlink td:not(.rowlink-skip) a,
     .table .rowlink td:not(.rowlink-skip) a {
-      color: #{colors[:accent_main]};
+      color: var(--custom-accent-main);
     }
 
     /* General links on hover */
@@ -33,18 +35,18 @@ style type="text/css"
     .table.rowlink td:not(.rowlink-skip) a:focus,
     .table .rowlink td:not(.rowlink-skip) a:hover,
     .table .rowlink td:not(.rowlink-skip) a:focus {
-      color: #{colors[:accent_darkened]};
+      color: (--custom-accent-darkened);
     }
 
     /* Navbar toggle button lines */
     .navbar-toggle {
-      border-color: #{colors[:banner_fg]};
+      border-color: var(--custom-fg-color);
     }
     .navbar-toggle:hover {
-      background-color: #{colors[:banner_fg_transp]};
+      background-color: var(--custom-fg-color-transp);
     }
     .navbar-toggle .icon-bar {
-      background-color: #{colors[:banner_fg]};
+      background-color: var(--custom-fg-color);
     }
 
     /* Progress bars, buttons, pagination */
@@ -62,9 +64,9 @@ style type="text/css"
     .table.rowlink .pagination > .active > span,
     .table.rowlink .pagination > .active > span:hover,
     .table.rowlink .pagination > .active > span:focus {
-      color: #{colors[:accent_fg_text]};
-      background-color: #{colors[:accent_main]};
-      border-color: #{colors[:accent_darkened]};
+      color: var(--custom-accent-fg-text);
+      background-color: var(--custom-accent-main);
+      border-color: var(--custom-accent-darkened);
     }
 
     /* Buttons on hover */
@@ -79,19 +81,19 @@ style type="text/css"
     .open > .btn-primary.dropdown-toggle:hover,
     .open > .btn-primary.dropdown-toggle:focus,
     .open > .btn-primary.dropdown-toggle.focus {
-      color: #{colors[:accent_fg_text]};
-      background-color: #{colors[:accent_darkened]};
+      color: var(--custom-accent-fg-text);
+      background-color: var(--custom-accent-darkened);
     }
 
     /* site header */
     #site-header, #site-header a, #site-header a:hover, #site-header a:focus  {
-      color: #{colors[:banner_fg]};
-      background-color: #{colors[:banner_bg]};
+      color: var(--custom-fg-color);
+      background-color: var(--custom-bg-color);
     }
 
     #site-menu, #site-menu a {
-      color: #{colors[:banner_fg]};
-      background-color: #{colors[:banner_bg]};
+      color: var(--custom-fg-color);
+      background-color: var(--custom-bg-color);
     }
 
     #site-menu ul li a:hover  {

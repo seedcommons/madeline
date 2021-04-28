@@ -25,3 +25,7 @@ $row-padding: calc(5vh);
   color: var(--custom-fg-color);
   margin: 0 $edge-margin;
 }
+
+.loan_item_facts a, .btn-link, .table.rowlink td:not(.rowlink-skip) a, .table .rowlink td:not(.rowlink-skip) a {
+  color: pink;
+}
