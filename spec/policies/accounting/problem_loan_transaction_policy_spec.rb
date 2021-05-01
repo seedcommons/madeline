@@ -31,5 +31,4 @@ describe Accounting::ProblemLoanTransactionPolicy do
     let(:user) { create_admin(root_division) }
     forbid_all_but_read
   end
-
 end
