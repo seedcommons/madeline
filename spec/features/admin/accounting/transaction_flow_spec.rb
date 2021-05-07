@@ -106,7 +106,7 @@ feature 'transaction flow', :accounting do
         fill_in 'Date', with: Time.zone.today.to_s
         fill_in 'accounting_transaction[amount]', with: '12.34'
         select accounts.sample.name, from: 'Bank Account'
-        select customers.sample.name, from: 'Coop'
+        select customers.sample.name, from: 'Co-op (QBO)'
         fill_in 'Description', with: 'Test check'
         fill_in 'Memo', with: 'Chunky monkey'
         page.find('a[data-action="submit"]').click
@@ -178,7 +178,7 @@ feature 'transaction flow', :accounting do
     fill_in 'Date', with: date.to_s
     fill_in 'accounting_transaction[amount]', with: '12.34' unless omit_amount
     select accounts.sample.name, from: 'Bank Account'
-    select customers.sample.name, from: 'Coop'
+    select customers.sample.name, from: 'Co-op (QBO)'
     fill_in 'Description', with: 'Palm trees'
     fill_in 'Memo', with: 'Chunky monkey'
   end
