@@ -30,6 +30,7 @@ module Accounting
     delegate :id, :display_name, to: :loan, prefix: :loan
     delegate :txn_date, :qb_id, :amount, :change_in_interest, :change_in_principal, :currency, :quickbooks_data, to: :accounting_transaction
     delegate :id, :description, to: :accounting_transaction, prefix: :txn
+    delegate :division, to: :loan
 
     def associated_loan_ids
       self.class.where(
