@@ -18,7 +18,6 @@ gem "fullcalendar-rails"
 gem "jquery-rails"
 gem "momentjs-rails"
 gem "rails-backbone"
-gem "sass-rails", "~> 5.0"
 gem "select2-rails"
 gem "strip_attributes", "< 2.0"
 gem "therubyracer", platforms: :ruby
@@ -51,7 +50,7 @@ gem "route_translator", ">=5.5.3"
 gem "closure_tree"
 
 # Tables
-gem "font-awesome-sass", "~> 4.3"
+gem "font-awesome-sass", "~> 5.12"
 gem "jquery-ui-rails"
 
 # We are using this fork because:
@@ -70,9 +69,11 @@ gem "goldiloader" # Eager loading
 gem "gon" # Passing controller data to JS
 gem "quickbooks-ruby"
 gem "remotipart", "~> 1.2" # File uploads for remote: true forms
+gem 'sassc-rails'
 gem "scout_apm"
 gem "sentry-raven"
 gem "simple_form"
+gem "sprockets", "~> 3.7.2"
 gem "summernote-rails", "~> 0.8.10.0" # Text editor
 gem "whenever", "~> 0.9", require: false # Improved syntax for creating cron jobs
 gem "awesome_print"
