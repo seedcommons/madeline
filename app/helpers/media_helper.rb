@@ -9,7 +9,7 @@ module MediaHelper
     else
       content_tag(:div, class: "media-block") do
         concat(content_tag(:div, media_item.kind_value.capitalize))
-        concat(icon(media_icon_class(media_item)))
+        concat(icon_tag(media_icon_class(media_item)))
       end
     end
   end
