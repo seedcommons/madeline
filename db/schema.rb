@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 2021_05_11_194222) do
     t.integer "item_width"
     t.string "kind_value"
     t.integer "legacy_id"
+    t.string "legacy_path"
     t.integer "media_attachable_id"
     t.string "media_attachable_type"
     t.integer "sort_order"
