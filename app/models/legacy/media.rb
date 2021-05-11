@@ -22,7 +22,7 @@ module Legacy
 
     def uploader_id
       if NULLIFY_MEMBER_IDS.include?(member_id)
-        Migration.skip_log << ["Media", id, "Nullified uploader_id b/c member #{member_id} not found"]
+        Migration.log << ["Media", id, "Nullified uploader_id b/c member #{member_id} not found"]
         nil
       else
         if (person = Person.find_by(legacy_id: member_id))
@@ -65,11 +65,11 @@ module Legacy
 
     def migrate
       unless self.class.existing_media_paths["/var/www/internal.labase.org/#{media_path}"]
-        Migration.skip_log << ["Media", id, "Not migrating b/c file '#{media_path}' doesn't exist"]
+        Migration.log << ["Media", id, "Not migrating b/c file '#{media_path}' doesn't exist"]
         return
       end
       if media_attachable.nil?
-        Migration.skip_log << ["Media", id,
+        Migration.log << ["Media", id,
                                "#{TYPE_MAP[context_table]} with legacy ID #{context_id} not found"]
         return
       end

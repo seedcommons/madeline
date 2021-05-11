@@ -15,7 +15,7 @@ module Legacy
     # note, legacy data includes 11 references to a '0' member_id, and a bunch to 247 which doesn't exist
     def agent_id
       if NULLIFY_MEMBER_IDS.include?(member_id)
-        Migration.skip_log << ["ProjectEvent", id, "Nullified agent_id b/c member #{member_id} not found"]
+        Migration.log << ["ProjectEvent", id, "Nullified agent_id b/c member #{member_id} not found"]
         nil
       else
         if (person = Person.find_by(legacy_id: member_id))
@@ -59,15 +59,15 @@ module Legacy
 
     def migrate
       if project_table.downcase != 'loans'
-        Migration.skip_log << ["ProjectEvent", id, "Not migrating b/c ProjectTable = #{project_table}"]
+        Migration.log << ["ProjectEvent", id, "Not migrating b/c ProjectTable = #{project_table}"]
         return
       end
       if finalized <= -1
-        Migration.skip_log << ["ProjectEvent", id, "Not migrating b/c Finalized = #{finalized}"]
+        Migration.log << ["ProjectEvent", id, "Not migrating b/c Finalized = #{finalized}"]
         return
       end
       if type != "Paso"
-        Migration.skip_log << ["ProjectEvent", id, "Not migrating b/c Type = '#{type}'"]
+        Migration.log << ["ProjectEvent", id, "Not migrating b/c Type = '#{type}'"]
         return
       end
       data = migration_data

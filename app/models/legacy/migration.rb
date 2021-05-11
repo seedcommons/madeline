@@ -1,7 +1,7 @@
 module Legacy
   class Migration
-    def self.skip_log
-      @skip_log ||= []
+    def self.log
+      @log ||= []
     end
 
     def self.unexpected_errors

@@ -68,11 +68,11 @@ module Legacy
     def migrate
       data = migration_data
       if LOANS_WITH_NO_COOP.include?(data[:id])
-        Migration.skip_log << ["Loan", data[:id], "No coop"]
+        Migration.log << ["Loan", data[:id], "No coop"]
         return
       end
       if LOANS_WITH_NO_LOAN_TYPE.include?(data[:id])
-        Migration.skip_log << ["Loan", data[:id], "No loan type"]
+        Migration.log << ["Loan", data[:id], "No loan type"]
         return
       end
       pp data
@@ -107,7 +107,7 @@ module Legacy
       value =
         if loan_type.to_s == "0"
           ::Loan.loan_type_option_set.value_for_migration_id(1)
-          Migration.skip_log << ["Loan", id, "Loan type was '0', set to 'Liquidity LoC' as a default"]
+          Migration.log << ["Loan", id, "Loan type was '0', set to 'Liquidity LoC' as a default"]
         else
           ::Loan.loan_type_option_set.value_for_migration_id(loan_type)
         end

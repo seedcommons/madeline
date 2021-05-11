@@ -52,7 +52,7 @@ module LegacyModel
       all = (remotes << local).compact.uniq
       if all.size > 1
         class_name = self.class.name.split('::')[-1]
-        Legacy::Migration.skip_log << [class_name, id, "Multiple non-unique translations defined for "\
+        Legacy::Migration.log << [class_name, id, "Multiple non-unique translations defined for "\
           "#{locale.upcase} #{from.first}, copying the longest one"]
         all.sort_by!(&:size)
       end

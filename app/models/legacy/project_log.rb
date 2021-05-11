@@ -20,7 +20,7 @@ module Legacy
       return @agent_id if defined?(@agent_id)
       @agent_id =
         if NULLIFY_MEMBER_IDS.include?(member_id)
-          Migration.skip_log << ["ProjectLog", id, "Nullified agent_id b/c member #{member_id} not found"]
+          Migration.log << ["ProjectLog", id, "Nullified agent_id b/c member #{member_id} not found"]
           nil
         else
           if (person = Person.find_by(legacy_id: member_id))
@@ -36,7 +36,7 @@ module Legacy
       return @date if defined?(@date)
       return @date = self[:Date] unless self[:Date].nil?
       @date = Loan.find_by(id: project_id).signing_date
-      Migration.skip_log << ["ProjectLog", id, "Date was NULL, set to Loan signing date of #{@date}"]
+      Migration.log << ["ProjectLog", id, "Date was NULL, set to Loan signing date of #{@date}"]
       @date
     end
 
@@ -73,11 +73,11 @@ module Legacy
 
     def migrate
       if project_table.downcase != 'loans'
-        Migration.skip_log << ["ProjectLog", id, "Not migrating b/c ProjectTable = #{project_table}"]
+        Migration.log << ["ProjectLog", id, "Not migrating b/c ProjectTable = #{project_table}"]
         return
       end
       if project_id <= 0
-        Migration.skip_log << ["ProjectLog", id, "Not migrating b/c ProjectID = #{project_table}"]
+        Migration.log << ["ProjectLog", id, "Not migrating b/c ProjectID = #{project_table}"]
         return
       end
       data = migration_data

@@ -58,7 +58,7 @@ module Legacy
       person = Person.find_by(first_name: first_name&.strip.presence, last_name: last_name&.strip.presence)
       if person
         if DONT_UPDATE_MADELINE_IDS.include?(person.id)
-          Migration.skip_log << ["Person", person.id, "Skipping update b/c Madeline data seems newer"]
+          Migration.log << ["Person", person.id, "Skipping update b/c Madeline data seems newer"]
           person.update!(legacy_id: id)
         else
           person.assign_attributes(data.without(:division_id))

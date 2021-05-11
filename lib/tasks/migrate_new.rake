@@ -72,7 +72,7 @@ namespace :tww do
     `pg_dump madeline_migration > tmp/migration_dumps/post_#{name}.sql`
     File.open("tmp/migration_dumps/last_successful.txt", "w") { |f| f.write(name) }
     puts "Skip Log:"
-    Legacy::Migration.skip_log.each { |line| puts line.join(",") }
+    Legacy::Migration.log.each { |line| puts line.join(",") }
     puts "Unexpected Errors:"
     Legacy::Migration.unexpected_errors.each { |line| puts line }
   end
