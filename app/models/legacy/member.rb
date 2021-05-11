@@ -62,7 +62,7 @@ module Legacy
           person.update!(legacy_id: id)
         else
           person.assign_attributes(data.without(:division_id))
-          puts "Updated person #{person.id}: #{person.changes}"
+          Migration.log << ["Person", person.id, "Updated person: #{person.changes}"]
           person.save
         end
       else
