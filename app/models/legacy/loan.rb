@@ -68,11 +68,11 @@ module Legacy
     def migrate
       data = migration_data
       if LOANS_WITH_NO_COOP.include?(data[:id])
-        Migration.log << ["Loan", data[:id], "No coop"]
+        Migration.log << ["Loan", data[:id], "Not migrating because no coop"]
         return
       end
       if LOANS_WITH_NO_LOAN_TYPE.include?(data[:id])
-        Migration.log << ["Loan", data[:id], "No loan type"]
+        Migration.log << ["Loan", data[:id], "Not migrating because no loan type"]
         return
       end
       pp data
