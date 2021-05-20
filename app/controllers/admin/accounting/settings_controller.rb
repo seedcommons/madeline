@@ -1,6 +1,6 @@
-class Admin::SettingsController < Admin::AdminController
+class Admin::Accounting::SettingsController < Admin::AdminController
 
-  def index
+  def show
     authorize :setting
 
     @division = current_division.root
