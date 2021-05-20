@@ -9,6 +9,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       state: SecureRandom.hex(12),
       scope: "com.intuit.quickbooks.accounting"
     )
+    # if test env then instead of redirecting then call a method where we the connection object as in callback, but with stub values
     redirect_to grant_url
   end
 

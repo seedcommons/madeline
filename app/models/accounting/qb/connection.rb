@@ -31,31 +31,12 @@ class Accounting::QB::Connection < ApplicationRecord
     !expired? && access_token && refresh_token && realm_id
   end
 
-  def expired?
-    if token_expires_at < Time.zone.now
-      refresh_token!
-      return token_expires_at < Time.zone.now
-    else
-      false
-    end
-  end
-
   def token
     qb_access_token = self.access_token
     qb_refresh_token = self.refresh_token
     qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, qb_access_token, {:refresh_token => qb_refresh_token})
     oauth2_token
-  end
-
-  def refresh_token!
-    qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
-    oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
-    refreshed = oauth2_token.refresh!.to_hash
-    self.access_token = refreshed[:access_token]
-    self.refresh_token = refreshed[:refresh_token]
-    self.token_expires_at = Time.zone.at(refreshed[:expires_at])
-    self.save!
   end
 
   def auth_details
@@ -75,5 +56,26 @@ class Accounting::QB::Connection < ApplicationRecord
       # don't handle error if unable to get company name
       "Unknown"
     end
+  end
+
+  private
+
+  def expired?
+    if token_expires_at < Time.zone.now
+      refresh_token!
+      return token_expires_at < Time.zone.now
+    else
+      false
+    end
+  end
+
+  def refresh_token!
+    qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
+    oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
+    refreshed = oauth2_token.refresh!.to_hash
+    self.access_token = refreshed[:access_token]
+    self.refresh_token = refreshed[:refresh_token]
+    self.token_expires_at = Time.zone.at(refreshed[:expires_at])
+    self.save!
   end
 end
