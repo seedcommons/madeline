@@ -47,12 +47,6 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     redirect_to admin_accounting_settings_path, notice: t('quickbooks.connection.disconnect_message')
   end
 
-  def connected
-    authorize :'accounting/quickbooks', :authenticate?
-    @quickbooks_connected = Division.root.quickbooks_connected?
-    render json: @quickbooks_connected
-  end
-
   def update_changed
     authorize :'accounting/quickbooks', :update?
     @task = Task.create(
