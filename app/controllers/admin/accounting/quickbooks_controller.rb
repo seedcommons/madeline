@@ -39,6 +39,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     flash[:notice] = t('quickbooks.connection.link_message')
     flash[:alert] = t('quickbooks.connection.import_in_progress_message')
+    redirect_to admin_accounting_settings_path
   end
 
   def disconnect
