@@ -52,7 +52,7 @@ class Task < ApplicationRecord
   def duration
     case status
     when :pending, :in_progress
-      Time.zone.now - created_at
+      Time.current - created_at
     when :succeeded
       job_succeeded_at - created_at
     when :failed

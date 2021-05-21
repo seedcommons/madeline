@@ -62,9 +62,9 @@ class Accounting::QB::Connection < ApplicationRecord
   private
 
   def expired?
-    if token_expires_at < Time.zone.now
+    if token_expires_at < Time.current
       refresh_token!
-      return token_expires_at < Time.zone.now
+      return token_expires_at < Time.current
     else
       false
     end
@@ -73,10 +73,19 @@ class Accounting::QB::Connection < ApplicationRecord
   def refresh_token!
     qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
-    refreshed = oauth2_token.refresh!.to_hash
-    self.access_token = refreshed[:access_token]
-    self.refresh_token = refreshed[:refresh_token]
-    self.token_expires_at = Time.zone.at(refreshed[:expires_at])
-    self.save!
+    begin
+      refreshed = oauth2_token.refresh!.to_hash
+    rescue OAuth2::Error
+      self.invalid_grant = true
+      return false
+    else
+      self.access_token = refreshed[:access_token]
+      self.refresh_token = refreshed[:refresh_token]
+      self.token_expires_at = Time.zone.at(refreshed[:expires_at])
+      self.last_updated_at = Time.current
+      self.invalid_grant = false
+      self.save!
+      return true
+    end
   end
 end

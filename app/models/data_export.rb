@@ -67,7 +67,7 @@ class DataExport < ApplicationRecord
     I18n.t(
       "data_exports.default_name",
       type: I18n.t("data_exports.types.#{export_type_key}"),
-      current_time: I18n.l(Time.zone.now, format: :long)
+      current_time: I18n.l(Time.current, format: :long)
     )
   end
 
