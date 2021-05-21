@@ -111,13 +111,13 @@ RSpec.describe Accounting::QB::Updater, type: :model do
   end
 
   describe '#update' do
-    let(:last_updated_at) { nil }
+    let(:last_updated_at) { 100.years.ago }
 
     before do
       division.qb_connection.update_attribute(:last_updated_at, last_updated_at)
     end
 
-    context 'when last_updated_at is nil' do
+    context 'when last_updated_at is very old' do
       it 'throws error' do
         expect { subject.update }.to raise_error(Accounting::QB::DataResetRequiredError)
       end

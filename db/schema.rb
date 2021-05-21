@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_11_194222) do
+ActiveRecord::Schema.define(version: 2021_05_20_193148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,15 +59,16 @@ ActiveRecord::Schema.define(version: 2021_05_11_194222) do
   end
 
   create_table "accounting_qb_connections", id: :serial, force: :cascade do |t|
-    t.string "access_token"
+    t.string "access_token", null: false
     t.datetime "created_at", null: false
     t.integer "division_id", null: false
-    t.datetime "last_updated_at"
+    t.boolean "invalid_grant", default: false, null: false
+    t.datetime "last_updated_at", null: false
     t.string "realm_id", null: false
-    t.string "refresh_token"
+    t.string "refresh_token", null: false
     t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id"
+    t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id", unique: true
   end
 
   create_table "accounting_qb_departments", force: :cascade do |t|

@@ -2,19 +2,20 @@
 #
 # Table name: accounting_qb_connections
 #
-#  access_token     :string
-#  created_at       :datetime         not null
-#  division_id      :integer          not null
 #  id               :integer          not null, primary key
-#  last_updated_at  :datetime
-#  realm_id         :string           not null
-#  refresh_token    :string
+#  access_token     :string           not null
+#  invalid_grant    :boolean          default(FALSE), not null
+#  last_updated_at  :datetime         not null
+#  refresh_token    :string           not null
 #  token_expires_at :datetime         not null
+#  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  division_id      :integer          not null
+#  realm_id         :string           not null
 #
 # Indexes
 #
-#  index_accounting_qb_connections_on_division_id  (division_id)
+#  index_accounting_qb_connections_on_division_id  (division_id) UNIQUE
 #
 # Foreign Keys
 #
