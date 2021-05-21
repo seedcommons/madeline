@@ -21,7 +21,6 @@ describe UpdateAllLoansJob do
   end
 
   context "qb is not connected" do
-
     subject(:task_job) do
       Class.new(described_class) do
         def perform(_task_data, *_args)
