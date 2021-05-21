@@ -25,7 +25,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
         connection_attrs = {
           access_token: response.token,
           invalid_grant: false,
-          last_updated_at: Time.zone.now, 
+          last_updated_at: Time.current, 
           refresh_token: response.refresh_token,
           realm_id: params[:realmId],
           division: Division.root,

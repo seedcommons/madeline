@@ -89,7 +89,7 @@ class LoanHealthCheck < ApplicationRecord
 
   def thirty_day_periods_remaining
     return nil unless loan
-    start_date = ([loan.signing_date || Time.zone.now, Time.zone.now].max).beginning_of_day
+    start_date = ([loan.signing_date || Time.current, Time.current].max).beginning_of_day
     end_date = loan.projected_end_date.beginning_of_day
     ((end_date - start_date) / (24 * 60 * 60)).round / 30
   end
