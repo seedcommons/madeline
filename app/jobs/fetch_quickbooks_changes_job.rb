@@ -55,7 +55,7 @@ class FetchQuickbooksChangesJob < TaskJob
 
   def record_failure_and_raise_error(error)
     task_for_job(self).fail!
-    ExceptionNotifier.notify_exception(error, data: {job: to_yaml})
+    notify_of_error(error)
     raise error
   end
 end
