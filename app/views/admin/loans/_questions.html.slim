@@ -24,9 +24,10 @@ section.questionnaires
       /       i.fa.fa-trash.fa-large>
       /       = t(".delete")
 
-      h2 = t("loan.#{@attrib}")
       div.container
         div.row
+          h2 = t("loan.#{@attrib}")
+        div.row.outline-and-questionnaire
           div.outline.collapsed
             div.outline-expansion-control.small.hider
               = fa_icon("chevron-left", data: {hides: "outline-container"})
