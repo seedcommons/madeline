@@ -22,13 +22,19 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       redirect_uri = oauth_callback_admin_accounting_quickbooks_url
       response = qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
       if response
-        Accounting::QB::Connection.create(
+        connection_attrs = {
           access_token: response.token,
+          invalid_grant: false,
+          last_updated_at: Time.zone.now, 
           refresh_token: response.refresh_token,
           realm_id: params[:realmId],
           division: Division.root,
           token_expires_at: Time.zone.at(response.expires_at)
-        )
+        }
+        connection = Accounting::QB::Connection.first
+        connection ||= Accounting::QB::Connection.new
+        connection.update_attributes(connection_attrs)
+        connection.save
       end
     end
 
