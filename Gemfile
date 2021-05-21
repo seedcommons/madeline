@@ -73,7 +73,6 @@ gem "quickbooks-ruby", "= 1.0.10"
 gem "remotipart", "~> 1.2" # File uploads for remote: true forms
 gem "sassc-rails"
 gem "scout_apm"
-gem "sentry-raven"
 gem "simple_form"
 gem "sprockets", "~> 3.7.2"
 gem "summernote-rails", "~> 0.8.10.0" # Text editor
