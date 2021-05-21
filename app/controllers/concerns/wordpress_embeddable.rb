@@ -29,11 +29,6 @@ module WordpressEmbeddable
   end
 
   def update_template
-    base_uri = Rails.configuration.x.wordpress_template[:base_uri][layout_site.to_sym]
-
-    WordpressTemplate.update(
-      division: layout_site,
-      base_uri: base_uri
-    )
+    WordpressTemplate.update(division: layout_site.to_sym)
   end
 end

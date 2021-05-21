@@ -1,8 +1,9 @@
 module WordpressTemplate
-  def self.update(division:, base_uri:)
+  def self.update(division:)
     if Rails.env.test?
       html = File.read(Rails.root.join('spec', 'fixtures', 'wordpress-rails.html'))
     else
+      base_uri = Rails.configuration.x.wordpress_template[:base_uri][division]
       html = self.fetch_template(division: division, base_uri: base_uri)
     end
     self.process_template(division: division, html: html)

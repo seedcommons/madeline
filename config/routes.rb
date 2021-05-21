@@ -105,15 +105,8 @@ Rails.application.routes.draw do
   localized do
     # :site can be 'argentina', 'nicaragua', or 'us'
     namespace :public, path: '/:site' do
-      # We put a constraint on the format because otherwise, if the client doesn't supply an Accept
-      # header (as with crawlers or uptime checkers), Rails has to search for a matching template,
-      # and it fails to find one if the template gets generated after the app starts, probably because
-      # the templates are loaded at app start time in production mode. If instead we restrict to one
-      # format, Rails is able guess it successfully.
-      constraints format: 'html' do
-        resources :loans, only: [:index, :show]
-        get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
-      end
+      resources :loans, only: [:index, :show]
+      get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
       get 'test' => 'static_pages#test'
       get 'update' => 'static_pages#update' # Manually update wordpress template
     end
