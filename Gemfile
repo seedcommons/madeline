@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 gem "bundler", ">= 2.0.1"
 
@@ -38,7 +38,7 @@ gem "slim" # Slim template language
 
 # Jobs and tasks
 gem "daemons"
-gem 'sidekiq'
+gem "sidekiq"
 
 # Internationalization
 gem "devise-i18n"
@@ -56,12 +56,13 @@ gem "jquery-ui-rails"
 # We are using this fork because:
 # 1. 'tag_options' no longer valid in rails 5
 # 2. AR 'size' method triggers the count query which causes errors in rails 5
-gem "wice_grid", git: 'https://github.com/sassafrastech/wice_grid.git', branch: 'rails5'
+gem "wice_grid", git: "https://github.com/sassafrastech/wice_grid.git", branch: "rails5"
 
 gem "active_model_serializers" # Generating JSON data
 gem "addressable" # URL handling
 gem "amoeba" # Easy cloning of active record objects
 gem "attribute_normalizer" # For normalizing model attribs
+gem "awesome_print"
 gem "chroma" # Color manipulation
 gem "chronic" # For parsing human readable dates
 gem "exception_notification" # Send email on errors
@@ -70,14 +71,13 @@ gem "gon" # Passing controller data to JS
 gem "nokogiri", "= 1.10.10"
 gem "quickbooks-ruby", "= 1.0.10"
 gem "remotipart", "~> 1.2" # File uploads for remote: true forms
-gem 'sassc-rails'
+gem "sassc-rails"
 gem "scout_apm"
 gem "sentry-raven"
 gem "simple_form"
 gem "sprockets", "~> 3.7.2"
 gem "summernote-rails", "~> 0.8.10.0" # Text editor
 gem "whenever", "~> 0.9", require: false # Improved syntax for creating cron jobs
-gem "awesome_print"
 
 # Watches for inefficient queries and recommends eager loading
 gem "bullet"
@@ -128,15 +128,16 @@ group :development do
   gem "fix-db-schema-conflicts"
 
   # Linting
-  gem "rubocop", "~> 0.49.0"
-  gem "rubocop-rspec"
+  gem "rubocop", "1.5.2" # Exact version to support what Hound has
+  gem "rubocop-rails", "~> 2.9.1"
+  gem "rubocop-rspec", require: false
 
   # Deployment
   gem "capistrano", "~> 3.11.0"
   gem "capistrano-passenger"
   gem "capistrano-rails", "~> 1.1"
   gem "capistrano-rbenv", "~> 2.1"
-  gem 'capistrano-sidekiq', require: false
+  gem "capistrano-sidekiq", require: false
 
   # Auto reload browser
   gem "guard-livereload", "~> 2.5", require: false

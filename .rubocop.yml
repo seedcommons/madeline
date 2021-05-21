@@ -1,3 +1,5 @@
+require: rubocop-rails
+
 # Disable defaults
 AllCops:
   TargetRailsVersion: 5.2
@@ -9,26 +11,30 @@ AllCops:
     - "uploads/**/*"
     - "vendor/**/*"
 
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Layout/CaseIndentation:
   EnforcedStyle: end
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
 
 Layout/FirstParameterIndentation:
   EnforcedStyle: consistent
 
-Layout/IndentArray:
-  EnforcedStyle: consistent
-
-Layout/IndentHash:
-  EnforcedStyle: consistent
+Layout/LineLength:
+  Enabled: true
+  Max: 110
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -38,10 +44,6 @@ Metrics:
 
 Metrics/BlockLength:
   Enabled: true
-
-Metrics/LineLength:
-  Enabled: true
-  Max: 110
 
 Style:
   Enabled: false
