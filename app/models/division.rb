@@ -161,11 +161,11 @@ class Division < ApplicationRecord
     accounts.size == 3
   end
 
-  # If no QB connection on this division, fall back to nearest ancestor with QB connection.
+  # If no valid QB connection on this division, fall back to nearest ancestor with QB connection.
   # May return nil.
   def qb_division
     # Division.root
-    qb_connection ? self : parent&.qb_division
+    qb_connection&.connected? ? self : parent&.qb_division
   end
 
   def qb_department?

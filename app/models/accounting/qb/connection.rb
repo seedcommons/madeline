@@ -29,7 +29,7 @@ class Accounting::QB::Connection < ApplicationRecord
   belongs_to :division
 
   def connected?
-    !expired? && access_token && refresh_token && realm_id
+    !expired? && !invalid_grant && access_token && refresh_token && realm_id
   end
 
   def token

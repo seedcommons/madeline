@@ -44,7 +44,7 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   private(*delegate(:division, to: :loan))
 
   def machine_user_or_appropriate_division_admin?
-    # If qb_division is nil, it means no qb_connection has been set up on any of division's ancestors.
+    # If qb_division is nil, it means no valid qb_connection exists on any of division's ancestors.
     # In that case, we check for admin on the current division. This is because in the case where
     # there is no existing QB connection on any ancestor, the current division admin could theoretically
     # connect their division to QuickBooks directly and then create transactions.
