@@ -29,30 +29,30 @@ feature 'settings flow', :accounting do
     end
   end
 
-  describe "initial page load and authentication" do
-
-
-    context "qb connection exists but qb grant invalid" do
-      scenario do
-        # show that qb is currently disconnected & let user click 'connect'
-      end
-    end
-
-    context "qb connection exists and qb grant is valid" do
-      scenario do
-        # user sees that qb is connected
-      end
-    end
-  end
-
-  describe "setting details" do
-    # accounts
-    # closed books date
-    # read-only
-    # submit form
-  end
-
-  describe "disconnect" do
-
-  end
+  # describe "initial page load and authentication" do
+  #
+  #
+  #   context "qb connection exists but qb grant invalid" do
+  #     scenario do
+  #       # show that qb is currently disconnected & let user click 'connect'
+  #     end
+  #   end
+  #
+  #   context "qb connection exists and qb grant is valid" do
+  #     scenario do
+  #       # user sees that qb is connected
+  #     end
+  #   end
+  # end
+  #
+  # describe "setting details" do
+  #   # accounts
+  #   # closed books date
+  #   # read-only
+  #   # submit form
+  # end
+  #
+  # describe "disconnect" do
+  #
+  # end
 end
