@@ -6,7 +6,7 @@ class QuickbooksUpdateJob < TaskJob
     updater.qb_sync_for_loan_update
     task.set_activity_message("syncing_with_quickbooks")
     loans.each_with_index do |loan, index|
-      task.set_activity_message("dupdating_loans", so_far: (index), total: loans.count)
+      task.set_activity_message("updating_loans", so_far: (index), total: loans.count)
       begin
         updater.update_loan(loan)
       rescue StandardError => e
