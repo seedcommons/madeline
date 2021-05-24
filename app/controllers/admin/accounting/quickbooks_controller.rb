@@ -2,15 +2,19 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
   # Kicks off oauth flow by redirecting to Intuit with request token.
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
-    redirect_uri = oauth_callback_admin_accounting_quickbooks_url
-    grant_url = qb_consumer.auth_code.authorize_url(
-      redirect_uri: redirect_uri,
-      response_type: "code",
-      state: SecureRandom.hex(12),
-      scope: "com.intuit.quickbooks.accounting"
-    )
-    # if test env then instead of redirecting then call a method where we the connection object as in callback, but with stub values
-    redirect_to grant_url
+    if Rails.env.test?
+      redirect_to oauth_callback_admin_accounting_quickbooks_path(state: "test_state", realmId: "test_realm_id")
+    else
+      redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+      grant_url = qb_consumer.auth_code.authorize_url(
+        redirect_uri: redirect_uri,
+        response_type: "code",
+        state: SecureRandom.hex(12),
+        scope: "com.intuit.quickbooks.accounting"
+      )
+
+      redirect_to grant_url
+    end
   end
 
   def oauth_callback
@@ -19,13 +23,12 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     # Fetch and store the access token and other necessary authentication information.
     if params[:state]
-      redirect_uri = oauth_callback_admin_accounting_quickbooks_url
-      response = qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
+      response = get_oath_token_response
       if response
         connection_attrs = {
           access_token: response.token,
           invalid_grant: false,
-          last_updated_at: Time.current, 
+          last_updated_at: Time.current,
           refresh_token: response.refresh_token,
           realm_id: params[:realmId],
           division: Division.root,
@@ -34,7 +37,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
         connection = Accounting::QB::Connection.first
         connection ||= Accounting::QB::Connection.new
         connection.update_attributes(connection_attrs)
-        connection.save
+        connection.save!
       end
     end
 
@@ -72,5 +75,18 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
   def qb_consumer
     @qb_consumer ||= Accounting::QB::Consumer.new
+  end
+
+  def get_oath_token_response
+    if Rails.env.test?
+      OpenStruct.new({
+        token: "test_access_token",
+        refresh_token: "test_refresh_token",
+        expires_at: Time.current + 1.hour
+      })
+    else
+      redirect_uri = oauth_callback_admin_accounting_quickbooks_url
+      qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
+    end
   end
 end

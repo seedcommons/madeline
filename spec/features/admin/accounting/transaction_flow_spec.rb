@@ -42,7 +42,7 @@ feature 'transaction flow', :accounting do
         end
 
         context 'when transactions are writable' do
-          scenario 'create new transaction button is visble, no notice shown' do
+          scenario 'create new transaction button is visible, no notice shown' do
             visit "/admin/loans/#{loan.id}/transactions"
             expect(page).not_to have_content("You can't add transactions")
             expect(page).to have_selector('.btn[data-action="new-transaction"]')
