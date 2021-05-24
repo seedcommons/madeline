@@ -4,14 +4,27 @@ feature 'settings flow', :accounting do
   let(:division) { Division.root }
   let(:user) { create_admin(division) }
 
+  before do
+    login_as(user, scope: :user)
+  end
+
   describe "authentication" do
     context "no qb connection" do
-      #go to authenticate endpoint in ctrlr
+
+      # only case in accounting where division should not have accts or qb_connection at start of spec
+      before do
+        division.qb_connection.delete
+      end
+
       scenario do
+        visit "/admin/accounting/settings"
+        expect(page).to have_content 'Not Connected'
+        click_on 'Click To Connect'
         # user can click connect
         # assume connection is successful
-        # user sees that qb is connected
-        # qb fetch is pending
+
+        expect(page).to have_content "Connected to "
+        expect(page).to have_content "QuickBooks data import pending"
       end
     end
   end
