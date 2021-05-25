@@ -1,33 +1,3 @@
-# == Schema Information
-#
-# Table name: questions
-#
-#  created_at            :datetime         not null
-#  data_type             :string           not null
-#  display_in_summary    :boolean          default(FALSE), not null
-#  division_id           :integer          not null
-#  has_embeddable_media  :boolean          default(FALSE), not null
-#  id                    :integer          not null, primary key
-#  internal_name         :string
-#  migration_position    :integer
-#  number                :integer
-#  override_associations :boolean          default(FALSE), not null
-#  parent_id             :integer
-#  position              :integer
-#  question_set_id       :integer
-#  required              :boolean          default(FALSE), not null
-#  status                :string           default("active"), not null
-#  updated_at            :datetime         not null
-#
-# Indexes
-#
-#  index_questions_on_question_set_id  (question_set_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (question_set_id => question_sets.id)
-#
-
 class QuestionSerializer < ActiveModel::Serializer
   attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status,
     :can_edit

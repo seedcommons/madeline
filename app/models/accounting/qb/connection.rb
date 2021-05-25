@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: accounting_qb_connections
-#
-#  id               :integer          not null, primary key
-#  access_token     :string           not null
-#  invalid_grant    :boolean          default(FALSE), not null
-#  last_updated_at  :datetime         not null
-#  refresh_token    :string           not null
-#  token_expires_at :datetime         not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  division_id      :integer          not null
-#  realm_id         :string           not null
-#
-# Indexes
-#
-#  index_accounting_qb_connections_on_division_id  (division_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (division_id => divisions.id)
-#
-
 # Stores the access token and other necessary information necessary to authenticate
 # Quickbooks API requests.
 # Also responsible for determining if connection is still valid or expired.

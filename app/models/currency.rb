@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: currencies
-#
-#  code         :string
-#  country_code :string
-#  created_at   :datetime         not null
-#  id           :integer          not null, primary key
-#  name         :string
-#  short_symbol :string
-#  symbol       :string
-#  updated_at   :datetime         not null
-#
-
 class Currency < ApplicationRecord
   validates :name, uniqueness: { scope: [:code, :country_code, :short_symbol, :symbol] }
   
