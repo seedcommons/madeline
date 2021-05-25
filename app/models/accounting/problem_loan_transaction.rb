@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: accounting_problem_loan_transactions
-#
-#  id                        :bigint           not null, primary key
-#  custom_data               :json
-#  level                     :string
-#  message                   :string           not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  accounting_transaction_id :bigint
-#  project_id                :bigint
-#
-# Indexes
-#
-#  index_accounting_problem_loan_transactions_on_project_id  (project_id)
-#  index_plt_on_txn_id                                       (accounting_transaction_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (accounting_transaction_id => accounting_transactions.id)
-#  fk_rails_...  (project_id => projects.id)
-#
-
 module Accounting
   class ProblemLoanTransaction < ApplicationRecord
     belongs_to :loan, foreign_key: "project_id"
