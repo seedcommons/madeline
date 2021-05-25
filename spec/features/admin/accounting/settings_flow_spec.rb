@@ -20,31 +20,34 @@ feature 'settings flow', :accounting do
         visit "/admin/accounting/settings"
         expect(page).to have_content 'Not Connected'
         click_on 'Click To Connect'
-        # user can click connect
-        # assume connection is successful
-
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
       end
     end
   end
 
-  # describe "initial page load and authentication" do
-  #
-  #
-  #   context "qb connection exists but qb grant invalid" do
-  #     scenario do
-  #       # show that qb is currently disconnected & let user click 'connect'
-  #     end
-  #   end
-  #
-  #   context "qb connection exists and qb grant is valid" do
-  #     scenario do
-  #       # user sees that qb is connected
-  #     end
-  #   end
-  # end
-  #
+  describe "initial page load and authentication" do
+    context "qb connection exists but qb grant invalid" do
+      before do
+        division.qb_connection.update_attributes!(invalid_grant: true)
+      end
+      scenario do
+        visit "/admin/accounting/settings"
+        expect(page).to have_content 'Not Connected'
+        click_on 'Click To Connect'
+        expect(page).to have_content "Connected to "
+        expect(page).to have_content "QuickBooks data import pending"
+      end
+    end
+
+    context "qb connection exists and qb grant is valid" do
+      scenario do
+        visit "/admin/accounting/settings"
+        expect(page).to have_content "Connected to "
+      end
+    end
+  end
+
   # describe "setting details" do
   #   # accounts
   #   # closed books date
@@ -52,7 +55,7 @@ feature 'settings flow', :accounting do
   #   # submit form
   # end
   #
-  # describe "disconnect" do
-  #
-  # end
+  describe "disconnect" do
+
+  end
 end
