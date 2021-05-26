@@ -38,6 +38,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
         connection ||= Accounting::QB::Connection.new
         connection.update_attributes(connection_attrs)
         connection.save!
+        connection.log_token_info("OAuth connection updated in OAuth callback")
       end
     end
 

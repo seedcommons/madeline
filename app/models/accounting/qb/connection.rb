@@ -4,6 +4,8 @@
 class Accounting::QB::Connection < ApplicationRecord
   belongs_to :division
 
+  QB_AUTH_LOG_TAG = "QBAuth"
+
   def connected?
     !expired? && !invalid_grant
   end
@@ -39,11 +41,13 @@ class Accounting::QB::Connection < ApplicationRecord
   end
 
   def refresh_token!
+    log_token_info("About to refresh token")
     qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
     oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
     begin
       refreshed = oauth2_token.refresh!.to_hash
     rescue OAuth2::Error
+      log_token_info("OAuth2 error when refreshing token. Old token info")
       self.invalid_grant = true
       return false
     else
@@ -53,7 +57,15 @@ class Accounting::QB::Connection < ApplicationRecord
       self.last_updated_at = Time.current
       self.invalid_grant = false
       self.save!
+      log_token_info("Successfully refreshed token")
       return true
     end
+  end
+
+  def log_token_info(message)
+    token_info = "Access token: #{self.access_token}\n
+     Refresh token: #{self.refresh_token}\n
+     Access token expires at: #{self.token_expires_at}"
+     Rails.logger.tagged(QB_AUTH_LOG_TAG).info("#{message}:\n #{token_info)} ")
   end
 end
