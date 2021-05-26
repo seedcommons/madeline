@@ -28,7 +28,7 @@ feature "settings flow", :accounting do
   describe "initial page load and authentication" do
     context "qb connection exists but qb grant invalid" do
       before do
-        division.qb_connection.update_attributes!(invalid_grant: true)
+        division.qb_connection.update!(invalid_grant: true)
       end
       scenario do
         visit "/admin/accounting/settings"
