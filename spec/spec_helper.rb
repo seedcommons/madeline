@@ -40,17 +40,17 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  config.default_formatter = 'doc'
+  config.default_formatter = "doc"
 
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
   # get run.
-#todo: confirm if ok to enable this as the default handling. (i've found it pretty handy)
+  # todo: confirm if ok to enable this as the default handling. (i've found it pretty handy)
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 
-  # The settings below are suggested to provide a good initial experience
+# The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
 
