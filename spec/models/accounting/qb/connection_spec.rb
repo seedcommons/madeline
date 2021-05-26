@@ -1,8 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Accounting::QB::Connection, type: :model do
   let!(:connection) { create(:accounting_qb_connection) }
-
 
   context "unexpired and valid" do
     it "is connected" do
@@ -12,9 +11,9 @@ describe Accounting::QB::Connection, type: :model do
 
   context "expired" do
     before do
-      connection.update_attributes!(token_expires_at: Time.current - 1.hour)
+      connection.update!(token_expires_at: Time.current - 1.hour)
     end
-    
+
     it "is not connected" do
       expect(connection.connected?).to be false
     end
@@ -22,7 +21,7 @@ describe Accounting::QB::Connection, type: :model do
 
   context "invalid" do
     before do
-      connection.update_attributes!(invalid_grant: true)
+      connection.update!(invalid_grant: true)
     end
 
     it "is not connected" do
