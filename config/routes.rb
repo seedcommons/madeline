@@ -76,7 +76,7 @@ Rails.application.routes.draw do
     resources :media, only: [:index], as: :media_gallery
 
     namespace :accounting do
-      resource :settings, only: %i(show update)
+      resource :settings, only: %i[show update]
       resources :quickbooks do
         collection do
           get :authenticate

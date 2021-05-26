@@ -23,7 +23,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     # Fetch and store the access token and other necessary authentication information.
     if params[:state]
-      response = get_oath_token_response
+      response = oath_token_response
       if response
         connection_attrs = {
           access_token: response.token,
@@ -36,7 +36,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
         }
         connection = Accounting::QB::Connection.first
         connection ||= Accounting::QB::Connection.new
-        connection.update_attributes(connection_attrs)
+        connection.update(connection_attrs)
         connection.save!
         connection.log_token_info("OAuth connection updated in OAuth callback")
       end
@@ -78,7 +78,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     @qb_consumer ||= Accounting::QB::Consumer.new
   end
 
-  def get_oath_token_response
+  def oath_token_response
     if Rails.env.test?
       OpenStruct.new({
         token: "test_access_token",

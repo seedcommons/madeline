@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-feature 'settings flow', :accounting do
+feature "settings flow", :accounting do
   let(:division) { Division.root }
   let(:user) { create_admin(division) }
 
@@ -10,7 +10,6 @@ feature 'settings flow', :accounting do
 
   describe "authentication" do
     context "no qb connection" do
-
       # only case in accounting where division should not have accts or qb_connection at start of spec
       before do
         division.qb_connection.delete
@@ -18,8 +17,8 @@ feature 'settings flow', :accounting do
 
       scenario do
         visit "/admin/accounting/settings"
-        expect(page).to have_content 'Not Connected'
-        click_on 'Click To Connect'
+        expect(page).to have_content "Not Connected"
+        click_on "Click To Connect"
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
       end
@@ -33,8 +32,8 @@ feature 'settings flow', :accounting do
       end
       scenario do
         visit "/admin/accounting/settings"
-        expect(page).to have_content 'Not Connected'
-        click_on 'Click To Connect'
+        expect(page).to have_content "Not Connected"
+        click_on "Click To Connect"
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
       end
@@ -53,28 +52,32 @@ feature 'settings flow', :accounting do
 
     context "last full fetch of QB data was successful" do
       before do
-        Task.create(job_type_value: :full_fetcher, activity_message_value: "x", job_class: "FullFetcherJob", job_succeeded_at: Time.current)
+        Task.create(
+          job_type_value: :full_fetcher,
+          activity_message_value: "x",
+          job_class: "FullFetcherJob",
+          job_succeeded_at: Time.current
+        )
       end
 
       scenario do
         visit "/admin/accounting/settings"
-        save_and_open_page
         prin_acct_name = accounts.first.name
         int_rcv_acct_name = accounts[1].name
         int_inc_acct_name = accounts[2].name
-        select prin_acct_name, from: 'division[principal_account_id]'
-        select int_rcv_acct_name, from: 'division[interest_receivable_account_id]'
-        select int_inc_acct_name, from: 'division[interest_income_account_id]'
+        select prin_acct_name, from: "division[principal_account_id]"
+        select int_rcv_acct_name, from: "division[interest_receivable_account_id]"
+        select int_inc_acct_name, from: "division[interest_income_account_id]"
         cbd = Time.zone.today.to_s
-        fill_in 'Closed Books Date', with: Time.zone.today.to_s
-        check 'division[qb_read_only]'
+        fill_in "Closed Books Date", with: Time.zone.today.to_s
+        check "division[qb_read_only]"
         click_on "Save"
-        expect(page).to have_content 'Connected to '
-        expect(page).to have_select('division[principal_account_id]', selected: prin_acct_name)
-        expect(page).to have_select('division[interest_receivable_account_id]', selected: int_rcv_acct_name)
-        expect(page).to have_select('division[interest_income_account_id]', selected: int_inc_acct_name)
-        expect(page).to have_field('Closed Books Date', with: cbd)
-        expect(page).to have_checked_field('division[qb_read_only]')
+        expect(page).to have_content "Connected to "
+        expect(page).to have_select("division[principal_account_id]", selected: prin_acct_name)
+        expect(page).to have_select("division[interest_receivable_account_id]", selected: int_rcv_acct_name)
+        expect(page).to have_select("division[interest_income_account_id]", selected: int_inc_acct_name)
+        expect(page).to have_field("Closed Books Date", with: cbd)
+        expect(page).to have_checked_field("division[qb_read_only]")
       end
     end
 
@@ -93,9 +96,9 @@ feature 'settings flow', :accounting do
   describe "disconnect" do
     scenario do
       visit "/admin/accounting/settings"
-      click_on 'Disconnect'
+      click_on "Disconnect"
       visit "/admin/accounting/settings"
-      expect(page).to have_content 'Not Connected'
+      expect(page).to have_content "Not Connected"
     end
   end
 end
