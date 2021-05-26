@@ -43,7 +43,11 @@ class Accounting::QB::Connection < ApplicationRecord
   def refresh_token!
     log_token_info("About to refresh token")
     qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
-    oauth2_token = OAuth2::AccessToken.new(qb_consumer, self.access_token, {refresh_token: self.refresh_token})
+    oauth2_token = OAuth2::AccessToken.new(
+      qb_consumer,
+      self.access_token,
+      {refresh_token: self.refresh_token}
+    )
     begin
       refreshed = oauth2_token.refresh!.to_hash
     rescue OAuth2::Error
@@ -64,8 +68,8 @@ class Accounting::QB::Connection < ApplicationRecord
 
   def log_token_info(message)
     token_info = "Access token: #{self.access_token}\n
-     Refresh token: #{self.refresh_token}\n
-     Access token expires at: #{self.token_expires_at}"
-     Rails.logger.tagged(QB_AUTH_LOG_TAG).info("#{message}:\n #{token_info)} ")
+      Refresh token: #{self.refresh_token}\n
+      Access token expires at: #{self.token_expires_at}"
+    Rails.logger.tagged(QB_AUTH_LOG_TAG).info("#{message}:\n #{token_info}")
   end
 end
