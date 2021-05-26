@@ -325,6 +325,7 @@ en:
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
+  system_error_notified: "System error. Developers have been notified."
   close: "Close"
   select_prompt: "Select..."
 
