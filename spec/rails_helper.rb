@@ -75,10 +75,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    if Rails.configuration.x.test
-      Rails.configuration.x.test = ActiveSupport::OrderedOptions.new
-    end
-
     # fix for weird database cleansing situation
     Capybara.reset_sessions!
     DatabaseCleaner.clean
