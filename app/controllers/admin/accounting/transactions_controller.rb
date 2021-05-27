@@ -146,7 +146,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
         raise Quickbooks::InvalidModelException, msg
       end
     else
-      Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
+      Accounting::LoanIssue.where(project_id: project.id).delete_all
       Accounting::QB::Updater.new.update(project)
     end
   end

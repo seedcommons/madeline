@@ -1,5 +1,5 @@
 en:
-  problem_loan_transaction:
+  loan_issue:
     index:
       title: "Transactions with Errors or Warnings for Loan %{loan_id}"
     index_by_loan:

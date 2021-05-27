@@ -46,7 +46,7 @@ module Accounting
 
       def delete_qb_data
         ::Accounting::LineItem.delete_all
-        ::Accounting::ProblemLoanTransaction.delete_all
+        ::Accounting::LoanIssue.delete_all
         ::Accounting::Transaction.delete_all
         ::Accounting::Account.delete_all
         ::Accounting::Customer.delete_all

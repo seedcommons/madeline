@@ -1,26 +1,26 @@
-- content_for(:title, t("problem_loan_transaction.index.title", loan_id: @loan_id))
+- content_for(:title, t("loan_issue.index.title", loan_id: @loan_id))
 
 table.table.table-bordered.middle-aligned
   thead
     tr
-      th= t("problem_loan_transaction.id")
-      th= t("problem_loan_transaction.txn_id")
-      th= t("problem_loan_transaction.qb_id")
-      th= t("problem_loan_transaction.date")
-      th= t("problem_loan_transaction.loan_id")
-      th= t("problem_loan_transaction.message.header")
-      th= t("problem_loan_transaction.level.header")
+      th= t("loan_issue.id")
+      th= t("loan_issue.txn_id")
+      th= t("loan_issue.qb_id")
+      th= t("loan_issue.date")
+      th= t("loan_issue.loan_id")
+      th= t("loan_issue.message.header")
+      th= t("loan_issue.level.header")
 
   tbody
     - @plts.each do |txn_id, plts|
       - count = plts.count
       - plts.each_with_index do |plt, index|
         tr
-          td= link_to plt.id, admin_accounting_problem_loan_transaction_path(plt)
+          td= link_to plt.id, admin_accounting_loan_issue_path(plt)
           - if index == 0
-            td{rowspan=count}= link_to plt.txn_id, admin_accounting_problem_loan_transaction_path(plt)
-            td{rowspan=count}= link_to plt.qb_id, admin_accounting_problem_loan_transaction_path(plt)
-            td{rowspan=count}= link_to plt.txn_date, admin_accounting_problem_loan_transaction_path(plt)
+            td{rowspan=count}= link_to plt.txn_id, admin_accounting_loan_issue_path(plt)
+            td{rowspan=count}= link_to plt.qb_id, admin_accounting_loan_issue_path(plt)
+            td{rowspan=count}= link_to plt.txn_date, admin_accounting_loan_issue_path(plt)
           td= link_to plt.loan_id, admin_loan_path(plt.loan_id)
-          td= t("problem_loan_transaction.#{plt.message}", (plt.custom_data.present? ? plt.custom_data.symbolize_keys : {}))
-          td= t("problem_loan_transaction.#{plt.level}")
+          td= t("loan_issue.#{plt.message}", (plt.custom_data.present? ? plt.custom_data.symbolize_keys : {}))
+          td= t("loan_issue.#{plt.level}")

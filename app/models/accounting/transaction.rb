@@ -31,7 +31,7 @@ class Accounting::Transaction < ApplicationRecord
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
                         foreign_key: :accounting_transaction_id, dependent: :destroy
-  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
+  has_many :loan_issues, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
   # user-created txns are sent to qb and have qb data before
   # they are :created. This is set in the transactions controller
@@ -99,7 +99,7 @@ class Accounting::Transaction < ApplicationRecord
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
+          ::Accounting::LoanIssue.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
         end
       else
         txn.project_id = associated_loans&.first&.id

@@ -1,13 +1,13 @@
-- content_for(:title, t("problem_loan_transaction.index_by_loan.title"))
+- content_for(:title, t("loan_issue.index_by_loan.title"))
 
 table.table.table-bordered.middle-aligned
   thead
     tr
-      th= t("problem_loan_transaction.loan_id")
-      th= t("problem_loan_transaction.message.header")
-      th= t("problem_loan_transaction.level.header")
-      th= t("problem_loan_transaction.num_txns_with_message")
-      th= t("problem_loan_transaction.details")
+      th= t("loan_issue.loan_id")
+      th= t("loan_issue.message.header")
+      th= t("loan_issue.level.header")
+      th= t("loan_issue.num_txns_with_message")
+      th= t("loan_issue.details")
 
   tbody
     - @plts.each do |loan_id, plts_for_loan|
@@ -18,9 +18,9 @@ table.table.table-bordered.middle-aligned
         tr
           - sample_plt = plts_for_message.first
           - if index == 0
-            td{rowspan=num_rows}= link_to loan_id, admin_accounting_problem_loan_transactions_path(loan_id: loan_id)
-          td= t("problem_loan_transaction.#{msg}", (sample_plt.custom_data.present? ? sample_plt.custom_data.symbolize_keys : {}))
-          td= t("problem_loan_transaction.level.#{sample_plt.level}")
+            td{rowspan=num_rows}= link_to loan_id, admin_accounting_loan_issues_path(loan_id: loan_id)
+          td= t("loan_issue.#{msg}", (sample_plt.custom_data.present? ? sample_plt.custom_data.symbolize_keys : {}))
+          td= t("loan_issue.level.#{sample_plt.level}")
           td = plts_for_message.count
           - if index == 0
-            td{rowspan=num_rows}= link_to "Click to see all transaction errors and warnings for this loan.", admin_accounting_problem_loan_transactions_path(loan_id: loan_id)
+            td{rowspan=num_rows}= link_to "Click to see all transaction errors and warnings for this loan.", admin_accounting_loan_issues_path(loan_id: loan_id)
