@@ -1,18 +1,18 @@
-- content_for(:title, t("loan_issue.show.title", id: @plt.qb_id, associated_loan_ids: @plt.associated_loan_ids.join(", ")))
+- content_for(:title, t("loan_issue.show.title", id: @issue.qb_id, associated_loan_ids: @issue.associated_loan_ids.join(", ")))
 
 table.table.table-bordered
   tr
     th= t("loan_issue.txn_id")
-    td= @plt.txn_id
+    td= @issue.txn_id
   tr
     th= t("loan_issue.qb_id")
-    td= @plt.qb_id
+    td= @issue.qb_id
   tr
     th= t("loan_issue.date")
-    td= @plt.txn_date
+    td= @issue.txn_date
   tr
     th= t("loan_issue.associated_loans")
-    td= @plt.associated_loan_ids.map { |loan_id| link_to loan_id, admin_loan_path(loan_id) }.join(", ").html_safe
+    td= @issue.associated_loan_ids.map { |loan_id| link_to loan_id, admin_loan_path(loan_id) }.join(", ").html_safe
 
 h3= t("loan_issue.quickbooks_data")
-= @plt.quickbooks_data.awesome_inspect(html: true, plain: true)
+= @issue.quickbooks_data.awesome_inspect(html: true, plain: true)

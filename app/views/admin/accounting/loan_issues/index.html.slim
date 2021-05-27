@@ -12,15 +12,15 @@ table.table.table-bordered.middle-aligned
       th= t("loan_issue.level.header")
 
   tbody
-    - @plts.each do |txn_id, plts|
-      - count = plts.count
-      - plts.each_with_index do |plt, index|
+    - @issues.each do |txn_id, issues|
+      - count = issues.count
+      - issues.each_with_index do |issue, index|
         tr
-          td= link_to plt.id, admin_accounting_loan_issue_path(plt)
+          td= link_to issue.id, admin_accounting_loan_issue_path(issue)
           - if index == 0
-            td{rowspan=count}= link_to plt.txn_id, admin_accounting_loan_issue_path(plt)
-            td{rowspan=count}= link_to plt.qb_id, admin_accounting_loan_issue_path(plt)
-            td{rowspan=count}= link_to plt.txn_date, admin_accounting_loan_issue_path(plt)
-          td= link_to plt.loan_id, admin_loan_path(plt.loan_id)
-          td= t("loan_issue.#{plt.message}", (plt.custom_data.present? ? plt.custom_data.symbolize_keys : {}))
-          td= t("loan_issue.#{plt.level}")
+            td{rowspan=count}= link_to issue.txn_id, admin_accounting_loan_issue_path(issue)
+            td{rowspan=count}= link_to issue.qb_id, admin_accounting_loan_issue_path(issue)
+            td{rowspan=count}= link_to issue.txn_date, admin_accounting_loan_issue_path(issue)
+          td= link_to issue.loan_id, admin_loan_path(issue.loan_id)
+          td= t("loan_issue.#{issue.message}", (issue.custom_data.present? ? issue.custom_data.symbolize_keys : {}))
+          td= t("loan_issue.#{issue.level}")

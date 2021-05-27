@@ -6,16 +6,16 @@ module Admin
         if params[:loan_id]
           @loan_id = params[:loan_id]
           txn_ids = LoanIssue.where(project_id: @loan_id).map(&:accounting_transaction_id)
-          @plts = LoanIssue.where(accounting_transaction_id: txn_ids).group_by(&:txn_id)
+          @issues = LoanIssue.where(accounting_transaction_id: txn_ids).group_by(&:txn_id)
         else
-          @plts = LoanIssue.all.sort_by(&:project_id).group_by(&:project_id)
+          @issues = LoanIssue.all.sort_by(&:project_id).group_by(&:project_id)
           render :index_by_loan
         end
       end
 
       def show
-        @plt = LoanIssue.find(params[:id])
-        authorize @plt
+        @issue = LoanIssue.find(params[:id])
+        authorize @issue
       end
     end
   end

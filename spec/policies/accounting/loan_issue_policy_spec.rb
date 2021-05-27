@@ -9,8 +9,8 @@ describe Accounting::LoanIssuePolicy do
   let(:loan_txn_mode) { Loan::TXN_MODE_AUTO }
   let(:loan) { create(:loan, loan_trait, division: division, txn_handling_mode: loan_txn_mode) }
   let(:txn) { Accounting::Transaction.new(project: loan) }
-  let(:described_plt) { Accounting::LoanIssue.new(project_id: loan.id, accounting_transaction_id: txn.id) }
-  subject(:policy) { described_class.new(user, described_plt) }
+  let(:described_issue) { Accounting::LoanIssue.new(project_id: loan.id, accounting_transaction_id: txn.id) }
+  subject(:policy) { described_class.new(user, described_issue) }
 
   context 'with non-admin' do
     let(:user) { create(:user) }
