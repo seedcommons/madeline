@@ -31,21 +31,18 @@ class QuickbooksUpdateJob < QuickbooksJob
   end
 
   rescue_from(Accounting::QB::NotConnectedError) do |error|
-    task.set_activity_message("error_quickbooks_not_connected")
     Accounting::LoanIssue.create!(level: :error, message: :quickbooks_not_connected)
-    record_failure_and_raise_error(error)
+    record_failure_and_raise_error(error, message: "error_quickbooks_not_connected")
   end
 
   rescue_from(Accounting::QB::DataResetRequiredError) do |error|
-    task.set_activity_message("error_data_reset_required")
     Accounting::LoanIssue.create!(level: :error, message: :data_reset_required)
-    record_failure_and_raise_error(error)
+    record_failure_and_raise_error(error, message: "error_data_reset_required")
   end
 
   rescue_from(Accounting::QB::AccountsNotSelectedError) do |error|
-    task.set_activity_message("error_quickbooks_accounts_not_selected")
     Accounting::LoanIssue.create!(level: :error, message: :quickbooks_accounts_not_selected)
-    record_failure_and_raise_error(error)
+    record_failure_and_raise_error(error, message: "error_quickbooks_accounts_not_selected")
   end
 
   protected

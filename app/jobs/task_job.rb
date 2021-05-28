@@ -6,14 +6,14 @@ class TaskJob < ApplicationJob
   end
 
   rescue_from(StandardError) do |error|
-    task.set_activity_message("failed")
     record_failure_and_raise_error(error)
   end
 
   protected
 
-  def record_failure_and_raise_error(error)
+  def record_failure_and_raise_error(error, message: "failed")
     task.fail!
+    task.set_activity_message(message)
     notify_of_error(error)
 
     # Re-raise so the job system sees the error and acts accordingly.
