@@ -24,25 +24,23 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     # Fetch and store the access token and other necessary authentication information.
     if params[:state]
       response = oauth_token_response
-      if response
-        connection = Accounting::QB::Connection.first
-        connection_attrs = {
-          access_token: response.token,
-          invalid_grant: false,
-          last_updated_at: connection.present? ? Time.current : nil,
-          refresh_token: response.refresh_token,
-          realm_id: params[:realmId],
-          division: Division.root,
-          token_expires_at: Time.zone.at(response.expires_at)
-        }
-        connection ||= Accounting::QB::Connection.new
-        connection.update(connection_attrs)
-        connection.save!
-        connection.log_token_info("OAuth connection updated in OAuth callback")
-      else
-        raise "OAuth token response nil"
-      end
-    end
+      raise "OAuth token response nil" if response.blank?
+
+      connection = Accounting::QB::Connection.first
+      connection_attrs = {
+        access_token: response.token,
+        invalid_grant: false,
+        last_updated_at: connection.present? ? Time.current : nil,
+        refresh_token: response.refresh_token,
+        realm_id: params[:realmId],
+        division: Division.root,
+        token_expires_at: Time.zone.at(response.expires_at)
+      }
+      connection ||= Accounting::QB::Connection.new
+      connection.update(connection_attrs)
+      connection.save!
+      connection.log_token_info("OAuth connection updated in OAuth callback")
+  end
 
     Task.create(
       job_class: FullFetcherJob,
