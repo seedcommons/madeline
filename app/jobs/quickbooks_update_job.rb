@@ -1,4 +1,4 @@
-class QuickbooksUpdateJob < TaskJob
+class QuickbooksUpdateJob < QuickbooksJob
   def perform(_job_params)
     updater = Accounting::QB::Updater.new
     updater.qb_sync_for_loan_update
@@ -45,12 +45,6 @@ class QuickbooksUpdateJob < TaskJob
   rescue_from(Accounting::QB::AccountsNotSelectedError) do |error|
     task.set_activity_message("error_quickbooks_accounts_not_selected")
     Accounting::LoanIssue.create!(level: :error, message: :quickbooks_accounts_not_selected)
-    record_failure_and_raise_error(error)
-  end
-
-  rescue_from(Quickbooks::ServiceUnavailable) do |error|
-    task.set_activity_message("error_quickbooks_unavailable")
-    Accounting::LoanIssue.create!(level: :error, message: :quickbooks_unavailable)
     record_failure_and_raise_error(error)
   end
 
