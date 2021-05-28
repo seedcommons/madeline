@@ -75,10 +75,8 @@ Rails.application.routes.draw do
 
     resources :media, only: [:index], as: :media_gallery
 
-    get 'accounting-settings' => 'settings#index'
-    patch 'accounting-settings' => 'settings#update'
-
     namespace :accounting do
+      resource :settings, only: %i[show update]
       resources :quickbooks do
         collection do
           get :authenticate

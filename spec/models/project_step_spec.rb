@@ -1,38 +1,3 @@
-# == Schema Information
-#
-# Table name: timeline_entries
-#
-#  actual_end_date         :date
-#  agent_id                :integer
-#  created_at              :datetime         not null
-#  date_change_count       :integer          default(0), not null
-#  finalized_at            :datetime
-#  id                      :integer          not null, primary key
-#  is_finalized            :boolean
-#  old_duration_days       :integer          default(0)
-#  old_start_date          :date
-#  parent_id               :integer
-#  project_id              :integer
-#  schedule_parent_id      :integer
-#  scheduled_duration_days :integer
-#  scheduled_start_date    :date
-#  step_type_value         :string           not null
-#  type                    :string           not null
-#  updated_at              :datetime         not null
-#
-# Indexes
-#
-#  index_timeline_entries_on_agent_id    (agent_id)
-#  index_timeline_entries_on_project_id  (project_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (agent_id => people.id)
-#  fk_rails_...  (parent_id => timeline_entries.id)
-#  fk_rails_...  (project_id => projects.id)
-#  fk_rails_...  (schedule_parent_id => timeline_entries.id)
-#
-
 require 'rails_helper'
 
 describe ProjectStep, type: :model do
@@ -69,13 +34,13 @@ describe ProjectStep, type: :model do
   end
 
   it 'cannot be unfinalized after 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.zone.now - 25.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.current - 25.hours)
     step.is_finalized = false
     expect(step).to be_invalid
   end
 
   it 'can be unfinalized within 24 hours' do
-    step = create(:project_step, is_finalized: true, finalized_at: Time.zone.now - 22.hours)
+    step = create(:project_step, is_finalized: true, finalized_at: Time.current - 22.hours)
     step.is_finalized = false
     expect(step).to be_valid
   end

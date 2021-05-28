@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: data_exports
-#
-#  id          :bigint           not null, primary key
-#  data        :json
-#  end_date    :datetime
-#  locale_code :string           not null
-#  name        :string           not null
-#  start_date  :datetime
-#  type        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  division_id :bigint           not null
-#
-# Indexes
-#
-#  index_data_exports_on_division_id  (division_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (division_id => divisions.id)
-#
-
 class DataExport < ApplicationRecord
   # TODO: data exports required to be performed by root admins. This is a workaround
   # because more nuanced permissions will be difficult
@@ -67,7 +43,7 @@ class DataExport < ApplicationRecord
     I18n.t(
       "data_exports.default_name",
       type: I18n.t("data_exports.types.#{export_type_key}"),
-      current_time: I18n.l(Time.zone.now, format: :long)
+      current_time: I18n.l(Time.current, format: :long)
     )
   end
 

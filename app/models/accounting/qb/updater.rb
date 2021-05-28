@@ -103,7 +103,7 @@ module Accounting
 
       def too_soon_to_run_again?
         return false if qb_connection.last_updated_at.nil?
-        Time.zone.now - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
+        Time.current - qb_connection.last_updated_at < MIN_TIME_BETWEEN_UPDATES
       end
 
       def changes

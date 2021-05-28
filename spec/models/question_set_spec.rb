@@ -1,13 +1,3 @@
-# == Schema Information
-#
-# Table name: question_sets
-#
-#  created_at    :datetime         not null
-#  id            :integer          not null, primary key
-#  internal_name :string
-#  updated_at    :datetime         not null
-#
-
 require 'rails_helper'
 
 describe QuestionSet, type: :model do

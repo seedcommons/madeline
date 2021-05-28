@@ -63,9 +63,6 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     amoeba (3.1.0)
       activerecord (>= 3.2.6)
-    annotate (3.1.1)
-      activerecord (>= 3.2, < 7.0)
-      rake (>= 10.4, < 14.0)
     arel (9.0.0)
     ast (2.4.2)
     attribute_normalizer (1.2.0)
@@ -543,7 +540,6 @@ DEPENDENCIES
   active_model_serializers
   addressable
   amoeba
-  annotate
   attribute_normalizer
   awesome_print
   better_errors

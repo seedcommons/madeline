@@ -77,7 +77,11 @@ FactoryBot.define do
 
     trait :with_qb_connection do
       after(:create) do |division|
-        division.qb_connection = create(:accounting_qb_connection, division: division)
+        division.qb_connection = create(
+          :accounting_qb_connection,
+          division: division,
+          last_updated_at: Time.current
+        )
       end
     end
   end

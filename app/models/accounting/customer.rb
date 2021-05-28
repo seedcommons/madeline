@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: accounting_customers
-#
-#  id              :bigint           not null, primary key
-#  name            :string           not null
-#  quickbooks_data :json
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  qb_id           :string           not null
-#
-
 class Accounting::Customer < ApplicationRecord
   has_many :transactions, inverse_of: :customer, foreign_key: :accounting_customer_id, dependent: :nullify
   QB_OBJECT_TYPE = 'Customer'

@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: data_exports
-#
-#  id          :bigint           not null, primary key
-#  data        :json
-#  end_date    :datetime
-#  locale_code :string           not null
-#  name        :string           not null
-#  start_date  :datetime
-#  type        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  division_id :bigint           not null
-#
-# Indexes
-#
-#  index_data_exports_on_division_id  (division_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (division_id => divisions.id)
-#
-
 class EnhancedLoanDataExport < DataExport
   Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
   BASE_HEADERS = [
