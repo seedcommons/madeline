@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-feature 'loan flow' do
+feature "loan flow" do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let!(:loan) { create(:loan, division: division) }
@@ -35,6 +35,7 @@ feature 'loan flow' do
 
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
+
         if te.is_finalized?
           expect(page).to have_content(te.summary)
         else
@@ -52,6 +53,7 @@ feature 'loan flow' do
 
       loan.timeline_entries.each do |te|
         next unless te.is_a?(ProjectStep)
+
         if te.milestone?
           expect(page).to have_content(te.summary)
         else
@@ -61,26 +63,46 @@ feature 'loan flow' do
     end
   end
 
-  describe 'details' do
-    scenario 'can duplicate', js: true do
+  describe "details" do
+    scenario "can duplicate", js: true do
       visit admin_loan_path(loan)
 
-      accept_confirm { click_on('Duplicate') }
+      accept_confirm { click_on("Duplicate") }
       expect(page).to have_content "Copy of #{loan.display_name}"
+    end
+
+    describe "old system menu" do
+      context "as member" do
+        scenario "old system menu hidden" do
+          visit admin_loan_path(loan)
+          expect(page).not_to have_content("Transactions (old system)")
+        end
+      end
+
+      context "as admin" do
+        let(:division) { Division.root }
+        let(:user) { create_admin(division) }
+        scenario "old system menu shows" do
+          visit admin_loan_path(loan)
+          expect(page).to have_content("Transactions (old system)")
+        end
+      end
     end
   end
 
-  scenario 'loan can not be created with the same person as pri and sec agent' do
+  scenario "loan can not be created with the same person as pri and sec agent" do
     visit new_admin_loan_path
-    select user.name, from: 'loan_primary_agent_id'
-    select user.name, from: 'loan_secondary_agent_id'
-    click_on 'Create Loan'
-    expect(page).to have_content('The point person for this project cannot be the same as the second point person')
+    select user.name, from: "loan_primary_agent_id"
+    select user.name, from: "loan_secondary_agent_id"
+    click_on "Create Loan"
+    expect(page).to have_content(
+      "The point person for this project cannot be the same as the second point person"
+    )
   end
 
-  scenario 'loan with groups can be deleted' do
+  scenario "loan with groups can be deleted" do
     visit admin_loan_path(loan)
-    click_on 'Delete Loan'
-    expect(page).to have_content('Record was successfully deleted')
+    click_on "Delete Loan"
+    expect(page).to have_content("Record was successfully deleted")
   end
 end
