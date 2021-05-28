@@ -106,14 +106,12 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   # Runs the given block and handles any Quickbooks errors.
   # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
   # Notifies admins if error is not part of normal operation.
-  # Sets the @data_reset_required variable if a DataResetRequiredError error is raised.
   # This is only used for creating new transactions
   def handle_qb_errors
     begin
       yield
     rescue Accounting::QB::DataResetRequiredError => e
       Rails.logger.error e
-      @data_reset_required = true
       error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
@@ -122,7 +120,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
            Accounting::QB::NotConnectedError,
            Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      @qb_not_connected = true
       error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
     rescue Quickbooks::InvalidModelException,
            Quickbooks::Forbidden,
