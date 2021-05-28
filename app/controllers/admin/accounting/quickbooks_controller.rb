@@ -40,7 +40,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       connection.update(connection_attrs)
       connection.save!
       connection.log_token_info("OAuth connection updated in OAuth callback")
-  end
+    end
 
     Task.create(
       job_class: FullFetcherJob,
