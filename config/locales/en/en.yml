@@ -388,6 +388,9 @@ en:
       department_not_set_html: "the QB department is not set on the division '%{current_division}' (see %{qb_division_settings_link})"
       loan_not_active_html: "this loan is not active"
       loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
+    there_are_issues:
+      one: "There is one outstanding issue."
+      other: "There are %{count} outstanding issues."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"

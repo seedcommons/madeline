@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_05_28_142316) do
-=======
-ActiveRecord::Schema.define(version: 2021_05_27_174009) do
->>>>>>> 11803: Rename problem loan txn table
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
