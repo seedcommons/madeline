@@ -21,6 +21,7 @@ feature "settings flow", :accounting do
         click_on "Click To Connect"
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
+        expect(Accounting::QB::Connection.first.last_updated_at).to be nil
       end
     end
   end
