@@ -4,7 +4,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
     / Edit
     - if @loan.valid?
       a.edit-action.view-element
-        i.fa.fa-pencil.fa-large> 
+        i.fa.fa-pencil.fa-large>
         = t("loan.edit")
       a.show-action.form-element
         = t("cancel_edit")
@@ -25,16 +25,17 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
         = t("loan.duplicate")
 
     / Open Transactions - Old System
-    span.dropdown
-      a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
-        => t('loan.transactions_old')
-        span.caret
-      ul.dropdown-menu.dropdown-menu-right
-        - if @loan.status_value == 'active'
-          li = link_to(t('loan.transaction_new_disbursement'), old_system_new_disbursement_url(loan: @loan), target: '_blank')
-          li = link_to(t('loan.transaction_new_repayment'), old_system_new_repayment_url(loan: @loan), target: '_blank')
-          li.divider role="separator"
-        li = link_to(t('loan.transaction_schedule'), old_system_schedule_url(loan: @loan), target: '_blank')
+    - if policy(@loan).old_system_access?
+      span.dropdown
+        a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+          => t('loan.transactions_old')
+          span.caret
+        ul.dropdown-menu.dropdown-menu-right
+          - if @loan.status_value == 'active'
+            li = link_to(t('loan.transaction_new_disbursement'), old_system_new_disbursement_url(loan: @loan), target: '_blank')
+            li = link_to(t('loan.transaction_new_repayment'), old_system_new_repayment_url(loan: @loan), target: '_blank')
+            li.divider role="separator"
+          li = link_to(t('loan.transaction_schedule'), old_system_schedule_url(loan: @loan), target: '_blank')
 
     / Open Loan Memo
     span.dropdown

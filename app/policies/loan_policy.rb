@@ -7,6 +7,10 @@ class LoanPolicy < ProjectPolicy
     show?
   end
 
+  def old_system_access?
+    division_admin(division: Division.root)
+  end
+
   class Scope < DivisionOwnedScope
     def resolve
       user ? super : publicly_visible(scope)
