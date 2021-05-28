@@ -18,9 +18,9 @@ table.table.table-bordered.middle-aligned
         tr
           td= link_to issue.id, admin_accounting_loan_issue_path(issue)
           - if index == 0
-            td{rowspan=count}= link_to issue.txn_id, admin_accounting_loan_issue_path(issue)
-            td{rowspan=count}= link_to issue.qb_id, admin_accounting_loan_issue_path(issue)
-            td{rowspan=count}= link_to issue.txn_date, admin_accounting_loan_issue_path(issue)
-          td= link_to issue.loan_id, admin_loan_path(issue.loan_id)
+            td{rowspan=count}= (issue.txn? ? link_to(issue.txn_id, admin_accounting_loan_issue_path(issue)) : "")
+            td{rowspan=count}= (issue.txn? ? link_to(issue.qb_id, admin_accounting_loan_issue_path(issue)) : "")
+            td{rowspan=count}= (issue.txn? ? link_to(issue.txn_date, admin_accounting_loan_issue_path(issue)) : "")
+          td= (issue.loan? ? link_to(issue.loan_id, admin_loan_path(issue.loan_id)))
           td= t("loan_issue.#{issue.message}", (issue.custom_data.present? ? issue.custom_data.symbolize_keys : {}))
           td= t("loan_issue.#{issue.level}")

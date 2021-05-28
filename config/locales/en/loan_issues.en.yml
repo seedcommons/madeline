@@ -1,11 +1,11 @@
 en:
   loan_issue:
     index:
-      title: "Transactions with Errors or Warnings for Loan %{loan_id}"
+      title: "Accounting Update Issues For Loan %{loan_id}"
     index_by_loan:
-      title: Loans with Transaction Errors or Warnings
+      title: Accounting Update Issues
     show:
-      title: "Broken Transaction #%{id} for loans %{associated_loan_ids}"
+      title: "Accounting Update Issue #%{id}"
     id: ID
     txn_id: TXN ID
     qb_id: QB ID
@@ -17,7 +17,7 @@ en:
       warning: Warning
     message:
       header: Message
-    num_txns_with_message: Number of Transactions with Similar Messages for this Loan
+    num_txns_with_message: Number of Issues with Similar Messages for this Loan
     associated_loans: Associated Loans
     quickbooks_data: Raw QuickBooks Data
     error_msg_link:

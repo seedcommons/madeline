@@ -18,9 +18,9 @@ table.table.table-bordered.middle-aligned
         tr
           - sample_issue = issues_for_message.first
           - if index == 0
-            td{rowspan=num_rows}= link_to loan_id, admin_accounting_loan_issues_path(loan_id: loan_id)
+            td{rowspan=num_rows}= (loan_id ? link_to(loan_id, admin_accounting_loan_issues_path(loan_id: loan_id)) : "")
           td= t("loan_issue.#{msg}", (sample_issue.custom_data.present? ? sample_issue.custom_data.symbolize_keys : {}))
           td= t("loan_issue.level.#{sample_issue.level}")
           td = issues_for_message.count
           - if index == 0
-            td{rowspan=num_rows}= link_to "Click to see all transaction errors and warnings for this loan.", admin_accounting_loan_issues_path(loan_id: loan_id)
+            td{rowspan=num_rows}= (loan_id ? link_to("Click to see all transaction errors and warnings for this loan.", admin_accounting_loan_issues_path(loan_id: loan_id)) : "")
