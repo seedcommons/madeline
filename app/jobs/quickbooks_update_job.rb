@@ -1,6 +1,5 @@
 class QuickbooksUpdateJob < TaskJob
   def perform(_job_params)
-    errors_by_loan = []
     updater = Accounting::QB::Updater.new
     updater.qb_sync_for_loan_update
     task.set_activity_message("syncing_with_quickbooks")
@@ -16,8 +15,6 @@ class QuickbooksUpdateJob < TaskJob
         # We let the user know that there was a system error and we've been notified.
         # But we don't expose the original error message to the user since it won't be intelligble
         # and could be a security issue.
-        errors_by_loan << {loan_id: loan.id, message: I18n.t("system_error_notified")}
-
         Accounting::LoanIssue.create!(level: :error, loan: loan, message: :system_error_notified)
 
         # We want to receive a loud notification about an unhandled error.
@@ -26,11 +23,11 @@ class QuickbooksUpdateJob < TaskJob
         notify_of_error(e)
       end
     end
-    if errors_by_loan.empty?
-      task.set_activity_message("completed")
-    else
-      handle_child_errors(task, errors_by_loan)
-    end
+
+    # Even if there have been per-loan errors, we still consider the task completed.
+    # If there were per-loan errors that support team needs to be notified of, those notices get sent when
+    # the errors are handled.
+    task.set_activity_message("completed")
   end
 
   rescue_from(Accounting::QB::NotConnectedError) do |error|
@@ -57,11 +54,6 @@ class QuickbooksUpdateJob < TaskJob
     record_failure_and_raise_error(error)
   end
 
-  rescue_from(TaskHasChildErrorsError) do |error|
-    task.set_activity_message("finished_with_custom_error_data")
-    record_failure_and_raise_error(error)
-  end
-
   protected
 
   def divisions
@@ -69,11 +61,6 @@ class QuickbooksUpdateJob < TaskJob
   end
 
   private
-
-  def handle_child_errors(task, errors_by_loan)
-    task.update(custom_error_data: errors_by_loan)
-    raise TaskHasChildErrorsError.new("Some loans failed to update.")
-  end
 
   def record_failure_and_raise_error(error)
     task.fail!
