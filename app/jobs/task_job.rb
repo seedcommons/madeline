@@ -12,6 +12,16 @@ class TaskJob < ApplicationJob
     raise error
   end
 
+  protected
+
+  def record_failure_and_raise_error(error)
+    task.fail!
+    notify_of_error(error)
+
+    # Re-raise so the job system sees the error and acts accordingly.
+    raise error
+  end
+
   private
 
   def task

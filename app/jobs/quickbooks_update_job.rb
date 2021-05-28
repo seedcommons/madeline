@@ -59,14 +59,4 @@ class QuickbooksUpdateJob < TaskJob
   def divisions
     @divisions ||= Division.qb_accessible_divisions
   end
-
-  private
-
-  def record_failure_and_raise_error(error)
-    task.fail!
-    notify_of_error(error)
-
-    # Re-raise so the job system sees the error and acts accordingly.
-    raise error
-  end
 end
