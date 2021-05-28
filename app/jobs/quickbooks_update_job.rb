@@ -1,5 +1,6 @@
 class QuickbooksUpdateJob < QuickbooksJob
   def perform(_job_params)
+    ::Accounting::LoanIssue.delete_all
     updater = Accounting::QB::Updater.new
     updater.qb_sync_for_loan_update
     task.set_activity_message("syncing_with_quickbooks")
