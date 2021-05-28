@@ -14,6 +14,10 @@ class TaskJob < ApplicationJob
 
   private
 
+  def task
+    @task ||= task_for_job(self)
+  end
+
   def task_for_job(job)
     Task.find(job.arguments.first[:task_id])
   end

@@ -529,6 +529,11 @@ en:
     attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    data_reset_required: "QuickBooks data reset required"
+    quickbooks_not_connected: "QuickBooks not connected"
+    quickbooks_accounts_not_selected: "QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
+    quickbooks_unavailable: "QuickBooks temporarily unavailable"
+    system_error_notified: "There was an unexpected system error. The Madeline support team has been notified."
   project_step:
     add: "Add Step"
     add_dependent_step: "Add Dependent Step"
