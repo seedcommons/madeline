@@ -49,6 +49,9 @@ feature "settings flow", :accounting do
 
   describe "setting details" do
     let!(:accounts) { create_list(:account, 4) }
+    let(:prin_acct_name) { accounts.first.name }
+    let(:int_rcv_acct_name) { accounts[1].name }
+    let(:int_inc_acct_name) { accounts[2].name }
 
     context "last full fetch of QB data was successful" do
       before do
@@ -56,15 +59,13 @@ feature "settings flow", :accounting do
           job_type_value: :full_fetcher,
           activity_message_value: "x",
           job_class: "FullFetcherJob",
-          job_succeeded_at: Time.current
+          job_first_started_at: Time.current - 15.minutes,
+          job_succeeded_at: Time.current - 3.minutes
         )
       end
 
       scenario do
         visit "/admin/accounting/settings"
-        prin_acct_name = accounts.first.name
-        int_rcv_acct_name = accounts[1].name
-        int_inc_acct_name = accounts[2].name
         select prin_acct_name, from: "division[principal_account_id]"
         select int_rcv_acct_name, from: "division[interest_receivable_account_id]"
         select int_inc_acct_name, from: "division[interest_income_account_id]"
@@ -73,6 +74,7 @@ feature "settings flow", :accounting do
         check "division[qb_read_only]"
         click_on "Save"
         expect(page).to have_content "Connected to "
+        expect(page).to have_content "QuickBooks data import succeeded."
         expect(page).to have_select("division[principal_account_id]", selected: prin_acct_name)
         expect(page).to have_select("division[interest_receivable_account_id]", selected: int_rcv_acct_name)
         expect(page).to have_select("division[interest_income_account_id]", selected: int_inc_acct_name)

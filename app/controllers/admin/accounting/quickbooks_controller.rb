@@ -23,8 +23,9 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     # Fetch and store the access token and other necessary authentication information.
     if params[:state]
-      response = oath_token_response
+      response = oauth_token_response
       if response
+        connection = Accounting::QB::Connection.first
         connection_attrs = {
           access_token: response.token,
           invalid_grant: false,
@@ -34,11 +35,12 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
           division: Division.root,
           token_expires_at: Time.zone.at(response.expires_at)
         }
-        connection = Accounting::QB::Connection.first
         connection ||= Accounting::QB::Connection.new
         connection.update(connection_attrs)
         connection.save!
         connection.log_token_info("OAuth connection updated in OAuth callback")
+      else
+        raise "OAuth token response nil"
       end
     end
 
@@ -78,13 +80,13 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     @qb_consumer ||= Accounting::QB::Consumer.new
   end
 
-  def oath_token_response
+  def oauth_token_response
     if Rails.env.test?
-      OpenStruct.new({
+      OpenStruct.new(
         token: "test_access_token",
         refresh_token: "test_refresh_token",
         expires_at: Time.current + 1.hour
-      })
+      )
     else
       redirect_uri = oauth_callback_admin_accounting_quickbooks_url
       qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
