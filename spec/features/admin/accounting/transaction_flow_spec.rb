@@ -148,12 +148,13 @@ feature 'transaction flow', :accounting do
         # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
         expect do
-          visit "/admin/loans/#{loan.id}/transactions"
-          fill_txn_form
-          Rails.configuration.x.test.raise_qb_error_during_updater = 'qb fail on create'
-          page.find('a[data-action="submit"]').click
-          expect(page).to have_alert('Some data may be out of date. (Error: qb fail on create)',
-            container: '.transaction-form')
+          with_env("RAISE_QB_ERROR_DURING_UPDATER" => "qb fail on create") do
+            visit "/admin/loans/#{loan.id}/transactions"
+            fill_txn_form
+            page.find('a[data-action="submit"]').click
+            expect(page).to have_alert('Some data may be out of date. (Error: qb fail on create)',
+              container: '.transaction-form')
+          end
         end.to change { Accounting::Transaction.count }.by(0)
       end
     end

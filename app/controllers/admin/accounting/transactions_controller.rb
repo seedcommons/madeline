@@ -142,9 +142,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def run_updater(project:)
     # Stub the Updater in test mode
     if Rails.env.test?
-      # Raise an error if requested by the specs
-      if msg = Rails.configuration.x.test.raise_qb_error_during_updater
-        raise Quickbooks::InvalidModelException.new(msg)
+      if (msg = ENV["RAISE_QB_ERROR_DURING_UPDATER"])
+        raise Quickbooks::InvalidModelException, msg
       end
     else
       Accounting::ProblemLoanTransaction.where(project_id: project.id).delete_all
