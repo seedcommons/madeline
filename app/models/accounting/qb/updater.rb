@@ -34,7 +34,7 @@ module Accounting
         # make it frustrating for users who want to deliberately re-run the updater.
         # The other function of last_updated_at is to check if a full sync needs to be run,
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
-        qb_connection.update_attribute(:last_updated_at, Time.now)
+        qb_connection.update_attribute(:last_updated_at, Time.current)
       end
 
       # Fetches all changes from Quickbooks since the last update.

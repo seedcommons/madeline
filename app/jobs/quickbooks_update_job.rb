@@ -24,6 +24,16 @@ class QuickbooksUpdateJob < QuickbooksJob
       end
     end
 
+    # TODO: This is duplicated and needs to be DRYed up.
+    # We record last_updated_at as the time the update *finishes* because last_updated_at
+    # is used to avoid runs that immediately follow each other as in the case of a transaction creation
+    # followed by a transaction listing. If we record the time the update *started* and the update
+    # takes some time, we would need to increase the MIN_TIME_BETWEEN_UPDATES value and that might
+    # make it frustrating for users who want to deliberately re-run the updater.
+    # The other function of last_updated_at is to check if a full sync needs to be run,
+    # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
+    updater.qb_connection.update_attribute(:last_updated_at, Time.current)
+
     # Even if there have been per-loan errors, we still consider the task completed.
     # If there were per-loan errors that support team needs to be notified of, those notices get sent when
     # the errors are handled.
