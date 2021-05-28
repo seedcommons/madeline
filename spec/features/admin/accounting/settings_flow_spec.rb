@@ -59,7 +59,7 @@ feature "settings flow", :accounting do
       let!(:loan_issues) { create_list(:accounting_loan_issue, 2) }
       let!(:task) do
         create(:task, job_type_value: :full_fetcher,
-                      job_class: "FullFetcherJob",
+                      job_class: "QuickbooksFullFetcherJob",
                       job_first_started_at: Time.current - 15.minutes,
                       job_succeeded_at: Time.current - 3.minutes)
       end
@@ -84,7 +84,7 @@ feature "settings flow", :accounting do
     end
 
     context "connected but qb full fetch is pending" do
-      let!(:task) { create(:task, job_type_value: :full_fetcher, job_class: "FullFetcherJob") }
+      let!(:task) { create(:task, job_type_value: :full_fetcher, job_class: "QuickbooksFullFetcherJob") }
 
       scenario do
         visit "/admin/accounting/settings"

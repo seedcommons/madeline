@@ -43,7 +43,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
     end
 
     Task.create(
-      job_class: FullFetcherJob,
+      job_class: QuickbooksFullFetcherJob,
       job_type_value: :full_fetcher,
       activity_message_value: 'fetching_quickbooks_data'
     ).enqueue(job_params: {division_id: current_division.qb_division.id})
