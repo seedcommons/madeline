@@ -60,11 +60,16 @@ module Accounting
 
     def recalculate
       return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan)).create?
+      return if transactions.empty?
+      if (loan.interest_rate.nil? || loan.interest_rate.zero?)
+        raise "Cannot calculate interest on loan with 0 or nil interest rate"
+      end
+
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first&.txn_date
-      last_date = loan.status_value == 'active' ? Time.zone.today : transactions.last&.txn_date
+      last_date = loan.status_value == "active" ? Time.zone.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
       last_day_in_months = month_boundaries(first_date, last_date)
@@ -86,7 +91,7 @@ module Accounting
           amount: 0, # Will be updated momentarily.
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
           currency_id: loan.currency_id,
-          description: I18n.t('transactions.interest_description', loan_id: loan.id),
+          description: I18n.t("transactions.interest_description", loan_id: loan.id),
           managed: true
         ) if add_int_tx?(txns_by_date[date], prev_tx, loan)
 

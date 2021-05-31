@@ -14,7 +14,7 @@ class QuickbooksUpdateJob < TaskJob
         # We let the user know that there was a system error and we've been notified.
         # But we don't expose the original error message to the user since it won't be intelligble
         # and could be a security issue.
-        errors_by_loan << {loan_id: loan.id, message: t("system_error_notified")}
+        errors_by_loan << {loan_id: loan.id, message: I18n.t("system_error_notified")}
 
         # We want to receive a loud notification about an unhandled error.
         # If we find this is often generating a lot of similar errors

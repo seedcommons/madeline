@@ -14,6 +14,14 @@ class Accounting::QB::Connection < ApplicationRecord
     {access_token: token, company_id: realm_id}
   end
 
+  def token
+    qb_access_token = self.access_token
+    qb_refresh_token = self.refresh_token
+    qb_consumer = Accounting::QB::Consumer.new.oauth_consumer
+    oauth2_token = OAuth2::AccessToken.new(qb_consumer, qb_access_token, {:refresh_token => qb_refresh_token})
+    oauth2_token
+  end
+
   def company_name
     begin
       company_info_service = ::Quickbooks::Service::CompanyInfo.new(self.auth_details)
