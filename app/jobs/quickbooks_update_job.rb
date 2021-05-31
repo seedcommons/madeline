@@ -26,7 +26,7 @@ class QuickbooksUpdateJob < QuickbooksJob
         # We want to receive a loud notification about an unhandled error.
         # If we find this is often generating a lot of similar errors
         # then we should really start using Sentry or some other service to group them.
-        notify_of_error(e)
+        notify_of_error(e, data: {context: "Unhandled error during loan update", loan_id: loan.id})
       end
     end
 
