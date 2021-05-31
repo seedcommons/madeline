@@ -76,6 +76,9 @@ module Accounting
       @transactions = []
 
       dates.each do |date|
+        log_data = {loan_id: loan.id, date: date}
+        Rails.logger.debug("Recalculating for date #{log_data}")
+
         # Inserts interest transactions at points in the array where they are needed but missing.
         # There should be one interest transaction on each date for which there are any other
         # transactions, except the date of the first transaction.

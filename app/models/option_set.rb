@@ -12,7 +12,7 @@ class OptionSet < ApplicationRecord
     # create root division owned instance on demand if not present
     unless result
       result = OptionSet.create(division: Division.root, model_type: klass.name, model_attribute: attribute)
-      Rails.logger.info "note, OptionSet not found for #{klass.name}.#{attribute} - default instance auto created: #{result.id}"
+      Rails.logger.debug "note, OptionSet not found for #{klass.name}.#{attribute} - default instance auto created: #{result.id}"
     end
     result
   end

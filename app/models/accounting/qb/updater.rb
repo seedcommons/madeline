@@ -88,6 +88,8 @@ module Accounting
         if loan.transactions.present?
           loan.transactions.standard_order.each do |txn|
             if txn.quickbooks_data.present?
+              log_data = {loan_id: loan.id, txn_id: txn.id, txn_qb_id: txn.qb_id}
+              Rails.logger.debug("Extracting transaction #{log_data}")
               Accounting::QB::DataExtractor.new(txn).extract!
               txn.save!
             end

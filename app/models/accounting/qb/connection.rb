@@ -41,7 +41,7 @@ class Accounting::QB::Connection < ApplicationRecord
     token_info = "Access token: #{self.access_token}\n
       Refresh token: #{self.refresh_token}\n
       Access token expires at: #{self.token_expires_at}"
-    Rails.logger.tagged(QB_AUTH_LOG_TAG) { Rails.logger.info("#{message}:\n #{token_info}") }
+    Rails.logger.tagged(QB_AUTH_LOG_TAG) { Rails.logger.debug("#{message}:\n #{token_info}") }
   end
 
   private
