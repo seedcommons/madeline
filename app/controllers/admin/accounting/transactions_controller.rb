@@ -1,9 +1,8 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
   def new
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
+    @transaction = sample_transaction
     authorize(@transaction, :new?)
-
     prep_transaction_form
     render_modal_partial
   end
@@ -12,9 +11,16 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan = Loan.find_by(id: params[:project_id])
     @transaction = ::Accounting::Transaction.find_by(id: params[:id])
     authorize(@transaction, :show?)
-
     prep_transaction_form
     render_modal_partial
+  end
+
+  def sync
+    @loan = Loan.find(params[:project_id])
+    @transaction = sample_transaction
+    authorize(@transaction, :show?)
+    sync_and_handle_errors
+    redirect_to(admin_loan_tab_path(@loan, tab: "transactions"))
   end
 
   def create
@@ -71,11 +77,21 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # We use it because we want to rollback transaction creation or updates if there are errors.
     ActiveRecord::Base.transaction do
       if @transaction.save
-        if error = handle_qb_errors { run_updater(project: @transaction.project) }
-          @transaction.errors.add(:base, error)
+        if (error_msg = handle_qb_errors { run_updater(project: @transaction.project) })
+          @transaction.errors.add(:base, error_msg)
           raise ActiveRecord::Rollback
         end
       end
+    end
+  end
+
+  def sync_and_handle_errors
+    ActiveRecord::Base.transaction do
+      if (error_msg = handle_qb_errors { run_updater(project: @loan) })
+        flash[:error] = error_msg
+        raise ActiveRecord::Rollback
+      end
+      flash[:notice] = t("admin.loans.transactions.sync_complete")
     end
   end
 
@@ -139,9 +155,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   def run_updater(project:)
     # Stub the Updater in test mode
     if Rails.env.test?
-      if (msg = ENV["RAISE_QB_ERROR_DURING_UPDATER"])
-        raise Quickbooks::InvalidModelException, msg
-      end
+      raise Quickbooks::ServiceUnavailable if ENV.key?("RAISE_QB_ERROR_DURING_UPDATER")
     else
       Accounting::QB::Updater.new.update(project)
     end
@@ -149,5 +163,9 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def settings_link
     view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
+  end
+
+  def sample_transaction
+    ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
   end
 end

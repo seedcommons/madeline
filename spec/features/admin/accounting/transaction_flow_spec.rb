@@ -172,16 +172,31 @@ feature "transaction flow", :accounting do
         # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
         expect do
-          with_env("RAISE_QB_ERROR_DURING_UPDATER" => "qb fail on create") do
+          with_env("RAISE_QB_ERROR_DURING_UPDATER" => "1") do
             visit "/admin/loans/#{loan.id}/transactions"
             fill_txn_form
             page.find('a[data-action="submit"]').click
-            expect(page).to have_alert(
-              "Some data may be out of date. (Error: qb fail on create)",
-              container: ".transaction-form"
-            )
+            expect(page).to have_alert("QuickBooks is temporarily unavailable",
+                                       container: ".transaction-form")
           end
         end.to change { Accounting::Transaction.count }.by(0)
+      end
+    end
+
+    describe "sync data" do
+      scenario "successful" do
+        visit "/admin/loans/#{loan.id}/transactions"
+        click_on "Sync Data"
+        screenshot_and_open_image
+        expect(page).to have_alert("Loan successfully sync'd with QuickBooks")
+      end
+
+      scenario "with error" do
+        with_env("RAISE_QB_ERROR_DURING_UPDATER" => "1") do
+          visit "/admin/loans/#{loan.id}/transactions"
+          click_on "Sync Data"
+          expect(page).to have_alert("QuickBooks is temporarily unavailable")
+        end
       end
     end
   end

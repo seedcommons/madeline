@@ -15,6 +15,10 @@ class Accounting::TransactionPolicy < ApplicationPolicy
     create?
   end
 
+  def sync?
+    create?
+  end
+
   def destroy?
     false
   end

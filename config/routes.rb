@@ -88,7 +88,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :transactions, except: [:index, :destroy]
+      resources :transactions, except: [:index, :destroy] do
+        collection do
+          post :sync
+        end
+      end
       resources :sync_issues, only: [:index, :show]
     end
 

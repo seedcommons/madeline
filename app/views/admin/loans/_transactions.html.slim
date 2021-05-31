@@ -8,6 +8,10 @@ section.transactions
 
   - if @errors.empty?
     .show-actions.hidden-print
+      - if policy(@sample_transaction).sync?
+        = link_to t(".sync_data"),
+            sync_admin_accounting_transactions_path(project_id: @loan.id), class: "btn btn-default",
+            data: {action: "sync-data"}, method: :post
       - if policy(@sample_transaction).create?
         = link_to t(".new_transaction"), "#", class: "btn btn-primary",
           data: {action: "new-transaction", project_id: @loan.id}

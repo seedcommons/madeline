@@ -47,7 +47,7 @@ describe Accounting::TransactionPolicy do
 
   shared_examples_for 'appropriate admin or machine user' do
     context 'with all other things in order' do
-      permit_actions [:index, :show, :create, :update]
+      permit_actions [:index, :show, :create, :update, :sync]
       forbid_actions [:destroy]
     end
 
