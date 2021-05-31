@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: project_logs
-#
-#  agent_id              :integer
-#  created_at            :datetime         not null
-#  date                  :date
-#  date_changed_to       :date
-#  id                    :integer          not null, primary key
-#  progress_metric_value :string
-#  project_step_id       :integer
-#  updated_at            :datetime         not null
-#
-# Indexes
-#
-#  index_project_logs_on_agent_id         (agent_id)
-#  index_project_logs_on_project_step_id  (project_step_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (agent_id => people.id)
-#  fk_rails_...  (project_step_id => timeline_entries.id)
-#
-
 FactoryBot.define do
   factory :project_log do
     project_step
