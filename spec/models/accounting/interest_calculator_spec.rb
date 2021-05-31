@@ -365,35 +365,43 @@ describe Accounting::InterestCalculator do
     end
   end
 
-  describe "handling zero interest rate" do
+  context "loan has zero interest rate" do
     let(:loan) { create(:loan, :active, division: division, rate: 0.0) }
-    let!(:disbursement) {
-      create(:accounting_transaction, :disbursement, amount: 1000.0,
-                                                     project: loan, txn_date: "2018-01-01", division: division, customer: customer)
-    }
-    let!(:repayment) {
-      create(:accounting_transaction, :repayment, amount: 100.0,
-                                                  project: loan, txn_date: "2018-02-04", division: division, customer: customer)
-    }
+    let!(:disbursement) do
+      create(:accounting_transaction,
+             :disbursement,
+             amount: 1000.0,
+             project: loan,
+             txn_date: "2018-01-01",
+             division: division,
+             customer: customer)
+    end
+    let!(:repayment) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 100.0,
+             project: loan,
+             txn_date: "2018-02-04",
+             division: division,
+             customer: customer)
+    end
     let(:all_txns) { [disbursement, repayment] }
 
-    describe "does not create interest txn" do
-      it do
-        recalculate_and_reload
-        expect(Accounting::Transaction.count).to eq 2
-        expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-        expect(disbursement.reload.interest_balance).to eq 0
-        expect(disbursement.reload.principal_balance).to eq 1000
-        expect(repayment.reload.interest_balance).to eq 0
-        expect(repayment.reload.principal_balance).to eq 900
-      end
+    it "does not create interest txn" do
+      recalculate_and_reload
+      expect(Accounting::Transaction.count).to eq 2
+      expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
+      expect(disbursement.reload.interest_balance).to equal_money 0
+      expect(disbursement.reload.principal_balance).to equal_money 1000
+      expect(repayment.reload.interest_balance).to equal_money 0
+      expect(repayment.reload.principal_balance).to equal_money 900
     end
 
-    describe "corrects a repayment with a non-zero interest amount" do
+    context "with incorrect line items that allocate non-zero amount to interest" do
       let!(:prin_acct) { division.principal_account }
       let!(:int_rcv_acct) { division.interest_receivable_account }
       let!(:txn_acct) { create(:account) }
-      let!(:repayment_li_one) {
+      let!(:repayment_li_one) do
         create(
           :line_item,
           parent_transaction: repayment,
@@ -401,8 +409,8 @@ describe Accounting::InterestCalculator do
           account: txn_acct,
           amount: 100
         )
-      }
-      let!(:repayment_li_two) {
+      end
+      let!(:repayment_li_two) do
         create(
           :line_item,
           parent_transaction: repayment,
@@ -410,8 +418,8 @@ describe Accounting::InterestCalculator do
           account: int_rcv_acct,
           amount: 10
         )
-      }
-      let!(:repayment_li_two) {
+      end
+      let!(:repayment_li_two) do
         create(
           :line_item,
           parent_transaction: repayment,
@@ -419,13 +427,14 @@ describe Accounting::InterestCalculator do
           account: prin_acct,
           amount: 90
         )
-      }
-      it do
+      end
+
+      it "corrects the incorrect repayment allocation" do
         recalculate_and_reload
         expect(Accounting::Transaction.count).to eq 2
         expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-        expect(repayment.reload.line_item_for(prin_acct).amount).to eq 100
-        expect(repayment.reload.line_item_for(int_rcv_acct).amount).to eq 0
+        expect(repayment.reload.line_item_for(prin_acct).amount).to equal_money 100
+        expect(repayment.reload.line_item_for(int_rcv_acct).amount).to equal_money 0
       end
     end
   end
