@@ -216,6 +216,10 @@ class Loan < Project
     customer || Accounting::Customer.find_by(name: organization.name)
   end
 
+  def no_interest_rate?
+    interest_rate.nil? || interest_rate.zero?
+  end
+
   def txns_read_only?
     txn_handling_mode == TXN_MODE_READ_ONLY
   end
