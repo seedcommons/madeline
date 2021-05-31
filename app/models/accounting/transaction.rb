@@ -81,6 +81,9 @@ class Accounting::Transaction < ApplicationRecord
   scope :most_recent_first, -> { order(txn_date: :desc) }
   scope :with_customer, -> { where.not(accounting_customer_id: nil) }
 
+  # A transaction's loan_transaction_type_value can't be nil if it's been extracted successfully.
+  scope :extracted, -> { where.not(loan_transaction_type_value: nil) }
+
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json

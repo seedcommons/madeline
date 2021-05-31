@@ -33,15 +33,21 @@ feature "transaction flow", :accounting do
     describe "list transactions" do
       context "when transactions present" do
         let!(:transactions) { create_list(:accounting_transaction, 2, project: loan, description: "Pants") }
+        let!(:unextracted_txn) do
+          build(:accounting_transaction, :unextracted, project: loan, description: "Nonsense!").tap do |txn|
+            txn.save(validate: false)
+          end
+        end
 
         context "when there are only irrelevant issues" do
           let!(:issue) { create(:accounting_sync_issue, level: :error, loan: create(:loan)) }
 
-          scenario "shows transactions" do
+          scenario "shows transactions but not unextracted ones" do
             visit "/admin/loans/#{loan.id}/transactions"
             amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
             expect(page).to have_content(amt)
             expect(page).to have_content("Pants")
+            expect(page).not_to have_content("Nonsense!")
           end
         end
 
