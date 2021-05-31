@@ -61,9 +61,6 @@ module Accounting
     def recalculate
       return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan)).create?
       return if transactions.empty?
-      if (loan.interest_rate.nil? || loan.interest_rate.zero?)
-        raise "Cannot calculate interest on loan with 0 or nil interest rate"
-      end
 
       prev_tx = nil
 
@@ -239,6 +236,8 @@ module Accounting
     end
 
     def add_int_tx?(txs, prev_tx, loan)
+      return false if loan.no_interest_rate?
+
       if txs.nil? # this is an end of month day with no txns
         if prev_tx.txn_date > @closed_books_date
           return true

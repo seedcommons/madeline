@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # See docs/example_calculation.xlsx for ground truth used to build this spec.
 describe Accounting::InterestCalculator do
@@ -8,7 +8,7 @@ describe Accounting::InterestCalculator do
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
 
-  describe 'general operation' do
+  describe "general operation" do
     let!(:t0) {
       create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
                                       project: loan, txn_date: "2017-01-01", division: division, customer: customer)
@@ -35,14 +35,14 @@ describe Accounting::InterestCalculator do
     }
     let!(:t6) {
       create(:accounting_transaction, :unmanaged, :repayment_with_line_items,
-        loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division)
+             loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division)
     }
     let(:all_txns) { [t0, t1, t2, t3, t4, t5, t6] }
     let!(:prin_acct) { division.principal_account }
     let!(:int_rcv_acct) { division.interest_receivable_account }
     let!(:int_inc_acct) { division.interest_income_account }
 
-    describe 'initial creation and update' do
+    describe "initial creation and update" do
       it do
         #########################
         # Initial computation
@@ -57,9 +57,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
-        expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t0.line_item_for(prin_acct).posting_type).to eq("Debit")
         expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
-        expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
+        expect(t0.line_item_for(t0.account).posting_type).to eq("Credit")
 
         # balances
         expect(t0.reload.principal_balance).to equal_money(100.00)
@@ -70,9 +70,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
-        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq("Debit")
         expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
-        expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        expect(t1.line_item_for(int_inc_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t1.reload.principal_balance).to equal_money(100.00)
@@ -83,9 +83,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t2.line_item_for(prin_acct).amount).to equal_money(17.50)
-        expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t2.line_item_for(prin_acct).posting_type).to eq("Debit")
         expect(t2.line_item_for(t2.account).amount).to equal_money(17.50)
-        expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
+        expect(t2.line_item_for(t2.account).posting_type).to eq("Credit")
 
         # balances
         expect(t2.reload.principal_balance).to equal_money(117.50)
@@ -96,9 +96,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(0.70)
-        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq("Debit")
         expect(t3.line_item_for(int_inc_acct).amount).to equal_money(0.70)
-        expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        expect(t3.line_item_for(int_inc_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(117.50)
@@ -109,11 +109,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t4.line_item_for(t4.account).amount).to equal_money(0.50)
-        expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
+        expect(t4.line_item_for(t4.account).posting_type).to eq("Debit")
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
-        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t4.line_item_for(prin_acct).amount).to equal_money(0.0)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t4.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(117.50)
@@ -124,11 +124,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
-        expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
+        expect(t5.line_item_for(t5.account).posting_type).to eq("Debit")
         expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(0.27)
-        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t5.line_item_for(prin_acct).amount).to equal_money(12.03)
-        expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t5.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t5.reload.principal_balance).to equal_money(105.47) # 117.50 - 12.03
@@ -139,11 +139,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t6.line_item_for(t6.account).amount).to equal_money(23.7)
-        expect(t6.line_item_for(t6.account).posting_type).to eq('Debit')
+        expect(t6.line_item_for(t6.account).posting_type).to eq("Debit")
         expect(t6.line_item_for(int_rcv_acct).amount).to equal_money(11.85)
-        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq("Credit")
         expect(t6.line_item_for(prin_acct).amount).to equal_money(11.85)
-        expect(t6.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t6.reload.principal_balance).to equal_money(93.62) # 105.47 - 11.85
@@ -163,9 +163,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t0.line_item_for(prin_acct).amount).to equal_money(100.00)
-        expect(t0.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t0.line_item_for(prin_acct).posting_type).to eq("Debit")
         expect(t0.line_item_for(t0.account).amount).to equal_money(100.00)
-        expect(t0.line_item_for(t0.account).posting_type).to eq('Credit')
+        expect(t0.line_item_for(t0.account).posting_type).to eq("Credit")
 
         # balances
         expect(t0.reload.principal_balance).to equal_money(100.00)
@@ -179,9 +179,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t1.line_item_for(int_rcv_acct).amount).to equal_money(0.07)
-        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t1.line_item_for(int_rcv_acct).posting_type).to eq("Debit")
         expect(t1.line_item_for(int_inc_acct).amount).to equal_money(0.07)
-        expect(t1.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        expect(t1.line_item_for(int_inc_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t1.reload.principal_balance).to equal_money(100.00)
@@ -195,9 +195,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t2.line_item_for(prin_acct).amount).to equal_money(52.50)
-        expect(t2.line_item_for(prin_acct).posting_type).to eq('Debit')
+        expect(t2.line_item_for(prin_acct).posting_type).to eq("Debit")
         expect(t2.line_item_for(t2.account).amount).to equal_money(52.50)
-        expect(t2.line_item_for(t2.account).posting_type).to eq('Credit')
+        expect(t2.line_item_for(t2.account).posting_type).to eq("Credit")
 
         # balances
         expect(t2.reload.principal_balance).to equal_money(152.50)
@@ -211,9 +211,9 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t3.line_item_for(int_rcv_acct).amount).to equal_money(0.90)
-        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq('Debit')
+        expect(t3.line_item_for(int_rcv_acct).posting_type).to eq("Debit")
         expect(t3.line_item_for(int_inc_acct).amount).to equal_money(0.90)
-        expect(t3.line_item_for(int_inc_acct).posting_type).to eq('Credit')
+        expect(t3.line_item_for(int_inc_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t3.reload.principal_balance).to equal_money(152.50)
@@ -227,11 +227,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t4.line_item_for(t4.account).amount).to equal_money(0.50)
-        expect(t4.line_item_for(t4.account).posting_type).to eq('Debit')
+        expect(t4.line_item_for(t4.account).posting_type).to eq("Debit")
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
-        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t4.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(152.50)
@@ -242,11 +242,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t5.line_item_for(t5.account).amount).to equal_money(12.30)
-        expect(t5.line_item_for(t5.account).posting_type).to eq('Debit')
+        expect(t5.line_item_for(t5.account).posting_type).to eq("Debit")
         expect(t5.line_item_for(int_rcv_acct).amount).to equal_money(0.47)
-        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq('Credit')
+        expect(t5.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t5.line_item_for(prin_acct).amount).to equal_money(11.83)
-        expect(t5.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t5.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # The interest change above cascades down into this txn.
         expect(t5.needs_qb_push).to be true
@@ -260,11 +260,11 @@ describe Accounting::InterestCalculator do
 
         # account details
         expect(t6.line_item_for(t6.account).amount).to equal_money(23.7)
-        expect(t6.line_item_for(t6.account).posting_type).to eq('Debit')
+        expect(t6.line_item_for(t6.account).posting_type).to eq("Debit")
         expect(t6.line_item_for(int_rcv_acct).amount).to equal_money(11.85)
-        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(int_rcv_acct).posting_type).to eq("Credit")
         expect(t6.line_item_for(prin_acct).amount).to equal_money(11.85)
-        expect(t6.line_item_for(prin_acct).posting_type).to eq('Credit')
+        expect(t6.line_item_for(prin_acct).posting_type).to eq("Credit")
 
         # The interest change above cascades down into this txn.
         expect(t6.needs_qb_push).to be false
@@ -275,27 +275,27 @@ describe Accounting::InterestCalculator do
       end
     end
 
-    describe 'division level read-only setting' do
-      describe 'is on' do
+    describe "division level read-only setting" do
+      describe "is on" do
         let!(:division) { create(:division, :with_accounts, :with_qb_dept, qb_read_only: true) }
-        it 'does not update txns' do
+        it "does not update txns" do
           recalculate_and_reload
           expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
         end
       end
 
-      describe 'is off' do
+      describe "is off" do
         let!(:division) { create(:division, :with_accounts, :with_qb_dept, qb_read_only: false) }
-        it 'does update txns' do
+        it "does update txns" do
           recalculate_and_reload
           expect(all_txns.map(&:needs_qb_push)).to eq [true, true, true, true, true, true, false]
         end
       end
     end
 
-    describe 'respecting closed books date' do
+    describe "respecting closed books date" do
       describe "after closed books date" do
-        it 'does update txns' do
+        it "does update txns" do
           recalculate_and_reload
           expect(all_txns.map(&:needs_qb_push)).to eq [true, true, true, true, true, true, false]
         end
@@ -303,15 +303,15 @@ describe Accounting::InterestCalculator do
 
       describe "before closed books date" do
         let(:closed_books_date) { "2020-01-01" }
-        it 'does not update txns' do
+        it "does not update txns" do
           recalculate_and_reload
           expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
         end
       end
     end
 
-    describe 'transaction recalculation is not allowed' do
-      it 'does not update txns' do
+    describe "transaction recalculation is not allowed" do
+      it "does not update txns" do
         expect(Accounting::TransactionPolicy).to receive(:new).and_return double(create?: false)
         recalculate_and_reload
         expect(all_txns.map(&:needs_qb_push)).to eq [false, false, false, false, false, false, false]
@@ -319,7 +319,7 @@ describe Accounting::InterestCalculator do
     end
   end
 
-  describe 'creation of interest txns' do
+  describe "creation of interest txns" do
     # There should be an interest txn between t0 and t1, but not before t0
     let!(:t0) {
       create(:accounting_transaction, :disbursement, amount: 10000.0,
@@ -332,17 +332,17 @@ describe Accounting::InterestCalculator do
     let(:all_txns) { [t0, t1] }
 
     describe "after closed books date" do
-      it 'creates an interest txn before another txn' do
+      it "creates an interest txn before another txn" do
         recalculate_and_reload
-        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-04')
+        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: "2018-01-04")
         expect(inttxn).not_to be_nil
         expect(inttxn.amount).to equal_money(6.58)
         expect(inttxn.description).to eq "Interest Accrual for Loan ##{loan.id}"
       end
 
-      it 'creates an interest txn on the end of each month' do
+      it "creates an interest txn on the end of each month" do
         recalculate_and_reload
-        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: '2018-01-31')
+        inttxn = Accounting::Transaction.interest_type.find_by(txn_date: "2018-01-31")
         expect(inttxn).not_to be_nil
         # Principal balance should be 30000
         # Days since previous txn (1/4 to 1/31) = 27
@@ -355,12 +355,77 @@ describe Accounting::InterestCalculator do
       let(:closed_books_date) { "2020-01-01" }
       it "does not create an interest txn before another txn" do
         recalculate_and_reload
-        expect(Accounting::Transaction.interest_type.exists?(txn_date: '2018-01-04')).to be false
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-04")).to be false
       end
 
       it "does not create an interest txn on the end of a month" do
         recalculate_and_reload
-        expect(Accounting::Transaction.interest_type.exists?(txn_date: '2018-01-31')).to be false
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
+      end
+    end
+  end
+
+  describe "handling zero interest rate" do
+    let(:loan) { create(:loan, :active, division: division, rate: 0.0) }
+    let!(:disbursement) {
+      create(:accounting_transaction, :disbursement, amount: 1000.0,
+                                                     project: loan, txn_date: "2018-01-01", division: division, customer: customer)
+    }
+    let!(:repayment) {
+      create(:accounting_transaction, :repayment, amount: 100.0,
+                                                  project: loan, txn_date: "2018-02-04", division: division, customer: customer)
+    }
+    let(:all_txns) { [disbursement, repayment] }
+
+    describe "does not create interest txn" do
+      it do
+        recalculate_and_reload
+        expect(Accounting::Transaction.count).to eq 2
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
+        expect(disbursement.reload.interest_balance).to eq 0
+        expect(disbursement.reload.principal_balance).to eq 1000
+        expect(repayment.reload.interest_balance).to eq 0
+        expect(repayment.reload.principal_balance).to eq 900
+      end
+    end
+
+    describe "corrects a repayment with a non-zero interest amount" do
+      let!(:prin_acct) { division.principal_account }
+      let!(:int_rcv_acct) { division.interest_receivable_account }
+      let!(:txn_acct) { create(:account) }
+      let!(:repayment_li_one) {
+        create(
+          :line_item,
+          parent_transaction: repayment,
+          posting_type: :debit,
+          account: txn_acct,
+          amount: 100
+        )
+      }
+      let!(:repayment_li_two) {
+        create(
+          :line_item,
+          parent_transaction: repayment,
+          posting_type: :credit,
+          account: int_rcv_acct,
+          amount: 10
+        )
+      }
+      let!(:repayment_li_two) {
+        create(
+          :line_item,
+          parent_transaction: repayment,
+          posting_type: :credit,
+          account: prin_acct,
+          amount: 90
+        )
+      }
+      it do
+        recalculate_and_reload
+        expect(Accounting::Transaction.count).to eq 2
+        expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
+        expect(repayment.reload.line_item_for(prin_acct).amount).to eq 100
+        expect(repayment.reload.line_item_for(int_rcv_acct).amount).to eq 0
       end
     end
   end
