@@ -193,7 +193,6 @@ feature "transaction flow", :accounting do
       scenario "successful" do
         visit "/admin/loans/#{loan.id}/transactions"
         click_on "Sync Data"
-        screenshot_and_open_image
         expect(page).to have_alert("Loan successfully sync'd with QuickBooks")
       end
 
