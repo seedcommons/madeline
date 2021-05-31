@@ -5,7 +5,7 @@ module Admin
         authorize :'accounting/loan_issue', :index?
         if params[:loan_id]
           @loan_id = params[:loan_id]
-          @issues = ::Accounting::LoanIssue.for_loan(@loan_id)
+          @issues = ::Accounting::LoanIssue.for_loan_or_global(@loan_id)
 
           # Group by transactions so that we can do row spans.
           @issues = @issues.group_by(&:txn_id)

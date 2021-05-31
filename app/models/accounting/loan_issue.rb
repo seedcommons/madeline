@@ -4,7 +4,9 @@ module Accounting
     belongs_to :accounting_transaction, class_name: "Accounting::Transaction"
 
     # Issues with no project_id apply to all Loans
-    scope :for_loan, ->(l) { where(loan: l).or(where(loan: nil)) }
+    scope :for_loan_or_global, ->(l) { for_loan(l).or(no_loan) }
+    scope :for_loan, ->(l) { where(loan: l) }
+    scope :no_loan, -> { where(loan: nil) }
     scope :error, -> { where(level: "error") }
     scope :warning, -> { where(level: "warning") }
 
