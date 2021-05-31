@@ -3,6 +3,11 @@ module Accounting
     belongs_to :loan, foreign_key: "project_id"
     belongs_to :accounting_transaction, class_name: "Accounting::Transaction"
 
+    # Issues with no project_id apply to all Loans
+    scope :for_loan, ->(l) { where(loan: l).or(where(loan: nil)) }
+    scope :error, -> { where(level: "error") }
+    scope :warning, -> { where(level: "warning") }
+
     delegate :id, :display_name, to: :loan, prefix: :loan
     delegate :txn_date, :qb_id, :amount, :change_in_interest, :change_in_principal, :currency, :quickbooks_data, to: :accounting_transaction, allow_nil: true
     delegate :id, :description, to: :accounting_transaction, prefix: :txn, allow_nil: true

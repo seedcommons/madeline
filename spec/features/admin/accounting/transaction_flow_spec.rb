@@ -34,11 +34,35 @@ feature "transaction flow", :accounting do
       context "when transactions present" do
         let!(:transactions) { create_list(:accounting_transaction, 2, project: loan, description: "Pants") }
 
-        scenario "shows transactions" do
-          visit "/admin/loans/#{loan.id}/transactions"
-          amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
-          expect(page).to have_content(amt)
-          expect(page).to have_content("Pants")
+        context "when there are only irrelevant issues" do
+          let!(:issue) { create(:accounting_loan_issue, level: :error, loan: create(:loan)) }
+
+          scenario "shows transactions" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
+            expect(page).to have_content(amt)
+            expect(page).to have_content("Pants")
+          end
+        end
+
+        context "when there are only warnings" do
+          let!(:issue) { create(:accounting_loan_issue, level: :warning, loan: loan) }
+
+          scenario "shows transactions and warning" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).to have_content("Pants")
+            expect(page).to have_content("There is a sync warning for this loan")
+          end
+        end
+
+        context "when there are errors" do
+          let!(:issue) { create(:accounting_loan_issue, level: :error, loan: loan) }
+
+          scenario "shows error and hides transactions" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).not_to have_content("Pants")
+            expect(page).to have_content("There was a sync error for this loan")
+          end
         end
 
         context "when transactions are writable" do

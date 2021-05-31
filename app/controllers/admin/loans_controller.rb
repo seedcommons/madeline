@@ -186,7 +186,8 @@ module Admin
     end
 
     def prep_transactions
-      @broken_transactions = ::Accounting::LoanIssue.where(project_id: @loan.id)
+      @errors = ::Accounting::LoanIssue.for_loan(@loan).error
+      @warnings = ::Accounting::LoanIssue.for_loan(@loan).warning
       @transactions = ::Accounting::Transaction.where(project: @loan)
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
       @enable_export_to_csv = true

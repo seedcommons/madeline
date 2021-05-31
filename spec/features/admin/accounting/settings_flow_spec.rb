@@ -55,6 +55,15 @@ feature "settings flow", :accounting do
     let(:int_rcv_acct_name) { accounts[1].name }
     let(:int_inc_acct_name) { accounts[2].name }
 
+    context "connected but qb full fetch is pending" do
+      let!(:task) { create(:task, job_type_value: :full_fetcher, job_class: "QuickbooksFullFetcherJob") }
+
+      scenario do
+        visit "/admin/accounting/settings"
+        expect(page).to have_content("QuickBooks data import pending.")
+      end
+    end
+
     context "last full fetch of QB data was successful but there are issues" do
       let!(:loan_issues) { create_list(:accounting_loan_issue, 2) }
       let!(:task) do
@@ -80,15 +89,6 @@ feature "settings flow", :accounting do
         expect(page).to have_select("division[interest_income_account_id]", selected: int_inc_acct_name)
         expect(page).to have_field("Closed Books Date", with: cbd)
         expect(page).to have_checked_field("division[qb_read_only]")
-      end
-    end
-
-    context "connected but qb full fetch is pending" do
-      let!(:task) { create(:task, job_type_value: :full_fetcher, job_class: "QuickbooksFullFetcherJob") }
-
-      scenario do
-        visit "/admin/accounting/settings"
-        expect(page).to have_content("QuickBooks data import pending.")
       end
     end
   end
