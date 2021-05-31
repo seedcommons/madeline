@@ -47,14 +47,9 @@ module Accounting
 
       def extract_line_items
         txn.quickbooks_data['line_items'].each do |li|
-          begin
-            acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
-            raise StandardError "unprocessable_account" if acct.nil?
-          rescue
-            ::Accounting::SyncIssue.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {})
-          end
-          # skip if line item does not have an account in Madeline
-          next unless acct
+          acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
+          raise UnprocessableAccountError.new(loan: @loan, transaction: txn) if acct.nil?
+
           posting_type = li[qb_li_detail_key]['posting_type']
           posting_type ||= existing_li_posting_type unless posting_type.present?
           txn.line_item_with_id(li['id'].to_i).assign_attributes(
@@ -76,8 +71,8 @@ module Accounting
       end
 
       def extract_account
-        # do nothing in TransactionExtract
-        # can be overridden in subclasses
+        txn.account = Accounting::Account.find_by(qb_id: account_qb_id)
+        raise UnprocessableAccountError.new(loan: @loan, transaction: txn) if txn.account.nil?
       end
 
       def extract_customer

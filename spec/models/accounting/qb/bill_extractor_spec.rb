@@ -9,7 +9,6 @@ describe Accounting::QB::BillExtractor, type: :model do
   let(:txn_acct) { create(:account, name: 'Some Bank Account') }
   let(:random_acct) { create(:account, name: 'Another Bank Account') }
   let(:loan) { create(:loan, division: division) }
-
   let(:quickbooks_data) do
     create(
       :transaction_json,
@@ -21,10 +20,13 @@ describe Accounting::QB::BillExtractor, type: :model do
       doc_number: "from qb"
     )
   end
-  let(:txn) { Accounting::Transaction.create_or_update_from_qb_object!(qb_object_type: "Purchase", qb_object: quickbooks_data) }
+  let(:txn) do
+    Accounting::Transaction.create_or_update_from_qb_object!(qb_object_type: "Purchase",
+                                                             qb_object: quickbooks_data)
+  end
 
-  context 'extract!' do
-    it 'updates correctly in Madeline' do
+  context "happy path" do
+    it "updates correctly in Madeline" do
       Accounting::QB::BillExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq 'disbursement'
       expect(txn.managed).to be false
@@ -33,6 +35,32 @@ describe Accounting::QB::BillExtractor, type: :model do
       expect(txn.line_items.last.credit?).to be true
       expect(txn.account).to eq txn_acct
       expect(txn.amount).to equal_money(20527.35)
+    end
+  end
+
+  # This covers missing account functionality for all TransactionExtractor children
+  # except JournalEntryExtractor which overrides the parent.
+  context "with missing account" do
+    shared_examples_for "raises unprocessable account error" do
+      it do
+        expect { Accounting::QB::BillExtractor.new(txn).extract! }
+          .to raise_error(Accounting::QB::UnprocessableAccountError) do |error|
+            expect(error.loan).to eq(loan)
+            expect(error.transaction).to eq(txn)
+          end
+      end
+    end
+
+    context "with missing txn account" do
+      # If we don't save this account, it's as if it were never sync'd. So the qb_id will be in the json,
+      # but the extractor won't be able to find it.
+      let(:txn_acct) { build(:account, name: "Unsaved Account") }
+      it_behaves_like "raises unprocessable account error"
+    end
+
+    context "with missing line item account" do
+      let(:prin_acct) { build(:account, name: "Unsaved Account") }
+      it_behaves_like "raises unprocessable account error"
     end
   end
 end
