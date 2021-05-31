@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: notes
-#
-#  author_id    :integer
-#  created_at   :datetime         not null
-#  id           :integer          not null, primary key
-#  notable_id   :integer
-#  notable_type :string
-#  updated_at   :datetime         not null
-#
-# Indexes
-#
-#  index_notes_on_author_id                    (author_id)
-#  index_notes_on_notable_type_and_notable_id  (notable_type,notable_id)
-#
-
 FactoryBot.define do
   factory :note do
     association :notable, factory: :organization
