@@ -10,13 +10,14 @@ class QuickbooksUpdateJob < QuickbooksJob
       task.set_activity_message("updating_loans", so_far: (index), total: loans.count)
       begin
         updater.update_loan(loan)
+      rescue Accounting::QB::UnprocessableAccountError => e
+        Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
+                                      message: :unprocessable_account, level: :error, custom_data: {})
+      rescue Quickbooks::ServiceUnavailable
+        # This is an error b/c we may have been in the middle of creating interest txns
+        Accounting::SyncIssue.create!(level: :error, loan: loan, message: :quickbooks_unavailable_recalc)
+        raise # If QB is down, no point in continuing, so re-raise
       rescue StandardError => e
-        if e.is_a?(Quickbooks::ServiceUnavailable)
-          # This is an error b/c we may have been in the middle of creating interest txns
-          Accounting::SyncIssue.create!(level: :error, loan: loan, message: :quickbooks_unavailable_recalc)
-          raise # If QB is down, no point in continuing, so re-raise
-        end
-
         # If there is an unhandled error updating an individual loan, we don't want the whole process to fail.
         # We let the user know that there was a system error and we've been notified.
         # But we don't expose the original error message to the user since it won't be intelligble

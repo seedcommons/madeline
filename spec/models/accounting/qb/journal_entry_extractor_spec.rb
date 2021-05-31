@@ -474,7 +474,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
           expect(txn.managed).to be true
         end
       end
-      context 'too many  line items' do
+      context 'too many line items' do
         # this has all possible scenario for interest, disbursement, repayment and random
         let(:quickbooks_data) do
           {'line_items' =>
@@ -586,7 +586,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
                   'type' => 'Customer',
                   'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
                 },
-                'account_ref' => {'value' => random_acct.name, 'name' => random_acct.name, 'type' => nil},
+                'account_ref' => {'value' => random_acct.qb_id, 'name' => random_acct.name, 'type' => nil},
                 'class_ref' => {'value' => '5000000000000026437', 'name' => loan.id, 'type' => nil},
                 'department_ref' => nil
               }}],

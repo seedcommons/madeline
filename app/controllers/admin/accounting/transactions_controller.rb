@@ -129,6 +129,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     rescue Accounting::QB::DataResetRequiredError => e
       Rails.logger.error e
       error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
+    rescue Accounting::QB::UnprocessableAccountError => e
+      # Duplicated in QuickbooksUpdateJob, should be DRYed up in refactor.
+      Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
+                                    message: :unprocessable_account, level: :error, custom_data: {})
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
       error_msg = t('quickbooks.service_unavailable')
