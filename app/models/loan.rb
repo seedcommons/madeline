@@ -220,8 +220,8 @@ class Loan < Project
     txn_handling_mode == TXN_MODE_READ_ONLY
   end
 
-  def num_problem_loan_txns_by_level(level)
+  def num_sync_issues_by_level(level)
     return nil if transactions.empty?
-    Accounting::ProblemLoanTransaction.where(project_id: id, level: level).size
+    Accounting::SyncIssue.where(project_id: id, level: level).size
   end
 end

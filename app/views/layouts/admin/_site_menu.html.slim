@@ -29,7 +29,6 @@ li.nav-item
     li = link_to t('menu.questions'), admin_questions_path
     - if policy(:setting).index?
       li = link_to t('menu.accounting_settings'), admin_accounting_settings_path
-      li = link_to t('menu.problem_transactions'), admin_accounting_problem_loan_transactions_path
     li = link_to t('menu.tasks'), admin_tasks_path
     - if policy(DataExport).index?
       li = link_to t("menu.data_exports"), admin_data_exports_path

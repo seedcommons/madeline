@@ -1,0 +1,18 @@
+- content_for(:title, t("sync_issue.show.title"))
+
+table.table.table-bordered
+  tr
+    th= t("sync_issue.txn_id")
+    td= @issue.txn_id
+  tr
+    th= t("sync_issue.qb_id")
+    td= @issue.qb_id
+  tr
+    th= t("sync_issue.date")
+    td= @issue.txn_date
+  tr
+    th= t("sync_issue.associated_loans")
+    td= @issue.associated_loan_ids.map { |loan_id| link_to loan_id, admin_loan_path(loan_id) }.join(", ").html_safe
+
+h3= t("sync_issue.quickbooks_data")
+= @issue.quickbooks_data.awesome_inspect(html: true, plain: true)

@@ -10,7 +10,7 @@ class ApplicationJob < ActiveJob::Base
 
   protected
 
-  def notify_of_error(error)
-    ExceptionNotifier.notify_exception(error, data: {job: to_yaml})
+  def notify_of_error(error, data: {})
+    ExceptionNotifier.notify_exception(error, data: data.merge(job: to_yaml))
   end
 end

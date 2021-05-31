@@ -19,6 +19,9 @@ module Accounting
       #
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
+        # Delete only global issues now before fetch phase but keep loan-specific
+        # issues so that if fetch fails we still hide those loans' txn data appropriately.
+        Accounting::SyncIssue.global.delete_all
         qb_sync_for_loan_update
         if loans
           # check if loan is one object or multiple
@@ -34,7 +37,7 @@ module Accounting
         # make it frustrating for users who want to deliberately re-run the updater.
         # The other function of last_updated_at is to check if a full sync needs to be run,
         # but that condition is measured in days, not seconds, so this small a difference shouldn't matter.
-        qb_connection.update_attribute(:last_updated_at, Time.now)
+        qb_connection.update_attribute(:last_updated_at, Time.current)
       end
 
       # Fetches all changes from Quickbooks since the last update.
@@ -69,6 +72,8 @@ module Accounting
       # their balances calculated. Note: attempting to calculate balances
       # on all loans before interest calculation has caused problems in the past.
       def update_loan(loan)
+        # Delete loan-specific issues now that we are ready to recompute.
+        Accounting::SyncIssue.for_loan(loan).delete_all
         extract_qb_data(loan)
         InterestCalculator.new(loan).recalculate
         calculate_balances(loan)

@@ -186,11 +186,13 @@ module Admin
     end
 
     def prep_transactions
-      @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
-      @transactions = ::Accounting::Transaction.where(project: @loan)
+      @errors = ::Accounting::SyncIssue.for_loan_or_global(@loan).error
+      @warnings = ::Accounting::SyncIssue.for_loan_or_global(@loan).warning
+      @transactions = ::Accounting::Transaction.where(project: @loan).extracted
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
       @enable_export_to_csv = true
-      @transactions_grid = initialize_grid(@transactions, order: 'accounting_transactions.txn_date', enable_export_to_csv: @enable_export_to_csv,
+      @transactions_grid = initialize_grid(@transactions, order: 'accounting_transactions.txn_date',
+                                                          enable_export_to_csv: @enable_export_to_csv,
                                                           per_page: 100, name: 'transactions')
       export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
       show_reasons_if_read_only
@@ -198,6 +200,7 @@ module Admin
 
     def show_reasons_if_read_only
       return if (reasons = policy(@sample_transaction).read_only_reasons).empty?
+
       args = {}
       args[:current_division] = @loan.division.name
       args[:qb_division] = @loan.qb_division&.name

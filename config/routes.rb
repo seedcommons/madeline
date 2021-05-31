@@ -88,8 +88,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :transactions, except: [:index, :destroy]
-      resources :problem_loan_transactions, only: [:index, :show]
+      resources :transactions, except: [:index, :destroy] do
+        collection do
+          post :sync
+        end
+      end
+      resources :sync_issues, only: [:index, :show]
     end
 
     get '/basic-projects/:id/:tab' => 'basic_projects#show', as: 'basic_project_tab'

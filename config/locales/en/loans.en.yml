@@ -215,6 +215,8 @@ en:
       transactions:
         create_success: "Transaction successfully created."
         update_success: "Transaction successfully updated."
+        sync_complete: "Loan successfully sync'd with QuickBooks."
         new_transaction: "Add Transaction"
         edit_transaction: "Edit Transaction"
+        sync_data: "Sync Data"
         update: "Update Transaction"

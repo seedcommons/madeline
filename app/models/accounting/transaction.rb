@@ -31,7 +31,7 @@ class Accounting::Transaction < ApplicationRecord
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
                         foreign_key: :accounting_transaction_id, dependent: :destroy
-  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
+  has_many :sync_issues, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
   # user-created txns are sent to qb and have qb data before
   # they are :created. This is set in the transactions controller
@@ -81,6 +81,9 @@ class Accounting::Transaction < ApplicationRecord
   scope :most_recent_first, -> { order(txn_date: :desc) }
   scope :with_customer, -> { where.not(accounting_customer_id: nil) }
 
+  # A transaction's loan_transaction_type_value can't be nil if it's been extracted successfully.
+  scope :extracted, -> { where.not(loan_transaction_type_value: nil) }
+
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
@@ -99,7 +102,7 @@ class Accounting::Transaction < ApplicationRecord
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
+          ::Accounting::SyncIssue.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
         end
       else
         txn.project_id = associated_loans&.first&.id

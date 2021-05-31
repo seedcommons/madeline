@@ -33,12 +33,42 @@ feature "transaction flow", :accounting do
     describe "list transactions" do
       context "when transactions present" do
         let!(:transactions) { create_list(:accounting_transaction, 2, project: loan, description: "Pants") }
+        let!(:unextracted_txn) do
+          build(:accounting_transaction, :unextracted, project: loan, description: "Nonsense!").tap do |txn|
+            txn.save(validate: false)
+          end
+        end
 
-        scenario "shows transactions" do
-          visit "/admin/loans/#{loan.id}/transactions"
-          amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
-          expect(page).to have_content(amt)
-          expect(page).to have_content("Pants")
+        context "when there are only irrelevant issues" do
+          let!(:issue) { create(:accounting_sync_issue, level: :error, loan: create(:loan)) }
+
+          scenario "shows transactions but not unextracted ones" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            amt = ActiveSupport::NumberHelper.number_to_delimited(transactions[0].amount)
+            expect(page).to have_content(amt)
+            expect(page).to have_content("Pants")
+            expect(page).not_to have_content("Nonsense!")
+          end
+        end
+
+        context "when there are only warnings" do
+          let!(:issue) { create(:accounting_sync_issue, level: :warning, loan: loan) }
+
+          scenario "shows transactions and warning" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).to have_content("Pants")
+            expect(page).to have_content("There is a sync warning for this loan")
+          end
+        end
+
+        context "when there are errors" do
+          let!(:issue) { create(:accounting_sync_issue, level: :error, loan: loan) }
+
+          scenario "shows error and hides transactions" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).not_to have_content("Pants")
+            expect(page).to have_content("There was a sync error for this loan")
+          end
         end
 
         context "when transactions are writable" do
@@ -148,16 +178,31 @@ feature "transaction flow", :accounting do
         # This process should not create any transactions (disbursement OR interest)
         # because it errors out.
         expect do
-          with_env("RAISE_QB_ERROR_DURING_UPDATER" => "qb fail on create") do
+          with_env("RAISE_QB_ERROR_DURING_UPDATER" => "1") do
             visit "/admin/loans/#{loan.id}/transactions"
             fill_txn_form
             page.find('a[data-action="submit"]').click
-            expect(page).to have_alert(
-              "Some data may be out of date. (Error: qb fail on create)",
-              container: ".transaction-form"
-            )
+            expect(page).to have_alert("QuickBooks is temporarily unavailable",
+                                       container: ".transaction-form")
           end
         end.to change { Accounting::Transaction.count }.by(0)
+      end
+    end
+
+    describe "sync data" do
+      scenario "successful" do
+        visit "/admin/loans/#{loan.id}/transactions"
+        click_on "Sync Data"
+        screenshot_and_open_image
+        expect(page).to have_alert("Loan successfully sync'd with QuickBooks")
+      end
+
+      scenario "with error" do
+        with_env("RAISE_QB_ERROR_DURING_UPDATER" => "1") do
+          visit "/admin/loans/#{loan.id}/transactions"
+          click_on "Sync Data"
+          expect(page).to have_alert("QuickBooks is temporarily unavailable")
+        end
       end
     end
   end
