@@ -1,11 +1,11 @@
 en:
-  loan_issue:
+  sync_issue:
     index:
-      title: "Accounting Update Issues For Loan %{loan_id}"
+      title: "Accounting Sync Issues For Loan %{loan_id}"
     index_by_loan:
-      title: Accounting Update Issues
+      title: Accounting Sync Issues
     show:
-      title: "Accounting Update Issue #%{id}"
+      title: "Accounting Sync Issue #%{id}"
     id: ID
     txn_id: TXN ID
     qb_id: QB ID

@@ -510,7 +510,6 @@ en:
     questions: "Questions"
     manage: "Manage"
     people: "Members"
-    loan_issues: "Transaction Errors"
     tasks: "Tasks"
   number:
     nth:
@@ -522,7 +521,7 @@ en:
     nth_weekday: "The %{nth} %{weekday}"
     the_day: "The %{day}"
 
-  loan_issue:
+  sync_issue:
     unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in QuickBooks."
     journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in QuickBooks for accuracy."
     has_multiple_loans: "Transaction associated with multiple loans"

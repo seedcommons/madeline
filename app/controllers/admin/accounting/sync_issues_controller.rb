@@ -1,22 +1,22 @@
 module Admin
   module Accounting
-    class LoanIssuesController < Admin::AdminController
+    class SyncIssuesController < Admin::AdminController
       def index
-        authorize :'accounting/loan_issue', :index?
+        authorize :'accounting/sync_issue', :index?
         if params[:loan_id]
           @loan_id = params[:loan_id]
-          @issues = ::Accounting::LoanIssue.for_loan_or_global(@loan_id)
+          @issues = ::Accounting::SyncIssue.for_loan_or_global(@loan_id)
 
           # Group by transactions so that we can do row spans.
           @issues = @issues.group_by(&:txn_id)
         else
-          @issues = ::Accounting::LoanIssue.order(:project_id).group_by(&:project_id)
+          @issues = ::Accounting::SyncIssue.order(:project_id).group_by(&:project_id)
           render :index_by_loan
         end
       end
 
       def show
-        @issue = ::Accounting::LoanIssue.find(params[:id])
+        @issue = ::Accounting::SyncIssue.find(params[:id])
         authorize @issue
       end
     end

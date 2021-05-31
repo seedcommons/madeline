@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_142316) do
+ActiveRecord::Schema.define(version: 2021_05_31_150119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,18 +46,6 @@ ActiveRecord::Schema.define(version: 2021_05_28_142316) do
     t.index ["accounting_transaction_id"], name: "index_accounting_line_items_on_accounting_transaction_id"
   end
 
-  create_table "accounting_loan_issues", force: :cascade do |t|
-    t.bigint "accounting_transaction_id"
-    t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.string "level"
-    t.string "message", null: false
-    t.bigint "project_id"
-    t.datetime "updated_at", null: false
-    t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
-    t.index ["project_id"], name: "index_accounting_loan_issues_on_project_id"
-  end
-
   create_table "accounting_qb_connections", id: :serial, force: :cascade do |t|
     t.string "access_token", null: false
     t.datetime "created_at", null: false
@@ -87,6 +75,18 @@ ActiveRecord::Schema.define(version: 2021_05_28_142316) do
     t.string "qb_id", null: false
     t.json "quickbooks_data"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "accounting_sync_issues", force: :cascade do |t|
+    t.bigint "accounting_transaction_id"
+    t.datetime "created_at", null: false
+    t.json "custom_data"
+    t.string "level"
+    t.string "message", null: false
+    t.bigint "project_id"
+    t.datetime "updated_at", null: false
+    t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
+    t.index ["project_id"], name: "index_accounting_sync_issues_on_project_id"
   end
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
@@ -524,10 +524,10 @@ ActiveRecord::Schema.define(version: 2021_05_28_142316) do
 
   add_foreign_key "accounting_line_items", "accounting_accounts"
   add_foreign_key "accounting_line_items", "accounting_transactions"
-  add_foreign_key "accounting_loan_issues", "accounting_transactions"
-  add_foreign_key "accounting_loan_issues", "projects"
   add_foreign_key "accounting_qb_connections", "divisions"
   add_foreign_key "accounting_qb_departments", "divisions"
+  add_foreign_key "accounting_sync_issues", "accounting_transactions"
+  add_foreign_key "accounting_sync_issues", "projects"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"

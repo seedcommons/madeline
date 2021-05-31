@@ -16,7 +16,7 @@ class Project < ApplicationRecord
   has_many :project_logs, through: :timeline_entries
   has_many :transactions, class_name: "Accounting::Transaction", dependent: :destroy
   has_many :copies, class_name: "Project", foreign_key: "original_id", dependent: :nullify
-  has_many :loan_issues, class_name: "Accounting::LoanIssue", dependent: :destroy
+  has_many :sync_issues, class_name: "Accounting::SyncIssue", dependent: :destroy
 
   scope :visible, -> { where.not(public_level_value: "hidden") }
 
@@ -39,7 +39,7 @@ class Project < ApplicationRecord
     exclude_association :timeline_entries
     exclude_association :transactions
     exclude_association :copies
-    exclude_association :loan_issues
+    exclude_association :sync_issues
 
     # The default name is computed, if it hasn't been set it will be blank.
     # We need to manually copy over the name and set it here for it to work.

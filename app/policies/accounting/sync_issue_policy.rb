@@ -1,4 +1,4 @@
-class Accounting::LoanIssuePolicy < ApplicationPolicy
+class Accounting::SyncIssuePolicy < ApplicationPolicy
   # TODO if we move forward with division-based qb connections, PLTs should belong to
   # a qb division as well as a loan (and PLTs will likely need more refactoring)
   # For now, only root div admins

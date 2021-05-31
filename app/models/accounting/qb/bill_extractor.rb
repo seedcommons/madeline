@@ -10,7 +10,7 @@ module Accounting
       def extract_account
         qb_id = txn.quickbooks_data["ap_account_ref"]["value"]
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
-        ::Accounting::LoanIssue.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {}) if txn.account.nil?
+        ::Accounting::SyncIssue.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {}) if txn.account.nil?
         txn.account
       end
     end

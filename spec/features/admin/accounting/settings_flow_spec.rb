@@ -65,7 +65,7 @@ feature "settings flow", :accounting do
     end
 
     context "last full fetch of QB data was successful but there are issues" do
-      let!(:loan_issues) { create_list(:accounting_loan_issue, 2) }
+      let!(:sync_issues) { create_list(:accounting_sync_issue, 2) }
       let!(:task) do
         create(:task, job_type_value: :full_fetcher,
                       job_class: "QuickbooksFullFetcherJob",

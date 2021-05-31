@@ -5,7 +5,7 @@ class Admin::Accounting::SettingsController < Admin::AdminController
     @division = current_division.root
     @accounts = ::Accounting::Account.all
     @last_updated_at = @division.qb_connection.last_updated_at if @division.quickbooks_connected?
-    @issue_count = ::Accounting::LoanIssue.count
+    @issue_count = ::Accounting::SyncIssue.count
     @fetch_task = Task.full_fetcher.by_creation_time(:desc).first
   end
 

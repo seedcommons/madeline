@@ -493,7 +493,6 @@ es:
     questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
-    loan_issues: "Errores de Transacción "
     tasks: "Tareas"
   number:
     nth:
@@ -504,7 +503,7 @@ es:
       num_5: "último/a"
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
-  loan_issue:
+  sync_issue:
     unprocessable_account: "La transacción contiene un elemento de línea con una cuenta imposible de procesar. Por favor, revisar y corregir en QuickBooks."
     journal_entry_type_other_account_not_set: "Esta transacción del tipo Otro no tiene una cuenta asignada. Por favor, revisar los elementos de línea en QuickBooks para lograr precisión."
     has_multiple_loans: "Transacción asociada a múltiples préstamos."

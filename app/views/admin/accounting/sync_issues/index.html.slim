@@ -1,0 +1,26 @@
+- content_for(:title, t("sync_issue.index.title", loan_id: @loan_id))
+
+table.table.table-bordered.middle-aligned
+  thead
+    tr
+      th= t("sync_issue.id")
+      th= t("sync_issue.txn_id")
+      th= t("sync_issue.qb_id")
+      th= t("sync_issue.date")
+      th= t("sync_issue.loan_id")
+      th= t("sync_issue.message.header")
+      th= t("sync_issue.level.header")
+
+  tbody
+    - @issues.each do |txn_id, issues|
+      - count = issues.count
+      - issues.each_with_index do |issue, index|
+        tr
+          td= link_to issue.id, admin_accounting_sync_issue_path(issue)
+          - if index == 0
+            td{rowspan=count}= (issue.txn? ? link_to(issue.txn_id, admin_accounting_sync_issue_path(issue)) : "")
+            td{rowspan=count}= (issue.txn? ? link_to(issue.qb_id, admin_accounting_sync_issue_path(issue)) : "")
+            td{rowspan=count}= (issue.txn? ? link_to(issue.txn_date, admin_accounting_sync_issue_path(issue)) : "")
+          td= (issue.loan? ? link_to(issue.loan_id, admin_loan_path(issue.loan_id)) : "")
+          td= t("sync_issue.#{issue.message}", (issue.custom_data.present? ? issue.custom_data.symbolize_keys : {}))
+          td= t("sync_issue.#{issue.level}")

@@ -21,7 +21,7 @@ module Accounting
       def update(loans = nil)
         # Delete only global issues now before fetch phase but keep loan-specific
         # issues so that if fetch we still hide those loans' txn data appropriately.
-        Accounting::LoanIssue.global.delete_all
+        Accounting::SyncIssue.global.delete_all
         qb_sync_for_loan_update
         if loans
           # check if loan is one object or multiple
@@ -73,7 +73,7 @@ module Accounting
       # on all loans before interest calculation has caused problems in the past.
       def update_loan(loan)
         # Delete loan-specific issues now that we are ready to recompute.
-        Accounting::LoanIssue.for_loan(loan).delete_all
+        Accounting::SyncIssue.for_loan(loan).delete_all
         extract_qb_data(loan)
         InterestCalculator.new(loan).recalculate
         calculate_balances(loan)

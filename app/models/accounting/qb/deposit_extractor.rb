@@ -14,7 +14,7 @@ module Accounting
       def extract_account
         qb_id = txn.quickbooks_data["deposit_to_account_ref"]["value"]
         txn.account = Accounting::Account.find_by(qb_id: qb_id)
-        ::Accounting::LoanIssue.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {}) if txn.account.nil?
+        ::Accounting::SyncIssue.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {}) if txn.account.nil?
       end
 
       # Using total assumes that all line items in txn are for accts in Madeline.

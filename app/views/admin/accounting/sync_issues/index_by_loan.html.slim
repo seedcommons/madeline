@@ -1,0 +1,26 @@
+- content_for(:title, t("sync_issue.index_by_loan.title"))
+
+table.table.table-bordered.middle-aligned
+  thead
+    tr
+      th= t("sync_issue.loan_id")
+      th= t("sync_issue.message.header")
+      th= t("sync_issue.level.header")
+      th= t("sync_issue.num_txns_with_message")
+      th= t("sync_issue.details")
+
+  tbody
+    - @issues.each do |loan_id, issues_for_loan|
+      - total = issues_for_loan.count
+      - issues_by_message = issues_for_loan.group_by(&:message)
+      - num_rows = issues_by_message.count
+      - issues_by_message.each_with_index do |(msg, issues_for_message), index|
+        tr
+          - sample_issue = issues_for_message.first
+          - if index == 0
+            td{rowspan=num_rows}= (loan_id ? link_to(loan_id, admin_accounting_sync_issues_path(loan_id: loan_id)) : "")
+          td= t("sync_issue.#{msg}", (sample_issue.custom_data.present? ? sample_issue.custom_data.symbolize_keys : {}))
+          td= t("sync_issue.level.#{sample_issue.level}")
+          td = issues_for_message.count
+          - if index == 0
+            td{rowspan=num_rows}= (loan_id ? link_to("Click to see all sync issues for this loan.", admin_accounting_sync_issues_path(loan_id: loan_id)) : "")

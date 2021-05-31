@@ -35,7 +35,7 @@ feature "transaction flow", :accounting do
         let!(:transactions) { create_list(:accounting_transaction, 2, project: loan, description: "Pants") }
 
         context "when there are only irrelevant issues" do
-          let!(:issue) { create(:accounting_loan_issue, level: :error, loan: create(:loan)) }
+          let!(:issue) { create(:accounting_sync_issue, level: :error, loan: create(:loan)) }
 
           scenario "shows transactions" do
             visit "/admin/loans/#{loan.id}/transactions"
@@ -46,7 +46,7 @@ feature "transaction flow", :accounting do
         end
 
         context "when there are only warnings" do
-          let!(:issue) { create(:accounting_loan_issue, level: :warning, loan: loan) }
+          let!(:issue) { create(:accounting_sync_issue, level: :warning, loan: loan) }
 
           scenario "shows transactions and warning" do
             visit "/admin/loans/#{loan.id}/transactions"
@@ -56,7 +56,7 @@ feature "transaction flow", :accounting do
         end
 
         context "when there are errors" do
-          let!(:issue) { create(:accounting_loan_issue, level: :error, loan: loan) }
+          let!(:issue) { create(:accounting_sync_issue, level: :error, loan: loan) }
 
           scenario "shows error and hides transactions" do
             visit "/admin/loans/#{loan.id}/transactions"

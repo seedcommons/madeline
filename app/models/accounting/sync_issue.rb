@@ -1,5 +1,5 @@
 module Accounting
-  class LoanIssue < ApplicationRecord
+  class SyncIssue < ApplicationRecord
     belongs_to :loan, foreign_key: "project_id"
     belongs_to :accounting_transaction, class_name: "Accounting::Transaction"
 

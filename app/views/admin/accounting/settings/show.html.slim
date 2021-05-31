@@ -23,7 +23,7 @@ section.block
               = t("quickbooks.fetch_status.#{@fetch_task.status}")
               | &nbsp;&nbsp;
             - if @issue_count > 0
-              = link_to t("quickbooks.there_are_issues", count: @issue_count), admin_accounting_loan_issues_path
+              = link_to t("quickbooks.there_are_issues", count: @issue_count), admin_accounting_sync_issues_path
         - if @fetch_task && @fetch_task.succeeded?
           = f.input "fetch_from_quickbooks" do
             .read-only
