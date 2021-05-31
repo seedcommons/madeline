@@ -30,7 +30,7 @@ class QuickbooksUpdateJob < QuickbooksJob
       end
     end
 
-    # TODO: This is duplicated and needs to be DRYed up.
+    # TODO: This is duplicated in Updater#update and needs to be DRYed up.
     # We record last_updated_at as the time the update *finishes* because last_updated_at
     # is used to avoid runs that immediately follow each other as in the case of a transaction creation
     # followed by a transaction listing. If we record the time the update *started* and the update

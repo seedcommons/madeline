@@ -20,7 +20,7 @@ module Accounting
       # This argument can either be a single loan or an array of loans
       def update(loans = nil)
         # Delete only global issues now before fetch phase but keep loan-specific
-        # issues so that if fetch we still hide those loans' txn data appropriately.
+        # issues so that if fetch fails we still hide those loans' txn data appropriately.
         Accounting::SyncIssue.global.delete_all
         qb_sync_for_loan_update
         if loans
