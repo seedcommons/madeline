@@ -63,12 +63,14 @@ class ApplicationController < ActionController::Base
   def set_locale
     return I18n.locale = locale_from_header if I18n.available_locales.include?(locale_from_header)
     return I18n.locale = params[:locale] if params[:locale]
+
     I18n.locale = I18n.default_locale
   end
 
+  # Returns nil if no language header or no language found in header.
   def locale_from_header
-    if lang_header = request.env['HTTP_ACCEPT_LANGUAGE']
-      lang_header.scan(/^[a-z]{2}/).first.to_sym
+    if (lang_header = request.env["HTTP_ACCEPT_LANGUAGE"])
+      lang_header.scan(/^[a-z]{2}/).first&.to_sym
     end
   end
 end
