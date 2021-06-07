@@ -1,6 +1,7 @@
 class Accounting::TransactionPolicy < ApplicationPolicy
   def index?
-    machine_user_or_appropriate_division_admin?
+    member_level_access = user && user != :machine && user.accessible_division_ids.include?(division.id)
+    member_level_access || machine_user_or_appropriate_division_admin?
   end
 
   def show?
