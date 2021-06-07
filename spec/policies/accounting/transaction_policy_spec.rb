@@ -22,7 +22,7 @@ describe Accounting::TransactionPolicy do
 
   context "with non-admin" do
     context "user has access to this division" do
-      let(:user) { create_member(division) }
+      let(:user) { create(:user, :member, division: division) }
       forbid_all_but_index
       it_behaves_like "returns no reasons even if issues other than user role"
     end
