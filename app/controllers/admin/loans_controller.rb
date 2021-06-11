@@ -192,12 +192,7 @@ module Admin
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
       @enable_export_to_csv = true
       @transactions_grid = initialize_grid(
-        @transactions,
-        order: "accounting_transactions.txn_date",
-        custom_order: {
-          "accounting_transactions.txn_date" =>
-            "accounting_transactions.txn_date, length(accounting_transactions.loan_transaction_type_value)"
-        },
+        @transactions.standard_order,
         enable_export_to_csv: @enable_export_to_csv,
         per_page: 100,
         name: "transactions"
