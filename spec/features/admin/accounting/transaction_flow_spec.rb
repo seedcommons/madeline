@@ -126,16 +126,17 @@ feature "transaction flow", :accounting do
 
       it "places interest txns before accompanying disbursement or repayment" do
         visit "/admin/loans/#{loan.id}/transactions"
-        expect_ledger_row_column_to_contain(1, 1, "January 1, 2020")
-        expect_ledger_row_column_to_contain(1, 2, "Interest")
-        expect_ledger_row_column_to_contain(2, 1, "January 1, 2020")
-        expect_ledger_row_column_to_contain(2, 2, "Disbursement")
-        expect_ledger_row_column_to_contain(3, 1, "January 31, 2020")
-        expect_ledger_row_column_to_contain(3, 2, "Interest")
-        expect_ledger_row_column_to_contain(4, 1, "February 15, 2020")
-        expect_ledger_row_column_to_contain(4, 2, "Interest")
-        expect_ledger_row_column_to_contain(5, 1, "February 15, 2020")
-        expect_ledger_row_column_to_contain(5, 2, "Repayment")
+        save_and_open_page
+        expect_ledger_row_col_to_contain(row: 1, col: 1, content: "January 1, 2020")
+        expect_ledger_row_col_to_contain(row: 1, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 2, col: 1, content: "January 1, 2020")
+        expect_ledger_row_col_to_contain(row: 2, col: 2, content: "Disbursement")
+        expect_ledger_row_col_to_contain(row: 3, col: 1, content: "January 31, 2020")
+        expect_ledger_row_col_to_contain(row: 3, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 4, col: 1, content: "February 15, 2020")
+        expect_ledger_row_col_to_contain(row: 4, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 5, col: 1, content: "February 15, 2020")
+        expect_ledger_row_col_to_contain(row: 5, col: 2, content: "Repayment")
       end
     end
 
@@ -263,8 +264,8 @@ feature "transaction flow", :accounting do
     fill_in "Memo", with: "Chunky monkey"
   end
 
-  def expect_ledger_row_column_to_contain(row, column, content)
-    within(:xpath, "//tbody/tr[#{row}]/td[#{column}]") do
+  def expect_ledger_row_col_to_contain(row: nil, col: nil, content: nil)
+    within(:xpath, "//tbody/tr[#{row}]/td[#{col}]") do
       expect(page).to have_content(content)
     end
   end
