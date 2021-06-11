@@ -126,7 +126,6 @@ feature "transaction flow", :accounting do
 
       it "places interest txns before accompanying disbursement or repayment" do
         visit "/admin/loans/#{loan.id}/transactions"
-        save_and_open_page
         expect_ledger_row_column_to_contain(1, 1, "January 1, 2020")
         expect_ledger_row_column_to_contain(1, 2, "Interest")
         expect_ledger_row_column_to_contain(2, 1, "January 1, 2020")
