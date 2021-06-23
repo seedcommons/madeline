@@ -535,7 +535,6 @@ en:
     quickbooks_unavailable_recalc: "QuickBooks was temporarily unavailable during calcuations for this loan, so transaction data may be partially incorrect. Please try syncing again later to correct this."
     system_error_fetch: "There was an unexpected system error during fetching of QuickBooks data. The Madeline support team has been notified. Your transaction data may be out of date."
     system_error_recalc: "There was an unexpected system error during calculations for this loan. The Madeline support team has been notified."
-    title: "Sync Issue"
   project_step:
     add: "Add Step"
     add_dependent_step: "Add Dependent Step"
