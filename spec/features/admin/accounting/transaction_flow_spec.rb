@@ -106,6 +106,39 @@ feature "transaction flow", :accounting do
       end
     end
 
+    describe "transaction order" do
+      let!(:txn_attrs) {
+        [{date: Date.parse("01-01-2020"), type: "disbursement", amt: 100},
+         {date: Date.parse("01-01-2020"), type: "interest", amt: 0.01},
+         {date: Date.parse("31-01-2020"), type: "interest", amt: 0.5},
+         {date: Date.parse("15-02-2020"), type: "repayment", amt: 50},
+         {date: Date.parse("15-02-2020"), type: "interest", amt: 0.2}]
+      }
+      let!(:txns) do
+        txn_attrs.map do |attrs|
+          create(:accounting_transaction,
+                 txn_date: attrs[:date],
+                 loan_transaction_type_value: attrs[:type],
+                 amount: attrs[:amt],
+                 project: loan)
+        end
+      end
+
+      it "places interest txns before accompanying disbursement or repayment" do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect_ledger_row_col_to_contain(row: 1, col: 1, content: "January 1, 2020")
+        expect_ledger_row_col_to_contain(row: 1, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 2, col: 1, content: "January 1, 2020")
+        expect_ledger_row_col_to_contain(row: 2, col: 2, content: "Disbursement")
+        expect_ledger_row_col_to_contain(row: 3, col: 1, content: "January 31, 2020")
+        expect_ledger_row_col_to_contain(row: 3, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 4, col: 1, content: "February 15, 2020")
+        expect_ledger_row_col_to_contain(row: 4, col: 2, content: "Interest")
+        expect_ledger_row_col_to_contain(row: 5, col: 1, content: "February 15, 2020")
+        expect_ledger_row_col_to_contain(row: 5, col: 2, content: "Repayment")
+      end
+    end
+
     describe "new transaction" do
       # This spec does not test TransactionBuilder, InterestCalculator, Updater, or other QB classes
       # because stubbing out all the necessary things was not practical at the time.
@@ -228,5 +261,11 @@ feature "transaction flow", :accounting do
     select customers.sample.name, from: "Co-op (QBO)"
     fill_in "Description", with: "Palm trees"
     fill_in "Memo", with: "Chunky monkey"
+  end
+
+  def expect_ledger_row_col_to_contain(row: nil, col: nil, content: nil)
+    within(:xpath, "//tbody/tr[#{row}]/td[#{col}]") do
+      expect(page).to have_content(content)
+    end
   end
 end
