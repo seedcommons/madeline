@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   helper_method :admin_loans_path
   helper_method :admin_people_path
 
-  # overrides 'route_translator' method to reset locale to English
-  skip_around_action :set_locale_from_url
   before_action :set_locale
 
   helper_method :admin_controller?

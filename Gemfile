@@ -43,7 +43,7 @@ gem "sidekiq"
 gem "devise-i18n"
 gem "i18n-js", ">= 3.0.0.rc11"
 gem "rails-i18n"
-gem "route_translator", ">=5.5.3"
+gem "route_translator", "~> 10.0"
 
 # Model hierarchical data
 gem "closure_tree"
