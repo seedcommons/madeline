@@ -86,9 +86,9 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug"
-  gem "pry", "0.10.4"
-  gem "pry-nav", "0.2.4"
-  gem "pry-rails", "0.3.5"
+  gem "pry"
+  gem "pry-byebug"
+  gem "pry-rails"
 
   # Report number of queries in server log
   gem "sql_queries_count"
