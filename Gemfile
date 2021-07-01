@@ -2,8 +2,7 @@ source "https://rubygems.org"
 
 gem "bundler", ">= 2.0.1"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 5.1", ">= 5.1.4"
+gem "rails", "~> 5.2.6"
 
 # Database
 gem "mysql2" # needed for migration of legacy data
