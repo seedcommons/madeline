@@ -1,13 +1,9 @@
 class ApplicationController < ActionController::Base
   include NamedRouteOverrides
+  include Pundit
 
   helper_method :admin_loans_path
   helper_method :admin_people_path
-
-  include Pundit
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
 
   # overrides 'route_translator' method to reset locale to English
   skip_around_action :set_locale_from_url
