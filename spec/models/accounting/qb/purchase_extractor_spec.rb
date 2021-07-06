@@ -17,7 +17,10 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
       credit_accounts: [txn_acct],
       type: "Purchase",
       total: 12345.67,
-      doc_number: "from qb")
+      doc_number: "from qb",
+      sync_token: "abc",
+      payment_type: "Check"
+    )
   end
   let(:txn) { Accounting::Transaction.create_or_update_from_qb_object!(qb_object_type: "Purchase", qb_object: quickbooks_data) }
 
@@ -31,6 +34,8 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
       expect(txn.line_items[1].credit?).to be true
       expect(txn.account).to eq txn_acct
       expect(txn.amount).to equal_money(12345.67)
+      expect(txn.sync_token).to eq "abc"
+      expect(txn.qb_object_subtype).to eq "Check"
       expect { txn.save! }.not_to raise_error
     end
   end

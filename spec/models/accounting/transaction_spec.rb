@@ -88,7 +88,8 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
-  describe 'qb_id' do
+  # TODO: this block of specs, and accompanying #set_qb_object_type logic needs review
+  describe 'sets qb txn type and requires amount on madeline-created disbursements' do
     let(:transaction_params) do
       {
         amount: nil,
