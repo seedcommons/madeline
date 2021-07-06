@@ -24,7 +24,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def create
-    @transaction = ::Accounting::Transaction.new(transaction_params.merge(project_id: params[:project_id]))
+    @transaction = sample_transaction(transaction_params.merge(project_id: params[:project_id]))
     authorize(@transaction, :create?)
     @loan = @transaction.project
     @transaction.user_created = true
@@ -169,7 +169,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
   end
 
-  def sample_transaction
-    ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
+  def sample_transaction(attrs = {})
+    most_likely_editable_attrs = {project: @loan, txn_date: Time.zone.today, managed: true, loan_transaction_type_value: :disbursement}
+    ::Accounting::Transaction.new(most_likely_editable_attrs.merge(attrs))
   end
 end

@@ -158,6 +158,7 @@ feature "transaction flow", :accounting do
         expect(page).not_to have_content("Vendor")
         expect(page).not_to have_content("Check Number")
         choose "Disbursement"
+        save_and_open_page
         expect(page).to have_content("Disbursement Type")
         expect(page).to have_content("Vendor")
         expect(page).not_to have_content("Check Number")
@@ -249,6 +250,32 @@ feature "transaction flow", :accounting do
       visit admin_loan_tab_path(loan, tab: "transactions")
       click_on txn.txn_date.strftime("%B %-d, %Y")
       expect(page).to have_content("icecream")
+    end
+
+    describe "an admin can edit a managed txn" do
+      let!(:txn) do
+        create(:accounting_transaction,
+               project_id: loan.id, description: "I love icecream", division: division, managed: true)
+      end
+
+      scenario "edit managed transaction as admin" do
+        visit admin_loan_tab_path(loan, tab: "transactions")
+        click_on txn.txn_date.strftime("%B %-d, %Y")
+        expect(page).to have_content("Edit")
+      end
+    end
+
+    describe "an admin cannot edit a non-managed txn" do
+      let!(:txn) do
+        create(:accounting_transaction,
+               project_id: loan.id, description: "I love icecream", division: division, managed: false)
+      end
+
+      scenario "edit managed transaction as admin" do
+        visit admin_loan_tab_path(loan, tab: "transactions")
+        click_on txn.txn_date.strftime("%B %-d, %Y")
+        expect(page).not_to have_content("Edit")
+      end
     end
   end
 
