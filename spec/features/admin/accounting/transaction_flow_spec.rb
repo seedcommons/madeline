@@ -54,28 +54,72 @@ feature "transaction flow", :accounting do
         context "when there are only warnings" do
           let!(:issue) { create(:accounting_sync_issue, level: :warning, loan: loan) }
 
-          scenario "shows transactions and warning" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            expect(page).to have_content("Pants")
-            expect(page).to have_content("There is a sync warning for this loan")
+          context "as admin" do
+            let(:user) { create_admin(division) }
+
+            scenario "shows transactions and warning" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).to have_content("Pants")
+              expect(page).to have_content("There is a sync warning for this loan")
+            end
+          end
+
+          context "as member" do
+            let(:user) { create_member(division) }
+
+            scenario "shows transactions only" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).to have_content("Pants")
+              expect(page).not_to have_content("There is a sync warning for this loan")
+            end
           end
         end
 
         context "when there are errors" do
           let!(:issue) { create(:accounting_sync_issue, level: :error, loan: loan) }
 
-          scenario "shows error and hides transactions" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            expect(page).not_to have_content("Pants")
-            expect(page).to have_content("There was a sync error for this loan")
+          context "as admin" do
+            let(:user) { create_admin(division) }
+
+            scenario "hides transactions and shows specific error" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).not_to have_content("Pants")
+              expect(page).to have_content("There was a sync error for this loan")
+              expect(page).to have_content("Please review the error")
+            end
+          end
+
+          context "as member" do
+            let(:user) { create_member(division) }
+
+            scenario "hides transactions and shows generic error" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).not_to have_content("Pants")
+              expect(page).to have_content("Transaction data is hidden due to sync issues")
+              expect(page).not_to have_content("Please review the error")
+            end
           end
         end
 
         context "when transactions are writable" do
-          scenario "create new transaction button is visible, no notice shown" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            expect(page).not_to have_content("You can't add transactions")
-            expect(page).to have_selector('.btn[data-action="new-transaction"]')
+          context "as admin" do
+            let(:user) { create_admin(division) }
+
+            scenario "create new transaction button is visible, no notice shown" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).not_to have_content("You can't add transactions")
+              expect(page).to have_selector('.btn[data-action="new-transaction"]')
+            end
+          end
+
+          context "as member" do
+            let(:user) { create_member(division) }
+
+            scenario "create new transaction button is not visible, no notice shown" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).not_to have_content("You can't add transactions")
+              expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+            end
           end
         end
 
@@ -86,22 +130,51 @@ feature "transaction flow", :accounting do
             Division.root.update_attribute(:qb_read_only, true)
           end
 
-          scenario "create new transaction button is hidden and reasons are shown" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            expect(page).to have_content("You can't add transactions because: transactions are in read-only "\
-              "mode for the division '#{loan.qb_division.name}' (see settings); "\
-              "this loan is not active")
-            expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+          context "as admin" do
+            let(:user) { create_admin(division) }
+
+            scenario "create new transaction button is hidden and reasons are shown" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).to have_content("You can't add transactions because: transactions are in "\
+                "read-only mode for the division '#{loan.qb_division.name}' (see settings); "\
+                "this loan is not active")
+              expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+            end
+          end
+
+          context "as member" do
+            let(:user) { create_member(division) }
+
+            scenario "create new transaction button is hidden and reasons are not shown" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              expect(page).not_to have_content("You can't add transactions because")
+              expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+            end
           end
         end
       end
 
       context "when transactions not present but still writable" do
-        scenario "shows no records notice and new txn button" do
-          visit "/admin/loans/#{loan.id}/transactions"
-          expect(page).to have_content("No records")
-          expect(page).not_to have_content("You can't add transactions")
-          expect(page).to have_selector('.btn[data-action="new-transaction"]')
+        context "as admin" do
+          let(:user) { create_admin(division) }
+
+          scenario "shows no records notice and new txn button" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).to have_content("No records")
+            expect(page).not_to have_content("You can't add transactions")
+            expect(page).to have_selector('.btn[data-action="new-transaction"]')
+          end
+        end
+
+        context "as member" do
+          let(:user) { create_member(division) }
+
+          scenario "shows no records notice and no new txn button" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).to have_content("No records")
+            expect(page).not_to have_content("You can't add transactions")
+            expect(page).not_to have_selector('.btn[data-action="new-transaction"]')
+          end
         end
       end
     end
