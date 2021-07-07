@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_150119) do
+ActiveRecord::Schema.define(version: 2021_07_07_163742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -359,6 +359,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_150119) do
     t.integer "currency_id"
     t.json "custom_data"
     t.integer "division_id", null: false
+    t.text "final_repayment_formula"
     t.integer "length_months"
     t.string "loan_type_value"
     t.string "name"

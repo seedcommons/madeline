@@ -145,7 +145,7 @@ module Admin
     def loan_params
       params.require(:loan).permit(*(
         %i[
-          division_id organization_id loan_type_value status_value name
+          division_id organization_id loan_type_value status_value name final_repayment_formula
           amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_first_interest_payment_date
           projected_end_date projected_return representative_id actual_first_interest_payment_date
