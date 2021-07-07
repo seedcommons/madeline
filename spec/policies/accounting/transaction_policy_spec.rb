@@ -102,7 +102,7 @@ describe Accounting::TransactionPolicy do
       end
 
       context "ms-managed interest transaction" do
-        let(:described_transaction) { Accounting::Transaction.new(project: loan, managed: false, loan_transaction_type_value: :interest) }
+        let(:described_transaction) { Accounting::Transaction.new(project: loan, managed: true, loan_transaction_type_value: :interest) }
         forbid_all_but_read
       end
     end
