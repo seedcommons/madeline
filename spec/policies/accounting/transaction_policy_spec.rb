@@ -8,7 +8,7 @@ describe Accounting::TransactionPolicy do
   let(:loan_trait) { :active }
   let(:loan_txn_mode) { Loan::TXN_MODE_AUTO }
   let(:loan) { create(:loan, loan_trait, division: division, txn_handling_mode: loan_txn_mode) }
-  let(:described_transaction) { Accounting::Transaction.new(project: loan) }
+  let(:described_transaction) { Accounting::Transaction.new(project: loan, managed: true) }
   subject(:policy) { described_class.new(user, described_transaction) }
 
   shared_examples_for "returns no reasons even if issues other than user role" do
@@ -93,6 +93,18 @@ describe Accounting::TransactionPolicy do
       let(:loan_txn_mode) { Loan::TXN_MODE_READ_ONLY }
       forbid_all_but_read
       it { expect(policy.read_only_reasons).to contain_exactly(:loan_transactions_read_only) }
+    end
+
+    describe "individual transaction level rules" do
+      context "non-ms-managed transaction" do
+        let(:described_transaction) { Accounting::Transaction.new(project: loan, managed: false) }
+        forbid_all_but_read
+      end
+
+      context "ms-managed interest transaction" do
+        let(:described_transaction) { Accounting::Transaction.new(project: loan, managed: true, loan_transaction_type_value: :interest) }
+        forbid_all_but_read
+      end
     end
 
     context "with multiple issues" do
