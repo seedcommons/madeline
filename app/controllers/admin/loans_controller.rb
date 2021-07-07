@@ -54,7 +54,7 @@ module Admin
         prep_logs(@loan)
       when "transactions"
         # requires additional level of validation beyond approrpiate loan access
-        @sample_transaction = ::Accounting::Transaction.new(project: @loan, managed: true, loan_transaction_type_value: :disbursement)
+        @sample_transaction = ::Accounting::Transaction.new(project: @loan, managed: true)
         authorize @sample_transaction, :index?
         prep_transactions
       when "calendar"
