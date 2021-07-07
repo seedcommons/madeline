@@ -4,8 +4,11 @@
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false, in_csv: false do |transaction|
     - date = ldate(transaction.txn_date, format: :long)
-    - link_to(date, '#', data: {action: 'show-transaction',
-      project_id: transaction.project_id, id: transaction.id})
+    - if policy(transaction).show?
+      - link_to(date, '#', data: {action: 'show-transaction',
+        project_id: transaction.project_id, id: transaction.id})
+    - else
+      - date
   - g.column name: t('activerecord.attributes.accounting.transaction.txn_date'),
     filter: false, in_html: false do |transaction|
     - ldate(transaction.txn_date, format: :long)

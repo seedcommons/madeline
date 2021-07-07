@@ -5,7 +5,7 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def show?
-    machine_user_or_appropriate_division_admin?
+    index?
   end
 
   def create?
