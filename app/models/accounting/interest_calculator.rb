@@ -59,7 +59,8 @@ module Accounting
     end
 
     def recalculate
-      return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan)).create?
+      # check if a generic non-interest, managed txn for this loan can be written
+      return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan, managed: true)).create?
       return if transactions.empty?
 
       prev_tx = nil

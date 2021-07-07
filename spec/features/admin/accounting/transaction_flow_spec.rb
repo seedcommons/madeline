@@ -250,6 +250,57 @@ feature "transaction flow", :accounting do
       click_on txn.txn_date.strftime("%B %-d, %Y")
       expect(page).to have_content("icecream")
     end
+
+    describe "an admin can edit a managed non-interest txn" do
+      let!(:txn) do
+        create(:accounting_transaction,
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: true,
+               loan_transaction_type_value: :disbursement)
+      end
+
+      scenario do
+        visit admin_loan_tab_path(loan, tab: "transactions")
+        click_on txn.txn_date.strftime("%B %-d, %Y")
+        expect(page).to have_content("Edit")
+      end
+    end
+
+    describe "an admin cannot edit a non-managed txn" do
+      let!(:txn) do
+        create(:accounting_transaction,
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: false,
+               loan_transaction_type_value: :disbursement)
+      end
+
+      scenario do
+        visit admin_loan_tab_path(loan, tab: "transactions")
+        click_on txn.txn_date.strftime("%B %-d, %Y")
+        expect(page).not_to have_content("Edit")
+      end
+    end
+
+    describe "an admin cannot edit a managed interest txn" do
+      let!(:txn) do
+        create(:accounting_transaction,
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: true,
+               loan_transaction_type_value: :interest)
+      end
+
+      scenario do
+        visit admin_loan_tab_path(loan, tab: "transactions")
+        click_on txn.txn_date.strftime("%B %-d, %Y")
+        expect(page).not_to have_content("Edit")
+      end
+    end
   end
 
   def fill_txn_form(omit_amount: false, date: Time.zone.today)

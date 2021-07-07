@@ -8,7 +8,7 @@ div.modal-header
       = @transaction.description
 
 div.modal-body
-  - unless @transaction.new_record? || @transaction.type?("interest")
+  - if @transaction.persisted? && policy(@transaction).update?
     .show-actions
       a.edit-action.view-element
         i.fa.fa-pencil.fa-large>

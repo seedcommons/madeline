@@ -43,7 +43,7 @@ Metrics:
   Enabled: false
 
 Metrics/BlockLength:
-  Enabled: true
+  Enabled: false
 
 Style:
   Enabled: false
