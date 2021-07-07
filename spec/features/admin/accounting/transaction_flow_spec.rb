@@ -268,7 +268,7 @@ feature "transaction flow", :accounting do
     describe "an admin cannot edit a non-managed txn" do
       let!(:txn) do
         create(:accounting_transaction,
-               project_id: loan.id, description: "I love icecream", division: division, managed: false)
+               project_id: loan.id, description: "I love icecream", division: division, managed: false, loan_transaction_type_value: :disbursement)
       end
 
       scenario "edit managed transaction as admin" do

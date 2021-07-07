@@ -170,7 +170,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def sample_transaction(attrs = {})
-    most_likely_editable_attrs = {project: @loan, txn_date: Time.zone.today, managed: true, loan_transaction_type_value: :disbursement}
+    most_likely_editable_attrs = {project: @loan, txn_date: Time.zone.today, managed: true}
     ::Accounting::Transaction.new(most_likely_editable_attrs.merge(attrs))
   end
 end
