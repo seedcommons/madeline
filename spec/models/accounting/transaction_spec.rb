@@ -14,33 +14,33 @@ RSpec.describe Accounting::Transaction, type: :model do
   describe ".standard_order" do
     let!(:txn_1) do
       create(:accounting_transaction,
-             txn_date: Date.today,
+             txn_date: Time.zone.today,
              loan_transaction_type_value: "repayment",
-             created_at: Time.now - 1.minute)
+             created_at: Time.zone.now - 1.minute)
     end
     let!(:txn_2) do
       create(:accounting_transaction,
-             txn_date: Date.today,
+             txn_date: Time.zone.today,
              loan_transaction_type_value: "disbursement",
-             created_at: Time.now - 2.minutes)
+             created_at: Time.zone.now - 2.minutes)
     end
     let!(:txn_3) do
       create(:accounting_transaction,
-             txn_date: Date.today - 3,
+             txn_date: Time.zone.today - 3,
              loan_transaction_type_value: "disbursement",
-             created_at: Time.now - 3.minutes)
+             created_at: Time.zone.now - 3.minutes)
     end
     let!(:txn_4) do
       create(:accounting_transaction,
-             txn_date: Date.today - 3,
+             txn_date: Time.zone.today - 3,
              loan_transaction_type_value: "interest",
-             created_at: Time.now - 10.minutes)
+             created_at: Time.zone.now - 10.minutes)
     end
     let!(:txn_5) do
       create(:accounting_transaction,
-             txn_date: Date.today - 3,
+             txn_date: Time.zone.today - 3,
              loan_transaction_type_value: "interest",
-             created_at: Time.now - 5.minutes)
+             created_at: Time.zone.now - 5.minutes)
     end
 
     before do
@@ -55,7 +55,9 @@ RSpec.describe Accounting::Transaction, type: :model do
   describe ".create_or_update_from_qb_object!" do
     it "should set appropriate fields on create" do
       qb_obj = double(id: 123, as_json: {"x" => "y"})
-      txn = described_class.create_or_update_from_qb_object!(qb_object_type: "JournalEntry", qb_object: qb_obj)
+      txn = described_class.create_or_update_from_qb_object!(
+        qb_object_type: "JournalEntry", qb_object: qb_obj
+      )
 
       expect(txn.qb_object_type).to eq("JournalEntry")
       expect(txn.qb_id).to eq("123")
@@ -77,7 +79,9 @@ RSpec.describe Accounting::Transaction, type: :model do
 
     it "associates old QB txn with loan if there is a match" do
       qb_obj = double(id: 124, as_json: quickbooks_data)
-      txn = described_class.create_or_update_from_qb_object!(qb_object_type: "JournalEntry", qb_object: qb_obj)
+      txn = described_class.create_or_update_from_qb_object!(
+        qb_object_type: "JournalEntry", qb_object: qb_obj
+      )
 
       expect(txn.project_id).to eq(loan.id)
     end
@@ -122,7 +126,9 @@ RSpec.describe Accounting::Transaction, type: :model do
       end
 
       it "has qb object type je if was je and has qb_id" do
-        txn = Accounting::Transaction.new(transaction_params.merge(qb_id: "1", qb_object_type: "JournalEntry"))
+        txn = Accounting::Transaction.new(
+          transaction_params.merge(qb_id: "1", qb_object_type: "JournalEntry")
+        )
         txn.save
         expect(txn.reload.qb_object_type).to eq "JournalEntry"
       end
