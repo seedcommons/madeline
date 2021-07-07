@@ -23,7 +23,7 @@ describe Accounting::TransactionPolicy do
   context "with non-admin" do
     context "user has access to this division" do
       let(:user) { create(:user, :member, division: division) }
-      forbid_all_but_index
+      forbid_all_but_read
       it_behaves_like "returns no reasons even if issues other than user role"
     end
 
@@ -42,7 +42,7 @@ describe Accounting::TransactionPolicy do
 
   context "with admin of division but not parent_division" do
     let(:user) { create(:user, :admin, division: division) }
-    forbid_all_but_index
+    forbid_all_but_read
     it_behaves_like "returns no reasons even if issues other than user role"
   end
 

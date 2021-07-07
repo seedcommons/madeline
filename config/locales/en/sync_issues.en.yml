@@ -23,9 +23,10 @@ en:
     error_msg_link:
       one: review the error
       other: review the errors
-    error_msg_html:
+    error_msg_admin_html:
       one: There was a sync error for this loan. Transaction data is hidden. Please %{link}.
       other: There were %{count} sync errors for this loan. Transaction data is hidden. Please %{link}.
+    error_msg_member: "Transaction data is hidden due to sync issues."
     warning_msg_link:
       one: review the warning
       other: review the warnings

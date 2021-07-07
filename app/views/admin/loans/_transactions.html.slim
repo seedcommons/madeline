@@ -1,8 +1,11 @@
 section.transactions
   - if @errors.any?
     .alert.alert-danger
-      = t('sync_issue.error_msg_html', count: @errors.count, link: link_to(t('sync_issue.error_msg_link', count: @errors.count), admin_accounting_sync_issues_path(loan_id: @loan.id)))
-  - if @warnings.any?
+      - if policy(@sample_transaction).create?
+        = t('sync_issue.error_msg_admin_html', count: @errors.count, link: link_to(t('sync_issue.error_msg_link', count: @errors.count), admin_accounting_sync_issues_path(loan_id: @loan.id)))
+      - else
+        = t('sync_issue.error_msg_member')
+  - if @warnings.any? && policy(@sample_transaction).create?
     .alert.alert-warning
       = t('sync_issue.warning_msg_html', count: @warnings.count, link: link_to(t('sync_issue.warning_msg_link', count: @warnings.count), admin_accounting_sync_issues_path(loan_id: @loan.id)))
 

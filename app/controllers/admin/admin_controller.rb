@@ -19,10 +19,10 @@ class Admin::AdminController < ApplicationController
 
   def user_not_authorized
     if request.xhr?
-      render nothing: true, status: 403
+      head :forbidden
     else
-      flash[:error] = t('unauthorized_error')
-      redirect_to(request.referrer || root_path)
+      flash[:error] = t("unauthorized_error")
+      redirect_to(request.referer || root_path)
     end
   end
 end
