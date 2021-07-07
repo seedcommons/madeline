@@ -84,6 +84,7 @@ en:
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
+        final_repayment_formula: "Final Repayment Formula"
       note:
         text: "Note"
       organization:
