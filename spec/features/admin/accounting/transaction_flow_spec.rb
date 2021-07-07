@@ -254,7 +254,11 @@ feature "transaction flow", :accounting do
     describe "an admin can edit a managed non-interest txn" do
       let!(:txn) do
         create(:accounting_transaction,
-               project_id: loan.id, description: "I love icecream", division: division, managed: true)
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: true,
+               loan_transaction_type_value: :disbursement)
       end
 
       scenario do
@@ -267,7 +271,11 @@ feature "transaction flow", :accounting do
     describe "an admin cannot edit a non-managed txn" do
       let!(:txn) do
         create(:accounting_transaction,
-               project_id: loan.id, description: "I love icecream", division: division, managed: false, loan_transaction_type_value: :disbursement)
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: false,
+               loan_transaction_type_value: :disbursement)
       end
 
       scenario do
@@ -280,7 +288,11 @@ feature "transaction flow", :accounting do
     describe "an admin cannot edit a managed interest txn" do
       let!(:txn) do
         create(:accounting_transaction,
-               project_id: loan.id, description: "I love icecream", division: division, managed: true, loan_transaction_type_value: :interest)
+               project_id: loan.id,
+               description: "I love icecream",
+               division: division,
+               managed: true,
+               loan_transaction_type_value: :interest)
       end
 
       scenario do

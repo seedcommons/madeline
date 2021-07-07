@@ -9,7 +9,10 @@ class Accounting::TransactionPolicy < ApplicationPolicy
   end
 
   def create?
-    machine_user_or_appropriate_division_admin? && record.managed? && !record.interest? && read_only_reasons.none?
+    machine_user_or_appropriate_division_admin? &&
+      record.managed? &&
+      !record.interest? &&
+      read_only_reasons.none?
   end
 
   def update?

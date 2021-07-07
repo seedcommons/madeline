@@ -1,7 +1,7 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
   def new
     @loan = Loan.find_by(id: params[:project_id])
-    @transaction = sample_transaction
+    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today, managed: true)
     authorize(@transaction, :new?)
     prep_transaction_form
     render_modal_partial
@@ -17,14 +17,16 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def sync
     @loan = Loan.find(params[:project_id])
-    @transaction = sample_transaction
+    @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today)
     authorize(@transaction, :show?)
     sync_and_handle_errors
     redirect_to(admin_loan_tab_path(@loan, tab: "transactions"))
   end
 
   def create
-    @transaction = sample_transaction(transaction_params.merge(project_id: params[:project_id]))
+    @transaction = ::Accounting::Transaction.new(
+      transaction_params.merge(project_id: params[:project_id], managed: true)
+    )
     authorize(@transaction, :create?)
     @loan = @transaction.project
     @transaction.user_created = true
@@ -167,10 +169,5 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def settings_link
     view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
-  end
-
-  def sample_transaction(attrs = {})
-    most_likely_editable_attrs = {project: @loan, txn_date: Time.zone.today, managed: true}
-    ::Accounting::Transaction.new(most_likely_editable_attrs.merge(attrs))
   end
 end
