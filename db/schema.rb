@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2021_07_07_163742) do
     t.string "private_note"
     t.integer "project_id"
     t.string "qb_id"
-    t.string "qb_object_subtype"
+    t.string "qb_object_subtype", default: "nil"
     t.string "qb_object_type", default: "JournalEntry", null: false
     t.integer "qb_vendor_id"
     t.json "quickbooks_data"
