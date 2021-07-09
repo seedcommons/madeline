@@ -22,7 +22,7 @@ describe 'date picker i18n', js: true do
     end
   end
 
-  context 'spanish', :with_spanish_browser do
+  context 'spanish', :with_spanish_locale do
     scenario do
       visit admin_loan_path(loan)
       expect(page).to have_css(".loan_signing_date", text: "abr 25, 2017")

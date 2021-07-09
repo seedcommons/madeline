@@ -69,6 +69,8 @@ class ApplicationController < ActionController::Base
 
   # Returns nil if no language header or no language found in header.
   def locale_from_header
+    return ENV["STUB_LOCALE"].to_sym if Rails.env.test? && ENV.key?("STUB_LOCALE")
+
     if (lang_header = request.env["HTTP_ACCEPT_LANGUAGE"])
       lang_header.scan(/^[a-z]{2}/).first&.to_sym
     end
