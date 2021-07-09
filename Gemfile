@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "bundler", ">= 2.0.1"
 
-gem "rails", "~> 5.2.6"
+gem "rails", "~> 6.0.4"
 
 # Database
 gem "mysql2" # needed for migration of legacy data
