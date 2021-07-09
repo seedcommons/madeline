@@ -1,18 +1,15 @@
 require 'rails_helper'
 
-feature 'date picker i18n', js: true do
+describe 'date picker i18n', js: true do
   let(:division) { create(:division) }
   let(:user) { create_admin(division) }
   let!(:loan) { create(:loan, division: division, signing_date: "2017-04-25") }
 
   before do
     login_as(user, scope: :user)
-    page.driver.add_header('Accept-Language', locale)
   end
 
   context 'english' do
-    let(:locale) { 'en' }
-
     scenario do
       visit admin_loan_path(loan)
       expect(page).to have_css(".loan_signing_date", text: "Apr 25, 2017")
@@ -25,9 +22,7 @@ feature 'date picker i18n', js: true do
     end
   end
 
-  context 'spanish' do
-    let(:locale) { 'es' }
-
+  context 'spanish', :with_spanish_browser do
     scenario do
       visit admin_loan_path(loan)
       expect(page).to have_css(".loan_signing_date", text: "abr 25, 2017")

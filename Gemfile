@@ -98,9 +98,11 @@ group :development, :test do
   # gem "awesome_print"
   gem "hirb"
 
+  # development server
+  gem "puma"
+
   # Specs and Test Coverage
-  gem "capybara", "~> 2.0"
-  gem "capybara-screenshot", "~> 1.0"
+  gem "capybara", "~> 3.0"
   gem "database_cleaner", "~> 1.5"
   gem "factory_bot_rails"
   gem "faker"
@@ -108,8 +110,9 @@ group :development, :test do
   gem "poltergeist", "~> 1.0"
   gem "pundit-matchers"
   gem "rspec-rails"
-  gem "selenium-webdriver", "~> 2.0"
+  gem "selenium-webdriver", "~> 3.0"
   gem "simplecov"
+  gem "webdrivers", "~> 4.0"
 
   # Dump data to Rails commands
   gem "seed_dump"
@@ -139,9 +142,6 @@ group :development do
   gem "guard-livereload", "~> 2.5", require: false
   gem "rack-livereload"
 
-  # development server
-  gem "puma"
-
   gem "term-ansicolor", "~> 1.3.0"
 
   # Mask password at command line
@@ -150,4 +150,9 @@ end
 
 group :development, :doc do
   gem "rails-erd"
+end
+
+group :test do
+  # For GH action
+  gem "rspec-github", require: false
 end

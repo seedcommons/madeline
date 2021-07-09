@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'visit tasks show page page' do
+describe 'visit tasks show page page' do
   context 'has custom error data' do
     before do
       login_as(user, scope: :user)

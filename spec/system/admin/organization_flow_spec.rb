@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'organization flow' do
+describe 'organization flow' do
   let(:currency) { create(:currency) }
   let(:division) { create(:division, currency_id: currency.id) }
   let(:admin) { create_admin(division) }
@@ -52,9 +52,7 @@ feature 'organization flow' do
     click_on 'Save'
 
     # user logs out
-    # TODO next line is workaround for phantomjs bug. id #logout can be removed
-    # and simpler syntax can be used after moving off of phantomjs
-    find("#logout").trigger('click')
+    find("#logout").click
 
     # admin user logs in
     fill_in 'user_email', with: admin.email
@@ -63,8 +61,8 @@ feature 'organization flow' do
 
     # and deletes the author of the note
     visit admin_people_path
-    click_on @u_profile.id
-    click_on 'Delete Member'
+    click_on @u_profile.id.to_s
+    accept_confirm { click_on 'Delete Member' }
 
     # when the organization with the note is visited
     visit admin_organization_path(org1)

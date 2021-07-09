@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "loan flow" do
+describe "loan flow", js: true do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let!(:loan) { create(:loan, division: division) }
@@ -23,7 +23,7 @@ feature "loan flow" do
       OptionSetCreator.new.create_step_type
     end
 
-    xscenario "works", js: true do
+    scenario "works" do
       visit admin_loan_path(loan)
       click_on("Timeline")
       loan.timeline_entries.each do |te|
@@ -64,7 +64,7 @@ feature "loan flow" do
   end
 
   describe "details" do
-    scenario "can duplicate", js: true do
+    scenario "can duplicate" do
       visit admin_loan_path(loan)
 
       accept_confirm { click_on("Duplicate") }
@@ -102,7 +102,7 @@ feature "loan flow" do
 
   scenario "loan with groups can be deleted" do
     visit admin_loan_path(loan)
-    click_on "Delete Loan"
+    accept_confirm { click_on "Delete Loan" }
     expect(page).to have_content("Record was successfully deleted")
   end
 end

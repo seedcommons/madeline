@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'basic project flow' do
+describe 'basic project flow' do
 
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
@@ -27,7 +27,7 @@ feature 'basic project flow' do
 
   scenario 'validations for updating basic project' do
     visit admin_basic_projects_path
-    click_on basic_project.id
+    click_on basic_project.id.to_s
     select user.name, from: 'basic_project_primary_agent_id'
     select user.name, from: 'basic_project_secondary_agent_id'
     click_on 'Update Basic project'

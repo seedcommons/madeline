@@ -1,7 +1,7 @@
 # TODO - refactor file
 require 'rails_helper'
 
-feature 'documentation', js: true do
+describe 'documentation', js: true do
   let(:division) { create(:division) }
   let(:user) { create_admin(division) }
   let(:project) {  create(:basic_project, division: division) }
@@ -11,7 +11,7 @@ feature 'documentation', js: true do
 
   before { login_as user }
 
-  # TODO - reopen when we can test summernote fields on feature specs
+  # TODO - reopen when we can test summernote fields on system specs
   xdescribe 'documentation creation flow' do
     scenario 'flow 1 on dashboard' do
       visit admin_dashboard_path

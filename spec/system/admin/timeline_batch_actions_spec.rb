@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'timeline batch actions', js: true do
+describe 'timeline batch actions', js: true do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let!(:loan) { create(:loan, :with_timeline, division: division) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'division flow' do
+describe 'division flow' do
   let!(:division) { create(:division, name: 'Cream', short_name: 'cream') }
   let(:person) { create(:person, :with_admin_access, :with_password) }
   let(:user) { person.user }
