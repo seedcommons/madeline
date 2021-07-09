@@ -96,7 +96,7 @@ RSpec.configure do |config|
 
   config.include Warden::Test::Helpers
   config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include FeatureSpecHelpers, type: :system
+  config.include SystemSpecHelpers, type: :system
   config.include DownloadHelpers, type: :system
   config.include FactoryBot::Syntax::Methods
   config.include FactorySpecHelpers
