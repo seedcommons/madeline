@@ -87,6 +87,32 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
+  describe "validation" do
+    describe "disbursement type" do
+      # qb_object_subtype is used to fill the required payment_type param for Purchases in the QB API
+      it "is required for disbursements" do
+        expect do
+          create(:accounting_transaction, loan_transaction_type_value: :disbursement, qb_object_subtype: nil)
+        end.to raise_error("Validation failed: Disbursement type can't be blank")
+      end
+
+      it "is not required for managed non-disbursements" do
+        expect do
+          create(:accounting_transaction, loan_transaction_type_value: :repayment, qb_object_subtype: nil)
+        end.not_to raise_error
+      end
+
+      it "is not required for non-managed disbursements" do
+        expect do
+          create(:accounting_transaction,
+                 loan_transaction_type_value: :disbursement,
+                 managed: false,
+                 qb_object_subtype: nil)
+        end.not_to raise_error
+      end
+    end
+  end
+
   # TODO: this block of specs, and accompanying #set_qb_object_type logic needs review
   describe "sets qb txn type and requires amount on madeline-created disbursements" do
     let(:transaction_params) do

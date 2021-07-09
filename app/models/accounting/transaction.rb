@@ -51,6 +51,9 @@ class Accounting::Transaction < ApplicationRecord
   with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
     validates :qb_vendor_id, presence: true
   end
+  with_options if: ->(txn) { txn.qb_object_type == "Purchase" } do
+    validates :qb_object_subtype, presence: true, acceptance: { message: "disbursement type can't be blank" }
+  end
 
   before_validation :set_qb_object_type
 
