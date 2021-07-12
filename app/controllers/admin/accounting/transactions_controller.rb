@@ -114,7 +114,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
     @qb_subtypes = Accounting::Transaction::QB_PAYMENT_TYPES.map do |t|
-      [I18n.t("transactions.qb_object_subtype.#{t.downcase}"), t]
+      [I18n.t("transactions.disbursement_type.#{t.downcase}"), t]
     end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts
     @customers = Accounting::Customer.all.order(:name)

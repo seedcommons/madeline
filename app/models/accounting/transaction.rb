@@ -44,7 +44,7 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" && txn.user_created } do
+  with_options if: ->(txn) { txn.disbursement_type == "Check" && txn.user_created } do
     validates :check_number, presence: true
   end
   # validate that all disbursements created in Madeline's transaction form have a vendor
@@ -52,7 +52,7 @@ class Accounting::Transaction < ApplicationRecord
     validates :qb_vendor_id, presence: true
   end
   with_options if: ->(txn) { txn.qb_object_type == "Purchase" } do
-    validates :qb_object_subtype, presence: true, acceptance: { message: "disbursement type can't be blank" }
+    validates :disbursement_type, presence: true, acceptance: { message: "disbursement type can't be blank" }
   end
 
   before_validation :set_qb_object_type
@@ -192,8 +192,8 @@ class Accounting::Transaction < ApplicationRecord
     loan_transaction_type_value == type
   end
 
-  def subtype?(subtype)
-    qb_object_subtype == subtype
+  def check?
+    disbursement_type == "check"
   end
 
   private

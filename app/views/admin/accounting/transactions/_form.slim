@@ -28,13 +28,13 @@
   - if @transaction.new_record? || @transaction.qb_object_type == "Purchase"
     = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
       .view-element
-        - if @transaction.qb_object_subtype
-          = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
+        - if @transaction.disbursement_type
+          = t("transactions.disbursement_type.#{@transaction.disbursement_type.downcase}")
       .form-element
         - if @transaction.new_record? # QB API can't support changing payment type on txns
           = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
         - else
-          = t("transactions.qb_object_subtype.#{@transaction.qb_object_subtype.downcase}")
+          = t("transactions.disbursement_type.#{@transaction.disbursement_type.downcase}")
 
   // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.type?("disbursement")

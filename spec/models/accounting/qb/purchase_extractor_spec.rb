@@ -39,7 +39,8 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
       expect(txn.account).to eq txn_acct
       expect(txn.amount).to equal_money(12345.67)
       expect(txn.sync_token).to eq "abc"
-      expect(txn.qb_object_subtype).to eq "Check"
+      #TODO: update
+      expect(txn.disbursement_type).to eq "Check"
       expect { txn.save! }.not_to raise_error
     end
   end

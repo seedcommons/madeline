@@ -40,7 +40,8 @@ module Accounting
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        p.payment_type = transaction.qb_object_subtype
+        #TODO: update to convert
+        p.payment_type = transaction.disbursement_type
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 
@@ -195,7 +196,7 @@ module Accounting
       def set_journal_number(txn)
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
-        txn.subtype?("Check") ? "#{txn.check_number} #{ms_status}" : ms_status
+        txn.check? ? "#{txn.check_number} #{ms_status}" : ms_status
       end
     end
   end

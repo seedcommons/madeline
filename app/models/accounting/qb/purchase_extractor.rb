@@ -34,8 +34,9 @@ module Accounting
       end
 
       def extract_subtype
+        #TODO UPDATE
         payment_type = txn.quickbooks_data["payment_type"]
-        txn.qb_object_subtype = payment_type.to_s if payment_type.present?
+        txn.disbursement_type = payment_type.to_s if payment_type.present?
       end
 
       def extract_check_number
