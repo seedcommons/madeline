@@ -36,11 +36,11 @@ module Accounting
       def extract_subtype
         #TODO UPDATE
         payment_type = txn.quickbooks_data["payment_type"]
-        txn.disbursement_type = payment_type.to_s if payment_type.present?
+        txn.disbursement_type = (payment_type.present? && payment_type.to_s == "Check") ? :check : :other
       end
 
       def extract_check_number
-        if txn.subtype?("Check")
+        if txn.check?
           doc_number = txn.quickbooks_data["doc_number"]
           txn.check_number = doc_number.remove("MS-Managed").strip if doc_number.present?
         end
