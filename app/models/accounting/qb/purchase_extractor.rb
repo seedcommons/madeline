@@ -34,7 +34,6 @@ module Accounting
       end
 
       def extract_subtype
-        #TODO UPDATE
         payment_type = txn.quickbooks_data["payment_type"]
         txn.disbursement_type = (payment_type.present? && payment_type.to_s == "Check") ? :check : :other
       end

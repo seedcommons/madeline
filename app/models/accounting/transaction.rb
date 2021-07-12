@@ -16,7 +16,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
-  QB_PAYMENT_TYPES = %w(Check Cash).freeze
+  DISBURSEMENT_TYPES = %w(check other).freeze
   QB_PARENT_CLASS = "Loan Products"
   QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
@@ -44,15 +44,11 @@ class Accounting::Transaction < ApplicationRecord
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
   validate :respect_closed_books_date, if: :user_created
+  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
+    validate :disbursement_fields
+  end
   with_options if: ->(txn) { txn.disbursement_type == "check" && txn.user_created } do
     validates :check_number, presence: true
-  end
-  # validate that all disbursements created in Madeline's transaction form have a vendor
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
-    validates :qb_vendor_id, presence: true
-  end
-  with_options if: ->(txn) { txn.qb_object_type == "Purchase" } do
-    validates :disbursement_type, presence: true
   end
 
   before_validation :set_qb_object_type
@@ -208,6 +204,14 @@ class Accounting::Transaction < ApplicationRecord
       else
         0
       end
+    end
+  end
+
+  def disbursement_fields
+    if loan_transaction_type_value == "disbursement"
+      errors.add(:disbursement_type) unless disbursement_type.present?
+      errors.add(:qb_vendor_id) unless qb_vendor_id.present?
+      errors.add(:qb_object_type, "must be purchase") unless qb_object_type == "Purchase"
     end
   end
 

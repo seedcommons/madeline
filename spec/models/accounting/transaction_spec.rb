@@ -6,6 +6,7 @@ RSpec.describe Accounting::Transaction, type: :model do
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+  let(:vendor) { create(:vendor) }
 
   # This is example JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
@@ -89,16 +90,21 @@ RSpec.describe Accounting::Transaction, type: :model do
 
   describe "validation" do
     describe "disbursement type" do
-      # qb_object_subtype is used to fill the required payment_type param for Purchases in the QB API
-      it "is required for disbursements" do
+      it "is required for user_created disbursements" do
         expect do
-          create(:accounting_transaction, loan_transaction_type_value: :disbursement, qb_object_subtype: nil)
-        end.to raise_error("Validation failed: Disbursement type can't be blank")
+          txn = create(:accounting_transaction,
+            project: loan,
+            loan_transaction_type_value: :disbursement,
+            qb_object_type: "Purchase",
+            disbursement_type: nil,
+            qb_vendor_id: vendor.id,
+            user_created: true)
+        end.to raise_error("Validation failed: Disbursement type is invalid")
       end
 
       it "is not required for managed non-disbursements" do
         expect do
-          create(:accounting_transaction, loan_transaction_type_value: :repayment, qb_object_subtype: nil)
+          create(:accounting_transaction, loan_transaction_type_value: :repayment)
         end.not_to raise_error
       end
 
@@ -107,7 +113,7 @@ RSpec.describe Accounting::Transaction, type: :model do
           create(:accounting_transaction,
                  loan_transaction_type_value: :disbursement,
                  managed: false,
-                 qb_object_subtype: nil)
+                 disbursement_type: nil)
         end.not_to raise_error
       end
     end
@@ -170,7 +176,7 @@ RSpec.describe Accounting::Transaction, type: :model do
             description: "desc",
             project_id: loan.id,
             loan_transaction_type_value: transaction_type,
-            qb_object_subtype: "Check",
+            disbursement_type: "Check",
             qb_vendor_id: vendor_id,
             check_number: check_number
           }

@@ -102,7 +102,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # already be set and can't be changed. For create, we get it from the query string manually.
     params.require(:accounting_transaction).permit(:account_id, :amount,
       :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
-      :accounting_customer_id, :qb_vendor_id, :qb_object_subtype, :check_number)
+      :accounting_customer_id, :qb_vendor_id, :disbursement_type, :check_number)
   end
 
   def render_modal_partial(status: 200)
@@ -113,7 +113,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @loan_transaction_types = Accounting::Transaction.loan_transaction_type_options.select do |option|
       Accounting::Transaction::AVAILABLE_LOAN_TRANSACTION_TYPES.include?(option[1].to_sym)
     end
-    @qb_subtypes = Accounting::Transaction::QB_PAYMENT_TYPES.map do |t|
+    @qb_subtypes = Accounting::Transaction::DISBURSEMENT_TYPES.map do |t|
       [I18n.t("transactions.disbursement_type.#{t.downcase}"), t]
     end
     @accounts = Accounting::Account.asset_accounts - Division.root.accounts

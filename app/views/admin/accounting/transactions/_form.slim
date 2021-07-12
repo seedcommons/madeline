@@ -26,15 +26,15 @@
   // if not, only display if Purchase because subtype null isn't meaningful to users
   // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.qb_object_type == "Purchase"
-    = f.input :qb_object_subtype, wrapper_html: {class: 'disbursement-only'}
+    = f.input :disbursement_type, wrapper_html: {class: 'disbursement-only'}
       .view-element
         - if @transaction.disbursement_type
-          = t("transactions.disbursement_type.#{@transaction.disbursement_type.downcase}")
+          = t("transactions.disbursement_type.#{@transaction.disbursement_type}")
       .form-element
         - if @transaction.new_record? # QB API can't support changing payment type on txns
-          = f.input_field :qb_object_subtype, collection: @qb_subtypes, as: :radio_buttons
+          = f.input_field :disbursement_type, collection: @qb_subtypes, as: :radio_buttons
         - else
-          = t("transactions.disbursement_type.#{@transaction.disbursement_type.downcase}")
+          = t("transactions.disbursement_type.#{@transaction.disbursement_type}")
 
   // .disbursement-only class lets js control display when new record
   - if @transaction.new_record? || @transaction.type?("disbursement")
@@ -46,7 +46,7 @@
         = f.association :vendor, collection: @vendors, wrapper_html: {class: 'disbursement-only'}
 
   // .check-only class lets js control display when new record
-  - if @transaction.new_record? || @transaction.subtype?("Check")
+  - if @transaction.new_record? || @transaction.check?
     = f.input :check_number, wrapper_html: {class: 'check-only'}
       .view-element
         - if @transaction.check_number
