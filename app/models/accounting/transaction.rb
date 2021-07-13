@@ -43,13 +43,10 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
+  validates :check_number, presence: true, if: ->(txn) { txn.check? && txn.user_created }
   validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
-    validate :disbursement_fields
-  end
-  with_options if: ->(txn) { txn.disbursement_type == "check" && txn.user_created } do
-    validates :check_number, presence: true
-  end
+  validate :disbursement_fields, if: ->(txn) { txn.disbursement? && txn.user_created }
+
 
   before_validation :set_qb_object_type
 
@@ -117,10 +114,6 @@ class Accounting::Transaction < ApplicationRecord
     txn
   end
 
-  def interest?
-    loan_transaction_type_value == LOAN_INTEREST_TYPE
-  end
-
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
   # create duplicates.
@@ -179,13 +172,25 @@ class Accounting::Transaction < ApplicationRecord
 
   # if new disbursement w/out qb id, override db-level default of JournalEntry
   def set_qb_object_type
-    if self.loan_transaction_type_value == "disbursement" && self.qb_id.nil?
+    if self.disbursement? && self.qb_id.nil?
       self.qb_object_type = "Purchase"
     end
   end
 
   def type?(type)
     loan_transaction_type_value == type
+  end
+
+  def disbursement?
+    type?("disbursement")
+  end
+
+  def repayment?
+    type?("repayment")
+  end
+
+  def interest?
+    type?(LOAN_INTEREST_TYPE)
   end
 
   def check?
@@ -208,11 +213,9 @@ class Accounting::Transaction < ApplicationRecord
   end
 
   def disbursement_fields
-    if loan_transaction_type_value == "disbursement"
-      errors.add(:disbursement_type) unless disbursement_type.present?
-      errors.add(:qb_vendor_id) unless qb_vendor_id.present?
-      errors.add(:qb_object_type, "must be purchase") unless qb_object_type == "Purchase"
-    end
+    errors.add(:disbursement_type) unless disbursement_type.present?
+    errors.add(:qb_vendor_id) unless qb_vendor_id.present?
+    errors.add(:qb_object_type, "must be purchase") unless qb_object_type == "Purchase"
   end
 
   def respect_closed_books_date

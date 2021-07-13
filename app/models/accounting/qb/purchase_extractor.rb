@@ -35,7 +35,7 @@ module Accounting
 
       def extract_subtype
         payment_type = txn.quickbooks_data["payment_type"]
-        txn.disbursement_type = (payment_type.present? && payment_type.to_s == "Check") ? :check : :other
+        txn.disbursement_type = (payment_type == "Check") ? :check : :other
       end
 
       def extract_check_number
