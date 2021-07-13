@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
+  let(:connection) { instance_double(Accounting::QB::Connection) }
   let(:class_ref) { instance_double(Quickbooks::Model::Class, id: loan_id) }
   let(:class_service) { instance_double(Quickbooks::Service::Class, find_by: [class_ref]) }
+  let(:customer) {create(:accounting_customer) }
   let(:customer_service) { instance_double(Quickbooks::Service::Customer) }
-  let(:connection) { instance_double(Accounting::QB::Connection) }
+  let(:qb_bank_account_id) { '89' }
+  let(:qb_principal_account_id) { '92' }
+  let(:qb_office_account_id) { '1' }
   let(:principal_account) { create(:accounting_account, qb_id: qb_principal_account_id) }
   let(:bank_account) { create(:accounting_account, qb_id: qb_bank_account_id) }
   let(:office_account) { create(:accounting_account, qb_id: qb_office_account_id) }
-  let(:customer) {create(:accounting_customer) }
   let(:loan) { create(:loan) }
   let(:loan_id) { loan.id }
   let(:amount) { 78.20 }
   let(:memo) { 'I am a memo' }
   let(:description) { 'I am a line item description' }
-  let(:qb_bank_account_id) { '89' }
-  let(:qb_principal_account_id) { '92' }
-  let(:qb_office_account_id) { '1' }
   let(:date) { Time.zone.today }
 
   subject do
@@ -104,12 +104,6 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
       expect(detail.account_ref.name).to eq principal_account.name
       expect(detail.customer_ref.name).to eq customer.name
       expect(detail.billable_status).to eq "NotBillable"
-      #TODO class ref, not id
-    end
-
-    it 'creates purchase with a reference to the existing loan' do
-      expect(class_service).to receive(:find_by).with(:name, "Loan ID #{loan_id}")
-      subject.build_for_qb transaction
     end
   end
 
@@ -177,14 +171,6 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
       # to verify that parent class set correctly
       expect(details.map { |i| i.department_ref.value }.uniq).to eq [qb_department_id]
       expect(details.map { |i| i.account_ref.value }.uniq).to match_array [qb_bank_account_id, qb_principal_account_id, qb_office_account_id]
-    end
-
-    xit 'creates JournalEntry with a reference to the existing loan' do
-      expect(class_service).to receive(:find_by).with(:name, "Loan ID #{loan_id}")
-      je = subject.build_for_qb transaction
-      class_ref = je.line_items.first.journal_entry_line_detail.class_ref
-      expect(class_ref.value).to eq loan_id
-      expect(class_ref.name).to eq "Loan ID #{loan_id}"
     end
   end
 end

@@ -32,7 +32,7 @@
           = t("transactions.disbursement_type.#{@transaction.disbursement_type}")
       .form-element
         - if @transaction.new_record? # QB API can't support changing payment type on txns
-          = f.input_field :disbursement_type, collection: @qb_subtypes, as: :radio_buttons
+          = f.input_field :disbursement_type, collection: @disbursement_types, as: :radio_buttons
         - else
           = t("transactions.disbursement_type.#{@transaction.disbursement_type}")
 
