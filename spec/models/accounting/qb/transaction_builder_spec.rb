@@ -40,6 +40,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
       # since transaction does not exist yet
       transaction.line_items << [prin_line_item, line_item_2]
     end
+    let(:disbursement_type) { :check }
     let(:check_number) { "123" }
     let(:transaction) do
       Accounting::Transaction.create(
@@ -51,7 +52,7 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
         account: bank_account,
         loan_transaction_type_value: :disbursement,
         txn_date: date,
-        disbursement_type: :check,
+        disbursement_type: disbursement_type,
         check_number: check_number
       )
     end
@@ -71,6 +72,14 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
         amount: 25
       )
     }
+
+    context "non-check disb" do
+      let(:disbursement_type) { :other }
+      it 'sets payment_type to cash' do
+        p = subject.build_for_qb transaction
+        expect(p.payment_type).to eq "Cash"
+      end
+    end
 
     it 'calls create with correct data' do
       expect(transaction.qb_object_type).to eq "Purchase"
@@ -145,7 +154,6 @@ RSpec.describe Accounting::QB::TransactionBuilder, type: :model do
         amount: 75
       )
     }
-
 
     it 'calls create with correct data' do
       expect(transaction.qb_object_type).to eq "JournalEntry"

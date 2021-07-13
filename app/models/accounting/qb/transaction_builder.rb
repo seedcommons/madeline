@@ -40,8 +40,7 @@ module Accounting
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        #TODO: update to convert
-        p.payment_type = transaction.disbursement_type
+        p.payment_type = set_payment_type(transaction)
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 
@@ -197,6 +196,10 @@ module Accounting
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
         txn.check? ? "#{txn.check_number} #{ms_status}" : ms_status
+      end
+
+      def set_payment_type(disbursement)
+        disbursement.disbursement_type == "check" ? "Check" : "Cash"
       end
     end
   end
