@@ -99,7 +99,7 @@ RSpec.describe Accounting::Transaction, type: :model do
             disbursement_type: nil,
             qb_vendor_id: vendor.id,
             user_created: true)
-        end.to raise_error("Validation failed: Disbursement type is invalid")
+        end.to raise_error("Validation failed: Disbursement type can't be blank")
       end
 
       it "is not required for managed non-disbursements" do
@@ -176,7 +176,7 @@ RSpec.describe Accounting::Transaction, type: :model do
             description: "desc",
             project_id: loan.id,
             loan_transaction_type_value: transaction_type,
-            disbursement_type: "Check",
+            disbursement_type: "check",
             qb_vendor_id: vendor_id,
             check_number: check_number
           }
@@ -186,7 +186,7 @@ RSpec.describe Accounting::Transaction, type: :model do
           let(:check_number) { nil }
           it "requires a check number to save" do
             expect do
-              create(:accounting_transaction, transaction_params.merge({user_created: true}))
+              create(:accounting_transaction, transaction_params.merge({ managed: true }))
             end.to raise_error(ActiveRecord::RecordInvalid)
           end
         end

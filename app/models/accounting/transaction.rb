@@ -43,12 +43,15 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
-  validates :check_number, presence: true, if: ->(txn) { txn.check? && txn.user_created }
+  validates :disbursement_type, :qb_vendor_id, presence: true, if: ->(txn) {
+     txn.disbursement? && txn.managed?
+  }
+  validates :check_number, presence: true, if: ->(txn) { txn.check? && txn.managed? }
+
+  # TODO rename 'user_created.' it signifies 'just created or edited' because admins cannot create or edit txns before cbd
   validate :respect_closed_books_date, if: :user_created
-  validate :disbursement_fields, if: ->(txn) { txn.disbursement? && txn.user_created }
 
-
-  before_validation :set_qb_object_type
+  before_validation :enforce_managed_disbursements_are_purchases
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
@@ -170,9 +173,13 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
-  # if new disbursement w/out qb id, override db-level default of JournalEntry
-  def set_qb_object_type
-    if self.disbursement? && self.qb_id.nil?
+  # Any disbursement created in madeline should be a purchase.
+  # Purchases from qb can be disbursements or other
+  # Disbursements from qb can be purchases or journal entries or bills
+  # qb_object_type defaults to  JournalEntry in the db
+  # qb_id.nil? is probably a proxy for or equivalent to managed?
+  def enforce_managed_disbursements_are_purchases
+    if disbursement? && qb_id.nil?
       self.qb_object_type = "Purchase"
     end
   end
@@ -210,12 +217,6 @@ class Accounting::Transaction < ApplicationRecord
         0
       end
     end
-  end
-
-  def disbursement_fields
-    errors.add(:disbursement_type) unless disbursement_type.present?
-    errors.add(:qb_vendor_id) unless qb_vendor_id.present?
-    errors.add(:qb_object_type, "must be purchase") unless qb_object_type == "Purchase"
   end
 
   def respect_closed_books_date
