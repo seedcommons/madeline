@@ -11,7 +11,7 @@ describe "transaction flow", :accounting do
   let!(:customers) { create_list(:customer, 3) }
 
   before do
-    Division.root.update_attributes!(
+    Division.root.update!(
       principal_account: create(:account),
       interest_income_account: create(:account),
       interest_receivable_account: create(:account),
