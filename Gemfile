@@ -11,7 +11,7 @@ gem "pg", "~> 0.15", "< 0.21.0"
 # Assets
 gem "bootstrap-datepicker-rails"
 gem "bootstrap-sass"
-gem "coffee-rails", "~> 4.2.0"
+gem "coffee-rails", "~> 5.0.0"
 gem "font-awesome-rails"
 gem "fullcalendar-rails"
 gem "jquery-rails"
@@ -33,7 +33,7 @@ gem "devise"
 gem "pundit"
 gem "rolify"
 
-gem "slim" # Slim template language
+gem "slim", "~> 4.1" # Slim template language
 
 # Jobs and tasks
 gem "daemons"
