@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'visit tasks index page' do
+describe 'visit tasks index page' do
   context 'there are tasks' do
     before do
       login_as(user, scope: :user)

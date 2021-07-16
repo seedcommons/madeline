@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "transaction flow", :accounting do
+describe "transaction flow", :accounting do
   # TODO: This should all not be dependent on using the root division. It should work in any Division.
   # Right now, the TransactionPolicy requires admin privileges on Division.root, and Accounts are
   # not scoped to division.
@@ -253,7 +253,7 @@ feature "transaction flow", :accounting do
         visit "/admin/loans/#{loan.id}/transactions"
         fill_txn_form(omit_amount: true)
         page.find('a[data-action="submit"]').click
-        expect(page).to have_content("Amount #{loan.currency.code} can't be blank")
+        expect(page).to have_content("Amount\n#{loan.currency.code}\ncan't be blank")
       end
 
       context "closed books date set" do

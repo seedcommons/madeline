@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'data export flow' do
+describe 'data export flow' do
   let(:user) { create_admin(root_division) }
   before do
     login_as(user, scope: :user)

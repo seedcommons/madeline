@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'login' do
+describe 'login' do
   let(:user) { create_member(create(:division)) }
 
   scenario 'should work', js: true do

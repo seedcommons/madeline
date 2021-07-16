@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'dashboard flow' do
+describe 'dashboard flow' do
   let(:division) { create(:division) }
   let(:user) { create_member(division) }
   let(:person) { Person.find(user.profile_id) }

@@ -1,4 +1,4 @@
-module FeatureSpecHelpers
+module SystemSpecHelpers
   def reload_page
     page.evaluate_script("window.location.reload()")
   end
@@ -45,7 +45,7 @@ module FeatureSpecHelpers
       # Now test index/show/edit
       expect(page).to have_content(subject.name)
 
-      find("##{subject.model_name.plural}").click_link(subject.id)
+      find("##{subject.model_name.plural}").click_link(subject.id.to_s)
       expect(page).to have_content(subject.name)
       expect(page).to have_content(edit_button_name)
 

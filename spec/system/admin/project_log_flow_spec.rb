@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'loan flow' do
+describe 'loan flow' do
 
   let(:division) { create(:division) }
   let(:user) { create_member(division) }

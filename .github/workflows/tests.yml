@@ -1,0 +1,73 @@
+name: RSpec & JS Tests
+on: [push]
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-20.04
+    env:
+      CI: true
+      RAILS_ENV: test
+      POSTGRES_USER: madeline
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost
+      MADELINE_EMAIL_FROM: madeline@theworkingworld.org
+      MADELINE_HOSTNAME: madeline.theworkingworld.org
+    services:
+      postgres:
+        image: postgres:11
+        # These env vars need to be repeated here b/c they get passed as command line args to docker
+        env:
+          POSTGRES_USER: madeline
+          POSTGRES_DB: madeline_test
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        # These health checks are important to ensure Postgres is ready before moving on.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        # These health checks are important to ensure Redis is ready before moving on.
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+      - name: Ruby gem cache
+        id: cache-gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          # Restore keys will be matched if the main key fails. This may restore older gems to the
+          # dir but we don't care because bundle install will check the gems anyway.
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Set bundle path
+        run: bundle config path vendor/bundle
+      - name: Install gems
+        # Save some time by not even running bundle install if we had a positive cache hit
+        # This doesn't work for yarn for some reason.
+        if: steps.cache-gems.outputs.cache-hit != 'true'
+        run: bundle install --jobs 4 --retry 3
+      - name: Setup env
+        run: |
+          cp .env.example .env
+      - name: Setup secrets
+        run: |
+          cp config/secrets.yml.example config/secrets.yml
+      - name: Setup test database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bin/rails db:setup
+      - name: Update Chromedriver # Do this explicitly so we can see the version it installs.
+        run: RAILS_ENV=test bin/rails webdrivers:chromedriver:update
+      - name: RSpec Tests
+        run: bundle exec rspec --format RSpec::Github::Formatter --format documentation

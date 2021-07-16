@@ -1,7 +1,7 @@
 require 'rails_helper'
 include QuestionSpecHelpers
 
-feature 'manage loan questions', js: true do
+describe 'manage loan questions', js: true do
   let!(:d1) { create(:division) }
   let(:user) { create(:user, :admin, division: d1) }
   let(:d11) { create(:division, parent: d1) }

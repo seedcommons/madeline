@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'people flow' do
+describe 'people flow' do
 
   let!(:division) { create(:division) }
   let!(:org) { create(:organization) }
@@ -80,7 +80,7 @@ feature 'people flow' do
   end
 
   def then_delete_second_user
-    click_on person_2.id
+    click_on person_2.id.to_s
     click_on 'Delete Member'
 
     # second person no longer exists

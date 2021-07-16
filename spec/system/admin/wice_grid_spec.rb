@@ -4,7 +4,7 @@ require 'rails_helper'
 # wice grid tables are being used in a lot of places so we'll pick one for the
 # spec since it's all being powered by one partial: admin/common/grid
 
-feature 'wice grid' do
+describe 'wice grid' do
 
   let(:division) { create(:division) }
   let(:user) { create_member(division) }

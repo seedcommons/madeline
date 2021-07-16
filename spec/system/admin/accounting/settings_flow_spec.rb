@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "settings flow", :accounting do
+describe "settings flow", :accounting do
   let(:division) { Division.root }
   let(:user) { create_admin(division) }
 
@@ -82,8 +82,8 @@ feature "settings flow", :accounting do
         fill_in "Closed Books Date", with: Time.zone.today.to_s
         check "division[qb_read_only]"
         click_on "Save"
-        expect(page).to have_content "Connected to "
-        expect(page).to have_content "QuickBooks data import succeeded. There are 2 outstanding issues."
+        expect(page).to have_content("Connected to")
+        expect(page).to have_content(/QuickBooks data import succeeded.\s+There are 2 outstanding issues./)
         expect(page).to have_select("division[principal_account_id]", selected: prin_acct_name)
         expect(page).to have_select("division[interest_receivable_account_id]", selected: int_rcv_acct_name)
         expect(page).to have_select("division[interest_income_account_id]", selected: int_inc_acct_name)

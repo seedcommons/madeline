@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "loan details" do
+describe "loan details" do
   let!(:div_us) { create(:division, name: "United States", short_name: "us") }
   let!(:loan) do
     create(
@@ -28,7 +28,7 @@ feature "loan details" do
   it "should have general information about loan" do
     expect(page).to have_content loan.status
     expect(page).to have_content loan.location
-    expect(page).to have_content loan.signing_date_long
+    expect(page).to have_content loan.signing_date_long.gsub("  ", " ")
     expect(page).to have_content loan.summary
     expect(page).to have_content loan.details
   end
@@ -37,19 +37,19 @@ feature "loan details" do
     it "should show past loan information" do
       active_loans.each do |loan|
         expect(page).to have_content loan.status
-        expect(page).to have_content loan.signing_date_long
+        expect(page).to have_content loan.signing_date_long.gsub("  ", " ")
         expect(page).to have_content loan.summary
       end
 
       completed_loans.each do |loan|
         expect(page).to have_content loan.status
-        expect(page).to have_content loan.signing_date_long
+        expect(page).to have_content loan.signing_date_long.gsub("  ", " ")
         expect(page).to have_content loan.summary
       end
 
       hidden_past_loans.each do |loan|
         expect(page).not_to have_content loan.status
-        expect(page).not_to have_content loan.signing_date_long
+        expect(page).not_to have_content loan.signing_date_long.gsub("  ", " ")
         expect(page).not_to have_content loan.summary
       end
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'visit loan index page' do
+describe 'visit loan index page' do
   let!(:div_us) { create(:division, name: "United States", short_name: "us") }
   let!(:div_pkmn) { create(:division, name: "The Pokémon", short_name: "pkmn") }
   let!(:div_pika) { create(:division, name: "The Pikachu", short_name: "pika", parent: div_pkmn) }
@@ -142,7 +142,7 @@ end
 
 def check_loan_content(loan)
   expect(page).to have_link loan.display_name, href: public_loan_path("us", loan)
-  expect(page).to have_content loan.signing_date_long
-  expect(page).to have_content loan.summary
+  expect(page).to have_content loan.signing_date_long.gsub("  ", " ")
+  expect(page).to have_content loan.summary unless loan.summary.nil?
   expect(page).to have_content loan.location
 end
