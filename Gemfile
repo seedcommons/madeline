@@ -46,7 +46,7 @@ gem "rails-i18n"
 gem "route_translator", "~> 10.0"
 
 # Model hierarchical data
-gem "closure_tree"
+gem "closure_tree", "~> 7.3"
 
 # Tables
 gem "font-awesome-sass", "~> 5.12"
