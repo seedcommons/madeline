@@ -6,7 +6,7 @@ gem "rails", "~> 6.1.4"
 
 # Database
 gem "mysql2" # needed for migration of legacy data
-gem "pg", "~> 0.15", "< 0.21.0"
+gem "pg", "~> 1.1"
 
 # Assets
 gem "bootstrap-datepicker-rails"
