@@ -1,12 +1,12 @@
 GIT
-  remote: https://github.com/sassafrastech/wice_grid.git
-  revision: ad4cb64c045b60334531dafa86d8d02e400d1041
-  branch: rails5
+  remote: https://github.com/kreintjes/wice_grid.git
+  revision: 26aff4d3cb37197ea7c8ac2f1d481a5d975a3de1
+  branch: fix/all
   specs:
-    wice_grid (3.6.3)
-      activerecord (> 3.2)
+    wice_grid (4.1.0)
       coffee-rails (> 3.2)
-      kaminari (~> 0.16)
+      kaminari (~> 1.1)
+      rails (>= 5.0, < 7)
 
 GEM
   remote: https://rubygems.org/
@@ -276,9 +276,18 @@ GEM
     json (2.3.1)
     jsonapi-renderer (0.2.2)
     jwt (2.2.3)
-    kaminari (0.17.0)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     letter_opener (1.7.0)
