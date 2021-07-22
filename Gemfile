@@ -2,17 +2,16 @@ source "https://rubygems.org"
 
 gem "bundler", ">= 2.0.1"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 5.1", ">= 5.1.4"
+gem "rails", "~> 6.1.4"
 
 # Database
 gem "mysql2" # needed for migration of legacy data
-gem "pg", "~> 0.15", "< 0.21.0"
+gem "pg", "~> 1.1"
 
 # Assets
 gem "bootstrap-datepicker-rails"
 gem "bootstrap-sass"
-gem "coffee-rails", "~> 4.2.0"
+gem "coffee-rails", "~> 5.0.0"
 gem "font-awesome-rails"
 gem "fullcalendar-rails"
 gem "jquery-rails"
@@ -34,7 +33,7 @@ gem "devise"
 gem "pundit"
 gem "rolify"
 
-gem "slim" # Slim template language
+gem "slim", "~> 4.1" # Slim template language
 
 # Jobs and tasks
 gem "daemons"
@@ -44,19 +43,19 @@ gem "sidekiq"
 gem "devise-i18n"
 gem "i18n-js", ">= 3.0.0.rc11"
 gem "rails-i18n"
-gem "route_translator", ">=5.5.3"
+gem "route_translator", "~> 10.0"
 
 # Model hierarchical data
-gem "closure_tree"
+gem "closure_tree", "~> 7.3"
 
 # Tables
 gem "font-awesome-sass", "~> 5.12"
 gem "jquery-ui-rails"
 
-# We are using this fork because:
-# 1. 'tag_options' no longer valid in rails 5
-# 2. AR 'size' method triggers the count query which causes errors in rails 5
-gem "wice_grid", git: "https://github.com/sassafrastech/wice_grid.git", branch: "rails5"
+# We are using this fork because the original gem is no longer maintained. This fork seems to be where
+# most of the activity is happening in recent years. patricklindsay's fork has also been active,
+# but this one is the only one I could find that works with Rails 6.1
+gem "wice_grid", git: "https://github.com/kreintjes/wice_grid.git", branch: "fix/all"
 
 gem "active_model_serializers" # Generating JSON data
 gem "addressable" # URL handling
@@ -87,9 +86,9 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug"
-  gem "pry", "0.10.4"
-  gem "pry-nav", "0.2.4"
-  gem "pry-rails", "0.3.5"
+  gem "pry"
+  gem "pry-byebug"
+  gem "pry-rails"
 
   # Report number of queries in server log
   gem "sql_queries_count"

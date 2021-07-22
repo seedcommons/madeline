@@ -19,9 +19,9 @@ module Admin
         order: "projects.signing_date",
         order_direction: "desc",
         custom_order: {
-          "projects.division_id" => "LOWER(divisions.name)",
-          "projects.organization_id" => "LOWER(organizations.name)",
-          "projects.signing_date" => "projects.signing_date IS NULL, projects.signing_date"
+          "projects.division_id" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "projects.organization_id" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "projects.signing_date" => ->(col) { Arel.sql("#{col} IS NULL, #{col}") }
         },
         per_page: 50,
         name: "loans",

@@ -1,4 +1,4 @@
-class QuestionSerializer < ActiveModel::Serializer
+class QuestionSerializer < ApplicationSerializer
   attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status,
     :can_edit
 

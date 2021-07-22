@@ -64,14 +64,14 @@ class Admin::DashboardController < Admin::AdminController
 
   def initialize_wice_grid(projects, person_id)
     initialize_grid(
-        projects,
-        include: [:primary_agent, :secondary_agent],
-        order: 'projects.order_by_agent',
-        custom_order: {
-            'projects.order_by_agent' => Project.dashboard_order(person_id),
-        },
-        name: "projects_person_#{person_id}",
-        enable_export_to_csv: false
+      projects,
+      include: [:primary_agent, :secondary_agent],
+      order: "projects.order_by_agent",
+      custom_order: {
+        "projects.order_by_agent" => ->(_col) { Arel.sql(Project.dashboard_order(person_id)) },
+      },
+      name: "projects_person_#{person_id}",
+      enable_export_to_csv: false
     )
   end
 end

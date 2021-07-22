@@ -108,8 +108,8 @@ RSpec.describe ProjectDuplicator, type: :model do
       # actually goes downward instead of upward.
       # g3_s3 is sorted above s1 because g3 has an early step. But we're going to make g3_s3 depend
       # on s1, which won't change the sort order, but is a downward depenendency.
-      g3_s3.update_attributes!(schedule_parent_id: s1.id)
-      g5_s1.update_attributes!(schedule_parent_id: g3_s3.id)
+      g3_s3.update!(schedule_parent_id: s1.id)
+      g5_s1.update!(schedule_parent_id: g3_s3.id)
     end
 
     shared_examples_for 'scheduled loan' do

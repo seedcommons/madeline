@@ -24,9 +24,9 @@
         - if context == "timeline"
           h5.title
             .icon = project_step_icon(step)
-            .title-text = step.try(:summary)
+            .title-text = step&.summary
 
-        p = simple_format step.try(:details).to_s
+        p = simple_format step&.details.to_s
 
     .col-md-2.col-md-push-4.action-items
       .completion-status

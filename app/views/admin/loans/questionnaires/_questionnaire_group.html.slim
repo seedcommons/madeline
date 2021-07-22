@@ -62,7 +62,7 @@ div
              )
 
       - if question.explanation.present?
-        - explanation_to_render = question.explanation.allow_html? ?  raw(question.explanation) : simple_format(question.explanation)
+        - explanation_to_render = question.explanation.allow_html? ? raw(question.explanation.to_s) : simple_format(question.explanation.to_s)
         - is_long = explanation_to_render.length > 260
         .help-block.hidden-print.tree-view.custom_dark_accent class="#{ is_long ? "collapsed" : ""}"
           - if is_long

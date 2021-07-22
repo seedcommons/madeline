@@ -7,8 +7,8 @@ class Admin::OrganizationsController < Admin::AdminController
       conditions: division_index_filter,
       order: "name",
       custom_order: {
-        "organizations.name" => "LOWER(organizations.name)",
-        "organizations.city" => "LOWER(organizations.city)"
+        "organizations.name" => ->(col) { Arel.sql("LOWER(#{col})") },
+        "organizations.city" => ->(col) { Arel.sql("LOWER(#{col})") }
       },
       per_page: 50,
       name: "organizations",

@@ -1,4 +1,4 @@
-class CalendarEventSerializer < ActiveModel::Serializer
+class CalendarEventSerializer < ApplicationSerializer
   attributes :start, :end, :html, :id, :model_id, :editable, :is_finalized, :completed, :model_type,
     :event_type, :has_precedent?, :backgroundColor, :event_classes
 

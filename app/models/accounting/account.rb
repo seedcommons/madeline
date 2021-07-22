@@ -12,7 +12,7 @@ class Accounting::Account < ApplicationRecord
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     account = find_or_initialize_by qb_id: qb_object.id
     account.tap do |a|
-      a.update_attributes!(
+      a.update!(
         name: qb_object.name,
         qb_account_classification: qb_object.classification,
         quickbooks_data: qb_object.as_json

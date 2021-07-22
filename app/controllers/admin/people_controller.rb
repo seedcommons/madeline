@@ -9,9 +9,9 @@ module Admin
         order: "name",
         per_page: 50,
         custom_order: {
-          "people.name" => "LOWER(people.name)",
-          "people.city" => "LOWER(people.city)",
-          "people.primary_organization_id" => "LOWER(organizations.name)"
+          "people.name" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "people.city" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "people.primary_organization_id" => ->(col) { Arel.sql("LOWER(#{col})") }
         },
         name: "people",
         enable_export_to_csv: true

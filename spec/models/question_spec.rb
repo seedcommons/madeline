@@ -77,7 +77,7 @@ describe Question, :type => :model do
 
       context "on activate" do
         before do
-          f2.update_attributes!(status: "active")
+          f2.update!(status: "active")
         end
 
         it "should adjust numbers appropriately" do
@@ -92,7 +92,7 @@ describe Question, :type => :model do
 
       context "on deactivate" do
         before do
-          f1.update_attributes!(status: "inactive")
+          f1.update!(status: "inactive")
         end
 
         it "should adjust numbers appropriately" do
