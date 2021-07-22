@@ -6,6 +6,7 @@ RSpec.describe Accounting::Transaction, type: :model do
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+  let(:vendor) { create(:vendor) }
 
   # This is example JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
@@ -87,6 +88,37 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
+  describe "validation" do
+    describe "disbursement type" do
+      it "is required for user_created disbursements" do
+        expect do
+          txn = create(:accounting_transaction,
+            project: loan,
+            loan_transaction_type_value: :disbursement,
+            qb_object_type: "Purchase",
+            disbursement_type: nil,
+            qb_vendor_id: vendor.id,
+            user_created: true)
+        end.to raise_error("Validation failed: Disbursement type can't be blank")
+      end
+
+      it "is not required for managed non-disbursements" do
+        expect do
+          create(:accounting_transaction, loan_transaction_type_value: :repayment)
+        end.not_to raise_error
+      end
+
+      it "is not required for non-managed disbursements" do
+        expect do
+          create(:accounting_transaction,
+                 loan_transaction_type_value: :disbursement,
+                 managed: false,
+                 disbursement_type: nil)
+        end.not_to raise_error
+      end
+    end
+  end
+
   # TODO: this block of specs, and accompanying #set_qb_object_type logic needs review
   describe "sets qb txn type and requires amount on madeline-created disbursements" do
     let(:transaction_params) do
@@ -144,7 +176,7 @@ RSpec.describe Accounting::Transaction, type: :model do
             description: "desc",
             project_id: loan.id,
             loan_transaction_type_value: transaction_type,
-            qb_object_subtype: "Check",
+            disbursement_type: "check",
             qb_vendor_id: vendor_id,
             check_number: check_number
           }
@@ -154,7 +186,7 @@ RSpec.describe Accounting::Transaction, type: :model do
           let(:check_number) { nil }
           it "requires a check number to save" do
             expect do
-              create(:accounting_transaction, transaction_params.merge({user_created: true}))
+              create(:accounting_transaction, transaction_params.merge({ managed: true }))
             end.to raise_error(ActiveRecord::RecordInvalid)
           end
         end

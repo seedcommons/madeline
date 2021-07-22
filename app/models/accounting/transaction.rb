@@ -16,7 +16,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
-  QB_PAYMENT_TYPES = %w(Check Cash).freeze
+  DISBURSEMENT_TYPES = %w(check other).freeze
   QB_PARENT_CLASS = "Loan Products"
   QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
@@ -43,16 +43,15 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
-  validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" && txn.user_created } do
-    validates :check_number, presence: true
-  end
-  # validate that all disbursements created in Madeline's transaction form have a vendor
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
-    validates :qb_vendor_id, presence: true
-  end
+  validates :disbursement_type, :qb_vendor_id, presence: true, if: ->(txn) {
+     txn.disbursement? && txn.managed?
+  }
+  validates :check_number, presence: true, if: ->(txn) { txn.check? && txn.managed? }
 
-  before_validation :set_qb_object_type
+  # TODO rename 'user_created.' it signifies 'just created or edited' because admins cannot create or edit txns before cbd
+  validate :respect_closed_books_date, if: :user_created
+
+  before_validation :enforce_managed_disbursements_are_purchases
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
@@ -118,10 +117,6 @@ class Accounting::Transaction < ApplicationRecord
     txn
   end
 
-  def interest?
-    loan_transaction_type_value == LOAN_INTEREST_TYPE
-  end
-
   # Stores the ID and type of the given Quickbooks object on this Transaction.
   # This is so that during sync operations, we can associate one with the other and not
   # create duplicates.
@@ -178,9 +173,13 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
-  # if new disbursement w/out qb id, override db-level default of JournalEntry
-  def set_qb_object_type
-    if self.loan_transaction_type_value == "disbursement" && self.qb_id.nil?
+  # Any disbursement created in madeline should be a purchase.
+  # Purchases from qb can be disbursements or other
+  # Disbursements from qb can be purchases or journal entries or bills
+  # qb_object_type defaults to  JournalEntry in the db
+  # qb_id.nil? is probably a proxy for or equivalent to managed?
+  def enforce_managed_disbursements_are_purchases
+    if disbursement? && qb_id.nil?
       self.qb_object_type = "Purchase"
     end
   end
@@ -189,8 +188,20 @@ class Accounting::Transaction < ApplicationRecord
     loan_transaction_type_value == type
   end
 
-  def subtype?(subtype)
-    qb_object_subtype == subtype
+  def disbursement?
+    type?("disbursement")
+  end
+
+  def repayment?
+    type?("repayment")
+  end
+
+  def interest?
+    type?(LOAN_INTEREST_TYPE)
+  end
+
+  def check?
+    disbursement_type == "check"
   end
 
   private

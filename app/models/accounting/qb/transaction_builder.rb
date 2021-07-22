@@ -35,12 +35,12 @@ module Accounting
           p.id = transaction.qb_id
           p.sync_token = transaction.sync_token
         end
-        p.doc_number = set_journal_number(transaction)
+        p.doc_number = journal_number(transaction)
         p.private_note = transaction.private_note
         p.txn_date = transaction.txn_date if transaction.txn_date.present?
         p.account_ref = transaction.account.try(:reference)
         p.department_ref = department_reference(transaction.project)
-        p.payment_type = transaction.qb_object_subtype
+        p.payment_type = payment_type(transaction)
         p.entity_ref = transaction.vendor.try(:reference) # all check txns have a vendor
         p.total = transaction.amount
 
@@ -83,7 +83,7 @@ module Accounting
           je.id = transaction.qb_id
           je.sync_token = transaction.sync_token
         end
-        je.doc_number = set_journal_number(transaction)
+        je.doc_number = journal_number(transaction)
 
         je.private_note = transaction.private_note
         je.txn_date = transaction.txn_date if transaction.txn_date.present?
@@ -192,10 +192,14 @@ module Accounting
         transaction.update(customer: customer)
       end
 
-      def set_journal_number(txn)
+      def journal_number(txn)
         return nil if txn.loan_transaction_type_value == 'other'
         ms_status = txn.loan_transaction_type_value == 'interest' ? 'MS-Automatic' : 'MS-Managed'
-        txn.subtype?("Check") ? "#{txn.check_number} #{ms_status}" : ms_status
+        txn.check? ? "#{txn.check_number} #{ms_status}" : ms_status
+      end
+
+      def payment_type(txn)
+        txn.disbursement_type == "check" ? "Check" : "Cash"
       end
     end
   end

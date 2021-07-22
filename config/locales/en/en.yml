@@ -226,7 +226,7 @@ en:
         principal_balance: "Principal Balance"
         private_note: "Memo"
         qb_department: "QB Division"
-        qb_object_subtype: "Disbursement Type"
+        disbursement_type: "Disbursement Type"
         qb_record_id: "QuickBooks Record ID"
         total_balance: "Total Balance"
         txn_date: "Date"

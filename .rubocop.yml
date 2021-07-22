@@ -45,6 +45,9 @@ Metrics:
 Metrics/BlockLength:
   Enabled: false
 
+Naming/VariableNumber:
+  Enabled: false
+
 Style:
   Enabled: false
 

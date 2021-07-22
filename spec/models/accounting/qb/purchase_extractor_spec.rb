@@ -19,7 +19,7 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
            total: 12345.67,
            doc_number: "from qb",
            sync_token: "abc",
-           payment_type: "Check")
+           payment_type: payment_type)
   end
   let(:txn) do
     Accounting::Transaction.create_or_update_from_qb_object!(
@@ -28,7 +28,8 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
     )
   end
 
-  context "extract!" do
+  context "extracting a check" do
+    let(:payment_type) { "Check" }
     it "updates correctly in Madeline" do
       Accounting::QB::PurchaseExtractor.new(txn).extract!
       expect(txn.loan_transaction_type_value).to eq "disbursement"
@@ -39,7 +40,24 @@ describe Accounting::QB::PurchaseExtractor, type: :model do
       expect(txn.account).to eq txn_acct
       expect(txn.amount).to equal_money(12345.67)
       expect(txn.sync_token).to eq "abc"
-      expect(txn.qb_object_subtype).to eq "Check"
+      expect(txn.disbursement_type).to eq "check"
+      expect { txn.save! }.not_to raise_error
+    end
+  end
+
+  context "extracting a non-check" do
+    let(:payment_type) { "Cash" }
+    it "updates correctly in Madeline" do
+      Accounting::QB::PurchaseExtractor.new(txn).extract!
+      expect(txn.loan_transaction_type_value).to eq "disbursement"
+      expect(txn.managed).to be false
+      expect(txn.line_items.size).to eq 2
+      expect(txn.line_items[1].account).to eq txn.account
+      expect(txn.line_items[1].credit?).to be true
+      expect(txn.account).to eq txn_acct
+      expect(txn.amount).to equal_money(12345.67)
+      expect(txn.sync_token).to eq "abc"
+      expect(txn.disbursement_type).to eq "other"
       expect { txn.save! }.not_to raise_error
     end
   end
