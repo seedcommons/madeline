@@ -1,4 +1,4 @@
-class ChangeQbObjectSubtypeToDisbursementTypeOnTransaction < ActiveRecord::Migration[5.2]
+class ChangeQBObjectSubtypeToDisbursementTypeOnTransaction < ActiveRecord::Migration[5.2]
   def up
     Accounting::Transaction.where(qb_object_subtype: "Cash").update_all(qb_object_subtype: :other)
     Accounting::Transaction.where(qb_object_subtype: "Check").update_all(qb_object_subtype: :check)
