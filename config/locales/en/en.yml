@@ -31,7 +31,7 @@ en:
         description: "Description"
         default_currency: "Default Currency"
         name: "Name"
-        parent: "Parent Division"
+        parent_id: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"
         public: "Public"
         logo: "Logo"

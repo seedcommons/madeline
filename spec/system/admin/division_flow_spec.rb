@@ -17,6 +17,20 @@ describe "division flow", js: true do
     expect(page).to have_content("Cream")
   end
 
+  scenario "new/create" do
+    visit(admin_divisions_path)
+    click_on("New Division")
+
+    fill_in("* Name", with: "New Division", exact: true)
+    select("Cream", from: "Parent Division")
+
+    click_button("Create Division")
+
+    expect(page).to have_alert('Record was successfully created.')
+    expect(page).to have_content("New Division")
+    expect(page).to have_content("Cream")
+  end
+
   scenario "show/edit/update" do
     visit(admin_divisions_path)
     within("#divisions") { click_link(division.id.to_s) }
@@ -30,7 +44,7 @@ describe "division flow", js: true do
 
     expect(page).to have_content("New Name")
     expect(page).to have_content("QB Dep")
-    expect(page).to have_content('Record was successfully updated.')
+    expect(page).to have_alert('Record was successfully updated.')
   end
 
   # TODO: this should be a model spec

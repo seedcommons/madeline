@@ -39,7 +39,7 @@
 
   / Only allow parent to be reassigned if current user has access to current parent.
   - if @division.parent && policy(@division.parent).show?
-    = f.input :parent
+    = f.input :parent_id
       .view-element
         - if @division.parent
           - if @division.parent == Division.root
