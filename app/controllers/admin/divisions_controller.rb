@@ -51,22 +51,8 @@ class Admin::DivisionsController < Admin::AdminController
     prep_form_vars
   end
 
-  def update
-    authorize @division
-    division_params = prep_division_params # TODO: find a neater way to set dept based on dept_id
-    qb_department_id = division_params.delete(:qb_department_id)
-    @division.update(division_params)
-    @division.qb_department = ::Accounting::QB::Department.find(qb_department_id) if qb_department_id.present?
-    if @division.save
-      redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)
-    else
-      prep_form_vars
-      render :show
-    end
-  end
-
   def create
-    division_params = prep_division_params
+    division_params = prep_division_params(:create)
     @division = Division.new(division_params)
     if @division.parent
       authorize @division
@@ -84,6 +70,20 @@ class Admin::DivisionsController < Admin::AdminController
     end
   end
 
+  def update
+    authorize @division
+    division_params = prep_division_params(:update) # TODO: find a neater way to set dept based on dept_id
+    qb_department_id = division_params.delete(:qb_department_id)
+    @division.update(division_params)
+    @division.qb_department = ::Accounting::QB::Department.find(qb_department_id) if qb_department_id.present?
+    if @division.save
+      redirect_to admin_division_path(@division), notice: I18n.t(:notice_updated)
+    else
+      prep_form_vars
+      render :show
+    end
+  end
+
   def destroy
     authorize @division
 
@@ -97,9 +97,12 @@ class Admin::DivisionsController < Admin::AdminController
 
   private
 
-  def prep_division_params
-    params.require(:division).permit(:name, :description, :logo, :logo_text, :default_currency_id, :qb_department_id, :parent_id, :public,
-      :banner_fg_color, :banner_bg_color, :short_name, :accent_main_color, :accent_fg_color, :notify_on_new_logs, locales: [])
+  def prep_division_params(action)
+    permitted = [:name, :description, :logo, :logo_text, :short_name,
+                 :default_currency_id, :qb_department_id, :public, :banner_fg_color, :banner_bg_color,
+                 :accent_main_color, :accent_fg_color, :notify_on_new_logs, locales: []]
+    permitted << :parent_id if action == :create
+    params.require(:division).permit(permitted)
   end
 
   def find_division

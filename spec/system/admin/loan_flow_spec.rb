@@ -12,7 +12,7 @@ describe "loan flow", js: true do
   end
 
   # This should work, but for some reason it fails a lot more often
-  include_examples :flow do
+  include_examples "flow" do
     subject { loan }
   end
 

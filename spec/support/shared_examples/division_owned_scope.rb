@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'division_owned_scope' do |record_type|
 
   let!(:parent_division) { create(:division) }

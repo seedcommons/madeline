@@ -71,4 +71,20 @@ describe Division, type: :model do
       end
     end
   end
+
+  describe "validation" do
+    describe "parent name and own name" do
+      let!(:division) { create(:division, name: "Foo") }
+
+      context "when names are different" do
+        subject(:division2) { build(:division, name: "Foo2", parent: division) }
+        it { is_expected.to be_valid }
+      end
+
+      context "when names are same" do
+        subject(:division2) { build(:division, name: "Foo", parent: division) }
+        it { is_expected.to have_errors(name: "names cannot be the same") }
+      end
+    end
+  end
 end

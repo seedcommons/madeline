@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'base_policy' do |record_type|
   let(:described_record) { create(record_type, division: division) }
   subject { described_class.new(user, described_record) }

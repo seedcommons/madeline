@@ -29,7 +29,7 @@ describe 'organization flow' do
     option_set.options.create(value: 'public', label_translations: { en: 'Public' })
   end
 
-  include_examples :flow do
+  include_examples "flow" do
     subject { org1 }
     let(:edit_button_name) { 'Edit Co-op' }
   end

@@ -31,7 +31,7 @@ en:
         description: "Description"
         default_currency: "Default Currency"
         name: "Name"
-        parent: "Parent Division"
+        parent_id: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"
         public: "Public"
         logo: "Logo"
@@ -187,8 +187,8 @@ en:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         division:
           attributes:
-            parent:
-              invalid: 'Division and Parent Division cannot be the same'
+            name:
+              same_as_parent: 'Division and Parent Division names cannot be the same'
         loan:
           attributes:
             primary_agent:

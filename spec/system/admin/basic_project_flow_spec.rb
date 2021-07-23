@@ -12,7 +12,7 @@ describe 'basic project flow' do
     login_as(user, scope: :user)
   end
 
-  include_examples :flow do
+  include_examples "flow" do
     subject { basic_project }
     let(:edit_button_name) { 'Edit Project' }
   end
