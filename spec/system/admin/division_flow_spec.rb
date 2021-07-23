@@ -10,7 +10,7 @@ describe 'division flow' do
     login_as(user, scope: :user)
   end
 
-  include_examples :flow do
+  include_examples "flow" do
     subject { division }
   end
 

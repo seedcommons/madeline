@@ -17,7 +17,7 @@ describe 'people flow' do
     login_as(user_1, scope: :user)
   end
 
-  include_examples :flow do
+  include_examples "flow" do
     subject { person_1 }
     let(:field_to_change) { 'first_name' }
   end

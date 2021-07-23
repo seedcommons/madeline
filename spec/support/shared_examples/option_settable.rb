@@ -1,6 +1,4 @@
-
 shared_examples_for 'option_settable' do |attribute_names|
-
   before do
     root_division
   end
