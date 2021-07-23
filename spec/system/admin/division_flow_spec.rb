@@ -1,13 +1,13 @@
 require "rails_helper"
 
 describe "division flow", js: true do
-  let!(:division) { create(:division, name: 'Cream', short_name: 'cream') }
+  let!(:division) { create(:division, name: "Cream", short_name: "cream") }
   let!(:qb_department) { create(:department, name: "QB Dep") }
   let(:person) { create(:person, :with_admin_access, :with_password) }
   let(:user) { person.user }
 
   before do
-    allow(SecureRandom).to receive(:uuid) { 'iamauuid2018' }
+    allow(SecureRandom).to receive(:uuid) { "iamauuid2018" }
     login_as(user, scope: :user)
   end
 
@@ -26,7 +26,7 @@ describe "division flow", js: true do
 
     click_button("Create Division")
 
-    expect(page).to have_alert('Record was successfully created.')
+    expect(page).to have_alert("Record was successfully created.")
     expect(page).to have_content("New Division")
     expect(page).to have_content("Cream")
   end
@@ -38,13 +38,14 @@ describe "division flow", js: true do
     expect(page).to have_title("Cream")
     find("a", text: "Edit Division").click
 
+    expect(page).to have_field("Parent Division", disabled: true)
     fill_in("* Name", with: "New Name", exact: true)
     select("QB Dep", from: "QB Division")
     click_button("Update Division")
 
     expect(page).to have_content("New Name")
     expect(page).to have_content("QB Dep")
-    expect(page).to have_alert('Record was successfully updated.')
+    expect(page).to have_alert("Record was successfully updated.")
   end
 
   # TODO: this should be a model spec
