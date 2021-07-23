@@ -46,7 +46,7 @@ class Accounting::QB::Connection < ApplicationRecord
 
   def update_last_updated_at(timestamp)
     Rails.logger.debug("Setting qb cnxn last_updated_at to #{timestamp}")
-    self.update_attribute(:last_updated_at, timestamp)
+    self.update(last_updated_at: timestamp)
   end
 
   private

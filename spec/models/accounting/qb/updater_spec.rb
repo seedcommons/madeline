@@ -114,7 +114,7 @@ RSpec.describe Accounting::QB::Updater, type: :model do
     let(:last_updated_at) { 100.years.ago }
 
     before do
-      division.qb_connection.update_attribute(:last_updated_at, last_updated_at)
+      division.qb_connection.update(last_updated_at: last_updated_at)
     end
 
     context "when last_updated_at is very old" do
