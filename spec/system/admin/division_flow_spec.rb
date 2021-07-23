@@ -48,15 +48,6 @@ describe "division flow", js: true do
   end
 
   # TODO: this should be a model spec
-  scenario "division and parent division can't be the same" do
-    visit admin_division_path(division)
-    find('.edit-action').click
-    select 'Cream', from: 'division_parent_id'
-    click_on 'Update Division'
-    expect(page).to have_content('Division and Parent Division cannot be the same')
-  end
-
-  # TODO: this should be a model spec
   scenario 'divisions can not have duplicate short names' do
     visit admin_divisions_path
     click_on 'New Division'

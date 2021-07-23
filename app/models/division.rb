@@ -120,7 +120,7 @@ class Division < ApplicationRecord
   end
 
   def parent_division_and_name
-    errors.add(:parent, :invalid) if parent&.name == name
+    errors.add(:name, :same_as_parent) if parent&.name == name
   end
 
   def generate_short_name
