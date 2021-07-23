@@ -186,7 +186,7 @@ describe Loan, type: :model do
         context 'update to field other than updated_at' do
           it 'enqueues loan health check' do
             ActiveJob::Base.queue_adapter = :test
-            expect { loan.update_attribute(:projected_end_date, Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
+            expect { loan.update(projected_end_date: Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
           end
         end
 

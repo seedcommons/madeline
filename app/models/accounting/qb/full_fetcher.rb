@@ -37,7 +37,7 @@ module Accounting
         ::Accounting::QB::TransactionFetcher.new(division).fetch
         ::Accounting::QB::DepartmentFetcher.new(division).fetch
         ::Accounting::QB::VendorFetcher.new(division).fetch
-        qb_connection.update_attribute(:last_updated_at, started_fetch_at)
+        qb_connection.update_last_updated_at(started_fetch_at)
       rescue StandardError => error
         delete_qb_data
         clear_division_accounts
@@ -97,7 +97,7 @@ module Accounting
 
       def restore_department_associations!(department_division_map)
         Accounting::QB::Department.find_each do |d|
-          d.update_attribute(:division_id, department_division_map[d.qb_id])
+          d.update(division_id: department_division_map[d.qb_id])
         end
       end
     end

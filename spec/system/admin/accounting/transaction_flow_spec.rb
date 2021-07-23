@@ -127,7 +127,7 @@ describe "transaction flow", :accounting do
           let!(:loan) { create(:loan, :completed, division: division) }
 
           before do
-            Division.root.update_attribute(:qb_read_only, true)
+            Division.root.update(qb_read_only: true)
           end
 
           context "as admin" do

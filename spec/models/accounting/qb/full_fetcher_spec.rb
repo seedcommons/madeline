@@ -94,7 +94,7 @@ describe Accounting::QB::FullFetcher, type: :model do
         .and_return(qb_transaction_service)
       expect(transaction_fetcher).to receive(:fetch).and_call_original
 
-      expect(qb_connection).to receive :update_attribute
+      expect(qb_connection).to receive :update
 
       subject.fetch_all
       division = Division.root
@@ -151,7 +151,7 @@ describe Accounting::QB::FullFetcher, type: :model do
           .and_return(qb_transaction_service)
         expect(transaction_fetcher).to receive(:fetch).and_call_original
 
-        expect(qb_connection).to receive :update_attribute
+        expect(qb_connection).to receive :update
 
         subject.fetch_all
         division = Division.root
