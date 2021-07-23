@@ -18,6 +18,10 @@ module SystemSpecHelpers
     find(".select2-results li", text: /#{value}/).click
   end
 
+  def have_title(text)
+    have_css("h1.page-title", text: text)
+  end
+
   def have_alert(msg, container: 'body')
     have_css("#{container} .alert", text: msg)
   end
