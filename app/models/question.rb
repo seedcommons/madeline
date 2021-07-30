@@ -80,10 +80,6 @@ class Question < ApplicationRecord
     data_type == 'business_canvas'
   end
 
-  def active?
-    status == 'active'
-  end
-
   def first_child?
     @first_child ||= parent && parent.children.none? { |q| q.position < position }
   end
@@ -175,14 +171,14 @@ class Question < ApplicationRecord
     self.class.connection.execute("UPDATE questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
       FROM questions
-      WHERE parent_id = #{parent_id} AND status = 'active'
+      WHERE parent_id = #{parent_id} AND active = 't'
     ) AS t WHERE questions.id = t.id")
   end
 
   private
 
   def prepare_numbers
-    self.number = nil if status_changed? && status != 'active'
+    self.number = nil if active_changed? && !active?
     @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
   end

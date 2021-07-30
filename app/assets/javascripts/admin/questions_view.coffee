@@ -13,8 +13,9 @@ class MS.Views.QuestionsView extends Backbone.View
       useContextMenu: false
       saveState: true
       onCreateLi: (node, $li) =>
+        status = if node.active then 'active' else 'inactive'
         $li.attr('data-id', node.id)
-          .addClass("filterable #{node.fieldset} #{node.status}")
+          .addClass("filterable #{node.fieldset} #{status}")
           .find('.jqtree-element')
           .append(@requiredLoanTypesHTML(node))
           .append(@permittedActionsHTML(node))

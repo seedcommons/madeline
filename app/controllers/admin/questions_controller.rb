@@ -4,7 +4,6 @@ class Admin::QuestionsController < Admin::AdminController
 
   def index
     authorize Question
-    # Hide retired questions for now
     sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     questions = sets.map { |s| top_level_questions(s) }.flatten
     @json = ActiveModel::Serializer::CollectionSerializer.new(questions, user: current_user).to_json
@@ -91,7 +90,7 @@ class Admin::QuestionsController < Admin::AdminController
     # params.require(:question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:question).permit(
       :label, :data_type, :division_id, :display_in_summary, :parent_id, :position,
-      :question_set_id, :has_embeddable_media, :override_associations, :status,
+      :question_set_id, :has_embeddable_media, :override_associations, :active,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
     )

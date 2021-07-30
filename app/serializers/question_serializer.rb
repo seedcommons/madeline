@@ -1,5 +1,5 @@
 class QuestionSerializer < ApplicationSerializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :status,
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active,
     :can_edit
 
   def initialize(*args, user: nil, **options)
@@ -29,10 +29,6 @@ class QuestionSerializer < ApplicationSerializer
 
   def required_loan_types
     object.loan_question_requirements.map { |i| i.loan_type.label.to_s }
-  end
-
-  def status
-    object.status.presence || "active"
   end
 
   def can_edit

@@ -25,8 +25,7 @@
           placeholder: I18n.t('questions.explanation', locale: l),
           label: t('questions.explanation', locale: l)
 
-    = f.input :status, label: t("questions.active"), as: :boolean, checked_value: 'active',
-      unchecked_value: 'inactive'
+    = f.input :active, label: t("questions.active"), as: :boolean
 
     = f.input :division_id, collection: division_select_options(public_only: false),
       selected: @question.division.id

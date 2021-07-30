@@ -29,7 +29,7 @@ describe Question, :type => :model do
     let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
-    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", active: false) }
     let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
     let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
@@ -77,7 +77,7 @@ describe Question, :type => :model do
 
       context "on activate" do
         before do
-          f2.update!(status: "active")
+          f2.update!(active: true)
         end
 
         it "should adjust numbers appropriately" do
@@ -92,7 +92,7 @@ describe Question, :type => :model do
 
       context "on deactivate" do
         before do
-          f1.update!(status: "inactive")
+          f1.update!(active: false)
         end
 
         it "should adjust numbers appropriately" do
@@ -125,9 +125,9 @@ describe Question, :type => :model do
     let!(:set) { create(:question_set) }
     let!(:lqroot) { set.root_group }
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
-    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", status: "inactive") }
+    let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", active: false) }
     let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
-    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string", status: "inactive") }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string", active: false) }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
     let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "group") }
     let!(:f331) { create_question(set: set, parent: f33, name: "f331", type: "boolean") }

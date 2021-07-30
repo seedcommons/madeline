@@ -27,11 +27,11 @@ module QuestionSpecHelpers
     let!(:q332) { create_question(parent: q33, name: "q332", type: "boolean", loan_types: [lt2]) }
     let!(:q34) { create_question(parent: q3, name: "q34", type: "string", required: false) }
     let!(:q35) { create_question(parent: q3, name: "q35", type: "string", required: true, position: -99) }
-    let!(:q36) { create_question(parent: q3, name: "q36", type: "string", required: true, status: 'inactive') }
-    let!(:q37) { create_question(parent: q3, name: "q37", type: "string", required: true, status: 'retired') } # answered
+    let!(:q36) { create_question(parent: q3, name: "q36", type: "string", required: true, active: false) }
+    let!(:q37) { create_question(parent: q3, name: "q37", type: "string", required: true, active: false) }
     let!(:q38) { create_group(parent: q3, name: "q38", required: false) }
     let!(:q381) { create_question(parent: q38, name: "q381", type: "boolean", loan_types: []) }
-    let!(:q39) { create_question(parent: q3, name: "q39", type: "text", status: 'inactive') } # answered
+    let!(:q39) { create_question(parent: q3, name: "q39", type: "text", active: false) } # answered
 
     # Optional group
     let!(:q4) { create_group(parent: root, name: "q4", required: false) }
@@ -41,14 +41,9 @@ module QuestionSpecHelpers
     let!(:q44) { create_question(parent: q4, name: "q44", type: "string", required: true, override: false) }
 
     # Inactive group
-    let!(:q5) { create_group(parent: root, name: "q5", required: true, status: 'inactive') }
+    let!(:q5) { create_group(parent: root, name: "q5", required: true, active: false) }
     let!(:q51) { create_question(parent: q5, name: "q51", type: "string", required: true) } # answered
     let!(:q52) { create_question(parent: q5, name: "q52", type: "boolean", required: false) }
-
-    # Retired group
-    let!(:q6) { create_group(parent: root, name: "q6", required: true, status: 'retired') }
-    let!(:q61) { create_question(parent: q6, name: "q61", type: "string", required: false) } # answered
-    let!(:q62) { create_question(parent: q6, name: "q62", type: "boolean", required: true, status: 'inactive') }
 
     before do
       rset.current_user = create(:user, :admin)
@@ -57,17 +52,15 @@ module QuestionSpecHelpers
       rset.set_response(q31, {"text" => "junk"}) # required
       rset.set_response(q32, {"boolean" => "no"}) # required
       rset.set_response(q331, {"boolean" => "yes"})
-      rset.set_response(q37, {"text" => "retired question"})
       rset.set_response(q39, {"text" => "inactive question"})
       rset.set_response(q41, {"text" => ""})
       rset.set_response(q42, {"text" => "pants"})
       rset.set_response(q43, {"text" => ""})
       rset.set_response(q51, {"text" => "inactive group"})
-      rset.set_response(q61, {"text" => "retired group"})
       rset.save!
 
       # Reload groups so they see their children!
-      [q3, q33, q38, q4, q5, q6].each(&:reload)
+      [q3, q33, q38, q4, q5].each(&:reload)
     end
   end
 
@@ -75,12 +68,12 @@ module QuestionSpecHelpers
     create_question(type: "group", **args)
   end
 
-  def create_question(set: qset, status: 'active', name: "", type:, override: true, required: false,
+  def create_question(set: qset, active: true, name: "", type:, override: true, required: false,
     loan_types: nil, **args)
 
     create(:question,
       question_set: set,
-      status: status,
+      active: active,
       internal_name: name,
       data_type: type,
       override_associations: override,

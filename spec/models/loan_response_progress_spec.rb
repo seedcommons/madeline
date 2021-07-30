@@ -31,16 +31,10 @@ describe "Response.progress" do
       expect(resp.progress).to be_within(0.001).of(0.25)
     end
 
-    it "should exclude inactive and retired questions from calculations" do
+    it "should exclude inactive questions from calculations" do
       # Inactive questions only show when they are answered, and they are never required, so
-      # progress makes no sense. Retired questions should never show, so they should be excluded as
-      # well.
+      # progress makes no sense.
       resp = rset.response(q5)
-      expect(resp.send(:progress_numerator)).to eq 0
-      expect(resp.send(:progress_denominator)).to eq 0
-      expect(resp.progress).to eq 0
-
-      resp = rset.response(q6)
       expect(resp.send(:progress_numerator)).to eq 0
       expect(resp.send(:progress_denominator)).to eq 0
       expect(resp.progress).to eq 0
@@ -48,7 +42,7 @@ describe "Response.progress" do
 
     it "should be correct for the full custom value set" do
       # Direct children contribute 0/1, group q3 contributes 2/3, total = 2/4 = 50%
-      # Optional, inactive and retired groups and questions should be ignored
+      # Optional and inactive groups and questions should be ignored
       expect(rset.root_response.send(:progress_numerator)).to eq 2
       expect(rset.root_response.send(:progress_denominator)).to eq 4
       expect(rset.progress).to be_within(0.001).of(0.5)

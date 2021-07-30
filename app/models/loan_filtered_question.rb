@@ -48,7 +48,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def visible?
     return @visible if defined?(@visible)
-    @visible = super && (status == 'active' || (status == 'inactive' && answered?))
+    @visible = super && (active? || answered?)
   end
 
   def response_set

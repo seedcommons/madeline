@@ -47,7 +47,7 @@ module ProgressCalculable
     end
   end
 
-  # Inactive and retired questions should be ignored. Inactive questions only show when they are
+  # Inactive questions should be ignored. Inactive questions only show when they are
   # answered, and they are never required, so progress makes no sense. Retired questions should
   # never show, so they should be excluded as well.
   # If the current response is required, only count children that are also required.
