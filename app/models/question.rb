@@ -48,6 +48,14 @@ class Question < ApplicationRecord
     parent.root?
   end
 
+  # This is a duck type method, and is overridden by LoanFilteredQuestion, which implements
+  # the real logic about which questions are required contextually.
+  # We need to implement this here because plan Questions need to be serialized for the manage
+  # questions page, and the serializer may try to access this method even though it's not needed on that page.
+  def required?
+    false
+  end
+
   # Overriding this method because the closure_tree implementation causes a DB query.
   def depth
     @depth ||= root? ? 0 : parent.depth + 1
