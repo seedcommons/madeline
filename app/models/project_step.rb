@@ -137,7 +137,7 @@ class ProjectStep < TimelineEntry
   end
 
   def set_completed!(date)
-    update(:actual_end_date, date)
+    update(actual_end_date: date)
   end
 
   def completed?
@@ -279,7 +279,7 @@ class ProjectStep < TimelineEntry
     if is_finalized?
       false
     else
-      update(:is_finalized, true)
+      update(is_finalized: true)
     end
   end
 
