@@ -14,7 +14,7 @@ class DataExportTaskJob < TaskJob
   rescue_from(DataExportError) do |error|
     task_for_job(self).set_activity_message("finished_with_custom_error_data")
     task_for_job(self).fail!
-    ExceptionNotifier.notify_exception(error, data: {job: to_yaml})
+    notify_of_error(error)
     raise error
   end
 end

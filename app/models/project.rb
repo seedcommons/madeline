@@ -1,53 +1,3 @@
-# == Schema Information
-#
-# Table name: projects
-#
-#  actual_end_date                       :date
-#  actual_first_interest_payment_date    :date
-#  actual_first_payment_date             :date
-#  actual_return                         :decimal(, )
-#  amount                                :decimal(, )
-#  created_at                            :datetime         not null
-#  currency_id                           :integer
-#  custom_data                           :json
-#  division_id                           :integer          not null
-#  id                                    :integer          not null, primary key
-#  length_months                         :integer
-#  loan_type_value                       :string
-#  name                                  :string
-#  organization_id                       :integer
-#  original_id                           :integer
-#  primary_agent_id                      :integer
-#  projected_end_date                    :date
-#  projected_first_interest_payment_date :date
-#  projected_first_payment_date          :date
-#  projected_return                      :decimal(, )
-#  public_level_value                    :string           not null
-#  rate                                  :decimal(, )
-#  representative_id                     :integer
-#  secondary_agent_id                    :integer
-#  signing_date                          :date
-#  status_value                          :string
-#  txn_handling_mode                     :string           default("automatic"), not null
-#  type                                  :string           not null
-#  updated_at                            :datetime         not null
-#
-# Indexes
-#
-#  index_projects_on_currency_id      (currency_id)
-#  index_projects_on_division_id      (division_id)
-#  index_projects_on_organization_id  (organization_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (currency_id => currencies.id)
-#  fk_rails_...  (division_id => divisions.id)
-#  fk_rails_...  (organization_id => organizations.id)
-#  fk_rails_...  (primary_agent_id => people.id)
-#  fk_rails_...  (representative_id => people.id)
-#  fk_rails_...  (secondary_agent_id => people.id)
-#
-
 class Project < ApplicationRecord
   include Translatable
   include OptionSettable
@@ -66,7 +16,7 @@ class Project < ApplicationRecord
   has_many :project_logs, through: :timeline_entries
   has_many :transactions, class_name: "Accounting::Transaction", dependent: :destroy
   has_many :copies, class_name: "Project", foreign_key: "original_id", dependent: :nullify
-  has_many :problem_loan_transactions, class_name: "Accounting::ProblemLoanTransaction", dependent: :destroy
+  has_many :sync_issues, class_name: "Accounting::SyncIssue", dependent: :destroy
 
   scope :visible, -> { where.not(public_level_value: "hidden") }
 
@@ -89,7 +39,7 @@ class Project < ApplicationRecord
     exclude_association :timeline_entries
     exclude_association :transactions
     exclude_association :copies
-    exclude_association :problem_loan_transactions
+    exclude_association :sync_issues
 
     # The default name is computed, if it hasn't been set it will be blank.
     # We need to manually copy over the name and set it here for it to work.
@@ -123,23 +73,6 @@ class Project < ApplicationRecord
     name.blank? ? default_name : name
   end
 
-  # creates / reuses a default step when migrating ProjectLogs without a proper owning step
-  # beware, not at all optimized, but sufficient for migration.
-  # not sure if this will be useful beyond migration.  if so, perhaps worth better optimizing,
-  # if not, can remove once we're past the production migration process
-  def default_step
-    step = project_steps.select{|s| s.summary == DEFAULT_STEP_NAME}.first
-    unless step
-      # Could perhaps optimize this with a 'find_or_create_by', but would be tricky with the translatable 'summary' field,
-      # and it's nice to be able to log the operation.
-      logger.info {"default step not found for loan[#{id}] - creating"}
-
-      step = ProjectStep.new(project: self)
-      step.update(summary: DEFAULT_STEP_NAME)
-    end
-    step
-  end
-
   def agent_names
     [primary_agent.try(:name), secondary_agent.try(:name)].compact
   end
@@ -167,15 +100,11 @@ class Project < ApplicationRecord
 
   def self.dashboard_order(person_id)
     clauses = []
-
-    clauses << Arel.sql("CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
-                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END")
-
-    clauses << Arel.sql("CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
-                    "THEN 2 ELSE 3 END")
-
-    clauses << Arel.sql("CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END")
-
+    clauses << "CASE WHEN projects.primary_agent_id = #{person_id} THEN 1"\
+                    "WHEN projects.secondary_agent_id = #{person_id} THEN 2 END"
+    clauses << "CASE projects.status_value WHEN 'active' THEN 1 WHEN 'prospective'"\
+                    "THEN 2 ELSE 3 END"
+    clauses << "CASE projects.type WHEN 'Loan' THEN 1 WHEN 'BasicProject' THEN 2 END"
     clauses.join(", ")
   end
 

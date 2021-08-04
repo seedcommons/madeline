@@ -22,14 +22,14 @@ module Accounting
       end
 
       def extract_additional_metadata
-        txn.sync_token = txn.quickbooks_data['sync_token']
+        txn.sync_token = txn.quickbooks_data["sync_token"]
       end
 
       def remove_unmatched_madeline_lis
         # If we have more line items than are in Quickbooks, we delete the extras.
-        if txn.quickbooks_data['line_items'].count < txn.line_items.count
+        if txn.quickbooks_data["line_items"].count < txn.line_items.count
           mad_line_item_ids_to_destroy = []
-          qb_ids = txn.quickbooks_data['line_items'].map { |h| h['id'].to_i }
+          qb_ids = txn.quickbooks_data["line_items"].map { |h| h["id"].to_i }
           # chose not use where.not(qb_line_id: qb_ids).destroy all out of an abundance of caution
           # any errors in this code can be hard to detect and cause incorrect calculations
           txn.line_items.each do |li|
@@ -46,27 +46,25 @@ module Accounting
       end
 
       def extract_line_items
-        txn.quickbooks_data['line_items'].each do |li|
-          begin
-            acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]['account_ref']['value'])
-            raise StandardError "unprocessable_account" if acct.nil?
-          rescue
-            ::Accounting::ProblemLoanTransaction.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {})
-          end
-          # skip if line item does not have an account in Madeline
-          next unless acct
-          posting_type = li[qb_li_detail_key]['posting_type']
-          posting_type ||= existing_li_posting_type unless posting_type.present?
-          txn.line_item_with_id(li['id'].to_i).assign_attributes(
+        txn.quickbooks_data["line_items"].each do |li|
+          # QB occassionally sends empty line items. If amt is nil, assume blank and ignore.
+          next if li["amount"].nil?
+
+          acct = Accounting::Account.find_by(qb_id: li[qb_li_detail_key]["account_ref"]["value"])
+          raise UnprocessableAccountError.new(loan: @loan, transaction: txn) if acct.nil?
+
+          posting_type = li[qb_li_detail_key]["posting_type"]
+          posting_type ||= existing_li_posting_type if posting_type.blank?
+          txn.line_item_with_id(li["id"].to_i).assign_attributes(
             account: acct,
-            amount: li['amount'],
+            amount: li["amount"],
             posting_type: posting_type,
-            description: li['description']
+            description: li["description"]
           )
         end
-        txn.txn_date = txn.quickbooks_data['txn_date']
-        txn.private_note = txn.quickbooks_data['private_note']
-        txn.total = txn.quickbooks_data['total']
+        txn.txn_date = txn.quickbooks_data["txn_date"]
+        txn.private_note = txn.quickbooks_data["private_note"]
+        txn.total = txn.quickbooks_data["total"]
         txn.currency = lookup_currency
         txn.description = txn.line_items.first.try(:description)
       end
@@ -76,8 +74,8 @@ module Accounting
       end
 
       def extract_account
-        # do nothing in TransactionExtract
-        # can be overridden in subclasses
+        txn.account = Accounting::Account.find_by(qb_id: account_qb_id)
+        raise UnprocessableAccountError.new(loan: @loan, transaction: txn) if txn.account.nil?
       end
 
       def extract_customer
@@ -105,7 +103,7 @@ module Accounting
       end
 
       def qb_li_detail_key
-        'journal_entry_line_detail'
+        "journal_entry_line_detail"
       end
 
       private
@@ -119,7 +117,7 @@ module Accounting
       end
 
       def doc_number_includes(string)
-        doc_number = txn.quickbooks_data['doc_number']
+        doc_number = txn.quickbooks_data["doc_number"]
         doc_number.present? && doc_number.include?(string)
       end
     end

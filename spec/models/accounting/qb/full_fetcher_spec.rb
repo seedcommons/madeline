@@ -94,7 +94,7 @@ describe Accounting::QB::FullFetcher, type: :model do
         .and_return(qb_transaction_service)
       expect(transaction_fetcher).to receive(:fetch).and_call_original
 
-      expect(qb_connection).to receive :update_attribute
+      expect(qb_connection).to receive :update
 
       subject.fetch_all
       division = Division.root
@@ -102,9 +102,9 @@ describe Accounting::QB::FullFetcher, type: :model do
       new_account_ids = division.accounts.map(&:id)
 
       # Accounts should be restored with the same QB ids but they should have different DB ids
-      expect(division.accounts.count).to eq 3
+      expect(division.reload.accounts.count).to eq 3
       expect(stored_account_ids).not_to match_array new_account_ids
-      expect(division.qb_department.name).to eq qb_department.name
+      expect(division.reload.qb_department.name).to eq qb_department.name
     end
 
     context "qb fetch errors" do
@@ -151,7 +151,7 @@ describe Accounting::QB::FullFetcher, type: :model do
           .and_return(qb_transaction_service)
         expect(transaction_fetcher).to receive(:fetch).and_call_original
 
-        expect(qb_connection).to receive :update_attribute
+        expect(qb_connection).to receive :update
 
         subject.fetch_all
         division = Division.root

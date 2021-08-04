@@ -1,0 +1,95 @@
+- content_for(:title, t("settings.accounting"))
+section.block
+  h2 = t("quickbooks.connection.connection")
+
+  = simple_form_for([:admin, @division],
+      url: admin_accounting_settings_path,
+      method: 'patch',
+      html: {class: 'form-horizontal'},
+      wrapper: :horizontal_form_expanded,
+    ) do |f|
+      = f.input "connection_status" do
+        .read-only
+          - if @division.quickbooks_connected?
+            = t("quickbooks.connection.connected", company_name: @division.quickbooks_company_name)
+          - else
+            = t("quickbooks.connection.not_connected")
+            | &nbsp;&nbsp;
+            = link_to("Click To Connect", authenticate_admin_accounting_quickbooks_path)
+      - if @division.quickbooks_connected?
+        = f.input "data_import_status" do
+          .read-only
+            - if @fetch_task.present?
+              = t("quickbooks.fetch_status.#{@fetch_task.status}")
+              | &nbsp;&nbsp;
+            - if @issue_count > 0
+              = link_to t("quickbooks.there_are_issues", count: @issue_count), admin_accounting_sync_issues_path
+        - if @fetch_task && @fetch_task.succeeded?
+          = f.input "fetch_from_quickbooks" do
+            .read-only
+              = link_to t("quickbooks.update.update_changed"), update_changed_admin_accounting_quickbooks_path, method: :patch
+              = content_tag(:a, tabindex: 0, data: { content: t('quickbooks.update.update_changed_details')}, class: 'ms-popover')
+                span.icon-box= icon_tag("question-circle")
+          = f.input "last_updated_at" do
+            .read-only
+              - if @last_updated_at
+                = ldate(@last_updated_at, format: :long)
+              - else
+                = t("quickbooks.connection.never_synced")
+        = f.input "disconnect" do
+          .read-only
+            = link_to(t("quickbooks.connection.disconnect"),
+              disconnect_admin_accounting_quickbooks_path)
+
+
+
+- if @division.quickbooks_connected? && @fetch_task && @fetch_task.succeeded?
+  - form_identifier = 'accounting_settings'
+  - popover_options = {placement: 'right'}
+  - if @accounts && !@accounts.empty?
+    section.block
+      h2 = t("settings.accounting")
+      = simple_form_for([:admin, @division],
+          url: admin_accounting_settings_path,
+          method: 'patch',
+          html: {class: 'form-horizontal'},
+          wrapper: :horizontal_form_expanded,
+        ) do |f|
+
+        fieldset
+          h3 = t("quickbooks.accounts.accounts")
+          p.help-block.note = t("quickbooks.accounts.note")
+          = error_notification(f)
+          = f.input :principal_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+          = f.input :interest_receivable_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+          = f.input :interest_income_account_id, collection: @accounts, input_html: { class: 'autocomplete-select' }
+
+        fieldset
+          .title-with-popover
+            h3 = t("division.closed_books_date")
+            = documentation_popover(@documentations_by_html,
+              html_identifier: "#{form_identifier}_closed_books_date", options: popover_options)
+          - help_type = @division.closed_books_date.present? ? "date_set" : "date_not_set"
+          p.help-block.note
+            = t("quickbooks.closed_books_date.note.#{help_type}", current_date: @division.closed_books_date)
+          p.alert.alert-warning
+            = t("quickbooks.closed_books_date.alert.#{help_type}", current_date: @division.closed_books_date)
+          = f.input :closed_books_date, as: :date_picker
+
+        fieldset
+          .title-with-popover
+            h3 = t("quickbooks.qb_read_only.qb_read_only")
+            = documentation_popover(@documentations_by_html,
+              html_identifier: "#{form_identifier}_qb_read_only", options: popover_options)
+          p.help-block.note
+            = t("quickbooks.qb_read_only.note")
+          p.alert.alert-warning
+            = t("quickbooks.qb_read_only.alert")
+          = f.input :qb_read_only
+
+        .text-right
+          = f.submit t(:save), class: "btn btn-primary"
+
+
+  section.alert.alert-warning
+    = t('quickbooks.class_location_notice')

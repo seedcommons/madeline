@@ -1,0 +1,35 @@
+en:
+  sync_issue:
+    index:
+      title: "Accounting Sync Issues For Loan %{loan_id}"
+    index_by_loan:
+      title: Accounting Sync Issues
+    show:
+      title: "Accounting Sync Issue #%{id}"
+    id: ID
+    txn_id: TXN ID
+    qb_id: QB ID
+    date: Date
+    loan_id: Loan ID
+    level:
+      header: Level
+      error: Error
+      warning: Warning
+    message:
+      header: Message
+    num_txns_with_message: Number of Issues with Similar Messages for this Loan
+    associated_loans: Associated Loans
+    quickbooks_data: Raw QuickBooks Data
+    error_msg_link:
+      one: review the error
+      other: review the errors
+    error_msg_admin_html:
+      one: There was a sync error for this loan. Transaction data is hidden. Please %{link}.
+      other: There were %{count} sync errors for this loan. Transaction data is hidden. Please %{link}.
+    error_msg_member: "Transaction data is hidden due to sync issues."
+    warning_msg_link:
+      one: review the warning
+      other: review the warnings
+    warning_msg_html:
+      one: There is a sync warning for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
+      other: There are %{count} sync warnings for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.

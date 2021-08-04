@@ -1,29 +1,34 @@
 section.transactions
-  - if @broken_transactions.present?
-    - txns_with_errors = @broken_transactions.select { |t| t.level == "error" }
-    - txns_with_warnings = @broken_transactions.select { |t| t.level == "warning" }
-    - unless txns_with_errors.empty?
-      .alert.alert-danger
-        = t('problem_loan_transaction.error_msg_html', count: txns_with_errors.count, link: link_to(t('problem_loan_transaction.error_msg_link', count: txns_with_errors.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
-    - unless txns_with_warnings.empty?
-      .alert.alert-warning
-        = t('problem_loan_transaction.warning_msg_html', count: txns_with_warnings.count, link: link_to(t('problem_loan_transaction.warning_msg_link', count: txns_with_warnings.count), admin_accounting_problem_loan_transactions_path(loan_id: @loan.id)))
+  - if @errors.any?
+    .alert.alert-danger
+      - if policy(@sample_transaction).create?
+        = t('sync_issue.error_msg_admin_html', count: @errors.count, link: link_to(t('sync_issue.error_msg_link', count: @errors.count), admin_accounting_sync_issues_path(loan_id: @loan.id)))
+      - else
+        = t('sync_issue.error_msg_member')
+  - if @warnings.any? && policy(@sample_transaction).create?
+    .alert.alert-warning
+      = t('sync_issue.warning_msg_html', count: @warnings.count, link: link_to(t('sync_issue.warning_msg_link', count: @warnings.count), admin_accounting_sync_issues_path(loan_id: @loan.id)))
 
-  .show-actions.hidden-print
-    - if policy(@sample_transaction).create?
-      = link_to t(".new_transaction"), "#", class: "btn btn-primary",
-        data: {action: "new-transaction", project_id: @loan.id}
-  - if @transactions.empty?
-    .no-records-msg = t('common.no_records')
-  - else
-    = render "admin/accounting/transactions/transactions_grid_definition"
-    = render_index_grid_with_redirect_check(@transactions_grid)
-  = render "admin/accounting/transactions/modal"
+  - if @errors.empty?
+    .show-actions.hidden-print
+      - if policy(@sample_transaction).sync?
+        = link_to t(".sync_data"),
+            sync_admin_accounting_transactions_path(project_id: @loan.id), class: "btn btn-default",
+            data: {action: "sync-data"}, method: :post
+      - if policy(@sample_transaction).create?
+        = link_to t(".new_transaction"), "#", class: "btn btn-primary",
+          data: {action: "new-transaction", project_id: @loan.id}
+    - if @transactions.empty?
+      .no-records-msg = t('common.no_records')
+    - else
+      = render "admin/accounting/transactions/transactions_grid_definition"
+      = render_index_grid_with_redirect_check(@transactions_grid)
+    = render "admin/accounting/transactions/modal"
 
-javascript:
-  $(function() {
-    new MS.Views.TransactionsView({
-      loanId: #{@loan.id},
-      locale: "#{I18n.locale}"
-    });
-  });
+    javascript:
+      $(function() {
+        new MS.Views.TransactionsView({
+          loanId: #{@loan.id},
+          locale: "#{I18n.locale}"
+        });
+      });

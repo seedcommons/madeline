@@ -1,26 +1,3 @@
-# == Schema Information
-#
-# Table name: loan_health_checks
-#
-#  created_at           :datetime         not null
-#  has_late_steps       :boolean
-#  has_sporadic_updates :boolean
-#  id                   :integer          not null, primary key
-#  last_log_date        :date
-#  loan_id              :integer          not null
-#  missing_contract     :boolean
-#  progress_pct         :decimal(, )
-#  updated_at           :datetime         not null
-#
-# Indexes
-#
-#  index_loan_health_checks_on_loan_id  (loan_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (loan_id => projects.id)
-#
-
 class LoanHealthCheck < ApplicationRecord
   belongs_to :loan, class_name: 'Loan', foreign_key: :loan_id
 
@@ -89,7 +66,7 @@ class LoanHealthCheck < ApplicationRecord
 
   def thirty_day_periods_remaining
     return nil unless loan
-    start_date = ([loan.signing_date || Time.zone.now, Time.zone.now].max).beginning_of_day
+    start_date = ([loan.signing_date || Time.current, Time.current].max).beginning_of_day
     end_date = loan.projected_end_date.beginning_of_day
     ((end_date - start_date) / (24 * 60 * 60)).round / 30
   end

@@ -37,18 +37,18 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_locales", options: popover_options)
 
-  / Only allow parent to be reassigned if current user has access to current parent.
-  - if @division.parent && policy(@division.parent).show?
-    = f.input :parent
-      .view-element
-        - if @division.parent
-          - if @division.parent == Division.root
-            = @division.parent.name
-          - else
-            = link_to @division.parent.name, admin_division_path(@division.parent)
-      = f.input_field :parent_id, collection: division_select_options(public_only: false), include_blank: false
-      = documentation_popover(@documentations_by_html,
-        html_identifier: "#{form_identifier}_parent", options: popover_options)
+  = f.input :parent_id
+    .view-element
+      - if @division.parent
+        - if @division.parent == Division.root
+          = @division.parent.name
+        - else
+          = link_to @division.parent.name, admin_division_path(@division.parent)
+    = f.input_field :parent_id, collection: division_select_options(public_only: false),
+                    include_blank: false, disabled: @division.persisted?
+
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_parent", options: popover_options)
 
   = f.input :short_name
     .view-element = @division.short_name

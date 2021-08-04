@@ -1,33 +1,3 @@
-# == Schema Information
-#
-# Table name: questions
-#
-#  created_at            :datetime         not null
-#  data_type             :string           not null
-#  display_in_summary    :boolean          default(FALSE), not null
-#  division_id           :integer          not null
-#  has_embeddable_media  :boolean          default(FALSE), not null
-#  id                    :integer          not null, primary key
-#  internal_name         :string
-#  migration_position    :integer
-#  number                :integer
-#  override_associations :boolean          default(FALSE), not null
-#  parent_id             :integer
-#  position              :integer
-#  question_set_id       :integer
-#  required              :boolean          default(FALSE), not null
-#  status                :string           default("active"), not null
-#  updated_at            :datetime         not null
-#
-# Indexes
-#
-#  index_questions_on_question_set_id  (question_set_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (question_set_id => question_sets.id)
-#
-
 require 'rails_helper'
 
 describe Question, :type => :model do
@@ -107,7 +77,7 @@ describe Question, :type => :model do
 
       context "on activate" do
         before do
-          f2.update_attributes!(status: "active")
+          f2.update!(status: "active")
         end
 
         it "should adjust numbers appropriately" do
@@ -122,7 +92,7 @@ describe Question, :type => :model do
 
       context "on deactivate" do
         before do
-          f1.update_attributes!(status: "inactive")
+          f1.update!(status: "inactive")
         end
 
         it "should adjust numbers appropriately" do

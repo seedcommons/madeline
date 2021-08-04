@@ -1,13 +1,3 @@
-# == Schema Information
-#
-# Table name: question_sets
-#
-#  created_at    :datetime         not null
-#  id            :integer          not null, primary key
-#  internal_name :string
-#  updated_at    :datetime         not null
-#
-
 FactoryBot.define do
   factory :question_set do
     internal_name { Faker::Lorem.words(2).join('_').downcase }

@@ -19,9 +19,9 @@ module Admin
         order: "projects.signing_date",
         order_direction: "desc",
         custom_order: {
-          "projects.division_id" => "LOWER(divisions.name)",
-          "projects.organization_id" => "LOWER(organizations.name)",
-          "projects.signing_date" => "projects.signing_date IS NULL, projects.signing_date"
+          "projects.division_id" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "projects.organization_id" => ->(col) { Arel.sql("LOWER(#{col})") },
+          "projects.signing_date" => ->(col) { Arel.sql("#{col} IS NULL, #{col}") }
         },
         per_page: 50,
         name: "loans",
@@ -54,7 +54,7 @@ module Admin
         prep_logs(@loan)
       when "transactions"
         # requires additional level of validation beyond approrpiate loan access
-        @sample_transaction = ::Accounting::Transaction.new(project: @loan)
+        @sample_transaction = ::Accounting::Transaction.new(project: @loan, managed: true)
         authorize @sample_transaction, :index?
         prep_transactions
       when "calendar"
@@ -145,7 +145,7 @@ module Admin
     def loan_params
       params.require(:loan).permit(*(
         %i[
-          division_id organization_id loan_type_value status_value name
+          division_id organization_id loan_type_value status_value name final_repayment_formula
           amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_first_interest_payment_date
           projected_end_date projected_return representative_id actual_first_interest_payment_date
@@ -178,7 +178,7 @@ module Admin
       return if @attached_links.empty?
 
       open_link_text = view_context.link_to(I18n.t("loan.open_links", count: @attached_links.length),
-        "#", data: {action: "open-links", links: @attached_links})
+                                            "#", data: {action: "open-links", links: @attached_links})
       notice_text = "".html_safe
       notice_text << I18n.t("loan.num_of_links", count: @attached_links.length) << " " << open_link_text
       notice_text << " " << I18n.t("loan.popup_blocker") if @attached_links.length > 1
@@ -186,27 +186,33 @@ module Admin
     end
 
     def prep_transactions
-      @broken_transactions = ::Accounting::ProblemLoanTransaction.where(project_id: @loan.id)
-      @transactions = ::Accounting::Transaction.where(project: @loan)
+      @errors = ::Accounting::SyncIssue.for_loan_or_global(@loan).error
+      @warnings = ::Accounting::SyncIssue.for_loan_or_global(@loan).warning
+      @transactions = ::Accounting::Transaction.where(project: @loan).extracted
       @transactions.includes(:account, :project, :currency, :line_items).standard_order
       @enable_export_to_csv = true
-      @transactions_grid = initialize_grid(@transactions, enable_export_to_csv: @enable_export_to_csv,
-                                                          per_page: 100, name: 'transactions')
-      export_grid_if_requested('transactions': 'admin/accounting/transactions/transactions_grid_definition')
+      @transactions_grid = initialize_grid(
+        @transactions.standard_order,
+        enable_export_to_csv: @enable_export_to_csv,
+        per_page: 100,
+        name: "transactions"
+      )
+      export_grid_if_requested('transactions': "admin/accounting/transactions/transactions_grid_definition")
       show_reasons_if_read_only
     end
 
     def show_reasons_if_read_only
       return if (reasons = policy(@sample_transaction).read_only_reasons).empty?
+
       args = {}
       args[:current_division] = @loan.division.name
       args[:qb_division] = @loan.qb_division&.name
       args[:qb_division_settings_link] =
-        view_context.link_to(t('common.settings'), admin_division_path(@loan.division))
+        view_context.link_to(t("common.settings"), admin_division_path(@loan.division))
       args[:accounting_settings_link] =
-        view_context.link_to(t('common.settings'), admin_accounting_settings_path)
+        view_context.link_to(t("common.settings"), admin_accounting_settings_path)
       reasons = reasons.map { |r| t("quickbooks.read_only_reasons.#{r}_html", args) }.join("; ")
-      flash.now[:alert] = t('quickbooks.read_only_html', reasons: reasons)
+      flash.now[:alert] = t("quickbooks.read_only_html", reasons: reasons)
     end
   end
 end

@@ -1,23 +1,15 @@
 class ApplicationController < ActionController::Base
   include NamedRouteOverrides
+  include Pundit
 
   helper_method :admin_loans_path
   helper_method :admin_people_path
 
-  include Pundit
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-
-  # overrides 'route_translator' method to reset locale to English
-  skip_around_action :set_locale_from_url
   before_action :set_locale
 
   helper_method :admin_controller?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-  before_action :set_raven_context
 
   def admin_controller?
     false
@@ -55,17 +47,16 @@ class ApplicationController < ActionController::Base
   def set_locale
     return I18n.locale = locale_from_header if I18n.available_locales.include?(locale_from_header)
     return I18n.locale = params[:locale] if params[:locale]
+
     I18n.locale = I18n.default_locale
   end
 
+  # Returns nil if no language header or no language found in header.
   def locale_from_header
-    if lang_header = request.env['HTTP_ACCEPT_LANGUAGE']
-      lang_header.scan(/^[a-z]{2}/).first.to_sym
-    end
-  end
+    return ENV["STUB_LOCALE"].to_sym if Rails.env.test? && ENV.key?("STUB_LOCALE")
 
-  def set_raven_context
-    Raven.user_context(id: current_user&.id, email: current_user&.email) # or anything else in session
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    if (lang_header = request.env["HTTP_ACCEPT_LANGUAGE"])
+      lang_header.scan(/^[a-z]{2}/).first&.to_sym
+    end
   end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_154844) do
+ActiveRecord::Schema.define(version: 2021_07_09_205410) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,28 +46,17 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.index ["accounting_transaction_id"], name: "index_accounting_line_items_on_accounting_transaction_id"
   end
 
-  create_table "accounting_problem_loan_transactions", force: :cascade do |t|
-    t.bigint "accounting_transaction_id"
-    t.datetime "created_at", null: false
-    t.json "custom_data"
-    t.string "level"
-    t.string "message", null: false
-    t.bigint "project_id"
-    t.datetime "updated_at", null: false
-    t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
-    t.index ["project_id"], name: "index_accounting_problem_loan_transactions_on_project_id"
-  end
-
   create_table "accounting_qb_connections", id: :serial, force: :cascade do |t|
-    t.string "access_token"
+    t.string "access_token", null: false
     t.datetime "created_at", null: false
     t.integer "division_id", null: false
+    t.boolean "invalid_grant", default: false, null: false
     t.datetime "last_updated_at"
     t.string "realm_id", null: false
-    t.string "refresh_token"
+    t.string "refresh_token", null: false
     t.datetime "token_expires_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id"
+    t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id", unique: true
   end
 
   create_table "accounting_qb_departments", force: :cascade do |t|
@@ -89,6 +77,18 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "accounting_sync_issues", force: :cascade do |t|
+    t.bigint "accounting_transaction_id"
+    t.datetime "created_at", null: false
+    t.json "custom_data"
+    t.string "level"
+    t.string "message", null: false
+    t.bigint "project_id"
+    t.datetime "updated_at", null: false
+    t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
+    t.index ["project_id"], name: "index_accounting_sync_issues_on_project_id"
+  end
+
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
     t.integer "accounting_account_id"
     t.string "accounting_customer_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.string "private_note"
     t.integer "project_id"
     t.string "qb_id"
-    t.string "qb_object_subtype"
+    t.string "disbursement_type", default: "other"
     t.string "qb_object_type", default: "JournalEntry", null: false
     t.integer "qb_vendor_id"
     t.json "quickbooks_data"
@@ -238,6 +238,8 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.integer "item_height"
     t.integer "item_width"
     t.string "kind_value"
+    t.integer "legacy_id"
+    t.string "legacy_path"
     t.integer "media_attachable_id"
     t.string "media_attachable_type"
     t.integer "sort_order"
@@ -318,6 +320,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.string "first_name"
     t.boolean "has_system_access", default: false, null: false
     t.string "last_name"
+    t.integer "legacy_id"
     t.string "legal_name"
     t.string "name"
     t.string "neighborhood"
@@ -338,6 +341,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.datetime "created_at", null: false
     t.date "date"
     t.date "date_changed_to"
+    t.integer "legacy_id"
     t.string "progress_metric_value"
     t.integer "project_step_id"
     t.datetime "updated_at", null: false
@@ -355,6 +359,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.integer "currency_id"
     t.json "custom_data"
     t.integer "division_id", null: false
+    t.text "final_repayment_formula"
     t.integer "length_months"
     t.string "loan_type_value"
     t.string "name"
@@ -457,6 +462,7 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
     t.integer "date_change_count", default: 0, null: false
     t.datetime "finalized_at"
     t.boolean "is_finalized"
+    t.integer "legacy_id"
     t.integer "old_duration_days", default: 0
     t.date "old_start_date"
     t.integer "parent_id"
@@ -519,10 +525,10 @@ ActiveRecord::Schema.define(version: 2021_04_14_154844) do
 
   add_foreign_key "accounting_line_items", "accounting_accounts"
   add_foreign_key "accounting_line_items", "accounting_transactions"
-  add_foreign_key "accounting_problem_loan_transactions", "accounting_transactions"
-  add_foreign_key "accounting_problem_loan_transactions", "projects"
   add_foreign_key "accounting_qb_connections", "divisions"
   add_foreign_key "accounting_qb_departments", "divisions"
+  add_foreign_key "accounting_sync_issues", "accounting_transactions"
+  add_foreign_key "accounting_sync_issues", "projects"
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"

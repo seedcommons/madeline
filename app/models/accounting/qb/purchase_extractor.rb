@@ -33,20 +33,13 @@ module Accounting
         end
       end
 
-      # txn account
-      def extract_account
-        qb_id = txn.quickbooks_data["account_ref"]["value"]
-        txn.account = Accounting::Account.find_by(qb_id: qb_id)
-        ::Accounting::ProblemLoanTransaction.create(loan: @loan, accounting_transaction: txn, message: :unprocessable_account, level: :error, custom_data: {}) if txn.account.nil?
-      end
-
       def extract_subtype
         payment_type = txn.quickbooks_data["payment_type"]
-        txn.qb_object_subtype = payment_type.to_s if payment_type.present?
+        txn.disbursement_type = (payment_type == "Check") ? :check : :other
       end
 
       def extract_check_number
-        if txn.subtype?("Check")
+        if txn.check?
           doc_number = txn.quickbooks_data["doc_number"]
           txn.check_number = doc_number.remove("MS-Managed").strip if doc_number.present?
         end
@@ -95,6 +88,12 @@ module Accounting
 
       def set_managed
         txn.managed = txn.loan_transaction_type_value != "other" && (doc_number_includes('MS-Managed') || doc_number_includes('MS-Automatic'))
+      end
+
+      protected
+
+      def account_qb_id
+        txn.quickbooks_data["account_ref"]["value"]
       end
     end
   end

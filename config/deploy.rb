@@ -69,6 +69,7 @@ task :write_branch do
     end
   end
 end
+after "deploy:updating", "write_branch"
 
 desc "Update the OptionSets"
 task :update_option_sets do
@@ -81,4 +82,13 @@ task :update_option_sets do
   end
 end
 
-after "deploy:updating", "write_branch"
+desc "Write the wordpress templates out before restarting the server so that it will pick them up."
+task :generate_wordpress_templates do
+  on release_roles(:all) do
+    within release_path do
+      execute(:bundle, :exec, :rails, :runner,
+        '"Loan::URL_DIVISIONS.each { |d| WordpressTemplate.update(division: d.to_sym) }"')
+    end
+  end
+end
+before "deploy:publishing", "generate_wordpress_templates"

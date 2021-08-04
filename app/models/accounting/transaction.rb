@@ -1,50 +1,3 @@
-# == Schema Information
-#
-# Table name: accounting_transactions
-#
-#  accounting_account_id       :integer
-#  accounting_customer_id      :string
-#  amount                      :decimal(, )
-#  change_in_interest          :decimal(15, 2)
-#  change_in_principal         :decimal(15, 2)
-#  check_number                :string
-#  created_at                  :datetime         not null
-#  currency_id                 :integer
-#  description                 :string
-#  id                          :integer          not null, primary key
-#  interest_balance            :decimal(, )      default(0.0)
-#  loan_transaction_type_value :string
-#  managed                     :boolean          default(FALSE), not null
-#  needs_qb_push               :boolean          default(TRUE), not null
-#  principal_balance           :decimal(, )      default(0.0)
-#  private_note                :string
-#  project_id                  :integer
-#  qb_id                       :string
-#  qb_object_subtype           :string
-#  qb_object_type              :string           default("JournalEntry"), not null
-#  qb_vendor_id                :integer
-#  quickbooks_data             :json
-#  sync_token                  :string
-#  total                       :decimal(, )
-#  txn_date                    :date
-#  updated_at                  :datetime         not null
-#
-# Indexes
-#
-#  index_accounting_transactions_on_accounting_account_id     (accounting_account_id)
-#  index_accounting_transactions_on_currency_id               (currency_id)
-#  index_accounting_transactions_on_project_id                (project_id)
-#  index_accounting_transactions_on_qb_id                     (qb_id)
-#  index_accounting_transactions_on_qb_id_and_qb_object_type  (qb_id,qb_object_type) UNIQUE
-#  index_accounting_transactions_on_qb_object_type            (qb_object_type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
-#  fk_rails_...  (currency_id => currencies.id)
-#  fk_rails_...  (project_id => projects.id)
-#
-
 # Represents a transaction in a Loan's financial history.
 # Serves as a local cache of transaction objects stored in Quickbooks.
 # Quickbooks should be considered the authoritative source for the transaction information it stores.
@@ -63,7 +16,7 @@ class Accounting::Transaction < ApplicationRecord
   include OptionSettable
 
   QB_OBJECT_TYPES = %w(JournalEntry Deposit Purchase Bill).freeze
-  QB_PAYMENT_TYPES = %w(Check Cash).freeze
+  DISBURSEMENT_TYPES = %w(check other).freeze
   QB_PARENT_CLASS = "Loan Products"
   QB_LOAN_CLASS_REGEX = /#{QB_PARENT_CLASS}:Loan ID (\d+)/
   AVAILABLE_LOAN_TRANSACTION_TYPES = %i(disbursement repayment)
@@ -78,7 +31,7 @@ class Accounting::Transaction < ApplicationRecord
   attr_option_settable :loan_transaction_type
   has_many :line_items, inverse_of: :parent_transaction, autosave: true,
                         foreign_key: :accounting_transaction_id, dependent: :destroy
-  has_many :problem_loan_transactions, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
+  has_many :sync_issues, inverse_of: :accounting_transaction, foreign_key: :accounting_transaction_id, dependent: :destroy
 
   # user-created txns are sent to qb and have qb data before
   # they are :created. This is set in the transactions controller
@@ -90,16 +43,15 @@ class Accounting::Transaction < ApplicationRecord
   validates :loan_transaction_type_value, :txn_date, presence: true, if: :managed?
   validates :amount, presence: true, unless: :interest?, if: :managed?
   validates :accounting_account_id, presence: true, unless: :interest?, if: :managed?
-  validate :respect_closed_books_date, if: :user_created
-  with_options if: ->(txn) { txn.qb_object_subtype == "Check" && txn.user_created } do
-    validates :check_number, presence: true
-  end
-  # validate that all disbursements created in Madeline's transaction form have a vendor
-  with_options if: ->(txn) { txn.loan_transaction_type_value == "disbursement" && txn.user_created } do
-    validates :qb_vendor_id, presence: true
-  end
+  validates :disbursement_type, :qb_vendor_id, presence: true, if: ->(txn) {
+     txn.disbursement? && txn.managed?
+  }
+  validates :check_number, presence: true, if: ->(txn) { txn.check? && txn.managed? }
 
-  before_validation :set_qb_object_type
+  # TODO rename 'user_created.' it signifies 'just created or edited' because admins cannot create or edit txns before cbd
+  validate :respect_closed_books_date, if: :user_created
+
+  before_validation :enforce_managed_disbursements_are_purchases
 
   delegate :division, :qb_division, to: :project
   delegate :qb_department, to: :project
@@ -128,6 +80,9 @@ class Accounting::Transaction < ApplicationRecord
   scope :most_recent_first, -> { order(txn_date: :desc) }
   scope :with_customer, -> { where.not(accounting_customer_id: nil) }
 
+  # A transaction's loan_transaction_type_value can't be nil if it's been extracted successfully.
+  scope :extracted, -> { where.not(loan_transaction_type_value: nil) }
+
   def self.create_or_update_from_qb_object!(qb_object_type:, qb_object:)
     txn = find_or_initialize_by(qb_object_type: qb_object_type, qb_id: qb_object.id)
     txn.quickbooks_data = qb_object.as_json
@@ -146,7 +101,7 @@ class Accounting::Transaction < ApplicationRecord
 
       if associated_loans.count > 1
         associated_loans.each do |loan|
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
+          ::Accounting::SyncIssue.create(loan: loan, accounting_transaction: txn, message: :has_multiple_loans, level: :error)
         end
       else
         txn.project_id = associated_loans&.first&.id
@@ -160,10 +115,6 @@ class Accounting::Transaction < ApplicationRecord
     txn.new_record? ? txn.save(validate: false) : txn.save!
 
     txn
-  end
-
-  def interest?
-    loan_transaction_type_value == LOAN_INTEREST_TYPE
   end
 
   # Stores the ID and type of the given Quickbooks object on this Transaction.
@@ -222,9 +173,13 @@ class Accounting::Transaction < ApplicationRecord
     update_column(:needs_qb_push, value)
   end
 
-  # if new disbursement w/out qb id, override db-level default of JournalEntry
-  def set_qb_object_type
-    if self.loan_transaction_type_value == "disbursement" && self.qb_id.nil?
+  # Any disbursement created in madeline should be a purchase.
+  # Purchases from qb can be disbursements or other
+  # Disbursements from qb can be purchases or journal entries or bills
+  # qb_object_type defaults to  JournalEntry in the db
+  # qb_id.nil? is probably a proxy for or equivalent to managed?
+  def enforce_managed_disbursements_are_purchases
+    if disbursement? && qb_id.nil?
       self.qb_object_type = "Purchase"
     end
   end
@@ -233,8 +188,20 @@ class Accounting::Transaction < ApplicationRecord
     loan_transaction_type_value == type
   end
 
-  def subtype?(subtype)
-    qb_object_subtype == subtype
+  def disbursement?
+    type?("disbursement")
+  end
+
+  def repayment?
+    type?("repayment")
+  end
+
+  def interest?
+    type?(LOAN_INTEREST_TYPE)
+  end
+
+  def check?
+    disbursement_type == "check"
   end
 
   private

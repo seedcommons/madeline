@@ -31,7 +31,7 @@ en:
         description: "Description"
         default_currency: "Default Currency"
         name: "Name"
-        parent: "Parent Division"
+        parent_id: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"
         public: "Public"
         public_url: "Public URL"
@@ -85,6 +85,7 @@ en:
         rate: "Rate"
         signing_date: "Signing Date"
         summary: "Summary"
+        final_repayment_formula: "Final Repayment Formula"
       note:
         text: "Note"
       organization:
@@ -187,8 +188,8 @@ en:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         division:
           attributes:
-            parent:
-              invalid: 'Division and Parent Division cannot be the same'
+            name:
+              same_as_parent: 'Division and Parent Division names cannot be the same'
         loan:
           attributes:
             primary_agent:
@@ -219,14 +220,14 @@ en:
         change_in_interest: "Change in Interest"
         change_in_principal: "Change in Principal"
         check_number: "Check Number"
-        customer: "QuickBooks Customer"
+        customer: "Co-op (QBO)"
         description: "Description"
         interest_balance: "Interest Balance"
         loan_transaction_type_value: "Type of Transaction"
         principal_balance: "Principal Balance"
         private_note: "Memo"
         qb_department: "QB Division"
-        qb_object_subtype: "Disbursement Type"
+        disbursement_type: "Disbursement Type"
         qb_record_id: "QuickBooks Record ID"
         total_balance: "Total Balance"
         txn_date: "Date"
@@ -326,6 +327,7 @@ en:
   loading: "Loading..."
   error: "Error"
   error_notification: "We're sorry, but there was an error in processing your request."
+  system_error_notified: "System error. Developers have been notified."
   close: "Close"
   select_prompt: "Select..."
 
@@ -388,6 +390,9 @@ en:
       department_not_set_html: "the QB department is not set on the division '%{current_division}' (see %{qb_division_settings_link})"
       loan_not_active_html: "this loan is not active"
       loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
+    there_are_issues:
+      one: "There is one outstanding issue."
+      other: "There are %{count} outstanding issues."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -507,7 +512,6 @@ en:
     questions: "Questions"
     manage: "Manage"
     people: "Members"
-    problem_transactions: "Transaction Errors"
     tasks: "Tasks"
   number:
     nth:
@@ -519,13 +523,20 @@ en:
     nth_weekday: "The %{nth} %{weekday}"
     the_day: "The %{day}"
 
-  problem_loan_transaction:
+  sync_issue:
     unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in QuickBooks."
     journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in QuickBooks for accuracy."
     has_multiple_loans: "Transaction associated with multiple loans"
     attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    data_reset_required: "QuickBooks data reset required."
+    quickbooks_not_connected: "QuickBooks not connected. Please connect on the Accounting Settings page."
+    quickbooks_accounts_not_selected: "QuickBooks accounts not set. Please select QuickBooks accounts on the Accounting Settings page."
+    quickbooks_unavailable_fetch: "QuickBooks was temporarily unavailable. Your transaction data may be out of date. Please try syncing again later."
+    quickbooks_unavailable_recalc: "QuickBooks was temporarily unavailable during calcuations for this loan, so transaction data may be partially incorrect. Please try syncing again later to correct this."
+    system_error_fetch: "There was an unexpected system error during fetching of QuickBooks data. The Madeline support team has been notified. Your transaction data may be out of date."
+    system_error_recalc: "There was an unexpected system error during calculations for this loan. The Madeline support team has been notified."
   project_step:
     add: "Add Step"
     add_dependent_step: "Add Dependent Step"

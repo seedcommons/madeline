@@ -59,12 +59,15 @@ module Accounting
     end
 
     def recalculate
-      return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan)).create?
+      # check if a generic non-interest, managed txn for this loan can be written
+      return unless TransactionPolicy.new(:machine, Transaction.new(project: @loan, managed: true)).create?
+      return if transactions.empty?
+
       prev_tx = nil
 
       txns_by_date = transactions.group_by(&:txn_date)
       first_date = transactions.first&.txn_date
-      last_date = loan.status_value == 'active' ? Time.zone.today : transactions.last&.txn_date
+      last_date = loan.status_value == "active" ? Time.zone.today : transactions.last&.txn_date
 
       txn_dates = txns_by_date.keys
       last_day_in_months = month_boundaries(first_date, last_date)
@@ -74,6 +77,9 @@ module Accounting
       @transactions = []
 
       dates.each do |date|
+        log_data = {loan_id: loan.id, date: date}
+        Rails.logger.debug("Recalculating for date #{log_data}")
+
         # Inserts interest transactions at points in the array where they are needed but missing.
         # There should be one interest transaction on each date for which there are any other
         # transactions, except the date of the first transaction.
@@ -86,7 +92,7 @@ module Accounting
           amount: 0, # Will be updated momentarily.
           loan_transaction_type_value: Transaction::LOAN_INTEREST_TYPE,
           currency_id: loan.currency_id,
-          description: I18n.t('transactions.interest_description', loan_id: loan.id),
+          description: I18n.t("transactions.interest_description", loan_id: loan.id),
           managed: true
         ) if add_int_tx?(txns_by_date[date], prev_tx, loan)
 
@@ -143,7 +149,7 @@ module Accounting
     delegate :qb_division, to: :loan
 
     def record_and_rollback_changes(txn)
-      ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: txn, message: :attempted_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
+      ::Accounting::SyncIssue.create(loan: loan, accounting_transaction: txn, message: :attempted_change_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: txn.txn_date}, level: :warning)
       new_line_items = txn.line_items.select(&:new_record?)
       new_line_items.each { |li| txn.line_items.delete(li) }
       txn.line_items.each(&:restore_attributes)
@@ -234,17 +240,19 @@ module Accounting
     end
 
     def add_int_tx?(txs, prev_tx, loan)
+      return false if loan.no_interest_rate?
+
       if txs.nil? # this is an end of month day with no txns
         if prev_tx.txn_date > @closed_books_date
           return true
         else
-          ::Accounting::ProblemLoanTransaction.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
+          ::Accounting::SyncIssue.create(loan: prev_tx.project, accounting_transaction: prev_tx, message: :no_end_of_month_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
         end
       elsif prev_tx && prev_tx.principal_balance > 0 && txs.none?(&:interest?)
         if prev_tx.txn_date > @closed_books_date
           return true
         else
-          ::Accounting::ProblemLoanTransaction.create(loan: loan, accounting_transaction: prev_tx, message: :attempted_new_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
+          ::Accounting::SyncIssue.create(loan: loan, accounting_transaction: prev_tx, message: :attempted_new_int_txn_before_closed_books_date, custom_data: {cbd: @closed_books_date, txn_date: prev_tx.txn_date}, level: :warning)
         end
       end
       false

@@ -1,51 +1,4 @@
-# == Schema Information
-#
-# Table name: accounting_transactions
-#
-#  accounting_account_id       :integer
-#  accounting_customer_id      :string
-#  amount                      :decimal(, )
-#  change_in_interest          :decimal(15, 2)
-#  change_in_principal         :decimal(15, 2)
-#  check_number                :string
-#  created_at                  :datetime         not null
-#  currency_id                 :integer
-#  description                 :string
-#  id                          :integer          not null, primary key
-#  interest_balance            :decimal(, )      default(0.0)
-#  loan_transaction_type_value :string
-#  managed                     :boolean          default(FALSE), not null
-#  needs_qb_push               :boolean          default(TRUE), not null
-#  principal_balance           :decimal(, )      default(0.0)
-#  private_note                :string
-#  project_id                  :integer
-#  qb_id                       :string
-#  qb_object_subtype           :string
-#  qb_object_type              :string           default("JournalEntry"), not null
-#  qb_vendor_id                :integer
-#  quickbooks_data             :json
-#  sync_token                  :string
-#  total                       :decimal(, )
-#  txn_date                    :date
-#  updated_at                  :datetime         not null
-#
-# Indexes
-#
-#  index_accounting_transactions_on_accounting_account_id     (accounting_account_id)
-#  index_accounting_transactions_on_currency_id               (currency_id)
-#  index_accounting_transactions_on_project_id                (project_id)
-#  index_accounting_transactions_on_qb_id                     (qb_id)
-#  index_accounting_transactions_on_qb_id_and_qb_object_type  (qb_id,qb_object_type) UNIQUE
-#  index_accounting_transactions_on_qb_object_type            (qb_object_type)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (accounting_account_id => accounting_accounts.id)
-#  fk_rails_...  (currency_id => currencies.id)
-#  fk_rails_...  (project_id => projects.id)
-#
-
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Accounting::Transaction, type: :model do
   let(:division) { create(:division, :with_accounts) }
@@ -53,65 +6,63 @@ RSpec.describe Accounting::Transaction, type: :model do
   let(:int_inc_acct) { division.interest_income_account }
   let(:int_rcv_acct) { division.interest_receivable_account }
   let(:loan) { create(:loan, division: create(:division, :with_accounts)) }
+  let(:vendor) { create(:vendor) }
 
   # This is example JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
   let(:quickbooks_data) { create(:transaction_json, loan: loan) }
 
-  describe '.standard_order' do
+  describe ".standard_order" do
     let!(:txn_1) do
       create(:accounting_transaction,
-        txn_date: Date.today,
-        loan_transaction_type_value: 'repayment',
-        created_at: Time.now - 1.minutes
-      )
+             txn_date: Time.zone.today,
+             loan_transaction_type_value: "repayment",
+             created_at: Time.zone.now - 1.minute)
     end
     let!(:txn_2) do
       create(:accounting_transaction,
-        txn_date: Date.today,
-        loan_transaction_type_value: 'disbursement',
-        created_at: Time.now - 2.minutes
-      )
+             txn_date: Time.zone.today,
+             loan_transaction_type_value: "disbursement",
+             created_at: Time.zone.now - 2.minutes)
     end
     let!(:txn_3) do
       create(:accounting_transaction,
-        txn_date: Date.today - 3,
-        loan_transaction_type_value: 'disbursement',
-        created_at: Time.now - 3.minutes
-      )
+             txn_date: Time.zone.today - 3,
+             loan_transaction_type_value: "disbursement",
+             created_at: Time.zone.now - 3.minutes)
     end
     let!(:txn_4) do
       create(:accounting_transaction,
-        txn_date: Date.today - 3,
-        loan_transaction_type_value: 'interest',
-        created_at: Time.now - 10.minutes
-      )
+             txn_date: Time.zone.today - 3,
+             loan_transaction_type_value: "interest",
+             created_at: Time.zone.now - 10.minutes)
     end
     let!(:txn_5) do
       create(:accounting_transaction,
-        txn_date: Date.today - 3,
-        loan_transaction_type_value: 'interest',
-        created_at: Time.now - 5.minutes
-      )
+             txn_date: Time.zone.today - 3,
+             loan_transaction_type_value: "interest",
+             created_at: Time.zone.now - 5.minutes)
     end
 
     before do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
-    it 'returns in the right order' do
+    it "returns in the right order" do
       expect(Accounting::Transaction.standard_order).to eq([txn_4, txn_5, txn_3, txn_2, txn_1])
     end
   end
 
-  describe '.create_or_update_from_qb_object!' do
-    it 'should set appropriate fields on create' do
-      qb_obj = double(id: 123, as_json: {'x' => 'y'})
-      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+  describe ".create_or_update_from_qb_object!" do
+    it "should set appropriate fields on create" do
+      qb_obj = double(id: 123, as_json: {"x" => "y"})
+      txn = described_class.create_or_update_from_qb_object!(
+        qb_object_type: "JournalEntry", qb_object: qb_obj
+      )
 
-      expect(txn.qb_object_type).to eq('JournalEntry')
-      expect(txn.qb_id).to eq('123')
-      expect(txn.quickbooks_data).to eq({'x' => 'y'})
+      expect(txn.qb_object_type).to eq("JournalEntry")
+      expect(txn.qb_id).to eq("123")
+      expect(txn.quickbooks_data).to eq({"x" => "y"})
       expect(txn.needs_qb_push).to be false
     end
 
@@ -121,45 +72,79 @@ RSpec.describe Accounting::Transaction, type: :model do
 
         it "associates QB #{type} txn with loan if there is a match" do
           qb_obj = double(id: 124, as_json: quickbooks_data)
-          txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'Bill', qb_object: qb_obj)
+          txn = described_class.create_or_update_from_qb_object!(qb_object_type: "Bill", qb_object: qb_obj)
           expect(txn.project_id).to eq(loan.id)
         end
       end
     end
 
-    it 'associates old QB txn with loan if there is a match' do
+    it "associates old QB txn with loan if there is a match" do
       qb_obj = double(id: 124, as_json: quickbooks_data)
-      txn = described_class.create_or_update_from_qb_object!(qb_object_type: 'JournalEntry', qb_object: qb_obj)
+      txn = described_class.create_or_update_from_qb_object!(
+        qb_object_type: "JournalEntry", qb_object: qb_obj
+      )
 
       expect(txn.project_id).to eq(loan.id)
     end
   end
 
-  describe 'qb_id' do
+  describe "validation" do
+    describe "disbursement type" do
+      it "is required for user_created disbursements" do
+        expect do
+          txn = create(:accounting_transaction,
+            project: loan,
+            loan_transaction_type_value: :disbursement,
+            qb_object_type: "Purchase",
+            disbursement_type: nil,
+            qb_vendor_id: vendor.id,
+            user_created: true)
+        end.to raise_error("Validation failed: Disbursement type can't be blank")
+      end
+
+      it "is not required for managed non-disbursements" do
+        expect do
+          create(:accounting_transaction, loan_transaction_type_value: :repayment)
+        end.not_to raise_error
+      end
+
+      it "is not required for non-managed disbursements" do
+        expect do
+          create(:accounting_transaction,
+                 loan_transaction_type_value: :disbursement,
+                 managed: false,
+                 disbursement_type: nil)
+        end.not_to raise_error
+      end
+    end
+  end
+
+  # TODO: this block of specs, and accompanying #set_qb_object_type logic needs review
+  describe "sets qb txn type and requires amount on madeline-created disbursements" do
     let(:transaction_params) do
       {
         amount: nil,
-        txn_date: '2017-10-31',
-        private_note: 'a memo',
-        description: 'desc',
+        txn_date: "2017-10-31",
+        private_note: "a memo",
+        description: "desc",
         project_id: loan.id,
         loan_transaction_type_value: transaction_type
       }
     end
 
-    context 'when disbursement transaction' do
-      let(:transaction_type) { 'disbursement' }
+    context "when disbursement transaction" do
+      let(:transaction_type) { "disbursement" }
 
-      context 'without qb_id' do
-        it 'requires an amount to save' do
+      context "without qb_id" do
+        it "requires an amount to save" do
           expect do
             create(:accounting_transaction, transaction_params.merge(qb_id: nil))
           end.to raise_error(ActiveRecord::RecordInvalid)
         end
       end
 
-      context 'with qb_id' do
-        it 'requires an amount to save' do
+      context "with qb_id" do
+        it "requires an amount to save" do
           expect do
             create(:accounting_transaction, transaction_params.merge(qb_id: 123))
           end.to raise_error(ActiveRecord::RecordInvalid)
@@ -173,7 +158,9 @@ RSpec.describe Accounting::Transaction, type: :model do
       end
 
       it "has qb object type je if was je and has qb_id" do
-        txn = Accounting::Transaction.new(transaction_params.merge(qb_id: "1", qb_object_type: "JournalEntry"))
+        txn = Accounting::Transaction.new(
+          transaction_params.merge(qb_id: "1", qb_object_type: "JournalEntry")
+        )
         txn.save
         expect(txn.reload.qb_object_type).to eq "JournalEntry"
       end
@@ -184,12 +171,12 @@ RSpec.describe Accounting::Transaction, type: :model do
         let(:transaction_params) do
           {
             amount: 10,
-            txn_date: '2017-10-31',
-            private_note: 'a memo',
-            description: 'desc',
+            txn_date: "2017-10-31",
+            private_note: "a memo",
+            description: "desc",
             project_id: loan.id,
             loan_transaction_type_value: transaction_type,
-            qb_object_subtype: "Check",
+            disbursement_type: "check",
             qb_vendor_id: vendor_id,
             check_number: check_number
           }
@@ -197,16 +184,16 @@ RSpec.describe Accounting::Transaction, type: :model do
 
         context "no check number" do
           let(:check_number) { nil }
-          it 'requires a check number to save' do
+          it "requires a check number to save" do
             expect do
-              create(:accounting_transaction, transaction_params.merge({user_created: true}))
+              create(:accounting_transaction, transaction_params.merge({ managed: true }))
             end.to raise_error(ActiveRecord::RecordInvalid)
           end
         end
 
         context "no vendor" do
           let(:vendor_id) { nil }
-          it 'requires a vendor to save when created by user' do
+          it "requires a vendor to save when created by user" do
             expect do
               create(:accounting_transaction, transaction_params.merge({user_created: true}))
             end.to raise_error(ActiveRecord::RecordInvalid)
@@ -215,11 +202,11 @@ RSpec.describe Accounting::Transaction, type: :model do
       end
     end
 
-    context 'when interest transaction' do
-      let(:transaction_type) { 'interest' }
+    context "when interest transaction" do
+      let(:transaction_type) { "interest" }
 
-      context 'without qb_id' do
-        it 'can save without amount' do
+      context "without qb_id" do
+        it "can save without amount" do
           expect do
             create(:accounting_transaction, transaction_params.merge(qb_id: nil))
           end.not_to raise_error
@@ -228,28 +215,28 @@ RSpec.describe Accounting::Transaction, type: :model do
     end
   end
 
-  context 'with line items' do
+  context "with line items" do
     let(:transaction) { create(:accounting_transaction, project: loan) }
     let(:txn) { transaction }
     let(:int_inc_acct) { transaction.division.interest_income_account }
     let(:int_rcv_acct) { transaction.division.interest_receivable_account }
     let(:prin_acct) { transaction.division.principal_account }
     let!(:line_items) do
-      create_line_item(txn, 'Debit', 1.02, account: prin_acct)
-      create_line_item(txn, 'Debit', 2.07, account: int_rcv_acct)
-      create_line_item(txn, 'Debit', 1.50, account: int_inc_acct)
-      create_line_item(txn, 'Credit', 1.15, account: prin_acct)
-      create_line_item(txn, 'Credit', 3.00, account: int_rcv_acct)
-      create_line_item(txn, 'Credit', 1.25, account: int_inc_acct)
+      create_line_item(txn, "Debit", 1.02, account: prin_acct)
+      create_line_item(txn, "Debit", 2.07, account: int_rcv_acct)
+      create_line_item(txn, "Debit", 1.50, account: int_inc_acct)
+      create_line_item(txn, "Credit", 1.15, account: prin_acct)
+      create_line_item(txn, "Credit", 3.00, account: int_rcv_acct)
+      create_line_item(txn, "Credit", 1.25, account: int_inc_acct)
 
       # These are decoy line items associated with random accounts that we don't care about.
       # They should not be included in the change_in_* calculations.
-      create_line_item(txn, 'Debit', 2.50)
-      create_line_item(txn, 'Credit', 1.69)
+      create_line_item(txn, "Debit", 2.50)
+      create_line_item(txn, "Credit", 1.69)
     end
 
-    describe '#change_in_principal and #change_in_interest' do
-      it 'calculates correctly' do
+    describe "#change_in_principal and #change_in_interest" do
+      it "calculates correctly" do
         transaction.calculate_deltas
         transaction.save
         expect(transaction.reload.change_in_principal).to equal_money(-0.13)
@@ -257,14 +244,14 @@ RSpec.describe Accounting::Transaction, type: :model do
       end
     end
 
-    describe '#calculate_balances' do
-      it 'works without previous transaction' do
+    describe "#calculate_balances" do
+      it "works without previous transaction" do
         transaction.calculate_balances
         expect(transaction.principal_balance).to equal_money(-0.13)
         expect(transaction.interest_balance).to equal_money(-0.93)
       end
 
-      it 'works with previous transaction' do
+      it "works with previous transaction" do
         prev_tx = create(:accounting_transaction, principal_balance: 6.22, interest_balance: 4.50)
 
         transaction.calculate_balances(prev_tx: prev_tx)

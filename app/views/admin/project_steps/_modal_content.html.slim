@@ -51,7 +51,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
         = f.input :summary, wrapper_html: {class: 'hidden-print'}
           = @step.summary
         = f.input :details
-          = simple_format @step.details
+          = simple_format @step.details.to_s
       .form-element
         = f.translatable_inputs do |l|
           = f.input "summary_#{l}".to_sym,

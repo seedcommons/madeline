@@ -5,7 +5,7 @@ class MS.Views.TransactionModalView extends Backbone.View
     'click [data-action="submit"]': 'submitForm'
     'ajax:complete form': 'submitComplete'
     'change .accounting_transaction_loan_transaction_type_value': 'updateDisbursementFieldVisibility'
-    'change .accounting_transaction_qb_object_subtype': 'updateCheckFieldVisibility'
+    'change .accounting_transaction_disbursement_type': 'updateCheckFieldVisibility'
 
   initialize: (params) ->
     @loanId = params.loanId
@@ -44,7 +44,7 @@ class MS.Views.TransactionModalView extends Backbone.View
       @$('.modal-content').html(data.responseText)
 
   clearCheckField: ->
-    @$('#accounting_transaction_qb_object_subtype_check').prop("checked", false)
+    @$('#accounting_transaction_disbursement_type_check').prop("checked", false)
     @$('.check-only').hide()
 
   updateDisbursementFieldVisibility: (e) ->
@@ -55,7 +55,7 @@ class MS.Views.TransactionModalView extends Backbone.View
       @clearCheckField()
 
   updateCheckFieldVisibility: (e) ->
-    if e.target.value == "Check"
+    if e.target.value == "check"
       @$('.check-only').show()
     else
       @clearCheckField()

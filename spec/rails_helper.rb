@@ -1,23 +1,28 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'simplecov'
+
+require "simplecov"
 SimpleCov.start do
-  add_filter '/spec/'
+  add_filter "/spec/"
 end
 
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../../config/environment", __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'spec_helper'
-require 'rspec/rails'
+require "spec_helper"
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'capybara/poltergeist'
-require 'capybara/rspec'
-require 'capybara-screenshot/rspec'
-require 'devise'
-require 'pundit/rspec'
-require 'pundit/matchers'
-require 'sidekiq/testing'
+require "capybara/rails"
+require "capybara/rspec"
+require "devise"
+require "pundit/rspec"
+require "pundit/matchers"
+require "sidekiq/testing"
+
+# Automatically downloads chromedriver, which is used use for JS feature specs
+require "webdrivers/chromedriver"
 
 # So we don't need to prepare test db every time
 ActiveRecord::Migration.maintain_test_schema!
@@ -35,50 +40,26 @@ ActiveRecord::Migration.maintain_test_schema!
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.example_status_persistence_file_path = Rails.root.join('tmp', 'spec', 'failures.txt')
+  config.example_status_persistence_file_path = Rails.root.join("tmp/spec/failures.txt")
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = false
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each, clean_with_truncation: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
   config.before(:each) do |example|
     traits = []
     traits << :with_accounts if example.metadata[:accounting]
     # Create root division
-    create(:division, *traits, parent: nil, name: '-', description: 'Root', public: false)
+    create(:division, *traits, parent: nil, name: "-", description: "Root", public: false)
   end
 
   config.after(:each) do
-    if Rails.configuration.x.test
-      Rails.configuration.x.test = ActiveSupport::OrderedOptions.new
-    end
-
     # fix for weird database cleansing situation
     Capybara.reset_sessions!
     DatabaseCleaner.clean
@@ -86,8 +67,8 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     if Rails.env.test?
-      tmp_uploads_path = Rails.root.join('public', 'uploads', 'tmp')
-      test_uploads_path = Rails.root.join('public', 'uploads', 'test')
+      tmp_uploads_path = Rails.root.join("public/uploads/tmp")
+      test_uploads_path = Rails.root.join("public/uploads/test")
       FileUtils.rm_rf(Dir[tmp_uploads_path])
       FileUtils.rm_rf(Dir[test_uploads_path])
     end
@@ -115,22 +96,13 @@ RSpec.configure do |config|
 
   config.include Warden::Test::Helpers
   config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include FeatureSpecHelpers, type: :feature
+  config.include SystemSpecHelpers, type: :system
+  config.include DownloadHelpers, type: :system
   config.include FactoryBot::Syntax::Methods
   config.include FactorySpecHelpers
   config.include GeneralSpecHelpers
   config.include QuestionSpecHelpers, type: :model
   config.include ProjectSpecHelpers, type: :model
-
-  Capybara.register_driver :poltergeist do |app|
-    # Increase timeout to allow for potentially long-running asset precompile on first request.
-    # cf. https://github.com/teampoltergeist/poltergeist/issues/677#issuecomment-249303507
-    # As of 7/31/2017 on Travis this first request (i.e. the first JS-enabled feature spec) to run
-    # was taking over 30 seconds.
-    Capybara::Poltergeist::Driver.new(app, timeout: 1.minute, js_errors: false)
-  end
-
-  Capybara.javascript_driver = :poltergeist
 end
 
 def record_class(record_type)

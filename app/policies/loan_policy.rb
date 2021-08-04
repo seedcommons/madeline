@@ -9,6 +9,10 @@ class LoanPolicy < ProjectPolicy
     end
   end
 
+  def old_system_access?
+    division_admin(division: Division.root)
+  end
+
   class Scope < DivisionOwnedScope
     def resolve
       if user # madeline, so use divisionowned

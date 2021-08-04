@@ -1,53 +1,3 @@
-# == Schema Information
-#
-# Table name: projects
-#
-#  actual_end_date                       :date
-#  actual_first_interest_payment_date    :date
-#  actual_first_payment_date             :date
-#  actual_return                         :decimal(, )
-#  amount                                :decimal(, )
-#  created_at                            :datetime         not null
-#  currency_id                           :integer
-#  custom_data                           :json
-#  division_id                           :integer          not null
-#  id                                    :integer          not null, primary key
-#  length_months                         :integer
-#  loan_type_value                       :string
-#  name                                  :string
-#  organization_id                       :integer
-#  original_id                           :integer
-#  primary_agent_id                      :integer
-#  projected_end_date                    :date
-#  projected_first_interest_payment_date :date
-#  projected_first_payment_date          :date
-#  projected_return                      :decimal(, )
-#  public_level_value                    :string           not null
-#  rate                                  :decimal(, )
-#  representative_id                     :integer
-#  secondary_agent_id                    :integer
-#  signing_date                          :date
-#  status_value                          :string
-#  txn_handling_mode                     :string           default("automatic"), not null
-#  type                                  :string           not null
-#  updated_at                            :datetime         not null
-#
-# Indexes
-#
-#  index_projects_on_currency_id      (currency_id)
-#  index_projects_on_division_id      (division_id)
-#  index_projects_on_organization_id  (organization_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (currency_id => currencies.id)
-#  fk_rails_...  (division_id => divisions.id)
-#  fk_rails_...  (organization_id => organizations.id)
-#  fk_rails_...  (primary_agent_id => people.id)
-#  fk_rails_...  (representative_id => people.id)
-#  fk_rails_...  (secondary_agent_id => people.id)
-#
-
 require 'rails_helper'
 
 describe Loan, type: :model do
@@ -236,7 +186,7 @@ describe Loan, type: :model do
         context 'update to field other than updated_at' do
           it 'enqueues loan health check' do
             ActiveJob::Base.queue_adapter = :test
-            expect { loan.update_attribute(:projected_end_date, Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
+            expect { loan.update(projected_end_date: Time.zone.today) }.to have_enqueued_job(RecalculateLoanHealthJob)
           end
         end
 

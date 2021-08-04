@@ -30,14 +30,14 @@ module Accounting
       private
 
       def fetch_qb_data
-        started_fetch_at = Time.zone.now
+        started_fetch_at = Time.current
         ::Accounting::QB::TransactionClassFinder.new(division).find_by_name(::Accounting::Transaction::QB_PARENT_CLASS)
         ::Accounting::QB::CustomerFetcher.new(division).fetch
         ::Accounting::QB::AccountFetcher.new(division).fetch
         ::Accounting::QB::TransactionFetcher.new(division).fetch
         ::Accounting::QB::DepartmentFetcher.new(division).fetch
         ::Accounting::QB::VendorFetcher.new(division).fetch
-        qb_connection.update_attribute(:last_updated_at, started_fetch_at)
+        qb_connection.update_last_updated_at(started_fetch_at)
       rescue StandardError => error
         delete_qb_data
         clear_division_accounts
@@ -46,7 +46,7 @@ module Accounting
 
       def delete_qb_data
         ::Accounting::LineItem.delete_all
-        ::Accounting::ProblemLoanTransaction.delete_all
+        ::Accounting::SyncIssue.delete_all
         ::Accounting::Transaction.delete_all
         ::Accounting::Account.delete_all
         ::Accounting::Customer.delete_all
@@ -97,7 +97,7 @@ module Accounting
 
       def restore_department_associations!(department_division_map)
         Accounting::QB::Department.find_each do |d|
-          d.update_attribute(:division_id, department_division_map[d.qb_id])
+          d.update(division_id: department_division_map[d.qb_id])
         end
       end
     end

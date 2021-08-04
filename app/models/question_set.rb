@@ -1,13 +1,3 @@
-# == Schema Information
-#
-# Table name: question_sets
-#
-#  created_at    :datetime         not null
-#  id            :integer          not null, primary key
-#  internal_name :string
-#  updated_at    :datetime         not null
-#
-
 class QuestionSet < ApplicationRecord
   include Translatable
 
@@ -24,7 +14,7 @@ class QuestionSet < ApplicationRecord
     QuestionSet.all.each do |set|
       roots = Question.where(question_set_id: set.id, parent: nil).to_a
       new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
-      (roots - [new_root]).each { |r| r.update_attributes!(parent: new_root) }
+      (roots - [new_root]).each { |r| r.update!(parent: new_root) }
     end
   end
 
