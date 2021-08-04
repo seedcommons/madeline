@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe Accounting::TransactionPolicy do
-  let(:parent_division) { create(:division, :with_accounts, qb_read_only: false) }
+  let(:parent_division) { create(:division, :with_accounts, name: "Parent", qb_read_only: false) }
   let(:division) { create(:division, :with_qb_dept, parent: parent_division) }
   let(:loan_trait) { :active }
   let(:loan_txn_mode) { Loan::TXN_MODE_AUTO }
