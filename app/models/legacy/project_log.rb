@@ -77,7 +77,7 @@ module Legacy
         return
       end
       if project_id <= 0
-        Migration.log << ["ProjectLog", id, "Not migrating b/c ProjectID = #{project_table}"]
+        Migration.log << ["ProjectLog", id, "Not migrating b/c ProjectID = #{project_id}"]
         return
       end
       data = migration_data
