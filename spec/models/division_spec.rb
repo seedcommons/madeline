@@ -10,6 +10,12 @@ describe Division, type: :model do
     expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
+  it 'cannot be its own parent' do
+    division = create(:division)
+    division.parent = division
+    expect {division.save! }.to raise_error "Validation failed: Parent Division You cannot add an ancestor as a descendant, Name Division and Parent Division names cannot be the same"
+  end
+
   context 'short name' do
     let(:uuid_1) { 'a123uuid' }
     let(:uuid_2) { 'b123uuid' }
@@ -35,9 +41,15 @@ describe Division, type: :model do
       expect(new_division.reload.short_name).to include("preexisting-", "uuid")
     end
 
-    it 'generates a unique short name if provided short_name is a repeat' do
+    it 'generates a unique short name if provided short_name on create is a repeat' do
       new_division = create(:division, name: "preexisting", short_name: "preexisting")
       expect(new_division.reload.short_name).to include("preexisting-", "uuid")
+    end
+
+    it 'generates a unique short name if provided short_name on edit is a repeat' do
+      new_division = create(:division, name: "newdiv", short_name: "newdiv")
+      new_division.update(short_name: "preexisting")
+      expect(new_division.reload.short_name).to include("preexisting", "uuid")
     end
 
     it 'leaves pre-existing uuid alone when re-saving division' do
