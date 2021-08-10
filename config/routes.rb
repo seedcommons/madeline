@@ -115,7 +115,8 @@ Rails.application.routes.draw do
   end
 
   scope module: :public, path: nil, as: :public do
-    get '/division/:short_name' => 'divisions#show', as: :division
+    #get '/division/:short_name' => 'divisions#show', as: :division
+    resources :divisions, param: :short_name, only: [:show]
   end
 
   get '/ping', to: 'ping#index'

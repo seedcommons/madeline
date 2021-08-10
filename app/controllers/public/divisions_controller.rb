@@ -4,14 +4,23 @@ class Public::DivisionsController < Public::PublicController
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def show
+    puts params
+    puts request.original_url
+    @params = {status: params[:status], pg: params[:pg]}
     @division = Division.find_by(short_name: params[:short_name])
+    @status_filter = [:active]
+    if @params[:status] == "all"
+      @status_filter = [:active, :completed]
+    elsif @params[:status]
+      @status_filter = [@params[:status]]
+    end
     @selected_division = @division
     authorize @division
     @params = {status: "active"}
     # assume this division is public . ..
-    # loan scope handles filtering loans based on whether their division is public, their status, and their public level value
+    # loan scope handles filtering loans based on whether their division is public, only completed or active loans, and their public level value
     divisions_to_include = @division.self_and_descendants&.map(&:id)
-    @loans = policy_scope(Loan.where(division: divisions_to_include)).page(params[:page]).per(5)
+    @loans = policy_scope(Loan.where(division: divisions_to_include, status_value: @status_filter)).page(params[:page]).per(5)
   end
 
   private

@@ -136,7 +136,7 @@ module ApplicationHelper
     hash_tree.sort_by { |k,v| k.name }.to_h.each do |division, subtree|
       return options_tree(subtree) if !include_root && division.root?
 
-      value = public_only ? division.short_name : division.id
+      value = public_only ? public_division_url(division.short_name) : division.id
 
       options << [("&nbsp; &nbsp; " * depth).html_safe << division.name, value]
       options += options_tree(subtree, depth + 1, public_only: public_only)
