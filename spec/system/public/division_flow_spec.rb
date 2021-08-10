@@ -14,6 +14,7 @@ feature 'public division flow' do
   it 'displays division information' do
     visit public_division_path(short_name: parent_division.short_name)
     expect(page).to have_content(parent_division.name)
+    expect(page).to have_selector(:css, "a[href='#{parent_division.website}']")
   end
 
   it 'filters loans correctly' do

@@ -6,6 +6,7 @@ FactoryBot.define do
   factory :division do
     description { Faker::Lorem.sentence }
     name { Faker::Address.city }
+    website { Faker::Internet.url }
     parent { root_division }
     public { true }
 

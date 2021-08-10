@@ -3,6 +3,7 @@ en:
     divisions:
       loan_header: "Loans"
       not_authorized: "You are not authorized to view this division."
+      return_to_division_homepage: "Return to homepage for %{name}"
     loans:
       amount: "Loan amount"
       signing_date: "Signing date"

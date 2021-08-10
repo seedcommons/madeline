@@ -40,11 +40,13 @@ describe "division flow", js: true do
 
     expect(page).to have_field("Parent Division", disabled: true)
     fill_in("* Name", with: "New Name", exact: true)
+    fill_in("Website", with: "www.example.coop")
     select("QB Dep", from: "QB Division")
     click_button("Update Division")
 
     expect(page).to have_content("New Name")
     expect(page).to have_content("QB Dep")
+    expect(page).to have_content("www.example.coop")
     expect(page).to have_alert("Record was successfully updated.")
   end
 
