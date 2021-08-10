@@ -7,6 +7,7 @@ class Public::DivisionsController < Public::PublicController
     @division = Division.find_by(short_name: params[:short_name])
     @selected_division = @division
     authorize @division
+    @params = {status: "active"}
     # assume this division is public . ..
     # loan scope handles filtering loans based on whether their division is public, their status, and their public level value
     divisions_to_include = @division.self_and_descendants&.map(&:id)

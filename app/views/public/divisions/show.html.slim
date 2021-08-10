@@ -6,6 +6,23 @@
 .public-container
   .public-row.description
     = @division.description
+  .public-row.division_navigation
+    .row.loan_filters
+      .col-xs-12
+        = form_tag({}, {method: "get"}) do
+          .show
+            ul.nav.nav-pills
+              li.disabled #{t :show}:
+              li class=('active' if !@params[:status] || @params[:status] == 'active')
+                = link_to t(:show_active), @params.merge(status: nil, pg: nil)
+              li class=('active' if @params[:status] == 'completed')
+                = link_to t(:show_completed), @params.merge(status: 'completed', pg: nil)
+              li class=('active' if @params[:status] == 'all')
+                = link_to t(:show_all), @params.merge(status: 'all', pg: nil)
+          .country
+            = label_tag(:division, "#{t :division}: ")
+            = select_tag(:division, options_for_select(division_select_options(include_all: true, public_only: true), @params[:division]),
+                onchange: "window.location.href=this.value")
   .public-row
     h1 =t("public.divisions.loan_header")
   - @loans.each do |loan|
