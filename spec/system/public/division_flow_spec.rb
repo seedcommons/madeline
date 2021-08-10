@@ -14,7 +14,24 @@ feature 'public division flow' do
   it 'displays division information' do
     visit public_division_path(short_name: parent_division.short_name)
     expect(page).to have_content(parent_division.name)
-    expect(page).to have_selector(:css, "a[href='#{parent_division.website}']")
+    expect(page).to have_content(parent_division.description)
+  end
+
+  context 'division has separate homepage' do
+    it "has return link" do
+      visit public_division_path(short_name: parent_division.short_name)
+      expect(page).to have_selector(:css, "a[href='#{parent_division.website}']")
+    end
+  end
+
+  context 'division has no separate homepage' do
+    before do
+      parent_division.update(website: nil)
+    end
+    it "does not display return link" do
+      visit public_division_path(short_name: parent_division.short_name)
+      expect(page).not_to have_selector(:css, "a[href='#{parent_division.website}']")
+    end
   end
 
   it 'filters loans correctly' do
