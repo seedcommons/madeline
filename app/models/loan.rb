@@ -153,7 +153,7 @@ class Loan < Project
   def thumb_path
     if !self.featured_pictures.empty?
       self.featured_pictures.first.item.thumb.url
-    else "/images/ww-avatar-watermark.png" end
+    else "/images/seedcommons.png" end
   end
 
   def ensure_currency
