@@ -17,6 +17,7 @@ feature 'public division flow' do
       visit public_division_path(short_name: parent_division.short_name)
       expect(page).to have_content(parent_division.name)
       expect(page).to have_content(parent_division.description)
+      expect(page).to have_content("Go to SeedCommons")
     end
 
     context 'division has separate homepage' do
@@ -83,7 +84,7 @@ feature 'public division flow' do
 
     describe "displays loan information correctly" do
       context "loan has own image" do
-        let!(:loan_with_image) { create(:loan, :active, :with_loan_media, division: parent_division) }
+        let!(:loan_with_image) { create(:loan, :active, :public, :with_loan_media, division: parent_division) }
         it "displays the loan image" do
           visit public_division_path(short_name: parent_division.short_name)
           expect(page).to have_content(loan_with_image.name)
@@ -93,12 +94,9 @@ feature 'public division flow' do
       end
 
       context "loan has no image" do
-        let!(:loan_no_image) { create(:loan, :active, division: parent_division) }
+        let!(:loan_no_image) { create(:loan, :active, :public, division: parent_division) }
         it "displays seedcommons logo" do
           visit public_division_path(short_name: parent_division.short_name)
-          save_and_open_page
-          expect(page).to have_content(loan_no_image.name)
-          # the_swing is the image used in test env
           expect(page.find('div.coop_pic_sm')['style']).to include("seedcommons")
         end
       end
