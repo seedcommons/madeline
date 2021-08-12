@@ -47,3 +47,190 @@ $row-padding: calc(5vh);
     float: left;
   }
 }
+/** LOAN LIST STYLES **/
+
+.loan_list {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 34px;
+}
+a:hover.loan_list {
+  background: rgba(0,0,0,.15);
+}
+.loan_list_wrap {
+  height: auto;
+}
+.loan_list_item_wrap {
+  background: #fdfdfd;
+}
+li.loan {
+  margin: 25px 0;
+}
+
+.coop_pic_sm {
+  background-position: center center;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 5px solid #e0e0e0;
+  border-radius: 4px;
+}
+.coop_name {
+  font-size: 14pt;
+  font-weight: bold;
+  color: #832828;
+  margin-top: 10px;
+}
+.about_coop {
+  font-size: 11pt;
+  /*letter-spacing: 0.1em;*/
+  font-weight: 400;
+  color: #111;
+  line-height: 13pt;
+}
+.detail_link {
+  font-size: 10pt;
+  margin-left: 8px;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  margin-right: 20px;
+}
+.sign_date {
+  font-weight: inherit;
+  font-variant: normal;
+  /*color: #832828;*/
+}
+.facts {
+  width: 200px;
+  margin: 5px;
+}
+.loan_item_facts {
+  color: #072D44;
+}
+.money_sym {
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 500;
+  color: #5F2B26;
+}
+.loan_amount {
+  /*color: #612C28;*/
+  font-weight: bold
+}
+.loan_info {
+  color: #333;
+  font-size: 11.6px;
+  text-transform: none;
+  margin-bottom: -15px;
+}
+.loan_status {
+  color: #333;
+  font-size: 11.6px;
+  text-transform: none;
+}
+.payment_status {
+  color: orange;
+}
+.lend_btn {
+  float: right;
+  margin-right: 10px;
+  margin-top: -3px;
+}
+.loan_list_container {
+  clear: both;
+  background: #efefef;
+  border: 1px solid #444;
+}
+.section-title {
+  margin-left: 10px;
+  font-size: 23px;
+  /*font-weight: 400;*/
+  color: #444;
+}
+.loan_filters {
+  background: transparent;
+  .show {
+    float: left;
+    margin-bottom: 15px;
+  }
+  .country {
+    float: right;
+    label {
+      line-height: 40px;
+      margin: 0 10px;
+    }
+    select {
+      background-color: white;
+      margin: 0;
+      padding: 8px;
+    }
+  }
+}
+
+
+/* Collapse table into stacked block elements on narrow screens */
+@media (max-width: 700px) {
+  .no-more-tables {
+    background: none;
+    &, thead, tbody, th, td, tr {
+      display: block;
+      border: none;
+      padding: 0;
+    }
+    tbody {
+      tr td {
+        padding: 15px 15px 0 15px;
+        border: none;
+      }
+      td.loan_item_facts {
+        padding: 15px;
+        width: auto;
+        clear: both;
+      }
+      .coop_pic_sm {
+        margin: 0;
+      }
+      .detail_link {
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+}
+
+/* NAVIGATION STYLES*/
+$pill_padding: 8px 15px;
+
+.nav-pills > li.disabled {
+  color: #999;
+  padding: $pill_padding;
+}
+.nav.nav-pills > li > a {
+  padding: $pill_padding;
+}
+.nav-pills, .nav-tabs {
+  > li > a:hover {
+    color: var(--custom-fg-color);
+    background-color: rgba(145, 145, 145, 0.25);
+  }
+}
+.nav-pills > li.active > a {
+  &, &:hover, &:focus {
+    color: white;
+    background-color: var(--custom-fg-color);
+  }
+}
+
+.pagination {
+  text-align: center;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: var(--custom-accent-main);
+  border-color: var(--custom-fg-color);
+  color: var(--custom-fg-color);
+}
