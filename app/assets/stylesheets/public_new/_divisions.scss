@@ -1,18 +1,23 @@
+// TODO: update with safer custom colors
+// Currently assumes custom-accent-main is a dark color,
+// and uses --custom-accent-fg-text as an second accent color.
+
 $edge-margin: calc(10vw);
 $row-padding: calc(6vh);
-
-a {
-  color: var(--custom-fg-color);
-}
+$border-gray: #e0e0e0;
 
 .public-nav {
   background: var(--custom-bg-color);
+  border-bottom: 1px solid $border-gray;
   color: var(--custom-fg-color);
   text-align: center;
   padding: calc(2vh) 0;
   .divider {
     font-size: large;
     font-weight: bolder;
+  }
+  a {
+    color: var(--custom-fg-color);
   }
 }
 
@@ -40,9 +45,9 @@ a {
 }
 
 .description {
-  color: var(--custom-fg-color);
+  color: var(--custom-accent-main);
   font-size: small;
-  border-bottom: 1px solid var(--custom-fg-color);
+  border-bottom: 1px solid $border-gray;
 }
 
 .loan_header {
@@ -52,7 +57,7 @@ a {
 }
 
 .public-container {
-  color: var(--custom-fg-color);
+  color: var(--custom-accent-main);
   display: grid;
   margin: 0 $edge-margin;
 
@@ -76,14 +81,17 @@ a {
 /** LOAN LIST STYLES **/
 
 .loan_list {
+  color: var(--custom-accent-main);
   text-decoration: none;
   text-transform: uppercase;
-  color: white;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 18px;
   padding: 5px;
   margin-right: 34px;
+}
+a {
+  color: var(--custom-accent-main);
 }
 a:hover.loan_list {
   background: rgba(0,0,0,.15);
@@ -107,7 +115,7 @@ li.loan {
   width: 100px;
   height: 100px;
   margin: 5px;
-  border: 5px solid #e0e0e0;
+  border: 5px solid $border-gray;
   border-radius: 4px;
 }
 .coop_name {
@@ -142,15 +150,11 @@ li.loan {
 .loan_item_facts {
   color: #072D44;
 }
-.money_sym {
-  text-transform: uppercase;
-  font-style: normal;
-  font-weight: 500;
-  color: #5F2B26;
-}
 .loan_amount {
-  /*color: #612C28;*/
-  font-weight: bold
+  font-weight: bold;
+  a.currency_symbol {
+    color:  var(--custom-accent-fg-text);
+  }
 }
 .loan_info {
   color: #333;
@@ -251,13 +255,17 @@ $pill_padding: 8px 15px;
 .nav-pills > li.active > a {
   &, &:hover, &:focus {
     color: white;
-    background-color: var(--custom-fg-color);
+    background-color: var(--custom-accent-main);
   }
 }
 
 .pagination {
+  li > a {
+    color: var(--custom-accent-main);
+  }
   text-align: center;
 }
+
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
   background-color: var(--custom-accent-main);
   border-color: var(--custom-fg-color);
