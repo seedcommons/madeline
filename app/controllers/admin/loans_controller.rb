@@ -18,11 +18,6 @@ module Admin
         conditions: division_index_filter,
         order: "projects.signing_date",
         order_direction: "desc",
-        custom_order: {
-          "projects.division_id" => ->(col) { Arel.sql("LOWER(#{col})") },
-          "projects.organization_id" => ->(col) { Arel.sql("LOWER(#{col})") },
-          "projects.signing_date" => ->(col) { Arel.sql("#{col} IS NULL, #{col}") }
-        },
         per_page: 50,
         name: "loans",
         enable_export_to_csv: true

@@ -52,7 +52,7 @@ gem "closure_tree", "~> 7.3"
 gem "font-awesome-sass", "~> 5.12"
 gem "jquery-ui-rails"
 
-# We are using this fork because the original gem is no longer maintained. This fork seems to be where
+# We are using this fork of wicegrid because the original gem is no longer maintained. This fork seems to be where
 # most of the activity is happening in recent years. patricklindsay's fork has also been active,
 # but this one is the only one I could find that works with Rails 6.1
 gem "wice_grid", git: "https://github.com/kreintjes/wice_grid.git", branch: "fix/all"
