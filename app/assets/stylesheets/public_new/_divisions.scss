@@ -9,7 +9,12 @@ $row-padding: calc(6vh);
   padding: $row-padding 0;
 }
 
-.logo-grid {
+.division-logo {
+  display: grid;
+  justify-content: center;
+}
+
+.no-division-logo {
   display: grid;
   grid-template-columns: minmax(auto, 42px) auto;
   margin: 0 $edge-margin;

@@ -4,10 +4,14 @@
     = "|"
   = link_to(t('public.divisions.go_to_seedcommons'), 'www.seedcommons.org')
 .public-header
-  .logo-grid
-    .ftc-triple-spiral
-    .division-name
-      = @division.name
+  - if @division.logo.present?
+    .division-logo
+      = image_tag @division.logo.url(:banner)
+  - else
+    .no-division-logo
+      .ftc-triple-spiral
+      .division-name
+        = @division.name
 .public-container
   .public-row.description
     = @division.description
