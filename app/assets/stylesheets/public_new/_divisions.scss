@@ -1,6 +1,21 @@
 $edge-margin: calc(10vw);
 $row-padding: calc(6vh);
 
+a {
+  color: var(--custom-fg-color);
+}
+
+.public-nav {
+  background: var(--custom-bg-color);
+  color: var(--custom-fg-color);
+  text-align: center;
+  padding: calc(2vh) 0;
+  .divider {
+    font-size: large;
+    font-weight: bolder;
+  }
+}
+
 .public-header {
   background: var(--custom-bg-color);
   color: var(--custom-fg-color);
