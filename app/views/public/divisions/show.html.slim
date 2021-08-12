@@ -2,7 +2,7 @@
   - if @division.website.present?
     = link_to t('public.divisions.return_to_division_homepage', name: @division.name), @division.website
     span.divider = " | "
-  = link_to(t('public.divisions.go_to_seedcommons'), 'www.seedcommons.org')
+  = link_to(t('public.divisions.go_to_seedcommons'), 'https://www.seedcommons.org')
 .public-header
   - if @division.logo.present?
     .division-logo
