@@ -1,12 +1,12 @@
 $edge-margin: calc(10vw);
-$row-padding: calc(5vh);
+$row-padding: calc(6vh);
 
 .public-header {
   background: var(--custom-bg-color);
   color: var(--custom-fg-color);
   font-size: xx-large;
   font-weight: bolder;
-  padding: 0.4em 0;
+  padding: $row-padding 0;
 }
 
 .logo-grid {
@@ -22,6 +22,13 @@ $row-padding: calc(5vh);
 .description {
   color: var(--custom-fg-color);
   font-size: small;
+  border-bottom: 1px solid var(--custom-fg-color);
+}
+
+.loan_header {
+  padding: 0 0 $row-padding 0;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .public-container {
@@ -30,7 +37,6 @@ $row-padding: calc(5vh);
   margin: 0 $edge-margin;
 
   .public-row {
-    border-bottom: 1px solid var(--custom-fg-color);
     padding: $row-padding 0;
   }
 }
