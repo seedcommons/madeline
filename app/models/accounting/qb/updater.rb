@@ -114,7 +114,7 @@ module Accounting
           raise DataResetRequiredError
         end
         Rails.logger.debug("Calling to QB API to get changes since #{last_updated_at}")
-        service.since(types, last_updated_at).all_types
+        service.since(types, last_updated_at - 3.days).all_types
       end
 
       def create_or_update(qb_object_type:, qb_object:)
