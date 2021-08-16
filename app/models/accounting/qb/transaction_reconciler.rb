@@ -19,7 +19,7 @@ module Accounting
         begin
           qb_txn = transaction.qb_id ? service(transaction).update(qb_txn, sparse: true) : service(transaction).create(qb_txn)
         rescue Quickbooks::IntuitRequestException => e
-          handle_qb_intuit_request_exception(txn, e)
+          handle_qb_intuit_request_exception(transaction, e)
         end
         transaction.set_qb_push_flag!(false)
 
