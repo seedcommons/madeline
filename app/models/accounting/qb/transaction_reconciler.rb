@@ -34,7 +34,7 @@ module Accounting
       attr_reader :qb_connection, :principal_account, :qb_division
 
       def handle_qb_intuit_request_exception(txn, e)
-        raise Accounting::QB::IntuitRequestError(transaction: txn, message: e.message)
+        raise IntuitRequestError(transaction: txn, message: e.message)
       end
 
       def builder
