@@ -149,7 +149,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
                       line_item_changes: txn.line_items.map { |li| li.previous_changes }}
       Rails.logger.error("Accounting::QB::IntuitRequestError #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
       error_msg = t("quickbooks.#{intuit_error_type}",
-                    txn_date: txn.txn_date,
+                    date: txn.txn_date,
                     qb_id: txn.qb_id)
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
