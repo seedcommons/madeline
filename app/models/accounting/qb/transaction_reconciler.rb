@@ -16,8 +16,11 @@ module Accounting
         # If the transaction already has a qb_id then it already exists in QB, so we should update it.
         # Otherwise we create it.
         raise StandardError, "DO NOT WRITE IN READ ONLY MODE" if @qb_division.qb_read_only
-        qb_txn = transaction.qb_id ? service(transaction).update(qb_txn, sparse: true) : service(transaction).create(qb_txn)
-
+        begin
+          qb_txn = transaction.qb_id ? service(transaction).update(qb_txn, sparse: true) : service(transaction).create(qb_txn)
+        rescue Quickbooks::IntuitRequestException => e
+          handle_qb_intuit_request_exception(txn, e)
+        end
         transaction.set_qb_push_flag!(false)
 
         # It's important we store the ID and type of the QB journal entry we just created
@@ -29,6 +32,10 @@ module Accounting
       private
 
       attr_reader :qb_connection, :principal_account, :qb_division
+
+      def handle_qb_intuit_request_exception(txn, e)
+        raise Accounting::QB::IntuitRequestError(transaction: txn, message: e.message)
+      end
 
       def builder
         @builder ||= TransactionBuilder.new(qb_division)

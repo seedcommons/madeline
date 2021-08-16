@@ -101,8 +101,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # We don't permit project_id because that's a privilege escalation issue. For update, it should
     # already be set and can't be changed. For create, we get it from the query string manually.
     params.require(:accounting_transaction).permit(:account_id, :amount,
-      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
-      :accounting_customer_id, :qb_vendor_id, :disbursement_type, :check_number)
+                                                   :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
+                                                   :accounting_customer_id, :qb_vendor_id, :disbursement_type, :check_number)
   end
 
   def render_modal_partial(status: 200)
@@ -130,19 +130,38 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       yield
     rescue Accounting::QB::DataResetRequiredError => e
       Rails.logger.error e
-      error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
+      error_msg = t("quickbooks.data_reset_required", settings: settings_link).html_safe
     rescue Accounting::QB::UnprocessableAccountError => e
       # Duplicated in QuickbooksUpdateJob, should be DRYed up in refactor.
       Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
                                     message: :unprocessable_account, level: :error, custom_data: {})
+    rescue Accounting::QB::IntuitRequestError => e
+      # TODO: duplicate in QuickbooksUpdateJob, then should be DRYed up in refactor.
+      txn = e.transaction
+      is_matching_error = e.message.include?("matched to a downloaded transaction")
+      intuit_error_type = is_matching_error ? :matched_transaction : :unknown_intuit_request_exception
+      Accounting::SyncIssue.create!(loan: txn.loan,
+                                    accounting_transaction: txn,
+                                    message: intuit_error_type,
+                                    level: :warning, # want to still see ledger
+                                    custom_data: {date: txn.txn_date, qb_id: txn.qb_id},
+                                    # hacking quickbooks_data field here
+                                    # TODO: quickbooks_data needs to be generalized to e.g. debug_data
+                                    quickbooks_data: {
+                                      txn_changes: txn.previous_changes,
+                                      line_item_changes: txn.line_items.map { |li| li.previous_changes }
+                                    })
+      error_msg = t("quickbooks.#{intuit_error_type}",
+                    txn_date: txn.txn_date,
+                    qb_id: txn.qb_id)
     rescue Quickbooks::ServiceUnavailable => e
       Rails.logger.error e
-      error_msg = t('quickbooks.service_unavailable')
+      error_msg = t("quickbooks.service_unavailable")
     rescue Quickbooks::MissingRealmError,
            Accounting::QB::NotConnectedError,
            Quickbooks::AuthorizationFailure => e
       Rails.logger.error e
-      error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
+      error_msg = t("quickbooks.authorization_failure", settings: settings_link).html_safe
     rescue Quickbooks::InvalidModelException,
            Quickbooks::Forbidden,
            Quickbooks::ThrottleExceeded,
@@ -150,10 +169,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
            Quickbooks::IntuitRequestException => e
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)
-      error_msg = t('quickbooks.misc', msg: e)
+      error_msg = t("quickbooks.misc", msg: e)
     rescue Accounting::QB::NegativeBalanceError => e
       Rails.logger.error e
-      error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
+      error_msg = t("quickbooks.negative_balance", amt: e.prev_balance)
     end
     error_msg
   end
@@ -168,6 +187,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def settings_link
-    view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
+    view_context.link_to(t("menu.accounting_settings"), admin_accounting_settings_path)
   end
 end
