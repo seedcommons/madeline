@@ -144,13 +144,10 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
                                     accounting_transaction: txn,
                                     message: intuit_error_type,
                                     level: :warning, # want to still see ledger
-                                    custom_data: {date: txn.txn_date, qb_id: txn.qb_id},
-                                    # hacking quickbooks_data field here
-                                    # TODO: quickbooks_data needs to be generalized to e.g. debug_data
-                                    quickbooks_data: {
-                                      txn_changes: txn.previous_changes,
-                                      line_item_changes: txn.line_items.map { |li| li.previous_changes }
-                                    })
+                                    custom_data: {date: txn.txn_date, qb_id: txn.qb_id})
+      changes_hash = {txn_changes: txn.previous_changes,
+                      line_item_changes: txn.line_items.map { |li| li.previous_changes }}
+      Rails.logger.error("Accounting::QB::IntuitRequestError #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
       error_msg = t("quickbooks.#{intuit_error_type}",
                     txn_date: txn.txn_date,
                     qb_id: txn.qb_id)
