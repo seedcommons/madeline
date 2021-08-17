@@ -5,6 +5,7 @@
 $edge-margin: calc(10vw);
 $row-padding: calc(6vh);
 $border-gray: #e0e0e0;
+$default-gray: #333;
 
 .public-nav {
   background: var(--custom-bg-color);
@@ -141,14 +142,13 @@ li.loan {
 .sign_date {
   font-weight: inherit;
   font-variant: normal;
-  /*color: #832828;*/
 }
 .facts {
   width: 200px;
   margin: 5px;
 }
 .loan_item_facts {
-  color: #072D44;
+  color: var(--custom-accent-fg-text);
 }
 .loan_amount {
   font-weight: bold;
@@ -157,13 +157,13 @@ li.loan {
   }
 }
 .loan_info {
-  color: #333;
+  color: $default-gray;
   font-size: 11.6px;
   text-transform: none;
   margin-bottom: -15px;
 }
 .loan_status {
-  color: #333;
+  color: $default-gray;
   font-size: 11.6px;
   text-transform: none;
 }
@@ -222,6 +222,7 @@ li.loan {
         border: none;
       }
       td.loan_item_facts {
+        color: var(--custom-accent-fg-text);
         padding: 15px;
         width: auto;
         clear: both;
