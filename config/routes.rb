@@ -108,14 +108,10 @@ Rails.application.routes.draw do
     # :site can be 'argentina', 'nicaragua', or 'us'
     namespace :public, path: '/:site' do
       resources :loans, only: [:index, :show]
-      get 'loans/:id/gallery', to: 'loans#gallery', as: :gallery
-      get 'test' => 'static_pages#test'
-      get 'update' => 'static_pages#update' # Manually update wordpress template
     end
   end
 
   scope module: :public, path: nil, as: :public do
-    #get '/division/:short_name' => 'divisions#show', as: :division
     resources :divisions, param: :short_name, only: [:show]
   end
 

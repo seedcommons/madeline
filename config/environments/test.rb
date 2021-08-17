@@ -53,14 +53,4 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
-
-  # For wordpress template
-  config.x.wordpress_template = {
-    base_uri: {
-      us: 'http://madeline.test'
-    },
-    template_paths: { # url of blank wordpress page for rails to retrieve
-      us: '/wordpress/rails_template',
-    },
-  }
 end
