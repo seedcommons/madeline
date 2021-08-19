@@ -1,5 +1,17 @@
 class FixDivisionDepthsOnQuestions < ActiveRecord::Migration[6.1]
   def up
+    # Ensure no groups with children in a higher division
+    groups_with_higher_children_query = <<-SQL
+      SELECT DISTINCT q.id, q.division_id FROM questions q WHERE EXISTS (
+        SELECT id FROM questions cq WHERE cq.parent_id = q.id AND
+          (SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = cq.division_id) <
+            (SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = q.division_id)
+      )
+    SQL
+    unless execute(groups_with_higher_children_query).to_a.empty?
+      raise "Group(s) exist with children in higher division. Please correct manually before proceeding."
+    end
+
     problematic_parents_query = <<-SQL
       SELECT DISTINCT q.parent_id
         FROM questions q
