@@ -175,6 +175,8 @@ class Question < ApplicationRecord
     update_numbers_for_parent(@old_parent_id) if @old_parent_id
   end
 
+  # position holds the table ordering value.
+  # number is the displayed number, and is null for inactive questions.
   def update_numbers_for_parent(parent_id)
     self.class.connection.execute("UPDATE questions SET number = num FROM (
       SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
