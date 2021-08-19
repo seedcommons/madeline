@@ -50,17 +50,11 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_parent", options: popover_options)
 
-  = f.input :short_name
-    .view-element = @division.short_name
-    = f.input_field :short_name
+  = f.input :homepage
+    .view-element = @division.homepage
+    = f.input_field :homepage
     = documentation_popover(@documentations_by_html,
-      html_identifier: "#{form_identifier}_short_name", options: popover_options)
-
-  = f.input :website
-    .view-element = @division.website
-    = f.input_field :website
-    = documentation_popover(@documentations_by_html,
-      html_identifier: "#{form_identifier}_website", options: popover_options)
+      html_identifier: "#{form_identifier}_homepage", options: popover_options)
 
   = f.input :qb_department_id
     .view-element = @division.qb_department.try(:name)
@@ -89,7 +83,12 @@
           = link_to(public_url, public_url)
           = content_tag(:a, tabindex: 0, data: { content: t('admin.divisions.form.public_url_info')}, class: 'ms-popover')
             span.icon-box= icon_tag("question-circle")
-
+            
+  = f.input :short_name
+    .view-element = @division.short_name
+    = f.input_field :short_name
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_short_name", options: popover_options)
 
   = f.input :logo
     .view-element

@@ -40,7 +40,7 @@ describe "division flow", js: true do
 
     expect(page).to have_field("Parent Division", disabled: true)
     fill_in("* Name", with: "New Name", exact: true)
-    fill_in("Website", with: "www.example.coop")
+    fill_in("Division Homepage", with: "www.example.coop")
     select("QB Dep", from: "QB Division")
     click_button("Update Division")
 

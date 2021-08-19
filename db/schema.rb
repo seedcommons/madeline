@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2021_08_10_192226) do
     t.integer "currency_id"
     t.json "custom_data"
     t.text "description"
+    t.text "homepage"
     t.integer "interest_income_account_id"
     t.integer "interest_receivable_account_id"
     t.string "internal_name"
@@ -192,7 +193,6 @@ ActiveRecord::Schema.define(version: 2021_08_10_192226) do
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
     t.datetime "updated_at", null: false
-    t.text "website"
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"

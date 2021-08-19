@@ -23,17 +23,17 @@ feature 'public division flow' do
     context 'division has separate homepage' do
       it "has return link" do
         visit public_division_path(short_name: parent_division.short_name)
-        expect(page).to have_selector(:css, "a[href='#{parent_division.website}']")
+        expect(page).to have_selector(:css, "a[href='#{parent_division.homepage}']")
       end
     end
 
     context 'division has no separate homepage' do
       before do
-        parent_division.update(website: nil)
+        parent_division.update(homepage: nil)
       end
       xit "does not display return link" do
         visit public_division_path(short_name: parent_division.short_name)
-        expect(page).not_to have_selector(:css, "a[href='#{parent_division.website}']")
+        expect(page).not_to have_selector(:css, "a[href='#{parent_division.homepage}']")
       end
     end
 
