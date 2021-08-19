@@ -179,7 +179,7 @@ class Question < ApplicationRecord
   # number is the displayed number, and is null for inactive questions.
   def update_numbers_for_parent(parent_id)
     self.class.connection.execute("UPDATE questions SET number = num FROM (
-      SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
+      SELECT id, ROW_NUMBER() OVER (ORDER BY position) AS num
       FROM questions
       WHERE parent_id = #{parent_id} AND active = 't'
     ) AS t WHERE questions.id = t.id")
