@@ -3,7 +3,7 @@ class FixDivisionDepthsOnQuestions < ActiveRecord::Migration[6.1]
     problematic_parents_query = <<-SQL
       SELECT DISTINCT q.parent_id
         FROM questions q
-        WHERE q.position > 1 AND EXISTS (
+        WHERE q.position > 0 AND EXISTS (
           SELECT id
             FROM questions prev_q
             WHERE q.parent_id = prev_q.parent_id
@@ -23,7 +23,7 @@ class FixDivisionDepthsOnQuestions < ActiveRecord::Migration[6.1]
         UPDATE questions SET position = new_pos FROM (
           SELECT id, ROW_NUMBER() OVER (ORDER BY (
               SELECT MAX(generations) FROM division_hierarchies WHERE descendant_id = division_id
-            ), position) - 1 AS new_pos
+            ), division_id, position) - 1 AS new_pos
           FROM questions
           WHERE parent_id = #{parent_id}
         ) AS t WHERE questions.id = t.id
