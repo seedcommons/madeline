@@ -58,11 +58,7 @@
                     i.fa.fa-fw.fa-calendar>
                     = ldate(loan.signing_date, format: :long)
                   .loan_amount
-                    / i.icon-coinstack>
                     = format_currency(loan.amount, loan.currency)
-                  / p.progress.progress-danger style="background:#444;"
-                  /   span.progress-bar data-percentage="75" style=("width: 75%;")
-                  / p: button.lend_btn.btn type="button"  Add Loan
 
   .public-row
     = paginate @loans

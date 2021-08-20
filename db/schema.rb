@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_10_192226) do
+ActiveRecord::Schema.define(version: 2021_08_19_135731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,9 @@ ActiveRecord::Schema.define(version: 2021_08_10_192226) do
     t.integer "parent_id"
     t.integer "principal_account_id"
     t.boolean "public", default: false, null: false
+    t.string "public_accent_color"
+    t.string "public_primary_color"
+    t.string "public_secondary_color"
     t.string "qb_parent_class_id"
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
