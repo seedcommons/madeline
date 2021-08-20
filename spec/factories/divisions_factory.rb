@@ -9,6 +9,9 @@ FactoryBot.define do
     homepage { Faker::Internet.url }
     parent { root_division }
     public { true }
+    public_primary_color { Faker::Color.hex_color }
+    public_secondary_color { Faker::Color.hex_color }
+    public_accent_color { Faker::Color.hex_color }
 
     trait :with_accounts do
       principal_account { create(:accounting_account, name: "Principal Account #{rand(1..9999)}") }

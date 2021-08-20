@@ -83,7 +83,7 @@
           = link_to(public_url, public_url)
           = content_tag(:a, tabindex: 0, data: { content: t('admin.divisions.form.public_url_info')}, class: 'ms-popover')
             span.icon-box= icon_tag("question-circle")
-            
+
   = f.input :short_name
     .view-element = @division.short_name
     = f.input_field :short_name
@@ -130,6 +130,24 @@
     = f.input_field :accent_fg_color
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_accent_fg_color", options: popover_options)
+
+  = f.input :public_primary_color
+    .view-element = @division.public_primary_color
+    = f.input_field :public_primary_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_public_primary_color", options: popover_options)
+
+  = f.input :public_secondary_color
+    .view-element = @division.public_secondary_color
+    = f.input_field :public_secondary_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_public_secondary_color", options: popover_options)
+
+  = f.input :public_accent_color
+    .view-element = @division.public_accent_color
+    = f.input_field :public_accent_color
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_public_accent_color", options: popover_options)
 
   .actions.form-element
     - unless @division.new_record?

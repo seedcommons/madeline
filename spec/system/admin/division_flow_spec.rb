@@ -96,4 +96,19 @@ describe "division flow", js: true do
       expect(page.find('.division_qb_department_id .view-element')).to have_content('Dep2')
     end
   end
+
+  scenario 'editing colors' do
+    visit admin_division_path(division)
+    find('.edit-action').click
+    fill_in 'Madeline Primary Color', with: 'blue'
+    fill_in 'Madeline Secondary Color', with: 'purple'
+    fill_in 'Madeline Accent Color', with: 'red'
+    fill_in "Public Division Page Primary Color", with: 'green'
+    fill_in "Public Division Page Secondary Color", with: 'orange'
+    fill_in "Public Division Page Accent Color", with: 'teal'
+    click_on 'Update Division'
+    visit admin_division_path(division)
+    # TODO: test colors on admin page
+    # TODO: test colors on public
+  end
 end
