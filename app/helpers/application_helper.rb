@@ -105,12 +105,19 @@ module ApplicationHelper
     colors = {}
     selected_division =  @selected_division || selected_division
 
+    # Madeline colors
     colors[:banner_fg] = selected_division && selected_division.banner_fg_color || "white"
     colors[:banner_bg] = selected_division && selected_division.banner_bg_color || "#8C2426"
     colors[:accent_main] = selected_division && selected_division.accent_main_color || colors[:banner_bg]
     colors[:accent_fg_text] = selected_division && selected_division.accent_fg_color || colors[:banner_fg]
 
-    # These two colors are derived from the user configurable ones using the Chroma gem.
+    # Public page colors
+    seed_commons_green = "#21744C"
+    colors[:public_primary_color] = selected_division && selected_division.public_primary_color || seed_commons_green
+    colors[:public_secondary_color] = selected_division && selected_division.public_secondary_color || seed_commons_green
+    colors[:public_accent_color] = selected_division && selected_division.public_accent_color || seed_commons_green
+
+    # These Madeline two colors are derived from the user configurable ones using the Chroma gem.
     colors[:accent_darkened] = begin
       colors[:accent_main].paint.darken(5)
     rescue Chroma::Errors::UnrecognizedColor

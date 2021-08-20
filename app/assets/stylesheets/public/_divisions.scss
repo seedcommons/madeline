@@ -6,11 +6,12 @@ $edge-margin: calc(10vw);
 $row-padding: calc(6vh);
 $border-gray: #e0e0e0;
 $default-gray: #333;
+$default-header-color: #ffffff;
 
 .public-nav {
-  background: var(--custom-bg-color);
+  background: var(--public_primary_color);
   border-bottom: 1px solid $border-gray;
-  color: var(--custom-fg-color);
+  color: $default-header-color;
   text-align: center;
   padding: calc(2vh) 0;
   .divider {
@@ -18,13 +19,13 @@ $default-gray: #333;
     font-weight: bolder;
   }
   a {
-    color: var(--custom-fg-color);
+    color: $default-header-color;
   }
 }
 
 .public-header {
-  background: var(--custom-bg-color);
-  color: var(--custom-fg-color);
+  background: var(--public_primary_color);
+  color: $default-header-color;
   font-size: xx-large;
   font-weight: bolder;
   padding: $row-padding 0;
@@ -46,7 +47,7 @@ $default-gray: #333;
 }
 
 .description {
-  color: var(--custom-accent-main);
+  color: var(--public_secondary_color);
   font-size: small;
   border-bottom: 1px solid $border-gray;
 }
@@ -58,7 +59,7 @@ $default-gray: #333;
 }
 
 .public-container {
-  color: var(--custom-accent-main);
+  color: var(--public_secondary_color);
   display: grid;
   margin: 0 $edge-margin;
 
@@ -82,7 +83,7 @@ $default-gray: #333;
 /** LOAN LIST STYLES **/
 
 .loan_list {
-  color: var(--custom-accent-main);
+  color: var(--public_secondary_color);
   text-decoration: none;
   text-transform: uppercase;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -92,7 +93,7 @@ $default-gray: #333;
   margin-right: 34px;
 }
 a {
-  color: var(--custom-accent-main);
+  color: var(--public_secondary_color);
 }
 a:hover.loan_list {
   background: rgba(0,0,0,.15);
@@ -148,12 +149,12 @@ li.loan {
   margin: 5px;
 }
 .loan_item_facts {
-  color: var(--custom-accent-fg-text);
+  color: var(--public_accent_color);
 }
 .loan_amount {
   font-weight: bold;
   a.currency_symbol {
-    color:  var(--custom-accent-fg-text);
+    color:  var(--public_accent_color);
   }
 }
 .loan_info {
@@ -222,7 +223,7 @@ li.loan {
         border: none;
       }
       td.loan_item_facts {
-        color: var(--custom-accent-fg-text);
+        color: var(--public_accent_color);
         padding: 15px;
         width: auto;
         clear: both;
@@ -249,26 +250,26 @@ $pill_padding: 8px 15px;
 }
 .nav-pills, .nav-tabs {
   > li > a:hover {
-    color: var(--custom-fg-color);
+    color: var(--public_secondary_color);
     background-color: rgba(145, 145, 145, 0.25);
   }
 }
 .nav-pills > li.active > a {
   &, &:hover, &:focus {
     color: white;
-    background-color: var(--custom-accent-main);
+    background-color: var(--public_secondary_color);
   }
 }
 
 .pagination {
   li > a {
-    color: var(--custom-accent-main);
+    color: var(--public_secondary_color);
   }
   text-align: center;
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-  background-color: var(--custom-accent-main);
-  border-color: var(--custom-fg-color);
-  color: var(--custom-fg-color);
+  background-color: var(--public_secondary_color);
+  border-color: #ffffff;
+  color: #ffffff;
 }
