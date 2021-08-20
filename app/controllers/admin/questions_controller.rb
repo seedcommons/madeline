@@ -45,15 +45,11 @@ class Admin::QuestionsController < Admin::AdminController
 
   def move
     target = Question.find(params[:target])
-    method = case params[:relation]
-      when 'before' then :prepend_sibling
-      when 'after' then :append_sibling
-      when 'inside' then :prepend_child
-    end
-
-    target.send(method, @question)
+    current_division = selected_division || Division.root
+    QuestionMover.new(current_division: current_division, question: @question,
+                      target: target, relation: params[:relation].to_sym).move
     render_set_json(@question.question_set)
-  rescue
+  rescue ArgumentError
     flash.now[:error] = I18n.t('questions.move_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
   end
