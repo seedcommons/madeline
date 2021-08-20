@@ -1,0 +1,10 @@
+en:
+  public:
+    divisions:
+      loan_header: "Loans"
+      not_authorized: "You are not authorized to view this division."
+      return_to_division_homepage: "< Go to homepage"
+      go_to_seedcommons: "Go to SeedCommons >"
+    loans:
+      amount: "Loan amount"
+      signing_date: "Signing date"

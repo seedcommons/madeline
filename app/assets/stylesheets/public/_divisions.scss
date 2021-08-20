@@ -1,0 +1,275 @@
+// TODO: update with safer custom colors
+// Currently assumes custom-accent-main is a dark color,
+// and uses --custom-accent-fg-text as an second accent color.
+
+$edge-margin: calc(10vw);
+$row-padding: calc(6vh);
+$border-gray: #e0e0e0;
+$default-gray: #333;
+$default-header-color: #ffffff;
+
+.public-nav {
+  background: var(--public_primary_color);
+  border-bottom: 1px solid $border-gray;
+  color: $default-header-color;
+  text-align: center;
+  padding: calc(2vh) 0;
+  .divider {
+    font-size: large;
+    font-weight: bolder;
+  }
+  a {
+    color: $default-header-color;
+  }
+}
+
+.public-header {
+  background: var(--public_primary_color);
+  color: $default-header-color;
+  font-size: xx-large;
+  font-weight: bolder;
+  padding: $row-padding 0;
+}
+
+.division-logo {
+  display: grid;
+  justify-content: center;
+}
+
+.no-division-logo {
+  display: grid;
+  grid-template-columns: minmax(auto, 42px) auto;
+  margin: 0 $edge-margin;
+}
+
+.division-name {
+  margin-top: -0.15em;
+}
+
+.description {
+  color: var(--public_secondary_color);
+  font-size: small;
+  border-bottom: 1px solid $border-gray;
+}
+
+.loan_header {
+  padding: 0 0 $row-padding 0;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.public-container {
+  color: var(--public_secondary_color);
+  display: grid;
+  margin: 0 $edge-margin;
+
+  .public-row {
+    padding: $row-padding 0;
+  }
+}
+
+.loan-row {
+  .featured-image {
+    display: inline-block;
+    float: left;
+    padding: 0 3% 3% 0;
+  }
+
+  .loan-summary {
+    display: inline-block;
+    float: left;
+  }
+}
+/** LOAN LIST STYLES **/
+
+.loan_list {
+  color: var(--public_secondary_color);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 34px;
+}
+a {
+  color: var(--public_secondary_color);
+}
+a:hover.loan_list {
+  background: rgba(0,0,0,.15);
+}
+.loan_list_wrap {
+  height: auto;
+}
+.loan_list_item_wrap {
+  background: #fdfdfd;
+}
+li.loan {
+  margin: 25px 0;
+}
+
+.loan_item_thumb {
+  width: 100px;
+}
+.coop_pic_sm {
+  background-position: center center;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 5px solid $border-gray;
+  border-radius: 4px;
+}
+.coop_name {
+  font-size: 14pt;
+  font-weight: bold;
+  color: #832828;
+  margin-top: 10px;
+}
+.about_coop {
+  font-size: 11pt;
+  /*letter-spacing: 0.1em;*/
+  font-weight: 400;
+  color: #111;
+  line-height: 13pt;
+}
+.detail_link {
+  font-size: 10pt;
+  margin-left: 8px;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  margin-right: 20px;
+}
+.sign_date {
+  font-weight: inherit;
+  font-variant: normal;
+}
+.facts {
+  width: 200px;
+  margin: 5px;
+}
+.loan_item_facts {
+  color: var(--public_accent_color);
+}
+.loan_amount {
+  font-weight: bold;
+  a.currency_symbol {
+    color:  var(--public_accent_color);
+  }
+}
+.loan_info {
+  color: $default-gray;
+  font-size: 11.6px;
+  text-transform: none;
+  margin-bottom: -15px;
+}
+.loan_status {
+  color: $default-gray;
+  font-size: 11.6px;
+  text-transform: none;
+}
+.payment_status {
+  color: orange;
+}
+.lend_btn {
+  float: right;
+  margin-right: 10px;
+  margin-top: -3px;
+}
+.loan_list_container {
+  clear: both;
+  background: #efefef;
+  border: 1px solid #444;
+}
+.section-title {
+  margin-left: 10px;
+  font-size: 23px;
+  /*font-weight: 400;*/
+  color: #444;
+}
+.loan_filters {
+  background: transparent;
+  .show {
+    float: left;
+    margin-bottom: 15px;
+  }
+  .country {
+    float: right;
+    label {
+      line-height: 40px;
+      margin: 0 10px;
+    }
+    select {
+      background-color: white;
+      margin: 0;
+      padding: 8px;
+    }
+  }
+}
+
+
+/* Collapse table into stacked block elements on narrow screens */
+@media (max-width: 700px) {
+  .no-more-tables {
+    background: none;
+    &, thead, tbody, th, td, tr {
+      display: block;
+      border: none;
+      padding: 0;
+    }
+    tbody {
+      tr td {
+        padding: 15px 15px 0 15px;
+        border: none;
+      }
+      td.loan_item_facts {
+        color: var(--public_accent_color);
+        padding: 15px;
+        width: auto;
+        clear: both;
+      }
+      .coop_pic_sm {
+        margin: 0;
+      }
+      .detail_link {
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+}
+
+/* NAVIGATION STYLES*/
+$pill_padding: 8px 15px;
+
+.nav-pills > li.disabled {
+  color: #999;
+  padding: $pill_padding;
+}
+.nav.nav-pills > li > a {
+  padding: $pill_padding;
+}
+.nav-pills, .nav-tabs {
+  > li > a:hover {
+    color: var(--public_secondary_color);
+    background-color: rgba(145, 145, 145, 0.25);
+  }
+}
+.nav-pills > li.active > a {
+  &, &:hover, &:focus {
+    color: white;
+    background-color: var(--public_secondary_color);
+  }
+}
+
+.pagination {
+  li > a {
+    color: var(--public_secondary_color);
+  }
+  text-align: center;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: var(--public_secondary_color);
+  border-color: #ffffff;
+  color: #ffffff;
+}

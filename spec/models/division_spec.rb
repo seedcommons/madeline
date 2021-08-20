@@ -10,9 +10,23 @@ describe Division, type: :model do
     expect { create(:division, parent: nil) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  context 'short name' do
+  it 'cannot be its own parent' do
+    division = create(:division)
+    division.parent = division
+    expect {division.save! }.to raise_error "Validation failed: Parent Division You cannot add an ancestor as a descendant, Name Division and Parent Division names cannot be the same"
+  end
 
-    before { allow(SecureRandom).to receive(:uuid) {'iamauuid2018'} }
+  context 'short name' do
+    let(:uuid_1) { 'a123uuid' }
+    let(:uuid_2) { 'b123uuid' }
+    let(:uuid_3) { 'c123uuid' }
+    let(:uuid_4) { 'd123uuid' }
+
+    before {
+      allow(SecureRandom).to receive(:uuid).and_return(uuid_1, uuid_2, uuid_3, uuid_4)
+      create(:division, name: "preexisting")
+    }
+
 
     let!(:division_1) { create(:division, name: 'trouble') }
     let!(:division_2) { create(:division, name: 'trouble', notify_on_new_logs: true) }
@@ -22,12 +36,39 @@ describe Division, type: :model do
       expect(division_1.short_name).to eq('trouble')
     end
 
+    it 'generates a unique short name if division name is a repeat' do
+      new_division = create(:division, name: "preexisting")
+      expect(new_division.reload.short_name).to include("preexisting-", "uuid")
+    end
+
+    it 'generates a unique short name if provided short_name on create is a repeat' do
+      new_division = create(:division, name: "preexisting", short_name: "preexisting")
+      expect(new_division.reload.short_name).to include("preexisting-", "uuid")
+    end
+
+    it 'generates a unique short name if provided short_name on edit is a repeat' do
+      new_division = create(:division, name: "newdiv", short_name: "newdiv")
+      new_division.update(short_name: "preexisting")
+      expect(new_division.reload.short_name).to include("preexisting", "uuid")
+    end
+
+    it 'leaves pre-existing uuid alone when re-saving division' do
+      division_1.save!
+      expect(division_1.reload.short_name).to eq ('trouble')
+    end
+
+    it 'allows manual update of short_name on a division' do
+      division_1.short_name = "mytrouble"
+      division_1.save!
+      expect(division_1.reload.short_name).to eq ('mytrouble')
+    end
+
     it 'generates a short name for division with the same name' do
-      expect(division_2.short_name).to eq('trouble-iamauuid2018')
+      expect(division_2.short_name).to include("trouble-", "uuid")
     end
 
     it 'generates short name for division with just hyphens' do
-      expect(division_3.short_name).to eq('-iamauuid2018')
+      expect(division_3.short_name).to include("uuid")
     end
   end
 

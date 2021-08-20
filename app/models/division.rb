@@ -18,22 +18,22 @@ class Division < ApplicationRecord
   has_many :self_and_descendants, through: :descendant_hierarchies, source: :descendant
   has_many :self_and_ancestors, through: :ancestor_hierarchies, source: :ancestor
 
-  has_one :qb_connection, class_name: 'Accounting::QB::Connection', dependent: :destroy, inverse_of: :division
-  has_one :qb_department, class_name: 'Accounting::QB::Department', dependent: :nullify, inverse_of: :division
+  has_one :qb_connection, class_name: "Accounting::QB::Connection", dependent: :destroy, inverse_of: :division
+  has_one :qb_department, class_name: "Accounting::QB::Department", dependent: :nullify, inverse_of: :division
   accepts_nested_attributes_for :qb_department
 
   belongs_to :principal_account, class_name: "Accounting::Account"
   belongs_to :interest_receivable_account, class_name: "Accounting::Account"
   belongs_to :interest_income_account, class_name: "Accounting::Account"
 
-  belongs_to :parent, class_name: 'Division'
+  belongs_to :parent, class_name: "Division"
 
   # Note the requirements around a single currency or a 'default currency' per division has been in
   # flux. Should probably rename the DB column to 'default_currency_id' once definitively settled.
-  belongs_to :default_currency, class_name: 'Currency', foreign_key: 'currency_id'
+  belongs_to :default_currency, class_name: "Currency", foreign_key: "currency_id"
   alias_attribute :default_currency_id, :currency_id
 
-  belongs_to :organization  # the organization which represents this loan agent division
+  belongs_to :organization # the organization which represents this loan agent division
 
   mount_uploader :logo, LogoUploader
 
@@ -81,7 +81,7 @@ class Division < ApplicationRecord
   def has_noncascading_dependents?
     Division.where(parent: self).present? ||
       Organization.where(division: self).present? ||
-      Loan.where(division: self).present?  ||
+      Loan.where(division: self).present? ||
       Person.where(division: self).present?
   end
 
@@ -90,7 +90,8 @@ class Division < ApplicationRecord
   end
 
   def locales
-    return [] unless self[:locales].present?
+    return [] if self[:locales].blank?
+
     self[:locales].sort.select(&:present?).map(&:to_sym)
   end
 
@@ -124,9 +125,14 @@ class Division < ApplicationRecord
   end
 
   def generate_short_name
-    return if short_name.present? && Division.pluck(:short_name).exclude?(self.short_name)
+    # no change to short_name that is already saved and therefore uniq
+    return if self.short_name.present? && self.short_name == self.attribute_in_database(:short_name)
 
-    self.short_name = name.parameterize
+    # accept a short_name that is being provided and is uniq
+    return if self.short_name.present? && Division.pluck(:short_name).exclude?(self.short_name)
+
+    # short_name not provided or provided short_name is not uniq
+    self.short_name ||= name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
   end
 end

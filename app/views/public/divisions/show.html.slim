@@ -1,0 +1,64 @@
+.public-nav
+  - if @division.homepage.present?
+    = link_to t('public.divisions.return_to_division_homepage'), @division.homepage
+    span.divider = "  |  "
+  = link_to(t('public.divisions.go_to_seedcommons'), 'https://www.seedcommons.org')
+.public-header
+  - if @division.logo.present?
+    .division-logo
+      = image_tag @division.logo.url(:banner)
+  - else
+    .no-division-logo
+      .ftc-triple-spiral
+      .division-name
+        = @division.name
+.public-container
+  .public-row.description
+    = @division.description
+  .public-row.
+    h1.loan_header =t("public.divisions.loan_header")
+    .division_navigation
+      .row.loan_filters
+        .col-xs-12
+          = form_tag({}, {method: "get"}) do
+            .show
+              ul.nav.nav-pills
+                li.disabled #{t :show}:
+                li class=('active' if !@params[:status] || @params[:status] == 'active')
+                  = link_to t(:show_active), @params.merge(status: nil, pg: nil)
+                li class=('active' if @params[:status] == 'completed')
+                  = link_to t(:show_completed), @params.merge(status: 'completed', pg: nil)
+                li class=('active' if @params[:status] == 'all')
+                  = link_to t(:show_all), @params.merge(status: 'all', pg: nil)
+            .country
+              = label_tag(:division, "#{t :division}: ")
+              = select_tag(:division, options_for_select(division_select_options(include_all: true, public_only: true), @params[:division]),
+                  onchange: "window.location.href=this.value")
+      table.table.loan_list_wrap.table-bordered.no-more-tables
+            - @loans.each do |loan|
+              tr.loans_items.well.loan_list_item_wrap style=("opacity: 0.9;")
+                td.loan_item_thumb
+                  a href=''
+                    .coop_pic_sm style=("background-image: url('#{loan.thumb_path}');")
+                td.loan_item_desc
+                  h4
+                    = link_to(loan.organization.name, '')
+                  h5
+                    = link_to(loan.display_name, '')
+                  p.about_coop = render_translation(loan.summary)
+                td.facts.loan_item_facts
+                  .division
+                    i.fa.fa-fw.fa-users>
+                    a href=''
+                      = loan.division.name
+                  .location
+                    i.fa.fa-fw.fa-map-marker>
+                    = loan.location
+                  .sign_date
+                    i.fa.fa-fw.fa-calendar>
+                    = ldate(loan.signing_date, format: :long)
+                  .loan_amount
+                    = format_currency(loan.amount, loan.currency)
+
+  .public-row
+    = paginate @loans

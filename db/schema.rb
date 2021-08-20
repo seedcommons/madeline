@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_09_205410) do
+ActiveRecord::Schema.define(version: 2021_08_19_135731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2021_07_09_205410) do
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.string "description"
+    t.string "disbursement_type", default: "other"
     t.decimal "interest_balance", default: "0.0"
     t.string "loan_transaction_type_value"
     t.boolean "managed", default: false, null: false
@@ -107,7 +108,6 @@ ActiveRecord::Schema.define(version: 2021_07_09_205410) do
     t.string "private_note"
     t.integer "project_id"
     t.string "qb_id"
-    t.string "disbursement_type", default: "other"
     t.string "qb_object_type", default: "JournalEntry", null: false
     t.integer "qb_vendor_id"
     t.json "quickbooks_data"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2021_07_09_205410) do
     t.integer "currency_id"
     t.json "custom_data"
     t.text "description"
+    t.text "homepage"
     t.integer "interest_income_account_id"
     t.integer "interest_receivable_account_id"
     t.string "internal_name"
@@ -188,6 +189,9 @@ ActiveRecord::Schema.define(version: 2021_07_09_205410) do
     t.integer "parent_id"
     t.integer "principal_account_id"
     t.boolean "public", default: false, null: false
+    t.string "public_accent_color"
+    t.string "public_primary_color"
+    t.string "public_secondary_color"
     t.string "qb_parent_class_id"
     t.boolean "qb_read_only", default: true, null: false
     t.string "short_name"
