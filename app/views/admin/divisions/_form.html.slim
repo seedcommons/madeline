@@ -125,12 +125,6 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_accent_main_color", options: popover_options)
 
-  = f.input :accent_fg_color
-    .view-element = @division.accent_fg_color
-    = f.input_field :accent_fg_color
-    = documentation_popover(@documentations_by_html,
-      html_identifier: "#{form_identifier}_accent_fg_color", options: popover_options)
-
   = f.input :public_primary_color
     .view-element = @division.public_primary_color
     = f.input_field :public_primary_color
