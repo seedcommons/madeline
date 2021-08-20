@@ -144,4 +144,32 @@ describe Question, :type => :model do
       expect(f4.reload.full_number).to eq "III"
     end
   end
+
+  describe "validations" do
+    describe "group division depth check" do
+      let!(:div_a) { create(:division, parent: root_division) }
+      let!(:div_b) { create(:division, parent: div_a) }
+      let!(:div_c) { create(:division, parent: div_b) }
+      let!(:set) { create(:question_set) }
+      let!(:group) { create_question(set: set, parent: set.root_group, division: div_b, type: "group") }
+      subject(:question) do
+        build(:question, question_set: set, data_type: "string", parent: group, division: question_division)
+      end
+
+      context "with parent with ancestor division" do
+        let(:question_division) { div_c }
+        it { is_expected.to be_valid }
+      end
+
+      context "with parent with same division" do
+        let(:question_division) { div_b }
+        it { is_expected.to be_valid }
+      end
+
+      context "with parent with descendant division" do
+        let(:question_division) { div_a }
+        it { is_expected.to have_errors(base: "Parent must be in same or ancestor division") }
+      end
+    end
+  end
 end

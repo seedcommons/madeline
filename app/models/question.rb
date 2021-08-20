@@ -38,6 +38,7 @@ class Question < ApplicationRecord
   translates :explanation, allow_html: true
 
   validates :data_type, presence: true
+  validate :parent_division_depth
 
   after_save :ensure_internal_name
 
@@ -197,5 +198,15 @@ class Question < ApplicationRecord
     if !internal_name
       self.update! internal_name: "field_#{id}"
     end
+  end
+
+  def parent_division_depth
+    return if parent.nil?
+
+    our_division = division
+    parent_division = parent.division
+    return if our_division.depth >= parent_division.depth
+
+    errors.add(:base, :invalid_parent_division_depth)
   end
 end
