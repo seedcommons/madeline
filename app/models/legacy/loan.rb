@@ -15,14 +15,9 @@ module Legacy
       @currency ||= division.ensure_country.default_currency
     end
 
-    # beware, there are a lot of invalid '0' foreign key refs in the legacy data
-    def nil_if_zero(val)
-      val == 0 ? nil : val
-    end
-
     def migration_data
-      primary_id = Person.find_by(legacy_id: nil_if_zero(point_person))&.id
-      secondary_id = Person.find_by(legacy_id: nil_if_zero(second))&.id
+      primary_id = map_legacy_person_id(point_person)
+      secondary_id = map_legacy_person_id(second)
       secondary_id = nil if primary_id == secondary_id
 
       data = {
@@ -39,7 +34,7 @@ module Legacy
         amount: amount,
         rate: rate,
         length_months: length,
-        representative_id: Person.find_by(legacy_id: nil_if_zero(representative_id))&.id,
+        representative_id: map_legacy_person_id(representative_id)
         signing_date: signing_date,
         projected_first_interest_payment_date: first_interest_payment,
         projected_first_payment_date: first_payment_date,
@@ -124,6 +119,11 @@ module Legacy
         Migration.unexpected_errors << "No matching public_level_value found for #{nivel_publico}"
       end
       value
+    end
+
+    # beware, there are a lot of invalid '0' foreign key refs in the legacy data
+    def nil_if_zero(val)
+      val == 0 ? nil : val
     end
 
     MIGRATION_STATUS_OPTIONS = Legacy::TransientOptionSet.new(

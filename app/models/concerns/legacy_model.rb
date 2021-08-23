@@ -69,4 +69,10 @@ module LegacyModel
     )
     translation&.translated_content&.strip.presence
   end
+
+  def map_legacy_person_id(legacy_id)
+    return nil if legacy_id == 0 || legacy_id.blank?
+
+    Person.find_by(legacy_id: legacy_id)&.id
+  end
 end

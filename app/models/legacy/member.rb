@@ -9,7 +9,7 @@ module Legacy
     DONT_UPDATE_MADELINE_IDS = [2, 1577]
 
     def self.migrate_all
-      if !Person.find_by(legacy_id: 274)
+      if !map_legacy_person_id(274)
         Person.create!(
           first_name: "Unknown",
           last_name: "2018 User",

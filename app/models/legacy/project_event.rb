@@ -18,8 +18,8 @@ module Legacy
         Migration.log << ["ProjectEvent", id, "Nullified agent_id b/c member #{member_id} not found"]
         nil
       else
-        if (person = Person.find_by(legacy_id: member_id))
-          person.id
+        if (person_id = map_legacy_person_id(member_id))
+          person_id
         else
           Migration.unexpected_errors << "Person not found for MemberId: #{member_id} on Step #{id}"
           nil
