@@ -26,7 +26,7 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    allowed? && object.division.self_and_descendants.include?(@division)
+    object.division.self_and_descendants.include?(@division)
   end
 
   def children
@@ -65,9 +65,5 @@ class FilteredQuestion < SimpleDelegator
 
   def decorated_children
     self.class.decorate_collection(object.children, **@args)
-  end
-
-  def allowed?
-    @user == :system || QuestionPolicy.new(@user, object).show?
   end
 end
