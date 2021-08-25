@@ -16,8 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    flash[:error] = t("unauthorized_error")
-    render("application/error_page", status: :unauthorized)
+    raise NotImplementedError
   end
 
   protected

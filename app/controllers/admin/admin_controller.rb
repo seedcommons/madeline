@@ -11,8 +11,6 @@ class Admin::AdminController < ApplicationController
 
   helper_method :current_user
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
   def admin_controller?
     true
   end

@@ -111,4 +111,20 @@ describe "division flow", js: true do
     # TODO: test colors on admin page
     # TODO: test colors on public
   end
+
+  context "visit division page you are not authorized to see" do
+    let(:person) { create(:person, :with_member_access, :with_password) }
+    let(:user) { person.user }
+
+    before do
+      allow(SecureRandom).to receive(:uuid) { "iamauuid2018" }
+      login_as(user, scope: :user)
+    end
+
+    it "redirects to member dashboard" do
+      visit(admin_divisions_path)
+      expect(page).to have_content("You are not authorized to perform this action.")
+      expect(page).to have_content("Dashboard")
+    end
+  end
 end
