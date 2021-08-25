@@ -114,7 +114,7 @@ module ApplicationHelper
     # Public page colors
     seed_commons_green = "#21744C"
     colors[:public_primary_color] = selected_division && selected_division.public_primary_color || seed_commons_green
-    colors[:public_secondary_color] = selected_division && selected_division.public_secondary_color || colors[:banner_fg]
+    colors[:public_secondary_color] = selected_division && selected_division.public_secondary_color || seed_commons_green
     colors[:public_accent_color] = selected_division && selected_division.public_accent_color || seed_commons_green
 
     # These Madeline two colors are derived from the user configurable ones using the Chroma gem.
