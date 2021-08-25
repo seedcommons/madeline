@@ -14,4 +14,13 @@ class Admin::AdminController < ApplicationController
   def admin_controller?
     true
   end
+
+  def user_not_authorized
+    if request.xhr?
+      head :forbidden
+    else
+      flash[:error] = t("unauthorized_error")
+      redirect_to(request.referer || root_path)
+    end
+  end
 end

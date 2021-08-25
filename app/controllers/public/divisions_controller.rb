@@ -5,8 +5,7 @@ class Public::DivisionsController < Public::PublicController
     @params = {status: params[:status], pg: params[:pg]}
     @division = Division.find_by(short_name: params[:short_name])
     @selected_division = @division
-    unless @division.public
-      flash[:error] = t("unauthorized_error")
+    unless @division && @division.public
       render("application/error_page", status: :unauthorized)
     else
       authorize @division
