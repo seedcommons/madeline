@@ -26,7 +26,7 @@ class FilteredQuestion < SimpleDelegator
   end
 
   def visible?
-    object.division.self_and_descendants.include?(@division)
+    @division.self_or_descendant_of?(object.division)
   end
 
   def children

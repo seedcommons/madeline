@@ -128,4 +128,36 @@ describe Division, type: :model do
       end
     end
   end
+
+  describe "self_or_ancestor_of?" do
+    let!(:div_a) { create(:division, parent: root_division) }
+    let!(:div_b1) { create(:division, parent: div_a) }
+    let!(:div_b2) { create(:division, parent: div_a) }
+    let!(:div_c) { create(:division, parent: div_b1) }
+
+    it "is correct" do
+      expect(div_b1.self_or_ancestor_of?(div_b1)).to be(true)
+      expect(div_b1.self_or_ancestor_of?(div_b2)).to be(false)
+      expect(root_division.self_or_ancestor_of?(div_b2)).to be(true)
+      expect(div_a.self_or_ancestor_of?(div_b2)).to be(true)
+      expect(div_a.self_or_ancestor_of?(div_b2)).to be(true)
+      expect(div_c.self_or_ancestor_of?(div_b2)).to be(false)
+    end
+  end
+
+  describe "self_or_descendant_of?" do
+    let!(:div_a) { create(:division) }
+    let!(:div_b1) { create(:division, parent: div_a) }
+    let!(:div_b2) { create(:division, parent: div_a) }
+    let!(:div_c1) { create(:division, parent: div_b1) }
+    let!(:div_c2) { create(:division, parent: div_b1) }
+
+    it "is correct" do
+      expect(div_b1.self_or_descendant_of?(div_b1)).to be(true)
+      expect(div_b1.self_or_descendant_of?(div_b2)).to be(false)
+      expect(div_a.self_or_descendant_of?(div_b2)).to be(false)
+      expect(div_c1.self_or_descendant_of?(div_b1)).to be(true)
+      expect(div_c2.self_or_descendant_of?(div_b1)).to be(true)
+    end
+  end
 end
