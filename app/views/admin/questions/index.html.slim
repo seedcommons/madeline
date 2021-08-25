@@ -8,7 +8,7 @@
       label.btn.btn-default
         input type="radio" name="filter" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
 
-  .jqtree data-data=@json
+  .jqtree
 
   .hidden
     .links-block
@@ -39,5 +39,5 @@
 
 javascript:
   $(function(){
-    new MS.Views.QuestionsView({ locale: "#{I18n.locale}" });
+    new MS.Views.QuestionsView(#{json(locale: I18n.locale, questions: @questions)});
   });

@@ -5,9 +5,8 @@ class Admin::QuestionsController < Admin::AdminController
   def index
     authorize Question
     sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
-    questions = sets.map { |s| top_level_questions(s) }.flatten
-    @json = ActiveModel::Serializer::CollectionSerializer.new(questions,
-                                                              selected_division: selected_division).to_json
+    @questions = sets.map { |s| top_level_questions(s) }.flatten
+    @questions = ActiveModel::Serializer::CollectionSerializer.new(@questions, selected_division: selected_division)
   end
 
   def new
@@ -70,11 +69,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def top_level_questions(set)
-    root_group = set.root_group_preloaded
-    return root_group.children unless selected_division
-
-    FilteredQuestion.new(root_group, selected_division: selected_division,
-                                     include_descendant_divisions: true).children
+    FilteredQuestion.new(set.root_group_preloaded, selected_division: selected_division,
+                                                   include_descendant_divisions: true).children
   end
 
   def set_question

@@ -6,7 +6,7 @@ class MS.Views.QuestionsView extends Backbone.View
     new MS.Views.AutoLoadingIndicatorView()
     @tree = @$('.jqtree')
     @tree.tree
-      data: @tree.data('data')
+      data: params.questions
       dragAndDrop: true
       selectable: false
       onCanMove: (node) => node.can_edit
