@@ -1,9 +1,10 @@
 class QuestionSerializer < ApplicationSerializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active,
-    :can_edit
+  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active, :can_edit
 
-  def initialize(*args, user: nil, **options)
-    @user = user
+  attr_accessor :selected_division
+
+  def initialize(*args, selected_division:, **options)
+    self.selected_division = selected_division
     super(*args, options)
   end
 
@@ -15,12 +16,12 @@ class QuestionSerializer < ApplicationSerializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node, user: @user) }
+      object.children.map { |node| self.class.new(node, selected_division: selected_division) }
     end
   end
 
   def fieldset
-    object.question_set.internal_name.sub('loan_', '')
+    object.question_set.internal_name.sub("loan_", "")
   end
 
   def optional
@@ -32,10 +33,6 @@ class QuestionSerializer < ApplicationSerializer
   end
 
   def can_edit
-    if @user
-      Pundit.policy!(@user, object).edit?
-    else
-      return false
-    end
+    object.division_id == selected_division.id
   end
 end
