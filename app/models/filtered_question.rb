@@ -1,12 +1,14 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  attr_accessor :selected_division
-
-  def initialize(question, selected_division:, **args)
+  # include_descendant_divisions means we want to show a question if it belongs to a division that
+  # is a descendant of selected_division. We ALWAYS include questions that are from divisions that are
+  # ancestors of the selected_division.
+  def initialize(question, selected_division:, include_descendant_divisions: false, **args)
     super(question)
     self.selected_division = selected_division
+    self.include_descendant_divisions = include_descendant_divisions
 
-    raise ArgumentError.new('Division cannot be nil') unless selected_division
+    raise ArgumentError.new("Division cannot be nil") unless selected_division
 
     # We save these so we can reuse them when decorating children and parents.
     @args = args
@@ -27,12 +29,15 @@ class FilteredQuestion < SimpleDelegator
       if question.parent.nil?
         nil
       else
-        self.class.new(question.parent, selected_division: selected_division, **@args)
+        self.class.new(question.parent, selected_division: selected_division,
+                                        include_descendant_divisions: include_descendant_divisions,
+                                        **@args)
       end
   end
 
   def visible?
-    selected_division.self_or_descendant_of?(question.division)
+    selected_division.self_or_descendant_of?(question.division) ||
+      include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
   end
 
   def children
@@ -70,6 +75,13 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(question.children, selected_division: selected_division, **@args)
+    self.class.decorate_collection(question.children,
+                                   selected_division: selected_division,
+                                   include_descendant_divisions: include_descendant_divisions,
+                                   **@args)
   end
+
+  private
+
+  attr_accessor :selected_division, :include_descendant_divisions
 end

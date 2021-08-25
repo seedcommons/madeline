@@ -73,7 +73,8 @@ class Admin::QuestionsController < Admin::AdminController
     root_group = set.root_group_preloaded
     return root_group.children unless selected_division
 
-    FilteredQuestion.new(root_group, selected_division: selected_division).children
+    FilteredQuestion.new(root_group, selected_division: selected_division,
+                                     include_descendant_divisions: true).children
   end
 
   def set_question
