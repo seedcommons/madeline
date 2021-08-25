@@ -81,7 +81,7 @@ class ResponseSet < ApplicationRecord
   end
 
   def ensure_decorated(question)
-    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan, user: current_user)
+    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
   end
 
   # Determines attribute name and implied operations for dynamic methods as documented above

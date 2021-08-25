@@ -2,10 +2,8 @@
 class FilteredQuestion < SimpleDelegator
   def initialize(question, **args)
     super(question)
-    @user = args[:user]
     @division = args[:division]
 
-    raise ArgumentError.new('User cannot be nil') unless @user
     raise ArgumentError.new('Division cannot be nil') unless @division
 
     # We save these so we can reuse them when decorating children and parents.
