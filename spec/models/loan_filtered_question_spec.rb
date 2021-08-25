@@ -24,7 +24,7 @@ RSpec.describe LoanFilteredQuestion, type: :model do
 
     # This also serves as an indirect test for #visible? and #answered?
     it 'returns only visible questions in the correct order' do
-      expect(children.map(&:object)).to eq [q35, q31, q32, q33, q34, q38, q39]
+      expect(children.map(&:question)).to eq [q35, q31, q32, q33, q34, q38, q39]
     end
   end
 

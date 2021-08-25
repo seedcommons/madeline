@@ -4,8 +4,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def initialize(question, **args)
     @loan = args[:loan]
-    args[:division] = @loan.division
-    super(question, **args)
+    super(question, selected_division: @loan.division, **args)
   end
 
   def sort_key

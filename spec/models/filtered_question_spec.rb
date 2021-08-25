@@ -67,12 +67,12 @@ describe FilteredQuestion, type: :model do
   describe '#children' do
     it 'should return only visible children' do
       q2.reload
-      expect(filtered_question(q2, d21).children.map(&:object)).to contain_exactly(q2_a, q2_b)
-      expect(filtered_question(q2, d2).children.map(&:object)).to contain_exactly(q2_a)
+      expect(filtered_question(q2, d21).children.map(&:question)).to contain_exactly(q2_a, q2_b)
+      expect(filtered_question(q2, d2).children.map(&:question)).to contain_exactly(q2_a)
     end
   end
 
-  def filtered_question(q, d)
-    FilteredQuestion.new(q, division: d)
+  def filtered_question(question, division)
+    FilteredQuestion.new(question, selected_division: division)
   end
 end

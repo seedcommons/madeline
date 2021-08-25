@@ -1,10 +1,12 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  def initialize(question, **args)
-    super(question)
-    @division = args[:division]
+  attr_accessor :selected_division
 
-    raise ArgumentError.new('Division cannot be nil') unless @division
+  def initialize(question, selected_division:, **args)
+    super(question)
+    self.selected_division = selected_division
+
+    raise ArgumentError.new('Division cannot be nil') unless selected_division
 
     # We save these so we can reuse them when decorating children and parents.
     @args = args
@@ -20,11 +22,17 @@ class FilteredQuestion < SimpleDelegator
 
   def parent
     return @parent if defined?(@parent)
-    @parent = object.parent.nil? ? nil : self.class.new(object.parent, **@args)
+
+    @parent =
+      if question.parent.nil?
+        nil
+      else
+        self.class.new(question.parent, selected_division: selected_division, **@args)
+      end
   end
 
   def visible?
-    @division.self_or_descendant_of?(object.division)
+    selected_division.self_or_descendant_of?(question.division)
   end
 
   def children
@@ -46,7 +54,7 @@ class FilteredQuestion < SimpleDelegator
     end
   end
 
-  def object
+  def question
     __getobj__
   end
 
@@ -62,6 +70,6 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(object.children, **@args)
+    self.class.decorate_collection(question.children, selected_division: selected_division, **@args)
   end
 end
