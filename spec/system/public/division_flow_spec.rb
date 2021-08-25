@@ -20,6 +20,17 @@ feature 'public division flow' do
       expect(page).to have_content("Go to SeedCommons")
     end
 
+    context "division is not public" do
+      before do
+        parent_division.update(public: false)
+      end
+
+      it "errors as if page doesn't exist" do
+        visit public_division_path(short_name: parent_division.short_name)
+        expect(page).to have_content("The page you were looking for doesn't exist")
+      end
+    end
+
     context 'division has separate homepage' do
       it "has return link" do
         visit public_division_path(short_name: parent_division.short_name)

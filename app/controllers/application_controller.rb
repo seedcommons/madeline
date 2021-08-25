@@ -16,8 +16,13 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    flash[:error] = t("unauthorized_error")
-    render("application/error_page", status: :unauthorized)
+    if request.xhr?
+      head :forbidden
+    else
+      flash[:error] = t("unauthorized_error")
+      puts root_path
+      redirect_to(request.referer || root_path)
+    end
   end
 
   protected
