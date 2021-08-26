@@ -4,7 +4,6 @@ FactoryBot.define do
     question_set
     internal_name { Faker::Lorem.words(2).join('_').downcase }
     data_type { Question::DATA_TYPES.sample }
-    position { [1..10].sample }
     active { true }
     parent { nil }
 

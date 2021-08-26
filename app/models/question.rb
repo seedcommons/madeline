@@ -33,6 +33,8 @@ class Question < ApplicationRecord
   # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', numeric_order: true, dependent: :destroy
 
+  delegate :depth, to: :division, prefix: true
+
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label
   translates :explanation, allow_html: true
@@ -42,6 +44,7 @@ class Question < ApplicationRecord
 
   after_save :ensure_internal_name
 
+  after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
   after_commit :set_numbers
 
@@ -187,6 +190,26 @@ class Question < ApplicationRecord
   end
 
   private
+
+  # Moves a new question to an appropriate position based on its division
+  def adjust_position_by_division
+    return if parent.nil?
+
+    # Walk through each sibling until we leave our division block or division depth block.
+    prev_sibling = nil
+    found_own_div = false
+    parent.children.each do |question|
+      next if question == self
+      break if question.division_depth > division_depth
+      break if found_own_div && question.division_id != division_id
+
+      found_own_div = true if question.division_id == division_id
+      prev_sibling = question
+    end
+    return if prev_sibling.nil?
+
+    prev_sibling.append_sibling(self)
+  end
 
   def prepare_numbers
     self.number = nil if active_changed? && !active?

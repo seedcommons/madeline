@@ -16,12 +16,63 @@ describe Question, :type => :model do
     let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
 
-    it 'should be set automatically' do
+    it "should be set automatically" do
       expect(f1.position).to eq 0
       expect(f2.position).to eq 1
       expect(f3.position).to eq 2
       expect(f31.position).to eq 0
       expect(f32.position).to eq 1
+    end
+
+    context "with manually set position" do
+      let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "string", position: 0) }
+
+      it "goes to end anyway (position NOT respected)" do
+        expect(f33.reload.position).to eq(2)
+      end
+    end
+
+    context "when questions from different divisions are present" do
+      let!(:div_a1) { create(:division, parent: root_division) }
+      let!(:div_b) { create(:division, parent: div_a1) }
+      let!(:div_a2) { create(:division, parent: root_division) }
+
+      context "when no questions from same division depth are present" do
+        let!(:f33) { create_question(set: set, division: div_b, parent: f3, name: "f33", type: "string") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+
+        it "goes before question of descendant division" do
+          expect_hierarchies(newq) # This was failing if we used after_create instead of after_create_commit
+          expect(newq.reload.position).to eq 2
+          expect(f33.reload.position).to eq 3
+        end
+      end
+
+      context "when questions from same division depth are present but not from same division" do
+        let!(:f33) { create_question(set: set, division: div_a2, parent: f3, name: "f33", type: "string") }
+        let!(:f34) { create_question(set: set, division: div_b, parent: f3, name: "f34", type: "string") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+
+        it "goes after question of same depth division" do
+          expect(f33.reload.position).to eq 2
+          expect(newq.reload.position).to eq 3
+          expect(f34.reload.position).to eq 4
+        end
+      end
+
+      context "when questions from same division are present" do
+        let!(:f33) { create_question(set: set, division: div_a1, parent: f3, name: "f33", type: "string") }
+        let!(:f34) { create_question(set: set, division: div_a2, parent: f3, name: "f34", type: "string") }
+        let!(:f35) { create_question(set: set, division: div_b, parent: f3, name: "f35", type: "string") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+
+        it "goes after question of same division" do
+          expect(f33.reload.position).to eq 2
+          expect(newq.reload.position).to eq 3
+          expect(f34.reload.position).to eq 4
+          expect(f35.reload.position).to eq 5
+        end
+      end
     end
   end
 
@@ -171,5 +222,11 @@ describe Question, :type => :model do
         it { is_expected.to have_errors(base: "Parent must be in same or ancestor division") }
       end
     end
+  end
+
+  # Checks if there are hierarchies entries pointing to this node
+  def expect_hierarchies(question)
+    query = "SELECT COUNT(*) FROM question_hierarchies WHERE descendant_id = #{question.id}"
+    expect(ApplicationRecord.connection.execute(query).to_a[0]["count"]).to be > 0
   end
 end
