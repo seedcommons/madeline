@@ -45,8 +45,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def move
     target = Question.find(params[:target])
-    current_division = selected_division || Division.root
-    QuestionMover.new(current_division: current_division, question: @question,
+    QuestionMover.new(current_division: selected_division, question: @question,
                       target: target, relation: params[:relation].to_sym).move
     render_set_json(@question.question_set)
   rescue ArgumentError
