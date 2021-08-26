@@ -4,6 +4,8 @@ class MS.Views.QuestionsView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
+    @locale = params.locale
+    @setName = params.set_name
     @tree = @$('.jqtree')
     @tree.tree
       data: params.questions
@@ -11,16 +13,14 @@ class MS.Views.QuestionsView extends Backbone.View
       selectable: false
       onCanMove: (node) => node.can_edit
       useContextMenu: false
-      saveState: true
+      saveState: @setName
       onCreateLi: (node, $li) =>
         status = if node.active then 'active' else 'inactive'
         $li.attr('data-id', node.id)
-          .addClass("filterable #{node.fieldset} #{status}")
+          .addClass(status)
           .find('.jqtree-element')
           .append(@requiredLoanTypesHTML(node))
           .append(@permittedActionsHTML(node))
-    @filterSwitchView = new MS.Views.FilterSwitchView()
-    @locale = params.locale
     @addNewItemBlocks()
 
   events: (params) ->
@@ -37,8 +37,7 @@ class MS.Views.QuestionsView extends Backbone.View
   newNode: (e) ->
     e.preventDefault()
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
-    set = URI(window.location.href).query(true)['filter'] || 'criteria'
-    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{set}&parent_id=#{parent_id}", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{@setName}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->
@@ -154,5 +153,4 @@ class MS.Views.QuestionsView extends Backbone.View
   # Remember the state of which nodes are expanded (subtrees)
   refreshTree: (response) ->
     @tree.tree('loadData', response)
-    @filterSwitchView.filterInit()
     @addNewItemBlocks()

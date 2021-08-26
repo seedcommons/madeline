@@ -4,9 +4,9 @@ class Admin::QuestionsController < Admin::AdminController
 
   def index
     authorize Question
-    sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
-    @questions = sets.map { |s| top_level_questions(s) }.flatten
-    @questions = ActiveModel::Serializer::CollectionSerializer.new(@questions)
+    @set_name = params[:set] || "criteria"
+    @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
+    @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@set))
   end
 
   def new

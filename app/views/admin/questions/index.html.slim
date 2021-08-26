@@ -2,11 +2,11 @@
 
 .loan-questions
   .filter-switch
-    .btn-group.button-group-radios data-toggle="buttons" aria-label="Filter"
-      label.btn.btn-default
-        input type="radio" name="filter" value="criteria" id="fieldset-criteria"  = t('loan.criteria')
-      label.btn.btn-default
-        input type="radio" name="filter" value="post_analysis" id="fieldset-post_analysis"  = t('loan.post_analysis')
+    .btn-group
+      = link_to t('loan.criteria'), admin_questions_path(set: "criteria"),
+        class: "btn btn-default #{'active' if @set_name == 'criteria'}"
+      = link_to t('loan.post_analysis'), admin_questions_path(set: "post_analysis"),
+        class: "btn btn-default #{'active' if @set_name == 'post_analysis'}"
 
   .jqtree
 
@@ -39,5 +39,5 @@
 
 javascript:
   $(function(){
-    new MS.Views.QuestionsView(#{json(locale: I18n.locale, questions: @questions)});
+    new MS.Views.QuestionsView(#{json(locale: I18n.locale, set_name: @set_name, questions: @questions)});
   });
