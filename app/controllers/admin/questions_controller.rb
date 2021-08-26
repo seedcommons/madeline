@@ -12,7 +12,7 @@ class Admin::QuestionsController < Admin::AdminController
   def new
     set = QuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
-    @question = Question.new(question_set_id: set.id, parent: parent, division: current_division)
+    @question = Question.new(question_set: set, parent: parent, division: selected_division)
     authorize @question
     @question.build_complete_requirements
     render_form
@@ -26,6 +26,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def create
     @question = Question.new(question_params)
+    @question.division = selected_division # Division must be selected_division, can't be chosen.
     authorize @question
     if @question.save
       render_set_json(@question.question_set)
@@ -82,7 +83,7 @@ class Admin::QuestionsController < Admin::AdminController
     # However, it should be abstracted somehow so it applies to all controllers.
     # params.require(:question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:question).permit(
-      :label, :data_type, :division_id, :display_in_summary, :parent_id,
+      :label, :data_type, :display_in_summary, :parent_id,
       :question_set_id, :has_embeddable_media, :override_associations, :active,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
