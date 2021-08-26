@@ -1,2 +1,0 @@
-class FilteredQuestionSerializer < QuestionSerializer
-end
