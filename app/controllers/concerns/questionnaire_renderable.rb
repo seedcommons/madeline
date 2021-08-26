@@ -6,10 +6,6 @@ module QuestionnaireRenderable
     @response_set ||= @loan.send(@attrib) || ResponseSet.new(kind: @attrib, loan: @loan)
     @response_set.current_user = current_user
     @root = LoanFilteredQuestion.new(@response_set.question_set.root_group_preloaded, loan: @loan)
-    if json
-      @questions_json = @root.children.map do |q|
-        QuestionSerializer.new(q, selected_division: selected_division)
-      end.to_json
-    end
+    @questions_json = @root.children.map { |q| FilteredQuestionSerializer.new(q) }.to_json if json
   end
 end

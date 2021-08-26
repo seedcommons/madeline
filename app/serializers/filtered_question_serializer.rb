@@ -1,10 +1,7 @@
-class QuestionSerializer < ApplicationSerializer
+class FilteredQuestionSerializer < ApplicationSerializer
   attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active, :can_edit
 
-  attr_accessor :selected_division
-
-  def initialize(*args, selected_division:, **options)
-    self.selected_division = selected_division
+  def initialize(*args, **options)
     super(*args, options)
   end
 
@@ -16,7 +13,7 @@ class QuestionSerializer < ApplicationSerializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node, selected_division: selected_division) }
+      object.children.map { |node| self.class.new(node) }
     end
   end
 
@@ -33,6 +30,6 @@ class QuestionSerializer < ApplicationSerializer
   end
 
   def can_edit
-    object.division_id == selected_division.id
+    object.division_id == object.selected_division.id
   end
 end

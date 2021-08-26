@@ -6,7 +6,7 @@ class Admin::QuestionsController < Admin::AdminController
     authorize Question
     sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
     @questions = sets.map { |s| top_level_questions(s) }.flatten
-    @questions = ActiveModel::Serializer::CollectionSerializer.new(@questions, selected_division: selected_division)
+    @questions = ActiveModel::Serializer::CollectionSerializer.new(@questions)
   end
 
   def new
@@ -65,7 +65,7 @@ class Admin::QuestionsController < Admin::AdminController
   private
 
   def render_set_json(set)
-    render json: top_level_questions(set), selected_division: selected_division
+    render json: top_level_questions(set)
   end
 
   def top_level_questions(set)

@@ -1,5 +1,7 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
+  attr_accessor :selected_division
+
   # include_descendant_divisions means we want to show a question if it belongs to a division that
   # is a descendant of selected_division. We ALWAYS include questions that are from divisions that are
   # ancestors of the selected_division.
@@ -83,5 +85,5 @@ class FilteredQuestion < SimpleDelegator
 
   private
 
-  attr_accessor :selected_division, :include_descendant_divisions
+  attr_accessor :include_descendant_divisions
 end
