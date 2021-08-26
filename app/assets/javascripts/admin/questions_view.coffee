@@ -35,12 +35,14 @@ class MS.Views.QuestionsView extends Backbone.View
     'change .require-checkbox': 'changeRequireCheckbox'
 
   newNode: (e) ->
+    e.preventDefault()
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
     set = URI(window.location.href).query(true)['filter'] || 'criteria'
     @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{set}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->
+    e.preventDefault()
     id = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load "/admin/questions/#{id}/edit", =>
       @showModal()
