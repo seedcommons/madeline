@@ -31,6 +31,7 @@ class FilteredQuestionSerializer < ApplicationSerializer
   end
 
   def can_edit
+    # This is not a policy-level matter, it's a view thing.
     object.division_id == object.selected_division.id
   end
 end

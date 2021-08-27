@@ -12,7 +12,8 @@ class MS.Views.QuestionsView extends Backbone.View
       data: params.questions
       dragAndDrop: true
       selectable: false
-      onCanMove: (node) => node.can_edit
+      onCanMove: @canMove.bind(this)
+      onCanMoveTo: @canMoveTo.bind(this)
       useContextMenu: false
       saveState: @setName
       onCreateLi: (node, $li) =>
@@ -35,6 +36,29 @@ class MS.Views.QuestionsView extends Backbone.View
     'confirm:complete .delete-action': 'deleteNode'
     'change [name="question[override_associations]"]': 'showHideAssociations'
     'change .require-checkbox': 'changeRequireCheckbox'
+
+  canMove: (node) ->
+    node.can_edit
+
+  canMoveTo: (movedNode, targetNode, position) ->
+    return false if position == 'inside' && targetNode.data_type != 'group'
+
+    newParent = if position == 'inside' then targetNode else targetNode.parent
+    ownDivisionDepth = movedNode.division_depth
+    return false if newParent.division_depth > ownDivisionDepth
+
+    siblings = newParent.children
+    targetIndex = siblings.indexOf(targetNode)
+    splitPoint =
+      switch position
+        when 'inside' then 0
+        when 'before' then targetIndex
+        else targetIndex + 1
+    nodesBefore = siblings.slice(0, splitPoint)
+    nodesAfter = siblings.slice(splitPoint)
+
+    !(nodesBefore.some (n) -> n.division_depth > ownDivisionDepth) &&
+      !(nodesAfter.some (n) -> n.division_depth < ownDivisionDepth)
 
   newNode: (e) ->
     e.preventDefault()
