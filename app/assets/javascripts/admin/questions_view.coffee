@@ -5,7 +5,8 @@ class MS.Views.QuestionsView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @locale = params.locale
-    @setName = params.set_name
+    @setName = params.setName
+    @selectedDivisionDepth = params.selectedDivisionDepth
     @tree = @$('.jqtree')
     @tree.tree
       data: params.questions
@@ -17,6 +18,7 @@ class MS.Views.QuestionsView extends Backbone.View
       onCreateLi: (node, $li) =>
         status = if node.active then 'active' else 'inactive'
         $li.attr('data-id', node.id)
+          .attr('data-division-depth', node.division_depth)
           .addClass(status)
           .find('.jqtree-element')
           .append(@requiredLoanTypesHTML(node))
@@ -118,7 +120,14 @@ class MS.Views.QuestionsView extends Backbone.View
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item').remove()
-    @tree.find('li:last-child').after(@$('.new-item-block').html())
+
+    # Add a new item block to the top level.
+    @tree.find("> ul > li:last-child").after(@$('.new-item-block').html())
+
+    # Add a new item block to groups at the same or higher division depth as the selected division.
+    for depth in [0..@selectedDivisionDepth]
+      @tree.find("li[data-division-depth=#{depth}] > ul > li:last-child").after(@$('.new-item-block').html())
+
     # Ensure at least one
     if @tree.find('.new-item').size() == 0
       @tree.find('ul').append(@$('.new-item-block').html())

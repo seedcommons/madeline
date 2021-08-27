@@ -1,5 +1,6 @@
 class FilteredQuestionSerializer < ApplicationSerializer
-  attributes :id, :name, :children, :parent_id, :fieldset, :optional, :required_loan_types, :active, :can_edit
+  attributes :id, :name, :children, :parent_id, :division_id, :division_depth, :fieldset, :optional,
+             :data_type, :required_loan_types, :active, :can_edit
 
   def initialize(*args, **options)
     super(*args, options)

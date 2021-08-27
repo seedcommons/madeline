@@ -7,6 +7,7 @@ class Admin::QuestionsController < Admin::AdminController
     @set_name = params[:set] || "criteria"
     @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
     @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@set))
+    @selected_division_depth = selected_division.depth
   end
 
   def new
