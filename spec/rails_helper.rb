@@ -101,7 +101,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include FactorySpecHelpers
   config.include GeneralSpecHelpers
-  config.include QuestionSpecHelpers, type: :model
+  config.include QuestionSpecHelpers
   config.include ProjectSpecHelpers, type: :model
 end
 
