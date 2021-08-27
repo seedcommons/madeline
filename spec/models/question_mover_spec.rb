@@ -23,6 +23,8 @@ describe QuestionMover do
       let!(:q101) { create_question(division: div_a, parent: q10, type: "string") }
       let!(:q102) { create_question(division: div_c2, parent: q10, type: "string") }
       let!(:q103) { create_question(division: div_c2, parent: q10, type: "string") }
+      let!(:q104) { create_question(division: div_d, parent: q10, type: "string") }
+      let!(:q105) { create_question(division: div_d, parent: q10, type: "string") }
     let!(:q11) { create_question(division: div_b, parent: q1, type: "group") }
       let!(:q110) { create_question(division: div_b, parent: q11, type: "string") }
       let!(:q111) { create_question(division: div_c2, parent: q11, type: "string") }
@@ -225,21 +227,39 @@ describe QuestionMover do
             it_behaves_like "succeeds"
           end
 
-          context "outside existing division depth block with :inside" do
+          context "before existing division depth block with :inside" do
             let(:current_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q10 }
             let(:relation) { :inside }
-            let(:error) { "must be after questions of ancestor divisions" }
+            let(:error) { "must be adjacent to questions of same division depth" }
             it_behaves_like "denies"
           end
 
-          context "outside existing division depth block with :before" do
+          context "before existing division depth block with :before" do
             let(:current_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q100 }
             let(:relation) { :before }
-            let(:error) { "must be after questions of ancestor divisions" }
+            let(:error) { "must be adjacent to questions of same division depth" }
+            it_behaves_like "denies"
+          end
+
+          context "after existing division depth block with :before" do
+            let(:current_division) { div_c1 }
+            let(:question) { q113 }
+            let(:target) { q105 }
+            let(:relation) { :before }
+            let(:error) { "must be adjacent to questions of same division depth" }
+            it_behaves_like "denies"
+          end
+
+          context "after existing division depth block with :after" do
+            let(:current_division) { div_c1 }
+            let(:question) { q113 }
+            let(:target) { q105 }
+            let(:relation) { :after }
+            let(:error) { "must be adjacent to questions of same division depth" }
             it_behaves_like "denies"
           end
         end
@@ -258,7 +278,7 @@ describe QuestionMover do
             let(:question) { q118 }
             let(:target) { q11 }
             let(:relation) { :before }
-            let(:error) { "must be after questions of ancestor divisions" }
+            let(:error) { "must be adjacent to questions of same division depth" }
             it_behaves_like "denies"
           end
         end
