@@ -13,7 +13,7 @@ describe Question, :type => :model do
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", override_associations: true) }
     let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group", override_associations: true) }
-    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "text") }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
 
     it "should be set automatically" do
@@ -25,7 +25,7 @@ describe Question, :type => :model do
     end
 
     context "with manually set position" do
-      let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "string", position: 0) }
+      let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "text", position: 0) }
 
       it "goes to end anyway (position NOT respected)" do
         expect(f33.reload.position).to eq(2)
@@ -38,8 +38,8 @@ describe Question, :type => :model do
       let!(:div_a2) { create(:division, parent: root_division) }
 
       context "when no questions from same division depth are present" do
-        let!(:f33) { create_question(set: set, division: div_b, parent: f3, name: "f33", type: "string") }
-        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+        let!(:f33) { create_question(set: set, division: div_b, parent: f3, name: "f33", type: "text") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "text") }
 
         it "goes before question of descendant division" do
           expect_hierarchies(newq) # This was failing if we used after_create instead of after_create_commit
@@ -49,9 +49,9 @@ describe Question, :type => :model do
       end
 
       context "when questions from same division depth are present but not from same division" do
-        let!(:f33) { create_question(set: set, division: div_a2, parent: f3, name: "f33", type: "string") }
-        let!(:f34) { create_question(set: set, division: div_b, parent: f3, name: "f34", type: "string") }
-        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+        let!(:f33) { create_question(set: set, division: div_a2, parent: f3, name: "f33", type: "text") }
+        let!(:f34) { create_question(set: set, division: div_b, parent: f3, name: "f34", type: "text") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "text") }
 
         it "goes after question of same depth division" do
           expect(f33.reload.position).to eq 2
@@ -61,10 +61,10 @@ describe Question, :type => :model do
       end
 
       context "when questions from same division are present" do
-        let!(:f33) { create_question(set: set, division: div_a1, parent: f3, name: "f33", type: "string") }
-        let!(:f34) { create_question(set: set, division: div_a2, parent: f3, name: "f34", type: "string") }
-        let!(:f35) { create_question(set: set, division: div_b, parent: f3, name: "f35", type: "string") }
-        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "string") }
+        let!(:f33) { create_question(set: set, division: div_a1, parent: f3, name: "f33", type: "text") }
+        let!(:f34) { create_question(set: set, division: div_a2, parent: f3, name: "f34", type: "text") }
+        let!(:f35) { create_question(set: set, division: div_b, parent: f3, name: "f35", type: "text") }
+        let!(:newq) { create_question(set: set, division: div_a1, parent: f3, name: "newq", type: "text") }
 
         it "goes after question of same division" do
           expect(f33.reload.position).to eq 2
@@ -82,7 +82,7 @@ describe Question, :type => :model do
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", active: false) }
     let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
-    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string") }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "text") }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
     let!(:f4) { create_question(set: set, parent: lqroot, name: "f4", type: "text") }
 
@@ -178,7 +178,7 @@ describe Question, :type => :model do
     let!(:f1) { create_question(set: set, parent: lqroot, name: "f1", type: "text") }
     let!(:f2) { create_question(set: set, parent: lqroot, name: "f2", type: "text", active: false) }
     let!(:f3) { create_question(set: set, parent: lqroot, name: "f3", type: "group") }
-    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "string", active: false) }
+    let!(:f31) { create_question(set: set, parent: f3, name: "f31", type: "text", active: false) }
     let!(:f32) { create_question(set: set, parent: f3, name: "f32", type: "boolean") }
     let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "group") }
     let!(:f331) { create_question(set: set, parent: f33, name: "f331", type: "boolean") }
@@ -204,7 +204,7 @@ describe Question, :type => :model do
       let!(:set) { create(:question_set) }
       let!(:group) { create_question(set: set, parent: set.root_group, division: div_b, type: "group") }
       subject(:question) do
-        build(:question, question_set: set, data_type: "string", parent: group, division: question_division)
+        build(:question, question_set: set, data_type: "text", parent: group, division: question_division)
       end
 
       context "with parent with ancestor division" do

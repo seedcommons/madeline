@@ -13,39 +13,39 @@ describe QuestionMover do
 
   # rubocop:disable Layout/IndentationConsistency
   let!(:q0) { create_question(division: div_a, parent: qset.root_group, type: "group") }
-    let!(:q00) { create_question(division: div_a, parent: q0, type: "string") }
-    let!(:q01) { create_question(division: div_a, parent: q0, type: "string") }
-    let!(:q02) { create_question(division: div_b, parent: q0, type: "string") }
-    let!(:q03) { create_question(division: div_c1, parent: q0, type: "string") }
+    let!(:q00) { create_question(division: div_a, parent: q0, type: "text") }
+    let!(:q01) { create_question(division: div_a, parent: q0, type: "text") }
+    let!(:q02) { create_question(division: div_b, parent: q0, type: "text") }
+    let!(:q03) { create_question(division: div_c1, parent: q0, type: "text") }
   let!(:q1) { create_question(division: div_a, parent: qset.root_group, type: "group") }
     let!(:q10) { create_question(division: div_a, parent: q1, type: "group") }
-      let!(:q100) { create_question(division: div_a, parent: q10, type: "string") }
-      let!(:q101) { create_question(division: div_a, parent: q10, type: "string") }
-      let!(:q102) { create_question(division: div_c2, parent: q10, type: "string") }
-      let!(:q103) { create_question(division: div_c2, parent: q10, type: "string") }
-      let!(:q104) { create_question(division: div_d, parent: q10, type: "string") }
-      let!(:q105) { create_question(division: div_d, parent: q10, type: "string") }
+      let!(:q100) { create_question(division: div_a, parent: q10, type: "text") }
+      let!(:q101) { create_question(division: div_a, parent: q10, type: "text") }
+      let!(:q102) { create_question(division: div_c2, parent: q10, type: "text") }
+      let!(:q103) { create_question(division: div_c2, parent: q10, type: "text") }
+      let!(:q104) { create_question(division: div_d, parent: q10, type: "text") }
+      let!(:q105) { create_question(division: div_d, parent: q10, type: "text") }
     let!(:q11) { create_question(division: div_b, parent: q1, type: "group") }
-      let!(:q110) { create_question(division: div_b, parent: q11, type: "string") }
-      let!(:q111) { create_question(division: div_c2, parent: q11, type: "string") }
-      let!(:q112) { create_question(division: div_c2, parent: q11, type: "string") }
-      let!(:q113) { create_question(division: div_c1, parent: q11, type: "string") }
-      let!(:q114) { create_question(division: div_c1, parent: q11, type: "string") }
-      let!(:q115) { create_question(division: div_c1, parent: q11, type: "string") }
-      let!(:q116) { create_question(division: div_c3, parent: q11, type: "string") }
-      let!(:q117) { create_question(division: div_c3, parent: q11, type: "string") }
-      let!(:q118) { create_question(division: div_d, parent: q11, type: "string") }
-      let!(:q119) { create_question(division: div_d, parent: q11, type: "string") }
-  let!(:q2) { create_question(division: div_a, parent: qset.root_group, type: "string") }
-  let!(:q3) { create_question(division: div_b, parent: qset.root_group, type: "string") }
+      let!(:q110) { create_question(division: div_b, parent: q11, type: "text") }
+      let!(:q111) { create_question(division: div_c2, parent: q11, type: "text") }
+      let!(:q112) { create_question(division: div_c2, parent: q11, type: "text") }
+      let!(:q113) { create_question(division: div_c1, parent: q11, type: "text") }
+      let!(:q114) { create_question(division: div_c1, parent: q11, type: "text") }
+      let!(:q115) { create_question(division: div_c1, parent: q11, type: "text") }
+      let!(:q116) { create_question(division: div_c3, parent: q11, type: "text") }
+      let!(:q117) { create_question(division: div_c3, parent: q11, type: "text") }
+      let!(:q118) { create_question(division: div_d, parent: q11, type: "text") }
+      let!(:q119) { create_question(division: div_d, parent: q11, type: "text") }
+  let!(:q2) { create_question(division: div_a, parent: qset.root_group, type: "text") }
+  let!(:q3) { create_question(division: div_b, parent: qset.root_group, type: "text") }
   let!(:q4) { create_question(division: div_b, parent: qset.root_group, type: "group") }
-    let!(:q40) { create_question(division: div_b, parent: q4, type: "string") }
-    let!(:q41) { create_question(division: div_c1, parent: q4, type: "string") }
-  let!(:q5) { create_question(division: div_c1, parent: qset.root_group, type: "string") }
+    let!(:q40) { create_question(division: div_b, parent: q4, type: "text") }
+    let!(:q41) { create_question(division: div_c1, parent: q4, type: "text") }
+  let!(:q5) { create_question(division: div_c1, parent: qset.root_group, type: "text") }
   let!(:q6) { create_question(division: div_c1, parent: qset.root_group, type: "group") }
-    let!(:q60) { create_question(division: div_c1, parent: q6, type: "string") }
-    let!(:q61) { create_question(division: div_c1, parent: q6, type: "string") }
-    let!(:q62) { create_question(division: div_c3, parent: q6, type: "string") }
+    let!(:q60) { create_question(division: div_c1, parent: q6, type: "text") }
+    let!(:q61) { create_question(division: div_c1, parent: q6, type: "text") }
+    let!(:q62) { create_question(division: div_c3, parent: q6, type: "text") }
   let!(:q7) { create_question(division: div_c1, parent: qset.root_group, type: "group") }
   # rubocop:enable Layout/IndentationConsistency
 

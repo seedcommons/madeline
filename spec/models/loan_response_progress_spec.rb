@@ -54,8 +54,8 @@ describe "Response.progress" do
     let!(:q2) { create_question(parent: root, name: "q2", type: "number", required: true) }
 
     # Question with children
-    let!(:q3) { create_question(parent: root, name: "q3", type: "string", required: true) } # answered
-      let!(:q31) { create_question(parent: q3, name: "q31", type: "string", required: true) } # answered
+    let!(:q3) { create_question(parent: root, name: "q3", type: "text", required: true) } # answered
+      let!(:q31) { create_question(parent: q3, name: "q31", type: "text", required: true) } # answered
       let!(:q32) { create_question(parent: q3, name: "q32", type: "boolean", required: false) } # answered
 
     before do
