@@ -49,16 +49,15 @@ class MS.Views.QuestionsView extends Backbone.View
 
     siblings = newParent.children
     targetIndex = siblings.indexOf(targetNode)
-    splitPoint =
+    insertIndex =
       switch position
         when 'inside' then 0
         when 'before' then targetIndex
         else targetIndex + 1
-    nodesBefore = siblings.slice(0, splitPoint)
-    nodesAfter = siblings.slice(splitPoint)
 
-    !(nodesBefore.some (n) -> n.division_depth > ownDivisionDepth) &&
-      !(nodesAfter.some (n) -> n.division_depth < ownDivisionDepth)
+    # Ensure left sibling is in same or ancestor division, right sibling in same or descendant division
+    (insertIndex == 0 || siblings[insertIndex - 1].division_depth <= ownDivisionDepth) &&
+      (insertIndex >= siblings.length || siblings[insertIndex].division_depth >= ownDivisionDepth)
 
   newNode: (e) ->
     e.preventDefault()
