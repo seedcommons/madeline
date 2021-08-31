@@ -31,7 +31,10 @@ class FilteredQuestionSerializer < ApplicationSerializer
   end
 
   def can_edit
-    # This is not a policy-level matter, it's a view thing.
+    # This is not a policy-level matter, it's a view thing. Only questions for the currently selected division
+    # can be edited as a matter of good UX. A user may be allowed to edit more questions than that
+    # by the policy, so this rule is more restrictive than the policy. The policy is also checked
+    # at page load. So we don't check it here for efficiency's sake.
     object.division_id == object.selected_division.id
   end
 end
