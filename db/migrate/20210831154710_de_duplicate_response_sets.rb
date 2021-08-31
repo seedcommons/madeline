@@ -16,7 +16,7 @@ class DeDuplicateResponseSets < ActiveRecord::Migration[6.1]
           new_kind = "#{dup.kind}-dup-#{i}"
           log_str = "For loan #{loan.id}: Updating response set id #{dup.id} (last updated at #{dup.updated_at}) kind from #{dup.kind} to #{new_kind}"
           say_with_time log_str do
-            dup.update(kind: new_kind)
+            dup.update!(kind: new_kind)
           end
         end
       end
@@ -34,7 +34,7 @@ class DeDuplicateResponseSets < ActiveRecord::Migration[6.1]
             old_kind = r.kind.sub(regex, "")
             log_str = "For loan #{loan.id}: Updating response set id #{r.id} (last updated at #{r.updated_at}) kind from #{r.kind} to #{old_kind}"
             say_with_time log_str do
-              r.update(kind: old_kind)
+              r.update!(kind: old_kind)
             end
           else
             responses_to_keep_most_recent.append(r)
