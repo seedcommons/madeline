@@ -40,7 +40,7 @@ class Question < ApplicationRecord
   translates :explanation, allow_html: true
 
   validates :data_type, presence: true
-  validate :parent_division_depth
+  validate :parent_division_depth_must_be_less_than_or_equal_to_ours
 
   after_save :ensure_internal_name
 
@@ -223,7 +223,7 @@ class Question < ApplicationRecord
     end
   end
 
-  def parent_division_depth
+  def parent_division_depth_must_be_less_than_or_equal_to_ours
     return if parent.nil?
 
     our_division = division
