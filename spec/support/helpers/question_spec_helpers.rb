@@ -22,11 +22,11 @@ module QuestionSpecHelpers
     let!(:q3) { create_group(parent: root, name: "q3", required: true) }
     let!(:q31) { create_question(parent: q3, name: "q31", type: "text", required: true, override: false) } # answered
     let!(:q32) { create_question(parent: q3, name: "q32", type: "boolean", required: true) } # answered
-    let!(:q33) { create_group(parent: q3, name: "q33", required: true, position: 99) }
+    let!(:q33) { create_group(parent: q3, name: "q33", required: true) }
     let!(:q331) { create_question(parent: q33, name: "q331", type: "boolean", required: false) } # answered
     let!(:q332) { create_question(parent: q33, name: "q332", type: "boolean", loan_types: [lt2]) }
     let!(:q34) { create_question(parent: q3, name: "q34", type: "text", required: false) }
-    let!(:q35) { create_question(parent: q3, name: "q35", type: "text", required: true, position: -99) }
+    let!(:q35) { create_question(parent: q3, name: "q35", type: "text", required: true) }
     let!(:q36) { create_question(parent: q3, name: "q36", type: "text", required: true, active: false) }
     let!(:q37) { create_question(parent: q3, name: "q37", type: "text", required: true, active: false) }
     let!(:q38) { create_group(parent: q3, name: "q38", required: false) }
