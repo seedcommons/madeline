@@ -1,4 +1,4 @@
-# Moves questions within the global question tree.
+# Moves questions within a QuestionSet's question tree.
 # Checks to make sure the move is valid before executing it.
 class QuestionMover
   include ActiveModel::Model
