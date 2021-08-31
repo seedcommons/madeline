@@ -64,7 +64,8 @@ describe "loan flow", js: true do
   end
 
   describe "details" do
-    scenario "can duplicate" do
+    # prevent duplication until extra duplicate response set bug 11923 fully resolved
+    xscenario "can duplicate" do
       visit admin_loan_path(loan)
 
       accept_confirm { click_on("Duplicate") }
