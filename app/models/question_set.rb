@@ -60,7 +60,6 @@ class QuestionSet < ApplicationRecord
       parent: nil,
       data_type: "group",
       internal_name: "root_#{id}",
-      position: 0,
       division: Division.root
     )
   end
