@@ -46,7 +46,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       job_class: QuickbooksFullFetcherJob,
       job_type_value: :full_fetcher,
       activity_message_value: 'fetching_quickbooks_data'
-    ).enqueue(job_params: {division_id: current_division.qb_division.id})
+    ).enqueue(job_params: {division_id: selected_division_or_root.qb_division.id})
 
     flash[:notice] = t('quickbooks.connection.link_message')
     flash[:alert] = t('quickbooks.connection.import_in_progress_message')

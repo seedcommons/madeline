@@ -5,7 +5,7 @@ class Admin::DashboardController < Admin::AdminController
   def dashboard
     authorize :dashboard
     @person = Person.find(current_user.profile_id)
-    @division = current_division
+    @division = selected_division_or_root
 
     prep_calendar
     prep_projects_grid_for_current_user

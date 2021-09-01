@@ -35,7 +35,7 @@ class Admin::OrganizationsController < Admin::AdminController
   end
 
   def new
-    @org = Organization.new(division: current_division)
+    @org = Organization.new(division: selected_division_or_root)
     authorize @org
     prep_form_vars
   end
@@ -54,7 +54,7 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def create
     @org = Organization.new(organization_params)
-    @org.division ||= current_division
+    @org.division ||= selected_division_or_root
     authorize @org
 
     if @org.save

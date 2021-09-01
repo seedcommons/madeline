@@ -5,8 +5,8 @@ class Admin::DivisionsController < Admin::AdminController
     redisplay_url = params[:redisplay_url] || root_path
     division_id = params[:division_id]
     save_selected_division_to_session(division_id)
-    division = Division.find_safe(division_id)
-    authorize division || current_division
+    division = Division.find_by(id: division_id) || Division.root
+    authorize division
     redirect_to redisplay_url
   end
 
@@ -46,7 +46,7 @@ class Admin::DivisionsController < Admin::AdminController
   end
 
   def new
-    @division = Division.new(parent: current_division)
+    @division = Division.new(parent: selected_division_or_root)
     authorize @division
     prep_form_vars
   end

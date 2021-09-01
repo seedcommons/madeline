@@ -50,7 +50,7 @@ describe QuestionMover do
   # rubocop:enable Layout/IndentationConsistency
 
   subject(:mover) do
-    QuestionMover.new(current_division: current_division, question: question,
+    QuestionMover.new(selected_division: selected_division, question: question,
                       target: target, relation: relation)
   end
 
@@ -86,7 +86,7 @@ describe QuestionMover do
   context "moving question with current division" do
     context "within same parent" do
       context "to top of division block" do
-        let(:current_division) { div_c1 }
+        let(:selected_division) { div_c1 }
         let(:question) { q114 }
         let(:target) { q113 }
         let(:relation) { :before }
@@ -94,7 +94,7 @@ describe QuestionMover do
       end
 
       context "to bottom of division block" do
-        let(:current_division) { div_c1 }
+        let(:selected_division) { div_c1 }
         let(:question) { q113 }
         let(:target) { q115 }
         let(:relation) { :after }
@@ -102,7 +102,7 @@ describe QuestionMover do
       end
 
       context "outside of division block" do
-        let(:current_division) { div_c1 }
+        let(:selected_division) { div_c1 }
         let(:question) { q113 }
         let(:target) { q116 }
         let(:relation) { :after }
@@ -113,7 +113,7 @@ describe QuestionMover do
 
     context "to different parent" do
       context "to non-group" do
-        let(:current_division) { div_c1 }
+        let(:selected_division) { div_c1 }
         let(:question) { q113 }
         let(:target) { q114 }
         let(:relation) { :inside }
@@ -122,7 +122,7 @@ describe QuestionMover do
       end
 
       context "to parent with lower division" do
-        let(:current_division) { div_a }
+        let(:selected_division) { div_a }
         let(:question) { q2 }
         let(:target) { q4 }
         let(:relation) { :inside }
@@ -133,7 +133,7 @@ describe QuestionMover do
       context "to parent with ancestor division" do
         context "when existing division block exists" do
           context "within existing division block :after target with same division" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q113 }
             let(:relation) { :after }
@@ -141,7 +141,7 @@ describe QuestionMover do
           end
 
           context "within existing division block :after target with different division" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q112 } # has div_c3
             let(:relation) { :after }
@@ -149,7 +149,7 @@ describe QuestionMover do
           end
 
           context "within existing division block :before target with different division" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q116 } # has div_c3
             let(:relation) { :before }
@@ -157,7 +157,7 @@ describe QuestionMover do
           end
 
           context "within existing division block with :inside" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q115 }
             let(:target) { q6 }
             let(:relation) { :inside }
@@ -165,7 +165,7 @@ describe QuestionMover do
           end
 
           context "outside existing division block with :before" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q112 }
             let(:relation) { :before }
@@ -174,7 +174,7 @@ describe QuestionMover do
           end
 
           context "outside existing division block with :before at start of siblings" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q110 }
             let(:relation) { :before }
@@ -183,7 +183,7 @@ describe QuestionMover do
           end
 
           context "outside existing division block with :after" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q116 }
             let(:relation) { :after }
@@ -192,7 +192,7 @@ describe QuestionMover do
           end
 
           context "outside existing division block with :after at end of siblings" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q119 }
             let(:relation) { :after }
@@ -201,7 +201,7 @@ describe QuestionMover do
           end
 
           context "outside existing division block with :inside" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q115 }
             let(:target) { q4 }
             let(:relation) { :inside }
@@ -212,7 +212,7 @@ describe QuestionMover do
 
         context "when no questions of same division but some of same division depth" do
           context "within existing division depth block adjacent to other division blocks" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q103 }
             let(:relation) { :after }
@@ -220,7 +220,7 @@ describe QuestionMover do
           end
 
           context "within existing division depth block inside other division block" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q102 }
             let(:relation) { :after }
@@ -228,7 +228,7 @@ describe QuestionMover do
           end
 
           context "before existing division depth block with :inside" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q10 }
             let(:relation) { :inside }
@@ -237,7 +237,7 @@ describe QuestionMover do
           end
 
           context "before existing division depth block with :before" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q41 }
             let(:target) { q100 }
             let(:relation) { :before }
@@ -246,7 +246,7 @@ describe QuestionMover do
           end
 
           context "after existing division depth block with :before" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q113 }
             let(:target) { q105 }
             let(:relation) { :before }
@@ -255,7 +255,7 @@ describe QuestionMover do
           end
 
           context "after existing division depth block with :after" do
-            let(:current_division) { div_c1 }
+            let(:selected_division) { div_c1 }
             let(:question) { q113 }
             let(:target) { q105 }
             let(:relation) { :after }
@@ -266,7 +266,7 @@ describe QuestionMover do
 
         context "when no questions of same division depth" do
           context "at end of group" do
-            let(:current_division) { div_d }
+            let(:selected_division) { div_d }
             let(:question) { q118 }
             let(:target) { q11 }
             let(:relation) { :after }
@@ -274,7 +274,7 @@ describe QuestionMover do
           end
 
           context "not at end of group" do
-            let(:current_division) { div_d }
+            let(:selected_division) { div_d }
             let(:question) { q118 }
             let(:target) { q11 }
             let(:relation) { :before }
@@ -285,7 +285,7 @@ describe QuestionMover do
 
         context "when group is empty" do
           context "at end of group" do
-            let(:current_division) { div_d }
+            let(:selected_division) { div_d }
             let(:question) { q118 }
             let(:target) { q7 }
             let(:relation) { :inside }
@@ -297,7 +297,7 @@ describe QuestionMover do
   end
 
   context "moving question with ancestor division than current division" do
-    let(:current_division) { div_d }
+    let(:selected_division) { div_d }
     let(:question) { q114 }
     let(:target) { q113 }
     let(:relation) { :before }
@@ -306,7 +306,7 @@ describe QuestionMover do
   end
 
   context "moving question with lower division than current division" do
-    let(:current_division) { div_a }
+    let(:selected_division) { div_a }
     let(:question) { q114 }
     let(:target) { q113 }
     let(:relation) { :before }

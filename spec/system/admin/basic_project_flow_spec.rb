@@ -1,15 +1,17 @@
 require 'rails_helper'
 
-describe 'basic project flow' do
+describe 'basic project flow', js: true do
 
-  let(:division) { create(:division) }
-  let(:user) { create_member(division) }
+  let!(:division) { create(:division) }
+  let!(:user) { create_member(division) }
   let!(:basic_project) { create(:basic_project, division: division) }
-  let(:parent_group) { create(:project_group) }
+  let!(:parent_group) { create(:project_group) }
   let!(:child_group) { create(:project_group, project: basic_project, parent: parent_group) }
 
   before do
     login_as(user, scope: :user)
+    visit("/")
+    select_division(division)
   end
 
   include_examples "flow" do
@@ -28,6 +30,7 @@ describe 'basic project flow' do
   scenario 'validations for updating basic project' do
     visit admin_basic_projects_path
     click_on basic_project.id.to_s
+    find('.edit-action').click
     select user.name, from: 'basic_project_primary_agent_id'
     select user.name, from: 'basic_project_secondary_agent_id'
     click_on 'Update Basic project'
@@ -36,13 +39,13 @@ describe 'basic project flow' do
 
   scenario 'loan with groups can be deleted' do
     visit admin_basic_project_path(basic_project)
-    click_on 'Delete Project'
+    accept_confirm { click_on 'Delete Project' }
     expect(page).to have_content('Record was successfully deleted')
   end
 
   scenario 'project with groups can be duplicated' do
     visit admin_basic_project_path(basic_project)
-    click_on 'Duplicate Project'
+    accept_confirm { click_on 'Duplicate Project' }
     expect(page).to have_content('The project was successfully duplicated.')
     expect(page).to have_content("Copy of #{basic_project.name}")
   end

@@ -25,7 +25,7 @@ class User < ApplicationRecord
   def accessible_division_ids
     base_ids = roles.where(resource_type: :Division, name: [:member, :admin]).pluck(:resource_id).uniq
     all_ids = base_ids.map do |id|
-      division = Division.find_safe(id)
+      division = Division.find_by(id: id)
       division.self_and_descendants.pluck(:id) if division
     end
     all_ids.flatten.uniq.compact
@@ -47,7 +47,7 @@ class User < ApplicationRecord
   end
 
   # Require a user to have access to at least some division in order to login.
-  # Note, this avoids needing to worry about a nil current_division in the controller logic.
+  # Note, this avoids needing to worry about a nil selected_division in the controller logic.
   def active_for_authentication?
     profile && profile.has_system_access? && self.accessible_division_ids.present?
   end

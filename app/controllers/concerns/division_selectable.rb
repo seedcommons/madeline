@@ -1,19 +1,16 @@
 module DivisionSelectable
   extend ActiveSupport::Concern
 
-  # Represents the division to use when creating new entities.
-  def current_division
-    selected_division || default_division
-  end
-
-  # Division to use for new entities if a division is not specifically selected
-  def default_division
-    current_user.default_division
-  end
-
   # Represents the current division filter applied to index views.
+  # Returns NIL if in 'All Divisions' mode.
   def selected_division
-    @selected_division ||= (id = selected_division_id) ? Division.find_safe(id) : nil
+    return @selected_division if defined?(@selected_division)
+
+    @selected_division = selected_division_id ? Division.find(selected_division_id) : nil
+  end
+
+  def selected_division_or_root
+    selected_division || Division.root
   end
 
   # Returns the index grid view conditions filter to be applied.  If a specific division is

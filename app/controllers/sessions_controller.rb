@@ -7,11 +7,11 @@ class SessionsController < Devise::SessionsController
   end
 
   def set_to_default_division
-    return unless default_division
- 
-    # Without this check, the headerbar logo will not render
-    return if default_division.id == Division.root_id
+    return unless current_user.default_division
 
-    session[:selected_division_id] = default_division.id
+    # Without this check, the headerbar logo will not render
+    return if current_user.default_division.root?
+
+    session[:selected_division_id] = current_user.default_division_id
   end
 end
