@@ -53,7 +53,7 @@ module AdminHelper
       end
       action_link = link_to icon_tag("pencil"), edit_admin_documentation_path(documentation), id: "#{html_identifier}-edit-link" if policy(documentation).edit?
     else
-      new_documentation = Documentation.new(division: current_division)
+      new_documentation = Documentation.new(division: selected_division_or_root)
       return "" unless policy(new_documentation).new?
       caller_string = "#{controller_name}##{action_name}"
       data_content = t("documentation.no_documentations")

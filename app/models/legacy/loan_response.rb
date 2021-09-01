@@ -22,7 +22,7 @@ module Legacy
 
       result[:rating] = rating  if rating
       if loan_responses_i_frame_id
-        iframe = LoanResponsesIFrame.find_safe(loan_responses_i_frame_id)
+        iframe = LoanResponsesIFrame.find_by(id: loan_responses_i_frame_id)
         if iframe
           iframe.parse_legacy_display_data
           result[:url] = iframe.original_url

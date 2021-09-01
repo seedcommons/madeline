@@ -3,12 +3,12 @@
 class QuestionMover
   include ActiveModel::Model
 
-  attr_accessor :current_division, :question, :target, :relation
+  attr_accessor :selected_division, :question, :target, :relation
 
   def move
     raise ArgumentError, "invalid relation" unless %i[before after inside].include?(relation)
 
-    ensure_current_division
+    ensure_selected_division
     ensure_new_parent_is_group
     ensure_correct_adjacency
     ensure_parent_of_same_or_ancestor_division
@@ -39,8 +39,8 @@ class QuestionMover
     siblings.any? { |s| s.division_id == question.division_id }
   end
 
-  def ensure_current_division
-    raise ArgumentError, "must be in current division" unless question.division_id == current_division.id
+  def ensure_selected_division
+    raise ArgumentError, "must be in current division" unless question.division_id == selected_division.id
   end
 
   def ensure_new_parent_is_group

@@ -4,12 +4,6 @@
 
 
 class ActiveRecord::Base
-
-  # fetch a single record or return nil if doesn't exist
-  def self.find_safe(id)
-    self.where(id: id).first
-  end
-
   # will update the postgres sequence value to be greater than the highest existing id plus a gap
   # gap - gap in id values to leave between existing highest id and next value
   def self.recalibrate_sequence(gap: 0, id: nil)

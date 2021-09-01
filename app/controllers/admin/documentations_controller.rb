@@ -9,7 +9,8 @@ class Admin::DocumentationsController < Admin::AdminController
   end
 
   def new
-    @documentation = Documentation.new(html_identifier: params[:html_identifier], division: current_division)
+    @documentation = Documentation.new(html_identifier: params[:html_identifier],
+                                       division: selected_division_or_root)
     authorize @documentation
 
     @previous_url = request.referer
@@ -28,7 +29,7 @@ class Admin::DocumentationsController < Admin::AdminController
 
   def create
     @documentation = Documentation.new(documentation_params)
-    @documentation.division = current_division
+    @documentation.division = selected_division_or_root
     authorize @documentation
 
     if @documentation.save

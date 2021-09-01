@@ -26,7 +26,16 @@ module SystemSpecHelpers
     have_css("#{container} .alert", text: msg)
   end
 
-  def select_division(division_name)
+  def select_division(division_or_name)
+    division_name =
+      if division_or_name.is_a?(String)
+        division_or_name
+      elsif division_or_name.root?
+        "All Divisions"
+      else
+        division_or_name.name
+      end
+
     within('.user-div-info') do
       find('[data-expands="division-dropdown"]').click
       find('.select_division_form').select(division_name)
