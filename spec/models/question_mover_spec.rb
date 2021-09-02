@@ -121,7 +121,7 @@ describe QuestionMover do
         it_behaves_like "denies"
       end
 
-      context "to parent with lower division" do
+      context "to parent with descendant division" do
         let(:current_division) { div_a }
         let(:question) { q2 }
         let(:target) { q4 }
@@ -296,7 +296,7 @@ describe QuestionMover do
     end
   end
 
-  context "moving question with ancestor division than current division" do
+  context "moving question with ancestor division of current division" do
     let(:current_division) { div_d }
     let(:question) { q114 }
     let(:target) { q113 }
@@ -305,7 +305,7 @@ describe QuestionMover do
     it_behaves_like "denies"
   end
 
-  context "moving question with lower division than current division" do
+  context "moving question with descendant division than current division" do
     let(:current_division) { div_a }
     let(:question) { q114 }
     let(:target) { q113 }

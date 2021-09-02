@@ -27,7 +27,7 @@ describe Question, :type => :model do
     context "with manually set position" do
       let!(:f33) { create_question(set: set, parent: f3, name: "f33", type: "text", position: 0) }
 
-      it "goes to end anyway (position NOT respected)" do
+      it "goes to end anyway (closure_tree does not appear to respect explicit position, not sure why)" do
         expect(f33.reload.position).to eq(2)
       end
     end
