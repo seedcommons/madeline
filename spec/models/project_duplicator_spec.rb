@@ -32,7 +32,7 @@ RSpec.describe ProjectDuplicator, type: :model do
 
   context 'with populated associations' do
     let(:loan) do
-      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction, :with_copies)
+      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction)
     end
 
     # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
@@ -151,4 +151,19 @@ RSpec.describe ProjectDuplicator, type: :model do
       end
     end
   end
-end
+
+  context 'loan with business planning responses' do
+    let!(:criteria_question_set) { create(:question_set, :loan_criteria) }
+    let!(:loan) do
+      create(:loan, :with_criteria_responses, :with_loan_media, :with_timeline, :with_accounting_transaction)
+    end
+
+    let!(:new_loan) { Loan.find(duplicator.duplicate.id) }
+
+    it 'makes exactly one copy of criteria responses' do
+      expect(new_loan.response_sets.count).to eq 1
+      expect(new_loan.criteria.id).not_to eq loan.criteria.id
+      # check answers match
+    end
+  end
+ end

@@ -36,10 +36,17 @@ class Project < ApplicationRecord
     enable
     propagate
     exclude_association :media
+    # timeline excluded here bc done manually in project_duplicator.rb
     exclude_association :timeline_entries
-    exclude_association :transactions
     exclude_association :copies
+    exclude_association :transactions
     exclude_association :sync_issues
+    # below we exclude criteria and post analysis associations (see loan.rb) because they refer
+    # to the same objects as the response_set association on a loan
+    # if we don't exclude these two, then amoeba attempts to copy any criteria
+    # or post_analysis response set twice
+    exclude_association :criteria
+    exclude_association :post_analysis
 
     # The default name is computed, if it hasn't been set it will be blank.
     # We need to manually copy over the name and set it here for it to work.

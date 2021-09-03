@@ -1,3 +1,5 @@
+# Note: loan duplication happens under project duplication
+
 class Loan < Project
   include MediaAttachable
 
