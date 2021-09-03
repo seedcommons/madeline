@@ -160,10 +160,10 @@ RSpec.describe ProjectDuplicator, type: :model do
 
     let!(:new_loan) { Loan.find(duplicator.duplicate.id) }
 
-    it 'makes exactly one copy of criteria responses' do
+    it 'makes exactly one copy of criteria responses with matching answers' do
       expect(new_loan.response_sets.count).to eq 1
       expect(new_loan.criteria.id).not_to eq loan.criteria.id
-      # check answers match
+      expect(new_loan.criteria.custom_data).to eq loan.criteria.custom_data
     end
   end
  end
