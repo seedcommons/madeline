@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ProjectDuplicator, type: :model do
   subject(:duplicator) { described_class.new(loan) }
   let(:loan) { create(:loan) }
 
-  it 'copies proper columns' do
+  it "copies proper columns" do
     new_loan = duplicator.duplicate
 
     attribs_to_exclude = %w(id created_at updated_at name original_id)
@@ -12,8 +12,8 @@ RSpec.describe ProjectDuplicator, type: :model do
       .to eq loan.attributes.except(*attribs_to_exclude)
   end
 
-  context 'with default name' do
-    let(:loan) { create(:loan, name: '') }
+  context "with default name" do
+    let(:loan) { create(:loan, name: "") }
 
     it 'name column is prepended with "Copy of"' do
       new_loan = duplicator.duplicate
@@ -22,7 +22,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  context 'with non-default name' do
+  context "with non-default name" do
     it 'name column is prepended with "Copy of"' do
       new_loan = duplicator.duplicate
 
@@ -30,25 +30,26 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  context 'with populated associations' do
+  context "with populated associations" do
     let(:loan) do
-      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction, :with_copies)
+      create(:loan, :with_loan_media, :with_timeline, :with_accounting_transaction)
     end
 
     # root_timeline_entry children are incorrect on new_loan. Reload it, to bust the cache.
     # Using #reload does not do it.
     let(:new_loan) { Loan.find(duplicator.duplicate.id) }
 
-    it 'ignores media' do
+    it "ignores media" do
       expect(new_loan.media.count).to eq 0
     end
 
-    it 'copies timeline_entries' do
+    it "copies timeline_entries" do
       expect(new_loan.timeline_entries[0].id).not_to eq loan.timeline_entries[0].id
       expect(new_loan.timeline_entries.count).to eq loan.timeline_entries.count
+      expect(TimelineEntry.where(project_id: new_loan.id, parent_id: nil).count).to eq 1
     end
 
-    it 'copies timeline_entry children' do
+    it "copies timeline_entry children" do
       root = loan.root_timeline_entry
       new_root = new_loan.root_timeline_entry
 
@@ -60,19 +61,19 @@ RSpec.describe ProjectDuplicator, type: :model do
       expect(new_root.c[1].c.count).to eq root.c[1].c.count
     end
 
-    it 'copies health_check' do
+    it "copies health_check" do
       expect(new_loan.health_check.loan_id).to eq new_loan.id
     end
 
-    it 'ignores transactions' do
+    it "ignores transactions" do
       expect(new_loan.transactions.count).to eq 0
     end
 
-    it 'ignores copies' do
+    it "ignores copies" do
       expect(new_loan.copies.count).to eq 0
     end
 
-    context 'with project logs' do
+    context "with project logs" do
       before do
         grandchild = loan.root_timeline_entry.c[0].c[0]
         logs = create_list(:project_log, 2, project_step: grandchild)
@@ -80,7 +81,7 @@ RSpec.describe ProjectDuplicator, type: :model do
         loan.save!
       end
 
-      it 'copies project logs' do
+      it "copies project logs" do
         log = loan.project_logs[0]
         new_log = new_loan.project_logs[0]
 
@@ -92,7 +93,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     end
   end
 
-  context 'with scheduled children' do
+  context "with scheduled children" do
     # Creates a timeline and returns nodes stored in a hash.
     let!(:nodes) { ProjectGroupFactoryHelper.create_full_timeline }
     let(:loan) { nodes[:root].project }
@@ -112,8 +113,8 @@ RSpec.describe ProjectDuplicator, type: :model do
       g5_s1.update!(schedule_parent_id: g3_s3.id)
     end
 
-    shared_examples_for 'scheduled loan' do
-      it 'has been properly scheduled' do
+    shared_examples_for "scheduled loan" do
+      it "has been properly scheduled" do
         # We need to rebuild these references because we're using these examples for both
         # the old and the new loan.
         root = subject.root_timeline_entry
@@ -121,34 +122,52 @@ RSpec.describe ProjectDuplicator, type: :model do
         g3_s3 = root.c[2].c[2]
         g5_s1 = root.c[5].c[0]
 
-        expect(s1.scheduled_start_date).to eq Date.parse('2017-02-28')
+        expect(s1.scheduled_start_date).to eq Date.parse("2017-02-28")
         expect(s1.scheduled_duration_days).to eq 30
         expect(s1.schedule_parent).to be_nil
 
-        expect(g3_s3.scheduled_start_date).to eq Date.parse('2017-03-30')
+        expect(g3_s3.scheduled_start_date).to eq Date.parse("2017-03-30")
         expect(g3_s3.scheduled_duration_days).to eq 5
         expect(g3_s3.schedule_parent).to eq s1
 
         # start date for dependent step is end date of previous step + 1
-        expect(g5_s1.scheduled_start_date).to eq Date.parse('2017-04-04')
+        expect(g5_s1.scheduled_start_date).to eq Date.parse("2017-04-04")
         expect(g5_s1.scheduled_duration_days).to eq 3
         expect(g5_s1.schedule_parent).to eq g3_s3
       end
     end
 
-    context 'original loan' do
+    context "original loan" do
       subject { loan }
-      it_behaves_like 'scheduled loan'
+      it_behaves_like "scheduled loan"
     end
 
-    context 'copied loan' do
+    context "copied loan" do
       subject { Loan.find(duplicator.duplicate.id) }
 
-      it_behaves_like 'scheduled loan'
+      it_behaves_like "scheduled loan"
 
-      it 'has different loan id from original' do
+      it "has different loan id from original" do
         expect(subject.id).not_to eq loan.id
       end
+    end
+  end
+
+  context "loan with business planning responses" do
+    let!(:criteria_question_set) { create(:question_set, :loan_criteria) }
+    let!(:loan) do
+      create(:loan, :with_criteria_responses, :with_loan_media, :with_timeline, :with_accounting_transaction)
+    end
+
+    let!(:new_loan) { Loan.find(duplicator.duplicate.id) }
+
+    it "makes exactly one copy of criteria responses with matching answers" do
+      expect(new_loan.response_sets.count).to eq 1
+      # different response set with same data
+      expect(new_loan.criteria.id).not_to eq loan.criteria.id
+      expect(new_loan.criteria.custom_data).to eq loan.criteria.custom_data
+      # same question set
+      expect(new_loan.criteria.question_set.id).to eq loan.criteria.question_set.id
     end
   end
 end
