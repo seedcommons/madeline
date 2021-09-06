@@ -70,6 +70,7 @@ describe "loan flow", js: true do
 
       accept_confirm { click_on("Duplicate") }
       expect(page).to have_content "Copy of #{loan.display_name}"
+      # TODO: continue this scenario to try editing copy's business planning responses two times
     end
 
     describe "old system menu" do
