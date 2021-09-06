@@ -46,6 +46,7 @@ RSpec.describe ProjectDuplicator, type: :model do
     it 'copies timeline_entries' do
       expect(new_loan.timeline_entries[0].id).not_to eq loan.timeline_entries[0].id
       expect(new_loan.timeline_entries.count).to eq loan.timeline_entries.count
+      expect(TimelineEntry.where(project_id: new_loan.id, parent_id: nil).count).to eq 1
     end
 
     it 'copies timeline_entry children' do
