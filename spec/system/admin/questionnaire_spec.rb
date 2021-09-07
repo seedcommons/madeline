@@ -44,10 +44,8 @@ describe 'questionnaire', js: true do
     # TODO reimplement
   end
 
-  # finds and reloads/creates criteria and assigns current user
+  # finds and reloads/creates criteria
   def criteria
-    c = loan.criteria ? loan.criteria.reload : loan.create_criteria
-    c.current_user = user
-    c
+    loan.criteria ? loan.criteria.reload : loan.create_criteria
   end
 end

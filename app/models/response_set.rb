@@ -1,6 +1,4 @@
 class ResponseSet < ApplicationRecord
-  attr_accessor :current_user
-
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
 

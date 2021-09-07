@@ -2,7 +2,7 @@ class Admin::ResponseSetsController < Admin::AdminController
   include QuestionnaireRenderable
 
   def create
-    @response_set = ResponseSet.new(current_user: current_user)
+    @response_set = ResponseSet.new
     @response_set.assign_attributes(response_set_params.merge(updater_id: current_user.id))
     authorize @response_set
 
@@ -23,7 +23,6 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   def update
     @response_set = ResponseSet.find(params[:id])
-    @response_set.current_user = current_user
     authorize @response_set
 
     # Need to store these values from the db before they get overwritten by params below
@@ -53,7 +52,6 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   def destroy
     @response_set = ResponseSet.find(params[:id])
-    @response_set.current_user = current_user
     authorize @response_set
     @response_set.destroy!
     redirect_to display_path, notice: I18n.t(:notice_deleted)
