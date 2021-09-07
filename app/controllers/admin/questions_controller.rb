@@ -3,6 +3,11 @@ class Admin::QuestionsController < Admin::AdminController
   before_action :set_question, only: [:edit, :update, :destroy, :move]
 
   def index
+    # Manage questions is not permitted in "All Divsions" mode
+    if selected_division.nil?
+      skip_authorization
+      return redirect_to(root_path)
+    end
     authorize Question
     @set_name = params[:set] || "criteria"
     @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
@@ -64,11 +69,6 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   private
-
-  # TODO: Delete this method once editing questions in 'All Divisions' mode is banned.
-  def selected_division
-    super || Division.root
-  end
 
   def render_set_json(set)
     render json: top_level_questions(set)

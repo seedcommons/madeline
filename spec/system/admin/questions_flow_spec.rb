@@ -105,18 +105,31 @@ describe "division flow", js: true do
     select("Number", from: "Data Type")
     click_button("Save")
 
-    expect(page).to have_css(".jqtree-title", text: "Stuff")
+    expect(page).to have_css(".jqtree-title", text: "Stuff", wait: 10)
     expect(page).to have_content("6. q115\n7. Stuff\n10. q118")
 
     find(%([data-id="#{q113.id}"] > .jqtree-element .edit-action)).click
     fill_in("Title", with: "Stonks")
     click_button("Save")
 
-    expect(page).to have_css(".jqtree-title", text: "Stonks")
+    expect(page).to have_css(".jqtree-title", text: "Stonks", wait: 10)
     expect(page).not_to have_css(".jqtree-title", text: "q113")
 
     accept_confirm { find(%([data-id="#{q113.id}"] > .jqtree-element .delete-action)).click }
     expect(page).not_to have_css(".jqtree-title", text: "Stonks")
+  end
+
+  scenario "in 'All Divisions' mode, don't allow" do
+    visit(admin_person_path(actor)) # Don't start at the root path b/c that's where we get redirected.
+
+    within("#site-menu") do
+      find("a", text: "Manage").click
+      expect(page).to have_content("Accounting Settings") # Wait for dropdown to show
+      expect(page).not_to have_content("Questions")
+    end
+
+    visit(admin_questions_path)
+    expect(page).to have_current_path("/admin/dashboard")
   end
 
   def expand_group(group)
