@@ -65,6 +65,11 @@ class Admin::QuestionsController < Admin::AdminController
 
   private
 
+  # TODO: Delete this method once editing questions in 'All Divisions' mode is banned.
+  def selected_division
+    super || Division.root
+  end
+
   def render_set_json(set)
     render json: top_level_questions(set)
   end
