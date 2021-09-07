@@ -156,7 +156,6 @@ module Admin
       @currency_choices = Currency.all.order(:name)
       @representative_choices = representative_choices
       @loan_criteria = @loan.criteria
-      @loan_criteria.current_user = current_user if @loan_criteria
       @txn_mode_choices = txn_mode_options
     end
 

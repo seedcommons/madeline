@@ -1,12 +1,16 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
 class FilteredQuestion < SimpleDelegator
-  def initialize(question, **args)
-    super(question)
-    @user = args[:user]
-    @division = args[:division]
+  attr_accessor :selected_division
 
-    raise ArgumentError.new('User cannot be nil') unless @user
-    raise ArgumentError.new('Division cannot be nil') unless @division
+  # include_descendant_divisions means we want to show a question if it belongs to a division that
+  # is a descendant of selected_division. We ALWAYS include questions that are from divisions that are
+  # ancestors of the selected_division.
+  def initialize(question, selected_division:, include_descendant_divisions: false, **args)
+    super(question)
+    self.selected_division = selected_division
+    self.include_descendant_divisions = include_descendant_divisions
+
+    raise ArgumentError.new("Division cannot be nil") unless selected_division
 
     # We save these so we can reuse them when decorating children and parents.
     @args = args
@@ -22,11 +26,20 @@ class FilteredQuestion < SimpleDelegator
 
   def parent
     return @parent if defined?(@parent)
-    @parent = object.parent.nil? ? nil : self.class.new(object.parent, **@args)
+
+    @parent =
+      if question.parent.nil?
+        nil
+      else
+        self.class.new(question.parent, selected_division: selected_division,
+                                        include_descendant_divisions: include_descendant_divisions,
+                                        **@args)
+      end
   end
 
   def visible?
-    allowed? && object.division.self_and_descendants.include?(@division)
+    selected_division.self_or_descendant_of?(question.division) ||
+      include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
   end
 
   def children
@@ -48,7 +61,7 @@ class FilteredQuestion < SimpleDelegator
     end
   end
 
-  def object
+  def question
     __getobj__
   end
 
@@ -64,10 +77,13 @@ class FilteredQuestion < SimpleDelegator
   protected
 
   def decorated_children
-    self.class.decorate_collection(object.children, **@args)
+    self.class.decorate_collection(question.children,
+                                   selected_division: selected_division,
+                                   include_descendant_divisions: include_descendant_divisions,
+                                   **@args)
   end
 
-  def allowed?
-    @user == :system || QuestionPolicy.new(@user, object).show?
-  end
+  private
+
+  attr_accessor :include_descendant_divisions
 end

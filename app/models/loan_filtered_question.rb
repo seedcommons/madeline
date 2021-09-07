@@ -4,8 +4,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def initialize(question, **args)
     @loan = args[:loan]
-    args[:division] = @loan.division
-    super(question, **args)
+    super(question, selected_division: @loan.division, **args)
   end
 
   def sort_key
@@ -48,7 +47,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def visible?
     return @visible if defined?(@visible)
-    @visible = super && (status == 'active' || (status == 'inactive' && answered?))
+    @visible = super && (active? || answered?)
   end
 
   def response_set

@@ -4,16 +4,16 @@ class Admin::QuestionsController < Admin::AdminController
 
   def index
     authorize Question
-    # Hide retired questions for now
-    sets = QuestionSet.where(internal_name: %w(loan_criteria loan_post_analysis)).to_a
-    questions = sets.map { |s| top_level_questions(s) }.flatten
-    @json = ActiveModel::Serializer::CollectionSerializer.new(questions, user: current_user).to_json
+    @set_name = params[:set] || "criteria"
+    @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
+    @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@set))
+    @selected_division_depth = selected_division.depth
   end
 
   def new
     set = QuestionSet.find_by(internal_name: "loan_#{params[:set]}")
     parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
-    @question = Question.new(question_set_id: set.id, parent: parent, division: current_division)
+    @question = Question.new(question_set: set, parent: parent, division: selected_division)
     authorize @question
     @question.build_complete_requirements
     render_form
@@ -27,6 +27,7 @@ class Admin::QuestionsController < Admin::AdminController
 
   def create
     @question = Question.new(question_params)
+    @question.division = selected_division # Division must be selected_division, can't be chosen.
     authorize @question
     if @question.save
       render_set_json(@question.question_set)
@@ -46,15 +47,10 @@ class Admin::QuestionsController < Admin::AdminController
 
   def move
     target = Question.find(params[:target])
-    method = case params[:relation]
-      when 'before' then :prepend_sibling
-      when 'after' then :append_sibling
-      when 'inside' then :prepend_child
-    end
-
-    target.send(method, @question)
+    QuestionMover.new(current_division: selected_division, question: @question,
+                      target: target, relation: params[:relation].to_sym).move
     render_set_json(@question.question_set)
-  rescue
+  rescue ArgumentError
     flash.now[:error] = I18n.t('questions.move_error') + ": " + $!.to_s
     render partial: 'application/alerts', status: :unprocessable_entity
   end
@@ -69,15 +65,18 @@ class Admin::QuestionsController < Admin::AdminController
 
   private
 
+  # TODO: Delete this method once editing questions in 'All Divisions' mode is banned.
+  def selected_division
+    super || Division.root
+  end
+
   def render_set_json(set)
-    render json: top_level_questions(set), user: current_user
+    render json: top_level_questions(set)
   end
 
   def top_level_questions(set)
-    root_group = set.root_group_preloaded
-    return root_group.children unless selected_division
-    FilteredQuestion.new(root_group, division: selected_division,
-      user: current_user).children
+    FilteredQuestion.new(set.root_group_preloaded, selected_division: selected_division,
+                                                   include_descendant_divisions: true).children
   end
 
   def set_question
@@ -90,8 +89,8 @@ class Admin::QuestionsController < Admin::AdminController
     # However, it should be abstracted somehow so it applies to all controllers.
     # params.require(:question).delete_if { |k, v| k =~ /^locale_/ }.permit(
     params.require(:question).permit(
-      :label, :data_type, :division_id, :display_in_summary, :parent_id, :position,
-      :question_set_id, :has_embeddable_media, :override_associations, :status,
+      :label, :data_type, :display_in_summary, :parent_id,
+      :question_set_id, :has_embeddable_media, :override_associations, :active,
       *translation_params(:label, :explanation),
       loan_question_requirements_attributes: [:id, :amount, :option_id, :_destroy]
     )

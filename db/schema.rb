@@ -403,6 +403,7 @@ ActiveRecord::Schema.define(version: 2021_08_31_170835) do
   end
 
   create_table "questions", id: :serial, force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "data_type", null: false
     t.boolean "display_in_summary", default: false, null: false
@@ -415,8 +416,6 @@ ActiveRecord::Schema.define(version: 2021_08_31_170835) do
     t.integer "parent_id"
     t.integer "position"
     t.integer "question_set_id"
-    t.boolean "required", default: false, null: false
-    t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end

@@ -87,5 +87,4 @@ class ApplicationPolicy
   def any_division_admin?
     user.roles.where(name: 'admin', resource_type: 'Division').any?
   end
-
 end

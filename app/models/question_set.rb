@@ -7,30 +7,6 @@ class QuestionSet < ApplicationRecord
 
   after_create :create_root_group!
 
-  # This is a temporary method that creates root groups for all question sets in the system.
-  # It is called from a Rails migration and from the old system migration.
-  # It should be removed once all the data are migrated and stable.
-  def self.create_root_groups!
-    QuestionSet.all.each do |set|
-      roots = Question.where(question_set_id: set.id, parent: nil).to_a
-      new_root = roots.detect { |r| r.internal_name =~ /\Aroot_/ } || set.create_root_group!
-      (roots - [new_root]).each { |r| r.update!(parent: new_root) }
-    end
-  end
-
-  def create_root_group!
-    raise "Must be persisted" unless persisted?
-    Question.create!(
-      question_set_id: id,
-      parent: nil,
-      data_type: "group",
-      internal_name: "root_#{id}",
-      required: true,
-      position: 0,
-      division: Division.root
-    )
-  end
-
   def root_group_preloaded
     @root_group_preloaded ||=
       root_group_including_tree(loan_types: :translations, loan_question_requirements: :loan_type)
@@ -77,6 +53,16 @@ class QuestionSet < ApplicationRecord
   # This is private because it is needed to allow the inverse association on Question, but
   # it should never be used directly. Access children via the root or by cache hashes.
   has_many :questions, inverse_of: :question_set
+
+  def create_root_group!
+    Question.create!(
+      question_set_id: id,
+      parent: nil,
+      data_type: "group",
+      internal_name: "root_#{id}",
+      division: Division.root
+    )
+  end
 
   # Recursive method to construct @node_lookup_table, which is a hash of
   # node IDs and internal_names to the nodes themselves.

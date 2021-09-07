@@ -199,7 +199,6 @@ RSpec.describe LoanHealthCheck, type: :model do
 
   def stub_criteria(pct)
     set = instance_double(ResponseSet, progress_pct: pct)
-    allow(set).to receive(:current_user=)
     allow(loan).to receive(:criteria).and_return(set)
   end
 end

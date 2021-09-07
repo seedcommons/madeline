@@ -4,22 +4,26 @@ class MS.Views.QuestionsView extends Backbone.View
 
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
+    @locale = params.locale
+    @setName = params.setName
+    @selectedDivisionDepth = params.selectedDivisionDepth
     @tree = @$('.jqtree')
     @tree.tree
-      data: @tree.data('data')
+      data: params.questions
       dragAndDrop: true
       selectable: false
-      onCanMove: (node) => node.can_edit
+      onCanMove: @canMove.bind(this)
+      onCanMoveTo: @canMoveTo.bind(this)
       useContextMenu: false
-      saveState: true
+      saveState: @setName
       onCreateLi: (node, $li) =>
+        status = if node.active then 'active' else 'inactive'
         $li.attr('data-id', node.id)
-          .addClass("filterable #{node.fieldset} #{node.status}")
+          .attr('data-division-depth', node.division_depth)
+          .addClass(status)
           .find('.jqtree-element')
           .append(@requiredLoanTypesHTML(node))
           .append(@permittedActionsHTML(node))
-    @filterSwitchView = new MS.Views.FilterSwitchView()
-    @locale = params.locale
     @addNewItemBlocks()
 
   events: (params) ->
@@ -33,13 +37,36 @@ class MS.Views.QuestionsView extends Backbone.View
     'change [name="question[override_associations]"]': 'showHideAssociations'
     'change .require-checkbox': 'changeRequireCheckbox'
 
+  canMove: (node) ->
+    node.can_edit
+
+  canMoveTo: (movedNode, targetNode, position) ->
+    return false if position == 'inside' && targetNode.data_type != 'group'
+
+    newParent = if position == 'inside' then targetNode else targetNode.parent
+    ownDivisionDepth = movedNode.division_depth
+    return false if newParent.division_depth > ownDivisionDepth
+
+    siblings = newParent.children
+    targetIndex = siblings.indexOf(targetNode)
+    insertIndex =
+      switch position
+        when 'inside' then 0
+        when 'before' then targetIndex
+        else targetIndex + 1
+
+    # Ensure left sibling is in same or ancestor division, right sibling in same or descendant division
+    (insertIndex == 0 || siblings[insertIndex - 1].division_depth <= ownDivisionDepth) &&
+      (insertIndex >= siblings.length || siblings[insertIndex].division_depth >= ownDivisionDepth)
+
   newNode: (e) ->
+    e.preventDefault()
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
-    set = URI(window.location.href).query(true)['filter'] || 'criteria'
-    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{set}&parent_id=#{parent_id}", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{@setName}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->
+    e.preventDefault()
     id = @$(e.target).closest('li').data('id')
     @$('#edit-modal .modal-content').load "/admin/questions/#{id}/edit", =>
       @showModal()
@@ -116,7 +143,14 @@ class MS.Views.QuestionsView extends Backbone.View
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item').remove()
-    @tree.find('li:last-child').after(@$('.new-item-block').html())
+
+    # Add a new item block to the top level.
+    @tree.find("> ul > li:last-child").after(@$('.new-item-block').html())
+
+    # Add a new item block to groups at the same or higher division depth as the selected division.
+    for depth in [0..@selectedDivisionDepth]
+      @tree.find("li[data-division-depth=#{depth}] > ul > li:last-child").after(@$('.new-item-block').html())
+
     # Ensure at least one
     if @tree.find('.new-item').size() == 0
       @tree.find('ul').append(@$('.new-item-block').html())
@@ -151,5 +185,4 @@ class MS.Views.QuestionsView extends Backbone.View
   # Remember the state of which nodes are expanded (subtrees)
   refreshTree: (response) ->
     @tree.tree('loadData', response)
-    @filterSwitchView.filterInit()
     @addNewItemBlocks()

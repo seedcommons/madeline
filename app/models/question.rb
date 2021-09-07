@@ -33,19 +33,31 @@ class Question < ApplicationRecord
   # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', numeric_order: true, dependent: :destroy
 
+  delegate :depth, to: :division, prefix: true
+
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label
   translates :explanation, allow_html: true
 
   validates :data_type, presence: true
+  validate :parent_division_depth_must_be_less_than_or_equal_to_ours
 
   after_save :ensure_internal_name
 
+  after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
   after_commit :set_numbers
 
   def top_level?
     parent.root?
+  end
+
+  # This is a duck type method, and is overridden by LoanFilteredQuestion, which implements
+  # the real logic about which questions are required contextually.
+  # We need to implement this here because plan Questions need to be serialized for the manage
+  # questions page, and the serializer may try to access this method even though it's not needed on that page.
+  def required?
+    false
   end
 
   # Overriding this method because the closure_tree implementation causes a DB query.
@@ -78,10 +90,6 @@ class Question < ApplicationRecord
 
   def business_canvas?
     data_type == 'business_canvas'
-  end
-
-  def active?
-    status == 'active'
   end
 
   def first_child?
@@ -171,18 +179,40 @@ class Question < ApplicationRecord
     update_numbers_for_parent(@old_parent_id) if @old_parent_id
   end
 
+  # position holds the table ordering value.
+  # number is the displayed number, and is null for inactive questions.
   def update_numbers_for_parent(parent_id)
     self.class.connection.execute("UPDATE questions SET number = num FROM (
-      SELECT id, ROW_NUMBER() OVER (ORDER BY POSITION) AS num
+      SELECT id, ROW_NUMBER() OVER (ORDER BY position) AS num
       FROM questions
-      WHERE parent_id = #{parent_id} AND status = 'active'
+      WHERE parent_id = #{parent_id} AND active = 't'
     ) AS t WHERE questions.id = t.id")
   end
 
   private
 
+  # Moves a new question to an appropriate position based on its division
+  def adjust_position_by_division
+    return if parent.nil?
+
+    # Walk through each sibling until we leave our division block or division depth block.
+    prev_sibling = nil
+    found_own_div = false
+    parent.children.each do |question|
+      next if question == self
+      break if question.division_depth > division_depth
+      break if found_own_div && question.division_id != division_id
+
+      found_own_div = true if question.division_id == division_id
+      prev_sibling = question
+    end
+    return if prev_sibling.nil?
+
+    prev_sibling.append_sibling(self)
+  end
+
   def prepare_numbers
-    self.number = nil if status_changed? && status != 'active'
+    self.number = nil if active_changed? && !active?
     @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
   end
@@ -191,5 +221,15 @@ class Question < ApplicationRecord
     if !internal_name
       self.update! internal_name: "field_#{id}"
     end
+  end
+
+  def parent_division_depth_must_be_less_than_or_equal_to_ours
+    return if parent.nil?
+
+    our_division = division
+    parent_division = parent.division
+    return if our_division.depth >= parent_division.depth
+
+    errors.add(:base, :invalid_parent_division_depth)
   end
 end

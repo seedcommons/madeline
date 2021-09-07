@@ -27,7 +27,7 @@ div
 
     / Don't print unanswered questions or groups
     - css_class += ' hidden-print' if response.blank? || response.not_applicable?
-    - css_class += " #{question.status}"
+    - css_class += " #{question.active? ? 'active' : 'inactive'}"
 
     .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
       span.tree-view

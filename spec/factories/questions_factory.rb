@@ -4,8 +4,7 @@ FactoryBot.define do
     question_set
     internal_name { Faker::Lorem.words(2).join('_').downcase }
     data_type { Question::DATA_TYPES.sample }
-    position { [1..10].sample }
-    status { 'active' }
+    active { true }
     parent { nil }
 
     after(:create) do |model|

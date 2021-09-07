@@ -1,6 +1,4 @@
 class ResponseSet < ApplicationRecord
-  attr_accessor :current_user
-
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
 
@@ -81,7 +79,7 @@ class ResponseSet < ApplicationRecord
   end
 
   def ensure_decorated(question)
-    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan, user: current_user)
+    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
   end
 
   # Determines attribute name and implied operations for dynamic methods as documented above

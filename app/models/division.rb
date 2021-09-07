@@ -74,6 +74,18 @@ class Division < ApplicationRecord
     self
   end
 
+  # Allows efficient multiple tree comparisons by caching.
+  def self_or_ancestor_of?(other_division)
+    @self_and_descendants_hash ||= self_and_descendants.pluck(:id).index_by(&:itself)
+    @self_and_descendants_hash.key?(other_division.id)
+  end
+
+  # Allows efficient multiple tree comparisons by caching.
+  def self_or_descendant_of?(other_division)
+    @self_and_ancestors_hash ||= self_and_ancestors.pluck(:id).index_by(&:itself)
+    @self_and_ancestors_hash.key?(other_division.id)
+  end
+
   def has_logo_text?
     logo_text.present?
   end
