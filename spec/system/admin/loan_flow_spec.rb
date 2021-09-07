@@ -64,11 +64,13 @@ describe "loan flow", js: true do
   end
 
   describe "details" do
+    # prevent duplication until extra duplicate response set bug 11923 fully resolved
     scenario "can duplicate" do
       visit admin_loan_path(loan)
 
       accept_confirm { click_on("Duplicate") }
       expect(page).to have_content "Copy of #{loan.display_name}"
+      # TODO: continue this scenario to try editing copy's business planning responses two times
     end
 
     describe "old system menu" do

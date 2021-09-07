@@ -17,7 +17,7 @@ section.loan-fields data-container='details' class=(@loan.valid? ? 'show-view' :
       i.fa.fa-trash.fa-large>
       = t("loan.delete")
 
-    / Duplicate
+      / Duplicate
     - if @loan.valid?
       = link_to duplicate_admin_loan_path,
         data: { confirm: t("loan.confirm_duplication") }

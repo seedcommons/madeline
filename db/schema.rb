@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_19_162038) do
+ActiveRecord::Schema.define(version: 2021_08_31_170835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -428,6 +428,7 @@ ActiveRecord::Schema.define(version: 2021_08_19_162038) do
     t.integer "lock_version", default: 0, null: false
     t.datetime "updated_at", null: false
     t.integer "updater_id"
+    t.index ["loan_id", "kind"], name: "index_response_sets_on_loan_id_and_kind", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
