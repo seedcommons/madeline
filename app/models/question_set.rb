@@ -3,17 +3,11 @@ class QuestionSet < ApplicationRecord
 
   has_closure_tree_root :root_group, class_name: "Question"
 
-  translates :label
-
   after_create :create_root_group!
 
   def root_group_preloaded
     @root_group_preloaded ||=
       root_group_including_tree(loan_types: :translations, loan_question_requirements: :loan_type)
-  end
-
-  def name
-    label
   end
 
   def kind
