@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_31_170835) do
+ActiveRecord::Schema.define(version: 2021_09_07_194740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -417,6 +417,7 @@ ActiveRecord::Schema.define(version: 2021_08_31_170835) do
     t.integer "position"
     t.integer "question_set_id"
     t.datetime "updated_at", null: false
+    t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
