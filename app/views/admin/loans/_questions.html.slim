@@ -5,13 +5,13 @@ section.questionnaires
   .filter-switch.centered-text
     .btn-group
       = link_to t('loan.criteria'),
-        admin_loan_tab_path(@loan.id, filter: "criteria", tab: "questions"),
-        class: "btn btn-default #{'active' if @attrib == 'criteria'}",
-        data: {filter: "criteria"}
+        admin_loan_tab_path(@loan.id, filter: "loan_criteria", tab: "questions"),
+        class: "btn btn-default #{'active' if @attrib == 'loan_criteria'}",
+        data: {filter: "loan_criteria"}
       = link_to t('loan.post_analysis'),
-        admin_loan_tab_path(@loan.id, filter: "post_analysis", tab: "questions"),
-        class: "btn btn-default #{'active' if @attrib == 'post_analysis'}",
-        data: {filter: "post_analysis"}
+        admin_loan_tab_path(@loan.id, filter: "loan_post_analysis", tab: "questions"),
+        class: "btn btn-default #{'active' if @attrib == 'loan_post_analysis'}",
+        data: {filter: "loan_post_analysis"}
 
   div.questionnaire data-attrib=@attrib class=@attrib
     //unlike other forms, we start in show view even with a new record

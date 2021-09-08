@@ -3,10 +3,10 @@
 .loan-questions
   .filter-switch
     .btn-group
-      = link_to t('loan.criteria'), admin_questions_path(set: "criteria"),
-        class: "btn btn-default #{'active' if @set_name == 'criteria'}"
-      = link_to t('loan.post_analysis'), admin_questions_path(set: "post_analysis"),
-        class: "btn btn-default #{'active' if @set_name == 'post_analysis'}"
+      = link_to t('loan.criteria'), admin_questions_path(set: "loan_criteria"),
+        class: "btn btn-default #{'active' if @set_name == 'loan_criteria'}"
+      = link_to t('loan.post_analysis'), admin_questions_path(set: "loan_post_analysis"),
+        class: "btn btn-default #{'active' if @set_name == 'loan_post_analysis'}"
 
   .jqtree
 

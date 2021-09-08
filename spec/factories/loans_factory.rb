@@ -166,7 +166,7 @@ FactoryBot.define do
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
         create(:response_set,
-          kind: 'criteria',
+          kind: 'loan_criteria',
           loan: loan,
           custom_data: {summary: 'foo', workers: 5}
         )

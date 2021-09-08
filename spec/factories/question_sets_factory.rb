@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :question_set do
-    internal_name { QuestionSet::KINDS.sample }
+    kind { QuestionSet::KINDS.sample }
     division { root_division }
 
     trait :generic_fields do
@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :loan_criteria do
-      internal_name { 'loan_criteria' }
+      kind { 'loan_criteria' }
       after(:create) do |model|
         create(:question, parent: model.root_group, question_set: model,
           internal_name: 'summary', data_type: 'text')
@@ -25,7 +25,7 @@ FactoryBot.define do
     end
 
     trait :loan_post_analysis do
-      internal_name { 'loan_post_analysis' }
+      kind { 'loan_post_analysis' }
       after(:create) do |model|
         create(:question, parent: model.root_group, question_set: model,
           internal_name: 'new_worker_knowledge', data_type: 'text')

@@ -51,6 +51,6 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def response_set
-    @response_set ||= loan.send(question_set.kind)
+    @response_set ||= ResponseSet.find_by(loan: loan, kind: question_set.kind)
   end
 end

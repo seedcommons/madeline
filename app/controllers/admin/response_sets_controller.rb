@@ -7,7 +7,7 @@ class Admin::ResponseSetsController < Admin::AdminController
     authorize @response_set
 
     # Check if loan already has a response set (e.g. created in another tab)
-    @conflicting_response_set = @response_set.loan.send(@response_set.kind)
+    @conflicting_response_set = ResponseSet.find_by(loan: @response_set.loan, kind: @response_set.kind)
     if @conflicting_response_set
       @response_set_from_db = {
         updater: @conflicting_response_set.updater,

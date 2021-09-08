@@ -66,7 +66,7 @@ class Question < ApplicationRecord
   end
 
   def name
-    "#{question_set.internal_name}-#{internal_name}"
+    "#{question_set.kind}-#{internal_name}"
   end
 
   def attribute_sym

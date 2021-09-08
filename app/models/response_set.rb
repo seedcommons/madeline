@@ -14,7 +14,7 @@ class ResponseSet < ApplicationRecord
   end
 
   def question_set
-    @question_set ||= QuestionSet.find_by(internal_name: "loan_#{kind}")
+    @question_set ||= QuestionSet.find_by(kind: kind)
   end
 
   def root_response

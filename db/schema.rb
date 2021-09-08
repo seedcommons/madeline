@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_201954) do
+ActiveRecord::Schema.define(version: 2021_09_08_205109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -399,7 +399,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_201954) do
   create_table "question_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "division_id", null: false
-    t.string "internal_name"
+    t.string "kind"
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_question_sets_on_division_id"
   end

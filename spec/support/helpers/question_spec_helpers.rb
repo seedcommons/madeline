@@ -5,9 +5,9 @@ module QuestionSpecHelpers
     let!(:lt2) { create(:option, option_set: loan_type_set, value: 'lt2', label_translations: {en: 'Loan Type Two'}) }
     let!(:loan1) { create(:loan, loan_type_value: lt1.value)}
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
-    let!(:qset) { create(:question_set, internal_name: 'loan_criteria') }
+    let!(:qset) { create(:question_set, kind: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:response_set, loan: loan1) }
+    let(:rset) { build(:response_set, loan: loan1, kind: "loan_criteria") }
   end
 
   shared_context "full question set and responses" do

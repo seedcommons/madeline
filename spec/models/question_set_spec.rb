@@ -12,9 +12,9 @@ describe QuestionSet do
     let!(:div_b) { create(:division, parent: div_a) }
     let!(:div_c) { create(:division, parent: div_b) }
     let!(:div_x) { create(:division) }
-    let!(:div_a_set1) { create(:question_set, division: div_a, internal_name: "loan_post_analysis") }
-    let!(:div_a_set2) { create(:question_set, division: div_a, internal_name: "loan_criteria") }
-    let!(:div_b_set) { create(:question_set, division: div_b, internal_name: "loan_criteria") }
+    let!(:div_a_set1) { create(:question_set, division: div_a, kind: "loan_post_analysis") }
+    let!(:div_a_set2) { create(:question_set, division: div_a, kind: "loan_criteria") }
+    let!(:div_b_set) { create(:question_set, division: div_b, kind: "loan_criteria") }
 
     it "finds correct sets for div_a in correct order" do
       expect(QuestionSet.find_for_division(div_a)).to eq([div_a_set2, div_a_set1])

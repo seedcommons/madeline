@@ -19,7 +19,7 @@ class FilteredQuestionSerializer < ApplicationSerializer
   end
 
   def fieldset
-    object.question_set.internal_name.sub("loan_", "")
+    object.question_set.kind
   end
 
   def optional

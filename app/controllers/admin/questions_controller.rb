@@ -9,14 +9,14 @@ class Admin::QuestionsController < Admin::AdminController
       return redirect_to(root_path)
     end
     authorize Question
-    @set_name = params[:set] || "criteria"
-    @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
+    @set_name = params[:set] || "loan_criteria"
+    @set = QuestionSet.find_by(kind: @set_name)
     @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@set))
     @selected_division_depth = selected_division.depth
   end
 
   def new
-    set = QuestionSet.find_by(internal_name: "loan_#{params[:set]}")
+    set = QuestionSet.find_by(kind: params[:set])
     parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
     @question = Question.new(question_set: set, parent: parent, division: selected_division)
     authorize @question

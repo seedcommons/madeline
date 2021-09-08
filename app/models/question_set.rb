@@ -12,7 +12,7 @@ class QuestionSet < ApplicationRecord
   def self.find_for_division(division)
     self_and_ancestor_ids = division.self_and_ancestors.pluck(:id)
     KINDS.map do |kind|
-      candidates = where(internal_name: kind, division_id: self_and_ancestor_ids).index_by(&:division_id)
+      candidates = where(kind: kind, division_id: self_and_ancestor_ids).index_by(&:division_id)
       self_and_ancestor_ids.lazy.map { |div_id| candidates[div_id] }.detect { |set| !set.nil? }
     end.compact
   end
@@ -20,10 +20,6 @@ class QuestionSet < ApplicationRecord
   def root_group_preloaded
     @root_group_preloaded ||=
       root_group_including_tree(loan_types: :translations, loan_question_requirements: :loan_type)
-  end
-
-  def kind
-    internal_name.sub(/^loan_/, '').to_sym
   end
 
   def depth
@@ -46,7 +42,7 @@ class QuestionSet < ApplicationRecord
       @node_lookup_table[question_identifier]
     end
 
-    raise "Question not found: #{question_identifier} for set: #{internal_name}" if required && !result
+    raise "Question not found: #{question_identifier} for set: #{kind}" if required && !result
     result
   end
 
