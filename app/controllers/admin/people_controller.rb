@@ -37,7 +37,7 @@ module Admin
     end
 
     def new
-      @person = Person.new(division: current_division)
+      @person = Person.new(division: selected_division_or_root)
       authorize @person
       prep_form_vars
     end

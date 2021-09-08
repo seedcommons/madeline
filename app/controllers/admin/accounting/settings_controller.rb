@@ -2,7 +2,7 @@ class Admin::Accounting::SettingsController < Admin::AdminController
   def show
     authorize :setting
 
-    @division = current_division.root
+    @division = Division.root
     @accounts = ::Accounting::Account.all
     @last_updated_at = @division.qb_connection.last_updated_at if @division.quickbooks_connected?
     @issue_count = ::Accounting::SyncIssue.count
@@ -12,7 +12,7 @@ class Admin::Accounting::SettingsController < Admin::AdminController
   def update
     authorize :setting
 
-    @division = current_division.root
+    @division = Division.root
     if @division.update(settings_params)
       redirect_to admin_accounting_settings_path, notice: I18n.t(:notice_updated)
     else

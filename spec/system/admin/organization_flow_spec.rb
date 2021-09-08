@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'organization flow' do
+describe 'organization flow', js: true do
   let(:currency) { create(:currency) }
   let(:division) { create(:division, currency_id: currency.id) }
   let(:admin) { create_admin(division) }
@@ -24,6 +24,9 @@ describe 'organization flow' do
 
     # login as user
     login_as(user, scope: :user)
+
+    visit("/")
+    select_division(division)
 
     option_set = Loan.public_level_option_set
     option_set.options.create(value: 'public', label_translations: { en: 'Public' })

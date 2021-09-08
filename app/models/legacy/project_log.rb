@@ -14,7 +14,7 @@ module Legacy
     def migrated_loan
       # beware the legacy db has inconsistent casing of the project table name
       if project_table.downcase == 'loans'
-        result = ::Loan.find_safe(project_id)
+        result = ::Loan.find_by(id: project_id)
         unless result
           #JE todo: send warnings also to separate log
           $stderr.puts "WARNING: ignoring ProjectLog[#{id}] pointing to invalid Loan ID: #{project_id}"

@@ -394,7 +394,7 @@ en:
       qb_not_connected_html: "QuickBooks is not connected"
       accounts_not_selected_html: "QuickBooks accounts are not selected on the division '%{qb_division}' (see %{accounting_settings_link})"
       division_transactions_read_only_html: "transactions are in read-only mode for the division '%{qb_division}' (see %{accounting_settings_link})"
-      department_not_set_html: "the QB department is not set on the division '%{current_division}' (see %{qb_division_settings_link})"
+      department_not_set_html: "the QB department is not set on the division '%{selected_division}' (see %{qb_division_settings_link})"
       loan_not_active_html: "this loan is not active"
       loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
     there_are_issues:

@@ -4,7 +4,7 @@ class Admin::AdminController < ApplicationController
 
   layout 'admin/signed_in'
 
-  helper_method :selected_division_id, :selected_division, :current_division
+  helper_method :selected_division_id, :selected_division, :selected_division_or_root
 
   prepend_before_action :authenticate_user!
   after_action :verify_authorized

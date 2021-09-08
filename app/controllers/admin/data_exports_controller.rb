@@ -6,7 +6,7 @@ class Admin::DataExportsController < Admin::AdminController
       set_export_class_on_new
       @data_export = @export_class.new(
         locale_code: I18n.locale,
-        division: current_division
+        division: selected_division_or_root
       )
     elsif DataExport::DATA_EXPORT_TYPES.count == 1
       redirect_to new_admin_data_export_path(type: DataExport::DATA_EXPORT_TYPES.keys.first)

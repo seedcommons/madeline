@@ -47,7 +47,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
   end
 
   def new
-    @basic_project = BasicProject.new(division: current_division)
+    @basic_project = BasicProject.new(division: selected_division_or_root)
     authorize @basic_project
     prep_form_vars
   end

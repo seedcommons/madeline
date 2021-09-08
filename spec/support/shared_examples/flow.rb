@@ -8,19 +8,6 @@ shared_examples "flow" do
   scenario 'can index/show/edit and change division', js: true do
     visit(polymorphic_path([:admin,subject.class]))
 
-    # Make sure we can change divisions
-    expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
-
-    # Change to specific division, and ensure the page reloads properly
-    select_division(division.name)
-    expect(find('[data-expands="division-dropdown"]')).to have_content 'Change Division'
-    expect(find('.without-logo')).to have_content division.name
-
-    # Change back to all divisions, and ensure it reloads properly
-    select_division('All Divisions')
-    expect(find('.madeline')).to have_content 'Madeline'
-    expect(find('[data-expands="division-dropdown"]')).to have_content 'Select Division'
-
     # Now test index/show/edit
     expect(page).to have_content(subject.name)
 

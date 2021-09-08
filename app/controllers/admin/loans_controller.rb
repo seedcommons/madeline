@@ -8,8 +8,6 @@ module Admin
     TABS = %w(details questions timeline logs transactions calendar).freeze
 
     def index
-      # Note, current_division is used when creating new entities and is guaranteed to return a value.
-      # selected_division is used for index filtering, and may be unassigned.
       authorize(Loan)
 
       @loans_grid = initialize_grid(
@@ -65,7 +63,8 @@ module Admin
     end
 
     def new
-      @loan = Loan.new(division: current_division, currency: current_division.default_currency)
+      @loan = Loan.new(division: selected_division_or_root,
+                       currency: selected_division_or_root.default_currency)
       @loan.organization_id = params[:organization_id] if params[:organization_id]
       authorize(@loan)
       prep_form_vars
@@ -199,7 +198,7 @@ module Admin
       return if (reasons = policy(@sample_transaction).read_only_reasons).empty?
 
       args = {}
-      args[:current_division] = @loan.division.name
+      args[:selected_division] = @loan.division.name
       args[:qb_division] = @loan.qb_division&.name
       args[:qb_division_settings_link] =
         view_context.link_to(t("common.settings"), admin_division_path(@loan.division))

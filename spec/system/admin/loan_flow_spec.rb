@@ -1,14 +1,16 @@
 require "rails_helper"
 
 describe "loan flow", js: true do
-  let(:division) { create(:division) }
-  let(:user) { create_member(division) }
+  let!(:division) { create(:division) }
+  let!(:user) { create_member(division) }
   let!(:loan) { create(:loan, division: division) }
-  let(:parent_group) { create(:project_group) }
+  let!(:parent_group) { create(:project_group) }
   let!(:child_group) { create(:project_group, project: loan, parent: parent_group) }
 
   before do
     login_as(user, scope: :user)
+    visit("/")
+    select_division(division)
   end
 
   # This should work, but for some reason it fails a lot more often
