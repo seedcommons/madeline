@@ -44,8 +44,8 @@ Question.recalibrate_sequence(id: 300)
 QuestionSet.connection.schema_cache.clear!
 QuestionSet.reset_column_information
 
-QuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria')
-QuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis')
+QuestionSet.find_or_create_by(id: 2, internal_name: 'loan_criteria', division: root_div)
+QuestionSet.find_or_create_by(id: 3, internal_name: 'loan_post_analysis', division: root_div)
 QuestionSet.recalibrate_sequence(gap: 10)
 
 puts 'seeds ran successfully'

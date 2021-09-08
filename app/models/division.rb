@@ -11,6 +11,7 @@ class Division < ApplicationRecord
   has_many :people, dependent: :restrict_with_exception
   has_many :organizations, dependent: :restrict_with_exception
 
+  has_many :question_sets, inverse_of: :division, dependent: :restrict_with_exception
   has_many :questions
   has_many :option_sets, dependent: :destroy
 

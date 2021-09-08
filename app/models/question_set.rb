@@ -1,6 +1,8 @@
 class QuestionSet < ApplicationRecord
   include Translatable
 
+  belongs_to :division, inverse_of: :question_sets
+
   has_closure_tree_root :root_group, class_name: "Question"
 
   after_create :create_root_group!

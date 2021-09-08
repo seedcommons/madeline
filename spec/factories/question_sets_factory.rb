@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :question_set do
     internal_name { Faker::Lorem.words(2).join('_').downcase }
+    division { root_division }
 
     trait :generic_fields do
       after(:create) do |model|

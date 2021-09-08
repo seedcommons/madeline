@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_194740) do
+ActiveRecord::Schema.define(version: 2021_09_07_201954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -398,8 +398,10 @@ ActiveRecord::Schema.define(version: 2021_09_07_194740) do
 
   create_table "question_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "division_id", null: false
     t.string "internal_name"
     t.datetime "updated_at", null: false
+    t.index ["division_id"], name: "index_question_sets_on_division_id"
   end
 
   create_table "questions", id: :serial, force: :cascade do |t|
@@ -563,6 +565,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_194740) do
   add_foreign_key "projects", "people", column: "primary_agent_id"
   add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
+  add_foreign_key "question_sets", "divisions"
   add_foreign_key "questions", "question_sets"
   add_foreign_key "response_sets", "users", column: "updater_id"
   add_foreign_key "timeline_entries", "people", column: "agent_id"
