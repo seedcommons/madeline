@@ -1,11 +1,21 @@
 class QuestionSet < ApplicationRecord
   include Translatable
 
+  KINDS = %i[loan_criteria loan_post_analysis].freeze
+
   belongs_to :division, inverse_of: :question_sets
 
   has_closure_tree_root :root_group, class_name: "Question"
 
   after_create :create_root_group!
+
+  def self.find_for_division(division)
+    self_and_ancestor_ids = division.self_and_ancestors.pluck(:id)
+    KINDS.map do |kind|
+      candidates = where(internal_name: kind, division_id: self_and_ancestor_ids).index_by(&:division_id)
+      self_and_ancestor_ids.lazy.map { |div_id| candidates[div_id] }.detect { |set| !set.nil? }
+    end.compact
+  end
 
   def root_group_preloaded
     @root_group_preloaded ||=
