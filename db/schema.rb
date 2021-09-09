@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_09_185709) do
+ActiveRecord::Schema.define(version: 2021_09_09_190131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -426,7 +426,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_185709) do
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "custom_data"
-    t.string "kind"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
