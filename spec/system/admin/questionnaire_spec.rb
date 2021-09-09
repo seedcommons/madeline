@@ -43,9 +43,4 @@ describe 'questionnaire', js: true do
   context 'with conflicting changes' do
     # TODO reimplement
   end
-
-  # finds and reloads/creates criteria
-  def criteria
-    loan.criteria ? loan.criteria.reload : loan.create_criteria
-  end
 end

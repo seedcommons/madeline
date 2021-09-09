@@ -7,7 +7,7 @@ module QuestionSpecHelpers
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
     let!(:qset) { create(:question_set, kind: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:response_set, loan: loan1, kind: "loan_criteria") }
+    let(:rset) { build(:response_set, loan: loan1, question_set: qset) }
   end
 
   shared_context "full question set and responses" do

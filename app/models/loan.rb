@@ -13,8 +13,6 @@ class Loan < Project
   belongs_to :organization
   belongs_to :currency
   belongs_to :representative, class_name: 'Person'
-  has_one :criteria, -> { where("response_sets.kind" => 'loan_criteria') }, class_name: "ResponseSet"
-  has_one :post_analysis, -> { where("response_sets.kind" => 'loan_post_analysis') }, class_name: "ResponseSet"
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
   has_many :response_sets, dependent: :destroy
 
@@ -57,6 +55,16 @@ class Loan < Project
 
   def self.txn_mode_choices
     TXN_MODES
+  end
+
+  # These methods should go away soon.
+  def criteria
+    ResponseSet.joins(:question_set).find_by(loan: self, question_sets: {kind: "loan_criteria"})
+  end
+
+  # These methods should go away soon.
+  def post_analysis
+    ResponseSet.joins(:question_set).find_by(loan: self, question_sets: {kind: "loan_post_analysis"})
   end
 
   # Rate is entered as a percent

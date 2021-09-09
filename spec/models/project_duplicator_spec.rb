@@ -154,11 +154,9 @@ RSpec.describe ProjectDuplicator, type: :model do
   end
 
   context "loan with business planning responses" do
-    let!(:criteria_question_set) { create(:question_set, :loan_criteria) }
     let!(:loan) do
       create(:loan, :with_criteria_responses, :with_loan_media, :with_timeline, :with_accounting_transaction)
     end
-
     let!(:new_loan) { Loan.find(duplicator.duplicate.id) }
 
     it "makes exactly one copy of criteria responses with matching answers" do

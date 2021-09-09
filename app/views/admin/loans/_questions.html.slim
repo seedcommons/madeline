@@ -4,16 +4,12 @@ section.questionnaires
   / Switch at top allowing toggling between criteria and post analysis
   .filter-switch.centered-text
     .btn-group
-      = link_to t('loan.criteria'),
-        admin_loan_tab_path(@loan.id, filter: "loan_criteria", tab: "questions"),
-        class: "btn btn-default #{'active' if @attrib == 'loan_criteria'}",
-        data: {filter: "loan_criteria"}
-      = link_to t('loan.post_analysis'),
-        admin_loan_tab_path(@loan.id, filter: "loan_post_analysis", tab: "questions"),
-        class: "btn btn-default #{'active' if @attrib == 'loan_post_analysis'}",
-        data: {filter: "loan_post_analysis"}
+      - @question_sets.each do |qset|
+        = link_to t("question_sets.#{qset.kind}"),
+          admin_loan_tab_path(@loan.id, tab: "questions", qset: qset.id),
+          class: "btn btn-default #{'active' if @question_set == qset}"
 
-  div.questionnaire data-attrib=@attrib
+  div.questionnaire
     //unlike other forms, we start in show view even with a new record
     section.block class=(((@response_set.persisted? && @response_set.valid?) || @response_set.new_record? ) && !@conflict ? 'show-view' : 'edit-view')
       //hide delete link and see if there are any complaints before removing entirely
@@ -26,7 +22,7 @@ section.questionnaires
 
       div.container
         div.row
-          h2 = t("loan.#{@attrib}")
+          h2 = t("question_sets.#{@question_set.kind}")
         div.row.outline-and-questionnaire
           div.outline.collapsed
             div.outline-expansion-control.small.hider
@@ -38,7 +34,7 @@ section.questionnaires
               = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
           div.questionnaire-wrapper.larger
             = render partial: "admin/loans/questionnaires/questionnaire_form",
-                     locals: {response_set: @response_set, attrib: @attrib}
+                     locals: {response_set: @response_set}
 
 = render partial: "admin/loans/questionnaires/rich_text_modal"
 
@@ -49,7 +45,7 @@ p.alert.alert-warning.hidden#rt-changes-warning
 
 javascript:
   $(function() {
-    new MS.Views.ShowEditView({el: ".questionnaire[data-attrib=#{@attrib}] .block"});
+    new MS.Views.ShowEditView({el: ".questionnaire .block"});
     new MS.Views.LoanQuestionnairesView({
       loanId: #{@loan.id},
       locale: "#{I18n.locale}"

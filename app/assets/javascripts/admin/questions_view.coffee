@@ -5,7 +5,7 @@ class MS.Views.QuestionsView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @locale = params.locale
-    @setName = params.setName
+    @qsetId = params.qsetId
     @selectedDivisionDepth = params.selectedDivisionDepth
     @tree = @$('.jqtree')
     @tree.tree
@@ -15,7 +15,7 @@ class MS.Views.QuestionsView extends Backbone.View
       onCanMove: @canMove.bind(this)
       onCanMoveTo: @canMoveTo.bind(this)
       useContextMenu: false
-      saveState: @setName
+      saveState: "qset#{@qsetId}"
       onCreateLi: (node, $li) =>
         status = if node.active then 'active' else 'inactive'
         $li.attr('data-id', node.id)
@@ -62,7 +62,7 @@ class MS.Views.QuestionsView extends Backbone.View
   newNode: (e) ->
     e.preventDefault()
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
-    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{@setName}&parent_id=#{parent_id}", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/new?qset=#{@qsetId}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->

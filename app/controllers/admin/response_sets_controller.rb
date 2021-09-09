@@ -7,7 +7,8 @@ class Admin::ResponseSetsController < Admin::AdminController
     authorize @response_set
 
     # Check if loan already has a response set (e.g. created in another tab)
-    @conflicting_response_set = ResponseSet.find_by(loan: @response_set.loan, kind: @response_set.kind)
+    @conflicting_response_set = ResponseSet.find_by(loan_id: @response_set.loan_id,
+                                                    question_set_id: @response_set.question_set_id)
     if @conflicting_response_set
       @response_set_from_db = {
         updater: @conflicting_response_set.updater,
@@ -62,6 +63,7 @@ class Admin::ResponseSetsController < Admin::AdminController
   def handle_conflict
     @conflict = true
     @tab = 'questions'
+    @question_set = @response_set.question_set
     @loan = @response_set.loan
     prep_questionnaire
     render 'admin/loans/show'
@@ -76,6 +78,6 @@ class Admin::ResponseSetsController < Admin::AdminController
   end
 
   def display_path
-    admin_loan_tab_path(@response_set.loan, tab: 'questions', filter: @response_set.kind)
+    admin_loan_tab_path(@response_set.loan, tab: 'questions', qset: @response_set.question_set_id)
   end
 end

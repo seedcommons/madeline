@@ -3,10 +3,10 @@
 .loan-questions
   .filter-switch
     .btn-group
-      = link_to t('loan.criteria'), admin_questions_path(set: "loan_criteria"),
-        class: "btn btn-default #{'active' if @set_name == 'loan_criteria'}"
-      = link_to t('loan.post_analysis'), admin_questions_path(set: "loan_post_analysis"),
-        class: "btn btn-default #{'active' if @set_name == 'loan_post_analysis'}"
+      - @question_sets.each do |qset|
+        = link_to t("question_sets.#{qset.kind}"),
+          admin_questions_path(qset: qset.id),
+          class: "btn btn-default #{'active' if @question_set == qset}"
 
   .jqtree
 
@@ -40,6 +40,6 @@
 javascript:
   $(function(){
     new MS.Views.QuestionsView(
-      #{json(locale: I18n.locale, setName: @set_name, questions: @questions, selectedDivisionDepth: @selected_division_depth)}
+      #{json(locale: I18n.locale, qsetId: @question_set.id, questions: @questions, selectedDivisionDepth: @selected_division_depth)}
     );
   });

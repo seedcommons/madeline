@@ -22,6 +22,10 @@ en:
       caption: "Question number %{number} question and response"
     text: "Title"
 
+  question_sets:
+    loan_criteria: "Credit Memo"
+    loan_post_analysis: "Post-Analysis"
+
   linked_document:
     cell_end: End Cell
     cell_end_hint: Z26

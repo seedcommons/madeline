@@ -4,6 +4,7 @@ class QuestionSet < ApplicationRecord
   KINDS = %i[loan_criteria loan_post_analysis].freeze
 
   belongs_to :division, inverse_of: :question_sets
+  has_many :response_sets, inverse_of: :question_set, dependent: :restrict_with_exception
 
   has_closure_tree_root :root_group, class_name: "Question"
 
