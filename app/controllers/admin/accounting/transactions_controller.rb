@@ -136,7 +136,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
       Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
                                     message: :unprocessable_account, level: :error, custom_data: {})
     rescue Accounting::QB::IntuitRequestError => e
-      # TODO: duplicate in QuickbooksUpdateJob, then should be DRYed up in refactor.
       txn = e.transaction
       is_matching_error = e.message.include?("matched to a downloaded transaction")
       intuit_error_type = is_matching_error ? :matched_transaction : :unknown_intuit_request_exception

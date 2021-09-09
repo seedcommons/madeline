@@ -20,6 +20,18 @@ class QuickbooksUpdateJob < QuickbooksJob
         # This is an error b/c we may have been in the middle of creating interest txns
         Accounting::SyncIssue.create!(level: :error, loan: loan, message: :quickbooks_unavailable_recalc)
         raise # If QB is down, no point in continuing, so re-raise
+      rescue Accounting::QB::IntuitRequestError => e
+        txn = e.transaction
+        is_matching_error = e.message.include?("matched to a downloaded transaction")
+        intuit_error_type = is_matching_error ? :matched_transaction : :unknown_intuit_request_exception
+        Accounting::SyncIssue.create!(loan: txn.loan,
+                                      accounting_transaction: txn,
+                                      message: intuit_error_type,
+                                      level: :warning, # want to still see ledger
+                                      custom_data: {date: txn.txn_date, qb_id: txn.qb_id})
+        changes_hash = {txn_changes: txn.previous_changes,
+                        line_item_changes: txn.line_items.map { |li| li.previous_changes }}
+        Rails.logger.error("Accounting::QB::IntuitRequestError #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
       rescue StandardError => e
         # If there is an unhandled error updating an individual loan, we don't want the whole process to fail.
         # We let the user know that there was a system error and we've been notified.
