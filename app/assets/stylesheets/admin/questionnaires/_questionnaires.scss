@@ -1,0 +1,105 @@
+section.questionnaires {
+  // Overriding this because it's nice for it to be floated right opposite h2
+  .show-actions {
+    float: right;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  li.jqtree_common {
+    border: none;
+    margin-bottom: 3px;
+    padding-bottom: 0.1px; // prevent margin collapse
+    scroll-margin-top: 100px;
+
+    &.jqtree-folder.jqtree-closed {
+      margin-bottom: 3px;
+    }
+
+    h3, h4, h5 { display: inline; }
+
+    ul.jqtree_common {
+      margin-left: 30px;
+    }
+
+    &.optional-group {
+      background-color: hsl(0,0%,96%);
+      margin-top: 12px;
+
+      > .jqtree-element > .jqtree-title {
+        font-style: italic;
+        font-weight: bold;
+        color: $gray3;
+      }
+    }
+
+    &.question.optional {
+      background-color: hsl(0,0%,96%);
+    }
+  }
+
+  .jqtree-element {
+    display: block;
+
+    .question-label {
+      display: inline;
+    }
+
+    .form-element {
+      display: block;
+    }
+  }
+
+  .help-block, .answer, .form-element {
+    margin: 10px 0 0 0;
+    p:last-child { margin: 0; }
+  }
+
+  .alert.form-element {
+    margin: 10px 0;
+  }
+}
+
+.loan-memo-header {
+  text-align: center;
+  margin-bottom: 2em;
+
+  @media print {
+    page-break-before: always;
+  }
+}
+
+.admin-embeddable_media {
+  #embeddable_media_start_cell,
+  #embeddable_media_end_cell {
+    width: auto;
+  }
+}
+
+.rich-text-modal {
+  @media (min-width: 768px) {
+    .modal-dialog {
+      width: 80%;
+    }
+  }
+
+  .rtm-help {
+    font-style: italic;
+  }
+
+  .rtm-label {
+    font-size: 1.1em;
+  }
+}
+
+.unsaved-changes-warning {
+  font-style: italic;
+  font-weight: bold;
+}
+
+// table of contents
+ul.toc {
+  list-style-type: none;
+}

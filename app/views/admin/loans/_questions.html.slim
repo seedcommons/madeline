@@ -13,7 +13,7 @@ section.questionnaires
         class: "btn btn-default #{'active' if @attrib == 'loan_post_analysis'}",
         data: {filter: "loan_post_analysis"}
 
-  div.questionnaire data-attrib=@attrib class=@attrib
+  div.questionnaire data-attrib=@attrib
     //unlike other forms, we start in show view even with a new record
     section.block class=(((@response_set.persisted? && @response_set.valid?) || @response_set.new_record? ) && !@conflict ? 'show-view' : 'edit-view')
       //hide delete link and see if there are any complaints before removing entirely

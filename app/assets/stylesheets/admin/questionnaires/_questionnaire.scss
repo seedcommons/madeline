@@ -1,0 +1,35 @@
+// This is scoped separately because it can appear inside the print view.
+.questionnaire {
+  h3 {
+    font-size: 1.6em;
+  }
+
+  h4 {
+    font-size: 1.4em;
+  }
+
+  h5 {
+    font-size: 1.2em;
+  }
+
+  h6,
+  [data-level="3"] h5 {
+    font-size: 1.2em;
+  }
+
+  &.show-view {
+    .question {
+      &[data-level="2"],
+      &[data-level="3"],
+      &[data-level="4"] {
+        margin-left: 2.5em;
+      }
+
+      &[data-level="5"],
+      &[data-level="6"],
+      &[data-level="7"] {
+        margin-left: 1em;
+      }
+    }
+  }
+}
