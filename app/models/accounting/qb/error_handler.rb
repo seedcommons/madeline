@@ -66,13 +66,13 @@ module Accounting
                                         message: intuit_error_type,
                                         level: :warning, # want to still see ledger
                                         custom_data: {date: txn.txn_date, qb_id: txn.qb_id})
-          # if in bg job, keep going; if in ctrlr
+          # if in bg job, keep going
           return I18n.t("quickbooks.misc", msg: e) unless @in_background_job
         rescue StandardError => e
           Rails.logger.error e
           ExceptionNotifier.notify_exception(e)
           Accounting::SyncIssue.create!(level: :error, loan: loan, message: :system_error_recalc)
-          # if in bg job, keep going; if in ctrlr
+          # if in bg job, keep going
           return I18n.t("quickbooks.misc", msg: e) unless @in_background_job
         end
       end
