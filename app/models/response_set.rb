@@ -10,6 +10,10 @@ class ResponseSet < ApplicationRecord
 
   after_commit :recalculate_loan_health
 
+  def self.find_with_loan_and_kind(loan, kind)
+    joins(:question_set).find_by(loan: loan, question_sets: {kind: kind})
+  end
+
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end

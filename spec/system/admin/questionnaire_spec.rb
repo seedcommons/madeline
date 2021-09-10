@@ -5,7 +5,7 @@ describe 'questionnaire', js: true do
   let!(:division) { create(:division) }
   let(:user) { create_member(division) }
   let(:loan) { create(:loan, division: division) }
-  let!(:question_set) { create(:question_set, :loan_criteria) }
+  let!(:question_set) { create(:question_set, :with_questions) }
 
   before do
     login_as(user, scope: :user)

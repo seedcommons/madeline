@@ -161,11 +161,13 @@ RSpec.describe ProjectDuplicator, type: :model do
 
     it "makes exactly one copy of criteria responses with matching answers" do
       expect(new_loan.response_sets.count).to eq 1
+      old_criteria = ResponseSet.find_with_loan_and_kind(loan, "loan_criteria")
+      new_criteria = ResponseSet.find_with_loan_and_kind(new_loan, "loan_criteria")
       # different response set with same data
-      expect(new_loan.criteria.id).not_to eq loan.criteria.id
-      expect(new_loan.criteria.custom_data).to eq loan.criteria.custom_data
+      expect(new_criteria.id).not_to eq old_criteria.id
+      expect(new_criteria.custom_data).to eq old_criteria.custom_data
       # same question set
-      expect(new_loan.criteria.question_set.id).to eq loan.criteria.question_set.id
+      expect(new_criteria.question_set.id).to eq old_criteria.question_set.id
     end
   end
 end

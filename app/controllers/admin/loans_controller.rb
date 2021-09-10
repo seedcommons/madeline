@@ -154,8 +154,8 @@ module Admin
       @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
       @currency_choices = Currency.all.order(:name)
       @representative_choices = representative_choices
-      @loan_criteria = @loan.criteria
       @txn_mode_choices = txn_mode_options
+      prep_criteria
     end
 
     def representative_choices
@@ -163,11 +163,9 @@ module Admin
       person_policy_scope(raw_choices).order(:name)
     end
 
-    def prep_print_view
-    end
-
     def prep_attached_links
-      @attached_links = @loan.criteria_embedded_urls
+      prep_criteria
+      @attached_links = @loan_criteria&.embedded_urls
       return if @attached_links.empty?
 
       open_link_text = view_context.link_to(I18n.t("loan.open_links", count: @attached_links.length),
@@ -192,6 +190,10 @@ module Admin
       )
       export_grid_if_requested('transactions': "admin/accounting/transactions/transactions_grid_definition")
       show_reasons_if_read_only
+    end
+
+    def prep_criteria
+      @loan_criteria = ResponseSet.find_with_loan_and_kind(@loan, "loan_criteria")
     end
 
     def show_reasons_if_read_only

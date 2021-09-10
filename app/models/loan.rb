@@ -3,7 +3,6 @@
 class Loan < Project
   include MediaAttachable
 
-  QUESTION_SET_TYPES = %i(criteria post_analysis)
   STATUS_ACTIVE_VALUE = 'active'
   STATUS_COMPLETED_VALUE = 'completed'
   TXN_MODES = %i(automatic read_only)
@@ -57,16 +56,6 @@ class Loan < Project
     TXN_MODES
   end
 
-  # These methods should go away soon.
-  def criteria
-    ResponseSet.joins(:question_set).find_by(loan: self, question_sets: {kind: "loan_criteria"})
-  end
-
-  # These methods should go away soon.
-  def post_analysis
-    ResponseSet.joins(:question_set).find_by(loan: self, question_sets: {kind: "loan_post_analysis"})
-  end
-
   # Rate is entered as a percent
   def interest_rate
     rate / 100 if rate
@@ -93,11 +82,6 @@ class Loan < Project
 
   def loan_type
     loan_type_label
-  end
-
-  # Gets embedded urls from criteria data. Returns empty array if criteria not defined yet.
-  def criteria_embedded_urls
-    criteria.try(:embedded_urls) || []
   end
 
   def country
