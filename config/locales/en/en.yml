@@ -398,6 +398,7 @@ en:
       department_not_set_html: "the QB department is not set on the division '%{selected_division}' (see %{qb_division_settings_link})"
       loan_not_active_html: "this loan is not active"
       loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
+    unprocessable_account: "A transaction on date %{date} with QB id %{qb_id} on this loan has an unprocessable account. The account was probably deleted in Quickbooks. Please find the deleted account, undelete, and resync accounting data for this loan."
     there_are_issues:
       one: "There is one outstanding issue."
       other: "There are %{count} outstanding issues."
