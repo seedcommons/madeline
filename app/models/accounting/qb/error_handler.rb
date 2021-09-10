@@ -52,14 +52,15 @@ module Accounting
                       t("quickbooks.negative_balance", amt: e.prev_balance)
                     end
           Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: message)
+          # if in bg job, keep going
           return message unless @in_background_job
-        rescue Accounting::QB::IntuitRequestError => e
+        rescue Accounting::QB::AnnotatedIntuitRequestException => e
           txn = e.transaction
           is_matching_error = e.message.include?("matched to a downloaded transaction")
           intuit_error_type = is_matching_error ? :matched_transaction : :unknown_intuit_request_exception
           changes_hash = {txn_changes: txn.previous_changes,
                           line_item_changes: txn.line_items.map { |li| li.previous_changes }}
-          Rails.logger.error("Accounting::QB::IntuitRequestError #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
+          Rails.logger.error("Accounting::QB::AnnotatedIntuitRequestException #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
           ExceptionNotifier.notify_exception(e)
           Accounting::SyncIssue.create!(loan: txn.loan,
                                         accounting_transaction: txn,

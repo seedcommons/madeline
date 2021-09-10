@@ -1,6 +1,6 @@
 module Accounting
   module QB
-    class IntuitRequestError < StandardError
+    class AnnotatedIntuitRequestException < StandardError
       attr_accessor :transaction
 
       def initialize(message: nil, transaction:)
