@@ -36,16 +36,4 @@ Country.recalibrate_sequence
 
 OptionSetCreator.new.create_all
 
-# Need to leave room for migrated questions
-# Can remove this line once migration is over with.
-Question.recalibrate_sequence(id: 300)
-
-# Without these resets we were getting a strange closure_tree error.
-QuestionSet.connection.schema_cache.clear!
-QuestionSet.reset_column_information
-
-QuestionSet.find_or_create_by(id: 2, kind: 'loan_criteria', division: root_div)
-QuestionSet.find_or_create_by(id: 3, kind: 'loan_post_analysis', division: root_div)
-QuestionSet.recalibrate_sequence(gap: 10)
-
 puts 'seeds ran successfully'
