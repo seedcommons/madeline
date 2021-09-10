@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "division flow", js: true do
+describe "questions flow", js: true do
   # Used by create_question function
   let!(:qset) { create(:question_set, kind: "loan_criteria") }
   let!(:qset2) { create(:question_set, kind: "loan_post_analysis") }
