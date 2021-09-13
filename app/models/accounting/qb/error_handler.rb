@@ -1,7 +1,7 @@
 module Accounting
   module QB
     class ErrorHandler
-      def initialize(loan, in_background_job: false)
+      def initialize(loan: nil, in_background_job: false)
         @loan = loan
         @in_background_job = in_background_job
       end
