@@ -55,7 +55,7 @@ class QuestionSet < ApplicationRecord
 
   # This is private because it is needed to allow the inverse association on Question, but
   # it should never be used directly. Access children via the root or by cache hashes.
-  has_many :questions, inverse_of: :question_set
+  has_many :questions, inverse_of: :question_set, dependent: :destroy
 
   def create_root_group!
     Question.create!(
