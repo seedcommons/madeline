@@ -47,9 +47,9 @@ module Accounting
           ExceptionNotifier.notify_exception(e)
           message = case e
                     when Accounting::QB::UnprocessableAccountError
-                      t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
+                      I18n.t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
                     when NegativeBalanceError
-                      t("quickbooks.negative_balance", amt: e.prev_balance)
+                      I18n.t("quickbooks.negative_balance", amt: e.prev_balance)
                     end
           Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: message)
           # if in bg job, keep going
