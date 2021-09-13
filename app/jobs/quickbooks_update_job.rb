@@ -11,28 +11,9 @@ class QuickbooksUpdateJob < QuickbooksJob
     task.set_activity_message("syncing_with_quickbooks")
     loans.each_with_index do |loan, index|
       task.set_activity_message("updating_loans", so_far: (index), total: loans.count)
-      begin
-        updater.update_loan(loan)
-      rescue Accounting::QB::UnprocessableAccountError => e
-        Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
-                                      message: :unprocessable_account, level: :error, custom_data: {})
-      rescue Quickbooks::ServiceUnavailable
-        # This is an error b/c we may have been in the middle of creating interest txns
-        Accounting::SyncIssue.create!(level: :error, loan: loan, message: :quickbooks_unavailable_recalc)
-        raise # If QB is down, no point in continuing, so re-raise
-      rescue StandardError => e
-        # If there is an unhandled error updating an individual loan, we don't want the whole process to fail.
-        # We let the user know that there was a system error and we've been notified.
-        # But we don't expose the original error message to the user since it won't be intelligble
-        # and could be a security issue.
-        Accounting::SyncIssue.create!(level: :error, loan: loan, message: :system_error_recalc)
-
-        # We want to receive a loud notification about an unhandled error.
-        # If we find this is often generating a lot of similar errors
-        # then we should really start using Sentry or some other service to group them.
-        notify_of_error(e, data: {context: "Unhandled error during loan update", loan_id: loan.id})
-      end
+      Accounting::QB::ErrorHandler.new(loan:loan, in_background_job: true).handle_qb_errors { updater.update_loan(loan) }
     end
+
     updater.qb_connection.update_last_updated_at(started_update_at)
 
     # Even if there have been per-loan errors, we still consider the task completed.
