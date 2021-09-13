@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_09_190131) do
+ActiveRecord::Schema.define(version: 2021_09_10_164556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.string "name", null: false
     t.string "qb_account_classification"
     t.string "qb_id", null: false
-    t.json "quickbooks_data"
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
     t.index ["qb_id"], name: "index_accounting_accounts_on_qb_id"
   end
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "qb_id", null: false
-    t.json "quickbooks_data"
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.bigint "division_id"
     t.string "name", null: false
     t.string "qb_id", null: false
-    t.json "quickbooks_data"
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_qb_departments_on_division_id"
   end
@@ -73,14 +73,14 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "qb_id", null: false
-    t.json "quickbooks_data"
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
   create_table "accounting_sync_issues", force: :cascade do |t|
     t.bigint "accounting_transaction_id"
     t.datetime "created_at", null: false
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.string "level"
     t.string "message", null: false
     t.bigint "project_id"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.string "qb_id"
     t.string "qb_object_type", default: "JournalEntry", null: false
     t.integer "qb_vendor_id"
-    t.json "quickbooks_data"
+    t.jsonb "quickbooks_data"
     t.string "sync_token"
     t.decimal "total"
     t.date "txn_date"
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
 
   create_table "data_exports", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.json "data"
+    t.jsonb "data"
     t.bigint "division_id", null: false
     t.datetime "end_date"
     t.string "locale_code", null: false
@@ -170,13 +170,13 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.date "closed_books_date"
     t.datetime "created_at", null: false
     t.integer "currency_id"
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.text "description"
     t.text "homepage"
     t.integer "interest_income_account_id"
     t.integer "interest_receivable_account_id"
     t.string "internal_name"
-    t.json "locales"
+    t.jsonb "locales"
     t.string "logo"
     t.string "logo_content_type"
     t.string "logo_file_name"
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.text "contact_notes"
     t.integer "country_id", null: false
     t.datetime "created_at", null: false
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.integer "division_id"
     t.string "email"
     t.string "fax"
@@ -361,7 +361,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.integer "currency_id"
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.integer "division_id", null: false
     t.text "final_repayment_formula"
     t.integer "length_months"
@@ -425,7 +425,7 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
 
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.json "custom_data"
+    t.jsonb "custom_data"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
@@ -446,10 +446,10 @@ ActiveRecord::Schema.define(version: 2021_09_09_190131) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.json "activity_message_data"
+    t.jsonb "activity_message_data"
     t.string "activity_message_value", limit: 65536, null: false
     t.datetime "created_at", null: false
-    t.json "custom_error_data"
+    t.jsonb "custom_error_data"
     t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"
