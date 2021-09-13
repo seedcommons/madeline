@@ -42,16 +42,10 @@ module Accounting
             # in controller, so return error message to be displayed
             return error_msg
           end
-        rescue Accounting::QB::UnprocessableAccountError,
-               Accounting::QB::NegativeBalanceError => e
+        rescue Accounting::QB::UnprocessableAccountError => e
           Rails.logger.error e
           # Do not notify because these errors are handled by user
-          message = case e
-                    when Accounting::QB::UnprocessableAccountError
-                      I18n.t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
-                    when NegativeBalanceError
-                      I18n.t("quickbooks.negative_balance", amt: e.prev_balance)
-                    end
+          message = I18n.t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
           Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: message)
           # if in bg job, keep going
           return message unless @in_background_job
