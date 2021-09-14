@@ -9,9 +9,11 @@ class Admin::QuestionsController < Admin::AdminController
     end
     authorize Question
     @question_sets = QuestionSet.find_for_division(selected_division_or_root)
-    @question_set = params.key?(:qset) ? QuestionSet.find(params[:qset]) : @question_sets.first
-    @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@question_set))
-    @selected_division_depth = selected_division.depth
+    if @question_sets.any?
+      @question_set = params.key?(:qset) ? QuestionSet.find(params[:qset]) : @question_sets.first
+      @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@question_set))
+      @selected_division_depth = selected_division.depth
+    end
   end
 
   def new

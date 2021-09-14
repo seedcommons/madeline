@@ -1,40 +1,65 @@
 section.questionnaires
-  .text-right = link_to t('questions.manage'), admin_questions_path
+  .manage-link = link_to t('questions.manage'), admin_questions_path
 
-  / Switch at top allowing toggling between criteria and post analysis
-  .filter-switch.centered-text
-    .btn-group
-      - @question_sets.each do |qset|
-        = link_to t("question_sets.#{qset.kind}"),
-          admin_loan_tab_path(@loan.id, tab: "questions", qset: qset.id),
-          class: "btn btn-default #{'active' if @question_set == qset}"
-
-  div.questionnaire
-    //unlike other forms, we start in show view even with a new record
-    section.block class=(((@response_set.persisted? && @response_set.valid?) || @response_set.new_record? ) && !@conflict ? 'show-view' : 'edit-view')
-      //hide delete link and see if there are any complaints before removing entirely
-      / .show-actions
-      /   - if policy(@loan).update? && @response_set.persisted?
-      /     = link_to [:admin, @response_set], method: :delete,
-      /       data: { confirm: t("loan.confirm_response_deletion") }
-      /       i.fa.fa-trash.fa-large>
-      /       = t(".delete")
-
-      div.container
-        div.row
-          h2 = t("question_sets.#{@question_set.kind}")
-        div.row.outline-and-questionnaire
-          div.outline.collapsed
-            div.outline-expansion-control.small.hider
-              = fa_icon("chevron-left", data: {hides: "outline-container"})
-            h5.outline-expansion-control.expander
-              = fa_icon("chevron-right", data: {expands: "outline-container"})
-            div.outline-container data-expandable="outline-container"
-              h4 = t("admin.loans.questions.outline.header")
-              = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
-          div.questionnaire-wrapper.larger
-            = render partial: "admin/loans/questionnaires/questionnaire_form",
-                     locals: {response_set: @response_set}
+  - if @question_sets.empty?
+    = t("questions.none_for_loan_division", division_name: @loan_division.name)
+  - else
+    - if @question_sets.size > 1
+      / Switch at top allowing toggling between question sets
+      .filter-switch.centered-text
+        .btn-group
+          - @question_sets.each do |qset|
+            = link_to t("question_sets.#{qset.kind}"),
+              admin_loan_tab_path(@loan.id, tab: "questions", qset: qset.id),
+              class: "btn btn-default #{'active' if @question_set == qset}"
+    div.questionnaire
+      / Unlike other forms, we start in show view even with a new record
+      section.block class=(((@response_set.persisted? && @response_set.valid?) || @response_set.new_record? ) && !@conflict ? 'show-view' : 'edit-view')
+        div.container
+          div.row
+            h2 = t("question_sets.#{@question_set.kind}")
+          div.row.outline-and-questionnaire
+            div.outline.collapsed
+              div.outline-expansion-control.small.hider
+                = fa_icon("chevron-left", data: {hides: "outline-container"})
+              h5.outline-expansion-control.expander
+                = fa_icon("chevron-right", data: {expands: "outline-container"})
+              div.outline-container data-expandable="outline-container"
+                h4 = t("admin.loans.questions.outline.header")
+                = render "admin/loans/questionnaires/questionnaire_outline", questions: @root.children, depth: 0, parent: @root
+            div.questionnaire-wrapper.larger
+              = render partial: "admin/loans/questionnaires/questionnaire_form",
+                       locals: {response_set: @response_set}
+    javascript:
+      $(function() {
+        new MS.Views.ShowEditView({el: ".questionnaire .block"});
+        new MS.Views.LoanQuestionnairesView({
+          loanId: #{@loan.id},
+          locale: "#{I18n.locale}"
+        });
+      });
+      $(function() {
+        var $sidebar   = $(".outline"),
+            $window    = $(window),
+            topPadding = 15;
+            originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
+        $window.scroll(function() {
+          offset     = $sidebar.offset()
+          $outlineHeight = $(".outline-container").height()
+          $containerHeight = $("#questions").height()
+          if ($window.scrollTop() > originalYAdjustment){
+            if ($outlineHeight > $window.innerHeight()){
+              percentage = $window.scrollTop()/$containerHeight
+              adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
+              $sidebar.css('margin-top', $window.scrollTop() - adjustment)
+            }else{
+              $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
+            }
+          } else {
+            $sidebar.css('margin-top',"7px")
+          }
+        });
+      });
 
 = render partial: "admin/loans/questionnaires/rich_text_modal"
 
@@ -42,35 +67,3 @@ p.alert.alert-warning.hidden#rt-changes-warning
   button.close data-dismiss="alert" type="button"  &times;
   i.fa.fa-info-circle>
   = t("loan.pending_changes")
-
-javascript:
-  $(function() {
-    new MS.Views.ShowEditView({el: ".questionnaire .block"});
-    new MS.Views.LoanQuestionnairesView({
-      loanId: #{@loan.id},
-      locale: "#{I18n.locale}"
-    });
-  });
-
-  $(function() {
-    var $sidebar   = $(".outline"),
-        $window    = $(window),
-        topPadding = 15;
-        originalYAdjustment = $sidebar.offset().top - $(".navbar-fixed-top").height() - topPadding
-    $window.scroll(function() {
-      offset     = $sidebar.offset()
-      $outlineHeight = $(".outline-container").height()
-      $containerHeight = $("#questions").height()
-      if ($window.scrollTop() > originalYAdjustment){
-        if ($outlineHeight > $window.innerHeight()){
-          percentage = $window.scrollTop()/$containerHeight
-          adjustment = Math.max($outlineHeight * percentage, originalYAdjustment)
-          $sidebar.css('margin-top', $window.scrollTop() - adjustment)
-        }else{
-          $sidebar.css('margin-top', $window.scrollTop() - originalYAdjustment)
-        }
-      } else {
-        $sidebar.css('margin-top',"7px")
-      }
-    });
-  });

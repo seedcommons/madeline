@@ -21,6 +21,8 @@ en:
     table:
       caption: "Question number %{number} question and response"
     text: "Title"
+    none_for_loan_division: "There are no question sets for this Loan's division (%{division_name}). Please contact the Madeline support team to rectify this."
+    none_for_current_division: "There are no question sets for the currently selected division. Please contact the Madeline support team to rectify this."
 
   question_sets:
     loan_criteria: "Credit Memo"
