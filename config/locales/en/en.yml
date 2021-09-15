@@ -381,14 +381,14 @@ en:
   page_title: "Page Title"
   print: "Print"
   quickbooks:
+    # authorization_failure message here used when txns hidden in UI
     authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
     class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
+    # data_reset_required message here used when txns hidden in UI
     data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
     department_not_set: "Please set the QB division on <a href=\"%{url}\">this loan's Madeline division</a> in order to create transactions."
-    matched_transaction: "QuickBooks reports that a transaction (dated %{date} with QB id %{qb_id}) has a matched transaction in QB and therefore Madeline was unable to complete your action. Please try unmatching this transaction in QB, syncing data, and retrying your action."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
     principal_account_incompatible_with_checks: "The principal account must have type Expenses in Quickbooks in order to create check disbursements."
-    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
     read_only_html: "You can't add transactions because: %{reasons}."
     read_only_reasons:
@@ -402,7 +402,6 @@ en:
     there_are_issues:
       one: "There is one outstanding issue."
       other: "There are %{count} outstanding issues."
-    unknown_intuit_request_exception: "An unexpected error occurred between QB and Madeline on transaction (dated %{date} with QB id %{qb_id}). Due to this error, Madeline is unable to complete your action at this time. The Madeline support team has been notified."
   reply_no: "No"
   reply_yes: "Yes"
   save: "Save"
@@ -534,18 +533,20 @@ en:
     the_day: "The %{day}"
 
   sync_issue:
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to Accounting Settings to connect."
     unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in QuickBooks."
     journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in QuickBooks for accuracy."
     has_multiple_loans: "Transaction associated with multiple loans"
     attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
     attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
-    data_reset_required: "QuickBooks data reset required."
+    data_reset_required: "QuickBooks data reset required. Please go to Accounting Settings to perform a reset."
     matched_transaction: "QuickBooks reports that a transaction (dated %{date} with QB id %{qb_id}) has a matched transaction in QB and therefore Madeline was unable to complete your action. Please try unmatching this transaction in QB, syncing data, and retrying your action."
     quickbooks_not_connected: "QuickBooks not connected. Please connect on the Accounting Settings page."
     quickbooks_accounts_not_selected: "QuickBooks accounts not set. Please select QuickBooks accounts on the Accounting Settings page."
     quickbooks_unavailable_fetch: "QuickBooks was temporarily unavailable. Your transaction data may be out of date. Please try syncing again later."
     quickbooks_unavailable_recalc: "QuickBooks was temporarily unavailable during calcuations for this loan, so transaction data may be partially incorrect. Please try syncing again later to correct this."
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     system_error_fetch: "There was an unexpected system error during fetching of QuickBooks data. The Madeline support team has been notified. Your transaction data may be out of date."
     system_error_recalc: "There was an unexpected system error during calculations for this loan. The Madeline support team has been notified."
     unknown_intuit_request_exception: "An unexpected error occurred between QB and Madeline on transaction (dated %{date} with QB id %{qb_id}). Due to this error, Madeline is unable to complete your action at this time. The Madeline support team has been notified."
