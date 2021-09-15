@@ -1,7 +1,7 @@
 module Accounting
   module QB
     class ErrorHandler
-      def initialize(loan, in_background_job: false)
+      def initialize(loan: nil, in_background_job: false)
         @loan = loan
         @in_background_job = in_background_job
       end
@@ -22,35 +22,30 @@ module Accounting
                 Quickbooks::ThrottleExceeded,
                 Quickbooks::TooManyRequests => e
           Rails.logger.error e
-          ExceptionNotifier.notify_exception(e)
-          # TODO change message based on error
-          Accounting::SyncIssue.create!(level: :error, loan: nil, message: :quickbooks_unavailable_recalc)
+          error_msg = case e
+             when Accounting::QB::DataResetRequiredError
+               I18n.t("quickbooks.data_reset_required", settings: settings_link).html_safe
+             when Quickbooks::AuthorizationFailure, Quickbooks::MissingRealmError, Accounting::QB::NotConnectedError
+               I18n.t("quickbooks.authorization_failure", msg: e)
+             when Quickbooks::ServiceUnavailable
+               ExceptionNotifier.notify_exception(e)
+               I18n.t("quickbooks.service_unavailable", msg: e)
+             else
+               ExceptionNotifier.notify_exception(e)
+               I18n.t("quickbooks.misc", msg: e)
+             end
+          Accounting::SyncIssue.create!(level: :error, loan: nil, message: error_msg)
           if @in_background_job
             # any of the above issues mean the bg job should stop
             raise
           else
             # in controller, so return error message to be displayed
-            return error_msg = case e
-                               when Accounting::QB::DataResetRequiredError
-                                 I18n.t("quickbooks.data_reset_required", settings: settings_link).html_safe
-                               when Quickbooks::AuthorizationFailure, Quickbooks::MissingRealmError, Accounting::QB::NotConnectedError
-                                 I18n.t("quickbooks.authorization_failure", msg: e)
-                               when Quickbooks::ServiceUnavailable
-                                 I18n.t("quickbooks.service_unavailable", msg: e)
-                               else
-                                 I18n.t("quickbooks.misc", msg: e)
-                               end
+            return error_msg
           end
-        rescue Accounting::QB::UnprocessableAccountError,
-               Accounting::QB::NegativeBalanceError => e
+        rescue Accounting::QB::UnprocessableAccountError => e
           Rails.logger.error e
-          ExceptionNotifier.notify_exception(e)
-          message = case e
-                    when Accounting::QB::UnprocessableAccountError
-                      t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
-                    when NegativeBalanceError
-                      t("quickbooks.negative_balance", amt: e.prev_balance)
-                    end
+          # Do not notify because these errors are handled by user
+          message = I18n.t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
           Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: message)
           # if in bg job, keep going
           return message unless @in_background_job
