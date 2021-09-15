@@ -13,14 +13,13 @@ module Accounting
       def handle_qb_errors
         begin
           yield
+          return nil
         rescue  Accounting::QB::DataResetRequiredError,
                 Accounting::QB::NotConnectedError,
                 Accounting::QB::AccountsNotSelectedError,
                 Quickbooks::ServiceUnavailable,
                 Quickbooks::MissingRealmError,
-                Quickbooks::AuthorizationFailure,
-                Quickbooks::ThrottleExceeded,
-                Quickbooks::TooManyRequests => e
+                Quickbooks::AuthorizationFailure => e
           Rails.logger.error e
           error_msg = case e
              when Accounting::QB::DataResetRequiredError
