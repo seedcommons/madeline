@@ -13,26 +13,26 @@ module Accounting
       def handle_qb_errors
         begin
           yield
+          # if yield succeeds, return nil
+          return nil
         rescue  Accounting::QB::DataResetRequiredError,
                 Accounting::QB::NotConnectedError,
                 Accounting::QB::AccountsNotSelectedError,
                 Quickbooks::ServiceUnavailable,
                 Quickbooks::MissingRealmError,
-                Quickbooks::AuthorizationFailure,
-                Quickbooks::ThrottleExceeded,
-                Quickbooks::TooManyRequests => e
+                Quickbooks::AuthorizationFailure => e
           Rails.logger.error e
           error_msg = case e
              when Accounting::QB::DataResetRequiredError
-               I18n.t("quickbooks.data_reset_required", settings: settings_link).html_safe
+               :data_reset_required
              when Quickbooks::AuthorizationFailure, Quickbooks::MissingRealmError, Accounting::QB::NotConnectedError
-               I18n.t("quickbooks.authorization_failure", msg: e)
+               :authorization_failure
              when Quickbooks::ServiceUnavailable
                ExceptionNotifier.notify_exception(e)
-               I18n.t("quickbooks.service_unavailable", msg: e)
+               :service_unavailable
              else
                ExceptionNotifier.notify_exception(e)
-               I18n.t("quickbooks.misc", msg: e)
+               :system_error_recalc
              end
           Accounting::SyncIssue.create!(level: :error, loan: nil, message: error_msg)
           if @in_background_job
@@ -40,34 +40,35 @@ module Accounting
             raise
           else
             # in controller, so return error message to be displayed
-            return error_msg
+            return I18n.t("sync_issue.#{error_msg}")
           end
         rescue Accounting::QB::UnprocessableAccountError => e
           Rails.logger.error e
           # Do not notify because these errors are handled by user
-          message = I18n.t("quickbooks.unprocessable_account", date: e.transaction.txn_date, qb_id: e.transaction.qb_id)
-          Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: message)
+          error_msg_data = { date: e.transaction.txn_date, qb_id: e.transaction.qb_id }
+          Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: :unprocessable_account, custom_data: error_msg_data)
           # if in bg job, keep going
-          return message unless @in_background_job
+          return I18n.t("sync_issue.unprocessable_account", error_msg_data) unless @in_background_job
         rescue Accounting::QB::AnnotatedIntuitRequestException => e
           txn = e.transaction
           is_matching_error = e.message.include?("matched to a downloaded transaction")
           intuit_error_type = is_matching_error ? :matched_transaction : :unknown_intuit_request_exception
           changes_hash = {txn_changes: txn.previous_changes,
                           line_item_changes: txn.line_items.map { |li| li.previous_changes }}
+          error_custom_data = {date: txn.txn_date, qb_id: txn.qb_id}
           Rails.logger.error("Accounting::QB::AnnotatedIntuitRequestException #{intuit_error_type} #{e.message}. Txn date: #{txn.txn_date}. Txn qb id: #{txn.qb_id}. Changes: #{changes_hash}")
           ExceptionNotifier.notify_exception(e)
           Accounting::SyncIssue.create!(loan: txn.loan,
                                         accounting_transaction: txn,
                                         message: intuit_error_type,
                                         level: :warning, # want to still see ledger
-                                        custom_data: {date: txn.txn_date, qb_id: txn.qb_id})
+                                        custom_data: error_custom_data)
           # if in bg job, keep going
-          return I18n.t("quickbooks.misc", msg: e) unless @in_background_job
+          return I18n.t("sync_issue.#{intuit_error_type}", error_custom_data) unless @in_background_job
         rescue StandardError => e
           Rails.logger.error e
           ExceptionNotifier.notify_exception(e)
-          Accounting::SyncIssue.create!(level: :error, loan: loan, message: :system_error_recalc)
+          Accounting::SyncIssue.create!(level: :error, loan: @loan, message: :system_error_recalc)
           # if in bg job, keep going
           return I18n.t("quickbooks.misc", msg: e) unless @in_background_job
         end
