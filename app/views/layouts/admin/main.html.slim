@@ -25,6 +25,7 @@ html lang="en-US"
           dateFormats: #{json(I18n.t("date.moment_formats"))},
           locale: #{json(I18n.locale)}
         });
+        window.popoverView = new MS.Views.PopoverView({el: "body"});
       });
 
     = stylesheet_link_tag "application", media: "all"
@@ -45,10 +46,3 @@ html lang="en-US"
       = t('loading')
 
     = render("layouts/error_modal")
-
-  javascript:
-    $(function() {
-      // We put this down here so it loads after any other code that might insert things into the DOM
-      // that need popover treatment.
-      new MS.Views.PopoverView();
-    });

@@ -69,6 +69,10 @@ describe "questions flow", js: true do
         select_division(div_c1.name)
         visit(admin_questions_path)
 
+        # Tooltips work
+        first(".fa-lock").hover
+        expect(page).to have_content("is not owned by the currently selected division")
+
         # Expansion works and correct questions shown
         expand_group(q0)
         expect(page).to have_content("q00")
@@ -103,18 +107,22 @@ describe "questions flow", js: true do
         fill_in("Title", with: "Stuff")
         click_button("Save")
 
-        expect(page).to have_content("Errors prevented the record from being saved.", wait: 10)
+        expect(page).to have_content("Errors prevented the record from being saved.", wait: 20)
         select("Number", from: "Data Type")
         click_button("Save")
 
-        expect(page).to have_css(".jqtree-title", text: "Stuff", wait: 10)
+        expect(page).to have_css(".jqtree-title", text: "Stuff", wait: 20)
         expect(page).to have_content("6. q115\n7. Stuff\n10. q118")
+
+        # Tooltips still work after tree refresh
+        first(".fa-lock").hover
+        expect(page).to have_content("is not owned by the currently selected division")
 
         find(%([data-id="#{q113.id}"] > .jqtree-element .edit-action)).click
         fill_in("Title", with: "Stonks")
         click_button("Save")
 
-        expect(page).to have_css(".jqtree-title", text: "Stonks", wait: 10)
+        expect(page).to have_css(".jqtree-title", text: "Stonks", wait: 20)
         expect(page).not_to have_css(".jqtree-title", text: "q113")
 
         accept_confirm { find(%([data-id="#{q113.id}"] > .jqtree-element .delete-action)).click }

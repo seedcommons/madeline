@@ -6,6 +6,7 @@ class MS.Views.QuestionsView extends Backbone.View
     new MS.Views.AutoLoadingIndicatorView()
     @locale = params.locale
     @qsetId = params.qsetId
+    @popoverView = params.popoverView
     @selectedDivisionDepth = params.selectedDivisionDepth
     @tree = @$('.jqtree')
     @tree.tree
@@ -18,6 +19,10 @@ class MS.Views.QuestionsView extends Backbone.View
       saveState: "qset#{@qsetId}"
       onCreateLi: @buildListItem.bind(this)
     @addNewItemBlocks()
+
+    # The prepTooltips is called globally on page init, but the jqTree is not in the DOM yet so
+    # it does not affect us.
+    @popoverView.prepTooltips()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -188,3 +193,6 @@ class MS.Views.QuestionsView extends Backbone.View
   refreshTree: (response) ->
     @tree.tree('loadData', response)
     @addNewItemBlocks()
+
+    # The refresh process creates new nodes so we need to initialize popovers for them again.
+    @popoverView.prepTooltips()

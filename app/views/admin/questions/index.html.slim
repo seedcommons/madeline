@@ -43,6 +43,9 @@
     javascript:
       $(function(){
         new MS.Views.QuestionsView(
-          #{json(locale: I18n.locale, qsetId: @question_set.id, questions: @questions, selectedDivisionDepth: @selected_division_depth)}
+          $.extend(
+            #{json(locale: I18n.locale, qsetId: @question_set.id, questions: @questions, selectedDivisionDepth: @selected_division_depth)},
+            {popoverView: window.popoverView}
+          )
         );
       });
