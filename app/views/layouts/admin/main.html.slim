@@ -45,3 +45,10 @@ html lang="en-US"
       = t('loading')
 
     = render("layouts/error_modal")
+
+  javascript:
+    $(function() {
+      // We put this down here so it loads after any other code that might insert things into the DOM
+      // that need popover treatment.
+      new MS.Views.PopoverView();
+    });
