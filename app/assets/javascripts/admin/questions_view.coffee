@@ -16,14 +16,7 @@ class MS.Views.QuestionsView extends Backbone.View
       onCanMoveTo: @canMoveTo.bind(this)
       useContextMenu: false
       saveState: "qset#{@qsetId}"
-      onCreateLi: (node, $li) =>
-        status = if node.active then 'active' else 'inactive'
-        $li.attr('data-id', node.id)
-          .attr('data-division-depth', node.division_depth)
-          .addClass(status)
-          .find('.jqtree-element')
-          .append(@requiredLoanTypesHTML(node))
-          .append(@permittedActionsHTML(node))
+      onCreateLi: @buildListItem.bind(this)
     @addNewItemBlocks()
 
   events: (params) ->
@@ -139,6 +132,15 @@ class MS.Views.QuestionsView extends Backbone.View
       .fail (response) ->
         MS.alert(response.responseText)
       return false
+
+  buildListItem: (node, $li) ->
+    status = if node.active then 'active' else 'inactive'
+    $li.attr('data-id', node.id)
+      .attr('data-division-depth', node.division_depth)
+      .addClass(status)
+      .find('.jqtree-element')
+      .append(@requiredLoanTypesHTML(node))
+      .append(@permittedActionsHTML(node))
 
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
