@@ -42,21 +42,13 @@ module Accounting
             # in controller, so return error message to be displayed
             return I18n.t("sync_issue.#{error_msg}")
           end
-        rescue Accounting::QB::UnprocessableAccountError,
-               Accounting::QB::NegativeBalanceError => e
+        rescue Accounting::QB::UnprocessableAccountError => e
           Rails.logger.error e
           # Do not notify because these errors are handled by user
-          msg_custom_data = {}
-          error_msg = case e
-                    when Accounting::QB::UnprocessableAccountError
-                      msg_custom_data = {date: e.transaction.txn_date, qb_id: e.transaction.qb_id}
-                      :unprocessable_account
-                    when NegativeBalanceError
-                      :negative_balance
-                    end
-          Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: error_msg, custom_data: msg_custom_data)
+          error_msg_data = { date: e.transaction.txn_date, qb_id: e.transaction.qb_id }
+          Accounting::SyncIssue.create!(level: :error, loan: @loan, accounting_transaction: e.transaction, message: :unprocessable_account, custom_data: error_msg_data)
           # if in bg job, keep going
-          return I18n.t("sync_issue.#{error_msg}") unless @in_background_job
+          return I18n.t("sync_issue.unprocessable_account", error_msg_data) unless @in_background_job
         rescue Accounting::QB::AnnotatedIntuitRequestException => e
           txn = e.transaction
           is_matching_error = e.message.include?("matched to a downloaded transaction")

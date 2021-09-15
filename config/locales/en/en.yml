@@ -389,7 +389,7 @@ en:
     department_not_set: "Please set the QB division on <a href=\"%{url}\">this loan's Madeline division</a> in order to create transactions."
     misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
     principal_account_incompatible_with_checks: "The principal account must have type Expenses in Quickbooks in order to create check disbursements."
-    negative_balance: "This transaction is not allowed because it would result in a negative balance. The total balance on this date is %{amt}."
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
     read_only_html: "You can't add transactions because: %{reasons}."
     read_only_reasons:
       qb_not_connected_html: "QuickBooks is not connected"
