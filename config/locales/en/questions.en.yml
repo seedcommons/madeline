@@ -23,6 +23,9 @@ en:
     text: "Title"
     none_for_loan_division: "There are no question sets for this Loan's division (%{division_name}). Please contact the Madeline support team to rectify this."
     none_for_current_division: "There are no question sets for the currently selected division. Please contact the Madeline support team to rectify this."
+    inheritance_tag:
+      ancestor: "Inherited from %{division_name}"
+      descendant: "Created by %{division_name}"
 
   question_sets:
     loan_criteria: "Credit Memo"

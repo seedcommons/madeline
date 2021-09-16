@@ -1,6 +1,6 @@
 class FilteredQuestionSerializer < ApplicationSerializer
   attributes :id, :name, :children, :parent_id, :division_id, :division_depth, :fieldset, :optional,
-             :data_type, :required_loan_types, :active, :can_edit
+             :data_type, :required_loan_types, :inheritance_info, :active, :can_edit
 
   def initialize(*args, **options)
     super(*args, options)
@@ -28,6 +28,14 @@ class FilteredQuestionSerializer < ApplicationSerializer
 
   def required_loan_types
     object.loan_question_requirements.map { |i| i.loan_type.label.to_s }
+  end
+
+  def inheritance_info
+    cmp = object.division.depth <=> object.selected_division.depth
+    return nil if cmp == 0
+
+    direction = cmp == -1 ? "ancestor" : "descendant"
+    I18n.t("questions.inheritance_tag.#{direction}", division_name: object.division.name)
   end
 
   def can_edit

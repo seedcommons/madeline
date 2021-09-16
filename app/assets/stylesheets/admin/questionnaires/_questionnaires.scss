@@ -4,6 +4,11 @@ section.questionnaires {
     float: right;
   }
 
+  .edit-action {
+    float: right;
+    padding-right: 5px;
+  }
+
   .manage-link {
     float: right;
   }
@@ -14,6 +19,8 @@ section.questionnaires {
 
   li.jqtree_common {
     border: none;
+    background-color: #fff;
+    padding-right: 2px;
     margin-bottom: 3px;
     padding-bottom: 0.1px; // prevent margin collapse
     scroll-margin-top: 100px;
@@ -46,6 +53,8 @@ section.questionnaires {
 
   .jqtree-element {
     display: block;
+    padding: 10px;
+    cursor: default;
 
     .question-label {
       display: inline;
@@ -54,6 +63,10 @@ section.questionnaires {
     .form-element {
       display: block;
     }
+  }
+
+  .jqtree-title {
+    color: $body;
   }
 
   .help-block, .answer, .form-element {

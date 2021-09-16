@@ -139,12 +139,12 @@ class MS.Views.QuestionsView extends Backbone.View
       return false
 
   buildListItem: (node, $li) ->
-    status = if node.active then 'active' else 'inactive'
     $li.attr('data-id', node.id)
       .attr('data-division-depth', node.division_depth)
-      .addClass(status)
+      .addClass(if node.active then 'active' else 'inactive')
       .find('.jqtree-element')
-      .append(@requiredLoanTypesHTML(node))
+      .addClass(if node.can_edit then 'editable' else 'read-only')
+      .append(@tagHTML(node))
       .append(@permittedActionsHTML(node))
 
   addNewItemBlocks: ->
@@ -174,13 +174,18 @@ class MS.Views.QuestionsView extends Backbone.View
     destroyField = $(e.target).closest('tr').find('.destroy-field')
     destroyField.val(!e.target.checked)
 
-  requiredLoanTypesHTML: (node) ->
+  tagHTML: (node) ->
+    "<div class='tags'>#{@inheritanceTagHTML(node)}#{@requiredLoanTypesTagHTML(node)}</div>"
+
+  inheritanceTagHTML: (node) ->
+    return "" unless node.inheritance_info
+    "<div class='inheritance-tag'>#{node.inheritance_info}</div>"
+
+  requiredLoanTypesTagHTML: (node) ->
     # For each loan type required, add a conatiner with its label
-    "<div class='loan-types'>" +
-      node.required_loan_types.map (loan_type) ->
-        "<div class='loan-type-required'>#{loan_type}</div>"
-      .join(' ') +
-      "</div>"
+    node.required_loan_types.map (loan_type) ->
+      "<div class='loan-type-required'>#{loan_type}</div>"
+    .join(' ')
 
   permittedActionsHTML: (node) ->
     if node.can_edit
