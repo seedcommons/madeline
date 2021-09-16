@@ -166,7 +166,7 @@ module Admin
     def prep_attached_links
       prep_criteria
       @attached_links = @loan_criteria&.embedded_urls
-      return if @attached_links.empty?
+      return if @attached_links.blank?
 
       open_link_text = view_context.link_to(I18n.t("loan.open_links", count: @attached_links.length),
                                             "#", data: {action: "open-links", links: @attached_links})
