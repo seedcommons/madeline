@@ -83,7 +83,7 @@ class Admin::OrganizationsController < Admin::AdminController
     params.require(:organization).permit(
       :name, :street_address, :city, :state, :country_id, :neighborhood, :website,
       :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no,
-      :industry, :sector, :referral_source, :contact_notes,
+      :industry, :sector, :referral_source, :contact_notes, :inception_value,
       :division_id, :primary_contact_id, :legal_name, :postal_code,
       person_ids: []
     )

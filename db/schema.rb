@@ -292,6 +292,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_155210) do
     t.integer "division_id"
     t.string "email"
     t.string "fax"
+    t.string "inception_value"
     t.string "industry"
     t.boolean "is_recovered"
     t.string "last_name"

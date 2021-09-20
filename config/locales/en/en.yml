@@ -115,6 +115,7 @@ en:
         tax_no: "Tax ID"
         country: "Country"
         website: "Website"
+        inception: "Inception"
       person:
         birth_date: "Birth Date"
         city: "City"

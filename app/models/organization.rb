@@ -3,6 +3,7 @@ class Organization < ApplicationRecord
   include Notable
   include MediaAttachable
   include DivisionBased
+  include OptionSettable
 
   belongs_to :division
   belongs_to :country
@@ -10,6 +11,8 @@ class Organization < ApplicationRecord
 
   has_many :loans, dependent: :destroy
   has_many :people, foreign_key: :primary_organization_id, dependent: :nullify
+
+  attr_option_settable :inception
 
   validates :name, :division, :country, presence: true
 
