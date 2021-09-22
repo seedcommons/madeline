@@ -28,7 +28,8 @@ class DataExport < ApplicationRecord
 
     temp_file = Tempfile.new([name.parameterize, '.csv'])
     CSV.open(temp_file.path, "wb") do |csv|
-      csv.to_io.write("\xEF\xBB\xBF") # Write byte order mark at start of file
+      # Write byte order mark at start of file to help Excel with accented characters
+      csv.to_io.write("\xEF\xBB\xBF")
       data.each do |row|
         csv << row
       end
