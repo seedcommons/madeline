@@ -22,7 +22,8 @@ describe DataExport, type: :model do
       csv_data = File.read(attachment_item.path)
       fixture_data = File.read(Rails.root.join('spec', 'fixtures', 'data_export.csv'))
 
-      expect(csv_data).to eq fixture_data
+      expect(csv_data[0]).to eq("\xEF\xBB\xBF") # Byte order mark should be at start of file
+      expect(csv_data[1..-1]).to eq fixture_data
       expect(File.extname(attachment_item.to_s)).to eq ".csv"
     end
 
