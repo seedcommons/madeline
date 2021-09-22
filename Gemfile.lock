@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/kreintjes/wice_grid.git
-  revision: 26aff4d3cb37197ea7c8ac2f1d481a5d975a3de1
+  remote: https://github.com/sassafrastech/wice_grid.git
+  revision: 2d28890a6869c5809b53685b6543125cc19260a3
   branch: fix/all
   specs:
     wice_grid (4.1.0)
