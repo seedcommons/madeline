@@ -53,7 +53,10 @@ module LegacyModel
       if all.size > 1
         class_name = self.class.name.split('::')[-1]
         Legacy::Migration.log << [class_name, id, "Multiple non-unique translations defined for "\
-          "#{locale.upcase} #{from.first}, copying the longest one"]
+          "#{locale.upcase} #{from.first}, copying the longest one (full list below)"]
+        all.each_with_index do |str, idx|
+          Legacy::Migration.log << [class_name, id, "    Translation #{idx + 1}: #{str}"]
+        end
         all.sort_by!(&:size)
       end
       data[:"#{to}_#{locale}"] = all.last if all.any?
