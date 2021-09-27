@@ -29,7 +29,7 @@ module Legacy
         secondary_agent_id: secondary_id,
         status_value: status_option_value,
         loan_type_value: loan_type_option_value,
-        public_level_value: public_level_option_value,
+        public_level_value: "hidden",
         currency_id: AGENTINIAN_PESO_ID,
         amount: amount,
         rate: rate,
@@ -112,15 +112,6 @@ module Legacy
       value
     end
 
-    def public_level_option_value
-      # Default to Hidden if no value given in old DB
-      value = PUBLIC_LEVEL_OPTIONS.value_for(nivel_publico) || "hidden"
-      if value.nil?
-        Migration.unexpected_errors << "No matching public_level_value found for #{nivel_publico}"
-      end
-      value
-    end
-
     # beware, there are a lot of invalid '0' foreign key refs in the legacy data
     def nil_if_zero(val)
       val == 0 ? nil : val
@@ -137,9 +128,5 @@ module Legacy
           ['relationship_active', 'Relacion Activo']
         ])
 
-    PUBLIC_LEVEL_OPTIONS = Legacy::TransientOptionSet.new(
-        [ ['featured', 'Featured'],
-          ['hidden', 'Hidden'],
-        ])
   end
 end
