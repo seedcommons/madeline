@@ -34,7 +34,6 @@ module Legacy
         amount: amount,
         rate: rate,
         length_months: length,
-        representative_id: map_legacy_person_id(representative_id)
         signing_date: signing_date,
         projected_first_interest_payment_date: first_interest_payment,
         projected_first_payment_date: first_payment_date,
