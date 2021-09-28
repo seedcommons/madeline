@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_194332) do
+ActiveRecord::Schema.define(version: 2021_09_27_155210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_194332) do
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
     t.string "internal_name"
+    t.integer "legacy_id"
     t.integer "migration_position"
     t.integer "number"
     t.boolean "override_associations", default: false, null: false
@@ -423,6 +424,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_194332) do
     t.datetime "created_at", null: false
     t.json "custom_data"
     t.string "kind"
+    t.integer "legacy_id"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.datetime "updated_at", null: false
