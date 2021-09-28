@@ -24,7 +24,7 @@ module LegacyModel
     end
   end
 
-  module ClassMethods
+  class_methods do
     def migratable
       all
     end
@@ -34,6 +34,16 @@ module LegacyModel
       puts "#{name}: #{migratable.count}"
       migratable.find_each(&:migrate)
     end
+
+    def map_legacy_person_id(legacy_id)
+      return nil if legacy_id == 0 || legacy_id.blank?
+
+      Person.find_by(legacy_id: legacy_id)&.id
+    end
+  end
+
+  def map_legacy_person_id(legacy_id)
+    self.class.map_legacy_person_id(legacy_id)
   end
 
   def copy_translations(data, from:, to:, local_source: nil)
@@ -71,11 +81,5 @@ module LegacyModel
       language: locale == :en ? 1 : 2
     )
     translation&.translated_content&.strip.presence
-  end
-
-  def map_legacy_person_id(legacy_id)
-    return nil if legacy_id == 0 || legacy_id.blank?
-
-    Person.find_by(legacy_id: legacy_id)&.id
   end
 end
