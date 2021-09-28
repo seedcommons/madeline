@@ -79,7 +79,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # We use it because we want to rollback transaction creation or updates if there are errors.
     ActiveRecord::Base.transaction do
       if @transaction.save
-        if (error_msg = handle_qb_errors { run_updater(project: @transaction.project) })
+        loan = @transaction.loan
+        if (error_msg = Accounting::QB::ErrorHandler.new(loan: loan).handle_qb_errors { run_updater(project: loan) })
           @transaction.errors.add(:base, error_msg)
           raise ActiveRecord::Rollback
         end
@@ -89,7 +90,7 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def sync_and_handle_errors
     ActiveRecord::Base.transaction do
-      if (error_msg = handle_qb_errors { run_updater(project: @loan) })
+      if (error_msg = Accounting::QB::ErrorHandler.new(loan:@loan).handle_qb_errors { run_updater(project: @loan) })
         flash[:error] = error_msg
         raise ActiveRecord::Rollback
       end
@@ -101,8 +102,8 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     # We don't permit project_id because that's a privilege escalation issue. For update, it should
     # already be set and can't be changed. For create, we get it from the query string manually.
     params.require(:accounting_transaction).permit(:account_id, :amount,
-      :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
-      :accounting_customer_id, :qb_vendor_id, :disbursement_type, :check_number)
+                                                   :private_note, :accounting_account_id, :description, :txn_date, :loan_transaction_type_value,
+                                                   :accounting_customer_id, :qb_vendor_id, :disbursement_type, :check_number)
   end
 
   def render_modal_partial(status: 200)
@@ -121,43 +122,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     @vendors = Accounting::QB::Vendor.all.order(:name)
   end
 
-  # Runs the given block and handles any Quickbooks errors.
-  # Returns the error message (potentially with HTML) as a string if there was an error, else returns nil.
-  # Notifies admins if error is not part of normal operation.
-  # This is only used for creating new transactions
-  def handle_qb_errors
-    begin
-      yield
-    rescue Accounting::QB::DataResetRequiredError => e
-      Rails.logger.error e
-      error_msg = t('quickbooks.data_reset_required', settings: settings_link).html_safe
-    rescue Accounting::QB::UnprocessableAccountError => e
-      # Duplicated in QuickbooksUpdateJob, should be DRYed up in refactor.
-      Accounting::SyncIssue.create!(loan: e.loan, accounting_transaction: e.transaction,
-                                    message: :unprocessable_account, level: :error, custom_data: {})
-    rescue Quickbooks::ServiceUnavailable => e
-      Rails.logger.error e
-      error_msg = t('quickbooks.service_unavailable')
-    rescue Quickbooks::MissingRealmError,
-           Accounting::QB::NotConnectedError,
-           Quickbooks::AuthorizationFailure => e
-      Rails.logger.error e
-      error_msg = t('quickbooks.authorization_failure', settings: settings_link).html_safe
-    rescue Quickbooks::InvalidModelException,
-           Quickbooks::Forbidden,
-           Quickbooks::ThrottleExceeded,
-           Quickbooks::TooManyRequests,
-           Quickbooks::IntuitRequestException => e
-      Rails.logger.error e
-      ExceptionNotifier.notify_exception(e)
-      error_msg = t('quickbooks.misc', msg: e)
-    rescue Accounting::QB::NegativeBalanceError => e
-      Rails.logger.error e
-      error_msg = t('quickbooks.negative_balance', amt: e.prev_balance)
-    end
-    error_msg
-  end
-
   def run_updater(project:)
     # Stub the Updater in test mode
     if Rails.env.test?
@@ -168,6 +132,6 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
   end
 
   def settings_link
-    view_context.link_to(t('menu.accounting_settings'), admin_accounting_settings_path)
+    view_context.link_to(t("menu.accounting_settings"), admin_accounting_settings_path)
   end
 end

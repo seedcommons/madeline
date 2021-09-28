@@ -12,7 +12,7 @@ module Admin
 
       @loans_grid = initialize_grid(
         policy_scope(Loan),
-        include: %i[division organization currency primary_agent secondary_agent representative],
+        include: %i[division organization currency primary_agent secondary_agent],
         conditions: division_index_filter,
         order: "projects.signing_date",
         order_direction: "desc",
@@ -142,7 +142,7 @@ module Admin
           division_id organization_id loan_type_value status_value name final_repayment_formula
           amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_first_interest_payment_date
-          projected_end_date projected_return representative_id actual_first_interest_payment_date
+          projected_end_date projected_return actual_first_interest_payment_date
           project_type_value actual_end_date actual_return public_level_value txn_handling_mode
         ] + translation_params(:summary, :details)
       ))
@@ -153,14 +153,8 @@ module Admin
       @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
       @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
       @currency_choices = Currency.all.order(:name)
-      @representative_choices = representative_choices
       @txn_mode_choices = txn_mode_options
       prep_criteria
-    end
-
-    def representative_choices
-      raw_choices = @loan.organization ? @loan.organization.people : Person.all
-      person_policy_scope(raw_choices).order(:name)
     end
 
     def prep_attached_links

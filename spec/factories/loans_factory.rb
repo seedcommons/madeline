@@ -12,7 +12,6 @@ FactoryBot.define do
     amount { rand(5000..50000) }
     rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
-    association :representative, factory: :person
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
     actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }

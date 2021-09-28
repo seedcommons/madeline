@@ -10,7 +10,7 @@ class TimelineEntry < ApplicationRecord
 
   # Even though, logs can only be associated with steps, this ass'n is defined here so that
   # Project can do has_many :project_logs, through: :timeline_entries
-  has_many :project_logs, dependent: :destroy, foreign_key: :project_step_id
+  has_many :project_logs, -> { by_date }, dependent: :destroy, foreign_key: :project_step_id
 
   delegate :division, :division=, to: :project, allow_nil: true
 

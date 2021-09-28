@@ -52,7 +52,7 @@
   - if log.summary
     .summary
       h5.sr-only = t('common.summary')
-      span = strip_tags(log.summary)
+      span = strip_tags(log.summary.to_s)
 
   - if log.has_more? && @context != 'dashboard'
     div

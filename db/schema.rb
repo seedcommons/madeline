@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_180420) do
+ActiveRecord::Schema.define(version: 2021_09_27_155210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -376,7 +376,6 @@ ActiveRecord::Schema.define(version: 2021_09_10_180420) do
     t.decimal "projected_return"
     t.string "public_level_value", null: false
     t.decimal "rate"
-    t.integer "representative_id"
     t.integer "secondary_agent_id"
     t.date "signing_date"
     t.string "status_value"
@@ -412,6 +411,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_180420) do
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
     t.string "internal_name"
+    t.integer "legacy_id"
     t.integer "migration_position"
     t.integer "number"
     t.boolean "override_associations", default: false, null: false
@@ -426,6 +426,8 @@ ActiveRecord::Schema.define(version: 2021_09_10_180420) do
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "custom_data"
+    t.string "kind"
+    t.integer "legacy_id"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
@@ -565,7 +567,6 @@ ActiveRecord::Schema.define(version: 2021_09_10_180420) do
   add_foreign_key "projects", "divisions"
   add_foreign_key "projects", "organizations"
   add_foreign_key "projects", "people", column: "primary_agent_id"
-  add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
   add_foreign_key "question_sets", "divisions"
   add_foreign_key "questions", "question_sets"

@@ -109,13 +109,6 @@ Write
   * Sync Issue Scope: Loan
   * Cause: Int Calculator starts with the earliest transaction on record. If Madeline would have added an int txn or repayment differently before the closed books date, we don't add it, but give a warning.
   * User Action To Correct: None
-* Accounting::QB::NegativeBalanceError
-  * Phases: Write
-  * Type: Exception
-  * Sync Issue Level: Error
-  * Sync Issue Scope: Loan
-  * Cause: Adding too-large repayment txn, for example
-  * User Action To Correct: If during txn creation, txn fails validation, user fixes
 * Accounting::QB::UnprocessableAccountError
   * Phases: Extract
   * Type: Exception

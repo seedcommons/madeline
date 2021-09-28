@@ -365,6 +365,42 @@ describe Accounting::InterestCalculator do
     end
   end
 
+  context "negative balance" do
+    let(:loan) { create(:loan, :active, division: division, rate: 5.0) }
+    let!(:disbursement) do
+      create(:accounting_transaction,
+             :disbursement,
+             amount: 100.0,
+             project: loan,
+             txn_date: "2018-01-01",
+             division: division,
+             customer: customer)
+    end
+    let!(:repayment) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 110.0,
+             project: loan,
+             txn_date: "2018-02-04",
+             division: division,
+             customer: customer)
+    end
+    let(:all_txns) { [disbursement, repayment] }
+
+    it "handles correctly" do
+      recalculate_and_reload
+      #expect(Accounting::Transaction.where(project: loan).count).to eq 3
+      expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be true
+      interest_txn = Accounting::Transaction.find_by(txn_date: "2018-01-31", project: loan)
+      expect(disbursement.reload.interest_balance).to equal_money 0
+      expect(disbursement.reload.principal_balance).to equal_money 100
+      expect(interest_txn.interest_balance).to equal_money 0.41
+      expect(interest_txn.principal_balance).to equal_money 100
+      expect(repayment.reload.interest_balance).to equal_money 0
+      expect(repayment.reload.principal_balance).to equal_money(-9.54)
+    end
+  end
+
   context "loan has zero interest rate" do
     let(:loan) { create(:loan, :active, division: division, rate: 0.0) }
     let!(:disbursement) do

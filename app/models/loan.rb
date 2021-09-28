@@ -11,7 +11,6 @@ class Loan < Project
 
   belongs_to :organization
   belongs_to :currency
-  belongs_to :representative, class_name: 'Person'
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
   has_many :response_sets, dependent: :destroy
 

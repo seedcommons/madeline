@@ -50,8 +50,6 @@
       - loan.primary_agent.try(:name)
     - g.column name: t('activerecord.attributes.loan.secondary_agent'), filter: false, in_html: false do |loan|
       - loan.secondary_agent.try(:name)
-    - g.column name: t('activerecord.attributes.loan.representative'), filter: false, in_html: false do |loan|
-      - loan.representative.try(:name)
 
     - g.column name: t('activerecord.attributes.loan.length_months'), attribute: 'length_months',
       filter: false, in_html: false

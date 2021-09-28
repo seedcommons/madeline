@@ -1,6 +1,6 @@
 td.recent-logs class="#{classes} #{logs_available > 0 ? 'has-logs' : ''}" data-id=entry.id data-action="show"
   - latest_logs.each_with_index do |log, index|
-    p.log-summary.project-step-item data-log-id="#{log.id}" = strip_tags(log.summary)
+    p.log-summary.project-step-item data-log-id="#{log.id}" = strip_tags(log.summary.to_s)
 
     - if index == latest_logs.length - 1
       div.more = link_to t("project_logs.more"), "#", data: {action: 'view-logs'}
