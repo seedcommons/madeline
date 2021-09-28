@@ -3,6 +3,10 @@ class CopyRootQuestionsToTopLevelDivisions < ActiveRecord::Migration[6.1]
                   internal_name override_associations)
 
   def up
+    # Ensure previous rename of internal_name/kind column is picked up.
+    QuestionSet.connection.schema_cache.clear!
+    QuestionSet.reset_column_information
+
     root_division = Division.root
     QuestionSet::KINDS.each do |kind|
       src_qset = QuestionSet.find_by(division: root_division, kind: kind)
