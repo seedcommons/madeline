@@ -376,7 +376,6 @@ ActiveRecord::Schema.define(version: 2021_09_27_155210) do
     t.decimal "projected_return"
     t.string "public_level_value", null: false
     t.decimal "rate"
-    t.integer "representative_id"
     t.integer "secondary_agent_id"
     t.date "signing_date"
     t.string "status_value"
@@ -562,7 +561,6 @@ ActiveRecord::Schema.define(version: 2021_09_27_155210) do
   add_foreign_key "projects", "divisions"
   add_foreign_key "projects", "organizations"
   add_foreign_key "projects", "people", column: "primary_agent_id"
-  add_foreign_key "projects", "people", column: "representative_id"
   add_foreign_key "projects", "people", column: "secondary_agent_id"
   add_foreign_key "questions", "question_sets"
   add_foreign_key "response_sets", "users", column: "updater_id"
