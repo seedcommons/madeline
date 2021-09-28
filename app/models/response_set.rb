@@ -1,6 +1,7 @@
 class ResponseSet < ApplicationRecord
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
+  belongs_to :question_set, inverse_of: :response_sets
 
   validates :loan, presence: true
 
@@ -9,12 +10,12 @@ class ResponseSet < ApplicationRecord
 
   after_commit :recalculate_loan_health
 
-  def recalculate_loan_health
-    RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
+  def self.find_with_loan_and_kind(loan, kind)
+    joins(:question_set).find_by(loan: loan, question_sets: {kind: kind})
   end
 
-  def question_set
-    @question_set ||= QuestionSet.find_by(internal_name: "loan_#{kind}")
+  def recalculate_loan_health
+    RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
   def root_response

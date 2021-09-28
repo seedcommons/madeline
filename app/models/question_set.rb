@@ -1,23 +1,26 @@
 class QuestionSet < ApplicationRecord
   include Translatable
 
+  KINDS = %i[loan_criteria loan_post_analysis].freeze
+
+  belongs_to :division, inverse_of: :question_sets
+  has_many :response_sets, inverse_of: :question_set, dependent: :restrict_with_exception
+
   has_closure_tree_root :root_group, class_name: "Question"
 
-  translates :label
-
   after_create :create_root_group!
+
+  def self.find_for_division(division)
+    self_and_ancestor_ids = division.self_and_ancestors.pluck(:id)
+    KINDS.map do |kind|
+      candidates = where(kind: kind, division_id: self_and_ancestor_ids).index_by(&:division_id)
+      self_and_ancestor_ids.lazy.map { |div_id| candidates[div_id] }.detect { |set| !set.nil? }
+    end.compact
+  end
 
   def root_group_preloaded
     @root_group_preloaded ||=
       root_group_including_tree(loan_types: :translations, loan_question_requirements: :loan_type)
-  end
-
-  def name
-    label
-  end
-
-  def kind
-    internal_name.sub(/^loan_/, '').to_sym
   end
 
   def depth
@@ -40,7 +43,7 @@ class QuestionSet < ApplicationRecord
       @node_lookup_table[question_identifier]
     end
 
-    raise "Question not found: #{question_identifier} for set: #{internal_name}" if required && !result
+    raise "Question not found: #{question_identifier} for set: #{kind}" if required && !result
     result
   end
 
@@ -52,7 +55,7 @@ class QuestionSet < ApplicationRecord
 
   # This is private because it is needed to allow the inverse association on Question, but
   # it should never be used directly. Access children via the root or by cache hashes.
-  has_many :questions, inverse_of: :question_set
+  has_many :questions, inverse_of: :question_set, dependent: :destroy
 
   def create_root_group!
     Question.create!(

@@ -1,17 +1,23 @@
 class Admin::QuestionsController < Admin::AdminController
   include TranslationSaveable
-  before_action :set_question, only: [:edit, :update, :destroy, :move]
 
   def index
+    # Manage questions is not permitted in "All Divsions" mode
+    if selected_division.nil?
+      skip_authorization
+      return redirect_to(root_path)
+    end
     authorize Question
-    @set_name = params[:set] || "criteria"
-    @set = QuestionSet.find_by(internal_name: "loan_#{@set_name}")
-    @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@set))
-    @selected_division_depth = selected_division.depth
+    @question_sets = QuestionSet.find_for_division(selected_division_or_root)
+    if @question_sets.any?
+      @question_set = params.key?(:qset) ? QuestionSet.find(params[:qset]) : @question_sets.first
+      @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@question_set))
+      @selected_division_depth = selected_division.depth
+    end
   end
 
   def new
-    set = QuestionSet.find_by(internal_name: "loan_#{params[:set]}")
+    set = QuestionSet.find(params[:qset])
     parent = params[:parent_id].present? ? Question.find(params[:parent_id]) : set.root_group
     @question = Question.new(question_set: set, parent: parent, division: selected_division)
     authorize @question
@@ -20,6 +26,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def edit
+    @question = Question.find(params[:id])
+    authorize @question
     @question.build_complete_requirements
     @requirements = @question.loan_question_requirements.sort_by { |i| i.loan_type.label.text }
     render_form
@@ -38,6 +46,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def update
+    @question = Question.find(params[:id])
+    authorize @question
     if @question.update(question_params)
       render_set_json(@question.question_set)
     else
@@ -46,6 +56,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def move
+    @question = Question.find(params[:id])
+    authorize @question
     target = Question.find(params[:target])
     QuestionMover.new(selected_division: selected_division, question: @question,
                       target: target, relation: params[:relation].to_sym).move
@@ -56,6 +68,8 @@ class Admin::QuestionsController < Admin::AdminController
   end
 
   def destroy
+    @question = Question.find(params[:id])
+    authorize @question
     @question.destroy!
     render_set_json(@question.question_set)
   rescue
@@ -65,11 +79,6 @@ class Admin::QuestionsController < Admin::AdminController
 
   private
 
-  # TODO: Delete this method once editing questions in 'All Divisions' mode is banned.
-  def selected_division
-    super || Division.root
-  end
-
   def render_set_json(set)
     render json: top_level_questions(set)
   end
@@ -77,11 +86,6 @@ class Admin::QuestionsController < Admin::AdminController
   def top_level_questions(set)
     FilteredQuestion.new(set.root_group_preloaded, selected_division: selected_division,
                                                    include_descendant_divisions: true).children
-  end
-
-  def set_question
-    @question = Question.find(params[:id])
-    authorize @question
   end
 
   def question_params

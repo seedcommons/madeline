@@ -153,16 +153,14 @@ module Admin
       @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
       @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
       @currency_choices = Currency.all.order(:name)
-      @loan_criteria = @loan.criteria
       @txn_mode_choices = txn_mode_options
-    end
-
-    def prep_print_view
+      prep_criteria
     end
 
     def prep_attached_links
-      @attached_links = @loan.criteria_embedded_urls
-      return if @attached_links.empty?
+      prep_criteria
+      @attached_links = @loan_criteria&.embedded_urls
+      return if @attached_links.blank?
 
       open_link_text = view_context.link_to(I18n.t("loan.open_links", count: @attached_links.length),
                                             "#", data: {action: "open-links", links: @attached_links})
@@ -186,6 +184,10 @@ module Admin
       )
       export_grid_if_requested('transactions': "admin/accounting/transactions/transactions_grid_definition")
       show_reasons_if_read_only
+    end
+
+    def prep_criteria
+      @loan_criteria = ResponseSet.find_with_loan_and_kind(@loan, "loan_criteria")
     end
 
     def show_reasons_if_read_only

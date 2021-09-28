@@ -24,9 +24,9 @@ section data-container="loan"
                   = media_image(image)
 
   - if @mode != "details-only"
-    section.loan.criteria.show-view
+    section.loan.questionnaire.show-view
       = render "admin/loans/questionnaires/page_header"
-      h2 = t('loan.criteria')
+      h2 = t('question_sets.loan_criteria')
 
       - if @response_set
         h3 = t('loan.toc')
@@ -35,8 +35,8 @@ section data-container="loan"
           response_set: @response_set
         - if @response_set.question_set.summary_questions?
           = render "admin/loans/questionnaires/questionnaire_form",
-            response_set: @response_set, summary_view: true, attrib: :criteria
+            response_set: @response_set, summary_view: true
         = render "admin/loans/questionnaires/questionnaire_form",
-          response_set: @response_set, summary_view: false, attrib: :criteria
+          response_set: @response_set, summary_view: false
       - else
         = t('loan.criteria_not_entered')

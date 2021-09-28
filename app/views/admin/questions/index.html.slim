@@ -1,45 +1,50 @@
 - content_for(:title, t('.title'))
 
 .loan-questions
-  .filter-switch
-    .btn-group
-      = link_to t('loan.criteria'), admin_questions_path(set: "criteria"),
-        class: "btn btn-default #{'active' if @set_name == 'criteria'}"
-      = link_to t('loan.post_analysis'), admin_questions_path(set: "post_analysis"),
-        class: "btn btn-default #{'active' if @set_name == 'post_analysis'}"
+  - if @question_sets.empty?
+    = t("questions.none_for_current_division")
+  - else
+    .filter-switch
+      .btn-group
+        - @question_sets.each do |qset|
+          = link_to t("question_sets.#{qset.kind}"),
+            admin_questions_path(qset: qset.id),
+            class: "btn btn-default #{'active' if @question_set == qset}"
 
-  .jqtree
+    .jqtree
 
-  .hidden
-    .links-block
-      / This is added to the end of each question
-      .links
-        a.edit-action> href="#" title=t('.edit_item')
-          i.fa.fa-pencil
-        = link_to '#', method: :delete, class: "delete-action", remote: true,
-            data: { confirm: t("questions.confirm_deletion") },
-            title: t('.delete_item')
+    .hidden
+      .links-block
+        / This is added to the end of each question
+        .links
+          a.edit-action> href="#" title=t('.edit_item')
+            i.fa.fa-pencil
+          = link_to '#', method: :delete, class: "delete-action", remote: true,
+              data: { confirm: t("questions.confirm_deletion") },
+              title: t('.delete_item')
 
-          i.fa.fa-trash
-    .actions-disabled-block
-      .links
-        i.fa.fa-lock.ms-tooltip data-message=I18n.t('questions.not_editable') data-placement='left'
+            i.fa.fa-trash
+      .actions-disabled-block
+        .links
+          i.fa.fa-lock.ms-tooltip data-message=I18n.t('questions.not_editable') data-placement='left'
 
-    .new-item-block
-      / This is added after each last child
-      li.jqtree_common.new-item
-        .jqtree_common.jqtree-element
-          span.jqtree_common.jqtree-title
-            a.new-action href="#" = t '.add_item'
-        .clearfix
+      .new-item-block
+        / This is added after each last child
+        li.jqtree_common.new-item
+          .jqtree_common.jqtree-element
+            span.jqtree_common.jqtree-title
+              a.new-action href="#" = t '.add_item'
 
-  #edit-modal.modal.wider.fade tabindex="-1" role="dialog"
-    .modal-dialog
-      .modal-content
+    #edit-modal.modal.wider.fade tabindex="-1" role="dialog"
+      .modal-dialog
+        .modal-content
 
-javascript:
-  $(function(){
-    new MS.Views.QuestionsView(
-      #{json(locale: I18n.locale, setName: @set_name, questions: @questions, selectedDivisionDepth: @selected_division_depth)}
-    );
-  });
+    javascript:
+      $(function(){
+        new MS.Views.QuestionsView(
+          $.extend(
+            #{json(locale: I18n.locale, qsetId: @question_set.id, questions: @questions, selectedDivisionDepth: @selected_division_depth)},
+            {popoverView: window.popoverView}
+          )
+        );
+      });

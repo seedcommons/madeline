@@ -5,7 +5,8 @@ class MS.Views.QuestionsView extends Backbone.View
   initialize: (params) ->
     new MS.Views.AutoLoadingIndicatorView()
     @locale = params.locale
-    @setName = params.setName
+    @qsetId = params.qsetId
+    @popoverView = params.popoverView
     @selectedDivisionDepth = params.selectedDivisionDepth
     @tree = @$('.jqtree')
     @tree.tree
@@ -15,16 +16,13 @@ class MS.Views.QuestionsView extends Backbone.View
       onCanMove: @canMove.bind(this)
       onCanMoveTo: @canMoveTo.bind(this)
       useContextMenu: false
-      saveState: @setName
-      onCreateLi: (node, $li) =>
-        status = if node.active then 'active' else 'inactive'
-        $li.attr('data-id', node.id)
-          .attr('data-division-depth', node.division_depth)
-          .addClass(status)
-          .find('.jqtree-element')
-          .append(@requiredLoanTypesHTML(node))
-          .append(@permittedActionsHTML(node))
+      saveState: "qset#{@qsetId}"
+      onCreateLi: @buildListItem.bind(this)
     @addNewItemBlocks()
+
+    # The prepTooltips is called globally on page init, but the jqTree is not in the DOM yet so
+    # it does not affect us.
+    @popoverView.prepTooltips()
 
   events: (params) ->
     'click .new-action': 'newNode'
@@ -62,7 +60,7 @@ class MS.Views.QuestionsView extends Backbone.View
   newNode: (e) ->
     e.preventDefault()
     parent_id = @$(e.target).closest('li').parents('li').data('id') || ''
-    @$('#edit-modal .modal-content').load "/admin/questions/new?set=#{@setName}&parent_id=#{parent_id}", =>
+    @$('#edit-modal .modal-content').load "/admin/questions/new?qset=#{@qsetId}&parent_id=#{parent_id}", =>
       @showModal()
 
   editNode: (e) ->
@@ -140,6 +138,15 @@ class MS.Views.QuestionsView extends Backbone.View
         MS.alert(response.responseText)
       return false
 
+  buildListItem: (node, $li) ->
+    $li.attr('data-id', node.id)
+      .attr('data-division-depth', node.division_depth)
+      .addClass(if node.active then 'active' else 'inactive')
+      .find('.jqtree-element')
+      .addClass(if node.can_edit then 'editable' else 'read-only')
+      .append(@tagHTML(node))
+      .append(@permittedActionsHTML(node))
+
   addNewItemBlocks: ->
     # Remove all New Item blocks then re-add after last child at each level
     @tree.find('.new-item').remove()
@@ -167,13 +174,18 @@ class MS.Views.QuestionsView extends Backbone.View
     destroyField = $(e.target).closest('tr').find('.destroy-field')
     destroyField.val(!e.target.checked)
 
-  requiredLoanTypesHTML: (node) ->
+  tagHTML: (node) ->
+    "<div class='tags'>#{@inheritanceTagHTML(node)}#{@requiredLoanTypesTagHTML(node)}</div>"
+
+  inheritanceTagHTML: (node) ->
+    return "" unless node.inheritance_info
+    "<div class='inheritance-tag'>#{node.inheritance_info}</div>"
+
+  requiredLoanTypesTagHTML: (node) ->
     # For each loan type required, add a conatiner with its label
-    "<div class='loan-types'>" +
-      node.required_loan_types.map (loan_type) ->
-        "<div class='loan-type-required'>#{loan_type}</div>"
-      .join(' ') +
-      "</div>"
+    node.required_loan_types.map (loan_type) ->
+      "<div class='loan-type-required'>#{loan_type}</div>"
+    .join('')
 
   permittedActionsHTML: (node) ->
     if node.can_edit
@@ -186,3 +198,6 @@ class MS.Views.QuestionsView extends Backbone.View
   refreshTree: (response) ->
     @tree.tree('loadData', response)
     @addNewItemBlocks()
+
+    # The refresh process creates new nodes so we need to initialize popovers for them again.
+    @popoverView.prepTooltips()

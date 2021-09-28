@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe QuestionMover do
   # Used by create_question function
-  let!(:qset) { create(:question_set, internal_name: "loan_criteria") }
+  let!(:qset) { create(:question_set, kind: "loan_criteria") }
 
   let!(:div_a) { create(:division, parent: root_division) }
   let!(:div_b) { create(:division, parent: div_a) }

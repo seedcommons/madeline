@@ -13,7 +13,7 @@ en:
     manage: "Manage Loan Questions"
     missing_required_answer: "This is a required question."
     move_error: "The item could not be moved due to an error"
-    not_editable: "This question or group is inherited from a parent division, so it can't be changed."
+    not_editable: "This question or group is not owned by the currently selected division so it can't be changed."
     progress:
       complete: "Complete"
       normal: "Required"
@@ -21,6 +21,15 @@ en:
     table:
       caption: "Question number %{number} question and response"
     text: "Title"
+    none_for_loan_division: "There are no question sets for this Loan's division (%{division_name}). Please contact the Madeline support team to rectify this."
+    none_for_current_division: "There are no question sets for the currently selected division. Please contact the Madeline support team to rectify this."
+    inheritance_tag:
+      ancestor: "Inherited from %{division_name}"
+      descendant: "Created by %{division_name}"
+
+  question_sets:
+    loan_criteria: "Credit Memo"
+    loan_post_analysis: "Post-Analysis"
 
   linked_document:
     cell_end: End Cell

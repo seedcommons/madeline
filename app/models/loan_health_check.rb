@@ -54,8 +54,8 @@ class LoanHealthCheck < ApplicationRecord
   end
 
   def check_progress_pct
-    return 0 unless loan.criteria
-    loan.criteria.progress_pct
+    return 0 unless loan_criteria
+    loan_criteria.progress_pct
   end
 
   def check_last_log_date
@@ -68,5 +68,9 @@ class LoanHealthCheck < ApplicationRecord
     start_date = ([loan.signing_date || Time.current, Time.current].max).beginning_of_day
     end_date = loan.projected_end_date.beginning_of_day
     ((end_date - start_date) / (24 * 60 * 60)).round / 30
+  end
+
+  def loan_criteria
+    @loan_criteria ||= ResponseSet.find_with_loan_and_kind(loan, "loan_criteria")
   end
 end

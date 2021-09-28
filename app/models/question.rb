@@ -18,7 +18,7 @@ class Question < ApplicationRecord
     siblings sibling_ids self_and_siblings descendants descendant_ids
     self_and_descendant_ids hash_tree find_by_path find_or_create_by_path find_all_by_generation)
 
-  belongs_to :question_set
+  belongs_to :question_set, inverse_of: :questions
   belongs_to :division
 
   # Used for Questions to LoanTypes(Options) associations which imply a required
@@ -66,7 +66,7 @@ class Question < ApplicationRecord
   end
 
   def name
-    "#{question_set.internal_name}-#{internal_name}"
+    "#{question_set.kind}-#{internal_name}"
   end
 
   def attribute_sym

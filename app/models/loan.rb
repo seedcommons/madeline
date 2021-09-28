@@ -3,7 +3,6 @@
 class Loan < Project
   include MediaAttachable
 
-  QUESTION_SET_TYPES = %i(criteria post_analysis)
   STATUS_ACTIVE_VALUE = 'active'
   STATUS_COMPLETED_VALUE = 'completed'
   TXN_MODES = %i(automatic read_only)
@@ -12,8 +11,6 @@ class Loan < Project
 
   belongs_to :organization
   belongs_to :currency
-  has_one :criteria, -> { where("response_sets.kind" => 'criteria') }, class_name: "ResponseSet"
-  has_one :post_analysis, -> { where("response_sets.kind" => 'post_analysis') }, class_name: "ResponseSet"
   has_one :health_check, class_name: "LoanHealthCheck", foreign_key: :loan_id, dependent: :destroy
   has_many :response_sets, dependent: :destroy
 
@@ -84,11 +81,6 @@ class Loan < Project
 
   def loan_type
     loan_type_label
-  end
-
-  # Gets embedded urls from criteria data. Returns empty array if criteria not defined yet.
-  def criteria_embedded_urls
-    criteria.try(:embedded_urls) || []
   end
 
   def country

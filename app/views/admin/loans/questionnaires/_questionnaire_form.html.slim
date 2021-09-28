@@ -14,14 +14,12 @@
       },
     ) do |f|
 
-    = hidden_field_tag :filter, attrib
-
     = error_notification(f)
 
     - if @conflict
       .alert.alert-danger
         = t('loan.response_set.conflicting_changes_html',
-            link: admin_loan_tab_path(@loan, tab: 'questions', filter: response_set.kind),
+            link: admin_loan_tab_path(@loan, tab: 'questions', qset: response_set.question_set_id),
             updater: @response_set_from_db[:updater].try(:name) || "[#{t(:unknown)}]",
             updated_at: ldate(@response_set_from_db[:updated_at], format: :long))
         / `new_lock_version` is the lock_version of the updated record in the db. This is here in
@@ -34,11 +32,11 @@
             => f.submit t('loan.response_set.discard_reload'), name: 'discard', class: 'btn btn-default'
 
     = f.hidden_field(:loan_id)
-    = f.hidden_field(:kind)
+    = f.hidden_field(:question_set_id)
     = f.hidden_field(:lock_version)
 
     - unless @print_view
-      .jqtree data-data=@questions_json class=attrib id="jqtree"
+      .jqtree data-data=@questions_json id="jqtree"
 
     .actions.form-element.larger#edit-bar
       h3.now-editing.custom_dark_accent
