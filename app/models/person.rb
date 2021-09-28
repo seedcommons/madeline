@@ -21,7 +21,6 @@ class Person < ApplicationRecord
 
   has_many :primary_agent_loans,   class_name: 'Loan', foreign_key: :primary_agent_id,   dependent: :nullify
   has_many :secondary_agent_loans, class_name: 'Loan', foreign_key: :secondary_agent_id, dependent: :nullify
-  has_many :representative_loans,  class_name: 'Loan', foreign_key: :representative_id,  dependent: :nullify
   has_many :project_logs, foreign_key: :agent_id, dependent: :nullify
   has_many :timeline_entries, foreign_key: :agent_id, dependent: :nullify
   has_many :authored_notes, class_name: 'Note', foreign_key: :author_id, dependent: :nullify

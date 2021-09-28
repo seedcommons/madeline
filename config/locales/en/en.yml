@@ -79,7 +79,6 @@ en:
         projected_first_payment_date: "Projected First Payment Date"
         projected_end_date: "Projected End Date"
         projected_return: "Projected Return"
-        representative: "Representative"
         details: "Details"
         public_level: "Public Level"
         txn_handling_mode: "Transaction Mode"
