@@ -13,7 +13,11 @@ namespace :tww do
     end
 
     txn_and_dump("destroy") do
+      puts "Destroying old migrated LoanHealthChecks"
+      LoanHealthCheck.where(loan_id: Loan.where(division_id: DIV_IDS).pluck(:id)).destroy_all
+      puts "Destroying old migrated Organizations"
       Organization.where(division_id: DIV_IDS).destroy_all
+      puts "Destroying old migrated Loans"
       Loan.where(division_id: DIV_IDS).destroy_all
     end
 
