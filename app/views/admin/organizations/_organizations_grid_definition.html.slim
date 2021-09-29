@@ -40,6 +40,8 @@
     - g.column name: t('activerecord.attributes.organization.industry'), attribute: 'industry', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.referral_source'), attribute: 'referral_source', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.contact_notes'), attribute: 'contact_notes', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.inception'), attribute: 'inception_value', in_html: false, filter: false do |organization|
+      - organization.inception_label
     
     - g.column name: t('activerecord.attributes.organization.additional_people'), attribute: 'name',
       assoc: :people, table_alias: 'members', in_html: false, filter: false do |organization|

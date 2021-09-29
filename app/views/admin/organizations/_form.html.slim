@@ -88,6 +88,11 @@
     .view-element = @org.industry
     = f.input_field :industry
 
+  = f.input :inception
+    .view-element = @org.inception_label
+    = f.input_field :inception_value, collection: Organization.inception_options,
+                                      selected: @org.inception_value, include_blank: true
+
   = f.input :referral_source
     .view-element = @org.referral_source
     = f.input_field :referral_source

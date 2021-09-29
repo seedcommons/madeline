@@ -13,6 +13,7 @@ class OptionSetCreator
     create_progress_metric
     create_media_kind
     create_loan_transaction_type
+    create_organization_inception
   end
 
   def create_loan_status
@@ -326,5 +327,31 @@ class OptionSetCreator
       es: I18n.t('database.option_sets.loan_transaction_type.other', locale: 'es')
     }
     other.save
+  end
+
+  def create_organization_inception
+    organization_inception = OptionSet.find_or_create_by(division: Division.root,
+      model_type: Organization.name, model_attribute: 'inception')
+
+    startup = organization_inception.options.find_or_create_by(value: 'startup', position: 1)
+    startup.label_translations = {
+      en: I18n.t('database.option_sets.organization_inception.startup', locale: 'en'),
+      es: I18n.t('database.option_sets.organization_inception.startup', locale: 'es')
+    }
+    startup.save
+
+    conversion = organization_inception.options.find_or_create_by(value: 'conversion', position: 2)
+    conversion.label_translations = {
+      en: I18n.t('database.option_sets.organization_inception.conversion', locale: 'en'),
+      es: I18n.t('database.option_sets.organization_inception.conversion', locale: 'es')
+    }
+    conversion.save
+
+    recovered = organization_inception.options.find_or_create_by(value: 'recovered', position: 3)
+    recovered.label_translations = {
+      en: I18n.t('database.option_sets.organization_inception.recovered', locale: 'en'),
+      es: I18n.t('database.option_sets.organization_inception.recovered', locale: 'es')
+    }
+    recovered.save
   end
 end

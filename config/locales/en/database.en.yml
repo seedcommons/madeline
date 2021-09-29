@@ -35,6 +35,10 @@ en:
         video: 'Video'
         document: 'Document'
         contract: 'Contract'
+      organization_inception:
+        startup: 'Startup'
+        conversion: 'Conversion'
+        recovered: 'Recovered'
       progress_metric:
         change_plan: 'In need of changing its whole plan'
         change_events: 'In need of changing some events'

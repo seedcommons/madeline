@@ -28,13 +28,30 @@ describe 'organization flow', js: true do
     visit("/")
     select_division(division)
 
-    option_set = Loan.public_level_option_set
-    option_set.options.create(value: 'public', label_translations: { en: 'Public' })
+    OptionSetCreator.new.create_public_level
+    OptionSetCreator.new.create_organization_inception
   end
 
   include_examples "flow" do
     subject { org1 }
     let(:edit_button_name) { 'Edit Co-op' }
+  end
+
+  scenario 'coop creation' do
+    visit new_admin_organization_path
+    fill_in 'organization_name', with: 'Jayita'
+    fill_in 'organization_postal_code', with: '47905' # req'd for country
+    fill_in 'organization_state', with: 'IN'
+    select country.name
+    select 'Conversion', from: 'organization_inception_value'
+
+    click_on 'Create Co-op'
+
+    expect(page).to have_content('Jayita')
+    expect(page).to have_content('Record was successfully created')
+    expect(page).to have_current_path(admin_organization_path(Organization.last))
+    expect(page).to have_content('United States')
+    expect(page).to have_content('Conversion')
   end
 
   scenario 'saving loan redirects to coop page' do
@@ -70,20 +87,5 @@ describe 'organization flow', js: true do
     # when the organization with the note is visited
     visit admin_organization_path(org1)
     expect(page).to have_content(org1.name)
-  end
-
-  scenario 'new coops come with countries' do
-    visit new_admin_organization_path
-    fill_in 'organization_name', with: 'Jayita'
-    fill_in 'organization_postal_code', with: '47905' # req'd for country
-    fill_in 'organization_state', with: 'IN'
-    select country.name
-
-    click_on 'Create Co-op'
-
-    expect(page).to have_content('Jayita')
-    expect(page).to have_content('Record was successfully created')
-    expect(page).to have_current_path(admin_organization_path(Organization.last))
-    expect(page).to have_content('United States')
   end
 end
