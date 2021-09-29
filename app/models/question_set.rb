@@ -63,7 +63,7 @@ class QuestionSet < ApplicationRecord
       parent: nil,
       data_type: "group",
       internal_name: "root_#{id}",
-      division: Division.root
+      division_id: division_id
     )
   end
 
