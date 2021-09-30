@@ -426,7 +426,6 @@ ActiveRecord::Schema.define(version: 2021_09_28_153001) do
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "custom_data"
-    t.string "kind"
     t.integer "legacy_id"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
