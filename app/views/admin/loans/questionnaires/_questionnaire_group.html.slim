@@ -52,10 +52,10 @@ div
         - if policy(@loan).update?
           a.edit-action.edit-all(
             href="javascript:void(0)"
-            aria-label="#{t("questions.edit_all")}"
+            aria-label="#{I18n.t("questions.edit_all")}"
           )
             i.fa.fa-pencil.fa-large.ms-tooltip(
-              data-message="#{t("questions.edit_all")}"
+              data-message="#{I18n.t("questions.edit_all")}"
               data-placement='left'
               aria-hidden="true"
               class="hidden-print"

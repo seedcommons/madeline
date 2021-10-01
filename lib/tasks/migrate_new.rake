@@ -19,6 +19,8 @@ namespace :tww do
       Organization.where(division_id: DIV_IDS).destroy_all
       puts "Destroying old migrated Loans"
       Loan.where(division_id: DIV_IDS).destroy_all
+      puts "Destroying old QuestionSets"
+      QuestionSet.where(division_id: DIV_IDS).destroy_all
     end
 
     orgs = Legacy::Cooperative.where(country: 'Argentina')
@@ -37,6 +39,12 @@ namespace :tww do
       loans.migrate_all
     end
     loan_ids = loans.pluck(:id)
+
+    questions = Legacy::LoanQuestion
+    txn_and_dump("questions") do
+      questions.migrate_all
+    end
+    question_ids = questions.pluck(:id)
 
     events = Legacy::ProjectEvent.where(project_id: loan_ids)
     txn_and_dump("steps") do

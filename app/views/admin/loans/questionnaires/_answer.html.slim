@@ -47,7 +47,7 @@
   / Specify which attributes are allowed.
   - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
 
-  a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
+  a.form-element.edit-rt-response.edit-action(aria-label="#{I18n.t("questions.edit_rich_text")}")
     =t("questions.edit_rich_text")
 
   - if response.text.present? && !response.not_applicable?
