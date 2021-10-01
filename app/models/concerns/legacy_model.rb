@@ -19,7 +19,7 @@ module LegacyModel
         # Convert datetimes to date
         define_method(col.underscore) { send(col).try(:to_date) }
       else
-        alias_attribute col.underscore, col
+        alias_attribute col.underscore, col unless col == col.underscore
       end
     end
   end
