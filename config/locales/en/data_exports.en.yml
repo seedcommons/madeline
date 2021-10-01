@@ -38,6 +38,8 @@ en:
       country: "Country"
       currency: "Currency"
       division: "Division"
+      final_repayment_formula: "Final Repayment Formula"
+      length_months: "Length (months)"
       loan_id: "Loan ID"
       loan_type: "Loan Type"
       name: "Name"
