@@ -50,6 +50,7 @@ en:
       projected_first_payment_date: "Projected First Payment Date"
       projected_return: "Projected Return"
       question_id: "Question ID"
+      rate: "Rate"
       secondary_agent: "Secondary Agent"
       signing_date: "Signing Date"
       state: "State"
