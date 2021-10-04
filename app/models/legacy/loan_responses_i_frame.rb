@@ -1,6 +1,5 @@
 # -*- SkipSchemaAnnotations
 module Legacy
-
   class LoanResponsesIFrame < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
@@ -10,7 +9,6 @@ module Legacy
 
     # Extract start and end cells from generated display url
     def parse_legacy_display_data
-      return unless url
       # This block of code matches the original PHP logic, but the implied functionality actually
       # appears broken for all but the first few records in the system, and all of the applied
       # display parameters are simply ignored.
@@ -37,7 +35,5 @@ module Legacy
       end
       self
     end
-
   end
-
 end

@@ -44,7 +44,11 @@ namespace :tww do
     txn_and_dump("questions") do
       questions.migrate_all
     end
-    question_ids = questions.pluck(:id)
+
+    response_sets = Legacy::LoanResponseSet.where(loan_id: loan_ids)
+    txn_and_dump("responses") do
+      response_sets.migrate_all
+    end
 
     events = Legacy::ProjectEvent.where(project_id: loan_ids)
     txn_and_dump("steps") do
