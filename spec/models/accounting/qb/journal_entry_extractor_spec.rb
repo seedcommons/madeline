@@ -352,7 +352,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
           {'line_items' =>
             [{'id' => '0',
               'description' => 'Eba',
-              'amount' => '10.99',
+              'amount' => '0.00',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
                 'posting_type' => 'Debit',
@@ -366,6 +366,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
               }},
              {'id' => '1',
               'description' => 'Eba',
+              'amount' => '10.99',
               'amount' => '0.00',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
@@ -380,7 +381,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
               }},
              {'id' => '2',
               'description' => 'Repayment',
-              'amount' => '10.99',
+              'amount' => '1.31',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
                 'posting_type' => 'Debit',
@@ -480,7 +481,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
           {'line_items' =>
             [{'id' => '0',
               'description' => 'Eba',
-              'amount' => '10.99',
+              'amount' => '0.0',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
                 'posting_type' => 'Debit',
