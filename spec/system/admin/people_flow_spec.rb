@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'people flow' do
+describe 'people flow', js: true do
 
   let!(:division) { create(:division) }
   let!(:org) { create(:organization) }
@@ -20,6 +20,36 @@ describe 'people flow' do
   include_examples "flow" do
     subject { person_1 }
     let(:field_to_change) { 'first_name' }
+  end
+
+  context 'create, update' do
+    scenario do
+      visit(admin_people_path)
+      click_on("New Member")
+      fill_in("person_first_name", with: "Ruddiger")
+      fill_in("person_email", with: "ruddiger@example.com")
+      check("person_has_system_access")
+      select("Member", from: "person_access_role")
+
+      # Check correct default
+      expect(page).to have_select("person_notification_source", selected: "Home division only")
+      select("Home division and subdivisions", from: "person_notification_source")
+
+      fill_in("person_password", with: "jfjfjfjfjfjfj")
+      fill_in("person_password_confirmation", with: "jfjfjfjfjfjfj")
+      click_on("Create Member")
+
+      expect(page).to have_alert("Record was successfully created")
+      expect(page).to have_content("Notifications\nHome division and subdivisions")
+      find(".edit-action", text: "Edit Member").click
+
+      expect(page).to have_select("person_notification_source", selected: "Home division and subdivisions")
+      select("Off", from: "person_notification_source")
+      click_on("Update Member")
+
+      expect(page).to have_alert("Record was successfully updated")
+      expect(page).to have_content("Notifications\nOff")
+    end
   end
 
   context 'logs' do

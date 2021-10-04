@@ -56,6 +56,10 @@ en:
           admin: "Admin"
           member: "Member"
           none: "None"
+        notification_source:
+          none: "Off"
+          home_only: "Home division only"
+          home_and_sub: "Home division and subdivisions"
       timeline_step_move:
         move_type:
           change_date: "Change step's scheduled date"

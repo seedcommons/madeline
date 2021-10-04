@@ -100,6 +100,11 @@
         - else
           = @person.access_role_label
 
+      = f.input :notification_source
+        .view-element = t("simple_form.options.person.notification_source.#{@person.notification_source}")
+        = f.input_field :notification_source, collection: User::NOTIFICATION_SOURCE_OPTIONS,
+                                              include_blank: false
+
       - if policy(@person).update_password?
         = render "password_fields", f: f
 

@@ -144,6 +144,7 @@ en:
         state: "State"
         tax_no: "National ID"
         website: "Website"
+        notification_source: "Notifications"
       project:
         length_months: "Length (months)"
         name: "Name"
