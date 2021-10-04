@@ -50,9 +50,10 @@ module Legacy
     end
 
     def data_type
-      type_key = self.type
-      type_key = "Texto Grande" if type_key.blank?
-      DATA_TYPE_MAP[type_key]
+      # These two are stored as groups in the old system but are definitely not groups.
+      return "text" if type.blank? || [45, 117].include?(id)
+
+      DATA_TYPE_MAP[type]
     end
 
     private
