@@ -24,7 +24,6 @@ module Legacy
     def self.migrate_questions(active:, group_id:, question_set:)
       position = -1
       where(active: active, grupo: group_id).order(:orden).each do |old_question|
-        puts "OLD ORDER: #{old_question.orden}"
         position += 1
         old_question.migrate(question_set: question_set, position: position)
         if old_question.data_type == "group"
@@ -40,10 +39,14 @@ module Legacy
     def migrate(question_set:, position:)
       data = migration_data(question_set: question_set, position: position)
       pp data
+      # Using insert because otherwise positions get messed up.
       question_id = Question.insert(data.without(:label_en, :label_es))[0]["id"]
+      question = Question.find(question_id)
 
-      # Couldn't insert translations because they use magic attribs.
-      Question.find(question_id).update!(data.slice(:label_en, :label_es))
+      # Migrate translations
+      question.update!(data.slice(:label_en, :label_es))
+
+      create_loan_question_requirements(question) if question.parent.root?
     end
 
     def data_type
@@ -69,6 +72,12 @@ module Legacy
         created_at: Time.current,
         updated_at: Time.current
       }
+    end
+
+    def create_loan_question_requirements(question)
+      OptionSet.find_by(model_attribute: "loan_type").options.pluck(:id).each do |opt_id|
+        question.loan_question_requirements.create!(option_id: opt_id)
+      end
     end
 
     DATA_TYPE_MAP = {
