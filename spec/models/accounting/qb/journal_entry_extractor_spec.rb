@@ -347,7 +347,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment with zero debit to principal' do
+      describe 'repayment with zero debit to principal, where whole repayment goes to interest' do
         let(:quickbooks_data) do
           {'line_items' =>
             [{'id' => '0',
@@ -367,10 +367,9 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
              {'id' => '1',
               'description' => 'Eba',
               'amount' => '10.99',
-              'amount' => '0.00',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
-                'posting_type' => 'Debit',
+                'posting_type' => 'Credit',
                 'entity' => {
                   'type' => 'Customer',
                   'entity_ref' => {'value' => customer.qb_id, 'name' => customer.name, 'type' => nil}
@@ -381,7 +380,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
               }},
              {'id' => '2',
               'description' => 'Repayment',
-              'amount' => '1.31',
+              'amount' => '10.99',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
                 'posting_type' => 'Debit',
@@ -400,7 +399,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
              'last_updated_time' => '2017-04-18T10:14:30.000-07:00'
            },
            'txn_date' => '2017-04-18',
-           'total' => '12.30',
+           'total' => '10.99',
            'doc_number' => 'MS-Managed',
            'private_note' => 'Random stuff'}
         end
@@ -412,7 +411,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
         end
       end
 
-      describe 'repayment with zero debit to interest receivable' do
+      describe 'repayment with zero debit to interest receivable, as in a zero-interest loan' do
         let(:quickbooks_data) do
           {'line_items' =>
             [{'id' => '0',
@@ -445,7 +444,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
               }},
              {'id' => '2',
               'description' => 'Repayment',
-              'amount' => '1.31',
+              'amount' => '10.99',
               'detail_type' => 'JournalEntryLineDetail',
               'journal_entry_line_detail' => {
                 'posting_type' => 'Debit',
@@ -464,7 +463,7 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
              'last_updated_time' => '2017-04-18T10:14:30.000-07:00'
            },
            'txn_date' => '2017-04-18',
-           'total' => '12.30',
+           'total' => '10.99',
            'doc_number' => 'MS-Managed',
            'private_note' => 'Random stuff'}
         end
