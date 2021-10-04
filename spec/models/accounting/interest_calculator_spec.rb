@@ -7,6 +7,9 @@ describe Accounting::InterestCalculator do
 
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
+  let!(:prin_acct) { division.principal_account }
+  let!(:int_rcv_acct) { division.interest_receivable_account }
+  let!(:int_inc_acct) { division.interest_income_account }
 
   describe "general operation" do
     let!(:t0) {
@@ -38,9 +41,6 @@ describe Accounting::InterestCalculator do
              loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division)
     }
     let(:all_txns) { [t0, t1, t2, t3, t4, t5, t6] }
-    let!(:prin_acct) { division.principal_account }
-    let!(:int_rcv_acct) { division.interest_receivable_account }
-    let!(:int_inc_acct) { division.interest_income_account }
 
     describe "initial creation and update" do
       it do
@@ -423,14 +423,17 @@ describe Accounting::InterestCalculator do
     end
     let(:all_txns) { [disbursement, repayment] }
 
-    it "does not create interest txn" do
+    it "does not create interest txn and repayment interest line item is debit as it is in qb " do
       recalculate_and_reload
       expect(Accounting::Transaction.count).to eq 2
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
       expect(disbursement.reload.interest_balance).to equal_money 0
       expect(disbursement.reload.principal_balance).to equal_money 1000
-      expect(repayment.reload.interest_balance).to equal_money 0
-      expect(repayment.reload.principal_balance).to equal_money 900
+      updated_repayment = repayment.reload
+      expect(updated_repayment.interest_balance).to equal_money 0
+      expect(updated_repayment.principal_balance).to equal_money 900
+      expect(updated_repayment.principal_balance).to equal_money 900
+      expect(updated_repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
     end
 
     context "with incorrect line items that allocate non-zero amount to interest" do
