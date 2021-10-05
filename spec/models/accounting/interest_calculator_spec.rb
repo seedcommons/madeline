@@ -438,8 +438,8 @@ describe Accounting::InterestCalculator do
       expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
       expect(repayment.line_item_for(prin_acct).amount).to equal_money 100
       expect(repayment.line_item_for(prin_acct).posting_type).to eq "Credit"
-      expect(repayment.line_item_for(txn_acct).amount).to equal_money 100
-      expect(repayment.line_item_for(txn_acct).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(repayment.account).amount).to equal_money 100
+      expect(repayment.line_item_for(repayment.account).posting_type).to eq "Debit"
     end
 
     context "with incorrect line items that allocate non-zero amount to interest" do
