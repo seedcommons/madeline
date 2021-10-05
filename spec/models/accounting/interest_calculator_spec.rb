@@ -508,14 +508,7 @@ describe Accounting::InterestCalculator do
 
     it "the repayment principal account line item is debit as it is in qb " do
       recalculate_and_reload
-      expect(loan.reload.transactions.count).to eq 2
-      expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-      expect(disbursement.reload.interest_balance).to equal_money 0
-      expect(disbursement.reload.principal_balance).to equal_money 1000
       updated_repayment = repayment.reload
-      expect(updated_repayment.interest_balance).to equal_money 0
-      expect(updated_repayment.principal_balance).to equal_money 900
-      expect(updated_repayment.principal_balance).to equal_money 900
       expect(updated_repayment.line_item_for(prin_acct).posting_type).to eq "Debit"
       expect(updated_repayment.line_item_for(prin_acct).amount).to eq 0.00
     end
