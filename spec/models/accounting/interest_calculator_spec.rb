@@ -393,15 +393,14 @@ describe Accounting::InterestCalculator do
 
     it "handles correctly" do
       recalculate_and_reload
-      #expect(Accounting::Transaction.where(project: loan).count).to eq 3
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be true
       interest_txn = Accounting::Transaction.find_by(txn_date: "2018-01-31", project: loan)
-      expect(disbursement.reload.interest_balance).to equal_money 0
-      expect(disbursement.reload.principal_balance).to equal_money 100
+      expect(disbursement.interest_balance).to equal_money 0
+      expect(disbursement.principal_balance).to equal_money 100
       expect(interest_txn.interest_balance).to equal_money 0.41
       expect(interest_txn.principal_balance).to equal_money 100
-      expect(repayment.reload.interest_balance).to equal_money 0
-      expect(repayment.reload.principal_balance).to equal_money(-9.54)
+      expect(repayment.interest_balance).to equal_money 0
+      expect(repayment.principal_balance).to equal_money(-9.54)
     end
   end
 
@@ -431,14 +430,16 @@ describe Accounting::InterestCalculator do
       recalculate_and_reload
       expect(Accounting::Transaction.count).to eq 2
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-      expect(disbursement.reload.interest_balance).to equal_money 0
-      expect(disbursement.reload.principal_balance).to equal_money 1000
-      updated_repayment = repayment.reload
-      expect(updated_repayment.interest_balance).to equal_money 0
-      expect(updated_repayment.principal_balance).to equal_money 900
-      expect(updated_repayment.principal_balance).to equal_money 900
-      expect(updated_repayment.line_item_for(int_rcv_acct).amount).to equal_money 0
-      expect(updated_repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
+      expect(disbursement.interest_balance).to equal_money 0
+      expect(disbursement.principal_balance).to equal_money 1000
+      expect(repayment.interest_balance).to equal_money 0
+      expect(repayment.principal_balance).to equal_money 900
+      expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 0
+      expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(prin_acct).amount).to equal_money 100
+      expect(repayment.line_item_for(prin_acct).posting_type).to eq "Credit"
+      expect(repayment.line_item_for(txn_acct).amount).to equal_money 100
+      expect(repayment.line_item_for(txn_acct).posting_type).to eq "Debit"
     end
 
     context "with incorrect line items that allocate non-zero amount to interest" do
@@ -477,9 +478,9 @@ describe Accounting::InterestCalculator do
         recalculate_and_reload
         expect(Accounting::Transaction.count).to eq 2
         expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-        expect(repayment.reload.line_item_for(prin_acct).amount).to equal_money 100
-        expect(repayment.reload.line_item_for(int_rcv_acct).amount).to equal_money 0
-        expect(repayment.reload.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
+        expect(repayment.line_item_for(prin_acct).amount).to equal_money 100
+        expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 0
+        expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
       end
     end
   end
@@ -508,9 +509,8 @@ describe Accounting::InterestCalculator do
 
     it "the repayment principal account line item is debit as it is in qb " do
       recalculate_and_reload
-      updated_repayment = repayment.reload
-      expect(updated_repayment.line_item_for(prin_acct).posting_type).to eq "Debit"
-      expect(updated_repayment.line_item_for(prin_acct).amount).to eq 0.00
+      expect(repayment.line_item_for(prin_acct).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(prin_acct).amount).to eq 0.00
     end
   end
 
