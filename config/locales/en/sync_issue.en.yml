@@ -1,0 +1,52 @@
+en:
+  sync_issue:
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to Accounting Settings to connect."
+    unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in QuickBooks."
+    journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in QuickBooks for accuracy."
+    has_multiple_loans: "Transaction associated with multiple loans"
+    attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    data_reset_required: "QuickBooks data reset required. Please go to Accounting Settings to perform a reset."
+    matched_transaction: "QuickBooks reports that a transaction (dated %{date} with QB id %{qb_id}) has a matched transaction in QB and therefore Madeline was unable to complete your action. Please try unmatching this transaction in QB, syncing data, and retrying your action."
+    quickbooks_not_connected: "QuickBooks not connected. Please connect on the Accounting Settings page."
+    quickbooks_accounts_not_selected: "QuickBooks accounts not set. Please select QuickBooks accounts on the Accounting Settings page."
+    quickbooks_unavailable_fetch: "QuickBooks was temporarily unavailable. Your transaction data may be out of date. Please try syncing again later."
+    quickbooks_unavailable_recalc: "QuickBooks was temporarily unavailable during calcuations for this loan, so transaction data may be partially incorrect. Please try syncing again later to correct this."
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
+    system_error_fetch: "There was an unexpected system error during fetching of QuickBooks data. The Madeline support team has been notified. Your transaction data may be out of date."
+    system_error_recalc: "There was an unexpected system error during calculations for this loan. The Madeline support team has been notified."
+    unknown_intuit_request_exception: "An unexpected error occurred between QB and Madeline on transaction (dated %{date} with QB id %{qb_id}). Due to this error, Madeline is unable to complete your action at this time. The Madeline support team has been notified."
+    index:
+      title: "Accounting Sync Issues For Loan %{loan_id}"
+    index_by_loan:
+      title: Accounting Sync Issues
+    show:
+      title: "Accounting Sync Issue #%{id}"
+    id: ID
+    txn_id: TXN ID
+    qb_id: QB ID
+    date: Date
+    loan_id: Loan ID
+    level:
+      header: Level
+      error: Error
+      warning: Warning
+    message:
+      header: Message
+    num_txns_with_message: Number of Issues with Similar Messages for this Loan
+    associated_loans: Associated Loans
+    quickbooks_data: Raw QuickBooks Data
+    error_msg_link:
+      one: review the error
+      other: review the errors
+    error_msg_admin_html:
+      one: There was a sync error for this loan. Transaction data is hidden. Please %{link}.
+      other: There were %{count} sync errors for this loan. Transaction data is hidden. Please %{link}.
+    error_msg_member: "Transaction data is hidden due to sync issues."
+    warning_msg_link:
+      one: review the warning
+      other: review the warnings
+    warning_msg_html:
+      one: There is a sync warning for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
+      other: There are %{count} sync warnings for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.

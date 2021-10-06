@@ -1,4 +1,28 @@
 en:
+  log:
+    additional_notes: "Additional Notes"
+    edit: "Edit Log"
+    empty_log_error: "Error: An empty log cannot be saved. Please add a summary."
+    delete: "Delete Log"
+    hide_logs: "Hide Logs"
+    hide_logs_n: "Hide Logs (%{n})"
+    log: "project log"
+    logs: "Logs"
+    new: "New Log"
+    create: "New Log"
+    no_logs: "No Logs"
+    notify: "Send notifications"
+    private_notes: "Private Notes"
+    save: "Save Log"
+    show_logs: "Show Logs"
+    show_logs_n: "Show Logs (%{n})"
+    status:
+      behind: "Behind"
+      on_time: "On time"
+    step: "Step"
+    step_completed: "Step completed on this date"
+    untitled_step: "[Untitled step]"
+  # The admin top level group is used here to allow t(".edit") style shortcuts from views
   # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
   # style shortcuts.
   project_log:
@@ -9,8 +33,3 @@ en:
     shared:
       confirm_deletion: "Are you sure you want to delete this log?"
       delete: "Delete Log"
-  admin:
-    project_logs:
-      index:
-        title: "Logs"
-        logs_for: "Logs for %{thing}"

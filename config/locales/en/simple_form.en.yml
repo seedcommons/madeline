@@ -10,23 +10,70 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Errors prevented the record from being saved. Please review the problems below:"
-
-    # Examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
-    # include_blanks:
-    #   defaults:
-    #     age: 'Rather not say'
-    # prompts:
-    #   defaults:
-    #     age: 'Select your age'
+    hints:
+      division:
+        logo_text: "Optional text to show below the logo. Logo is shorter if text is entered."
+        banner_bg_color: "Background color of site banner. Use CSS color codes, e.g. 'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_fg_color: "Color of text in banner."
+        accent_main_color: "Color of links, buttons, etc. in Madeline system. Defaults to banner BG color."
+        public_primary_color: "Background color of banner for public division page. We recommend using a darker color. Use CSS color codes, e.g'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        public_secondary_color: "Color of header text, links, etc. Defaults to Madeline secondary custom color. We recommend using a darker color."
+        public_accent_color: "Color of icons and location on public division page. Defaults to Madeline accent color."
+    labels:
+      accounting_transaction:
+        account: "Bank Account"
+        amount: "Amount"
+        change_in_interest: "Change in Interest"
+        change_in_principal: "Change in Principal"
+        check_number: "Check Number"
+        customer: "Co-op (QBO)"
+        description: "Description"
+        interest_balance: "Interest Balance"
+        loan_transaction_type_value: "Type of Transaction"
+        principal_balance: "Principal Balance"
+        private_note: "Memo"
+        qb_department: "QB Division"
+        disbursement_type: "Disbursement Type"
+        qb_record_id: "QuickBooks Record ID"
+        total_balance: "Total Balance"
+        txn_date: "Date"
+        vendor: "Vendor"
+      timeline_step_move:
+        move_type: "Which Date?"
+      question:
+        data_type: Data Type
+        display_in_summary: Display in Loan Memo Summary
+        division: Division
+        has_embeddable_media: Allow Files or Links to Be Attached
+        loan_types: Required for Loan Types
+    options:
+      accounting_transaction:
+        loan_transaction_type_value:
+          disbursement: "Disbursement"
+          repayment: "Repayment"
+      person:
+        access_role:
+          admin: "Admin"
+          member: "Member"
+          none: "None"
+      timeline_step_move:
+        move_type:
+          change_date: "Change step's scheduled date"
+          mark_completed: "Mark step completed on this date"
+      question:
+        data_type:
+          boolean: Yes/No
+          breakeven: Breakeven Table
+          breakeven_data: Breakeven Table
+          business_canvas: Business Model Canvas
+          currency: Currency
+          group: Group
+          list: Multiple Choice
+          number: Number
+          percentage: Percentage
+          range: Range
+          text: Paragraph
+          translatable: Translatable
+        override_associations:
+          "false": "Inherits from Group"
+          "true": "Overrides Group"

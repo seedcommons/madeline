@@ -6,16 +6,3 @@ en:
       new: "New Division"
       parent: "Parent Division"
       all: "All Divisions"
-
-
-  # The admin top level group is used here to allow t(".edit") style shortcuts from views
-  admin:
-    divisions:
-      show:
-        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Division? If it has any custom fields or option sets, they will also be deleted."
-        delete: "Delete Division"
-        edit: "Edit Division"
-      form:
-        notify_on_new_logs: "Notify users in this division when a new log is created"
-        public: "Show this division's loans on the public website"
-        public_url_info: "To change this division's public url, please update this division's Short Name below. The short name is the last portion of the url."

@@ -1,0 +1,22 @@
+en:
+  time:
+    formats:
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+  date:
+    formats:
+      default: '%b %e, %Y'
+      short: '%-m-%-d-%Y'
+      long: '%B %e, %Y'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+    # Syntax: see https://momentjs.com/docs/#/displaying/
+    # Should match the above strftime style formats.
+    moment_formats:
+      default: 'MMM D, YYYY'

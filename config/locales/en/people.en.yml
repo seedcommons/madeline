@@ -9,13 +9,3 @@ en:
       new: "New Member"
       people: "Members"
       person: "Member"
-
-  # The admin top level group is used here to allow t(".edit") style shortcuts from views
-  admin:
-    people:
-      show:
-        with_logs_or_notes:
-          confirm_deletion: "WARNING: This member has logs and/or notes. If you choose to delete the member, the logs and/or notes will remain with no author. If you wish to keep the member as the author of the logs and/or notes, do not delete this member. Instead, if the member is no longer active, uncheck the 'Has system access' option."
-        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Member?"
-        delete: "Delete Member"
-        edit: "Edit Member"

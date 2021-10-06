@@ -1,6 +1,224 @@
 en:
   activerecord:
     models:
+      data_export: "Data Export"
+      documentation: Documentation
+      log: "Log"
+      organization: "Organization"
+      loan: "Loan"
+      person: "Member"
       project_step:
         one: "Project Step"
         other: "Project Steps"
+      media: Media
+    attributes:
+      media:
+        item: "Item"
+        kind_value: "Kind"
+        featured: "Featured Image"
+      basic_project:
+        division: "Division"
+        length_months: "Length (months)"
+        name: "Name"
+        primary_agent: "Primary Agent"
+        secondary_agent: "Secondary Agent"
+        signing_date: "Start Date"
+        status: "Status"
+      data_export:
+        created_at: "Created"
+        end_date: "Data Export End Date"
+        locale_code: "Language"
+        name: "Name"
+        start_date: "Data Export Start Date"
+      division:
+        description: "Description"
+        default_currency: "Default Currency"
+        homepage: "Division Homepage"
+        name: "Name"
+        parent_id: "Parent Division"
+        notify_on_new_logs: "Notify on New Logs"
+        public: "Public"
+        public_url: "Public URL"
+        logo: "Logo"
+        logo_text: "Logo Text"
+        banner_fg_color: "Madeline Secondary Color"
+        banner_bg_color: "Madeline Primary Color"
+        accent_main_color: "Madeline Accent Color"
+        public_primary_color: "Public Division Page Primary Color"
+        public_secondary_color: "Public Division Page Secondary Color"
+        public_accent_color: "Public Division Page Accent Color"
+        closed_books_date: "Closed Books Date"
+        qb_read_only: "Treat QB Data as Read-Only"
+        connection_status: "QuickBooks Status"
+        connect: "Connect to QuickBooks"
+        last_updated_at: "QuickBooks Data Last Imported"
+        data_reset: "Reset Cached QuickBooks Data"
+        disconnect: "Disconnect from QuickBooks"
+        data_import_status: "Data Import Status"
+        fetch_from_quickbooks: "QuickBooks Fetch"
+        principal_account_id: "Principal Account"
+        qb_department_id: "QB Division"
+        short_name: "Short Name"
+        interest_receivable_account_id: "Interest Receivable Account"
+        interest_income_account_id: "Interest Income Account"
+      documentation:
+        calling_action: "Calling Action"
+        calling_controller: "Calling Controller"
+        html_identifier: "HTML Identifier"
+      loan:
+        division: "Division"
+        organization: "Co-op"
+        id: "ID"
+        name: "Name"
+        loan_type: "Loan Type"
+        status: "Status"
+        criteria_progress: "Credit Memo"
+        amount: "Amount"
+        currency: "Currency"
+        primary_agent: "Point Person"
+        secondary_agent: "Second"
+        length_months: "Length (months)"
+        actual_end_date: "Actual End Date"
+        actual_return: "Actual Return"
+        actual_first_interest_payment_date: "Actual First Interest Payment Date"
+        actual_first_payment_date: "Actual First Payment Date"
+        projected_first_interest_payment_date: "Projected First Interest Payment Date"
+        projected_first_payment_date: "Projected First Payment Date"
+        projected_end_date: "Projected End Date"
+        projected_return: "Projected Return"
+        details: "Details"
+        public_level: "Public Level"
+        txn_handling_mode: "Transaction Mode"
+        automatic: "Automatic"
+        read_only: "Read-Only"
+        rate: "Rate"
+        signing_date: "Signing Date"
+        summary: "Summary"
+        final_repayment_formula: "Final Repayment Formula"
+      note:
+        text: "Note"
+      organization:
+        active_loans: "Active Loans"
+        additional_people: "Additional Members"
+        alias: "Alias"
+        city: "City"
+        contact_notes: "Contact Notes"
+        division: "Division"
+        email: "E-mail"
+        fax: "Fax"
+        industry: "Industry"
+        legal_name: "Legal Name"
+        name: "Name"
+        neighborhood: "Neighborhood"
+        people: "Members"
+        postal_code: "Postal Code"
+        primary_contact: "Primary Contact"
+        primary_phone: "Phone"
+        referral_source: "Referral Source"
+        secondary_phone: "Mobile"
+        street_address: "Street Address"
+        sector: "Sector"
+        state: "State"
+        tax_no: "Tax ID"
+        country: "Country"
+        website: "Website"
+        inception: "Inception"
+      person:
+        birth_date: "Birth Date"
+        city: "City"
+        contact_notes: "Contact Notes"
+        country: "Country"
+        division: "Division"
+        email: "E-mail"
+        first_name: "First Name"
+        has_system_access: "Has System Access"
+        last_name: "Last Name"
+        access_role: "Access Role"
+        postal_code: "Zip Code"
+        password: "Password"
+        password_confirmation: "Password Confirmation"
+        primary_organization: "Co-op"
+        primary_phone: "Phone"
+        secondary_phone: "Mobile"
+        street_address: "Street Address"
+        state: "State"
+        tax_no: "National ID"
+        website: "Website"
+      project:
+        length_months: "Length (months)"
+        name: "Name"
+        primary_agent: "Primary Agent"
+        progress: "Progress"
+        secondary_agent: "Secondary Agent"
+        signing_date: "Start Date"
+        status: "Status"
+        health_check: "Health Check"
+      project_log:
+        step: "Step"
+        date: "Log Date"
+        agent: "Member"
+        progress_metric_value: "Status"
+      project_step:
+        agent_id: "Assignee"
+        parent_id: "Group"
+        schedule_parent_id: "Preceding Step"
+        actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
+        is_finalized: "Finalized"
+        is_finalized?: "Finalized"
+        old_duration_days: "Original Duration"
+        old_start_date: "Original Start Date"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
+        scheduled_end_date: "Scheduled End Date"
+        step_type_value: "Type"
+      accounting:
+        transaction:
+          amount: "Amount"
+          change_in_interest: "Change in Interest"
+          change_in_principal: "Change in Principal"
+          description: "Description"
+          interest_balance: "Interest Balance"
+          principal_balance: "Principal Balance"
+          private_note: "Memo"
+          qb_id: "Id"
+          txn_date: "Date"
+          total: "Total"
+          total_balance: "Total Balance"
+          type: "Type"
+    errors:
+      models:
+        accounting/transaction:
+          attributes:
+            txn_date:
+              closed_books_date: "Date must be after the Closed Books Date, %{date}, in Accounting Settings."
+        basic_project:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+        division:
+          attributes:
+            name:
+              same_as_parent: 'Division and Parent Division names cannot be the same'
+        loan:
+          attributes:
+            primary_agent:
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+        media:
+          attributes:
+            item:
+              reattach: "please reattach your image"
+            featured:
+              non_image: "only image attachments can be set to featured"
+        project_group:
+          no_summary: "Summary is required."
+        question:
+          invalid_parent_division_depth: "Parent must be in same or ancestor division."
+        organization:
+          attributes:
+            primary_contact:
+              invalid: 'Primary Contact needs to belong to organization'
+        timeline_entry:
+          attributes:
+            scheduled_end_date:
+              less_than_1: "The scheduled duration of a step cannot be less than 1 day."
