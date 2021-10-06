@@ -511,6 +511,10 @@ describe Accounting::InterestCalculator do
       recalculate_and_reload
       expect(repayment.line_item_for(prin_acct).posting_type).to eq "Debit"
       expect(repayment.line_item_for(prin_acct).amount).to eq 0.00
+      expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Credit"
+      expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 5.0
+      expect(repayment.line_item_for(repayment.account).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(repayment.account).amount).to equal_money 5.0
     end
   end
 
