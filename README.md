@@ -42,6 +42,30 @@ mailcatcher
 bundle exec sidekiq
 ```
 
+## Translations
+
+Translation management is done using Transifex. See the `bin/pull_translations` and `bin/push_translations`
+scripts. The Transifex `tx` command line client is needed. See https://docs.transifex.com/client/installing-the-client
+for installation instructions.
+
+Once the client is installed, obtain a token at https://www.transifex.com/user/settings/api/.
+Add it to your .bashrc/.zshrc/whatever like so:
+
+    export TX_TOKEN=<your_Transifex_API_token>
+
+To push translations to Transifex, run
+
+    bin/push_translations
+
+This combines all the *.en.yml files in the project into one temporary file and uploads them.
+We do it this way to make the translator's job easier as they only have to translate one resource.
+
+To pull the latest translations from Transifex run
+
+    bin/pull_translations
+
+and commit any changes.
+
 ## Data migration
 
 It's better to run the main data migration on a local machine to preserve scarce CPU time on the server. If we use too much CPU, we get severely throttled.
