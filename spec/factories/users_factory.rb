@@ -1,3 +1,7 @@
+# WARNING: This factory may generate double users in some cases. It seems the better way to get users
+# is to go through the Person factory. The create_member and create_admin methods attest to this.
+# Those should be removed since they are not easy to find (principle of least surprise).
+# This factory should perhaps be removed for the same reason.
 FactoryBot.define do
   factory :user do
     created_at { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
