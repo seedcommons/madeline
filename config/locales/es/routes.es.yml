@@ -1,6 +1,0 @@
-es:
-  routes:
-    loans: prestamos
-    gallery: galeria
-    test: prueba
-    update: actualizar

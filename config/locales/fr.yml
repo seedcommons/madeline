@@ -1,0 +1,1473 @@
+fr:
+  number:
+    nth:
+      num_1: ""
+      num_2: ""
+      num_3: ""
+      num_4: ""
+      num_5: "" # This reflects the actual behavior of the repeat function
+    nth_weekday: ""
+    the_day: ""
+  data_export:
+    attachments: ""
+    info: ""
+    file: ""
+    status: ""
+    task: ""
+    task_id: ""
+    task_id_num: ""
+    task_error_details: ""
+    type: ""
+    download: ""
+  data_exports:
+    choose_type: ""
+    create_success: ""
+    default_name: ""
+    index_heading: ""
+    new_export:
+      general: ""
+      standard_loan_data_export: ""
+      enhanced_loan_data_export: ""
+    types:
+      data_export: ""
+      standard_loan_data_export: ""
+      enhanced_loan_data_export: ""
+  standard_loan_data_exports:
+    headers:
+      actual_end_date: ""
+      actual_first_interest_payment_date: ""
+      actual_first_payment_date: ""
+      actual_return: ""
+      address: ""
+      amount: ""
+      change_in_interest: ""
+      change_in_principal: ""
+      city: ""
+      cooperative: ""
+      country: ""
+      currency: ""
+      division: ""
+      final_repayment_formula: ""
+      length_months: ""
+      loan_id: ""
+      loan_type: ""
+      name: ""
+      num_accounting_warnings: ""
+      num_accounting_errors: ""
+      postal_code: ""
+      primary_agent: ""
+      projected_end_date: ""
+      projected_first_interest_payment_date: ""
+      projected_first_payment_date: ""
+      projected_return: ""
+      question_id: ""
+      rate: ""
+      secondary_agent: ""
+      signing_date: ""
+      state: ""
+      status: ""
+      sum_of_disbursements: ""
+      sum_of_repayments: ""
+  notification_mailer:
+    new_log:
+      contact: ""
+      created: ""
+      logs: ""
+      subject: ""
+      timeline: ""
+      view_on_site:
+        html: ""
+        plain_text: ""
+  time:
+    formats:
+      default: '%b %e, %Y'
+      short: '%b %e, %Y'
+      long: '%b %e, %Y %l:%M %p'
+      full_tz: '%b %e, %Y %l:%M %p %Z'
+      date_only: '%b %e, %Y'
+      time_only: '%l:%M %P'
+      md_only: '%b %e'
+      my_only: '%b %Y'
+  date:
+    formats:
+      default: ''
+      short: ''
+      long: ''
+      md_only: ''
+      my_only: ''
+    # Syntax: see https://momentjs.com/docs/#/displaying/
+    # Should match the above strftime style formats.
+    moment_formats:
+      default: ''
+  calendar:
+    calendar: ""
+    check_in: ""
+    draft: ""
+    finalized: ""
+    has_precedent: ""
+    legend: ""
+    milestone: ""
+    num_of_logs: ""
+    original_date: ""
+    status:
+      early: ""
+      incomplete: ""
+      late: ""
+      on_time: ""
+      super_late: ""
+      very_late: ""
+  project_step:
+    add: "Ajouter Étape"
+    add_dependent_step: "Ajouter une Étape Dépendante"
+    add_log: "Ajouter un Journal"
+    all_types: "Tous les Types"
+    all_statuses: "Tous les Statuts"
+    all_completion_statuses: "Tous les Statuts"
+    after: "Après"
+    completion_status:
+      draft: 'Brouillon'
+      finalized: 'Finalisé'
+      complete: 'Achevée'
+      incomplete: 'Incomplet'
+    confirm_deletion: "Êtes-vous sûr de vouloir supprimer cette étape du projet?"
+    days: "Journée(s)"
+    delete:
+      one: "Supprimer L'étape"
+      other: "Supprimer les Étapes"
+    duplicate: "Dupliquer"
+    duplicate_step: "Étape en Double"
+    duration_days: "%{duration}d"
+    edit: "Modifier L'étape"
+    end: "Fin:"
+    every: "Chaque:"
+    batch_delete_confirm: "Êtes-vous sûr de vouloir supprimer ces étapes du projet?"
+    batch_finalize_confirm: "Êtes-vous sûr de vouloir finaliser ces étapes du projet?"
+    finalized: "Finalisé:"
+    finalize:
+      one: "Finaliser L'étape"
+      other: "Finaliser les Étapes"
+    labels:
+      completed: "Terminé:"
+      duration: "Durée:"
+      finalized: "Finalisé:"
+      scheduled: "Prévu:"
+      start_date: "Date de Début:"
+      status: "Statut:"
+      old_start_date: "Ancienne date de début:"
+    logs: "Journaux"
+    months: "Moi(s)"
+    move: "Étape de Déplacement"
+    no_status: ""
+    no_steps: "Ce calendrier n'a pas encore de pas."
+    no_steps_match: "Aucune étape de chronologie ne correspond aux filtres ci-dessus."
+    occurrences: "occurrence(s)"
+    once: "Une Fois Que"
+    on_label: "Sur:"
+    on_text: "Sur"
+    project_step:
+      one: "étape du projet"
+      other: "étapes du projet"
+    repeat: "Répéter..."
+    timeline: "Chronologie"
+    timeline_table:
+      draft: "Brouillon"
+      duration: "Durée"
+      end: "Fin"
+      group: "Groupe"
+      logs: "Journaux"
+      preceding_step: "Étape Précédente"
+      start: "Début"
+      status: "Statut"
+      step: "Étape"
+    status:
+      completed: "Terminé"
+      completed_late: "Terminé %{days} d tard"
+      early: "De bonne heure"
+      late: "En retard"
+      not_completed: "Pas encore terminé"
+      days_early: "%{days} jours plus tôt"
+      days_late: "%{days} jours de retard"
+      on_time: "À temps"
+      changed_times:
+        one: "Changé une fois"
+        other: "Changé %{count} fois"
+    unfinalize_disallowed: "La définalisation n'est pas autorisée. Plus de 24 heures se sont écoulées depuis la finalisation."
+    view_logs: "Regardes les connexions"
+    weeks: "Semaine(s)"
+  project_group:
+    add: ""
+    edit: ""
+    delete: ""
+    delete_confirmation: ""
+  project_groups:
+    delete_error: ""
+  organization:
+    active_loans: ""
+    confirm_deletion: ""
+    media: ""
+    delete: ""
+    edit: ""
+    new: ""
+    people: ""
+  locale_name:
+    en: Anglais
+    es: Espanol
+    fr: Français
+  task:
+    activity_message:
+      completed: ""
+      error_data_reset_required: ""
+      error_quickbooks_not_connected: ""
+      error_quickbooks_accounts_not_selected: ""
+      failed: ""
+      fetching_quickbooks_data: ""
+      finished_with_custom_error_data: ""
+      in_progress: ""
+      syncing_with_quickbooks: ""
+      task_enqueued: ""
+      updating_loans: ""
+    custom_error_data:
+      help: ""
+      link_to_details: ""
+      loan_id: ""
+      loan_error: ""
+      not_applicable: ""
+    header:
+      activity_message: ""
+      created_at: ""
+      custom_error_data: ""
+      id: ""
+      job_first_started_at: ""
+      job_last_failed_at: ""
+      status: ""
+      related: ""
+      type: ""
+    index:
+      title: ""
+    show:
+      title: ""
+    status:
+      failed: ""
+      in_progress: ""
+      pending: ""
+      succeeded: ""
+    taskable:
+      type:
+        data_export: ""
+      type_with_id:
+        data_export: ""
+    type:
+      full_fetcher: ""
+      data_export: ""
+      data_export_task_job: ""
+      update_all_loans: ""
+      update_all_loans_job: ""
+      fetch_quickbooks_changes: ""
+      fetch_quickbooks_changes_job: ""
+  questions:
+    active: "Actif"
+    confirm_deletion: "AVERTISSEMENT: Si cet élément a des questions ou des groupes lui appartenant, ils seront également supprimés! Êtes-vous sûr de vouloir supprimer ceci?"
+    confirm_deletion_no_descendants: "Êtes-vous sûr de vouloir supprimer ceci?"
+    confirm_deletion_descendants: "AVERTISSEMENT: Cet élément a des questions ou des groupes lui appartenant, qui seront également supprimés! Êtes-vous sûr de vouloir supprimer ceci?"
+    currently_editing: ""
+    delete_error: "L'élément n'a pas pu être supprimé en raison d'une erreur"
+    edit_all: ""
+    edit_rich_text: ""
+    explanation: "Explication"
+    manage: "Gérer les questions de prêt"
+    missing_required_answer: ""
+    move_error: "L'élément n'a pas pu être déplacé en raison d'une erreur"
+    not_editable: "Cette question ou ce groupe est hérité d'une division parente, il ne peut donc pas être modifié."
+    progress:
+      complete: ""
+      normal: ""
+      optional: ""
+    table:
+      caption: ""
+    text: "Titre"
+    none_for_loan_division: ""
+    none_for_current_division: ""
+    inheritance_tag:
+      ancestor: ""
+      descendant: ""
+
+  question_sets:
+    loan_criteria: ""
+    loan_post_analysis: ""
+
+  linked_document:
+    cell_end: Cellule d'extrémité
+    cell_end_hint: Z26
+    cell_start: Démarrer la Cellule
+    cell_start_hint: A1
+    delete: Supprimer le lien
+    delete_confirmation: "Êtes-vous sûr de vouloir supprimer ce lien?"
+    link: "Lien vers un fichier (comme une feuille de calcul Google ou un document)"
+    linked_document: Document Lié
+    range_of_cells: Cellules facultatives pour la feuille de calcul Google
+    url: URL
+  # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+  # style shortcuts.
+  people:
+    shared:
+      has_system_access: ""
+      invalid_division_role: ""
+      media: ""
+      new: ""
+      people: ""
+      person: ""
+  activerecord:
+    models:
+      data_export: ""
+      documentation: ""
+      log: ""
+      organization: ""
+      loan: ""
+      person: ""
+      project_step:
+        one: ""
+        other: ""
+      media: ""
+    attributes:
+      media:
+        item: ""
+        kind_value: ""
+        featured: ""
+      basic_project:
+        division: ""
+        length_months: ""
+        name: ""
+        primary_agent: ""
+        secondary_agent: ""
+        signing_date: ""
+        status: ""
+      data_export:
+        created_at: ""
+        end_date: ""
+        locale_code: ""
+        name: ""
+        start_date: ""
+      division:
+        description: ""
+        default_currency: ""
+        homepage: ""
+        name: ""
+        parent_id: ""
+        notify_on_new_logs: ""
+        public: ""
+        public_url: ""
+        logo: ""
+        logo_text: ""
+        banner_fg_color: ""
+        banner_bg_color: ""
+        accent_main_color: ""
+        public_primary_color: ""
+        public_secondary_color: ""
+        public_accent_color: ""
+        closed_books_date: ""
+        qb_read_only: ""
+        connection_status: ""
+        connect: ""
+        last_updated_at: ""
+        data_reset: ""
+        disconnect: ""
+        data_import_status: ""
+        fetch_from_quickbooks: ""
+        principal_account_id: ""
+        qb_department_id: ""
+        short_name: ""
+        interest_receivable_account_id: ""
+        interest_income_account_id: ""
+      documentation:
+        calling_action: ""
+        calling_controller: ""
+        html_identifier: ""
+      loan:
+        division: "Division"
+        organization: "Les Coopérative"
+        id: "ID"
+        name: "Prénom"
+        loan_type: "Type de Prêt"
+        status: "Statut"
+        criteria_progress: "Note de Crédit"
+        amount: "Montant"
+        currency: "Devise"
+        primary_agent: "Personne Point"
+        secondary_agent: "Seconde"
+        length_months: "Durée (mois)"
+        actual_end_date: ""
+        actual_return: ""
+        actual_first_interest_payment_date: ""
+        actual_first_payment_date: ""
+        projected_first_interest_payment_date: ""
+        projected_first_payment_date: ""
+        projected_end_date: ""
+        projected_return: "Retour Projeté"
+        details: "Détails"
+        public_level: "Niveau Public"
+        txn_handling_mode: ""
+        automatic: ""
+        read_only: ""
+        rate: "Taux"
+        signing_date: "Date de Signature"
+        summary: "Résumé"
+        final_repayment_formula: ""
+      note:
+        text: ""
+      organization:
+        active_loans: ""
+        additional_people: ""
+        alias: ""
+        city: ""
+        contact_notes: ""
+        division: ""
+        email: ""
+        fax: ""
+        industry: ""
+        legal_name: ""
+        name: ""
+        neighborhood: ""
+        people: ""
+        postal_code: ""
+        primary_contact: ""
+        primary_phone: ""
+        referral_source: ""
+        secondary_phone: ""
+        street_address: ""
+        sector: ""
+        state: ""
+        tax_no: ""
+        country: ""
+        website: ""
+        inception: ""
+      person:
+        birth_date: ""
+        city: ""
+        contact_notes: ""
+        country: ""
+        division: ""
+        email: ""
+        first_name: ""
+        has_system_access: ""
+        last_name: ""
+        access_role: ""
+        postal_code: ""
+        password: ""
+        password_confirmation: ""
+        primary_organization: ""
+        primary_phone: ""
+        secondary_phone: ""
+        street_address: ""
+        state: ""
+        tax_no: ""
+        website: ""
+      project:
+        length_months: "Durée (mois)"
+        name: "Prénom"
+        primary_agent: "Agent Primaire"
+        progress: "Le Progrès"
+        secondary_agent: "Agent Secondaire"
+        signing_date: "Date de Début"
+        status: "Statut"
+        health_check: "Bilan de Santé"
+      project_log:
+        step: ""
+        date: ""
+        agent: ""
+        progress_metric_value: ""
+      project_step:
+        agent_id: ""
+        parent_id: ""
+        schedule_parent_id: ""
+        actual_end_date: ""
+        duration: ""
+        is_finalized: ""
+        is_finalized?: ""
+        old_duration_days: ""
+        old_start_date: ""
+        scheduled_duration_days: ""
+        scheduled_start_date: ""
+        scheduled_end_date: ""
+        step_type_value: ""
+      accounting:
+        transaction:
+          amount: ""
+          change_in_interest: ""
+          change_in_principal: ""
+          description: ""
+          interest_balance: ""
+          principal_balance: ""
+          private_note: ""
+          qb_id: ""
+          txn_date: ""
+          total: ""
+          total_balance: ""
+          type: ""
+    errors:
+      models:
+        accounting/transaction:
+          attributes:
+            txn_date:
+              closed_books_date: ""
+        basic_project:
+          attributes:
+            primary_agent:
+              same_as_secondary: ''
+        division:
+          attributes:
+            name:
+              same_as_parent: ''
+        loan:
+          attributes:
+            primary_agent:
+              same_as_secondary: ''
+        media:
+          attributes:
+            item:
+              reattach: ""
+            featured:
+              non_image: ""
+        project_group:
+          no_summary: ""
+        question:
+          invalid_parent_division_depth: ""
+        organization:
+          attributes:
+            primary_contact:
+              invalid: ''
+        timeline_entry:
+          attributes:
+            scheduled_end_date:
+              less_than_1: ""
+  dashboard:
+    assigned_steps: "Etapes du projet qui m'ont été attribuées"
+    logs: "Journaux"
+    my_projects: "Mes Projets"
+    no_assigned_steps: "Aucune étape du projet ne vous est attribuée."
+    project: "Projet"
+    scheduled_end_date: "Fin Prévue"
+    scheduled_start_date: "Début Programmé"
+    show_all_logs: "Gérer les journaux"
+    step_type_value: "Type"
+    summary: "Résumé"
+    upcoming_events: "Étapes à venir"
+    users: "Utilisateurs"
+    status_options:
+      active: "Actif"
+      all: "Tout"
+      completed: "Terminé"
+  media:
+    confirm_deletion: "Êtes-vous sûr de vouloir supprimer cet élément multimédia?"
+    caption: "%{locale_name} Légende"
+    documents: "Documents"
+    duplication_warning: ""
+    featured_image: ""
+    add: "Ajouter des médias"
+    edit: "Modifier les médias"
+    delete: "Supprimer le média"
+    item: "Article"
+    media: "Médias"
+    visual_media: "Média Visuel"
+    block:
+      id: ""
+      kind: ""
+      filename: ""
+      date_uploaded: ""
+      source: ""
+  project:
+    months: ""
+
+  health_status:
+    healthy: ""
+    unhealthy: ""
+    warnings:
+      active_without_signed_contract: ""
+      active_without_recent_logs: ""
+      late_steps: ""
+      incomplete_loan_questions: ""
+      sporadic_loan_updates: ""
+  sync_issue:
+    authorization_failure: ""
+    unprocessable_account: ""
+    journal_entry_type_other_account_not_set: ""
+    has_multiple_loans: ""
+    attempted_change_before_closed_books_date: ""
+    no_end_of_month_int_txn_before_closed_books_date: ""
+    attempted_new_int_txn_before_closed_books_date: ""
+    data_reset_required: ""
+    matched_transaction: ""
+    quickbooks_not_connected: ""
+    quickbooks_accounts_not_selected: ""
+    quickbooks_unavailable_fetch: ""
+    quickbooks_unavailable_recalc: ""
+    service_unavailable: ""
+    system_error_fetch: ""
+    system_error_recalc: ""
+    unknown_intuit_request_exception: ""
+    index:
+      title: ""
+    index_by_loan:
+      title: ""
+    show:
+      title: ""
+    id: ""
+    txn_id: ""
+    qb_id: ""
+    date: ""
+    loan_id: ""
+    level:
+      header: ""
+      error: ""
+      warning: ""
+    message:
+      header: ""
+    num_txns_with_message: ""
+    associated_loans: ""
+    quickbooks_data: ""
+    error_msg_link:
+      one: ''
+      other: ''
+    error_msg_admin_html:
+      one: ''
+      other: ''
+    error_msg_member: ""
+    warning_msg_link:
+      one: ''
+      other: ''
+    warning_msg_html:
+      one: ''
+      other: ''
+  # Overwrite rails default of using the table name in the action labels
+  helpers:
+    submit:
+      organization:
+        create: ""
+        update: ""
+  # The admin top level group is used here to allow t(".xxx") style shortcuts from views
+  admin:
+    timeline:
+      list_header:
+        cancel_edit: ""
+        edit_all: ""
+        new_step: ""
+        save_all: ""
+      top_controls:
+        new_group: ""
+        new_step: ""
+      table:
+        add_child_group: ""
+        add_child_step: ""
+    organizations:
+      loans:
+        view_all_loans: ""
+    questions:
+      index:
+        title: "Questions de prêt"
+        add_item: "Ajouter une question ou groupe"
+        edit_item: "Modifier l'article"
+        delete_item: "Effacer l'article"
+      form:
+        edit_item: Modifier la Question ou le Groupe
+        new_item: Nouvelle Question ou Groupe
+    people:
+      show:
+        with_logs_or_notes:
+          confirm_deletion: ""
+        confirm_deletion: ""
+        delete: ""
+        edit: ""
+    timeline_step_moves:
+      new:
+        move: ""
+        orig_date_remembered: ""
+        please_log: ""
+        add_log: ""
+    notes:
+      form:
+        edit_item: ""
+        new_item: ""
+    divisions:
+      show:
+        confirm_deletion: ""
+        delete: ""
+        edit: ""
+      form:
+        notify_on_new_logs: ""
+        public: ""
+        public_url_info: ""
+    loans:
+      questions:
+        delete: "Supprimer toutes les réponses"
+        outline:
+          header: ""
+          optional: ""
+          miscellaneous: ""
+      transactions:
+        create_success: "Transaction créée avec succès."
+        update_success: ""
+        sync_complete: ""
+        new_transaction: "Ajouter une Transaction"
+        edit_transaction: ""
+        sync_data: ""
+        update: "Transaction de Mise à Jour"
+    project_logs:
+      index:
+        title: ""
+        logs_for: ""
+  # Strings used in general template stuff like header.
+  template:
+    profile: "Profil"
+    change_division: "Division du Changement"
+    select_division: "Sélectionner une Division"
+  devise:
+    confirmations:
+      confirmed: ""
+      send_instructions: ""
+      send_paranoid_instructions: ""
+    failure:
+      already_authenticated: ""
+      inactive: ""
+      invalid: ""
+      locked: ""
+      last_attempt: ""
+      not_found_in_database: ""
+      timeout: ""
+      unauthenticated: ""
+      unconfirmed: ""
+    mailer:
+      confirmation_instructions:
+        subject: ""
+      reset_password_instructions:
+        subject: ""
+      unlock_instructions:
+        subject: ""
+      password_change:
+        subject: ""
+    omniauth_callbacks:
+      failure: ""
+      success: ""
+    passwords:
+      no_token: ""
+      send_instructions: ""
+      send_paranoid_instructions: ""
+      updated: ""
+      updated_not_active: ""
+    registrations:
+      destroyed: ""
+      signed_up: ""
+      signed_up_but_inactive: ""
+      signed_up_but_locked: ""
+      signed_up_but_unconfirmed: ""
+      update_needs_confirmation: ""
+      updated: ""
+    sessions:
+      signed_in: ""
+      signed_out: ""
+      already_signed_out: ""
+    unlocks:
+      send_instructions: ""
+      send_paranoid_instructions: ""
+      unlocked: ""
+  errors:
+    messages:
+      already_confirmed: ""
+      confirmation_period_expired: ""
+      expired: ""
+      not_found: ""
+      not_locked: ""
+      not_saved:
+        one: ""
+        other: ""
+  notes:
+    confirm_deletion: ''
+    delete: ""
+    new: ""
+  documentation:
+    index: ""
+    edit: "Modifier la documentation"
+    learn_more: "Apprendre encore plus »"
+    new: 'Nouvelle documentation'
+    no_documentations: "Pas de documentations."
+    location: ""
+  divisions:
+    # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+    # style shortcuts.
+    shared:
+      new: ""
+      parent: ""
+      all: ""
+  loan:
+    actual_end_date: ""
+    adjust_dates: "Ajuster les Dates"
+    adjust_scheduled_dates: "Ajuster les Dates Programmées"
+    agent:
+      one: "Agent"
+      other: "Agents"
+    amount: "Montant"
+    back_to_loan: "Retour au Prêt"
+    backward: "- en arrière"
+    batch_actions: "Actions par Lots"
+    cancel_edit: "Annuler Modifier"
+    confirm_deletion: "AVERTISSEMENT: Etes-vous sûr de vouloir supprimer définitivement ce prêt?"
+    confirm_duplication: ""
+    confirm_response_deletion: "AVERTISSEMENT: Etes-vous sûr de vouloir supprimer définitivement ces réponses?"
+    criteria: "Note de Crédit"
+    criteria_not_entered: "Les critères n'ont pas encore été saisis."
+    default_name_message: "Si laissé vide, un nom sera automatiquement généré pour ce prêt."
+    delete: "Supprimer un Prêt"
+    delete_responses: "Supprimer les Réponses"
+    delete_selected: "Effacer"
+    description: "La description"
+    details: "Détails"
+    duplicate: "Dupliquer"
+    duplicated_message: "Le prêt a été dupliqué avec succès."
+    edit: "Modifier le Prêt"
+    end: "Fin %{name}"
+    end_date: "Date de Fin"
+    errors:
+      transaction_data_missing: ""
+    finalize: "Finaliser"
+    forward: "+ vers l'avant"
+    id: "ID de Prêt"
+    length: "Longueur"
+    loan_type: "Type de Prêt"
+    media: "Médias de Prêt"
+    memo: "Note de prêt"
+    txn_mode_tooltip: ""
+    months: "%{number} mo."
+    move_date_confirm:
+      title: "Date de déménagement?"
+      body: "Êtes-vous sûr de vouloir changer la date du prêt?"
+    move_dates: "Déplacer les dates prévues"
+    move_date_direction: "Déplacer la date vers l'avant ou vers l'arrière?"
+    no_answer: "Aucune réponse donnée."
+    not_applicable: "N'est pas Applicable"
+    num_of_links:
+      one: "Il y a %{count} document lié."
+      other: "Il y a %{count} documents liés."
+    open_links:
+      one: "Cliquez pour ouvrir le document dans un nouvel onglet."
+      other: "Cliquez pour ouvrir chaque document dans un nouvel onglet."
+    optional_amount: "Montant optionnel"
+    pending_changes: ""
+    pending_changes_short: ""
+    popup_blocker: "Vous devrez peut-être désactiver votre bloqueur de popup ou activer tous les popups de ce site pour voir vos documents."
+    post_analysis: "Post-Analyse"
+    primary_agent: "Personne Point"
+    print: "Impression"
+    print_criteria: "Note de Crédit Seulement"
+    print_details: "Détails Seulement"
+    print_header_title: "Profil d'Investissement et Note de Crédit"
+    print_memo: "Imprimer un Mémo de Prêt"
+    projected_end_date: ""
+    public:
+      not_authorized: ""
+    question:
+      current_response: ""
+      edit: ""
+    rating: "But"
+    save_responses: "Enregistrer les réponses"
+    shared:
+      new: "Nouveau Prêt"
+    signing_date: "Date de Signature"
+    sign_date: "Date de Signature"
+    start: "Démarrer %{name}"
+    spreadsheet_new_tab: "Ouvrir le document dans un nouvel onglet"
+    spreadsheet_inline: "Afficher le document en ligne"
+    spreadsheet_hide: "Masquer le document"
+    status:
+      active: "Actif"
+      completed: "Terminé"
+      frozen: "Congelé"
+      liquidated: "Liquidé"
+    steps_notice: "Certaines étapes sélectionnées dépendent d'autres étapes que vous n'avez pas sélectionnées. Les dates de ces étapes ne seront pas ajustées."
+    summary: ""
+    tab:
+      details: "Détails"
+      questions: "Planning d'affaires"
+      timeline: "Chronologie"
+      timeline_list: "Chronologie - Liste"
+      logs: "Journaux"
+      transactions: "Transactions"
+      calendar: "Calendrier"
+    threshold_amount: "Montant de Seuil"
+    toc: "Table des Matières"
+    transactions: "Transactions"
+    transactions_old: "Transactions (ancien système)"
+    transaction_new_disbursement: "Nouveau Décaissement"
+    transaction_new_repayment: "Nouveau remboursement"
+    transaction_schedule: "Programme"
+
+    business_model:
+      key_partners: "￼￼Partenaires Clés"
+      key_activities: "￼￼￼Activités Clés"
+      key_resources: "￼￼￼￼Ressources Clés"
+      value_propositions: "￼￼￼￼￼￼￼￼￼Propositions de Valeur"
+      customer_relationships: "Relations clients"
+      channels: "￼￼￼Canaux"
+      customer_segments: "￼￼Gments Segments de Client"
+      cost_structure: "￼￼￼￼La Structure des Coûts"
+      revenue_streams: "Flux de Revenus"
+      explanations:
+        key_partners: "Qui sont nos principaux partenaires?\nQui sont nos principaux fournisseurs?\nQuelles sont les principales ressources que nous acquérons auprès de nos partenaires?\nQuelles sont les principales activités des partenaires?"
+        key_activities: "\nCes activités clés requises par nos propositions de valeur?\nNos canaux de distribution? Relations clients? Flux de revenus?"
+        key_resources: "Quelles sont les ressources clés requises par nos propositions de valeur?\nNos canaux de distribution? Relations clients?\nRevenu Streams?"
+        value_propositions: "Quelle valeur apportons-nous au client? Quels problèmes de nos clients pouvons-nous résoudre?\nQuels ensembles de produits et services proposons-nous à chaque segment de clientèle?\nQuels sont les besoins de nos clients?"
+        customer_relationships: "Quel type de relation chacun de nos segments de clientèle attend-il que nous établissions et maintenions avec eux?\nQuels sont ceux que nous avons établis?\nComment sont-ils intégrés au reste de notre modèle économique?\nComment sont-ils coûteux? "
+        channels: "Par quels canaux nos segments de clientèle veulent-ils être atteints?\nComment les atteignons-nous maintenant?\nComment nos chaînes sont-elles intégrées?\nLesquelles fonctionnent le mieux?\nLesquelles sont les plus rentables?\nComment les intégrons-nous aux routines clients?"
+        customer_segments: "Pour qui créons-nous de la valeur?\nQui sont nos clients les plus importants?"
+        cost_structure: "Quels sont les coûts les plus importants inhérents à notre modèle d'entreprise? Quelles ressources clés sont les plus chères?\nQuelles activités clés sont les plus chères?"
+        revenue_streams: "Pour quelle valeur nos clients sont-ils vraiment prêts à payer? Pour quoi payent-ils actuellement?\nComment sont-ils en train de payer?\nComment préféreraient-ils payer?\nDans quelle mesure chaque flux de revenus contribue-t-il aux recettes globales?"
+
+    breakeven:
+      amount: "Montant"
+      charts_title: "Diagrammes de rentabilité du modèle financier"
+      cost: "Coût"
+      cost_of_goods: "Coût des Marchandises Vendues"
+      description: "La description"
+      fixed_costs:
+        one: "Coûts Fixes"
+        other: "Coûts Fixes"
+      fixed_cost_name: "Catégorie"
+      gross_margin: "Marge Brute"
+      item: "Article"
+      move_row: "Faites glisser pour réorganiser les lignes"
+      net_margin: "La Marge Nette"
+      placeholders:
+        unit: "Par exemple. litres, boisseaux, articles"
+        unit_short: ""
+      price: "Prix"
+      product: "Produit"
+      products: "Des Produits"
+      profit: "Profit"
+      product_name: "Nom du Produit"
+      production_cost: "Coût de Production"
+      production_cost_by_product: "Coût de Production par Produit"
+      profit_by_product: "Bénéfice par Produit"
+      quantity: "Quantité de Rentabilité"
+      remove_row: "Supprimer la rangée"
+      revenue: "Revenu"
+      revenue_by_product: "Revenu par Produit"
+      title: "Modèle Financier de Rentabilité"
+      total: "Total"
+      total_cost_breakdown: "Répartition du Coût Total"
+      total_cost_of_goods: "Coût Total des Biens Vendus"
+      total_fixed_costs: "Total des Coûts Fixes"
+      total_revenue: "Revenu total"
+      unit: "Unité de Vente"
+      rampup: "Rampe"
+      units: "Unité de Périodes"
+      periods: "Périodes de Rentabilité"
+      percentage_of_sales: "% de volume"
+      total_cost: "Coût Total"
+
+    breakeven_rampup:
+      cost_of_goods: "Coût des Marchandises Vendues"
+      price: "Prix"
+      quantity: "Quantité"
+      revenue: "Revenu"
+      title: "Rythme de Rentabilité"
+      total: "Total"
+      total_gross_margin: "Marge Brute Totale"
+      total_net_margin: "Total Net Margin"
+      total_fixed_costs: "Total des Coûts fixes"
+
+    response_set:
+      conflicting_changes_html: 'Attention: les données ont changé depuis que vous les avez chargées. La dernière mise à jour a été effectuée par %{updater}, %{updated_at}. Vous pouvez vérifier avec eux pour voir ce qu''ils ont changé ou <a href=''%{link}'' target=''_blank''> ouvrir les dernières données dans un nouvel onglet </a> pour les comparer. Vous pouvez néanmoins enregistrer vos modifications, mais toutes les autres modifications apportées depuis que vous avez chargé la page seront perdues.'
+      discard_reload: "Supprimer mes Modifications et Recharger"
+      overwrite_changes: "Enregistrer mes Modifications et écraser les Autres"
+
+  breakeven_table_question:
+    days: "Journées"
+    weeks: "Semaines"
+    months: "Mois"
+    years: "Années"
+    quarters: "Quartiers"
+
+  loans:
+    index:
+      title: "Prêts"
+    show:
+      new_step: "Nouvelle étape"
+      edit_all: Modifier Tout
+      cancel_edit: Annuler Modifier
+      save_all: Sauver Tous
+
+  questionnaires:
+    optional_questions: "Questions Optionnelles"
+  user:
+    account: ""
+    change_password: ""
+    confirm_new_password: ""
+    current_password: ""
+    current_password_instructions: ""
+    edit_user: ""
+    forgot_password: ""
+    forgot_password_instructions: ""
+    leave_blank: ""
+    minimum_password_length: ""
+    new_password: ""
+    no_division_access: ""
+    no_person: ""
+    no_system_access: ""
+    send_instructions: ""
+    waiting_confirmation: ""
+  member:
+    system_access: ""
+    access_role: ""
+  log:
+    additional_notes: ""
+    edit: ""
+    empty_log_error: ""
+    delete: ""
+    hide_logs: ""
+    hide_logs_n: ""
+    log: ""
+    logs: ""
+    new: ""
+    create: ""
+    no_logs: ""
+    notify: ""
+    private_notes: ""
+    save: ""
+    show_logs: ""
+    show_logs_n: ""
+    status:
+      behind: ""
+      on_time: ""
+    step: ""
+    step_completed: ""
+    untitled_step: ""
+  # The admin top level group is used here to allow t(".edit") style shortcuts from views
+  # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
+  # style shortcuts.
+  project_log:
+    project_log: ""
+    name: ""
+  project_logs:
+    more: ""
+    shared:
+      confirm_deletion: ""
+      delete: ""
+  settings:
+    accounting: ""
+  menu:
+    accounting_settings: "Paramètres de Comptabilité"
+    basic_projects: "Projets"
+    calendar: "Calendrier"
+    coops: "Les coopératives"
+    data_exports: ""
+    dashboard: "Tableau de Bord"
+    divisions: "Divisions"
+    documentations: ""
+    loans: "Prêts"
+    log: "Bûche"
+    logs: "Journaux"
+    media: ""
+    questions: "Des Questions"
+    manage: "Gérer"
+    people: "Membres"
+    tasks: ""
+  transactions:
+    disbursement_type:
+      other: ""
+      check: ""
+    default_description: "%{loan_transaction_type} pour Loan #%{loan_id}"
+    interest_description: "Intérêts courus sur le prêt #%{loan_id}"
+  controllers:
+    admin:
+      basic_projects: ""
+      calendar: ""
+      calendar_events: ""
+      dashboard: ""
+      data_exports: ""
+      divisions: ""
+      documentations: ""
+      loans: ""
+      media: ""
+      notes: ""
+      organizations: ""
+      people: ""
+      project_logs: ""
+      project_steps: ""
+      projects: ""
+      questions: ""
+      response_sets: ""
+      settings: ""
+      tasks: ""
+      timeline_step_moves: ""
+  question: "Question"
+  amount_not_set: ""
+  blank: ""
+  date_not_set: ""
+  division: ""
+  show: ""
+  show_active: ""
+  show_completed: ""
+  show_all: ""
+  loan_active: ""
+  loan_completed: ""
+  no_loans_found: ""
+  more_details: ""
+  project_with: ""
+  project_id: ""
+  back_to_loans: ""
+  about_this_project: ""
+  status: Statut
+  amount: ""
+  location: ""
+  signing_date: ""
+  summary: Résumé
+  details: Détails
+  timeline: ""
+  other_loans: ""
+  payments: ""
+  past_loans: ""
+  no_description_found: ""
+  payment_schedule: ""
+  due_date: ""
+  first_loan: ""
+  all_loans: ""
+  gallery: ""
+  back_to: ""
+  media_gallery: ""
+  no_media_found: ""
+  images_of: ""
+  images_from_this_project: ""
+  cooperative: ""
+  cooperative_name: ""
+  not_yet_translated: ""
+  log_completed: ""
+  log_not_yet_completed: ""
+  show_logs: ""
+  hide_logs: ""
+  show_more: ""
+  show_less: ""
+  paid: ""
+  due: ""
+  overdue: ""
+  loading: "Chargement..."
+  error: "Erreur"
+  error_notification: "Nous sommes désolés, mais une erreur s'est produite lors du traitement de votre demande."
+  system_error_notified: ""
+  close: "Fermer"
+  select_prompt: ""
+  all: "Tout"
+  cancel: "Annuler"
+  cancel_edit: "Annuler Modifier"
+  city: ""
+  clear: "Clair"
+  completed: "Terminé"
+  confirm: ""
+  coop: "Coopérative"
+  coops: ""
+  country: ""
+  created: ""
+  days: "days"
+  delete: ""
+  delete_record: ""
+  description: ""
+  dropdown_toggle: "Toggle Dropdown"
+  edit: ""
+  email: ""
+  export_to_csv: "Exporter au format CSV"
+  filter: "Filtrer"
+  filter_by: "Filtrer par:"
+  id: "ID"
+  incomplete: "Incomplet"
+  less: ""
+  locked: ""
+  login: ""
+  logout: "Connectez - Out"
+  more: ""
+  name: ""
+  none: "Aucun"
+  notice_created: 'L''enregistrement a été Créé Avec Succès.'
+  notice_deleted: 'L''enregistrement a été Dupprimé Avec Succès.'
+  notice_updated: 'L''enregistrement a été Mis à Jour Avec Succès.'
+  notice_batch_deleted: ''
+  notice_batch_updated: ''
+  notice_batch_failures: ''
+  password: ""
+  optional: ""
+  page_content: "Contenu de la Page"
+  page_title: "Titre de la Page"
+  print: ""
+  reply_no: "Non"
+  reply_yes: "Qui"
+  save: ""
+  step: ""
+  submit: ""
+  summary_content: "Contenu Récapitulatif"
+  unauthorized_error: ""
+  unknown: ""
+  update: ""
+  updated: ""
+  # Keys in the top level scope should be gradually moved into this 'common' subgroup.
+  # This will avoid collisions with top level keys matching subgroups. (Which can lead to
+  # very cryptic errors)
+  common:
+    add: "Ajouter"
+    add_language: "Ajouter une Langue"
+    address_state: "Etat"
+    created: "Créé"
+    caption: "Légende"
+    condense_all: "Condenser Tout"
+    deleted_user: "Utilisateur Supprimé"
+    description: "La Description"
+    details: "Détails"
+    division: "Division"
+    divisions: "Divisions"
+    expand_all: "Développer Tout"
+    first: "1er"
+    hide_all: "Cacher Tout"
+    name: "Prénom"
+    no_name: "Sans Nom"
+    no_records: "Aucun Enregistrement Trouvé."
+    no_records_match: "Aucun enregistrement ne correspond. Ajustez les filtres ou utilisez Clear pour réinitialiser les filtres."
+    note: "Remarque"
+    notes: "Remarques"
+    parent: "Parent"
+    print: "Impression"
+    project: "Projet"
+    remove: "Retirer"
+    role: "Rôle"
+    save: "Sauvegarder"
+    second: "2ème"
+    settings: ""
+    street_address: "Adresse de Rue"
+    summary: "Résumé"
+    summary_and_details: "Résumé et Détails"
+    type: "Type"
+    updated: "Actualisé"
+    website: "Site Internet"
+    id: "ID"
+    untitled: "Sans Titre"
+    user: "Utilisateur"
+    view_logs: "Regardes les Connexions"
+  boolean:
+    'true': ''
+    'false': ''
+  quickbooks:
+    # authorization_failure message here used when txns hidden in UI
+    authorization_failure: ""
+    class_location_notice: ""
+    # data_reset_required message here used when txns hidden in UI
+    data_reset_required: ""
+    department_not_set: ""
+    misc: ""
+    principal_account_incompatible_with_checks: ""
+    service_unavailable: ""
+    read_only_html: ""
+    read_only_reasons:
+      qb_not_connected_html: ""
+      accounts_not_selected_html: ""
+      division_transactions_read_only_html: ""
+      department_not_set_html: ""
+      loan_not_active_html: ""
+      loan_transactions_read_only_html: ""
+    unprocessable_account: ""
+    there_are_issues:
+      one: ""
+      other: ""
+    accounts:
+      accounts: ""
+      note: ""
+    connection:
+      connected: ""
+      connection: ""
+      disconnect: ""
+      not_connected: ""
+      never_synced: ""
+      data_reset: ""
+      disconnect_message: ""
+      data_reset_message: ""
+      data_reset_information: ""
+      import_in_progress_message: ""
+      link_message: ""
+    fetch_status:
+      failed: ""
+      in_progress: ""
+      pending: ""
+      succeeded: ""
+    closed_books_date:
+      note:
+        date_not_set: ""
+        date_set: ""
+      alert:
+        date_not_set: ""
+        date_set: ""
+    qb_read_only:
+      alert: ""
+      note: ""
+      qb_read_only: ""
+    update:
+      update_changed: ""
+      update_queued_html: ""
+      update_changed_details: ""
+  basic_project:
+    agent:
+      one: ""
+      other: ""
+    confirm_deletion: ""
+    confirm_duplication: ""
+    delete: ""
+    duplicate: ""
+    duplicated_message: ""
+    edit: ""
+    months: ""
+    new: ""
+    project:
+      one: ""
+      other: ""
+    tabs:
+      calendar: ""
+      details: ""
+      logs: ""
+      timeline: ""
+      timeline_list: ""
+  simple_form:
+    "yes": ''
+    "no": ''
+    required:
+      text: ''
+      mark: ''
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: ""
+    hints:
+      division:
+        logo_text: ""
+        banner_bg_color: ""
+        banner_fg_color: ""
+        accent_main_color: ""
+        public_primary_color: ""
+        public_secondary_color: ""
+        public_accent_color: ""
+    labels:
+      accounting_transaction:
+        account: ""
+        amount: ""
+        change_in_interest: ""
+        change_in_principal: ""
+        check_number: ""
+        customer: ""
+        description: ""
+        interest_balance: ""
+        loan_transaction_type_value: ""
+        principal_balance: ""
+        private_note: ""
+        qb_department: ""
+        disbursement_type: ""
+        qb_record_id: ""
+        total_balance: ""
+        txn_date: ""
+        vendor: ""
+      timeline_step_move:
+        move_type: ""
+      question:
+        data_type: Type de données
+        display_in_summary: ""
+        division: Division
+        has_embeddable_media: Autoriser les fichiers ou les liens à être attachés
+        loan_types: Obligatoire pour les types de prêt
+    options:
+      accounting_transaction:
+        loan_transaction_type_value:
+          disbursement: ""
+          repayment: ""
+      person:
+        access_role:
+          admin: ""
+          member: ""
+          none: ""
+      timeline_step_move:
+        move_type:
+          change_date: ""
+          mark_completed: ""
+      question:
+        data_type:
+          boolean: Oui/Non
+          breakeven: Tableau de Rentabilité
+          breakeven_data: Tableau de Rentabilité
+          business_canvas: Toile de Modèle d'affaires
+          currency: ""
+          group: Groupe
+          list: Choix Multiple
+          number: Nombre
+          percentage: ""
+          range: Gamme
+          text: Paragraphe
+          translatable: Traduisible
+        override_associations:
+          "false": "Hérite du Groupe"
+          "true": "Remplace le Groupe"
+  public:
+    divisions:
+      loan_header: ""
+      not_authorized: ""
+      return_to_division_homepage: ""
+      go_to_seedcommons: ""
+    loans:
+      amount: ""
+      signing_date: ""
+  database:
+    option_sets:
+      basic_project_status:
+        active: ''
+        completed: ''
+        changed: ''
+        possible: ''
+      loan_status:
+        active: ''
+        completed: ''
+        frozen: ''
+        liquidated: ''
+        prospective: ''
+        refinanced: ''
+        relationship: ''
+        relationship_active: ''
+      loan_transaction_type:
+        interest: ''
+        disbursement: ''
+        other: ''
+        repayment: ''
+      loan_type:
+        liquidity_loc: ''
+        investment_loc: ''
+        investment: ''
+        evolving: ''
+        single_liquidity_loc: ''
+        wc_investment: ''
+        sa_investment: ''
+        community_solar: ''
+        conversion_phased: ''
+      media_kind:
+        image: ''
+        video: ''
+        document: ''
+        contract: ''
+      organization_inception:
+        startup: ''
+        conversion: ''
+        recovered: ''
+      progress_metric:
+        change_plan: ''
+        change_events: ''
+        behind: ''
+        on_time: ''
+        ahead: ''
+      public_level:
+        featured: ''
+        hidden: ''
+        public: ''
+      step_type:
+        checkin: ''
+        milestone: ''
+  routes:
+    loans: ""
+    gallery: ""
+    test: ""
+    update: ""

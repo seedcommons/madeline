@@ -1,5 +1,0 @@
-es:
-  standard_loan_data_exports:
-    headers:
-      name: "Nombre"
-      status: "Estado"
