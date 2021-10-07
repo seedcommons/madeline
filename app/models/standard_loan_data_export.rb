@@ -1,38 +1,38 @@
 class StandardLoanDataExport < DataExport
   HEADERS = [
-    "loan_id",
-    "name",
-    "division",
-    "cooperative",
-    "country",
-    "address",
-    "city",
-    "state",
-    "postal_code",
-    "status",
-    "actual_end_date",
-    "actual_first_payment_date",
-    "actual_first_interest_payment_date",
-    "actual_return",
-    "projected_end_date",
-    "projected_first_payment_date",
-    "projected_first_interest_payment_date",
-    "projected_return",
-    "signing_date",
-    "length_months",
-    "loan_type",
-    "currency",
-    "amount",
-    "rate",
-    "final_repayment_formula",
-    "primary_agent",
-    "secondary_agent",
-    "num_accounting_warnings",
-    "num_accounting_errors",
-    "sum_of_disbursements",
-    "sum_of_repayments",
-    "change_in_principal",
-    "change_in_interest"
+    :loan_id,
+    :name,
+    :division,
+    :cooperative,
+    :country,
+    :address,
+    :city,
+    :state,
+    :postal_code,
+    :status,
+    :actual_end_date,
+    :actual_first_payment_date,
+    :actual_first_interest_payment_date,
+    :actual_return,
+    :projected_end_date,
+    :projected_first_payment_date,
+    :projected_first_interest_payment_date,
+    :projected_return,
+    :signing_date,
+    :length_months,
+    :loan_type,
+    :currency,
+    :amount,
+    :rate,
+    :final_repayment_formula,
+    :primary_agent,
+    :secondary_agent,
+    :num_accounting_warnings,
+    :num_accounting_errors,
+    :sum_of_disbursements,
+    :sum_of_repayments,
+    :change_in_principal,
+    :change_in_interest
   ]
 
   # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
@@ -103,7 +103,7 @@ class StandardLoanDataExport < DataExport
   end
 
   def insert_in_row(column_name, row_array, value)
-    row_array[HEADERS.index(column_name.to_s)] = value
+    row_array[HEADERS.index(column_name)] = value
   end
 
   def header_rows
