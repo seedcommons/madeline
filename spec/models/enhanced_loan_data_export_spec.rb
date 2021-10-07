@@ -10,6 +10,11 @@ describe EnhancedLoanDataExport, type: :model do
     let!(:loan1) { create(:loan, :active, division: division) }
     let!(:loan2) { create(:loan, :active, division: division) }
     let!(:loan3) { create(:loan, :active, division: division) }
+    let(:base_headers) do
+      StandardLoanDataExport::HEADERS.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
+    end
+    let(:id_row_nils) { [nil] * (base_headers.size - 1) }
+    let(:response_data) { export.data[2..-1].map { |row| row[base_headers.size..-1] } }
     let(:export) { create(:enhanced_loan_data_export, data: nil) }
 
     context "with criteria question set" do
@@ -45,17 +50,12 @@ describe EnhancedLoanDataExport, type: :model do
 
       it "should create correct data attr" do
         export.process_data
-        base_headers = StandardLoanDataExport::HEADERS
-        base_headers = base_headers.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
-        question_id_row_nils = [nil] * (base_headers.size - 1)
         expect(export.data[0]).to eq(base_headers + ["QC2", "QC4"])
-        expect(export.data[1])
-          .to eq(["Question ID"] + question_id_row_nils + [qc2, qc4].map(&:id))
+        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc2, qc4].map(&:id))
 
         row1 = ["10", "4"]
         row2 = ["20", ""]
         row3 = []
-        response_data = export.data[2..-1].map { |row| row[base_headers.size..-1] }
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
 
@@ -82,17 +82,12 @@ describe EnhancedLoanDataExport, type: :model do
 
         it "should create correct data attr" do
           export.process_data
-          base_headers = StandardLoanDataExport::HEADERS
-          base_headers = base_headers.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
-          question_id_row_nils = [nil] * (base_headers.size - 1)
           expect(export.data[0]).to eq(base_headers + ["QC2", "QC4", "QP1"])
-          expect(export.data[1])
-            .to eq(["Question ID"] + question_id_row_nils + [qc2, qc4, qp1].map(&:id))
+          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc2, qc4, qp1].map(&:id))
 
           row1 = ["10", "4", "7"]
           row2 = ["20", ""]
           row3 = [nil, nil, "99.9"]
-          response_data = export.data[2..-1].map { |row| row[base_headers.size..-1] }
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
       end
