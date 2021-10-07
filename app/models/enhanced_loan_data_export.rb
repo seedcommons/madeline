@@ -1,5 +1,5 @@
 class EnhancedLoanDataExport < StandardLoanDataExport
-  Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
+  Q_DATA_TYPES = ["number", "percentage", "rating", "currency"]
 
   private
 
@@ -9,17 +9,19 @@ class EnhancedLoanDataExport < StandardLoanDataExport
 
   def response_hash(loan)
     result = {}
-    response_set = ResponseSet.find_by(loan_id: loan.id)
-    return result if response_set.nil?
+    response_sets = ResponseSet.joins(:question_set).where(loan: loan).order("question_sets.kind")
 
-    response_set.custom_data.each do |q_id, response_data|
-      question = memoized_questions[q_id.to_i]
-      if question.present?
-        response = Response.new(loan: loan, question: question, response_set: response_set, data: response_data)
-        if response.has_rating?
-          result[q_id] = response.rating
-        elsif response.has_number?
-          result[q_id] = response.number
+    response_sets.each do |response_set|
+      response_set.custom_data.each do |q_id, response_data|
+        question = memoized_questions[q_id.to_i]
+        if question.present?
+          response = Response.new(loan: loan, question: question,
+                                  response_set: response_set, data: response_data)
+          if response.has_rating?
+            result[q_id] = response.rating
+          elsif response.has_number?
+            result[q_id] = response.number
+          end
         end
       end
     end
