@@ -22,8 +22,8 @@ describe EnhancedLoanDataExport, type: :model do
       let(:qcattrs) { {question_set: criteria, division: division} }
       let!(:qc1) { create(:question, qcattrs.merge(data_type: "boolean", label: "QC1")) }
       let!(:qc2) { create(:question, qcattrs.merge(data_type: "percentage", label: "QC2")) }
-      let!(:qc4) { create(:question, :with_url, qcattrs.merge(data_type: "rating", label: "QC4")) }
       let!(:qc3) { create(:question, qcattrs.merge(data_type: "text", label: "QC3")) }
+      let!(:qc4) { create(:question, :with_url, qcattrs.merge(data_type: "rating", label: "QC4")) }
 
       let!(:r1_c) do
         create(:response_set,

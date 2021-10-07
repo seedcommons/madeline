@@ -43,8 +43,13 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     row + questions.map(&:id)
   end
 
+  # Returns questions in the order we want them to show up in the header row.
   def questions
-    @questions ||= Question.where(data_type: Q_DATA_TYPES).sort_by(&:label)
+    @questions ||= QuestionSet.order(:kind).flat_map do |question_set|
+      question_set.root_group.self_and_descendants_preordered.select do |q|
+        Q_DATA_TYPES.include?(q.data_type)
+      end
+    end
   end
 
   def questions_by_id
