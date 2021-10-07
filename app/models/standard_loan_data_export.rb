@@ -1,45 +1,45 @@
 class StandardLoanDataExport < DataExport
   HEADERS = [
-    'loan_id',
-    'name',
-    'division',
-    'cooperative',
-    'country',
-    'address',
-    'city',
-    'state',
-    'postal_code',
-    'status',
-    'actual_end_date',
-    'actual_first_payment_date',
-    'actual_first_interest_payment_date',
-    'actual_return',
-    'projected_end_date',
-    'projected_first_payment_date',
-    'projected_first_interest_payment_date',
-    'projected_return',
-    'signing_date',
-    'length_months',
-    'loan_type',
-    'currency',
-    'amount',
-    'rate',
-    'final_repayment_formula',
-    'primary_agent',
-    'secondary_agent',
-    'num_accounting_warnings',
-    'num_accounting_errors',
-    'sum_of_disbursements',
-    'sum_of_repayments',
-    'change_in_principal',
-    'change_in_interest'
+    "loan_id",
+    "name",
+    "division",
+    "cooperative",
+    "country",
+    "address",
+    "city",
+    "state",
+    "postal_code",
+    "status",
+    "actual_end_date",
+    "actual_first_payment_date",
+    "actual_first_interest_payment_date",
+    "actual_return",
+    "projected_end_date",
+    "projected_first_payment_date",
+    "projected_first_interest_payment_date",
+    "projected_return",
+    "signing_date",
+    "length_months",
+    "loan_type",
+    "currency",
+    "amount",
+    "rate",
+    "final_repayment_formula",
+    "primary_agent",
+    "secondary_agent",
+    "num_accounting_warnings",
+    "num_accounting_errors",
+    "sum_of_disbursements",
+    "sum_of_repayments",
+    "change_in_principal",
+    "change_in_interest"
   ]
 
   # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
   def process_data
     @child_errors = []
     data = []
-    data << header_row
+    data.concat(header_rows)
     Loan.find_each do |l|
       begin
         data << hash_to_row(loan_data_as_hash(l))
@@ -97,7 +97,7 @@ class StandardLoanDataExport < DataExport
 
   # decouples order in HEADERS constant from order values are added to data row
   def hash_to_row(hash)
-    data_row = Array(HEADERS.size)
+    data_row = []
     hash.each { |k, v| insert_in_row(k, data_row, v) }
     data_row
   end
@@ -106,9 +106,7 @@ class StandardLoanDataExport < DataExport
     row_array[HEADERS.index(column_name.to_s)] = value
   end
 
-  def header_row
-    HEADERS.map do |h|
-      I18n.t("standard_loan_data_exports.headers.#{h}")
-    end
+  def header_rows
+    [HEADERS.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }]
   end
 end

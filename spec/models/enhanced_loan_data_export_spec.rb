@@ -42,7 +42,7 @@ describe EnhancedLoanDataExport, type: :model do
 
     it "should create correct data attr" do
       export.process_data
-      base_headers = described_class::BASE_HEADERS
+      base_headers = StandardLoanDataExport::HEADERS
       base_headers = base_headers.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
       expect(export.data[0]).to eq(base_headers + ["Q2"])
       expect(export.data[1]).to eq(["Question ID"] + ([nil] * (base_headers.size - 1)) + [q2.id.to_s])
