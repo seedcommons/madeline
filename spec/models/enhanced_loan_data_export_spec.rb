@@ -7,8 +7,9 @@ describe EnhancedLoanDataExport, type: :model do
 
   describe "process_data" do
     let(:division) { create(:division) }
+    let(:subdivision) { create(:division, parent: division) }
     let!(:loan1) { create(:loan, :active, division: division) }
-    let!(:loan2) { create(:loan, :active, division: division) }
+    let!(:loan2) { create(:loan, :active, division: subdivision) }
     let!(:loan3) { create(:loan, :active, division: division) }
 
     let(:base_headers) do
@@ -32,7 +33,11 @@ describe EnhancedLoanDataExport, type: :model do
       let!(:qc1) { create(:question, qcattrs.merge(data_type: "boolean", label: "QC1")) }
       let!(:qc2) { create(:question, qcattrs.merge(data_type: "percentage", label: "QC2")) }
       let!(:qc3) { create(:question, qcattrs.merge(data_type: "text", label: "QC3")) }
-      let!(:qc4) { create(:question, :with_url, qcattrs.merge(data_type: "rating", label: "QC4")) }
+
+      # This question is on a subdivision, should still be included.
+      let!(:qc4) do
+        create(:question, :with_url, qcattrs.merge(division: subdivision, data_type: "rating", label: "QC4"))
+      end
 
       let!(:r1_c) do
         create(:response_set,
@@ -41,8 +46,7 @@ describe EnhancedLoanDataExport, type: :model do
                custom_data: {
                  qc1.id.to_s => {boolean: "yes", not_applicable: "no"},
                  qc2.id.to_s => {number: "10", not_applicable: "no"},
-                 qc3.id.to_s => {text: "foo\nbar", not_applicable: "no"},
-                 qc4.id.to_s => {rating: "4", url: "https://example.com/1", not_applicable: "no"}
+                 qc3.id.to_s => {text: "foo\nbar", not_applicable: "no"}
                })
       end
       let!(:r2_c) do
@@ -53,7 +57,7 @@ describe EnhancedLoanDataExport, type: :model do
                  qc1.id.to_s => {boolean: "", not_applicable: "yes"},
                  qc2.id.to_s => {number: "20", not_applicable: "no"},
                  qc3.id.to_s => {text: "lorp", not_applicable: "no"},
-                 qc4.id.to_s => {rating: "", url: "", not_applicable: "yes"}
+                 qc4.id.to_s => {rating: "4", url: "https://example.com/1", not_applicable: "no"}
                })
       end
 
@@ -62,8 +66,8 @@ describe EnhancedLoanDataExport, type: :model do
         expect(export.data[0]).to eq(base_headers + ["QC2", "QC4"])
         expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc2, qc4].map(&:id))
 
-        row1 = ["10", "4"]
-        row2 = ["20", ""]
+        row1 = ["10"]
+        row2 = ["20", "4"]
         row3 = []
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
@@ -94,8 +98,8 @@ describe EnhancedLoanDataExport, type: :model do
           expect(export.data[0]).to eq(base_headers + ["QC2", "QC4", "QP1"])
           expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc2, qc4, qp1].map(&:id))
 
-          row1 = ["10", "4", "7"]
-          row2 = ["20", ""]
+          row1 = ["10", nil, "7"]
+          row2 = ["20", "4"]
           row3 = [nil, nil, "99.9"]
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
