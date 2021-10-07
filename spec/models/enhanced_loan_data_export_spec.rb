@@ -10,12 +10,21 @@ describe EnhancedLoanDataExport, type: :model do
     let!(:loan1) { create(:loan, :active, division: division) }
     let!(:loan2) { create(:loan, :active, division: division) }
     let!(:loan3) { create(:loan, :active, division: division) }
+
     let(:base_headers) do
       StandardLoanDataExport::HEADERS.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
     end
     let(:id_row_nils) { [nil] * (base_headers.size - 1) }
     let(:response_data) { export.data[2..-1].map { |row| row[base_headers.size..-1] } }
-    let(:export) { create(:enhanced_loan_data_export, data: nil) }
+
+    # Decoy question set, should not appear anywhere.
+    let(:decoy_division) { create(:division) }
+    let(:decoy_question_set) { create(:question_set, kind: "loan_criteria", division: decoy_division) }
+    let(:decoy_question_set) { create(:question_set, kind: "loan_criteria", division: decoy_division) }
+    let(:qdattrs) { {question_set: decoy_question_set, division: decoy_division} }
+    let!(:qd1) { create(:question, qdattrs.merge(data_type: "number", label: "QD1")) }
+
+    let(:export) { create(:enhanced_loan_data_export, division: division, data: nil) }
 
     context "with criteria question set" do
       let!(:criteria) { create(:question_set, kind: "loan_criteria", division: division) }
