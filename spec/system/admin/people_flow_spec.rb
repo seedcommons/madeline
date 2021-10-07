@@ -54,7 +54,10 @@ describe 'people flow', js: true do
 
   context 'logs' do
     scenario 'person with log can be deleted' do
-      confirm_both_users_exist
+      visit admin_people_path
+
+      expect(page).to have_content(person_1.first_name)
+      expect(page).to have_content(person_2.first_name)
 
       # visit the logs page that have logs of person deleted
       visit admin_loan_path(loan)
@@ -68,53 +71,25 @@ describe 'people flow', js: true do
   end
 
   context 'notes' do
-    before do
-      login_as(user_2, scope: :user)
-    end
+    let!(:note) { create(:note, author: person_2, notable: org, text: "Note from second user") }
 
     scenario 'person with notes can be deleted' do
-      # create note with second user as author
-      visit admin_organization_path(org)
-      click_on 'New Note'
+      visit admin_people_path
 
-      fill_in 'note_text', with: 'Note from second user'
+      expect(page).to have_content(person_1.first_name)
+      expect(page).to have_content(person_2.first_name)
 
-      within('.note-form') do
-        click_on 'Save'
-      end
+      click_on person_2.id.to_s
+      accept_confirm { click_on 'Delete Member' }
 
-      # logout second person (with note)
-      logout user_2
-
-      # login first person
-      login_as(user_1, scope: :user)
-
-      confirm_both_users_exist
-
-      then_delete_second_user
+      # second person no longer exists
+      expect(page).to have_content('Record was successfully deleted.')
+      expect(page).not_to have_content(person_2.first_name)
 
       # notes without users are still available
       visit admin_organization_path(org)
-      within(all('.note.post')[0]) do
-        expect(page).to have_content('Note from second user')
-        expect(page).to have_content('Deleted User')
-      end
+      expect(page).to have_content('Note from second user')
+      expect(page).to have_content('Deleted User')
     end
-  end
-
-  def confirm_both_users_exist
-    visit admin_people_path
-
-    expect(page).to have_content(person_1.first_name)
-    expect(page).to have_content(person_2.first_name)
-  end
-
-  def then_delete_second_user
-    click_on person_2.id.to_s
-    click_on 'Delete Member'
-
-    # second person no longer exists
-    expect(page).to have_content('Record was successfully deleted.')
-    expect(page).not_to have_content(person_2.first_name)
   end
 end
