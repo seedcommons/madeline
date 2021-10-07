@@ -7,9 +7,13 @@ FactoryBot.define do
     locale_code { "en" }
     data { nil }
     type { DataExport }
-  end
 
-  factory :standard_loan_data_export, parent: :data_export, class: 'StandardLoanDataExport' do
-    type { StandardLoanDataExport }
+    factory :standard_loan_data_export, class: 'StandardLoanDataExport' do
+      type { StandardLoanDataExport }
+    end
+
+    factory :enhanced_loan_data_export, class: 'EnhancedLoanDataExport' do
+      type { EnhancedLoanDataExport }
+    end
   end
 end

@@ -80,7 +80,7 @@ class EnhancedLoanDataExport < DataExport
       projected_first_interest_payment_date: loan.projected_first_interest_payment_date,
       projected_return: loan.projected_return,
       signing_date: loan.signing_date,
-      length_months: loan.length_months, 
+      length_months: loan.length_months,
       loan_type: loan.type,
       currency: loan.currency&.name,
       amount: loan.amount,
