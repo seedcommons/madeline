@@ -105,5 +105,45 @@ describe EnhancedLoanDataExport, type: :model do
         end
       end
     end
+
+    context "when subdivision has own question set" do
+      let!(:setA) { create(:question_set, kind: "loan_criteria", division: division) }
+      let(:qaattrs) { {question_set: setA, division: division} }
+      let!(:qa1) { create(:question, qaattrs.merge(data_type: "number", label: "QA1")) }
+      let!(:qa2) { create(:question, qaattrs.merge(data_type: "number", label: "QA2")) }
+
+      let!(:setB) { create(:question_set, kind: "loan_criteria", division: subdivision) }
+      let(:qbattrs) { {question_set: setB, division: subdivision} }
+      let!(:qb1) { create(:question, qbattrs.merge(data_type: "number", label: "QB1")) }
+
+      let!(:r1) do
+        create(:response_set,
+               question_set: setA,
+               loan: loan1,
+               custom_data: {
+                 qa1.id.to_s => {number: "5", not_applicable: "no"},
+                 qa2.id.to_s => {number: "10", not_applicable: "no"}
+               })
+      end
+      let!(:r2) do
+        create(:response_set,
+               question_set: setB,
+               loan: loan2,
+               custom_data: {
+                 qb1.id.to_s => {number: "15", not_applicable: "no"}
+               })
+      end
+
+      it "should include data from both questions sets" do
+        export.process_data
+        expect(export.data[0]).to eq(base_headers + ["QA1", "QA2", "QB1"])
+        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qa1, qa2, qb1].map(&:id))
+
+        row1 = ["5", "10"]
+        row2 = [nil, nil, "15"]
+        row3 = []
+        expect(response_data).to contain_exactly(row1, row2, row3)
+      end
+    end
   end
 end

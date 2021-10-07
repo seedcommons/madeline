@@ -44,12 +44,19 @@ class EnhancedLoanDataExport < StandardLoanDataExport
   end
 
   # Returns questions in the order we want them to show up in the header row.
+  # Includes question sets from target division and all its descendants.
   def questions
-    @questions ||= QuestionSet.where(division: division_id).order(:kind).flat_map do |question_set|
+    @questions ||= question_sets.flat_map do |question_set|
       question_set.root_group.self_and_descendants_preordered.select do |q|
         Q_DATA_TYPES.include?(q.data_type)
       end
     end
+  end
+
+  def question_sets
+    # We want self to come first for deterministic behavior in specs. After that it doesn't really matter.
+    # self_and_descendants orders by depth so we are good.
+    division.self_and_descendants.flat_map { |d| QuestionSet.where(division: d).order(:kind).to_a }
   end
 
   def questions_by_id
