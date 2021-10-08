@@ -100,14 +100,14 @@ class Question < ApplicationRecord
     false
   end
 
-  # List of value keys for fields which have nested values
+  # Responses are made up of one or more component keys. e.g. a `range` is composed of a `rating` and a `text`
+  # This method returns which keys should be included with a this question's responses.
   def value_types
-    # raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
-    if data_type == 'range'
+    if data_type == "range"
       result = [:rating, :text]
-    elsif data_type == 'percentage'
+    elsif data_type == "percentage"
       result = [:number, :percentage]
-    elsif data_type == 'currency'
+    elsif data_type == "currency"
       result = [:number, :currency]
     else
       result = [data_type.to_sym]
