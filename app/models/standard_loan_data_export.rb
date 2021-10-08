@@ -38,7 +38,7 @@ class StandardLoanDataExport < DataExport
   protected
 
   def scope
-    Loan
+    Loan.where(division_id: division.self_and_descendants.pluck(:id))
   end
 
   private

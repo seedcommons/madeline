@@ -13,13 +13,11 @@ describe StandardLoanDataExport, type: :model do
     describe "headers" do
       let!(:division) { create(:division, :with_accounts) }
       let(:loan) { create(:loan, :active, division: division, rate: 3.0) }
-      let!(:t0) {
+      let!(:t0) do
         create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 100.0,
                                         project: loan, txn_date: "2019-01-01", division: division)
-      }
-      let(:export) {
-        create(:standard_loan_data_export, data: nil)
-      }
+      end
+      let(:export) { create(:standard_loan_data_export, data: nil) }
 
       it "should create data attr with correct headers" do
         export.process_data
@@ -43,57 +41,97 @@ describe StandardLoanDataExport, type: :model do
       end
     end
 
-    describe "loans" do
-      let(:export) {
-        create(:standard_loan_data_export, data: nil, start_date: Date.parse('2018-12-31'), end_date: Date.parse('2019-01-31'))
-      }
-      let!(:division) { create(:division, :with_accounts) }
-      let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
-      let!(:t0) {
-        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.00,
-                                        project: loan0, txn_date: "2019-01-01", division: division, change_in_interest: 0.1, change_in_principal: 1)
-      }
-      let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }
-      let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
-      let!(:t2) {
-        create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 20.55,
-                                        project: loan2, txn_date: "2019-01-01", division: division, change_in_interest: 0.2, change_in_principal: 2)
-      }
-      let!(:loan3) { create(:loan, :active, division: division, rate: 3.0) }
-      let!(:t4) {
-        create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 20.00,
-                                        project: loan3, txn_date: "2019-01-01", division: division, change_in_interest: 0.3, change_in_principal: 3)
-      }
-      let!(:t5) {
-        create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 50.00,
-                                        project: loan3, txn_date: "2018-12-01", division: division, change_in_interest: 0.5, change_in_principal: 5)
-      }
-      let!(:t6) {
-        create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 60.00,
-                                        project: loan3, txn_date: "2019-02-01", division: division, change_in_interest: 0.6, change_in_principal: 6)
-      }
+    describe "data" do
+      context "with loan with accounting data" do
+        let(:export) {
+          create(:standard_loan_data_export, data: nil, start_date: Date.parse('2018-12-31'), end_date: Date.parse('2019-01-31'))
+        }
+        let!(:division) { create(:division, :with_accounts) }
+        let(:loan0) { create(:loan, :active, division: division, rate: 3.0) }
+        let!(:t0) {
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.00,
+                                          project: loan0, txn_date: "2019-01-01", division: division, change_in_interest: 0.1, change_in_principal: 1)
+        }
+        let!(:loan1) { create(:loan, :active, division: division, rate: 3.0) }
+        let!(:loan2) { create(:loan, :active, division: division, rate: 3.0) }
+        let!(:t2) {
+          create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 20.55,
+                                          project: loan2, txn_date: "2019-01-01", division: division, change_in_interest: 0.2, change_in_principal: 2)
+        }
+        let!(:loan3) { create(:loan, :active, division: division, rate: 3.0) }
+        let!(:t4) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 20.00,
+                                          project: loan3, txn_date: "2019-01-01", division: division, change_in_interest: 0.3, change_in_principal: 3)
+        }
+        let!(:t5) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 50.00,
+                                          project: loan3, txn_date: "2018-12-01", division: division, change_in_interest: 0.5, change_in_principal: 5)
+        }
+        let!(:t6) {
+          create(:accounting_transaction, loan_transaction_type_value: "repayment", amount: 60.00,
+                                          project: loan3, txn_date: "2019-02-01", division: division, change_in_interest: 0.6, change_in_principal: 6)
+        }
 
-      it "should handle loans with and without transactions and respects date range" do
-        export.process_data
-        data = export.reload.data
-        h_to_i = header_to_index(data)
-        expect(data.size).to eq 5 # header plus 4 loans
-        expect(data[1][h_to_i["Sum of Disbursements"]]).to eq "10.0"
-        expect(data[2][h_to_i["Sum of Disbursements"]]).to be_nil
-        expect(data[3][h_to_i["Sum of Disbursements"]]).to eq "20.55"
-        expect(data[4][h_to_i["Sum of Disbursements"]]).to eq 0
-        expect(data[1][h_to_i["Sum of Repayments"]]).to eq 0
-        expect(data[2][h_to_i["Sum of Repayments"]]).to be_nil
-        expect(data[3][h_to_i["Sum of Repayments"]]).to eq 0
-        expect(data[4][h_to_i["Sum of Repayments"]]).to eq "20.0"
-        expect(data[1][h_to_i["Change in Interest"]]).to eq "0.1"
-        expect(data[2][h_to_i["Change in Interest"]]).to be_nil
-        expect(data[3][h_to_i["Change in Interest"]]).to eq "0.2"
-        expect(data[4][h_to_i["Change in Interest"]]).to eq "0.3"
-        expect(data[1][h_to_i["Change in Principal"]]).to eq "1.0"
-        expect(data[2][h_to_i["Change in Principal"]]).to be_nil
-        expect(data[3][h_to_i["Change in Principal"]]).to eq "2.0"
-        expect(data[4][h_to_i["Change in Principal"]]).to eq "3.0"
+        it "should handle loans with and without transactions and respects date range" do
+          export.process_data
+          data = export.reload.data
+          h_to_i = header_to_index(data)
+          expect(data.size).to eq 5 # header plus 4 loans
+          expect(data[1][h_to_i["Sum of Disbursements"]]).to eq "10.0"
+          expect(data[2][h_to_i["Sum of Disbursements"]]).to be_nil
+          expect(data[3][h_to_i["Sum of Disbursements"]]).to eq "20.55"
+          expect(data[4][h_to_i["Sum of Disbursements"]]).to eq 0
+          expect(data[1][h_to_i["Sum of Repayments"]]).to eq 0
+          expect(data[2][h_to_i["Sum of Repayments"]]).to be_nil
+          expect(data[3][h_to_i["Sum of Repayments"]]).to eq 0
+          expect(data[4][h_to_i["Sum of Repayments"]]).to eq "20.0"
+          expect(data[1][h_to_i["Change in Interest"]]).to eq "0.1"
+          expect(data[2][h_to_i["Change in Interest"]]).to be_nil
+          expect(data[3][h_to_i["Change in Interest"]]).to eq "0.2"
+          expect(data[4][h_to_i["Change in Interest"]]).to eq "0.3"
+          expect(data[1][h_to_i["Change in Principal"]]).to eq "1.0"
+          expect(data[2][h_to_i["Change in Principal"]]).to be_nil
+          expect(data[3][h_to_i["Change in Principal"]]).to eq "2.0"
+          expect(data[4][h_to_i["Change in Principal"]]).to eq "3.0"
+        end
+      end
+
+      context "with multiple loans in different divisions" do
+        let(:division) { create(:division) }
+        let(:subdivision) { create(:division, parent: division) }
+        let(:subsubdivision) { create(:division, parent: subdivision) }
+        let!(:loan1) { create(:loan, :active, division: division) }
+        let!(:loan2) { create(:loan, :active, division: subdivision) }
+        let!(:loan3) { create(:loan, :active, division: subsubdivision) }
+        let(:export) { create(:standard_loan_data_export, division: target_division) }
+        let(:exported_loan_ids) { export.data[1..-1].map { |r| r[0] } }
+
+        context "when exporting parent division" do
+          let(:target_division) { division }
+
+          it "includes all loans" do
+            export.process_data
+            expect(exported_loan_ids).to match_array([loan1, loan2, loan3].map(&:id))
+          end
+        end
+
+        context "when exporting subdivision" do
+          let(:target_division) { subdivision }
+
+          it "excludes loans in parent division" do
+            export.process_data
+            expect(exported_loan_ids).to match_array([loan2, loan3].map(&:id))
+          end
+        end
+
+        context "when exporting subsubdivision" do
+          let(:target_division) { subsubdivision }
+
+          it "excludes loans in subsubdivision division only" do
+            export.process_data
+            expect(exported_loan_ids).to match_array([loan3].map(&:id))
+          end
+        end
       end
     end
 
