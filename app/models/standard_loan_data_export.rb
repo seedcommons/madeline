@@ -35,29 +35,15 @@ class StandardLoanDataExport < DataExport
     :change_in_interest
   ]
 
-  # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
-  def process_data
-    @child_errors = []
-    data = []
-    data.concat(header_rows)
-    Loan.find_each do |l|
-      begin
-        data << hash_to_row(loan_data_as_hash(l))
-      rescue => e
-        @child_errors << {loan_id: l.id, message: e.message}
-        next
-      end
-    end
-    self.update(data: data)
+  protected
 
-    unless @child_errors.empty?
-      raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
-    end
+  def scope
+    Loan
   end
 
   private
 
-  def loan_data_as_hash(loan)
+  def object_data_as_hash(loan)
     {
       loan_id: loan.id,
       name: loan.name,
@@ -95,15 +81,9 @@ class StandardLoanDataExport < DataExport
     }
   end
 
-  # decouples order in HEADERS constant from order values are added to data row
-  def hash_to_row(hash)
-    data_row = []
-    hash.each { |k, v| insert_in_row(k, data_row, v) }
-    data_row
-  end
-
-  def insert_in_row(column_name, row_array, value)
-    row_array[HEADERS.index(column_name)] = value
+  # Returns the list of symbols representing headers in the order they should appear.
+  def header_symbols
+    HEADERS
   end
 
   def header_rows

@@ -100,7 +100,7 @@ describe StandardLoanDataExport, type: :model do
     describe "error handling" do
       before do
         @times_called = 0
-        expect(export).to receive(:loan_data_as_hash).exactly(3).times do
+        expect(export).to receive(:object_data_as_hash).exactly(3).times do
           @times_called += 1
           if @times_called == 0
             {loan_id: "1", name: "A", cooperative: "Z"} # generic data row

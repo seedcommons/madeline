@@ -3,7 +3,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
 
   private
 
-  def loan_data_as_hash(loan)
+  def object_data_as_hash(loan)
     super.merge(response_hash(loan))
   end
 
@@ -63,12 +63,8 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     @questions_by_id ||= questions.index_by(&:id)
   end
 
-  # Methods below decouple order in BASE_HEADERS constant and question map from the order in which values are added to data row
-  def headers_key
-    @headers_key ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
-  end
-
-  def insert_in_row(column_name, row_array, value)
-    row_array[headers_key.index(column_name)] = value
+  # Returns the list of symbols representing headers in the order they should appear.
+  def header_symbols
+    @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
   end
 end
