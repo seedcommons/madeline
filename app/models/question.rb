@@ -100,22 +100,6 @@ class Question < ApplicationRecord
     false
   end
 
-  # Responses are made up of one or more value types. e.g. a `range` is composed of a `rating` and a `text`
-  # This method returns which value type should be included with a this question's responses.
-  def value_types
-    if data_type == "range"
-      result = [:rating, :text]
-    elsif data_type == "percentage"
-      result = [:number, :percentage]
-    elsif data_type == "currency"
-      result = [:number, :currency]
-    else
-      result = [data_type.to_sym]
-    end
-    result.concat([:url, :start_cell, :end_cell])
-    result
-  end
-
   # for now use a stringified primary key
   # todo: consider using the internal name when available - needs further discussion
   def json_key

@@ -5,13 +5,13 @@ class Response
   attr_accessor :loan, :question, :response_set, :text, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  delegate :group?, :active?, :required?, to: :question
+  delegate :group?, :active?, :required?, :data_type, to: :question
 
   # These are all the possible response value types that can come through in submitted JSON, except:
   # `currency` and `percentage` are never actually set through the interface. But their presence
-  # in the return value of Question#value_types is checked via the has_currency? and has_percentage?
+  # in the return value of `value_types` is checked via the has_currency? and has_percentage?
   # methods that are dynamically built below. Should consider refactoring this as it's misleading.
-  VALUE_TYPES = %i(boolean breakeven business_canvas end_cell currency number percentage rating start_cell text url not_applicable)
+  ALL_VALUE_TYPES = %i(boolean breakeven business_canvas end_cell currency number percentage rating start_cell text url not_applicable)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
@@ -19,7 +19,7 @@ class Response
     @question = question
     @response_set = response_set
 
-    VALUE_TYPES.each do |type|
+    ALL_VALUE_TYPES.each do |type|
       instance_variable_set("@#{type}", data[type.to_sym])
     end
     @breakeven = remove_blanks(@breakeven)
@@ -49,12 +49,12 @@ class Response
     @breakeven_report ||= breakeven_table.report
   end
 
-  # These dynamic methods consult Question#value_types to check what component value types
+  # These dynamic methods consult `value_types` to check what component value types
   # response data will include. See comment above for more info.
   # We don't need a has_not_applicable? method because all questions have not_applicable data.
-  (VALUE_TYPES - [:not_applicable]).each do |type|
+  (ALL_VALUE_TYPES - [:not_applicable]).each do |type|
     define_method("has_#{type}?") do
-      question.value_types.include?(type)
+      value_types.include?(type)
     end
   end
 
@@ -88,6 +88,23 @@ class Response
   end
 
   private
+
+  # Responses are made up of one or more value types. e.g. a `range` is composed of a `rating` and a `text`
+  # This method returns which value type should be included with a this response based on the question's
+  # data_type.
+  def value_types
+    if data_type == "range"
+      result = [:rating, :text]
+    elsif data_type == "percentage"
+      result = [:number, :percentage]
+    elsif data_type == "currency"
+      result = [:number, :currency]
+    else
+      result = [data_type.to_sym]
+    end
+    result.concat([:url, :start_cell, :end_cell])
+    result
+  end
 
   # Gets child responses of this response by asking ResponseSet.
   # Assumes ResponseSet's implementation of `response`
