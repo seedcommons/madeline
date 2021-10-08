@@ -67,7 +67,7 @@ describe EnhancedLoanDataExport, type: :model do
         expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4].map(&:id))
 
         row1 = ["yes", "10", "foo\nbar"]
-        row2 = ["", "20", "lorp", "4"]
+        row2 = ["N/A", "20", "lorp", "4"]
         row3 = []
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
@@ -99,7 +99,7 @@ describe EnhancedLoanDataExport, type: :model do
           expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qp1].map(&:id))
 
           row1 = ["yes", "10", "foo\nbar", nil, "7"]
-          row2 = ["", "20", "lorp", "4"]
+          row2 = ["N/A", "20", "lorp", "4"]
           row3 = [nil, nil, nil, nil, "99.9"]
           expect(response_data).to contain_exactly(row1, row2, row3)
         end

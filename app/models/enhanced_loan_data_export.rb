@@ -17,15 +17,24 @@ class EnhancedLoanDataExport < StandardLoanDataExport
         if question.present?
           response = Response.new(loan: loan, question: question,
                                   response_set: response_set, data: response_data)
-          if response.has_rating?
-            result[q_id.to_i] = response.rating
-          elsif response.has_number?
-            result[q_id.to_i] = response.number
-          elsif response.has_boolean?
-            result[q_id.to_i] = response.boolean
-          elsif response.has_text?
-            result[q_id.to_i] = response.text
-          end
+
+          # Note, this approach will exclude parts of compound data types, such as `range`,
+          # which can have both a `rating` and a `text` component.
+          # `url`, `start_cell`, and `end_cell` components from questions with `has_embeddable_media`=true
+          # are also not included, nor are `business_canvas`, and `breakeven`, which would be way too big
+          # to put in a CSV cell.
+          result[q_id.to_i] =
+            if response.not_applicable?
+              "N/A"
+            elsif response.has_rating?
+              response.rating
+            elsif response.has_number?
+              response.number
+            elsif response.has_boolean?
+              response.boolean
+            elsif response.has_text?
+              response.text
+            end
         end
       end
     end
