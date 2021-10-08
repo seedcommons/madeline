@@ -7,17 +7,22 @@ class Response
 
   delegate :group?, :active?, :required?, to: :question
 
-  TYPES = %i(boolean breakeven business_canvas currency number percentage rating text url)
+  # These are all the possible response value types that can come through in submitted JSON, except:
+  # `currency` and `percentage` are never actually set through the interface. But their presence
+  # in the return value of Question#value_types is checked via the has_currency? and has_percentage?
+  # methods that are dynamically built below. Should consider refactoring this as it's misleading.
+  VALUE_TYPES = %i(boolean breakeven business_canvas end_cell currency number percentage rating start_cell text url not_applicable)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @question = question
     @response_set = response_set
-    %w(boolean business_canvas end_cell number rating start_cell not_applicable text url).each do |i|
-      instance_variable_set("@#{i}", data[i.to_sym])
+
+    VALUE_TYPES.each do |type|
+      instance_variable_set("@#{type}", data[type.to_sym])
     end
-    @breakeven = remove_blanks(data[:breakeven])
+    @breakeven = remove_blanks(@breakeven)
   end
 
   def model_name
@@ -44,13 +49,12 @@ class Response
     @breakeven_report ||= breakeven_table.report
   end
 
-  def field_attributes
-    @field_attributes ||= question.value_types
-  end
-
-  TYPES.each do |type|
+  # These dynamic methods consult Question#value_types to check what component value types
+  # response data will include. See comment above for more info.
+  # We don't need a has_not_applicable? method because all questions have not_applicable data.
+  (VALUE_TYPES - [:not_applicable]).each do |type|
     define_method("has_#{type}?") do
-      field_attributes.include?(type)
+      question.value_types.include?(type)
     end
   end
 
