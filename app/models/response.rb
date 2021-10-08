@@ -2,19 +2,19 @@
 class Response
   include ProgressCalculable
 
-  attr_accessor :loan, :question, :response_set, :text, :string, :number, :boolean,
+  attr_accessor :loan, :question, :response_set, :text, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
   delegate :group?, :active?, :required?, to: :question
 
-  TYPES = %i(boolean breakeven business_canvas currency number percentage rating string text url)
+  TYPES = %i(boolean breakeven business_canvas currency number percentage rating text url)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @question = question
     @response_set = response_set
-    %w(boolean business_canvas end_cell number rating start_cell not_applicable string text url).each do |i|
+    %w(boolean business_canvas end_cell number rating start_cell not_applicable text url).each do |i|
       instance_variable_set("@#{i}", data[i.to_sym])
     end
     @breakeven = remove_blanks(data[:breakeven])
@@ -59,7 +59,7 @@ class Response
     if group?
       children.all?(&:blank?) || children.all?(&:not_applicable?)
     else
-      !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
+      !not_applicable? && text.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
     end
   end
