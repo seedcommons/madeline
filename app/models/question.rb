@@ -112,14 +112,7 @@ class Question < ApplicationRecord
     else
       result = [data_type.to_sym]
     end
-
-    if has_embeddable_media
-      if result
-        result << :url
-      else
-        raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
-      end
-    end
+    result << :url
     result
   end
 
