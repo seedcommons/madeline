@@ -1,5 +1,5 @@
 class EnhancedLoanDataExport < StandardLoanDataExport
-  Q_DATA_TYPES = ["number", "percentage", "rating", "currency"]
+  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency"]
 
   private
 
@@ -21,6 +21,10 @@ class EnhancedLoanDataExport < StandardLoanDataExport
             result[q_id.to_i] = response.rating
           elsif response.has_number?
             result[q_id.to_i] = response.number
+          elsif response.has_boolean?
+            result[q_id.to_i] = response.boolean
+          elsif response.has_text?
+            result[q_id.to_i] = response.text
           end
         end
       end
