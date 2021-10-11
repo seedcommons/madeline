@@ -41,6 +41,20 @@ module Legacy
         question_set = new_question.question_set
         new_response_sets[question_set] ||= ResponseSet.new(question_set: question_set, loan: loan,
                                                             custom_data: {}, legacy_id: id)
+
+        add_value_hash(question_set, new_question, response)
+      end
+    end
+
+    def add_value_hash(question_set, new_question, response)
+      if (existing = new_response_sets[question_set].custom_data[new_question.id.to_s])
+        if existing == response.value_hash
+          Migration.skipped_identical_response_count += 1
+        else
+          Migration.log << ["LoanResponse", response.id, "Skipped because response already existed "\
+                                                         "for this question and loan"]
+        end
+      else
         new_response_sets[question_set].custom_data[new_question.id.to_s] = response.value_hash
       end
     end
