@@ -82,7 +82,7 @@ module Legacy
     end
 
     DATA_TYPE_MAP = {
-      "Texto Breve" => "string",
+      "Texto Breve" => "text",
       "Texto Grande" => "text",
       "Numero" => "number",
       "Rango" => "range",
