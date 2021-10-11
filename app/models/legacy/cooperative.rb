@@ -27,7 +27,7 @@ module Legacy
         sector: sector&.strip.presence,
         industry: industry&.strip.presence,
         referral_source: source&.strip.presence,
-        inception_value: recuperada == 1 ? "recovered" : nil,
+        inception_value: recuperada == 1 ? "recovered" : "startup",
         contact_notes: contact&.strip.presence
       }
       data
