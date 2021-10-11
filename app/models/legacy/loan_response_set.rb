@@ -6,6 +6,11 @@ module Legacy
 
     attr_accessor :new_response_sets
 
+    def self.migratable
+      # ResponseSetID == 1 seems to be all spam and all sets with this ID map to loan #1
+      where.not(response_set_id: 1)
+    end
+
     def migrate
       unless loan
         Migration.log << ["LoanResponseSet", id, "Could not find Madeline Loan with ID #{loan_id}, skipping"]
@@ -19,8 +24,8 @@ module Legacy
     private
 
     def build_new_response_sets
-      # Note, we match our own ResponseSetID as the foreign key as opposed to the usual ID because
-      # this is how the old system worked.
+      # Note, a given response ID can be mapped to multiple loans. This is why we match LoanResponse
+      # on ResponseSetID instead of just ID.
       responses = LoanResponse.where("ResponseSetID = ?", response_set_id)
       responses.each do |response|
         unless (response.question.present?)
