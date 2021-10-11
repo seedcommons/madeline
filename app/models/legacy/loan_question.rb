@@ -11,7 +11,7 @@ module Legacy
       puts "---------------------------------------------------------"
       puts "Migrating question set Criteria"
       question_set = QuestionSet.create!(division_id: 2, kind: "loan_criteria")
-      migrate_questions(active: 2, group_id: nil, question_set: question_set)
+      migrate_questions(active: [2, 1], group_id: nil, question_set: question_set)
 
       puts "---------------------------------------------------------"
       puts "Migrating question set Post Analysis"
@@ -23,14 +23,22 @@ module Legacy
 
     def self.migrate_questions(active:, group_id:, question_set:)
       position = -1
-      where(active: active, grupo: group_id).order(:orden).each do |old_question|
+      # Order by active DESC because active 1 should go at the end of criteria
+      where(active: active, grupo: group_id).order({active: :desc}, :orden).each do |old_question|
         position += 1
+        if (old_question.active == 1 && LoanResponse.where(question_id: old_question.id).none?)
+          Migration.log << ["LoanQuestion", old_question.id,
+                            "Not migrating because active == 1 and no responses"]
+          next
+        end
+
         old_question.migrate(question_set: question_set, position: position)
+
         if old_question.data_type == "group"
           migrate_questions(active: active, group_id: old_question.id, question_set: question_set)
         elsif (children = where(active: active, grupo: old_question.id)).any?
-          children.each do |question|
-            Migration.log << ["LoanQuestion", question.id, "Not migrating because parent is not a group"]
+          children.each do |child|
+            Migration.log << ["LoanQuestion", child.id, "Not migrating because parent is not a group"]
           end
         end
       end
@@ -61,6 +69,9 @@ module Legacy
     def migration_data(question_set:, position:)
       {
         legacy_id: id,
+        # The old `active` column was really closer to a question set identifier.
+        # Active == 1 means actually inactive. Everything else is active.
+        active: active != 1,
         question_set_id: question_set.id,
         position: position,
         number: position + 1,
