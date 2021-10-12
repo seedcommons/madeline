@@ -5,6 +5,43 @@ module Legacy
     include LegacyModel
     include ActionView::Helpers::TextHelper
 
+    SPAM_URLS = %w(
+      http://autoinsuranceonet.info/average
+      http://autoinsuranceonet.info/buy
+      http://autoinsurancerater.info/a
+      http://autoinsurancexv.info/auto
+      http://autoinsurancexv.info/autoinsurancequotesfornewdrivers.html
+      http://autoinsurancexv.info/autoinsurancequotesfornewdrivers.html
+      http://bigskilletlive.com/augmentin/
+      http://carinsurancequoteson.info/aaa
+      http://casinogamblingbest.space/
+      http://cheapinsurancenerd.org/cheap
+      http://detroitcoralfarms.com/canadian
+      http://gladscricket.com/CA/Concord/auto
+      http://gladscricket.com/MT/Billings/cheapest
+      http://gladscricket.com/NH/Concord/car
+      http://kullutourism.com/propranolol/
+      http://nauseainthemorning.ml/little
+      http://theyogabodyoceanside.com/WV/Wheeling/non
+      http://ussportsnews.net/NJ/Camden/car
+      http://webodtechnologies.com/cialis/
+      http://wonderlandinc.org/AR/Jonesboro/free
+      http://wonderlandinc.org/IN/Brownsburg/cheapest
+      http://www.LnAJ7K8QSpfMO2wQ8gO.com
+      https://canadianpharmacyntv.com/
+      https://canadianpharmacyopen.com/
+      https://cbd
+      https://cbdhempoiltrust.com/
+      https://ciaonlinebuyntx.com/
+      https://goldentabs.com/
+      https://momshealthadvice.com/kamagra/
+      https://safeonlinecanadian.com/
+      https://trustedwebpharmacy.com/
+      https://viagradjango.com/
+      https://viagradocker.com/
+      https://viagrapython.com/
+    )
+
     def question
       LoanQuestion.find_by(id: question_id)
     end

@@ -52,9 +52,12 @@ module Legacy
         if existing == value_hash
           Migration.skipped_identical_response_count += 1
         else
-          Migration.log << ["LoanResponse", response.id, "Skipped because response already existed "\
-                                                         "for this question and loan"]
+          Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because response "\
+                                                         "already existed for this question and loan"]
         end
+      elsif LoanResponse::SPAM_URLS.any? { |url| response.answer.include?(url) }
+        Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because answer included "\
+                                                       "spam domain"]
       else
         puts "LoanResponse #{response.id} value hash:"
         pp value_hash
