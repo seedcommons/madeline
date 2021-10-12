@@ -48,16 +48,15 @@ module Legacy
 
     def add_value_hash(question_set, new_question, response)
       value_hash = response.value_hash
-      if (existing = new_response_sets[question_set].custom_data[new_question.id.to_s])
+      if LoanResponse::SPAM_URLS.any? { |url| response.answer.include?(url) }
+        Migration.skipped_spam_response_count += 1
+      elsif (existing = new_response_sets[question_set].custom_data[new_question.id.to_s])
         if existing == value_hash
           Migration.skipped_identical_response_count += 1
         else
           Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because response "\
                                                          "already existed for this question and loan"]
         end
-      elsif LoanResponse::SPAM_URLS.any? { |url| response.answer.include?(url) }
-        Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because answer included "\
-                                                       "spam domain"]
       else
         puts "LoanResponse #{response.id} value hash:"
         pp value_hash

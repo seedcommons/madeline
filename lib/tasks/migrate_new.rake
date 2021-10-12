@@ -48,6 +48,7 @@ namespace :tww do
     response_sets = Legacy::LoanResponseSet.where(loan_id: loan_ids)
     txn_and_dump("responses") do
       response_sets.migrate_all
+      puts "Number of skipped spam responses: #{Legacy::Migration.skipped_spam_response_count}"
       puts "Number of skipped identical responses: #{Legacy::Migration.skipped_identical_response_count}"
     end
 
