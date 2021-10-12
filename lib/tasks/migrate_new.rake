@@ -71,6 +71,11 @@ namespace :tww do
     txn_and_dump("media") do
       media.migrate_all
     end
+
+    puts "Writing full log to tmp/migration-log.csv"
+    CSV.open(Rails.root.join("tmp/migration-log.csv"), "wb") do |csv|
+      Legacy::Migration.log.each { |r| csv << r }
+    end
   end
 
   def txn_and_dump(name)
