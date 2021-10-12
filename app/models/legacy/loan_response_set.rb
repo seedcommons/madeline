@@ -54,8 +54,10 @@ module Legacy
         if existing == value_hash
           Migration.skipped_identical_response_count += 1
         else
-          Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because response "\
-                                                         "already existed for this question and loan"]
+          Migration.log << ["LoanResponse", response.id, "(Loan #{loan.id}) Skipped because a response "\
+                                                         "already existed for this question and loan:"]
+          Migration.log << ["LoanResponse", response.id, "    1. #{existing.to_json}"]
+          Migration.log << ["LoanResponse", response.id, "    2. #{value_hash.to_json}"]
         end
       else
         puts "LoanResponse #{response.id} value hash:"
