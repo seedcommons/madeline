@@ -26,9 +26,6 @@ module Legacy
 
       # Generate HTML for long text answers
       result[:text] = simple_format(result[:text]) if question.data_type == "text"
-
-      puts "LoanResponse #{id} value hash:"
-      pp result
       result
     end
   end
