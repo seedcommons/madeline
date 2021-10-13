@@ -196,12 +196,12 @@ module Accounting
       )
       line_item_for(txn, prin_acct).assign_attributes(
         qb_line_id: 1,
-        posting_type: "Credit",
+        posting_type: (txn.amount - int_part) == 0 ? "Debit" : "Credit",
         amount: txn.amount - int_part
       )
       line_item_for(txn, int_rcv_acct).assign_attributes(
         qb_line_id: 2,
-        posting_type: "Credit",
+        posting_type: int_part == 0 ? "Debit" : "Credit",
         amount: int_part
       )
     end

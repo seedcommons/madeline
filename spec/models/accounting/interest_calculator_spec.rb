@@ -7,6 +7,9 @@ describe Accounting::InterestCalculator do
 
   let(:loan) { create(:loan, :active, division: division, rate: 8.0) }
   let(:customer) { create(:accounting_customer) }
+  let!(:prin_acct) { division.principal_account }
+  let!(:int_rcv_acct) { division.interest_receivable_account }
+  let!(:int_inc_acct) { division.interest_income_account }
 
   describe "general operation" do
     let!(:t0) {
@@ -38,9 +41,6 @@ describe Accounting::InterestCalculator do
              loan_transaction_type_value: "repayment", project: loan, txn_date: "2017-01-31", division: division)
     }
     let(:all_txns) { [t0, t1, t2, t3, t4, t5, t6] }
-    let!(:prin_acct) { division.principal_account }
-    let!(:int_rcv_acct) { division.interest_receivable_account }
-    let!(:int_inc_acct) { division.interest_income_account }
 
     describe "initial creation and update" do
       it do
@@ -113,7 +113,9 @@ describe Accounting::InterestCalculator do
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t4.line_item_for(prin_acct).amount).to equal_money(0.0)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq("Credit")
+        # usually a prin acct li posting type is credit, but debit when amt is zero
+        # because qb changes posting type to Debit when amt is 0
+        expect(t4.line_item_for(prin_acct).posting_type).to eq("Debit")
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(117.50)
@@ -231,7 +233,9 @@ describe Accounting::InterestCalculator do
         expect(t4.line_item_for(int_rcv_acct).amount).to equal_money(0.50)
         expect(t4.line_item_for(int_rcv_acct).reload.posting_type).to eq("Credit")
         expect(t4.line_item_for(prin_acct).amount).to equal_money(0.00)
-        expect(t4.line_item_for(prin_acct).posting_type).to eq("Credit")
+        # usually a prin acct li posting type is credit, but debit when amt is zero
+        # because qb changes posting type to Debit when amt is 0
+        expect(t4.line_item_for(prin_acct).posting_type).to eq("Debit")
 
         # balances
         expect(t4.reload.principal_balance).to equal_money(152.50)
@@ -389,15 +393,14 @@ describe Accounting::InterestCalculator do
 
     it "handles correctly" do
       recalculate_and_reload
-      #expect(Accounting::Transaction.where(project: loan).count).to eq 3
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be true
       interest_txn = Accounting::Transaction.find_by(txn_date: "2018-01-31", project: loan)
-      expect(disbursement.reload.interest_balance).to equal_money 0
-      expect(disbursement.reload.principal_balance).to equal_money 100
+      expect(disbursement.interest_balance).to equal_money 0
+      expect(disbursement.principal_balance).to equal_money 100
       expect(interest_txn.interest_balance).to equal_money 0.41
       expect(interest_txn.principal_balance).to equal_money 100
-      expect(repayment.reload.interest_balance).to equal_money 0
-      expect(repayment.reload.principal_balance).to equal_money(-9.54)
+      expect(repayment.interest_balance).to equal_money 0
+      expect(repayment.principal_balance).to equal_money(-9.54)
     end
   end
 
@@ -423,14 +426,20 @@ describe Accounting::InterestCalculator do
     end
     let(:all_txns) { [disbursement, repayment] }
 
-    it "does not create interest txn" do
+    it "does not create interest txn and repayment interest line item is debit as it is in qb " do
       recalculate_and_reload
       expect(Accounting::Transaction.count).to eq 2
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-      expect(disbursement.reload.interest_balance).to equal_money 0
-      expect(disbursement.reload.principal_balance).to equal_money 1000
-      expect(repayment.reload.interest_balance).to equal_money 0
-      expect(repayment.reload.principal_balance).to equal_money 900
+      expect(disbursement.interest_balance).to equal_money 0
+      expect(disbursement.principal_balance).to equal_money 1000
+      expect(repayment.interest_balance).to equal_money 0
+      expect(repayment.principal_balance).to equal_money 900
+      expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 0
+      expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(prin_acct).amount).to equal_money 100
+      expect(repayment.line_item_for(prin_acct).posting_type).to eq "Credit"
+      expect(repayment.line_item_for(repayment.account).amount).to equal_money 100
+      expect(repayment.line_item_for(repayment.account).posting_type).to eq "Debit"
     end
 
     context "with incorrect line items that allocate non-zero amount to interest" do
@@ -469,9 +478,43 @@ describe Accounting::InterestCalculator do
         recalculate_and_reload
         expect(Accounting::Transaction.count).to eq 2
         expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be false
-        expect(repayment.reload.line_item_for(prin_acct).amount).to equal_money 100
-        expect(repayment.reload.line_item_for(int_rcv_acct).amount).to equal_money 0
+        expect(repayment.line_item_for(prin_acct).amount).to equal_money 100
+        expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 0
+        expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Debit"
       end
+    end
+  end
+
+  context "repayment only covers interest" do
+    let(:loan) { create(:loan, :active, division: division, rate: 50.0) }
+    let!(:disbursement) do
+      create(:accounting_transaction,
+             :disbursement,
+             amount: 1000.0,
+             project: loan,
+             txn_date: "2018-01-01",
+             division: division,
+             customer: customer)
+    end
+    let!(:repayment) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 5.0,
+             project: loan,
+             txn_date: "2018-02-04",
+             division: division,
+             customer: customer)
+    end
+    let(:all_txns) { [disbursement, repayment] }
+
+    it "the repayment principal account line item is debit as it is in qb " do
+      recalculate_and_reload
+      expect(repayment.line_item_for(prin_acct).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(prin_acct).amount).to eq 0.00
+      expect(repayment.line_item_for(int_rcv_acct).posting_type).to eq "Credit"
+      expect(repayment.line_item_for(int_rcv_acct).amount).to equal_money 5.0
+      expect(repayment.line_item_for(repayment.account).posting_type).to eq "Debit"
+      expect(repayment.line_item_for(repayment.account).amount).to equal_money 5.0
     end
   end
 
