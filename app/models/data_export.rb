@@ -15,11 +15,27 @@ class DataExport < ApplicationRecord
     "enhanced_loan_data_export" => "EnhancedLoanDataExport"
   }
 
-  # Process data should be defined on subclasses,
-  # generate a 2D array with the desired data,
-  # and save it in the `data` field
+  def self.model_name
+    ActiveModel::Name.new(self, nil, "DataExport")
+  end
+
   def process_data
-    raise NotImplementedError
+    @child_errors = []
+    data = []
+    data.concat(header_rows)
+    scope.find_each do |object|
+      begin
+        data << hash_to_row(object_data_as_hash(object))
+      rescue => e
+        @child_errors << {object_id: object.id, message: e.message}
+        next
+      end
+    end
+    self.update(data: data)
+
+    unless @child_errors.empty?
+      raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
+    end
   end
 
   def to_csv!
@@ -53,11 +69,24 @@ class DataExport < ApplicationRecord
     Task.find_by(taskable_id: self.id)
   end
 
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "DataExport")
+  protected
+
+  def insert_in_row(header_symbol, row_array, value)
+    row_array[header_symbols_to_indices[header_symbol]] = value
   end
 
   private
+
+  def hash_to_row(hash)
+    data_row = []
+    hash.each { |k, v| insert_in_row(k, data_row, v) }
+    data_row
+  end
+
+  # Builds a hash of header symbols to their appropriate indices in the row arrays.
+  def header_symbols_to_indices
+    @header_symbols_to_indices = header_symbols.each_with_index.to_h
+  end
 
   def set_name
     self.name = default_name if self.name.blank?

@@ -1,165 +1,83 @@
-class EnhancedLoanDataExport < DataExport
-  Q_DATA_TYPES = ['number', 'percentage', 'rating', 'currency']
-  BASE_HEADERS = [
-    'loan_id',
-    'name',
-    'division',
-    'cooperative',
-    'country',
-    'address',
-    'city',
-    'state',
-    'postal_code',
-    'status',
-    'actual_end_date',
-    'actual_first_payment_date',
-    'actual_first_interest_payment_date',
-    'actual_return',
-    'projected_end_date',
-    'projected_first_payment_date',
-    'projected_first_interest_payment_date',
-    'projected_return',
-    'signing_date',
-    'length_months',
-    'loan_type',
-    'currency',
-    'amount',
-    'rate',
-    'final_repayment_formula',
-    'primary_agent',
-    'secondary_agent',
-    'num_accounting_warnings',
-    'num_accounting_errors',
-    'sum_of_disbursements',
-    'sum_of_repayments',
-    'change_in_principal',
-    'change_in_interest'
-  ]
-
-  # Subclass exists only to implement process_data. No additional public methods should be added to this subclass.
-  def process_data
-    @child_errors = []
-    data = []
-    data << header_row
-    data << question_id_row
-    Loan.find_each do |loan|
-      begin
-        data << hash_to_row(loan_data_as_hash(loan))
-      rescue => e
-        @child_errors << {loan_id: loan.id, message: e.message}
-        next
-      end
-    end
-    self.update(data: data)
-
-    unless @child_errors.empty?
-      raise DataExportError.new(message: "Data export had child errors.", child_errors: @child_errors)
-    end
-  end
+class EnhancedLoanDataExport < StandardLoanDataExport
+  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency"]
 
   private
 
-  def loan_data_as_hash(loan)
-    result = {
-      loan_id: loan.id,
-      name: loan.name,
-      division: loan.division_name,
-      cooperative: loan.coop_name,
-      address: loan.coop_street_address,
-      city: loan.coop_city,
-      state: loan.coop_state,
-      country: loan.coop_country&.name,
-      postal_code: loan.coop_postal_code,
-      status: loan.status.to_s,
-      actual_end_date: loan.actual_end_date,
-      actual_first_payment_date: loan.actual_first_payment_date,
-      actual_first_interest_payment_date: loan.actual_first_interest_payment_date,
-      actual_return: loan.actual_return,
-      projected_end_date: loan.projected_end_date,
-      projected_first_payment_date: loan.projected_first_payment_date,
-      projected_first_interest_payment_date: loan.projected_first_interest_payment_date,
-      projected_return: loan.projected_return,
-      signing_date: loan.signing_date,
-      length_months: loan.length_months, 
-      loan_type: loan.type,
-      currency: loan.currency&.name,
-      amount: loan.amount,
-      rate: loan.rate,
-      final_repayment_formula: loan.final_repayment_formula,
-      primary_agent: loan.primary_agent&.name,
-      secondary_agent: loan.secondary_agent&.name,
-      num_accounting_warnings: loan.num_sync_issues_by_level(:warning),
-      num_accounting_errors: loan.num_sync_issues_by_level(:error),
-      sum_of_disbursements: loan.sum_of_disbursements(start_date: start_date, end_date: end_date),
-      sum_of_repayments: loan.sum_of_repayments(start_date: start_date, end_date: end_date),
-      change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
-      change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date)
-    }
-    result.merge(response_hash(loan))
+  def object_data_as_hash(loan)
+    super.merge(response_hash(loan))
   end
 
+  # We index questions by ID in this hash but use question labels in the header row.
   def response_hash(loan)
     result = {}
-    response_set = ResponseSet.find_by(loan_id: loan.id)
-    return result if response_set.nil?
-    response_set.custom_data.each do |q_id, response_data|
-      question = memoized_questions[q_id.to_i]
-      if question.present?
-        response = Response.new(loan: loan, question: question, response_set: response_set, data: response_data)
-        if response.has_rating?
-          result[q_id] = response.rating
-        elsif response.has_number?
-          result[q_id] = response.number
+    response_sets = ResponseSet.joins(:question_set).where(loan: loan).order("question_sets.kind")
+    response_sets.each do |response_set|
+      response_set.custom_data.each do |q_id, response_data|
+        question = questions_by_id[q_id.to_i]
+        if question.present?
+          response = Response.new(loan: loan, question: question,
+                                  response_set: response_set, data: response_data)
+
+          # Note, this approach will exclude parts of compound data types, such as `range`,
+          # which can have both a `rating` and a `text` component.
+          # `url`, `start_cell`, and `end_cell` components from questions with `has_embeddable_media`=true
+          # are also not included, nor are `business_canvas`, and `breakeven`, which would be way too big
+          # to put in a CSV cell.
+          result[q_id.to_i] =
+            if response.not_applicable?
+              "N/A"
+            elsif response.has_rating?
+              response.rating
+            elsif response.has_number?
+              response.number
+            elsif response.has_boolean?
+              response.boolean
+            elsif response.has_text?
+              response.text
+            end
         end
       end
     end
     result
   end
 
+  def header_rows
+    [main_header_row, question_id_row]
+  end
+
+  def main_header_row
+    headers = StandardLoanDataExport::HEADERS.map { |h| I18n.t("standard_loan_data_exports.headers.#{h}") }
+    headers + questions.map { |q| q.label.to_s }
+  end
+
   def question_id_row
     row = [I18n.t("standard_loan_data_exports.headers.question_id")]
-    row[BASE_HEADERS.size - 1] = nil
-    row + questions_map.keys.sort
+    row[StandardLoanDataExport::HEADERS.size - 1] = nil
+    row + questions.map(&:id)
   end
 
-  def header_row
-    @header_row ||= make_header_row
-  end
-
-  def make_header_row
-    headers = BASE_HEADERS.map do |h|
-      I18n.t("standard_loan_data_exports.headers.#{h}")
+  # Returns questions in the order we want them to show up in the header row.
+  # Includes question sets from target division and all its descendants.
+  def questions
+    @questions ||= question_sets.flat_map do |question_set|
+      question_set.root_group.self_and_descendants_preordered.select do |q|
+        Q_DATA_TYPES.include?(q.data_type)
+      end
     end
-    headers + questions_map.keys.sort.map { |k| questions_map[k] }
   end
 
-  def questions_map
-    @questions_map ||= make_questions_label_map
+  def question_sets
+    # We want self to come first for deterministic behavior in specs. After that it doesn't really matter.
+    # self_and_descendants orders by depth so we are good.
+    division.self_and_descendants.flat_map { |d| QuestionSet.where(division: d).order(:kind).to_a }
   end
 
-  # map q_ids as strings (so that they can be treated same as base headers in #insert_in_row) to labels
-  def make_questions_label_map
-    q_id_to_label_map = {}
-    Question.where(data_type: Q_DATA_TYPES).find_each { |q| q_id_to_label_map[q.id.to_s] = q.label.to_s }
-    q_id_to_label_map
+  def questions_by_id
+    @questions_by_id ||= questions.index_by(&:id)
   end
 
-  def memoized_questions
-    @memoized_questions ||= Question.where(data_type: Q_DATA_TYPES).index_by(&:id)
-  end
-
-  # Methods below decouple order in BASE_HEADERS constant and question map from the order in which values are added to data row
-  def headers_key
-    @headers_key = @headers_key || BASE_HEADERS + questions_map.keys.sort
-  end
-
-  def hash_to_row(hash)
-    data_row = []
-    hash.each { |k, v| insert_in_row(k, data_row, v) }
-    data_row
-  end
-
-  def insert_in_row(column_name, row_array, value)
-    row_array[headers_key.index(column_name.to_s)] = value
+  # Returns the list of symbols representing headers in the order they should appear.
+  def header_symbols
+    @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
   end
 end

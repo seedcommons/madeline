@@ -100,29 +100,6 @@ class Question < ApplicationRecord
     false
   end
 
-  # List of value keys for fields which have nested values
-  def value_types
-    # raise "invalid data_type" unless DATA_TYPES.include?(data_type.to_sym)
-    if data_type == 'range'
-      result = [:rating, :text]
-    elsif data_type == 'percentage'
-      result = [:number, :percentage]
-    elsif data_type == 'currency'
-      result = [:number, :currency]
-    else
-      result = [data_type.to_sym]
-    end
-
-    if has_embeddable_media
-      if result
-        result << :url
-      else
-        raise "has_embeddable_media flag enabled for unexpected data_type: #{data_type}"
-      end
-    end
-    result
-  end
-
   # for now use a stringified primary key
   # todo: consider using the internal name when available - needs further discussion
   def json_key

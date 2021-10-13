@@ -2,22 +2,27 @@
 class Response
   include ProgressCalculable
 
-  attr_accessor :loan, :question, :response_set, :text, :string, :number, :boolean,
+  attr_accessor :loan, :question, :response_set, :text, :number, :boolean,
     :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable
 
-  delegate :group?, :active?, :required?, to: :question
+  delegate :group?, :active?, :required?, :data_type, to: :question
 
-  TYPES = %i(boolean breakeven business_canvas currency number percentage rating string text url)
+  # These are all the possible response value types that can come through in submitted JSON, except:
+  # `currency` and `percentage` are never actually set through the interface. But their presence
+  # in the return value of `value_types` is checked via the has_currency? and has_percentage?
+  # methods that are dynamically built below. Should consider refactoring this as it's misleading.
+  ALL_VALUE_TYPES = %i(boolean breakeven business_canvas end_cell currency number percentage rating start_cell text url not_applicable)
 
   def initialize(loan:, question:, response_set:, data:)
     data = (data || {}).with_indifferent_access
     @loan = loan
     @question = question
     @response_set = response_set
-    %w(boolean business_canvas end_cell number rating start_cell not_applicable string text url).each do |i|
-      instance_variable_set("@#{i}", data[i.to_sym])
+
+    ALL_VALUE_TYPES.each do |type|
+      instance_variable_set("@#{type}", data[type.to_sym])
     end
-    @breakeven = remove_blanks(data[:breakeven])
+    @breakeven = remove_blanks(@breakeven)
   end
 
   def model_name
@@ -44,13 +49,12 @@ class Response
     @breakeven_report ||= breakeven_table.report
   end
 
-  def field_attributes
-    @field_attributes ||= question.value_types
-  end
-
-  TYPES.each do |type|
+  # These dynamic methods consult `value_types` to check what component value types
+  # response data will include. See comment above for more info.
+  # We don't need a has_not_applicable? method because all questions have not_applicable data.
+  (ALL_VALUE_TYPES - [:not_applicable]).each do |type|
     define_method("has_#{type}?") do
-      field_attributes.include?(type)
+      value_types.include?(type)
     end
   end
 
@@ -59,7 +63,7 @@ class Response
     if group?
       children.all?(&:blank?) || children.all?(&:not_applicable?)
     else
-      !not_applicable? && text.blank? && string.blank? && number.blank? && rating.blank? &&
+      !not_applicable? && text.blank? && number.blank? && rating.blank? &&
         boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
     end
   end
@@ -84,6 +88,23 @@ class Response
   end
 
   private
+
+  # Responses are made up of one or more value types. e.g. a `range` is composed of a `rating` and a `text`
+  # This method returns which value type should be included with a this response based on the question's
+  # data_type.
+  def value_types
+    if data_type == "range"
+      result = [:rating, :text]
+    elsif data_type == "percentage"
+      result = [:number, :percentage]
+    elsif data_type == "currency"
+      result = [:number, :currency]
+    else
+      result = [data_type.to_sym]
+    end
+    result.concat([:url, :start_cell, :end_cell])
+    result
+  end
 
   # Gets child responses of this response by asking ResponseSet.
   # Assumes ResponseSet's implementation of `response`
