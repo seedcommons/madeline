@@ -6,9 +6,9 @@ FactoryBot.define do
     trait :with_questions do
       kind { 'loan_criteria' }
       after(:create) do |model|
-        create(:question, parent: model.root_group, question_set: model,
+        create(:question, division: model.division, parent: model.root_group, question_set: model,
           internal_name: 'summary', data_type: 'number')
-        create(:question, parent: model.root_group, question_set: model,
+        create(:question, division: model.division, parent: model.root_group, question_set: model,
           internal_name: 'workers', data_type: 'text')
       end
     end
