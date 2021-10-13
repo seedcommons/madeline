@@ -26,7 +26,7 @@ module MediaHelper
   def data_export_thumbnail(media_item)
     content_tag(:div, class: "media-block") do
       concat(content_tag(:div, media_title(media_item, length: 20)))
-      concat(icon(media_icon_class(media_item)))
+      concat(fa_icon(media_icon_class(media_item)))
     end
   end
 
