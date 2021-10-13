@@ -31,3 +31,4 @@
 
 en:
   # See subdirs for translations organized by area.
+  # DO NOT put any translations in this file. The above `en:` needs to stay though.

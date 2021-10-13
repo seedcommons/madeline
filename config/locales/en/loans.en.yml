@@ -198,25 +198,3 @@ en:
 
   questionnaires:
     optional_questions: "Optional Questions"
-
-  transactions:
-    default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
-    interest_description: "Interest Accrual for Loan #%{loan_id}"
-
-  # The admin top level group is used here to allow t(".edit") style shortcuts from views
-  admin:
-    loans:
-      questions:
-        delete: "Delete All Responses"
-        outline:
-          header: "Outline"
-          optional: "Optional Qs"
-          miscellaneous: "Miscellaneous"
-      transactions:
-        create_success: "Transaction successfully created."
-        update_success: "Transaction successfully updated."
-        sync_complete: "Loan successfully sync'd with QuickBooks."
-        new_transaction: "Add Transaction"
-        edit_transaction: "Edit Transaction"
-        sync_data: "Sync Data"
-        update: "Update Transaction"

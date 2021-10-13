@@ -3,3 +3,5 @@ en:
     disbursement_type:
       other: "Wire or Credit Card"
       check: "Check"
+    default_description: "%{loan_transaction_type} for Loan #%{loan_id}"
+    interest_description: "Interest Accrual for Loan #%{loan_id}"

@@ -1,0 +1,7 @@
+en:
+  # Overwrite rails default of using the table name in the action labels
+  helpers:
+    submit:
+      organization:
+        create: "Create Co-op"
+        update: "Update Co-op"

@@ -1,0 +1,72 @@
+en:
+  # The admin top level group is used here to allow t(".xxx") style shortcuts from views
+  admin:
+    timeline:
+      list_header:
+        cancel_edit: "Cancel Edit"
+        edit_all: "Edit All"
+        new_step: "New Step"
+        save_all: "Save All"
+      top_controls:
+        new_group: "Add Group"
+        new_step: "Add Step"
+      table:
+        add_child_group: "Add Child Group"
+        add_child_step: "Add Child Step"
+    organizations:
+      loans:
+        view_all_loans: "View All Loans"
+    questions:
+      index:
+        title: "Loan Questions"
+        add_item: "Add Question or Group"
+        edit_item: "Edit Item"
+        delete_item: "Delete Item"
+      form:
+        edit_item: Edit Question or Group
+        new_item: New Question or Group
+    people:
+      show:
+        with_logs_or_notes:
+          confirm_deletion: "WARNING: This member has logs and/or notes. If you choose to delete the member, the logs and/or notes will remain with no author. If you wish to keep the member as the author of the logs and/or notes, do not delete this member. Instead, if the member is no longer active, uncheck the 'Has system access' option."
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Member?"
+        delete: "Delete Member"
+        edit: "Edit Member"
+    timeline_step_moves:
+      new:
+        move: "Change Step Date"
+        orig_date_remembered: "The original date for this step will be remembered."
+        please_log: "Please add a log entry for this change below before continuing."
+        add_log: "Add Log"
+    notes:
+      form:
+        edit_item: "Edit Note"
+        new_item: "New Note"
+    divisions:
+      show:
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Division? If it has any custom fields or option sets, they will also be deleted."
+        delete: "Delete Division"
+        edit: "Edit Division"
+      form:
+        notify_on_new_logs: "Notify users in this division when a new log is created"
+        public: "Show this division's loans on the public website"
+        public_url_info: "To change this division's public url, please update this division's Short Name below. The short name is the last portion of the url."
+    loans:
+      questions:
+        delete: "Delete All Responses"
+        outline:
+          header: "Outline"
+          optional: "Optional Qs"
+          miscellaneous: "Miscellaneous"
+      transactions:
+        create_success: "Transaction successfully created."
+        update_success: "Transaction successfully updated."
+        sync_complete: "Loan successfully sync'd with QuickBooks."
+        new_transaction: "Add Transaction"
+        edit_transaction: "Edit Transaction"
+        sync_data: "Sync Data"
+        update: "Update Transaction"
+    project_logs:
+      index:
+        title: "Logs"
+        logs_for: "Logs for %{thing}"

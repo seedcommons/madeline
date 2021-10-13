@@ -1,14 +1,86 @@
 en:
-  admin:
-    timeline:
-      list_header:
-        cancel_edit: "Cancel Edit"
-        edit_all: "Edit All"
-        new_step: "New Step"
-        save_all: "Save All"
-      top_controls:
-        new_group: "Add Group"
-        new_step: "Add Step"
-      table:
-        add_child_group: "Add Child Group"
-        add_child_step: "Add Child Step"
+  project_step:
+    add: "Add Step"
+    add_dependent_step: "Add Dependent Step"
+    add_log: "Add Log"
+    all_types: "All Types"
+    all_statuses: "All Statuses"
+    all_completion_statuses: "All Statuses"
+    after: "After"
+    completion_status:
+      draft: 'Draft'
+      finalized: 'Finalized'
+      complete: 'Complete'
+      incomplete: 'Incomplete'
+    confirm_deletion: "Are you sure you want to delete this project step?"
+    days: "Day(s)"
+    delete:
+      one: "Delete Step"
+      other: "Delete Steps"
+    duplicate: "Duplicate"
+    duplicate_step: "Duplicate Step"
+    duration_days: "%{duration}d"
+    edit: "Edit Step"
+    end: "End:"
+    every: "Every:"
+    batch_delete_confirm: "Are you sure you want to delete these project steps?"
+    batch_finalize_confirm: "Are you sure you wish to finalize these project steps?"
+    finalized: "Finalized:"
+    finalize:
+      one: "Finalize Step"
+      other: "Finalize Steps"
+    labels:
+      completed: "Completed:"
+      duration: "Duration:"
+      finalized: "Finalized:"
+      scheduled: "Scheduled:"
+      start_date: "Start Date:"
+      status: "Status:"
+      old_start_date: "Old Start Date:"
+    logs: "Logs"
+    months: "Month(s)"
+    move: "Move Step"
+    no_status: "[No status]"
+    no_steps: "This timeline has no steps yet."
+    no_steps_match: "No timeline steps match the filters above."
+    occurrences: "occurrence(s)"
+    once: "Once"
+    on_label: "On:"
+    on_text: "On"
+    project_step:
+      one: "project step"
+      other: "project steps"
+    repeat: "Repeat..."
+    timeline: "Timeline"
+    timeline_table:
+      draft: "Draft"
+      duration: "Duration"
+      end: "End"
+      group: "Group"
+      logs: "Logs"
+      preceding_step: "Preceding Step"
+      start: "Start"
+      status: "Status"
+      step: "Step"
+    status:
+      completed: "Completed"
+      completed_late: "Completed %{days}d late"
+      early: "Early"
+      late: "Late"
+      not_completed: "Not yet completed"
+      days_early: "%{days} days early"
+      days_late: "%{days} days late"
+      on_time: "On time"
+      changed_times:
+        one: "Changed once"
+        other: "Changed %{count} times"
+    unfinalize_disallowed: "Unfinalize not allowed. More than 24 hours have passed since finalized."
+    view_logs: "View Logs"
+    weeks: "Week(s)"
+  project_group:
+    add: "New Group"
+    edit: "Edit Group"
+    delete: "Delete Group"
+    delete_confirmation: Are you sure you want to remove this group?
+  project_groups:
+    delete_error: "The group could not be deleted due to an error"

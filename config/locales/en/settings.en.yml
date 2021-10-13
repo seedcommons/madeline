@@ -1,39 +1,3 @@
 en:
   settings:
     accounting: "Accounting Settings"
-  quickbooks:
-    accounts:
-      accounts: "QuickBooks Accounts"
-      note: "These account settings only apply to future transactions."
-    connection:
-      connected: "Connected to %{company_name}"
-      connection: "QuickBooks Connection"
-      disconnect: "Disconnect"
-      not_connected: "Not Connected"
-      never_synced: "Never"
-      data_reset: "Reset"
-      disconnect_message: "Your QuickBooks account has been successfully disconnected."
-      data_reset_message: "Your QuickBooks data cache has been reset."
-      data_reset_information: "If you're experiencing issues with QuickBooks data, click Reset to clear Madeline's cached copy and restore it from QuickBooks."
-      import_in_progress_message: "If your data import is in progress, you may need to reload the page to see the most recent status."
-      link_message: "Your QuickBooks account has been successfully linked. Note: Once data is imported, you will need to select accounts before you can add transactions."
-    fetch_status:
-      failed: "QuickBooks data import failed."
-      in_progress: "QuickBooks data import in progress."
-      pending: "QuickBooks data import pending."
-      succeeded: "QuickBooks data import succeeded."
-    closed_books_date:
-      note:
-        date_not_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date."
-        date_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date, currently set to %{current_date}."
-      alert:
-        date_not_set: "Attention: When a closed books date is set, Madeline will create and modify QuickBooks transactions after the closed books date. These actions cannot be undone."
-        date_set: "Attention: Setting the closed books date to before %{current_date} will cause Madeline to create new transactions and modify transactions before %{current_date} in QuickBooks. These actions cannot be undone."
-    qb_read_only:
-      alert: "Attention: Switching off read-only accounting will cause Madeline to add automated transactions to QuickBooks data."
-      note: "When set to read-only, transaction creation and automatic interest calculation is disabled. When not set to read-only mode, Madeline will automatically calculate interest for loans and admins may create transactions on loans. In both modes, QuickBooks data is regularly imported and available to view."
-      qb_read_only: "Read-Only Accounting Data"
-    update:
-      update_changed: "Fetch changes from QuickBooks"
-      update_queued_html: "QuickBooks fetch queued successfully, <a href='%{url}'>view progress</a>."
-      update_changed_details: "Manually fetch data (including Accounts, Customers, Departments, Transactions, and Vendors) that has changed from QuickBooks since the last complete sync."

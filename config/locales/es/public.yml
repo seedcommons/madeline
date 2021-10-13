@@ -1,7 +1,0 @@
-es:
-  public:
-    divisions:
-      loan_header: "Prestamos"
-    loans:
-      amount: "Monto"
-      signing_date: "Fecha de Inicio"
