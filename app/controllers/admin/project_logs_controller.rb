@@ -66,19 +66,11 @@ class Admin::ProjectLogsController < Admin::AdminController
       @step.set_completed!(@log.date) if params[:step_completed_on_date] == '1'
       @expand_logs = true
       render json: {summary: @log.summary, logId: @log.id}, status: 200
-      notify
+      LogNotificationJob.perform_later(@log) if params[:notify] == '1'
     else
       @progress_metrics = ProjectLog.progress_metric_options
       @people = Person.by_name
       render partial: 'modal_content', status: :unprocessable_entity
-    end
-  end
-
-  def notify
-    if params[:notify] == '1' && @log.division.notify_on_new_logs?
-      @log.division.users.each do |user|
-        NotificationMailer.new_log(@log, user).deliver_later
-      end
     end
   end
 end

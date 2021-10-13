@@ -33,7 +33,7 @@ class Person < ApplicationRecord
   validate :user_valid
 
   # Transient attributes to facilitate user management
-  attr_writer :access_role
+  attr_writer :access_role, :notification_source
   attr_accessor :password, :password_confirmation
 
   before_save :update_full_name
@@ -58,6 +58,19 @@ class Person < ApplicationRecord
 
   def agent_projects
     Project.where("primary_agent_id = ? OR secondary_agent_id = ?", id, id)
+  end
+
+  def notification_source
+    # I am just following how other user attributes are persisted and accessed here, but it is not
+    # a very nice way of doing things. For models that are nested inside one another,
+    # accepts_nested_attributes_for is the better way to do this. But I also don't really see the
+    # benefit of having separate Person and User classes in this project, whereas this split adds
+    # a lot of extra complexity. Ultimately I think the two should be combined.
+    # So I didn't think it was worthwhile to refactor this class
+    # to more gracefully accept nested attributes at this time.
+    return @notification_source if defined? @notification_source
+
+    @notification_source = user&.notification_source || "home_only"
   end
 
   def active_agent_projects
@@ -105,14 +118,16 @@ class Person < ApplicationRecord
     if user_required?
       if user
         # Updates fields on existing user if previously created
-        user.email = self.email
+        user.email = email
+        user.notification_source = notification_source
         if password.present?
-          user.password = self.password
-          user.password_confirmation = self.password_confirmation
+          user.password = password
+          user.password_confirmation = password_confirmation
         end
       else
         build_user(
           email: email,
+          notification_source: notification_source,
           password: password,
           password_confirmation: password_confirmation
         )

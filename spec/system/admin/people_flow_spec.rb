@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'people flow' do
+describe 'people flow', js: true do
 
   let!(:division) { create(:division) }
   let!(:org) { create(:organization) }
@@ -22,9 +22,42 @@ describe 'people flow' do
     let(:field_to_change) { 'first_name' }
   end
 
+  context 'create, update' do
+    scenario do
+      visit(admin_people_path)
+      click_on("New Member")
+      fill_in("person_first_name", with: "Ruddiger")
+      fill_in("person_email", with: "ruddiger@example.com")
+      check("person_has_system_access")
+      select("Member", from: "person_access_role")
+
+      # Check correct default
+      expect(page).to have_select("person_notification_source", selected: "Home division only")
+      select("Home division and subdivisions", from: "person_notification_source")
+
+      fill_in("person_password", with: "jfjfjfjfjfjfj")
+      fill_in("person_password_confirmation", with: "jfjfjfjfjfjfj")
+      click_on("Create Member")
+
+      expect(page).to have_alert("Record was successfully created")
+      expect(page).to have_content("Notifications\nHome division and subdivisions")
+      find(".edit-action", text: "Edit Member").click
+
+      expect(page).to have_select("person_notification_source", selected: "Home division and subdivisions")
+      select("Off", from: "person_notification_source")
+      click_on("Update Member")
+
+      expect(page).to have_alert("Record was successfully updated")
+      expect(page).to have_content("Notifications\nOff")
+    end
+  end
+
   context 'logs' do
     scenario 'person with log can be deleted' do
-      confirm_both_users_exist
+      visit admin_people_path
+
+      expect(page).to have_content(person_1.first_name)
+      expect(page).to have_content(person_2.first_name)
 
       # visit the logs page that have logs of person deleted
       visit admin_loan_path(loan)
@@ -38,53 +71,25 @@ describe 'people flow' do
   end
 
   context 'notes' do
-    before do
-      login_as(user_2, scope: :user)
-    end
+    let!(:note) { create(:note, author: person_2, notable: org, text: "Note from second user") }
 
     scenario 'person with notes can be deleted' do
-      # create note with second user as author
-      visit admin_organization_path(org)
-      click_on 'New Note'
+      visit admin_people_path
 
-      fill_in 'note_text', with: 'Note from second user'
+      expect(page).to have_content(person_1.first_name)
+      expect(page).to have_content(person_2.first_name)
 
-      within('.note-form') do
-        click_on 'Save'
-      end
+      click_on person_2.id.to_s
+      accept_confirm { click_on 'Delete Member' }
 
-      # logout second person (with note)
-      logout user_2
-
-      # login first person
-      login_as(user_1, scope: :user)
-
-      confirm_both_users_exist
-
-      then_delete_second_user
+      # second person no longer exists
+      expect(page).to have_content('Record was successfully deleted.')
+      expect(page).not_to have_content(person_2.first_name)
 
       # notes without users are still available
       visit admin_organization_path(org)
-      within(all('.note.post')[0]) do
-        expect(page).to have_content('Note from second user')
-        expect(page).to have_content('Deleted User')
-      end
+      expect(page).to have_content('Note from second user')
+      expect(page).to have_content('Deleted User')
     end
-  end
-
-  def confirm_both_users_exist
-    visit admin_people_path
-
-    expect(page).to have_content(person_1.first_name)
-    expect(page).to have_content(person_2.first_name)
-  end
-
-  def then_delete_second_user
-    click_on person_2.id.to_s
-    click_on 'Delete Member'
-
-    # second person no longer exists
-    expect(page).to have_content('Record was successfully deleted.')
-    expect(page).not_to have_content(person_2.first_name)
   end
 end

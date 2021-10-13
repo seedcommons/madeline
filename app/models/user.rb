@@ -4,6 +4,9 @@
 
 class User < ApplicationRecord
   rolify
+
+  NOTIFICATION_SOURCE_OPTIONS = %i(none home_only home_and_sub).freeze
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

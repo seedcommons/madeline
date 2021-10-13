@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_28_153001) do
+ActiveRecord::Schema.define(version: 2021_10_07_143811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -514,7 +514,7 @@ ActiveRecord::Schema.define(version: 2021_09_28_153001) do
     t.string "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet "last_sign_in_ip"
-    t.boolean "notify_on_new_logs", default: true
+    t.string "notification_source", default: "home_only", null: false
     t.integer "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
