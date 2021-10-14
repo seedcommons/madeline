@@ -62,7 +62,7 @@ module Legacy
       end
 
       # Generate HTML for long text answers
-      result[:text] = simple_format(result[:text]) if question.data_type == "text"
+      result[:text] = simple_format(result[:text]).to_str if question.data_type == "text"
       result
     end
   end
